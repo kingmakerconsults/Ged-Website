@@ -19,7 +19,6 @@
         .quiz-nav::-webkit-scrollbar-thumb:hover { background: #555; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .prose ::selection { background-color: #fef9c3; }
         .prose { max-width: 65ch; margin: auto; }
         .prose p { margin-bottom: 1em; }
         #pong-canvas { background-color: #1a202c; border-radius: 0.5rem; border: 2px solid #4a5568; }
@@ -106,7 +105,7 @@ const ALL_QUIZZES = {
       questions: [
         { questionNumber: 1, type: 'text', passage: "The U.S. Constitution establishes three distinct branches of government to prevent the concentration of power. The Legislative Branch, composed of the House of Representatives and the Senate, is responsible for creating laws. The Executive Branch, headed by the President, is responsible for implementing and enforcing those laws. The Judicial Branch, which includes the Supreme Court and lower federal courts, is responsible for interpreting the laws.", question: "A bill is passed by both the House and the Senate. The President then signs it. Which branch is now primarily responsible for ensuring this new law is carried out?", answerOptions: [ { text: "The Legislative Branch, because it wrote the law.", rationale: "The Legislative branch's primary role is to create laws, not enforce them after they are passed.", isCorrect: false }, { text: "The Judicial Branch, because it must first rule on the law's constitutionality.", rationale: "The Judicial Branch interprets laws, but usually only after a legal challenge is brought. It does not handle the day-to-day enforcement.", isCorrect: false }, { text: "The Executive Branch, through its various departments and agencies.", rationale: "Correct. The passage states that the Executive Branch is responsible for 'implementing and enforcing' laws.", isCorrect: true }, { text: "All three branches share equal responsibility for enforcement.", rationale: "While all branches are involved with the law, enforcement is the specific duty of the Executive Branch.", isCorrect: false } ] },
         { questionNumber: 2, type: 'knowledge', question: "The First Amendment to the U.S. Constitution protects several fundamental rights. Which of the following is NOT a right guaranteed by the First Amendment?", answerOptions: [ { text: "Freedom of speech", rationale: "Freedom of speech is a core protection of the First Amendment.", isCorrect: false }, { text: "The right to bear arms", rationale: "Correct. The right to bear arms is guaranteed by the Second Amendment, not the First.", isCorrect: true }, { text: "Freedom of the press", rationale: "Freedom of the press is explicitly protected by the First Amendment.", isCorrect: false }, { text: "The right to peaceably assemble", rationale: "The right to gather peacefully is one of the key freedoms listed in the First Amendment.", isCorrect: false } ] },
-        { questionNumber: 3, type: 'text', passage: "The Fourth Amendment protects citizens from 'unreasonable searches and seizures.' Generally, this means that law enforcement officials must obtain a warrant, based on probable cause, before searching a person's home or property. This principle ensures that citizens have a right to privacy and are secure from arbitrary government intrusion.", question: "Based on the passage, which of the following scenarios would most likely be a violation of the Fourth Amendment?", answerOptions: [ { text: "An officer searches a car after seeing illegal drugs in plain view on the passenger seat.", rationale: "The 'plain view' doctrine is often considered an exception, as there is no expectation of privacy for items left in plain sight.", isCorrect: false }, { text: "Police search a person's home after a judge, presented with evidence, issues a specific warrant.", rationale: "This describes the proper legal procedure and is not a violation.", isCorrect: false }, { text: "Law enforcement enters and searches a suspect's apartment because they have a hunch the suspect is involved in a crime, but they have no warrant.", rationale: "Correct. Searching a home without a warrant or probable cause is a classic example of an unreasonable search and a violation of the. Fourth Amendment.", isCorrect: true }, { text: "A school official searches a student's locker based on a reasonable suspicion that it contains a weapon.", rationale: "Courts have often ruled that students have a reduced expectation of privacy at school, and searches based on reasonable suspicion are sometimes permitted.", isCorrect: false } ] },
+        { questionNumber: 3, type: 'text', passage: "The Fourth Amendment protects citizens from 'unreasonable searches and seizures.' Generally, this means that law enforcement officials must obtain a warrant, based on probable cause, before searching a person's home or property. This principle ensures that citizens have a right to privacy and are secure from arbitrary government intrusion.", question: "Based on the passage, which of the following scenarios would most likely be a violation of the Fourth Amendment?", answerOptions: [ { text: "An officer searches a car after seeing illegal drugs in plain view on the passenger seat.", rationale: "The 'plain view' doctrine is often considered an exception, as there is no expectation of privacy for items left in plain sight.", isCorrect: false }, { text: "Police search a person's home after a judge, presented with evidence, issues a specific warrant.", rationale: "This describes the proper legal procedure and is not a violation.", isCorrect: false }, { text: "Law enforcement enters and searches a suspect's apartment because they have a hunch the suspect is involved in a crime, but they have no warrant.", rationale: "Correct. Searching a home without a warrant or probable cause is a classic example of an unreasonable search and a violation of the Fourth Amendment.", isCorrect: true }, { text: "A school official searches a student's locker based on a reasonable suspicion that it contains a weapon.", rationale: "Courts have often ruled that students have a reduced expectation of privacy at school, and searches based on reasonable suspicion are sometimes permitted.", isCorrect: false } ] },
         { questionNumber: 4, type: 'text', passage: "The Sixth Amendment guarantees the right to a 'speedy and public trial, by an impartial jury.' It also ensures the right of the accused 'to be confronted with the witnesses against him' and 'to have the Assistance of Counsel for his defence.' These protections are fundamental to the American criminal justice system.", question: "A person is arrested and held in jail for three years awaiting trial. Which Sixth Amendment right has most clearly been violated?", answerOptions: [ { text: "The right to the assistance of counsel.", rationale: "The passage doesn't state whether the person has a lawyer, only that they have been waiting a long time for trial.", isCorrect: false }, { text: "The right to a speedy trial.", rationale: "Correct. A three-year delay before a trial begins would be considered a clear violation of the right to a 'speedy' trial.", isCorrect: true }, { text: "The right to confront witnesses.", rationale: "This right applies during the trial itself, which has not yet occurred.", isCorrect: false }, { text: "The right to an impartial jury.", rationale: "This right also applies to the trial itself. The issue here is the delay before the trial starts.", isCorrect: false } ] },
         { questionNumber: 5, type: 'knowledge', question: "The power of Judicial Review, established in the case of Marbury v. Madison (1803), allows the Supreme Court to do what?", answerOptions: [ { text: "Impeach the President for high crimes and misdemeanors.", rationale: "The power of impeachment belongs to Congress, not the Supreme Court.", isCorrect: false }, { text: "Veto laws passed by Congress.", rationale: "The power to veto laws belongs to the President.", isCorrect: false }, { text: "Declare laws unconstitutional.", rationale: "Correct. Judicial review is the power of the Judicial Branch to review laws and actions of the other branches and determine if they violate the Constitution.", isCorrect: true }, { text: "Appoint federal judges to lower courts.", rationale: "The President appoints federal judges, with the Senate's approval.", isCorrect: false } ] },
         { questionNumber: 6, type: 'text', passage: "The Tenth Amendment states: 'The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people.' This amendment is the cornerstone of federalism, the principle that power is divided between the national government and the state governments.", question: "Which of the following is the best example of a power 'reserved to the States' under the Tenth Amendment?", answerOptions: [ { text: "The power to declare war.", rationale: "The Constitution explicitly delegates the power to declare war to the national government (Congress).", isCorrect: false }, { text: "The power to print money.", rationale: "The power to coin and print money is an exclusive power of the national government.", isCorrect: false }, { text: "The power to establish local schools.", rationale: "Correct. The Constitution does not delegate the power over education to the federal government, nor does it prohibit states from acting. Therefore, it is a power reserved to the states.", isCorrect: true }, { text: "The power to make treaties with foreign countries.", rationale: "This power is delegated to the President and the Senate at the national level.", isCorrect: false } ] },
@@ -121,4 +120,571 @@ const ALL_QUIZZES = {
         { questionNumber: 15, type: 'text', passage: "The Second Amendment states: 'A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed.' The interpretation of this amendment is a source of intense debate. One view holds that it protects an individual's right to own guns for any purpose. The opposing view is that it protects a collective right for states to maintain militias, and therefore gun ownership can be regulated.", question: "The primary point of disagreement in the interpretation of the Second Amendment revolves around whether...", answerOptions: [ { text: "a militia is still necessary for the security of a free state.", rationale: "While part of the amendment's text, the core legal debate is not about the necessity of militias, but about the nature of the right being protected.", isCorrect: false }, { text: "the right to bear arms is an individual right or a collective right.", rationale: "Correct. This is the central legal and philosophical question. Does the amendment protect a private citizen's right to own a gun (individual right), or does it protect the right of states to arm their militias (collective right)?", isCorrect: true }, { text: "the term 'Arms' includes modern firearms or only those from the 18th century.", rationale: "This is part of the broader debate, but the fundamental disagreement is about the type of right (individual vs. collective), not just the type of weapon.", isCorrect: false }, { text: "the federal government has the right to regulate firearms at all.", rationale: "This is a consequence of the main interpretation. If it's a collective right, then more regulation is permissible. If it's an individual right, regulation is more restricted. The core issue is the nature of the right itself.", isCorrect: false } ] }
       ]
     }
->>>>>>> REPLACE
+  ],
+  "RLA": [
+    {
+      id: "rla_grammar_editing_1",
+      title: "GED Grammar & Editing",
+      questions: [
+        { questionNumber:1, question: "Choose the correct possessive form: \"The ___ dedication to the project was admirable.\"", answerOptions: [{text:"employees", isCorrect: false}, {text:"employee's", isCorrect: false}, {text:"employees'", isCorrect: true, rationale: "For a plural noun ending in 's' (employees), the possessive is formed by adding an apostrophe after the 's'."}] },
+        { questionNumber:2, question: "Choose the correct homonyms: \"It's important ___ be on time, but it's okay if you're a few minutes late, ___.\"", answerOptions: [{text:"to / too", isCorrect: true, rationale: "'To' is a preposition used here to mean 'in the direction of'. 'Too' is an adverb meaning 'also' or 'in addition'."}, {text:"too / to", isCorrect: false}, {text:"two / to", isCorrect: false}, {text:"to / two", isCorrect: false}] },
+        { questionNumber:3, question: "Choose the correct verb for subject-verb agreement: \"Neither the manager nor the employees ___ happy with the new policy.\"", answerOptions: [{text:"is", isCorrect: false}, {text:"are", isCorrect: true, rationale: "When subjects are joined by 'nor', the verb agrees with the subject closer to it. 'Employees' is plural, so it requires the plural verb 'are'."}, {text:"was", isCorrect: false}, {text:"has been", isCorrect: false}] },
+        { questionNumber:4, question: "Complete the sentence with the correct parallel structure: \"Her responsibilities included writing reports, managing the budget, and ___ new staff.\"", answerOptions: [{text:"to train", isCorrect: false}, {text:"training", isCorrect: true, rationale: "For parallel structure, all items in the list should be in the same grammatical form. 'Writing', 'managing', and 'training' are all gerunds (-ing words)."}, {text:"she trained", isCorrect: false}, {text:"train", isCorrect: false}] },
+        { questionNumber:5, question: "Which option correctly connects the two ideas: \"The report was due Friday ___ we finished it on Thursday.\"", answerOptions: [{text:"Friday we", isCorrect: false}, {text:"Friday, we", isCorrect: false}, {text:"Friday, so we", isCorrect: true, rationale: "These are two independent clauses. They must be separated by a comma and a coordinating conjunction like 'so' to show the cause-and-effect relationship."}, {text:"Friday but we", isCorrect: false}] },
+        { questionNumber:6, question: "Choose the correct pronoun: \"Each of the new computers has ___ own monitor and keyboard.\"", answerOptions: [{text:"its", isCorrect: true, rationale: "The indefinite pronoun 'Each' is singular and requires the singular possessive pronoun 'its'. 'It's' is a contraction for 'it is'."}, {text:"their", isCorrect: false}, {text:"it's", isCorrect: false}, {text:"they're", isCorrect: false}] },
+        { questionNumber:7, question: "Which sentence has the modifier placed correctly?", answerOptions: [ {text:"The dog wagged its tail at me covered in mud.", isCorrect: false}, {text:"Covered in mud, the dog wagged its tail at me.", isCorrect: true, rationale: "The modifier 'Covered in mud' should clearly describe the 'dog'. Placing it at the beginning of the sentence and next to 'the dog' avoids confusion."}, {text:"The dog covered in mud wagged its tail at me.", isCorrect: false}, {text:"The dog wagged its tail covered in mud at me.", isCorrect: false} ] },
+        { questionNumber:8, question: "Choose the correctly capitalized sentence.", answerOptions: [ {text:"We are planning a trip to the Grand Canyon this Spring.", isCorrect: false}, {text:"We are planning a trip to the grand canyon this spring.", isCorrect: false}, {text:"We are planning a trip to the Grand Canyon this spring.", isCorrect: true, rationale: "Proper nouns like 'Grand Canyon' are capitalized. Seasons of the year like 'spring' are not capitalized unless they are part of a proper name."}, {text:"we are planning a trip to the Grand Canyon this Spring.", isCorrect: false} ] },
+        { questionNumber:9, question: "Choose the correct pronouns: \"The award was given to ___ and ___.\"", answerOptions: [{text:"he and I", isCorrect: false}, {text:"him and me", isCorrect: true, rationale: "When pronouns are the object of a preposition ('to'), you must use the objective case ('him', 'me')."}, {text:"him and I", isCorrect: false}, {text:"he and me", isCorrect: false}] },
+        { questionNumber:10, question: "Choose the correctly punctuated sentence.", answerOptions: [ {text:"Please bring a pencil, a notebook and a calculator to the test.", isCorrect: false}, {text:"Please bring a pencil, a notebook, and a calculator to the test.", isCorrect: true, rationale: "Use commas to separate three or more items in a series. The comma before 'and' (the Oxford comma) is standard in formal writing."}, {text:"Please bring: a pencil, a notebook, and a calculator to the test.", isCorrect: false}, {text:"Please bring a pencil a notebook and a calculator to the test.", isCorrect: false} ] },
+        { questionNumber:11, question: "Choose the best transition word: \"The company's profits were down; ___, they decided to cut bonuses.\"", answerOptions: [{text:"however", isCorrect: false}, {text:"moreover", isCorrect: false}, {text:"therefore", isCorrect: true, rationale: "'Therefore' correctly shows a cause-and-effect relationship. The drop in profits is the reason for the decision to cut bonuses."}, {text:"for example", isCorrect: false}] },
+        { questionNumber:12, question: "Which of the following is a complete sentence?", answerOptions: [ {text:"Because she studied hard for the test.", isCorrect: false}, {text:"Studying hard for the test and reviewing her notes.", isCorrect: false}, {text:"She studied hard for the test.", isCorrect: true, rationale: "A complete sentence must have a subject ('She') and a verb ('studied') and express a complete thought. The other options are sentence fragments."}, {text:"Although she studied hard for the test.", isCorrect: false} ] },
+        { questionNumber:13, question: "Choose the most professional and appropriate way to phrase the sentence for a cover letter.", answerOptions: [ {text:"check in with you about a spot in the IT department at your place.", isCorrect: false}, {text:"contact you about a possible employment opportunity in the Information Technology department at your firm.", isCorrect: true, rationale: "This option uses formal and professional language appropriate for a business cover letter. The other options use informal slang ('check in', 'drop a line', 'shoot you a letter')."}, {text:"drop a line to you about a job in the Information Technology department of your company.", isCorrect: false}, {text:"shoot you a letter to pick your brain about working in your IT department.", isCorrect: false} ] },
+        { questionNumber:14, question: "Choose the correct pronoun agreement for the sentence: 'First, not everyone is at ___ best between 8 a.m. and 5 p.m.'", answerOptions: [ {text:"their", isCorrect: false}, {text:"his or her", isCorrect: true, rationale: "The indefinite pronoun 'everyone' is singular. Therefore, it requires a singular possessive pronoun. 'His or her' is the correct gender-neutral singular possessive. 'Their' is plural."}, {text:"one's", isCorrect: false}, {text:"his", isCorrect: false} ] },
+        { questionNumber:15, question: "Which option has the correct subject-verb agreement? \"Employees who can define their working hours ___ placed a higher degree of trust in them.\"", answerOptions: [ {text:"feel that their companies have", isCorrect: true, rationale: "The subject of the verb is the plural noun 'employees', which requires the plural verb 'feel'. The phrase 'who can define their working hours' is an interrupting phrase that doesn't change the subject."}, {text:"feels that their companies have", isCorrect: false}, {text:"feels that their companies has", isCorrect: false}, {text:"feel that their companies has", isCorrect: false} ] }
+      ]
+    },
+    {
+      id: "rla_grammar_practice_1",
+      title: "GED Grammar Practice",
+      questions: [
+        { questionNumber:1, question: "Choose the correctly punctuated sentence.", answerOptions: [{text:"She bought apples bananas, and oranges.", isCorrect: false}, {text:"She bought apples, bananas and oranges.", isCorrect: false}, {text:"She bought apples, bananas, and oranges.", isCorrect: true, rationale: "Use commas to separate three or more items in a list or series. Standard practice includes the final comma before 'and' (the Oxford comma)."}, {text:"She bought apples; bananas, and oranges.", isCorrect: false}] },
+        { questionNumber:2, question: "Which sentence has the correct subject-verb agreement?", answerOptions: [{text:"The team of players are ready to compete.", isCorrect: false}, {text:"The team of players were ready to compete.", isCorrect: false}, {text:"The team of players is ready to compete.", isCorrect: true, rationale: "The subject is 'team,' which is a singular noun, even though it contains plural members ('players'). Therefore, it requires the singular verb 'is'."}, {text:"The team of players being ready to compete.", isCorrect: false}] },
+        { questionNumber:3, question: "Choose the correctly capitalized sentence.", answerOptions: [{text:"I have a meeting with Doctor smith on Tuesday.", isCorrect: false}, {text:"I have a meeting with doctor Smith on tuesday.", isCorrect: false}, {text:"I have a meeting with Doctor Smith on Tuesday.", isCorrect: true, rationale: "Titles like 'Doctor' should be capitalized when used with a specific name. Days of the week, like 'Tuesday,' are proper nouns and must be capitalized."}, {text:"I have a meeting with doctor smith on Tuesday.", isCorrect: false}] },
+        { questionNumber:4, question: "Which sentence uses the apostrophe correctly?", answerOptions: [{text:"The dog wagged it's tail happily.", isCorrect: false}, {text:"The dog wagged its tail happily.", isCorrect: true, rationale: "'Its' is the possessive form of 'it'. 'It's' is a contraction for 'it is'. The tail belongs to the dog, so the possessive 'its' is correct."}, {text:"The dog wagged its' tail happy.", isCorrect: false}, {text:"The dog wagged it's tail happy.", isCorrect: false}] },
+        { questionNumber:5, question: "Which sentence uses a comma correctly?", answerOptions: [ {text:"Although she was tired she finished her homework.", isCorrect: false}, {text:"Although, she was tired, she finished her homework.", isCorrect: false}, {text:"Although she was tired, she finished her homework.", isCorrect: true, rationale: "A comma should be placed after an introductory dependent clause, such as 'Although she was tired'."}, {text:"Although she was tired she, finished her homework.", isCorrect: false} ] },
+        { questionNumber:6, question: "Choose the sentence with correct subject-verb agreement.", answerOptions: [ {text:"Each of the students have their own lockers.", isCorrect: false}, {text:"Each of the students has their own lockers.", isCorrect: true, rationale: "The word 'Each' is a singular indefinite pronoun, so it takes the singular verb 'has'."}, {text:"Each of the students are having their own lockers.", isCorrect: false}, {text:"Each of the students having their own lockers.", isCorrect: false} ] },
+        { questionNumber:7, question: "Which sentence uses the correct possessive form?", answerOptions: [ {text:"The childrens toys were scattered everywhere.", isCorrect: false}, {text:"The children's toys were scattered everywhere.", isCorrect: true, rationale: "'Children' is a plural noun that does not end in 's'. To make it possessive, add an apostrophe and an 's'."}, {text:"The childrens' toys were scattered everywhere.", isCorrect: false}, {text:"The childrens's toys were scattered everywhere.", isCorrect: false} ] },
+        { questionNumber:8, question: "Choose the correctly capitalized sentence for an office memo.", answerOptions: [ {text:"Contact ms. lopez in the Human Resources Department.", isCorrect: false}, {text:"Contact Ms. Lopez in the Human Resources Department.", isCorrect: true, rationale: "Proper nouns, including names (Ms. Lopez) and specific department titles (Human Resources Department), must be capitalized."}, {text:"Contact Ms. lopez in the human resources department.", isCorrect: false}, {text:"Contact ms. Lopez in the Human resources department.", isCorrect: false} ] },
+        { questionNumber:9, question: "Which option correctly joins the two ideas? \"She wanted to go to the park ___ it was raining.\"", answerOptions: [{text:"park but it was raining.", isCorrect: false}, {text:"park, but it was raining.", isCorrect: true, rationale: "To join two independent clauses, use a comma followed by a coordinating conjunction like 'but'."}, {text:"park; but it was raining.", isCorrect: false}, {text:"park but, it was raining.", isCorrect: false}] },
+        { questionNumber:10, question: "Which sentence has the correct subject-verb agreement?", answerOptions: [ {text:"The employees and he has built a strong working relationship.", isCorrect: false}, {text:"The employees and him have built a strong working relationship.", isCorrect: false}, {text:"The employees and he have built a strong working relationship.", isCorrect: true, rationale: "The compound subject 'The employees and he' is plural and requires the plural verb 'have'. 'He' is the correct subject pronoun."}, {text:"They have built a strong working relationship.", isCorrect: false} ] },
+        { questionNumber:11, question: "Which sentence uses apostrophes correctly?", answerOptions: [ {text:"It's raining outside, so lets stay indoors.", isCorrect: false}, {text:"Its raining outside, so let's stay indoors.", isCorrect: false}, {text:"It's raining outside, so let's stay indoors.", isCorrect: true, rationale: "'It's' is the contraction for 'it is'. 'Let's' is the contraction for 'let us'. Both are used correctly in this sentence."}, {text:"Its' raining outside, so let's stay indoors.", isCorrect: false} ] },
+        { questionNumber:12, question: "Which sentence is correctly capitalized?", answerOptions: [ {text:"My favorite season is Summer, so I am going to Paris in july.", isCorrect: false}, {text:"My favorite season is summer, so I am going to Paris in July.", isCorrect: true, rationale: "Seasons (summer) are not capitalized unless they are part of a proper name. Cities (Paris) and months (July) are proper nouns and must be capitalized."}, {text:"My favorite season is summer, so I am going to paris in July.", isCorrect: false}, {text:"My favorite season is Summer, so I am going to Paris in July.", isCorrect: false} ] },
+        { questionNumber:13, question: "Which sentence is correctly punctuated?", answerOptions: [ {text:"The teacher whom everyone likes, is retiring.", isCorrect: false}, {text:"The teacher who everyone likes is retiring.", isCorrect: false}, {text:"The teacher, whom everyone likes, is retiring.", isCorrect: true, rationale: "The clause 'whom everyone likes' is a nonessential clause because it adds extra information but isn't required to understand the main sentence. It should be set off by commas."}, {text:"The teacher whom, everyone likes, is retiring.", isCorrect: false} ] },
+        { questionNumber:14, question: "There ___ several good reasons to approve the budget.", answerOptions: [ {text:"is", isCorrect: false}, {text:"are", isCorrect: true, rationale: "In sentences beginning with 'There is' or 'There are', the subject follows the verb. The subject here is 'reasons' (plural), which requires the plural verb 'are'."}, {text:"was", isCorrect: false}, {text:"be", isCorrect: false} ] },
+        { questionNumber:15, question: "Which sentence is capitalized correctly?", answerOptions: [ {text:"He lives on the corner of Madison avenue and Longview street.", isCorrect: false}, {text:"He lives on the corner of Madison Avenue and Longview Street.", isCorrect: true, rationale: "The full names of streets are proper nouns and must be capitalized (e.g., Madison Avenue, Longview Street)."}, {text:"He lives on the corner of madison avenue and longview street.", isCorrect: false}, {text:"He lives on the corner of Madison Avenue and longview Street.", isCorrect: false} ] }
+      ]
+    },
+    {
+        id: "rla_reading_practice_1",
+        title: "Daily Reading Practice",
+        type: "reading",
+        article: {
+            title: "The Rise of Renewable Energy: Powering a Sustainable Future",
+            genre: "Informational Text (Expository Essay)",
+            text: [
+                "For over a century, human civilization has been powered predominantly by fossil fuels—coal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underway, shifting focus toward renewable sources. These sources, which include solar, wind, hydropower, and geothermal energy, are naturally replenished and produce minimal to no carbon emissions. This transition is not merely an environmental imperative but also a technological and economic evolution, promising a more sustainable and resilient energy future.",
+                "At the forefront of this revolution is solar power, which harnesses the immense energy of the sun. The most common method involves photovoltaic (PV) cells, which directly convert sunlight into electricity. Another approach, concentrated solar power (CSP), uses mirrors to focus sunlight to heat a fluid, which then creates steam to power a turbine. The primary advantages of solar energy are its abundance and its clean nature. However, its main drawback is intermittency—it only generates power when the sun is shining. This necessitates the development of large-scale energy storage solutions, such as advanced batteries, to provide reliable power around the clock. Furthermore, large solar farms require significant land area, which can raise concerns about land use and ecosystem impact.",
+                "Wind power offers another powerful alternative, utilizing turbines to convert the kinetic energy of wind into electricity. Onshore and offshore wind farms are becoming increasingly common sights globally. Wind is a cost-effective and emissions-free source of power, and its cost has decreased dramatically in recent years, making it competitive with traditional energy sources in many regions. Like solar, however, wind is also intermittent; the wind does not always blow. This variability poses a challenge for grid stability. Critics of large wind farms also point to their visual impact on landscapes and potential harm to avian wildlife, such as birds and bats, although careful siting and technological advancements are helping to mitigate these risks.",
+                "Hydropower and geothermal energy provide more consistent, or baseload, power. Hydropower, generated by the force of flowing water turning turbines in dams, is one of the oldest and most established forms of renewable energy. It is highly reliable and can be dispatched on demand. The main limitation is its environmental impact; large dams can alter river ecosystems, disrupt fish migration, and displace communities. Geothermal energy taps into the Earth's internal heat, using steam from underground reservoirs to generate electricity. It is a highly reliable and clean source of energy with a small physical footprint. Its primary constraint is geographical, as it is only economically viable in regions with accessible geothermal activity, such as volcanic zones or areas with tectonic plate boundaries.",
+                "The complete transition to a renewable energy system presents formidable but surmountable challenges. Beyond the intermittency of solar and wind, modernizing the electrical grid to handle decentralized energy sources is a major hurdle. Smart grids, which use digital technology to manage electricity distribution more efficiently, are essential. Advances in battery technology are critical for storing excess energy for when the sun isn't shining or the wind isn't blowing. Furthermore, supportive government policies, such as carbon pricing and tax incentives for renewable installations, play a crucial role in accelerating this transition. While the path is complex, the collective push toward a renewable-powered world represents a fundamental rethinking of our relationship with energy, aiming for a future that is not only prosperous but also environmentally sustainable for generations to come."
+            ]
+        },
+        questions: [
+            { question: "Which of the following statements best expresses the main idea of the passage?", answerOptions: [{text:"Hydropower is the most reliable and established form of renewable energy available today.", isCorrect: false}, {text:"The global shift to renewable energy is a multifaceted response to the environmental impact of fossil fuels, driven by technology and policy.", isCorrect: true}, {text:"The primary challenge of renewable energy is overcoming the high cost of solar panels and wind turbines.", isCorrect: false}, {text:"Fossil fuels, despite their environmental drawbacks, remain the only viable option for large-scale energy production.", isCorrect: false}] },
+            { question: "In paragraphs 2 and 3, the word 'intermittency' is used to describe a key challenge for solar and wind power. This term most nearly means:", answerOptions: [{text:"The high cost of installation.", isCorrect: false}, {text:"The state of being inconsistent or not continuous.", isCorrect: true}, {text:"The potential harm to local wildlife.", isCorrect: false}, {text:"The requirement for large areas of land.", isCorrect: false}] },
+            { question: "According to the passage, what is the primary environmental motivation for transitioning to renewable energy?", answerOptions: [{text:"To reduce the visual impact of power plants on landscapes.", isCorrect: false}, {text:"To mitigate climate change caused by greenhouse gas emissions from fossil fuels.", isCorrect: true}, {text:"To prevent the disruption of fish migration caused by large dams.", isCorrect: false}, {text:"To decrease reliance on foreign energy sources.", isCorrect: false}] },
+            { question: "The passage suggests that a key difference between hydropower/geothermal energy and solar/wind energy is:", answerOptions: [{text:"their cost-effectiveness.", isCorrect: false}, {text:"their geographical limitations.", isCorrect: false}, {text:"their level of reliability and consistency.", isCorrect: true}, {text:"their impact on avian wildlife.", isCorrect: false}] },
+            { question: "According to paragraph 5, what is the primary purpose of developing smart grids?", answerOptions: [{text:"To lower the cost of electricity for consumers by reducing waste.", isCorrect: false}, {text:"To generate more power from existing solar and wind farms.", isCorrect: false}, {text:"To better manage electricity distribution from varied and decentralized sources.", isCorrect: true}, {text:"To provide tax incentives for homeowners to install their own solar panels.", isCorrect: false}] },
+            { question: "The passage mentions all of the following as challenges to the widespread adoption of renewable energy EXCEPT:", answerOptions: [{text:"the need for effective energy storage.", isCorrect: false}, {text:"the geographical limitations of certain sources.", isCorrect: false}, {text:"the lack of any viable renewable technology.", isCorrect: true}, {text:"the necessity of modernizing electrical grids.", isCorrect: false}] },
+            { question: "How does the author structure the main body of the text (paragraphs 2-4)?", answerOptions: [{text:"By chronologically detailing the invention of each renewable technology.", isCorrect: false}, {text:"By comparing and contrasting the economic cost of each energy source.", isCorrect: false}, {text:"By dedicating separate paragraphs to different types of renewable energy, outlining their pros and cons.", isCorrect: true}, {text:"By presenting a problem and then immediately offering a single, definitive solution.", isCorrect: false}] },
+            { question: "In paragraph 5, the word 'formidable' most nearly means:", answerOptions: [{text:"Simple and easy.", isCorrect: false}, {text:"Inspiring fear or respect through being impressively large or powerful.", isCorrect: true}, {text:"Unimportant and trivial.", isCorrect: false}, {text:"Related to government policy.", isCorrect: false}] },
+            { question: "Based on the passage, a government wishing to accelerate the transition to renewable energy would most likely:", answerOptions: [{text:"Increase subsidies for fossil fuel companies.", isCorrect: false}, {text:"Ban the construction of new dams for hydropower.", isCorrect: false}, {text:"Invest in battery technology and offer tax incentives for solar installations.", isCorrect: true}, {text:"Focus exclusively on geothermal energy regardless of geographic location.", isCorrect: false}] },
+            { question: "The text identifies photovoltaic cells as a technology used in:", answerOptions: [{text:"Wind power generation.", isCorrect: false}, {text:"Geothermal energy extraction.", isCorrect: false}, {text:"Hydropower dams.", isCorrect: false}, {text:"Solar power generation.", isCorrect: true}] },
+            { question: "What can be inferred about the economic aspect of the energy transition?", answerOptions: [{text:"The transition is primarily an economic burden with no financial benefits.", isCorrect: false}, {text:"Renewable energy sources have become increasingly cost-competitive with fossil fuels.", isCorrect: true}, {text:"All renewable technologies are still significantly more expensive than coal or natural gas.", isCorrect: false}, {text:"The only economic driver for renewables is government mandates.", isCorrect: false}] },
+            { question: "In paragraph 4, the term 'baseload' power implies that the energy source is:", answerOptions: [{text:"Available only during peak demand hours.", isCorrect: false}, {text:"The cheapest available option.", isCorrect: false}, {text:"Geographically restricted.", isCorrect: false}, {text:"Constantly and reliably available.", isCorrect: true}] },
+            { question: "The author presents the environmental impact of large hydropower dams as:", answerOptions: [{text:"a negligible issue that has been resolved by modern technology.", isCorrect: false}, {text:"a significant limitation that can alter ecosystems and displace people.", isCorrect: true}, {text:"a positive effect that creates new habitats for aquatic life.", isCorrect: false}, {text:"an unproven theory without sufficient evidence.", isCorrect: false}] },
+            { question: "What can be inferred from the passage about the future relationship between different renewable energy sources?", answerOptions: [{text:"One single source, like solar, will eventually replace all others.", isCorrect: false}, {text:"A diverse mix of sources will likely be needed to create a stable and resilient energy system.", isCorrect: true}, {text:"Fossil fuels will always be required to supplement the intermittency of renewables.", isCorrect: false}, {text:"International conflict will arise over access to the best locations for wind and solar farms.", isCorrect: false}] },
+            { question: "The overall tone of the passage can best be described as:", answerOptions: [{text:"Pessimistic and critical.", isCorrect: false}, {text:"Overly simplistic and biased.", isCorrect: false}, {text:"Informative and cautiously optimistic.", isCorrect: true}, {text:"Sarcastic and dismissive.", isCorrect: false}] }
+        ]
+    },
+    {
+        id: "rla_adjective_clauses",
+        title: "Adjective Clause Quiz",
+        questions: [
+            { question: "Choose the correct relative pronoun to complete the sentence: 'The manager, ___ I met this morning, was very helpful.'", answerOptions: [{text:"who", isCorrect: false}, {text:"whom", isCorrect: true, rationale: "'Whom' is the correct choice because it is the object of the verb 'met' (I met whom). 'Who' is used for subjects."}, {text:"which", isCorrect: false}, {text:"that", isCorrect: false}] },
+            { question: "Which sentence is correctly punctuated?", answerOptions: [{text:"My car which is ten years old, still runs perfectly.", isCorrect: false}, {text:"My car, which is ten years old, still runs perfectly.", isCorrect: true, rationale: "The clause 'which is ten years old' is non-essential (it adds extra information). Non-essential clauses must be set off by commas and should use 'which', not 'that'."}, {text:"My car that is ten years old still runs perfectly.", isCorrect: false}, {text:"My car, that is ten years old, still runs perfectly.", isCorrect: false}] },
+            { question: "Choose the correct relative pronoun: 'She is the artist ___ paintings are displayed in the gallery.'", answerOptions: [{text:"who", isCorrect: false}, {text:"whose", isCorrect: true, rationale: "'Whose' is a possessive pronoun used to show that the paintings belong to the artist."}, {text:"whom", isCorrect: false}, {text:"which", isCorrect: false}] },
+            { question: "Which sentence implies that ONLY SOME of the computers are faster?", answerOptions: [{text:"The computers, which have the new software, are faster.", isCorrect: false}, {text:"The computers that have the new software are faster.", isCorrect: true, rationale: "Using 'that' without commas creates an essential clause. This specifies that *only the group of computers with the new software* is faster, not all of them."}, {text:"The computers are faster, which have the new software.", isCorrect: false}, {text:"The faster computers have the new software.", isCorrect: false}] },
+            { question: "Identify the adjective clause in the following sentence: 'The woman who is speaking now is our new CEO.'", answerOptions: [{text:"The woman", isCorrect: false}, {text:"who is speaking now", isCorrect: true, rationale: "An adjective clause typically starts with a relative pronoun (who, which, that) and modifies a noun. Here, 'who is speaking now' describes 'The woman'."}, {text:"is our new CEO", isCorrect: false}, {text:"speaking now is our", isCorrect: false}] },
+            { question: "Which sentence is grammatically correct?", answerOptions: [ {text:"My brother, that is a pilot, flies international routes.", isCorrect: false}, {text:"My brother who is a pilot, flies international routes.", isCorrect: false}, {text:"My brother, who is a pilot, flies international routes.", isCorrect: true, rationale: "The clause 'who is a pilot' is non-essential because the noun 'brother' is already specific. Non-essential clauses use 'who' (for people) and are set off by commas."}, {text:"My brother that is a pilot flies international routes.", isCorrect: false} ] },
+            { question: "Which sentence contains a 'reduced' adjective clause?", answerOptions: [ {text:"The book that is on the table is mine.", isCorrect: false}, {text:"The book on the table is mine.", isCorrect: true, rationale: "This is a reduced form of 'The book *that is* on the table is mine.' The relative pronoun 'that' and the verb 'is' have been omitted for conciseness, which is grammatically correct."}, {text:"The book, which is on the table, is mine.", isCorrect: false}, {text:"The book, it is on the table, is mine.", isCorrect: false} ] },
+            { question: "What is the best way to combine these sentences? 'Dr. Ellis is a respected scientist. Her research is focused on climate change.'", answerOptions: [ {text:"Dr. Ellis, whose research is focused on climate change, is a respected scientist.", isCorrect: true, rationale: "The possessive pronoun 'whose' correctly links 'Dr. Ellis' to 'her research'. The clause is non-essential and should be set off by commas."}, {text:"Dr. Ellis is a respected scientist, her research is focused on climate change.", isCorrect: false}, {text:"Dr. Ellis who's research is focused on climate change is a respected scientist.", isCorrect: false}, {text:"Dr. Ellis, which research is focused on climate change, is a respected scientist.", isCorrect: false} ] },
+            { question: "In which sentence is the adjective clause used correctly?", answerOptions: [ {text:"The car, that is parked illegally, will be towed.", isCorrect: false}, {text:"The reason, why he was late, is not clear.", isCorrect: false}, {text:"I visited the town where my parents grew up.", isCorrect: true, rationale: "The clause 'where my parents grew up' is essential to identifying the town and is correctly used without commas."}, {text:"He is the one, who I admire most.", isCorrect: false} ] },
+            { question: "Choose the correct relative pronoun: 'The person to ___ the letter was addressed no longer lives here.'", answerOptions: [{text:"who", isCorrect: false}, {text:"that", isCorrect: false}, {text:"whose", isCorrect: false}, {text:"whom", isCorrect: true, rationale: "'Whom' is the object of the preposition 'to' (to whom was the letter addressed?)."}] },
+            { question: "Which sentence needs commas to set off its adjective clause?", answerOptions: [ {text:"The movie that I saw last night was fantastic.", isCorrect: false}, {text:"The Eiffel Tower which is in Paris is a famous landmark.", isCorrect: true, rationale: "'The Eiffel Tower' is a specific, unique landmark, so the clause 'which is in Paris' provides non-essential information and should be set off by commas."}, {text:"Any student who cheats will be disciplined.", isCorrect: false}, {text:"This is the path that leads to the lake.", isCorrect: false} ] },
+            { question: "Which of the following sentences contains a punctuation error?", answerOptions: [ {text:"The report that he submitted was incomplete.", isCorrect: false}, {text:"My uncle, who lives in Alaska, is a fisherman.", isCorrect: false}, {text:"This is the park where we had the picnic.", isCorrect: false}, {text:"I finally bought the phone, that I wanted.", isCorrect: true, rationale: "The clause 'that I wanted' is essential to identify which phone was bought. Essential clauses beginning with 'that' should not be preceded by a comma."} ] },
+            { question: "What is the best way to combine these sentences? 'The girl won the race. She trained every day.'", answerOptions: [ {text:"The girl, who trained every day, won the race.", isCorrect: false}, {text:"The girl that trained every day won the race.", isCorrect: false}, {text:"The girl, that trained every day, won the race.", isCorrect: false}, {text:"The girl who trained every day won the race.", isCorrect: true, rationale: "The clause 'who trained every day' is essential to identify which girl won. Essential clauses modifying people use 'who' and do not have commas."} ] },
+            { question: "Choose the correct pronoun: 'The company for ___ she works is based in London.'", answerOptions: [{text:"who", isCorrect: false}, {text:"whom", isCorrect: false}, {text:"that", isCorrect: false}, {text:"which", isCorrect: true, rationale: "'Which' is the correct pronoun to use as the object of a preposition ('for') when referring to a thing (the company)."}] },
+            { question: "Which sentence is grammatically correct and most clearly written?", answerOptions: [ {text:"The report, that was long and complicated, confused the board members.", isCorrect: false}, {text:"The report which was long and complicated confused the board members.", isCorrect: false}, {text:"The report, which was long and complicated, confused the board members.", isCorrect: true, rationale: "The clause 'which was long and complicated' is non-essential, adding extra information about the report. Non-essential clauses use 'which' and must be set off by commas."}, {text:"The report that was long and complicated confused the board members.", isCorrect: false} ] }
+        ]
+    },
+    {
+        id: "rla_essay_guide",
+        title: "Interactive Essay Guide",
+        type: "essay"
+    }
+  ],
+  "Simulations": [
+    {
+      id: "sim_life",
+      title: "The Game of Life",
+      type: "simulation"
+    }
+  ]
+};
+
+
+// --- ICON COMPONENTS ---
+const BookOpenIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>;
+const GlobeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h1a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.737 16.963l.44-2.22a2 2 0 011.98-1.633h1.69a2 2 0 011.98 1.634l.44 2.219m-6.47 4.953h6.47M12 3a9 9 0 110 18 9 9 0 010-18z" /></svg>;
+const BeakerIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547a2 2 0 00-.547 1.806l.477 2.387a6 6 0 00.517 3.86l.158.318a6 6 0 00.517 3.86l2.387.477a2 2 0 001.806-.547a2 2 0 00.547-1.806l-.477-2.387a6 6 0 00-.517-3.86l-.158-.318a6 6 0 01-.517-3.86l2.387-.477a2 2 0 011.806.547a2 2 0 01.547 1.806l-.477 2.387a6 6 0 01-.517 3.86l-.158.318a6 6 0 01-.517 3.86l2.387.477a2 2 0 001.806-.547a2 2 0 00.547-1.806l-.477-2.387a6 6 0 00-.517-3.86l-.158-.318a6 6 0 00-.517-3.86z" /></svg>;
+const UserIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>;
+const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>;
+const HomeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
+const SparklesIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L11 15l-4 6h12l-4-6-1.293-1.293a1 1 0 010-1.414L15 5m0 0l2.293-2.293a1 1 0 011.414 0L21 5m-6 12v4m2-2h-4" /></svg>;
+
+// --- Helper Functions ---
+const shuffleArray = (array) => {
+    if (!Array.isArray(array)) {
+        console.error("shuffleArray received a non-array value:", array);
+        return [];
+    }
+    let newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+};
+
+// --- Main App Component ---
+function App() {
+    const [view, setView] = useState('start');
+    const [activeQuiz, setActiveQuiz] = useState(null);
+    const [quizResults, setQuizResults] = useState(null);
+    const [activeGenerator, setActiveGenerator] = useState(null);
+
+    const startQuiz = (quiz) => {
+        const shuffledQuiz = {
+            ...quiz,
+            questions: quiz.questions ? quiz.questions.map(q => ({
+                ...q,
+                answerOptions: shuffleArray(q.answerOptions)
+            })) : []
+        };
+        setActiveQuiz(shuffledQuiz);
+        setView(quiz.type || 'quiz');
+    };
+
+    const onQuizComplete = (results) => {
+        setQuizResults(results);
+        setView('results');
+    };
+
+    const navigateHome = () => {
+        setView('start');
+        setActiveQuiz(null);
+        setQuizResults(null);
+        setActiveGenerator(null);
+    };
+
+    const renderView = () => {
+        switch (view) {
+            case 'quiz':
+                return <QuizRunner quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />;
+            case 'reading':
+                 return <ReadingPractice quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />;
+            case 'essay':
+                return <EssayGuide onExit={navigateHome} />;
+            case 'simulation':
+                return <div className="text-center p-8"><h1 className="text-2xl font-bold">The Game of Life Simulation</h1><p className="my-4">This feature is coming soon!</p><button onClick={navigateHome} className="mt-4 px-4 py-2 bg-sky-500 text-white rounded">Go Back</button></div>;
+            case 'results':
+                return <ResultsScreen results={quizResults} quizTitle={activeQuiz.title} onRestart={() => startQuiz(activeQuiz)} onHome={navigateHome} />;
+            case 'generator':
+                return <AIQuizGenerator subject={activeGenerator} onQuizGenerated={startQuiz} onExit={navigateHome} />;
+            case 'start':
+            default:
+                return (
+                    <StartScreen
+                        onSelectQuiz={startQuiz}
+                        onSelectGenerator={(subject) => { setActiveGenerator(subject); setView('generator'); }}
+                    />
+                );
+        }
+    };
+
+    return (
+        <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
+            {renderView()}
+        </div>
+    );
+}
+
+// --- VIEWS & COMPONENTS ---
+
+function StartScreen({ onSelectQuiz, onSelectGenerator }) {
+    const [activeTab, setActiveTab] = useState('Social Studies');
+
+    const SubjectIcon = ({ subject }) => {
+        if (subject === 'RLA') return <BookOpenIcon />;
+        if (subject === 'Social Studies') return <GlobeIcon />;
+        if (subject === 'Simulations') return <BeakerIcon />;
+        return null;
+    };
+
+    return (
+        <div className="fade-in">
+            <header className="text-center pb-4 mb-4 border-b">
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
+                <p className="text-slate-500 mt-2">Select a subject to begin practicing.</p>
+            </header>
+
+            <div className="flex border-b">
+                {Object.keys(ALL_QUIZZES).map(subject => (
+                    <button
+                        key={subject}
+                        onClick={() => setActiveTab(subject)}
+                        className={`flex items-center gap-2 px-4 py-3 font-semibold text-lg transition-colors ${activeTab === subject ? 'border-b-2 border-sky-500 text-sky-600' : 'text-slate-500 hover:text-slate-800'}`}
+                    >
+                        <SubjectIcon subject={subject} /> {subject}
+                    </button>
+                ))}
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                 {/* AI Generator Card */}
+                { (activeTab === "Social Studies" || activeTab === "RLA") && (
+                    <div className="border-2 border-dashed border-sky-400 rounded-lg p-4 flex flex-col justify-between bg-sky-50 hover:shadow-lg hover:border-sky-500 transition-all">
+                        <div className="flex items-center gap-2">
+                           <SparklesIcon className="text-sky-500" />
+                           <h3 className="text-xl font-bold text-sky-800">AI-Generated Quiz</h3>
+                        </div>
+                        <p className="text-sky-600 text-sm my-2">Generate a brand new quiz on a topic of your choice.</p>
+                        <button
+                            onClick={() => onSelectGenerator(activeTab)}
+                            className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition"
+                        >
+                            Generate
+                        </button>
+                    </div>
+                )}
+                {ALL_QUIZZES[activeTab].map(quiz => (
+                    <div key={quiz.id} className="border border-slate-200 rounded-lg p-4 flex flex-col justify-between hover:shadow-md hover:border-sky-300 transition-all bg-white">
+                        <h3 className="text-xl font-bold text-slate-800">{quiz.title}</h3>
+                        <p className="text-slate-500 text-sm my-2">{quiz.questions && quiz.questions.length > 0 ? `${quiz.questions.length} questions` : "Interactive Practice"}</p>
+                        <button
+                            onClick={() => onSelectQuiz(quiz)}
+                            className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition"
+                        >
+                            Start
+                        </button>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+function QuizRunner({ quiz, onComplete, onExit }) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [answers, setAnswers] = useState(Array(quiz.questions.length).fill(null));
+    const [marked, setMarked] = useState(Array(quiz.questions.length).fill(false));
+    const [timeLeft, setTimeLeft] = useState(quiz.questions.length * 90);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(prev => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    handleSubmitRef.current();
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return () => clearInterval(timer);
+    }, [quiz]);
+
+    const handleSelect = (optionText) => {
+        const newAnswers = [...answers];
+        newAnswers[currentIndex] = optionText;
+        setAnswers(newAnswers);
+    };
+
+    const handleSubmit = useCallback(() => {
+        let score = 0;
+        quiz.questions.forEach((q, i) => {
+            const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+            if (correctOption && answers[i] === correctOption.text) {
+                score++;
+            }
+        });
+
+        const percentage = (score / quiz.questions.length) * 100;
+        const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
+
+        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers });
+    }, [answers, quiz, onComplete]);
+
+    const handleSubmitRef = useRef(handleSubmit);
+    useEffect(() => {
+        handleSubmitRef.current = handleSubmit;
+    }, [handleSubmit]);
+
+    const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
+
+    const currentQ = quiz.questions[currentIndex];
+
+    return (
+        <div className="fade-in">
+            <header className="flex justify-between items-center pb-4 mb-4 border-b">
+                 <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                 <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
+                 <div className="font-bold text-red-600">{formatTime(timeLeft)}</div>
+            </header>
+
+            <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
+                {quiz.questions.map((_, i) => (
+                    <button key={i} onClick={() => setCurrentIndex(i)} className={`w-8 h-8 rounded-full font-bold text-sm ${i === currentIndex ? 'bg-sky-600 text-white' : answers[i] !== null ? 'bg-sky-200' : 'bg-slate-200'} ${marked[i] ? 'ring-2 ring-yellow-400' : ''}`}>
+                        {i + 1}
+                    </button>
+                ))}
+            </div>
+
+            <div className="p-4 bg-slate-50 rounded-lg">
+                {currentQ.passage && <div className="mb-4 prose max-w-none" dangerouslySetInnerHTML={{ __html: currentQ.passage }} />}
+                {currentQ.imageUrl && <img src={currentQ.imageUrl} alt="Question image" className="my-4 mx-auto rounded-md border" />}
+                <h3 className="text-xl font-semibold mb-4">{currentQ.questionNumber}. {currentQ.question}</h3>
+                <div className="space-y-3">
+                    {currentQ.answerOptions.map((opt, i) => (
+                        <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
+                           <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> {opt.text}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="mt-6 flex justify-between">
+                <button onClick={() => setCurrentIndex(p => Math.max(0, p - 1))} disabled={currentIndex === 0} className="px-4 py-2 bg-slate-200 rounded-md disabled:opacity-50">Previous</button>
+                <button onClick={() => setMarked(m => { const newM = [...m]; newM[currentIndex] = !newM[currentIndex]; return newM; })} className={`px-4 py-2 rounded-md ${marked[currentIndex] ? 'bg-yellow-300' : 'bg-slate-200'}`}>
+                    Mark for Review
+                </button>
+                {currentIndex === quiz.questions.length - 1 ? (
+                    <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded-md">Finish</button>
+                ) : (
+                    <button onClick={() => setCurrentIndex(p => Math.min(quiz.questions.length - 1, p + 1))} className="px-4 py-2 bg-sky-500 text-white rounded-md">Next</button>
+                )}
+            </div>
+        </div>
+    );
+}
+
+function ResultsScreen({ results, quizTitle, onRestart, onHome }) {
+    const getPerf = (score) => {
+        if (score >= 175) return { level: "GED® College Ready + Credit", color: "text-purple-600" };
+        if (score >= 165) return { level: "GED® College Ready", color: "text-blue-600" };
+        if (score >= 145) return { level: "GED® Passing Score", color: "text-green-600" };
+        return { level: "Keep studying!", color: "text-amber-600" };
+    };
+
+    const performance = getPerf(results.scaledScore);
+
+    return (
+        <div className="text-center fade-in">
+            <h2 className="text-3xl font-bold text-slate-800">Results: {quizTitle}</h2>
+            <div className="my-6">
+                <p className="text-lg text-slate-600">Your estimated GED® Score is:</p>
+                <p className={`text-6xl font-bold my-2 ${performance.color}`}>{results.scaledScore}</p>
+                <p className={`text-2xl font-semibold mb-2 ${performance.color}`}>{performance.level}</p>
+                <p className="text-lg text-slate-500">{results.score} / {results.totalQuestions} Correct</p>
+            </div>
+             <div className="mt-8 flex justify-center gap-4">
+                 <button onClick={onHome} className="px-6 py-2 bg-slate-600 text-white font-bold rounded-lg hover:bg-slate-700">Go Home</button>
+                 <button onClick={onRestart} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700">Try Again</button>
+            </div>
+        </div>
+    );
+}
+
+function ReadingPractice({ quiz, onComplete, onExit }) {
+     const [answers, setAnswers] = useState({});
+     const [isSubmitted, setIsSubmitted] = useState(false);
+
+    const handleAnswer = (qIndex, answer) => {
+        if(isSubmitted) return;
+        setAnswers(prev => ({ ...prev, [qIndex]: answer }));
+    };
+
+    const handleSubmit = () => {
+        if (Object.keys(answers).length !== quiz.questions.length) {
+            if(!confirm("You have unanswered questions. Are you sure you want to submit?")) {
+                return;
+            }
+        }
+        setIsSubmitted(true);
+        let score = 0;
+        quiz.questions.forEach((q, i) => {
+             const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+            if(correctOption && answers[i] === correctOption.text) {
+                score++;
+            }
+        });
+        const percentage = (score / quiz.questions.length) * 100;
+        const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
+        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore });
+    };
+
+    return (
+        <div className="fade-in">
+             <header className="flex justify-between items-center pb-4 mb-4 border-b">
+                 <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                 <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
+                 <div></div>
+            </header>
+            <article className="prose max-w-none">
+                <h3 className="text-2xl font-bold">{quiz.article.title}</h3>
+                <p className="text-sm italic text-slate-500">{quiz.article.genre}</p>
+                {quiz.article.text.map((p, i) => <p key={i}>{p}</p>)}
+            </article>
+            <section className="mt-8 pt-6 border-t">
+                <h3 className="text-2xl font-bold mb-4">Questions</h3>
+                <div className="space-y-6">
+                    {quiz.questions.map((q, i) => (
+                        <div key={i} className={`p-4 rounded-lg transition-colors ${isSubmitted ? (answers[i] === q.answerOptions.find(o=>o.isCorrect).text ? 'bg-green-50' : 'bg-red-50') : 'bg-slate-50'}`}>
+                            <p className="font-semibold">{i+1}. {q.question}</p>
+                            <div className="mt-2 space-y-1">
+                                {q.answerOptions.map((opt, j) => (
+                                    <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
+                                        <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
+                                        <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''}`}>{opt.text}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                {!isSubmitted && <button onClick={handleSubmit} className="mt-6 w-full px-6 py-3 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700">Submit Answers</button>}
+            </section>
+        </div>
+    );
+}
+
+function EssayGuide({ onExit }) {
+    return (
+        <div className="fade-in">
+             <header className="flex justify-between items-center pb-4 mb-4 border-b">
+                 <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                 <h2 className="text-xl font-bold text-center text-slate-800">GED Essay Guide</h2>
+                 <div></div>
+            </header>
+            <div className="space-y-4 prose max-w-none">
+                 <h3>Introduction Paragraph</h3>
+                 <p>The two passages present conflicting views on [topic]. [Author 1] argues that [claim 1]. Conversely, [Author 2] claims that [claim 2]. After analyzing both, it is clear that [Author X] presents the more convincing case by using [evidence types].</p>
+                 <textarea className="w-full h-32 p-3 border border-gray-300 rounded-md" placeholder="Start typing here..."></textarea>
+                 <h3>Body Paragraph #1</h3>
+                 <p>First, [Stronger Author] effectively builds their argument by using [type of evidence]. The author states, "[quote or paraphrase]". This evidence is convincing because [explain why].</p>
+                 <textarea className="w-full h-32 p-3 border border-gray-300 rounded-md" placeholder="Analyze strong evidence..."></textarea>
+                 <h3>Conclusion</h3>
+                 <p>In conclusion, while both authors address [topic], [Stronger Author] presents a more compelling argument through skillful use of [restate evidence], which is more persuasive than the claims made by [Weaker Author].</p>
+                 <textarea className="w-full h-32 p-3 border border-gray-300 rounded-md" placeholder="Conclude your essay..."></textarea>
+            </div>
+        </div>
+    );
+}
+
+function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
+    const [selectedTopic, setSelectedTopic] = useState('');
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [error, setError] = useState(null);
+
+    const topics = {
+      "Social Studies": ALL_QUIZZES["Social Studies"].map(q => q.title),
+      "RLA": ALL_QUIZZES["RLA"].filter(q => q.type !== 'essay' && q.type !== 'reading').map(q => q.title),
+    };
+
+    const handleGenerate = async () => {
+        if (!selectedTopic) {
+            setError("Please select a topic first.");
+            return;
+        }
+        setIsGenerating(true);
+        setError(null);
+
+        try {
+            const response = await fetch('https://ged-website.onrender.com/generate-quiz', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subject, topic: selectedTopic })
+            });
+
+            if (!response.ok) {
+                const errorResult = await response.json();
+                throw new Error(errorResult.error || `Request failed with status ${response.status}`);
+            }
+
+            const result = await response.json();
+            const jsonText = result.candidates[0].content.parts[0].text;
+            const generatedQuiz = JSON.parse(jsonText);
+
+            generatedQuiz.questions.forEach(q => {
+                const correctRationale = q.answerOptions.find(opt => opt.isCorrect)?.rationale || "This is the correct answer.";
+                q.answerOptions.forEach(opt => {
+                    if (!opt.rationale) {
+                         opt.rationale = opt.isCorrect ? correctRationale : "This is not the correct answer.";
+                    }
+                });
+            });
+
+            generatedQuiz.id = `ai_${new Date().getTime()}`;
+            onQuizGenerated(generatedQuiz);
+
+        } catch (err) {
+            console.error("Error generating quiz:", err);
+            setError(`Sorry, something went wrong. ${err.message}`);
+            setIsGenerating(false);
+        }
+    };
+
+    return (
+        <div className="fade-in text-center">
+            <header className="flex justify-between items-center pb-4 mb-4 border-b">
+                 <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                 <h2 className="text-xl font-bold text-center text-slate-800">AI Quiz Generator</h2>
+                 <div></div>
+            </header>
+            <div className="max-w-md mx-auto">
+                <h3 className="text-2xl font-bold text-slate-800">Create a New Quiz</h3>
+                <p className="text-slate-500 mt-2 mb-6">Select a topic from {subject} to generate a unique 15-question practice exam.</p>
+
+                <select
+                    value={selectedTopic}
+                    onChange={(e) => setSelectedTopic(e.target.value)}
+                    className="w-full p-3 border border-sky-300 rounded-md mb-4 text-lg"
+                >
+                    <option value="">-- Select a Topic --</option>
+                    {topics[subject].map(topic => <option key={topic} value={topic}>{topic}</option>)}
+                </select>
+
+                <button
+                    onClick={handleGenerate}
+                    disabled={isGenerating}
+                    className="w-full px-8 py-4 bg-sky-600 text-white font-bold rounded-lg shadow-md hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
+                >
+                    {isGenerating ? "Generating..." : "Generate Quiz"}
+                </button>
+                {error && <p className="text-red-500 mt-4">{error}</p>}
+            </div>
+        </div>
+    );
+}
+
+
+// --- RENDER APP ---
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+root.render(<App />);
+
+</script>
+
+</body>
+</html>
