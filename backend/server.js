@@ -14,6 +14,7 @@ app.use(cors(corsOptions));
 
 // handle preflight requests
 app.options('/generate-quiz', cors(corsOptions));
+app.options('/define-word', cors(corsOptions));
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -88,6 +89,47 @@ app.post('/generate-quiz', async (req, res) => {
     console.error('Error calling Google AI API:', error.response ? error.response.data : error.message);
     res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
   }
+});
+
+app.post('/define-word', async (req, res) => {
+    const { word } = req.body;
+
+    if (!word) {
+        return res.status(400).json({ error: 'Word is required.' });
+    }
+
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+    if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
+        return res.status(500).json({ error: 'API key not configured on the server.' });
+    }
+
+    const prompt = `Provide a concise, easy-to-understand definition for the word "${word}", suitable for a high school student. The definition should be no more than two sentences.`;
+
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: {
+                type: "OBJECT",
+                properties: {
+                    definition: { type: "STRING" }
+                },
+                required: ["definition"]
+            }
+        },
+    };
+
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+    try {
+        const response = await axios.post(apiUrl, payload);
+        const jsonText = response.data.candidates[0].content.parts[0].text;
+        const result = JSON.parse(jsonText);
+        res.json(result);
+    } catch (error) {
+        console.error('Error calling Google AI API for definition:', error.response ? error.response.data : error.message);
+        res.status(500).json({ error: 'Failed to get definition from AI service.' });
+    }
 });
 
 app.listen(port, '0.0.0.0', () => {
