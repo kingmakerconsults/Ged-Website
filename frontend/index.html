@@ -1379,17 +1379,23 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             });
 
             if (!response.ok) {
-                const errorResult = await response.json().catch(() => ({ error: `Request failed with status ${response.status}` }));
+                const errorResult = await response.json();
                 throw new Error(errorResult.error || `Request failed with status ${response.status}`);
             }
 
             const result = await response.json();
-            const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (!jsonText) {
-                 throw new Error("The AI model returned an empty response. It may be warming up. Please try again in a moment.");
+            const jsonText = result.candidates[0].content.parts[0].text;
+            
+            // --- ADD THIS NEW ERROR HANDLING BLOCK ---
+            let generatedQuiz;
+            try {
+                generatedQuiz = JSON.parse(jsonText);
+            } catch (parseError) {
+                console.error("Failed to parse AI response:", jsonText);
+                throw new Error("The AI returned a response that was not valid JSON. Please try again.");
             }
+            // --- END of new block ---
 
-            const generatedQuiz = JSON.parse(jsonText);
             generatedQuiz.id = `ai_${new Date().getTime()}`;
             onQuizGenerated(generatedQuiz);
 
