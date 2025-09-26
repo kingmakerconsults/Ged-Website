@@ -13,7 +13,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // handle preflight requests
-app.options('/generate-quiz', cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle all preflight requests
 app.use(express.json());
 
 app.get('/', (req, res) => {
