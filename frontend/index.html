@@ -1384,9 +1384,18 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             }
 
             const result = await response.json();
-            const jsonText = result.candidates[0].content.parts[0].text;
-            
-            // --- ADD THIS NEW ERROR HANDLING BLOCK ---
+
+            // Check if the expected data structure exists
+            if (!result.candidates || !result.candidates[0] || !result.candidates[0].content || !result.candidates[0].content.parts || !result.candidates[0].content.parts[0]) {
+                console.error("Invalid AI response structure received:", result);
+                throw new Error("The AI returned data in an unexpected format. Please try again.");
+            }
+
+            let jsonText = result.candidates[0].content.parts[0].text;
+
+            // Clean the text to remove markdown formatting
+            jsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+
             let generatedQuiz;
             try {
                 generatedQuiz = JSON.parse(jsonText);
@@ -1394,7 +1403,11 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
                 console.error("Failed to parse AI response:", jsonText);
                 throw new Error("The AI returned a response that was not valid JSON. Please try again.");
             }
-            // --- END of new block ---
+
+            if (!generatedQuiz.questions || !Array.isArray(generatedQuiz.questions)) {
+                console.error("Parsed JSON is missing a 'questions' array:", generatedQuiz);
+                throw new Error("The AI response was valid JSON but was missing the required 'questions' data.");
+            }
 
             generatedQuiz.id = `ai_${new Date().getTime()}`;
             onQuizGenerated(generatedQuiz);

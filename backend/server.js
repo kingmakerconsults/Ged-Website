@@ -120,10 +120,8 @@ app.post('/generate-quiz', async (req, res) => {
 
   try {
     const response = await axios.post(apiUrl, payload);
-    // The API now returns a JSON object directly, so we can parse the text part.
-    const jsonText = response.data.candidates[0].content.parts[0].text;
-    const quizData = JSON.parse(jsonText);
-    res.json(quizData);
+    // Send the whole response data back to the frontend
+    res.json(response.data);
   } catch (error) {
     console.error('Error calling Google AI API:', error.response ? error.response.data : error.message);
     res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
