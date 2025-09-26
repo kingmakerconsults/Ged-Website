@@ -69,10 +69,10 @@ app.post('/generate-quiz', async (req, res) => {
     return res.status(500).json({ error: 'Server configuration error.' });
   }
 
-  let prompt = `Your entire response must be only the raw JSON object, with no introductory text, no markdown formatting, and no explanations. Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. For each question, provide four answer options. One, and only one, of these options must be correct. For the correct answer, provide a brief rationale explaining why it is correct. For incorrect answers, the rationale should be a brief explanation of why it is incorrect.`;
-        
+  let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. Please return a JSON object with a "questions" array. Each object in the array should represent a question and have the following fields: "questionNumber" (number), "question" (string), "passage" (string, if applicable), and "answerOptions" (an array of 4 objects). Each answer option object must have "text" (string), "isCorrect" (boolean), and "rationale" (string). Ensure one option is marked as correct for each question.`;
+
   if (subject === "Social Studies") {
-      prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
+    prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
   }
 
   const schema = {
@@ -110,13 +110,22 @@ app.post('/generate-quiz', async (req, res) => {
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      response_mime_type: "application/json",
+      response_schema: schema,
+    },
       };
 
   const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   try {
     const response = await axios.post(apiUrl, payload);
-    res.json(response.data);
+    // Extract the JSON string from the response
+    const jsonText = response.data.candidates[0].content.parts[0].text;
+    // Parse the JSON string into an object
+    const quizData = JSON.parse(jsonText);
+    // Send the parsed object to the client
+    res.json(quizData);
   } catch (error) {
     console.error('Error calling Google AI API:', error.response ? error.response.data : error.message);
     res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
