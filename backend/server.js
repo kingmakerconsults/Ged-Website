@@ -32,13 +32,13 @@ app.post('/define-word', async (req, res) => {
     }
 
     const apiKey = process.env.GOOGLE_AI_API_KEY;
-    if (!apiKey) {
+     if (!apiKey) { 
         console.error('API key not configured on the server.');
         return res.status(500).json({ error: 'Server configuration error.' });
     }
 
     const prompt = `Provide a concise, GED-level definition for the word: "${word}".`;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest/:generateContent?key=${apiKey}`;
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
     };
@@ -116,7 +116,7 @@ app.post('/generate-quiz', async (req, res) => {
     },
   };
 
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest/:generateContent?key=${apiKey}`;
 
   try {
     const response = await axios.post(apiUrl, payload);
