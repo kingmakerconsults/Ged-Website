@@ -110,19 +110,23 @@ app.post('/generate-quiz', async (req, res) => {
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: {
-      responseMimeType: "application/json",
-      responseSchema: schema,
-    },
       };
 
   const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   try {
     const response = await axios.post(apiUrl, payload);
-    // Extract the JSON string from the response
-    const jsonText = response.data.candidates[0].content.parts[0].text;
-    // Parse the JSON string into an object
+    // Extract the raw text from the response
+    let jsonText = response.data.candidates[0].content.parts[0].text;
+
+    // Clean the response to remove markdown formatting
+    if (jsonText.startsWith("```json")) {
+      jsonText = jsonText.substring(7, jsonText.length - 3).trim();
+    } else if (jsonText.startsWith("```")) {
+      jsonText = jsonText.substring(3, jsonText.length - 3).trim();
+    }
+
+    // Parse the cleaned JSON string into an object
     const quizData = JSON.parse(jsonText);
     // Send the parsed object to the client
     res.json(quizData);
