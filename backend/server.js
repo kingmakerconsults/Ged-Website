@@ -110,11 +110,7 @@ app.post('/generate-quiz', async (req, res) => {
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: {
-      responseMimeType: "application/json",
-      responseSchema: schema,
-    },
-      };
+          };
 
   const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
