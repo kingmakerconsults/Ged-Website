@@ -69,7 +69,7 @@ app.post('/generate-quiz', async (req, res) => {
     return res.status(500).json({ error: 'Server configuration error.' });
   }
 
-  let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. For each question, provide four answer options. One, and only one, of these options must be correct. For the correct answer, provide a brief rationale explaining why it is correct. For incorrect answers, the rationale should be a brief explanation of why it is incorrect.`;
+  let prompt = `Your entire response must be only the raw JSON object, with no introductory text, no markdown formatting, and no explanations. Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. For each question, provide four answer options. One, and only one, of these options must be correct. For the correct answer, provide a brief rationale explaining why it is correct. For incorrect answers, the rationale should be a brief explanation of why it is incorrect.`;
         
   if (subject === "Social Studies") {
       prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
