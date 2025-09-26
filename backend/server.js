@@ -111,8 +111,8 @@ app.post('/generate-quiz', async (req, res) => {
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: {
-      response_mime_type: "application/json",
-      response_schema: schema,
+      responseMimeType: "application/json",
+      responseSchema: schema,
     },
       };
 
