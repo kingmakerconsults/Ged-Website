@@ -1379,17 +1379,36 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             });
 
             if (!response.ok) {
-                const errorResult = await response.json().catch(() => ({ error: `Request failed with status ${response.status}` }));
+                const errorResult = await response.json();
                 throw new Error(errorResult.error || `Request failed with status ${response.status}`);
             }
 
             const result = await response.json();
-            const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (!jsonText) {
-                 throw new Error("The AI model returned an empty response. It may be warming up. Please try again in a moment.");
+
+            // Check if the expected data structure exists
+            if (!result.candidates || !result.candidates[0] || !result.candidates[0].content || !result.candidates[0].content.parts || !result.candidates[0].content.parts[0]) {
+                console.error("Invalid AI response structure received:", result);
+                throw new Error("The AI returned data in an unexpected format. Please try again.");
             }
 
-            const generatedQuiz = JSON.parse(jsonText);
+            let jsonText = result.candidates[0].content.parts[0].text;
+
+            // Clean the text to remove markdown formatting
+            jsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+            let generatedQuiz;
+            try {
+                generatedQuiz = JSON.parse(jsonText);
+            } catch (parseError) {
+                console.error("Failed to parse AI response:", jsonText);
+                throw new Error("The AI returned a response that was not valid JSON. Please try again.");
+            }
+
+            if (!generatedQuiz.questions || !Array.isArray(generatedQuiz.questions)) {
+                console.error("Parsed JSON is missing a 'questions' array:", generatedQuiz);
+                throw new Error("The AI response was valid JSON but was missing the required 'questions' data.");
+            }
+
             generatedQuiz.id = `ai_${new Date().getTime()}`;
             onQuizGenerated(generatedQuiz);
 
