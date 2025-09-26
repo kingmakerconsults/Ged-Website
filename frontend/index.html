@@ -27,7 +27,7 @@
         .option.incorrect { background-color: #fee2e2; border-color: #ef4444; position: relative; }
     </style>
 </head>
-<body class="bg-orange-100">
+<body class="bg-slate-100">
     <div id="root"></div>
 
 <script type="text/babel">
@@ -121,7 +121,7 @@ const ALL_QUIZZES = {
         { questionNumber: 5, type: 'knowledge', question: "The power of Judicial Review, established in the case of Marbury v. Madison (1803), allows the Supreme Court to do what?", answerOptions: [ { text: "Impeach the President for high crimes and misdemeanors.", rationale: "The power of impeachment belongs to Congress, not the Supreme Court.", isCorrect: false }, { text: "Veto laws passed by Congress.", rationale: "The power to veto laws belongs to the President.", isCorrect: false }, { text: "Declare laws unconstitutional.", rationale: "Correct. Judicial review is the power of the Judicial Branch to review laws and actions of the other branches and determine if they violate the Constitution.", isCorrect: true }, { text: "Appoint federal judges to lower courts.", rationale: "The President appoints federal judges, with the Senate's approval.", isCorrect: false } ] },
         { questionNumber: 6, type: 'text', passage: "The Tenth Amendment states: 'The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people.' This amendment is the cornerstone of federalism, the principle that power is divided between the national government and the state governments.", question: "Which of the following is the best example of a power 'reserved to the States' under the Tenth Amendment?", answerOptions: [ { text: "The power to declare war.", rationale: "The Constitution explicitly delegates the power to declare war to the national government (Congress).", isCorrect: false }, { text: "The power to print money.", rationale: "The power to coin and print money is an exclusive power of the national government.", isCorrect: false }, { text: "The power to establish local schools.", rationale: "Correct. The Constitution does not delegate the power over education to the federal government, nor does it prohibit states from acting. Therefore, it is a power reserved to the states.", isCorrect: true }, { text: "The power to make treaties with foreign countries.", rationale: "This power is delegated to the President and the Senate at the national level.", isCorrect: false } ] },
         { questionNumber: 7, type: 'quote', passage: "'[A] bill of rights is what the people are entitled to against every government on earth... and what no just government should refuse.' - Thomas Jefferson, 1787", question: "What does this quote reveal about Jefferson's view of the relationship between government and individual rights?", answerOptions: [ { text: "He believed that governments grant rights to the people.", rationale: "Jefferson argues that people are 'entitled' to these rights, suggesting they are inherent, not granted by a government.", isCorrect: false }, { text: "He saw a bill of rights as a necessary protection of citizens from potential government overreach.", rationale: "Correct. By saying people are 'entitled' to these rights 'against every government,' Jefferson frames the Bill of Rights as a defensive measure to protect individuals from the power of the state.", isCorrect: true }, { text: "He trusted that governments would naturally respect the rights of the people without a written guarantee.", rationale: "This is the opposite of his position. He argues that no 'just government should refuse' to provide a written bill of rights, implying it is a necessary, formal protection.", isCorrect: false }, { text: "He believed a bill of rights was only necessary for monarchies, not for republics.", rationale: "The quote says people are entitled to a bill of rights 'against every government on earth,' which includes republics.", isCorrect: false } ] },
-        { questionNumber: 8, type: 'knowledge', question: "The Fifth Amendment provides several protections for individuals accused of a crime. Which protection prevents a person from being tried twice for the same offense?", answerOptions: [ { text: "The right to remain silent", rationale: "This protects against self-incrimination, but not against being tried twice.", isCorrect: false }, { text: "The right to due process", rationale: "Due process is a broad principle of legal fairness, but the specific protection against being tried twice has its own name.", isCorrect: false }, { text: "The protection against double jeopardy", rationale: "Correct. 'Double jeopardy' is the legal term for the Fifth Amendment protection that prohibits an accused person from being tried again on the same (or similar) charges following a legitimate acquittal or conviction.", isCorrect: true }, { text: "The right to a grand jury", rationale: "The right to a grand jury ensures that a prosecutor has enough evidence to bring charges, but it does not prevent a second trial.", isCorrect: false } ] },
+        { questionNumber: 8, type: 'knowledge', question: "The Fifth Amendment provides several protections for individuals accused of a crime. Which protection prevents a person from being tried twice for the same offense?", answerOptions: [ { text: "The right to remain silent", rationale: "This protects against self-incrimination, but not against being tried twice.", isCorrect: false }, { text: "The protection against double jeopardy", rationale: "Correct. 'Double jeopardy' is the legal term for the Fifth Amendment protection that prohibits an accused person from being tried again on the same (or similar) charges following a legitimate acquittal or conviction.", isCorrect: true }, { text: "The right to a grand jury", rationale: "The right to a grand jury ensures that a prosecutor has enough evidence to bring charges, but it does not prevent a second trial.", isCorrect: false } ] },
         { questionNumber: 9, type: 'text', passage: "The structure of the U.S. Congress is bicameral, consisting of the Senate and the House of Representatives. Representation in the House is based on a state's population, with larger states having more representatives. In the Senate, however, every state is represented equally, with two senators each. This structure was the result of the 'Great Compromise' at the Constitutional Convention, which balanced the interests of large and small states.", question: "How does the structure of the Senate protect the interests of smaller states?", answerOptions: [ { text: "By giving them more total representatives in Congress than larger states.", rationale: "Total representation (House + Senate) is still generally higher for larger states due to the population-based House.", isCorrect: false }, { text: "By ensuring their legislative power is equal to that of larger states in one chamber of Congress.", rationale: "Correct. By giving every state, regardless of population, two senators, the Senate ensures that smaller states have a legislative voice and power equal to that of the most populous states.", isCorrect: true }, { text: "By allowing their representatives to serve longer terms than those from larger states.", rationale: "All senators serve six-year terms, regardless of the size of their state.", isCorrect: false }, { text: "By granting their senators the power to veto legislation passed by the House.", rationale: "Individual senators do not have veto power. The Senate as a whole must vote on legislation.", isCorrect: false } ] },
         { questionNumber: 10, type: 'knowledge', question: "The Eighth Amendment prohibits 'cruel and unusual punishments.' The interpretation of this phrase has evolved over time. Which of the following issues is most often debated in the context of the Eighth Amendment?", answerOptions: [ { text: "The right to a jury trial", rationale: "The right to a jury trial is guaranteed by the Sixth and Seventh Amendments.", isCorrect: false }, { text: "The legality of the death penalty", rationale: "Correct. Opponents of capital punishment argue that it constitutes a 'cruel and unusual punishment' and is therefore unconstitutional under the Eighth Amendment. This is a central and ongoing legal debate.", isCorrect: true }, { text: "The right to legal counsel", rationale: "The right to a lawyer is guaranteed by the Sixth Amendment.", isCorrect: false }, { text: "Freedom from self-incrimination", rationale: "This protection is provided by the Fifth Amendment.", isCorrect: false } ] },
         { questionNumber: 11, type: 'text', passage: "The president of the United States has the power to veto legislation passed by Congress, preventing it from becoming law. However, Congress can override a presidential veto with a two-thirds vote in both the House of Representatives and the Senate. This process is an important part of the system of checks and balances, ensuring that no single branch has absolute power over lawmaking.", question: "What does the process of a congressional override of a veto demonstrate?", answerOptions: [ { text: "The superiority of the legislative branch over the executive branch.", rationale: "It does not demonstrate superiority, but rather a balance of power. Overriding a veto is difficult and requires a supermajority.", isCorrect: false }, { text: "The president's complete control over the legislative process.", rationale: "The existence of the override mechanism shows that the president's control is not complete.", isCorrect: false }, { text: "A system designed to allow the legislative and executive branches to limit each other's power.", rationale: "Correct. The veto is the executive check on the legislature, and the override is the legislative check on the executive, perfectly illustrating the principle of checks and balances.", isCorrect: true }, { text: "The process by which the judicial branch can nullify a law.", rationale: "This describes judicial review, which is a power of the courts, not the override process.", isCorrect: false } ] },
@@ -134,119 +134,100 @@ const ALL_QUIZZES = {
   ],
   "RLA": [
     {
-      id: "rla_analyzing_arguments",
-      title: "Analyzing Arguments & Evidence",
-      type: "reading",
-      article: {
-        title: "The Case for and Against Universal Basic Income",
-        genre: "Paired Informational Texts",
-        text: [
-          "<strong>Passage 1: The Pragmatic Promise of UBI</strong><br>Universal Basic Income (UBI) is a policy proposal in which all citizens of a country regularly receive an unconditional sum of money from the government. Proponents argue that in an age of increasing automation, UBI is a pragmatic solution to job displacement and economic insecurity. A regular, guaranteed income would provide a crucial safety net, allowing individuals to meet basic needs, pursue education, or start businesses without the constant fear of poverty. Evidence from pilot programs, such as those in Finland and Stockton, California, suggests that recipients experience improved mental and physical health, and contrary to popular belief, do not significantly reduce their participation in the workforce. Instead, the financial floor enables them to seek better opportunities, fostering a more dynamic and entrepreneurial economy.",
-          "<strong>Passage 2: The Perils of a UBI Utopia</strong><br>Critics of Universal Basic Income, however, warn of its potential pitfalls. The most significant concern is the astronomical cost. Funding a UBI for an entire nation would likely require massive tax increases or drastic cuts to other essential public services like education, infrastructure, and healthcare. Furthermore, there are worries about inflation; a sudden influx of cash into the economy without a corresponding increase in goods and services could devalue the currency and drive up prices, negating the benefits of the cash payment. There is also the philosophical objection that decoupling income from work could erode the social fabric and diminish the sense of purpose and dignity that employment provides for many individuals. While the idea of a universal safety net is appealing, the economic and social risks are too substantial to ignore."
-        ]
-      },
+      id: "rla_grammar_editing_1",
+      title: "GED Grammar & Editing",
       questions: [
-        { questionNumber: 1, question: "What is the central claim of Passage 1?", answerOptions: [{text:"UBI is a necessary evil to combat automation.", isCorrect: false}, {text:"UBI is a practical tool for improving economic security and individual well-being.", isCorrect: true}, {text:"UBI has been proven to increase workforce participation significantly.", isCorrect: false}, {text:"UBI is most effective when targeted only at the unemployed.", isCorrect: false}]},
-        { questionNumber: 2, question: "Which of the following pieces of evidence does the author of Passage 1 use to support their claim?", answerOptions: [{text:"Economic models predicting future growth.", isCorrect: false}, {text:"Philosophical arguments about the nature of work.", isCorrect: false}, {text:"Anecdotes from a single UBI recipient.", isCorrect: false}, {text:"Findings from experimental pilot programs.", isCorrect: true}]},
-        { questionNumber: 3, question: "What is the primary concern raised by the author of Passage 2?", answerOptions: [{text:"The logistical difficulty of distributing the money.", isCorrect: false}, {text:"The potential for recipients to misuse the funds.", isCorrect: false}, {text:"The immense financial cost and risk of inflation.", isCorrect: true}, {text:"The likelihood of increased political corruption.", isCorrect: false}]},
-        { questionNumber: 4, question: "The author of Passage 2 implies that work provides more than just a paycheck. This suggests work also provides:", answerOptions: [{text:"A sense of purpose and social connection.", isCorrect: true}, {text:"A way to avoid paying taxes.", isCorrect: false}, {text:"Guaranteed access to healthcare.", isCorrect: false}, {text:"The only path to happiness.", isCorrect:false}]},
-        { questionNumber: 5, question: "How do the two passages differ in their view of UBI's effect on work?", answerOptions: [{text:"Passage 1 sees it as a disincentive to work, while Passage 2 sees it as an incentive.", isCorrect: false}, {text:"Both passages agree it will cause mass unemployment.", isCorrect: false}, {text:"Passage 1 suggests it allows people to find better work, while Passage 2 fears it will erode the general desire to work.", isCorrect: true}, {text:"Neither passage discusses the effect of UBI on work.", isCorrect: false}]},
-        { questionNumber: 6, question: "The author of Passage 1 uses the term 'financial floor.' What is the best meaning of this term in context?", answerOptions: [{text:"The lowest possible income a person can earn.", isCorrect: false}, {text:"A baseline level of economic security.", isCorrect: true}, {text:"A government building where money is distributed.", isCorrect: false}, {text:"The physical cash used in the UBI payment.", isCorrect: false}]},
-        { questionNumber: 7, question: "Which statement would the author of Passage 2 most likely agree with?", answerOptions: [{text:"The potential benefits of UBI outweigh the risks.", isCorrect: false}, {text:"UBI is a simple solution to complex social problems.", isCorrect: false}, {text:"Implementing UBI without careful consideration of its economic consequences would be irresponsible.", isCorrect: true}, {text:"UBI is the only way to solve poverty.", isCorrect: false}]},
-        { questionNumber: 8, question: "Both passages are primarily concerned with the...?", answerOptions: [{text:"...history of economic policy.", isCorrect: false}, {text:"...potential consequences of implementing UBI.", isCorrect: true}, {text:"...moral character of UBI recipients.", isCorrect: false}, {text:"...role of automation in the future.", isCorrect: false}]},
-        { questionNumber: 9, question: "The author of Passage 1 mentions 'improved mental and physical health' as a benefit. What is an underlying assumption for this claim?", answerOptions: [{text:"Wealthy people are always healthier than poor people.", isCorrect: false}, {text:"Financial stress is a major contributor to poor health outcomes.", isCorrect: true}, {text:"UBI payments come with mandatory health check-ups.", isCorrect: false}, {text:"People will use the money to buy gym memberships.", isCorrect: false}]},
-        { questionNumber: 10, question: "What type of evidence, if added to Passage 2, would most strengthen its argument?", answerOptions: [{text:"A detailed budget simulation showing the required tax increases or service cuts.", isCorrect: true}, {text:"A poll showing that most people support the idea of UBI.", isCorrect: false}, {text:"An interview with a person who left their job after receiving basic income.", isCorrect: false}, {text:"A historical analysis of ancient welfare systems.", isCorrect: false}]},
-        { questionNumber: 11, question: "What is the tone of Passage 1?", answerOptions: [{text:"Pessimistic and cautionary.", isCorrect: false}, {text:"Optimistic and advocacy-oriented.", isCorrect: true}, {text:"Strictly neutral and detached.", isCorrect: false}, {text:"Sarcastic and dismissive.", isCorrect: false}]},
-        { questionNumber: 12, question: "What is the tone of Passage 2?", answerOptions: [{text:"Enthusiastic and supportive.", isCorrect: false}, {text:"Skeptical and cautionary.", isCorrect: true}, {text:"Angry and aggressive.", isCorrect: false}, {text:"Humorous and lighthearted.", isCorrect: false}]},
-        { questionNumber: 13, question: "The phrase 'decoupling income from work' in Passage 2 means...", answerOptions: [{text:"...creating a system where income is not directly tied to employment.", isCorrect: true}, {text:"...firing workers and replacing them with robots.", isCorrect: false}, {text:"...paying workers based on their output rather than hours worked.", isCorrect: false}, {text:"...allowing people to work from home.", isCorrect: false}]},
-        { questionNumber: 14, question: "Which of these claims from Passage 1 does Passage 2 directly challenge?", answerOptions: [{text:"That UBI provides an unconditional sum of money.", isCorrect: false}, {text:"That automation is displacing jobs.", isCorrect: false}, {text:"That UBI would be an affordable and stable system.", isCorrect: true}, {text:"That pilot programs have been conducted.", isCorrect: false}]},
-        { questionNumber: 15, question: "Which question is most central to the debate presented in these two passages?", answerOptions: [{text:"Is economic security a fundamental human right?", isCorrect: true}, {text:"Should governments be involved in the economy?", isCorrect: false}, {text:"Are people inherently lazy or ambitious?", isCorrect: false}, {text:"Can technology solve all of society's problems?", isCorrect: false}]}
+        { questionNumber:1, question: "Choose the correct possessive form: \"The ___ dedication to the project was admirable.\"", answerOptions: [{text:"employees", isCorrect: false}, {text:"employee's", isCorrect: false}, {text:"employees'", isCorrect: true, rationale: "For a plural noun ending in 's' (employees), the possessive is formed by adding an apostrophe after the 's'."}] },
+        { questionNumber:2, question: "Choose the correct homonyms: \"It's important ___ be on time, but it's okay if you're a few minutes late, ___.\"", answerOptions: [{text:"to / too", isCorrect: true, rationale: "'To' is a preposition used here to mean 'in the direction of'. 'Too' is an adverb meaning 'also' or 'in addition'."}, {text:"too / to", isCorrect: false}, {text:"two / to", isCorrect: false}, {text:"to / two", isCorrect: false}] },
+        { questionNumber:3, question: "Choose the correct verb for subject-verb agreement: \"Neither the manager nor the employees ___ happy with the new policy.\"", answerOptions: [{text:"is", isCorrect: false}, {text:"are", isCorrect: true, rationale: "When subjects are joined by 'nor', the verb agrees with the subject closer to it. 'Employees' is plural, so it requires the plural verb 'are'."}, {text:"was", isCorrect: false}, {text:"has been", isCorrect: false}] },
+        { questionNumber:4, question: "Complete the sentence with the correct parallel structure: \"Her responsibilities included writing reports, managing the budget, and ___ new staff.\"", answerOptions: [{text:"to train", isCorrect: false}, {text:"training", isCorrect: true, rationale: "For parallel structure, all items in the list should be in the same grammatical form. 'Writing', 'managing', and 'training' are all gerunds (-ing words)."}, {text:"she trained", isCorrect: false}, {text:"train", isCorrect: false}] },
+        { questionNumber:5, question: "Which option correctly connects the two ideas: \"The report was due Friday ___ we finished it on Thursday.\"", answerOptions: [{text:"Friday we", isCorrect: false}, {text:"Friday, we", isCorrect: false}, {text:"Friday, so we", isCorrect: true, rationale: "These are two independent clauses. They must be separated by a comma and a coordinating conjunction like 'so' to show the cause-and-effect relationship."}, {text:"Friday but we", isCorrect: false}] },
+        { questionNumber:6, question: "Choose the correct pronoun: \"Each of the new computers has ___ own monitor and keyboard.\"", answerOptions: [{text:"its", isCorrect: true, rationale: "The indefinite pronoun 'Each' is singular and requires the singular possessive pronoun 'its'. 'It's' is a contraction for 'it is'."}, {text:"their", isCorrect: false}, {text:"it's", isCorrect: false}, {text:"they're", isCorrect: false}] },
+        { questionNumber:7, question: "Which sentence has the modifier placed correctly?", answerOptions: [ {text:"The dog wagged its tail at me covered in mud.", isCorrect: false}, {text:"Covered in mud, the dog wagged its tail at me.", isCorrect: true, rationale: "The modifier 'Covered in mud' should clearly describe the 'dog'. Placing it at the beginning of the sentence and next to 'the dog' avoids confusion."}, {text:"The dog covered in mud wagged its tail at me.", isCorrect: false}, {text:"The dog wagged its tail covered in mud at me.", isCorrect: false} ] },
+        { questionNumber:8, question: "Choose the correctly capitalized sentence.", answerOptions: [ {text:"We are planning a trip to the Grand Canyon this Spring.", isCorrect: false}, {text:"We are planning a trip to the grand canyon this spring.", isCorrect: false}, {text:"We are planning a trip to the Grand Canyon this spring.", isCorrect: true, rationale: "Proper nouns like 'Grand Canyon' are capitalized. Seasons of the year like 'spring' are not capitalized unless they are part of a proper name."}, {text:"we are planning a trip to the Grand Canyon this Spring.", isCorrect: false} ] },
+        { questionNumber:9, question: "Choose the correct pronouns: \"The award was given to ___ and ___.\"", answerOptions: [{text:"he and I", isCorrect: false}, {text:"him and me", isCorrect: true, rationale: "When pronouns are the object of a preposition ('to'), you must use the objective case ('him', 'me')."}, {text:"him and I", isCorrect: false}, {text:"he and me", isCorrect: false}] },
+        { questionNumber:10, question: "Choose the correctly punctuated sentence.", answerOptions: [ {text:"Please bring a pencil, a notebook and a calculator to the test.", isCorrect: false}, {text:"Please bring a pencil, a notebook, and a calculator to the test.", isCorrect: true, rationale: "Use commas to separate three or more items in a series. The comma before 'and' (the Oxford comma) is standard in formal writing."}, {text:"Please bring: a pencil, a notebook, and a calculator to the test.", isCorrect: false}, {text:"Please bring a pencil a notebook and a calculator to the test.", isCorrect: false} ] },
+        { questionNumber:11, question: "Choose the best transition word: \"The company's profits were down; ___, they decided to cut bonuses.\"", answerOptions: [{text:"however", isCorrect: false}, {text:"moreover", isCorrect: false}, {text:"therefore", isCorrect: true, rationale: "'Therefore' correctly shows a cause-and-effect relationship. The drop in profits is the reason for the decision to cut bonuses."}, {text:"for example", isCorrect: false}] },
+        { questionNumber:12, question: "Which of the following is a complete sentence?", answerOptions: [ {text:"Because she studied hard for the test.", isCorrect: false}, {text:"Studying hard for the test and reviewing her notes.", isCorrect: false}, {text:"She studied hard for the test.", isCorrect: true, rationale: "A complete sentence must have a subject ('She') and a verb ('studied') and express a complete thought. The other options are sentence fragments."}, {text:"Although she studied hard for the test.", isCorrect: false} ] },
+        { questionNumber:13, question: "Choose the most professional and appropriate way to phrase the sentence for a cover letter.", answerOptions: [ {text:"check in with you about a spot in the IT department at your place.", isCorrect: false}, {text:"contact you about a possible employment opportunity in the Information Technology department at your firm.", isCorrect: true, rationale: "This option uses formal and professional language appropriate for a business cover letter. The other options use informal slang ('check in', 'drop a line', 'shoot you a letter')."}, {text:"drop a line to you about a job in the Information Technology department of your company.", isCorrect: false}, {text:"shoot you a letter to pick your brain about working in your IT department.", isCorrect: false} ] },
+        { questionNumber:14, question: "Choose the correct pronoun agreement for the sentence: 'First, not everyone is at ___ best between 8 a.m. and 5 p.m.'", answerOptions: [ {text:"their", isCorrect: false}, {text:"his or her", isCorrect: true, rationale: "The indefinite pronoun 'everyone' is singular. Therefore, it requires a singular possessive pronoun. 'His or her' is the correct gender-neutral singular possessive. 'Their' is plural."}, {text:"one's", isCorrect: false}, {text:"his", isCorrect: false} ] },
+        { questionNumber:15, question: "Which option has the correct subject-verb agreement? \"Employees who can define their working hours ___ placed a higher degree of trust in them.\"", answerOptions: [ {text:"feel that their companies have", isCorrect: true, rationale: "The subject of the verb is the plural noun 'employees', which requires the plural verb 'feel'. The phrase 'who can define their working hours' is an interrupting phrase that doesn't change the subject."}, {text:"feels that their companies have", isCorrect: false}, {text:"feels that their companies has", isCorrect: false}, {text:"feel that their companies has", isCorrect: false} ] }
       ]
     },
     {
-      id: "rla_interpreting_graphics",
-      title: "Interpreting Graphics in Texts",
-      type: "reading",
-      article: {
-        title: "Trends in U.S. Labor Force Participation",
-        genre: "Informational Text with Graphic",
-        text: [
-          "The U.S. labor force has undergone significant transformations over the past several decades. One of the most important metrics for understanding these changes is the labor force participation rate, which represents the percentage of the civilian noninstitutional population aged 16 and older that is working or actively looking for work. This rate is influenced by a wide range of factors, including long-term demographic shifts, such as the aging of the population, and cyclical economic conditions, like recessions and expansions.",
-          "The accompanying chart displays the labor force participation rate for men and women in the United States from 1950 to 2020. Analyzing these trends reveals distinct and divergent paths for the two groups. Understanding these trends is crucial for policymakers and economists as they seek to address challenges related to economic growth, social security, and workforce development."
-        ]
-      },
-      imageUrl: "https://www.bls.gov/opub/ted/2017/images/women-and-men-in-the-labor-force-in-2016.png",
+      id: "rla_grammar_practice_1",
+      title: "GED Grammar Practice",
       questions: [
-        { questionNumber: 1, question: "What is the primary purpose of the line graph?", answerOptions: [{text:"To show the total number of people working in the U.S.", isCorrect: false}, {text:"To compare the labor force participation rates of men and women over time.", isCorrect: true}, {text:"To predict the future of the U.S. job market.", isCorrect: false}, {text:"To explain the causes of recessions.", isCorrect: false}]},
-        { questionNumber: 2, question: "According to the graph, which statement accurately describes the trend for the men's labor force participation rate between 1950 and 2020?", answerOptions: [{text:"It increased steadily.", isCorrect: false}, {text:"It remained constant.", isCorrect: false}, {text:"It showed a general decline.", isCorrect: true}, {text:"It fluctuated wildly with no clear trend.", isCorrect: false}]},
-        { questionNumber: 3, question: "Which statement best describes the trend for the women's labor force participation rate from 1950 to around 2000?", answerOptions: [{text:"It decreased significantly.", isCorrect: false}, {text:"It stayed relatively flat.", isCorrect: false}, {text:"It showed a significant and steady increase.", isCorrect: true}, {text:"It was always higher than the men's rate.", isCorrect: false}]},
-        { questionNumber: 4, question: "In approximately which year did the gap between the participation rates of men and women appear to be the smallest?", answerOptions: [{text:"1950", isCorrect: false}, {text:"1970", isCorrect: false}, {text:"1990", isCorrect: false}, {text:"2020", isCorrect: true}]},
-        { questionNumber: 5, question: "Based on the graph, the women's labor force participation rate peaked at approximately what percentage?", answerOptions: [{text:"40%", isCorrect: false}, {text:"50%", isCorrect: false}, {text:"60%", isCorrect: true}, {text:"80%", isCorrect: false}]},
-        { questionNumber: 6, question: "What happened to the women's participation rate after the year 2000?", answerOptions: [{text:"It continued to increase at a faster rate.", isCorrect: false}, {text:"It leveled off and then slightly declined.", isCorrect: true}, {text:"It dropped sharply back to 1950 levels.", isCorrect: false}, {text:"It surpassed the men's participation rate.", isCorrect: false}]},
-        { questionNumber: 7, question: "The text states that the labor force participation rate is affected by 'cyclical economic conditions.' Which feature on the graph might be an example of this?", answerOptions: [{text:"The overall downward trend in the men's rate.", isCorrect: false}, {text:"The overall upward trend in the women's rate.", isCorrect: false}, {text:"The small, sharp dips that correspond with shaded recession years.", isCorrect: true}, {text:"The point where the two lines are closest together.", isCorrect: false}]},
-        { questionNumber: 8, question: "In 1950, the men's participation rate was approximately 87%. The women's rate was approximately 34%. What was the approximate difference between the two rates?", answerOptions: [{text:"33 percentage points", isCorrect: false}, {text:"43 percentage points", isCorrect: false}, {text:"53 percentage points", isCorrect: true}, {text:"63 percentage points", isCorrect: false}]},
-        { questionNumber: 9, question: "The text mentions the 'aging of the population' as a factor influencing the participation rate. How would an aging population likely affect the overall rate?", answerOptions: [{text:"It would increase the rate, as older people are more likely to work.", isCorrect: false}, {text:"It would decrease the rate, as a larger portion of the population enters retirement age.", isCorrect: true}, {text:"It would have no effect on the participation rate.", isCorrect: false}, {text:"It would only affect the men's participation rate.", isCorrect: false}]},
-        { questionNumber: 10, question: "If the trend for men's participation rate continues, what would be a reasonable prediction for 2030?", answerOptions: [{text:"It would be above 90%.", isCorrect: false}, {text:"It would be around 80%.", isCorrect: false}, {text:"It would be slightly lower than its 2020 level.", isCorrect: true}, {text:"It would be the same as the women's rate.", isCorrect: false}]},
-        { questionNumber: 11, question: "What is the best definition of 'labor force participation rate' as provided in the passage?", answerOptions: [{text:"The percentage of the total population that has a job.", isCorrect: false}, {text:"The percentage of adults working or actively seeking work.", isCorrect: true}, {text:"The unemployment rate.", isCorrect: false}, {text:"The number of new jobs created each year.", isCorrect: false}]},
-        { questionNumber: 12, question: "The graph and text together suggest that...", answerOptions: [{text:"...men and women have had vastly different experiences in the U.S. labor market over the past 70 years.", isCorrect: true}, {text:"...the U.S. economy has been in a constant state of recession since 1950.", isCorrect: false}, {text:"...women will soon be the majority of the workforce.", isCorrect: false}, {text:"...the labor force participation rate is no longer a useful economic metric.", isCorrect: false}]},
-        { questionNumber: 13, question: "The shaded vertical bars on the graph most likely represent periods of...", answerOptions: [{text:"...economic expansion.", isCorrect: false}, {text:"...war.", isCorrect: false}, {text:"...recession.", isCorrect: true}, {text:"...high inflation.", isCorrect: false}]},
-        { questionNumber: 14, question: "In which decade did the women's labor force participation rate see its fastest growth?", answerOptions: [{text:"1950s", isCorrect: false}, {text:"1970s", isCorrect: true}, {text:"1990s", isCorrect: false}, {text:"2010s", isCorrect: false}]},
-        { questionNumber: 15, question: "What is the primary conclusion a viewer should draw from this graphic?", answerOptions: [{text:"The American workforce is shrinking rapidly.", isCorrect: false}, {text:"There has been a long-term convergence in the work patterns of men and women.", isCorrect: true}, {text:"Men consistently earn more than women.", isCorrect: false}, {text:"Economic recessions no longer affect employment.", isCorrect: false}]}
+        { questionNumber:1, question: "Choose the correctly punctuated sentence.", answerOptions: [{text:"She bought apples bananas, and oranges.", isCorrect: false}, {text:"She bought apples, bananas and oranges.", isCorrect: false}, {text:"She bought apples, bananas, and oranges.", isCorrect: true, rationale: "Use commas to separate three or more items in a list or series. Standard practice includes the final comma before 'and' (the Oxford comma)."}, {text:"She bought apples; bananas, and oranges.", isCorrect: false}] },
+        { questionNumber:2, question: "Which sentence has the correct subject-verb agreement?", answerOptions: [{text:"The team of players are ready to compete.", isCorrect: false}, {text:"The team of players were ready to compete.", isCorrect: false}, {text:"The team of players is ready to compete.", isCorrect: true, rationale: "The subject is 'team,' which is a singular noun, even though it contains plural members ('players'). Therefore, it requires the singular verb 'is'."}, {text:"The team of players being ready to compete.", isCorrect: false}] },
+        { questionNumber:3, question: "Choose the correctly capitalized sentence.", answerOptions: [{text:"I have a meeting with Doctor smith on Tuesday.", isCorrect: false}, {text:"I have a meeting with doctor Smith on tuesday.", isCorrect: false}, {text:"I have a meeting with Doctor Smith on Tuesday.", isCorrect: true, rationale: "Titles like 'Doctor' should be capitalized when used with a specific name. Days of the week, like 'Tuesday,' are proper nouns and must be capitalized."}, {text:"I have a meeting with doctor smith on Tuesday.", isCorrect: false}] },
+        { questionNumber:4, question: "Which sentence uses the apostrophe correctly?", answerOptions: [{text:"The dog wagged it's tail happily.", isCorrect: false}, {text:"The dog wagged its tail happily.", isCorrect: true, rationale: "'Its' is the possessive form of 'it'. 'It's' is a contraction for 'it is'. The tail belongs to the dog, so the possessive 'its' is correct."}, {text:"The dog wagged its' tail happy.", isCorrect: false}, {text:"The dog wagged it's tail happy.", isCorrect: false}] },
+        { questionNumber:5, question: "Which sentence uses a comma correctly?", answerOptions: [ {text:"Although she was tired she finished her homework.", isCorrect: false}, {text:"Although, she was tired, she finished her homework.", isCorrect: false}, {text:"Although she was tired, she finished her homework.", isCorrect: true, rationale: "A comma should be placed after an introductory dependent clause, such as 'Although she was tired'."}, {text:"Although she was tired she, finished her homework.", isCorrect: false} ] },
+        { questionNumber:6, question: "Choose the sentence with correct subject-verb agreement.", answerOptions: [ {text:"Each of the students have their own lockers.", isCorrect: false}, {text:"Each of the students has their own lockers.", isCorrect: true, rationale: "The word 'Each' is a singular indefinite pronoun, so it takes the singular verb 'has'."}, {text:"Each of the students are having their own lockers.", isCorrect: false}, {text:"Each of the students having their own lockers.", isCorrect: false} ] },
+        { questionNumber:7, question: "Which sentence uses the correct possessive form?", answerOptions: [ {text:"The childrens toys were scattered everywhere.", isCorrect: false}, {text:"The children's toys were scattered everywhere.", isCorrect: true, rationale: "'Children' is a plural noun that does not end in 's'. To make it possessive, add an apostrophe and an 's'."}, {text:"The childrens' toys were scattered everywhere.", isCorrect: false}, {text:"The childrens's toys were scattered everywhere.", isCorrect: false} ] },
+        { questionNumber:8, question: "Choose the correctly capitalized sentence for an office memo.", answerOptions: [ {text:"Contact ms. lopez in the Human Resources Department.", isCorrect: false}, {text:"Contact Ms. Lopez in the Human Resources Department.", isCorrect: true, rationale: "Proper nouns, including names (Ms. Lopez) and specific department titles (Human Resources Department), must be capitalized."}, {text:"Contact Ms. lopez in the human resources department.", isCorrect: false}, {text:"Contact ms. Lopez in the Human resources department.", isCorrect: false} ] },
+        { questionNumber:9, question: "Which option correctly joins the two ideas? \"She wanted to go to the park ___ it was raining.\"", answerOptions: [{text:"park but it was raining.", isCorrect: false}, {text:"park, but it was raining.", isCorrect: true, rationale: "To join two independent clauses, use a comma followed by a coordinating conjunction like 'but'."}, {text:"park; but it was raining.", isCorrect: false}, {text:"park but, it was raining.", isCorrect: false}] },
+        { questionNumber:10, question: "Which sentence has the correct subject-verb agreement?", answerOptions: [ {text:"The employees and he has built a strong working relationship.", isCorrect: false}, {text:"The employees and him have built a strong working relationship.", isCorrect: false}, {text:"The employees and he have built a strong working relationship.", isCorrect: true, rationale: "The compound subject 'The employees and he' is plural and requires the plural verb 'have'. 'He' is the correct subject pronoun."}, {text:"They have built a strong working relationship.", isCorrect: false} ] },
+        { questionNumber:11, question: "Which sentence uses apostrophes correctly?", answerOptions: [ {text:"It's raining outside, so lets stay indoors.", isCorrect: false}, {text:"Its raining outside, so let's stay indoors.", isCorrect: false}, {text:"It's raining outside, so let's stay indoors.", isCorrect: true, rationale: "'It's' is the contraction for 'it is'. 'Let's' is the contraction for 'let us'. Both are used correctly in this sentence."}, {text:"Its' raining outside, so let's stay indoors.", isCorrect: false} ] },
+        { questionNumber:12, question: "Which sentence is correctly capitalized?", answerOptions: [ {text:"My favorite season is Summer, so I am going to Paris in july.", isCorrect: false}, {text:"My favorite season is summer, so I am going to Paris in July.", isCorrect: true, rationale: "Seasons (summer) are not capitalized unless they are part of a proper name. Cities (Paris) and months (July) are proper nouns and must be capitalized."}, {text:"My favorite season is summer, so I am going to paris in July.", isCorrect: false}, {text:"My favorite season is Summer, so I am going to Paris in July.", isCorrect: false} ] },
+        { questionNumber:13, question: "Which sentence is correctly punctuated?", answerOptions: [ {text:"The teacher whom everyone likes, is retiring.", isCorrect: false}, {text:"The teacher who everyone likes is retiring.", isCorrect: false}, {text:"The teacher, whom everyone likes, is retiring.", isCorrect: true, rationale: "The clause 'whom everyone likes' is a nonessential clause because it adds extra information but isn't required to understand the main sentence. It should be set off by commas."}, {text:"The teacher whom, everyone likes, is retiring.", isCorrect: false} ] },
+        { questionNumber:14, question: "There ___ several good reasons to approve the budget.", answerOptions: [ {text:"is", isCorrect: false}, {text:"are", isCorrect: true, rationale: "In sentences beginning with 'There is' or 'There are', the subject follows the verb. The subject here is 'reasons' (plural), which requires the plural verb 'are'."}, {text:"was", isCorrect: false}, {text:"be", isCorrect: false} ] },
+        { questionNumber:15, question: "Which sentence is capitalized correctly?", answerOptions: [ {text:"He lives on the corner of Madison avenue and Longview street.", isCorrect: false}, {text:"He lives on the corner of Madison Avenue and Longview Street.", isCorrect: true, rationale: "The full names of streets are proper nouns and must be capitalized (e.g., Madison Avenue, Longview Street)."}, {text:"He lives on the corner of madison avenue and longview street.", isCorrect: false}, {text:"He lives on the corner of Madison Avenue and longview Street.", isCorrect: false} ] }
       ]
     },
     {
-      id: "rla_telltale_heart",
-      title: "Literary Analysis: 'The Tell-Tale Heart'",
-      type: "reading",
-      article: {
-        title: "The Tell-Tale Heart",
-        genre: "Literary Text (Short Story Excerpt) by Edgar Allan Poe",
-        text: [
-          "TRUE!—nervous—very, very dreadfully nervous I had been and am; but why will you say that I am mad? The disease had sharpened my senses—not destroyed—not dulled them. Above all was the sense of hearing acute. I heard all things in the heaven and in the earth. I heard many things in hell. How, then, am I mad? Hearken! and observe how healthily—how calmly I can tell you the whole story.",
-          "It is impossible to say how first the idea entered my brain; but once conceived, it haunted me day and night. Object there was none. Passion there was none. I loved the old man. He had never wronged me. He had never given me insult. For his gold I had no desire. I think it was his eye! yes, it was this! He had the eye of a vulture—a pale blue eye, with a film over it. Whenever it fell upon me, my blood ran cold; and so by degrees—very gradually—I made up my mind to take the life of the old man, and thus rid myself of the eye forever.",
-          "And this I did for seven long nights—every night just at midnight—but I found the eye always closed; and so it was impossible to do the work; for it was not the old man who vexed me, but his Evil Eye. And every morning, when it was day, I went boldly into the chamber, and spoke courageously to him, calling him by name in a hearty tone, and inquiring how he had passed the night. So you see he would have been a very profound old man, indeed, to suspect that every night, just at twelve, I looked in upon him while he slept.",
-          "Upon the eighth night I was more than usually cautious in opening the door. A watch's minute hand moves more quickly than did mine. Never before that night had I felt the extent of my own powers—of my sagacity. I could scarcely contain my feelings of triumph. To think that there I was, opening the door, little by little, and he not even to dream of my secret deeds or thoughts. I fairly chuckled at the idea; and perhaps he heard me; for he moved on the bed suddenly, as if startled. Now you may think that I drew back—but no. His room was as black as pitch with the thick darkness, and so I knew that he could not see the opening of the door, and I kept pushing it on steadily, steadily.",
-          "I had my head in, and was about to open the lantern, when my thumb slipped upon the tin fastening, and the old man sprang up in bed, crying out—'Who's there?' ... He was still sitting up in the bed listening;—just as I have done, night after night, hearkening to the death watches in the wall. Presently I heard a slight groan, and I knew it was the groan of mortal terror. It was not a groan of pain or of grief—oh, no!—it was the low stifled sound that arises from the bottom of the soul when overcharged with awe. I knew the sound well. Many a night, just at midnight, when all the world slept, it has welled up from my own bosom, deepening, with its dreadful echo, the terrors that distracted me. I say I knew it well. I knew what the old man felt, and pitied him, although I chuckled at heart."
+        id: "rla_reading_practice_1",
+        title: "Daily Reading Practice",
+        type: "reading",
+        article: {
+            title: "The Rise of Renewable Energy: Powering a Sustainable Future",
+            genre: "Informational Text (Expository Essay)",
+            text: [
+                "For over a century, human civilization has been powered predominantly by fossil fuels—coal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underway, shifting focus toward renewable sources. These sources, which include solar, wind, hydropower, and geothermal energy, are naturally replenished and produce minimal to no carbon emissions. This transition is not merely an environmental imperative but also a technological and economic evolution, promising a more sustainable and resilient energy future.",
+                "At the forefront of this revolution is solar power, which harnesses the immense energy of the sun. The most common method involves photovoltaic (PV) cells, which directly convert sunlight into electricity. Another approach, concentrated solar power (CSP), uses mirrors to focus sunlight to heat a fluid, which then creates steam to power a turbine. The primary advantages of solar energy are its abundance and its clean nature. However, its main drawback is intermittency—it only generates power when the sun is shining. This necessitates the development of large-scale energy storage solutions, such as advanced batteries, to provide reliable power around the clock. Furthermore, large solar farms require significant land area, which can raise concerns about land use and ecosystem impact.",
+                "Wind power offers another powerful alternative, a new feature of the site that will allow users to practice their writing skills.",
+                "Hydropower and geothermal energy provide more consistent, or baseload, power. Hydropower, generated by the force of flowing water turning turbines in dams, is one of the oldest and most established forms of renewable energy. It is highly reliable and can be dispatched on demand. The main limitation is its environmental impact; large dams can alter river ecosystems, disrupt fish migration, and displace communities. Geothermal energy taps into the Earth's internal heat, using steam from underground reservoirs to generate electricity. It is a highly reliable and clean source of energy with a small physical footprint. Its primary constraint is geographical, as it is only economically viable in regions with accessible geothermal activity, such as volcanic zones or areas with tectonic plate boundaries.",
+                "The complete transition to a renewable energy system presents formidable but surmountable challenges. Beyond the intermittency of solar and wind, modernizing the electrical grid to handle decentralized energy sources is a major hurdle. Smart grids, which use digital technology to manage electricity distribution more efficiently, are essential. Advances in battery technology are critical for storing excess energy for when the sun isn't shining or the wind isn't blowing. Furthermore, supportive government policies, such as carbon pricing and tax incentives for renewable installations, play a crucial role in accelerating this transition. While the path is complex, the collective push toward a renewable-powered world represents a fundamental rethinking of our relationship with energy, aiming for a future that is not only prosperous but also environmentally sustainable for generations to come."
+            ]
+        },
+        questions: [
+            { question: "Which of the following statements best expresses the main idea of the passage?", answerOptions: [{text:"Hydropower is the most reliable and established form of renewable energy available today.", isCorrect: false}, {text:"The global shift to renewable energy is a multifaceted response to the environmental impact of fossil fuels, driven by technology and policy.", isCorrect: true}, {text:"The primary challenge of renewable energy is overcoming the high cost of solar panels and wind turbines.", isCorrect: false}, {text:"Fossil fuels, despite their environmental drawbacks, remain the only viable option for large-scale energy production.", isCorrect: false}] },
+            { question: "In paragraphs 2 and 3, the word 'intermittency' is used to describe a key challenge for solar and wind power. This term most nearly means:", answerOptions: [{text:"The high cost of installation.", isCorrect: false}, {text:"The state of being inconsistent or not continuous.", isCorrect: true}, {text:"The potential harm to local wildlife.", isCorrect: false}, {text:"The requirement for large areas of land.", isCorrect: false}] },
+            { question: "According to the passage, what is the primary environmental motivation for transitioning to renewable energy?", answerOptions: [{text:"To reduce the visual impact of power plants on landscapes.", isCorrect: false}, {text:"To mitigate climate change caused by greenhouse gas emissions from fossil fuels.", isCorrect: true}, {text:"To prevent the disruption of fish migration caused by large dams.", isCorrect: false}, {text:"To decrease reliance on foreign energy sources.", isCorrect: false}] },
+            { question: "The passage suggests that a key difference between hydropower/geothermal energy and solar/wind energy is:", answerOptions: [{text:"their cost-effectiveness.", isCorrect: false}, {text:"their geographical limitations.", isCorrect: false}, {text:"their level of reliability and consistency.", isCorrect: true}, {text:"their impact on avian wildlife.", isCorrect: false}] },
+            { question: "According to paragraph 5, what is the primary purpose of developing smart grids?", answerOptions: [{text:"To lower the cost of electricity for consumers by reducing waste.", isCorrect: false}, {text:"To generate more power from existing solar and wind farms.", isCorrect: false}, {text:"To better manage electricity distribution from varied and decentralized sources.", isCorrect: true}, {text:"To provide tax incentives for homeowners to install their own solar panels.", isCorrect: false}] },
+            { question: "The passage mentions all of the following as challenges to the widespread adoption of renewable energy EXCEPT:", answerOptions: [{text:"the need for effective energy storage.", isCorrect: false}, {text:"the geographical limitations of certain sources.", isCorrect: false}, {text:"the lack of any viable renewable technology.", isCorrect: true}, {text:"the necessity of modernizing electrical grids.", isCorrect: false}] },
+            { question: "How does the author structure the main body of the text (paragraphs 2-4)?", answerOptions: [{text:"By chronologically detailing the invention of each renewable technology.", isCorrect: false}, {text:"By comparing and contrasting the economic cost of each energy source.", isCorrect: false}, {text:"By dedicating separate paragraphs to different types of renewable energy, outlining their pros and cons.", isCorrect: true}, {text:"By presenting a problem and then immediately offering a single, definitive solution.", isCorrect: false}] },
+            { question: "In paragraph 5, the word 'formidable' most nearly means:", answerOptions: [{text:"Simple and easy.", isCorrect: false}, {text:"Inspiring fear or respect through being impressively large or powerful.", isCorrect: true}, {text:"Unimportant and trivial.", isCorrect: false}, {text:"Related to government policy.", isCorrect: false}] },
+            { question: "Based on the passage, a government wishing to accelerate the transition to renewable energy would most likely:", answerOptions: [{text:"Increase subsidies for fossil fuel companies.", isCorrect: false}, {text:"Ban the construction of new dams for hydropower.", isCorrect: false}, {text:"Invest in battery technology and offer tax incentives for solar installations.", isCorrect: true}, {text:"Focus exclusively on geothermal energy regardless of geographic location.", isCorrect: false}] },
+            { question: "The text identifies photovoltaic cells as a technology used in:", answerOptions: [{text:"Wind power generation.", isCorrect: false}, {text:"Geothermal energy extraction.", isCorrect: false}, {text:"Hydropower dams.", isCorrect: false}, {text:"Solar power generation.", isCorrect: true}] },
+            { question: "What can be inferred about the economic aspect of the energy transition?", answerOptions: [{text:"The transition is primarily an economic burden with no financial benefits.", isCorrect: false}, {text:"Renewable energy sources have become increasingly cost-competitive with fossil fuels.", isCorrect: true}, {text:"All renewable technologies are still significantly more expensive than coal or natural gas.", isCorrect: false}, {text:"The only economic driver for renewables is government mandates.", isCorrect: false}] },
+            { question: "In paragraph 4, the term 'baseload' power implies that the energy source is:", answerOptions: [{text:"Available only during peak demand hours.", isCorrect: false}, {text:"The cheapest available option.", isCorrect: false}, {text:"Geographically restricted.", isCorrect: false}, {text:"Constantly and reliably available.", isCorrect: true}] },
+            { question: "The author presents the environmental impact of large hydropower dams as:", answerOptions: [{text:"a negligible issue that has been resolved by modern technology.", isCorrect: false}, {text:"a significant limitation that can alter ecosystems and displace people.", isCorrect: true}, {text:"a positive effect that creates new habitats for aquatic life.", isCorrect: false}, {text:"an unproven theory without sufficient evidence.", isCorrect: false}] },
+            { question: "What can be inferred from the passage about the future relationship between different renewable energy sources?", answerOptions: [{text:"One single source, like solar, will eventually replace all others.", isCorrect: false}, {text:"A diverse mix of sources will likely be needed to create a stable and resilient energy system.", isCorrect: true}, {text:"Fossil fuels will always be required to supplement the intermittency of renewables.", isCorrect: false}, {text:"International conflict will arise over access to the best locations for wind and solar farms.", isCorrect: false}] },
+            { question: "The overall tone of the passage can best be described as:", answerOptions: [{text:"Pessimistic and critical.", isCorrect: false}, {text:"Overly simplistic and biased.", isCorrect: false}, {text:"Informative and cautiously optimistic.", isCorrect: true}, {text:"Sarcastic and dismissive.", isCorrect: false}] }
         ]
-      },
-      questions: [
-        { questionNumber: 1, question: "The narrator's primary motivation for his crime is his obsession with what?", answerOptions: [{text:"The old man's gold.", isCorrect: false}, {text:"A past insult from the old man.", isCorrect: false}, {text:"The old man's pale blue eye.", isCorrect: true}, {text:"His own madness.", isCorrect: false}]},
-        { questionNumber: 2, question: "From the first paragraph, how does the narrator perceive his own mental state?", answerOptions: [{text:"He admits he is completely insane.", isCorrect: false}, {text:"He believes his 'disease' has actually sharpened his senses and made him more clever.", isCorrect: true}, {text:"He is confused and does not know if he is mad.", isCorrect: false}, {text:"He blames the old man for his condition.", isCorrect: false}]},
-        { questionNumber: 3, question: "The narrator's tone in the opening paragraph can best be described as...", answerOptions: [{text:"...calm and remorseful.", isCorrect: false}, {text:"...sad and defeated.", isCorrect: false}, {text:"...defensive and agitated.", isCorrect: true}, {text:"...joyful and triumphant.", isCorrect: false}]},
-        { questionNumber: 4, question: "What is the main source of irony in the third paragraph?", answerOptions: [{text:"The narrator's fear of the dark.", isCorrect: false}, {text:"The old man's kindness to the narrator.", isCorrect: false}, {text:"The narrator's cheerful morning greetings to the man he plots to murder at night.", isCorrect: true}, {text:"The fact that the narrator's lantern is made of tin.", isCorrect: false}]},
-        { questionNumber: 5, question: "The narrator compares his own movement to 'A watch's minute hand.' What does this simile emphasize?", answerOptions: [{text:"His speed and efficiency.", isCorrect: false}, {text:"His clumsiness and noise.", isCorrect: false}, {text:"His extreme slowness and caution.", isCorrect: true}, {text:"His fear of being caught.", isCorrect: false}]},
-        { questionNumber: 6, question: "In the last paragraph, the narrator says he 'knew what the old man felt, and pitied him, although I chuckled at heart.' What does this reveal about the narrator?", answerOptions: [{text:"He is capable of empathy but his cruelty overpowers it.", isCorrect: true}, {text:"He is secretly afraid of the old man.", isCorrect: false}, {text:"He is beginning to regret his plan.", isCorrect: false}, {text:"He is trying to trick the old man into a false sense of security.", isCorrect: false}]},
-        { questionNumber: 7, question: "The story's setting, primarily a dark, closed room at midnight, contributes to an overall mood of...?", answerOptions: [{text:"...romance and nostalgia.", isCorrect: false}, {text:"...suspense and claustrophobia.", isCorrect: true}, {text:"...adventure and excitement.", isCorrect: false}, {text:"...peace and tranquility.", isCorrect: false}]},
-        { questionNumber: 8, question: "The term 'Evil Eye' is an example of what literary device?", answerOptions: [{text:"Metaphor, comparing the eye to pure evil.", isCorrect: true}, {text:"Simile, using 'like' or 'as' to describe the eye.", isCorrect: false}, {text:"Personification, giving the eye human qualities.", isCorrect: false}, {text:"Hyperbole, an extreme exaggeration.", isCorrect: false}]},
-        { questionNumber: 9, question: "What does the narrator's claim that he can hear 'all things in the heaven and in the earth' and 'many things in hell' suggest to the reader?", answerOptions: [{text:"He has supernatural abilities.", isCorrect: false}, {text:"He is deeply religious.", isCorrect: false}, {text:"He is an unreliable and potentially delusional narrator.", isCorrect: true}, {text:"He is a poet.", isCorrect: false}]},
-        { questionNumber: 10, question: "The narrator's obsession with the eye, rather than the old man himself, is a hallmark of what kind of psychological state?", answerOptions: [{text:"Rational thought.", isCorrect: false}, {text:"Monomania, an obsessive fixation on a single thing.", isCorrect: true}, {text:"Amnesia, or memory loss.", isCorrect: false}, {text:"Depression.", isCorrect: false}]},
-        { questionNumber: 11, question: "The phrase 'groan of mortal terror' uses which literary device to create its effect?", answerOptions: [{text:"Understatement, downplaying the fear.", isCorrect: false}, {text:"Sensory detail (sound) to evoke a feeling of fear.", isCorrect: true}, {text:"Flashback, returning to an earlier event.", isCorrect: false}, {text:"Foreshadowing, hinting at future events.", isCorrect: false}]},
-        { questionNumber: 12, question: "Why does the narrator fail to commit the act for the first seven nights?", answerOptions: [{text:"He feels too much pity for the old man.", isCorrect: false}, {text:"He is afraid of being caught.", isCorrect: false}, {text:"The old man's eye is always closed.", isCorrect: true}, {text:"He loses his nerve each time.", isCorrect: false}]},
-        { questionNumber: 13, question: "The narrator's repeated insistence that he is sane serves to...", answerOptions: [{text:"...convince the reader of his stability.", isCorrect: false}, {text:"...make the reader question his sanity even more.", isCorrect: true}, {text:"...explain his motivations clearly.", isCorrect: false}, {text:"...create sympathy for his condition.", isCorrect: false}]},
-        { questionNumber: 14, question: "The story is told from which point of view?", answerOptions: [{text:"Third-person omniscient.", isCorrect: false}, {text:"Second-person.", isCorrect: false}, {text:"First-person.", isCorrect: true}, {text:"Third-person limited.", isCorrect: false}]},
-        { questionNumber: 15, question: "What is the central conflict of this excerpt?", answerOptions: [{text:"The narrator vs. the old man.", isCorrect: false}, {text:"The narrator vs. his own sanity.", isCorrect: true}, {text:"The narrator vs. the police.", isCorrect: false}, {text:"The old man vs. his fear.", isCorrect: false}]}
-      ]
     },
     {
-      id: "rla_advanced_grammar",
-      title: "Advanced Grammar & Punctuation",
-      questions: [
-        { questionNumber: 1, question: "Which sentence uses the semicolon correctly?", answerOptions: [{text:"The meeting was scheduled for Monday; but it was postponed.", isCorrect: false}, {text:"I have a big presentation tomorrow; I can't go out tonight.", isCorrect: true, rationale: "A semicolon can join two closely related independent clauses. 'I have a big presentation tomorrow' and 'I can't go out tonight' are related independent clauses."}, {text:"The ingredients are; flour, sugar, and eggs.", isCorrect: false}, {text:"She wanted to leave; however, the correct punctuation would be a semicolon before 'however' and a comma after it, but the best use is between two independent clauses without a conjunction."}] },
-        { questionNumber: 2, question: "Choose the sentence with the correct parallel structure.", answerOptions: [{text:"The manager is responsible for hiring, training, and to fire employees.", isCorrect: false}, {text:"The new policy is not only unfair but also it is ineffective.", isCorrect: false}, {text:"He was asked to write his report quickly, accurately, and thoroughly.", isCorrect: true, rationale: "All items in the series are adverbs (quickly, accurately, thoroughly), maintaining parallel structure."}, {text:"She enjoys hiking, to swim, and riding her bike.", isCorrect: false}]},
-        { questionNumber: 3, question: "Which of the following is a sentence fragment?", answerOptions: [{text:"Although the company has been struggling in recent months.", isCorrect: true, rationale: "This is a dependent clause and cannot stand on its own as a complete sentence."}, {text:"The company has been struggling.", isCorrect: false}, {text:"The company is struggling, but it will recover.", isCorrect: false}, {text:"Struggling, the company laid off workers.", isCorrect: false}]},
-        { questionNumber: 4, question: "Which sentence correctly uses a non-essential clause?", answerOptions: [{text:"The car that is parked on the corner is mine.", isCorrect: false}, {text:"My brother, who is a doctor, lives in Chicago.", isCorrect: true, rationale: "The clause 'who is a doctor' adds extra information about the brother but isn't necessary to identify him. It is correctly set off by commas."}, {text:"Students who study regularly tend to get better grades.", isCorrect: false}, {text:"The book that I am reading is very interesting.", isCorrect: false}]},
-        { questionNumber: 5, question: "Which sentence avoids a dangling modifier?", answerOptions: [{text:"After reading the original study, the article remains unconvincing.", isCorrect: false}, {text:"While walking across the street, the bus hit my friend.", isCorrect: false}, {text:"Having finished the assignment, Jill turned on the TV.", isCorrect: true, rationale: "The subject of the main clause, 'Jill', is the one who performed the action in the introductory phrase ('Having finished the assignment')."}, {text:"Without knowing his name, it was difficult to introduce him.", isCorrect: false}]},
-        { questionNumber: 6, question: "Choose the sentence with the correct pronoun case.", answerOptions: [{text:"The award was given to my colleague and I.", isCorrect: false}, {text:"Her and her friends went to the movies.", isCorrect: false}, {text:"Just between you and me, I think the plan will fail.", isCorrect: true, rationale: "'me' is the correct objective pronoun to use as the object of the preposition 'between'."}, {text:"The person who they chose was me.", isCorrect: false}]},
-        { questionNumber: 7, question: "Which sentence correctly uses a colon?", answerOptions: [{text:"The recipe requires: flour, sugar, eggs, and butter.", isCorrect: false}, {text:"He had one goal in life: to become a great writer.", isCorrect: true, rationale: "A colon is used correctly here to introduce an explanation or elaboration of the preceding independent clause."}, {text:"I need to go to the store: and buy some milk.", isCorrect: false}, {text:"She visited: Paris, Rome, and London.", isCorrect: false}]},
-        { questionNumber: 8, question: "Which sentence correctly uses the subjunctive mood?", answerOptions: [{text:"If I was you, I would take the job.", isCorrect: false}, {text:"The requirement is that every employee attends the training.", isCorrect: false}, {text:"I wish I was on vacation right now.", isCorrect: false}, {text:"If I were the manager, I would change the policy.", isCorrect: true, rationale: "The subjunctive 'were' is used for hypothetical, contrary-to-fact situations."}]},
-        { questionNumber: 9, question: "Which of these sentences contains a comma splice?", answerOptions: [{text:"The sun is shining, it is a beautiful day.", isCorrect: true, rationale: "This sentence incorrectly joins two independent clauses with only a comma. It needs a conjunction (like 'and'), a semicolon, or to be split into two sentences."}, {text:"The sun is shining, and it is a beautiful day.", isCorrect: false}, {text:"The sun is shining; it is a beautiful day.", isCorrect: false}, {text:"Because the sun is shining, it is a beautiful day.", isCorrect: false}]},
-        { questionNumber: 10, question: "Choose the sentence with the correct use of 'who' and 'whom'.", answerOptions: [{text:"Whom do you think will win the election?", isCorrect: false}, {text:"The person whom is in charge is not available.", isCorrect: false}, {text:"The artist whom I admire most is Frida Kahlo.", isCorrect: true, rationale: "'whom' is correctly used as the object of the verb 'admire' (I admire whom)."}, {text:"Who did you give the package to?", isCorrect: false}]},
-        { questionNumber: 11, question: "Which sentence correctly places the adverb 'only'?", answerOptions: [{text:"She almost failed every class she took.", isCorrect: false}, {text:"He promised to quickly finish the project.", isCorrect: false}, {text:"I need only five dollars for the ticket.", isCorrect: true, rationale: "The adverb 'only' should be placed directly before the word it modifies ('five dollars'). Placing it elsewhere can change the meaning of the sentence."}, {text:"They want to really understand the issue.", isCorrect: false}]},
-        { questionNumber: 12, question: "Which sentence is grammatically correct regarding subject-verb agreement with collective nouns?", answerOptions: [{text:"The data suggest that our strategy is working.", isCorrect: true, rationale: "'Data' is the plural of 'datum' and traditionally takes a plural verb in formal writing."}, {text:"The media is often biased in its reporting.", isCorrect: false, rationale: "'Media' is the plural of 'medium' and should take a plural verb ('are')."}, {text:"The criteria for selection is very strict.", isCorrect: false, rationale: "'Criteria' is the plural of 'criterion' and requires a plural verb ('are')."}, {text:"Each of the candidates has unique strengths.", isCorrect: false, rationale: This sentence is correct, but the question asks about collective nouns like data/media/criteria."}] },
-        { questionNumber: 13, question: "Which sentence uses an ellipsis correctly to indicate an omission from a quote?", answerOptions: [{text:"He said, 'The journey of a thousand miles... begins with a single step.'", isCorrect: false}, {text:"Original: 'The quick, brown, lazy fox jumps.' Omission: 'The quick ... fox jumps.'", isCorrect: true, rationale: "The ellipsis with spaces (...) correctly indicates that the words 'brown, lazy' have been omitted from the original quotation."}, {text:"I don't know... what to do.", isCorrect: false}, {text:"She thought about it for a long time and then... said yes.", isCorrect: false}]},
-        { questionNumber: 14, question: "Which sentence correctly uses a hyphen to create a compound adjective?", answerOptions: [{text:"This is a once-in-a-lifetime opportunity.", isCorrect: true, rationale: "When a multi-word phrase modifies a noun that follows it, the words in the phrase are often hyphenated to show they function as a single unit."}, {text:"She is a well known actress.", isCorrect: false, rationale: "This should be 'well-known' as it modifies 'actress'."}, {text:"Please re-submit your application.", isCorrect: false, rationale: "While 'resubmit' is correct, the question asks about compound adjectives."}, {text:"The decision was made on the spur of the moment.", isCorrect: false}]},
-        { questionNumber: 15, question: "Which sentence demonstrates the correct use of apostrophes for plural possessives?", answerOptions: [{text:"All of the student's scores were high.", isCorrect: false, rationale: "This should be 'students'' as it refers to multiple students."}, {text:"The two companies's headquarters are in the same city.", isCorrect: false, rationale: "This should be 'companies''."}, {text:"The scissors' blades are dull.", isCorrect: true, rationale: "'Scissors' is a plural noun. To make it possessive, an apostrophe is added after the 's'."}, {text:"My mother-in-law's car is new.", isCorrect: false, rationale: "This is a singular possessive, not plural."}]}
-      ]
+        id: "rla_adjective_clauses",
+        title: "Adjective Clause Quiz",
+        questions: [
+            { question: "Choose the correct relative pronoun to complete the sentence: 'The manager, ___ I met this morning, was very helpful.'", answerOptions: [{text:"who", isCorrect: false}, {text:"whom", isCorrect: true, rationale: "'Whom' is the correct choice because it is the object of the verb 'met' (I met whom). 'Who' is used for subjects."}, {text:"which", isCorrect: false}, {text:"that", isCorrect: false}] },
+            { question: "Which sentence is correctly punctuated?", answerOptions: [{text:"My car which is ten years old, still runs perfectly.", isCorrect: false}, {text:"My car, which is ten years old, still runs perfectly.", isCorrect: true, rationale: "The clause 'which is ten years old' is non-essential (it adds extra information). Non-essential clauses must be set off by commas and should use 'which', not 'that'."}, {text:"My car that is ten years old still runs perfectly.", isCorrect: false}, {text:"My car, that is ten years old, still runs perfectly.", isCorrect: false}] },
+            { question: "Choose the correct relative pronoun: 'She is the artist ___ paintings are displayed in the gallery.'", answerOptions: [{text:"who", isCorrect: false}, {text:"whose", isCorrect: true, rationale: "'Whose' is a possessive pronoun used to show that the paintings belong to the artist."}, {text:"whom", isCorrect: false}, {text:"which", isCorrect: false}] },
+            { question: "Which sentence implies that ONLY SOME of the computers are faster?", answerOptions: [{text:"The computers, which have the new software, are faster.", isCorrect: false}, {text:"The computers that have the new software are faster.", isCorrect: true, rationale: "Using 'that' without commas creates an essential clause. This specifies that *only the group of computers with the new software* is faster, not all of them."}, {text:"The computers are faster, which have the new software.", isCorrect: false}, {text:"The faster computers have the new software.", isCorrect: false}] },
+            { question: "Identify the adjective clause in the following sentence: 'The woman who is speaking now is our new CEO.'", answerOptions: [{text:"The woman", isCorrect: false}, {text:"who is speaking now", isCorrect: true, rationale: "An adjective clause typically starts with a relative pronoun (who, which, that) and modifies a noun. Here, 'who is speaking now' describes 'The woman'."}, {text:"is our new CEO", isCorrect: false}, {text:"speaking now is our", isCorrect: false}] },
+            { question: "Which sentence is grammatically correct?", answerOptions: [ {text:"My brother, that is a pilot, flies international routes.", isCorrect: false}, {text:"My brother who is a pilot, flies international routes.", isCorrect: false}, {text:"My brother, who is a pilot, flies international routes.", isCorrect: true, rationale: "The clause 'who is a pilot' is non-essential because the noun 'brother' is already specific. Non-essential clauses use 'who' (for people) and are set off by commas."}, {text:"My brother that is a pilot flies international routes.", isCorrect: false} ] },
+            { question: "Which sentence contains a 'reduced' adjective clause?", answerOptions: [ {text:"The book that is on the table is mine.", isCorrect: false}, {text:"The book on the table is mine.", isCorrect: true, rationale: "This is a reduced form of 'The book *that is* on the table is mine.' The relative pronoun 'that' and the verb 'is' have been omitted for conciseness, which is grammatically correct."}, {text:"The book, which is on the table, is mine.", isCorrect: false}, {text:"The book, it is on the table, is mine.", isCorrect: false} ] },
+            { question: "What is the best way to combine these sentences? 'Dr. Ellis is a respected scientist. Her research is focused on climate change.'", answerOptions: [ {text:"Dr. Ellis, whose research is focused on climate change, is a respected scientist.", isCorrect: true, rationale: "The possessive pronoun 'whose' correctly links 'Dr. Ellis' to 'her research'. The clause is non-essential and should be set off by commas."}, {text:"Dr. Ellis is a respected scientist, her research is focused on climate change.", isCorrect: false}, {text:"Dr. Ellis who's research is focused on climate change is a respected scientist.", isCorrect: false}, {text:"Dr. Ellis, which research is focused on climate change, is a respected scientist.", isCorrect: false} ] },
+            { question: "In which sentence is the adjective clause used correctly?", answerOptions: [ {text:"The car, that is parked illegally, will be towed.", isCorrect: false}, {text:"The reason, why he was late, is not clear.", isCorrect: false}, {text:"I visited the town where my parents grew up.", isCorrect: true, rationale: "The clause 'where my parents grew up' is essential to identifying the town and is correctly used without commas."}, {text:"He is the one, who I admire most.", isCorrect: false} ] },
+            { question: "Choose the correct relative pronoun: 'The person to ___ the letter was addressed no longer lives here.'", answerOptions: [{text:"who", isCorrect: false}, {text:"that", isCorrect: false}, {text:"whose", isCorrect: false}, {text:"whom", isCorrect: true, rationale: "'Whom' is the object of the preposition 'to' (to whom was the letter addressed?)."}] },
+            { question: "Which sentence needs commas to set off its adjective clause?", answerOptions: [ {text:"The movie that I saw last night was fantastic.", isCorrect: false}, {text:"The Eiffel Tower which is in Paris is a famous landmark.", isCorrect: true, rationale: "'The Eiffel Tower' is a specific, unique landmark, so the clause 'which is in Paris' provides non-essential information and should be set off by commas."}, {text:"Any student who cheats will be disciplined.", isCorrect: false}, {text:"This is the path that leads to the lake.", isCorrect: false} ] },
+            { question: "Which of the following sentences contains a punctuation error?", answerOptions: [ {text:"The report that he submitted was incomplete.", isCorrect: false}, {text:"My uncle, who lives in Alaska, is a fisherman.", isCorrect: false}, {text:"This is the park where we had the picnic.", isCorrect: false}, {text:"I finally bought the phone, that I wanted.", isCorrect: true, rationale: "The clause 'that I wanted' is essential to identify which phone was bought. Essential clauses beginning with 'that' should not be preceded by a comma."} ] },
+            { question: "What is the best way to combine these sentences? 'The girl won the race. She trained every day.'", answerOptions: [ {text:"The girl, who trained every day, won the race.", isCorrect: false}, {text:"The girl that trained every day won the race.", isCorrect: false}, {text:"The girl, that trained every day, won the race.", isCorrect: false}, {text:"The girl who trained every day won the race.", isCorrect: true, rationale: "The clause 'who trained every day' is essential to identify which girl won. Essential clauses modifying people use 'who' and do not have commas."} ] },
+            { question: "Choose the correct pronoun: 'The company for ___ she works is based in London.'", answerOptions: [{text:"who", isCorrect: false}, {text:"whom", isCorrect: false}, {text:"that", isCorrect: false}, {text:"which", isCorrect: true, rationale: "'Which' is the correct pronoun to use as the object of a preposition ('for') when referring to a thing (the company)."}] },
+            { question: "Which sentence is grammatically correct and most clearly written?", answerOptions: [ {text:"The report, that was long and complicated, confused the board members.", isCorrect: false}, {text:"The report which was long and complicated confused the board members.", isCorrect: false}, {text:"The report, which was long and complicated, confused the board members.", isCorrect: true, rationale: "The clause 'which was long and complicated' is non-essential, adding extra information about the report. Non-essential clauses use 'which' and must be set off by commas."}, {text:"The report that was long and complicated confused the board members.", isCorrect: false} ] }
+        ]
     },
     {
         id: "rla_essay_guide",
@@ -287,75 +268,89 @@ const shuffleArray = (array) => {
     return newArray;
 };
 
+// --- App Structure Components ---
+function AppHeader({ currentUser, onLogout }) {
+    return (
+        <header className="bg-white shadow-sm sticky top-0 z-50">
+            <div className="w-full max-w-4xl mx-auto p-4 flex justify-between items-center">
+                <h1 className="text-xl font-bold text-sky-700">Mr. Smith's Learning Canvas</h1>
+                {currentUser && (
+                    <div className="flex items-center gap-4">
+                        <span className="font-semibold text-slate-600">Welcome, {currentUser}!</span>
+                        <button
+                            onClick={onLogout}
+                            className="text-sm font-semibold text-sky-600 hover:text-sky-800"
+                        >
+                            Log Out
+                        </button>
+                    </div>
+                )}
+            </div>
+        </header>
+    );
+}
+
 // --- Main App Component ---
 function App() {
     const [view, setView] = useState('start');
     const [activeQuiz, setActiveQuiz] = useState(null);
     const [quizResults, setQuizResults] = useState(null);
     const [activeGenerator, setActiveGenerator] = useState(null);
-    const [definition, setDefinition] = useState(null);
-    const [definitionLoading, setDefinitionLoading] = useState(false);
-    const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-    const [progress, setProgress] = useState({
-        "Social Studies": { scores: [], total: 0 },
-        "RLA": { scores: [], total: 0 }
-    });
+    const [users, setUsers] = useState([]);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [progress, setProgress] = useState({});
 
     useEffect(() => {
-        const savedProgress = localStorage.getItem('gedProgress');
-        if (savedProgress) {
-            try {
-                const parsedProgress = JSON.parse(savedProgress);
-                if (parsedProgress["Social Studies"] && parsedProgress["RLA"]) {
-                    setProgress(parsedProgress);
-                }
-            } catch (e) {
-                console.error("Failed to parse progress from localStorage", e);
-            }
+        const savedUsers = localStorage.getItem('gedUsers');
+        if (savedUsers) {
+            setUsers(JSON.parse(savedUsers));
+        }
+        const savedCurrentUser = localStorage.getItem('gedCurrentUser');
+        if (savedCurrentUser) {
+            setCurrentUser(savedCurrentUser);
         }
     }, []);
 
     useEffect(() => {
-        localStorage.setItem('gedProgress', JSON.stringify(progress));
-    }, [progress]);
-
-    const handleTextSelection = async () => {
-        const selection = window.getSelection();
-        const selectedText = selection.toString().trim();
-
-        if (selectedText.length > 2 && selectedText.length < 50 && !/\s/.test(selectedText)) {
-            const range = selection.getRangeAt(0);
-            const rect = range.getBoundingClientRect();
-            setPopupPosition({ x: rect.left + window.scrollX, y: rect.bottom + window.scrollY });
-            setDefinitionLoading(true);
-            setDefinition(null);
-
-            try {
-                const response = await fetch('https://ged-website.onrender.com/define-word', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ word: selectedText })
-                });
-                if (!response.ok) throw new Error('Failed to fetch definition');
-                const data = await response.json();
-                setDefinition(data.definition);
-            } catch (error) {
-                console.error("Definition fetch error:", error);
-                setDefinition("Sorry, could not fetch the definition.");
-            } finally {
-                setDefinitionLoading(false);
+        if (currentUser) {
+            const savedProgress = localStorage.getItem(`gedProgress_${currentUser}`);
+            if (savedProgress) {
+                try {
+                    const parsed = JSON.parse(savedProgress);
+                    if (parsed["Social Studies"] && parsed["RLA"]) {
+                       setProgress(parsed);
+                    } else {
+                       setProgress({ "Social Studies": { scores: [], total: 0 }, "RLA": { scores: [], total: 0 } });
+                    }
+                } catch(e) {
+                    setProgress({ "Social Studies": { scores: [], total: 0 }, "RLA": { scores: [], total: 0 } });
+                }
+            } else {
+                setProgress({ "Social Studies": { scores: [], total: 0 }, "RLA": { scores: [], total: 0 } });
             }
-        } else {
-            setDefinition(null);
         }
+    }, [currentUser]);
+
+    useEffect(() => {
+        if (currentUser) {
+            localStorage.setItem(`gedProgress_${currentUser}`, JSON.stringify(progress));
+        }
+    }, [progress, currentUser]);
+
+    const handleLogin = (username) => {
+        if (!users.includes(username)) {
+            const newUsers = [...users, username];
+            setUsers(newUsers);
+            localStorage.setItem('gedUsers', JSON.stringify(newUsers));
+        }
+        setCurrentUser(username);
+        localStorage.setItem('gedCurrentUser', username);
     };
 
-    useEffect(() => {
-        document.addEventListener('mouseup', handleTextSelection);
-        return () => {
-            document.removeEventListener('mouseup', handleTextSelection);
-        };
-    }, []);
+    const handleLogout = () => {
+        setCurrentUser(null);
+        localStorage.removeItem('gedCurrentUser');
+    };
 
     const startQuiz = (quiz, subject) => {
         const shuffledQuiz = {
@@ -378,7 +373,7 @@ function App() {
         if (subject && progress[subject]) {
             setProgress(prevProgress => {
                 const newSubjectProgress = {
-                    scores: [...prevProgress[subject].scores, results.scaledScore],
+                    scores: [...(prevProgress[subject].scores || []), results.scaledScore],
                     total: (prevProgress[subject].total || 0) + 1
                 };
                 return { ...prevProgress, [subject]: newSubjectProgress };
@@ -394,6 +389,9 @@ function App() {
     };
 
     const renderView = () => {
+        if (!currentUser) {
+            return <LoginScreen users={users} onLogin={handleLogin} />;
+        }
         switch (view) {
             case 'quiz':
                 return <QuizRunner quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />;
@@ -404,7 +402,7 @@ function App() {
             case 'simulation':
                 return <div className="text-center p-8"><h1 className="text-2xl font-bold">The Game of Life Simulation</h1><p className="my-4">This feature is coming soon!</p><button onClick={navigateHome} className="mt-4 px-4 py-2 bg-sky-500 text-white rounded">Go Back</button></div>;
             case 'results':
-                return <ResultsScreen results={quizResults} quizTitle={activeQuiz.title} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} />;
+                return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} />;
             case 'generator':
                 return <AIQuizGenerator subject={activeGenerator} onQuizGenerated={(quiz) => startQuiz(quiz, activeGenerator)} onExit={navigateHome} />;
             case 'start':
@@ -420,22 +418,70 @@ function App() {
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
-            {(definition || definitionLoading) && (
-                <div
-                    className="absolute z-10 w-64 p-3 bg-slate-800 text-white rounded-lg shadow-lg text-sm"
-                    style={{ left: popupPosition.x, top: popupPosition.y + 10 }}
-                    onClick={() => setDefinition(null)}
-                >
-                    {definitionLoading ? "Loading..." : definition}
+        <>
+            <AppHeader currentUser={currentUser} onLogout={handleLogout} />
+            <main className="w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+                <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
+                    {renderView()}
                 </div>
-            )}
-            {renderView()}
-        </div>
+            </main>
+        </>
     );
 }
 
 // --- VIEWS & COMPONENTS ---
+
+function LoginScreen({ users, onLogin }) {
+    const [newUsername, setNewUsername] = useState('');
+
+    const handleCreateUser = () => {
+        if (newUsername.trim()) {
+            onLogin(newUsername.trim());
+        }
+    };
+
+    return (
+        <div className="text-center max-w-md mx-auto">
+            <h2 className="text-3xl font-extrabold text-slate-800 mb-2">Welcome!</h2>
+            <p className="text-slate-500 mb-6">Please select your profile or create a new one.</p>
+
+            <div className="mb-6">
+                <h3 className="text-xl font-bold text-slate-700 mb-3">Existing Users</h3>
+                <div className="flex flex-wrap justify-center gap-3">
+                    {users.length > 0 ? users.map(user => (
+                        <button
+                            key={user}
+                            onClick={() => onLogin(user)}
+                            className="px-4 py-2 bg-sky-100 text-sky-800 font-semibold rounded-lg hover:bg-sky-200 transition"
+                        >
+                            {user}
+                        </button>
+                    )) : <p className="text-slate-400">No users found. Create a new one below.</p>}
+                </div>
+            </div>
+
+            <div>
+                <h3 className="text-xl font-bold text-slate-700 mb-3">Create New User</h3>
+                <div className="flex gap-2">
+                    <input
+                        type="text"
+                        value={newUsername}
+                        onChange={(e) => setNewUsername(e.target.value)}
+                        placeholder="Enter your name"
+                        className="flex-grow p-2 border border-slate-300 rounded-md"
+                    />
+                    <button
+                        onClick={handleCreateUser}
+                        className="px-4 py-2 bg-sky-600 text-white font-semibold rounded-md hover:bg-sky-700"
+                    >
+                        Create & Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function ProgressDashboard({ progress }) {
     const calculateAverage = (scores) => {
         if (!scores || scores.length === 0) return "N/A";
@@ -479,7 +525,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator }) {
     return (
         <div className="fade-in">
             <header className="text-center pb-4 mb-4">
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
+                <h1 className="text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
                 <p className="text-slate-500 mt-2">Welcome back! Here's your progress.</p>
             </header>
 
@@ -515,7 +561,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator }) {
                     </div>
                 )}
                 {ALL_QUIZZES[activeTab].map(quiz => (
-                    <div key={quiz.id} className="border border-slate-200 rounded-lg p-4 flex flex-col justify-between hover:shadow-md hover:border-sky-300 transition-all bg-white">
+                    <div key={quiz.id} className="border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1">
                         <h3 className="text-xl font-bold text-slate-800">{quiz.title}</h3>
                         <p className="text-slate-500 text-sm my-2">{quiz.questions && quiz.questions.length > 0 ? `${quiz.questions.length} questions` : "Interactive Practice"}</p>
                         <button
@@ -537,6 +583,8 @@ function QuizRunner({ quiz, onComplete, onExit }) {
     const [marked, setMarked] = useState(Array(quiz.questions.length).fill(false));
     const [timeLeft, setTimeLeft] = useState(quiz.questions.length * 90);
     
+    const handleSubmitRef = useRef();
+
     useEffect(() => {
         const timer = setInterval(() => {
             setTimeLeft(prev => {
@@ -569,10 +617,9 @@ function QuizRunner({ quiz, onComplete, onExit }) {
         const percentage = (score / quiz.questions.length) * 100;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
         
-        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers });
+        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers, subject: quiz.subject });
     }, [answers, quiz, onComplete]);
 
-    const handleSubmitRef = useRef(handleSubmit);
     useEffect(() => {
         handleSubmitRef.current = handleSubmit;
     }, [handleSubmit]);
@@ -625,7 +672,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
     );
 }
 
-function ResultsScreen({ results, quizTitle, onRestart, onHome }) {
+function ResultsScreen({ results, quiz, onRestart, onHome }) {
     const getPerf = (score) => {
         if (score >= 175) return { level: "GED® College Ready + Credit", color: "text-purple-600" };
         if (score >= 165) return { level: "GED® College Ready", color: "text-blue-600" };
@@ -635,15 +682,57 @@ function ResultsScreen({ results, quizTitle, onRestart, onHome }) {
 
     const performance = getPerf(results.scaledScore);
 
+    const performanceByCategory = quiz.questions.reduce((acc, question, index) => {
+        const type = question.type || 'knowledge'; // Default type if not specified
+        if (!acc[type]) {
+            acc[type] = { correct: 0, total: 0 };
+        }
+        acc[type].total++;
+        const correctAnswer = question.answerOptions.find(opt => opt.isCorrect)?.text;
+        if (results.answers[index] === correctAnswer) {
+            acc[type].correct++;
+        }
+        return acc;
+    }, {});
+
+    const categoryNames = {
+        'text': 'Text Analysis',
+        'image': 'Image/Map Interpretation',
+        'knowledge': 'Knowledge-Based',
+        'quote': 'Quote Analysis',
+        'cause-effect': 'Cause & Effect',
+        'multi-source': 'Multi-Source Analysis',
+        'analysis': 'Paired Passage Analysis',
+        'chart': 'Chart/Data Analysis'
+    };
+
     return (
         <div className="text-center fade-in">
-            <h2 className="text-3xl font-bold text-slate-800">Results: {quizTitle}</h2>
+            <h2 className="text-3xl font-bold text-slate-800">Results: {quiz.title}</h2>
             <div className="my-6">
                 <p className="text-lg text-slate-600">Your estimated GED® Score is:</p>
                 <p className={`text-6xl font-bold my-2 ${performance.color}`}>{results.scaledScore}</p>
                 <p className={`text-2xl font-semibold mb-2 ${performance.color}`}>{performance.level}</p>
                 <p className="text-lg text-slate-500">{results.score} / {results.totalQuestions} Correct</p>
             </div>
+
+            <div className="mt-8 pt-6 border-t max-w-lg mx-auto">
+                <h3 className="text-xl font-bold text-slate-700 mb-4">Performance by Category</h3>
+                <div className="space-y-3 text-left">
+                    {Object.entries(performanceByCategory).map(([type, data]) => (
+                        <div key={type} className="bg-slate-100 p-3 rounded-lg">
+                            <div className="flex justify-between items-center">
+                                <span className="font-semibold text-slate-600">{categoryNames[type] || type}</span>
+                                <span className="font-bold text-slate-800">{data.correct} / {data.total}</span>
+                            </div>
+                            <div className="w-full bg-slate-200 rounded-full h-2.5 mt-2">
+                                <div className="bg-sky-500 h-2.5 rounded-full" style={{ width: `${(data.correct / data.total) * 100}%` }}></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
              <div className="mt-8 flex justify-center gap-4">
                  <button onClick={onHome} className="px-6 py-2 bg-slate-600 text-white font-bold rounded-lg hover:bg-slate-700">Go Home</button>
                  <button onClick={onRestart} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700">Try Again</button>
@@ -677,7 +766,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
         });
         const percentage = (score / quiz.questions.length) * 100;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
-        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore });
+        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, subject: quiz.subject });
     };
 
     return (
@@ -690,7 +779,8 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
             <article className="prose max-w-none">
                 <h3 className="text-2xl font-bold">{quiz.article.title}</h3>
                 <p className="text-sm italic text-slate-500">{quiz.article.genre}</p>
-                {quiz.article.text.map((p, i) => <p key={i}>{p}</p>)}
+                {quiz.imageUrl && <img src={quiz.imageUrl} alt="Article supplemental image" className="my-4 mx-auto rounded-md border" />}
+                {quiz.article.text.map((p, i) => <p key={i} dangerouslySetInnerHTML={{ __html: p }}></p>)}
             </article>
             <section className="mt-8 pt-6 border-t">
                 <h3 className="text-2xl font-bold mb-4">Questions</h3>
@@ -756,69 +846,34 @@ const handleGenerate = async () => {
         setIsGenerating(true);
         setError(null);
 
-        const maxRetries = 3;
-        let attempt = 0;
-        let delay = 1000; // Start with a 1-second delay
+        try {
+            const response = await fetch('https://ged-website.onrender.com/generate-quiz', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subject, topic: selectedTopic })
+            });
 
-        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-        while (attempt < maxRetries) {
-            try {
-                const response = await fetch('https://ged-website.onrender.com/generate-quiz', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ subject, topic: selectedTopic })
-                });
-
-                // If the server is overloaded, throw a specific error to trigger a retry
-                if (response.status === 503) {
-                    throw new Error('Model is overloaded');
-                }
-
-                if (!response.ok) {
-                    const errorResult = await response.json();
-                    throw new Error(errorResult.error || `Request failed with status ${response.status}`);
-                }
-
-                // If successful, process the response and exit the function
-                const result = await response.json();
-                const jsonText = result.candidates[0].content.parts[0].text;
-                const generatedQuiz = JSON.parse(jsonText);
-
-                generatedQuiz.questions.forEach(q => {
-                    const correctRationale = q.answerOptions.find(opt => opt.isCorrect)?.rationale || "This is the correct answer.";
-                    q.answerOptions.forEach(opt => {
-                        if (!opt.rationale) {
-                            opt.rationale = opt.isCorrect ? correctRationale : "This is not the correct answer.";
-                        }
-                    });
-                });
-
-                generatedQuiz.id = `ai_${new Date().getTime()}`;
-                onQuizGenerated(generatedQuiz);
-                return; // Success, so we exit
-
-            } catch (err) {
-                attempt++;
-                // Check if it's a retryable error and we haven't exceeded attempts
-                if (err.message.includes('Model is overloaded') && attempt < maxRetries) {
-                    console.warn(`Attempt ${attempt} failed. Retrying in ${delay / 1000}s...`);
-                    setError(`The AI model is busy. Retrying... (Attempt ${attempt + 1}/${maxRetries})`);
-                    await sleep(delay);
-                    delay *= 2; // Double the delay for the next attempt
-                } else {
-                    // If it's another error or we've run out of retries, fail permanently
-                    console.error("Error generating quiz:", err);
-                    setError(`Sorry, something went wrong. ${err.message}`);
-                    setIsGenerating(false);
-                    return;
-                }
+            if (!response.ok) {
+                const errorResult = await response.json().catch(() => ({ error: `Request failed with status ${response.status}` }));
+                throw new Error(errorResult.error || `Request failed with status ${response.status}`);
             }
+
+            const result = await response.json();
+            const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!jsonText) {
+                 throw new Error("The AI model returned an empty response. It may be warming up. Please try again in a moment.");
+            }
+
+            const generatedQuiz = JSON.parse(jsonText);
+            generatedQuiz.id = `ai_${new Date().getTime()}`;
+            onQuizGenerated(generatedQuiz);
+
+        } catch (err) {
+            console.error("Error generating quiz:", err);
+            setError(`Sorry, something went wrong. ${err.message}`);
+        } finally {
+            setIsGenerating(false);
         }
-        
-        // This is only reached if all retries fail
-        setError(`The AI model seems to be unavailable right now. Please try again later.`);
-        setIsGenerating(false);
     };
 
     return (

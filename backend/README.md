@@ -15,7 +15,7 @@ If you are deploying this service on Render, follow these steps:
 3.  Under "Environment Variables," click **Add Environment Variable**.
 4.  Create a new variable with the following key and value:
     *   **Key**: `GOOGLE_AI_API_KEY`
-    *   **Value**: `AIzaSyCPomybFhuhRihmrtg4Fl4aSP4VDhixGyM`
+    *   **Value**: `YOUR_SECRET_API_KEY_HERE`
 
 Render will automatically use this variable to power the application. Ensure you do not expose this key in your frontend code.
 
@@ -27,7 +27,7 @@ For local development:
 2.  Add the following line to the `.env` file:
 
     ```
-    GOOGLE_AI_API_KEY=AIzaSyCPomybFhuhRihmrtg4Fl4aSP4VDhixGyM
+    GOOGLE_AI_API_KEY=YOUR_SECRET_API_KEY_HERE
     ```
 
 3.  Ensure that your `.gitignore` file includes `.env` to prevent the key from being committed to your repository.
