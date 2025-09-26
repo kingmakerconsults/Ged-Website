@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
@@ -12,7 +13,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // handle preflight requests
-app.options('*', cors(corsOptions)); // Handle all preflight requests
+app.options('/generate-quiz', cors(corsOptions));
 app.use(express.json());
 
 app.get('/', (req, res) => {
