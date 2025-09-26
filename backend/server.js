@@ -1,24 +1,58 @@
+// server.js (Updated Version)
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 
 const app = express();
-const port = 3001;
+// IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
+const port = process.env.PORT || 3001;
 
 const corsOptions = {
+  // You can list multiple trusted origins here if needed in the future
   origin: 'https://ezged.netlify.app',
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 
 // handle preflight requests
-app.options('/generate-quiz', cors(corsOptions));
+app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
 app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Learning Canvas Backend is running!');
 });
+
+// NEW FEATURE: Endpoint to define a word, as used in your index.html
+app.post('/define-word', async (req, res) => {
+    const { word } = req.body;
+    if (!word) {
+        return res.status(400).json({ error: 'A word is required.' });
+    }
+
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+    if (!apiKey) {
+        console.error('API key not configured on the server.');
+        return res.status(500).json({ error: 'Server configuration error.' });
+    }
+
+    const prompt = `Provide a concise, GED-level definition for the word: "${word}".`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+    };
+
+    try {
+        const response = await axios.post(apiUrl, payload);
+        const definition = response.data.candidates[0].content.parts[0].text;
+        res.json({ definition });
+    } catch (error) {
+        console.error('Error calling Google AI API for definition:', error.response ? error.response.data : error.message);
+        res.status(500).json({ error: 'Failed to get definition from AI service.' });
+    }
+});
+
 
 app.post('/generate-quiz', async (req, res) => {
   const { subject, topic } = req.body;
@@ -29,7 +63,10 @@ app.post('/generate-quiz', async (req, res) => {
 
   const apiKey = process.env.GOOGLE_AI_API_KEY;
   if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
-    return res.status(500).json({ error: 'API key not configured on the server. Please check the .env file.' });
+    // IMPROVEMENT: Log the error on the server for easier debugging.
+    console.error('API key not configured on the server. Please check the .env file.');
+    // Send a more generic error to the user for security.
+    return res.status(500).json({ error: 'Server configuration error.' });
   }
 
   let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. For each question, provide four answer options. One, and only one, of these options must be correct. For the correct answer, provide a brief rationale explaining why it is correct. For incorrect answers, the rationale should be a brief explanation of why it is incorrect. Ensure the output is a valid JSON object following the specified schema.`;
@@ -90,6 +127,8 @@ app.post('/generate-quiz', async (req, res) => {
   }
 });
 
+// The '0.0.0.0' is important for containerized environments like Render.
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Your service is live 🚀`);
+  console.log(`Server listening on port ${port}`);
 });
