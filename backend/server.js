@@ -38,7 +38,7 @@ app.post('/define-word', async (req, res) => {
     }
 
     const prompt = `Provide a concise, GED-level definition for the word: "${word}".`;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
     };
@@ -112,7 +112,7 @@ app.post('/generate-quiz', async (req, res) => {
     contents: [{ parts: [{ text: prompt }] }],
       };
 
-  const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
   try {
     const response = await axios.post(apiUrl, payload);
