@@ -1096,6 +1096,9 @@ function App() {
         setView('results');
 
         const { subject } = results;
+
+        if (subject === 'Pop Quiz') return; // Do not track progress for pop quizzes
+
         // Ensure the subject exists in the progress state before updating
         if (subject && typeof progress[subject] !== 'undefined') {
             setProgress(prevProgress => {
@@ -1109,11 +1112,52 @@ function App() {
         }
     };
 
+    const handleStartPopQuiz = () => {
+        const allQuestions = [];
+        Object.values(AppData).forEach(subject => {
+            if (subject.categories) {
+                Object.values(subject.categories).forEach(category => {
+                    if (category.topics) {
+                        category.topics.forEach(topic => {
+                            if (topic.questions) {
+                                allQuestions.push(...topic.questions);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        const shuffled = shuffleArray(allQuestions);
+        const selectedQuestions = shuffled.slice(0, 5).map((q, index) => ({
+            ...q,
+            questionNumber: index + 1
+        }));
+
+        const popQuiz = {
+            id: 'pop_quiz_' + new Date().getTime(),
+            title: '5-Minute Pop Quiz',
+            questions: selectedQuestions,
+            timeLimit: 300 // 5 minutes in seconds
+        };
+
+        startQuiz(popQuiz, 'Pop Quiz');
+    };
+
     const navigateHome = () => {
         setView('start');
         setActiveQuiz(null);
         setQuizResults(null);
         setActiveGenerator(null);
+    };
+
+    const handleReviewMarked = (markedQuestions) => {
+        const reviewQuiz = {
+            id: 'review_quiz_' + new Date().getTime(),
+            title: 'Review Marked Questions',
+            questions: markedQuestions.map((q, index) => ({ ...q, questionNumber: index + 1 })),
+        };
+        startQuiz(reviewQuiz, 'Review');
     };
 
     const renderView = () => {
@@ -1132,7 +1176,7 @@ function App() {
             case 'graphing_tool':
                 return <GraphingTool onExit={navigateHome} />;
             case 'results':
-                return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} />;
+                return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} onReviewMarked={handleReviewMarked} />;
             case 'generator':
                 return <AIQuizGenerator subject={activeGenerator} onQuizGenerated={(quiz) => startQuiz(quiz, activeGenerator)} onExit={navigateHome} />;
             case 'start':
@@ -1142,6 +1186,7 @@ function App() {
                         progress={progress}
                         onSelectQuiz={startQuiz} 
                         onSelectGenerator={(subject) => { setActiveGenerator(subject); setView('generator'); }}
+                        onStartPopQuiz={handleStartPopQuiz}
                     />
                 );
         }
@@ -1253,7 +1298,7 @@ function ProgressDashboard({ progress }) {
 
 const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon };
 
-function StartScreen({ progress, onSelectQuiz, onSelectGenerator }) {
+function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -1348,6 +1393,14 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator }) {
                 <p className="text-slate-500 mt-2">Welcome back! Please select a subject to begin.</p>
             </header>
             <ProgressDashboard progress={progress} />
+            <div className="my-6 text-center">
+                <button
+                    onClick={onStartPopQuiz}
+                    className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105"
+                >
+                    Start a 5-Minute Pop Quiz ⏱️
+                </button>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {Object.entries(AppData).map(([subjectName, subject]) => {
                     const IconComponent = ICONS[subject.icon];
@@ -1368,7 +1421,8 @@ function QuizRunner({ quiz, onComplete, onExit }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState(Array(quiz.questions.length).fill(null));
     const [marked, setMarked] = useState(Array(quiz.questions.length).fill(false));
-    const [timeLeft, setTimeLeft] = useState(quiz.questions.length * 90);
+    const [confidence, setConfidence] = useState(Array(quiz.questions.length).fill(null));
+    const [timeLeft, setTimeLeft] = useState(quiz.timeLimit || quiz.questions.length * 90);
     
     const handleSubmitRef = useRef();
 
@@ -1392,6 +1446,12 @@ function QuizRunner({ quiz, onComplete, onExit }) {
         setAnswers(newAnswers);
     };
 
+    const handleConfidenceSelect = (level) => {
+        const newConfidence = [...confidence];
+        newConfidence[currentIndex] = level;
+        setConfidence(newConfidence);
+    };
+
     const handleSubmit = useCallback(() => {
         let score = 0;
         quiz.questions.forEach((q, i) => {
@@ -1404,8 +1464,8 @@ function QuizRunner({ quiz, onComplete, onExit }) {
         const percentage = (score / quiz.questions.length) * 100;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
         
-        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers, subject: quiz.subject });
-    }, [answers, quiz, onComplete]);
+        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers, subject: quiz.subject, marked, confidence });
+    }, [answers, quiz, onComplete, marked, confidence]);
 
     useEffect(() => {
         handleSubmitRef.current = handleSubmit;
@@ -1442,6 +1502,24 @@ function QuizRunner({ quiz, onComplete, onExit }) {
                         </button>
                     ))}
                 </div>
+                <div className="mt-4 pt-4 border-t">
+                    <h4 className="text-sm font-semibold text-slate-600 mb-2 text-center">How confident are you?</h4>
+                    <div className="flex justify-center gap-2">
+                        {['Guessing', 'Unsure', 'Confident'].map(level => (
+                            <button
+                                key={level}
+                                onClick={() => handleConfidenceSelect(level)}
+                                className={`px-4 py-1 text-sm font-semibold rounded-full border-2 ${
+                                    confidence[currentIndex] === level
+                                    ? 'bg-purple-600 text-white border-purple-600'
+                                    : 'bg-white text-purple-600 border-purple-200 hover:bg-purple-50'
+                                }`}
+                            >
+                                {level}
+                            </button>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             <div className="mt-6 flex justify-between">
@@ -1459,7 +1537,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
     );
 }
 
-function ResultsScreen({ results, quiz, onRestart, onHome }) {
+function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     const getPerf = (score) => {
         if (score >= 175) return { level: "GED® College Ready + Credit", color: "text-purple-600" };
         if (score >= 165) return { level: "GED® College Ready", color: "text-blue-600" };
@@ -1468,6 +1546,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome }) {
     };
 
     const performance = getPerf(results.scaledScore);
+    const markedQuestions = quiz.questions.filter((_, index) => results.marked[index]);
 
     const performanceByCategory = quiz.questions.reduce((acc, question, index) => {
         const type = question.type || 'knowledge'; // Default type if not specified
@@ -1522,7 +1601,57 @@ function ResultsScreen({ results, quiz, onRestart, onHome }) {
 
              <div className="mt-8 flex justify-center gap-4">
                  <button onClick={onHome} className="px-6 py-2 bg-slate-600 text-white font-bold rounded-lg hover:bg-slate-700">Go Home</button>
+                 {markedQuestions.length > 0 && (
+                    <button onClick={() => onReviewMarked(markedQuestions)} className="px-6 py-2 bg-yellow-500 text-white font-bold rounded-lg hover:bg-yellow-600">
+                        Review {markedQuestions.length} Marked
+                    </button>
+                 )}
                  <button onClick={onRestart} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700">Try Again</button>
+            </div>
+
+            <div className="mt-8 pt-6 border-t">
+                <h3 className="text-xl font-bold text-slate-700 mb-4">Detailed Question Review</h3>
+                <div className="space-y-4 text-left">
+                    {quiz.questions.map((question, index) => {
+                        const userAnswer = results.answers[index];
+                        const correctAnswer = question.answerOptions.find(opt => opt.isCorrect);
+                        const isCorrect = userAnswer === correctAnswer.text;
+                        const confidenceLevel = results.confidence ? results.confidence[index] : null;
+
+                        const getConfidenceColor = (level) => {
+                            if (level === 'Confident') return 'bg-green-100 text-green-800';
+                            if (level === 'Unsure') return 'bg-yellow-100 text-yellow-800';
+                            if (level === 'Guessing') return 'bg-red-100 text-red-800';
+                            return 'bg-slate-100 text-slate-800';
+                        };
+
+                        return (
+                            <div key={index} className={`p-4 rounded-lg border ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
+                                <p className="font-semibold">{question.questionNumber}. {question.question}</p>
+                                {question.imageUrl && <img src={question.imageUrl} alt={`Visual for question ${question.questionNumber}`} className="my-2 rounded-md border max-w-xs h-auto" />}
+                                <p className={`mt-2 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
+                                    Your answer: {userAnswer || "No answer"} {isCorrect ? '✔' : '✘'}
+                                </p>
+                                {!isCorrect && (
+                                    <p className="text-green-700">
+                                        Correct answer: {correctAnswer.text}
+                                    </p>
+                                )}
+                                <p className="mt-2 text-sm text-slate-600">
+                                    <span className="font-semibold">Rationale:</span> {correctAnswer.rationale}
+                                </p>
+                                {confidenceLevel && (
+                                    <div className="mt-2">
+                                        <span className="font-semibold text-sm text-slate-600">Your confidence: </span>
+                                        <span className={`px-2 py-0.5 text-xs font-bold rounded-full ${getConfidenceColor(confidenceLevel)}`}>
+                                            {confidenceLevel}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
@@ -1720,66 +1849,59 @@ function GraphingTool({ onExit }) {
     const boardInstance = React.useRef(null);
     const [equationInput, setEquationInput] = React.useState('2x + 1');
     const [error, setError] = React.useState('');
+    const [toolMode, setToolMode] = React.useState('plotLine'); // 'plotLine' or 'plotPoint'
 
     React.useEffect(() => {
-        if (!boardInstance.current) { // Ensure board is initialized only once
-            boardInstance.current = JXG.JSXGraph.initBoard('graphing-tool-board', {
+        if (!boardInstance.current) {
+            boardInstance.current = JXG.JSXGraph.initBoard(boardRef.current.id, {
                 boundingbox: [-10, 10, 10, -10],
                 axis: true,
                 grid: true,
                 showCopyright: false
             });
+
+            boardInstance.current.on('up', function(e) {
+                if (toolMode === 'plotPoint') {
+                    const coords = boardInstance.current.getUsrCoordsOfMouse(e);
+                    const x = Math.round(coords[0]);
+                    const y = Math.round(coords[1]);
+                    boardInstance.current.create('point', [x, y], { name: `(${x}, ${y})`, size: 4 });
+                }
+            });
         }
-    }, []);
+    }, [toolMode]);
 
     const handlePlot = () => {
         setError('');
-        const board = boardInstance.current;
-
-        // Clear previous plots
-        board.suspendUpdate();
-        const allObjects = Object.values(board.objects);
-        for(let i = allObjects.length - 1; i >= 0; i--) {
-            if (allObjects[i].elType === 'functiongraph') {
-                board.removeObject(allObjects[i]);
-            }
-        }
-        board.unsuspendUpdate();
+        if (toolMode !== 'plotLine') return;
 
         try {
-            // Safely parse "y = mx + b" format
             const preparedInput = equationInput.toLowerCase().replace(/\s/g, '');
             const parts = preparedInput.match(/^(-?\d*\.?\d*)x([+-]\d+\.?\d*)?$/);
-            if (!parts) {
-                throw new Error("Please use 'mx+b' format, e.g., '3x-4'.");
-            }
+            if (!parts) throw new Error("Use 'mx+b' format, e.g., '3x-4'.");
 
             const m = parts[1] === '-' ? -1 : (parts[1] === '' ? 1 : parseFloat(parts[1]));
             const b = parts[2] ? parseFloat(parts[2]) : 0;
-
-            if(isNaN(m) || isNaN(b)) {
-                 throw new Error("Invalid number format.");
-            }
+            if(isNaN(m) || isNaN(b)) throw new Error("Invalid number format.");
 
             const func = (x) => m * x + b;
-            board.create('functiongraph', [func], { strokeColor: '#3b82f6', strokeWidth: 3 });
-
+            boardInstance.current.create('functiongraph', [func], { strokeColor: '#3b82f6', strokeWidth: 3 });
         } catch (e) {
-            setError(e.message || "Could not plot the equation.");
+            setError(e.message || "Could not plot equation.");
         }
     };
 
     const handleClear = () => {
         const board = boardInstance.current;
         board.suspendUpdate();
+        // Clear all function graphs and points
         const allObjects = Object.values(board.objects);
         for(let i = allObjects.length - 1; i >= 0; i--) {
-            if (allObjects[i].elType === 'functiongraph') {
+            if (allObjects[i].elType === 'functiongraph' || allObjects[i].elType === 'point') {
                 board.removeObject(allObjects[i]);
             }
         }
         board.unsuspendUpdate();
-        setEquationInput('');
         setError('');
     };
 
@@ -1795,21 +1917,27 @@ function GraphingTool({ onExit }) {
                      <div id="graphing-tool-board" ref={boardRef} className="jxgbox" style={{ width: '100%', height: '400px' }}></div>
                 </div>
                 <div className="md:w-64 flex-shrink-0">
-                    <h3 className="text-lg font-semibold text-slate-700">Plot a Line</h3>
-                    <p className="text-sm text-slate-500 mb-3">Enter a linear equation to see it on the graph.</p>
-                    <label htmlFor="equation" className="font-semibold text-slate-600">Equation ( y = )</label>
-                    <input
-                        type="text"
-                        id="equation"
-                        value={equationInput}
-                        onChange={(e) => setEquationInput(e.target.value)}
-                        placeholder="e.g., 2x - 3"
-                        className="w-full p-2 border border-slate-300 rounded-md mt-1 mb-3"
-                    />
-                    <div className="flex flex-col gap-2">
-                         <button onClick={handlePlot} className="w-full px-4 py-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700 transition">Plot</button>
-                         <button onClick={handleClear} className="w-full px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-lg hover:bg-slate-300 transition">Clear</button>
+                    <h3 className="text-lg font-semibold text-slate-700 mb-2">Tools</h3>
+                    <div className="flex gap-2 mb-4">
+                        <button onClick={() => setToolMode('plotLine')} className={`flex-1 p-2 font-semibold rounded-md transition ${toolMode === 'plotLine' ? 'bg-sky-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}`}>Plot Line</button>
+                        <button onClick={() => setToolMode('plotPoint')} className={`flex-1 p-2 font-semibold rounded-md transition ${toolMode === 'plotPoint' ? 'bg-sky-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}`}>Plot Point</button>
                     </div>
+
+                    {toolMode === 'plotLine' ? (
+                        <div>
+                            <label htmlFor="equation" className="font-semibold text-slate-600">Equation ( y = )</label>
+                            <input
+                                type="text" id="equation" value={equationInput} onChange={(e) => setEquationInput(e.target.value)}
+                                placeholder="e.g., 2x - 3" className="w-full p-2 border border-slate-300 rounded-md mt-1 mb-3"
+                            />
+                            <button onClick={handlePlot} className="w-full p-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700 transition">Plot Line</button>
+                        </div>
+                    ) : (
+                        <div>
+                            <p className="p-2 bg-sky-50 text-sky-800 rounded-md text-center">Click anywhere on the graph to plot a point.</p>
+                        </div>
+                    )}
+                    <button onClick={handleClear} className="w-full p-2 mt-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition">Clear All</button>
                     {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
                 </div>
             </div>

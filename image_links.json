@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Join_or_Die.jpg/1024px-Join_or_Die.jpg",
+    "topics": ["American Revolution", "political cartoon", "Benjamin Franklin", "colonial unity"]
+  },
+  {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/New_Deal_programs_FDR.gif/1280px-New_Deal_programs_FDR.gif",
+    "topics": ["Great Depression", "New Deal", "FDR", "chart", "government programs"]
+  },
+  {
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Animal_cell_structure_en.svg/1200px-Animal_cell_structure_en.svg.png",
+    "topics": ["cell biology", "diagram", "organelles", "science", "life science"]
+  }
+]
