@@ -69,7 +69,7 @@ app.post('/generate-quiz', async (req, res) => {
     return res.status(500).json({ error: 'Server configuration error.' });
   }
 
-  let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. Please return a JSON object with a "questions" array. Each object in the array should represent a question and have the following fields: "questionNumber" (number), "question" (string), "passage" (string, if applicable), and "answerOptions" (an array of 4 objects). Each answer option object must have "text" (string), "isCorrect" (boolean), and "rationale" (string). Ensure one option is marked as correct for each question.`;
+  let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". For at least 5 of the questions, find a relevant, publicly accessible image (like from Wikimedia Commons or a government source) and include its direct URL in an 'imageUrl' field. These images should be political cartoons, maps, charts, or scientific diagrams. For each question, provide a brief rationale for the correct answer. Ensure the output is a valid JSON object following the specified schema.`;
 
   if (subject === "Social Studies") {
     prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
@@ -88,6 +88,7 @@ app.post('/generate-quiz', async (req, res) => {
                       questionNumber: { type: "NUMBER" },
                       question: { type: "STRING" },
                       passage: { type: "STRING" },
+                      imageUrl: { type: "STRING" },
                       answerOptions: {
                           type: "ARRAY",
                           items: {

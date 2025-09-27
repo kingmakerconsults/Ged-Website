@@ -8,6 +8,8 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
+    <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -949,6 +951,12 @@ const AppData = {
                       title: "The Game of Life",
                       description: "A cellular automaton devised by the British mathematician John Horton Conway in 1970.",
                       type: "simulation"
+                    },
+                    {
+                      id: "sim_graphing_tool",
+                      title: "Interactive Graphing Tool",
+                      description: "Plot linear equations and explore the coordinate plane.",
+                      type: "graphing_tool"
                     }
                 ]
             }
@@ -1121,6 +1129,8 @@ function App() {
                 return <EssayGuide onExit={navigateHome} />;
             case 'simulation':
                 return <div className="text-center p-8"><h1 className="text-2xl font-bold">The Game of Life Simulation</h1><p className="my-4">This feature is coming soon!</p><button onClick={navigateHome} className="mt-4 px-4 py-2 bg-sky-500 text-white rounded">Go Back</button></div>;
+            case 'graphing_tool':
+                return <GraphingTool onExit={navigateHome} />;
             case 'results':
                 return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} />;
             case 'generator':
@@ -1423,7 +1433,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
             
             <div className="p-4 bg-slate-50 rounded-lg">
                 {currentQ.passage && <div className="mb-4 prose max-w-none" dangerouslySetInnerHTML={{ __html: currentQ.passage }} />}
-                {currentQ.imageUrl && <img src={currentQ.imageUrl} alt="Question image" className="my-4 mx-auto rounded-md border" />}
+                {currentQ.imageUrl && <img src={currentQ.imageUrl} alt={`Visual for question ${currentQ.questionNumber}`} className="my-4 mx-auto rounded-md border max-w-full h-auto" />}
                 <h3 className="text-xl font-semibold mb-4">{currentQ.questionNumber}. {currentQ.question}</h3>
                 <div className="space-y-3">
                     {currentQ.answerOptions.map((opt, i) => (
@@ -1704,6 +1714,108 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
     );
 }
 
+
+function GraphingTool({ onExit }) {
+    const boardRef = React.useRef(null);
+    const boardInstance = React.useRef(null);
+    const [equationInput, setEquationInput] = React.useState('2x + 1');
+    const [error, setError] = React.useState('');
+
+    React.useEffect(() => {
+        if (!boardInstance.current) { // Ensure board is initialized only once
+            boardInstance.current = JXG.JSXGraph.initBoard('graphing-tool-board', {
+                boundingbox: [-10, 10, 10, -10],
+                axis: true,
+                grid: true,
+                showCopyright: false
+            });
+        }
+    }, []);
+
+    const handlePlot = () => {
+        setError('');
+        const board = boardInstance.current;
+
+        // Clear previous plots
+        board.suspendUpdate();
+        const allObjects = Object.values(board.objects);
+        for(let i = allObjects.length - 1; i >= 0; i--) {
+            if (allObjects[i].elType === 'functiongraph') {
+                board.removeObject(allObjects[i]);
+            }
+        }
+        board.unsuspendUpdate();
+
+        try {
+            // Safely parse "y = mx + b" format
+            const preparedInput = equationInput.toLowerCase().replace(/\s/g, '');
+            const parts = preparedInput.match(/^(-?\d*\.?\d*)x([+-]\d+\.?\d*)?$/);
+            if (!parts) {
+                throw new Error("Please use 'mx+b' format, e.g., '3x-4'.");
+            }
+
+            const m = parts[1] === '-' ? -1 : (parts[1] === '' ? 1 : parseFloat(parts[1]));
+            const b = parts[2] ? parseFloat(parts[2]) : 0;
+
+            if(isNaN(m) || isNaN(b)) {
+                 throw new Error("Invalid number format.");
+            }
+
+            const func = (x) => m * x + b;
+            board.create('functiongraph', [func], { strokeColor: '#3b82f6', strokeWidth: 3 });
+
+        } catch (e) {
+            setError(e.message || "Could not plot the equation.");
+        }
+    };
+
+    const handleClear = () => {
+        const board = boardInstance.current;
+        board.suspendUpdate();
+        const allObjects = Object.values(board.objects);
+        for(let i = allObjects.length - 1; i >= 0; i--) {
+            if (allObjects[i].elType === 'functiongraph') {
+                board.removeObject(allObjects[i]);
+            }
+        }
+        board.unsuspendUpdate();
+        setEquationInput('');
+        setError('');
+    };
+
+    return (
+        <div className="fade-in">
+             <header className="flex justify-between items-center pb-4 mb-4 border-b">
+                 <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                 <h2 className="text-xl font-bold text-center text-slate-800">Interactive Graphing Tool</h2>
+                 <div></div>
+            </header>
+            <div className="flex flex-col md:flex-row gap-6">
+                <div className="flex-grow">
+                     <div id="graphing-tool-board" ref={boardRef} className="jxgbox" style={{ width: '100%', height: '400px' }}></div>
+                </div>
+                <div className="md:w-64 flex-shrink-0">
+                    <h3 className="text-lg font-semibold text-slate-700">Plot a Line</h3>
+                    <p className="text-sm text-slate-500 mb-3">Enter a linear equation to see it on the graph.</p>
+                    <label htmlFor="equation" className="font-semibold text-slate-600">Equation ( y = )</label>
+                    <input
+                        type="text"
+                        id="equation"
+                        value={equationInput}
+                        onChange={(e) => setEquationInput(e.target.value)}
+                        placeholder="e.g., 2x - 3"
+                        className="w-full p-2 border border-slate-300 rounded-md mt-1 mb-3"
+                    />
+                    <div className="flex flex-col gap-2">
+                         <button onClick={handlePlot} className="w-full px-4 py-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700 transition">Plot</button>
+                         <button onClick={handleClear} className="w-full px-4 py-2 bg-slate-200 text-slate-800 font-bold rounded-lg hover:bg-slate-300 transition">Clear</button>
+                    </div>
+                    {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
+                </div>
+            </div>
+        </div>
+    );
+}
 
 // --- RENDER APP ---
 const container = document.getElementById('root');
