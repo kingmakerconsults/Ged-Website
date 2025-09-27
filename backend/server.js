@@ -20,6 +20,23 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
 app.use(express.json());
 
+let curatedImages = [];
+const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/kingmakerconsults/Ged-Website/main/image_links.json';
+
+(async () => {
+    try {
+        const response = await axios.get(GITHUB_RAW_URL);
+        if (Array.isArray(response.data)) {
+            curatedImages = response.data;
+            console.log(`Successfully fetched and parsed ${curatedImages.length} curated images.`);
+        } else {
+            console.error('Fetched curated images data is not an array.');
+        }
+    } catch (error) {
+        console.error('Failed to fetch curated images list from GitHub:', error.message);
+    }
+})();
+
 app.get('/', (req, res) => {
   res.send('Learning Canvas Backend is running!');
 });
@@ -69,7 +86,21 @@ app.post('/generate-quiz', async (req, res) => {
     return res.status(500).json({ error: 'Server configuration error.' });
   }
 
-  let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". For at least 5 of the questions, find a relevant, publicly accessible image (like from Wikimedia Commons or a government source) and include its direct URL in an 'imageUrl' field. These images should be political cartoons, maps, charts, or scientific diagrams. For each question, provide a brief rationale for the correct answer. Ensure the output is a valid JSON object following the specified schema.`;
+  const relevantImagesText = curatedImages
+    .filter(img => img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase())))
+    .map(img => `- ${img.url} (Topics: ${img.topics.join(', ')})`)
+    .join('\n') || "No relevant images found in the pre-approved list for this topic.";
+
+  let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}".
+
+When a question requires an image, you must follow these rules:
+1.  **First, try to find a relevant URL from the following pre-approved list.** This list is the preferred source.
+    Pre-approved Image List:
+    ${relevantImagesText}
+
+2.  **If, and only if, you cannot find a suitable image in the pre-approved list for the specific question you are creating, you are then permitted to search for another publicly accessible and relevant image** (e.g., from Wikimedia Commons, a museum, or a government source).
+
+For each question you create that uses an image, include its direct URL in the 'imageUrl' field. For all other questions, provide a text 'passage'. Ensure the output is a valid JSON object following the specified schema.`;
 
   if (subject === "Social Studies") {
     prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
