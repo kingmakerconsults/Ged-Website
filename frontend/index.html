@@ -1027,19 +1027,24 @@ function App() {
     useEffect(() => {
         if (currentUser) {
             const savedProgress = localStorage.getItem(`gedProgress_${currentUser}`);
+            const initialProgress = {
+                "Social Studies": { scores: [], total: 0 },
+                "Reasoning Through Language Arts (RLA)": { scores: [], total: 0 },
+                "Science": { scores: [], total: 0 },
+                "Math": { scores: [], total: 0 }
+            };
+
             if (savedProgress) {
                 try {
                     const parsed = JSON.parse(savedProgress);
-                    if (parsed["Social Studies"] && parsed["RLA"]) {
-                       setProgress(parsed);
-                    } else {
-                       setProgress({ "Social Studies": { scores: [], total: 0 }, "RLA": { scores: [], total: 0 } });
-                    }
+                    // Merge saved progress with initial structure to ensure all subjects are present
+                    const mergedProgress = { ...initialProgress, ...parsed };
+                    setProgress(mergedProgress);
                 } catch(e) {
-                    setProgress({ "Social Studies": { scores: [], total: 0 }, "RLA": { scores: [], total: 0 } });
+                    setProgress(initialProgress);
                 }
             } else {
-                setProgress({ "Social Studies": { scores: [], total: 0 }, "RLA": { scores: [], total: 0 } });
+                setProgress(initialProgress);
             }
         }
     }, [currentUser]);
@@ -1083,11 +1088,13 @@ function App() {
         setView('results');
 
         const { subject } = results;
-        if (subject && progress[subject]) {
+        // Ensure the subject exists in the progress state before updating
+        if (subject && typeof progress[subject] !== 'undefined') {
             setProgress(prevProgress => {
+                const currentSubjectProgress = prevProgress[subject] || { scores: [], total: 0 };
                 const newSubjectProgress = {
-                    scores: [...(prevProgress[subject].scores || []), results.scaledScore],
-                    total: (prevProgress[subject].total || 0) + 1
+                    scores: [...currentSubjectProgress.scores, results.scaledScore],
+                    total: currentSubjectProgress.total + 1
                 };
                 return { ...prevProgress, [subject]: newSubjectProgress };
             });
@@ -1202,23 +1209,33 @@ function ProgressDashboard({ progress }) {
         return Math.round(total / scores.length);
     };
 
-    const totalQuizzes = (progress['Social Studies']?.total || 0) + (progress['Reasoning Through Language Arts (RLA)']?.total || 0);
+    const totalQuizzes = Object.values(progress).reduce((acc, subject) => acc + (subject.total || 0), 0);
     const ssAverage = calculateAverage(progress['Social Studies']?.scores);
     const rlaAverage = calculateAverage(progress['Reasoning Through Language Arts (RLA)']?.scores);
+    const scienceAverage = calculateAverage(progress['Science']?.scores);
+    const mathAverage = calculateAverage(progress['Math']?.scores);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner">
-                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Total Quizzes Taken</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+            <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner sm:col-span-3 lg:col-span-1">
+                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Total Quizzes</p>
                 <p className="text-4xl font-bold text-slate-800">{totalQuizzes}</p>
             </div>
             <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner">
-                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Social Studies Avg.</p>
+                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Social Studies</p>
                 <p className="text-4xl font-bold text-sky-700">{ssAverage}</p>
             </div>
             <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner">
-                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">RLA Avg.</p>
+                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">RLA</p>
                 <p className="text-4xl font-bold text-amber-700">{rlaAverage}</p>
+            </div>
+            <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner">
+                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Science</p>
+                <p className="text-4xl font-bold text-green-700">{scienceAverage}</p>
+            </div>
+            <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner">
+                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Math</p>
+                <p className="text-4xl font-bold text-red-700">{mathAverage}</p>
             </div>
         </div>
     );
