@@ -86,21 +86,22 @@ app.post('/generate-quiz', async (req, res) => {
     return res.status(500).json({ error: 'Server configuration error.' });
   }
 
-  const relevantImagesText = curatedImages
-    .filter(img => img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase())))
-    .map(img => `- ${img.url} (Topics: ${img.topics.join(', ')})`)
-    .join('\n') || "No relevant images found in the pre-approved list for this topic.";
+    const relevantImagesText = curatedImages
+        .filter(img => img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase())))
+        .map(img => `- URL: ${img.url}, Description: ${img.description}`)
+        .join('\n') || "No relevant images found in the pre-approved list for this topic.";
 
-  let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}".
+    let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}".
 
-When a question requires an image, you must follow these rules:
-1.  **First, try to find a relevant URL from the following pre-approved list.** This list is the preferred source.
-    Pre-approved Image List:
-    ${relevantImagesText}
+    When a question requires an image, you must follow these rules:
+    1.  **First, try to find a relevant URL from the following pre-approved list.** This list is the preferred source. Each item includes a URL and a description to help you choose the best image for the question.
 
-2.  **If, and only if, you cannot find a suitable image in the pre-approved list for the specific question you are creating, you are then permitted to search for another publicly accessible and relevant image** (e.g., from Wikimedia Commons, a museum, or a government source).
+        **Pre-approved Image List:**
+        ${relevantImagesText}
 
-For each question you create that uses an image, include its direct URL in the 'imageUrl' field. For all other questions, provide a text 'passage'. Ensure the output is a valid JSON object following the specified schema.`;
+    2.  **If, and only if, you cannot find a suitable image in the pre-approved list for the specific question you are creating, you may then search for another publicly accessible and relevant image** (e.g., from Wikimedia Commons, a museum, or a government source).
+
+    For each question you create that uses an image, include its direct URL in the 'imageUrl' field. For all other questions, provide a text 'passage'. Ensure the output is a valid JSON object following the specified schema.`;
 
   if (subject === "Social Studies") {
     prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
