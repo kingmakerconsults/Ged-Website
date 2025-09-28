@@ -1,9 +1,13 @@
 // server.js (Updated Version)
 
+// server.js (Updated Version)
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
@@ -21,21 +25,16 @@ app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all rou
 app.use(express.json());
 
 let curatedImages = [];
-const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/kingmakerconsults/Ged-Website/main/image_links.json';
+// Load the new, structured image repository from the local file system.
+const imageRepositoryPath = path.join(__dirname, '..', 'image_repository.json');
 
-(async () => {
-    try {
-        const response = await axios.get(GITHUB_RAW_URL);
-        if (Array.isArray(response.data)) {
-            curatedImages = response.data;
-            console.log(`Successfully fetched and parsed ${curatedImages.length} curated images.`);
-        } else {
-            console.error('Fetched curated images data is not an array.');
-        }
-    } catch (error) {
-        console.error('Failed to fetch curated images list from GitHub:', error.message);
-    }
-})();
+try {
+    const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
+    curatedImages = JSON.parse(imageData);
+    console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
+} catch (error) {
+    console.error('Failed to load or parse image_repository.json:', error);
+}
 
 app.get('/', (req, res) => {
   res.send('Learning Canvas Backend is running!');
@@ -86,22 +85,38 @@ app.post('/generate-quiz', async (req, res) => {
     return res.status(500).json({ error: 'Server configuration error.' });
   }
 
-    const relevantImagesText = curatedImages
-        .filter(img => img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase())))
-        .map(img => `- URL: ${img.url}, Description: ${img.description}`)
-        .join('\n') || "No relevant images found in the pre-approved list for this topic.";
+    // Enhanced image filtering using the new structured data.
+    const relevantImages = curatedImages.filter(image => {
+        const lowerCaseTopic = topic.toLowerCase();
+        const topicMatch = image.topics.some(t => lowerCaseTopic.includes(t.toLowerCase()));
+        const subjectMatch = image.subject.toLowerCase() === subject.toLowerCase() || image.subject === 'General';
+        return topicMatch && subjectMatch;
+    });
 
-    let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}".
+    // Convert the filtered list into a structured string for the prompt.
+    const imageRepositoryText = relevantImages.length > 0
+        ? relevantImages.map(img =>
+            `{ "url": "${img.url}", "description": "${img.description}", "type": "${img.type}", "subject": "${img.subject}", "era": "${img.era}", "topics": ["${img.topics.join('", "')}"] }`
+          ).join('\n')
+        : "No relevant images were found in the repository for this specific topic.";
 
-    When a question requires an image, you must follow these rules:
-    1.  **First, try to find a relevant URL from the following pre-approved list.** This list is the preferred source. Each item includes a URL and a description to help you choose the best image for the question.
 
-        **Pre-approved Image List:**
-        ${relevantImagesText}
+    let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}" for the subject "${subject}".
 
-    2.  **If, and only if, you cannot find a suitable image in the pre-approved list for the specific question you are creating, you may then search for another publicly accessible and relevant image** (e.g., from Wikimedia Commons, a museum, or a government source).
+    **Critical Image Selection Mandate:**
+    When a question requires an image, you **MUST** select one **exclusively** from the JSON Image Repository provided below. **DO NOT use any external image search.**
 
-    For each question you create that uses an image, include its direct URL in the 'imageUrl' field. For all other questions, provide a text 'passage'. Ensure the output is a valid JSON object following the specified schema.`;
+    **How to Select the Best Image:**
+    1.  **Filter by \`subject\` and \`topics\`:** Start by finding images that match the question's subject and topics.
+    2.  **Refine with \`type\` and \`era\`:** Narrow the results by looking for the most appropriate image type (e.g., "Map", "Diagram", "Political Cartoon") and historical era.
+    3.  **Confirm with \`description\`:** Read the description to ensure the image is a perfect contextual match for your question.
+
+    **JSON Image Repository:**
+    \`\`\`json
+    ${imageRepositoryText}
+    \`\`\`
+
+    For each question that uses an image, you must place its exact URL into the 'imageUrl' field. For questions that do not require an image, provide a text 'passage' instead. Ensure the final output is a valid JSON object adhering to the specified schema.`;
 
   if (subject === "Social Studies") {
     prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
