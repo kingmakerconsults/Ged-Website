@@ -1,0 +1,100 @@
+{
+  "Social Studies": [
+    {
+      "url": "https://www.latinamericanstudies.org/maps/thirteen_colonies_1775.gif",
+      "description": "A historical map of the thirteen American colonies circa 1775, showing regional divisions (New England, Middle, Southern colonies) and the Proclamation Line of 1763."
+    },
+    {
+      "url": "https://www.gadsden.info/images/joinordie.jpg",
+      "description": "Benjamin Franklin's 1754 political cartoon 'Join, or Die,' depicting a severed snake with segments labeled for the colonies, arguing for colonial unity."
+    },
+    {
+      "url": "https://webs.bcp.org/sites/vcleary/ModernWorldHistory/Americas/jpegs/EncomiendaSystem.jpg",
+      "description": "A diagram illustrating the hierarchical structure of the Spanish Encomienda system, showing the relationships between the Crown, encomenderos, and indigenous people."
+    },
+    {
+      "url": "https://howellworldhistory.wordpress.com/wp-content/uploads/2012/10/african_20slave_20trade.jpg",
+      "description": "A map of the Triangular Trade routes, showing the flow of manufactured goods from Europe to Africa, enslaved people from Africa to the Americas (the Middle Passage), and raw materials from the Americas to Europe."
+    },
+    {
+      "url": "https://images.fineartamerica.com/images-medium-large/abolitionist-cartoon-satirizing-slave-everett.jpg",
+      "description": "An abolitionist political cartoon satirizing slavery, juxtaposing the phrase 'Am I not a man and a brother?' with acts of violent oppression."
+    },
+    {
+      "url": "https://cdn.thinglink.me/api/image/577884841132818432/1024/10/scaletowidth/0/0/1/1/false/true?wait=true",
+      "description": "A map showing the major territorial acquisitions of the United States during the 19th century, including the Louisiana Purchase, Texas Annexation, and Mexican Cession."
+    },
+    {
+      "url": "http://www.bluecorncomics.com/pics/horsey1.gif",
+      "description": "A political cartoon depicting the Trojan Horse metaphor in the context of Native American casinos, suggesting hidden dangers within the economic benefits."
+    },
+    {
+      "url": "http://www.savagesandscoundrels.org/media/2419/Manifest+Destiny.jpg",
+      "description": "An allegorical painting representing Manifest Destiny, with settlers and railroads moving from a light-filled East to a dark West, displacing Native Americans and buffalo."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/daab3c_38a87bbeaea947cba5355a5741750378~mv2.png/v1/fill/w_1044,h_1438,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Screenshot%202025-05-05%20at%208_43_47%E2%80%AFAM.png",
+      "description": "A U.S. map graphic highlighting specific regions and states in color with labeled boundaries, suitable for geography questions."
+    },
+    {
+      "url": "https://course-prep.com/wp-content/uploads/2022/10/ged-grsph-3.png",
+      "description": "A bar graph comparing quantities across several categories, with labeled x- and y-axes suitable for data interpretation."
+    },
+    {
+      "url": "https://course-prep.com/wp-content/uploads/2022/10/Questions-are-based-on-the-following-graph..png",
+      "description": "A line graph showing a clear trend over time, with a labeled x-axis for time and a labeled y-axis for values."
+    },
+    {
+      "url": "https://course-prep.com/wp-content/uploads/2022/10/Questions-are-based-on-the-following-graph.-8.png",
+      "description": "A pie chart divided into labeled sectors, clearly showing percentage breakdowns of a whole."
+    }
+  ],
+  "Science": [
+    {
+      "url": "https://course-prep.com/wp-content/uploads/2022/10/ged-scince-fig-2.png",
+      "description": "A biological diagram of a plant cell with clearly labeled organelles, suitable for life science questions."
+    },
+    {
+      "url": "https://course-prep.com/wp-content/uploads/2022/10/ged-scince-fig-3.png",
+      "description": "A human anatomy diagram showing the circulatory or respiratory system, suitable for questions on human body systems."
+    },
+    {
+      "url": "https://course-prep.com/wp-content/uploads/2022/10/ged-scince-fig-4.png",
+      "description": "A physics diagram illustrating forces and motion with vectors and arrows, suitable for physical science questions."
+    },
+    {
+      "url": "https://course-prep.com/wp-content/uploads/2022/10/ged-scince-fig-5.png",
+      "description": "An illustration of a chemistry experiment setup, including beakers, burners, and labeled substances."
+    },
+    {
+      "url": "https://course-prep.com/wp-content/uploads/2022/10/ged-scince-fig-7.png",
+      "description": "An earth science diagram illustrating the rock cycle or the water cycle with clear stages."
+    },
+    {
+      "url": "https://course-prep.com/wp-content/uploads/2022/10/ged-scince-fig-8.png",
+      "description": "A diagram of a food web or food chain, showing the flow of energy between different animals and plants in an ecosystem."
+    },
+    {
+      "url": "https://gotestprep.com/wp-content/uploads/2025/02/sadasd-3-1536x439.png",
+      "description": "A simple data table with clearly labeled rows and columns containing numerical values, suitable for data analysis questions in science."
+    }
+  ],
+  "Math": [
+    {
+      "url": "https://gotestprep.com/wp-content/uploads/2024/06/sadas-3.png",
+      "description": "A mathematical graph showing a plotted linear equation on a standard x-y coordinate plane."
+    },
+    {
+      "url": "https://gotestprep.com/wp-content/uploads/2024/06/sadas-2.png",
+      "description": "A diagram for a geometry word problem, showing geometric shapes with labeled measurements and dimensions."
+    },
+    {
+      "url": "https://gotestprep.com/wp-content/uploads/2024/06/dd-8.png",
+      "description": "A bar graph for a data analysis problem, showing a comparison of numerical data across different categories."
+    },
+    {
+      "url": "https://gotestprep.com/wp-content/uploads/2024/06/dd-5.png",
+      "description": "A pie chart for a data analysis problem, dividing a whole into clearly labeled percentage parts."
+    }
+  ]
+}
