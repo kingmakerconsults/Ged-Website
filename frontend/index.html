@@ -1023,27 +1023,38 @@ function App() {
     const [currentUser, setCurrentUser] = useState(null);
     const [progress, setProgress] = useState({});
 
-    const handleStartComprehensiveExam = async (subject) => {
+    const handleGenerateComprehensiveExam = async (subject) => {
         setIsLoading(true);
         setLoadingMessage(`Generating your comprehensive ${subject} exam...`);
+        setActiveQuiz(null);
+
         try {
-            const response = await fetch('https://ged-website.onrender.com/generate-comprehensive-exam', {
+            const response = await fetch(`https://ged-website.onrender.com/generate-quiz`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ subject })
+                body: JSON.stringify({
+                    subject: subject,
+                    comprehensive: true
+                })
             });
 
             if (!response.ok) {
-                throw new Error(`Failed to generate exam. Status: ${response.status}`);
+              const err = await response.json();
+              throw new Error(err.error || `Request failed with status ${response.status}`);
             }
-            const examData = await response.json();
+
+            const result = await response.json();
+            let jsonText = result.candidates[0].content.parts[0].text;
+            jsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+            const examData = JSON.parse(jsonText);
+
             startQuiz(examData, subject);
-        } catch (error) {
-            console.error("Error generating comprehensive exam:", error);
-            alert("Sorry, we couldn't generate the comprehensive exam. Please try again later.");
+
+        } catch (err) {
+            console.error('Failed to generate exam:', err);
+            alert('Failed to generate exam: ' + err.message);
         } finally {
             setIsLoading(false);
-            setLoadingMessage('');
         }
     };
 
@@ -1213,7 +1224,7 @@ function App() {
                         onSelectQuiz={startQuiz} 
                         onSelectGenerator={(subject) => { setActiveGenerator(subject); setView('generator'); }}
                         onStartPopQuiz={handleStartPopQuiz}
-                        onStartComprehensiveExam={handleStartComprehensiveExam}
+                        onStartComprehensiveExam={handleGenerateComprehensiveExam}
                     />
                 );
         }
@@ -1411,7 +1422,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
                                <SparklesIcon className="h-8 w-8 text-purple-500" />
                                <h3 className="text-xl font-bold text-purple-800 mt-2">Comprehensive Exam</h3>
                                <p className="text-purple-600 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
-                               <button onClick={() => handleStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 transition">
+                               <button onClick={() => onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 transition">
                                     Start Comprehensive Exam
                                </button>
                             </div>

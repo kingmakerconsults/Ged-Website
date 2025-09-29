@@ -71,11 +71,56 @@ app.post('/define-word', async (req, res) => {
 
 
 app.post('/generate-quiz', async (req, res) => {
-  const { subject, topic } = req.body;
+    const { subject, topic, comprehensive } = req.body;
+    let prompt;
 
-  if (!subject || !topic) {
-    return res.status(400).json({ error: 'Subject and topic are required.' });
-  }
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+    if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
+        console.error('API key not configured on the server. Please check the .env file.');
+        return res.status(500).json({ error: 'Server configuration error.' });
+    }
+
+    if (comprehensive) {
+        const comprehensivePrompts = {
+            "Social Studies": `Generate a 35-question comprehensive GED-style Social Studies exam. The questions must cover a broad range of topics. Ensure the distribution reflects official GED standards: approximately 50% Civics and Government, 20% U.S. History, 15% Economics, and 15% Geography and the World. Questions must be based on stimulus materials like passages, charts, or maps.`,
+            "Science": `Generate a 35-question comprehensive GED-style Science exam. The questions must cover a broad range of topics with the following distribution: 40% Life Science, 40% Physical Science, and 20% Earth and Space Science. Focus on testing scientific reasoning, data interpretation from graphs/tables, and understanding of experimental design.`,
+            "Reasoning Through Language Arts (RLA)": `Generate a 35-question comprehensive GED-style RLA exam. The questions should cover reading comprehension of both literary and informational texts, as well as standard English conventions like grammar, punctuation, and sentence structure.`,
+            "Math": `Generate a 35-question comprehensive GED-style Math exam. The questions should cover a broad range of topics with the following distribution: approximately 45% quantitative problem solving (percents, ratios, data analysis) and 55% algebraic problem solving (expressions, equations, functions, geometry).`
+        };
+        prompt = comprehensivePrompts[subject];
+        if (!prompt) {
+            return res.status(400).json({ error: 'Invalid subject for comprehensive exam.' });
+        }
+    } else {
+        if (!subject || !topic) {
+            return res.status(400).json({ error: 'Subject and topic are required for a standard quiz.' });
+        }
+        const relevantImages = curatedImages.filter(image => {
+            const lowerCaseTopic = topic.toLowerCase();
+            const topicMatch = image.topics.some(t => lowerCaseTopic.includes(t.toLowerCase()));
+            const subjectMatch = image.subject.toLowerCase() === subject.toLowerCase() || image.subject === 'General';
+            return topicMatch && subjectMatch;
+        });
+        const imageRepositoryText = relevantImages.length > 0
+            ? relevantImages.map(img =>
+                `{ "url": "${img.url}", "description": "${img.description}", "type": "${img.type}", "subject": "${img.subject}", "era": "${img.era}", "topics": ["${img.topics.join('", "')}"] }`
+              ).join('\n')
+            : "No relevant images were found in the repository for this specific topic.";
+
+        prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz must contain a mix of passage-based questions and image-based questions.
+        When you create an image-based question, you MUST follow this two-step process:
+        1.  **First, select a specific URL and its description from the 'Pre-approved Image List' provided below.**
+        2.  **Second, write a question that is DIRECTLY and EXCLUSIVELY about the content of THAT SPECIFIC IMAGE.** The text of the question must clearly reference the image you chose (e.g., "This map shows...", "The political cartoon criticizes...").
+        **Crucially, DO NOT generate a question about one topic and then use an unrelated image. The question text and the chosen image must be perfectly matched.**
+        If you cannot find a suitable image in the pre-approved list for a question you want to ask, you are permitted to search for another publicly accessible and relevant image, but you must still ensure the question is about that specific image.
+        **Pre-approved Image List:**
+        ${imageRepositoryText}
+        For all other questions, provide a text 'passage'. Ensure the output is a valid JSON object following the specified schema.`;
+
+        if (subject === "Social Studies") {
+            prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
+        }
+    }
 
   const apiKey = process.env.GOOGLE_AI_API_KEY;
   if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
@@ -281,103 +326,6 @@ const generateAIContent = async (prompt, schema) => {
 };
 
 
-app.post('/generate-comprehensive-exam', async (req, res) => {
-    const { subject } = req.body;
-    if (!subject) {
-        return res.status(400).json({ error: 'Subject is required.' });
-    }
-
-    try {
-        const exam = {
-            id: `comp_${subject.toLowerCase().replace(/\s/g, '_')}_${new Date().getTime()}`,
-            title: `Comprehensive Practice Exam: ${subject}`,
-            questions: [],
-            timeLimit: 90 * 60, // Default 90 minutes
-        };
-
-        const questionSchema = {
-            type: "OBJECT",
-            properties: {
-                questions: {
-                    type: "ARRAY",
-                    items: {
-                        type: "OBJECT",
-                        properties: {
-                            question: { type: "STRING" },
-                            passage: { type: "STRING" },
-                            imageUrl: { type: "STRING" },
-                            answerOptions: {
-                                type: "ARRAY",
-                                items: {
-                                    type: "OBJECT",
-                                    properties: {
-                                        text: { type: "STRING" },
-                                        isCorrect: { type: "BOOLEAN" },
-                                        rationale: { type: "STRING" }
-                                    },
-                                    "required": ["text", "isCorrect", "rationale"]
-                                }
-                            }
-                        },
-                        "required": ["question", "answerOptions"]
-                    }
-                }
-            },
-            "required": ["questions"]
-        };
-
-        if (subject === 'Science' || subject === 'Math' || subject === 'Social Studies') {
-            exam.timeLimit = 75 * 60;
-            const premadeQuestions = getPremadeQuestions(subject, 15);
-            const aiPrompt = `Generate 10 new, unique GED-style multiple-choice questions for the subject "${subject}". The questions should cover a range of topics within the subject. Ensure the output is a valid JSON object following the specified schema.`;
-            const aiResult = await generateAIContent(aiPrompt, questionSchema);
-            exam.questions = [...premadeQuestions, ...aiResult.questions];
-        } else if (subject === 'Reasoning Through Language Arts (RLA)') {
-             const premadeGrammar = getPremadeQuestions("Reasoning Through Language Arts (RLA)", 10);
-
-            const grammarPrompt = `Generate 10 new, unique GED-style multiple-choice questions focused on English grammar, punctuation, and sentence structure.`;
-            const readingPrompt = `Generate 10 new, unique GED-style reading comprehension questions based on short informational passages.`;
-            const passagesPrompt = `Generate two short, opposing passages on a debatable topic suitable for a GED RLA essay. The topic should be accessible, such as "the pros and cons of social media" or "the viability of a four-day work week." Also, provide a standard GED essay prompt that asks the student to analyze both passages and determine which argument is better supported.`;
-
-            const passageSchema = {
-                type: "OBJECT",
-                properties: {
-                    essayPrompt: { type: "STRING" },
-                    essayPassages: {
-                        type: "ARRAY",
-                        items: {
-                            type: "OBJECT",
-                            properties: {
-                                title: { type: "STRING" },
-                                content: { type: "STRING" }
-                            },
-                            required: ["title", "content"]
-                        }
-                    }
-                },
-                required: ["essayPrompt", "essayPassages"]
-            };
-
-            const [aiGrammar, aiReading, passageData] = await Promise.all([
-                generateAIContent(grammarPrompt, questionSchema),
-                generateAIContent(readingPrompt, questionSchema),
-                generateAIContent(passagesPrompt, passageSchema)
-            ]);
-
-            exam.questions = [...premadeGrammar, ...aiGrammar.questions, ...aiReading.questions];
-            exam.essayPrompt = passageData.essayPrompt;
-            exam.essayPassages = passageData.essayPassages;
-        }
-
-        // Shuffle and re-number all questions
-        exam.questions = exam.questions.sort(() => 0.5 - Math.random()).map((q, i) => ({ ...q, questionNumber: i + 1 }));
-
-        res.json(exam);
-    } catch (error) {
-        console.error('Error generating comprehensive exam:', error.response ? error.response.data : error.message);
-        res.status(500).json({ error: 'Failed to generate comprehensive exam from AI service.' });
-    }
-});
 
 // The '0.0.0.0' is important for containerized environments like Render.
 app.listen(port, '0.0.0.0', () => {
