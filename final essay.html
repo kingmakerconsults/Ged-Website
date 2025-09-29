@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Smith's Interactive GED Essay Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Light Blue & Neutrals -->
+    <!-- Application Structure Plan: A tab-based SPA with four views: "Practice Passages," "Essay Structure & Practice," "Evidence Strengths," and "Argument Weaknesses." This integrates the reading material directly into the main tool, creating a seamless workflow where students can easily switch between reading and writing. -->
+    <!-- Visualization & Content Choices: 
+        - Passages Tab: A dropdown selector dynamically loads one of ten article pairs into a two-column layout. Goal: Inform & Analyze. Justification: Side-by-side reading is crucial, and variety prevents repetition. Method: HTML/CSS/JS.
+        - Essay Structure & Typing Practice: Structured HTML with interactive textareas. Goal: Organize & Practice. Interaction: A "Finish & Review" button compiles the text. A modal displays the final document. Justification: This provides a simple, reliable active learning experience. Method: HTML/CSS/JS.
+        - Formatted Essay Display & Email: A modal window shows the compiled essay. Goal: Review & Share. Interaction: Two separate email buttons open a Gmail compose window. Justification: A robust solution for sharing work. Method: HTML/CSS/JS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            background-color: #EBF8FF; /* Light Blue */
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #4A5568; /* Slate */
+            color: #2D3748;
+        }
+        .content-card {
+            background-color: #FFFFFF;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .content-card.strength {
+             border-left: 5px solid #34A853; /* Green */
+        }
+        .content-card.weakness {
+            border-left: 5px solid #EA4335; /* Red */
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .practice-textarea {
+            transition: border-color 0.3s ease;
+            border-width: 2px;
+        }
+        #review-modal {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .placeholder-text {
+            color: #4285F4;
+            font-weight: bold;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900">Mr. Smith's Interactive GED Essay Guide</h1>
+            <p class="text-lg text-gray-600 mt-2">A step-by-step tool for timed essay practice.</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center border-b-2 border-gray-300 mb-8">
+            <button id="tab-passages" class="tab-button active text-lg font-semibold py-4 px-6 text-gray-600" onclick="showTab('passages')">Practice Passages</button>
+            <button id="tab-structure" class="tab-button text-lg font-semibold py-4 px-6 text-gray-600" onclick="showTab('structure')">Essay Structure & Practice</button>
+            <button id="tab-strengths" class="tab-button text-lg font-semibold py-4 px-6 text-gray-600" onclick="showTab('strengths')">Evidence Strengths</button>
+            <button id="tab-weaknesses" class="tab-button text-lg font-semibold py-4 px-6 text-gray-600" onclick="showTab('weaknesses')">Argument Weaknesses</button>
+        </nav>
+
+        <main>
+            <div id="content-passages" class="tab-content">
+                <div class="mb-6 bg-white p-4 rounded-lg shadow-md">
+                    <label for="topic-selector" class="block text-lg font-semibold text-gray-800 mb-2">Select an Article Topic:</label>
+                    <select id="topic-selector" class="w-full p-2 border border-gray-300 rounded-md text-lg">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div id="passage-container" class="grid lg:grid-cols-2 gap-8">
+                    <!-- Passages will be loaded here by JavaScript -->
+                </div>
+            </div>
+
+            <div id="content-structure" class="tab-content hidden space-y-6">
+                <div id="practice-controls" class="bg-white p-4 rounded-lg shadow-inner mb-6 flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                    <div class="text-center sm:text-left">
+                        <h3 class="text-xl font-bold text-gray-800">Typing Practice Mode</h3>
+                        <p class="text-sm text-gray-600">Click Start to begin a 45-minute timed session.</p>
+                    </div>
+                    <div class="flex items-center space-x-2 sm:space-x-4">
+                        <button id="start-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition-colors">Start</button>
+                        <div id="timer" class="text-3xl font-mono font-bold text-gray-800">45:00</div>
+                        <button id="finish-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors hidden">Finish & Review</button>
+                        <button id="reset-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors">Reset</button>
+                    </div>
+                </div>
+
+                <div class="practice-section bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Introduction Paragraph</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">The two passages present conflicting views on the topic of <span class="placeholder-text">[topic of both articles]</span>. In the first passage, <span class="placeholder-text">[Author 1's Last Name]</span> argues that <span class="placeholder-text">[explain Author 1's main claim in your own words]</span>. Conversely, in the second passage, <span class="placeholder-text">[Author 2's Last Name]</span> claims that <span class="placeholder-text">[explain Author 2's main claim in your own words]</span>. After analyzing both arguments, it is clear that <span class="placeholder-text">[Author's Last Name]</span> presents the more convincing and well-supported case by effectively using <span class="placeholder-text">[list the 2-3 key types of evidence you will discuss]</span>.</p>
+                    <textarea id="input-intro" class="practice-textarea w-full h-48 p-3 border-gray-300 rounded-md" placeholder="Start typing the paragraph above here..." disabled></textarea>
+                </div>
+                
+                <div class="practice-section bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Body Paragraph #1: Analyze Strong Evidence</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">First, <span class="placeholder-text">[Stronger Author's Last Name]</span> effectively builds their argument by using <span class="placeholder-text">[type of evidence, e.g., a government study]</span>. The author states, <span class="placeholder-text">["quote or paraphrase the specific piece of evidence"]</span>. This evidence is highly convincing because <span class="placeholder-text">[explain *why* this evidence is powerful]</span>.</p>
+                    <textarea id="input-body1" class="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md" placeholder="Type here when ready..." disabled></textarea>
+                </div>
+
+                <div class="practice-section bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Body Paragraph #2: Analyze More Strong Evidence</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">Furthermore, <span class="placeholder-text">[Stronger Author's Last Name]</span> strengthens their position with <span class="placeholder-text">[another type of evidence]</span>. For example, the author points out that <span class="placeholder-text">["quote or paraphrase the second piece of evidence"]</span>. This is a logical and persuasive point because <span class="placeholder-text">[explain *why* this reasoning is effective]</span>.</p>
+                    <textarea id="input-body2" class="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md" placeholder="Type here when ready..." disabled></textarea>
+                </div>
+
+                <div class="practice-section bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Body Paragraph #3: Analyze the Weaker Argument</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">In contrast, the argument presented by <span class="placeholder-text">[Weaker Author's Last Name]</span> is not as well-supported. A key weakness is the author's reliance on <span class="placeholder-text">[identify a weakness, e.g., unsupported claims]</span>. For instance, the author claims that <span class="placeholder-text">["quote or paraphrase a weak piece of evidence"]</span>. This argument is unconvincing because <span class="placeholder-text">[explain *why* it is weak]</span>.</p>
+                    <textarea id="input-body3" class="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md" placeholder="Type here when ready..." disabled></textarea>
+                </div>
+
+                <div class="practice-section bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Conclusion Paragraph</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">In conclusion, while both authors address the topic of <span class="placeholder-text">[topic of both articles]</span>, <span class="placeholder-text">[Stronger Author's Last Name]</span> presents a far more compelling argument. By skillfully using <span class="placeholder-text">[restate the types of strong evidence]</span>, the author builds a logical and evidence-based case that is ultimately more persuasive than the weakly supported claims made by <span class="placeholder-text">[Weaker Author's Last Name]</span>.</p>
+                    <textarea id="input-conclusion" class="practice-textarea w-full h-40 p-3 border-gray-300 rounded-md" placeholder="Type here when ready..." disabled></textarea>
+                </div>
+            </div>
+
+            <div id="content-strengths" class="tab-content hidden">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="content-card strength p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-green-800">Statistical Data</h4>
+                        <p class="text-gray-700">Using numbers, percentages, or data from research. Numbers feel like hard facts, so they can be very convincing.</p>
+                        <p class="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "A new study shows that 78% of people want more parks in their city."</p>
+                    </div>
+                    <div class="content-card strength p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-green-800">Expert Testimony</h4>
+                        <p class="text-gray-700">Quoting an expert on the subject. This makes the argument seem more credible because it's supported by a professional.</p>
+                        <p class="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "Dr. Aliza Carter, a leading climate scientist, says that sea levels are rising faster than ever."</p>
+                    </div>
+                    <div class="content-card strength p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-green-800">Logical Reasoning</h4>
+                        <p class="text-gray-700">Connecting ideas in a way that makes sense (like cause-and-effect). It shows the author has thought through their position.</p>
+                        <p class="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "If employees are less stressed, they will be more productive. Therefore, a four-day work week will boost company output."</p>
+                    </div>
+                     <div class="content-card strength p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-green-800">Anecdotal Evidence</h4>
+                        <p class="text-gray-700">Telling a short, relevant story to make a point more relatable and human. It connects with the reader's experience.</p>
+                        <p class="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "Last year, my own company switched to a new software, and our efficiency immediately improved by 15%."</p>
+                    </div>
+                </div>
+            </div>
+            <div id="content-weaknesses" class="tab-content hidden">
+                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                     <div class="content-card weakness p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-red-800">Unsupported Claims</h4>
+                        <p class="text-gray-700">When an author makes a statement that something is a fact but offers zero proof. It's an opinion pretending to be a fact.</p>
+                        <p class="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "It's obvious that teens don't read books anymore."</p>
+                    </div>
+                     <div class="content-card weakness p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-red-800">Overgeneralization</h4>
+                        <p class="text-gray-700">Making a huge conclusion based on only one or two examples. A small case is used to make a rule for a large group.</p>
+                        <p class="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "I saw a tourist drop some trash, which proves that all tourists are messy."</p>
+                    </div>
+                     <div class="content-card weakness p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-red-800">Emotional Appeal</h4>
+                        <p class="text-gray-700">Trying to win by making the reader feel sad, angry, or happy, instead of using facts. It distracts from the real issue.</p>
+                        <p class="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "Think of the sad, lonely puppies. You must donate to our animal shelter right now."</p>
+                    </div>
+                     <div class="content-card weakness p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold mb-2 text-red-800">False Cause</h4>
+                        <p class="text-gray-700">Incorrectly assuming that because two things happened together, one must have caused the other. It's a classic mix-up.</p>
+                        <p class="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "Our city's baseball team started winning after the new stadium was built, so the stadium caused the wins."</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="review-modal" class="fixed inset-0 w-full h-full flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg shadow-2xl w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h2 class="text-2xl font-bold">Your Completed Essay</h2>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+            <div id="review-content" class="p-8 prose max-w-none"></div>
+            <div id="email-section" class="p-6 border-t bg-gray-50 space-y-4">
+                <div>
+                    <h3 class="text-lg font-bold mb-2">Submit to Instructor</h3>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="email" id="instructor-email-input" placeholder="Instructor's email address" class="flex-grow p-2 border border-gray-300 rounded-md">
+                        <button id="instructor-email-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded transition-colors">Submit</button>
+                    </div>
+                </div>
+                 <div>
+                    <h3 class="text-lg font-bold mb-2">Send to Self</h3>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="email" id="self-email-input" placeholder="Your email address" class="flex-grow p-2 border border-gray-300 rounded-md">
+                        <button id="self-email-btn" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const passagesData = [
+            {
+                topic: "The Four-Day Work Week",
+                passage1: {
+                    title: "Passage 1: The Obvious Benefits of a Four-Day Work Week",
+                    content: `<p class="text-base leading-relaxed mb-4">The traditional five-day work week is an outdated concept from a bygone era. In today's modern economy, a transition to a four-day, 32-hour work week is the most logical step forward for enhancing productivity and improving employee well-being. The evidence supporting this shift is overwhelming and cannot be ignored by forward-thinking companies.</p><p class="text-base leading-relaxed mb-4">Numerous studies have demonstrated a clear link between a shorter work week and increased efficiency. For instance, a 2022 pilot program in the UK involving over 60 companies found that 71% of employees reported lower levels of burnout, while company revenue stayed broadly the same. This powerful <strong>statistical data</strong> proves that when employees are given more time to rest, they return to work more focused and motivated.</p><p class="text-base leading-relaxed mb-4">Dr. Evelyn Reed, a leading sociologist and author of "The Future of Work," supports this view with her <strong>expert testimony</strong>. "Our research indicates that a compressed work schedule forces companies to become more efficient, cutting out unnecessary meetings and streamlining processes," she states. "The result is a workforce that is not only happier but also more productive per hour."</p><p class="text-base leading-relaxed mb-4">This <strong>logical reasoning</strong> extends to the company's bottom line. With offices closed one extra day a week, businesses save a significant amount on overhead costs like electricity and heating. This creates a win-win scenario: employees get a better work-life balance, and the company becomes more profitable and environmentally friendly. The future is clear: a four-day work week is not just a perk; it is a competitive advantage.</p>`
+                },
+                passage2: {
+                    title: "Passage 2: The Unseen Dangers of a Four-Day Work Week",
+                    content: `<p class="text-base leading-relaxed mb-4">The recent push for a four-day work week, while appealing on the surface, is a shortsighted trend that ignores critical business realities. It's a logistical nightmare that will ultimately harm both companies and the customers they serve. Squeezing a full week's work into four days isn't a magical solution; it's a recipe for burnout and diminished service quality.</p><p class="text-base leading-relaxed mb-4">Think about the real-world consequences. My nephew works for a small tech company that experimented with a four-day week, and it was a complete disaster. This single piece of <strong>anecdotal evidence</strong> shows the model's failure. He said his team was constantly stressed, trying to cram five days of deadlines into four. Customer support requests went unanswered over the long weekend, leading to a huge drop in client satisfaction.</p><p class="text-base leading-relaxed mb-4">Based on this one case, it's clear this idealistic plan doesn't work in practice for anyone. This is a classic <strong>overgeneralization</strong>; one company's struggle doesn't mean every business will fail. Proponents of this change are ignoring the facts and are only interested in getting more time off without considering the economic fallout for the rest of us.</p><p class="text-base leading-relaxed mb-4">Furthermore, it's an <strong>unsupported claim</strong> that this model is even possible for essential services. Are we to expect that hospitals and police stations will simply shut down for three days a week? The idea is absurd. Any company that adopts a four-day schedule will immediately fall behind its five-day competitors. It's a feel-good policy that will inevitably lead to business failure.</p>`
+                }
+            },
+            {
+                topic: "Year-Round Schooling",
+                passage1: {
+                    title: "Passage 1: The Case for a Modern School Calendar",
+                    content: `<p class="text-base leading-relaxed mb-4">The long summer break is a relic of an agrarian past that no longer serves the needs of modern students. Year-round schooling, with shorter, more frequent breaks, is a crucial reform to combat 'summer slide'—the well-documented learning loss that occurs over the summer. This model keeps students' minds engaged and reduces the need for extensive review at the start of each school year.</p><p class="text-base leading-relaxed mb-4">According to a report by the National Association for Year-Round Education, schools that switch to this calendar see an average 15% improvement in standardized test scores, especially among students from low-income families. This <strong>statistical data</strong> provides concrete proof of the system's effectiveness. These shorter breaks, often called intersessions, can also be used for remedial or enrichment programs.</p><p class="text-base leading-relaxed mb-4">The <strong>logical reasoning</strong> is simple: if students have less time away from the classroom, they forget less material. This means teachers can spend more time on new concepts and less time re-teaching last year's lessons. This leads to a deeper, more comprehensive education for everyone and helps close the achievement gap that widens every summer.</p><p class="text-base leading-relaxed mb-4">Dr. Maria Flores, a child psychologist, offers her <strong>expert testimony</strong>, stating, "A balanced calendar provides a more consistent learning rhythm for children, which can reduce academic anxiety and improve long-term retention." It's a more efficient and equitable way to structure education for the 21st century.</p>`
+                },
+                passage2: {
+                    title: "Passage 2: Protect Summer Vacation for Families",
+                    content: `<p class="text-base leading-relaxed mb-4">Proponents of year-round schooling ignore the immense value of the traditional summer break. Are we to steal the magic of summer from our children? This <strong>emotional appeal</strong> to tradition and childhood joy is a powerful reason to resist such a drastic change. For many families, summer is a critical time for bonding, travel, and unique learning experiences outside the classroom, like summer camps or first jobs for teenagers.</p><p class="text-base leading-relaxed mb-4">My sister's children were in a year-round pilot program, and it was a nightmare for her family. Her son was on break in September while her daughter was in school. This single piece of <strong>anecdotal evidence</strong> shows the chaos this system creates. They couldn't plan a family trip, and finding childcare for short, scattered breaks was nearly impossible.</p><p class="text-base leading-relaxed mb-4">Because my sister had a bad experience, it's clear that all families will suffer under this model. This <strong>overgeneralization</strong> fails to consider that many other families might have different experiences or needs. The supporters of this plan are clearly out of touch with the reality of family life in this country.</p><p class="text-base leading-relaxed mb-4">It's an <strong>unsupported claim</strong> that year-round school even improves education. It just shuffles the days around. We shouldn't sacrifice the well-being and time-honored traditions of families for a system that offers questionable academic benefits at best and creates logistical headaches for everyone involved.</p>`
+                }
+            },
+            {
+                topic: "The Move to a Cashless Society",
+                passage1: {
+                    title: "Passage 1: The Inevitable and Positive Future of Digital Currency",
+                    content: `<p class="text-base leading-relaxed mb-4">Physical cash is inefficient, costly to manage, and a facilitator of criminal activity. A transition to a fully cashless society, where all transactions are digital, is the next logical step in our economic evolution. Digital payments offer unparalleled convenience, security, and a transparent financial system that benefits everyone.</p><p class="text-base leading-relaxed mb-4">A study from the Boston Consulting Group found that a cashless system could save a developed nation up to 1% of its GDP annually in costs related to printing, storing, and transporting physical currency. This <strong>statistical data</strong> highlights the immense economic inefficiency of our current system. The savings could be reinvested into public services like healthcare and education.</p><p class="text-base leading-relaxed mb-4">Consider the <strong>logical reasoning</strong>: electronic trails make it far more difficult for illegal economies to thrive, which is a benefit to all of society. By reducing untraceable cash transactions, we can more effectively combat tax evasion and money laundering, leading to a safer and more just society for all law-abiding citizens.</p><p class="text-base leading-relaxed mb-4">Furthermore, as financial technology expert Dr. David Chen confirms in his <strong>expert testimony</strong>, "Modern encryption and biometric security make digital wallets far more secure than carrying a physical wallet, which can be easily lost or stolen." Resisting this change is like trying to hold back the tide of progress.</p>`
+                },
+                passage2: {
+                    title: "Passage 2: The Dangers of a World Without Cash",
+                    content: `<p class="text-base leading-relaxed mb-4">A cashless society is a dangerous idea that threatens personal privacy and financial inclusion. In such a world, every single purchase you make would be tracked, creating a permanent record that could be monitored by corporations and governments. This complete loss of privacy is a steep price to pay for a little convenience.</p><p class="text-base leading-relaxed mb-4">Think of the most vulnerable among us—the elderly, the unbanked, the homeless. An <strong>emotional appeal</strong> to our sense of compassion shows why this is a bad idea. Millions of people do not have reliable access to digital technology. A cashless system would effectively lock them out of the economy, leaving them unable to buy even basic necessities.</p><p class="text-base leading-relaxed mb-4">It is an <strong>unsupported claim</strong> that digital is always safer. What if the power goes out or a system is hacked? Just last year, a major payment processor went down for a few hours, and suddenly nobody could buy anything. This single event proves that without cash as a backup, the entire economy could be brought to a standstill at any moment.</p><p class="text-base leading-relaxed mb-4">Since that one payment processor failed, it's clear that the entire digital financial system is fragile. This <strong>overgeneralization</strong> ignores the robust and redundant systems that underpin most financial networks. The risks of this radical experiment far outweigh the supposed benefits, and we must protect the option of using cash.</p>`
+                }
+            },
+            {
+                topic: "Mandatory Voting",
+                passage1: {
+                    title: "Passage 1: A Citizen's Duty: The Case for Mandatory Voting",
+                    content: `<p class="text-base leading-relaxed mb-4">Voting is not just a right; it is a fundamental civic duty. In a healthy democracy, all citizens should participate in choosing their leaders. Mandatory voting, as practiced in countries like Australia, ensures high turnout and leads to governments that are more representative of the entire population, not just a motivated or extreme base.</p><p class="text-base leading-relaxed mb-4">The <strong>statistical data</strong> is compelling. In Australia, voter turnout regularly exceeds 90%, compared to the United States, where it often hovers around 60% in presidential elections. This dramatic difference means Australian politicians must appeal to a much broader and more moderate electorate to get elected.</p><p class="text-base leading-relaxed mb-4">Political scientist Dr. Lena Petrova argues with her <strong>expert testimony</strong>, "Mandatory voting transforms the political landscape. It encourages a focus on broad, national issues like healthcare and the economy, and it reduces the power of extremist voices that thrive on low-turnout elections." Her analysis confirms the system's democratic benefits.</p><p class="text-base leading-relaxed mb-4">The <strong>logical reasoning</strong> follows that if everyone participates, the resulting government will more accurately reflect the will of the people. It fosters a more engaged and informed citizenry, as people are encouraged to pay attention to politics. By making voting a universal civic responsibility, we strengthen our democracy for generations to come.</p>`
+                },
+                passage2: {
+                    title: "Passage 2: The Freedom Not to Vote",
+                    content: `<p class="text-base leading-relaxed mb-4">The right to vote inherently includes the right *not* to vote. Forcing citizens to the polls is a violation of personal liberty, a core American value. This <strong>emotional appeal</strong> to freedom is central to the argument against compulsion. Many people choose not to vote as a form of protest, or because they feel uninformed. Compelling them to vote is both unethical and counterproductive.</p><p class="text-base leading-relaxed mb-4">My friend in Brazil, where voting is also mandatory, once forgot to vote and had to pay a fine and deal with a huge amount of paperwork. His frustrating <strong>anecdotal evidence</strong> shows how this system can punish ordinary people for simple mistakes rather than achieve any noble goal.</p><p class="text-base leading-relaxed mb-4">Forcing uninformed or uninterested people to cast a ballot will only increase the number of random, thoughtless votes. This is an <strong>unsupported claim</strong>, but it is clear that it does not lead to better government; it leads to a government chosen by chance. This would weaken, not strengthen, our democratic process.</p><p class="text-base leading-relaxed mb-4">The quality of votes is far more important than the quantity. When people are forced to vote, they are no longer truly free. Instead of forcing participation, we should focus on inspiring it through better candidates, clearer policies, and a political system that people can actually believe in.</p>`
+                }
+            },
+            {
+                topic: "Social Media's Impact on Society",
+                passage1: {
+                    title: "Passage 1: The Unifying Power of the Digital Town Square",
+                    content: `<p class="text-base leading-relaxed mb-4">Social media has become the modern town square, a powerful tool for global connection and social change. It gives a voice to the voiceless and allows marginalized communities to organize and advocate for their rights. Movements that have changed the world, such as the Arab Spring, were largely fueled by the rapid spread of information on these platforms.</p><p class="text-base leading-relaxed mb-4">The <strong>logical reasoning</strong> is clear: by removing traditional gatekeepers of information, social media allows for a more democratic and participatory public discourse. Anyone with an internet connection can share their story, hold leaders accountable, and connect with like-minded individuals across the globe.</p><p class="text-base leading-relaxed mb-4">My own family has benefited. My cousin who lives overseas uses social media to share photos and videos of her children with us. This <strong>anecdotal evidence</strong>, multiplied by millions of families, shows the profound personal value of these platforms in maintaining relationships across vast distances.</p><p class="text-base leading-relaxed mb-4">Professor Anya Sharma, a communications expert at a major university, provides <strong>expert testimony</strong> on this topic. "Social media platforms," she notes, "have fundamentally reshaped civic engagement, creating new avenues for political mobilization and community building that are essential for a 21st-century democracy." It is an undeniable force for progress.</p>`
+                },
+                passage2: {
+                    title: "Passage 2: The Poison of Clicks and Likes",
+                    content: `<p class="text-base leading-relaxed mb-4">While promising connection, social media has delivered division and anxiety. These platforms are designed to be addictive, using algorithms that promote outrage and extremism because that content gets the most engagement. This has led to a more polarized and less empathetic society.</p><p class="text-base leading-relaxed mb-4">Dr. Marcus Thorne, a psychologist specializing in digital behavior, offers his <strong>expert testimony</strong>: "We've seen a staggering rise in depression and anxiety among teenagers that directly correlates with the rise of smartphones and social media." This isn't a coincidence; it's a public health crisis driven by technology.</p><p class="text-base leading-relaxed mb-4">Since social media became popular, our politics have become more divided. Therefore, social media caused the division. This is a classic example of a <strong>false cause</strong> fallacy. While they may be correlated, many other factors contribute to political polarization. Blaming social media alone is too simplistic.</p><p class="text-base leading-relaxed mb-4">Think of the children whose self-esteem is being destroyed by cyberbullying and unrealistic online comparisons. This <strong>emotional appeal</strong> highlights the real-world harm these platforms cause. Social media isn't a town square; it's an unregulated experiment on our minds that has gone horribly wrong.</p>`
+                }
+            },
+            {
+                topic: "Renewable Energy vs. Fossil Fuels",
+                passage1: {
+                    title: "Passage 1: The Urgent Need for a Green Energy Transition",
+                    content: `<p class="text-base leading-relaxed mb-4">The science is clear: our reliance on fossil fuels is driving a climate crisis that threatens our very existence. A rapid and complete transition to renewable energy sources like solar and wind is not just an option, but a necessity for the survival of our planet. These technologies are cleaner, safer, and becoming more affordable every year.</p><p class="text-base leading-relaxed mb-4">According to the International Renewable Energy Agency, the cost of solar photovoltaic electricity has fallen by over 85% in the last decade. This <strong>statistical data</strong> makes the economic case for renewables undeniable. They are no longer a distant dream; they are a viable and economically sound alternative to dirty energy.</p><p class="text-base leading-relaxed mb-4">The <strong>logical reasoning</strong> behind the transition is multifaceted. By investing in a domestic green energy grid, we reduce our dependence on foreign oil, thereby increasing our national security. Furthermore, a shift to renewables would create millions of high-paying jobs in manufacturing, installation, and maintenance, boosting our economy for decades.</p><p class="text-base leading-relaxed mb-4">As Nobel Prize-winning physicist Dr. Chen Li states in her <strong>expert testimony</strong>, "The technological hurdles for a 100% renewable grid have largely been solved; what we lack is the political will." Investing in a green energy grid is an investment in our future health, security, and prosperity.</p>`
+                },
+                passage2: {
+                    title: "Passage 2: The Practical Case for a Measured Energy Approach",
+                    content: `<p class="text-base leading-relaxed mb-4">No one disputes the importance of a cleaner environment, but a reckless rush to abandon fossil fuels would be an economic disaster. Renewable energy sources are not yet reliable enough to power our grid 24/7. This <strong>unsupported claim</strong> ignores the advancements in battery storage and grid management that make renewables increasingly dependable.</p><p class="text-base leading-relaxed mb-4">The sun doesn't shine at night, and the wind doesn't always blow. We need the consistent, baseload power that natural gas and other fossil fuels provide. A sudden transition would lead to skyrocketing energy prices, hurting low-income families and making our industries uncompetitive.</p><p class="text-base leading-relaxed mb-4">Think of the hardworking coal miners and oil rig workers whose livelihoods would be destroyed. This <strong>emotional appeal</strong> asks us to consider the human cost of a rapid change. We cannot simply cast these people aside in our quest for a green utopia. Their communities would be devastated.</p><p class="text-base leading-relaxed mb-4">My uncle's town had a large wind farm built nearby, and he said it was incredibly noisy and didn't even lower their electricity bills. This <strong>anecdotal evidence</strong> proves that these projects are often more trouble than they're worth. The smart approach is a gradual one, maintaining a reliable energy backbone until the new technology is truly ready to stand on its own.</p>`
+                }
+            },
+            {
+                topic: "Standardized Testing in Schools",
+                passage1: {
+                    title: "Passage 1: An Objective Measure of Success",
+                    content: `<p class="text-base leading-relaxed mb-4">Standardized tests are a crucial tool for ensuring accountability and equity in our education system. They provide an objective, reliable way to measure what students are learning and to compare the performance of schools across different districts and states. Without this data, we cannot identify which schools are failing their students.</p><p class="text-base leading-relaxed mb-4">A Department of Education report provided <strong>statistical data</strong> showing that since the implementation of statewide testing, graduation rates for minority students have increased by 15%. This suggests the data from these tests was instrumental in closing achievement gaps by targeting resources where they were needed most.</p><p class="text-base leading-relaxed mb-4">The <strong>logical reasoning</strong> is that these tests ensure that all students are held to the same high standards, regardless of their zip code. When every student takes the same test, we can get a clear, unbiased picture of school performance, which is essential for fair funding and effective reforms. It is the only way to ensure true educational equity.</p><p class="text-base leading-relaxed mb-4">As education policy analyst Dr. Samuel Jones confirms in his <strong>expert testimony</strong>, "While no single test is perfect, standardized assessments are the most effective tool we have for large-scale evaluation of educational systems." They are not the whole picture of learning, but they are an essential part of it.</p>`
+                },
+                passage2: {
+                    title: "Passage 2: Killing Creativity, One Bubble Sheet at a Time",
+                    content: `<p class="text-base leading-relaxed mb-4">The obsession with standardized testing has turned our schools into test-prep factories, stifling creativity and the joy of learning. When a school's funding and a teacher's job depend on test scores, the curriculum inevitably narrows. Can we stand by and watch as the souls of our schools are crushed by bubble sheets? This <strong>emotional appeal</strong> urges us to reconsider the human cost.</p><p class="text-base leading-relaxed mb-4">Important subjects like art, music, and social studies are pushed aside in favor of endless drills for multiple-choice questions. My son, who is a brilliant and creative thinker, suffers from severe test anxiety. His frustrating <strong>anecdotal evidence</strong> is a perfect example of the system's failure. He understands the material, but the high-stakes pressure causes him to perform poorly.</p><p class="text-base leading-relaxed mb-4">Because my creative son does poorly, it's safe to say that all creative students are being failed by this system. This is a clear <strong>overgeneralization</strong>. It ignores the many students, creative or otherwise, who may excel in this format or benefit from the structured learning it encourages.</p><p class="text-base leading-relaxed mb-4">It is an <strong>unsupported claim</strong> that these tests even measure true intelligence. They only measure a student's ability to memorize facts and take tests. Standardized tests don't measure what matters most: critical thinking, creativity, and a lifelong love of learning.</p>`
+                }
+            },
+            {
+                topic: "Universal Basic Income (UBI)",
+                passage1: {
+                    title: "Passage 1: A Safety Net for the 21st Century",
+                    content: `<p class="text-base leading-relaxed mb-4">As automation and artificial intelligence threaten to eliminate millions of jobs, we need a bold solution to prevent widespread poverty. Universal Basic Income (UBI), a regular, unconditional payment to all citizens, provides the economic security necessary for people to adapt and thrive in a changing world. It is a floor, not a ceiling, that empowers people.</p><p class="text-base leading-relaxed mb-4">A pilot program in Stockton, California, provided residents with $500 a month, and the <strong>statistical data</strong> was stunning. Recipients were healthier, less stressed, and twice as likely to find full-time employment as those in the control group. This proves UBI is not a handout; it's an investment in human potential and economic mobility.</p><p class="text-base leading-relaxed mb-4">The <strong>logical reasoning</strong> is that a basic income floor allows people to take calculated risks. They can afford to leave a dead-end job to get more training, start a small business, or care for a sick family member without facing financial ruin. This fosters a more dynamic and entrepreneurial economy for everyone.</p><p class="text-base leading-relaxed mb-4">Economist Dr. Helena Schmidt, a Nobel laureate, provides <strong>expert testimony</strong> in support of UBI. "In the face of unprecedented technological disruption," she argues, "a basic income is the most efficient and dignified way to ensure social stability and shared prosperity."</p>`
+                },
+                passage2: {
+                    title: "Passage 2: An Unaffordable and Dangerous Idea",
+                    content: `<p class="text-base leading-relaxed mb-4">Universal Basic Income is a utopian fantasy with a nightmarish price tag. Providing a meaningful UBI to every adult in the country would cost trillions of dollars annually, requiring massive tax increases that would cripple our economy. It is simply not affordable and everyone knows it.</p><p class="text-base leading-relaxed mb-4">Do we want to live in a country where hardworking people have their money taken to pay for those who choose not to work? This <strong>emotional appeal</strong> to fairness and resentment is a powerful argument against the policy. It creates a society of dependency rather than one of self-reliance and ambition.</p><p class="text-base leading-relaxed mb-4">The idea that people will continue to work with a guaranteed income is an <strong>unsupported claim</strong>. It's just common sense that if you pay people to do nothing, that's exactly what they'll do. A UBI would lead to a significant portion of the population dropping out of the workforce, causing labor shortages and economic stagnation.</p><p class="text-base leading-relaxed mb-4">My neighbor said if UBI was passed, he'd quit his job in a heartbeat. This piece of <strong>anecdotal evidence</strong> shows the danger. If he would do it, millions would. It's a deeply flawed idea that misunderstands basic human motivation and sound economics.</p>`
+                }
+            },
+            {
+                topic: "The Future of Artificial Intelligence",
+                passage1: {
+                    title: "Passage 1: AI: Our Partner in Solving Humanity's Problems",
+                    content: `<p class="text-base leading-relaxed mb-4">Artificial Intelligence represents one of the greatest leaps forward in human history. Its potential to accelerate scientific discovery, cure diseases, solve climate change, and eliminate poverty is almost limitless. By handling complex data analysis and automating tedious tasks, AI will free up humans to focus on what we do best: creativity, strategic thinking, and emotional connection.</p><p class="text-base leading-relaxed mb-4">The <strong>statistical data</strong> from market analyses is clear: the AI industry is projected to add over $15 trillion to the global economy by 2030. This isn't just about efficiency; it's about creating entirely new industries and unprecedented levels of prosperity that will benefit everyone.</p><p class="text-base leading-relaxed mb-4">According to tech visionary Dr. Kenji Tanaka, his <strong>expert testimony</strong> confirms this bright future. "We should view AI not as a competitor, but as a powerful collaborator. It is a tool that can amplify human intelligence and help us build a more prosperous and equitable world for everyone."</p><p class="text-base leading-relaxed mb-4">The <strong>logical reasoning</strong> is that AI can process information at a scale and speed that is impossible for the human brain. This will allow us to find patterns in medical data to cure cancer or model complex climate systems to find solutions. Embracing AI is key to unlocking a brighter future.</p>`
+                },
+                passage2: {
+                    title: "Passage 2: A Reckless Gamble with Our Future",
+                    content: `<p class="text-base leading-relaxed mb-4">The unchecked development of advanced Artificial Intelligence is a reckless gamble with the future of humanity. We are creating systems with intelligence that could far surpass our own, without fully understanding how to control them. An AI that is powerful but not aligned with human values could pose an existential threat.</p><p class="text-base leading-relaxed mb-4">Even the brilliant physicist Stephen Hawking warned, "The development of full artificial intelligence could spell the end of the human race." This chilling <strong>expert testimony</strong> from one of history's greatest minds should not be taken lightly. We are flying blind into a dangerous future.</p><p class="text-base leading-relaxed mb-4">Imagine a world run by cold, unfeeling machines, where every decision is made by an algorithm and human creativity is worthless. This <strong>emotional appeal</strong> to our fear of the unknown highlights the dark potential of what we are creating. We are sacrificing our humanity for the sake of efficiency.</p><p class="text-base leading-relaxed mb-4">Beyond the sci-fi scenarios, there are immediate dangers. A local factory recently automated a production line and laid off 50 workers. This single event is an <strong>overgeneralization</strong>, but it clearly shows that AI's primary role is to eliminate human jobs. We must proceed with extreme caution and strong regulation before we create something we cannot un-create.</p>`
+                }
+            },
+            {
+                topic: "Public Transportation Investment",
+                passage1: {
+                    title: "Passage 1: The Engine of a Modern, Equitable City",
+                    content: `<p class="text-base leading-relaxed mb-4">Robust, reliable public transportation is the lifeblood of a modern city. Investing in buses, trains, and subways reduces crippling traffic congestion, lowers carbon emissions, and provides essential mobility for all citizens, regardless of their income. It creates a more equitable and economically vibrant community.</p><p class="text-base leading-relaxed mb-4">Cities like Tokyo and Berlin, renowned for their public transit, demonstrate the benefits. A study by the Urban Mobility Institute found that for every dollar invested in public transportation, a city sees about four dollars in economic returns. This <strong>statistical data</strong> proves that transit is one of the smartest investments a society can make.</p><p class="text-base leading-relaxed mb-4">Urban planner Maria Flores provides her <strong>expert testimony</strong>: "A well-designed transit system connects people to jobs, education, and healthcare. It is the single most effective tool for reducing poverty and promoting social equity in a metropolitan area." Her words underscore the profound social benefits.</p><p class="text-base leading-relaxed mb-4">The <strong>logical reasoning</strong> is simple: more people on buses and trains means fewer cars on the road. This directly leads to less traffic, cleaner air, and a reduced need for expensive highway expansions. The benefits for public health and the environment are just as significant as the economic returns.</p>`
+                },
+                passage2: {
+                    title: "Passage 2: An Expensive and Inflexible Relic",
+                    content: `<p class="text-base leading-relaxed mb-4">Massive investments in fixed-route public transit like light rail are an enormous waste of taxpayer money in an era of on-demand transportation. These projects cost billions and take decades to build, often serving only a small fraction of the population. By the time they are finished, technology will have made them obsolete.</p><p class="text-base leading-relaxed mb-4">My city spent over $2 billion on a new light rail line that is now famously underused. It's a ghost train that goes from nowhere to nowhere. This <strong>anecdotal evidence</strong> from my own community is proof that these projects are out of touch with what people actually need and want.</p><p class="text-base leading-relaxed mb-4">It's an <strong>unsupported claim</strong> that public transit is good for the environment. Think of the enormous amount of energy required to run those trains and the pollution from the buses. They are far from the "green" solution they are made out to be, but a proper analysis is never done.</p><p class="text-base leading-relaxed mb-4">We cannot sacrifice the freedom and convenience of personal transportation for these expensive, empty trains. This <strong>emotional appeal</strong> to the American ideal of the open road resonates with most people. We should be investing in flexible, modern solutions, not pouring money into the transportation systems of the last century.</p>`
+                }
+            }
+        ];
+
+        let timerInterval;
+        let timeRemaining = 45 * 60;
+        let isPracticeActive = false;
+
+        const startBtn = document.getElementById('start-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const finishBtn = document.getElementById('finish-btn');
+        const timerDisplay = document.getElementById('timer');
+        const textareas = document.querySelectorAll('.practice-textarea');
+        const modal = document.getElementById('review-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const reviewContent = document.getElementById('review-content');
+        
+        const instructorEmailInput = document.getElementById('instructor-email-input');
+        const selfEmailInput = document.getElementById('self-email-input');
+        const instructorEmailBtn = document.getElementById('instructor-email-btn');
+        const selfEmailBtn = document.getElementById('self-email-btn');
+        
+        const topicSelector = document.getElementById('topic-selector');
+        const passageContainer = document.getElementById('passage-container');
+
+        // Prevent pasting into textareas to encourage typing practice
+        textareas.forEach(textarea => {
+            textarea.addEventListener('paste', (e) => {
+                e.preventDefault();
+            });
+        });
+        
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.classList.add('text-red-500');
+                    finishAndReview();
+                }
+            }, 1000);
+        }
+
+        function startPractice() {
+            if (isPracticeActive) return;
+            isPracticeActive = true;
+            startBtn.disabled = true;
+            startBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            finishBtn.classList.remove('hidden');
+            
+            textareas.forEach(ta => ta.disabled = false);
+            if(textareas.length > 0) textareas[0].focus();
+            startTimer();
+        }
+
+        function resetPractice() {
+            clearInterval(timerInterval);
+            isPracticeActive = false;
+            timeRemaining = 45 * 60;
+            updateTimerDisplay();
+            
+            startBtn.disabled = false;
+            startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            finishBtn.classList.add('hidden');
+            timerDisplay.classList.remove('text-red-500');
+
+            textareas.forEach(ta => {
+                ta.value = '';
+                ta.disabled = true;
+            });
+        }
+
+        function finishAndReview() {
+            clearInterval(timerInterval);
+            
+            const introText = document.getElementById('input-intro').value;
+            const body1Text = document.getElementById('input-body1').value;
+            const body2Text = document.getElementById('input-body2').value;
+            const body3Text = document.getElementById('input-body3').value;
+            const conclusionText = document.getElementById('input-conclusion').value;
+
+            let formattedEssay = `<h3>Introduction</h3><p>${introText || "<em>(No content)</em>"}</p>`;
+            formattedEssay += `<h3>Body Paragraph #1</h3><p>${body1Text || "<em>(No content)</em>"}</p>`;
+            formattedEssay += `<h3>Body Paragraph #2</h3><p>${body2Text || "<em>(No content)</em>"}</p>`;
+            formattedEssay += `<h3>Body Paragraph #3</h3><p>${body3Text || "<em>(No content)</em>"}</p>`;
+            formattedEssay += `<h3>Conclusion</h3><p>${conclusionText || "<em>(No content)</em>"}</p>`;
+
+            reviewContent.innerHTML = formattedEssay;
+            modal.classList.remove('hidden');
+        }
+
+        function generateGmailLink(to, subject, body) {
+            const baseUrl = "https://mail.google.com/mail/?view=cm&fs=1";
+            const params = `&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            return baseUrl + params;
+        }
+
+        function sendEmail(recipientEmail, subject) {
+            if (!recipientEmail) {
+                alert("Please enter an email address.");
+                return;
+            }
+
+            let body = "Here is my completed practice essay:\n\n";
+            body += "--- MY ESSAY ---\n\n";
+            body += `Introduction:\n${document.getElementById('input-intro').value || "(No content)"}\n\n`;
+            body += `Body Paragraph 1:\n${document.getElementById('input-body1').value || "(No content)"}\n\n`;
+            body += `Body Paragraph 2:\n${document.getElementById('input-body2').value || "(No content)"}\n\n`;
+            body += `Body Paragraph 3:\n${document.getElementById('input-body3').value || "(No content)"}\n\n`;
+            body += `Conclusion:\n${document.getElementById('input-conclusion').value || "(No content)"}\n\n`;
+
+            const gmailLink = generateGmailLink(recipientEmail, subject, body);
+            window.open(gmailLink, '_blank');
+        }
+        
+        function loadPassages(index) {
+            const selectedPassage = passagesData[index];
+            let passageHTML = `
+                <article class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900 border-b pb-2">${selectedPassage.passage1.title}</h2>
+                    ${selectedPassage.passage1.content}
+                </article>
+                <article class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900 border-b pb-2">${selectedPassage.passage2.title}</h2>
+                    ${selectedPassage.passage2.content}
+                </article>
+            `;
+            passageContainer.innerHTML = passageHTML;
+        }
+
+        function populateSelector() {
+            passagesData.forEach((passage, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = passage.topic;
+                topicSelector.appendChild(option);
+            });
+        }
+        
+        topicSelector.addEventListener('change', (e) => {
+            loadPassages(e.target.value);
+        });
+
+        startBtn.addEventListener('click', startPractice);
+        resetBtn.addEventListener('click', resetPractice);
+        finishBtn.addEventListener('click', finishAndReview);
+        instructorEmailBtn.addEventListener('click', () => sendEmail(instructorEmailInput.value, "GED Practice Essay Submission"));
+        selfEmailBtn.addEventListener('click', () => sendEmail(selfEmailInput.value, "My GED Practice Essay"));
+        closeModalBtn.addEventListener('click', () => modal.classList.add('hidden'));
+
+        // Initial setup
+        populateSelector();
+        loadPassages(0);
+        updateTimerDisplay();
+    </script>
+</body>
+</html>
+

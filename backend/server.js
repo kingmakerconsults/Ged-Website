@@ -101,22 +101,20 @@ app.post('/generate-quiz', async (req, res) => {
         : "No relevant images were found in the repository for this specific topic.";
 
 
-    let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}" for the subject "${subject}".
+    let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz must contain a mix of passage-based questions and image-based questions.
 
-    **Critical Image Selection Mandate:**
-    When a question requires an image, you **MUST** select one **exclusively** from the JSON Image Repository provided below. **DO NOT use any external image search.**
+    When you create an image-based question, you MUST follow this two-step process:
+    1.  **First, select a specific URL and its description from the 'Pre-approved Image List' provided below.**
+    2.  **Second, write a question that is DIRECTLY and EXCLUSIVELY about the content of THAT SPECIFIC IMAGE.** The text of the question must clearly reference the image you chose (e.g., "This map shows...", "The political cartoon criticizes...").
 
-    **How to Select the Best Image:**
-    1.  **Filter by \`subject\` and \`topics\`:** Start by finding images that match the question's subject and topics.
-    2.  **Refine with \`type\` and \`era\`:** Narrow the results by looking for the most appropriate image type (e.g., "Map", "Diagram", "Political Cartoon") and historical era.
-    3.  **Confirm with \`description\`:** Read the description to ensure the image is a perfect contextual match for your question.
+    **Crucially, DO NOT generate a question about one topic and then use an unrelated image. The question text and the chosen image must be perfectly matched.**
 
-    **JSON Image Repository:**
-    \`\`\`json
+    If you cannot find a suitable image in the pre-approved list for a question you want to ask, you are permitted to search for another publicly accessible and relevant image, but you must still ensure the question is about that specific image.
+
+    **Pre-approved Image List:**
     ${imageRepositoryText}
-    \`\`\`
 
-    For each question that uses an image, you must place its exact URL into the 'imageUrl' field. For questions that do not require an image, provide a text 'passage' instead. Ensure the final output is a valid JSON object adhering to the specified schema.`;
+    For all other questions, provide a text 'passage'. Ensure the output is a valid JSON object following the specified schema.`;
 
   if (subject === "Social Studies") {
     prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
@@ -174,6 +172,211 @@ app.post('/generate-quiz', async (req, res) => {
     console.error('Error calling Google AI API:', error.response ? error.response.data : error.message);
     res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
   }
+});
+
+app.post('/score-essay', async (req, res) => {
+    const { essayText } = req.body;
+    if (!essayText) {
+        return res.status(400).json({ error: 'Essay text is required.' });
+    }
+
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+    if (!apiKey) {
+        console.error('API key not configured on the server.');
+        return res.status(500).json({ error: 'Server configuration error.' });
+    }
+
+    const prompt = `Act as a GED Reasoning Through Language Arts (RLA) essay evaluator. Your task is to score the following student's essay based on the official three-trait rubric. The essay is an analysis of two opposing passages.
+
+    Here is the student's essay:
+    ---
+    ${essayText}
+    ---
+
+    Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores. "overallFeedback" should be a summary.`;
+
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            trait1: {
+                type: "OBJECT",
+                properties: {
+                    score: { type: "NUMBER" },
+                    feedback: { type: "STRING" }
+                }
+            },
+            trait2: {
+                type: "OBJECT",
+                properties: {
+                    score: { type: "NUMBER" },
+                    feedback: { type: "STRING" }
+                }
+            },
+            trait3: {
+                type: "OBJECT",
+                properties: {
+                    score: { type: "NUMBER" },
+                    feedback: { type: "STRING" }
+                }
+            },
+            overallScore: { type: "NUMBER" },
+            overallFeedback: { type: "STRING" }
+        },
+        required: ["trait1", "trait2", "trait3", "overallScore", "overallFeedback"]
+    };
+
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: schema,
+        },
+    };
+
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+    try {
+        const response = await axios.post(apiUrl, payload);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error calling Google AI API for essay scoring:', error.response ? error.response.data : error.message);
+        res.status(500).json({ error: 'Failed to score essay from AI service.' });
+    }
+});
+
+const { AppData } = require('./premade-questions.js');
+
+// Helper function to get random questions from the premade data
+const getPremadeQuestions = (subject, count) => {
+    const allQuestions = [];
+    if (AppData[subject] && AppData[subject].categories) {
+        Object.values(AppData[subject].categories).forEach(category => {
+            if (category.topics) {
+                category.topics.forEach(topic => {
+                    if (topic.questions) {
+                        allQuestions.push(...topic.questions);
+                    }
+                });
+            }
+        });
+    }
+    const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+};
+
+// Helper function to generate AI questions
+const generateAIContent = async (prompt, schema) => {
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: schema,
+        },
+    };
+    const response = await axios.post(apiUrl, payload);
+    const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
+    return JSON.parse(jsonText);
+};
+
+
+app.post('/generate-comprehensive-exam', async (req, res) => {
+    const { subject } = req.body;
+    if (!subject) {
+        return res.status(400).json({ error: 'Subject is required.' });
+    }
+
+    try {
+        const exam = {
+            id: `comp_${subject.toLowerCase().replace(/\s/g, '_')}_${new Date().getTime()}`,
+            title: `Comprehensive Practice Exam: ${subject}`,
+            questions: [],
+            timeLimit: 90 * 60, // Default 90 minutes
+        };
+
+        const questionSchema = {
+            type: "OBJECT",
+            properties: {
+                questions: {
+                    type: "ARRAY",
+                    items: {
+                        type: "OBJECT",
+                        properties: {
+                            question: { type: "STRING" },
+                            passage: { type: "STRING" },
+                            imageUrl: { type: "STRING" },
+                            answerOptions: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        text: { type: "STRING" },
+                                        isCorrect: { type: "BOOLEAN" },
+                                        rationale: { type: "STRING" }
+                                    },
+                                    "required": ["text", "isCorrect", "rationale"]
+                                }
+                            }
+                        },
+                        "required": ["question", "answerOptions"]
+                    }
+                }
+            },
+            "required": ["questions"]
+        };
+
+        if (subject === 'Science' || subject === 'Math' || subject === 'Social Studies') {
+            exam.timeLimit = 75 * 60;
+            const premadeQuestions = getPremadeQuestions(subject, 15);
+            const aiPrompt = `Generate 10 new, unique GED-style multiple-choice questions for the subject "${subject}". The questions should cover a range of topics within the subject. Ensure the output is a valid JSON object following the specified schema.`;
+            const aiResult = await generateAIContent(aiPrompt, questionSchema);
+            exam.questions = [...premadeQuestions, ...aiResult.questions];
+        } else if (subject === 'Reasoning Through Language Arts (RLA)') {
+             const premadeGrammar = getPremadeQuestions("Reasoning Through Language Arts (RLA)", 10);
+
+            const grammarPrompt = `Generate 10 new, unique GED-style multiple-choice questions focused on English grammar, punctuation, and sentence structure.`;
+            const readingPrompt = `Generate 10 new, unique GED-style reading comprehension questions based on short informational passages.`;
+            const passagesPrompt = `Generate two short, opposing passages on a debatable topic suitable for a GED RLA essay. The topic should be accessible, such as "the pros and cons of social media" or "the viability of a four-day work week." Also, provide a standard GED essay prompt that asks the student to analyze both passages and determine which argument is better supported.`;
+
+            const passageSchema = {
+                type: "OBJECT",
+                properties: {
+                    essayPrompt: { type: "STRING" },
+                    essayPassages: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                title: { type: "STRING" },
+                                content: { type: "STRING" }
+                            },
+                            required: ["title", "content"]
+                        }
+                    }
+                },
+                required: ["essayPrompt", "essayPassages"]
+            };
+
+            const [aiGrammar, aiReading, passageData] = await Promise.all([
+                generateAIContent(grammarPrompt, questionSchema),
+                generateAIContent(readingPrompt, questionSchema),
+                generateAIContent(passagesPrompt, passageSchema)
+            ]);
+
+            exam.questions = [...premadeGrammar, ...aiGrammar.questions, ...aiReading.questions];
+            exam.essayPrompt = passageData.essayPrompt;
+            exam.essayPassages = passageData.essayPassages;
+        }
+
+        // Shuffle and re-number all questions
+        exam.questions = exam.questions.sort(() => 0.5 - Math.random()).map((q, i) => ({ ...q, questionNumber: i + 1 }));
+
+        res.json(exam);
+    } catch (error) {
+        console.error('Error generating comprehensive exam:', error.response ? error.response.data : error.message);
+        res.status(500).json({ error: 'Failed to generate comprehensive exam from AI service.' });
+    }
 });
 
 // The '0.0.0.0' is important for containerized environments like Render.
