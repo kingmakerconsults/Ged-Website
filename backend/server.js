@@ -78,9 +78,10 @@ app.post('/define-word', async (req, res) => {
 
 
 app.post('/generate-quiz', async (req, res) => {
+    console.log('--- Received a request to /generate-quiz ---'); // <-- ADD THIS EXACT LINE
+
     const { subject, topic, comprehensive } = req.body;
     let prompt;
-
     const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
         console.error('API key not configured on the server. Please check the .env file.');
