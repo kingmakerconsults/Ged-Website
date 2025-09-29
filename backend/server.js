@@ -81,6 +81,9 @@ app.post('/generate-quiz', async (req, res) => {
     }
 
     if (comprehensive) {
+        if (!subject) {
+            return res.status(400).json({ error: 'Subject is required for a comprehensive exam.' });
+        }
         const comprehensivePrompts = {
             "Social Studies": `Generate a 35-question comprehensive GED-style Social Studies exam. The questions must cover a broad range of topics. Ensure the distribution reflects official GED standards: approximately 50% Civics and Government, 20% U.S. History, 15% Economics, and 15% Geography and the World. Questions must be based on stimulus materials like passages, charts, or maps.`,
             "Science": `Generate a 35-question comprehensive GED-style Science exam. The questions must cover a broad range of topics with the following distribution: 40% Life Science, 40% Physical Science, and 20% Earth and Space Science. Focus on testing scientific reasoning, data interpretation from graphs/tables, and understanding of experimental design.`,
