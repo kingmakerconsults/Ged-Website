@@ -122,49 +122,6 @@ app.post('/generate-quiz', async (req, res) => {
         }
     }
 
-  const apiKey = process.env.GOOGLE_AI_API_KEY;
-  if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
-    // IMPROVEMENT: Log the error on the server for easier debugging.
-    console.error('API key not configured on the server. Please check the .env file.');
-    // Send a more generic error to the user for security.
-    return res.status(500).json({ error: 'Server configuration error.' });
-  }
-
-    // Enhanced image filtering using the new structured data.
-    const relevantImages = curatedImages.filter(image => {
-        const lowerCaseTopic = topic.toLowerCase();
-        const topicMatch = image.topics.some(t => lowerCaseTopic.includes(t.toLowerCase()));
-        const subjectMatch = image.subject.toLowerCase() === subject.toLowerCase() || image.subject === 'General';
-        return topicMatch && subjectMatch;
-    });
-
-    // Convert the filtered list into a structured string for the prompt.
-    const imageRepositoryText = relevantImages.length > 0
-        ? relevantImages.map(img =>
-            `{ "url": "${img.url}", "description": "${img.description}", "type": "${img.type}", "subject": "${img.subject}", "era": "${img.era}", "topics": ["${img.topics.join('", "')}"] }`
-          ).join('\n')
-        : "No relevant images were found in the repository for this specific topic.";
-
-
-    let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz must contain a mix of passage-based questions and image-based questions.
-
-    When you create an image-based question, you MUST follow this two-step process:
-    1.  **First, select a specific URL and its description from the 'Pre-approved Image List' provided below.**
-    2.  **Second, write a question that is DIRECTLY and EXCLUSIVELY about the content of THAT SPECIFIC IMAGE.** The text of the question must clearly reference the image you chose (e.g., "This map shows...", "The political cartoon criticizes...").
-
-    **Crucially, DO NOT generate a question about one topic and then use an unrelated image. The question text and the chosen image must be perfectly matched.**
-
-    If you cannot find a suitable image in the pre-approved list for a question you want to ask, you are permitted to search for another publicly accessible and relevant image, but you must still ensure the question is about that specific image.
-
-    **Pre-approved Image List:**
-    ${imageRepositoryText}
-
-    For all other questions, provide a text 'passage'. Ensure the output is a valid JSON object following the specified schema.`;
-
-  if (subject === "Social Studies") {
-    prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
-  }
-
   const schema = {
       type: "OBJECT",
       properties: {
