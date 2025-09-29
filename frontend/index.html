@@ -1144,27 +1144,40 @@ function App() {
             title: 'Interactive Essay Practice',
             date: new Date().toISOString(),
             score: `${scoreData.overallScore}/6`,
-            scoreData: scoreData // Store the full feedback object
+            scoreData: scoreData
         };
 
         const userKey = currentUser.name.toLowerCase();
-        const userHistory = users[userKey]?.history || {};
-        const essayHistory = userHistory['rla_essay_guide']
-            ? [...userHistory['rla_essay_guide'], newHistoryEntry]
-            : [newHistoryEntry];
 
-        const updatedUsers = {
-            ...users,
-            [userKey]: {
-                ...users[userKey],
-                history: {
-                    ...userHistory,
-                    ['rla_essay_guide']: essayHistory
-                }
+        // Safely get the user object, or create a new one if it doesn't exist.
+        const userToUpdate = users[userKey] || { name: currentUser.name, history: {} };
+
+        // Safely get the user's history, or create an empty history object.
+        const history = userToUpdate.history || {};
+
+        // Safely get the existing attempts for this specific essay, or create an empty array.
+        const existingAttempts = history['rla_essay_guide'] || [];
+
+        // Create the new list of attempts by adding the new entry.
+        const updatedAttempts = [...existingAttempts, newHistoryEntry];
+
+        // Build the updated user object with the new history.
+        const updatedUser = {
+            ...userToUpdate,
+            history: {
+                ...history,
+                ['rla_essay_guide']: updatedAttempts
             }
         };
+
+        // Build the final, updated users object to be saved.
+        const updatedUsers = {
+            ...users,
+            [userKey]: updatedUser
+        };
+
         saveUsers(updatedUsers);
-        setCurrentUser(updatedUsers[userKey]);
+        setCurrentUser(updatedUser);
         alert("Essay score has been saved to your progress!");
     };
 
