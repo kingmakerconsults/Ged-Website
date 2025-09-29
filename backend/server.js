@@ -11,9 +11,18 @@ const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
 const port = process.env.PORT || 3001;
 
+const allowedOrigins = ['https://ezged.netlify.app'];
+
 const corsOptions = {
-  // You can list multiple trusted origins here if needed in the future
-  origin: 'https://ezged.netlify.app',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
