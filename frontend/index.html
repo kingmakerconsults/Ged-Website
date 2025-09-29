@@ -989,6 +989,69 @@ const shuffleArray = (array) => {
     return newArray;
 };
 
+function DashboardMetrics({ currentUser }) {
+    if (!currentUser || !currentUser.history) {
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="bg-slate-50 p-4 rounded-lg shadow-sm text-center">
+                    <p className="text-sm font-semibold text-slate-500 uppercase">Total Quizzes</p>
+                    <p className="text-3xl font-bold text-slate-800 mt-2">0</p>
+                </div>
+                <div className="bg-slate-50 p-4 rounded-lg shadow-sm text-center col-span-3">
+                    <p className="text-sm font-semibold text-slate-500 uppercase">Subject Averages</p>
+                    <p className="text-lg font-semibold text-slate-600 mt-2">No data yet. Take a quiz!</p>
+                </div>
+            </div>
+        );
+    }
+
+    const historyArray = Object.values(currentUser.history).flat();
+    const totalQuizzes = historyArray.filter(attempt => attempt.type !== 'essay').length;
+    const subjectScores = {};
+
+    historyArray.forEach(attempt => {
+        let subjectKey = attempt.subject;
+        if (attempt.type === 'essay') {
+            subjectKey = 'Reasoning Through Language Arts (RLA)'; // Group essays under RLA
+        }
+        if (!subjectKey) return;
+
+        if (!subjectScores[subjectKey]) {
+            subjectScores[subjectKey] = { total: 0, count: 0 };
+        }
+
+        let score = 0;
+        if (attempt.type === 'essay' && attempt.scoreData?.overallScore !== undefined) {
+            // Convert essay score (out of 6) to a percentage-like score for averaging
+            score = Math.round((attempt.scoreData.overallScore / 6) * 100);
+        } else if (attempt.score !== undefined) {
+            score = parseInt(attempt.score);
+        }
+
+        if (!isNaN(score)) {
+            subjectScores[subjectKey].total += score;
+            subjectScores[subjectKey].count += 1;
+        }
+    });
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="bg-slate-50 p-4 rounded-lg shadow-sm text-center">
+                <p className="text-sm font-semibold text-slate-500 uppercase">Total Quizzes</p>
+                <p className="text-3xl font-bold text-slate-800 mt-2">{totalQuizzes}</p>
+            </div>
+            {Object.entries(subjectScores).map(([subject, data]) => (
+                <div key={subject} className="bg-slate-50 p-4 rounded-lg shadow-sm text-center">
+                    <p className="text-sm font-semibold text-slate-500 uppercase">{subject.replace(' (RLA)', '')} AVG.</p>
+                    <p className={`text-3xl font-bold mt-2 ${data.count > 0 ? 'text-sky-600' : 'text-orange-500'}`}>
+                        {data.count > 0 ? Math.round(data.total / data.count) : 'N/A'}
+                    </p>
+                </div>
+            ))}
+        </div>
+    );
+}
+
 // --- App Structure Components ---
 function AppHeader({ currentUser, onLogout }) {
     return (
@@ -1397,8 +1460,15 @@ function StartScreen({ onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartC
     if (path.length === 0) {
         return (
             <div className="fade-in">
-                <header className="text-center pb-4 mb-4"><h1 className="text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1><p className="text-slate-500 mt-2">Welcome back! Please select a subject to begin.</p></header>
-                <ProgressView history={currentUser?.history} />
+                <header className="text-center pb-4 mb-4">
+                    <h1 className="text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
+                    <p className="text-slate-500 mt-2">Welcome back! Here's a look at your progress.</p>
+                </header>
+
+                {/* --- THIS IS THE KEY CHANGE --- */}
+                <DashboardMetrics currentUser={currentUser} />
+                {/* --- END CHANGE --- */}
+
                 <div className="my-6 text-center">
                     <button onClick={onStartPopQuiz} className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105">
                         Start a 5-Minute Pop Quiz ⏱️
