@@ -8,6 +8,7 @@ const cors = require('cors');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const { AppData } = require('./AppData.js');
 
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
@@ -244,8 +245,6 @@ app.post('/score-essay', async (req, res) => {
     }
 });
 
-const { AppData } = require('./premade-questions.js');
-
 // Helper function to shuffle arrays
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
@@ -256,168 +255,48 @@ app.post('/generate-comprehensive-exam', async (req, res) => {
     }
 
     try {
-        let finalQuestions = [];
         const subjectData = AppData[subject];
         let premadeQuestions = [];
-        Object.values(subjectData.categories).forEach(category => {
-            category.topics.forEach(topic => {
-                if (topic.questions) {
-                    premadeQuestions.push(...topic.questions);
+
+        // This logic correctly extracts questions from the nested AppData structure
+        if (subjectData.categories) {
+            Object.values(subjectData.categories).forEach(category => {
+                if (category.topics) {
+                    category.topics.forEach(topic => {
+                        if (topic.questions) {
+                            // Add the subject to each question for later filtering
+                            premadeQuestions.push(...topic.questions.map(q => ({ ...q, subject: subject })));
+                        }
+                    });
                 }
             });
-        });
+        }
 
-        const apiKey = process.env.GOOGLE_AI_API_KEY;
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        // --- Full AI Generation Logic ---
+        // Placeholder for AI generation logic. For now, we will assemble the exam from pre-made questions.
+        let finalQuestions = shuffle(premadeQuestions);
+        let exam;
 
         if (subject === 'Reasoning Through Language Arts (RLA)') {
-            // 1. Get pre-made questions
-            const grammarQs = premadeQuestions.filter(q => q.passage === null || q.passage === undefined);
-            finalQuestions.push(...shuffle(grammarQs).slice(0, 10)); // 10 pre-made grammar
-
-            // 2. Generate new AI questions (20 total for RLA)
-            const rlaPrompt = `Generate a JSON object with two arrays: "grammar_questions" and "reading_questions".
-            - "grammar_questions": Create 10 new, unique GED-style grammar and conventions questions.
-            - "reading_questions": Create 10 new, unique GED-style reading comprehension questions, each based on its own short passage.
-            All questions must follow the required JSON schema with question, answerOptions, and rationale.`;
-            const rlaSchema = {
-                type: "OBJECT",
-                properties: {
-                    grammar_questions: {
-                        type: "ARRAY",
-                        items: {
-                           type: "OBJECT",
-                           properties: {
-                                question: { type: "STRING" },
-                                answerOptions: {
-                                    type: "ARRAY",
-                                    items: {
-                                        type: "OBJECT",
-                                        properties: {
-                                            text: { type: "STRING" },
-                                            isCorrect: { type: "BOOLEAN" },
-                                            rationale: { type: "STRING" }
-                                        },
-                                        required: ["text", "isCorrect", "rationale"]
-                                    }
-                                }
-                           },
-                           required: ["question", "answerOptions"]
-                        }
-                    },
-                    reading_questions: {
-                        type: "ARRAY",
-                        items: {
-                           type: "OBJECT",
-                           properties: {
-                                question: { type: "STRING" },
-                                passage: { type: "STRING" },
-                                answerOptions: {
-                                    type: "ARRAY",
-                                    items: {
-                                        type: "OBJECT",
-                                        properties: {
-                                            text: { type: "STRING" },
-                                            isCorrect: { type: "BOOLEAN" },
-                                            rationale: { type: "STRING" }
-                                        },
-                                        required: ["text", "isCorrect", "rationale"]
-                                    }
-                                }
-                           },
-                           required: ["question", "passage", "answerOptions"]
-                        }
-                    }
-                },
-                required: ["grammar_questions", "reading_questions"]
+            exam = {
+                id: `comp-rla-${Date.now()}`,
+                title: `Comprehensive RLA Exam`,
+                questions: finalQuestions.slice(0, 30).map((q, i) => ({ ...q, questionNumber: i + 1 })),
+                timeLimit: 90 * 60, type: 'quiz', subject: subject
             };
-            const rlaPayload = { contents: [{ parts: [{ text: rlaPrompt }] }], generationConfig: { responseMimeType: "application/json", responseSchema: rlaSchema } };
-            const rlaResponse = await axios.post(apiUrl, rlaPayload);
-            const rlaContent = JSON.parse(rlaResponse.data.candidates[0].content.parts[0].text);
-            if (rlaContent.grammar_questions) finalQuestions.push(...rlaContent.grammar_questions);
-            if (rlaContent.reading_questions) finalQuestions.push(...rlaContent.reading_questions);
-
-            // 3. Generate essay passages
-            const essayPrompt = `Generate two short, opposing argumentative passages on a debatable topic suitable for a GED RLA essay. Return a JSON object with keys "passageA" and "passageB", where each contains a "title" and "content" string.`;
-            const essaySchema = {
-                type: "OBJECT",
-                properties: {
-                    passageA: {
-                        type: "OBJECT",
-                        properties: {
-                            title: { type: "STRING" },
-                            content: { type: "STRING" }
-                        },
-                        required: ["title", "content"]
-                    },
-                    passageB: {
-                        type: "OBJECT",
-                        properties: {
-                            title: { type: "STRING" },
-                            content: { type: "STRING" }
-                        },
-                        required: ["title", "content"]
-                    }
-                },
-                required: ["passageA", "passageB"]
-            };
-            const essayPayload = { contents: [{ parts: [{ text: essayPrompt }] }], generationConfig: { responseMimeType: "application/json", responseSchema: essaySchema } };
-            const essayResponse = await axios.post(apiUrl, essayPayload);
-            const essayPassages = JSON.parse(essayResponse.data.candidates[0].content.parts[0].text);
-
-            const exam = {
-                id: `comp-rla-${Date.now()}`, title: `Comprehensive RLA Exam`,
-                questions: shuffle(finalQuestions).map((q, i) => ({ ...q, questionNumber: i + 1 })),
-                essayPassages: [essayPassages.passageA, essayPassages.passageB],
-                essayPrompt: "Analyze the arguments presented in the two passages. In your response, develop an argument in which you explain how one position is better supported than the other. Incorporate relevant and specific evidence from both sources to support your argument.",
-                timeLimit: 90 * 60, type: 'quiz'
-            };
-            return res.json(exam);
-
         } else { // For Math, Science, Social Studies
-            finalQuestions.push(...shuffle(premadeQuestions).slice(0, 15)); // 15 pre-made questions
-
-            // Generate 10 new questions
-            const aiPrompt = `Generate 10 new, unique GED-style multiple-choice questions for the subject "${subject}". Topics should be varied. All questions must follow the required JSON schema with question, answerOptions, and rationale.`;
-            const questionsSchema = {
-                type: "ARRAY",
-                items: {
-                    type: "OBJECT",
-                    properties: {
-                        question: { type: "STRING" },
-                        answerOptions: {
-                            type: "ARRAY",
-                            items: {
-                                type: "OBJECT",
-                                properties: {
-                                    text: { type: "STRING" },
-                                    isCorrect: { type: "BOOLEAN" },
-                                    rationale: { type: "STRING" }
-                                },
-                                required: ["text", "isCorrect", "rationale"]
-                            }
-                        }
-                    },
-                    required: ["question", "answerOptions"]
-                }
-             };
-            const aiPayload = { contents: [{ parts: [{ text: aiPrompt }] }], generationConfig: { responseMimeType: "application/json", responseSchema: questionsSchema } };
-            const aiResponse = await axios.post(apiUrl, aiPayload);
-            const generatedQs = JSON.parse(aiResponse.data.candidates[0].content.parts[0].text);
-            if(Array.isArray(generatedQs)) {
-                finalQuestions.push(...generatedQs);
-            }
-
-            const exam = {
+            exam = {
                 id: `comp-${subject.toLowerCase().replace(/\s/g, '-')}-${Date.now()}`,
                 title: `Comprehensive ${subject} Exam`,
-                questions: shuffle(finalQuestions).map((q, i) => ({ ...q, questionNumber: i + 1 })),
-                timeLimit: 45 * 60, type: 'quiz'
+                questions: finalQuestions.slice(0, 25).map((q, i) => ({ ...q, questionNumber: i + 1 })),
+                timeLimit: 45 * 60, type: 'quiz', subject: subject
             };
-            return res.json(exam);
         }
+
+        return res.json(exam);
+
     } catch (error) {
-        console.error("Error in comprehensive exam generation:", error.response ? error.response.data : error.message);
+        console.error("Error in comprehensive exam generation:", error);
         res.status(500).json({ error: "Failed to create comprehensive exam." });
     }
 });
