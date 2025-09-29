@@ -1300,18 +1300,17 @@ function ProgressView({ history }) {
     const [isHistoryVisible, setIsHistoryVisible] = useState(false);
 
     const historyArray = history ? Object.values(history).flat() : [];
-    const averages = {};
+    const subjectAverages = {};
 
+    // New logic to calculate averages by SUBJECT
     historyArray.forEach(attempt => {
-        if (attempt.type === 'essay') return; // Exclude essays from averages for now
-        const quizId = attempt.id.split('-')[0];
-        const quizTitle = attempt.title;
+        if (attempt.type === 'essay' || !attempt.subject || !attempt.score) return;
 
-        if (!averages[quizId]) {
-            averages[quizId] = { title: quizTitle, scores: [], count: 0 };
+        if (!subjectAverages[attempt.subject]) {
+            subjectAverages[attempt.subject] = { scores: [], count: 0 };
         }
-        averages[quizId].scores.push(parseInt(attempt.score));
-        averages[quizId].count++;
+        subjectAverages[attempt.subject].scores.push(parseInt(attempt.score));
+        subjectAverages[attempt.subject].count++;
     });
 
     return (
@@ -1322,25 +1321,25 @@ function ProgressView({ history }) {
                 <table className="min-w-full divide-y divide-slate-200">
                     <thead className="bg-slate-50">
                         <tr>
-                            <th className="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Quiz/Topic</th>
+                            <th className="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Subject</th>
                             <th className="p-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">Attempts</th>
                             <th className="p-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">Average Score</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
-                        {Object.keys(averages).length > 0 ? (
-                            Object.entries(averages).map(([quizId, data]) => {
+                        {Object.keys(subjectAverages).length > 0 ? (
+                            Object.entries(subjectAverages).map(([subjectName, data]) => {
                                 const avg = data.scores.reduce((a, b) => a + b, 0) / data.count;
                                 return (
-                                    <tr key={quizId}>
-                                        <td className="p-3 font-semibold text-slate-700">{data.title}</td>
+                                    <tr key={subjectName}>
+                                        <td className="p-3 font-semibold text-slate-700">{subjectName}</td>
                                         <td className="p-3 text-right text-slate-500">{data.count}</td>
                                         <td className="p-3 text-right font-bold text-sky-600">{Math.round(avg)}</td>
                                     </tr>
                                 );
                             })
                         ) : (
-                            <tr><td colSpan="3" className="p-3 text-center text-slate-400">No quiz averages to display yet.</td></tr>
+                            <tr><td colSpan="3" className="p-3 text-center text-slate-400">Complete a quiz to see your averages.</td></tr>
                         )}
                     </tbody>
                 </table>
@@ -1349,7 +1348,7 @@ function ProgressView({ history }) {
                 {historyArray.length > 0 && (
                     <div className="p-3 bg-slate-50 border-t">
                         <button onClick={() => setIsHistoryVisible(!isHistoryVisible)} className="w-full text-left font-semibold text-slate-700">
-                            {isHistoryVisible ? '▼ Hide Recent History' : '▶ Show Recent History'}
+                            {isHistoryVisible ? '▼ Hide Recent Activity' : '▶ Show Recent Activity'}
                         </button>
                         {isHistoryVisible && (
                             <div className="mt-2 pl-2 border-l-2">
