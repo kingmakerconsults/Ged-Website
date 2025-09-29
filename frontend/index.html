@@ -1017,9 +1017,35 @@ function App() {
     const [activeQuiz, setActiveQuiz] = useState(null);
     const [quizResults, setQuizResults] = useState(null);
     const [activeGenerator, setActiveGenerator] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState('');
     const [users, setUsers] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
     const [progress, setProgress] = useState({});
+
+    const handleStartComprehensiveExam = async (subject) => {
+        setIsLoading(true);
+        setLoadingMessage(`Generating your comprehensive ${subject} exam...`);
+        try {
+            const response = await fetch('https://ged-website.onrender.com/generate-comprehensive-exam', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subject })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to generate exam. Status: ${response.status}`);
+            }
+            const examData = await response.json();
+            startQuiz(examData, subject);
+        } catch (error) {
+            console.error("Error generating comprehensive exam:", error);
+            alert("Sorry, we couldn't generate the comprehensive exam. Please try again later.");
+        } finally {
+            setIsLoading(false);
+            setLoadingMessage('');
+        }
+    };
 
     useEffect(() => {
         const savedUsers = localStorage.getItem('gedUsers');
@@ -1187,6 +1213,7 @@ function App() {
                         onSelectQuiz={startQuiz} 
                         onSelectGenerator={(subject) => { setActiveGenerator(subject); setView('generator'); }}
                         onStartPopQuiz={handleStartPopQuiz}
+                        onStartComprehensiveExam={handleStartComprehensiveExam}
                     />
                 );
         }
@@ -1298,7 +1325,7 @@ function ProgressDashboard({ progress }) {
 
 const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon };
 
-function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz }) {
+function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -1371,14 +1398,24 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
                         </button>
                     ))}
                      { (selectedSubject === "Social Studies" || selectedSubject === "Reasoning Through Language Arts (RLA)" || selectedSubject === "Science" || selectedSubject === "Math") && (
-                        <div className="border-2 border-dashed border-sky-400 rounded-lg p-4 flex flex-col justify-center items-center bg-sky-50 hover:shadow-lg hover:border-sky-500 transition-all">
-                           <SparklesIcon className="h-8 w-8 text-sky-500" />
-                           <h3 className="text-xl font-bold text-sky-800 mt-2">Smith a Quiz</h3>
-                           <p className="text-sky-600 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
-                           <button onClick={() => onSelectGenerator(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition">
-                                Generate
-                           </button>
-                        </div>
+                        <>
+                            <div className="border-2 border-dashed border-sky-400 rounded-lg p-4 flex flex-col justify-center items-center bg-sky-50 hover:shadow-lg hover:border-sky-500 transition-all">
+                               <SparklesIcon className="h-8 w-8 text-sky-500" />
+                               <h3 className="text-xl font-bold text-sky-800 mt-2">Smith a Quiz</h3>
+                               <p className="text-sky-600 text-sm my-2 text-center">Generate a new 15-question quiz for any topic in {selectedSubject}.</p>
+                               <button onClick={() => onSelectGenerator(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition">
+                                    Generate
+                               </button>
+                            </div>
+                             <div className="border-2 border-dashed border-purple-400 rounded-lg p-4 flex flex-col justify-center items-center bg-purple-50 hover:shadow-lg hover:border-purple-500 transition-all md:col-span-2 lg:col-span-1">
+                               <SparklesIcon className="h-8 w-8 text-purple-500" />
+                               <h3 className="text-xl font-bold text-purple-800 mt-2">Comprehensive Exam</h3>
+                               <p className="text-purple-600 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
+                               <button onClick={() => handleStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 transition">
+                                    Start Comprehensive Exam
+                               </button>
+                            </div>
+                        </>
                      )}
                 </div>
             </div>
@@ -1423,7 +1460,11 @@ function QuizRunner({ quiz, onComplete, onExit }) {
     const [marked, setMarked] = useState(Array(quiz.questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(quiz.questions.length).fill(null));
     const [timeLeft, setTimeLeft] = useState(quiz.timeLimit || quiz.questions.length * 90);
-    
+    const [view, setView] = useState('quiz'); // 'quiz' or 'essay'
+    const [essayText, setEssayText] = useState('');
+    const [essayScore, setEssayScore] = useState(null);
+    const [isScoringEssay, setIsScoringEssay] = useState(false);
+
     const handleSubmitRef = useRef();
 
     useEffect(() => {
@@ -1431,14 +1472,16 @@ function QuizRunner({ quiz, onComplete, onExit }) {
             setTimeLeft(prev => {
                 if (prev <= 1) {
                     clearInterval(timer);
-                    handleSubmitRef.current();
+                    if (view === 'quiz') {
+                        handleSubmitRef.current();
+                    }
                     return 0;
                 }
                 return prev - 1;
             });
         }, 1000);
         return () => clearInterval(timer);
-    }, [quiz]);
+    }, [quiz, view]);
 
     const handleSelect = (optionText) => {
         const newAnswers = [...answers];
@@ -1453,6 +1496,11 @@ function QuizRunner({ quiz, onComplete, onExit }) {
     };
 
     const handleSubmit = useCallback(() => {
+        if (quiz.essayPrompt && view === 'quiz') {
+            setView('essay');
+            return; // Don't submit results yet, move to essay portion
+        }
+
         let score = 0;
         quiz.questions.forEach((q, i) => {
             const correctOption = q.answerOptions.find(opt => opt.isCorrect);
@@ -1464,14 +1512,88 @@ function QuizRunner({ quiz, onComplete, onExit }) {
         const percentage = (score / quiz.questions.length) * 100;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
         
-        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers, subject: quiz.subject, marked, confidence });
-    }, [answers, quiz, onComplete, marked, confidence]);
+        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers, subject: quiz.subject, marked, confidence, essayScore });
+    }, [answers, quiz, onComplete, marked, confidence, view, essayScore]);
 
     useEffect(() => {
         handleSubmitRef.current = handleSubmit;
     }, [handleSubmit]);
 
+    const handleScoreEssay = async () => {
+        if (!essayText.trim()) {
+            alert("Please write an essay before submitting for a score.");
+            return;
+        }
+        setIsScoringEssay(true);
+        try {
+            const response = await fetch('https://ged-website.onrender.com/score-essay', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ essayText })
+            });
+            if (!response.ok) throw new Error('Failed to score essay.');
+            const result = await response.json();
+            let jsonText = result.candidates[0].content.parts[0].text;
+            jsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+            const parsedScore = JSON.parse(jsonText);
+            setEssayScore(parsedScore);
+        } catch (error) {
+            console.error("Error scoring essay in QuizRunner:", error);
+            setEssayScore({ error: "Sorry, could not score essay." });
+        } finally {
+            setIsScoringEssay(false);
+        }
+    };
+
     const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
+
+    if (view === 'essay') {
+        return (
+             <div className="fade-in">
+                <header className="flex justify-between items-center pb-4 mb-4 border-b">
+                     <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title} - Essay Section</h2>
+                     <div className="font-bold text-red-600">{formatTime(timeLeft)}</div>
+                </header>
+                <div className="grid lg:grid-cols-2 gap-4">
+                    <div className="prose max-w-none bg-slate-50 p-4 rounded-lg">
+                        <h3>{quiz.essayPassages[0].title}</h3>
+                        <p>{quiz.essayPassages[0].content}</p>
+                    </div>
+                    <div className="prose max-w-none bg-slate-50 p-4 rounded-lg">
+                        <h3>{quiz.essayPassages[1].title}</h3>
+                        <p>{quiz.essayPassages[1].content}</p>
+                    </div>
+                </div>
+                <div className="mt-4">
+                    <h3 className="font-bold text-lg">Essay Prompt:</h3>
+                    <p className="mb-2">{quiz.essayPrompt}</p>
+                    <textarea
+                        className="w-full h-64 p-2 border rounded"
+                        value={essayText}
+                        onChange={(e) => setEssayText(e.target.value)}
+                        placeholder="Type your essay response here..."
+                    />
+                </div>
+                <div className="mt-4 flex justify-end gap-4">
+                    <button onClick={handleScoreEssay} disabled={isScoringEssay} className="px-4 py-2 bg-purple-600 text-white rounded-md disabled:bg-slate-400">
+                        {isScoringEssay ? 'Scoring...' : 'Score My Essay'}
+                    </button>
+                    <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded-md">Finish Exam</button>
+                </div>
+                {essayScore && (
+                    <div className="mt-4 p-4 bg-purple-50 rounded-lg">
+                        <h4 className="font-bold">AI Essay Score:</h4>
+                        {essayScore.error ? <p className="text-red-500">{essayScore.error}</p> : (
+                             <div>
+                                <p><strong>Overall Score:</strong> {essayScore.overallScore}/6</p>
+                                <p><strong>Feedback:</strong> {essayScore.overallFeedback}</p>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+        )
+    }
 
     const currentQ = quiz.questions[currentIndex];
     
@@ -1528,7 +1650,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
                     Mark for Review
                 </button>
                 {currentIndex === quiz.questions.length - 1 ? (
-                    <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded-md">Finish</button>
+                    <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded-md">{quiz.essayPrompt ? 'Continue to Essay' : 'Finish'}</button>
                 ) : (
                     <button onClick={() => setCurrentIndex(p => Math.min(quiz.questions.length - 1, p + 1))} className="px-4 py-2 bg-sky-500 text-white rounded-md">Next</button>
                 )}
@@ -1722,24 +1844,291 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
 }
 
 function EssayGuide({ onExit }) {
+    const [activeTab, setActiveTab] = useState('passages');
+    const [selectedTopic, setSelectedTopic] = useState(0);
+    const [timer, setTimer] = useState(45 * 60);
+    const [timerActive, setTimerActive] = useState(false);
+    const [essayText, setEssayText] = useState({ intro: '', body1: '', body2: '', body3: '', conclusion: '' });
+    const [showModal, setShowModal] = useState(false);
+    const [isScoring, setIsScoring] = useState(false);
+    const [scoreResult, setScoreResult] = useState(null);
+
+    const intervalRef = useRef(null);
+
+    const passagesData = [
+         {
+            topic: "The Four-Day Work Week",
+            passage1: {
+                title: "Passage 1: The Obvious Benefits of a Four-Day Work Week",
+                content: `<p class="text-base leading-relaxed mb-4">The traditional five-day work week is an outdated concept from a bygone era. In today's modern economy, a transition to a four-day, 32-hour work week is the most logical step forward for enhancing productivity and improving employee well-being. The evidence supporting this shift is overwhelming and cannot be ignored by forward-thinking companies.</p><p class="text-base leading-relaxed mb-4">Numerous studies have demonstrated a clear link between a shorter work week and increased efficiency. For instance, a 2022 pilot program in the UK involving over 60 companies found that 71% of employees reported lower levels of burnout, while company revenue stayed broadly the same. This powerful <strong>statistical data</strong> proves that when employees are given more time to rest, they return to work more focused and motivated.</p><p class="text-base leading-relaxed mb-4">Dr. Evelyn Reed, a leading sociologist and author of "The Future of Work," supports this view with her <strong>expert testimony</strong>. "Our research indicates that a compressed work schedule forces companies to become more efficient, cutting out unnecessary meetings and streamlining processes," she states. "The result is a workforce that is not only happier but also more productive per hour."</p><p class="text-base leading-relaxed mb-4">This <strong>logical reasoning</strong> extends to the company's bottom line. With offices closed one extra day a week, businesses save a significant amount on overhead costs like electricity and heating. This creates a win-win scenario: employees get a better work-life balance, and the company becomes more profitable and environmentally friendly. The future is clear: a four-day work week is not just a perk; it is a competitive advantage.</p>`
+            },
+            passage2: {
+                title: "Passage 2: The Unseen Dangers of a Four-Day Work Week",
+                content: `<p class="text-base leading-relaxed mb-4">The recent push for a four-day work week, while appealing on the surface, is a shortsighted trend that ignores critical business realities. It's a logistical nightmare that will ultimately harm both companies and the customers they serve. Squeezing a full week's work into four days isn't a magical solution; it's a recipe for burnout and diminished service quality.</p><p class="text-base leading-relaxed mb-4">Think about the real-world consequences. My nephew works for a small tech company that experimented with a four-day week, and it was a complete disaster. This single piece of <strong>anecdotal evidence</strong> shows the model's failure. He said his team was constantly stressed, trying to cram five days of deadlines into four. Customer support requests went unanswered over the long weekend, leading to a huge drop in client satisfaction.</p><p class="text-base leading-relaxed mb-4">Based on this one case, it's clear this idealistic plan doesn't work in practice for anyone. This is a classic <strong>overgeneralization</strong>; one company's struggle doesn't mean every business will fail. Proponents of this change are ignoring the facts and are only interested in getting more time off without considering the economic fallout for the rest of us.</p><p class="text-base leading-relaxed mb-4">Furthermore, it's an <strong>unsupported claim</strong> that this model is even possible for essential services. Are we to expect that hospitals and police stations will simply shut down for three days a week? The idea is absurd. Any company that adopts a four-day schedule will immediately fall behind its five-day competitors. It's a feel-good policy that will inevitably lead to business failure.</p>`
+            }
+        },
+        {
+            topic: "Year-Round Schooling",
+            passage1: {
+                title: "Passage 1: The Case for a Modern School Calendar",
+                content: `<p class="text-base leading-relaxed mb-4">The long summer break is a relic of an agrarian past that no longer serves the needs of modern students. Year-round schooling, with shorter, more frequent breaks, is a crucial reform to combat 'summer slide'—the well-documented learning loss that occurs over the summer. This model keeps students' minds engaged and reduces the need for extensive review at the start of each school year.</p><p class="text-base leading-relaxed mb-4">According to a report by the National Association for Year-Round Education, schools that switch to this calendar see an average 15% improvement in standardized test scores, especially among students from low-income families. This <strong>statistical data</strong> provides concrete proof of the system's effectiveness. These shorter breaks, often called intersessions, can also be used for remedial or enrichment programs.</p><p class="text-base leading-relaxed mb-4">The <strong>logical reasoning</strong> is simple: if students have less time away from the classroom, they forget less material. This means teachers can spend more time on new concepts and less time re-teaching last year's lessons. This leads to a deeper, more comprehensive education for everyone and helps close the achievement gap that widens every summer.</p><p class="text-base leading-relaxed mb-4">Dr. Maria Flores, a child psychologist, offers her <strong>expert testimony</strong>, stating, "A balanced calendar provides a more consistent learning rhythm for children, which can reduce academic anxiety and improve long-term retention." It's a more efficient and equitable way to structure education for the 21st century.</p>`
+            },
+            passage2: {
+                title: "Passage 2: Protect Summer Vacation for Families",
+                content: `<p class="text-base leading-relaxed mb-4">Proponents of year-round schooling ignore the immense value of the traditional summer break. Are we to steal the magic of summer from our children? This <strong>emotional appeal</strong> to tradition and childhood joy is a powerful reason to resist such a drastic change. For many families, summer is a critical time for bonding, travel, and unique learning experiences outside the classroom, like summer camps or first jobs for teenagers.</p><p class="text-base leading-relaxed mb-4">My sister's children were in a year-round pilot program, and it was a nightmare for her family. Her son was on break in September while her daughter was in school. This single piece of <strong>anecdotal evidence</strong> shows the chaos this system creates. They couldn't plan a family trip, and finding childcare for short, scattered breaks was nearly impossible.</p><p class="text-base leading-relaxed mb-4">Because my sister had a bad experience, it's clear that all families will suffer under this model. This <strong>overgeneralization</strong> fails to consider that many other families might have different experiences or needs. The supporters of this plan are clearly out of touch with the reality of family life in this country.</p><p class="text-base leading-relaxed mb-4">It's an <strong>unsupported claim</strong> that year-round school even improves education. It just shuffles the days around. We shouldn't sacrifice the well-being and time-honored traditions of families for a system that offers questionable academic benefits at best and creates logistical headaches for everyone involved.</p>`
+            }
+        },
+        // Add more topics here...
+    ];
+
+    useEffect(() => {
+        if (timerActive && timer > 0) {
+            intervalRef.current = setInterval(() => {
+                setTimer(t => t - 1);
+            }, 1000);
+        } else if (timer <= 0) {
+            clearInterval(intervalRef.current);
+            setTimerActive(false);
+            finishPractice();
+        }
+        return () => clearInterval(intervalRef.current);
+    }, [timerActive, timer]);
+
+    const startPractice = () => {
+        setTimerActive(true);
+    };
+
+    const resetPractice = () => {
+        setTimerActive(false);
+        clearInterval(intervalRef.current);
+        setTimer(45 * 60);
+        setEssayText({ intro: '', body1: '', body2: '', body3: '', conclusion: '' });
+        setScoreResult(null);
+    };
+
+    const finishPractice = () => {
+        setTimerActive(false);
+        clearInterval(intervalRef.current);
+        setShowModal(true);
+    };
+
+    const handleTextChange = (e) => {
+        const { name, value } = e.target;
+        setEssayText(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleGetScore = async () => {
+        setIsScoring(true);
+        setScoreResult(null);
+        const fullEssay = Object.values(essayText).join("\n\n");
+
+        try {
+            const response = await fetch('https://ged-website.onrender.com/score-essay', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ essayText: fullEssay })
+            });
+            if (!response.ok) throw new Error('Failed to get score from the server.');
+
+            const result = await response.json();
+            let jsonText = result.candidates[0].content.parts[0].text;
+            jsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+            const parsedScore = JSON.parse(jsonText);
+            setScoreResult(parsedScore);
+
+        } catch (error) {
+            console.error("Error scoring essay:", error);
+            setScoreResult({ error: "Sorry, we couldn't score your essay at this time." });
+        } finally {
+            setIsScoring(false);
+        }
+    };
+
+    const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
+    const selectedPassage = passagesData[selectedTopic];
+
+    const renderTabs = () => (
+        <nav className="flex flex-wrap justify-center border-b-2 border-gray-300 mb-8">
+            {['passages', 'structure', 'strengths', 'weaknesses'].map(tab => (
+                <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`tab-button text-lg font-semibold py-4 px-6 text-gray-600 capitalize ${activeTab === tab ? 'active' : ''}`}
+                >
+                    {tab.replace('_', ' ')}
+                </button>
+            ))}
+        </nav>
+    );
+
+    const renderContent = () => {
+        switch(activeTab) {
+            case 'passages':
+                return (
+                    <div>
+                        <div className="mb-6 bg-white p-4 rounded-lg shadow-md">
+                            <label htmlFor="topic-selector" className="block text-lg font-semibold text-gray-800 mb-2">Select an Article Topic:</label>
+                            <select id="topic-selector" className="w-full p-2 border border-gray-300 rounded-md text-lg" value={selectedTopic} onChange={e => setSelectedTopic(e.target.value)}>
+                                {passagesData.map((p, i) => <option key={i} value={i}>{p.topic}</option>)}
+                            </select>
+                        </div>
+                        <div className="grid lg:grid-cols-2 gap-8">
+                            <article className="bg-white p-6 rounded-lg shadow-md">
+                                <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2">{selectedPassage.passage1.title}</h2>
+                                <div dangerouslySetInnerHTML={{ __html: selectedPassage.passage1.content }} />
+                            </article>
+                            <article className="bg-white p-6 rounded-lg shadow-md">
+                                <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2">{selectedPassage.passage2.title}</h2>
+                                <div dangerouslySetInnerHTML={{ __html: selectedPassage.passage2.content }} />
+                            </article>
+                        </div>
+                    </div>
+                );
+            case 'structure':
+                 return (
+                    <div className="space-y-6">
+                        <div className="bg-white p-4 rounded-lg shadow-inner mb-6 flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                            <div className="text-center sm:text-left">
+                                <h3 className="text-xl font-bold text-gray-800">Typing Practice Mode</h3>
+                                <p className="text-sm text-gray-600">Click Start to begin a 45-minute timed session.</p>
+                            </div>
+                            <div className="flex items-center space-x-2 sm:space-x-4">
+                                <button onClick={startPractice} disabled={timerActive} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition-colors disabled:opacity-50">Start</button>
+                                <div className={`text-3xl font-mono font-bold ${timer < 300 ? 'text-red-500' : 'text-gray-800'}`}>{formatTime(timer)}</div>
+                                <button onClick={finishPractice} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors">Finish & Review</button>
+                                <button onClick={resetPractice} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors">Reset</button>
+                            </div>
+                        </div>
+
+                        {/* Textarea sections */}
+                        <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                            <h3 className="text-2xl font-bold mb-3 text-gray-900">Introduction Paragraph</h3>
+                            <p className="text-gray-700 leading-relaxed mb-4">The two passages present conflicting views on the topic of <span className="placeholder-text">[topic of both articles]</span>. In the first passage, <span className="placeholder-text">[Author 1's Last Name]</span> argues that <span className="placeholder-text">[explain Author 1's main claim]</span>. Conversely, in the second passage, <span className="placeholder-text">[Author 2's Last Name]</span> claims that <span className="placeholder-text">[explain Author 2's main claim]</span>. After analyzing both arguments, it is clear that <span className="placeholder-text">[Author's Last Name]</span> presents the more convincing case by effectively using <span className="placeholder-text">[list key evidence types]</span>.</p>
+                            <textarea name="intro" value={essayText.intro} onChange={handleTextChange} disabled={!timerActive} className="practice-textarea w-full h-48 p-3 border-gray-300 rounded-md" placeholder="Type your introduction here..."></textarea>
+                        </div>
+                         <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                            <h3 className="text-2xl font-bold mb-3 text-gray-900">Body Paragraph #1: Analyze Strong Evidence</h3>
+                            <p className="text-gray-700 leading-relaxed mb-4">First, <span className="placeholder-text">[Stronger Author's Last Name]</span> effectively builds their argument by using <span className="placeholder-text">[type of evidence]</span>. The author states, <span className="placeholder-text">["quote or paraphrase"]</span>. This evidence is highly convincing because <span className="placeholder-text">[explain why]</span>.</p>
+                            <textarea name="body1" value={essayText.body1} onChange={handleTextChange} disabled={!timerActive} className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md" placeholder="Analyze the stronger argument's first piece of evidence..."></textarea>
+                        </div>
+                        <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                            <h3 className="text-2xl font-bold mb-3 text-gray-900">Body Paragraph #2: Analyze More Strong Evidence</h3>
+                            <p className="text-gray-700 leading-relaxed mb-4">Furthermore, <span className="placeholder-text">[Stronger Author's Last Name]</span> strengthens their position with <span className="placeholder-text">[another type of evidence]</span>. For example, the author points out that <span className="placeholder-text">["quote or paraphrase"]</span>. This is a logical and persuasive point because <span className="placeholder-text">[explain why]</span>.</p>
+                            <textarea name="body2" value={essayText.body2} onChange={handleTextChange} disabled={!timerActive} className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md" placeholder="Analyze the stronger argument's second piece of evidence..."></textarea>
+                        </div>
+                        <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                            <h3 className="text-2xl font-bold mb-3 text-gray-900">Body Paragraph #3: Analyze the Weaker Argument</h3>
+                            <p className="text-gray-700 leading-relaxed mb-4">In contrast, the argument presented by <span className="placeholder-text">[Weaker Author's Last Name]</span> is not as well-supported. A key weakness is the author's reliance on <span className="placeholder-text">[identify a weakness]</span>. For instance, the author claims that <span className="placeholder-text">["quote or paraphrase"]</span>. This argument is unconvincing because <span className="placeholder-text">[explain why]</span>.</p>
+                            <textarea name="body3" value={essayText.body3} onChange={handleTextChange} disabled={!timerActive} className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md" placeholder="Analyze a weakness in the opposing argument..."></textarea>
+                        </div>
+                        <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                            <h3 className="text-2xl font-bold mb-3 text-gray-900">Conclusion Paragraph</h3>
+                            <p className="text-gray-700 leading-relaxed mb-4">In conclusion, while both authors address the topic, <span className="placeholder-text">[Stronger Author's Last Name]</span> presents a more compelling argument. By skillfully using <span className="placeholder-text">[restate evidence types]</span>, the author builds a case that is more persuasive than the weakly supported claims by <span className="placeholder-text">[Weaker Author's Last Name]</span>.</p>
+                            <textarea name="conclusion" value={essayText.conclusion} onChange={handleTextChange} disabled={!timerActive} className="practice-textarea w-full h-40 p-3 border-gray-300 rounded-md" placeholder="Write your conclusion..."></textarea>
+                        </div>
+                    </div>
+                 );
+            case 'strengths':
+                return (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="content-card strength p-6 rounded-lg shadow-md">
+                            <h4 className="text-xl font-bold mb-2 text-green-800">Statistical Data</h4>
+                            <p className="text-gray-700">Using numbers, percentages, or data from research. Numbers feel like hard facts, so they can be very convincing.</p>
+                            <p className="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "A new study shows that 78% of people want more parks in their city."</p>
+                        </div>
+                        <div className="content-card strength p-6 rounded-lg shadow-md">
+                            <h4 className="text-xl font-bold mb-2 text-green-800">Expert Testimony</h4>
+                            <p className="text-gray-700">Quoting an expert on the subject. This makes the argument seem more credible because it's supported by a professional.</p>
+                            <p className="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "Dr. Aliza Carter, a leading climate scientist, says that sea levels are rising faster than ever."</p>
+                        </div>
+                        <div className="content-card strength p-6 rounded-lg shadow-md">
+                            <h4 className="text-xl font-bold mb-2 text-green-800">Logical Reasoning</h4>
+                            <p className="text-gray-700">Connecting ideas in a way that makes sense (like cause-and-effect). It shows the author has thought through their position.</p>
+                            <p className="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "If employees are less stressed, they will be more productive. Therefore, a four-day work week will boost company output."</p>
+                        </div>
+                    </div>
+                );
+            case 'weaknesses':
+                return (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                         <div className="content-card weakness p-6 rounded-lg shadow-md">
+                            <h4 className="text-xl font-bold mb-2 text-red-800">Unsupported Claims</h4>
+                            <p className="text-gray-700">When an author makes a statement that something is a fact but offers zero proof. It's an opinion pretending to be a fact.</p>
+                            <p className="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "It's obvious that teens don't read books anymore."</p>
+                        </div>
+                         <div className="content-card weakness p-6 rounded-lg shadow-md">
+                            <h4 className="text-xl font-bold mb-2 text-red-800">Overgeneralization</h4>
+                            <p className="text-gray-700">Making a huge conclusion based on only one or two examples. A small case is used to make a rule for a large group.</p>
+                            <p className="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "I saw a tourist drop some trash, which proves that all tourists are messy."</p>
+                        </div>
+                         <div className="content-card weakness p-6 rounded-lg shadow-md">
+                            <h4 className="text-xl font-bold mb-2 text-red-800">Emotional Appeal</h4>
+                            <p className="text-gray-700">Trying to win by making the reader feel sad, angry, or happy, instead of using facts. It distracts from the real issue.</p>
+                            <p className="text-sm text-gray-600 mt-4 italic"><strong>Example:</strong> "Think of the sad, lonely puppies. You must donate to our animal shelter right now."</p>
+                        </div>
+                    </div>
+                );
+            default: return null;
+        }
+    };
+
+    const renderModalContent = () => {
+        const fullEssay = Object.values(essayText).join("\n\n").trim();
+        return (
+            <>
+                <div className="p-8 prose max-w-none">
+                    {fullEssay ? <div dangerouslySetInnerHTML={{ __html: fullEssay.replace(/\n/g, '<br/>') }} /> : <p><em>You did not write anything in the practice area.</em></p>}
+                </div>
+                <div className="p-6 border-t bg-gray-50 space-y-4">
+                    <button onClick={handleGetScore} disabled={isScoring || !fullEssay} className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        {isScoring ? 'Scoring...' : 'Get AI Score & Feedback'}
+                    </button>
+                    {scoreResult && (
+                        <div className="mt-4 p-4 bg-indigo-50 rounded-lg text-left">
+                            {scoreResult.error ? <p className="text-red-600">{scoreResult.error}</p> : (
+                                <div>
+                                    <h4 className="text-xl font-bold text-indigo-800">AI Feedback</h4>
+                                    <p className="mt-2"><strong>Overall Score:</strong> {scoreResult.overallScore}/6</p>
+                                    <p className="mt-1"><strong>Feedback:</strong> {scoreResult.overallFeedback}</p>
+                                    <details className="mt-2">
+                                        <summary className="font-semibold cursor-pointer">View Trait-by-Trait Breakdown</summary>
+                                        <div className="mt-2 pl-4 border-l-2 border-indigo-200">
+                                            <p><strong>Trait 1 (Analysis):</strong> Score {scoreResult.trait1.score}/2. {scoreResult.trait1.feedback}</p>
+                                            <p><strong>Trait 2 (Evidence):</strong> Score {scoreResult.trait2.score}/2. {scoreResult.trait2.feedback}</p>
+                                            <p><strong>Trait 3 (Clarity):</strong> Score {scoreResult.trait3.score}/2. {scoreResult.trait3.feedback}</p>
+                                        </div>
+                                    </details>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            </>
+        );
+    };
+
     return (
         <div className="fade-in">
-             <header className="flex justify-between items-center pb-4 mb-4 border-b">
+            <header className="flex justify-between items-center pb-4 mb-4 border-b">
                  <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800">GED Essay Guide</h2>
+                 <h2 className="text-xl font-bold text-center text-slate-800">Interactive Essay Guide</h2>
                  <div></div>
             </header>
-            <div className="space-y-4 prose max-w-none">
-                 <h3>Introduction Paragraph</h3>
-                 <p>The two passages present conflicting views on [topic]. [Author 1] argues that [claim 1]. Conversely, [Author 2] claims that [claim 2]. After analyzing both, it is clear that [Author X] presents the more convincing case by using [evidence types].</p>
-                 <textarea className="w-full h-32 p-3 border border-gray-300 rounded-md" placeholder="Start typing here..."></textarea>
-                 <h3>Body Paragraph #1</h3>
-                 <p>First, [Stronger Author] effectively builds their argument by using [type of evidence]. The author states, "[quote or paraphrase]". This evidence is convincing because [explain why].</p>
-                 <textarea className="w-full h-32 p-3 border border-gray-300 rounded-md" placeholder="Analyze strong evidence..."></textarea>
-                 <h3>Conclusion</h3>
-                 <p>In conclusion, while both authors address [topic], [Stronger Author] presents a more compelling argument through skillful use of [restate evidence], which is more persuasive than the claims made by [Weaker Author].</p>
-                 <textarea className="w-full h-32 p-3 border border-gray-300 rounded-md" placeholder="Conclude your essay..."></textarea>
-            </div>
+
+            {renderTabs()}
+            <main>{renderContent()}</main>
+
+            {showModal && (
+                <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+                    <div className="bg-white rounded-lg shadow-2xl w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="p-6 border-b flex justify-between items-center sticky top-0 bg-white">
+                            <h2 className="text-2xl font-bold">Your Completed Essay</h2>
+                            <button onClick={() => {setShowModal(false); setScoreResult(null);}} className="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+                        </div>
+                        {renderModalContent()}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
