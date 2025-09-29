@@ -1,7 +1,5 @@
 // server.js (Updated Version)
 
-// server.js (Updated Version)
-
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -48,7 +46,7 @@ app.post('/define-word', async (req, res) => {
     }
 
     const apiKey = process.env.GOOGLE_AI_API_KEY;
-     if (!apiKey) { 
+     if (!apiKey) {
         console.error('API key not configured on the server.');
         return res.status(500).json({ error: 'Server configuration error.' });
     }
@@ -82,10 +80,10 @@ app.post('/generate-quiz', async (req, res) => {
 
     if (comprehensive) {
         const comprehensivePrompts = {
-            "Social Studies": `Generate a 35-question comprehensive GED-style Social Studies exam. The questions must cover a broad range of topics. Ensure the distribution reflects official GED standards: approximately 50% Civics and Government, 20% U.S. History, 15% Economics, and 15% Geography and the World. Questions must be based on stimulus materials like passages, charts, or maps.`,
-            "Science": `Generate a 35-question comprehensive GED-style Science exam. The questions must cover a broad range of topics with the following distribution: 40% Life Science, 40% Physical Science, and 20% Earth and Space Science. Focus on testing scientific reasoning, data interpretation from graphs/tables, and understanding of experimental design.`,
-            "Reasoning Through Language Arts (RLA)": `Generate a 35-question comprehensive GED-style RLA exam. The questions should cover reading comprehension of both literary and informational texts, as well as standard English conventions like grammar, punctuation, and sentence structure.`,
-            "Math": `Generate a 35-question comprehensive GED-style Math exam. The questions should cover a broad range of topics with the following distribution: approximately 45% quantitative problem solving (percents, ratios, data analysis) and 55% algebraic problem solving (expressions, equations, functions, geometry).`
+            "Social Studies": `Generate a 35-question comprehensive GED Social Studies exam. Adhere to this content distribution: 50% Civics & Government, 20% U.S. History, 15% Economics, and 15% Geography & the World. All questions must be stimulus-based.`,
+            "Science": `Generate a 38-question comprehensive GED Science exam. Adhere to this content distribution: 40% Life Science, 40% Physical Science, and 20% Earth & Space Science. Questions must test scientific practices. Include two 'short-answer' questions.`,
+            "Mathematical Reasoning": `Generate a 46-question comprehensive GED Mathematical Reasoning exam in two parts. Part 1 (No Calculator): Generate the first 5 questions testing number sense, estimation, and basic operations that must be solved without a calculator. Part 2 (Calculator Allowed): Generate the remaining 41 questions. Adhere to this content distribution: 55% algebraic problems and 45% quantitative problems.`,
+            "Reasoning Through Language Arts (RLA)": `Generate a comprehensive, 45-question GED RLA exam. The passages must be 75% informational text and 25% literary text. The final question must be an Extended Response (essay) task. The essay task must present two opposing passages on a contemporary issue and prompt the user to write an essay analyzing the arguments and determining which is better supported, using evidence from the text. This essay portion has a 45-minute time limit.`
         };
         prompt = comprehensivePrompts[subject];
         if (!prompt) {
@@ -95,47 +93,37 @@ app.post('/generate-quiz', async (req, res) => {
         if (!subject || !topic) {
             return res.status(400).json({ error: 'Subject and topic are required for a standard quiz.' });
         }
-        const relevantImages = curatedImages.filter(image => {
-            const lowerCaseTopic = topic.toLowerCase();
-            const topicMatch = image.topics.some(t => lowerCaseTopic.includes(t.toLowerCase()));
-            const subjectMatch = image.subject.toLowerCase() === subject.toLowerCase() || image.subject === 'General';
-            return topicMatch && subjectMatch;
-        });
-        const imageRepositoryText = relevantImages.length > 0
-            ? relevantImages.map(img =>
-                `{ "url": "${img.url}", "description": "${img.description}", "type": "${img.type}", "subject": "${img.subject}", "era": "${img.era}", "topics": ["${img.topics.join('", "')}"] }`
-              ).join('\n')
-            : "No relevant images were found in the repository for this specific topic.";
-
-        prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz must contain a mix of passage-based questions and image-based questions.
-        When you create an image-based question, you MUST follow this two-step process:
-        1.  **First, select a specific URL and its description from the 'Pre-approved Image List' provided below.**
-        2.  **Second, write a question that is DIRECTLY and EXCLUSIVELY about the content of THAT SPECIFIC IMAGE.** The text of the question must clearly reference the image you chose (e.g., "This map shows...", "The political cartoon criticizes...").
-        **Crucially, DO NOT generate a question about one topic and then use an unrelated image. The question text and the chosen image must be perfectly matched.**
-        If you cannot find a suitable image in the pre-approved list for a question you want to ask, you are permitted to search for another publicly accessible and relevant image, but you must still ensure the question is about that specific image.
-        **Pre-approved Image List:**
-        ${imageRepositoryText}
-        For all other questions, provide a text 'passage'. Ensure the output is a valid JSON object following the specified schema.`;
-
-        if (subject === "Social Studies") {
-            prompt += ` The questions must be text-analysis or quote-analysis based. Each question must include a short 'passage' (a paragraph or two of historical text, or a historical quote) for the student to analyze. Do not generate simple knowledge-based questions without a passage.`;
+        const topicSpecificPrompts = {
+            "Social Studies": `Generate a 15-question GED-style Social Studies quiz on "${topic}". Every question must be based on a stimulus, such as a historical passage, a political cartoon description, a data table, or a map description. Focus on questions that test analysis and interpretation, not just fact recall. Ensure at least 7 questions relate to Civics & Government.`,
+            "Science": `Generate a 15-question GED-style Science quiz on "${topic}". Every question must be based on a stimulus, such as a description of a science experiment, a data table, or a graph. Focus on questions testing scientific reasoning, hypothesis evaluation, and data interpretation. Include one 'short-answer' question that requires a 2-3 sentence explanation.`,
+            "Mathematical Reasoning": `Generate a 15-question GED-style Mathematical Reasoning quiz on "${topic}". Assume the user has a calculator and a formula sheet. Problems should be multi-step and test application of concepts. 55% of the questions must be algebraic, and 45% must be quantitative (e.g., geometry, data analysis).`,
+            "Reasoning Through Language Arts (RLA)": `Generate a 15-question GED-style RLA quiz. The stimulus passages must be 75% informational texts (non-fiction, workplace documents) and 25% literary texts. Questions must test reading comprehension, argument analysis, and identifying grammatical errors in context. Include two 'dropdown' or 'drag-and-drop' style questions related to editing sentences.`
+        };
+        prompt = topicSpecificPrompts[subject];
+         if (!prompt) {
+            return res.status(400).json({ error: 'Invalid subject for topic-specific quiz.' });
         }
     }
 
   const schema = {
       type: "OBJECT",
       properties: {
-          id: { type: "STRING" },
-          title: { type: "STRING" },
           questions: {
               type: "ARRAY",
               items: {
                   type: "OBJECT",
                   properties: {
                       questionNumber: { type: "NUMBER" },
-                      question: { type: "STRING" },
-                      passage: { type: "STRING" },
-                      imageUrl: { type: "STRING" },
+                      type: { type: "STRING", enum: ['multiple-choice-text', 'multiple-choice-image', 'short-answer', 'drag-and-drop', 'dropdown'] },
+                      content: {
+                          type: "OBJECT",
+                          properties: {
+                              passage: { type: "STRING" },
+                              imageURL: { type: "STRING" },
+                              questionText: { type: "STRING" }
+                          },
+                          required: ["questionText"]
+                      },
                       answerOptions: {
                           type: "ARRAY",
                           items: {
@@ -149,11 +137,11 @@ app.post('/generate-quiz', async (req, res) => {
                           }
                       }
                   },
-                   "required": ["questionNumber", "question", "answerOptions"]
+                   "required": ["questionNumber", "type", "content", "answerOptions"]
               }
           }
       },
-       "required": ["id", "title", "questions"]
+       "required": ["questions"]
   };
 
   const payload = {
@@ -246,13 +234,13 @@ app.post('/score-essay', async (req, res) => {
     }
 });
 
-const { AppData } = require('./premade-questions.js');
+const { ALL_QUIZZES } = require('./premade-questions.js');
 
 // Helper function to get random questions from the premade data
 const getPremadeQuestions = (subject, count) => {
     const allQuestions = [];
-    if (AppData[subject] && AppData[subject].categories) {
-        Object.values(AppData[subject].categories).forEach(category => {
+    if (ALL_QUIZZES[subject] && ALL_QUIZZES[subject].categories) {
+        Object.values(ALL_QUIZZES[subject].categories).forEach(category => {
             if (category.topics) {
                 category.topics.forEach(topic => {
                     if (topic.questions) {
