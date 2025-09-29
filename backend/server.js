@@ -79,6 +79,9 @@ app.post('/generate-quiz', async (req, res) => {
     }
 
     if (comprehensive) {
+        if (!subject) {
+            return res.status(400).json({ error: 'Subject is required for a comprehensive exam.' });
+        }
         const comprehensivePrompts = {
             "Social Studies": `Generate a 35-question comprehensive GED Social Studies exam. Adhere to this content distribution: 50% Civics & Government, 20% U.S. History, 15% Economics, and 15% Geography & the World. All questions must be stimulus-based.`,
             "Science": `Generate a 38-question comprehensive GED Science exam. Adhere to this content distribution: 40% Life Science, 40% Physical Science, and 20% Earth & Space Science. Questions must test scientific practices. Include two 'short-answer' questions.`,
@@ -91,7 +94,7 @@ app.post('/generate-quiz', async (req, res) => {
         }
     } else {
         if (!subject || !topic) {
-            return res.status(400).json({ error: 'Subject and topic are required for a standard quiz.' });
+            return res.status(400).json({ error: 'Subject and topic are required.' });
         }
         const topicSpecificPrompts = {
             "Social Studies": `Generate a 15-question GED-style Social Studies quiz on "${topic}". Every question must be based on a stimulus, such as a historical passage, a political cartoon description, a data table, or a map description. Focus on questions that test analysis and interpretation, not just fact recall. Ensure at least 7 questions relate to Civics & Government.`,
