@@ -25,18 +25,6 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
 app.use(express.json());
 
-let curatedImages = [];
-// Load the new, structured image repository from the local file system.
-const imageRepositoryPath = path.join(__dirname, '..', 'image_links.json');
-
-try {
-    const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
-    curatedImages = JSON.parse(imageData);
-    console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
-} catch (error) {
-    console.error('Failed to load or parse image_links.json:', error);
-}
-
 app.get('/', (req, res) => {
   res.send('Learning Canvas Backend is running!');
 });
