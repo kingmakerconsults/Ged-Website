@@ -1135,41 +1135,51 @@ function App() {
         setCurrentUser(updatedUsers[userKey]);
     };
 
-// In the App component in index.html
+    const handleEssayScored = (scoreData) => {
+        if (!currentUser) return;
 
-// This new version safely handles cases where a user's history might not exist yet.
-const handleEssayScored = (scoreData) => {
-    if (!currentUser) return;
+        const newHistoryEntry = {
+            id: `essay-${Date.now()}`,
+            type: 'essay',
+            title: 'Interactive Essay Practice',
+            date: new Date().toISOString(),
+            score: `${scoreData.overallScore}/6`,
+            scoreData: scoreData
+        };
 
-    const newHistoryEntry = {
-        id: `essay-${Date.now()}`,
-        type: 'essay',
-        title: 'Interactive Essay Practice',
-        date: new Date().toISOString(),
-        score: `${scoreData.overallScore}/6`,
-        scoreData: scoreData
+        const userKey = currentUser.name.toLowerCase();
+
+        // Safely get the user object, or create a new one if it doesn't exist.
+        const userToUpdate = users[userKey] || { name: currentUser.name, history: {} };
+
+        // Safely get the user's history, or create an empty history object.
+        const history = userToUpdate.history || {};
+
+        // Safely get the existing attempts for this specific essay, or create an empty array.
+        const existingAttempts = history['rla_essay_guide'] || [];
+
+        // Create the new list of attempts by adding the new entry.
+        const updatedAttempts = [...existingAttempts, newHistoryEntry];
+
+        // Build the updated user object with the new history.
+        const updatedUser = {
+            ...userToUpdate,
+            history: {
+                ...history,
+                ['rla_essay_guide']: updatedAttempts
+            }
+        };
+
+        // Build the final, updated users object to be saved.
+        const updatedUsers = {
+            ...users,
+            [userKey]: updatedUser
+        };
+
+        saveUsers(updatedUsers);
+        setCurrentUser(updatedUser);
+        alert("Essay score has been saved to your progress!");
     };
-
-    const userKey = currentUser.name.toLowerCase();
-
-    // Safely create copies of the user and history objects
-    const updatedUser = { ...users[userKey] };
-    updatedUser.history = updatedUser.history ? { ...updatedUser.history } : {};
-
-    // Safely get existing attempts or create a new empty array
-    const existingAttempts = updatedUser.history['rla_essay_guide'] || [];
-
-    updatedUser.history['rla_essay_guide'] = [...existingAttempts, newHistoryEntry];
-
-    const updatedUsers = {
-        ...users,
-        [userKey]: updatedUser
-    };
-
-    saveUsers(updatedUsers);
-    setCurrentUser(updatedUser);
-    alert("Essay score has been saved to your progress!");
-};
 
     const handleStartPopQuiz = () => {
         const allQuestions = [];
