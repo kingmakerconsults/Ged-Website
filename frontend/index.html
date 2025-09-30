@@ -69,9 +69,9 @@ function ChartDisplay({ chartData }) {
                 data: { labels: chartData.labels, datasets: chartData.datasets },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false, // <-- ADD THIS LINE
+                    maintainAspectRatio: false,
                     animation: {
-                        duration: 0 // <-- CHANGE THIS LINE
+                        duration: 0 // This line disables all animations
                     }
                 }
             });
@@ -1508,11 +1508,12 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
 
 
 function QuizRunner({ quiz, onComplete, onExit }) {
+    const questions = quiz.questions || []; // <-- ADD THIS
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [answers, setAnswers] = useState(Array(quiz.questions.length).fill(null));
-    const [marked, setMarked] = useState(Array(quiz.questions.length).fill(false));
-    const [confidence, setConfidence] = useState(Array(quiz.questions.length).fill(null));
-    const [timeLeft, setTimeLeft] = useState(quiz.timeLimit || quiz.questions.length * 90);
+    const [answers, setAnswers] = useState(Array(questions.length).fill(null));
+    const [marked, setMarked] = useState(Array(questions.length).fill(false));
+    const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
+    const [timeLeft, setTimeLeft] = useState(quiz.timeLimit || questions.length * 90);
     const [view, setView] = useState('quiz'); // 'quiz' or 'essay'
     const [essayText, setEssayText] = useState('');
     const [essayScore, setEssayScore] = useState(null);
@@ -1555,18 +1556,18 @@ function QuizRunner({ quiz, onComplete, onExit }) {
         }
 
         let score = 0;
-        quiz.questions.forEach((q, i) => {
+        questions.forEach((q, i) => {
             const correctOption = q.answerOptions.find(opt => opt.isCorrect);
             if (correctOption && answers[i] === correctOption.text) {
                 score++;
             }
         });
 
-        const percentage = (score / quiz.questions.length) * 100;
+        const percentage = (score / questions.length) * 100;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
         
-        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers, subject: quiz.subject, marked, confidence, essayScore });
-    }, [answers, quiz, onComplete, marked, confidence, view, essayScore]);
+        onComplete({ score, totalQuestions: questions.length, scaledScore, answers, subject: quiz.subject, marked, confidence, essayScore });
+    }, [answers, quiz, onComplete, marked, confidence, view, essayScore, questions]);
 
     useEffect(() => {
         handleSubmitRef.current = handleSubmit;
@@ -1648,7 +1649,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
         )
     }
 
-    const currentQ = quiz.questions[currentIndex];
+    const currentQ = questions[currentIndex];
     
     return (
         <div className="fade-in">
@@ -1659,7 +1660,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
             </header>
 
             <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
-                {quiz.questions.map((_, i) => (
+                {questions.map((_, i) => (
                     <button key={i} onClick={() => setCurrentIndex(i)} className={`w-8 h-8 rounded-full font-bold text-sm ${i === currentIndex ? 'bg-sky-600 text-white' : answers[i] !== null ? 'bg-sky-200' : 'bg-slate-200'} ${marked[i] ? 'ring-2 ring-yellow-400' : ''}`}>
                         {i + 1}
                     </button>
@@ -1713,10 +1714,10 @@ function QuizRunner({ quiz, onComplete, onExit }) {
                 <button onClick={() => setMarked(m => { const newM = [...m]; newM[currentIndex] = !newM[currentIndex]; return newM; })} className={`px-4 py-2 rounded-md ${marked[currentIndex] ? 'bg-yellow-300' : 'bg-slate-200'}`}>
                     Mark for Review
                 </button>
-                {currentIndex === quiz.questions.length - 1 ? (
+                {currentIndex === questions.length - 1 ? (
                     <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded-md">{quiz.essayPrompt ? 'Continue to Essay' : 'Finish'}</button>
                 ) : (
-                    <button onClick={() => setCurrentIndex(p => Math.min(quiz.questions.length - 1, p + 1))} className="px-4 py-2 bg-sky-500 text-white rounded-md">Next</button>
+                    <button onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))} className="px-4 py-2 bg-sky-500 text-white rounded-md">Next</button>
                 )}
             </div>
         </div>

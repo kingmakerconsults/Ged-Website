@@ -124,120 +124,101 @@ function shuffleArray(array) {
 
 // This is the final and most prescriptive version for server.js
 
+// This is the final and most advanced version for server.js
+
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz (Quiz Assembler v10 - Final Recipe) ---');
+    console.log('--- Received a request to /generate-quiz (Quiz Assembler v11 - Multi-Call) ---');
     const { subject, topic, comprehensive } = req.body;
     const apiKey = process.env.GOOGLE_AI_API_KEY;
 
     try {
-        const totalQuestions = 15; // Hard-code to 15 for this specific logic
+        const totalQuestions = 15;
         let recipe = [];
 
-        const relevantImages = shuffleArray(curatedImages.filter(img => {
-            if (img.subject !== subject) return false;
-            if (comprehensive) return true;
-            return img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase().replace(/_/g, ' ')));
-        }));
+        const relevantImages = shuffleArray(curatedImages.filter(img => img.subject === subject && (comprehensive || (img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase().replace(/_/g, ' ')))))));
 
-        // --- Build the Prescriptive Recipe for Social Studies ---
         if (subject === "Social Studies") {
             const numImageQuestions = Math.min(relevantImages.length, 3);
-
-            let baseRecipe = [
-                'bar_chart', 'line_graph', 'pie_chart',
-                'quote', 'quote', 'quote', 'quote'
-            ];
-
+            let baseRecipe = ['bar_chart', 'line_graph', 'pie_chart', 'quote', 'quote', 'quote', 'quote'];
             let imageSlots = Array(numImageQuestions).fill('image');
             let textSlots = Array(totalQuestions - baseRecipe.length - imageSlots.length).fill('text');
-
             recipe = shuffleArray([...baseRecipe, ...imageSlots, ...textSlots]);
         } else {
-            // Fallback for other subjects
-            recipe = Array(totalQuestions).fill('text');
+            recipe = Array(totalQuestions).fill('text'); // Fallback for other subjects
         }
 
-        const finalQuizQuestions = [];
-        // NEW: Updated schema to include an optional chartDescription
         const singleQuestionSchema = {
             type: "OBJECT",
             properties: {
               type: { type: "STRING" },
               passage: { type: "STRING" },
-              chartDescription: { type: "STRING" }, // <-- NEW FIELD
+              chartDescription: { type: "STRING" },
               questionText: { type: "STRING" },
-              answerOptions: { /* ... same as before ... */ }
+              answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
             },
             required: ["type", "questionText", "answerOptions"]
         };
-
+        const multiQuestionSchema = { type: "OBJECT", properties: { questions: { type: "ARRAY", items: singleQuestionSchema } }, required: ["questions"] };
         let subTopics = subTopicLibrary[topic] ? shuffleArray([...subTopicLibrary[topic]]) : [topic];
 
-        for (let i = 0; i < totalQuestions; i++) {
-            const questionType = recipe[i];
-            const currentSubTopic = subTopics[i % subTopics.length];
-            let prompt = '';
-            let imageUrlForQuestion = null;
-
-            switch (questionType) {
-                case 'image':
-                    const image = relevantImages.pop();
-                    imageUrlForQuestion = image.url;
-                    prompt = `You are a GED question writer. Write a single GED-style question based on this image description: "${image.description}".`;
-                    break;
-
-                case 'bar_chart':
-                    prompt = `You are a GED question writer. For a ${subject} quiz about "${currentSubTopic}", create a stimulus containing a bar chart comparing at least 3 categories. Provide a brief, one-sentence "chartDescription" to give context. The bar chart data MUST be formatted as an HTML <table>.`;
-                    break;
-
-                case 'line_graph':
-                    prompt = `You are a GED question writer. For a ${subject} quiz about "${currentSubTopic}", create a stimulus containing a line graph showing a trend over at least 4 time periods. Provide a brief, one-sentence "chartDescription" to give context. The line graph data MUST be formatted as an HTML <table> with a 'Year' or 'Date' column.`;
-                    break;
-
-                case 'pie_chart':
-                    prompt = `You are a GED question writer. For a ${subject} quiz about "${currentSubTopic}", create a stimulus containing a pie chart showing percentage breakdowns. Provide a brief, one-sentence "chartDescription" to give context. The pie chart data MUST be formatted as an HTML <table> with 'Category' and 'Percentage' columns where percentages sum to 100%.`;
-                    break;
-
-                case 'quote':
-                    prompt = `You are a GED question writer. For a ${subject} quiz about "${currentSubTopic}", the stimulus MUST be a short (2-4 sentences), historically significant quote or an excerpt from a letter. The "passage" field should contain ONLY this quote/excerpt and its attribution.`;
-                    break;
-
-                default: // 'text'
-                    prompt = `You are a GED question writer. For a ${subject} quiz about "${currentSubTopic}", the stimulus MUST be a text passage.`;
-                    break;
-            }
-
-            const rules = `
-                YOU MUST FOLLOW THESE RULES:
-                1. The 'questionText' must be a single, concise question about the stimulus.
-                2. If the question is image-based, the 'passage' and 'chartDescription' fields MUST be empty strings.
-                3. The 'passage' and 'questionText' fields MUST NOT be the same.`;
-
-            prompt += rules;
-
+        const callAI = async (prompt) => {
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: {
-                    responseMimeType: "application/json",
-                    responseSchema: singleQuestionSchema,
-                },
+                generationConfig: { responseMimeType: "application/json", responseSchema: multiQuestionSchema },
             };
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
             const response = await axios.post(apiUrl, payload);
-            let generatedQuestion = JSON.parse(response.data.candidates[0].content.parts[0].text);
+            return JSON.parse(response.data.candidates[0].content.parts[0].text);
+        };
 
-            if (imageUrlForQuestion) {
-                generatedQuestion.imageURL = imageUrlForQuestion;
-            }
-            finalQuizQuestions.push(generatedQuestion);
+        const chartTasks = recipe.filter(r => r.includes('_chart'));
+        const stimulusTasks = recipe.filter(r => r === 'image' || r === 'quote');
+        const textTasks = recipe.filter(r => r === 'text');
+        const apiCalls = [];
+
+        if (chartTasks.length > 0) {
+            const chartSubTopics = chartTasks.map((_, i) => subTopics[i % subTopics.length]);
+            const chartPrompt = `Generate ${chartTasks.length} GED-style chart questions for a Social Studies quiz about "${topic}". Create one question for each of the following chart types and sub-topics:
+            ${chartTasks.map((type, i) => `- A ${type.replace('_', ' ')} about "${chartSubTopics[i]}"`).join('\n')}
+            RULES: For each question, provide a 'chartDescription', format the data as an HTML <table>, and ensure the 'passage' contains ONLY the table. The 'questionText' must be a single question about the chart.`;
+            apiCalls.push(callAI(chartPrompt));
         }
 
-        const shuffledQuiz = shuffleArray(finalQuizQuestions).map((q, index) => ({ ...q, questionNumber: index + 1 }));
+        if (stimulusTasks.length > 0) {
+            const imageTasks = stimulusTasks.filter(t => t === 'image');
+            const quoteTasks = stimulusTasks.filter(t => t === 'quote');
+            const availableImageDescriptions = relevantImages.slice(0, imageTasks.length).map(img => `"${img.description}"`);
+            const stimulusSubTopics = stimulusTasks.map((_, i) => subTopics[(chartTasks.length + i) % subTopics.length]);
+            const stimulusPrompt = `Generate ${stimulusTasks.length} GED-style questions for a Social Studies quiz about "${topic}". Generate ${quoteTasks.length} questions based on historical quotes/letters, and ${imageTasks.length} questions based on the provided Image Descriptions.
+            Sub-topics to cover: ${stimulusSubTopics.join(', ')}.
+            Available Image Descriptions: [${availableImageDescriptions.join(', ')}].
+            RULES: For image questions, use an image description as the stimulus and the 'passage' field MUST be an empty string. The 'questionText' must be a single question.`;
+            apiCalls.push(callAI(stimulusPrompt));
+        }
+
+        if (textTasks.length > 0) {
+            const textSubTopics = textTasks.map((_, i) => subTopics[(chartTasks.length + stimulusTasks.length + i) % subTopics.length]);
+            const textPrompt = `Generate ${textTasks.length} GED-style text-passage questions for a Social Studies quiz about "${topic}". Create one question for each sub-topic:
+            ${textSubTopics.map(st => `- A question about "${st}"`).join('\n')}
+            RULES: The 'passage' should be a short text passage. The 'questionText' must be a single question about that passage. 'passage' and 'questionText' must not be the same.`;
+            apiCalls.push(callAI(textPrompt));
+        }
+
+        const results = await Promise.all(apiCalls);
+        let combinedQuestions = results.flatMap(result => result.questions);
+
+        combinedQuestions.forEach(q => {
+            if (q.type === 'image' && q.passage) {
+                const matchedImage = relevantImages.find(img => q.passage.includes(img.description));
+                if (matchedImage) q.imageURL = matchedImage.url;
+            }
+        });
+
+        const shuffledQuiz = shuffleArray(combinedQuestions).map((q, index) => ({ ...q, questionNumber: index + 1 }));
         res.json({ questions: shuffledQuiz });
 
     } catch (error) {
-        console.error('Error in Quiz Assembler v10:', error.response ? error.response.data : error.message);
+        console.error('Error in Quiz Assembler v11:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
     }
 });
