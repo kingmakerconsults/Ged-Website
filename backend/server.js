@@ -224,7 +224,7 @@ app.post('/generate-quiz', async (req, res) => {
 });
 
 app.post('/score-essay', async (req, res) => {
-    const { essayText } = req.body;
+    const { essayText, completion } = req.body; // Get completion data
     if (!essayText) {
         return res.status(400).json({ error: 'Essay text is required.' });
     }
@@ -235,14 +235,16 @@ app.post('/score-essay', async (req, res) => {
         return res.status(500).json({ error: 'Server configuration error.' });
     }
 
-    const prompt = `Act as a GED Reasoning Through Language Arts (RLA) essay evaluator. Your task is to score the following student's essay based on the official three-trait rubric. The essay is an analysis of two opposing passages.
+    const prompt = `Act as a GED RLA essay evaluator. The student was asked to write a 5-paragraph essay.
 
-    Here is the student's essay:
-    ---
-    ${essayText}
-    ---
+        IMPORTANT CONTEXT: The student's level of completion for this draft was ${completion} sections. Factor this completion level into your feedback and scores, especially for Trait 3. An incomplete essay cannot score a 2 on Trait 3.
 
-    Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores. "overallFeedback" should be a summary.`;
+        Here is the student's essay:
+        ---
+        ${essayText}
+        ---
+
+        Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores. "overallFeedback" should be a summary.`;
 
     const schema = {
         type: "OBJECT",
