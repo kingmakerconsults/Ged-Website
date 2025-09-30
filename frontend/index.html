@@ -69,7 +69,10 @@ function ChartDisplay({ chartData }) {
                 data: { labels: chartData.labels, datasets: chartData.datasets },
                 options: {
                     responsive: true,
-                    animation: false // <-- ADD THIS LINE
+                    maintainAspectRatio: false, // <-- ADD THIS LINE
+                    animation: {
+                        duration: 0 // <-- CHANGE THIS LINE
+                    }
                 }
             });
             return () => chartInstance.destroy();
