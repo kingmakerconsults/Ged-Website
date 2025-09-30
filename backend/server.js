@@ -86,26 +86,52 @@ function shuffleArray(array) {
     return array;
 }
 
+// This is the final, corrected version for server.js
+
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz (Quiz Assembler v2) ---');
+    console.log('--- Received a request to /generate-quiz (Quiz Assembler v5 - Social Studies Charts) ---');
     const { subject, topic, comprehensive } = req.body;
     const apiKey = process.env.GOOGLE_AI_API_KEY;
 
-    // --- Configuration ---
-    const totalQuestions = comprehensive ? 35 : 15;
-    const imageQuestionPercentage = 0.3; // Make 30% of questions image-based, if possible
-
     try {
+        const totalQuestions = comprehensive ? 35 : 15;
+        let recipe = [];
+
+        const relevantImages = shuffleArray(curatedImages.filter(img => {
+            if (img.subject !== subject) return false;
+            if (comprehensive) return true;
+            return img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase().replace(/_/g, ' ')));
+        }));
+
+        // --- Define the "Recipe" for the quiz ---
+        if (subject === "Social Studies") {
+            // NEW: Increased chart frequency for Social Studies
+            const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.20)); // 20% images
+            const numChartQuestions = Math.floor(totalQuestions * 0.35); // INCREASED TO 35% for Social Studies
+            const numTextQuestions = totalQuestions - numImageQuestions - numChartQuestions;
+
+            recipe = [
+                ...Array(numImageQuestions).fill('image'),
+                ...Array(numChartQuestions).fill('chart'),
+                ...Array(numTextQuestions).fill('text')
+            ];
+        } else if (subject === "Science") {
+            // Original recipe for Science
+            const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.25)); // 25% images
+            const numChartQuestions = Math.floor(totalQuestions * 0.20); // 20% charts
+            const numTextQuestions = totalQuestions - numImageQuestions - numChartQuestions;
+
+            recipe = [
+                ...Array(numImageQuestions).fill('image'),
+                ...Array(numChartQuestions).fill('chart'),
+                ...Array(numTextQuestions).fill('text')
+            ];
+        } else {
+            // Default recipe for other subjects
+            recipe = Array(totalQuestions).fill('text');
+        }
+
         const finalQuizQuestions = [];
-
-        // 1. Filter for relevant images from your repository
-        const relevantImages = curatedImages.filter(img =>
-            img.subject === subject &&
-            (comprehensive || (img.topics && img.topics.some(t => topic.toLowerCase().includes(t))))
-        );
-        let shuffledImages = shuffleArray(relevantImages);
-
-        // 2. Define the schema for a SINGLE question object
         const singleQuestionSchema = {
           type: "OBJECT",
           properties: {
@@ -128,45 +154,31 @@ app.post('/generate-quiz', async (req, res) => {
           required: ["type", "questionText", "answerOptions"]
         };
 
-        // 3. Assemble the quiz question by question
         for (let i = 0; i < totalQuestions; i++) {
+            const questionType = recipe[i];
             let prompt = '';
             let imageUrlForQuestion = null;
-            let useImage = (shuffledImages.length > 0) && (Math.random() < imageQuestionPercentage);
 
-            if (useImage) {
-                // --- Logic for IMAGE-BASED question ---
-                const image = shuffledImages.pop(); // Use an image and remove it from the pool
+            if (questionType === 'image' && relevantImages.length > 0) {
+                const image = relevantImages.pop();
                 imageUrlForQuestion = image.url;
-                prompt = `You are a GED question writer. Your task is to write a single, high-quality, GED-style question based on the following image description.
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question based on the following image description: "${image.description}". The "type" should be 'image'.`;
 
-                IMAGE DESCRIPTION: "${image.description}"
+            } else if (questionType === 'chart') {
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question for a ${subject} quiz on the topic of "${topic}". The stimulus for the question MUST be a data table, formatted as a simple HTML <table>. The "passage" should contain ONLY this HTML table. The "type" should be 'chart'.`;
 
-                YOU MUST FOLLOW THESE RULES:
-                1. The 'passage' field MUST be an empty string.
-                2. The 'questionText' field contains ONLY a single, concise question about the stimulus.
-                3. The 'passage' and 'questionText' fields MUST be different and not contain duplicate text.
-                4. Any data table MUST be formatted as a simple HTML <table>.
-                5. Under NO circumstances describe a visual stimulus (map, image, cartoon).
-
-                The "type" should be 'image'.`;
-
-            } else {
-                // --- Logic for TEXT-BASED question ---
-                const topicInstruction = comprehensive
-                    ? `for a comprehensive ${subject} exam`
-                    : `about the topic "${topic}" for the subject "${subject}"`;
-
-                prompt = `Generate a single high-quality, GED-style, text-based question ${topicInstruction}.
-YOU MUST FOLLOW THESE RULES:
-1. The 'passage' field contains ONLY the stimulus material (text or HTML table).
-2. The 'questionText' field contains ONLY a single, concise question about the stimulus.
-3. The 'passage' and 'questionText' fields MUST be different and not contain duplicate text.
-4. Any data table MUST be formatted as a simple HTML <table>.
-5. Under NO circumstances describe a visual stimulus (map, image, cartoon).
-
-The "type" must be 'text'.`;
+            } else { // Default to text
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style, text-based question for a ${subject} quiz on the topic of "${topic}". The stimulus MUST be a text passage. The "passage" field should contain ONLY this passage. The "type" should be 'text'.`;
             }
+
+            const rules = `
+                YOU MUST FOLLOW THESE RULES:
+                1. The 'questionText' field must contain ONLY a single, concise question about the stimulus.
+                2. If the question is image-based, the 'passage' field MUST be an empty string.
+                3. The 'passage' and 'questionText' fields MUST NOT be the same.
+                4. Under NO circumstances describe a visual stimulus you cannot see.`;
+
+            prompt += rules;
 
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
@@ -177,11 +189,9 @@ The "type" must be 'text'.`;
             };
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
-            // Call the AI for a single question
             const response = await axios.post(apiUrl, payload);
             let generatedQuestion = JSON.parse(response.data.candidates[0].content.parts[0].text);
 
-            // Add the questionNumber and the imageURL (if it exists)
             generatedQuestion.questionNumber = i + 1;
             if (imageUrlForQuestion) {
                 generatedQuestion.imageURL = imageUrlForQuestion;
@@ -190,11 +200,10 @@ The "type" must be 'text'.`;
             finalQuizQuestions.push(generatedQuestion);
         }
 
-        // 4. Send the fully assembled quiz to the frontend
-        res.json({ questions: finalQuizQuestions });
+        res.json({ questions: shuffleArray(finalQuizQuestions) });
 
     } catch (error) {
-        console.error('Error in Quiz Assembler:', error.response ? error.response.data : error.message);
+        console.error('Error in Quiz Assembler v5:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
     }
 });
