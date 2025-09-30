@@ -1,4 +1,4 @@
-# Backend Setup for Mr. Smith's Learning Canvas 1
+# Backend Setup for Mr. Smith's Learning Canvas 
 
 This backend server provides AI-powered features for the GED preparation platform, including the "Smith a Quiz" generator.
 
