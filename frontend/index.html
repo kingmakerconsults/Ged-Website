@@ -1670,7 +1670,10 @@ function QuizRunner({ quiz, onComplete, onExit }) {
                 {currentQ.passage && (
                     <div className="mb-4 prose max-w-none">
                         {currentQ.passage.includes('<table') ? (
-                            <ChartDisplay chartData={parseHtmlTable(unescapeHtml(currentQ.passage))} />
+                            <>
+                                {currentQ.chartDescription && <p className="mb-2 text-slate-600 italic">{currentQ.chartDescription}</p>}
+                                <ChartDisplay chartData={parseHtmlTable(unescapeHtml(currentQ.passage))} />
+                            </>
                         ) : (
                             <div dangerouslySetInnerHTML={{ __html: unescapeHtml(currentQ.passage) }} />
                         )}
