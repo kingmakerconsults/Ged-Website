@@ -43,32 +43,40 @@ try {
     console.error('Failed to load or parse image_links.json:', error);
 }
 
-// Add this new object near the top of server.js
+// This is the new, comprehensive library for server.js
 
 const subTopicLibrary = {
-    "Global Conflicts (1914-1945)": [
-        "the alliance systems of World War I",
-        "the Treaty of Versailles and its consequences",
-        "the rise of totalitarianism in Europe",
-        "the economic causes of the Great Depression",
-        "key battles of World War II (e.g., D-Day, Midway)",
-        "the U.S. home front during World War II"
-    ],
-    "The American Revolution (1763-1783)": [
-        "the Stamp Act and 'taxation without representation'",
-        "the Declaration of Independence",
-        "the role of international allies like France",
-        "key battles like Saratoga and Yorktown",
-        "the strengths and weaknesses of the British vs. the Continental Army"
-    ],
-    "A New Nation (1783-1824)": [
-        "the weaknesses of the Articles of Confederation",
-        "the Great Compromise at the Constitutional Convention",
-        "the principles of the Bill of Rights",
-        "the Louisiana Purchase",
-        "the significance of the Marbury v. Madison case"
-    ]
-    // ... feel free to add more topics and their sub-topics here ...
+    // --- Social Studies Sub-Topics ---
+    "Foundations (1491-1763)": ["the Columbian Exchange's impact", "the economic theory of Mercantilism", "differences between New England and Southern colonies", "the consequences of the French and Indian War", "the structure of the Triangular Trade"],
+    "The American Revolution (1763-1783)": ["the Stamp Act and 'taxation without representation'", "the philosophical ideas in the Declaration of Independence", "the strategic importance of the Battle of Saratoga", "a comparison of British vs. Continental army strengths", "the outcomes of the Treaty of Paris"],
+    "A New Nation (1783-1824)": ["the weaknesses of the Articles of Confederation", "the Great Compromise at the Constitutional Convention", "the principles of the Bill of Rights", "the impact of the Louisiana Purchase on U.S. size", "the establishment of judicial review in Marbury v. Madison"],
+    "A Nation Divided (1824-1877)": ["economic sectionalism between the North and South", "the Missouri Compromise of 1820", "the concept of Manifest Destiny", "the election of Abraham Lincoln as a trigger for secession", "the purpose of the 13th, 14th, and 15th Amendments"],
+    "Industrial America (1877-1914)": ["the impact of the Bessemer process on industry", "a comparison of 'New' vs. 'Old' immigrants", "the problems of urbanization and tenements", "the function of political machines like Tammany Hall", "the goals of Progressive Era muckrakers"],
+    "Global Conflicts (1914-1945)": ["a comparison of casualties in WWI vs. WWII", "the economic impact of the Great Depression on unemployment rates", "the alliance systems of World War I", "the consequences of the Treaty of Versailles", "the U.S. home front during World War II (e.g., rationing, war bonds)"],
+    "The Modern Era (1945-Present)": ["the Cold War policy of containment", "the Cuban Missile Crisis", "the significance of the Brown v. Board of Education decision", "the key provisions of the Civil Rights Act of 1964", "the fall of the Berlin Wall and the end of the Cold War"],
+    "The Constitution": ["the principle of Popular Sovereignty", "the Separation of Powers among the three branches", "the system of Checks and Balances", "the process for amending the Constitution", "the concept of Federalism and the Supremacy Clause"],
+    "The Legislative Branch": ["the process of how a bill becomes a law", "the enumerated powers of Congress", "the differences between the House and the Senate", "the purpose of the filibuster", "Congress's 'power of the purse'"],
+    "The Executive Branch": ["the powers of the President (e.g., Veto, Commander in Chief)", "the role of the President's Cabinet", "the line of presidential succession", "the use of Executive Orders", "the two-term limit set by the 22nd Amendment"],
+    "The Judicial Branch": ["the principle of judicial review", "the structure of the federal court system", "the Supreme Court's 'rule of four'", "the precedent set by a landmark case like Gideon v. Wainwright", "the lifetime appointments of federal judges"],
+    "Federalism & Elections": ["a comparison of federal vs. state powers", "how the Electoral College works", "the role and function of political parties", "the difference between primary and general elections", "the practice of gerrymandering"],
+    "Foundational Concepts": ["the concept of Scarcity and Opportunity Cost", "the Law of Supply and Demand", "market equilibrium price and quantity", "the four factors of production", "substitute vs. complementary goods"],
+    "The U.S. Economy": ["the principles of a mixed economy", "the government's role in regulation (e.g., FDA, OSHA)", "a comparison of fiscal vs. monetary policy", "the phases of the business cycle", "the pros and cons of globalization"],
+    "Map & Data Skills": ["interpreting a political map's boundaries", "using a map scale to determine distance", "comparing data in a bar graph", "analyzing trends in a line graph", "calculating percentages from a pie chart"],
+
+    // --- Science Sub-Topics ---
+    "Life Science Basics": ["the differences between plant and animal cells", "the inputs and outputs of photosynthesis", "the relationship between DNA, genes, and chromosomes", "the concept of homeostasis", "predicting traits with a Punnett square"],
+    "Ecosystems & Environment": ["biotic vs. abiotic factors in an ecosystem", "the flow of energy in a food web", "the stages of the water cycle", "the principles of natural selection", "the impact of an invasive species"],
+    "Chemistry Fundamentals": ["the roles of protons, neutrons, and electrons", "how to read an element on the periodic table", "a comparison of physical vs. chemical changes", "the pH scale (acids and bases)", "the difference between ionic and covalent bonds"],
+    "Physics in Motion": ["Newton's First Law of Motion (Inertia)", "Newton's Second Law (F=ma)", "Newton's Third Law (Action-Reaction)", "the conversion of potential to kinetic energy", "Ohm's Law (V=IR) in a circuit"],
+    "Earth & Space Systems": ["the theory of plate tectonics", "the stages of the rock cycle", "a comparison of weathering vs. erosion", "the order of the planets in the solar system", "the cause of the seasons on Earth"],
+
+    // --- RLA & Math Sub-Topics (for future use, as they currently default to text-only) ---
+    "Main Idea & Details": ["identifying the central idea of a passage", "locating specific supporting details", "summarizing a paragraph's key points", "determining the author's primary purpose", "distinguishing between fact and opinion"],
+    "Sentence Structure": ["correcting sentence fragments", "fixing run-on sentences and comma splices", "properly using dependent and independent clauses", "maintaining parallel structure in a list", "combining sentences effectively"],
+    "Punctuation & Mechanics": ["comma usage in a series and with introductory phrases", "the difference between possessive and plural apostrophes", "capitalization of proper nouns and titles", "using a semicolon to join related clauses", "correctly punctuating dialogue"],
+    "Grammar & Usage": ["subject-verb agreement with singular and plural subjects", "pronoun-antecedent agreement (e.g., 'a student... he or she')", "correct word choice (e.g., affect/effect, farther/further)", "pronoun case (e.g., I/me, who/whom)", "identifying and correcting misplaced modifiers"],
+    "Geometry Basics": ["calculating the area and perimeter of a rectangle", "finding the area of a triangle", "calculating the circumference and area of a circle", "using the Pythagorean theorem in a right triangle", "finding the volume of a rectangular prism"],
+    "Algebraic Expressions & Equations": ["solving a linear equation for a variable", "simplifying an algebraic expression", "evaluating an expression by substituting values", "solving a simple inequality", "identifying the slope and y-intercept from an equation"]
 };
 
 app.get('/', (req, res) => {
@@ -114,10 +122,10 @@ function shuffleArray(array) {
     return array;
 }
 
-// This is the final, most advanced version for server.js
+// This is the final and most advanced version for server.js
 
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz (Quiz Assembler v6 - Sub-Topics) ---');
+    console.log('--- Received a request to /generate-quiz (Quiz Assembler v7 - Chart & Topic Variety) ---');
     const { subject, topic, comprehensive } = req.body;
     const apiKey = process.env.GOOGLE_AI_API_KEY;
 
@@ -125,14 +133,12 @@ app.post('/generate-quiz', async (req, res) => {
         const totalQuestions = comprehensive ? 35 : 15;
         let recipe = [];
 
-        // --- Correctly filter images ---
         const relevantImages = shuffleArray(curatedImages.filter(img => {
             if (img.subject !== subject) return false;
             if (comprehensive) return true;
             return img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase().replace(/_/g, ' ')));
         }));
 
-        // --- Define the quiz "Recipe" ---
         if (subject === "Social Studies") {
             const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.20));
             const numChartQuestions = Math.floor(totalQuestions * 0.35);
@@ -169,14 +175,10 @@ app.post('/generate-quiz', async (req, res) => {
           },
           required: ["type", "questionText", "answerOptions"]
         };
-
-        // --- Get Sub-Topics for Variety ---
         let subTopics = subTopicLibrary[topic] ? shuffleArray([...subTopicLibrary[topic]]) : [topic];
 
-        // --- Main Assembly Loop ---
         for (let i = 0; i < totalQuestions; i++) {
             const questionType = recipe[i];
-            // Cycle through sub-topics to ensure variety
             const currentSubTopic = subTopics[i % subTopics.length];
             let prompt = '';
             let imageUrlForQuestion = null;
@@ -184,24 +186,24 @@ app.post('/generate-quiz', async (req, res) => {
             if (questionType === 'image' && relevantImages.length > 0) {
                 const image = relevantImages.pop();
                 imageUrlForQuestion = image.url;
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question based on this image description: "${image.description}". The question should relate to the broader topic of "${topic}". The "type" should be 'image'.`;
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question based on this image description: "${image.description}". The question should relate to the broader topic of "${topic}".`;
 
             } else if (questionType === 'chart') {
-                const chartTypes = ['a bar chart', 'a line graph', 'a pie chart'];
-                const randomChartType = chartTypes[Math.floor(Math.random() * chartTypes.length)];
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus for the question MUST be ${randomChartType}, formatted as a simple HTML <table>. The "passage" should contain ONLY this HTML table. The "type" should be 'chart'.`;
+                // *** THIS IS THE NEW LOGIC FOR CHART VARIETY ***
+                const chartTypes = ['a bar chart comparing at least 4 categories', 'a line graph showing a trend over at least 4 time periods', 'a data table with multiple rows and columns showing percentages'];
+                const randomChartType = chartTypes[i % chartTypes.length]; // Cycle through chart types
+
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus for the question MUST be ${randomChartType}, and it must be formatted as a simple HTML <table>. The "passage" should contain ONLY this HTML table.`;
 
             } else { // Default to text
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style, text-based question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus MUST be a text passage. The "passage" field should contain ONLY this passage. The "type" should be 'text'.`;
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style, text-based question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus MUST be a text passage.`;
             }
 
             const rules = `
                 YOU MUST FOLLOW THESE RULES:
-                1. CRUCIAL: Each question generated must cover a DIFFERENT aspect or subject. DO NOT repeat the same specific subject.
-                2. The 'questionText' must contain ONLY a single, concise question about the stimulus.
-                3. If image-based, the 'passage' MUST be an empty string.
-                4. The 'passage' and 'questionText' fields MUST NOT be the same.
-                5. Under NO circumstances describe a visual stimulus you cannot see.`;
+                1. The 'questionText' must contain ONLY a single, concise question about the stimulus.
+                2. If image-based, the 'passage' field MUST be an empty string.
+                3. The 'passage' and 'questionText' fields MUST NOT be the same.`;
 
             prompt += rules;
 
@@ -224,10 +226,15 @@ app.post('/generate-quiz', async (req, res) => {
             finalQuizQuestions.push(generatedQuestion);
         }
 
-        res.json({ questions: shuffleArray(finalQuizQuestions) });
+        const shuffledQuiz = shuffleArray(finalQuizQuestions).map((q, index) => ({
+            ...q,
+            questionNumber: index + 1
+        }));
+
+        res.json({ questions: shuffledQuiz });
 
     } catch (error) {
-        console.error('Error in Quiz Assembler v6:', error.response ? error.response.data : error.message);
+        console.error('Error in Quiz Assembler v7:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
     }
 });
