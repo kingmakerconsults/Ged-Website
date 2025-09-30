@@ -122,10 +122,10 @@ function shuffleArray(array) {
     return array;
 }
 
-// This is the final and most advanced version for server.js
+// This is the final and most prescriptive version for server.js
 
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz (Quiz Assembler v7 - Chart & Topic Variety) ---');
+    console.log('--- Received a request to /generate-quiz (Quiz Assembler v8 - Prescriptive Charts) ---');
     const { subject, topic, comprehensive } = req.body;
     const apiKey = process.env.GOOGLE_AI_API_KEY;
 
@@ -139,12 +139,23 @@ app.post('/generate-quiz', async (req, res) => {
             return img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase().replace(/_/g, ' ')));
         }));
 
+        // --- Define the "Recipe" for the quiz ---
         if (subject === "Social Studies") {
-            const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.20));
-            const numChartQuestions = Math.floor(totalQuestions * 0.35);
-            const numTextQuestions = totalQuestions - numImageQuestions - numChartQuestions;
-            recipe = [...Array(numImageQuestions).fill('image'), ...Array(numChartQuestions).fill('chart'), ...Array(numTextQuestions).fill('text')];
+            const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.20)); // ~3 images
+
+            // NEW: Prescriptive recipe to guarantee one of each chart type
+            const requiredChartTypes = ['bar_chart', 'line_graph', 'pie_chart'];
+            const numRequiredCharts = requiredChartTypes.length;
+
+            const numTextQuestions = totalQuestions - numImageQuestions - numRequiredCharts;
+
+            recipe = [
+                ...Array(numImageQuestions).fill('image'),
+                ...requiredChartTypes, // Specifically add one of each required chart
+                ...Array(numTextQuestions).fill('text')
+            ];
         } else if (subject === "Science") {
+            // Standard recipe for Science
             const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.25));
             const numChartQuestions = Math.floor(totalQuestions * 0.20);
             const numTextQuestions = totalQuestions - numImageQuestions - numChartQuestions;
@@ -177,6 +188,7 @@ app.post('/generate-quiz', async (req, res) => {
         };
         let subTopics = subTopicLibrary[topic] ? shuffleArray([...subTopicLibrary[topic]]) : [topic];
 
+        // --- Main Assembly Loop ---
         for (let i = 0; i < totalQuestions; i++) {
             const questionType = recipe[i];
             const currentSubTopic = subTopics[i % subTopics.length];
@@ -188,12 +200,21 @@ app.post('/generate-quiz', async (req, res) => {
                 imageUrlForQuestion = image.url;
                 prompt = `You are a GED question writer. Write a single, high-quality, GED-style question based on this image description: "${image.description}". The question should relate to the broader topic of "${topic}".`;
 
-            } else if (questionType === 'chart') {
-                // *** THIS IS THE NEW LOGIC FOR CHART VARIETY ***
-                const chartTypes = ['a bar chart comparing at least 4 categories', 'a line graph showing a trend over at least 4 time periods', 'a data table with multiple rows and columns showing percentages'];
-                const randomChartType = chartTypes[i % chartTypes.length]; // Cycle through chart types
+            } else if (questionType.includes('_chart') || questionType === 'chart') {
+                // NEW: Logic to handle the specific chart types from the recipe
+                let chartInstruction = '';
+                if (questionType === 'bar_chart') {
+                    chartInstruction = 'a bar chart comparing at least 3 categories';
+                } else if (questionType === 'line_graph') {
+                    chartInstruction = 'a line graph showing a trend over at least 3 time periods';
+                } else if (questionType === 'pie_chart') {
+                    chartInstruction = 'a pie chart showing percentage breakdowns of a whole';
+                } else { // Fallback for Science's generic 'chart' type
+                    const chartTypes = ['a bar chart', 'a line graph', 'a data table'];
+                    chartInstruction = chartTypes[Math.floor(Math.random() * chartTypes.length)];
+                }
 
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus for the question MUST be ${randomChartType}, and it must be formatted as a simple HTML <table>. The "passage" should contain ONLY this HTML table.`;
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus for the question MUST be ${chartInstruction}, and it must be formatted as a simple HTML <table>. The "passage" should contain ONLY this HTML table.`;
 
             } else { // Default to text
                 prompt = `You are a GED question writer. Write a single, high-quality, GED-style, text-based question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus MUST be a text passage.`;
@@ -234,7 +255,7 @@ app.post('/generate-quiz', async (req, res) => {
         res.json({ questions: shuffledQuiz });
 
     } catch (error) {
-        console.error('Error in Quiz Assembler v7:', error.response ? error.response.data : error.message);
+        console.error('Error in Quiz Assembler v8:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
     }
 });
