@@ -67,7 +67,10 @@ function ChartDisplay({ chartData }) {
             const chartInstance = new Chart(chartRef.current, {
                 type: 'bar',
                 data: { labels: chartData.labels, datasets: chartData.datasets },
-                options: { responsive: true }
+                options: {
+                    responsive: true,
+                    animation: false // <-- ADD THIS LINE
+                }
             });
             return () => chartInstance.destroy();
         }
