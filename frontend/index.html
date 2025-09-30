@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
     <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,6 +35,45 @@
 
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
+
+function unescapeHtml(safe) {
+    if (!safe) return '';
+    return safe.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+}
+
+function parseHtmlTable(htmlString) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+    const table = doc.querySelector('table');
+    if (!table) return null;
+    const headers = [...table.querySelectorAll('th')].map(th => th.innerText);
+    const rows = [...table.querySelectorAll('tbody tr')];
+    const labels = rows.map(row => row.querySelector('td')?.innerText || '');
+    const datasets = [];
+    for (let i = 1; i < headers.length; i++) {
+        datasets.push({
+            label: headers[i],
+            data: rows.map(row => parseFloat(row.querySelectorAll('td')[i]?.innerText.replace(/[^0-9.-]+/g,"")) || 0),
+            backgroundColor: `rgba(59, 130, 246, 0.6)`,
+        });
+    }
+    return { labels, datasets };
+}
+
+function ChartDisplay({ chartData }) {
+    const chartRef = React.useRef(null);
+    React.useEffect(() => {
+        if (chartRef.current && chartData) {
+            const chartInstance = new Chart(chartRef.current, {
+                type: 'bar',
+                data: { labels: chartData.labels, datasets: chartData.datasets },
+                options: { responsive: true }
+            });
+            return () => chartInstance.destroy();
+        }
+    }, [chartData]);
+    return <canvas ref={chartRef}></canvas>;
+}
 
 // --- DATA SOURCE ---
 // New hierarchical data structure for all application content.
@@ -1621,7 +1661,15 @@ function QuizRunner({ quiz, onComplete, onExit }) {
             </div>
             
             <div className="p-4 bg-slate-50 rounded-lg">
-                {currentQ.passage && <div className="mb-4 prose max-w-none" dangerouslySetInnerHTML={{ __html: currentQ.passage }} />}
+                {currentQ.passage && (
+                    <div className="mb-4 prose max-w-none">
+                        {currentQ.passage.includes('<table') ? (
+                            <ChartDisplay chartData={parseHtmlTable(unescapeHtml(currentQ.passage))} />
+                        ) : (
+                            <div dangerouslySetInnerHTML={{ __html: unescapeHtml(currentQ.passage) }} />
+                        )}
+                    </div>
+                )}
                 {currentQ.imageURL && <img src={currentQ.imageURL} alt={`Visual for question ${currentQ.questionNumber}`} className="my-4 mx-auto rounded-md border max-w-full h-auto" />}
                 <h3 className="text-xl font-semibold mb-4">{currentQ.questionNumber}. {currentQ.questionText}</h3>
                 <div className="space-y-3">
