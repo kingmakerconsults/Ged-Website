@@ -118,44 +118,40 @@ app.post('/generate-quiz', async (req, res) => {
         }
     }
 
-  const schema = {
-      type: "OBJECT",
-      properties: {
-          questions: {
-              type: "ARRAY",
-              items: {
-                  type: "OBJECT",
-                  properties: {
-                      questionNumber: { type: "NUMBER" },
-                      type: { type: "STRING", enum: ['multiple-choice-text', 'multiple-choice-image', 'short-answer', 'drag-and-drop', 'dropdown'] },
-                      content: {
+// REPLACE the old schema with this one in server.js
+
+const schema = {
+  type: "OBJECT",
+  properties: {
+      questions: {
+          type: "ARRAY",
+          items: {
+              type: "OBJECT",
+              properties: {
+                  questionNumber: { type: "NUMBER" },
+                  type: { type: "STRING" },
+                  passage: { type: "STRING" },
+                  imageURL: { type: "STRING" },
+                  questionText: { type: "STRING" },
+                  answerOptions: {
+                      type: "ARRAY",
+                      items: {
                           type: "OBJECT",
                           properties: {
-                              passage: { type: "STRING" },
-                              imageURL: { type: "STRING" },
-                              questionText: { type: "STRING" }
+                              text: { type: "STRING" },
+                              isCorrect: { type: "BOOLEAN" },
+                              rationale: { type: "STRING" }
                           },
-                          required: ["questionText"]
-                      },
-                      answerOptions: {
-                          type: "ARRAY",
-                          items: {
-                              type: "OBJECT",
-                              properties: {
-                                  text: { type: "STRING" },
-                                  isCorrect: { type: "BOOLEAN" },
-                                  rationale: { type: "STRING" }
-                              },
-                               "required": ["text", "isCorrect", "rationale"]
-                          }
+                          required: ["text", "isCorrect", "rationale"]
                       }
-                  },
-                   "required": ["questionNumber", "type", "content", "answerOptions"]
-              }
+                  }
+              },
+              required: ["questionNumber", "type", "questionText", "answerOptions"]
           }
-      },
-       "required": ["questions"]
-  };
+      }
+  },
+  required: ["questions"]
+};
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],

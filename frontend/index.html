@@ -1626,8 +1626,8 @@ function QuizRunner({ quiz, onComplete, onExit }) {
             
             <div className="p-4 bg-slate-50 rounded-lg">
                 {currentQ.passage && <div className="mb-4 prose max-w-none" dangerouslySetInnerHTML={{ __html: currentQ.passage }} />}
-                {currentQ.imageUrl && <img src={currentQ.imageUrl} alt={`Visual for question ${currentQ.questionNumber}`} className="my-4 mx-auto rounded-md border max-w-full h-auto" />}
-                <h3 className="text-xl font-semibold mb-4">{currentQ.questionNumber}. {currentQ.question}</h3>
+                {currentQ.imageURL && <img src={currentQ.imageURL} alt={`Visual for question ${currentQ.questionNumber}`} className="my-4 mx-auto rounded-md border max-w-full h-auto" />}
+                <h3 className="text-xl font-semibold mb-4">{currentQ.questionNumber}. {currentQ.questionText}</h3>
                 <div className="space-y-3">
                     {currentQ.answerOptions.map((opt, i) => (
                         <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
