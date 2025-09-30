@@ -43,6 +43,34 @@ try {
     console.error('Failed to load or parse image_links.json:', error);
 }
 
+// Add this new object near the top of server.js
+
+const subTopicLibrary = {
+    "Global Conflicts (1914-1945)": [
+        "the alliance systems of World War I",
+        "the Treaty of Versailles and its consequences",
+        "the rise of totalitarianism in Europe",
+        "the economic causes of the Great Depression",
+        "key battles of World War II (e.g., D-Day, Midway)",
+        "the U.S. home front during World War II"
+    ],
+    "The American Revolution (1763-1783)": [
+        "the Stamp Act and 'taxation without representation'",
+        "the Declaration of Independence",
+        "the role of international allies like France",
+        "key battles like Saratoga and Yorktown",
+        "the strengths and weaknesses of the British vs. the Continental Army"
+    ],
+    "A New Nation (1783-1824)": [
+        "the weaknesses of the Articles of Confederation",
+        "the Great Compromise at the Constitutional Convention",
+        "the principles of the Bill of Rights",
+        "the Louisiana Purchase",
+        "the significance of the Marbury v. Madison case"
+    ]
+    // ... feel free to add more topics and their sub-topics here ...
+};
+
 app.get('/', (req, res) => {
   res.send('Learning Canvas Backend is running!');
 });
@@ -86,10 +114,10 @@ function shuffleArray(array) {
     return array;
 }
 
-// This is the final, corrected version for server.js
+// This is the final, most advanced version for server.js
 
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz (Quiz Assembler v5 - Social Studies Charts) ---');
+    console.log('--- Received a request to /generate-quiz (Quiz Assembler v6 - Sub-Topics) ---');
     const { subject, topic, comprehensive } = req.body;
     const apiKey = process.env.GOOGLE_AI_API_KEY;
 
@@ -97,37 +125,25 @@ app.post('/generate-quiz', async (req, res) => {
         const totalQuestions = comprehensive ? 35 : 15;
         let recipe = [];
 
+        // --- Correctly filter images ---
         const relevantImages = shuffleArray(curatedImages.filter(img => {
             if (img.subject !== subject) return false;
             if (comprehensive) return true;
             return img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase().replace(/_/g, ' ')));
         }));
 
-        // --- Define the "Recipe" for the quiz ---
+        // --- Define the quiz "Recipe" ---
         if (subject === "Social Studies") {
-            // NEW: Increased chart frequency for Social Studies
-            const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.20)); // 20% images
-            const numChartQuestions = Math.floor(totalQuestions * 0.35); // INCREASED TO 35% for Social Studies
+            const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.20));
+            const numChartQuestions = Math.floor(totalQuestions * 0.35);
             const numTextQuestions = totalQuestions - numImageQuestions - numChartQuestions;
-
-            recipe = [
-                ...Array(numImageQuestions).fill('image'),
-                ...Array(numChartQuestions).fill('chart'),
-                ...Array(numTextQuestions).fill('text')
-            ];
+            recipe = [...Array(numImageQuestions).fill('image'), ...Array(numChartQuestions).fill('chart'), ...Array(numTextQuestions).fill('text')];
         } else if (subject === "Science") {
-            // Original recipe for Science
-            const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.25)); // 25% images
-            const numChartQuestions = Math.floor(totalQuestions * 0.20); // 20% charts
+            const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.25));
+            const numChartQuestions = Math.floor(totalQuestions * 0.20);
             const numTextQuestions = totalQuestions - numImageQuestions - numChartQuestions;
-
-            recipe = [
-                ...Array(numImageQuestions).fill('image'),
-                ...Array(numChartQuestions).fill('chart'),
-                ...Array(numTextQuestions).fill('text')
-            ];
+            recipe = [...Array(numImageQuestions).fill('image'), ...Array(numChartQuestions).fill('chart'), ...Array(numTextQuestions).fill('text')];
         } else {
-            // Default recipe for other subjects
             recipe = Array(totalQuestions).fill('text');
         }
 
@@ -154,28 +170,36 @@ app.post('/generate-quiz', async (req, res) => {
           required: ["type", "questionText", "answerOptions"]
         };
 
+        // --- Get Sub-Topics for Variety ---
+        let subTopics = subTopicLibrary[topic] ? shuffleArray([...subTopicLibrary[topic]]) : [topic];
+
+        // --- Main Assembly Loop ---
         for (let i = 0; i < totalQuestions; i++) {
             const questionType = recipe[i];
+            // Cycle through sub-topics to ensure variety
+            const currentSubTopic = subTopics[i % subTopics.length];
             let prompt = '';
             let imageUrlForQuestion = null;
 
             if (questionType === 'image' && relevantImages.length > 0) {
                 const image = relevantImages.pop();
                 imageUrlForQuestion = image.url;
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question based on the following image description: "${image.description}". The "type" should be 'image'.`;
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question based on this image description: "${image.description}". The question should relate to the broader topic of "${topic}". The "type" should be 'image'.`;
 
             } else if (questionType === 'chart') {
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question for a ${subject} quiz on the topic of "${topic}". The stimulus for the question MUST be a data table, formatted as a simple HTML <table>. The "passage" should contain ONLY this HTML table. The "type" should be 'chart'.`;
+                const chartTypes = ['a bar chart', 'a line graph', 'a pie chart'];
+                const randomChartType = chartTypes[Math.floor(Math.random() * chartTypes.length)];
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus for the question MUST be ${randomChartType}, formatted as a simple HTML <table>. The "passage" should contain ONLY this HTML table. The "type" should be 'chart'.`;
 
             } else { // Default to text
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style, text-based question for a ${subject} quiz on the topic of "${topic}". The stimulus MUST be a text passage. The "passage" field should contain ONLY this passage. The "type" should be 'text'.`;
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style, text-based question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus MUST be a text passage. The "passage" field should contain ONLY this passage. The "type" should be 'text'.`;
             }
 
             const rules = `
                 YOU MUST FOLLOW THESE RULES:
-                1. CRUCIAL: Each question generated must cover a DIFFERENT aspect or subject within the broader topic. DO NOT repeat the same specific subject (e.g., Treaty of Versailles) for multiple questions.
-                2. The 'questionText' field must contain ONLY a single, concise question about the stimulus.
-                3. If the question is image-based, the 'passage' field MUST be an empty string.
+                1. CRUCIAL: Each question generated must cover a DIFFERENT aspect or subject. DO NOT repeat the same specific subject.
+                2. The 'questionText' must contain ONLY a single, concise question about the stimulus.
+                3. If image-based, the 'passage' MUST be an empty string.
                 4. The 'passage' and 'questionText' fields MUST NOT be the same.
                 5. Under NO circumstances describe a visual stimulus you cannot see.`;
 
@@ -197,14 +221,13 @@ app.post('/generate-quiz', async (req, res) => {
             if (imageUrlForQuestion) {
                 generatedQuestion.imageURL = imageUrlForQuestion;
             }
-
             finalQuizQuestions.push(generatedQuestion);
         }
 
         res.json({ questions: shuffleArray(finalQuizQuestions) });
 
     } catch (error) {
-        console.error('Error in Quiz Assembler v5:', error.response ? error.response.data : error.message);
+        console.error('Error in Quiz Assembler v6:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
     }
 });
