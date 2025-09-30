@@ -122,10 +122,10 @@ function shuffleArray(array) {
     return array;
 }
 
-// This is the final, most advanced version for server.js
+// This is the final and most advanced version for server.js
 
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz (Quiz Assembler v6 - Sub-Topics) ---');
+    console.log('--- Received a request to /generate-quiz (Quiz Assembler v7 - Chart & Topic Variety) ---');
     const { subject, topic, comprehensive } = req.body;
     const apiKey = process.env.GOOGLE_AI_API_KEY;
 
@@ -133,14 +133,12 @@ app.post('/generate-quiz', async (req, res) => {
         const totalQuestions = comprehensive ? 35 : 15;
         let recipe = [];
 
-        // --- Correctly filter images ---
         const relevantImages = shuffleArray(curatedImages.filter(img => {
             if (img.subject !== subject) return false;
             if (comprehensive) return true;
             return img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase().replace(/_/g, ' ')));
         }));
 
-        // --- Define the quiz "Recipe" ---
         if (subject === "Social Studies") {
             const numImageQuestions = Math.min(relevantImages.length, Math.floor(totalQuestions * 0.20));
             const numChartQuestions = Math.floor(totalQuestions * 0.35);
@@ -177,14 +175,10 @@ app.post('/generate-quiz', async (req, res) => {
           },
           required: ["type", "questionText", "answerOptions"]
         };
-
-        // --- Get Sub-Topics for Variety ---
         let subTopics = subTopicLibrary[topic] ? shuffleArray([...subTopicLibrary[topic]]) : [topic];
 
-        // --- Main Assembly Loop ---
         for (let i = 0; i < totalQuestions; i++) {
             const questionType = recipe[i];
-            // Cycle through sub-topics to ensure variety
             const currentSubTopic = subTopics[i % subTopics.length];
             let prompt = '';
             let imageUrlForQuestion = null;
@@ -192,24 +186,24 @@ app.post('/generate-quiz', async (req, res) => {
             if (questionType === 'image' && relevantImages.length > 0) {
                 const image = relevantImages.pop();
                 imageUrlForQuestion = image.url;
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question based on this image description: "${image.description}". The question should relate to the broader topic of "${topic}". The "type" should be 'image'.`;
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question based on this image description: "${image.description}". The question should relate to the broader topic of "${topic}".`;
 
             } else if (questionType === 'chart') {
-                const chartTypes = ['a bar chart', 'a line graph', 'a pie chart'];
-                const randomChartType = chartTypes[Math.floor(Math.random() * chartTypes.length)];
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus for the question MUST be ${randomChartType}, formatted as a simple HTML <table>. The "passage" should contain ONLY this HTML table. The "type" should be 'chart'.`;
+                // *** THIS IS THE NEW LOGIC FOR CHART VARIETY ***
+                const chartTypes = ['a bar chart comparing at least 4 categories', 'a line graph showing a trend over at least 4 time periods', 'a data table with multiple rows and columns showing percentages'];
+                const randomChartType = chartTypes[i % chartTypes.length]; // Cycle through chart types
+
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus for the question MUST be ${randomChartType}, and it must be formatted as a simple HTML <table>. The "passage" should contain ONLY this HTML table.`;
 
             } else { // Default to text
-                prompt = `You are a GED question writer. Write a single, high-quality, GED-style, text-based question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus MUST be a text passage. The "passage" field should contain ONLY this passage. The "type" should be 'text'.`;
+                prompt = `You are a GED question writer. Write a single, high-quality, GED-style, text-based question for a ${subject} quiz. The question MUST be about "${currentSubTopic}". The stimulus MUST be a text passage.`;
             }
 
             const rules = `
                 YOU MUST FOLLOW THESE RULES:
-                1. CRUCIAL: Each question generated must cover a DIFFERENT aspect or subject. DO NOT repeat the same specific subject.
-                2. The 'questionText' must contain ONLY a single, concise question about the stimulus.
-                3. If image-based, the 'passage' MUST be an empty string.
-                4. The 'passage' and 'questionText' fields MUST NOT be the same.
-                5. Under NO circumstances describe a visual stimulus you cannot see.`;
+                1. The 'questionText' must contain ONLY a single, concise question about the stimulus.
+                2. If image-based, the 'passage' field MUST be an empty string.
+                3. The 'passage' and 'questionText' fields MUST NOT be the same.`;
 
             prompt += rules;
 
@@ -232,10 +226,15 @@ app.post('/generate-quiz', async (req, res) => {
             finalQuizQuestions.push(generatedQuestion);
         }
 
-        res.json({ questions: shuffleArray(finalQuizQuestions) });
+        const shuffledQuiz = shuffleArray(finalQuizQuestions).map((q, index) => ({
+            ...q,
+            questionNumber: index + 1
+        }));
+
+        res.json({ questions: shuffledQuiz });
 
     } catch (error) {
-        console.error('Error in Quiz Assembler v6:', error.response ? error.response.data : error.message);
+        console.error('Error in Quiz Assembler v7:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
     }
 });
