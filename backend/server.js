@@ -173,10 +173,11 @@ app.post('/generate-quiz', async (req, res) => {
 
             const rules = `
                 YOU MUST FOLLOW THESE RULES:
-                1. The 'questionText' field must contain ONLY a single, concise question about the stimulus.
-                2. If the question is image-based, the 'passage' field MUST be an empty string.
-                3. The 'passage' and 'questionText' fields MUST NOT be the same.
-                4. Under NO circumstances describe a visual stimulus you cannot see.`;
+                1. CRUCIAL: Each question generated must cover a DIFFERENT aspect or subject within the broader topic. DO NOT repeat the same specific subject (e.g., Treaty of Versailles) for multiple questions.
+                2. The 'questionText' field must contain ONLY a single, concise question about the stimulus.
+                3. If the question is image-based, the 'passage' field MUST be an empty string.
+                4. The 'passage' and 'questionText' fields MUST NOT be the same.
+                5. Under NO circumstances describe a visual stimulus you cannot see.`;
 
             prompt += rules;
 
