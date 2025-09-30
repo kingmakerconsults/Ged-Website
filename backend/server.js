@@ -142,11 +142,30 @@ app.post('/generate-quiz', async (req, res) => {
 
                 IMAGE DESCRIPTION: "${image.description}"
 
-                The question must directly relate to the description. The "passage" field in your response should be the image description I provided. The "type" should be 'image'.`;
+                YOU MUST FOLLOW THESE RULES:
+                1. The 'passage' field MUST be an empty string.
+                2. The 'questionText' field contains ONLY a single, concise question about the stimulus.
+                3. The 'passage' and 'questionText' fields MUST be different and not contain duplicate text.
+                4. Any data table MUST be formatted as a simple HTML <table>.
+                5. Under NO circumstances describe a visual stimulus (map, image, cartoon).
+
+                The "type" should be 'image'.`;
 
             } else {
                 // --- Logic for TEXT-BASED question ---
-                prompt = `You are a GED question writer. Your task is to write a single, high-quality, GED-style, text-based question about the topic "${topic}" for the subject "${subject}". The question should be stimulus-based, meaning it must have a passage. Any data table in the passage MUST be formatted as a simple HTML <table>. The "type" should be 'text'.`;
+                const topicInstruction = comprehensive
+                    ? `for a comprehensive ${subject} exam`
+                    : `about the topic "${topic}" for the subject "${subject}"`;
+
+                prompt = `Generate a single high-quality, GED-style, text-based question ${topicInstruction}.
+YOU MUST FOLLOW THESE RULES:
+1. The 'passage' field contains ONLY the stimulus material (text or HTML table).
+2. The 'questionText' field contains ONLY a single, concise question about the stimulus.
+3. The 'passage' and 'questionText' fields MUST be different and not contain duplicate text.
+4. Any data table MUST be formatted as a simple HTML <table>.
+5. Under NO circumstances describe a visual stimulus (map, image, cartoon).
+
+The "type" must be 'text'.`;
             }
 
             const payload = {
