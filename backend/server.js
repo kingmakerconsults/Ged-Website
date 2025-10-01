@@ -192,7 +192,7 @@ app.post('/generate-quiz', async (req, res) => {
             const stimulusPrompt = `Generate ${stimulusTasks.length} GED-style questions for a Social Studies quiz about "${topic}". Generate ${quoteTasks.length} questions based on historical quotes/letters, and ${imageTasks.length} questions based on the provided Image Descriptions.
             Sub-topics to cover: ${stimulusSubTopics.join(', ')}.
             Available Image Descriptions: [${availableImageDescriptions.join(', ')}].
-            RULES: For image questions, use an image description as the stimulus and the 'passage' field MUST be an empty string. The 'questionText' must be a single question.`;
+            RULES: For image questions, the 'passage' field MUST contain the exact Image Description used as the stimulus for the question. The 'questionText' must be a single question about that image. For quote questions, the 'passage' field MUST contain the quote.`;
             apiCalls.push(callAI(stimulusPrompt));
         }
 
@@ -208,9 +208,22 @@ app.post('/generate-quiz', async (req, res) => {
         let combinedQuestions = results.flatMap(result => result.questions);
 
         combinedQuestions.forEach(q => {
-            if (q.type === 'image' && q.passage) {
-                const matchedImage = relevantImages.find(img => q.passage.includes(img.description));
-                if (matchedImage) q.imageURL = matchedImage.url;
+            // NEW LOGIC: For image questions, find the matching image URL from our repository
+            // based on the description the AI placed in the 'passage' field.
+            if (q.type === 'image' && q.passage && q.passage.length > 0) {
+                // Find the image in our repository whose description exactly matches the passage
+                const matchedImage = curatedImages.find(img => img.description.trim() === q.passage.trim());
+                if (matchedImage) {
+                    // Set the imageURL to the relative path for the frontend (e.g., "Images/foo.jpg")
+                    q.imageURL = matchedImage.url.replace('frontend/', '');
+                    // Clear the passage field as it's now been used and is no longer needed
+                    q.passage = '';
+                } else {
+                    // If no match is found, we should probably nullify the image type
+                    // to avoid showing a broken image link.
+                    q.type = 'text'; // Fallback to a text question
+                    q.passage = `Error: The AI returned an image description that was not found in the repository: "${q.passage}"`;
+                }
             }
         });
 
