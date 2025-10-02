@@ -47,40 +47,37 @@ try {
     console.error('Failed to load or parse image_links.json:', error);
 }
 
-// This is the new, comprehensive library for server.js
+// Add this new prompt library to server.js
 
-const subTopicLibrary = {
-    // --- Social Studies Sub-Topics ---
-    "Foundations (1491-1763)": ["the Columbian Exchange's impact", "the economic theory of Mercantilism", "differences between New England and Southern colonies", "the consequences of the French and Indian War", "the structure of the Triangular Trade"],
-    "The American Revolution (1763-1783)": ["the Stamp Act and 'taxation without representation'", "the philosophical ideas in the Declaration of Independence", "the strategic importance of the Battle of Saratoga", "a comparison of British vs. Continental army strengths", "the outcomes of the Treaty of Paris"],
-    "A New Nation (1783-1824)": ["the weaknesses of the Articles of Confederation", "the Great Compromise at the Constitutional Convention", "the principles of the Bill of Rights", "the impact of the Louisiana Purchase on U.S. size", "the establishment of judicial review in Marbury v. Madison"],
-    "A Nation Divided (1824-1877)": ["economic sectionalism between the North and South", "the Missouri Compromise of 1820", "the concept of Manifest Destiny", "the election of Abraham Lincoln as a trigger for secession", "the purpose of the 13th, 14th, and 15th Amendments"],
-    "Industrial America (1877-1914)": ["the impact of the Bessemer process on industry", "a comparison of 'New' vs. 'Old' immigrants", "the problems of urbanization and tenements", "the function of political machines like Tammany Hall", "the goals of Progressive Era muckrakers"],
-    "Global Conflicts (1914-1945)": ["a comparison of casualties in WWI vs. WWII", "the economic impact of the Great Depression on unemployment rates", "the alliance systems of World War I", "the consequences of the Treaty of Versailles", "the U.S. home front during World War II (e.g., rationing, war bonds)"],
-    "The Modern Era (1945-Present)": ["the Cold War policy of containment", "the Cuban Missile Crisis", "the significance of the Brown v. Board of Education decision", "the key provisions of the Civil Rights Act of 1964", "the fall of the Berlin Wall and the end of the Cold War"],
-    "The Constitution": ["the principle of Popular Sovereignty", "the Separation of Powers among the three branches", "the system of Checks and Balances", "the process for amending the Constitution", "the concept of Federalism and the Supremacy Clause"],
-    "The Legislative Branch": ["the process of how a bill becomes a law", "the enumerated powers of Congress", "the differences between the House and the Senate", "the purpose of the filibuster", "Congress's 'power of the purse'"],
-    "The Executive Branch": ["the powers of the President (e.g., Veto, Commander in Chief)", "the role of the President's Cabinet", "the line of presidential succession", "the use of Executive Orders", "the two-term limit set by the 22nd Amendment"],
-    "The Judicial Branch": ["the principle of judicial review", "the structure of the federal court system", "the Supreme Court's 'rule of four'", "the precedent set by a landmark case like Gideon v. Wainwright", "the lifetime appointments of federal judges"],
-    "Federalism & Elections": ["a comparison of federal vs. state powers", "how the Electoral College works", "the role and function of political parties", "the difference between primary and general elections", "the practice of gerrymandering"],
-    "Foundational Concepts": ["the concept of Scarcity and Opportunity Cost", "the Law of Supply and Demand", "market equilibrium price and quantity", "the four factors of production", "substitute vs. complementary goods"],
-    "The U.S. Economy": ["the principles of a mixed economy", "the government's role in regulation (e.g., FDA, OSHA)", "a comparison of fiscal vs. monetary policy", "the phases of the business cycle", "the pros and cons of globalization"],
-    "Map & Data Skills": ["interpreting a political map's boundaries", "using a map scale to determine distance", "comparing data in a bar graph", "analyzing trends in a line graph", "calculating percentages from a pie chart"],
-
-    // --- Science Sub-Topics ---
-    "Life Science Basics": ["the differences between plant and animal cells", "the inputs and outputs of photosynthesis", "the relationship between DNA, genes, and chromosomes", "the concept of homeostasis", "predicting traits with a Punnett square"],
-    "Ecosystems & Environment": ["biotic vs. abiotic factors in an ecosystem", "the flow of energy in a food web", "the stages of the water cycle", "the principles of natural selection", "the impact of an invasive species"],
-    "Chemistry Fundamentals": ["the roles of protons, neutrons, and electrons", "how to read an element on the periodic table", "a comparison of physical vs. chemical changes", "the pH scale (acids and bases)", "the difference between ionic and covalent bonds"],
-    "Physics in Motion": ["Newton's First Law of Motion (Inertia)", "Newton's Second Law (F=ma)", "Newton's Third Law (Action-Reaction)", "the conversion of potential to kinetic energy", "Ohm's Law (V=IR) in a circuit"],
-    "Earth & Space Systems": ["the theory of plate tectonics", "the stages of the rock cycle", "a comparison of weathering vs. erosion", "the order of the planets in the solar system", "the cause of the seasons on Earth"],
-
-    // --- RLA & Math Sub-Topics (for future use, as they currently default to text-only) ---
-    "Main Idea & Details": ["identifying the central idea of a passage", "locating specific supporting details", "summarizing a paragraph's key points", "determining the author's primary purpose", "distinguishing between fact and opinion"],
-    "Sentence Structure": ["correcting sentence fragments", "fixing run-on sentences and comma splices", "properly using dependent and independent clauses", "maintaining parallel structure in a list", "combining sentences effectively"],
-    "Punctuation & Mechanics": ["comma usage in a series and with introductory phrases", "the difference between possessive and plural apostrophes", "capitalization of proper nouns and titles", "using a semicolon to join related clauses", "correctly punctuating dialogue"],
-    "Grammar & Usage": ["subject-verb agreement with singular and plural subjects", "pronoun-antecedent agreement (e.g., 'a student... he or she')", "correct word choice (e.g., affect/effect, farther/further)", "pronoun case (e.g., I/me, who/whom)", "identifying and correcting misplaced modifiers"],
-    "Geometry Basics": ["calculating the area and perimeter of a rectangle", "finding the area of a triangle", "calculating the circumference and area of a circle", "using the Pythagorean theorem in a right triangle", "finding the volume of a rectangular prism"],
-    "Algebraic Expressions & Equations": ["solving a linear equation for a variable", "simplifying an algebraic expression", "evaluating an expression by substituting values", "solving a simple inequality", "identifying the slope and y-intercept from an equation"]
+const promptLibrary = {
+    "Social Studies": {
+        topic: (topic) => `Generate a 15-question GED-style Social Studies quiz focused on "${topic}".
+        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.
+        STRICT STIMULUS REQUIREMENTS: A variety of stimuli MUST be used. Include at least 2 questions based on a chart/graph, 2 questions based on a historical quote, and 2 questions based on an image from the provided descriptions. The rest should be text passages.`,
+        comprehensive: `Generate a 35-question comprehensive GED Social Studies exam.
+        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, and 15% Geography & the World.
+        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.`
+    },
+    "Science": {
+        topic: (topic) => `Generate a 15-question GED-style Science quiz focused on "${topic}".
+        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 40% Life Science, 40% Physical Science, 20% Earth and Space Science.
+        STRICT STIMULUS REQUIREMENTS: Ensure a mix of stimuli, including text passages, data tables/graphs, and diagrams from the provided descriptions. Questions should test reading comprehension of scientific texts and scientific reasoning.`,
+        comprehensive: `Generate a 38-question comprehensive GED Science exam.
+        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 40% Life Science, 40% Physical Science, 20% Earth and Space Science.
+        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, data tables formatted as HTML, charts, and scientific diagrams from the provided descriptions.`
+    },
+    "Reasoning Through Language Arts (RLA)": {
+        topic: (topic) => `Generate a 15-question GED-style RLA quiz focused on "${topic}".
+        STRICT CONTENT REQUIREMENTS: The quiz must be 75% Informational Text (non-fiction, workplace documents) and 25% Literary Text. It must include a mix of reading comprehension questions and language/grammar questions. DO NOT generate Social Studies questions; generate RLA questions using passages ABOUT "${topic}".`,
+        comprehensive: `Generate a 45-question comprehensive GED RLA exam. This does NOT include the essay.
+        STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 75% Informational Text and 25% Literary Text. It must contain a mix of reading comprehension questions (main idea, inference, analyzing arguments) and language/grammar questions (sentence structure, punctuation, usage).`
+    },
+    "Mathematical Reasoning": {
+        topic: (topic) => `Generate a 15-question GED-style Math quiz focused on "${topic}".
+        STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems (number sense, data analysis) and 55% Algebraic Problems (expressions, equations).`,
+        comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
+        STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.`
+    }
 };
 
 app.get('/', (req, res) => {
@@ -126,116 +123,87 @@ function shuffleArray(array) {
     return array;
 }
 
-// This is the final and most prescriptive version for server.js
-
-// This is the final and most advanced version for server.js
+// This is the final, definitive version of the quiz generator function
 
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz (Quiz Assembler v11 - Multi-Call) ---');
+    console.log('--- Received a request to /generate-quiz (Blueprint-Driven v1) ---');
     const { subject, topic, comprehensive } = req.body;
     const apiKey = process.env.GOOGLE_AI_API_KEY;
 
     try {
-        const totalQuestions = 15;
-        let recipe = [];
-
-        const relevantImages = shuffleArray(curatedImages.filter(img => img.subject === subject && (comprehensive || (img.topics && img.topics.some(t => topic.toLowerCase().includes(t.toLowerCase().replace(/_/g, ' ')))))));
-
-        if (subject === "Social Studies") {
-            const numImageQuestions = Math.min(relevantImages.length, 3);
-            let baseRecipe = ['bar_chart', 'line_graph', 'pie_chart', 'quote', 'quote', 'quote', 'quote'];
-            let imageSlots = Array(numImageQuestions).fill('image');
-            let textSlots = Array(totalQuestions - baseRecipe.length - imageSlots.length).fill('text');
-            recipe = shuffleArray([...baseRecipe, ...imageSlots, ...textSlots]);
+        // --- 1. Select the Correct Prompt from the Library ---
+        let basePrompt;
+        if (comprehensive) {
+            basePrompt = promptLibrary[subject]?.comprehensive;
         } else {
-            recipe = Array(totalQuestions).fill('text'); // Fallback for other subjects
+            basePrompt = promptLibrary[subject]?.topic(topic);
         }
 
-        const singleQuestionSchema = {
+        if (!basePrompt) {
+            return res.status(400).json({ error: 'Invalid subject or quiz type.' });
+        }
+
+        // --- 2. Prepare Stimulus Materials for the AI ---
+        const relevantImages = shuffleArray(curatedImages.filter(img => img.subject === subject));
+        const availableImageDescriptions = relevantImages.slice(0, 5).map(img => `"${img.description}"`);
+        const imageContext = `\n\nAVAILABLE IMAGE DESCRIPTIONS (Use for image-based questions): [${availableImageDescriptions.join(', ')}]`;
+
+        const finalPrompt = basePrompt + imageContext;
+
+        const finalSchema = {
             type: "OBJECT",
             properties: {
-              type: { type: "STRING" },
-              passage: { type: "STRING" },
-              chartDescription: { type: "STRING" },
-              questionText: { type: "STRING" },
-              answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+                questions: {
+                    type: "ARRAY",
+                    items: {
+                        type: "OBJECT",
+                        properties: {
+                          type: { type: "STRING" },
+                          passage: { type: "STRING" },
+                          chartDescription: { type: "STRING" },
+                          questionText: { type: "STRING" },
+                          imageDescriptionForMatch: { type: "STRING" }, // For matching URLs
+                          answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+                        },
+                        required: ["type", "questionText", "answerOptions"]
+                    }
+                }
             },
-            required: ["type", "questionText", "answerOptions"]
-        };
-        const multiQuestionSchema = { type: "OBJECT", properties: { questions: { type: "ARRAY", items: singleQuestionSchema } }, required: ["questions"] };
-        let subTopics = subTopicLibrary[topic] ? shuffleArray([...subTopicLibrary[topic]]) : [topic];
-
-        const callAI = async (prompt) => {
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: { responseMimeType: "application/json", responseSchema: multiQuestionSchema },
-            };
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-            const response = await axios.post(apiUrl, payload);
-            return JSON.parse(response.data.candidates[0].content.parts[0].text);
+            required: ["questions"]
         };
 
-        const chartTasks = recipe.filter(r => r.includes('_chart'));
-        const stimulusTasks = recipe.filter(r => r === 'image' || r === 'quote');
-        const textTasks = recipe.filter(r => r === 'text');
-        const apiCalls = [];
+        // --- 3. Make a Single, Efficient API Call ---
+        const payload = {
+            contents: [{ parts: [{ text: finalPrompt }] }],
+            generationConfig: {
+                responseMimeType: "application/json",
+                responseSchema: finalSchema,
+            },
+        };
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        const response = await axios.post(apiUrl, payload);
+        let generatedQuiz = JSON.parse(response.data.candidates[0].content.parts[0].text);
 
-        if (chartTasks.length > 0) {
-            const chartSubTopics = chartTasks.map((_, i) => subTopics[i % subTopics.length]);
-            const chartPrompt = `Generate ${chartTasks.length} GED-style chart questions for a Social Studies quiz about "${topic}". Create one question for each of the following chart types and sub-topics:
-            ${chartTasks.map((type, i) => `- A ${type.replace('_', ' ')} about "${chartSubTopics[i]}"`).join('\n')}
-            RULES: For each question, provide a 'chartDescription', format the data as an HTML <table>, and ensure the 'passage' contains ONLY the table. The 'questionText' must be a single question about the chart.`;
-            apiCalls.push(callAI(chartPrompt));
-        }
-
-        if (stimulusTasks.length > 0) {
-            const imageTasks = stimulusTasks.filter(t => t === 'image');
-            const quoteTasks = stimulusTasks.filter(t => t === 'quote');
-            const availableImageDescriptions = relevantImages.slice(0, imageTasks.length).map(img => `"${img.description}"`);
-            const stimulusSubTopics = stimulusTasks.map((_, i) => subTopics[(chartTasks.length + i) % subTopics.length]);
-            const stimulusPrompt = `Generate ${stimulusTasks.length} GED-style questions for a Social Studies quiz about "${topic}". Generate ${quoteTasks.length} questions based on historical quotes/letters, and ${imageTasks.length} questions based on the provided Image Descriptions.
-            Sub-topics to cover: ${stimulusSubTopics.join(', ')}.
-            Available Image Descriptions: [${availableImageDescriptions.join(', ')}].
-            RULES: For image questions, the 'passage' field MUST contain the exact Image Description used as the stimulus for the question. The 'questionText' must be a single question about that image. For quote questions, the 'passage' field MUST contain the quote.`;
-            apiCalls.push(callAI(stimulusPrompt));
-        }
-
-        if (textTasks.length > 0) {
-            const textSubTopics = textTasks.map((_, i) => subTopics[(chartTasks.length + stimulusTasks.length + i) % subTopics.length]);
-            const textPrompt = `Generate ${textTasks.length} GED-style text-passage questions for a Social Studies quiz about "${topic}". Create one question for each sub-topic:
-            ${textSubTopics.map(st => `- A question about "${st}"`).join('\n')}
-            RULES: The 'passage' should be a short text passage. The 'questionText' must be a single question about that passage. 'passage' and 'questionText' must not be the same.`;
-            apiCalls.push(callAI(textPrompt));
-        }
-
-        const results = await Promise.all(apiCalls);
-        let combinedQuestions = results.flatMap(result => result.questions);
-
-        combinedQuestions.forEach(q => {
-            // NEW LOGIC: For image questions, find the matching image URL from our repository
-            // based on the description the AI placed in the 'passage' field.
-            if (q.type === 'image' && q.passage && q.passage.length > 0) {
-                // Find the image in our repository whose description exactly matches the passage
-                const matchedImage = curatedImages.find(img => img.description.trim() === q.passage.trim());
+        // --- 4. Post-process the result to add image URLs ---
+        generatedQuiz.questions.forEach(q => {
+            if (q.type === 'image' && q.imageDescriptionForMatch) {
+                const matchedImage = relevantImages.find(img => img.description === q.imageDescriptionForMatch);
                 if (matchedImage) {
-                    // Set the imageURL to the relative path for the frontend (e.g., "Images/foo.jpg")
-                    q.imageURL = matchedImage.url.replace('frontend/', '');
-                    // Clear the passage field as it's now been used and is no longer needed
-                    q.passage = '';
-                } else {
-                    // If no match is found, we should probably nullify the image type
-                    // to avoid showing a broken image link.
-                    q.type = 'text'; // Fallback to a text question
-                    q.passage = `Error: The AI returned an image description that was not found in the repository: "${q.passage}"`;
+                    q.imageURL = matchedImage.url;
                 }
             }
+            delete q.imageDescriptionForMatch;
         });
 
-        const shuffledQuiz = shuffleArray(combinedQuestions).map((q, index) => ({ ...q, questionNumber: index + 1 }));
-        res.json({ questions: shuffledQuiz });
+        const finalQuiz = shuffleArray(generatedQuiz.questions).map((q, index) => ({
+            ...q,
+            questionNumber: index + 1
+        }));
+
+        res.json({ questions: finalQuiz });
 
     } catch (error) {
-        console.error('Error in Quiz Assembler v11:', error.response ? error.response.data : error.message);
+        console.error('Error in Blueprint-Driven Assembler:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
     }
 });
