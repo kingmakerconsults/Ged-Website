@@ -11,7 +11,11 @@ const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
 const port = process.env.PORT || 3001;
 
-const allowedOrigins = ['https://ezged.netlify.app'];
+const allowedOrigins = [
+    'https://ezged.netlify.app',
+    'https://quiz.ez-ged.com',
+    'http://localhost:8000' // For local testing
+];
 
 const corsOptions = {
   origin: (origin, callback) => {
