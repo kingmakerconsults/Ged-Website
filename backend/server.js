@@ -226,18 +226,39 @@ app.post('/generate-quiz', async (req, res) => {
             if (q.type === 'image' && q.imageDescriptionForMatch) {
                 const matchedImage = relevantImages.find(img => img.description === q.imageDescriptionForMatch);
                 if (matchedImage) {
-                    q.imageURL = matchedImage.url;
+                    q.imageUrl = matchedImage.url; // Corrected property name from imageURL to imageUrl
                 }
             }
             delete q.imageDescriptionForMatch;
         });
 
-        const finalQuiz = shuffleArray(generatedQuiz.questions).map((q, index) => ({
+        const finalQuestions = shuffleArray(generatedQuiz.questions).map((q, index) => ({
             ...q,
             questionNumber: index + 1
         }));
 
-        res.json({ questions: finalQuiz });
+        // Always return a full quiz object, not just the questions, to ensure frontend compatibility.
+        if (comprehensive) {
+            // This is a comprehensive exam for Science, Math, or Social Studies
+            const examData = {
+                subject: subject,
+                title: `Comprehensive ${subject} Exam`,
+                type: 'quiz',
+                questions: finalQuestions,
+                timeLimit: finalQuestions.length * 90
+            };
+            res.json(examData);
+        } else {
+            // This is a topic-based AI-generated quiz
+            const quizData = {
+                subject: subject,
+                title: `${subject}: ${topic}`,
+                type: 'quiz',
+                questions: finalQuestions,
+                timeLimit: finalQuestions.length * 90
+            };
+            res.json(quizData);
+        }
 
     } catch (error) {
         console.error('Error in Quiz Assembler:', error.response ? error.response.data : error.message);
