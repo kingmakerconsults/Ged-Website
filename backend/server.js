@@ -66,12 +66,15 @@ const promptLibrary = {
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 40% Life Science, 40% Physical Science, 20% Earth and Space Science.
         STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, data tables formatted as HTML, charts, and scientific diagrams from the provided descriptions.`
     },
-    "Reasoning Through Language Arts (RLA)": {
-        topic: (topic) => `Generate a 15-question GED-style RLA quiz focused on "${topic}".
+"Reasoning Through Language Arts (RLA)": {
+    topic: (topic) => `Generate a 15-question GED-style RLA quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: The quiz must be 75% Informational Text (non-fiction, workplace documents) and 25% Literary Text. It must include a mix of reading comprehension questions and language/grammar questions. DO NOT generate Social Studies questions; generate RLA questions using passages ABOUT "${topic}".`,
-        comprehensive: `Generate a 45-question comprehensive GED RLA exam. This does NOT include the essay.
-        STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 75% Informational Text and 25% Literary Text. It must contain a mix of reading comprehension questions (main idea, inference, analyzing arguments) and language/grammar questions (sentence structure, punctuation, usage).`
-    },
+    comprehensive: {
+        part1: `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages (4-5 paragraphs each), with 75% being informational text and 25% literary text. For EACH of the 4 passages, generate exactly 5 reading comprehension questions that test for main idea, inference, and analysis of arguments. The final output must be a total of 20 questions.`,
+        part2: `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two short, opposing passages that you create. The output should be a JSON object with two keys: "passages" (an array of two objects, each with a "title" and "content") and "prompt" (the essay question).`,
+        part3: `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each) that may contain grammatical errors, awkward phrasing, or organizational issues. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentence structure, improving word choice, and identifying errors in mechanics. This should total 25 questions. The stimulus for these questions is the passage with errors.`
+    }
+},
     "Mathematical Reasoning": {
         topic: (topic) => `Generate a 15-question GED-style Math quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems (number sense, data analysis) and 55% Algebraic Problems (expressions, equations).`,
@@ -123,31 +126,87 @@ function shuffleArray(array) {
     return array;
 }
 
-// This is the final, definitive version of the quiz generator function
+const singleQuestionSchema = {
+    type: "OBJECT",
+    properties: {
+      type: { type: "STRING" },
+      passage: { type: "STRING" },
+      chartDescription: { type: "STRING" },
+      questionText: { type: "STRING" },
+      imageDescriptionForMatch: { type: "STRING" }, // For matching URLs
+      answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+    },
+    required: ["type", "questionText", "answerOptions"]
+};
+
+const callAI = async (prompt, schema) => {
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+    if (!apiKey) {
+        console.error('API key not configured on the server.');
+        throw new Error('Server configuration error: GOOGLE_AI_API_KEY is not set.');
+    }
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: schema,
+        },
+    };
+    try {
+        const response = await axios.post(apiUrl, payload);
+        const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
+        return JSON.parse(jsonText);
+    } catch (error) {
+        console.error('Error calling Google AI API in callAI:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+// This new function handles the special RLA case
 
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz (Blueprint-Driven v1) ---');
+    console.log('--- Received a request to /generate-quiz (Multi-Part RLA) ---');
     const { subject, topic, comprehensive } = req.body;
     const apiKey = process.env.GOOGLE_AI_API_KEY;
 
     try {
-        // --- 1. Select the Correct Prompt from the Library ---
+        if (comprehensive && subject === "Reasoning Through Language Arts (RLA)") {
+            // --- SPECIAL: Multi-call logic for RLA Comprehensive Exam ---
+            const rlaPrompts = promptLibrary[subject].comprehensive;
+            const schemaPart1And3 = { type: "OBJECT", properties: { questions: { type: "ARRAY", items: singleQuestionSchema } }, required: ["questions"] };
+            const schemaPart2 = { type: "OBJECT", properties: { passages: { type: "ARRAY", items: {type: "OBJECT", properties: {title: {type: "STRING"}, content: {type: "STRING"}}, required: ["title", "content"]}}, prompt: {type: "STRING"}}, required: ["passages", "prompt"]};
+
+            const [part1Result, part2Result, part3Result] = await Promise.all([
+                callAI(rlaPrompts.part1, schemaPart1And3),
+                callAI(rlaPrompts.part2, schemaPart2),
+                callAI(rlaPrompts.part3, schemaPart1And3)
+            ]);
+
+            const fullExamData = {
+                subject: "Reasoning Through Language Arts (RLA)",
+                title: "Comprehensive RLA Exam",
+                type: "multi-part-rla", // A new type for the frontend to recognize
+                totalTime: 150 * 60,
+                part1_reading: part1Result.questions,
+                part2_essay: part2Result,
+                part3_language: part3Result.questions
+            };
+            return res.json(fullExamData);
+        }
+
+        // --- Standard logic for all other quizzes ---
         let basePrompt;
         if (comprehensive) {
             basePrompt = promptLibrary[subject]?.comprehensive;
         } else {
             basePrompt = promptLibrary[subject]?.topic(topic);
         }
+        if (!basePrompt) return res.status(400).json({ error: 'Invalid subject or quiz type.' });
 
-        if (!basePrompt) {
-            return res.status(400).json({ error: 'Invalid subject or quiz type.' });
-        }
-
-        // --- 2. Prepare Stimulus Materials for the AI ---
         const relevantImages = shuffleArray(curatedImages.filter(img => img.subject === subject));
         const availableImageDescriptions = relevantImages.slice(0, 5).map(img => `"${img.description}"`);
         const imageContext = `\n\nAVAILABLE IMAGE DESCRIPTIONS (Use for image-based questions): [${availableImageDescriptions.join(', ')}]`;
-
         const finalPrompt = basePrompt + imageContext;
 
         const finalSchema = {
@@ -155,55 +214,54 @@ app.post('/generate-quiz', async (req, res) => {
             properties: {
                 questions: {
                     type: "ARRAY",
-                    items: {
-                        type: "OBJECT",
-                        properties: {
-                          type: { type: "STRING" },
-                          passage: { type: "STRING" },
-                          chartDescription: { type: "STRING" },
-                          questionText: { type: "STRING" },
-                          imageDescriptionForMatch: { type: "STRING" }, // For matching URLs
-                          answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
-                        },
-                        required: ["type", "questionText", "answerOptions"]
-                    }
+                    items: singleQuestionSchema
                 }
             },
             required: ["questions"]
         };
 
-        // --- 3. Make a Single, Efficient API Call ---
-        const payload = {
-            contents: [{ parts: [{ text: finalPrompt }] }],
-            generationConfig: {
-                responseMimeType: "application/json",
-                responseSchema: finalSchema,
-            },
-        };
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-        const response = await axios.post(apiUrl, payload);
-        let generatedQuiz = JSON.parse(response.data.candidates[0].content.parts[0].text);
+        let generatedQuiz = await callAI(finalPrompt, finalSchema);
 
-        // --- 4. Post-process the result to add image URLs ---
         generatedQuiz.questions.forEach(q => {
             if (q.type === 'image' && q.imageDescriptionForMatch) {
                 const matchedImage = relevantImages.find(img => img.description === q.imageDescriptionForMatch);
                 if (matchedImage) {
-                    q.imageURL = matchedImage.url;
+                    q.imageUrl = matchedImage.url; // Corrected property name from imageURL to imageUrl
                 }
             }
             delete q.imageDescriptionForMatch;
         });
 
-        const finalQuiz = shuffleArray(generatedQuiz.questions).map((q, index) => ({
+        const finalQuestions = shuffleArray(generatedQuiz.questions).map((q, index) => ({
             ...q,
             questionNumber: index + 1
         }));
 
-        res.json({ questions: finalQuiz });
+        // Always return a full quiz object, not just the questions, to ensure frontend compatibility.
+        if (comprehensive) {
+            // This is a comprehensive exam for Science, Math, or Social Studies
+            const examData = {
+                subject: subject,
+                title: `Comprehensive ${subject} Exam`,
+                type: 'quiz',
+                questions: finalQuestions,
+                timeLimit: finalQuestions.length * 90
+            };
+            res.json(examData);
+        } else {
+            // This is a topic-based AI-generated quiz
+            const quizData = {
+                subject: subject,
+                title: `${subject}: ${topic}`,
+                type: 'quiz',
+                questions: finalQuestions,
+                timeLimit: finalQuestions.length * 90
+            };
+            res.json(quizData);
+        }
 
     } catch (error) {
-        console.error('Error in Blueprint-Driven Assembler:', error.response ? error.response.data : error.message);
+        console.error('Error in Quiz Assembler:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
     }
 });
