@@ -37,7 +37,7 @@ app.use(express.json());
 
 let curatedImages = [];
 // Load the new, structured image repository from the local file system.
-const imageRepositoryPath = path.join(__dirname, '..', 'image_metadata.json');
+const imageRepositoryPath = path.join(__dirname, 'image_metadata_final.json');
 
 try {
     const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
@@ -202,13 +202,13 @@ app.post('/generate-quiz', async (req, res) => {
         const relevantImages = curatedImages.filter(img => img.subject === subject);
         if (relevantImages.length > 0) {
             selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
-            const randomPrompt = selectedImage.questionPrompts[Math.floor(Math.random() * selectedImage.questionPrompts.length)];
+            const randomDirective = selectedImage.usageDirectives[Math.floor(Math.random() * selectedImage.usageDirectives.length)];
             const imageContext = `
             \n\n---
             IMAGE-BASED QUESTION REQUIREMENT:
             You MUST generate exactly one question based on the following image details.
-            Image Description: "${selectedImage.description}"
-            Use this prompt to guide the question: "${randomPrompt}"
+            Image Description: "${selectedImage.detailedDescription}"
+            Use this directive to guide the question: "${randomDirective}"
             For this single image-based question, you MUST set the "type" field to "image" and you MUST set the "imageDescriptionForMatch" field to be the exact description string provided above.
             ---`;
             finalPrompt += imageContext;
@@ -218,7 +218,7 @@ app.post('/generate-quiz', async (req, res) => {
         let generatedQuiz = await callAI(finalPrompt, finalSchema);
 
         generatedQuiz.questions.forEach(q => {
-            if (q.type === 'image' && q.imageDescriptionForMatch && selectedImage && q.imageDescriptionForMatch === selectedImage.description) {
+            if (q.type === 'image' && q.imageDescriptionForMatch && selectedImage && q.imageDescriptionForMatch === selectedImage.detailedDescription) {
                 q.imageUrl = selectedImage.filePath.replace(/^\/frontend/, '');
             }
             delete q.imageDescriptionForMatch;
