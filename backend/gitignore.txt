@@ -1,22 +1,4 @@
-# Dependencies
-/node_modules
-
-# Environment Variables
+node_modules/
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# Misc
-.DS_Store
-.npm
-.eslintcache
-*.pem
-*.cer
+../backend_output.log
+../frontend_output.log
