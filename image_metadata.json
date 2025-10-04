@@ -1,7 +1,7 @@
 [
   {
     "fileName": "035fa172-2083-4c13-9485-a5f4bfa28340.png",
-    "filePath": "/frontend/Images/035fa172-2083-4c13-9485-a5f4bfa28340.png",
+    "filePath": "/frontend/Images/Social Studies/035fa172-2083-4c13-9485-a5f4bfa28340.png",
     "altText": "A Data Chart about economics. A pie chart titled 'Percent of spending, Including discretionary and mandatory' that breaks down government spending by category.",
     "description": "A pie chart titled 'Percent of spending, Including discretionary and mandatory' that breaks down government spending by category. Key spending areas shown are Health at 28%, Social Security at 25.3%, and Defense/Homeland Security at 16.2%.",
     "subject": "Social Studies",
@@ -20,7 +20,7 @@
   },
   {
     "fileName": "A map of the Triangular Trade routes..jpg",
-    "filePath": "/frontend/Images/A map of the Triangular Trade routes..jpg",
+    "filePath": "/frontend/Images/Social Studies/A map of the Triangular Trade routes..jpg",
     "altText": "A Map about triangular trade. A map titled 'African Slave Trade, 1500-1870' illustrating the Triangular Trade routes.",
     "description": "A map titled 'African Slave Trade, 1500-1870' illustrating the Triangular Trade routes. It shows the movement of enslaved people from Africa to the Americas, goods from Europe to Africa, and raw materials from the Americas to Europe. The map includes a legend for European colonial territories and a pie chart detailing the origins of Africans in North America.",
     "subject": "Social Studies",
@@ -39,7 +39,7 @@
   },
   {
     "fileName": "American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg",
-    "filePath": "/frontend/Images/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg",
+    "filePath": "/frontend/Images/Social Studies/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg",
     "altText": "A Political Cartoon about join or die. A black-and-white print of the 'Join, or Die' political cartoon, created by Benjamin Franklin in 1754.",
     "description": "A black-and-white print of the 'Join, or Die' political cartoon, created by Benjamin Franklin in 1754. It depicts a snake severed into eight pieces, representing the American colonies, with the caption 'JOIN, or DIE.' to emphasize the need for colonial unity.",
     "subject": "Social Studies",
@@ -58,7 +58,7 @@
   },
   {
     "fileName": "An abolitionist political cartoon satirizing slavery.jpg",
-    "filePath": "/frontend/Images/An abolitionist political cartoon satirizing slavery.jpg",
+    "filePath": "/frontend/Images/Social Studies/An abolitionist political cartoon satirizing slavery.jpg",
     "altText": "A Political Cartoon about abolitionism. An abolitionist political cartoon from the 19th century that satirizes a common justification for slavery.",
     "description": "An abolitionist political cartoon from the 19th century that satirizes a common justification for slavery. It depicts enslaved people performing skilled labor while a white couple looks on, with the ironic caption, ''Poor things, 'they can't take care of themselves.'' to highlight the hypocrisy of the argument.",
     "subject": "Social Studies",
@@ -77,7 +77,7 @@
   },
   {
     "fileName": "BlogImage_GlobalDefense_Fig1_010323.png",
-    "filePath": "/frontend/Images/BlogImage_GlobalDefense_Fig1_010323.png",
+    "filePath": "/frontend/Images/Social Studies/BlogImage_GlobalDefense_Fig1_010323.png",
     "altText": "A Data Chart about military spending. A line graph from the Federal Reserve Bank of St.",
     "description": "A line graph from the Federal Reserve Bank of St. Louis comparing the military spending of the U.S., China, Russia, U.K., India, and Saudi Arabia from 1992 to 2020. The chart displays spending in billions of constant 2020 U.S. dollars, using a separate right-hand axis for the U.S. data, and shows a significant increase in spending for both the U.S. and China.",
     "subject": "Social Studies",
@@ -96,7 +96,7 @@
   },
   {
     "fileName": "Bosses-of-the-Senate.jpg",
-    "filePath": "/frontend/Images/Bosses-of-the-Senate.jpg",
+    "filePath": "/frontend/Images/Social Studies/Bosses-of-the-Senate.jpg",
     "altText": "A Political Cartoon about gilded age. The Gilded Age political cartoon, 'The Bosses of the Senate' by Joseph Keppler, depicts giant, powerful monopolists representing trusts like steel, copper, and oil, looming over the desks of intimidated U.",
     "description": "The Gilded Age political cartoon, 'The Bosses of the Senate' by Joseph Keppler, depicts giant, powerful monopolists representing trusts like steel, copper, and oil, looming over the desks of intimidated U.S. senators. The cartoon satirizes the corruption and immense influence of big business on American politics.",
     "subject": "Social Studies",
@@ -116,7 +116,7 @@
   },
   {
     "fileName": "FDR-cartoon-photoshoped.gif",
-    "filePath": "/frontend/Images/FDR-cartoon-photoshoped.gif",
+    "filePath": "/frontend/Images/Social Studies/FDR-cartoon-photoshoped.gif",
     "altText": "A Political Cartoon about fdr. Image could not be displayed.",
     "description": "Image could not be displayed. Based on the filename, this is likely a photoshopped political cartoon depicting Franklin D. Roosevelt during the Great Depression era.",
     "subject": "Social Studies",
@@ -134,7 +134,7 @@
   },
   {
     "fileName": "Louisiana_Purchase.png",
-    "filePath": "/frontend/Images/Louisiana_Purchase.png",
+    "filePath": "/frontend/Images/Social Studies/Louisiana_Purchase.png",
     "altText": "A Map about louisiana purchase. A map of the United States highlighting the territory acquired in the 1803 Louisiana Purchase.",
     "description": "A map of the United States highlighting the territory acquired in the 1803 Louisiana Purchase. The map shows the boundaries of the purchased land, which includes all or parts of 15 future U.S. states, stretching from the Mississippi River to the Rocky Mountains.",
     "subject": "Social Studies",
@@ -153,7 +153,7 @@
   },
   {
     "fileName": "Map_Europe_alliances_1914-en.svg",
-    "filePath": "/frontend/Images/Map_Europe_alliances_1914-en.svg",
+    "filePath": "/frontend/Images/Social Studies/Map_Europe_alliances_1914-en.svg",
     "altText": "A Map about world war i. A map of Europe in 1914 showing the alliances of World War I.",
     "description": "A map of Europe in 1914 showing the alliances of World War I. The Triple Entente (Allied Powers) and the Triple Alliance (Central Powers) are color-coded.",
     "subject": "Social Studies",
@@ -172,7 +172,7 @@
   },
   {
     "fileName": "Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg",
-    "filePath": "/frontend/Images/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg",
+    "filePath": "/frontend/Images/Social Studies/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg",
     "altText": "A Political Cartoon about gilded age. A political cartoon from Puck magazine titled 'The Protectors of Our Industries,' created by Bernhard Gillam.",
     "description": "A political cartoon from Puck magazine titled 'The Protectors of Our Industries,' created by Bernhard Gillam. It satirizes the Gilded Age robber barons, showing wealthy industrialists like Vanderbilt and Gould riding on a raft of goods, which is held up by struggling, underpaid workers. The cartoon critiques the exploitation of labor by powerful monopolists.",
     "subject": "Social Studies",
@@ -191,7 +191,7 @@
   },
   {
     "fileName": "Questions-are-based-on-the-following-graph.-1.png",
-    "filePath": "/frontend/Images/Questions-are-based-on-the-following-graph.-1.png",
+    "filePath": "/frontend/Images/Social Studies/Questions-are-based-on-the-following-graph.-1.png",
     "altText": "A Data Chart about economics. Two bar charts on women's median weekly earnings.",
     "description": "Two bar charts on women's median weekly earnings. The first chart, 'Median Weekly Earnings of Full-Time Female Workers, 25 and Over, by Educational Attainment (In 1998 dollars),' compares earnings in 1980 and 1998. The second, 'Women's Median Earnings by Race and Educational Attainment, 1998,' compares earnings by race and education level.",
     "subject": "Social Studies",
@@ -210,7 +210,7 @@
   },
   {
     "fileName": "Questions-are-based-on-the-following-graph.-2.png",
-    "filePath": "/frontend/Images/Questions-are-based-on-the-following-graph.-2.png",
+    "filePath": "/frontend/Images/Social Studies/Questions-are-based-on-the-following-graph.-2.png",
     "altText": "A Political Cartoon about political cartoon. A political cartoon satirizing the motives behind consumer protection bills.",
     "description": "A political cartoon satirizing the motives behind consumer protection bills. It depicts figures labeled 'CONGRESS' and 'STATE LEGISLATURE' laying down these bills as stepping stones for a woman, with the caption, ''AND A HAPPY ELECTION YEAR TO YOU, TOO'', implying the bills are for political gain.",
     "subject": "Social Studies",
@@ -229,7 +229,7 @@
   },
   {
     "fileName": "Questions-are-based-on-the-following-graph.-4.png",
-    "filePath": "/frontend/Images/Questions-are-based-on-the-following-graph.-4.png",
+    "filePath": "/frontend/Images/Science/Questions-are-based-on-the-following-graph.-4.png",
     "altText": "A Diagram about cell biology. A black-and-white diagram of an animal cell.",
     "description": "A black-and-white diagram of an animal cell. The diagram labels key organelles including the nucleus, nucleolus, rough ER, smooth ER, mitochondrion, lysosome, cytoskeleton, and Golgi body.",
     "subject": "Science",
@@ -248,7 +248,7 @@
   },
   {
     "fileName": "Questions-are-based-on-the-following-graph.-5.png",
-    "filePath": "/frontend/Images/Questions-are-based-on-the-following-graph.-5.png",
+    "filePath": "/frontend/Images/Science/Questions-are-based-on-the-following-graph.-5.png",
     "altText": "A Data Chart about health. A data chart from 2011 detailing the 'Recommended Immunization Schedule for Persons Aged 0 Through 6 Years' in the United States.",
     "description": "A data chart from 2011 detailing the 'Recommended Immunization Schedule for Persons Aged 0 Through 6 Years' in the United States. The schedule lists various vaccines, such as Hepatitis B, DTaP, and MMR, and indicates the recommended ages for each dose, from birth to 6 years.",
     "subject": "Science",
@@ -267,7 +267,7 @@
   },
   {
     "fileName": "Questions-are-based-on-the-following-graph.-6 (1).png",
-    "filePath": "/frontend/Images/Questions-are-based-on-the-following-graph.-6 (1).png",
+    "filePath": "/frontend/Images/Science/Questions-are-based-on-the-following-graph.-6 (1).png",
     "altText": "A Diagram about cell biology. A diagram comparing the processes of Mitosis and Meiosis.",
     "description": "A diagram comparing the processes of Mitosis and Meiosis. The diagram shows that Mitosis results in two diploid (2n) daughter cells, while Meiosis results in four haploid cells. Both processes start with a parental cell and involve replication and cell division.",
     "subject": "Science",
@@ -286,7 +286,7 @@
   },
   {
     "fileName": "Questions-are-based-on-the-following-graph.-6.png",
-    "filePath": "/frontend/Images/Questions-are-based-on-the-following-graph.-6.png",
+    "filePath": "/frontend/Images/Science/Questions-are-based-on-the-following-graph.-6.png",
     "altText": "A Diagram about cell biology. A diagram comparing the processes of Mitosis and Meiosis.",
     "description": "A diagram comparing the processes of Mitosis and Meiosis. The diagram shows that Mitosis results in two diploid (2n) daughter cells, while Meiosis results in four haploid cells. Both processes start with a parental cell and involve replication and cell division.",
     "subject": "Science",
@@ -305,7 +305,7 @@
   },
   {
     "fileName": "Questions-are-based-on-the-following-graph.-7 (1).png",
-    "filePath": "/frontend/Images/Questions-are-based-on-the-following-graph.-7 (1).png",
+    "filePath": "/frontend/Images/Science/Questions-are-based-on-the-following-graph.-7 (1).png",
     "altText": "A Diagram about ecology. A food web diagram showing the relationships between different organisms.",
     "description": "A food web diagram showing the relationships between different organisms. Arrows indicate the flow of energy, with producers like Nectar and Leaves at the bottom, and top predators like the Eagle and Fox at the top. The web includes various consumers such as butterflies, caterpillars, slugs, rabbits, blue jays, and moles.",
     "subject": "Science",
@@ -324,7 +324,7 @@
   },
   {
     "fileName": "Questions-are-based-on-the-following-graph.-7.png",
-    "filePath": "/frontend/Images/Questions-are-based-on-the-following-graph.-7.png",
+    "filePath": "/frontend/Images/Science/Questions-are-based-on-the-following-graph.-7.png",
     "altText": "A Diagram about ecology. A food web diagram showing the relationships between different organisms.",
     "description": "A food web diagram showing the relationships between different organisms. Arrows indicate the flow of energy, with producers like Nectar and Leaves at the bottom, and top predators like the Eagle and Fox at the top. The web includes various consumers such as butterflies, caterpillars, slugs, rabbits, blue jays, and moles.",
     "subject": "Science",
@@ -343,7 +343,7 @@
   },
   {
     "fileName": "Questions-are-based-on-the-following-graph.-8.png",
-    "filePath": "/frontend/Images/Questions-are-based-on-the-following-graph.-8.png",
+    "filePath": "/frontend/Images/Social Studies/Questions-are-based-on-the-following-graph.-8.png",
     "altText": "A Data Chart about us constitution. A chart titled 'Principles of the U.",
     "description": "A chart titled 'Principles of the U.S. Constitution' that lists six key principles and their meanings. The principles are: Popular sovereignty, Limited government, Separation of powers, Checks and balances, Republican government, and Federalism.",
     "subject": "Social Studies",
@@ -1712,7 +1712,7 @@
   },
   {
     "fileName": "This-Question-is-based-on-the-following-graph-1.png",
-    "filePath": "/frontend/Images/This-Question-is-based-on-the-following-graph-1.png",
+    "filePath": "/frontend/Images/Social Studies/This-Question-is-based-on-the-following-graph-1.png",
     "altText": "A Data Chart about economics. A chart titled 'Economic Systems' that describes four types of economic systems: Traditional, Market, Command, and Mixed.",
     "description": "A chart titled 'Economic Systems' that describes four types of economic systems: Traditional, Market, Command, and Mixed. For each system, the chart outlines its characteristics and lists its benefits and drawbacks.",
     "subject": "Social Studies",
@@ -1731,7 +1731,7 @@
   },
   {
     "fileName": "This-Question-is-based-on-the-following-graph-2.png",
-    "filePath": "/frontend/Images/This-Question-is-based-on-the-following-graph-2.png",
+    "filePath": "/frontend/Images/Social Studies/This-Question-is-based-on-the-following-graph-2.png",
     "altText": "A Data Chart about us history. A line graph titled 'Urban-Rural Population of the United States, 1900-2010'.",
     "description": "A line graph titled 'Urban-Rural Population of the United States, 1900-2010'. The graph shows the percentage of the total population for both urban and rural areas. The urban population line shows a steady increase, while the rural population line shows a steady decrease over the 110-year period.",
     "subject": "Social Studies",
@@ -1750,7 +1750,7 @@
   },
   {
     "fileName": "This-Question-is-based-on-the-following-graph-3.png",
-    "filePath": "/frontend/Images/This-Question-is-based-on-the-following-graph-3.png",
+    "filePath": "/frontend/Images/Social Studies/This-Question-is-based-on-the-following-graph-3.png",
     "altText": "A Map about us history. A set of four U.",
     "description": "A set of four U.S. electoral maps for the presidential elections of 1908, 1912, 1916, and 1920. Each map displays the electoral vote for each state, along with a pie chart showing the breakdown of the electoral and popular vote totals for the candidates.",
     "subject": "Social Studies",
@@ -1769,7 +1769,7 @@
   },
   {
     "fileName": "This-Question-is-based-on-the-following-graph.png",
-    "filePath": "/frontend/Images/This-Question-is-based-on-the-following-graph.png",
+    "filePath": "/frontend/Images/Social Studies/This-Question-is-based-on-the-following-graph.png",
     "altText": "A Data Chart about economics. A pie chart titled 'Internal Revenue Service Receipts by Category, 2010 (percentages)'.",
     "description": "A pie chart titled 'Internal Revenue Service Receipts by Category, 2010 (percentages)'. The chart shows that Personal income tax makes up 50.1% of receipts, Employment taxes 35.1%, and Business income taxes 11.9%.",
     "subject": "Social Studies",
@@ -1788,7 +1788,7 @@
   },
   {
     "fileName": "World energy consuption line graph.png",
-    "filePath": "/frontend/Images/World energy consuption line graph.png",
+    "filePath": "/frontend/Images/Science/World energy consuption line graph.png",
     "altText": "A Data Chart about energy. A line graph showing world energy consumption from 1965 to 2015, broken down by source (oil, coal, natural gas, hydroelectricity, nuclear energy, and renewables).",
     "description": "A line graph showing world energy consumption from 1965 to 2015, broken down by source (oil, coal, natural gas, hydroelectricity, nuclear energy, and renewables). The graph shows a significant overall increase in energy consumption, with oil and coal being the dominant sources.",
     "subject": "Science",
@@ -1807,7 +1807,7 @@
   },
   {
     "fileName": "WorldWarII-MilitaryDeaths-Allies-Piechart.png",
-    "filePath": "/frontend/Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png",
+    "filePath": "/frontend/Images/Social Studies/WorldWarII-MilitaryDeaths-Allies-Piechart.png",
     "altText": "A Data Chart about world war ii. A pie chart showing the military deaths of the Allied powers in World War II.",
     "description": "A pie chart showing the military deaths of the Allied powers in World War II. The chart is dominated by the Soviet Union, which accounts for the vast majority of deaths, followed by China, the United States, and other Allied nations.",
     "subject": "Social Studies",
@@ -1826,7 +1826,7 @@
   },
   {
     "fileName": "carnegie.jpg",
-    "filePath": "/frontend/Images/carnegie.jpg",
+    "filePath": "/frontend/Images/Social Studies/carnegie.jpg",
     "altText": "A Political Cartoon about gilded age. A political cartoon depicting Andrew Carnegie juggling his responsibilities as a philanthropist and a powerful industrialist.",
     "description": "A political cartoon depicting Andrew Carnegie juggling his responsibilities as a philanthropist and a powerful industrialist. The cartoon satirizes the dual public image of the Gilded Age 'robber barons.'",
     "subject": "Social Studies",
@@ -1845,7 +1845,7 @@
   },
   {
     "fileName": "ged-SCIENCE.png",
-    "filePath": "/frontend/Images/ged-SCIENCE.png",
+    "filePath": "/frontend/Images/Science/ged-SCIENCE.png",
     "altText": "A Diagram about astronomy. A diagram illustrating the life cycle of a star, showing the different stages from a stellar nebula to either a white dwarf, neutron star, or black hole, depending on the star's mass.",
     "description": "A diagram illustrating the life cycle of a star, showing the different stages from a stellar nebula to either a white dwarf, neutron star, or black hole, depending on the star's mass.",
     "subject": "Science",
@@ -1864,7 +1864,7 @@
   },
   {
     "fileName": "ged-grsph-1.png",
-    "filePath": "/frontend/Images/ged-grsph-1.png",
+    "filePath": "/frontend/Images/Social Studies/ged-grsph-1.png",
     "altText": "A Data Chart about economics. A bar chart comparing the average price of a gallon of gasoline in different years.",
     "description": "A bar chart comparing the average price of a gallon of gasoline in different years. The chart shows a clear upward trend in the price of gasoline over time.",
     "subject": "Social Studies",
@@ -1882,7 +1882,7 @@
   },
   {
     "fileName": "ged-grsph-2.png",
-    "filePath": "/frontend/Images/ged-grsph-2.png",
+    "filePath": "/frontend/Images/Social Studies/ged-grsph-2.png",
     "altText": "A Data Chart about us history. A line graph showing the population of the United States from 1900 to 2000.",
     "description": "A line graph showing the population of the United States from 1900 to 2000. The graph illustrates a consistent and significant increase in the U.S. population over the century.",
     "subject": "Social Studies",
@@ -1901,7 +1901,7 @@
   },
   {
     "fileName": "ged-grsph-4.png",
-    "filePath": "/frontend/Images/ged-grsph-4.png",
+    "filePath": "/frontend/Images/Social Studies/ged-grsph-4.png",
     "altText": "A Data Chart about geography. A pie chart showing the distribution of the world's population by continent.",
     "description": "A pie chart showing the distribution of the world's population by continent. Asia is shown as the most populous continent, followed by Africa, Europe, North America, South America, and Australia/Oceania.",
     "subject": "Social Studies",
@@ -1920,7 +1920,7 @@
   },
   {
     "fileName": "ged-grsph.png",
-    "filePath": "/frontend/Images/ged-grsph.png",
+    "filePath": "/frontend/Images/Social Studies/ged-grsph.png",
     "altText": "A Data Chart about education. A bar chart comparing the number of students enrolled in different school subjects.",
     "description": "A bar chart comparing the number of students enrolled in different school subjects. The chart shows that Math has the highest enrollment, followed by English, Science, and History.",
     "subject": "Education",
@@ -1939,7 +1939,7 @@
   },
   {
     "fileName": "ged-sci-1-1024x847.png",
-    "filePath": "/frontend/Images/ged-sci-1-1024x847.png",
+    "filePath": "/frontend/Images/Science/ged-sci-1-1024x847.png",
     "altText": "A Diagram about biology. A diagram of the human respiratory system, showing the major organs including the lungs, trachea, bronchi, and diaphragm.",
     "description": "A diagram of the human respiratory system, showing the major organs including the lungs, trachea, bronchi, and diaphragm. The diagram illustrates the path of air into and out of the body.",
     "subject": "Science",
@@ -1958,7 +1958,7 @@
   },
   {
     "fileName": "ged-scince-fig-10.png",
-    "filePath": "/frontend/Images/ged-scince-fig-10.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-10.png",
     "altText": "A Diagram about physics. A diagram illustrating the concept of density.",
     "description": "A diagram illustrating the concept of density. It shows three blocks of the same size but different masses submerged in water, demonstrating that the block with the highest density sinks, while the one with the lowest density floats.",
     "subject": "Science",
@@ -1977,7 +1977,7 @@
   },
   {
     "fileName": "ged-scince-fig-12.png",
-    "filePath": "/frontend/Images/ged-scince-fig-12.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-12.png",
     "altText": "A Diagram about physics. A diagram of a simple circuit containing a battery, a switch, and a light bulb.",
     "description": "A diagram of a simple circuit containing a battery, a switch, and a light bulb. The diagram shows how the circuit works to light the bulb when the switch is closed.",
     "subject": "Science",
@@ -1996,7 +1996,7 @@
   },
   {
     "fileName": "ged-scince-fig-13.png",
-    "filePath": "/frontend/Images/ged-scince-fig-13.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-13.png",
     "altText": "A Diagram about genetics. A Punnett square illustrating a monohybrid cross for a single genetic trait.",
     "description": "A Punnett square illustrating a monohybrid cross for a single genetic trait. The square shows the possible genotypes and phenotypes of the offspring from the cross.",
     "subject": "Science",
@@ -2015,7 +2015,7 @@
   },
   {
     "fileName": "ged-scince-fig-17.png",
-    "filePath": "/frontend/Images/ged-scince-fig-17.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-17.png",
     "altText": "A Diagram about earth science. A diagram of the Earth's layers, showing the crust, mantle, outer core, and inner core.",
     "description": "A diagram of the Earth's layers, showing the crust, mantle, outer core, and inner core. The diagram includes labels for the different layers and indicates their relative thicknesses.",
     "subject": "Science",
@@ -2034,7 +2034,7 @@
   },
   {
     "fileName": "ged-scince-fig-2.png",
-    "filePath": "/frontend/Images/ged-scince-fig-2.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-2.png",
     "altText": "A Diagram about earth science. A diagram of the water cycle, showing the processes of evaporation, condensation, precipitation, and collection.",
     "description": "A diagram of the water cycle, showing the processes of evaporation, condensation, precipitation, and collection. Arrows indicate the movement of water through the different stages of the cycle.",
     "subject": "Science",
@@ -2053,7 +2053,7 @@
   },
   {
     "fileName": "ged-scince-fig-3.png",
-    "filePath": "/frontend/Images/ged-scince-fig-3.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-3.png",
     "altText": "A Diagram about cell biology. A diagram of a plant cell, showing the major organelles including the cell wall, chloroplasts, vacuole, nucleus, and mitochondria.",
     "description": "A diagram of a plant cell, showing the major organelles including the cell wall, chloroplasts, vacuole, nucleus, and mitochondria. The diagram is labeled to identify each part of the cell.",
     "subject": "Science",
@@ -2072,7 +2072,7 @@
   },
   {
     "fileName": "ged-scince-fig-4.png",
-    "filePath": "/frontend/Images/ged-scince-fig-4.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-4.png",
     "altText": "A Diagram about chemistry. A diagram illustrating the three states of matter: solid, liquid, and gas.",
     "description": "A diagram illustrating the three states of matter: solid, liquid, and gas. The diagram shows the arrangement and movement of particles in each state.",
     "subject": "Science",
@@ -2091,7 +2091,7 @@
   },
   {
     "fileName": "ged-scince-fig-7.png",
-    "filePath": "/frontend/Images/ged-scince-fig-7.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-7.png",
     "altText": "A Diagram about earth science. A diagram of the rock cycle, showing the three main types of rocks (igneous, sedimentary, and metamorphic) and the processes that transform one type into another.",
     "description": "A diagram of the rock cycle, showing the three main types of rocks (igneous, sedimentary, and metamorphic) and the processes that transform one type into another.",
     "subject": "Science",
@@ -2110,7 +2110,7 @@
   },
   {
     "fileName": "ged-scince-fig-8.png",
-    "filePath": "/frontend/Images/ged-scince-fig-8.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-8.png",
     "altText": "A Diagram about chemistry. A diagram illustrating the concept of pH, with a scale from 0 to 14.",
     "description": "A diagram illustrating the concept of pH, with a scale from 0 to 14. The diagram shows examples of acidic, neutral, and alkaline (basic) substances.",
     "subject": "Science",
@@ -2129,7 +2129,7 @@
   },
   {
     "fileName": "ged-scince-fig-9.png",
-    "filePath": "/frontend/Images/ged-scince-fig-9.png",
+    "filePath": "/frontend/Images/Science/ged-scince-fig-9.png",
     "altText": "A Diagram about ecology. A diagram of a simple food chain, showing the flow of energy from a producer (a plant) to a primary consumer (a herbivore) to a secondary consumer (a carnivore).",
     "description": "A diagram of a simple food chain, showing the flow of energy from a producer (a plant) to a primary consumer (a herbivore) to a secondary consumer (a carnivore).",
     "subject": "Science",
@@ -2148,7 +2148,7 @@
   },
   {
     "fileName": "join_or_die_cartoon.jpg",
-    "filePath": "/frontend/Images/join_or_die_cartoon.jpg",
+    "filePath": "/frontend/Images/Social Studies/join_or_die_cartoon.jpg",
     "altText": "An educational image titled 'join_or_die_cartoon.jpg'.",
     "description": "A detailed description of the educational image 'join_or_die_cartoon.jpg'.",
     "subject": "Social Studies",
@@ -2164,7 +2164,7 @@
   },
   {
     "fileName": "licensed-image (1).jpg",
-    "filePath": "/frontend/Images/licensed-image (1).jpg",
+    "filePath": "/frontend/Images/Social Studies/licensed-image (1).jpg",
     "altText": "A Map about geography. A political map of the world, showing the countries with their borders and capitals.",
     "description": "A political map of the world, showing the countries with their borders and capitals. The map is color-coded to distinguish between different countries.",
     "subject": "Social Studies",
@@ -2183,7 +2183,7 @@
   },
   {
     "fileName": "licensed-image (10).jpg",
-    "filePath": "/frontend/Images/licensed-image (10).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (10).jpg",
     "altText": "A Diagram about biology. A diagram illustrating the process of photosynthesis, showing how plants use sunlight, water, and carbon dioxide to create their own food (glucose) and release oxygen.",
     "description": "A diagram illustrating the process of photosynthesis, showing how plants use sunlight, water, and carbon dioxide to create their own food (glucose) and release oxygen.",
     "subject": "Science",
@@ -2202,7 +2202,7 @@
   },
   {
     "fileName": "licensed-image (11).jpg",
-    "filePath": "/frontend/Images/licensed-image (11).jpg",
+    "filePath": "/frontend/Images/Social Studies/licensed-image (11).jpg",
     "altText": "A Map about ancient rome. A map of the ancient Roman Empire at its greatest extent, showing the territories under Roman control in Europe, North Africa, and the Middle East.",
     "description": "A map of the ancient Roman Empire at its greatest extent, showing the territories under Roman control in Europe, North Africa, and the Middle East.",
     "subject": "Social Studies",
@@ -2221,7 +2221,7 @@
   },
   {
     "fileName": "licensed-image (12).jpg",
-    "filePath": "/frontend/Images/licensed-image (12).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (12).jpg",
     "altText": "A Diagram about biology. A diagram of the human eye, showing the major parts including the cornea, iris, pupil, lens, retina, and optic nerve.",
     "description": "A diagram of the human eye, showing the major parts including the cornea, iris, pupil, lens, retina, and optic nerve. The diagram is labeled to identify each part.",
     "subject": "Science",
@@ -2240,7 +2240,7 @@
   },
   {
     "fileName": "licensed-image (13).jpg",
-    "filePath": "/frontend/Images/licensed-image (13).jpg",
+    "filePath": "/frontend/Images/Social Studies/licensed-image (13).jpg",
     "altText": "A Map about ancient history. A map of the Silk Road, showing the ancient trade routes that connected the East and West.",
     "description": "A map of the Silk Road, showing the ancient trade routes that connected the East and West. The map highlights major cities and trading posts along the routes.",
     "subject": "Social Studies",
@@ -2259,7 +2259,7 @@
   },
   {
     "fileName": "licensed-image (14).jpg",
-    "filePath": "/frontend/Images/licensed-image (14).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (14).jpg",
     "altText": "A Diagram about earth science. A diagram illustrating the theory of plate tectonics, showing the Earth's lithosphere divided into several large plates that move and interact with each other, causing earthquakes and volcanic activity.",
     "description": "A diagram illustrating the theory of plate tectonics, showing the Earth's lithosphere divided into several large plates that move and interact with each other, causing earthquakes and volcanic activity.",
     "subject": "Science",
@@ -2278,7 +2278,7 @@
   },
   {
     "fileName": "licensed-image (15).jpg",
-    "filePath": "/frontend/Images/licensed-image (15).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (15).jpg",
     "altText": "A Map about earth science. A map of the world showing the major ocean currents.",
     "description": "A map of the world showing the major ocean currents. The map distinguishes between warm and cold currents and shows their general direction of flow.",
     "subject": "Science",
@@ -2297,7 +2297,7 @@
   },
   {
     "fileName": "licensed-image (16).jpg",
-    "filePath": "/frontend/Images/licensed-image (16).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (16).jpg",
     "altText": "A Diagram about biology. A diagram of the human heart, showing its four chambers (atria and ventricles) and the major blood vessels connected to it.",
     "description": "A diagram of the human heart, showing its four chambers (atria and ventricles) and the major blood vessels connected to it. The diagram illustrates the flow of blood through the heart.",
     "subject": "Science",
@@ -2316,7 +2316,7 @@
   },
   {
     "fileName": "licensed-image (17).jpg",
-    "filePath": "/frontend/Images/licensed-image (17).jpg",
+    "filePath": "/frontend/Images/Social Studies/licensed-image (17).jpg",
     "altText": "A Map about us history. A map of the thirteen American colonies in 1776, showing their locations along the Atlantic coast.",
     "description": "A map of the thirteen American colonies in 1776, showing their locations along the Atlantic coast. The map is a useful resource for studying the American Revolution.",
     "subject": "Social Studies",
@@ -2335,7 +2335,7 @@
   },
   {
     "fileName": "licensed-image (18).jpg",
-    "filePath": "/frontend/Images/licensed-image (18).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (18).jpg",
     "altText": "A Diagram about astronomy. A diagram of the solar system, showing the Sun and the eight planets in their orbits.",
     "description": "A diagram of the solar system, showing the Sun and the eight planets in their orbits. The planets are shown in their correct order from the Sun.",
     "subject": "Science",
@@ -2354,7 +2354,7 @@
   },
   {
     "fileName": "licensed-image (19).jpg",
-    "filePath": "/frontend/Images/licensed-image (19).jpg",
+    "filePath": "/frontend/Images/Social Studies/licensed-image (19).jpg",
     "altText": "A Map about us history. A map showing the major battles of the American Civil War.",
     "description": "A map showing the major battles of the American Civil War. The map indicates the locations of key battles and whether they were Union or Confederate victories.",
     "subject": "Social Studies",
@@ -2373,7 +2373,7 @@
   },
   {
     "fileName": "licensed-image (2).jpg",
-    "filePath": "/frontend/Images/licensed-image (2).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (2).jpg",
     "altText": "A Diagram about earth science. A diagram of the carbon cycle, showing how carbon is exchanged between the atmosphere, oceans, land, and living organisms.",
     "description": "A diagram of the carbon cycle, showing how carbon is exchanged between the atmosphere, oceans, land, and living organisms. The diagram includes both natural and human-caused sources of carbon emissions.",
     "subject": "Science",
@@ -2392,7 +2392,7 @@
   },
   {
     "fileName": "licensed-image (20).jpg",
-    "filePath": "/frontend/Images/licensed-image (20).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (20).jpg",
     "altText": "A Diagram about earth science. A diagram of a volcano, showing its internal structure, including the magma chamber, conduit, and crater.",
     "description": "A diagram of a volcano, showing its internal structure, including the magma chamber, conduit, and crater. The diagram illustrates how volcanic eruptions occur.",
     "subject": "Science",
@@ -2411,7 +2411,7 @@
   },
   {
     "fileName": "licensed-image (3).jpg",
-    "filePath": "/frontend/Images/licensed-image (3).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (3).jpg",
     "altText": "A Map about earth science. A map of the world showing the different climate zones, such as tropical, temperate, and polar.",
     "description": "A map of the world showing the different climate zones, such as tropical, temperate, and polar. The map is color-coded to distinguish between the different zones.",
     "subject": "Science",
@@ -2430,7 +2430,7 @@
   },
   {
     "fileName": "licensed-image (4).jpg",
-    "filePath": "/frontend/Images/licensed-image (4).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (4).jpg",
     "altText": "A Diagram about biology. A diagram of the human digestive system, showing the major organs including the stomach, intestines, liver, and pancreas.",
     "description": "A diagram of the human digestive system, showing the major organs including the stomach, intestines, liver, and pancreas. The diagram illustrates the path of food through the body.",
     "subject": "Science",
@@ -2449,7 +2449,7 @@
   },
   {
     "fileName": "licensed-image (5).jpg",
-    "filePath": "/frontend/Images/licensed-image (5).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (5).jpg",
     "altText": "A Map about ecology. A map of the world showing the distribution of major biomes, such as deserts, rainforests, and grasslands.",
     "description": "A map of the world showing the distribution of major biomes, such as deserts, rainforests, and grasslands. The map is color-coded to distinguish between the different biomes.",
     "subject": "Science",
@@ -2468,7 +2468,7 @@
   },
   {
     "fileName": "licensed-image (6).jpg",
-    "filePath": "/frontend/Images/licensed-image (6).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (6).jpg",
     "altText": "A Diagram about chemistry. A diagram of an atom, showing the nucleus with protons and neutrons, and electrons orbiting the nucleus in different energy levels.",
     "description": "A diagram of an atom, showing the nucleus with protons and neutrons, and electrons orbiting the nucleus in different energy levels.",
     "subject": "Science",
@@ -2487,7 +2487,7 @@
   },
   {
     "fileName": "licensed-image (7).jpg",
-    "filePath": "/frontend/Images/licensed-image (7).jpg",
+    "filePath": "/frontend/Images/Social Studies/licensed-image (7).jpg",
     "altText": "A Map about history. A map of the world showing the routes of famous explorers, such as Christopher Columbus, Vasco da Gama, and Ferdinand Magellan.",
     "description": "A map of the world showing the routes of famous explorers, such as Christopher Columbus, Vasco da Gama, and Ferdinand Magellan. The map traces their voyages across the globe.",
     "subject": "Social Studies",
@@ -2506,7 +2506,7 @@
   },
   {
     "fileName": "licensed-image (8).jpg",
-    "filePath": "/frontend/Images/licensed-image (8).jpg",
+    "filePath": "/frontend/Images/Science/licensed-image (8).jpg",
     "altText": "A Diagram about earth science. A diagram illustrating the greenhouse effect, showing how certain gases in the Earth's atmosphere trap heat from the sun, warming the planet.",
     "description": "A diagram illustrating the greenhouse effect, showing how certain gases in the Earth's atmosphere trap heat from the sun, warming the planet.",
     "subject": "Science",
@@ -2525,7 +2525,7 @@
   },
   {
     "fileName": "licensed-image (9).jpg",
-    "filePath": "/frontend/Images/licensed-image (9).jpg",
+    "filePath": "/frontend/Images/Social Studies/licensed-image (9).jpg",
     "altText": "A Map about history. A map of Europe after World War I, showing the new countries and borders that were established by the Treaty of Versailles.",
     "description": "A map of Europe after World War I, showing the new countries and borders that were established by the Treaty of Versailles.",
     "subject": "Social Studies",
@@ -2544,7 +2544,7 @@
   },
   {
     "fileName": "licensed-image.jpg",
-    "filePath": "/frontend/Images/licensed-image.jpg",
+    "filePath": "/frontend/Images/Science/licensed-image.jpg",
     "altText": "A Diagram about genetics. A diagram of the DNA double helix, showing the two strands of nucleotides connected by hydrogen bonds between the base pairs (A-T and C-G).",
     "description": "A diagram of the DNA double helix, showing the two strands of nucleotides connected by hydrogen bonds between the base pairs (A-T and C-G).",
     "subject": "Science",
@@ -2563,7 +2563,7 @@
   },
   {
     "fileName": "political-map-of-world.jpg",
-    "filePath": "/frontend/Images/political-map-of-world.jpg",
+    "filePath": "/frontend/Images/Social Studies/political-map-of-world.jpg",
     "altText": "A Map about geography. A political map of the United States, showing the states with their borders and capitals.",
     "description": "A political map of the United States, showing the states with their borders and capitals. The map is color-coded to distinguish between the different states.",
     "subject": "Social Studies",
@@ -2582,7 +2582,7 @@
   },
   {
     "fileName": "sadas-3.png",
-    "filePath": "/frontend/Images/sadas-3.png",
+    "filePath": "/frontend/Images/Math/sadas-3.png",
     "altText": "A Data Chart about coordinate. A mathematical graph showing a plotted linear equation on a standard x-y coordinate plane.",
     "description": "A mathematical graph showing a plotted linear equation on a standard x-y coordinate plane.",
     "subject": "Math",
@@ -2604,7 +2604,7 @@
   },
   {
     "fileName": "social studies bar graph.png",
-    "filePath": "/frontend/Images/social studies bar graph.png",
+    "filePath": "/frontend/Images/Social Studies/social studies bar graph.png",
     "altText": "A Data Chart about geography. A bar chart comparing the populations of the world's five most populous countries: China, India, the United States, Indonesia, and Pakistan.",
     "description": "A bar chart comparing the populations of the world's five most populous countries: China, India, the United States, Indonesia, and Pakistan.",
     "subject": "Social Studies",
@@ -2623,7 +2623,7 @@
   },
   {
     "fileName": "territorial-gains-by-the-us.jpg",
-    "filePath": "/frontend/Images/territorial-gains-by-the-us.jpg",
+    "filePath": "/frontend/Images/Social Studies/territorial-gains-by-the-us.jpg",
     "altText": "A Map about us history. A map of the United States showing the major territorial acquisitions from 1783 to 1853, including the Louisiana Purchase, the annexation of Texas, and the Mexican Cession.",
     "description": "A map of the United States showing the major territorial acquisitions from 1783 to 1853, including the Louisiana Purchase, the annexation of Texas, and the Mexican Cession. The map is color-coded to show the different acquisitions.",
     "subject": "Social Studies",

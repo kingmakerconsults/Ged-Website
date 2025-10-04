@@ -37,14 +37,14 @@ app.use(express.json());
 
 let curatedImages = [];
 // Load the new, structured image repository from the local file system.
-const imageRepositoryPath = path.join(__dirname, '..', 'image_links.json');
+const imageRepositoryPath = path.join(__dirname, '..', 'image_metadata.json');
 
 try {
     const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
     curatedImages = JSON.parse(imageData);
     console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
 } catch (error) {
-    console.error('Failed to load or parse image_links.json:', error);
+    console.error('Failed to load or parse image_metadata.json:', error);
 }
 
 // Add this new prompt library to server.js
@@ -166,13 +166,11 @@ const callAI = async (prompt, schema) => {
 // This new function handles the special RLA case
 
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz (Multi-Part RLA) ---');
+    console.log('--- Received a request to /generate-quiz ---');
     const { subject, topic, comprehensive } = req.body;
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
 
     try {
         if (comprehensive && subject === "Reasoning Through Language Arts (RLA)") {
-            // --- SPECIAL: Multi-call logic for RLA Comprehensive Exam ---
             const rlaPrompts = promptLibrary[subject].comprehensive;
             const schemaPart1And3 = { type: "OBJECT", properties: { questions: { type: "ARRAY", items: singleQuestionSchema } }, required: ["questions"] };
             const schemaPart2 = { type: "OBJECT", properties: { passages: { type: "ARRAY", items: {type: "OBJECT", properties: {title: {type: "STRING"}, content: {type: "STRING"}}, required: ["title", "content"]}}, prompt: {type: "STRING"}}, required: ["passages", "prompt"]};
@@ -186,7 +184,7 @@ app.post('/generate-quiz', async (req, res) => {
             const fullExamData = {
                 subject: "Reasoning Through Language Arts (RLA)",
                 title: "Comprehensive RLA Exam",
-                type: "multi-part-rla", // A new type for the frontend to recognize
+                type: "multi-part-rla",
                 totalTime: 150 * 60,
                 part1_reading: part1Result.questions,
                 part2_essay: part2Result,
@@ -195,70 +193,47 @@ app.post('/generate-quiz', async (req, res) => {
             return res.json(fullExamData);
         }
 
-        // --- Standard logic for all other quizzes ---
-        let basePrompt;
-        if (comprehensive) {
-            basePrompt = promptLibrary[subject]?.comprehensive;
-        } else {
-            basePrompt = promptLibrary[subject]?.topic(topic);
-        }
+        let basePrompt = comprehensive ? promptLibrary[subject]?.comprehensive : promptLibrary[subject]?.topic(topic);
         if (!basePrompt) return res.status(400).json({ error: 'Invalid subject or quiz type.' });
 
-        const relevantImages = shuffleArray(curatedImages.filter(img => img.subject === subject));
-        const availableImageDescriptions = relevantImages.slice(0, 5).map(img => `"${img.description}"`);
-        const imageContext = `\n\nAVAILABLE IMAGE DESCRIPTIONS (Use for image-based questions): [${availableImageDescriptions.join(', ')}]`;
-        const finalPrompt = basePrompt + imageContext;
+        let finalPrompt = basePrompt;
+        let selectedImage = null;
 
-        const finalSchema = {
-            type: "OBJECT",
-            properties: {
-                questions: {
-                    type: "ARRAY",
-                    items: singleQuestionSchema
-                }
-            },
-            required: ["questions"]
-        };
+        const relevantImages = curatedImages.filter(img => img.subject === subject);
+        if (relevantImages.length > 0) {
+            selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
+            const randomPrompt = selectedImage.questionPrompts[Math.floor(Math.random() * selectedImage.questionPrompts.length)];
+            const imageContext = `
+            \n\n---
+            IMAGE-BASED QUESTION REQUIREMENT:
+            You MUST generate exactly one question based on the following image details.
+            Image Description: "${selectedImage.description}"
+            Use this prompt to guide the question: "${randomPrompt}"
+            For this single image-based question, you MUST set the "type" field to "image" and you MUST set the "imageDescriptionForMatch" field to be the exact description string provided above.
+            ---`;
+            finalPrompt += imageContext;
+        }
 
+        const finalSchema = { type: "OBJECT", properties: { questions: { type: "ARRAY", items: singleQuestionSchema } }, required: ["questions"] };
         let generatedQuiz = await callAI(finalPrompt, finalSchema);
 
         generatedQuiz.questions.forEach(q => {
-            if (q.type === 'image' && q.imageDescriptionForMatch) {
-                const matchedImage = relevantImages.find(img => img.description === q.imageDescriptionForMatch);
-                if (matchedImage) {
-                    q.imageUrl = matchedImage.url; // Corrected property name from imageURL to imageUrl
-                }
+            if (q.type === 'image' && q.imageDescriptionForMatch && selectedImage && q.imageDescriptionForMatch === selectedImage.description) {
+                q.imageUrl = selectedImage.filePath.replace(/^\/frontend/, '');
             }
             delete q.imageDescriptionForMatch;
         });
 
-        const finalQuestions = shuffleArray(generatedQuiz.questions).map((q, index) => ({
-            ...q,
-            questionNumber: index + 1
-        }));
+        const finalQuestions = shuffleArray(generatedQuiz.questions).map((q, index) => ({ ...q, questionNumber: index + 1 }));
 
-        // Always return a full quiz object, not just the questions, to ensure frontend compatibility.
-        if (comprehensive) {
-            // This is a comprehensive exam for Science, Math, or Social Studies
-            const examData = {
-                subject: subject,
-                title: `Comprehensive ${subject} Exam`,
-                type: 'quiz',
-                questions: finalQuestions,
-                timeLimit: finalQuestions.length * 90
-            };
-            res.json(examData);
-        } else {
-            // This is a topic-based AI-generated quiz
-            const quizData = {
-                subject: subject,
-                title: `${subject}: ${topic}`,
-                type: 'quiz',
-                questions: finalQuestions,
-                timeLimit: finalQuestions.length * 90
-            };
-            res.json(quizData);
-        }
+        const quizData = {
+            subject: subject,
+            title: comprehensive ? `Comprehensive ${subject} Exam` : `${subject}: ${topic}`,
+            type: 'quiz',
+            questions: finalQuestions,
+            timeLimit: finalQuestions.length * 90
+        };
+        res.json(quizData);
 
     } catch (error) {
         console.error('Error in Quiz Assembler:', error.response ? error.response.data : error.message);
