@@ -1,0 +1,5 @@
+node_modules/
+.env
+../backend_output.log
+../frontend_output.log
+backend/gcloud-credentials.json
