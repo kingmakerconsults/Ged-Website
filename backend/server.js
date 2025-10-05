@@ -196,33 +196,49 @@ app.post('/generate-quiz', async (req, res) => {
         let basePrompt = comprehensive ? promptLibrary[subject]?.comprehensive : promptLibrary[subject]?.topic(topic);
         if (!basePrompt) return res.status(400).json({ error: 'Invalid subject or quiz type.' });
 
-        let finalPrompt = basePrompt;
-        let selectedImage = null;
+        const schema = { type: "OBJECT", properties: { questions: { type: "ARRAY", items: singleQuestionSchema } }, required: ["questions"] };
+        let generatedQuiz = await callAI(basePrompt, schema);
 
+        // New logic for image-based questions
+        const imageQuestionCount = Math.floor(Math.random() * 3) + 2; // 2-3 image questions
         const relevantImages = curatedImages.filter(img => img.subject === subject);
+
         if (relevantImages.length > 0) {
-            selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
-            const randomDirective = selectedImage.usageDirectives[Math.floor(Math.random() * selectedImage.usageDirectives.length)];
-            const imageContext = `
-            \n\n---
-            IMAGE-BASED QUESTION REQUIREMENT:
-            You MUST generate exactly one question based on the following image details.
-            Image Description: "${selectedImage.detailedDescription}"
-            Use this directive to guide the question: "${randomDirective}"
-            For this single image-based question, you MUST set the "type" field to "image" and you MUST set the "imageDescriptionForMatch" field to be the exact description string provided above.
-            ---`;
-            finalPrompt += imageContext;
-        }
+            for (let i = 0; i < imageQuestionCount; i++) {
+                if (generatedQuiz.questions.length > 0) {
+                    const questionToReplaceIndex = Math.floor(Math.random() * generatedQuiz.questions.length);
+                    const selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
 
-        const finalSchema = { type: "OBJECT", properties: { questions: { type: "ARRAY", items: singleQuestionSchema } }, required: ["questions"] };
-        let generatedQuiz = await callAI(finalPrompt, finalSchema);
+                    const imagePrompt = `
+                        You are a GED exam creator. Based on the following information about an image, generate one challenging, GED-style multiple-choice question. The question must directly relate to interpreting the data or main idea presented in the image description.
 
-        generatedQuiz.questions.forEach(q => {
-            if (q.type === 'image' && q.imageDescriptionForMatch && selectedImage && q.imageDescriptionForMatch === selectedImage.detailedDescription) {
-                q.imageUrl = selectedImage.filePath.replace(/^\/frontend/, '');
+                        **Image Context:**
+                        - **Description:** ${selectedImage.detailedDescription}
+                        - **Keywords:** ${selectedImage.keywords.join(", ")}
+
+                        Generate a valid JSON object for the question, including the question text, four answer options (one correct), and a rationale for each option.
+                    `;
+
+                    const imageQuestionSchema = {
+                        type: "OBJECT",
+                        properties: {
+                          questionText: { type: "STRING" },
+                          answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+                        },
+                        required: ["questionText", "answerOptions"]
+                    };
+
+                    try {
+                        const imageQuestion = await callAI(imagePrompt, imageQuestionSchema);
+                        imageQuestion.imageUrl = selectedImage.filePath.replace(/^\/frontend/, '');
+                        imageQuestion.type = 'image';
+                        generatedQuiz.questions[questionToReplaceIndex] = imageQuestion;
+                    } catch (imageError) {
+                        console.error("Error generating image-based question, skipping:", imageError.message);
+                    }
+                }
             }
-            delete q.imageDescriptionForMatch;
-        });
+        }
 
         const finalQuestions = shuffleArray(generatedQuiz.questions).map((q, index) => ({ ...q, questionNumber: index + 1 }));
 
