@@ -139,6 +139,44 @@ const singleQuestionSchema = {
     required: ["type", "questionText", "answerOptions"]
 };
 
+const finalQuestionSchema = {
+    type: "OBJECT",
+    properties: {
+        questionNumber: { type: "NUMBER" },
+        type: { type: "STRING" },
+        passage: { type: "STRING" },
+        imageUrl: { type: "STRING" },
+        questionText: { type: "STRING" },
+        answerOptions: {
+            type: "ARRAY",
+            items: {
+                type: "OBJECT",
+                properties: {
+                    text: { type: "STRING" },
+                    isCorrect: { type: "BOOLEAN" },
+                    rationale: { type: "STRING" }
+                },
+                required: ["text", "isCorrect", "rationale"]
+            }
+        }
+    },
+    required: ["questionNumber", "type", "questionText", "answerOptions"]
+};
+
+const quizSchema = {
+    type: "OBJECT",
+    properties: {
+        id: { type: "STRING" },
+        title: { type: "STRING" },
+        subject: { type: "STRING" },
+        questions: {
+            type: "ARRAY",
+            items: finalQuestionSchema
+        }
+    },
+    required: ["id", "title", "subject", "questions"]
+};
+
 const callAI = async (prompt, schema) => {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey) {
@@ -165,7 +203,7 @@ const callAI = async (prompt, schema) => {
 
 // Helper functions for generating different types of quiz content
 
-const generatePassageSet = async (topic, numQuestions) => {
+const generatePassageSet = async (topic, subject, numQuestions) => {
     const prompt = `You are a GED exam creator. Your task is to generate a stimulus set.
     First, generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'.
 
@@ -237,16 +275,28 @@ const generateChartSet = async (topic, numQuestions) => {
     }));
 };
 
-const generateImageQuestion = async (subject, curatedImages) => {
-    const relevantImages = curatedImages.filter(img => img.subject === subject);
-    if (relevantImages.length === 0) return null;
+const generateImageQuestion = async (topic, subject, imagePool, numQuestions) => {
+    // Filter by subject AND the specific topic (category)
+    let relevantImages = imagePool.filter(img => img.subject === subject && img.category === topic);
+    let selectedImage;
 
-    const selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
-    const imagePrompt = `You are a GED exam creator. This stimulus is for an IMAGE, not a data chart.
-Based on the following image context, generate a set of 1 or 2 unique questions that require visual interpretation, asking about the main idea, symbolism, or specific details.
+    if (relevantImages.length > 0) {
+        selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
+    } else {
+        // Fallback to just subject if no images match the specific topic
+        const subjectImages = imagePool.filter(img => img.subject === subject);
+        if (subjectImages.length === 0) return null; // No images for this subject at all
+        selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
+    }
+
+    if (!selectedImage) return null;
+
+    const imagePrompt = `You are a GED exam creator. This stimulus is for an IMAGE from the topic '${topic}'.
+Based on the following image context, generate a set of ${numQuestions} unique questions that require visual interpretation, asking about the main idea, symbolism, or specific details.
 
 **Image Context:**
 - **Description:** ${selectedImage.detailedDescription}
+- **Usage Directives:** ${selectedImage.usageDirectives || 'N/A'}
 
 Output a JSON array of the question objects, each including an 'imagePath' key with the value '${selectedImage.filePath}'.`;
 
@@ -263,13 +313,18 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
         }
     };
 
-    const questions = await callAI(imagePrompt, imageQuestionSchema);
-    // Map imagePath to imageUrl and add type
-    return questions.map(q => ({
-        ...q,
-        imageUrl: q.imagePath.replace(/^\/frontend/, ''),
-        type: 'image'
-    }));
+    try {
+        const questions = await callAI(imagePrompt, imageQuestionSchema);
+        // Map imagePath to imageUrl and add type
+        return questions.map(q => ({
+            ...q,
+            imageUrl: q.imagePath.replace(/^\/frontend/, ''), // Keep this transformation
+            type: 'image'
+        }));
+    } catch (error) {
+        console.error(`Error generating image question for topic ${topic}:`, error);
+        return null; // Return null or empty array on error to not break Promise.all
+    }
 };
 
 const generateStandaloneQuestion = async (subject, topic) => {
@@ -291,155 +346,79 @@ Output a single valid JSON object for the question, including "questionText", an
     return question;
 };
 
+async function reviewAndCorrectQuiz(draftQuiz) {
+        const prompt = `You are a meticulous GED exam editor. You will be given a JSON object for a 35-question Social Studies exam generated by another AI. Your task is to review and improve this exam based on the following rules:
+
+        1.  **IMPROVE QUESTION VARIETY:** The biggest priority is to reduce repetition. If you see multiple questions with similar phrasing like "What is the primary purpose...", rewrite some of them. Ask about specific details, inferences, vocabulary, or data points to create more variety.
+        2.  **ENSURE CLARITY:** Check for grammatical errors, awkward phrasing, or unclear questions and correct them.
+        3.  **CHECK FOR REDUNDANCY:** Make sure no question is a simple copy of its associated passage text.
+        4.  **MAINTAIN JSON STRUCTURE:** The final output MUST be a perfectly valid JSON object that strictly adheres to the original schema. Do not add, remove, or rename any fields.
+
+        Here is the draft quiz JSON:
+        ---
+        ${JSON.stringify(draftQuiz, null, 2)}
+        ---
+        Return the corrected and improved quiz as a single, valid JSON object.`;
+
+        const correctedQuiz = await callAI(prompt, quizSchema);
+        return correctedQuiz;
+    }
+
 
 app.post('/generate-quiz', async (req, res) => {
-  const { subject, topic } = req.body;
+    const { subject, comprehensive } = req.body;
+    const topic = req.body.topic || 'General';
 
-  if (!subject || !topic) {
-    return res.status(400).json({ error: 'Subject and topic are required.' });
-  }
-
-  const apiKey = process.env.GOOGLE_AI_API_KEY;
-  if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
-    return res.status(500).json({ error: 'API key not configured on the server. Please check the .env file.' });
-  }
-
-  // --- Base Prompt ---
-  let prompt;
-
-  // --- Subject-Specific Logic ---
-  if (topic === "Comprehensive Exam") {
-    // Special handling for comprehensive exams
-    if (promptLibrary[subject] && promptLibrary[subject].comprehensive) {
-      prompt = promptLibrary[subject].comprehensive;
-
-      // FINAL FIX: Select a small, random subset of images to avoid exceeding token limits.
-      const subjectImages = curatedImages.filter(img => img.subject === subject);
-      const shuffledImages = shuffleArray(subjectImages);
-      const selectedImages = shuffledImages.slice(0, 5); // Select 5 random images
-
-      const imageContext = selectedImages.map(img => ({
-          filePath: img.filePath,
-          detailedDescription: img.detailedDescription
-      }));
-
-      prompt += "\n\nYou must create image-based questions using ONLY the images from the list provided below.\n" + JSON.stringify(imageContext, null, 2);
-
-    } else {
-      // Fallback for subjects without a specific comprehensive prompt
-      return res.status(400).json({ error: `Comprehensive exam not available for ${subject}.` });
+    if (!subject) {
+        return res.status(400).json({ error: 'Subject is required.' });
     }
-  } else {
-    // --- Topic-Specific Logic ---
-    prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. For each question, provide four answer options. One, and only one, of these options must be correct. For every answer option (both correct and incorrect), provide a brief rationale explaining why it is right or wrong. Ensure the output is a valid JSON object following the specified schema.`;
 
-    // Social Studies: Focus on source analysis and text-based data tables.
-    if (subject === "Social Studies") {
-        prompt += ` The questions must be based on analyzing a primary or secondary source. For each question, include a 'passage' that can be a historical text, a famous quote, a description of a political cartoon, a map, or historical data. When presenting data, use a simple, text-based data table format. The questions should test the user's ability to interpret this source, not their prior knowledge.`;
+    if (comprehensive && subject === 'Social Studies') {
+        try {
+            // --- 1. Define the COMPREHENSIVE EXAM Blueprint ---
+            const blueprint = {
+                'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
+                'U.S. History':           { passages: 3, images: 2, standalone: 1 },
+                'Economics':              { passages: 3, images: 1, standalone: 0 },
+                'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
+            };
+            const TOTAL_QUESTIONS = 35;
+            let allQuestions = [];
+            const promises = [];
 
-    // RLA: Strict separation between reading comprehension (long passages) and grammar (no passages). No data analysis.
-    } else if (subject === "RLA") {
-        if (topic.toLowerCase().includes('grammar') || topic.toLowerCase().includes('editing')) {
-            prompt += ` The questions must be technical and focus on English grammar, punctuation, sentence structure, and capitalization. Do not include reading passages. Each question should present a sentence or short paragraph with a specific error to be identified or corrected.`;
-        } else {
-            prompt += ` Generate a single, coherent informational or literary passage of approximately 500-700 words on the given topic. All 15 questions must be based on analyzing this passage. Questions should test for main idea, author's purpose, tone, vocabulary in context, and drawing inferences. Do NOT generate questions involving charts, graphs, or data tables.`;
+            // --- 2. FIRST PASS: Generate Draft Content Based on Blueprint ---
+            for (const [category, counts] of Object.entries(blueprint)) {
+                for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+                for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
+                for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(category, subject));
+            }
+
+            // --- 3. Assemble the Draft Quiz ---
+            const results = await Promise.all(promises);
+            allQuestions = results.flat().filter(q => q);
+            const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
+            draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
+
+            const draftQuiz = {
+                id: `ai_comp_draft_${new Date().getTime()}`,
+                title: `Comprehensive Social Studies Exam`,
+                subject: subject,
+                questions: draftQuestionSet,
+            };
+
+            // --- 4. SECOND PASS: Review and Correct the Draft ---
+            console.log("First pass complete. Sending draft quiz for second pass review...");
+            const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
+
+            res.json(finalQuiz);
+
+        } catch (error) {
+            console.error('Error generating comprehensive Social Studies exam:', error);
+            res.status(500).json({ error: 'Failed to generate comprehensive exam.' });
         }
-
-    // Math: Enforce the two-part, calculator/no-calculator structure with a JSON flag. Focus on word problems.
-    } else if (subject === "Mathematical Reasoning") {
-        prompt += `
-          The quiz must be structured to mimic the two parts of the GED Math test.
-          - Part 1: Generate the first 5 questions to be solvable without a calculator, focusing on number sense and basic operations. In the JSON for these questions, add a property '"isCalculatorProhibited": true'.
-          - Part 2: Generate the remaining 10 questions as more complex, multi-step word problems requiring a calculator. For these questions, add a property '"isCalculatorProhibited": false'.
-          - The overall topic distribution should be 45% Quantitative and 55% Algebraic problem solving. The AI should assume the user has the official GED formula sheet.
-        `;
-
-    // Science: Focus on passages, scientific reasoning, and text-based data tables instead of visual charts.
-    } else if (subject === "Science") {
-        prompt += `
-          The questions must test scientific reasoning, not memorization. Each question should be based on an accompanying 'passage' of 200-400 words, a data table, or a summary of a science experiment.
-          - The topic distribution should align with the GED standards: 40% Life Science, 40% Physical Science, and 20% Earth and Space Science.
-          - Represent any data or experimental results in a simple, text-based data table within the passage. Do not describe bar graphs or other complex visual charts.
-          - At least half of the questions should reference the provided data.
-          - Questions should test skills like drawing conclusions from data and evaluating hypotheses. Do NOT ask questions that require outside knowledge not provided in the passage.
-        `;
+    } else {
+        res.status(400).json({ error: 'This endpoint is currently configured for Social Studies Comprehensive Exams only.' });
     }
-  }
-
-  // --- Schema and API call logic (remains the same) ---
-  const schema = {
-      type: "OBJECT",
-      properties: {
-          questions: {
-              type: "ARRAY",
-              items: {
-                  type: "OBJECT",
-                  properties: {
-                      questionText: { type: "STRING" },
-                      answerOptions: {
-                          type: "ARRAY",
-                          items: {
-                              type: "OBJECT",
-                              properties: {
-                                  text: { type: "STRING" },
-                                  isCorrect: { type: "BOOLEAN" },
-                                  rationale: { type: "STRING" }
-                              },
-                              required: ["text", "isCorrect", "rationale"]
-                          }
-                      },
-                      passage: { type: "STRING" },
-                      isCalculatorProhibited: { type: "BOOLEAN" }
-                  },
-                  required: ["questionText", "answerOptions"]
-              }
-          }
-      },
-      required: ["questions"]
-  };
-
-  if (topic === "Comprehensive Exam") {
-    let questionCount;
-    if (subject === "Social Studies") questionCount = 35;
-    else if (subject === "Science") questionCount = 38;
-    else if (subject === "Mathematical Reasoning") questionCount = 46;
-
-    // Removing schema constraints as they cause errors with the AI service
-    // if(questionCount) {
-    //     schema.properties.questions.minItems = questionCount;
-    //     schema.properties.questions.maxItems = questionCount;
-    // }
-  }
-  const payload = {
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: {
-          responseMimeType: "application/json",
-          responseSchema: schema,
-      },
-  };
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
-  console.log(`DEBUG: Prompt size for ${subject} - ${topic}: ${prompt.length} characters`);
-
-  try {
-    const response = await axios.post(apiUrl, payload);
-    const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
-    const quizData = JSON.parse(jsonText);
-
-    // Add top-level quiz metadata for frontend compatibility
-    const finalQuizData = {
-        subject: subject,
-        title: `${subject}: ${topic}`,
-        type: 'quiz',
-        questions: quizData.questions,
-        timeLimit: quizData.questions.length * 90 // 90 seconds per question
-    };
-
-    res.json(finalQuizData);
-  } catch (error) {
-    console.error('Error calling Google AI API:', error.response ? error.response.data : error.message);
-    res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
-  }
 });
 
 app.post('/score-essay', async (req, res) => {
