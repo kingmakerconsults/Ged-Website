@@ -404,10 +404,11 @@ app.post('/generate-quiz', async (req, res) => {
     else if (subject === "Science") questionCount = 38;
     else if (subject === "Mathematical Reasoning") questionCount = 46;
 
-    if(questionCount) {
-        schema.properties.questions.minItems = questionCount;
-        schema.properties.questions.maxItems = questionCount;
-    }
+    // Removing schema constraints as they cause errors with the AI service
+    // if(questionCount) {
+    //     schema.properties.questions.minItems = questionCount;
+    //     schema.properties.questions.maxItems = questionCount;
+    // }
   }
   const payload = {
       contents: [{ parts: [{ text: prompt }] }],
