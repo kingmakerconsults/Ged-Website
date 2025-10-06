@@ -305,40 +305,65 @@ app.post('/generate-quiz', async (req, res) => {
   }
 
   // --- Base Prompt ---
-  let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. For each question, provide four answer options. One, and only one, of these options must be correct. For every answer option (both correct and incorrect), provide a brief rationale explaining why it is right or wrong. Ensure the output is a valid JSON object following the specified schema.`;
+  let prompt;
 
   // --- Subject-Specific Logic ---
+  if (topic === "Comprehensive Exam") {
+    // Special handling for comprehensive exams
+    if (promptLibrary[subject] && promptLibrary[subject].comprehensive) {
+      prompt = promptLibrary[subject].comprehensive;
 
-  // Social Studies: Focus on source analysis and text-based data tables.
-  if (subject === "Social Studies") {
-      prompt += ` The questions must be based on analyzing a primary or secondary source. For each question, include a 'passage' that can be a historical text, a famous quote, a description of a political cartoon, a map, or historical data. When presenting data, use a simple, text-based data table format. The questions should test the user's ability to interpret this source, not their prior knowledge.`;
+      // FINAL FIX: Select a small, random subset of images to avoid exceeding token limits.
+      const subjectImages = curatedImages.filter(img => img.subject === subject);
+      const shuffledImages = shuffleArray(subjectImages);
+      const selectedImages = shuffledImages.slice(0, 5); // Select 5 random images
 
-  // RLA: Strict separation between reading comprehension (long passages) and grammar (no passages). No data analysis.
-  } else if (subject === "RLA") {
-      if (topic.toLowerCase().includes('grammar') || topic.toLowerCase().includes('editing')) {
-          prompt += ` The questions must be technical and focus on English grammar, punctuation, sentence structure, and capitalization. Do not include reading passages. Each question should present a sentence or short paragraph with a specific error to be identified or corrected.`;
-      } else {
-          prompt += ` Generate a single, coherent informational or literary passage of approximately 500-700 words on the given topic. All 15 questions must be based on analyzing this passage. Questions should test for main idea, author's purpose, tone, vocabulary in context, and drawing inferences. Do NOT generate questions involving charts, graphs, or data tables.`;
-      }
+      const imageContext = selectedImages.map(img => ({
+          filePath: img.filePath,
+          detailedDescription: img.detailedDescription
+      }));
 
-  // Math: Enforce the two-part, calculator/no-calculator structure with a JSON flag. Focus on word problems.
-  } else if (subject === "Mathematical Reasoning") {
-      prompt += `
-        The quiz must be structured to mimic the two parts of the GED Math test.
-        - Part 1: Generate the first 5 questions to be solvable without a calculator, focusing on number sense and basic operations. In the JSON for these questions, add a property '"isCalculatorProhibited": true'.
-        - Part 2: Generate the remaining 10 questions as more complex, multi-step word problems requiring a calculator. For these questions, add a property '"isCalculatorProhibited": false'.
-        - The overall topic distribution should be 45% Quantitative and 55% Algebraic problem solving. The AI should assume the user has the official GED formula sheet.
-      `;
+      prompt += "\n\nYou must create image-based questions using ONLY the images from the list provided below.\n" + JSON.stringify(imageContext, null, 2);
 
-  // Science: Focus on passages, scientific reasoning, and text-based data tables instead of visual charts.
-  } else if (subject === "Science") {
-      prompt += `
-        The questions must test scientific reasoning, not memorization. Each question should be based on an accompanying 'passage' of 200-400 words, a data table, or a summary of a science experiment.
-        - The topic distribution should align with the GED standards: 40% Life Science, 40% Physical Science, and 20% Earth and Space Science.
-        - Represent any data or experimental results in a simple, text-based data table within the passage. Do not describe bar graphs or other complex visual charts.
-        - At least half of the questions should reference the provided data.
-        - Questions should test skills like drawing conclusions from data and evaluating hypotheses. Do NOT ask questions that require outside knowledge not provided in the passage.
-      `;
+    } else {
+      // Fallback for subjects without a specific comprehensive prompt
+      return res.status(400).json({ error: `Comprehensive exam not available for ${subject}.` });
+    }
+  } else {
+    // --- Topic-Specific Logic ---
+    prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. For each question, provide four answer options. One, and only one, of these options must be correct. For every answer option (both correct and incorrect), provide a brief rationale explaining why it is right or wrong. Ensure the output is a valid JSON object following the specified schema.`;
+
+    // Social Studies: Focus on source analysis and text-based data tables.
+    if (subject === "Social Studies") {
+        prompt += ` The questions must be based on analyzing a primary or secondary source. For each question, include a 'passage' that can be a historical text, a famous quote, a description of a political cartoon, a map, or historical data. When presenting data, use a simple, text-based data table format. The questions should test the user's ability to interpret this source, not their prior knowledge.`;
+
+    // RLA: Strict separation between reading comprehension (long passages) and grammar (no passages). No data analysis.
+    } else if (subject === "RLA") {
+        if (topic.toLowerCase().includes('grammar') || topic.toLowerCase().includes('editing')) {
+            prompt += ` The questions must be technical and focus on English grammar, punctuation, sentence structure, and capitalization. Do not include reading passages. Each question should present a sentence or short paragraph with a specific error to be identified or corrected.`;
+        } else {
+            prompt += ` Generate a single, coherent informational or literary passage of approximately 500-700 words on the given topic. All 15 questions must be based on analyzing this passage. Questions should test for main idea, author's purpose, tone, vocabulary in context, and drawing inferences. Do NOT generate questions involving charts, graphs, or data tables.`;
+        }
+
+    // Math: Enforce the two-part, calculator/no-calculator structure with a JSON flag. Focus on word problems.
+    } else if (subject === "Mathematical Reasoning") {
+        prompt += `
+          The quiz must be structured to mimic the two parts of the GED Math test.
+          - Part 1: Generate the first 5 questions to be solvable without a calculator, focusing on number sense and basic operations. In the JSON for these questions, add a property '"isCalculatorProhibited": true'.
+          - Part 2: Generate the remaining 10 questions as more complex, multi-step word problems requiring a calculator. For these questions, add a property '"isCalculatorProhibited": false'.
+          - The overall topic distribution should be 45% Quantitative and 55% Algebraic problem solving. The AI should assume the user has the official GED formula sheet.
+        `;
+
+    // Science: Focus on passages, scientific reasoning, and text-based data tables instead of visual charts.
+    } else if (subject === "Science") {
+        prompt += `
+          The questions must test scientific reasoning, not memorization. Each question should be based on an accompanying 'passage' of 200-400 words, a data table, or a summary of a science experiment.
+          - The topic distribution should align with the GED standards: 40% Life Science, 40% Physical Science, and 20% Earth and Space Science.
+          - Represent any data or experimental results in a simple, text-based data table within the passage. Do not describe bar graphs or other complex visual charts.
+          - At least half of the questions should reference the provided data.
+          - Questions should test skills like drawing conclusions from data and evaluating hypotheses. Do NOT ask questions that require outside knowledge not provided in the passage.
+        `;
+    }
   }
 
   // --- Schema and API call logic (remains the same) ---
@@ -372,6 +397,18 @@ app.post('/generate-quiz', async (req, res) => {
       },
       required: ["questions"]
   };
+
+  if (topic === "Comprehensive Exam") {
+    let questionCount;
+    if (subject === "Social Studies") questionCount = 35;
+    else if (subject === "Science") questionCount = 38;
+    else if (subject === "Mathematical Reasoning") questionCount = 46;
+
+    if(questionCount) {
+        schema.properties.questions.minItems = questionCount;
+        schema.properties.questions.maxItems = questionCount;
+    }
+  }
   const payload = {
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
@@ -380,6 +417,8 @@ app.post('/generate-quiz', async (req, res) => {
       },
   };
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+  console.log(`DEBUG: Prompt size for ${subject} - ${topic}: ${prompt.length} characters`);
 
   try {
     const response = await axios.post(apiUrl, payload);
