@@ -167,11 +167,11 @@ const callAI = async (prompt, schema) => {
 
 const generatePassageSet = async (topic, numQuestions) => {
     const prompt = `You are a GED exam creator. Your task is to generate a stimulus set.
-First, generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'.
+    First, generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'.
 
-Then, based ONLY on the passage you just wrote, generate a set of ${numQuestions} unique, GED-style multiple-choice questions that test reading comprehension. The question text MUST NOT repeat the content of the passage.
+    Then, based ONLY on the passage you just wrote, generate a set of ${numQuestions} unique, GED-style multiple-choice questions. **VARY THE QUESTION TYPE.** Ask about the main idea, specific details, vocabulary in context, or inferences that can be drawn from the text. The question text MUST NOT repeat the passage.
 
-Output a single valid JSON object with two keys: "passage" (containing the passage text string) and "questions" (containing a JSON array of the question objects). Each question object must have "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+    Output a single valid JSON object with two keys: "passage" and "questions".`;
 
     const questionSchema = {
         type: "OBJECT",
@@ -201,11 +201,13 @@ Output a single valid JSON object with two keys: "passage" (containing the passa
 
 const generateChartSet = async (topic, numQuestions) => {
     const prompt = `You are a GED exam creator. Your task is to generate a data-based stimulus set.
-First, create a simple but informative data table on the topic of '${topic}'. This table MUST be formatted as a valid HTML \`<table>\` string. Place this HTML string inside the "passage" field.
+    You MUST generate a simple but informative data table on '${topic}' and format it as a valid HTML \`<table>\` string inside the "passage" field.
 
-Then, based ONLY on the data in the table you just created, generate a set of ${numQuestions} unique, GED-style multiple-choice questions that require interpreting the data from that table.
+    Then, based ONLY on the data in the table you created, generate ${numQuestions} unique questions. **VARY THE QUESTION TYPE.** Ask about specific data points, calculating a mean/median/range, identifying trends, or comparing values.
 
-Output a single valid JSON object with two keys: "passage" (containing the HTML table string) and "questions" (containing a JSON array of the question objects). Each question object must have "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+    Finally, determine the best chart type ('bar', 'line', 'pie') to visualize this data.
+
+    Output a single valid JSON object with three keys: "passage" (containing the HTML table string), "chartType" (e.g., 'bar'), and "questions".`;
 
     const questionSchema = {
         type: "OBJECT",
@@ -220,15 +222,17 @@ Output a single valid JSON object with two keys: "passage" (containing the HTML 
         type: "OBJECT",
         properties: {
             passage: { type: "STRING" },
+            chartType: { type: "STRING" },
             questions: { type: "ARRAY", items: questionSchema }
         },
-        required: ["passage", "questions"]
+        required: ["passage", "chartType", "questions"]
     };
 
     const result = await callAI(prompt, schema);
     return result.questions.map(q => ({
         ...q,
         passage: result.passage,
+        chartType: result.chartType,
         type: 'chart'
     }));
 };
@@ -238,28 +242,34 @@ const generateImageQuestion = async (subject, curatedImages) => {
     if (relevantImages.length === 0) return null;
 
     const selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
-    const imagePrompt = `
-        You are a GED exam creator. Based on the following information about an image, generate one challenging, GED-style multiple-choice question. The question must directly relate to interpreting the data or main idea presented in the image description.
+    const imagePrompt = `You are a GED exam creator. This stimulus is for an IMAGE, not a data chart.
+Based on the following image context, generate a set of 1 or 2 unique questions that require visual interpretation, asking about the main idea, symbolism, or specific details.
 
-        **Image Context:**
-        - **Description:** ${selectedImage.detailedDescription}
-        - **Keywords:** ${selectedImage.keywords.join(", ")}
+**Image Context:**
+- **Description:** ${selectedImage.detailedDescription}
 
-        Generate a valid JSON object for the question, including the question text, four answer options (one correct), and a rationale for each option.
-    `;
+Output a JSON array of the question objects, each including an 'imagePath' key with the value '${selectedImage.filePath}'.`;
+
     const imageQuestionSchema = {
-        type: "OBJECT",
-        properties: {
-          questionText: { type: "STRING" },
-          answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
-        },
-        required: ["questionText", "answerOptions"]
+        type: "ARRAY",
+        items: {
+            type: "OBJECT",
+            properties: {
+                questionText: { type: "STRING" },
+                answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } },
+                imagePath: { type: "STRING" }
+            },
+            required: ["questionText", "answerOptions", "imagePath"]
+        }
     };
 
-    const imageQuestion = await callAI(imagePrompt, imageQuestionSchema);
-    imageQuestion.imageUrl = selectedImage.filePath.replace(/^\/frontend/, '');
-    imageQuestion.type = 'image';
-    return imageQuestion;
+    const questions = await callAI(imagePrompt, imageQuestionSchema);
+    // Map imagePath to imageUrl and add type
+    return questions.map(q => ({
+        ...q,
+        imageUrl: q.imagePath.replace(/^\/frontend/, ''),
+        type: 'image'
+    }));
 };
 
 const generateStandaloneQuestion = async (subject, topic) => {
