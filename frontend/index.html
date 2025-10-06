@@ -41,6 +41,19 @@ function unescapeHtml(safe) {
     return safe.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 }
 
+function cleanRepeatedText(text) {
+    if (!text || typeof text !== 'string') return text;
+    const half = Math.floor(text.length / 2);
+    if (text.length % 2 === 0) {
+        const firstHalf = text.substring(0, half);
+        const secondHalf = text.substring(half);
+        if (firstHalf === secondHalf) {
+            return firstHalf;
+        }
+    }
+    return text;
+}
+
 function parseHtmlTable(htmlString) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
@@ -1084,6 +1097,7 @@ function App() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     subject: subject,
+                    topic: "Comprehensive Exam",
                     comprehensive: true
                 })
             });
@@ -1559,7 +1573,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText 
                                 <ChartDisplay chartData={parseHtmlTable(unescapeHtml(currentQ.passage))} />
                             </>
                         ) : (
-                            <div dangerouslySetInnerHTML={{ __html: unescapeHtml(currentQ.passage) }} />
+                            <div dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(currentQ.passage)) }} />
                         )}
                     </div>
                 )}
@@ -1764,7 +1778,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
                                 <ChartDisplay chartData={parseHtmlTable(unescapeHtml(currentQ.passage))} />
                             </>
                         ) : (
-                            <div dangerouslySetInnerHTML={{ __html: unescapeHtml(currentQ.passage) }} />
+                            <div dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(currentQ.passage)) }} />
                         )}
                     </div>
                 )}
@@ -1898,8 +1912,8 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     <div>
                         <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response</h3>
                         <div className="grid lg:grid-cols-2 gap-4">
-                            <div className="prose max-w-none bg-slate-50 p-4 rounded-lg"><h4>{quiz.part2_essay.passages[0].title}</h4><p>{quiz.part2_essay.passages[0].content}</p></div>
-                            <div className="prose max-w-none bg-slate-50 p-4 rounded-lg"><h4>{quiz.part2_essay.passages[1].title}</h4><p>{quiz.part2_essay.passages[1].content}</p></div>
+                            <div className="prose max-w-none bg-slate-50 p-4 rounded-lg"><h4>{quiz.part2_essay.passages[0].title}</h4><div dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(quiz.part2_essay.passages[0].content)) }} /></div>
+                            <div className="prose max-w-none bg-slate-50 p-4 rounded-lg"><h4>{quiz.part2_essay.passages[1].title}</h4><div dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(quiz.part2_essay.passages[1].content)) }} /></div>
                         </div>
                         <div className="mt-4">
                             <h4 className="font-bold">Essay Prompt:</h4>
