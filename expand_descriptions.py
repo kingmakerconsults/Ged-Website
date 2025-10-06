@@ -1,90 +1,165 @@
 import json
 import os
+import google.generativeai as genai
+import time
+import sys
+import requests
 
-# This is a mock function to simulate calling an AI API like Gemini.
-# In a real-world scenario, this function would make an HTTP request to the AI service.
-def generate_ai_description(subject, alt_text, keywords):
+# --- Configuration ---
+BASE_URL = "https://ezged.netlify.app"
+INPUT_FILE = "backend/image_metadata_final.json"
+OUTPUT_FILE = "backend/image_metadata_expanded_v2.json"
+# Set to True to process only the first image for testing purposes.
+# Set to False to process all images.
+DEBUG_MODE = False
+
+# --- Model Configuration ---
+VISION_MODEL = "models/gemini-2.5-flash-image"
+
+print("--- Script Starting ---")
+
+# --- Get API Key ---
+print("Attempting to get API key...")
+api_key = os.environ.get("GEMINI_API_KEY")
+
+if not api_key:
+    print("API key is required. Set the GEMINI_API_KEY environment variable. Exiting.")
+    exit(1)
+print("API key found.")
+
+print("Configuring Generative AI...")
+try:
+    genai.configure(api_key=api_key)
+    print(f"Generative AI configured successfully. Using model: {VISION_MODEL}")
+except Exception as e:
+    print(f"Failed to configure Generative AI: {e}")
+    exit(1)
+
+
+# --- Multimodal Prompt Template ---
+PROMPT_TEMPLATE = """
+You are a data enrichment specialist for a GED educational website. Your task is to analyze the provided image and write a new, comprehensive 'detailedDescription' that is objective and useful for generating exam questions.
+
+Your description MUST follow this two-part structure:
+1.  **Sentence 1 (Identification):** Start by identifying the image type (e.g., flowchart, bar graph, political cartoon, map), its official title if present, and its main subject or purpose.
+2.  **Sentence 2 (Detailed Observation):** In a second sentence, describe the key data, components, or symbolism shown in the image. For a graph, mention the axes and a key trend. For a map, describe the key areas or routes shown. For a diagram, explain the central process being illustrated.
+
+**Crucially, base your entire description ONLY on the visual information present in the image. Do not add any information or context that cannot be directly seen.**
+
+Provide only the new, two-part detailedDescription as your output.
+"""
+
+def generate_new_description(image_url, retries=3, delay=5):
     """
-    Simulates a call to an AI to generate a detailed description.
+    Makes an API call to the Gemini model to generate a new description for the given image URL.
+    Includes retry logic for handling potential API errors.
     """
-    # Create a detailed prompt based on the item's data
-    prompt = f"""
-    Based on the following metadata, write a new 'detailedDescription' that is objective, comprehensive, and useful for generating exam questions.
+    print(f"  - Generating description for: {image_url}")
+    for attempt in range(retries):
+        try:
+            print(f"  - API Call Attempt {attempt + 1}/{retries}")
 
-    **Existing Metadata:**
-    - **Subject:** {subject}
-    - **Alt Text:** {alt_text}
-    - **Keywords:** {', '.join(keywords)}
+            # 1. Fetch the image data from the URL
+            print("    - Fetching image content from URL...")
+            response = requests.get(image_url, timeout=20)
+            response.raise_for_status() # Raise an exception for bad status codes (like 404)
+            image_data = response.content
+            print("    - Image content fetched successfully.")
 
-    **Instructions for the new 'detailedDescription':**
-    - If the image is a chart, graph, or map: Describe its type, title, labels, data, trends, and key takeaway.
-    - If the image is a political cartoon: Describe the scene, characters, text, symbolism, and overall message.
-    - If it's a scientific diagram: Describe the components, relationships, and the process it illustrates.
-    - The tone should be neutral and encyclopedic. The description should be a paragraph or two long.
+            # 2. Prepare the image part for the API call
+            # The API expects the raw image bytes in the 'data' field.
+            image_part = {
+                "mime_type": "image/jpeg", # Assuming JPEG, but PNG/etc. should also work
+                "data": image_data
+            }
+
+            # 3. Make the API call
+            model = genai.GenerativeModel(VISION_MODEL)
+            print("    - Making generate_content call to Gemini...")
+            api_response = model.generate_content([PROMPT_TEMPLATE, image_part])
+
+            if api_response.parts:
+                description = api_response.text.strip().replace("```", "").strip()
+                print("  - Successfully generated new description.")
+                return description
+            else:
+                print(f"  - Warning: Received no content for {image_url}. Full response: {api_response}")
+                return None
+
+        except requests.exceptions.RequestException as e:
+            print(f"  - Error fetching image URL on attempt {attempt + 1}: {e}")
+        except Exception as e:
+            print(f"  - Error during Gemini API call on attempt {attempt + 1}: {e}")
+
+        if attempt < retries - 1:
+            print(f"  - Retrying in {delay} seconds...")
+            time.sleep(delay)
+        else:
+            print(f"  - Failed to generate description for {image_url} after {retries} attempts.")
+            return None
+
+def main():
     """
-
-    # --- AI Simulation Logic ---
-    # This part simulates the AI's response based on the prompt.
-    # A real implementation would involve an API call, error handling, etc.
-
-    # A simple simulation: We'll build a description from the keywords and alt text.
-    # This is a placeholder for a real AI's more sophisticated output.
-    base_description = alt_text.replace("This is an image related to: ", "")
-    keyword_string = ", ".join(keywords)
-
-    if "chart" in base_description or "graph" in base_description:
-        return f"This is a chart or graph illustrating the concept of '{base_description}'. It presents data related to topics such as {keyword_string}. Analysis of this visual information may require understanding trends, comparing data points, or interpreting the central message conveyed by the chart."
-    elif "map" in base_description:
-        return f"This is a map depicting '{base_description}'. It shows geographical information relevant to {keyword_string}. Understanding this map may involve interpreting its legend, understanding spatial relationships, or drawing conclusions about historical or political events shown."
-    elif "cartoon" in base_description:
-        return f"This is a political cartoon about '{base_description}'. It likely uses symbolism and caricature to comment on historical or political events related to {keyword_string}. Interpretation requires analyzing the visual elements and understanding the cartoon's persuasive message."
-    else:
-        return f"This image is related to '{base_description}'. It covers topics such as {keyword_string}. A detailed analysis would involve examining the visual components to understand its meaning or the process it illustrates."
-
-def expand_metadata_descriptions(input_file, output_file):
+    Main function to run the script.
     """
-    Reads image metadata, generates expanded descriptions, and saves to a new file.
-    """
+    print("--- Main Function Started ---")
+
+    # Load the input JSON data
     try:
-        with open(input_file, 'r', encoding='utf-8') as f:
-            metadata_list = json.load(f)
+        print(f"Loading input file: {INPUT_FILE}")
+        with open(INPUT_FILE, 'r', encoding='utf-8') as f:
+            image_data = json.load(f)
+        print(f"Successfully loaded {len(image_data)} image records.")
     except FileNotFoundError:
-        print(f"Error: Input file not found at {input_file}")
+        print(f"Error: Input file not found at {INPUT_FILE}")
         return
     except json.JSONDecodeError:
-        print(f"Error: Could not decode JSON from {input_file}")
+        print(f"Error: Could not decode JSON from {INPUT_FILE}")
         return
 
-    print(f"Loaded {len(metadata_list)} items from {input_file}")
+    if DEBUG_MODE:
+        print("--- RUNNING IN DEBUG MODE (processing first image only) ---")
+        image_data = image_data[:1]
+        global OUTPUT_FILE
+        OUTPUT_FILE = "backend/image_metadata_expanded_debug.json"
 
-    # Iterate through each item and update the detailedDescription
-    for i, item in enumerate(metadata_list):
-        print(f"Processing item {i+1}/{len(metadata_list)}: {item.get('fileName')}")
+    updated_data = []
+    total_images = len(image_data)
+    print(f"Processing {total_images} image(s).")
 
-        # Extract existing data
-        subject = item.get('subject', 'N/A')
-        alt_text = item.get('altText', '')
-        keywords = item.get('keywords', [])
+    for i, image_obj in enumerate(image_data):
+        print(f"\nProcessing image {i + 1}/{total_images}: {image_obj.get('fileName', 'N/A')}")
 
-        # Generate the new description (simulated AI call)
-        new_description = generate_ai_description(subject, alt_text, keywords)
+        file_path = image_obj.get("filePath")
+        if not file_path:
+            print("  - Skipping image due to missing 'filePath'.")
+            updated_data.append(image_obj)
+            continue
 
-        # Update the 'detailedDescription' field
-        item['detailedDescription'] = new_description
+        if file_path.startswith('/frontend/'):
+            cleaned_path = file_path[len('/frontend'):]
+        else:
+            cleaned_path = file_path
 
-    # Save the updated list to a new file
+        image_url = f"{BASE_URL}{cleaned_path.replace(' ', '%20')}"
+        print(f"  - Constructed URL: {image_url}")
+
+        new_description = generate_new_description(image_url)
+
+        if new_description:
+            image_obj["detailedDescription"] = new_description
+        else:
+            print("  - Using existing description due to generation failure.")
+
+        updated_data.append(image_obj)
+
     try:
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(metadata_list, f, indent=2)
-        print(f"\nSuccessfully saved expanded metadata to {output_file}")
+        print(f"\nSaving updated data to {OUTPUT_FILE}...")
+        with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+            json.dump(updated_data, f, indent=2, ensure_ascii=False)
+        print(f"Enrichment complete. Updated data saved to {OUTPUT_FILE}")
     except IOError as e:
-        print(f"Error writing to output file {output_file}: {e}")
+        print(f"Error writing to output file {OUTPUT_FILE}: {e}")
 
-if __name__ == '__main__':
-    # Define the input and output file paths
-    # Assuming the script is run from the root directory
-    input_json_path = os.path.join('backend', 'image_metadata_final.json')
-    output_json_path = os.path.join('backend', 'image_metadata_expanded.json')
-
-    # Run the expansion process
-    expand_metadata_descriptions(input_json_path, output_json_path)
+if __name__ == "__main__":
+    main()
