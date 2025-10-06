@@ -37,7 +37,7 @@ app.use(express.json());
 
 let curatedImages = [];
 // Load the new, structured image repository from the local file system.
-const imageRepositoryPath = path.join(__dirname, 'image_metadata_expanded.json');
+const imageRepositoryPath = path.join(__dirname, 'image_metadata_final.json');
 
 try {
     const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
@@ -163,10 +163,127 @@ const callAI = async (prompt, schema) => {
     }
 };
 
-// This new function handles the special RLA case
+// Helper functions for generating different types of quiz content
 
+const generatePassageSet = async (topic, numQuestions) => {
+    const prompt = `You are a GED exam creator. Your task is to generate a stimulus set.
+First, generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'.
+
+Then, based ONLY on the passage you just wrote, generate a set of ${numQuestions} unique, GED-style multiple-choice questions that test reading comprehension. The question text MUST NOT repeat the content of the passage.
+
+Output a single valid JSON object with two keys: "passage" (containing the passage text string) and "questions" (containing a JSON array of the question objects). Each question object must have "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+
+    const questionSchema = {
+        type: "OBJECT",
+        properties: {
+            questionText: { type: "STRING" },
+            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+        },
+        required: ["questionText", "answerOptions"]
+    };
+
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            passage: { type: "STRING" },
+            questions: { type: "ARRAY", items: questionSchema }
+        },
+        required: ["passage", "questions"]
+    };
+
+    const result = await callAI(prompt, schema);
+    return result.questions.map(q => ({
+        ...q,
+        passage: result.passage,
+        type: 'passage'
+    }));
+};
+
+const generateChartSet = async (topic, numQuestions) => {
+    const prompt = `You are a GED exam creator. Your task is to generate a data-based stimulus set.
+First, create a simple but informative data table on the topic of '${topic}'. This table MUST be formatted as a valid HTML \`<table>\` string. Place this HTML string inside the "passage" field.
+
+Then, based ONLY on the data in the table you just created, generate a set of ${numQuestions} unique, GED-style multiple-choice questions that require interpreting the data from that table.
+
+Output a single valid JSON object with two keys: "passage" (containing the HTML table string) and "questions" (containing a JSON array of the question objects). Each question object must have "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+
+    const questionSchema = {
+        type: "OBJECT",
+        properties: {
+            questionText: { type: "STRING" },
+            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+        },
+        required: ["questionText", "answerOptions"]
+    };
+
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            passage: { type: "STRING" },
+            questions: { type: "ARRAY", items: questionSchema }
+        },
+        required: ["passage", "questions"]
+    };
+
+    const result = await callAI(prompt, schema);
+    return result.questions.map(q => ({
+        ...q,
+        passage: result.passage,
+        type: 'chart'
+    }));
+};
+
+const generateImageQuestion = async (subject, curatedImages) => {
+    const relevantImages = curatedImages.filter(img => img.subject === subject);
+    if (relevantImages.length === 0) return null;
+
+    const selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
+    const imagePrompt = `
+        You are a GED exam creator. Based on the following information about an image, generate one challenging, GED-style multiple-choice question. The question must directly relate to interpreting the data or main idea presented in the image description.
+
+        **Image Context:**
+        - **Description:** ${selectedImage.detailedDescription}
+        - **Keywords:** ${selectedImage.keywords.join(", ")}
+
+        Generate a valid JSON object for the question, including the question text, four answer options (one correct), and a rationale for each option.
+    `;
+    const imageQuestionSchema = {
+        type: "OBJECT",
+        properties: {
+          questionText: { type: "STRING" },
+          answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+        },
+        required: ["questionText", "answerOptions"]
+    };
+
+    const imageQuestion = await callAI(imagePrompt, imageQuestionSchema);
+    imageQuestion.imageUrl = selectedImage.filePath.replace(/^\/frontend/, '');
+    imageQuestion.type = 'image';
+    return imageQuestion;
+};
+
+const generateStandaloneQuestion = async (subject, topic) => {
+    const prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
+The question should not require any external passage, chart, or image.
+Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            questionText: { type: "STRING" },
+            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+        },
+        required: ["questionText", "answerOptions"]
+    };
+
+    const question = await callAI(prompt, schema);
+    question.type = 'standalone';
+    return question;
+};
+
+
+// This new function handles the special RLA case
 app.post('/generate-quiz', async (req, res) => {
-    console.log('--- Received a request to /generate-quiz ---');
     const { subject, topic, comprehensive } = req.body;
 
     try {
@@ -193,54 +310,60 @@ app.post('/generate-quiz', async (req, res) => {
             return res.json(fullExamData);
         }
 
-        let basePrompt = comprehensive ? promptLibrary[subject]?.comprehensive : promptLibrary[subject]?.topic(topic);
-        if (!basePrompt) return res.status(400).json({ error: 'Invalid subject or quiz type.' });
-
-        const schema = { type: "OBJECT", properties: { questions: { type: "ARRAY", items: singleQuestionSchema } }, required: ["questions"] };
-        let generatedQuiz = await callAI(basePrompt, schema);
-
-        // New logic for image-based questions
-        const imageQuestionCount = Math.floor(Math.random() * 3) + 2; // 2-3 image questions
-        const relevantImages = curatedImages.filter(img => img.subject === subject);
-
-        if (relevantImages.length > 0) {
-            for (let i = 0; i < imageQuestionCount; i++) {
-                if (generatedQuiz.questions.length > 0) {
-                    const questionToReplaceIndex = Math.floor(Math.random() * generatedQuiz.questions.length);
-                    const selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
-
-                    const imagePrompt = `
-                        You are a GED exam creator. Based on the following information about an image, generate one challenging, GED-style multiple-choice question. The question must directly relate to interpreting the data or main idea presented in the image description.
-
-                        **Image Context:**
-                        - **Description:** ${selectedImage.detailedDescription}
-                        - **Keywords:** ${selectedImage.keywords.join(", ")}
-
-                        Generate a valid JSON object for the question, including the question text, four answer options (one correct), and a rationale for each option.
-                    `;
-
-                    const imageQuestionSchema = {
-                        type: "OBJECT",
-                        properties: {
-                          questionText: { type: "STRING" },
-                          answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
-                        },
-                        required: ["questionText", "answerOptions"]
-                    };
-
-                    try {
-                        const imageQuestion = await callAI(imagePrompt, imageQuestionSchema);
-                        imageQuestion.imageUrl = selectedImage.filePath.replace(/^\/frontend/, '');
-                        imageQuestion.type = 'image';
-                        generatedQuiz.questions[questionToReplaceIndex] = imageQuestion;
-                    } catch (imageError) {
-                        console.error("Error generating image-based question, skipping:", imageError.message);
-                    }
-                }
-            }
+        // Define quiz structure based on subject and type
+        let questionCount, passageSets, chartSets, imageQuestions;
+        if (comprehensive) {
+            questionCount = subject === "Science" ? 38 : (subject === "Social Studies" ? 35 : 46);
+            passageSets = subject === "Science" ? 4 : 3;
+            chartSets = subject === "Science" || subject === "Social Studies" ? 2 : 1;
+            imageQuestions = 2;
+        } else { // Topic-specific quiz
+            questionCount = 15;
+            passageSets = 2;
+            chartSets = 1;
+            imageQuestions = 1;
         }
 
-        const finalQuestions = shuffleArray(generatedQuiz.questions).map((q, index) => ({ ...q, questionNumber: index + 1 }));
+        const promises = [];
+
+        // Generate passage sets
+        for (let i = 0; i < passageSets; i++) {
+            promises.push(generatePassageSet(topic, 2)); // 2 questions per passage
+        }
+
+        // Generate chart sets
+        for (let i = 0; i < chartSets; i++) {
+            promises.push(generateChartSet(topic, 2)); // 2 questions per chart
+        }
+
+        // Generate image questions
+        for (let i = 0; i < imageQuestions; i++) {
+            promises.push(generateImageQuestion(subject, curatedImages));
+        }
+
+        let allQuestions = [];
+        const results = await Promise.all(promises);
+        results.forEach(result => {
+            if (Array.isArray(result)) {
+                allQuestions.push(...result);
+            } else if (result) {
+                allQuestions.push(result);
+            }
+        });
+
+        // Generate standalone questions to meet the total count
+        const standalonePromises = [];
+        const remainingQuestions = questionCount - allQuestions.length;
+        if (remainingQuestions > 0) {
+            for (let i = 0; i < remainingQuestions; i++) {
+                standalonePromises.push(generateStandaloneQuestion(subject, topic));
+            }
+            const standaloneResults = await Promise.all(standalonePromises);
+            allQuestions.push(...standaloneResults);
+        }
+
+        // IMPORTANT: No final shuffle to keep stimulus questions grouped
+        const finalQuestions = allQuestions.map((q, index) => ({ ...q, questionNumber: index + 1 }));
 
         const quizData = {
             subject: subject,
