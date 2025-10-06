@@ -1,0 +1,11 @@
+Error in /generate-quiz at 2025-10-06T14:44:58.934Z: Error: Server configuration error: GOOGLE_AI_API_KEY is not set.
+    at callAI (/app/backend/server.js:148:15)
+    at generatePassageSet (/app/backend/server.js:198:26)
+    at /app/backend/server.js:346:27
+    at Layer.handle [as handle_request] (/app/backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/app/backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/app/backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/app/backend/node_modules/express/lib/router/layer.js:95:5)
+    at /app/backend/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/app/backend/node_modules/express/lib/router/index.js:346:12)
+    at next (/app/backend/node_modules/express/lib/router/index.js:280:10)

@@ -14,7 +14,8 @@ const port = process.env.PORT || 3001;
 const allowedOrigins = [
     'https://ezged.netlify.app',
     'https://quiz.ez-ged.com',
-    'http://localhost:8000' // For local testing
+    'http://localhost:8000', // For local testing
+    'http://localhost:8001' // For Playwright verification
 ];
 
 const corsOptions = {
@@ -200,14 +201,15 @@ const generatePassageSet = async (topic, numQuestions) => {
 };
 
 const generateChartSet = async (topic, numQuestions) => {
-    const prompt = `You are a GED exam creator. Your task is to generate a data-based stimulus set.
-    You MUST generate a simple but informative data table on '${topic}' and format it as a valid HTML \`<table>\` string inside the "passage" field.
+    const prompt = `You are a GED exam creator. Your task is to generate a data-based stimulus set that is **specifically designed for a bar graph**.
 
-    Then, based ONLY on the data in the table you created, generate ${numQuestions} unique questions. **VARY THE QUESTION TYPE.** Ask about specific data points, calculating a mean/median/range, identifying trends, or comparing values.
+    You MUST generate a simple data table that **compares distinct categories** (e.g., comparing different countries, presidents, or production amounts). **Do NOT generate data that shows a continuous trend over many points in time.**
 
-    Finally, determine the best chart type ('bar', 'line', 'pie') to visualize this data.
+    The table MUST be formatted as a valid HTML \`<table>\` string and placed inside the "passage" field.
 
-    Output a single valid JSON object with three keys: "passage" (containing the HTML table string), "chartType" (e.g., 'bar'), and "questions".`;
+    Then, based ONLY on the data in the table you created, generate ${numQuestions} unique questions that require comparing the values between the categories. VARY THE QUESTION TYPE by asking about specific data points, the highest/lowest values, or calculating the difference between two categories.
+
+    Output a single valid JSON object with two keys: "passage" (containing the HTML table string) and "questions" (containing a JSON array of the question objects).`;
 
     const questionSchema = {
         type: "OBJECT",
@@ -222,17 +224,16 @@ const generateChartSet = async (topic, numQuestions) => {
         type: "OBJECT",
         properties: {
             passage: { type: "STRING" },
-            chartType: { type: "STRING" },
             questions: { type: "ARRAY", items: questionSchema }
         },
-        required: ["passage", "chartType", "questions"]
+        required: ["passage", "questions"]
     };
 
     const result = await callAI(prompt, schema);
     return result.questions.map(q => ({
         ...q,
         passage: result.passage,
-        chartType: result.chartType,
+        chartType: 'bar',
         type: 'chart'
     }));
 };
@@ -329,7 +330,7 @@ app.post('/generate-quiz', async (req, res) => {
             imageQuestions = 2;
         } else { // Topic-specific quiz
             questionCount = 15;
-            passageSets = 2;
+            passageSets = 3;
             chartSets = 1;
             imageQuestions = 1;
         }
