@@ -292,102 +292,114 @@ Output a single valid JSON object for the question, including "questionText", an
 };
 
 
-// This new function handles the special RLA case
 app.post('/generate-quiz', async (req, res) => {
-    const { subject, topic, comprehensive } = req.body;
+  const { subject, topic } = req.body;
 
-    try {
-        if (comprehensive && subject === "Reasoning Through Language Arts (RLA)") {
-            const rlaPrompts = promptLibrary[subject].comprehensive;
-            const schemaPart1And3 = { type: "OBJECT", properties: { questions: { type: "ARRAY", items: singleQuestionSchema } }, required: ["questions"] };
-            const schemaPart2 = { type: "OBJECT", properties: { passages: { type: "ARRAY", items: {type: "OBJECT", properties: {title: {type: "STRING"}, content: {type: "STRING"}}, required: ["title", "content"]}}, prompt: {type: "STRING"}}, required: ["passages", "prompt"]};
+  if (!subject || !topic) {
+    return res.status(400).json({ error: 'Subject and topic are required.' });
+  }
 
-            const [part1Result, part2Result, part3Result] = await Promise.all([
-                callAI(rlaPrompts.part1, schemaPart1And3),
-                callAI(rlaPrompts.part2, schemaPart2),
-                callAI(rlaPrompts.part3, schemaPart1And3)
-            ]);
+  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
+    return res.status(500).json({ error: 'API key not configured on the server. Please check the .env file.' });
+  }
 
-            const fullExamData = {
-                subject: "Reasoning Through Language Arts (RLA)",
-                title: "Comprehensive RLA Exam",
-                type: "multi-part-rla",
-                totalTime: 150 * 60,
-                part1_reading: part1Result.questions,
-                part2_essay: part2Result,
-                part3_language: part3Result.questions
-            };
-            return res.json(fullExamData);
-        }
+  // --- Base Prompt ---
+  let prompt = `Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}". The quiz should be challenging and suitable for high school equivalency preparation. For each question, provide four answer options. One, and only one, of these options must be correct. For every answer option (both correct and incorrect), provide a brief rationale explaining why it is right or wrong. Ensure the output is a valid JSON object following the specified schema.`;
 
-        // Define quiz structure based on subject and type
-        let questionCount, passageSets, chartSets, imageQuestions;
-        if (comprehensive) {
-            questionCount = subject === "Science" ? 38 : (subject === "Social Studies" ? 35 : 46);
-            passageSets = subject === "Science" ? 4 : 3;
-            chartSets = subject === "Science" || subject === "Social Studies" ? 2 : 1;
-            imageQuestions = 2;
-        } else { // Topic-specific quiz
-            questionCount = 15;
-            passageSets = 2;
-            chartSets = 1;
-            imageQuestions = 1;
-        }
+  // --- Subject-Specific Logic ---
 
-        const promises = [];
+  // Social Studies: Focus on source analysis and text-based data tables.
+  if (subject === "Social Studies") {
+      prompt += ` The questions must be based on analyzing a primary or secondary source. For each question, include a 'passage' that can be a historical text, a famous quote, a description of a political cartoon, a map, or historical data. When presenting data, use a simple, text-based data table format. The questions should test the user's ability to interpret this source, not their prior knowledge.`;
 
-        // Generate passage sets
-        for (let i = 0; i < passageSets; i++) {
-            promises.push(generatePassageSet(topic, 2)); // 2 questions per passage
-        }
+  // RLA: Strict separation between reading comprehension (long passages) and grammar (no passages). No data analysis.
+  } else if (subject === "RLA") {
+      if (topic.toLowerCase().includes('grammar') || topic.toLowerCase().includes('editing')) {
+          prompt += ` The questions must be technical and focus on English grammar, punctuation, sentence structure, and capitalization. Do not include reading passages. Each question should present a sentence or short paragraph with a specific error to be identified or corrected.`;
+      } else {
+          prompt += ` Generate a single, coherent informational or literary passage of approximately 500-700 words on the given topic. All 15 questions must be based on analyzing this passage. Questions should test for main idea, author's purpose, tone, vocabulary in context, and drawing inferences. Do NOT generate questions involving charts, graphs, or data tables.`;
+      }
 
-        // Generate chart sets
-        for (let i = 0; i < chartSets; i++) {
-            promises.push(generateChartSet(topic, 2)); // 2 questions per chart
-        }
+  // Math: Enforce the two-part, calculator/no-calculator structure with a JSON flag. Focus on word problems.
+  } else if (subject === "Mathematical Reasoning") {
+      prompt += `
+        The quiz must be structured to mimic the two parts of the GED Math test.
+        - Part 1: Generate the first 5 questions to be solvable without a calculator, focusing on number sense and basic operations. In the JSON for these questions, add a property '"isCalculatorProhibited": true'.
+        - Part 2: Generate the remaining 10 questions as more complex, multi-step word problems requiring a calculator. For these questions, add a property '"isCalculatorProhibited": false'.
+        - The overall topic distribution should be 45% Quantitative and 55% Algebraic problem solving. The AI should assume the user has the official GED formula sheet.
+      `;
 
-        // Generate image questions
-        for (let i = 0; i < imageQuestions; i++) {
-            promises.push(generateImageQuestion(subject, curatedImages));
-        }
+  // Science: Focus on passages, scientific reasoning, and text-based data tables instead of visual charts.
+  } else if (subject === "Science") {
+      prompt += `
+        The questions must test scientific reasoning, not memorization. Each question should be based on an accompanying 'passage' of 200-400 words, a data table, or a summary of a science experiment.
+        - The topic distribution should align with the GED standards: 40% Life Science, 40% Physical Science, and 20% Earth and Space Science.
+        - Represent any data or experimental results in a simple, text-based data table within the passage. Do not describe bar graphs or other complex visual charts.
+        - At least half of the questions should reference the provided data.
+        - Questions should test skills like drawing conclusions from data and evaluating hypotheses. Do NOT ask questions that require outside knowledge not provided in the passage.
+      `;
+  }
 
-        let allQuestions = [];
-        const results = await Promise.all(promises);
-        results.forEach(result => {
-            if (Array.isArray(result)) {
-                allQuestions.push(...result);
-            } else if (result) {
-                allQuestions.push(result);
-            }
-        });
+  // --- Schema and API call logic (remains the same) ---
+  const schema = {
+      type: "OBJECT",
+      properties: {
+          questions: {
+              type: "ARRAY",
+              items: {
+                  type: "OBJECT",
+                  properties: {
+                      questionText: { type: "STRING" },
+                      answerOptions: {
+                          type: "ARRAY",
+                          items: {
+                              type: "OBJECT",
+                              properties: {
+                                  text: { type: "STRING" },
+                                  isCorrect: { type: "BOOLEAN" },
+                                  rationale: { type: "STRING" }
+                              },
+                              required: ["text", "isCorrect", "rationale"]
+                          }
+                      },
+                      passage: { type: "STRING" },
+                      isCalculatorProhibited: { type: "BOOLEAN" }
+                  },
+                  required: ["questionText", "answerOptions"]
+              }
+          }
+      },
+      required: ["questions"]
+  };
+  const payload = {
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: schema,
+      },
+  };
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
-        // Generate standalone questions to meet the total count
-        const standalonePromises = [];
-        const remainingQuestions = questionCount - allQuestions.length;
-        if (remainingQuestions > 0) {
-            for (let i = 0; i < remainingQuestions; i++) {
-                standalonePromises.push(generateStandaloneQuestion(subject, topic));
-            }
-            const standaloneResults = await Promise.all(standalonePromises);
-            allQuestions.push(...standaloneResults);
-        }
+  try {
+    const response = await axios.post(apiUrl, payload);
+    const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
+    const quizData = JSON.parse(jsonText);
 
-        // IMPORTANT: No final shuffle to keep stimulus questions grouped
-        const finalQuestions = allQuestions.map((q, index) => ({ ...q, questionNumber: index + 1 }));
+    // Add top-level quiz metadata for frontend compatibility
+    const finalQuizData = {
+        subject: subject,
+        title: `${subject}: ${topic}`,
+        type: 'quiz',
+        questions: quizData.questions,
+        timeLimit: quizData.questions.length * 90 // 90 seconds per question
+    };
 
-        const quizData = {
-            subject: subject,
-            title: comprehensive ? `Comprehensive ${subject} Exam` : `${subject}: ${topic}`,
-            type: 'quiz',
-            questions: finalQuestions,
-            timeLimit: finalQuestions.length * 90
-        };
-        res.json(quizData);
-
-    } catch (error) {
-        console.error('Error in Quiz Assembler:', error.response ? error.response.data : error.message);
-        res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
-    }
+    res.json(finalQuizData);
+  } catch (error) {
+    console.error('Error calling Google AI API:', error.response ? error.response.data : error.message);
+    res.status(500).json({ error: 'Failed to generate quiz from AI service.' });
+  }
 });
 
 app.post('/score-essay', async (req, res) => {
