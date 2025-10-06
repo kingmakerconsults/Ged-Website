@@ -379,7 +379,7 @@ app.post('/generate-quiz', async (req, res) => {
           responseSchema: schema,
       },
   };
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   try {
     const response = await axios.post(apiUrl, payload);
