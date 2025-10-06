@@ -37,7 +37,7 @@ app.use(express.json());
 
 let curatedImages = [];
 // Load the new, structured image repository from the local file system.
-const imageRepositoryPath = path.join(__dirname, 'image_metadata_final.json');
+const imageRepositoryPath = path.join(__dirname, 'image_metadata_expanded.json');
 
 try {
     const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
