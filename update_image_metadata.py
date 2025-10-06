@@ -30,7 +30,7 @@ def configure_ai():
 def load_existing_metadata(filepath):
     """Loads the existing metadata from the JSON file."""
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath, 'r', encoding='utf-8') as f:
             return json.load(f)
     except FileNotFoundError:
         print(f"Warning: Metadata file not found at '{filepath}'. A new one will be created.")
