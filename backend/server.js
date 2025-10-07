@@ -75,12 +75,17 @@ const promptLibrary = {
     part3: `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each) formatted with <p> tags. The passages should contain a mix of grammatical errors, awkward phrasing, and organizational issues. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences, improving word choice, and identifying errors. This should total 25 questions.`
 }
 },
-    "Mathematical Reasoning": {
-        topic: (topic) => `Generate a 15-question GED-style Math quiz focused on "${topic}".
-        STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems (number sense, data analysis) and 55% Algebraic Problems (expressions, equations).`,
-        comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
-        STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.`
-    }
+"Mathematical Reasoning": {
+    topic: (topic) => `Generate a 15-question GED-style Math quiz focused on the specific topic of '${topic}'.
+
+    **STRICT REQUIREMENTS:**
+    1.  **Question Style:** The questions MUST be primarily multi-step word problems that require practical application of math skills. Avoid simple, single-step computation questions.
+    2.  **Content Mix:** Ensure questions align with the GED math focus: roughly 45% should be Quantitative Problem Solving (data analysis, number sense) and 55% should be Algebraic Problem Solving (expressions, equations, functions).
+    3.  **Vary the Difficulty:** Include a mix of easy, medium, and hard questions.
+    4.  **Calculator Context:** Some questions should be solvable without a calculator, while others should involve more complex numbers that would typically require a calculator on the GED test.`,
+    comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
+    **STRICT REQUIREMENTS:** The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. The questions MUST be primarily multi-step word problems and include questions based on data charts and graphs.`
+}
 };
 
 app.get('/', (req, res) => {
