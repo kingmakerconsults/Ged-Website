@@ -47,18 +47,39 @@ try {
     console.error('Failed to load or parse image_metadata.json:', error);
 }
 
+// Add this new prompt library to server.js
+
 const promptLibrary = {
     "Social Studies": {
-        topic: (topic) => `Generate a 15-question GED-style Social Studies quiz focused on "${topic}". The quiz must include a mix of stimuli, including text passages and charts. For any questions that should be based on an image, generate a detailed, unique description of a plausible image in the 'imageDescriptionForMatch' field. I will match this to an image later.`
+        topic: (topic) => `Generate a 15-question GED-style Social Studies quiz focused on "${topic}".
+        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.
+        STRICT STIMULUS REQUIREMENTS: A variety of stimuli MUST be used. Include at least 2 questions based on a chart/graph, 2 questions based on a historical quote, and 2 questions based on an image from the provided descriptions. The rest should be text passages.`,
+        comprehensive: `Generate a 35-question comprehensive GED Social Studies exam.
+        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, and 15% Geography & the World.
+        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.`
     },
     "Science": {
-        topic: (topic) => `Generate a 15-question GED-style Science quiz focused on "${topic}". The quiz must include a mix of stimuli, including text passages and data/diagrams. For any questions that should be based on an image or diagram, generate a detailed, unique description of a plausible image/diagram in the 'imageDescriptionForMatch' field. I will match this to an image later.`
+        topic: (topic) => `Generate a 15-question GED-style Science quiz focused on "${topic}".
+        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 40% Life Science, 40% Physical Science, 20% Earth and Space Science.
+        STRICT STIMULUS REQUIREMENTS: Ensure a mix of stimuli, including text passages, data tables/graphs, and diagrams from the provided descriptions. Questions should test reading comprehension of scientific texts and scientific reasoning.`,
+        comprehensive: `Generate a 38-question comprehensive GED Science exam.
+        STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 40% Life Science, 40% Physical Science, 20% Earth and Space Science.
+        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, data tables formatted as HTML, charts, and scientific diagrams from the provided descriptions.`
     },
-    "Reasoning Through Language Arts (RLA)": {
-        topic: (topic) => `Generate a 15-question GED-style RLA quiz focused on "${topic}". The quiz must be 75% Informational Text and 25% Literary Text. It must include a mix of reading comprehension and language/grammar questions.`
-    },
+"Reasoning Through Language Arts (RLA)": {
+    topic: (topic) => `Generate a 15-question GED-style RLA quiz focused on "${topic}".
+        STRICT CONTENT REQUIREMENTS: The quiz must be 75% Informational Text (non-fiction, workplace documents) and 25% Literary Text. It must include a mix of reading comprehension questions and language/grammar questions. DO NOT generate Social Studies questions; generate RLA questions using passages ABOUT "${topic}".`,
+    comprehensive: {
+    part1: `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, and each passage MUST have a concise, engaging title wrapped in <strong> tags. The passages must be formatted with <p> tags for each paragraph. The passage breakdown must be 3 informational texts and 1 literary text. For EACH of the 4 passages, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions.`,
+    part2: `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two short, opposing passages that you create. The passages should be 3-4 paragraphs each and formatted with <p> tags. Each of the two passages MUST have its own title. The output should be a JSON object with two keys: "passages" (an array of two objects, each with a "title" and "content") and "prompt" (the essay question).`,
+    part3: `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each) formatted with <p> tags. The passages should contain a mix of grammatical errors, awkward phrasing, and organizational issues. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences, improving word choice, and identifying errors. This should total 25 questions.`
+}
+},
     "Mathematical Reasoning": {
-        topic: (topic) => `Generate a 15-question GED-style Math quiz focused on "${topic}". The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems and include word problems.`
+        topic: (topic) => `Generate a 15-question GED-style Math quiz focused on "${topic}".
+        STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems (number sense, data analysis) and 55% Algebraic Problems (expressions, equations).`,
+        comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
+        STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.`
     }
 };
 
@@ -150,29 +171,7 @@ const quizSchema = {
         subject: { type: "STRING" },
         questions: {
             type: "ARRAY",
-            items: {
-                type: "OBJECT",
-                properties: {
-                    questionNumber: { type: "NUMBER" },
-                    type: { type: "STRING" },
-                    passage: { type: "STRING" },
-                    imageDescriptionForMatch: { type: "STRING" },
-                    questionText: { type: "STRING" },
-                    answerOptions: {
-                        type: "ARRAY",
-                        items: {
-                            type: "OBJECT",
-                            properties: {
-                                text: { type: "STRING" },
-                                isCorrect: { type: "BOOLEAN" },
-                                rationale: { type: "STRING" }
-                            },
-                            required: ["text", "isCorrect"]
-                        }
-                    }
-                },
-                required: ["type", "questionText", "answerOptions"]
-            }
+            items: finalQuestionSchema
         }
     },
     required: ["id", "title", "subject", "questions"]
@@ -355,120 +354,126 @@ async function reviewAndCorrectQuiz(draftQuiz) {
 
 
 app.post('/generate-quiz', async (req, res) => {
-    const { subject, comprehensive, topic } = req.body;
+    const { subject, comprehensive } = req.body;
 
-    if (comprehensive) {
-        if (subject === 'Social Studies') {
-            try {
-                const blueprint = {
-                    'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
-                    'U.S. History':           { passages: 3, images: 2, standalone: 1 },
-                    'Economics':              { passages: 3, images: 1, standalone: 0 },
-                    'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
-                };
-                const TOTAL_QUESTIONS = 35;
-                let promises = [];
+    if (!subject || !comprehensive) {
+        return res.status(400).json({ error: 'Subject and comprehensive flag are required.' });
+    }
 
-                for (const [category, counts] of Object.entries(blueprint)) {
-                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
-                }
-
-                const results = await Promise.all(promises);
-                let allQuestions = results.flat().filter(q => q);
-                const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
-                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
-
-                const draftQuiz = {
-                    id: `ai_comp_ss_draft_${new Date().getTime()}`,
-                    title: `Comprehensive Social Studies Exam`,
-                    subject: subject,
-                    questions: draftQuestionSet,
-                };
-
-                console.log("Social Studies draft complete. Sending for second pass review...");
-                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
-                res.json(finalQuiz);
-
-            } catch (error) {
-                console.error('Error generating Social Studies exam:', error);
-                res.status(500).json({ error: 'Failed to generate Social Studies exam.' });
-            }
-
-        // --- LOGIC FOR SCIENCE COMPREHENSIVE EXAM ---
-        } else if (subject === 'Science') {
-            try {
-                const blueprint = {
-                    'Life Science': { passages: 3, images: 2, charts: 1, standalone: 6 },
-                    'Physical Science': { passages: 3, images: 1, charts: 1, standalone: 6 },
-                    'Earth & Space Science': { passages: 2, images: 1, standalone: 2 }
-                };
-                const TOTAL_QUESTIONS = 38;
-                let promises = [];
-
-                for (const [category, counts] of Object.entries(blueprint)) {
-                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.charts; i++) promises.push(generateChartSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
-                }
-
-                const results = await Promise.all(promises);
-                let allQuestions = results.flat().filter(q => q);
-                const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
-                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
-
-                const draftQuiz = {
-                    id: `ai_comp_sci_draft_${new Date().getTime()}`,
-                    title: `Comprehensive Science Exam`,
-                    subject: subject,
-                    questions: draftQuestionSet,
-                };
-
-                console.log("Science draft complete. Sending for second pass review...");
-                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
-                res.json(finalQuiz);
-
-            } catch (error) {
-                console.error('Error generating Science exam:', error);
-                res.status(500).json({ error: 'Failed to generate Science exam.' });
-            }
-        }
-    } else {
-        // --- THIS BLOCK FIXES TOPIC-SPECIFIC QUIZZES ---
+    // --- LOGIC FOR SOCIAL STUDIES COMPREHENSIVE EXAM ---
+    if (subject === 'Social Studies') {
         try {
-            if (!topic) {
-                return res.status(400).json({ error: 'A specific topic is required for this quiz type.' });
+            const blueprint = {
+                'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
+                'U.S. History':           { passages: 3, images: 2, standalone: 1 },
+                'Economics':              { passages: 3, images: 1, standalone: 0 },
+                'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
+            };
+            const TOTAL_QUESTIONS = 35;
+            let promises = [];
+
+            for (const [category, counts] of Object.entries(blueprint)) {
+                for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+                for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
+                for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
             }
-            console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
 
-            const promptGenerator = promptLibrary[subject]?.topic;
-            if (!promptGenerator) {
-                return res.status(400).json({ error: 'Invalid subject for topic-specific quiz.' });
-            }
+            const results = await Promise.all(promises);
+            let allQuestions = results.flat().filter(q => q);
+            const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
+            draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
-            const prompt = promptGenerator(topic);
-            const quizData = await callAI(prompt, quizSchema);
+            const draftQuiz = {
+                id: `ai_comp_ss_draft_${new Date().getTime()}`,
+                title: `Comprehensive Social Studies Exam`,
+                subject: subject,
+                questions: draftQuestionSet,
+            };
 
-            quizData.questions.forEach((q, index) => {
-                q.questionNumber = index + 1;
-                if (q.imageDescriptionForMatch) {
-                    // Find the best matching image from the full curated list
-                    const matchedImage = curatedImages.find(img => img.detailedDescription.includes(q.imageDescriptionForMatch));
-                    if (matchedImage) {
-                        q.imageUrl = matchedImage.filePath.replace('/frontend', '');
-                    }
-                }
-            });
-
-            res.json(quizData);
+            console.log("Social Studies draft complete. Sending for second pass review...");
+            const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
+            res.json(finalQuiz);
 
         } catch (error) {
-            console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
-            res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
+            console.error('Error generating Social Studies exam:', error);
+            res.status(500).json({ error: 'Failed to generate Social Studies exam.' });
         }
+
+    // --- LOGIC FOR SCIENCE COMPREHENSIVE EXAM ---
+    } else if (subject === 'Science') {
+        try {
+            const blueprint = {
+                'Life Science': { passages: 3, images: 2, charts: 1, standalone: 6 },
+                'Physical Science': { passages: 3, images: 1, charts: 1, standalone: 6 },
+                'Earth & Space Science': { passages: 2, images: 1, standalone: 2 }
+            };
+            const TOTAL_QUESTIONS = 38;
+            let promises = [];
+
+            for (const [category, counts] of Object.entries(blueprint)) {
+                for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+                for (let i = 0; i < counts.charts; i++) promises.push(generateChartSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+                for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
+                for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+            }
+
+            const results = await Promise.all(promises);
+            let allQuestions = results.flat().filter(q => q);
+            const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
+            draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
+
+            const draftQuiz = {
+                id: `ai_comp_sci_draft_${new Date().getTime()}`,
+                title: `Comprehensive Science Exam`,
+                subject: subject,
+                questions: draftQuestionSet,
+            };
+
+            console.log("Science draft complete. Sending for second pass review...");
+            const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
+            res.json(finalQuiz);
+
+        } catch (error) {
+            console.error('Error generating Science exam:', error);
+            res.status(500).json({ error: 'Failed to generate Science exam.' });
+        }
+    } else {
+    // --- THIS NEW BLOCK FIXES TOPIC-SPECIFIC QUIZZES ---
+    try {
+        const { subject, topic } = req.body; // We already know comprehensive is false here
+        if (!topic) {
+            return res.status(400).json({ error: 'A specific topic is required for this quiz type.' });
+        }
+        console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
+
+        const promptGenerator = promptLibrary[subject]?.topic;
+        if (!promptGenerator) {
+            return res.status(400).json({ error: 'Invalid subject for topic-specific quiz.' });
+        }
+
+        const prompt = promptGenerator(topic);
+
+        // This uses the old, monolithic prompt logic for a fast response
+        const quizData = await callAI(prompt, quizSchema);
+
+        // Add question numbers and format image URLs if any are matched
+        quizData.questions.forEach((q, index) => {
+            q.questionNumber = index + 1;
+            if (q.imageDescriptionForMatch) {
+                const matchedImage = curatedImages.find(img => img.detailedDescription.includes(q.imageDescriptionForMatch));
+                if (matchedImage) {
+                    q.imageUrl = matchedImage.filePath.replace('/frontend', '');
+                }
+            }
+        });
+
+        res.json(quizData);
+
+    } catch (error) {
+        console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
+        res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
     }
+}
 });
 
 app.post('/score-essay', async (req, res) => {
