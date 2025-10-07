@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/konva@9.3.0/konva.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
     <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -231,109 +232,106 @@ const AppData = {
             }
         }
     },
-    "Math": {
-        icon: "CalculatorIcon",
-        categories: {
-            "Quantitative Problem Solving": {
-                description: "Solve problems using basic math skills like fractions, decimals, percentages, and data analysis.",
-                topics: [
-                    {
-                        id: "math_quant_numbers",
-                        title: "Number Sense & Operations",
-                        description: "Fractions, decimals, percentages, and ratios.",
-                        questions: [
-                            { questionNumber: 1, type: 'knowledge', question: "A pizza is cut into 8 equal slices. If you eat 3 of the slices, what fraction of the pizza have you eaten?", answerOptions: [ { text: "1/8", rationale: "This would be one slice.", isCorrect: false }, { text: "3/8", rationale: "Correct. You ate 3 out of the 8 total slices.", isCorrect: true }, { text: "5/8", rationale: "This is the fraction of the pizza that is left.", isCorrect: false }, { text: "8/3", rationale: "This is an improper fraction representing more than one pizza.", isCorrect: false } ] },
-                            { questionNumber: 2, type: 'knowledge', question: "Which of the following fractions is equivalent to 0.75?", answerOptions: [ { text: "1/4", rationale: "1/4 is equal to 0.25.", isCorrect: false }, { text: "1/2", rationale: "1/2 is equal to 0.50.", isCorrect: false }, { text: "3/4", rationale: "Correct. 3 divided by 4 is 0.75.", isCorrect: true }, { text: "4/3", rationale: "4/3 is equal to approximately 1.33.", isCorrect: false } ] },
-                            { questionNumber: 3, type: 'knowledge', question: "A shirt that originally costs $40 is on sale for 25% off. What is the sale price of the shirt?", answerOptions: [ { text: "$10", rationale: "This is the discount amount (25% of $40), not the final price.", isCorrect: false }, { text: "$25", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "$30", rationale: "Correct. The discount is 0.25 * $40 = $10. The sale price is $40 - $10 = $30.", isCorrect: true }, { text: "$50", rationale: "This is the original price plus the discount.", isCorrect: false } ] },
-                            { questionNumber: 4, type: 'knowledge', question: "A recipe calls for 2 cups of flour for every 1 cup of sugar. If you use 3 cups of sugar, how many cups of flour do you need?", answerOptions: [ { text: "4 cups", rationale: "This would be the ratio for 2 cups of sugar.", isCorrect: false }, { text: "5 cups", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "6 cups", rationale: "Correct. The ratio is 2:1 (flour to sugar). To maintain this ratio, if you triple the sugar (1*3=3), you must triple the flour (2*3=6).", isCorrect: true }, { text: "1.5 cups", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 5, type: 'knowledge', question: "Convert the fraction 2/5 into a decimal.", answerOptions: [ { text: "0.2", rationale: "0.2 is the decimal for 1/5.", isCorrect: false }, { text: "0.4", rationale: "Correct. 2 divided by 5 is 0.4.", isCorrect: true }, { text: "0.5", rationale: "0.5 is the decimal for 1/2.", isCorrect: false }, { text: "2.5", rationale: "This is 5 divided by 2.", isCorrect: false } ] },
-                            { questionNumber: 6, type: 'knowledge', question: "What is 15% of 200?", answerOptions: [ { text: "15", rationale: "This is 15% of 100.", isCorrect: false }, { text: "30", rationale: "Correct. 15% can be written as 0.15.  0.15 * 200 = 30.", isCorrect: true }, { text: "20", rationale: "This is 10% of 200.", isCorrect: false }, { text: "300", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 7, type: 'knowledge', question: "You are driving at a constant speed of 60 miles per hour. How long will it take you to travel 150 miles?", answerOptions: [ { text: "2 hours", rationale: "In 2 hours, you would travel 120 miles.", isCorrect: false }, { text: "2.5 hours", rationale: "Correct. Time = Distance / Speed. 150 miles / 60 mph = 2.5 hours.", isCorrect: true }, { text: "3 hours", rationale: "In 3 hours, you would travel 180 miles.", isCorrect: false }, { text: "90 hours", rationale: "This is an incorrect calculation (60+30).", isCorrect: false } ] },
-                            { questionNumber: 8, type: 'knowledge', question: "Simplify the fraction 12/18 to its lowest terms.", answerOptions: [ { text: "6/9", rationale: "This is simplified, but not to its lowest terms. Both numbers can still be divided by 3.", isCorrect: false }, { text: "4/6", rationale: "This is simplified, but not to its lowest terms. Both numbers can still be divided by 2.", isCorrect: false }, { text: "2/3", rationale: "Correct. The greatest common divisor of 12 and 18 is 6. 12 ÷ 6 = 2, and 18 ÷ 6 = 3.", isCorrect: true }, { text: "3/4", rationale: "This is not an equivalent fraction.", isCorrect: false } ] },
-                            { questionNumber: 9, type: 'knowledge', question: "A bag contains 5 red marbles, 3 blue marbles, and 2 green marbles. What is the ratio of blue marbles to the total number of marbles?", answerOptions: [ { text: "3:7", rationale: "This is the ratio of blue marbles to non-blue marbles.", isCorrect: false }, { text: "3:10", rationale: "Correct. There are 3 blue marbles and a total of 5 + 3 + 2 = 10 marbles.", isCorrect: true }, { text: "10:3", rationale: "This is the ratio of total marbles to blue marbles.", isCorrect: false }, { text: "3:5", rationale: "This is the ratio of blue marbles to red marbles.", isCorrect: false } ] },
-                            { questionNumber: 10, type: 'knowledge', question: "What is the result of 3.5 + 0.75 + 1.25?", answerOptions: [ { text: "5.0", rationale: "This is an incorrect sum.", isCorrect: false }, { text: "5.5", rationale: "Correct. 3.5 + 0.75 = 4.25. 4.25 + 1.25 = 5.50.", isCorrect: true }, { text: "4.5", rationale: "This is an incorrect sum.", isCorrect: false }, { text: "6.0", rationale: "This is an incorrect sum.", isCorrect: false } ] },
-                            { questionNumber: 11, type: 'knowledge', question: "If a map has a scale of 1 inch = 50 miles, how many miles are represented by 3.5 inches on the map?", answerOptions: [ { text: "150 miles", rationale: "This would be 3 inches.", isCorrect: false }, { text: "175 miles", rationale: "Correct. 3.5 inches * 50 miles/inch = 175 miles.", isCorrect: true }, { text: "200 miles", rationale: "This would be 4 inches.", isCorrect: false }, { text: "53.5 miles", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 12, type: "knowledge", question: "A restaurant bill is $60. You want to leave a 20% tip. How much is the tip?", answerOptions: [ { text: "$6", rationale: "This would be a 10% tip.", isCorrect: false }, { text: "$10", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "$12", rationale: "Correct. 20% of $60 is 0.20 * 60 = 12.", isCorrect: true }, { text: "$20", rationale: "This is the percentage, not the tip amount.", isCorrect: false } ] },
-                            { questionNumber: 13, type: 'knowledge', question: "Which of the following numbers is the largest?", answerOptions: [ { text: "3/5", rationale: "3/5 = 0.6", isCorrect: false }, { text: "0.65", rationale: "0.65 is the largest value.", isCorrect: true }, { text: "5/8", rationale: "5/8 = 0.625", isCorrect: false }, { text: "60%", rationale: "60% = 0.60", isCorrect: false } ] },
-                            { questionNumber: 14, type: 'knowledge', question: "You buy a computer for $800. The sales tax is 5%. What is the total cost of the computer?", answerOptions: [ { text: "$805", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "$840", rationale: "Correct. The tax is 0.05 * $800 = $40. The total cost is $800 + $40 = $840.", isCorrect: true }, { text: "$40", rationale: "This is only the tax amount.", isCorrect: false }, { text: "$760", rationale: "This is the price minus the tax.", isCorrect: false } ] },
-                            { questionNumber: 15, type: 'knowledge', question: "A car's gas tank holds 15 gallons. If the car gets 25 miles per gallon, how many miles can it travel on a full tank?", answerOptions: [ { text: "300 miles", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "350 miles", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "375 miles", rationale: "Correct. 15 gallons * 25 miles/gallon = 375 miles.", isCorrect: true }, { text: "400 miles", rationale: "This is an incorrect calculation.", isCorrect: false } ] }
-                        ]
-                    },
-                    {
-                        id: "math_quant_data",
-                        title: "Data Analysis & Statistics",
-                        description: "Reading charts and graphs, calculating mean, median, mode, and range.",
-                        questions: [
-                            { questionNumber: 1, type: 'chart', passage: `<div class="passage-text"><b>Test Scores:</b> 85, 90, 75, 90, 80</div>`, question: "What is the mean (average) of the test scores listed?", answerOptions: [ { text: "84", rationale: "Correct. (85 + 90 + 75 + 90 + 80) / 5 = 420 / 5 = 84.", isCorrect: true }, { text: "85", rationale: "This is the median.", isCorrect: false }, { text: "90", rationale: "This is the mode.", isCorrect: false }, { text: "15", rationale: "This is the range.", isCorrect: false } ] },
-                            { questionNumber: 2, type: 'chart', passage: `<div class="passage-text"><b>Test Scores:</b> 85, 90, 75, 90, 80</div>`, question: "What is the median of the test scores listed?", answerOptions: [ { text: "84", rationale: "This is the mean.", isCorrect: false }, { text: "85", rationale: "Correct. First, order the scores: 75, 80, 85, 90, 90. The median is the middle value, which is 85.", isCorrect: true }, { text: "90", rationale: "This is the mode.", isCorrect: false }, { text: "75", rationale: "This is the minimum score.", isCorrect: false } ] },
-                            { questionNumber: 3, type: 'chart', passage: `<div class="passage-text"><b>Test Scores:</b> 85, 90, 75, 90, 80</div>`, question: "What is the mode of the test scores listed?", answerOptions: [ { text: "84", rationale: "This is the mean.", isCorrect: false }, { text: "85", rationale: "This is the median.", isCorrect: false }, { text: "90", rationale: "Correct. The mode is the value that appears most frequently. 90 appears twice.", isCorrect: true }, { text: "15", rationale: "This is the range.", isCorrect: false } ] },
-                            { questionNumber: 4, type: 'chart', passage: `<div class="passage-text"><b>Test Scores:</b> 85, 90, 75, 90, 80</div>`, question: "What is the range of the test scores listed?", answerOptions: [ { text: "84", rationale: "This is the mean.", isCorrect: false }, { text: "85", rationale: "This is the median.", isCorrect: false }, { text: "90", rationale: "This is the mode.", isCorrect: false }, { text: "15", rationale: "Correct. The range is the difference between the highest score (90) and the lowest score (75). 90 - 75 = 15.", isCorrect: true } ] },
-                            { questionNumber: 5, type: 'image', imageUrl: "Images/ged-grsph-2.png", question: "According to the bar chart, which fruit is the most popular?", answerOptions: [ { text: "Apple", rationale: "Apple has a value of 35.", isCorrect: false }, { text: "Orange", rationale: "Orange has a value of 30.", isCorrect: false }, { text: "Banana", rationale: "Banana has a value of 10.", isCorrect: false }, { text: "Grape", rationale: "Correct. Grape has the highest bar with a value of 40.", isCorrect: true } ] },
-                            { questionNumber: 6, type: 'image', imageUrl: "Images/ged-grsph-2.png", question: "How many more people chose Apple than chose Kiwi?", answerOptions: [ { text: "20", rationale: "This is the value for Mango.", isCorrect: false }, { text: "30", rationale: "Correct. Apple has a value of 35 and Kiwi has a value of 5. 35 - 5 = 30.", isCorrect: true }, { text: "35", rationale: "This is the value for Apple.", isCorrect: false }, { text: "5", rationale: "This is the value for Kiwi.", isCorrect: false } ] },
-                            { questionNumber: 7, type: 'image', imageUrl: "Images/social studies bar graph.png", question: "What percentage of the total votes did Mushrooms and Onions receive combined?", answerOptions: [ { text: "20%", rationale: "This is the percentage for Mushrooms alone.", isCorrect: false }, { text: "35%", rationale: "Correct. Mushrooms received 20 votes and Onions received 15. 20 + 15 = 35. Since there are 100 students, this is 35%.", isCorrect: true }, { text: "15%", rationale: "This is the percentage for Onions alone.", isCorrect: false }, { text: "45%", rationale: "This is the percentage for Pepperoni.", isCorrect: false } ] },
-                            { questionNumber: 8, type: 'chart', passage: `<div class="passage-text"><b>Daily High Temperatures (°F):</b> 65, 68, 72, 72, 78, 81, 83</div>`, question: "What is the median temperature?", answerOptions: [ { text: "65°F", rationale: "This is the minimum temperature.", isCorrect: false }, { text: "72°F", rationale: "Correct. The temperatures are already in order. In this set of 7 values, the 4th value is the middle one.", isCorrect: true }, { text: "74.1°F", rationale: "This is the approximate mean temperature.", isCorrect: false }, { text: "18°F", rationale: "This is the range.", isCorrect: false } ] },
-                            { questionNumber: 9, type: 'image', imageUrl: "Images/World energy consuption line graph.png", question: "What was the approximate profit in 2019?", answerOptions: [ { text: "$1.7 million", rationale: "This was the profit in 2018.", isCorrect: false }, { text: "$1.8 million", rationale: "This was the profit in 2017.", isCorrect: false }, { text: "$2.1 million", rationale: "Correct. The line graph shows the point for 2019 at approximately $2.1 million.", isCorrect: true }, { text: "$2.5 million", rationale: "This was the profit in 2020.", isCorrect: false } ] },
-                            { questionNumber: 10, type: 'image', imageUrl: "Images/035fa172-2083-4c13-9485-a5f4bfa28340.png", question: "If the total monthly budget is $3,000, how much is spent on Food?", answerOptions: [ { text: "$450", rationale: "This is the amount for Transportation (15%).", isCorrect: false }, { text: "$600", rationale: "Correct. Food is 20% of the budget. 0.20 * $3,000 = $600.", isCorrect: true }, { text: "$300", rationale: "This is the amount for Savings (10%).", isCorrect: false }, { text: "$1,050", rationale: "This is the amount for Housing (35%).", isCorrect: false } ] },
-                            { questionNumber: 11, type: 'chart', passage: `<div class="passage-text"><b>Number of books read per month:</b> 2, 3, 3, 4, 5, 5, 5, 8</div>`, question: "What is the mode of this data set?", answerOptions: [ { text: "3", rationale: "3 appears twice.", isCorrect: false }, { text: "4", rationale: "4 is the median.", isCorrect: false }, { text: "5", rationale: "Correct. The number 5 appears most frequently (three times).", isCorrect: true }, { text: "4.375", rationale: "This is the mean.", isCorrect: false } ] },
-                            { questionNumber: 12, type: 'chart', passage: `<div class="passage-text"><b>Ages of employees in a team:</b> 22, 25, 25, 29, 34, 41</div>`, question: "What is the mean age of the employees?", answerOptions: [ { text: "25", rationale: "This is the mode.", isCorrect: false }, { text: "27", rationale: "This is the median.", isCorrect: false }, { text: "29.33", rationale: "Correct. (22+25+25+29+34+41) / 6 = 176 / 6 ≈ 29.33.", isCorrect: true }, { text: "19", rationale: "This is the range.", isCorrect: false } ] },
-                            { questionNumber: 13, type: 'chart', passage: `<div class="passage-text"><b>Ages of employees in a team:</b> 22, 25, 25, 29, 34, 41</div>`, question: "What is the median age of the employees?", answerOptions: [ { text: "25", rationale: "This is the mode.", isCorrect: false }, { text: "27", rationale: "Correct. With an even number of values, the median is the average of the two middle numbers (25 and 29). (25+29)/2 = 27.", isCorrect: true }, { text: "29.33", rationale: "This is the mean.", isCorrect: false }, { text: "29", rationale: "This is one of the middle numbers, but not the median itself.", isCorrect: false } ] },
-                            { questionNumber: 14, type: 'knowledge', question: "A bag contains 5 red balls and 3 blue balls. What is the probability of randomly drawing a blue ball?", answerOptions: [ { text: "3/5", rationale: "This is the ratio of blue to red balls, not the probability.", isCorrect: false }, { text: "5/8", rationale: "This is the probability of drawing a red ball.", isCorrect: false }, { text: "3/8", rationale: "Correct. There are 3 blue balls and a total of 8 balls.", isCorrect: true }, { text: "1/3", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 15, type: 'image', imageUrl: "Images/035fa172-2083-4c13-9485-a5f4bfa28340.png", question: "What percentage of the budget is allocated to 'Other'?", answerOptions: [ { text: "10%", rationale: "This is the percentage for Savings.", isCorrect: false }, { text: "15%", rationale: "Correct. The pie chart clearly labels the 'Other' category as 15%.", isCorrect: true }, { text: "20%", rationale: "This is the percentage for Food.", isCorrect: false }, { text: "5%", rationale: "This is the percentage for Utilities.", isCorrect: false } ] }
-                        ]
-                    }
-                ]
-            },
-            "Algebraic Problem Solving": {
-                description: "Master advanced math topics including expressions, equations, graphing, and functions.",
-                topics: [
-                    {
-                        id: "math_alg_geometry",
-                        title: "Geometry Basics",
-                        description: "Calculating area, perimeter, volume, and surface area.",
-                        questions: [
-                            { questionNumber: 1, type: 'image', imageUrl: "Images/Questions-are-based-on-the-following-graph.-2.png", question: "What is the perimeter of this rectangle?", answerOptions: [ { text: "18 cm", rationale: "This is the area (6 * 3).", isCorrect: false }, { text: "9 cm", rationale: "This is the sum of the length and width.", isCorrect: false }, { text: "18 cm", rationale: "Correct. Perimeter = 2 * (length + width) = 2 * (6 + 3) = 2 * 9 = 18 cm.", isCorrect: true }, { text: "36 cm", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 2, type: 'image', imageUrl: "Images/Questions-are-based-on-the-following-graph.-2.png", question: "What is the area of this rectangle?", answerOptions: [ { text: "18 cm²", rationale: "Correct. Area = length × width = 6 cm × 3 cm = 18 cm².", isCorrect: true }, { text: "9 cm²", rationale: "This is the sum of the length and width.", isCorrect: false }, { text: "18 cm", rationale: "This is the perimeter. The unit for area should be cm².", isCorrect: false }, { text: "27 cm²", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 3, type: 'image', imageUrl: "Images/ged-scince-fig-2.png", question: "For this right triangle, if side 'a' is 3 inches and side 'b' is 4 inches, what is the length of the hypotenuse 'c'?", answerOptions: [ { text: "5 inches", rationale: "Correct. Using the Pythagorean theorem (a² + b² = c²): 3² + 4² = 9 + 16 = 25. So, c = √25 = 5.", isCorrect: true }, { text: "7 inches", rationale: "This is the sum of a and b.", isCorrect: false }, { text: "12 inches", rationale: "This is the product of a and b.", isCorrect: false }, { text: "25 inches", rationale: "This is c², not c.", isCorrect: false } ] },
-                            { questionNumber: 4, type: 'image', imageUrl: "Images/ged-scince-fig-2.png", question: "What is the area of a right triangle with a base (b) of 10 meters and a height (a) of 5 meters?", answerOptions: [ { text: "50 m²", rationale: "This is the area of a rectangle with these dimensions.", isCorrect: false }, { text: "25 m²", rationale: "Correct. Area of a triangle = (1/2) * base * height = (1/2) * 10 * 5 = 25 m².", isCorrect: true }, { text: "15 m²", rationale: "This is the sum of the base and height.", isCorrect: false }, { text: "30 m²", rationale: "This is the perimeter, assuming a hypotenuse was calculated.", isCorrect: false } ] },
-                            { questionNumber: 5, type: 'knowledge', question: "A circle has a radius of 5 inches. What is its circumference? (Use π ≈ 3.14)", answerOptions: [ { text: "15.7 inches", rationale: "This is the diameter times pi, which is incorrect.", isCorrect: false }, { text: "31.4 inches", rationale: "Correct. Circumference = 2 * π * r = 2 * 3.14 * 5 = 31.4 inches.", isCorrect: true }, { text: "78.5 inches", rationale: "This is the area of the circle.", isCorrect: false }, { text: "25 inches", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 6, type: 'knowledge', question: "A circle has a diameter of 10 feet. What is its area? (Use π ≈ 3.14)", answerOptions: [ { text: "31.4 ft²", rationale: "This is the circumference.", isCorrect: false }, { text: "78.5 ft²", rationale: "Correct. The radius is half the diameter, so r=5 ft. Area = π * r² = 3.14 * 5² = 3.14 * 25 = 78.5 ft².", isCorrect: true }, { text: "100 ft²", rationale: "This is the diameter squared.", isCorrect: false }, { text: "314 ft²", rationale: "This is π times the diameter squared.", isCorrect: false } ] },
-                            { questionNumber: 7, type: 'knowledge', question: "What is the volume of a rectangular prism (a box) with a length of 5 cm, a width of 3 cm, and a height of 4 cm?", answerOptions: [ { text: "12 cm³", rationale: "This is the sum of the dimensions.", isCorrect: false }, { text: "60 cm³", rationale: "Correct. Volume = length × width × height = 5 × 3 × 4 = 60 cm³.", isCorrect: true }, { text: "94 cm³", rationale: "This is the surface area.", isCorrect: false }, { text: "20 cm³", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 8, type: 'knowledge', question: "What is the surface area of a cube where each edge is 3 inches long?", answerOptions: [ { text: "9 in²", rationale: "This is the area of one face.", isCorrect: false }, { text: "27 in²", rationale: "This is the volume of the cube.", isCorrect: false }, { text: "54 in²", rationale: "Correct. A cube has 6 faces. The area of one face is 3*3 = 9 in². The total surface area is 6 * 9 = 54 in².", isCorrect: true }, { text: "18 in²", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 9, type: 'knowledge', question: "The sum of the angles in any triangle is always:", answerOptions: [ { text: "90 degrees", rationale: "A right angle is 90 degrees, but this is not the sum of all angles.", isCorrect: false }, { text: "180 degrees", rationale: "Correct. This is a fundamental property of all triangles.", isCorrect: true }, { text: "360 degrees", rationale: "This is the sum of angles in a quadrilateral.", isCorrect: false }, { text: "It depends on the type of triangle.", rationale: "The sum is always 180 degrees for any triangle.", isCorrect: false } ] },
-                            { questionNumber: 10, type: 'knowledge', question: "A rectangular garden is 20 feet long and 10 feet wide. If you want to put a fence around it, how many feet of fencing will you need?", answerOptions: [ { text: "30 feet", rationale: "This is the sum of the length and width.", isCorrect: false }, { text: "60 feet", rationale: "Correct. This is a perimeter problem. P = 2*(20 + 10) = 2*30 = 60 feet.", isCorrect: true }, { text: "200 feet", rationale: "This is the area of the garden.", isCorrect: false }, { text: "100 feet", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 11, type: 'knowledge', question: "A can of soup is shaped like a cylinder with a radius of 2 inches and a height of 5 inches. What is its volume? (Use π ≈ 3.14)", answerOptions: [ { text: "31.4 in³", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "62.8 in³", rationale: "Correct. Volume of a cylinder = π * r² * h = 3.14 * 2² * 5 = 3.14 * 4 * 5 = 62.8 in³.", isCorrect: true }, { text: "87.92 in³", rationale: "This is the surface area.", isCorrect: false }, { text: "20 in³", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 12, type: 'knowledge', question: "Two angles are supplementary. If one angle measures 60 degrees, what is the measure of the other angle?", answerOptions: [ { text: "30 degrees", rationale: "This would be a complementary angle (adds up to 90).", isCorrect: false }, { text: "60 degrees", rationale: "This would mean the angles are equal.", isCorrect: false }, { text: "120 degrees", rationale: "Correct. Supplementary angles add up to 180 degrees. 180 - 60 = 120.", isCorrect: true }, { text: "300 degrees", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 13, type: 'knowledge', question: "A square has a perimeter of 24 meters. What is its area?", answerOptions: [ { text: "6 m²", rationale: "This is the length of one side.", isCorrect: false }, { text: "24 m²", rationale: "This is the perimeter.", isCorrect: false }, { text: "36 m²", rationale: "Correct. If the perimeter is 24m, each of the 4 equal sides is 24/4 = 6m long. The area is side * side = 6 * 6 = 36 m².", isCorrect: true }, { text: "48 m²", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 14, type: 'knowledge', question: "What is the volume of a sphere with a radius of 3 cm? (Formula: V = (4/3)πr³, use π ≈ 3.14)", answerOptions: [ { text: "28.26 cm³", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "113.04 cm³", rationale: "Correct. V = (4/3) * 3.14 * 3³ = (4/3) * 3.14 * 27 = 4 * 3.14 * 9 = 113.04 cm³.", isCorrect: true }, { text: "37.68 cm³", rationale: "This is the surface area.", isCorrect: false }, { text: "84.78 cm³", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 15, type: 'knowledge', question: "A room is 12 feet long and 10 feet wide. How many square feet of carpeting are needed to cover the entire floor?", answerOptions: [ { text: "22 square feet", rationale: "This is the sum of the length and width.", isCorrect: false }, { text: "44 square feet", rationale: "This is the perimeter.", isCorrect: false }, { text: "120 square feet", rationale: "Correct. This is an area problem. Area = 12 ft * 10 ft = 120 square feet.", isCorrect: true }, { text: "240 square feet", rationale: "This is an incorrect calculation.", isCorrect: false } ] }
-                        ]
-                    },
-                    {
-                        id: "math_alg_expressions",
-                        title: "Algebraic Expressions & Equations",
-                        description: "Solving linear equations, inequalities, and working with polynomials.",
-                        questions: [
-                            { questionNumber: 1, type: 'knowledge', question: "Solve for x: 3x + 5 = 20", answerOptions: [ { text: "x = 3", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "x = 5", rationale: "Correct. 3x = 20 - 5 -> 3x = 15 -> x = 15 / 3 -> x = 5.", isCorrect: true }, { text: "x = 25/3", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "x = 8.33", rationale: "This is the same as 25/3.", isCorrect: false } ] },
-                            { questionNumber: 2, type: 'knowledge', question: "Simplify the expression: 5(x + 2) - 3x", answerOptions: [ { text: "2x + 10", rationale: "Correct. Distribute the 5: 5x + 10 - 3x. Combine like terms: (5x - 3x) + 10 = 2x + 10.", isCorrect: true }, { text: "2x + 2", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "5x + 10 - 3x", rationale: "This is not fully simplified.", isCorrect: false }, { text: "8x + 10", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 3, type: 'knowledge', question: "If y = 3x - 2, what is the value of y when x = 4?", answerOptions: [ { text: "10", rationale: "Correct. y = 3(4) - 2 = 12 - 2 = 10.", isCorrect: true }, { text: "5", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "14", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "6", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 4, type: 'knowledge', question: "Which of the following is a solution to the inequality 2x - 1 > 7?", answerOptions: [ { text: "x = 3", rationale: "If x=3, 2(3)-1 = 5, which is not greater than 7.", isCorrect: false }, { text: "x = 4", rationale: "If x=4, 2(4)-1 = 7, which is not greater than 7.", isCorrect: false }, { text: "x = 5", rationale: "Correct. Solve the inequality: 2x > 8 -> x > 4.  5 is greater than 4.", isCorrect: true }, { text: "x = 2", rationale: "If x=2, 2(2)-1 = 3, which is not greater than 7.", isCorrect: false } ] },
-                            { questionNumber: 5, type: 'knowledge', question: "What is the slope of the line given by the equation y = -2x + 3?", answerOptions: [ { text: "3", rationale: "3 is the y-intercept.", isCorrect: false }, { text: "-2", rationale: "Correct. The equation is in slope-intercept form (y = mx + b), where 'm' is the slope.", isCorrect: true }, { text: "1", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "2", rationale: "The slope is negative.", isCorrect: false } ] },
-                            { questionNumber: 6, type: 'knowledge', question: "Factor the quadratic expression: x² + 5x + 6", answerOptions: [ { text: "(x + 6)(x + 1)", rationale: "This would result in x² + 7x + 6.", isCorrect: false }, { text: "(x + 2)(x + 3)", rationale: "Correct. We need two numbers that multiply to 6 and add to 5. These numbers are 2 and 3.", isCorrect: true }, { text: "(x - 2)(x - 3)", rationale: "This would result in x² - 5x + 6.", isCorrect: false }, { text: "(x + 5)(x + 1)", rationale: "This is an incorrect factorization.", isCorrect: false } ] },
-                            { questionNumber: 7, type: 'knowledge', question: "Solve for x: x/4 + 2 = 5", answerOptions: [ { text: "x = 12", rationale: "Correct. x/4 = 5 - 2 -> x/4 = 3 -> x = 3 * 4 -> x = 12.", isCorrect: true }, { text: "x = 3", rationale: "This is the value of x/4.", isCorrect: false }, { text: "x = 28", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "x = 7", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 8, type: 'knowledge', question: "What is the value of the expression 2a + 3b if a = 5 and b = -2?", answerOptions: [ { text: "16", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "4", rationale: "Correct. 2(5) + 3(-2) = 10 - 6 = 4.", isCorrect: true }, { text: "10", rationale: "This is just the first term.", isCorrect: false }, { text: "-6", rationale: "This is just the second term.", isCorrect: false } ] },
-                            { questionNumber: 9, type: 'image', imageUrl: "Images/This-Question-is-based-on-the-following-graph-2.png", question: "What are the coordinates of point A on the graph?", answerOptions: [ { text: "(3, 2)", rationale: "The x and y values are reversed.", isCorrect: false }, { text: "(2, 3)", rationale: "Correct. Point A is located at 2 on the x-axis and 3 on the y-axis.", isCorrect: true }, { text: "(-2, 3)", rationale: "The x-coordinate is positive.", isCorrect: false }, { text: "(2, -3)", rationale: "The y-coordinate is positive.", isCorrect: false } ] },
-                            { questionNumber: 10, type: 'knowledge', question: "Simplify: (3x² + 2x - 5) + (x² - x + 2)", answerOptions: [ { text: "4x² + x - 3", rationale: "Correct. Combine like terms: (3x²+x²) + (2x-x) + (-5+2) = 4x² + x - 3.", isCorrect: true }, { text: "3x⁴ + x² - 3", rationale: "You add coefficients, not exponents.", isCorrect: false }, { text: "4x² + 3x - 7", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "4x⁴ + x - 3", rationale: "You add coefficients, not exponents.", isCorrect: false } ] },
-                            { questionNumber: 11, type: 'knowledge', question: "Solve the system of equations: y = 2x and x + y = 9", answerOptions: [ { text: "x = 2, y = 7", rationale: "This is an incorrect solution.", isCorrect: false }, { text: "x = 3, y = 6", rationale: "Correct. Substitute the first equation into the second: x + (2x) = 9 -> 3x = 9 -> x = 3. Then solve for y: y = 2(3) = 6.", isCorrect: true }, { text: "x = 6, y = 3", rationale: "The values are reversed.", isCorrect: false }, { text: "x = 4.5, y = 4.5", rationale: "This is an incorrect solution.", isCorrect: false } ] },
-                            { questionNumber: 12, type: 'knowledge', question: "A taxi service charges a $3.00 flat fee plus $0.50 per mile. Which expression represents the total cost for a ride of 'm' miles?", answerOptions: [ { text: "3 + 0.50m", rationale: "Correct. This expression correctly represents the flat fee plus the variable cost per mile.", isCorrect: true }, { text: "3.50m", rationale: "This would mean the entire cost depends on the miles, without a flat fee.", isCorrect: false }, { text: "3m + 0.50", rationale: "This incorrectly applies the flat fee to each mile.", isCorrect: false }, { text: "3 - 0.50m", rationale: "This subtracts the mileage cost.", isCorrect: false } ] },
-                            { questionNumber: 13, type: 'knowledge', question: "Solve for x: 2(x + 3) = 14", answerOptions: [ { text: "x = 4", rationale: "Correct. Distribute the 2: 2x + 6 = 14. Then, 2x = 8 -> x = 4.", isCorrect: true }, { text: "x = 5.5", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "x = 11", rationale: "This is an incorrect calculation.", isCorrect: false }, { text: "x = 8", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 14, type: 'knowledge', question: "What is the y-intercept of the line y = 4x - 5?", answerOptions: [ { text: "4", rationale: "4 is the slope.", isCorrect: false }, { text: "-5", rationale: "Correct. The y-intercept is the 'b' value in the equation y = mx + b. It is the point where the line crosses the y-axis.", isCorrect: true }, { text: "5", rationale: "The y-intercept is negative.", isCorrect: false }, { text: "1", rationale: "This is an incorrect calculation.", isCorrect: false } ] },
-                            { questionNumber: 15, type: 'knowledge', question: "The sum of two consecutive integers is 31. What are the integers?", answerOptions: [ { text: "14 and 15", rationale: "14 + 15 = 29.", isCorrect: false }, { text: "15 and 16", rationale: "Correct. Let the first integer be x. The next consecutive integer is x+1. So, x + (x+1) = 31 -> 2x + 1 = 31 -> 2x = 30 -> x = 15. The integers are 15 and 16.", isCorrect: true }, { text: "16 and 17", rationale: "16 + 17 = 33.", isCorrect: false }, { text: "30 and 1", rationale: "These are not consecutive integers.", isCorrect: false } ] }
-                        ]
-                    }
-                ]
-            }
+"Math": {
+    icon: "CalculatorIcon",
+    categories: {
+        "Quantitative Problem Solving": {
+            description: "Solve problems using basic math skills like fractions, decimals, percentages, and data analysis.",
+            topics: [
+                {
+                    id: "math_mcgraw_ch1",
+                    title: "Whole Numbers and Integers",
+                    description: "Operations, number lines, and properties of whole numbers and integers.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch2",
+                    title: "Exponents, Roots, and Properties",
+                    description: "Working with exponents, square roots, and number properties.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch3",
+                    title: "Fractions and Operations",
+                    description: "Adding, subtracting, multiplying, and dividing fractions.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch4",
+                    title: "Decimal Numbers and Operations",
+                    description: "Working with decimals and performing calculations.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch5",
+                    title: "Ratios, Rates, and Proportions",
+                    description: "Solving problems involving ratios and proportional reasoning.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch6",
+                    title: "Percents and Applications",
+                    description: "Solving percent problems, including discounts and interest.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch7",
+                    title: "Statistics",
+                    description: "Analyzing data sets, charts, and statistical measures.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch8",
+                    title: "Probability and Counting",
+                    description: "Calculating the likelihood of events and counting principles.",
+                    questions: []
+                }
+            ]
+        },
+        "Algebraic Problem Solving": {
+            description: "Master advanced math topics including expressions, equations, graphing, and functions.",
+            topics: [
+                {
+                    id: "math_mcgraw_ch9",
+                    title: "Geometry",
+                    description: "Geometric figures, the Pythagorean theorem, and coordinate geometry.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch10",
+                    title: "Polynomial & Rational Expressions",
+                    description: "Working with algebraic expressions involving polynomials.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch11",
+                    title: "Solving Equations & Inequalities",
+                    description: "Solving linear and quadratic equations and inequalities.",
+                    questions: []
+                },
+                {
+                    id: "math_mcgraw_ch12",
+                    title: "Graphing Equations",
+                    description: "Graphing lines and understanding slope-intercept form.",
+                    questions: [
+                        {
+                            questionNumber: 1,
+                            type: 'graphing_challenge',
+                            questionText: "Graph the two linear equations: y = 2x - 1 and y = -0.5x + 4. At what x-coordinate do the two lines intersect?",
+                            correctAnswer: "2"
+                        }
+                    ]
+                },
+                {
+                    id: "math_mcgraw_ch13",
+                    title: "Functions",
+                    description: "Understanding and evaluating functions.",
+                    questions: []
+                }
+            ]
         }
-    },
+    }
+},
     "Social Studies": {
         icon: "GlobeIcon",
         categories: {
@@ -1020,6 +1018,12 @@ const AppData = {
                       title: "Interactive Graphing Tool",
                       description: "Plot linear equations and explore the coordinate plane.",
                       type: "graphing_tool"
+                    },
+                    {
+                      id: "sim_geometry_tool",
+                      title: "Interactive Geometry Tool",
+                      description: "Explore area and perimeter by resizing shapes.",
+                      type: "interactive_geometry"
                     }
                 ]
             }
@@ -1274,6 +1278,8 @@ function App() {
                 return <div className="text-center p-8"><h1 className="text-2xl font-bold">The Game of Life Simulation</h1><p className="my-4">This feature is coming soon!</p><button onClick={navigateHome} className="mt-4 px-4 py-2 bg-sky-500 text-white rounded">Go Back</button></div>;
             case 'graphing_tool':
                 return <GraphingTool onExit={navigateHome} />;
+            case 'interactive_geometry':
+                return <InteractiveGeometry onExit={navigateHome} />;
             case 'results':
                 return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} onReviewMarked={handleReviewMarked} />;
             case 'generator':
@@ -1447,7 +1453,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
                                 onClick={() => onSelectQuiz(topic, selectedSubject)}
                                 className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition"
                             >
-                                {topic.type === 'essay' || topic.type === 'simulation' ? 'Open' : 'Start Quiz'}
+                                {['essay', 'simulation', 'graphing_tool', 'interactive_geometry'].includes(topic.type) ? 'Open' : 'Start Quiz'}
                             </button>
                         </div>
                     ))}
@@ -1536,9 +1542,9 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText 
     const [marked, setMarked] = useState(Array(questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
 
-    const handleSelect = (optionText) => {
+    const handleSelect = (optionText, index) => {
         const newAnswers = [...answers];
-        newAnswers[currentIndex] = optionText;
+        newAnswers[index] = optionText;
         setAnswers(newAnswers);
     };
 
@@ -1659,9 +1665,15 @@ function QuizRunner({ quiz, onComplete, onExit }) {
 
         let score = 0;
         questions.forEach((q, i) => {
-            const correctOption = q.answerOptions.find(opt => opt.isCorrect);
-            if (correctOption && answers[i] === correctOption.text) {
-                score++;
+            if (q.type === 'graphing_challenge') {
+                if (answers[i] && answers[i].toString() === q.correctAnswer.toString()) {
+                    score++;
+                }
+            } else {
+                const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+                if (correctOption && answers[i] === correctOption.text) {
+                    score++;
+                }
             }
         });
 
@@ -1785,11 +1797,28 @@ function QuizRunner({ quiz, onComplete, onExit }) {
                 {currentQ.imageUrl && <img src={currentQ.imageUrl} alt={`Visual for question ${currentQ.questionNumber}`} className="my-4 mx-auto rounded-md border max-w-full h-auto" />}
                 <h3 className="text-xl font-semibold mb-4">{currentQ.questionNumber}. {currentQ.questionText || currentQ.question}</h3>
                 <div className="space-y-3">
-                    {(currentQ.answerOptions || []).map((opt, i) => (
-                        <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
-                           <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> {opt.text}
-                        </button>
-                    ))}
+                    {currentQ.type === 'graphing_challenge' ? (
+                        <div>
+                            <GraphingTool onExit={() => {}} />
+                            <div className="mt-4">
+                                <label htmlFor="graphing_answer" className="block text-lg font-semibold text-slate-700 mb-2">Enter your answer:</label>
+                                <input
+                                    id="graphing_answer"
+                                    type="text"
+                                    value={answers[currentIndex] || ''}
+                                    onChange={(e) => handleSelect(e.target.value, currentIndex)}
+                                    className="w-full p-2 border border-slate-300 rounded-md"
+                                    placeholder="Type your numerical or coordinate answer here"
+                                />
+                            </div>
+                        </div>
+                    ) : (
+                        (currentQ.answerOptions || []).map((opt, i) => (
+                            <button key={i} onClick={() => handleSelect(opt.text, currentIndex)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
+                               <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> {opt.text}
+                            </button>
+                        ))
+                    )}
                 </div>
                 <div className="mt-4 pt-4 border-t">
                     <h4 className="text-sm font-semibold text-slate-600 mb-2 text-center">How confident are you?</h4>
@@ -2113,9 +2142,15 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
         setIsSubmitted(true);
         let score = 0;
         quiz.questions.forEach((q, i) => {
-             const correctOption = (q.answerOptions || []).find(opt => opt.isCorrect);
-            if(correctOption && answers[i] === correctOption.text) {
-                score++;
+            if (q.type === 'graphing_challenge') {
+                if (answers[i] && answers[i].toString() === q.correctAnswer.toString()) {
+                    score++;
+                }
+            } else {
+                const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+                if (correctOption && answers[i] === correctOption.text) {
+                    score++;
+                }
             }
         });
         const percentage = (score / quiz.questions.length) * 100;
@@ -2659,6 +2694,100 @@ function GraphingTool({ onExit }) {
         </div>
     );
 }
+
+function InteractiveGeometry({ onExit }) {
+    const stageRef = useRef(null);
+    const [dimensions, setDimensions] = useState({ width: 200, height: 150 });
+    const [area, setArea] = useState(200 * 150);
+    const [perimeter, setPerimeter] = useState(2 * (200 + 150));
+
+    useEffect(() => {
+        const stage = new Konva.Stage({
+            container: stageRef.current,
+            width: stageRef.current.offsetWidth,
+            height: 400,
+        });
+
+        const layer = new Konva.Layer();
+        stage.add(layer);
+
+        const rect = new Konva.Rect({
+            x: 50,
+            y: 50,
+            width: dimensions.width,
+            height: dimensions.height,
+            fill: 'skyblue',
+            stroke: 'blue',
+            strokeWidth: 4,
+            draggable: true,
+        });
+
+        layer.add(rect);
+
+        const updateCalculations = () => {
+            const newWidth = Math.round(rect.width() * rect.scaleX());
+            const newHeight = Math.round(rect.height() * rect.scaleY());
+            setDimensions({ width: newWidth, height: newHeight });
+            setArea(newWidth * newHeight);
+            setPerimeter(2 * (newWidth + newHeight));
+        };
+
+        rect.on('transform', updateCalculations);
+        rect.on('dragmove', updateCalculations);
+
+        const tr = new Konva.Transformer({
+            nodes: [rect],
+            keepRatio: false,
+            anchorStroke: 'dodgerblue',
+            anchorFill: 'white',
+            anchorSize: 10,
+            borderStroke: 'dodgerblue',
+        });
+        layer.add(tr);
+
+        return () => {
+            stage.destroy();
+        };
+    }, []);
+
+    return (
+        <div className="fade-in">
+            <header className="flex justify-between items-center pb-4 mb-4 border-b">
+                <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                <h2 className="text-xl font-bold text-center text-slate-800">Interactive Geometry Tool</h2>
+                <div></div>
+            </header>
+            <div className="flex flex-col md:flex-row gap-6">
+                <div className="flex-grow border rounded-lg overflow-hidden">
+                    <div ref={stageRef}></div>
+                </div>
+                <div className="md:w-64 flex-shrink-0 bg-slate-50 p-4 rounded-lg shadow-inner">
+                    <h3 className="text-lg font-semibold text-slate-700 mb-4">Real-Time Calculations</h3>
+                    <div className="space-y-3">
+                        <div>
+                            <p className="text-sm font-semibold text-slate-500">Width:</p>
+                            <p className="text-2xl font-bold text-sky-700">{dimensions.width} px</p>
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold text-slate-500">Height:</p>
+                            <p className="text-2xl font-bold text-sky-700">{dimensions.height} px</p>
+                        </div>
+                        <div className="pt-2 border-t">
+                            <p className="text-sm font-semibold text-slate-500">Area:</p>
+                            <p className="text-2xl font-bold text-green-700">{area.toLocaleString()} px²</p>
+                        </div>
+                         <div className="pt-2 border-t">
+                            <p className="text-sm font-semibold text-slate-500">Perimeter:</p>
+                            <p className="text-2xl font-bold text-green-700">{perimeter.toLocaleString()} px</p>
+                        </div>
+                    </div>
+                     <p className="text-xs text-slate-400 mt-6">Drag the shape or its corners to see the calculations update.</p>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 
 // --- RENDER APP ---
 const container = document.getElementById('root');
