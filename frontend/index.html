@@ -2498,7 +2498,7 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             const response = await fetch('https://ged-website.onrender.com/generate-quiz', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ subject, topic: selectedTopic, comprehensive: false })
+                body: JSON.stringify({ subject, topic: selectedTopic })
             });
 
             if (!response.ok) {
