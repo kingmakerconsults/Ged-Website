@@ -396,7 +396,7 @@ app.post('/generate-quiz', async (req, res) => {
             // --- 3. Assemble the Draft Quiz ---
             const results = await Promise.all(promises);
             allQuestions = results.flat().filter(q => q);
-            const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
+            const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
             draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
             const draftQuiz = {
