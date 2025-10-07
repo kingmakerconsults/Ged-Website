@@ -438,8 +438,42 @@ app.post('/generate-quiz', async (req, res) => {
             res.status(500).json({ error: 'Failed to generate Science exam.' });
         }
     } else {
-        res.status(400).json({ error: 'This endpoint is only configured for comprehensive Social Studies and Science exams.' });
+    // --- THIS NEW BLOCK FIXES TOPIC-SPECIFIC QUIZZES ---
+    try {
+        const { subject, topic } = req.body; // We already know comprehensive is false here
+        if (!topic) {
+            return res.status(400).json({ error: 'A specific topic is required for this quiz type.' });
+        }
+        console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
+
+        const promptGenerator = promptLibrary[subject]?.topic;
+        if (!promptGenerator) {
+            return res.status(400).json({ error: 'Invalid subject for topic-specific quiz.' });
+        }
+
+        const prompt = promptGenerator(topic);
+
+        // This uses the old, monolithic prompt logic for a fast response
+        const quizData = await callAI(prompt, quizSchema);
+
+        // Add question numbers and format image URLs if any are matched
+        quizData.questions.forEach((q, index) => {
+            q.questionNumber = index + 1;
+            if (q.imageDescriptionForMatch) {
+                const matchedImage = curatedImages.find(img => img.detailedDescription.includes(q.imageDescriptionForMatch));
+                if (matchedImage) {
+                    q.imageUrl = matchedImage.filePath.replace('/frontend', '');
+                }
+            }
+        });
+
+        res.json(quizData);
+
+    } catch (error) {
+        console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
+        res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
     }
+}
 });
 
 app.post('/score-essay', async (req, res) => {
