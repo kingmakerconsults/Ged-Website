@@ -438,36 +438,46 @@ app.post('/generate-quiz', async (req, res) => {
             res.status(500).json({ error: 'Failed to generate Science exam.' });
         }
     } else {
-    // --- THIS NEW BLOCK FIXES TOPIC-SPECIFIC QUIZZES ---
+    // --- THIS NEW LOGIC HANDLES "SMITH A QUIZ" REQUESTS ---
     try {
-        const { subject, topic } = req.body; // We already know comprehensive is false here
+        const { subject, topic } = req.body;
         if (!topic) {
             return res.status(400).json({ error: 'A specific topic is required for this quiz type.' });
         }
         console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
 
-        const promptGenerator = promptLibrary[subject]?.topic;
-        if (!promptGenerator) {
-            return res.status(400).json({ error: 'Invalid subject for topic-specific quiz.' });
+        // --- 1. Define the TOPIC-SPECIFIC Blueprint (15 Questions) ---
+        // This mirrors the comprehensive blueprint but is scaled down.
+        const blueprint = {
+            [topic]: { passages: 3, images: 2, standalone: 4 } // Focus all generation on the single selected topic
+        };
+        const TOTAL_QUESTIONS = 15;
+        let promises = [];
+
+        // --- 2. Generate Draft Content (Single Pass for Speed) ---
+        for (const [category, counts] of Object.entries(blueprint)) {
+            for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+            for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, 1));
+            for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
         }
 
-        const prompt = promptGenerator(topic);
+        const results = await Promise.all(promises);
+        let allQuestions = results.flat().filter(q => q);
 
-        // This uses the old, monolithic prompt logic for a fast response
-        const quizData = await callAI(prompt, quizSchema);
+        // --- 3. Assemble and Finalize the Quiz ---
+        // NO final shuffle, to keep stimulus sets together as requested for shorter quizzes.
+        const finalQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
+        finalQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
-        // Add question numbers and format image URLs if any are matched
-        quizData.questions.forEach((q, index) => {
-            q.questionNumber = index + 1;
-            if (q.imageDescriptionForMatch) {
-                const matchedImage = curatedImages.find(img => img.detailedDescription.includes(q.imageDescriptionForMatch));
-                if (matchedImage) {
-                    q.imageUrl = matchedImage.filePath.replace('/frontend', '');
-                }
-            }
-        });
+        const finalQuiz = {
+            id: `ai_topic_${new Date().getTime()}`,
+            title: `${subject}: ${topic}`,
+            subject: subject,
+            questions: finalQuestionSet,
+        };
 
-        res.json(quizData);
+        // Topic-specific quizzes are single-pass for speed, so no second call.
+        res.json(finalQuiz);
 
     } catch (error) {
         console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
