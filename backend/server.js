@@ -234,37 +234,6 @@ const generatePassageSet = async (topic, subject, numQuestions) => {
     }));
 };
 
-const generateChartSet = async (topic, subject, numQuestions) => {
-    const prompt = `You are a GED exam creator. Generate a data-based stimulus set specifically for a bar graph, related to the topic '${topic}' and subject '${subject}'. You MUST generate a data table that compares distinct categories. Do NOT generate data showing a continuous trend. The table MUST be a valid HTML '<table>' string.
-    Then, based ONLY on the table, generate ${numQuestions} unique questions requiring data interpretation.
-    Output a single valid JSON object with keys "passage" (the HTML table string) and "questions".`;
-
-    const questionSchema = {
-        type: "OBJECT",
-        properties: {
-            questionText: { type: "STRING" },
-            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
-        },
-        required: ["questionText", "answerOptions"]
-    };
-
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            passage: { type: "STRING" },
-            questions: { type: "ARRAY", items: questionSchema }
-        },
-        required: ["passage", "questions"]
-    };
-
-    const result = await callAI(prompt, schema);
-    return result.questions.map(q => ({
-        ...q,
-        passage: result.passage,
-        chartType: 'bar', // As requested in prompt
-        type: 'chart'
-    }));
-};
 
 const generateImageQuestion = async (topic, subject, imagePool, numQuestions) => {
     // Filter by subject AND the specific topic (category)
@@ -443,7 +412,8 @@ app.post('/generate-quiz', async (req, res) => {
 
                 const results = await Promise.all(promises);
                 let allQuestions = results.flat().filter(q => q);
-                const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
+                // The user wants to remove the shuffle to keep question sets grouped.
+                const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
                 draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
                 const draftQuiz = {
@@ -464,8 +434,8 @@ app.post('/generate-quiz', async (req, res) => {
         } else if (subject === 'Science') {
             try {
                 const blueprint = {
-                    'Life Science': { passages: 3, images: 2, charts: 1, standalone: 6 },
-                    'Physical Science': { passages: 3, images: 1, charts: 1, standalone: 6 },
+                    'Life Science': { passages: 3, images: 3, standalone: 6 },
+                    'Physical Science': { passages: 3, images: 2, standalone: 6 },
                     'Earth & Space Science': { passages: 2, images: 1, standalone: 2 }
                 };
                 const TOTAL_QUESTIONS = 38;
@@ -473,14 +443,13 @@ app.post('/generate-quiz', async (req, res) => {
 
                 for (const [category, counts] of Object.entries(blueprint)) {
                     for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.charts; i++) promises.push(generateChartSet(category, subject, Math.random() > 0.5 ? 2 : 1));
                     for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
                     for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
                 }
 
                 const results = await Promise.all(promises);
                 let allQuestions = results.flat().filter(q => q);
-                const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
+                const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
                 draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
                 const draftQuiz = {
