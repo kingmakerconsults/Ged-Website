@@ -1829,16 +1829,28 @@ function QuizRunner({ quiz, onComplete, onExit }) {
 function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     const [currentPart, setCurrentPart] = useState(1);
     const [isPaused, setIsPaused] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(quiz.totalTime);
+    const [timeLeft, setTimeLeft] = useState(0);
 
-    // State for Parts
+    // Define time limits for each part in seconds
+    const PART_TIMES = {
+        1: 35 * 60,  // Part 1: Reading Comprehension (35 minutes)
+        2: 45 * 60,  // Part 2: Extended Response (45 minutes)
+        3: 70 * 60,  // Part 3: Language & Grammar (70 minutes)
+    };
+
+    // State for all answers
     const [part1Answers, setPart1Answers] = useState(Array(quiz.part1_reading.length).fill(null));
     const [part3Answers, setPart3Answers] = useState(Array(quiz.part3_language.length).fill(null));
     const [essayText, setEssayText] = useState('');
     const [isScoring, setIsScoring] = useState(false);
     const [essayScore, setEssayScore] = useState(null);
 
-    // Master Timer
+    // Effect to manage and reset the timer when the part changes
+    useEffect(() => {
+        setTimeLeft(PART_TIMES[currentPart]); // Set the time for the new part
+    }, [currentPart]);
+
+    // Effect for the countdown timer itself
     useEffect(() => {
         if (isPaused || timeLeft <= 0) {
             return;
@@ -1851,13 +1863,21 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 
     const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
 
+    const handlePartComplete = () => {
+        if (currentPart < 3) {
+            setCurrentPart(currentPart + 1);
+        } else {
+            handleFinalSubmit();
+        }
+    };
+
     const handleFinalSubmit = () => {
         let score = 0;
         quiz.part1_reading.forEach((q, i) => {
-            if (q.answerOptions.find(opt => opt.isCorrect)?.text === part1Answers[i]) score++;
+            if ((q.answerOptions.find(opt => opt.isCorrect)?.text || '') === part1Answers[i]) score++;
         });
         quiz.part3_language.forEach((q, i) => {
-            if (q.answerOptions.find(opt => opt.isCorrect)?.text === part3Answers[i]) score++;
+            if ((q.answerOptions.find(opt => opt.isCorrect)?.text || '') === part3Answers[i]) score++;
         });
         const totalQuestions = quiz.part1_reading.length + quiz.part3_language.length;
         const percentage = totalQuestions > 0 ? (score / totalQuestions) * 100 : 0;
@@ -1902,7 +1922,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                             questions={quiz.part1_reading}
                             answers={part1Answers}
                             setAnswers={setPart1Answers}
-                            onComplete={() => setCurrentPart(2)}
+                            onComplete={handlePartComplete}
                             buttonText="Continue to Essay"
                         />
                     </div>
@@ -1910,10 +1930,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             case 2:
                 return (
                     <div>
-                        <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response</h3>
-                        <div className="grid lg:grid-cols-2 gap-4">
-                            <div className="prose max-w-none bg-slate-50 p-4 rounded-lg"><h4>{quiz.part2_essay.passages[0].title}</h4><div dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(quiz.part2_essay.passages[0].content)) }} /></div>
-                            <div className="prose max-w-none bg-slate-50 p-4 rounded-lg"><h4>{quiz.part2_essay.passages[1].title}</h4><div dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(quiz.part2_essay.passages[1].content)) }} /></div>
+                        <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response (Essay)</h3>
+                        <div className="prose max-w-none bg-slate-50 p-4 rounded-lg mb-4">
+                            <h4>{quiz.part2_essay.passages[0].title}</h4>
+                            <div dangerouslySetInnerHTML={{ __html: unescapeHtml(quiz.part2_essay.passages[0].content) }} />
+                        </div>
+                        <div className="prose max-w-none bg-slate-50 p-4 rounded-lg">
+                            <h4>{quiz.part2_essay.passages[1].title}</h4>
+                            <div dangerouslySetInnerHTML={{ __html: unescapeHtml(quiz.part2_essay.passages[1].content) }} />
                         </div>
                         <div className="mt-4">
                             <h4 className="font-bold">Essay Prompt:</h4>
@@ -1924,7 +1948,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                             <button onClick={handleScoreEssay} disabled={isScoring} className="px-4 py-2 bg-purple-600 text-white rounded-md disabled:bg-slate-400">
                                 {isScoring ? 'Scoring...' : 'Get AI Feedback'}
                             </button>
-                            <button onClick={() => setCurrentPart(3)} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg">Continue to Final Section</button>
+                            <button onClick={handlePartComplete} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg">Continue to Final Section</button>
                         </div>
                         {essayScore && (
                             <div className="mt-4 p-4 bg-purple-50 rounded-lg">
@@ -1959,10 +1983,11 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     return (
         <div className="fade-in">
              <header className="flex justify-between items-center pb-4 mb-4 border-b">
+                 <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
                  <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
                  <div className="flex items-center gap-4">
                     <button onClick={() => setIsPaused(!isPaused)} className="px-4 py-1 border rounded-lg font-semibold">{isPaused ? 'Resume' : 'Pause'}</button>
-                    <div className="font-bold text-red-600">{formatTime(timeLeft)}</div>
+                    <div className="font-bold text-red-600 text-2xl">{formatTime(timeLeft)}</div>
                  </div>
             </header>
             {isPaused ? (
