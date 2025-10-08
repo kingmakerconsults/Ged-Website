@@ -337,6 +337,68 @@ Output a single valid JSON object for the question, including "questionText", an
     return question;
 };
 
+async function generateRlaPart1() {
+    const prompt = `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, with a concise, engaging title in <strong> tags. Format passages with <p> tags. The breakdown must be 3 informational texts and 1 literary text. For EACH passage, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions. Each question should be a JSON object. Return a single JSON array of these 20 question objects.`;
+    const schema = { type: "ARRAY", items: singleQuestionSchema };
+    const questions = await callAI(prompt, schema);
+    // Group questions by passage
+    const passages = {};
+    let passageCounter = 0;
+    let currentPassageTitle = '';
+    questions.forEach(q => {
+        if (q.passage && q.passage !== currentPassageTitle) {
+            currentPassageTitle = q.passage;
+            passageCounter++;
+        }
+        const passageKey = `Passage ${passageCounter}`;
+        if (!passages[passageKey]) passages[passageKey] = { passage: q.passage, questions: [] };
+        passages[passageKey].questions.push(q);
+    });
+
+    let groupedQuestions = [];
+    Object.values(passages).forEach(p => {
+        p.questions.forEach(q => groupedQuestions.push({ ...q, passage: p.passage, type: 'passage' }));
+    });
+    return groupedQuestions;
+}
+
+async function generateRlaPart2() {
+    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two short, opposing passages that you create (3-4 paragraphs each). Each passage MUST have its own title. Output a JSON object with keys "passages" (an array of two objects, each with "title" and "content") and "prompt" (the essay question).`;
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            passages: { type: "ARRAY", items: { type: "OBJECT", properties: { title: { type: "STRING" }, content: { type: "STRING" } } } },
+            prompt: { type: "STRING" }
+        },
+        required: ["passages", "prompt"]
+    };
+    return await callAI(prompt, schema);
+}
+
+async function generateRlaPart3() {
+    const prompt = `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each). The passages should contain a mix of grammatical errors and/or awkward phrasing. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences and improving word choice. This should total 25 questions. Each question should be a JSON object. Return a single JSON array of these 25 question objects.`;
+    const schema = { type: "ARRAY", items: singleQuestionSchema };
+    const questions = await callAI(prompt, schema);
+    // Group questions by passage
+    const passages = {};
+    let passageCounter = 0;
+    let currentPassageTitle = '';
+    questions.forEach(q => {
+        if (q.passage && q.passage !== currentPassageTitle) {
+            currentPassageTitle = q.passage;
+            passageCounter++;
+        }
+        const passageKey = `Passage ${passageCounter}`;
+        if (!passages[passageKey]) passages[passageKey] = { passage: q.passage, questions: [] };
+        passages[passageKey].questions.push(q);
+    });
+     let groupedQuestions = [];
+    Object.values(passages).forEach(p => {
+        p.questions.forEach(q => groupedQuestions.push({ ...q, passage: p.passage, type: 'passage' }));
+    });
+    return groupedQuestions;
+}
+
 async function reviewAndCorrectQuiz(draftQuiz) {
     const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam. Your task is to review and improve it based on these rules:
     1.  **IMPROVE QUESTION VARIETY:** The top priority. If you see repetitive question phrasing, rewrite some questions to ask about specific details, inferences, or data points.
@@ -436,7 +498,41 @@ app.post('/generate-quiz', async (req, res) => {
                 console.error('Error generating Science exam:', error);
                 res.status(500).json({ error: 'Failed to generate Science exam.' });
             }
-        } else {
+        } else if (subject === 'Reasoning Through Language Arts (RLA)') {
+    try {
+        console.log("Generating comprehensive RLA exam...");
+
+        const [part1Questions, part2Essay, part3Questions] = await Promise.all([
+            generateRlaPart1(),
+            generateRlaPart2(),
+            generateRlaPart3()
+        ]);
+
+        const allQuestions = [...part1Questions, ...part3Questions];
+        allQuestions.forEach((q, index) => {
+            q.questionNumber = index + 1;
+        });
+
+        const finalQuiz = {
+            id: `ai_comp_rla_${new Date().getTime()}`,
+            title: `Comprehensive RLA Exam`,
+            subject: subject,
+            type: 'multi-part-rla', // Special type for the frontend
+            totalTime: 150 * 60, // 150 minutes
+            part1_reading: part1Questions,
+            part2_essay: part2Essay,
+            part3_language: part3Questions,
+            questions: allQuestions // Keep this for compatibility with results screen
+        };
+
+        // RLA does not need a second review pass due to its complex, multi-part nature
+        res.json(finalQuiz);
+
+    } catch (error) {
+        console.error('Error generating comprehensive RLA exam:', error);
+        res.status(500).json({ error: 'Failed to generate RLA exam.' });
+    }
+} else {
             // This handles comprehensive requests for subjects without that logic yet.
             res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
         }
