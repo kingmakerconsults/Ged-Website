@@ -2600,7 +2600,7 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
     const [error, setError] = useState(null);
 
     const availableTopics = AppData[subject]
-        ? Object.values(AppData[subject].categories).flatMap(category => category.topics.map(topic => topic.title))
+        ? Object.values(AppData[subject]?.categories || {}).flatMap(category => category.topics?.map(topic => topic.title) || [])
         : [];
 
     const handleGenerate = async () => {
