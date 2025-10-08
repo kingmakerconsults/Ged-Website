@@ -354,136 +354,124 @@ async function reviewAndCorrectQuiz(draftQuiz) {
 
 
 app.post('/generate-quiz', async (req, res) => {
-    const { subject, comprehensive } = req.body;
+    const { subject, topic, comprehensive } = req.body;
 
-    if (!subject || !comprehensive) {
+    if (subject === undefined || comprehensive === undefined) {
         return res.status(400).json({ error: 'Subject and comprehensive flag are required.' });
     }
 
-    // --- LOGIC FOR SOCIAL STUDIES COMPREHENSIVE EXAM ---
-    if (subject === 'Social Studies') {
-        try {
-            const blueprint = {
-                'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
-                'U.S. History':           { passages: 3, images: 2, standalone: 1 },
-                'Economics':              { passages: 3, images: 1, standalone: 0 },
-                'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
-            };
-            const TOTAL_QUESTIONS = 35;
-            let promises = [];
+    if (comprehensive) {
+        // --- COMPREHENSIVE EXAM LOGIC ---
+        if (subject === 'Social Studies') {
+            try {
+                const blueprint = {
+                    'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
+                    'U.S. History':           { passages: 3, images: 2, standalone: 1 },
+                    'Economics':              { passages: 3, images: 1, standalone: 0 },
+                    'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
+                };
+                const TOTAL_QUESTIONS = 35;
+                let promises = [];
 
-            for (const [category, counts] of Object.entries(blueprint)) {
-                for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+                for (const [category, counts] of Object.entries(blueprint)) {
+                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
+                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+                }
+
+                const results = await Promise.all(promises);
+                let allQuestions = results.flat().filter(q => q);
+                const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
+                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
+
+                const draftQuiz = {
+                    id: `ai_comp_ss_draft_${new Date().getTime()}`,
+                    title: `Comprehensive Social Studies Exam`,
+                    subject: subject,
+                    questions: draftQuestionSet,
+                };
+
+                console.log("Social Studies draft complete. Sending for second pass review...");
+                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
+                res.json(finalQuiz);
+
+            } catch (error) {
+                console.error('Error generating Social Studies exam:', error);
+                res.status(500).json({ error: 'Failed to generate Social Studies exam.' });
             }
+        } else if (subject === 'Science') {
+            try {
+                const blueprint = {
+                    'Life Science': { passages: 3, images: 2, charts: 1, standalone: 6 },
+                    'Physical Science': { passages: 3, images: 1, charts: 1, standalone: 6 },
+                    'Earth & Space Science': { passages: 2, images: 1, standalone: 2 }
+                };
+                const TOTAL_QUESTIONS = 38;
+                let promises = [];
 
-            const results = await Promise.all(promises);
-            let allQuestions = results.flat().filter(q => q);
-            const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
-            draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
+                for (const [category, counts] of Object.entries(blueprint)) {
+                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+                    for (let i = 0; i < counts.charts; i++) promises.push(generateChartSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
+                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+                }
 
-            const draftQuiz = {
-                id: `ai_comp_ss_draft_${new Date().getTime()}`,
-                title: `Comprehensive Social Studies Exam`,
-                subject: subject,
-                questions: draftQuestionSet,
-            };
+                const results = await Promise.all(promises);
+                let allQuestions = results.flat().filter(q => q);
+                const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
+                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
-            console.log("Social Studies draft complete. Sending for second pass review...");
-            const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
-            res.json(finalQuiz);
+                const draftQuiz = {
+                    id: `ai_comp_sci_draft_${new Date().getTime()}`,
+                    title: `Comprehensive Science Exam`,
+                    subject: subject,
+                    questions: draftQuestionSet,
+                };
 
-        } catch (error) {
-            console.error('Error generating Social Studies exam:', error);
-            res.status(500).json({ error: 'Failed to generate Social Studies exam.' });
-        }
+                console.log("Science draft complete. Sending for second pass review...");
+                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
+                res.json(finalQuiz);
 
-    // --- LOGIC FOR SCIENCE COMPREHENSIVE EXAM ---
-    } else if (subject === 'Science') {
-        try {
-            const blueprint = {
-                'Life Science': { passages: 3, images: 2, charts: 1, standalone: 6 },
-                'Physical Science': { passages: 3, images: 1, charts: 1, standalone: 6 },
-                'Earth & Space Science': { passages: 2, images: 1, standalone: 2 }
-            };
-            const TOTAL_QUESTIONS = 38;
-            let promises = [];
-
-            for (const [category, counts] of Object.entries(blueprint)) {
-                for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.charts; i++) promises.push(generateChartSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+            } catch (error) {
+                console.error('Error generating Science exam:', error);
+                res.status(500).json({ error: 'Failed to generate Science exam.' });
             }
-
-            const results = await Promise.all(promises);
-            let allQuestions = results.flat().filter(q => q);
-            const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
-            draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
-
-            const draftQuiz = {
-                id: `ai_comp_sci_draft_${new Date().getTime()}`,
-                title: `Comprehensive Science Exam`,
-                subject: subject,
-                questions: draftQuestionSet,
-            };
-
-            console.log("Science draft complete. Sending for second pass review...");
-            const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
-            res.json(finalQuiz);
-
-        } catch (error) {
-            console.error('Error generating Science exam:', error);
-            res.status(500).json({ error: 'Failed to generate Science exam.' });
+        } else {
+            // This handles comprehensive requests for subjects without that logic yet.
+            res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
         }
     } else {
-    // --- THIS NEW LOGIC HANDLES "SMITH A QUIZ" REQUESTS ---
-    try {
-        const { subject, topic } = req.body;
-        if (!topic) {
-            return res.status(400).json({ error: 'A specific topic is required for this quiz type.' });
+        // --- THIS IS THE LOGIC FOR TOPIC-SPECIFIC "SMITH A QUIZ" REQUESTS ---
+        try {
+            if (!topic) {
+                return res.status(400).json({ error: 'A specific topic is required for a non-comprehensive quiz.' });
+            }
+            console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
+
+            const prompt = promptLibrary[subject]?.topic(topic);
+            if (!prompt) {
+                return res.status(400).json({ error: `No topic quiz prompt found for subject: ${subject}` });
+            }
+
+            const generatedQuiz = await callAI(prompt, quizSchema);
+
+            // Post-processing to add image URLs if needed
+            for (let question of generatedQuiz.questions) {
+                if (question.imageDescriptionForMatch) {
+                    const matchingImage = curatedImages.find(img => img.subject.toLowerCase() === subject.toLowerCase() && (img.detailedDescription.toLowerCase().includes(question.imageDescriptionForMatch.toLowerCase()) || question.imageDescriptionForMatch.toLowerCase().includes(img.detailedDescription.toLowerCase())));
+                    if (matchingImage) {
+                        question.imageUrl = matchingImage.filePath.replace(/^\/frontend/, '');
+                    }
+                }
+            }
+
+            res.json(generatedQuiz);
+
+        } catch (error) {
+            console.error(`Error generating topic-specific quiz for ${subject} on topic ${topic}:`, error);
+            res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
         }
-        console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
-
-        // --- 1. Define the TOPIC-SPECIFIC Blueprint (15 Questions) ---
-        // This mirrors the comprehensive blueprint but is scaled down.
-        const blueprint = {
-            [topic]: { passages: 3, images: 2, standalone: 4 } // Focus all generation on the single selected topic
-        };
-        const TOTAL_QUESTIONS = 15;
-        let promises = [];
-
-        // --- 2. Generate Draft Content (Single Pass for Speed) ---
-        for (const [category, counts] of Object.entries(blueprint)) {
-            for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-            for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, 1));
-            for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
-        }
-
-        const results = await Promise.all(promises);
-        let allQuestions = results.flat().filter(q => q);
-
-        // --- 3. Assemble and Finalize the Quiz ---
-        // NO final shuffle, to keep stimulus sets together as requested for shorter quizzes.
-        const finalQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
-        finalQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
-
-        const finalQuiz = {
-            id: `ai_topic_${new Date().getTime()}`,
-            title: `${subject}: ${topic}`,
-            subject: subject,
-            questions: finalQuestionSet,
-        };
-
-        // Topic-specific quizzes are single-pass for speed, so no second call.
-        res.json(finalQuiz);
-
-    } catch (error) {
-        console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
-        res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
     }
-}
 });
 
 app.post('/score-essay', async (req, res) => {
