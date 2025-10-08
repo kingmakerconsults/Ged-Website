@@ -440,38 +440,74 @@ app.post('/generate-quiz', async (req, res) => {
             // This handles comprehensive requests for subjects without that logic yet.
             res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
         }
-    } else {
-        // --- THIS IS THE LOGIC FOR TOPIC-SPECIFIC "SMITH A QUIZ" REQUESTS ---
-        try {
-            if (!topic) {
-                return res.status(400).json({ error: 'A specific topic is required for a non-comprehensive quiz.' });
-            }
-            console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
-
-            const prompt = promptLibrary[subject]?.topic(topic);
-            if (!prompt) {
-                return res.status(400).json({ error: `No topic quiz prompt found for subject: ${subject}` });
-            }
-
-            const generatedQuiz = await callAI(prompt, quizSchema);
-
-            // Post-processing to add image URLs if needed
-            for (let question of generatedQuiz.questions) {
-                if (question.imageDescriptionForMatch) {
-                    const matchingImage = curatedImages.find(img => img.subject.toLowerCase() === subject.toLowerCase() && (img.detailedDescription.toLowerCase().includes(question.imageDescriptionForMatch.toLowerCase()) || question.imageDescriptionForMatch.toLowerCase().includes(img.detailedDescription.toLowerCase())));
-                    if (matchingImage) {
-                        question.imageUrl = matchingImage.filePath.replace(/^\/frontend/, '');
-                    }
-                }
-            }
-
-            res.json(generatedQuiz);
-
-        } catch (error) {
-            console.error(`Error generating topic-specific quiz for ${subject} on topic ${topic}:`, error);
-            res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
+} else {
+    // --- THIS NEW LOGIC PERFECTS TOPIC-SPECIFIC "SMITH A QUIZ" REQUESTS ---
+    try {
+        const { subject, topic } = req.body;
+        if (!topic) {
+            return res.status(400).json({ error: 'A specific topic is required for this quiz type.' });
         }
+        console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
+
+        // --- 1. Define the TOPIC-SPECIFIC Blueprint (15 Questions) ---
+        // This mirrors the comprehensive blueprint but is scaled down and focused on one topic.
+        const blueprint = [
+            { type: 'passage', numQuestions: 2 },
+            { type: 'passage', numQuestions: 1 },
+            { type: 'image', numQuestions: 2 },
+            { type: 'image', numQuestions: 1 }
+            // Standalone questions will fill the rest to reach 15.
+        ];
+        const TOTAL_QUESTIONS = 15;
+        let promises = [];
+
+        // --- 2. Generate Stimulus Content Based on the Blueprint ---
+        for (const item of blueprint) {
+            if (item.type === 'passage') {
+                promises.push(generatePassageSet(topic, subject, item.numQuestions));
+            }
+            if (item.type === 'image') {
+                promises.push(generateImageQuestion(topic, subject, curatedImages, item.numQuestions));
+            }
+        }
+
+        // --- 3. Calculate and Generate Standalone Questions ---
+        const stimulusResults = await Promise.all(promises);
+        const stimulusQuestions = stimulusResults.flat().filter(q => q);
+
+        const remainingCount = TOTAL_QUESTIONS - stimulusQuestions.length;
+
+        let standalonePromises = [];
+        if (remainingCount > 0) {
+            for (let i = 0; i < remainingCount; i++) {
+                standalonePromises.push(generateStandaloneQuestion(topic, subject));
+            }
+        }
+        const standaloneQuestions = await Promise.all(standalonePromises);
+
+        // --- 4. Assemble and Finalize the Quiz ---
+        let allQuestions = [...stimulusQuestions, ...standaloneQuestions.flat().filter(q => q)];
+
+        // This version does NOT shuffle, keeping stimulus sets together.
+        allQuestions.forEach((q, index) => {
+            q.questionNumber = index + 1;
+        });
+
+        const finalQuiz = {
+            id: `ai_topic_${new Date().getTime()}`,
+            title: `${subject}: ${topic}`,
+            subject: subject,
+            questions: allQuestions.slice(0, TOTAL_QUESTIONS), // Ensure exact count
+        };
+
+        // Topic-specific quizzes are single-pass for speed (no second review call).
+        res.json(finalQuiz);
+
+    } catch (error) {
+        console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
+        res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
     }
+}
 });
 
 app.post('/score-essay', async (req, res) => {
