@@ -1277,16 +1277,21 @@ function App() {
             case 'results':
                 return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} onReviewMarked={handleReviewMarked} />;
             case 'generator':
-                return <AIQuizGenerator subject={activeGenerator} onQuizGenerated={(quiz) => startQuiz(quiz, activeGenerator)} onExit={navigateHome} />;
+                return <AIQuizGenerator {...activeGenerator} onQuizGenerated={(quiz) => startQuiz(quiz, activeGenerator.subject)} onExit={navigateHome} />;
             case 'start':
             default:
                 return (
                     <StartScreen 
                         progress={progress}
                         onSelectQuiz={startQuiz} 
-                        onSelectGenerator={(subject) => { setActiveGenerator(subject); setView('generator'); }}
+                        onSelectGenerator={(subject, setIsLoading, setLoadingMessage) => {
+                            setActiveGenerator({ subject, setIsLoading, setLoadingMessage });
+                            setView('generator');
+                        }}
                         onStartPopQuiz={handleStartPopQuiz}
                         onStartComprehensiveExam={handleGenerateComprehensiveExam}
+                        setIsLoading={setIsLoading}
+                        setLoadingMessage={setLoadingMessage}
                     />
                 );
         }
@@ -1295,7 +1300,14 @@ function App() {
     return (
         <>
             <AppHeader currentUser={currentUser} onLogout={handleLogout} />
-            <main className="w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+            {isLoading && (
+                <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+                    <h2 className="text-3xl font-bold text-white mb-4">Loading...</h2>
+                    <p className="text-xl text-sky-300">{loadingMessage}</p>
+                    {/* Optional: Add a spinner element here */}
+                </div>
+            )}
+            <main className="w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
                 <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                     {renderView()}
                 </div>
@@ -1398,7 +1410,7 @@ function ProgressDashboard({ progress }) {
 
 const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon };
 
-function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam }) {
+function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -1476,7 +1488,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
                                <SparklesIcon className="h-8 w-8 text-sky-500" />
                                <h3 className="text-xl font-bold text-sky-800 mt-2">Smith a Quiz</h3>
                                <p className="text-sky-600 text-sm my-2 text-center">Generate a new 15-question quiz for any topic in {selectedSubject}.</p>
-                               <button onClick={() => onSelectGenerator(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition">
+                               <button onClick={() => onSelectGenerator(selectedSubject, setIsLoading, setLoadingMessage)} className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition">
                                     Generate
                                </button>
                             </div>
@@ -2502,9 +2514,8 @@ function EssayGuide({ onExit }) {
     );
 }
 
-function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
+function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLoadingMessage }) {
     const [selectedTopic, setSelectedTopic] = useState('');
-    const [isGenerating, setIsGenerating] = useState(false);
     const [error, setError] = useState(null);
 
     const availableTopics = AppData[subject]
@@ -2516,7 +2527,8 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             setError("Please select a topic first.");
             return;
         }
-        setIsGenerating(true);
+        setLoadingMessage("Please give us a moment to smith this for you");
+        setIsLoading(true);
         setError(null);
 
         try {
@@ -2532,7 +2544,7 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             }
 
             const generatedQuizData = await response.json();
-            const generatedQuiz = generatedQuizData; // The server now sends the final quiz structure directly
+            const generatedQuiz = generatedQuizData;
 
             if (!generatedQuiz.questions || !Array.isArray(generatedQuiz.questions)) {
                 console.error("Parsed JSON is missing a 'questions' array:", generatedQuiz);
@@ -2546,7 +2558,7 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             console.error("Error generating quiz:", err);
             setError(`Sorry, something went wrong. ${err.message}`);
         } finally {
-            setIsGenerating(false);
+            setIsLoading(false);
         }
     };
 
@@ -2572,10 +2584,10 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
 
                 <button 
                     onClick={handleGenerate} 
-                    disabled={isGenerating}
+                    disabled={isLoading}
                     className="w-full px-8 py-4 bg-sky-600 text-white font-bold rounded-lg shadow-md hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
                 >
-                    {isGenerating ? "Generating..." : "Generate Quiz"}
+                    {isLoading ? "Generating..." : "Generate Quiz"}
                 </button>
                 {error && <p className="text-red-500 mt-4">{error}</p>}
             </div>
