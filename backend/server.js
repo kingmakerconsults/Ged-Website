@@ -363,7 +363,7 @@ async function generateRlaPart1() {
 }
 
 async function generateRlaPart2() {
-    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two short, opposing passages that you create (3-4 paragraphs each). Each passage MUST have its own title. Output a JSON object with keys "passages" (an array of two objects, each with "title" and "content") and "prompt" (the essay question).`;
+    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each). Each passage MUST have its own title. Output a JSON object with keys "passages" (an array of two objects, each with "title" and "content") and "prompt" (the essay question).`;
     const schema = {
         type: "OBJECT",
         properties: {
