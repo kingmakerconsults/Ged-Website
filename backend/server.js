@@ -75,7 +75,7 @@ const promptLibrary = {
     part3: `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each) formatted with <p> tags. The passages should contain a mix of grammatical errors, awkward phrasing, and organizational issues. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences, improving word choice, and identifying errors. This should total 25 questions.`
 }
 },
-    "Mathematical Reasoning": {
+    "Math": {
         topic: (topic) => `Generate a 15-question GED-style Math quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems (number sense, data analysis) and 55% Algebraic Problems (expressions, equations).`,
         comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
