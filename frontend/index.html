@@ -9,12 +9,13 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/konva@9.3.0/konva.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
     <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
         .quiz-nav::-webkit-scrollbar { height: 4px; }
@@ -29,6 +30,20 @@
         #pong-canvas { background-color: #1a202c; border-radius: 0.5rem; border: 2px solid #4a5568; }
         .option.correct { background-color: #dcfce7; border-color: #22c55e; }
         .option.incorrect { background-color: #fee2e2; border-color: #ef4444; position: relative; }
+        .good-evidence {
+            background-color: #dcfce7; /* Tailwind green-100 */
+            color: #166534; /* Tailwind green-800 */
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .bad-evidence {
+            background-color: #fee2e2; /* Tailwind red-100 */
+            color: #991b1b; /* Tailwind red-800 */
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body class="bg-slate-100">
@@ -236,97 +251,75 @@ const AppData = {
     icon: "CalculatorIcon",
     categories: {
         "Quantitative Problem Solving": {
-            description: "Solve problems using basic math skills like fractions, decimals, percentages, and data analysis.",
+            description: "Solve problems using numbers, data, and statistics.",
+            icon: "ChartBarIcon", // New Icon
             topics: [
                 {
-                    id: "math_mcgraw_ch1",
-                    title: "Whole Numbers and Integers",
-                    description: "Operations, number lines, and properties of whole numbers and integers.",
-                    questions: []
+                    id: "math_quant_basics",
+                    title: "Whole Numbers, Fractions & Decimals",
+                    description: "Operations with integers, fractions, and decimals.",
+                    type: "quiz",
+                    questions: [ /* Questions for this topic would go here */ ]
                 },
                 {
-                    id: "math_mcgraw_ch2",
-                    title: "Exponents, Roots, and Properties",
-                    description: "Working with exponents, square roots, and number properties.",
-                    questions: []
+                    id: "math_quant_ratios_percents",
+                    title: "Ratios, Proportions & Percents",
+                    description: "Solving real-world problems with ratios and percentages.",
+                    type: "quiz",
+                    questions: [ /* Questions for this topic would go here */ ]
                 },
                 {
-                    id: "math_mcgraw_ch3",
-                    title: "Fractions and Operations",
-                    description: "Adding, subtracting, multiplying, and dividing fractions.",
-                    questions: []
-                },
-                {
-                    id: "math_mcgraw_ch4",
-                    title: "Decimal Numbers and Operations",
-                    description: "Working with decimals and performing calculations.",
-                    questions: []
-                },
-                {
-                    id: "math_mcgraw_ch5",
-                    title: "Ratios, Rates, and Proportions",
-                    description: "Solving problems involving ratios and proportional reasoning.",
-                    questions: []
-                },
-                {
-                    id: "math_mcgraw_ch6",
-                    title: "Percents and Applications",
-                    description: "Solving percent problems, including discounts and interest.",
-                    questions: []
-                },
-                {
-                    id: "math_mcgraw_ch7",
-                    title: "Statistics",
-                    description: "Analyzing data sets, charts, and statistical measures.",
-                    questions: []
-                },
-                {
-                    id: "math_mcgraw_ch8",
-                    title: "Probability and Counting",
-                    description: "Calculating the likelihood of events and counting principles.",
-                    questions: []
+                    id: "math_quant_stats_probability",
+                    title: "Statistics & Probability",
+                    description: "Mean, median, mode, range, and basic probability.",
+                    type: "quiz",
+                    questions: [ /* Questions for this topic would go here */ ]
                 }
             ]
         },
         "Algebraic Problem Solving": {
-            description: "Master advanced math topics including expressions, equations, graphing, and functions.",
+            description: "Master expressions, equations, graphing, and functions.",
+            icon: "VariableIcon", // New Icon
             topics: [
                 {
-                    id: "math_mcgraw_ch9",
-                    title: "Geometry",
-                    description: "Geometric figures, the Pythagorean theorem, and coordinate geometry.",
-                    questions: []
+                    id: "math_alg_expressions",
+                    title: "Expressions & Polynomials",
+                    description: "Working with variables, exponents, and polynomials.",
+                    type: "quiz",
+                    questions: [ /* Questions for this topic would go here */ ]
                 },
                 {
-                    id: "math_mcgraw_ch10",
-                    title: "Polynomial & Rational Expressions",
-                    description: "Working with algebraic expressions involving polynomials.",
-                    questions: []
-                },
-                {
-                    id: "math_mcgraw_ch11",
-                    title: "Solving Equations & Inequalities",
+                    id: "math_alg_equations_inequalities",
+                    title: "Equations & Inequalities",
                     description: "Solving linear and quadratic equations and inequalities.",
-                    questions: []
+                    type: "quiz",
+                    questions: [ /* Questions for this topic would go here */ ]
                 },
                 {
-                    id: "math_mcgraw_ch12",
-                    title: "Graphing Equations",
-                    description: "Graphing lines and understanding slope-intercept form.",
-                    questions: [
-                        {
-                            questionNumber: 1,
-                            type: 'graphing_challenge',
-                            questionText: "Graph the two linear equations: y = 2x - 1 and y = -0.5x + 4. At what x-coordinate do the two lines intersect?",
-                            correctAnswer: "2"
-                        }
-                    ]
+                    id: "math_alg_graphing_functions",
+                    title: "Graphing & Functions",
+                    description: "Understanding slope, graphing lines, and function notation.",
+                    type: "quiz",
+                    questions: [ /* Questions for this topic would go here */ ]
                 },
                 {
-                    id: "math_mcgraw_ch13",
-                    title: "Functions",
-                    description: "Understanding and evaluating functions.",
-                    questions: []
+                    id: "sim_graphing_tool",
+                    title: "Interactive Graphing Tool",
+                    description: "Plot linear equations and explore the coordinate plane.",
+                    type: "graphing_tool"
+                }
+            ]
+        },
+        "Geometry": {
+            description: "Calculate area, perimeter, volume, and apply geometric theorems.",
+            icon: "ShapesIcon", // New Icon
+            topics: [
+                 {
+                    id: "math_geom_basics",
+                    title: "Geometry Basics",
+                    description: "Calculating area, perimeter, volume, and surface area.",
+                    type: "quiz",
+                    questions: [ /* Questions for this topic would go here */ ]
                 }
             ]
         }
@@ -1018,12 +1011,6 @@ const AppData = {
                       title: "Interactive Graphing Tool",
                       description: "Plot linear equations and explore the coordinate plane.",
                       type: "graphing_tool"
-                    },
-                    {
-                      id: "sim_geometry_tool",
-                      title: "Interactive Geometry Tool",
-                      description: "Explore area and perimeter by resizing shapes.",
-                      type: "interactive_geometry"
                     }
                 ]
             }
@@ -1037,6 +1024,9 @@ const BookOpenIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-
 const GlobeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h1a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.737 16.963l.44-2.22a2 2 0 011.98-1.633h1.69a2 2 0 011.98 1.634l.44 2.219m-6.47 4.953h6.47M12 3a9 9 0 110 18 9 9 0 010-18z" /></svg>;
 const BeakerIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547a2 2 0 00-.547 1.806l.477 2.387a6 6 0 00.517 3.86l.158.318a6 6 0 00.517 3.86l2.387.477a2 2 0 001.806-.547a2 2 0 00.547-1.806l-.477-2.387a6 6 0 00-.517-3.86l-.158-.318a6 6 0 01-.517-3.86l2.387-.477a2 2 0 011.806.547a2 2 0 01.547 1.806l-.477 2.387a6 6 0 01-.517 3.86l-.158-.318a6 6 0 01-.517 3.86l2.387.477a2 2 0 001.806-.547a2 2 0 00.547-1.806l-.477-2.387a6 6 0 00-.517-3.86l-.158-.318a6 6 0 00-.517-3.86z" /></svg>;
 const CalculatorIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m-3 10v-6m-3 3h6m-6 4h6m2-12H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2z" /></svg>;
+const ChartBarIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>;
+const VariableIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.874 4.874l14.252 14.252m0-14.252L4.874 19.126M12 4.5v15" /></svg>;
+const ShapesIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12l-9-9-9 9m18 0l-9 9-9-9" /></svg>;
 const UserIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>;
 const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>;
 const HomeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
@@ -1089,6 +1079,7 @@ function App() {
     const [users, setUsers] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
     const [progress, setProgress] = useState({});
+    const [showFormulaSheet, setShowFormulaSheet] = useState(false);
 
     const handleGenerateComprehensiveExam = async (subject) => {
         setIsLoading(true);
@@ -1278,21 +1269,58 @@ function App() {
                 return <div className="text-center p-8"><h1 className="text-2xl font-bold">The Game of Life Simulation</h1><p className="my-4">This feature is coming soon!</p><button onClick={navigateHome} className="mt-4 px-4 py-2 bg-sky-500 text-white rounded">Go Back</button></div>;
             case 'graphing_tool':
                 return <GraphingTool onExit={navigateHome} />;
-            case 'interactive_geometry':
-                return <InteractiveGeometry onExit={navigateHome} />;
             case 'results':
                 return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} onReviewMarked={handleReviewMarked} />;
             case 'generator':
-                return <AIQuizGenerator subject={activeGenerator} onQuizGenerated={(quiz) => startQuiz(quiz, activeGenerator)} onExit={navigateHome} />;
+                return <AIQuizGenerator {...activeGenerator} onQuizGenerated={(quiz) => startQuiz(quiz, activeGenerator.subject)} onExit={navigateHome} />;
             case 'start':
             default:
                 return (
                     <StartScreen 
                         progress={progress}
                         onSelectQuiz={startQuiz} 
-                        onSelectGenerator={(subject) => { setActiveGenerator(subject); setView('generator'); }}
                         onStartPopQuiz={handleStartPopQuiz}
                         onStartComprehensiveExam={handleGenerateComprehensiveExam}
+                        setIsLoading={setIsLoading}
+                        setLoadingMessage={setLoadingMessage}
+                        setShowFormulaSheet={setShowFormulaSheet}
+                        // --- REPLACE the old onSelectGenerator prop with THIS ---
+                        onSelectGenerator={async (subject, topic, setIsLoading, setLoadingMessage) => {
+                            if (!topic) {
+                                alert("Please select a topic first.");
+                                return;
+                            }
+                            setLoadingMessage("Please give us a moment to smith this for you...");
+                            setIsLoading(true);
+
+                            try {
+                                const response = await fetch('https://ged-website.onrender.com/generate-quiz', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ subject, topic: topic, comprehensive: false })
+                                });
+
+                                if (!response.ok) {
+                                    const errorResult = await response.json();
+                                    throw new Error(errorResult.error || `Request failed with status ${response.status}`);
+                                }
+
+                                const generatedQuiz = await response.json();
+
+                                if (!generatedQuiz.questions || !Array.isArray(generatedQuiz.questions)) {
+                                    throw new Error("The AI response was missing the required 'questions' data.");
+                                }
+
+                                generatedQuiz.id = `ai_${new Date().getTime()}`;
+                                startQuiz(generatedQuiz, subject); // This will start the quiz with the new data
+
+                            } catch (err) {
+                                console.error("Error generating quiz:", err);
+                                alert(`Sorry, something went wrong. ${err.message}`);
+                            } finally {
+                                setIsLoading(false);
+                            }
+                        }}
                     />
                 );
         }
@@ -1301,7 +1329,15 @@ function App() {
     return (
         <>
             <AppHeader currentUser={currentUser} onLogout={handleLogout} />
-            <main className="w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+            {isLoading && (
+                <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+                    <h2 className="text-3xl font-bold text-white mb-4">Loading...</h2>
+                    <p className="text-xl text-sky-300">{loadingMessage}</p>
+                    {/* Optional: Add a spinner element here */}
+                </div>
+            )}
+            {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
+            <main className="w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
                 <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                     {renderView()}
                 </div>
@@ -1363,7 +1399,36 @@ function LoginScreen({ users, onLogin }) {
     );
 }
 
-function ProgressDashboard({ progress }) {
+function DetailedProgressView({ subject, progressData, onBack }) {
+    const calculateAverage = (scores) => {
+        if (!scores || scores.length === 0) return "N/A";
+        const total = scores.reduce((acc, score) => acc + score, 0);
+        return Math.round(total / scores.length);
+    };
+
+    return (
+        <div className="fade-in">
+            <header className="flex items-center pb-4 mb-4 border-b">
+                <button onClick={onBack} className="flex items-center gap-1 text-sm text-sky-600 hover:text-sky-800 font-semibold"><ArrowLeftIcon /> Back to Dashboard</button>
+            </header>
+            <h2 className="text-3xl font-extrabold text-slate-800 mb-4">{subject} Progress Details</h2>
+            <div className="space-y-4">
+                <div className="bg-slate-100 p-4 rounded-lg shadow-inner">
+                    <p className="text-slate-500 font-semibold">Overall Average</p>
+                    <p className="text-3xl font-bold text-slate-800">{calculateAverage(progressData.scores)}</p>
+                </div>
+                <h3 className="text-xl font-bold pt-4">Recent Scores:</h3>
+                <ul className="list-disc pl-5">
+                    {progressData.scores.slice(-10).reverse().map((score, index) => (
+                        <li key={index} className="text-lg">Score: <span className="font-bold">{score}</span></li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+}
+
+function ProgressDashboard({ progress, onSubjectClick }) {
     const calculateAverage = (scores) => {
         if (!scores || scores.length === 0) return "N/A";
         const total = scores.reduce((acc, score) => acc + score, 0);
@@ -1371,10 +1436,13 @@ function ProgressDashboard({ progress }) {
     };
 
     const totalQuizzes = Object.values(progress).reduce((acc, subject) => acc + (subject.total || 0), 0);
-    const ssAverage = calculateAverage(progress['Social Studies']?.scores);
-    const rlaAverage = calculateAverage(progress['Reasoning Through Language Arts (RLA)']?.scores);
-    const scienceAverage = calculateAverage(progress['Science']?.scores);
-    const mathAverage = calculateAverage(progress['Math']?.scores);
+    const subjects = ["Social Studies", "Reasoning Through Language Arts (RLA)", "Science", "Math"];
+    const colors = {
+        "Social Studies": "text-sky-700",
+        "Reasoning Through Language Arts (RLA)": "text-amber-700",
+        "Science": "text-green-700",
+        "Math": "text-red-700"
+    };
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
@@ -1382,35 +1450,86 @@ function ProgressDashboard({ progress }) {
                 <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Total Quizzes</p>
                 <p className="text-4xl font-bold text-slate-800">{totalQuizzes}</p>
             </div>
-            <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner">
-                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Social Studies</p>
-                <p className="text-4xl font-bold text-sky-700">{ssAverage}</p>
+            {subjects.map(subject => (
+                <button
+                    key={subject}
+                    onClick={() => onSubjectClick(subject)}
+                    className="bg-slate-100 p-4 rounded-lg text-center shadow-inner hover:bg-slate-200 transition"
+                >
+                    <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">{subject}</p>
+                    <p className={`text-4xl font-bold ${colors[subject]}`}>{calculateAverage(progress[subject]?.scores)}</p>
+                </button>
+            ))}
+        </div>
+    );
+}
+
+const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon, ChartBarIcon, VariableIcon, ShapesIcon };
+
+function FormulaSheetModal({ onClose }) {
+    const Formula = ({ title, formula, description }) => (
+        <div className="mb-4">
+            <h4 className="font-bold text-md text-slate-700">{title}</h4>
+            <div className="p-2 bg-slate-200 rounded text-center my-1 text-lg">
+                <span dangerouslySetInnerHTML={{ __html: katex.renderToString(formula) }}></span>
             </div>
-            <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner">
-                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">RLA</p>
-                <p className="text-4xl font-bold text-amber-700">{rlaAverage}</p>
-            </div>
-            <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner">
-                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Science</p>
-                <p className="text-4xl font-bold text-green-700">{scienceAverage}</p>
-            </div>
-            <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner">
-                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Math</p>
-                <p className="text-4xl font-bold text-red-700">{mathAverage}</p>
+            {description && <p className="text-sm text-slate-500">{description}</p>}
+        </div>
+    );
+
+    return (
+        <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+            <div className="bg-white rounded-lg shadow-2xl w-11/12 max-w-2xl max-h-[90vh]">
+                <div className="p-4 border-b flex justify-between items-center sticky top-0 bg-white">
+                    <h2 className="text-xl font-bold">GED® Mathematical Reasoning Formula Sheet</h2>
+                    <button onClick={onClose} className="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+                </div>
+                <div className="p-6 overflow-y-auto max-h-[calc(90vh-65px)] grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                    <div>
+                        <h3 className="text-lg font-bold border-b mb-2">Area</h3>
+                        <Formula title="Square" formula="A = s^2" />
+                        <Formula title="Rectangle" formula="A = lw" />
+                        <Formula title="Parallelogram" formula="A = bh" />
+                        <Formula title="Triangle" formula="A = \\\\frac{1}{2}bh" />
+                        <Formula title="Trapezoid" formula="A = \\\\frac{1}{2}h(b_1 + b_2)" />
+                        <Formula title="Circle" formula="A = \\pi r^2" />
+
+                        <h3 className="text-lg font-bold border-b mt-4 mb-2">Perimeter / Circumference</h3>
+                        <Formula title="Square" formula="P = 4s" />
+                        <Formula title="Rectangle" formula="P = 2l + 2w" />
+                        <Formula title="Triangle" formula="P = s_1 + s_2 + s_3" />
+                        <Formula title="Circle (Circumference)" formula="C = 2\\\\pi r \\\\text{ or } C = \\\\pi d" />
+                    </div>
+                    <div>
+                        <h3 className="text-lg font-bold border-b mb-2">Volume</h3>
+                        <Formula title="Cube" formula="V = s^3" />
+                        <Formula title="Rectangular Prism" formula="V = lwh" />
+                        <Formula title="Cylinder" formula="V = \\pi r^2 h" />
+                        <Formula title="Pyramid" formula="V = \\\\frac{1}{3}Bh" description="B = area of base" />
+                        <Formula title="Cone" formula="V = \\\\frac{1}{3}\\\\pi r^2 h" />
+                        <Formula title="Sphere" formula="V = \\\\frac{4}{3}\\\\pi r^3" />
+
+                        <h3 className="text-lg font-bold border-b mt-4 mb-2">Data</h3>
+                        <Formula title="Mean" formula="mean = \\\\frac{\\\\text{sum of values}}{\\\\text{number of values}}" />
+                        <Formula title="Median" formula="median = \\\\text{middle value of an ordered data set}" />
+                    </div>
+                </div>
             </div>
         </div>
     );
 }
 
-const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon };
-
-function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam }) {
+function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [aiQuizTopic, setAiQuizTopic] = useState('');
+    // --- NEW: State for detailed progress view ---
+    const [detailedViewSubject, setDetailedViewSubject] = useState(null);
 
     const handleSelectSubject = (subject) => {
         setSelectedSubject(subject);
         setSelectedCategory(null);
+        setAiQuizTopic(''); // Reset topic when subject changes
     };
 
     const handleSelectCategory = (category) => {
@@ -1424,6 +1543,21 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
             setSelectedSubject(null);
         }
     };
+
+    // --- NEW: If detailed view is active, render it instead of the main dashboard ---
+    if (detailedViewSubject) {
+        return <DetailedProgressView
+                    subject={detailedViewSubject}
+                    progressData={progress[detailedViewSubject]}
+                    onBack={() => setDetailedViewSubject(null)}
+                />;
+    }
+
+    // --- NEW: Logic to get topics for the dropdown (moved from AIQuizGenerator) ---
+    // This includes the fix for the white screen error using optional chaining (`?.`)
+    const availableTopics = selectedSubject && AppData[selectedSubject]?.categories
+        ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
+        : [];
 
     const Breadcrumb = () => (
         <div className="mb-4 text-lg font-semibold text-slate-600 flex items-center gap-2">
@@ -1439,6 +1573,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
 
     // View 3: Topic Selection
     if (selectedSubject && selectedCategory) {
+        // This part remains the same
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
         return (
             <div className="fade-in">
@@ -1453,7 +1588,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
                                 onClick={() => onSelectQuiz(topic, selectedSubject)}
                                 className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition"
                             >
-                                {['essay', 'simulation', 'graphing_tool', 'interactive_geometry'].includes(topic.type) ? 'Open' : 'Start Quiz'}
+                                {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}
                             </button>
                         </div>
                     ))}
@@ -1462,13 +1597,20 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
         );
     }
 
-    // View 2: Category Selection
+    // View 2: Category Selection (with updated "Smith a Quiz" box)
     if (selectedSubject) {
         const subject = AppData[selectedSubject];
         return (
             <div className="fade-in">
                 <Breadcrumb />
-                <h2 className="text-3xl font-extrabold text-slate-800 mb-4">{selectedSubject}</h2>
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-3xl font-extrabold text-slate-800">{selectedSubject}</h2>
+                    {selectedSubject === 'Math' && (
+                        <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700">
+                            Formula Sheet
+                        </button>
+                    )}
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {Object.entries(subject.categories).map(([categoryName, category]) => (
                         <button key={categoryName} onClick={() => handleSelectCategory(categoryName)} className="text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:border-sky-300 hover:-translate-y-1">
@@ -1478,14 +1620,33 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
                     ))}
                      { (selectedSubject === "Social Studies" || selectedSubject === "Reasoning Through Language Arts (RLA)" || selectedSubject === "Science" || selectedSubject === "Math") && (
                         <>
-                            <div className="border-2 border-dashed border-sky-400 rounded-lg p-4 flex flex-col justify-center items-center bg-sky-50 hover:shadow-lg hover:border-sky-500 transition-all">
-                               <SparklesIcon className="h-8 w-8 text-sky-500" />
-                               <h3 className="text-xl font-bold text-sky-800 mt-2">Smith a Quiz</h3>
-                               <p className="text-sky-600 text-sm my-2 text-center">Generate a new 15-question quiz for any topic in {selectedSubject}.</p>
-                               <button onClick={() => onSelectGenerator(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition">
-                                    Generate
+                            {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
+                            <div className="border-2 border-dashed border-sky-400 rounded-lg p-4 flex flex-col justify-between bg-sky-50 hover:shadow-lg hover:border-sky-500 transition-all">
+                               <div>
+                                   <div className="flex items-center justify-center gap-2">
+                                       <SparklesIcon className="h-8 w-8 text-sky-500" />
+                                       <h3 className="text-xl font-bold text-sky-800">Smith a Quiz</h3>
+                                   </div>
+                                   <p className="text-sky-600 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
+                                   <select
+                                        value={aiQuizTopic}
+                                        onChange={(e) => setAiQuizTopic(e.target.value)}
+                                        className="w-full p-2 border border-sky-300 rounded-md mb-2 text-base"
+                                    >
+                                        <option value="">-- Select a Topic --</option>
+                                        {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
+                                    </select>
+                               </div>
+                               <button
+                                    onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
+                                    disabled={!aiQuizTopic}
+                                    className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition disabled:bg-slate-400 disabled:cursor-not-allowed"
+                                >
+                                    Generate Quiz
                                </button>
                             </div>
+                            {/* --- END OF UPDATED BOX --- */}
+
                              <div className="border-2 border-dashed border-purple-400 rounded-lg p-4 flex flex-col justify-center items-center bg-purple-50 hover:shadow-lg hover:border-purple-500 transition-all md:col-span-2 lg:col-span-1">
                                <SparklesIcon className="h-8 w-8 text-purple-500" />
                                <h3 className="text-xl font-bold text-purple-800 mt-2">Comprehensive Exam</h3>
@@ -1508,7 +1669,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
                 <h1 className="text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
                 <p className="text-slate-500 mt-2">Welcome back! Please select a subject to begin.</p>
             </header>
-            <ProgressDashboard progress={progress} />
+            <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />
             <div className="my-6 text-center">
                 <button
                     onClick={onStartPopQuiz}
@@ -1542,9 +1703,9 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText 
     const [marked, setMarked] = useState(Array(questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
 
-    const handleSelect = (optionText, index) => {
+    const handleSelect = (optionText) => {
         const newAnswers = [...answers];
-        newAnswers[index] = optionText;
+        newAnswers[currentIndex] = optionText;
         setAnswers(newAnswers);
     };
 
@@ -1665,15 +1826,9 @@ function QuizRunner({ quiz, onComplete, onExit }) {
 
         let score = 0;
         questions.forEach((q, i) => {
-            if (q.type === 'graphing_challenge') {
-                if (answers[i] && answers[i].toString() === q.correctAnswer.toString()) {
-                    score++;
-                }
-            } else {
-                const correctOption = q.answerOptions.find(opt => opt.isCorrect);
-                if (correctOption && answers[i] === correctOption.text) {
-                    score++;
-                }
+            const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+            if (correctOption && answers[i] === correctOption.text) {
+                score++;
             }
         });
 
@@ -1797,28 +1952,11 @@ function QuizRunner({ quiz, onComplete, onExit }) {
                 {currentQ.imageUrl && <img src={currentQ.imageUrl} alt={`Visual for question ${currentQ.questionNumber}`} className="my-4 mx-auto rounded-md border max-w-full h-auto" />}
                 <h3 className="text-xl font-semibold mb-4">{currentQ.questionNumber}. {currentQ.questionText || currentQ.question}</h3>
                 <div className="space-y-3">
-                    {currentQ.type === 'graphing_challenge' ? (
-                        <div>
-                            <GraphingTool onExit={() => {}} />
-                            <div className="mt-4">
-                                <label htmlFor="graphing_answer" className="block text-lg font-semibold text-slate-700 mb-2">Enter your answer:</label>
-                                <input
-                                    id="graphing_answer"
-                                    type="text"
-                                    value={answers[currentIndex] || ''}
-                                    onChange={(e) => handleSelect(e.target.value, currentIndex)}
-                                    className="w-full p-2 border border-slate-300 rounded-md"
-                                    placeholder="Type your numerical or coordinate answer here"
-                                />
-                            </div>
-                        </div>
-                    ) : (
-                        (currentQ.answerOptions || []).map((opt, i) => (
-                            <button key={i} onClick={() => handleSelect(opt.text, currentIndex)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
-                               <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> {opt.text}
-                            </button>
-                        ))
-                    )}
+                    {(currentQ.answerOptions || []).map((opt, i) => (
+                        <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
+                           <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> {opt.text}
+                        </button>
+                    ))}
                 </div>
                 <div className="mt-4 pt-4 border-t">
                     <h4 className="text-sm font-semibold text-slate-600 mb-2 text-center">How confident are you?</h4>
@@ -1858,16 +1996,28 @@ function QuizRunner({ quiz, onComplete, onExit }) {
 function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     const [currentPart, setCurrentPart] = useState(1);
     const [isPaused, setIsPaused] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(quiz.totalTime);
+    const [timeLeft, setTimeLeft] = useState(0);
 
-    // State for Parts
+    // Define time limits for each part in seconds
+    const PART_TIMES = {
+        1: 35 * 60,  // Part 1: Reading Comprehension (35 minutes)
+        2: 45 * 60,  // Part 2: Extended Response (45 minutes)
+        3: 70 * 60,  // Part 3: Language & Grammar (70 minutes)
+    };
+
+    // State for all answers
     const [part1Answers, setPart1Answers] = useState(Array(quiz.part1_reading.length).fill(null));
     const [part3Answers, setPart3Answers] = useState(Array(quiz.part3_language.length).fill(null));
     const [essayText, setEssayText] = useState('');
     const [isScoring, setIsScoring] = useState(false);
     const [essayScore, setEssayScore] = useState(null);
 
-    // Master Timer
+    // Effect to manage and reset the timer when the part changes
+    useEffect(() => {
+        setTimeLeft(PART_TIMES[currentPart]); // Set the time for the new part
+    }, [currentPart]);
+
+    // Effect for the countdown timer itself
     useEffect(() => {
         if (isPaused || timeLeft <= 0) {
             return;
@@ -1880,13 +2030,21 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 
     const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
 
+    const handlePartComplete = () => {
+        if (currentPart < 3) {
+            setCurrentPart(currentPart + 1);
+        } else {
+            handleFinalSubmit();
+        }
+    };
+
     const handleFinalSubmit = () => {
         let score = 0;
         quiz.part1_reading.forEach((q, i) => {
-            if (q.answerOptions.find(opt => opt.isCorrect)?.text === part1Answers[i]) score++;
+            if ((q.answerOptions.find(opt => opt.isCorrect)?.text || '') === part1Answers[i]) score++;
         });
         quiz.part3_language.forEach((q, i) => {
-            if (q.answerOptions.find(opt => opt.isCorrect)?.text === part3Answers[i]) score++;
+            if ((q.answerOptions.find(opt => opt.isCorrect)?.text || '') === part3Answers[i]) score++;
         });
         const totalQuestions = quiz.part1_reading.length + quiz.part3_language.length;
         const percentage = totalQuestions > 0 ? (score / totalQuestions) * 100 : 0;
@@ -1931,7 +2089,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                             questions={quiz.part1_reading}
                             answers={part1Answers}
                             setAnswers={setPart1Answers}
-                            onComplete={() => setCurrentPart(2)}
+                            onComplete={handlePartComplete}
                             buttonText="Continue to Essay"
                         />
                     </div>
@@ -1939,10 +2097,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             case 2:
                 return (
                     <div>
-                        <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response</h3>
-                        <div className="grid lg:grid-cols-2 gap-4">
-                            <div className="prose max-w-none bg-slate-50 p-4 rounded-lg"><h4>{quiz.part2_essay.passages[0].title}</h4><div dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(quiz.part2_essay.passages[0].content)) }} /></div>
-                            <div className="prose max-w-none bg-slate-50 p-4 rounded-lg"><h4>{quiz.part2_essay.passages[1].title}</h4><div dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(quiz.part2_essay.passages[1].content)) }} /></div>
+                        <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response (Essay)</h3>
+                        <div className="prose max-w-none bg-slate-50 p-4 rounded-lg mb-4">
+                            <h4>{quiz.part2_essay.passages[0].title}</h4>
+                            <div dangerouslySetInnerHTML={{ __html: unescapeHtml(quiz.part2_essay.passages[0].content) }} />
+                        </div>
+                        <div className="prose max-w-none bg-slate-50 p-4 rounded-lg">
+                            <h4>{quiz.part2_essay.passages[1].title}</h4>
+                            <div dangerouslySetInnerHTML={{ __html: unescapeHtml(quiz.part2_essay.passages[1].content) }} />
                         </div>
                         <div className="mt-4">
                             <h4 className="font-bold">Essay Prompt:</h4>
@@ -1953,7 +2115,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                             <button onClick={handleScoreEssay} disabled={isScoring} className="px-4 py-2 bg-purple-600 text-white rounded-md disabled:bg-slate-400">
                                 {isScoring ? 'Scoring...' : 'Get AI Feedback'}
                             </button>
-                            <button onClick={() => setCurrentPart(3)} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg">Continue to Final Section</button>
+                            <button onClick={handlePartComplete} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg">Continue to Final Section</button>
                         </div>
                         {essayScore && (
                             <div className="mt-4 p-4 bg-purple-50 rounded-lg">
@@ -1988,10 +2150,11 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     return (
         <div className="fade-in">
              <header className="flex justify-between items-center pb-4 mb-4 border-b">
+                 <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
                  <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
                  <div className="flex items-center gap-4">
                     <button onClick={() => setIsPaused(!isPaused)} className="px-4 py-1 border rounded-lg font-semibold">{isPaused ? 'Resume' : 'Pause'}</button>
-                    <div className="font-bold text-red-600">{formatTime(timeLeft)}</div>
+                    <div className="font-bold text-red-600 text-2xl">{formatTime(timeLeft)}</div>
                  </div>
             </header>
             {isPaused ? (
@@ -2142,15 +2305,9 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
         setIsSubmitted(true);
         let score = 0;
         quiz.questions.forEach((q, i) => {
-            if (q.type === 'graphing_challenge') {
-                if (answers[i] && answers[i].toString() === q.correctAnswer.toString()) {
-                    score++;
-                }
-            } else {
-                const correctOption = q.answerOptions.find(opt => opt.isCorrect);
-                if (correctOption && answers[i] === correctOption.text) {
-                    score++;
-                }
+             const correctOption = (q.answerOptions || []).find(opt => opt.isCorrect);
+            if(correctOption && answers[i] === correctOption.text) {
+                score++;
             }
         });
         const percentage = (score / quiz.questions.length) * 100;
@@ -2207,52 +2364,119 @@ function EssayGuide({ onExit }) {
 
     const intervalRef = useRef(null);
 
-    const passagesData = [
-        {
-            topic: "Should the Voting Age Be Lowered to 16?",
-            passage1: {
-                title: "Dr. Alisa Klein, Sociologist (Pro-Lowering)",
-                content: "<p>Lowering the voting age to 16 would be a transformative step for our democracy. At 16, many young people are employed, pay taxes, and are subject to the laws of the land. It is a fundamental principle of democracy—'no taxation without representation'—that they should have a voice in shaping the policies that directly affect their lives. Furthermore, research shows that voting is a habit; enabling citizens to vote at a younger age, when they are often still living in a stable home environment and are engaged in civics education at school, increases the likelihood that they will become lifelong voters. It is a vital step toward strengthening civic engagement for generations to come.</p>"
-            },
-            passage2: {
-                title: "Marcus heavyweight, Political Analyst (Anti-Lowering)",
-                content: "<p>While the idealism behind lowering the voting age is appealing, the practical realities suggest it would be a mistake. The adolescent brain is still undergoing significant development, particularly in areas related to long-term decision-making and impulse control. The political landscape is complex, requiring a level of experience and cognitive maturity that most 16-year-olds have not yet developed. We risk trivializing the profound responsibility of voting by extending it to a demographic that is, by and large, not yet equipped to handle it. The current age of 18 strikes a reasonable balance, marking a clear transition into legal adulthood and the responsibilities that come with it.</p>"
-            }
+const passagesData = [
+    // --- All 10 Topics Updated with Highlighted & Imbalanced Evidence ---
+    {
+        topic: "Should the Voting Age Be Lowered to 16?",
+        passage1: {
+            title: "Dr. Alisa Klein, Sociologist (Stronger Argument)",
+            content: "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy—'no taxation without representation'—that they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
         },
-        {
-            topic: "Is Universal Basic Income (UBI) a Viable Solution to Poverty?",
-            passage1: {
-                title: "Anna Coote, Economist (Against UBI)",
-                content: "<p>A Universal Basic Income, while well-intentioned, is an inefficient and expensive tool for poverty reduction. It fails to target the individuals who need support the most, instead distributing funds to everyone, which ultimately redistributes income upward. Existing programs like food stamps and medical aid are designed to address the specific, varied hardships of poverty. UBI risks dismantling this targeted support system. Furthermore, there is a significant danger of UBI entrenching low pay and precarious work, as it could effectively subsidize employers who pay low wages, normalizing economic instability rather than solving its root causes.</p>"
-            },
-            passage2: {
-                title: "Robert Doar, Poverty Studies Fellow (For UBI (with caution))",
-                content: "<p>While a truly universal payment to every citizen would be fiscally irresponsible, the concept of a guaranteed income has merit if targeted correctly. We must focus on teaching essential skills to low-skill workers and those who do not attend college to prepare them for the future of work. A targeted income support system could act as a safety net that encourages, rather than replaces, work. It would provide the stability needed for individuals to invest in new skills or find more suitable jobs without the constant threat of destitution. The goal is not to give up on work, but to provide a foundation upon which individuals can build more productive and independent lives.</p>"
-            }
-        },
-        {
-            topic: "Should Governments Aggressively Subsidize Renewable Energy?",
-            passage1: {
-                title: "Energy Policy Journal (Pro-Subsidies)",
-                content: "<p>Government subsidies are essential for accelerating the transition to renewable energy sources like solar and wind. The primary benefit is environmental; renewables produce little to no greenhouse gases, combating climate change and improving public health by reducing air pollution. While the initial costs of installation can be high, subsidies make them accessible and competitive with fossil fuels. This investment creates jobs in a growing clean energy sector and fosters energy independence, reducing reliance on volatile foreign markets. In the long run, supporting renewables is not just an environmental decision, but a strategic economic one that leads to stable, lower energy costs for everyone.</p>"
-            },
-            passage2: {
-                title: "Institute for Energy Research (Anti-Subsidies)",
-                content: "<p>While renewable energy is a worthy goal, aggressive government subsidies create significant problems. The high upfront cost of technologies like solar panels and wind turbines are passed on to taxpayers, and these systems have geographic limitations—they are only effective in specific locations with consistent sun or wind. Furthermore, energy production is often intermittent, requiring expensive battery storage solutions that are not yet advanced enough to handle the grid's needs. The manufacturing and disposal of panels and turbines also have their own environmental costs. A market-driven approach, rather than government intervention, would allow the most efficient and affordable technologies to emerge naturally.</p>"
-            }
-        },
-        {
-            topic: "Does Social Media Do More Harm Than Good for Teen Mental Health?",
-            passage1: {
-                title: "U.S. Surgeon General's Advisory (Harmful)",
-                content: "<p>There is a profound risk of harm to the mental health and well-being of children and adolescents from social media. Studies show that teens who spend more than three hours a day on social media face double the risk of experiencing depression and anxiety symptoms. These platforms are designed to be addictive, often disrupting sleep and exposing young users to cyberbullying, distorted body images, and social comparison. For a developing adolescent brain, which is highly susceptible to peer pressure, this constant, curated reality can lead to lower self-esteem and poor body image, particularly among girls.</p>"
-            },
-            passage2: {
-                title: "Youth Mental Health Council (Beneficial)",
-                content: "<p>While risks exist, social media often provides essential benefits for teens. A majority report that it helps them feel more accepted, more connected to friends, and like they have people to support them through tough times. These online connections are especially crucial for marginalized youth, such as racial or LGBTQ minorities, who may find a supportive community online that is unavailable to them offline. Social media platforms can foster a sense of belonging, provide a place for creative self-expression, and help teens access information and resources about mental health, ultimately promoting help-seeking behaviors.</p>"
-            }
+        passage2: {
+            title: "Marcus heavyweight, Political Analyst (Weaker Argument)",
+            content: "<p>While the idealism behind lowering the voting age is appealing, the practical realities suggest it would be a mistake. The adolescent brain is still undergoing significant development, particularly in areas related to long-term decision-making and impulse control. The political landscape is complex, requiring a level of experience and cognitive maturity that most 16-year-olds have not yet developed.</p><p>We risk trivializing the profound responsibility of voting by extending it to a demographic that is, by and large, not yet equipped to handle it. <span class='bad-evidence'>I remember being 16, and my friends and I were far more concerned with prom dates and getting a driver's license than with monetary policy.</span> Their priorities are simply not aligned with the serious nature of national governance.</p><p>The current age of 18 strikes a reasonable balance, marking a clear transition into legal adulthood and the full spectrum of responsibilities that come with it. To change this is to experiment with the foundation of our republic for no clear gain.</p>"
         }
-    ];
+    },
+    {
+        topic: "Is Universal Basic Income (UBI) a Viable Solution to Poverty?",
+        passage1: {
+            title: "Anna Coote, Economist (Stronger Argument)",
+            content: "<p>A Universal Basic Income, while well-intentioned, is an inefficient and expensive tool for poverty reduction. It fails to target the individuals who need support the most, instead distributing funds to everyone, which ultimately dilutes its impact. <span class='good-evidence'>According to a 2018 analysis by the Center on Budget and Policy Priorities, replacing existing targeted aid programs with a modest UBI would actually increase the poverty rate.</span></p><p>Existing programs like SNAP (food stamps) and Medicaid are designed to address the specific, varied hardships of poverty. UBI risks dismantling this targeted support system. Furthermore, there is a significant danger of UBI entrenching low pay and precarious work, as it could effectively subsidize employers who pay poverty wages, normalizing economic instability rather than solving its root causes.</p><p><span class='good-evidence'>This is a logical consequence, as a guaranteed income floor reduces the pressure on companies to offer competitive wages and benefits to attract workers for undesirable jobs.</span> The focus should be on strengthening our existing, targeted safety nets and promoting policies that lead to higher wages and better job quality.</p>"
+        },
+        passage2: {
+            title: "Robert Doar, Poverty Studies Fellow (Weaker Argument)",
+            content: "<p>The concept of a guaranteed income has merit as a powerful tool to provide stability in an unstable world. A regular, predictable income floor would act as a safety net, allowing individuals to invest in new skills or find more suitable jobs without the constant threat of destitution. It provides the foundation upon which individuals can build more productive and independent lives.</p><p><span class='bad-evidence'>Everyone knows that if you're not worried about next month's rent, you can make better long-term decisions.</span> It just makes sense that this freedom would lead to a boom in entrepreneurship and creativity, unleashing human potential that is currently suppressed by economic anxiety.</p><p>The goal is not to give up on work, but to provide a cushion that allows for smarter work. Opponents worry that people will stop working, but this is a cynical view of human nature. Most people want to contribute and improve their lives; UBI simply gives them the security to do so more effectively.</p>"
+        }
+    },
+    {
+        topic: "Should Governments Aggressively Subsidize Renewable Energy?",
+        passage1: {
+            title: "Energy Policy Journal (Stronger Argument)",
+            content: "<p>Government subsidies are essential for accelerating the transition to renewable energy sources like solar and wind. The primary benefit is environmental; renewables produce little to no greenhouse gases, combating climate change and improving public health. <span class='good-evidence'>A report from the National Renewable Energy Laboratory (NREL) concluded that achieving 80% renewable electricity by 2050 could reduce economy-wide carbon emissions by 81%.</span></p><p>While the initial costs can be high, subsidies make them accessible and competitive with established fossil fuels, which have themselves been subsidized for decades. This investment creates jobs in a growing clean energy sector and fosters energy independence. <span class='good-evidence'>According to the U.S. Bureau of Labor Statistics, solar panel installer and wind turbine technician are two of the fastest-growing jobs in the country.</span></p><p>In the long run, supporting renewables is not just an environmental decision, but a strategic economic one. It leads to stable, predictable energy costs free from the price volatility of the global oil market. It is a necessary investment in a cleaner and more economically secure future.</p>"
+        },
+        passage2: {
+            title: "Institute for Energy Research (Weaker Argument)",
+            content: "<p>While renewable energy is a worthy goal, aggressive government subsidies create significant problems. The high upfront cost of technologies like solar panels and wind turbines are passed on to taxpayers, creating a massive financial burden. These systems also have geographic limitations—they are only effective in specific locations with consistent sun or wind.</p><p>Furthermore, energy production is often intermittent, requiring expensive battery storage solutions that are not yet advanced enough. <span class='bad-evidence'>Think of the poor families who will have their lights go out on a calm, cloudy day.</span> It's simply not reliable enough to power a modern economy without fossil fuel backup, which defeats the entire purpose.</p><p>A market-driven approach, rather than government intervention, would allow the most efficient and affordable technologies to emerge naturally. We shouldn't let the government pick winners and losers with taxpayer money; we should let innovation and competition determine the best path forward.</p>"
+        }
+    },
+    {
+        topic: "Does Social Media Do More Harm Than Good for Teen Mental Health?",
+        passage1: {
+            title: "U.S. Surgeon General's Advisory (Stronger Argument)",
+            content: "<p>There is a profound risk of harm to the mental health and well-being of children and adolescents from social media. <span class='good-evidence'>A 2022 study published in the Journal of the American Medical Association (JAMA) showed that teens who spend more than three hours a day on social media face double the risk of experiencing depression and anxiety symptoms.</span> These platforms are often designed to maximize user engagement, which can disrupt sleep and expose young users to harmful content.</p><p>The adolescent brain is highly susceptible to social comparison and peer pressure. Social media platforms can create a distorted reality, where teens are constantly comparing their own lives to the curated, idealized posts of others. <span class='good-evidence'>This has been directly linked to lower self-esteem and poor body image, particularly among adolescent girls, as noted by the American Psychological Association.</span></p><p><span class='bad-evidence'>It feels like every teenager I meet is more anxious than the last, and they are all glued to their phones.</span> The connection is obvious. We need better safeguards, and parents need to be more aware of the very real dangers these platforms pose to their children's developing minds.</p>"
+        },
+        passage2: {
+            title: "Youth Mental Health Council (Weaker Argument)",
+            content: "<p>While risks exist, social media often provides essential benefits for teens. Many report that it helps them feel more accepted and connected to their friends. These online connections are especially crucial for marginalized youth, such as LGBTQ teens, who may find a supportive community online that is unavailable to them in their immediate environment.</p><p><span class='bad-evidence'>My own daughter was struggling to make friends, but she found a wonderful group of people online who share her passion for art. It completely turned her life around.</span> This just goes to show how vital these connections can be for a young person's happiness.</p><p>Social media platforms can foster a sense of belonging and provide a place for creative self-expression. They also help teens access information and resources about mental health, which can promote help-seeking behaviors. To focus only on the negatives is to ignore the powerful role social media can play in supporting youth well-being.</p>"
+        }
+    },
+    {
+        topic: "Is a Four-Year College Degree the Best Path to a Successful Career?",
+        passage1: {
+            title: "Dr. Anya Sharma, Education Policy Analyst (Weaker Argument)",
+            content: "<p>A four-year college degree remains the most reliable pathway to long-term career success and economic mobility. While vocational training has its place, a bachelor's degree provides something far more valuable: a foundation in critical thinking, complex problem-solving, and communication. These are not just job skills; they are life skills that allow graduates to adapt to a rapidly changing economy.</p><p>Statistically, the evidence is overwhelming. College graduates consistently earn significantly more over their lifetimes than those without a degree. <span class='bad-evidence'>Everyone knows someone who got a degree and became successful.</span> This 'degree premium' is not just about the first job out of college, but about the upward trajectory that a broad-based education enables.</p><p>Furthermore, the college experience itself fosters personal growth and exposure to diverse perspectives. To suggest that a narrow, job-specific training program is equivalent is to ignore the fundamental purpose of higher education: to create not just workers, but informed and adaptable citizens.</p>"
+        },
+        passage2: {
+            title: "Marco Diaz, Skilled Trades Advocate (Stronger Argument)",
+            content: "<p>For too long, we have pushed a 'college-for-all' mentality that has left millions of young people with crippling student loan debt. It is time we recognize that vocational training offers a more direct and affordable path to a stable career. <span class='good-evidence'>According to the Bureau of Labor Statistics, many skilled trades, such as electricians and plumbers, have median salaries comparable to or exceeding those of many bachelor's degree holders, without the upfront cost.</span></p><p>Vocational programs provide hands-on skills that are immediately applicable. Students often enter paid apprenticeship programs where they earn while they learn. This model avoids the massive debt associated with a four-year degree and allows young adults to begin building financial independence years earlier. <span class='good-evidence'>A 2021 report from the National Center for Education Statistics highlights that the average student loan debt for a bachelor's degree is over $30,000.</span></p><p>We must stop stigmatizing skilled labor. By promoting vocational education as a respectable and intelligent alternative, we can build a stronger, more practical workforce and offer a debt-free path to the middle class for millions of Americans.</p>"
+        }
+    },
+    {
+        topic: "Should Schools Ban the Use of Smartphones in the Classroom?",
+        passage1: {
+            title: "Principal Thompson, Educator (Stronger Argument)",
+            content: "<p>Smartphones have become the single greatest source of distraction in the modern classroom, and it is time for a clear and consistent ban. These devices fragment student attention and disrupt the learning environment. The primary purpose of a classroom is education, and anything that fundamentally undermines that purpose must be removed.</p><p><span class='good-evidence'>A comprehensive study by the London School of Economics analyzed schools in four English cities and found that after phones were banned, student test scores improved by an average of 6.4%.</span> This effect was even more pronounced for lower-achieving students, suggesting a ban can help close the achievement gap. This data provides clear, empirical evidence that removing phones leads to better academic outcomes.</p><p>A firm ban sends an unambiguous message about our academic priorities and helps students develop the crucial skill of focused, sustained attention, a skill that is eroding in the digital age.</p>"
+        },
+        passage2: {
+            title: "Dr. Helen Tran, Digital Learning Expert (Weaker Argument)",
+            content: "<p>Banning smartphones in schools is a Luddite response to a modern reality. Instead of banning these powerful tools, we should be teaching students how to use them responsibly. Smartphones provide instant access to a world of information, acting as research tools and collaborative devices. To deny students access is to cripple them with an outdated model of education.</p><p><span class='bad-evidence'>The people who want to ban phones are just old-fashioned and afraid of technology.</span> This argument ignores the fact that the modern workplace requires digital literacy. Schools have a responsibility to prepare students for the world they will actually live and work in, and that world is saturated with technology.</p><p>The challenge is not the device, but the pedagogy. We need to train teachers to leverage these tools for learning, not run from them. <span class='bad-evidence'>It's just common sense that you can't prepare kids for the future by taking away future tools.</span></p>"
+        }
+    },
+    {
+        topic: "Should Fast-Food Restaurants Be Required to Display Calorie Counts?",
+        passage1: {
+            title: "Center for Public Health (Stronger Argument)",
+            content: "<p>In the fight against the obesity epidemic, information is one of our most powerful weapons. Requiring fast-food chains to prominently display calorie counts on their menus is a common-sense policy that empowers consumers to make healthier choices. It is a simple matter of transparency; people have a right to know what is in the food they are purchasing.</p><p><span class='good-evidence'>A study published in the American Journal of Public Health found that after New York City implemented menu labeling, consumers at fast-food chains purchased, on average, 25 fewer calories per transaction.</span> While this may seem small, these small changes, compounded over time, can lead to significant positive health outcomes for the population.</p><p>This isn't about banning choices; it's about enabling informed ones. Just as the FDA requires nutrition labels on packaged foods, providing clear, accessible information at the point of purchase is a minimal and effective step to help people take better control of their own health.</p>"
+        },
+        passage2: {
+            title: "Restaurant Industry Association (Weaker Argument)",
+            content: "<p>Mandatory calorie labeling for fast-food restaurants is a costly and ineffective government overreach. The financial burden of analyzing every menu item and reprinting menu boards is significant, especially for smaller franchise owners. This is a classic case of the government imposing a one-size-fits-all solution that hurts small businesses.</p><p><span class='bad-evidence'>I know plenty of people who see a high calorie count and just order the item anyway, so it clearly doesn't work.</span> People go to fast-food restaurants for convenience and taste, not for a health experience. Consumer behavior is driven by many factors, and a single number on a menu board is unlikely to be the deciding one.</p><p>Ultimately, this policy is based on the flawed assumption that a lack of information is the cause of poor dietary choices. <span class='bad-evidence'>Everyone already knows that a burger and fries isn't a health food.</span> The focus should be on personal responsibility, not on more government regulations.</p>"
+        }
+    },
+    {
+        topic: "Should National Parks Implement a Lottery System to Manage Overcrowding?",
+        passage1: {
+            title: "Dr. David Chen, Conservation Biologist (Stronger Argument)",
+            content: "<p>Our most beloved national parks are being loved to death. The surge in visitor numbers has led to traffic gridlock, trail erosion, and damage to fragile ecosystems. To protect these natural treasures for future generations, we must implement more restrictive access systems, and a lottery is the fairest way to do so.</p><p><span class='good-evidence'>The National Park Service's own data shows that in parks like Zion and Arches, unmanaged visitor numbers have led to significant soil compaction and vegetation loss along popular trails.</span> A lottery system would directly mitigate this environmental damage by controlling the number of people on the trails each day. This is a necessary management tool to fulfill the Park Service's core mission of preservation.</p><p><span class='good-evidence'>Furthermore, a 2021 study on visitor experiences in Yosemite concluded that overcrowding significantly diminishes the quality of the visitor experience, leading to lower satisfaction.</span> A reservation system provides certainty and allows visitors to plan their trips effectively, ensuring a better experience for those who do attend.</p>"
+        },
+        passage2: {
+            title: "Brenda Walsh, Public Lands Advocate (Weaker Argument)",
+            content: "<p>National parks were created to be accessible to all Americans, not just the lucky few who win a lottery. Implementing a reservation system fundamentally changes the nature of these public lands from a shared national birthright into an exclusive commodity. It creates a barrier that will disproportionately affect families who cannot plan their vacations months in advance.</p><p><span class='bad-evidence'>My family has always taken spontaneous trips to the parks, and a lottery system would destroy that tradition.</span> This would harm the local gateway communities whose economies depend on a steady flow of tourists, not just a pre-determined, limited number.</p><p><span class='bad-evidence'>Turning our parks into an exclusive club is a betrayal of the very idea of 'America's Best Idea.'</span> We must focus on smart solutions like more shuttle buses, rather than simply locking people out.</p>"
+        }
+    },
+    {
+        topic: "Should Standardized Test Scores Be a Primary Factor in College Admissions?",
+        passage1: {
+            title: "Dr. Richard Evans, Admissions Counselor (Stronger Argument)",
+            content: "<p>Relying heavily on standardized test scores like the SAT and ACT in college admissions is an outdated and inequitable practice. These tests are not a pure measure of merit; they are strongly correlated with a student's family income and access to resources. Students from affluent families can afford expensive test prep courses, giving them an unfair advantage.</p><p><span class='good-evidence'>A landmark study of over 123,000 students at 33 test-optional colleges found that there was virtually no difference in college GPA or graduation rates between students who submitted scores and those who did not.</span> This proves that high school grades are a far better predictor of college success. A student's performance over four years is a much more holistic and accurate measure of their ability and work ethic.</p><p>By moving to a test-optional system, colleges can assess applicants more equitably, considering their academic record, essays, and activities. This allows them to build a more diverse and capable student body, rewarding long-term diligence over the ability to perform well on a single, high-stakes exam.</p>"
+        },
+        passage2: {
+            title: "Dr. Susan Gerson, Education Measurement Specialist (Weaker Argument)",
+            content: "<p>While standardized tests are not perfect, they are the most objective and reliable tool we have for comparing students from tens of thousands of different high schools. Grade inflation is rampant, and an 'A' in one school is not equivalent to an 'A' in another. The SAT and ACT provide a common yardstick to measure core academic skills.</p><p><span class='bad-evidence'>Without tests, admissions would just become a subjective guessing game about who wrote the prettiest essay.</span> It would be chaos. These tests can help identify promising students from less well-known high schools whose grades might otherwise be overlooked. To ignore test scores is to ignore a valuable piece of data.</p><p>Rather than eliminating these tests, we should focus on ensuring all students have access to free, high-quality test preparation resources. Fixing the access problem is a better solution than throwing away our only objective measurement tool.</p>"
+        }
+    },
+    {
+        topic: "Is a Remote Work Model More Beneficial Than a Traditional In-Office Model?",
+        passage1: {
+            title: "Jennifer Lee, Chief Financial Officer (Stronger Argument)",
+            content: "<p>The shift to remote work has proven to be a resounding success, offering significant financial and operational benefits. By reducing the need for large, expensive office spaces, companies can drastically cut overhead costs related to rent and utilities. These savings can be reinvested into growth and innovation.</p><p>From a human resources perspective, the benefits are even more compelling. Offering remote work allows a company to recruit from a global talent pool, not just a single city. <span class='good-evidence'>A 2021 survey by Stanford University of 16,000 workers over 9 months found that remote work not only increased employee satisfaction but also boosted productivity by 13%.</span> Happier, more autonomous employees are more productive employees.</p><p>Furthermore, remote work improves employee retention and well-being. <span class='good-evidence'>According to a Gallup poll, a majority of remote-capable employees who are forced to return to the office full-time are actively seeking new employment.</span> A flexible, remote-first model is not just a trend; it is the future of a more efficient and humane way of doing business.</p>"
+        },
+        passage2: {
+            title: "Robert Chen, Management Consultant (Weaker Argument)",
+            content: "<p>The alleged benefits of remote work are largely illusory and ignore the long-term damage it does to a company's culture. The office is a hub for spontaneous collaboration and mentorship that simply cannot be replicated over scheduled Zoom calls. The informal 'water cooler' conversations that spark new ideas are lost forever.</p><p><span class='bad-evidence'>It's just common sense that people are going to be less productive at home with all the distractions of laundry and television.</span> While some companies may see short-term gains in routine tasks, the long-term cost in terms of lost innovation and team cohesion will be immense.</p><p>Junior employees, in particular, suffer from a lack of mentorship and observational learning that is critical for their career development. A vibrant, in-person workplace remains the most powerful engine for collaborative success, and we are losing that in favor of a lonely, disconnected workforce.</p>"
+        }
+    }
+];
 
     useEffect(() => {
         if (timerActive && timer > 0) {
@@ -2512,9 +2736,8 @@ function EssayGuide({ onExit }) {
     );
 }
 
-function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
+function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLoadingMessage }) {
     const [selectedTopic, setSelectedTopic] = useState('');
-    const [isGenerating, setIsGenerating] = useState(false);
     const [error, setError] = useState(null);
 
     const availableTopics = AppData[subject]
@@ -2526,14 +2749,15 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             setError("Please select a topic first.");
             return;
         }
-        setIsGenerating(true);
+        setLoadingMessage("Please give us a moment to smith this for you");
+        setIsLoading(true);
         setError(null);
 
         try {
             const response = await fetch('https://ged-website.onrender.com/generate-quiz', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ subject, topic: selectedTopic })
+                body: JSON.stringify({ subject, topic: selectedTopic, comprehensive: false })
             });
 
             if (!response.ok) {
@@ -2542,7 +2766,7 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             }
 
             const generatedQuizData = await response.json();
-            const generatedQuiz = generatedQuizData; // The server now sends the final quiz structure directly
+            const generatedQuiz = generatedQuizData;
 
             if (!generatedQuiz.questions || !Array.isArray(generatedQuiz.questions)) {
                 console.error("Parsed JSON is missing a 'questions' array:", generatedQuiz);
@@ -2556,7 +2780,7 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
             console.error("Error generating quiz:", err);
             setError(`Sorry, something went wrong. ${err.message}`);
         } finally {
-            setIsGenerating(false);
+            setIsLoading(false);
         }
     };
 
@@ -2582,10 +2806,10 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit }) {
 
                 <button 
                     onClick={handleGenerate} 
-                    disabled={isGenerating}
+                    disabled={isLoading}
                     className="w-full px-8 py-4 bg-sky-600 text-white font-bold rounded-lg shadow-md hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
                 >
-                    {isGenerating ? "Generating..." : "Generate Quiz"}
+                    {isLoading ? "Generating..." : "Generate Quiz"}
                 </button>
                 {error && <p className="text-red-500 mt-4">{error}</p>}
             </div>
@@ -2694,100 +2918,6 @@ function GraphingTool({ onExit }) {
         </div>
     );
 }
-
-function InteractiveGeometry({ onExit }) {
-    const stageRef = useRef(null);
-    const [dimensions, setDimensions] = useState({ width: 200, height: 150 });
-    const [area, setArea] = useState(200 * 150);
-    const [perimeter, setPerimeter] = useState(2 * (200 + 150));
-
-    useEffect(() => {
-        const stage = new Konva.Stage({
-            container: stageRef.current,
-            width: stageRef.current.offsetWidth,
-            height: 400,
-        });
-
-        const layer = new Konva.Layer();
-        stage.add(layer);
-
-        const rect = new Konva.Rect({
-            x: 50,
-            y: 50,
-            width: dimensions.width,
-            height: dimensions.height,
-            fill: 'skyblue',
-            stroke: 'blue',
-            strokeWidth: 4,
-            draggable: true,
-        });
-
-        layer.add(rect);
-
-        const updateCalculations = () => {
-            const newWidth = Math.round(rect.width() * rect.scaleX());
-            const newHeight = Math.round(rect.height() * rect.scaleY());
-            setDimensions({ width: newWidth, height: newHeight });
-            setArea(newWidth * newHeight);
-            setPerimeter(2 * (newWidth + newHeight));
-        };
-
-        rect.on('transform', updateCalculations);
-        rect.on('dragmove', updateCalculations);
-
-        const tr = new Konva.Transformer({
-            nodes: [rect],
-            keepRatio: false,
-            anchorStroke: 'dodgerblue',
-            anchorFill: 'white',
-            anchorSize: 10,
-            borderStroke: 'dodgerblue',
-        });
-        layer.add(tr);
-
-        return () => {
-            stage.destroy();
-        };
-    }, []);
-
-    return (
-        <div className="fade-in">
-            <header className="flex justify-between items-center pb-4 mb-4 border-b">
-                <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                <h2 className="text-xl font-bold text-center text-slate-800">Interactive Geometry Tool</h2>
-                <div></div>
-            </header>
-            <div className="flex flex-col md:flex-row gap-6">
-                <div className="flex-grow border rounded-lg overflow-hidden">
-                    <div ref={stageRef}></div>
-                </div>
-                <div className="md:w-64 flex-shrink-0 bg-slate-50 p-4 rounded-lg shadow-inner">
-                    <h3 className="text-lg font-semibold text-slate-700 mb-4">Real-Time Calculations</h3>
-                    <div className="space-y-3">
-                        <div>
-                            <p className="text-sm font-semibold text-slate-500">Width:</p>
-                            <p className="text-2xl font-bold text-sky-700">{dimensions.width} px</p>
-                        </div>
-                        <div>
-                            <p className="text-sm font-semibold text-slate-500">Height:</p>
-                            <p className="text-2xl font-bold text-sky-700">{dimensions.height} px</p>
-                        </div>
-                        <div className="pt-2 border-t">
-                            <p className="text-sm font-semibold text-slate-500">Area:</p>
-                            <p className="text-2xl font-bold text-green-700">{area.toLocaleString()} px²</p>
-                        </div>
-                         <div className="pt-2 border-t">
-                            <p className="text-sm font-semibold text-slate-500">Perimeter:</p>
-                            <p className="text-2xl font-bold text-green-700">{perimeter.toLocaleString()} px</p>
-                        </div>
-                    </div>
-                     <p className="text-xs text-slate-400 mt-6">Drag the shape or its corners to see the calculations update.</p>
-                </div>
-            </div>
-        </div>
-    );
-}
-
 
 // --- RENDER APP ---
 const container = document.getElementById('root');

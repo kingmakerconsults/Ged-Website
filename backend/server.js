@@ -75,17 +75,12 @@ const promptLibrary = {
     part3: `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each) formatted with <p> tags. The passages should contain a mix of grammatical errors, awkward phrasing, and organizational issues. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences, improving word choice, and identifying errors. This should total 25 questions.`
 }
 },
-"Mathematical Reasoning": {
-    topic: (topic) => `Generate a 15-question GED-style Math quiz focused on the specific topic of '${topic}'.
-
-    **STRICT REQUIREMENTS:**
-    1.  **Question Style:** The questions MUST be primarily multi-step word problems that require practical application of math skills. Avoid simple, single-step computation questions.
-    2.  **Content Mix:** Ensure questions align with the GED math focus: roughly 45% should be Quantitative Problem Solving (data analysis, number sense) and 55% should be Algebraic Problem Solving (expressions, equations, functions).
-    3.  **Vary the Difficulty:** Include a mix of easy, medium, and hard questions.
-    4.  **Calculator Context:** Some questions should be solvable without a calculator, while others should involve more complex numbers that would typically require a calculator on the GED test.`,
-    comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
-    **STRICT REQUIREMENTS:** The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. The questions MUST be primarily multi-step word problems and include questions based on data charts and graphs.`
-}
+    "Math": {
+        topic: (topic) => `Generate a 15-question GED-style Math quiz focused on "${topic}".
+        STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems (number sense, data analysis) and 55% Algebraic Problems (expressions, equations).`,
+        comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
+        STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.`
+    }
 };
 
 app.get('/', (req, res) => {
@@ -239,37 +234,6 @@ const generatePassageSet = async (topic, subject, numQuestions) => {
     }));
 };
 
-const generateChartSet = async (topic, subject, numQuestions) => {
-    const prompt = `You are a GED exam creator. Generate a data-based stimulus set specifically for a bar graph, related to the topic '${topic}' and subject '${subject}'. You MUST generate a data table that compares distinct categories. Do NOT generate data showing a continuous trend. The table MUST be a valid HTML '<table>' string.
-    Then, based ONLY on the table, generate ${numQuestions} unique questions requiring data interpretation.
-    Output a single valid JSON object with keys "passage" (the HTML table string) and "questions".`;
-
-    const questionSchema = {
-        type: "OBJECT",
-        properties: {
-            questionText: { type: "STRING" },
-            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
-        },
-        required: ["questionText", "answerOptions"]
-    };
-
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            passage: { type: "STRING" },
-            questions: { type: "ARRAY", items: questionSchema }
-        },
-        required: ["passage", "questions"]
-    };
-
-    const result = await callAI(prompt, schema);
-    return result.questions.map(q => ({
-        ...q,
-        passage: result.passage,
-        chartType: 'bar', // As requested in prompt
-        type: 'chart'
-    }));
-};
 
 const generateImageQuestion = async (topic, subject, imagePool, numQuestions) => {
     // Filter by subject AND the specific topic (category)
@@ -342,6 +306,68 @@ Output a single valid JSON object for the question, including "questionText", an
     return question;
 };
 
+async function generateRlaPart1() {
+    const prompt = `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, with a concise, engaging title in <strong> tags. Format passages with <p> tags. The breakdown must be 3 informational texts and 1 literary text. For EACH passage, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions. Each question should be a JSON object. Return a single JSON array of these 20 question objects.`;
+    const schema = { type: "ARRAY", items: singleQuestionSchema };
+    const questions = await callAI(prompt, schema);
+    // Group questions by passage
+    const passages = {};
+    let passageCounter = 0;
+    let currentPassageTitle = '';
+    questions.forEach(q => {
+        if (q.passage && q.passage !== currentPassageTitle) {
+            currentPassageTitle = q.passage;
+            passageCounter++;
+        }
+        const passageKey = `Passage ${passageCounter}`;
+        if (!passages[passageKey]) passages[passageKey] = { passage: q.passage, questions: [] };
+        passages[passageKey].questions.push(q);
+    });
+
+    let groupedQuestions = [];
+    Object.values(passages).forEach(p => {
+        p.questions.forEach(q => groupedQuestions.push({ ...q, passage: p.passage, type: 'passage' }));
+    });
+    return groupedQuestions;
+}
+
+async function generateRlaPart2() {
+    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each). Each passage MUST have its own title. Output a JSON object with keys "passages" (an array of two objects, each with "title" and "content") and "prompt" (the essay question).`;
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            passages: { type: "ARRAY", items: { type: "OBJECT", properties: { title: { type: "STRING" }, content: { type: "STRING" } } } },
+            prompt: { type: "STRING" }
+        },
+        required: ["passages", "prompt"]
+    };
+    return await callAI(prompt, schema);
+}
+
+async function generateRlaPart3() {
+    const prompt = `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each). The passages should contain a mix of grammatical errors and/or awkward phrasing. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences and improving word choice. This should total 25 questions. Each question should be a JSON object. Return a single JSON array of these 25 question objects.`;
+    const schema = { type: "ARRAY", items: singleQuestionSchema };
+    const questions = await callAI(prompt, schema);
+    // Group questions by passage
+    const passages = {};
+    let passageCounter = 0;
+    let currentPassageTitle = '';
+    questions.forEach(q => {
+        if (q.passage && q.passage !== currentPassageTitle) {
+            currentPassageTitle = q.passage;
+            passageCounter++;
+        }
+        const passageKey = `Passage ${passageCounter}`;
+        if (!passages[passageKey]) passages[passageKey] = { passage: q.passage, questions: [] };
+        passages[passageKey].questions.push(q);
+    });
+     let groupedQuestions = [];
+    Object.values(passages).forEach(p => {
+        p.questions.forEach(q => groupedQuestions.push({ ...q, passage: p.passage, type: 'passage' }));
+    });
+    return groupedQuestions;
+}
+
 async function reviewAndCorrectQuiz(draftQuiz) {
     const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam. Your task is to review and improve it based on these rules:
     1.  **IMPROVE QUESTION VARIETY:** The top priority. If you see repetitive question phrasing, rewrite some questions to ask about specific details, inferences, or data points.
@@ -359,92 +385,194 @@ async function reviewAndCorrectQuiz(draftQuiz) {
 
 
 app.post('/generate-quiz', async (req, res) => {
-    const { subject, comprehensive } = req.body;
+    const { subject, topic, comprehensive } = req.body;
 
-    if (!subject || !comprehensive) {
+    if (subject === undefined || comprehensive === undefined) {
         return res.status(400).json({ error: 'Subject and comprehensive flag are required.' });
     }
 
-    // --- LOGIC FOR SOCIAL STUDIES COMPREHENSIVE EXAM ---
-    if (subject === 'Social Studies') {
-        try {
-            const blueprint = {
-                'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
-                'U.S. History':           { passages: 3, images: 2, standalone: 1 },
-                'Economics':              { passages: 3, images: 1, standalone: 0 },
-                'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
-            };
-            const TOTAL_QUESTIONS = 35;
-            let promises = [];
+    if (comprehensive) {
+        // --- COMPREHENSIVE EXAM LOGIC ---
+        if (subject === 'Social Studies') {
+            try {
+                const blueprint = {
+                    'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
+                    'U.S. History':           { passages: 3, images: 2, standalone: 1 },
+                    'Economics':              { passages: 3, images: 1, standalone: 0 },
+                    'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
+                };
+                const TOTAL_QUESTIONS = 35;
+                let promises = [];
 
-            for (const [category, counts] of Object.entries(blueprint)) {
-                for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+                for (const [category, counts] of Object.entries(blueprint)) {
+                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
+                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+                }
+
+                const results = await Promise.all(promises);
+                let allQuestions = results.flat().filter(q => q);
+                // The user wants to remove the shuffle to keep question sets grouped.
+                const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
+                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
+
+                const draftQuiz = {
+                    id: `ai_comp_ss_draft_${new Date().getTime()}`,
+                    title: `Comprehensive Social Studies Exam`,
+                    subject: subject,
+                    questions: draftQuestionSet,
+                };
+
+                console.log("Social Studies draft complete. Sending for second pass review...");
+                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
+                res.json(finalQuiz);
+
+            } catch (error) {
+                console.error('Error generating Social Studies exam:', error);
+                res.status(500).json({ error: 'Failed to generate Social Studies exam.' });
             }
+        } else if (subject === 'Science') {
+            try {
+                const blueprint = {
+                    'Life Science': { passages: 3, images: 3, standalone: 6 },
+                    'Physical Science': { passages: 3, images: 2, standalone: 6 },
+                    'Earth & Space Science': { passages: 2, images: 1, standalone: 2 }
+                };
+                const TOTAL_QUESTIONS = 38;
+                let promises = [];
 
-            const results = await Promise.all(promises);
-            let allQuestions = results.flat().filter(q => q);
-            const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
-            draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
+                for (const [category, counts] of Object.entries(blueprint)) {
+                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
+                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
+                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+                }
 
-            const draftQuiz = {
-                id: `ai_comp_ss_draft_${new Date().getTime()}`,
-                title: `Comprehensive Social Studies Exam`,
-                subject: subject,
-                questions: draftQuestionSet,
-            };
+                const results = await Promise.all(promises);
+                let allQuestions = results.flat().filter(q => q);
+                const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
+                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
-            console.log("Social Studies draft complete. Sending for second pass review...");
-            const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
-            res.json(finalQuiz);
+                const draftQuiz = {
+                    id: `ai_comp_sci_draft_${new Date().getTime()}`,
+                    title: `Comprehensive Science Exam`,
+                    subject: subject,
+                    questions: draftQuestionSet,
+                };
 
-        } catch (error) {
-            console.error('Error generating Social Studies exam:', error);
-            res.status(500).json({ error: 'Failed to generate Social Studies exam.' });
-        }
+                console.log("Science draft complete. Sending for second pass review...");
+                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
+                res.json(finalQuiz);
 
-    // --- LOGIC FOR SCIENCE COMPREHENSIVE EXAM ---
-    } else if (subject === 'Science') {
-        try {
-            const blueprint = {
-                'Life Science': { passages: 3, images: 2, charts: 1, standalone: 6 },
-                'Physical Science': { passages: 3, images: 1, charts: 1, standalone: 6 },
-                'Earth & Space Science': { passages: 2, images: 1, standalone: 2 }
-            };
-            const TOTAL_QUESTIONS = 38;
-            let promises = [];
-
-            for (const [category, counts] of Object.entries(blueprint)) {
-                for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.charts; i++) promises.push(generateChartSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
-                for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+            } catch (error) {
+                console.error('Error generating Science exam:', error);
+                res.status(500).json({ error: 'Failed to generate Science exam.' });
             }
+        } else if (subject === 'Reasoning Through Language Arts (RLA)') {
+    try {
+        console.log("Generating comprehensive RLA exam...");
 
-            const results = await Promise.all(promises);
-            let allQuestions = results.flat().filter(q => q);
-            const draftQuestionSet = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
-            draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
+        const [part1Questions, part2Essay, part3Questions] = await Promise.all([
+            generateRlaPart1(),
+            generateRlaPart2(),
+            generateRlaPart3()
+        ]);
 
-            const draftQuiz = {
-                id: `ai_comp_sci_draft_${new Date().getTime()}`,
-                title: `Comprehensive Science Exam`,
-                subject: subject,
-                questions: draftQuestionSet,
-            };
+        const allQuestions = [...part1Questions, ...part3Questions];
+        allQuestions.forEach((q, index) => {
+            q.questionNumber = index + 1;
+        });
 
-            console.log("Science draft complete. Sending for second pass review...");
-            const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
-            res.json(finalQuiz);
+        const finalQuiz = {
+            id: `ai_comp_rla_${new Date().getTime()}`,
+            title: `Comprehensive RLA Exam`,
+            subject: subject,
+            type: 'multi-part-rla', // Special type for the frontend
+            totalTime: 150 * 60, // 150 minutes
+            part1_reading: part1Questions,
+            part2_essay: part2Essay,
+            part3_language: part3Questions,
+            questions: allQuestions // Keep this for compatibility with results screen
+        };
 
-        } catch (error) {
-            console.error('Error generating Science exam:', error);
-            res.status(500).json({ error: 'Failed to generate Science exam.' });
-        }
-    } else {
-        res.status(400).json({ error: 'This endpoint is only configured for comprehensive Social Studies and Science exams.' });
+        // RLA does not need a second review pass due to its complex, multi-part nature
+        res.json(finalQuiz);
+
+    } catch (error) {
+        console.error('Error generating comprehensive RLA exam:', error);
+        res.status(500).json({ error: 'Failed to generate RLA exam.' });
     }
+} else {
+            // This handles comprehensive requests for subjects without that logic yet.
+            res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
+        }
+} else {
+    // --- THIS NEW LOGIC PERFECTS TOPIC-SPECIFIC "SMITH A QUIZ" REQUESTS ---
+    try {
+        const { subject, topic } = req.body;
+        if (!topic) {
+            return res.status(400).json({ error: 'A specific topic is required for this quiz type.' });
+        }
+        console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
+
+        // --- 1. Define the TOPIC-SPECIFIC Blueprint (15 Questions) ---
+        // This mirrors the comprehensive blueprint but is scaled down and focused on one topic.
+        const blueprint = [
+            { type: 'passage', numQuestions: 2 },
+            { type: 'passage', numQuestions: 1 },
+            { type: 'image', numQuestions: 2 },
+            { type: 'image', numQuestions: 1 }
+            // Standalone questions will fill the rest to reach 15.
+        ];
+        const TOTAL_QUESTIONS = 15;
+        let promises = [];
+
+        // --- 2. Generate Stimulus Content Based on the Blueprint ---
+        for (const item of blueprint) {
+            if (item.type === 'passage') {
+                promises.push(generatePassageSet(topic, subject, item.numQuestions));
+            }
+            if (item.type === 'image') {
+                promises.push(generateImageQuestion(topic, subject, curatedImages, item.numQuestions));
+            }
+        }
+
+        // --- 3. Calculate and Generate Standalone Questions ---
+        const stimulusResults = await Promise.all(promises);
+        const stimulusQuestions = stimulusResults.flat().filter(q => q);
+
+        const remainingCount = TOTAL_QUESTIONS - stimulusQuestions.length;
+
+        let standalonePromises = [];
+        if (remainingCount > 0) {
+            for (let i = 0; i < remainingCount; i++) {
+                standalonePromises.push(generateStandaloneQuestion(topic, subject));
+            }
+        }
+        const standaloneQuestions = await Promise.all(standalonePromises);
+
+        // --- 4. Assemble and Finalize the Quiz ---
+        let allQuestions = [...stimulusQuestions, ...standaloneQuestions.flat().filter(q => q)];
+
+        // This version does NOT shuffle, keeping stimulus sets together.
+        allQuestions.forEach((q, index) => {
+            q.questionNumber = index + 1;
+        });
+
+        const finalQuiz = {
+            id: `ai_topic_${new Date().getTime()}`,
+            title: `${subject}: ${topic}`,
+            subject: subject,
+            questions: allQuestions.slice(0, TOTAL_QUESTIONS), // Ensure exact count
+        };
+
+        // Topic-specific quizzes are single-pass for speed (no second review call).
+        res.json(finalQuiz);
+
+    } catch (error) {
+        console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
+        res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
+    }
+}
 });
 
 app.post('/score-essay', async (req, res) => {
