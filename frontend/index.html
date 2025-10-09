@@ -1298,14 +1298,47 @@ function App() {
                     <StartScreen 
                         progress={progress}
                         onSelectQuiz={startQuiz} 
-                        onSelectGenerator={(subject, setIsLoading, setLoadingMessage) => {
-                            setActiveGenerator({ subject, setIsLoading, setLoadingMessage });
-                            setView('generator');
-                        }}
                         onStartPopQuiz={handleStartPopQuiz}
                         onStartComprehensiveExam={handleGenerateComprehensiveExam}
                         setIsLoading={setIsLoading}
                         setLoadingMessage={setLoadingMessage}
+                        // --- REPLACE the old onSelectGenerator prop with THIS ---
+                        onSelectGenerator={async (subject, topic, setIsLoading, setLoadingMessage) => {
+                            if (!topic) {
+                                alert("Please select a topic first.");
+                                return;
+                            }
+                            setLoadingMessage("Please give us a moment to smith this for you...");
+                            setIsLoading(true);
+
+                            try {
+                                const response = await fetch('https://ged-website.onrender.com/generate-quiz', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ subject, topic: topic, comprehensive: false })
+                                });
+
+                                if (!response.ok) {
+                                    const errorResult = await response.json();
+                                    throw new Error(errorResult.error || `Request failed with status ${response.status}`);
+                                }
+
+                                const generatedQuiz = await response.json();
+
+                                if (!generatedQuiz.questions || !Array.isArray(generatedQuiz.questions)) {
+                                    throw new Error("The AI response was missing the required 'questions' data.");
+                                }
+
+                                generatedQuiz.id = `ai_${new Date().getTime()}`;
+                                startQuiz(generatedQuiz, subject); // This will start the quiz with the new data
+
+                            } catch (err) {
+                                console.error("Error generating quiz:", err);
+                                alert(`Sorry, something went wrong. ${err.message}`);
+                            } finally {
+                                setIsLoading(false);
+                            }
+                        }}
                     />
                 );
         }
@@ -1427,10 +1460,13 @@ const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon };
 function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    // --- NEW: State to hold the selected AI quiz topic ---
+    const [aiQuizTopic, setAiQuizTopic] = useState('');
 
     const handleSelectSubject = (subject) => {
         setSelectedSubject(subject);
         setSelectedCategory(null);
+        setAiQuizTopic(''); // Reset topic when subject changes
     };
 
     const handleSelectCategory = (category) => {
@@ -1444,6 +1480,12 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
             setSelectedSubject(null);
         }
     };
+
+    // --- NEW: Logic to get topics for the dropdown (moved from AIQuizGenerator) ---
+    // This includes the fix for the white screen error using optional chaining (`?.`)
+    const availableTopics = selectedSubject && AppData[selectedSubject]?.categories
+        ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
+        : [];
 
     const Breadcrumb = () => (
         <div className="mb-4 text-lg font-semibold text-slate-600 flex items-center gap-2">
@@ -1459,6 +1501,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
 
     // View 3: Topic Selection
     if (selectedSubject && selectedCategory) {
+        // This part remains the same
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
         return (
             <div className="fade-in">
@@ -1473,7 +1516,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
                                 onClick={() => onSelectQuiz(topic, selectedSubject)}
                                 className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition"
                             >
-                                {topic.type === 'essay' || topic.type === 'simulation' ? 'Open' : 'Start Quiz'}
+                                {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}
                             </button>
                         </div>
                     ))}
@@ -1482,7 +1525,7 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
         );
     }
 
-    // View 2: Category Selection
+    // View 2: Category Selection (with updated "Smith a Quiz" box)
     if (selectedSubject) {
         const subject = AppData[selectedSubject];
         return (
@@ -1498,14 +1541,33 @@ function StartScreen({ progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz
                     ))}
                      { (selectedSubject === "Social Studies" || selectedSubject === "Reasoning Through Language Arts (RLA)" || selectedSubject === "Science" || selectedSubject === "Math") && (
                         <>
-                            <div className="border-2 border-dashed border-sky-400 rounded-lg p-4 flex flex-col justify-center items-center bg-sky-50 hover:shadow-lg hover:border-sky-500 transition-all">
-                               <SparklesIcon className="h-8 w-8 text-sky-500" />
-                               <h3 className="text-xl font-bold text-sky-800 mt-2">Smith a Quiz</h3>
-                               <p className="text-sky-600 text-sm my-2 text-center">Generate a new 15-question quiz for any topic in {selectedSubject}.</p>
-                               <button onClick={() => onSelectGenerator(selectedSubject, setIsLoading, setLoadingMessage)} className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition">
-                                    Generate
+                            {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
+                            <div className="border-2 border-dashed border-sky-400 rounded-lg p-4 flex flex-col justify-between bg-sky-50 hover:shadow-lg hover:border-sky-500 transition-all">
+                               <div>
+                                   <div className="flex items-center justify-center gap-2">
+                                       <SparklesIcon className="h-8 w-8 text-sky-500" />
+                                       <h3 className="text-xl font-bold text-sky-800">Smith a Quiz</h3>
+                                   </div>
+                                   <p className="text-sky-600 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
+                                   <select
+                                        value={aiQuizTopic}
+                                        onChange={(e) => setAiQuizTopic(e.target.value)}
+                                        className="w-full p-2 border border-sky-300 rounded-md mb-2 text-base"
+                                    >
+                                        <option value="">-- Select a Topic --</option>
+                                        {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
+                                    </select>
+                               </div>
+                               <button
+                                    onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
+                                    disabled={!aiQuizTopic}
+                                    className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition disabled:bg-slate-400 disabled:cursor-not-allowed"
+                                >
+                                    Generate Quiz
                                </button>
                             </div>
+                            {/* --- END OF UPDATED BOX --- */}
+
                              <div className="border-2 border-dashed border-purple-400 rounded-lg p-4 flex flex-col justify-center items-center bg-purple-50 hover:shadow-lg hover:border-purple-500 transition-all md:col-span-2 lg:col-span-1">
                                <SparklesIcon className="h-8 w-8 text-purple-500" />
                                <h3 className="text-xl font-bold text-purple-800 mt-2">Comprehensive Exam</h3>
