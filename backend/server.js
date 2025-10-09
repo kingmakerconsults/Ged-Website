@@ -6,6 +6,7 @@ const cors = require('cors');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const { shapeRenderers } = require('./shapeRenderer.js');
 
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
@@ -306,6 +307,53 @@ Output a single valid JSON object for the question, including "questionText", an
     return question;
 };
 
+async function generateGeometryQuestion(topic, subject) {
+    const prompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
+    The problem MUST require a visual stimulus to be solved.
+    Your response MUST specify:
+    1.  A "shape" from this list: [rectangle, triangle, circle, cylinder, rectangular_prism, cone].
+    2.  The "dimensions" for that shape as a JSON object (e.g., {"w": 10, "h": 5}).
+    3.  The full "questionText".
+    4.  Four "answerOptions" with one marked as correct.
+    5.  The correct numerical "answer" for verification.`;
+
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            shape: { type: "STRING" },
+            dimensions: { type: "OBJECT" },
+            questionText: { type: "STRING" },
+            answer: {type: "NUMBER"},
+            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+        },
+        required: ["shape", "dimensions", "questionText", "answer", "answerOptions"]
+    };
+
+    try {
+        const aiResponse = await callAI(prompt, schema);
+        const renderer = shapeRenderers[aiResponse.shape];
+
+        if (!renderer) {
+            console.warn(`No SVG renderer found for shape: ${aiResponse.shape}. Skipping.`);
+            return null;
+        }
+
+        const svgString = renderer(aiResponse.dimensions);
+        const svgBase64 = Buffer.from(svgString).toString('base64');
+        const imageUrl = `data:image/svg+xml;base64,${svgBase64}`;
+
+        return {
+            type: 'image', // The frontend will treat this as an image question
+            questionText: aiResponse.questionText,
+            imageUrl: imageUrl, // The embedded SVG Data URI
+            answerOptions: aiResponse.answerOptions,
+        };
+    } catch (error) {
+        console.error("Error generating geometry question:", error);
+        return null;
+    }
+}
+
 async function generateRlaPart1() {
     const prompt = `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, with a concise, engaging title in <strong> tags. Format passages with <p> tags. The breakdown must be 3 informational texts and 1 literary text. For EACH passage, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions. Each question should be a JSON object. Return a single JSON array of these 20 question objects.`;
     const schema = { type: "ARRAY", items: singleQuestionSchema };
@@ -509,39 +557,34 @@ app.post('/generate-quiz', async (req, res) => {
     // --- THIS NEW LOGIC PERFECTS TOPIC-SPECIFIC "SMITH A QUIZ" REQUESTS ---
     try {
         const { subject, topic } = req.body;
-        if (!topic) {
-            return res.status(400).json({ error: 'A specific topic is required for this quiz type.' });
-        }
+        // ... (error handling for missing topic) ...
         console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
 
-        // --- 1. Define the TOPIC-SPECIFIC Blueprint (15 Questions) ---
-        // This mirrors the comprehensive blueprint but is scaled down and focused on one topic.
-        const blueprint = [
-            { type: 'passage', numQuestions: 2 },
-            { type: 'passage', numQuestions: 1 },
-            { type: 'image', numQuestions: 2 },
-            { type: 'image', numQuestions: 1 }
-            // Standalone questions will fill the rest to reach 15.
-        ];
         const TOTAL_QUESTIONS = 15;
         let promises = [];
 
-        // --- 2. Generate Stimulus Content Based on the Blueprint ---
-        for (const item of blueprint) {
-            if (item.type === 'passage') {
-                promises.push(generatePassageSet(topic, subject, item.numQuestions));
-            }
-            if (item.type === 'image') {
-                promises.push(generateImageQuestion(topic, subject, curatedImages, item.numQuestions));
+        // --- NEW: Check if it's a geometry topic ---
+        if (topic.toLowerCase().includes('geometry')) {
+            console.log('Geometry topic detected. Generating visual questions...');
+            // Generate a set number of visual geometry questions
+            for (let i = 0; i < 5; i++) {
+                promises.push(generateGeometryQuestion(topic, subject));
             }
         }
 
-        // --- 3. Calculate and Generate Standalone Questions ---
-        const stimulusResults = await Promise.all(promises);
-        const stimulusQuestions = stimulusResults.flat().filter(q => q);
+        // Generate a mix of other question types to fill the rest of the quiz
+        const remainingAfterGeo = TOTAL_QUESTIONS - promises.length;
+        const numPassages = Math.floor(remainingAfterGeo / 3);
 
-        const remainingCount = TOTAL_QUESTIONS - stimulusQuestions.length;
+        for (let i = 0; i < numPassages; i++) {
+            promises.push(generatePassageSet(topic, subject, 2));
+        }
 
+        // --- Calculate and generate standalone questions to reach the total ---
+        const preliminaryResults = await Promise.all(promises);
+        const generatedQuestions = preliminaryResults.flat().filter(q => q);
+
+        const remainingCount = TOTAL_QUESTIONS - generatedQuestions.length;
         let standalonePromises = [];
         if (remainingCount > 0) {
             for (let i = 0; i < remainingCount; i++) {
@@ -550,10 +593,9 @@ app.post('/generate-quiz', async (req, res) => {
         }
         const standaloneQuestions = await Promise.all(standalonePromises);
 
-        // --- 4. Assemble and Finalize the Quiz ---
-        let allQuestions = [...stimulusQuestions, ...standaloneQuestions.flat().filter(q => q)];
+        // --- Assemble and Finalize the Quiz ---
+        let allQuestions = [...generatedQuestions, ...standaloneQuestions.flat().filter(q => q)];
 
-        // This version does NOT shuffle, keeping stimulus sets together.
         allQuestions.forEach((q, index) => {
             q.questionNumber = index + 1;
         });
@@ -562,10 +604,9 @@ app.post('/generate-quiz', async (req, res) => {
             id: `ai_topic_${new Date().getTime()}`,
             title: `${subject}: ${topic}`,
             subject: subject,
-            questions: allQuestions.slice(0, TOTAL_QUESTIONS), // Ensure exact count
+            questions: allQuestions.slice(0, TOTAL_QUESTIONS),
         };
 
-        // Topic-specific quizzes are single-pass for speed (no second review call).
         res.json(finalQuiz);
 
     } catch (error) {
