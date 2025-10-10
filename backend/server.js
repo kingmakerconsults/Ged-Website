@@ -95,7 +95,7 @@ app.post('/define-word', async (req, res) => {
         return res.status(400).json({ error: 'A word is required.' });
     }
 
-     const apiKey = process.env.GOOGLE_API_KEY;
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
      if (!apiKey) {
         console.error('API key not configured on the server.');
         return res.status(500).json({ error: 'Server configuration error.' });
@@ -179,10 +179,10 @@ const quizSchema = {
 };
 
 const callAI = async (prompt, schema) => {
-    const apiKey = process.env.GOOGLE_API_KEY;
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey) {
         console.error('API key not configured on the server.');
-        throw new Error('Server configuration error: GOOGLE_API_KEY is not set.');
+        throw new Error('Server configuration error: GOOGLE_AI_API_KEY is not set.');
     }
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     const payload = {
@@ -440,106 +440,6 @@ async function reviewAndCorrectQuiz(draftQuiz) {
         return correctedQuiz;
     }
 
-const oneShotQuizSchema = {
-    type: "ARRAY",
-    items: {
-        type: "OBJECT",
-        properties: {
-            type: { type: "STRING", enum: ["passage", "image", "standalone"] },
-            passage: { type: "STRING" }, // Present for type: "passage"
-            imageDescriptionForMatch: { type: "STRING" }, // Present for type: "image"
-            questionText: { type: "STRING" },
-            answerOptions: {
-                type: "ARRAY",
-                items: {
-                    type: "OBJECT",
-                    properties: {
-                        text: { type: "STRING" },
-                        isCorrect: { type: "BOOLEAN" },
-                        rationale: { type: "STRING" }
-                    },
-                    required: ["text", "isCorrect", "rationale"]
-                }
-            }
-        },
-        required: ["type", "questionText", "answerOptions"]
-    }
-};
-
-const oneShotQuizSchemaForMath = {
-    type: "ARRAY",
-    items: {
-        type: "OBJECT",
-        properties: {
-            type: { type: "STRING", enum: ["image", "standalone"] },
-            shape: { type: "STRING" }, // For geometry questions
-            dimensions: { type: "OBJECT" }, // For geometry questions
-            questionText: { type: "STRING" },
-            answerOptions: {
-                type: "ARRAY",
-                items: {
-                    type: "OBJECT",
-                    properties: {
-                        text: { type: "STRING" },
-                        isCorrect: { type: "BOOLEAN" },
-                        rationale: { type: "STRING" }
-                    },
-                    required: ["text", "isCorrect", "rationale"]
-                }
-            }
-        },
-        required: ["type", "questionText", "answerOptions"]
-    }
-};
-
-const generateOneShotPrompt = (subject, topic, imageDescriptions) => {
-    return `You are a GED exam creator. Generate a complete and diverse 15-question, GED-style quiz for the subject "${subject}" on the specific topic of "${topic}".
-
-    **CRITICAL RULES FOR DIVERSITY AND CONTENT:**
-    1.  **TOTAL QUESTIONS:** You MUST generate exactly 15 questions.
-    2.  **QUESTION TYPE MIX:** Generate the quiz with the following approximate distribution:
-        *   **~6 Passage Questions:** Create THREE (3) unique reading passages. Each passage must be about a different sub-topic within "${topic}". Generate TWO (2) questions for each passage.
-        *   **~3 Image Questions:** Generate THREE (3) questions based on the provided image descriptions. You MUST use three DIFFERENT image descriptions from the list.
-        *   **~6 Standalone Questions:** Generate SIX (6) standalone questions.
-    3.  **STRICT NON-REDUNDANCY:**
-        *   Each reading passage must be unique and cover a different sub-topic.
-        *   All standalone questions must test different concepts and must not be redundant.
-        *   Each image-based question must refer to a unique image.
-    4.  **OUTPUT FORMAT:** Return a single JSON array of 15 question objects.
-
-    **AVAILABLE IMAGE DESCRIPTIONS FOR USE:**
-    ---
-    ${imageDescriptions.join('\n')}
-    ---
-
-    For image-based questions, you MUST include the \`imageDescriptionForMatch\` field in the question object, copying the description exactly from the list above. For passage-based questions, include the \`passage\` field. For standalone questions, do not include \`passage\` or \`imageDescriptionForMatch\`.`;
-};
-
-const generateOneShotMathPrompt = (topic) => {
-    // Math quizzes are different: they don't have passages.
-    // They can have visual stimuli (geometry) or be standalone word problems.
-    let prompt = `You are a GED exam creator. Generate a complete and diverse 15-question, GED-style Math quiz on the specific topic of "${topic}".
-
-    **CRITICAL RULES FOR DIVERSITY AND CONTENT:**
-    1.  **TOTAL QUESTIONS:** You MUST generate exactly 15 questions.
-    2.  **STRICT NON-REDUNDANCY:** All standalone questions must test different concepts and must not be redundant.
-    3.  **QUESTION FORMAT:** All questions should be word problems or direct calculations. DO NOT generate reading-comprehension style questions.
-    4.  **OUTPUT FORMAT:** Return a single JSON array of 15 question objects.`;
-
-    if (topic.toLowerCase().includes('geometry')) {
-        prompt += `
-    5.  **GEOMETRY QUESTIONS:** Include exactly 5 questions that require a geometric shape to solve. For these questions, you MUST:
-        a. Set the question "type" to "image".
-        b. Include a "shape" property (e.g., "rectangle", "triangle", "circle").
-        c. Include a "dimensions" property as a JSON object (e.g., {"w": 10, "h": 5}).
-        d. The 'questionText' should describe the problem.
-        e. The other 10 questions should be of type "standalone".`;
-    } else {
-        prompt += `
-    5.  **QUESTION TYPE:** All 15 questions should be of type "standalone".`
-    }
-    return prompt;
-};
 
 app.post('/generate-quiz', async (req, res) => {
     const { subject, topic, comprehensive } = req.body;
@@ -663,88 +563,79 @@ app.post('/generate-quiz', async (req, res) => {
             res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
         }
 } else {
-        // --- REFACTORED "ONE-SHOT" TOPIC-SPECIFIC QUIZ LOGIC ---
+        // --- CORRECTED TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
         try {
             const { subject, topic } = req.body;
             if (!topic) {
                 return res.status(400).json({ error: 'Topic is required for non-comprehensive quizzes.' });
             }
-            console.log(`Generating ONE-SHOT topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
+            console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
 
-            let generatedQuestions;
+            const TOTAL_QUESTIONS = 15;
+            let promises = []; // Single promises array for all logic paths.
 
             if (subject === 'Math') {
-                console.log("Generating Math prompt...");
-                const prompt = generateOneShotMathPrompt(topic);
-                console.log("Calling AI for Math quiz...");
-                generatedQuestions = await callAI(prompt, oneShotQuizSchemaForMath);
-                console.log("AI call complete for Math. Processing results...");
-
-                // Post-process to render SVGs for geometry questions
-                generatedQuestions = generatedQuestions.map(q => {
-                    if (q.type === 'image' && q.shape && q.dimensions) {
-                        const renderer = shapeRenderers[q.shape];
-                        if (renderer) {
-                            const svgString = renderer(q.dimensions);
-                            const svgBase64 = Buffer.from(svgString).toString('base64');
-                            q.imageUrl = `data:image/svg+xml;base64,${svgBase64}`;
-                            delete q.shape; // Clean up temp fields
-                            delete q.dimensions;
-                        }
-                    }
-                    return q;
-                });
-
+                // --- MATH-SPECIFIC LOGIC ---
+                console.log("Generating Math quiz without passages.");
+                let visualQuestionCount = 0;
+                if (topic.toLowerCase().includes('geometry')) {
+                    console.log('Geometry topic detected. Generating 5 visual questions.');
+                    visualQuestionCount = 5;
+                }
+                for (let i = 0; i < visualQuestionCount; i++) {
+                    promises.push(generateGeometryQuestion(topic, subject));
+                }
+                const remainingQuestions = TOTAL_QUESTIONS - visualQuestionCount;
+                for (let i = 0; i < remainingQuestions; i++) {
+                    promises.push(generateStandaloneQuestion(subject, topic));
+                }
             } else {
-                // Logic for other subjects
-                console.log("Filtering images and generating prompt for non-Math subject...");
-                const relevantImages = curatedImages.filter(img => img.subject === subject);
-                const imageDescriptions = relevantImages.map(img => `- ${img.detailedDescription}`);
-                const prompt = generateOneShotPrompt(subject, topic, imageDescriptions);
-                console.log("Calling AI for non-Math quiz...");
-                generatedQuestions = await callAI(prompt, oneShotQuizSchema);
-                console.log("AI call complete. Processing results...");
+                // --- LOGIC FOR OTHER SUBJECTS (Social Studies, Science, RLA) ---
+                console.log(`Generating ${subject} quiz with passages and other stimuli.`);
+                const numPassageSets = 3; // e.g., 3 passages with 2 questions each = 6 questions
+                const numImageSets = 2;   // e.g., 2 images with 2 questions each = 4 questions
 
-                // Post-process to match image descriptions to actual image URLs
-                generatedQuestions = generatedQuestions.map(q => {
-                    if (q.type === 'image' && q.imageDescriptionForMatch) {
-                        const matchedImage = curatedImages.find(img => img.detailedDescription === q.imageDescriptionForMatch.replace(/^- /, ''));
-                        if (matchedImage) {
-                            q.imageUrl = matchedImage.filePath.replace(/^\/frontend/, '');
-                        } else {
-                            console.warn(`No match found for image description: ${q.imageDescriptionForMatch}`);
-                        }
-                        delete q.imageDescriptionForMatch; // Clean up temp field
-                    }
-                    return q;
-                });
+                for (let i = 0; i < numPassageSets; i++) {
+                    promises.push(generatePassageSet(topic, subject, 2));
+                }
+                for (let i = 0; i < numImageSets; i++) {
+                    promises.push(generateImageQuestion(topic, subject, curatedImages, 2));
+                }
+                 // Fill the rest with standalone questions to ensure we reach the total.
+                 const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
+                 const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
+                 for (let i = 0; i < remainingQuestions; i++) {
+                     promises.push(generateStandaloneQuestion(subject, topic));
+                 }
             }
 
-            console.log("Shuffling questions...");
-            // Shuffle the entire quiz for variety in presentation
-            const shuffledQuestions = shuffleArray(generatedQuestions);
+            // --- Execute all promises, assemble, shuffle, and finalize the quiz ---
+            const results = await Promise.all(promises);
+            let allQuestions = results.flat().filter(q => q); // Filter out any nulls from failed generations
 
-            console.log("Finalizing questions...");
-            // Finalize questions by adding numbers
-            const finalQuestions = shuffledQuestions.map((q, index) => ({
+            // Shuffle the collected questions for variety
+            const shuffledQuestions = shuffleArray(allQuestions);
+
+            // Assign question numbers and slice to the final desired length
+            const finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS).map((q, index) => ({
                 ...q,
                 questionNumber: index + 1,
             }));
 
             const finalQuiz = {
-                id: `ai_topic_oneshot_${new Date().getTime()}`,
+                id: `ai_topic_${new Date().getTime()}`,
                 title: `${subject}: ${topic}`,
                 subject: subject,
                 questions: finalQuestions,
             };
-            console.log("Successfully generated quiz. Sending response.");
+
             res.json(finalQuiz);
 
         } catch (error) {
-            const errorMessage = req.body.topic ? `Error generating one-shot quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating one-shot quiz';
-            // Log the full error object for more detail
-            console.error(errorMessage, error.response ? error.response.data : error.message, error.stack);
-            res.status(500).json({ error: 'Failed to generate one-shot quiz.' });
+            // Use topic and subject in the error log if they are available
+            const errorMessage = req.body.topic ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating topic-specific quiz';
+            console.error(errorMessage, error);
+            res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
         }
     }
 });
@@ -755,7 +646,7 @@ app.post('/score-essay', async (req, res) => {
         return res.status(400).json({ error: 'Essay text is required.' });
     }
 
-    const apiKey = process.env.GOOGLE_API_KEY;
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey) {
         console.error('API key not configured on the server.');
         return res.status(500).json({ error: 'Server configuration error.' });
@@ -843,7 +734,7 @@ const getPremadeQuestions = (subject, count) => {
 
 // Helper function to generate AI questions
 const generateAIContent = async (prompt, schema) => {
-    const apiKey = process.env.GOOGLE_API_KEY;
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
