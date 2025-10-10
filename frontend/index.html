@@ -1493,7 +1493,7 @@ function AuthScreen({ onLogin }) {
     useEffect(() => {
         if (window.google && google.accounts.id && googleButton.current) {
             google.accounts.id.initialize({
-                client_id: 'PASTE_YOUR_GOOGLE_CLIENT_ID_HERE',
+                client_id: '828659988606-p9ct562f068p1778im2ck2o5iga89i7m.apps.googleusercontent.com',
                 callback: handleCredentialResponse,
             });
             google.accounts.id.renderButton(
