@@ -554,66 +554,99 @@ app.post('/generate-quiz', async (req, res) => {
             res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
         }
 } else {
-    // --- THIS NEW LOGIC PERFECTS TOPIC-SPECIFIC "SMITH A QUIZ" REQUESTS ---
-    try {
-        const { subject, topic } = req.body;
-        // ... (error handling for missing topic) ...
-        console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
-
-        const TOTAL_QUESTIONS = 15;
-        let promises = [];
-
-        // --- NEW: Check if it's a geometry topic ---
-        if (topic.toLowerCase().includes('geometry')) {
-            console.log('Geometry topic detected. Generating visual questions...');
-            // Generate a set number of visual geometry questions
-            for (let i = 0; i < 5; i++) {
-                promises.push(generateGeometryQuestion(topic, subject));
+        // --- TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
+        try {
+            const { subject, topic } = req.body;
+            if (!topic) {
+                return res.status(400).json({ error: 'Topic is required for non-comprehensive quizzes.' });
             }
-        }
+            console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
 
-        // Generate a mix of other question types to fill the rest of the quiz
-        const remainingAfterGeo = TOTAL_QUESTIONS - promises.length;
-        const numPassages = Math.floor(remainingAfterGeo / 3);
+            const TOTAL_QUESTIONS = 15;
+            let allQuestions = [];
 
-        for (let i = 0; i < numPassages; i++) {
-            promises.push(generatePassageSet(topic, subject, 2));
-        }
+            if (subject === 'Math') {
+                // --- MATH-SPECIFIC LOGIC ---
+                console.log("Generating Math quiz without passages.");
+                let promises = [];
+                let visualQuestionCount = 0;
 
-        // --- Calculate and generate standalone questions to reach the total ---
-        const preliminaryResults = await Promise.all(promises);
-        const generatedQuestions = preliminaryResults.flat().filter(q => q);
+                // If it's a geometry topic, generate a higher number of visual questions
+                if (topic.toLowerCase().includes('geometry')) {
+                    console.log('Geometry topic detected. Generating 5 visual questions.');
+                    visualQuestionCount = 5;
+                }
 
-        const remainingCount = TOTAL_QUESTIONS - generatedQuestions.length;
-        let standalonePromises = [];
-        if (remainingCount > 0) {
-            for (let i = 0; i < remainingCount; i++) {
-                standalonePromises.push(generateStandaloneQuestion(topic, subject));
+                for (let i = 0; i < visualQuestionCount; i++) {
+                    promises.push(generateGeometryQuestion(topic, subject));
+                }
+
+                // Fill the rest with standalone math questions
+                const remainingQuestions = TOTAL_QUESTIONS - visualQuestionCount;
+                for (let i = 0; i < remainingQuestions; i++) {
+                    promises.push(generateStandaloneQuestion(subject, topic));
+                }
+
+                const results = await Promise.all(promises);
+                allQuestions = results.flat().filter(q => q); // Filter out any null results from errors
+
+            } else {
+                // --- LOGIC FOR OTHER SUBJECTS (Social Studies, Science, RLA) ---
+                console.log(`Generating ${subject} quiz with passages.`);
+                let promises = [];
+
+                 // --- NEW: Check if it's a geometry topic ---
+                if (topic.toLowerCase().includes('geometry')) {
+                    console.log('Geometry topic detected. Generating visual questions...');
+                    // Generate a set number of visual geometry questions
+                    for (let i = 0; i < 5; i++) {
+                        promises.push(generateGeometryQuestion(topic, subject));
+                    }
+                }
+
+                // Generate a mix of other question types to fill the rest of the quiz
+                const remainingAfterGeo = TOTAL_QUESTIONS - promises.length;
+                const numPassages = Math.floor(remainingAfterGeo / 3);
+
+                for (let i = 0; i < numPassages; i++) {
+                    promises.push(generatePassageSet(topic, subject, 2));
+                }
+
+                // --- Calculate and generate standalone questions to reach the total ---
+                const preliminaryResults = await Promise.all(promises);
+                const generatedQuestions = preliminaryResults.flat().filter(q => q);
+
+                const remainingCount = TOTAL_QUESTIONS - generatedQuestions.length;
+                let standalonePromises = [];
+                if (remainingCount > 0) {
+                    for (let i = 0; i < remainingCount; i++) {
+                        standalonePromises.push(generateStandaloneQuestion(topic, subject));
+                    }
+                }
+                const standaloneQuestions = await Promise.all(standalonePromises);
+                allQuestions = [...generatedQuestions, ...standaloneQuestions.flat().filter(q => q)];
             }
+
+
+            // --- Assemble and Finalize the Quiz ---
+            allQuestions.forEach((q, index) => {
+                q.questionNumber = index + 1;
+            });
+
+            const finalQuiz = {
+                id: `ai_topic_${new Date().getTime()}`,
+                title: `${subject}: ${topic}`,
+                subject: subject,
+                questions: allQuestions.slice(0, TOTAL_QUESTIONS),
+            };
+
+            res.json(finalQuiz);
+
+        } catch (error) {
+            console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
+            res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
         }
-        const standaloneQuestions = await Promise.all(standalonePromises);
-
-        // --- Assemble and Finalize the Quiz ---
-        let allQuestions = [...generatedQuestions, ...standaloneQuestions.flat().filter(q => q)];
-
-        allQuestions.forEach((q, index) => {
-            q.questionNumber = index + 1;
-        });
-
-        const finalQuiz = {
-            id: `ai_topic_${new Date().getTime()}`,
-            title: `${subject}: ${topic}`,
-            subject: subject,
-            questions: allQuestions.slice(0, TOTAL_QUESTIONS),
-        };
-
-        res.json(finalQuiz);
-
-    } catch (error) {
-        console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
-        res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
     }
-}
 });
 
 app.post('/score-essay', async (req, res) => {
