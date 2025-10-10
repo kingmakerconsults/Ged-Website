@@ -7,10 +7,13 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const { shapeRenderers } = require('./shapeRenderer.js');
+const { OAuth2Client } = require('google-auth-library');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
 const port = process.env.PORT || 3001;
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -711,6 +714,44 @@ app.post('/score-essay', async (req, res) => {
         res.status(500).json({ error: 'Failed to score essay from AI service.' });
     }
 });
+
+app.post('/api/auth/google', async (req, res) => {
+    try {
+        const { credential } = req.body;
+        const ticket = await client.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const { sub, name, email, picture } = payload;
+        const userId = sub;
+
+        // Log the login event
+        const logEntry = `[${new Date().toISOString()}] - User Logged In: ${name} (${email})\n`;
+        fs.appendFile(path.join(__dirname, 'logins.log'), logEntry, (err) => {
+            if (err) {
+                console.error('Failed to write to login log:', err);
+            }
+        });
+
+        // Create a session token
+        const token = jwt.sign({ sub: userId, name }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+        res.status(200).json({
+            user: {
+                id: userId,
+                name,
+                email,
+                picture,
+            },
+            token,
+        });
+    } catch (error) {
+        console.error('Google Auth Error:', error);
+        res.status(401).json({ error: 'Invalid Google credential.' });
+    }
+});
+
 
 const { ALL_QUIZZES } = require('./premade-questions.js');
 
