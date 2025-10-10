@@ -554,7 +554,7 @@ app.post('/generate-quiz', async (req, res) => {
             res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
         }
 } else {
-        // --- TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
+        // --- CORRECTED TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
         try {
             const { subject, topic } = req.body;
             if (!topic) {
@@ -563,87 +563,69 @@ app.post('/generate-quiz', async (req, res) => {
             console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
 
             const TOTAL_QUESTIONS = 15;
-            let allQuestions = [];
+            let promises = []; // Single promises array for all logic paths.
 
             if (subject === 'Math') {
                 // --- MATH-SPECIFIC LOGIC ---
                 console.log("Generating Math quiz without passages.");
-                let promises = [];
                 let visualQuestionCount = 0;
-
-                // If it's a geometry topic, generate a higher number of visual questions
                 if (topic.toLowerCase().includes('geometry')) {
                     console.log('Geometry topic detected. Generating 5 visual questions.');
                     visualQuestionCount = 5;
                 }
-
                 for (let i = 0; i < visualQuestionCount; i++) {
                     promises.push(generateGeometryQuestion(topic, subject));
                 }
-
-                // Fill the rest with standalone math questions
                 const remainingQuestions = TOTAL_QUESTIONS - visualQuestionCount;
                 for (let i = 0; i < remainingQuestions; i++) {
                     promises.push(generateStandaloneQuestion(subject, topic));
                 }
-
-                const results = await Promise.all(promises);
-                allQuestions = results.flat().filter(q => q); // Filter out any null results from errors
-
             } else {
                 // --- LOGIC FOR OTHER SUBJECTS (Social Studies, Science, RLA) ---
-                console.log(`Generating ${subject} quiz with passages.`);
-                let promises = [];
+                console.log(`Generating ${subject} quiz with passages and other stimuli.`);
+                const numPassageSets = 3; // e.g., 3 passages with 2 questions each = 6 questions
+                const numImageSets = 2;   // e.g., 2 images with 2 questions each = 4 questions
 
-                 // --- NEW: Check if it's a geometry topic ---
-                if (topic.toLowerCase().includes('geometry')) {
-                    console.log('Geometry topic detected. Generating visual questions...');
-                    // Generate a set number of visual geometry questions
-                    for (let i = 0; i < 5; i++) {
-                        promises.push(generateGeometryQuestion(topic, subject));
-                    }
-                }
-
-                // Generate a mix of other question types to fill the rest of the quiz
-                const remainingAfterGeo = TOTAL_QUESTIONS - promises.length;
-                const numPassages = Math.floor(remainingAfterGeo / 3);
-
-                for (let i = 0; i < numPassages; i++) {
+                for (let i = 0; i < numPassageSets; i++) {
                     promises.push(generatePassageSet(topic, subject, 2));
                 }
-
-                // --- Calculate and generate standalone questions to reach the total ---
-                const preliminaryResults = await Promise.all(promises);
-                const generatedQuestions = preliminaryResults.flat().filter(q => q);
-
-                const remainingCount = TOTAL_QUESTIONS - generatedQuestions.length;
-                let standalonePromises = [];
-                if (remainingCount > 0) {
-                    for (let i = 0; i < remainingCount; i++) {
-                        standalonePromises.push(generateStandaloneQuestion(topic, subject));
-                    }
+                for (let i = 0; i < numImageSets; i++) {
+                    promises.push(generateImageQuestion(topic, subject, curatedImages, 2));
                 }
-                const standaloneQuestions = await Promise.all(standalonePromises);
-                allQuestions = [...generatedQuestions, ...standaloneQuestions.flat().filter(q => q)];
+                 // Fill the rest with standalone questions to ensure we reach the total.
+                 const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
+                 const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
+                 for (let i = 0; i < remainingQuestions; i++) {
+                     promises.push(generateStandaloneQuestion(subject, topic));
+                 }
             }
 
+            // --- Execute all promises, assemble, shuffle, and finalize the quiz ---
+            const results = await Promise.all(promises);
+            let allQuestions = results.flat().filter(q => q); // Filter out any nulls from failed generations
 
-            // --- Assemble and Finalize the Quiz ---
-            allQuestions.forEach((q, index) => {
-                q.questionNumber = index + 1;
-            });
+            // Shuffle the collected questions for variety
+            const shuffledQuestions = shuffleArray(allQuestions);
+
+            // Assign question numbers and slice to the final desired length
+            const finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS).map((q, index) => ({
+                ...q,
+                questionNumber: index + 1,
+            }));
 
             const finalQuiz = {
                 id: `ai_topic_${new Date().getTime()}`,
                 title: `${subject}: ${topic}`,
                 subject: subject,
-                questions: allQuestions.slice(0, TOTAL_QUESTIONS),
+                questions: finalQuestions,
             };
 
             res.json(finalQuiz);
 
         } catch (error) {
-            console.error(`Error generating topic-specific quiz for ${subject}: ${topic}`, error);
+            // Use topic and subject in the error log if they are available
+            const errorMessage = req.body.topic ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating topic-specific quiz';
+            console.error(errorMessage, error);
             res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
         }
     }
