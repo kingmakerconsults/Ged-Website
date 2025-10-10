@@ -8,7 +8,6 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
     <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
@@ -1188,6 +1187,66 @@ function AppHeader({ currentUser, onLogout }) {
     );
 }
 
+function NamePromptModal({ user, onSave }) {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+
+    useEffect(() => {
+        if (user && user.name) {
+            const nameParts = user.name.split(' ');
+            setFirstName(nameParts[0] || '');
+            setLastName(nameParts.slice(1).join(' ') || '');
+        }
+    }, [user]);
+
+    const handleSave = () => {
+        if (firstName.trim() && lastName.trim()) {
+            onSave(firstName.trim(), lastName.trim());
+        } else {
+            alert('Please enter both a first and last name.');
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+            <div className="bg-white rounded-lg shadow-2xl w-11/12 max-w-md p-8">
+                <h2 className="text-2xl font-bold text-slate-800 mb-4">Welcome! Let's set up your name.</h2>
+                <p className="text-slate-600 mb-6">Please confirm your name below. This will be used to personalize your experience.</p>
+                <div className="space-y-4">
+                    <div>
+                        <label htmlFor="firstName" className="block text-sm font-medium text-slate-700">First Name</label>
+                        <input
+                            type="text"
+                            id="firstName"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="lastName" className="block text-sm font-medium text-slate-700">Last Name</label>
+                        <input
+                            type="text"
+                            id="lastName"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                        />
+                    </div>
+                </div>
+                <div className="mt-8">
+                    <button
+                        onClick={handleSave}
+                        className="w-full px-6 py-3 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700 transition"
+                    >
+                        Save Name
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 // --- Main App Component ---
 function App() {
     const [view, setView] = useState('start');
@@ -1199,12 +1258,18 @@ function App() {
     const [currentUser, setCurrentUser] = useState(null);
     const [progress, setProgress] = useState({});
     const [showFormulaSheet, setShowFormulaSheet] = useState(false);
+    const [showNamePrompt, setShowNamePrompt] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('appUser');
         const storedToken = localStorage.getItem('appToken');
         if (storedUser && storedToken) {
-            setCurrentUser(JSON.parse(storedUser));
+            const user = JSON.parse(storedUser);
+            setCurrentUser(user);
+            const customNameSet = localStorage.getItem(`customNameSet_${user.id}`);
+            if (!customNameSet) {
+                setShowNamePrompt(true);
+            }
         }
     }, []);
 
@@ -1212,6 +1277,21 @@ function App() {
         localStorage.setItem('appUser', JSON.stringify(user));
         localStorage.setItem('appToken', token);
         setCurrentUser(user);
+
+        const customNameSet = localStorage.getItem(`customNameSet_${user.id}`);
+        if (!customNameSet) {
+            setShowNamePrompt(true);
+        }
+    };
+
+    const handleSaveName = (firstName, lastName) => {
+        const newName = `${firstName} ${lastName}`;
+        const updatedUser = { ...currentUser, name: newName };
+
+        setCurrentUser(updatedUser);
+        localStorage.setItem('appUser', JSON.stringify(updatedUser));
+        localStorage.setItem(`customNameSet_${currentUser.id}`, 'true');
+        setShowNamePrompt(false);
     };
 
     const handleLogout = () => {
@@ -1277,6 +1357,10 @@ function App() {
                 setProgress(initialProgress);
             }
         }
+
+        // Test-only backdoor to allow Playwright to trigger the modal
+        window.test_setShowNamePrompt = setShowNamePrompt;
+
     }, [currentUser]);
 
     useEffect(() => {
@@ -1455,6 +1539,7 @@ function App() {
                 </div>
             )}
             {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
+            {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} />}
             <main className="w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
                 <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                     {renderView()}
@@ -1469,7 +1554,7 @@ function App() {
 function AuthScreen({ onLogin }) {
     const googleButton = useRef(null);
 
-    const handleCredentialResponse = async (response) => {
+    const handleCredentialResponse = useCallback(async (response) => {
         try {
             const res = await fetch('https://ged-website.onrender.com/api/auth/google', {
                 method: 'POST',
@@ -1488,20 +1573,38 @@ function AuthScreen({ onLogin }) {
         } catch (error) {
             console.error("Login Error:", error);
         }
-    };
+    }, [onLogin]);
 
     useEffect(() => {
-        if (window.google && google.accounts.id && googleButton.current) {
-            google.accounts.id.initialize({
-                client_id: '828659988606-p9ct562f068p1778im2ck2o5iga89i7m.apps.googleusercontent.com',
-                callback: handleCredentialResponse,
-            });
-            google.accounts.id.renderButton(
-                googleButton.current,
-                { theme: "outline", size: "large", text: "signin_with", shape: "rectangular" }
-            );
-        }
-    }, []);
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
+            if (window.google && google.accounts.id && googleButton.current) {
+                google.accounts.id.initialize({
+                    client_id: '828659988606-p9ct562f068p1778im2ck2o5iga89i7m.apps.googleusercontent.com',
+                    callback: handleCredentialResponse,
+                });
+                google.accounts.id.renderButton(
+                    googleButton.current,
+                    { theme: "outline", size: "large", text: "signin_with", shape: "rectangular" }
+                );
+            }
+        };
+        script.onerror = () => {
+            console.error('Google Sign-In script failed to load.');
+        };
+
+        document.body.appendChild(script);
+
+        return () => {
+            const goggleScript = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
+            if (goggleScript) {
+                document.body.removeChild(goggleScript);
+            }
+        };
+    }, [handleCredentialResponse]);
 
     return (
         <div className="text-center max-w-md mx-auto">
