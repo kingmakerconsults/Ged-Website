@@ -289,9 +289,18 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
 };
 
 const generateStandaloneQuestion = async (subject, topic) => {
-    const prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
-The question should not require any external passage, chart, or image.
-Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+    let prompt;
+    // Conditional prompt based on the subject
+    if (subject === 'Math') {
+        prompt = `Generate a single, standalone, GED-style math word problem or calculation problem for the topic "${topic}".
+        STRICT REQUIREMENT: The question MUST be a math problem that requires mathematical reasoning to solve.
+        DO NOT generate a reading passage or a reading comprehension question (e.g., "What is the main idea...").
+        Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+    } else {
+        prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
+        The question should not require any external passage, chart, or image.
+        Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+    }
 
     const schema = {
         type: "OBJECT",
