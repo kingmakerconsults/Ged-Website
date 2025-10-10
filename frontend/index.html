@@ -1471,7 +1471,7 @@ function AuthScreen({ onLogin }) {
 
     const handleCredentialResponse = async (response) => {
         try {
-            const res = await fetch('/api/auth/google', {
+            const res = await fetch('https://ged-website.onrender.com/api/auth/google', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
