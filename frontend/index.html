@@ -58,17 +58,19 @@ function MathText({ text, className }) {
     const containerRef = useRef(null);
 
     useEffect(() => {
-        // Ensure the component is mounted and the text is a valid string
+        // First, ensure the component is mounted and the text is a valid string
         if (containerRef.current && typeof text === 'string') {
+
             // Use a regular expression to find all occurrences of text between dollar signs ($...$)
             const processedHtml = text.replace(/\$(.*?)\$/g, (match, expression) => {
-                // Auto-correct common AI errors we've seen, like '\\rac' instead of '\\frac'
+
+                // **AUTO-CORRECTION**: Automatically fix common AI errors we've seen, like '\\rac'
                 const correctedExpression = expression.replace(/\\rac/g, '\\frac');
 
                 try {
-                    // Render the (potentially corrected) LaTeX expression to an HTML string
+                    // Render the (now corrected) LaTeX expression to an HTML string
                     return katex.renderToString(correctedExpression, {
-                        throwOnError: false, // Don't crash if there's a syntax error
+                        throwOnError: false, // Don't crash if there's a different syntax error
                         displayMode: false
                     });
                 } catch (e) {
