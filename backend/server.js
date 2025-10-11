@@ -81,9 +81,11 @@ const promptLibrary = {
 },
     "Math": {
         topic: (topic) => `Generate a 15-question GED-style Math quiz focused on "${topic}".
-        STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems (number sense, data analysis) and 55% Algebraic Problems (expressions, equations).`,
+        STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems (number sense, data analysis) and 55% Algebraic Problems (expressions, equations).
+        IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.`,
         comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
-        STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.`
+        STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.
+        IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.`
     }
 };
 
@@ -298,6 +300,7 @@ const generateStandaloneQuestion = async (subject, topic) => {
         prompt = `Generate a single, standalone, GED-style math word problem or calculation problem for the topic "${topic}".
         STRICT REQUIREMENT: The question MUST be a math problem that requires mathematical reasoning to solve.
         DO NOT generate a reading passage or a reading comprehension question (e.g., "What is the main idea...").
+        IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.
         Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
     } else {
         prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
@@ -322,6 +325,7 @@ const generateStandaloneQuestion = async (subject, topic) => {
 async function generateGeometryQuestion(topic, subject) {
     const prompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
     The problem MUST require a visual stimulus to be solved.
+    IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.
     Your response MUST specify:
     1.  A "shape" from this list: [rectangle, triangle, circle, cylinder, rectangular_prism, cone].
     2.  The "dimensions" for that shape as a JSON object (e.g., {"w": 10, "h": 5}).
