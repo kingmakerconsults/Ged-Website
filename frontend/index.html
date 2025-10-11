@@ -55,35 +55,37 @@
 const { useState, useEffect, useRef, useCallback } = React;
 
 function MathText({ text, className }) {
-    if (typeof text !== 'string') {
-        return <span className={className}></span>;
-    }
+    const containerRef = useRef(null);
 
-    // Split the text by the LaTeX delimiter '$'
-    const parts = text.split('$');
+    useEffect(() => {
+        // Ensure the component is mounted and the text is a valid string
+        if (containerRef.current && typeof text === 'string') {
+            // Use a regular expression to find all occurrences of text between dollar signs ($...$)
+            const processedHtml = text.replace(/\$(.*?)\$/g, (match, expression) => {
+                // Auto-correct common AI errors we've seen, like '\\rac' instead of '\\frac'
+                const correctedExpression = expression.replace(/\\rac/g, '\\frac');
 
-    return (
-        <span className={className}>
-            {parts.map((part, index) => {
-                if (index % 2 === 1) {
-                    // This part was inside $$
-                    // The text from AppData has escaped backslashes, so we need to un-escape them
-                    const unescapedPart = part.replace(/\\\\/g, '\\');
-                    try {
-                        // Use dangerouslySetInnerHTML to render the HTML string from KaTeX
-                        return <span key={index} dangerouslySetInnerHTML={{ __html: katex.renderToString(unescapedPart, { throwOnError: false, displayMode: false }) }} />;
-                    } catch (e) {
-                        console.error("KaTeX rendering error:", e);
-                        // If there's an error, just display the original text
-                        return <span key={index}>${part}$</span>;
-                    }
-                } else {
-                    // This part was outside $$
-                    return <span key={index}>{part}</span>;
+                try {
+                    // Render the (potentially corrected) LaTeX expression to an HTML string
+                    return katex.renderToString(correctedExpression, {
+                        throwOnError: false, // Don't crash if there's a syntax error
+                        displayMode: false
+                    });
+                } catch (e) {
+                    console.error("KaTeX rendering error on expression:", correctedExpression, e);
+                    // If an error still occurs, show the original (broken) text for debugging
+                    return match;
                 }
-            })}
-        </span>
-    );
+            });
+
+            // Set the inner HTML of the span to the processed content
+            containerRef.current.innerHTML = processedHtml;
+        }
+    }, [text]); // This effect re-runs every time the 'text' prop changes
+
+    // Return an empty span that the useEffect will populate.
+    // This is a standard and robust way to integrate non-React libraries like KaTeX.
+    return <span ref={containerRef} className={className} />;
 }
 
 function unescapeHtml(safe) {
