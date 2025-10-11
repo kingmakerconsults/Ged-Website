@@ -529,13 +529,23 @@ app.post('/generate-quiz', async (req, res) => {
             }
         } else if (subject === 'Reasoning Through Language Arts (RLA)') {
     try {
-        console.log("Generating comprehensive RLA exam...");
+        console.log("Generating comprehensive RLA exam sequentially...");
 
-        const [part1Questions, part2Essay, part3Questions] = await Promise.all([
-            generateRlaPart1(),
-            generateRlaPart2(),
-            generateRlaPart3()
-        ]);
+        // --- MODIFICATION START ---
+        // Generate each part one by one instead of all at once.
+
+        console.log("Step 1: Generating Part 1 (Reading)...");
+        const part1Questions = await generateRlaPart1();
+
+        console.log("Step 2: Generating Part 2 (Essay Prompt)...");
+        const part2Essay = await generateRlaPart2();
+
+        console.log("Step 3: Generating Part 3 (Language & Grammar)...");
+        const part3Questions = await generateRlaPart3();
+
+        // --- MODIFICATION END ---
+
+        console.log("All RLA parts generated successfully. Assembling final quiz object.");
 
         const allQuestions = [...part1Questions, ...part3Questions];
         allQuestions.forEach((q, index) => {
@@ -554,7 +564,6 @@ app.post('/generate-quiz', async (req, res) => {
             questions: allQuestions // Keep this for compatibility with results screen
         };
 
-        // RLA does not need a second review pass due to its complex, multi-part nature
         res.json(finalQuiz);
 
     } catch (error) {
