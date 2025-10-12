@@ -130,34 +130,44 @@ app.post('/define-word', async (req, res) => {
 });
 
 
-// Add this new function to server.js
-function postProcessQuestions(questions) {
-    if (!Array.isArray(questions)) return [];
+function cleanupQuizData(quiz) {
+    if (!quiz || !Array.isArray(quiz.questions)) {
+        console.warn("cleanupQuizData received invalid quiz object or no questions array.");
+        return quiz;
+    }
 
-    const latexCommands = ['\\frac', '\\sqrt', '\\pi', '\\pm', '\\times', '\\div', '\\le', '\\ge'];
-
-    return questions.map(q => {
-        // Process the main question text
-        if (q.questionText) {
-            latexCommands.forEach(cmd => {
-                const regex = new RegExp(`(?<!\\$)\\s*(${cmd.replace('\\', '\\\\')}[^\\s$]*)\\s*(?!\\$)`, 'g');
-                q.questionText = q.questionText.replace(regex, ' $$1$ ');
-            });
+    quiz.questions.forEach(q => {
+        // Sanitize questionText
+        if (typeof q.questionText === 'string') {
+            // Replaces invalid \` with '
+            q.questionText = q.questionText.replace(/\\`/g, "'");
+            // Removes unnecessary backslashes before dollar signs
+            q.questionText = q.questionText.replace(/\\\$/g, "$");
+        } else {
+            // If questionText is not a string, log it and set to a default value
+            console.warn("Invalid questionText found, setting to empty string:", q.questionText);
+            q.questionText = '';
         }
-        // Process the answer options
+
+        // Sanitize answerOptions
         if (Array.isArray(q.answerOptions)) {
-            q.answerOptions = q.answerOptions.map(opt => {
-                if (opt.text) {
-                    latexCommands.forEach(cmd => {
-                        const regex = new RegExp(`(?<!\\$)\\s*(${cmd.replace('\\', '\\\\')}[^\\s$]*)\\s*(?!\\$)`, 'g');
-                        opt.text = opt.text.replace(regex, ' $$1$ ');
-                    });
+            q.answerOptions.forEach(opt => {
+                if (typeof opt.text === 'string') {
+                    opt.text = opt.text.replace(/\\`/g, "'");
+                    opt.text = opt.text.replace(/\\\$/g, "$");
+                } else {
+                    console.warn("Invalid answer option text found, setting to empty string:", opt.text);
+                    opt.text = '';
                 }
-                return opt;
             });
+        } else {
+            // If answerOptions is not an array, log and set to empty array
+            console.warn("Invalid answerOptions found, setting to empty array:", q.answerOptions);
+            q.answerOptions = [];
         }
-        return q;
     });
+
+    return quiz;
 }
 
 // Helper function to shuffle an array (Fisher-Yates shuffle)
@@ -407,6 +417,74 @@ async function generateGeometryQuestion(topic, subject) {
     }
 }
 
+async function generateNonCalculatorQuestion() {
+    const prompt = `You are a GED Math exam creator specializing in non-calculator questions.
+    Generate a single, high-quality question from the "Number Sense & Operations" domain (GED Indicator Q.1 or Q.2).
+    The question must be solvable without a calculator, focusing on concepts like number properties, estimation, or basic arithmetic with integers, fractions, and decimals.
+    CRITICAL: Do NOT generate a question that requires complex calculations.
+    IMPORTANT: For all mathematical expressions, including fractions and exponents, you MUST use KaTeX-compatible LaTeX syntax enclosed in single dollar signs (e.g., '$\\frac{5}{8}$', '$x^2$').
+    Output a single valid JSON object for the question.`;
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            questionText: { type: "STRING" },
+            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+        },
+        required: ["questionText", "answerOptions"]
+    };
+    const question = await callAI(prompt, schema);
+    question.type = 'standalone';
+    question.calculator = false; // Explicitly mark as non-calculator
+    return question;
+}
+
+async function generateDataQuestion() {
+    const prompt = `You are a GED Math exam creator.
+    Generate a single, high-quality, data-based question.
+    FIRST, create a simple HTML table with a caption, 2-4 columns, and 3-5 rows of numerical data.
+    SECOND, write a question that requires interpreting that table to find the mean, median, mode, or range.
+    The question text MUST reference the HTML table.
+    IMPORTANT: For all mathematical expressions, use KaTeX-compatible LaTeX syntax enclosed in single dollar signs.
+    Output a single valid JSON object containing the 'questionText' (which INCLUDES the HTML table) and 'answerOptions'.`;
+
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            questionText: { type: "STRING" },
+            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+        },
+        required: ["questionText", "answerOptions"]
+    };
+    const question = await callAI(prompt, schema);
+    question.type = 'standalone'; // The table is part of the question text
+    question.calculator = true;
+    return question;
+}
+
+async function generateGraphingQuestion() {
+    const prompt = `You are a GED Math exam creator.
+    Generate a single, high-quality, GED-style question about functions or interpreting graphs (GED Indicators A.5, A.6, A.7).
+    The question should focus on one of these concepts:
+    - Determining the slope of a line from a graph or equation.
+    - Understanding and using function notation (e.g., f(x) = 2x + 1, find f(3)).
+    - Interpreting a graph to identify relationships between variables, find specific points, or determine intercepts.
+    You can optionally reference one of the curated graph images if the context fits.
+    IMPORTANT: Use KaTeX-compatible LaTeX for all mathematical notation (e.g., '$f(x)$', '$x^2$').
+    Output a single valid JSON object for the question.`;
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            questionText: { type: "STRING" },
+            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+        },
+        required: ["questionText", "answerOptions"]
+    };
+    const question = await callAI(prompt, schema);
+    question.type = 'standalone';
+    question.calculator = true;
+    return question;
+}
+
 async function generateRlaPart1() {
     const prompt = `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, with a concise, engaging title in <strong> tags. Format passages with <p> tags. The breakdown must be 3 informational texts and 1 literary text. For EACH passage, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions. Each question should be a JSON object. Return a single JSON array of these 20 question objects.`;
     const schema = { type: "ARRAY", items: singleQuestionSchema };
@@ -602,6 +680,58 @@ app.post('/generate-quiz', async (req, res) => {
         console.error('Error generating comprehensive RLA exam:', error);
         res.status(500).json({ error: 'Failed to generate RLA exam.' });
     }
+} else if (subject === 'Math' && comprehensive) {
+    try {
+        console.log("Generating comprehensive Math exam...");
+        const promises = [];
+
+        // Step 1: Generate 5 Non-Calculator Questions
+        for (let i = 0; i < 5; i++) {
+            promises.push(generateNonCalculatorQuestion());
+        }
+
+        // Step 2: Generate 41 Calculator-Permitted Questions
+        // Quantitative (16 questions)
+        for (let i = 0; i < 7; i++) promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents'));
+        for (let i = 0; i < 6; i++) promises.push(generateGeometryQuestion('Geometry', 'Math'));
+        for (let i = 0; i < 3; i++) promises.push(generateDataQuestion());
+
+        // Algebraic (25 questions)
+        for (let i = 0; i < 14; i++) promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities'));
+        for (let i = 0; i < 11; i++) promises.push(generateGraphingQuestion());
+
+
+        const results = await Promise.all(promises.map(p => p.catch(e => {
+            console.error("A promise in the comprehensive math exam failed:", e);
+            return null; // Return null for failed promises
+        })));
+
+        let allQuestions = results.flat().filter(q => q); // Filter out any nulls from failed generations
+
+        // The comprehensive math exam should not be shuffled to maintain the non-calculator/calculator sections
+        let finalQuestions = allQuestions;
+
+        // Assign final question numbers BEFORE cleanup
+        finalQuestions.forEach((q, index) => {
+            q.questionNumber = index + 1;
+        });
+
+        let draftQuiz = {
+            id: `ai_comp_math_${new Date().getTime()}`,
+            title: `Comprehensive Mathematical Reasoning Exam`,
+            subject: subject,
+            questions: finalQuestions
+        };
+
+        // Apply cleanup function to the entire assembled quiz object
+        const finalQuiz = cleanupQuizData(draftQuiz);
+
+        res.json(finalQuiz);
+
+    } catch (error) {
+        console.error('Error generating comprehensive Math exam:', error);
+        res.status(500).json({ error: 'Failed to generate Math exam.' });
+    }
 } else {
             // This handles comprehensive requests for subjects without that logic yet.
             res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
@@ -662,22 +792,20 @@ app.post('/generate-quiz', async (req, res) => {
 
             let finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
 
-            // --- NEW STEP: Call the post-processing function ---
-            finalQuestions = postProcessQuestions(finalQuestions);
-
             // Assign question numbers
-            finalQuestions = finalQuestions.map((q, index) => ({
-                ...q,
-                questionNumber: index + 1,
-            }));
+            finalQuestions.forEach((q, index) => {
+                q.questionNumber = index + 1;
+            });
 
-            // This is now your final, clean quiz. No second AI call needed.
-            const finalQuiz = {
+            let draftQuiz = {
                 id: `ai_topic_${new Date().getTime()}`,
                 title: `${subject}: ${topic}`,
                 subject: subject,
                 questions: finalQuestions,
             };
+
+            // Apply cleanup function to the entire assembled quiz object
+            const finalQuiz = cleanupQuizData(draftQuiz);
 
             console.log("Quiz generation and post-processing complete.");
             res.json(finalQuiz); // Send the cleaned quiz directly to the user
