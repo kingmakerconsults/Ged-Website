@@ -59,28 +59,21 @@ function MathText({ text, className }) {
 
     useEffect(() => {
         if (containerRef.current && typeof text === 'string') {
-            // --- AGGRESSIVE FIX #1: Correct any `\rac` typos to `\frac` globally.
-            // This is done first, so the next step can find the corrected `\frac`.
-            let processedText = text.replace(/\\rac/g, '\\frac');
+            let processedText = text;
 
-            // --- AGGRESSIVE FIX #2: Find any instances of `\frac` that are NOT inside dollar signs and wrap them.
-            processedText = processedText.replace(/(\\frac{[^}]+}{[^}]+})/g, (match, expression) => {
-                // To avoid double-wrapping, we check if the character immediately preceding the match is a '$'.
-                // This is a simple but effective check for this specific problem.
+            // --- AGGRESSIVE CORRECTION #1: Fix broken LaTeX commands like '\rac' ---
+            processedText = processedText.replace(/\\rac/g, '\\frac');
+
+            // --- AGGRESSIVE CORRECTION #2: Find any '\frac' commands that the AI forgot to wrap in '$' signs and add them. ---
+            processedText = processedText.replace(/(\\frac{[^}]+}{[^}]+})/g, (match) => {
+                // To avoid double-wrapping, we'll do a simple check. If the character
+                // before and after the match are already '$', we leave it alone.
                 const index = processedText.indexOf(match);
-                if (index > 0 && processedText[index - 1] === '$') {
-                    return match; // It's already wrapped, leave it alone.
+                if (index > 0 && processedText[index - 1] === '$' && processedText[index + match.length] === '$') {
+                    return match; // It's already correctly wrapped.
                 }
-                // Also check if it's part of a larger LaTeX expression that's already wrapped.
-                // This is a heuristic: check for a preceding '$' without a closing '$' in between.
-                const precedingText = processedText.substring(0, index);
-                const lastOpen = precedingText.lastIndexOf('$');
-                const lastClose = precedingText.lastIndexOf('$', lastOpen -1);
-                 if (lastOpen > lastClose) {
-                    return match;
-                }
-
-                return `$${match}$`; // Wrap the lonely \frac in dollar signs.
+                // Otherwise, wrap the lonely \frac command in dollar signs.
+                return `$${match}$`;
             });
 
             // --- STANDARD RENDERING ---
@@ -92,7 +85,7 @@ function MathText({ text, className }) {
                         displayMode: false
                     });
                 } catch (e) {
-                    console.error("KaTeX rendering error on expression:", correctedExpression, e);
+                    console.error("KaTeX rendering error on expression:", expression, e);
                     return match;
                 }
             });
