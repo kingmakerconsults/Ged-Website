@@ -480,14 +480,25 @@ const cleanupQuizData = (quizData) => {
     // Convert the entire JSON object to a string to perform replacements
     let jsonString = JSON.stringify(quizData);
 
+    // --- SANITIZING STEP ---
+    // The AI can occasionally generate strings with invalid escaped characters,
+    // which causes JSON.parse() to crash the server.
+    // This regex finds any backslash that is NOT followed by a valid JSON escape
+    // sequence character (", \\, /, b, f, n, r, t) or the letter 'u' (for unicode escapes),
+    // and replaces it with a double backslash, effectively escaping it.
+    // For example, an invalid sequence like " \d" becomes a valid "\\d".
+    jsonString = jsonString.replace(/\\(?![/"\\bfnrtu])/g, '\\\\');
+
+
     // --- AGGRESSIVE CORRECTIONS ---
-    // Fix common AI typo for fractions
-    jsonString = jsonString.replace(/\\rac/g, '\\frac');
+    // Fix common AI typo for fractions. Note the double backslash needed for stringified JSON.
+    jsonString = jsonString.replace(/\\\\rac/g, '\\\\frac');
     // Remove stray, misplaced curly braces near numbers (e.g., "11 } cups")
     jsonString = jsonString.replace(/(\d+)\s*\}\s*cups/g, '$1 cups');
 
     // Find any \frac commands that the AI forgot to wrap in '$' and wrap them
-    jsonString = jsonString.replace(/(?<!\$)\\frac{[^}]+}{[^}]+}(?!\$)/g, (match) => {
+    // Note the escaped backslashes needed for the lookbehind and the command itself.
+    jsonString = jsonString.replace(/(?<!\\\$)\\\\frac{[^}]+}{[^}]+}(?!\$)/g, (match) => {
         return `$${match}$`;
     });
 
