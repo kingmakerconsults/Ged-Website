@@ -61,23 +61,20 @@ function MathText({ text, className }) {
         if (containerRef.current && typeof text === 'string') {
             let processedText = text;
 
-            // --- AGGRESSIVE CORRECTION #1: Fix broken LaTeX commands like '\rac' ---
+            // --- DEFENSIVE Correction #1: Fix broken LaTeX commands like '\rac' ---
             processedText = processedText.replace(/\\rac/g, '\\frac');
 
-            // --- AGGRESSIVE CORRECTION #2: Find any '\frac' commands that the AI forgot to wrap in '$' signs and add them. ---
+            // --- DEFENSIVE Correction #2: Find any '\frac' commands that the AI forgot to wrap in '$' signs and add them. ---
             processedText = processedText.replace(/(\\frac{[^}]+}{[^}]+})/g, (match) => {
-                // To avoid double-wrapping, we'll do a simple check. If the character
-                // before and after the match are already '$', we leave it alone.
                 const index = processedText.indexOf(match);
-                if (index > 0 && processedText[index - 1] === '$' && processedText[index + match.length] === '$') {
-                    return match; // It's already correctly wrapped.
+                // If the character immediately before and after the match are NOT '$', wrap it.
+                if (index === 0 || processedText[index - 1] !== '$' || processedText[index + match.length] !== '$') {
+                    return `$${match}$`;
                 }
-                // Otherwise, wrap the lonely \frac command in dollar signs.
-                return `$${match}$`;
+                return match; // It's already correctly wrapped.
             });
 
-            // --- STANDARD RENDERING ---
-            // Now, process the string to render all LaTeX, including the ones we just fixed.
+            // --- Standard Rendering ---
             const finalHtml = processedText.replace(/\$(.*?)\$/g, (match, expression) => {
                 try {
                     return katex.renderToString(expression, {
