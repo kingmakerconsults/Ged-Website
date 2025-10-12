@@ -1,6 +1,9 @@
 // server.js (Updated Version)
 
-require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
+// Only use dotenv for local development. Render will provide environment variables in production.
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
+}
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
@@ -80,13 +83,33 @@ const promptLibrary = {
 }
 },
     "Math": {
-        topic: (topic) => `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is perfectly formatted for KaTeX. This is a non-negotiable, critical requirement. Failure to format correctly will make the output unusable.
-- All fractions MUST be in the format '$\\frac{numerator}{denominator}$'.
-- All LaTeX expressions MUST be enclosed in single dollar signs '$'.
-- For example, 'five eighths' must be '$'\\frac{5}{8}'$'. 'x squared' must be '$x^2$'. There are no exceptions.
+        topic: (topic) => `
+    Generate a 15-question, GED-style multiple-choice quiz on the topic of "${topic}".
+    The output MUST be a valid JSON that strictly adheres to the provided schema.
 
-With those rules in mind, generate a 15-question GED-style Math quiz focused on "${topic}".
-STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.`,
+    Here is a perfect example of a single question object. Follow this formatting precisely:
+    {
+      "questionNumber": 1,
+      "questionText": "A painter mixes $\\frac{1}{2}$ gallon of blue paint with $\\frac{3}{4}$ gallon of yellow paint. How many gallons of green paint did the painter make?",
+      "answerOptions": [
+        {
+          "text": "$1\\frac{1}{4}$ gallons",
+          "isCorrect": true,
+          "rationale": "To find the total, add the two amounts: $\\frac{1}{2} + \\frac{3}{4} = \\frac{2}{4} + \\frac{3}{4} = \\frac{5}{4}$, which is equal to $1\\frac{1}{4}$."
+        },
+        {
+          "text": "$\\frac{1}{4}$ gallon",
+          "isCorrect": false,
+          "rationale": "This is the difference between the two amounts, not the sum."
+        }
+      ]
+    }
+
+    CRITICAL FORMATTING RULES:
+    1.  ALL mathematical expressions, especially fractions, MUST be formatted using KaTeX-compatible LaTeX.
+    2.  ALL LaTeX expressions MUST be enclosed in single dollar signs '$'. For example, write '$\\frac{1}{2}$', not '\\frac{1}{2}'.
+    3.  This is a non-negotiable requirement for the output to be usable.
+`,
         comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
         STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.
         IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate. This is a non-negotiable requirement.`
@@ -126,36 +149,6 @@ app.post('/define-word', async (req, res) => {
     }
 });
 
-
-// Add this new function to server.js
-function postProcessQuestions(questions) {
-    if (!Array.isArray(questions)) return [];
-
-    const latexCommands = ['\\frac', '\\sqrt', '\\pi', '\\pm', '\\times', '\\div', '\\le', '\\ge'];
-
-    return questions.map(q => {
-        // Process the main question text
-        if (q.questionText) {
-            latexCommands.forEach(cmd => {
-                const regex = new RegExp(`(?<!\\$)\\s*(${cmd.replace('\\', '\\\\')}[^\\s$]*)\\s*(?!\\$)`, 'g');
-                q.questionText = q.questionText.replace(regex, ' $$1$ ');
-            });
-        }
-        // Process the answer options
-        if (Array.isArray(q.answerOptions)) {
-            q.answerOptions = q.answerOptions.map(opt => {
-                if (opt.text) {
-                    latexCommands.forEach(cmd => {
-                        const regex = new RegExp(`(?<!\\$)\\s*(${cmd.replace('\\', '\\\\')}[^\\s$]*)\\s*(?!\\$)`, 'g');
-                        opt.text = opt.text.replace(regex, ' $$1$ ');
-                    });
-                }
-                return opt;
-            });
-        }
-        return q;
-    });
-}
 
 // Helper function to shuffle an array (Fisher-Yates shuffle)
 function shuffleArray(array) {
@@ -482,6 +475,26 @@ async function reviewAndCorrectQuiz(draftQuiz) {
     }
 
 
+// Add this new function to server.js
+const cleanupQuizData = (quizData) => {
+    // Convert the entire JSON object to a string to perform replacements
+    let jsonString = JSON.stringify(quizData);
+
+    // --- AGGRESSIVE CORRECTIONS ---
+    // Fix common AI typo for fractions
+    jsonString = jsonString.replace(/\\rac/g, '\\frac');
+    // Remove stray, misplaced curly braces near numbers (e.g., "11 } cups")
+    jsonString = jsonString.replace(/(\d+)\s*\}\s*cups/g, '$1 cups');
+
+    // Find any \frac commands that the AI forgot to wrap in '$' and wrap them
+    jsonString = jsonString.replace(/(?<!\$)\\frac{[^}]+}{[^}]+}(?!\$)/g, (match) => {
+        return `$${match}$`;
+    });
+
+    // Parse the cleaned string back into a JSON object
+    return JSON.parse(jsonString);
+};
+
 app.post('/generate-quiz', async (req, res) => {
     const { subject, topic, comprehensive } = req.body;
 
@@ -660,7 +673,7 @@ app.post('/generate-quiz', async (req, res) => {
             let finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
 
             // --- NEW STEP: Call the post-processing function ---
-            finalQuestions = postProcessQuestions(finalQuestions);
+            // finalQuestions = postProcessQuestions(finalQuestions);
 
             // Assign question numbers
             finalQuestions = finalQuestions.map((q, index) => ({
@@ -669,12 +682,14 @@ app.post('/generate-quiz', async (req, res) => {
             }));
 
             // This is now your final, clean quiz. No second AI call needed.
-            const finalQuiz = {
+            const draftQuiz = {
                 id: `ai_topic_${new Date().getTime()}`,
                 title: `${subject}: ${topic}`,
                 subject: subject,
                 questions: finalQuestions,
             };
+
+            const finalQuiz = cleanupQuizData(draftQuiz);
 
             console.log("Quiz generation and post-processing complete.");
             res.json(finalQuiz); // Send the cleaned quiz directly to the user
