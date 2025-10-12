@@ -75,7 +75,7 @@ function MathText({ text, className }) {
                 // Otherwise, wrap the lonely \frac command in dollar signs.
                 return `$${match}$`;
             });
-
+            
             // --- STANDARD RENDERING ---
             // Now, process the string to render all LaTeX, including the ones we just fixed.
             const finalHtml = processedText.replace(/\$(.*?)\$/g, (match, expression) => {
@@ -89,7 +89,7 @@ function MathText({ text, className }) {
                     return match;
                 }
             });
-
+            
             containerRef.current.innerHTML = finalHtml;
         }
     }, [text]);

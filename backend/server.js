@@ -629,14 +629,33 @@ app.post('/generate-quiz', async (req, res) => {
                 questionNumber: index + 1,
             }));
 
-            const finalQuiz = {
+            const draftQuiz = {
                 id: `ai_topic_${new Date().getTime()}`,
                 title: `${subject}: ${topic}`,
                 subject: subject,
                 questions: finalQuestions,
             };
 
-            res.json(finalQuiz);
+            // --- STEP 2: Second AI call to proofread and clean up the generated quiz ---
+            const cleanupPrompt = `
+                The following JSON data contains a quiz. Your task is to act as a proofreader.
+                Carefully examine the 'question' and 'text' fields for any mathematical notation.
+                Ensure that ALL mathematical expressions, especially fractions, are correctly formatted using KaTeX-compatible LaTeX.
+                - All fractions MUST be in the format '$\\frac{numerator}{denominator}$'.
+                - All LaTeX expressions MUST be enclosed in single dollar signs '$'.
+                - DO NOT change the JSON structure, IDs, or the correctness of the answers. Only fix the text formatting.
+                This is a critical requirement for display purposes. Please return the entire JSON object with the corrections made.
+
+                Here is the JSON to correct:
+                ${JSON.stringify(draftQuiz, null, 2)}
+            `;
+
+            console.log("Step 2: Sending topic-specific quiz for AI cleanup and validation...");
+            // Use the existing quizSchema for validation
+            const cleanedQuizData = await callAI(cleanupPrompt, quizSchema);
+
+            console.log("Quiz generation and cleanup complete.");
+            res.json(cleanedQuizData);
 
         } catch (error) {
             // Use topic and subject in the error log if they are available
