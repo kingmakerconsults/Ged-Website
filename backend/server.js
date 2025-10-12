@@ -1,6 +1,9 @@
 // server.js (Updated Version)
 
-require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
+// Only use dotenv for local development. Render will provide environment variables in production.
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
+}
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
