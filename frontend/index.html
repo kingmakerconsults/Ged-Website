@@ -58,35 +58,49 @@ function MathText({ text, className }) {
     const containerRef = useRef(null);
 
     useEffect(() => {
-        // First, ensure the component is mounted and the text is a valid string
         if (containerRef.current && typeof text === 'string') {
+            // --- AGGRESSIVE FIX #1: Correct any `\rac` typos to `\frac` globally.
+            // This is done first, so the next step can find the corrected `\frac`.
+            let processedText = text.replace(/\\rac/g, '\\frac');
 
-            // Use a regular expression to find all occurrences of text between dollar signs ($...$)
-            const processedHtml = text.replace(/\$(.*?)\$/g, (match, expression) => {
+            // --- AGGRESSIVE FIX #2: Find any instances of `\frac` that are NOT inside dollar signs and wrap them.
+            processedText = processedText.replace(/(\\frac{[^}]+}{[^}]+})/g, (match, expression) => {
+                // To avoid double-wrapping, we check if the character immediately preceding the match is a '$'.
+                // This is a simple but effective check for this specific problem.
+                const index = processedText.indexOf(match);
+                if (index > 0 && processedText[index - 1] === '$') {
+                    return match; // It's already wrapped, leave it alone.
+                }
+                // Also check if it's part of a larger LaTeX expression that's already wrapped.
+                // This is a heuristic: check for a preceding '$' without a closing '$' in between.
+                const precedingText = processedText.substring(0, index);
+                const lastOpen = precedingText.lastIndexOf('$');
+                const lastClose = precedingText.lastIndexOf('$', lastOpen -1);
+                 if (lastOpen > lastClose) {
+                    return match;
+                }
 
-                // **AUTO-CORRECTION**: Automatically fix common AI errors we've seen, like '\\rac'
-                const correctedExpression = expression.replace(/\\rac/g, '\\frac');
+                return `$${match}$`; // Wrap the lonely \frac in dollar signs.
+            });
 
+            // --- STANDARD RENDERING ---
+            // Now, process the string to render all LaTeX, including the ones we just fixed.
+            const finalHtml = processedText.replace(/\$(.*?)\$/g, (match, expression) => {
                 try {
-                    // Render the (now corrected) LaTeX expression to an HTML string
-                    return katex.renderToString(correctedExpression, {
-                        throwOnError: false, // Don't crash if there's a different syntax error
+                    return katex.renderToString(expression, {
+                        throwOnError: false,
                         displayMode: false
                     });
                 } catch (e) {
                     console.error("KaTeX rendering error on expression:", correctedExpression, e);
-                    // If an error still occurs, show the original (broken) text for debugging
                     return match;
                 }
             });
 
-            // Set the inner HTML of the span to the processed content
-            containerRef.current.innerHTML = processedHtml;
+            containerRef.current.innerHTML = finalHtml;
         }
-    }, [text]); // This effect re-runs every time the 'text' prop changes
+    }, [text]);
 
-    // Return an empty span that the useEffect will populate.
-    // This is a standard and robust way to integrate non-React libraries like KaTeX.
     return <span ref={containerRef} className={className} />;
 }
 
