@@ -80,9 +80,13 @@ const promptLibrary = {
 }
 },
     "Math": {
-        topic: (topic) => `Generate a 15-question GED-style Math quiz focused on "${topic}".
-        STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems (number sense, data analysis) and 55% Algebraic Problems (expressions, equations).
-        IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate. This is a non-negotiable requirement.`,
+        topic: (topic) => `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is perfectly formatted for KaTeX. This is a non-negotiable, critical requirement. Failure to format correctly will make the output unusable.
+- All fractions MUST be in the format '$\\frac{numerator}{denominator}$'.
+- All LaTeX expressions MUST be enclosed in single dollar signs '$'.
+- For example, 'five eighths' must be '$'\\frac{5}{8}'$'. 'x squared' must be '$x^2$'. There are no exceptions.
+
+With those rules in mind, generate a 15-question GED-style Math quiz focused on "${topic}".
+STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.`,
         comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
         STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.
         IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate. This is a non-negotiable requirement.`
@@ -122,6 +126,36 @@ app.post('/define-word', async (req, res) => {
     }
 });
 
+
+// Add this new function to server.js
+function postProcessQuestions(questions) {
+    if (!Array.isArray(questions)) return [];
+
+    const latexCommands = ['\\frac', '\\sqrt', '\\pi', '\\pm', '\\times', '\\div', '\\le', '\\ge'];
+
+    return questions.map(q => {
+        // Process the main question text
+        if (q.questionText) {
+            latexCommands.forEach(cmd => {
+                const regex = new RegExp(`(?<!\\$)\\s*(${cmd.replace('\\', '\\\\')}[^\\s$]*)\\s*(?!\\$)`, 'g');
+                q.questionText = q.questionText.replace(regex, ' $$1$ ');
+            });
+        }
+        // Process the answer options
+        if (Array.isArray(q.answerOptions)) {
+            q.answerOptions = q.answerOptions.map(opt => {
+                if (opt.text) {
+                    latexCommands.forEach(cmd => {
+                        const regex = new RegExp(`(?<!\\$)\\s*(${cmd.replace('\\', '\\\\')}[^\\s$]*)\\s*(?!\\$)`, 'g');
+                        opt.text = opt.text.replace(regex, ' $$1$ ');
+                    });
+                }
+                return opt;
+            });
+        }
+        return q;
+    });
+}
 
 // Helper function to shuffle an array (Fisher-Yates shuffle)
 function shuffleArray(array) {
@@ -623,39 +657,27 @@ app.post('/generate-quiz', async (req, res) => {
             // Shuffle the collected questions for variety
             const shuffledQuestions = shuffleArray(allQuestions);
 
-            // Assign question numbers and slice to the final desired length
-            const finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS).map((q, index) => ({
+            let finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
+
+            // --- NEW STEP: Call the post-processing function ---
+            finalQuestions = postProcessQuestions(finalQuestions);
+
+            // Assign question numbers
+            finalQuestions = finalQuestions.map((q, index) => ({
                 ...q,
                 questionNumber: index + 1,
             }));
 
-            const draftQuiz = {
+            // This is now your final, clean quiz. No second AI call needed.
+            const finalQuiz = {
                 id: `ai_topic_${new Date().getTime()}`,
                 title: `${subject}: ${topic}`,
                 subject: subject,
                 questions: finalQuestions,
             };
 
-            // --- STEP 2: Second AI call to proofread and clean up the generated quiz ---
-            const cleanupPrompt = `
-                The following JSON data contains a quiz. Your task is to act as a proofreader.
-                Carefully examine the 'question' and 'text' fields for any mathematical notation.
-                Ensure that ALL mathematical expressions, especially fractions, are correctly formatted using KaTeX-compatible LaTeX.
-                - All fractions MUST be in the format '$\\frac{numerator}{denominator}$'.
-                - All LaTeX expressions MUST be enclosed in single dollar signs '$'.
-                - DO NOT change the JSON structure, IDs, or the correctness of the answers. Only fix the text formatting.
-                This is a critical requirement for display purposes. Please return the entire JSON object with the corrections made.
-
-                Here is the JSON to correct:
-                ${JSON.stringify(draftQuiz, null, 2)}
-            `;
-
-            console.log("Step 2: Sending topic-specific quiz for AI cleanup and validation...");
-            // Use the existing quizSchema for validation
-            const cleanedQuizData = await callAI(cleanupPrompt, quizSchema);
-
-            console.log("Quiz generation and cleanup complete.");
-            res.json(cleanedQuizData);
+            console.log("Quiz generation and post-processing complete.");
+            res.json(finalQuiz); // Send the cleaned quiz directly to the user
 
         } catch (error) {
             // Use topic and subject in the error log if they are available
