@@ -3,3 +3,4 @@ node_modules/
 ../backend_output.log
 ../frontend_output.log
 backend/gcloud-credentials.json
+backend/node_modules/

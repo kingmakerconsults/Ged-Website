@@ -414,8 +414,12 @@ async function generateGeometryQuestion(topic, subject, attempt = 1) {
         };
     } catch (error) {
         console.error(`Error generating geometry question on attempt ${attempt}.`);
-        console.error("---PROMPT---:\n", prompt);
-        console.error("---AI RESPONSE ERROR---:\n", error.response ? JSON.stringify(error.response.data, null, 2) : error.message);
+        // THIS IS THE CRUCIAL ADDITION:
+        if (error.response && error.response.data && error.response.data.candidates && error.response.data.candidates[0] && error.response.data.candidates[0].content && error.response.data.candidates[0].content.parts && error.response.data.candidates[0].content.parts[0]) {
+            console.error("---RAW AI RESPONSE THAT FAILED---:\n", error.response.data.candidates[0].content.parts[0].text);
+        } else {
+             console.error("---AI RESPONSE ERROR (Could not extract raw text)---:\n", error.response ? JSON.stringify(error.response.data, null, 2) : error.message);
+        }
 
         if (attempt < MAX_ATTEMPTS) {
             console.log(`Retrying geometry question generation (attempt ${attempt + 1})...`);
@@ -599,7 +603,7 @@ async function reviewAndCorrectQuiz(draftQuiz) {
     }
 
 async function reviewAndCorrectMathQuestion(questionObject) {
-    const prompt = `You are a meticulous GED math exam editor. Your only job is to review the following JSON question object and fix any errors in the KaTeX formatting. Ensure all mathematical expressions are correctly written (e.g., \\frac, not \\rac) and properly enclosed in single dollar signs. Do NOT change the substance of the question, the answers, or the logic. Return the corrected, valid JSON object.
+    const prompt = `You are an expert GED math editor. Review the following JSON question object. Your ONLY job is to fix formatting. **Aggressively correct all KaTeX syntax errors.** For example, FIX \`\\rac{...}\` to \`\\frac{...}\`. Ensure all math expressions are properly enclosed in single dollar signs '$' with correct spacing around them. **Simplify any HTML tables** by removing ALL inline CSS (e.g., \`style="..."\`). Return only the corrected, valid JSON object.
 
     Faulty JSON:
     ${JSON.stringify(questionObject)}
@@ -770,9 +774,10 @@ app.post('/generate-quiz', async (req, res) => {
         // Add 10 Data/Graphing questions
         for (let i = 0; i < 5; i++) part2Promises.push(generateDataQuestion());
         for (let i = 0; i < 5; i++) part2Promises.push(generateGraphingQuestion());
-        // Add 19 Standalone Algebra/Quantitative questions
+        // Add 15 Standalone Algebra/Quantitative questions
         for (let i = 0; i < 10; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities'));
-        for (let i = 0; i < 9; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents'));
+        for (let i = 0; i < 5; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents'));
+        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank());
 
         const part2Results = await Promise.all(part2Promises.map(p => p.catch(e => {
             console.error("A promise in the calculator math section failed:", e);
@@ -799,6 +804,25 @@ app.post('/generate-quiz', async (req, res) => {
         const correctedPart2 = await Promise.all(part2Questions.map(q => reviewAndCorrectMathQuestion(q)));
 
         const correctedAllQuestions = [...correctedPart1, ...correctedPart2];
+
+        // --- NEW: Final Server-Side Sanitization ---
+        correctedAllQuestions.forEach(q => {
+            if (q.questionText) {
+                // Fix the most common LaTeX error
+                q.questionText = q.questionText.replace(/\\rac/g, '\\frac');
+                // Remove any inline CSS from tables to help the frontend
+                q.questionText = q.questionText.replace(/style="[^"]*"/g, '');
+            }
+            if (q.answerOptions) {
+                q.answerOptions.forEach(opt => {
+                    if (opt.text) {
+                        opt.text = opt.text.replace(/\\rac/g, '\\frac');
+                    }
+                });
+            }
+        });
+        // --- End of Sanitization ---
+
         correctedAllQuestions.forEach((q, index) => {
             q.questionNumber = index + 1;
         });
