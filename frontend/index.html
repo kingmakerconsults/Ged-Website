@@ -57,32 +57,46 @@ const { useState, useEffect, useRef, useCallback } = React;
 function MathText({ text, className }) {
     const containerRef = useRef(null);
 
+    // Function to render HTML content safely
+    const renderHtmlContent = (content) => {
+        if (typeof content !== 'string') return '';
+        // Use a temporary div to parse and sanitize HTML
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        // Basic sanitization: allow table-related tags
+        const allowedTags = ['TABLE', 'THEAD', 'TBODY', 'TR', 'TH', 'TD', 'CAPTION', 'P', 'B', 'I', 'STRONG', 'EM', 'BR'];
+        const allElements = tempDiv.getElementsByTagName('*');
+        for (let i = allElements.length - 1; i >= 0; i--) {
+            const element = allElements[i];
+            if (!allowedTags.includes(element.tagName)) {
+                element.parentNode.removeChild(element);
+            }
+        }
+        return tempDiv.innerHTML;
+    };
+
     useEffect(() => {
         if (containerRef.current && typeof text === 'string') {
-            // The text is split by '$' and processed. This handles both wrapped and non-wrapped LaTeX.
             const parts = text.split('$');
             const renderedHtml = parts.map((part, index) => {
-                if (index % 2 === 1) { // This is a LaTeX expression
+                if (index % 2 === 1) {
                     try {
-                        // Use KaTeX to render the LaTeX part
                         return katex.renderToString(part, {
                             throwOnError: false,
                             displayMode: false
                         });
                     } catch (e) {
                         console.error("KaTeX rendering error:", e);
-                        return `\$${part}\$`; // Return original on error
+                        return `\$${part}\$`;
                     }
                 } else {
-                    // This is plain text, so it can be directly included.
-                    // No need to wrap in a span, just return the text.
-                    return part;
+                    // This part is plain text, but might contain HTML tables
+                    return renderHtmlContent(part);
                 }
             }).join('');
 
             containerRef.current.innerHTML = renderedHtml;
         } else if (containerRef.current) {
-            // Clear the container if text is not a string
             containerRef.current.innerHTML = '';
         }
     }, [text]);
@@ -2011,7 +2025,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const currentQ = questions[currentIndex];
     if (!currentQ) return <div>Loading question...</div>;
 
-    const isFillInTheBlank = !currentQ.answerOptions || currentQ.answerOptions.length === 0;
+    const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
 
     return (
         <div className="fade-in">
@@ -2041,12 +2055,14 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
 
                 {isFillInTheBlank ? (
                     <div>
+                        <label htmlFor="fill-in-blank-answer" className="block text-sm font-medium text-slate-700 mb-1">Enter your answer:</label>
                         <input
+                            id="fill-in-blank-answer"
                             type="text"
                             value={answers[currentIndex] || ''}
                             onChange={handleInputChange}
-                            placeholder="Enter your answer"
-                            className="w-full p-3 border border-slate-300 rounded-lg"
+                            placeholder="Type your answer here"
+                            className="w-full max-w-sm p-3 border border-slate-300 rounded-lg"
                         />
                     </div>
                 ) : (
@@ -2118,7 +2134,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
 
     const handlePart1Complete = (result) => {
         setPart1Result(result);
-        setPart(2);
+        setPart('interstitial'); // Go to interstitial screen
     };
 
     const handlePart2Complete = (result) => {
@@ -2130,7 +2146,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         quiz.questions.forEach((q, i) => {
             const isFillIn = !q.answerOptions || q.answerOptions.length === 0;
             if (isFillIn) {
-                if (String(finalAnswers[i]).trim() === String(q.answer)) {
+                if (String(finalAnswers[i]).trim() === String(q.correctAnswer)) { // Corrected to use correctAnswer
                     score++;
                 }
             } else {
@@ -2157,6 +2173,18 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             buttonText="Continue to Part 2"
             onExit={onExit}
         />;
+    }
+
+    if (part === 'interstitial') {
+        return (
+            <div className="text-center p-8 fade-in">
+                <h2 className="text-2xl font-bold mb-4">You have completed the non-calculator section.</h2>
+                <p className="text-lg mb-6">You may now use a calculator for the remainder of the test.</p>
+                <button onClick={() => setPart(2)} className="px-8 py-3 bg-sky-600 text-white font-bold rounded-lg">
+                    Start Part 2
+                </button>
+            </div>
+        );
     }
 
     if (part === 2) {
