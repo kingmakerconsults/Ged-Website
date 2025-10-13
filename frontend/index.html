@@ -557,17 +557,12 @@ function postRenderGuardrails(container, { itemIndex } = {}) {
     const issues = new Set();
     const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
     const tableTextNodes = [];
-    const fracTextNodes = [];
-
     while (walker.nextNode()) {
         const currentNode = walker.currentNode;
         if (!currentNode || !currentNode.nodeValue) continue;
         const value = currentNode.nodeValue;
         if (/<\s*(?:tr|th|td)/i.test(value)) {
             tableTextNodes.push(currentNode);
-        }
-        if (/\\frac\{/.test(value)) {
-            fracTextNodes.push(currentNode);
         }
     }
 
@@ -578,12 +573,6 @@ function postRenderGuardrails(container, { itemIndex } = {}) {
         codeEl.textContent = node.nodeValue;
         node.parentNode.replaceChild(codeEl, node);
         issues.add('tableMarkup');
-    });
-
-    fracTextNodes.forEach(node => {
-        if (!node.parentNode || !node.nodeValue) return;
-        node.nodeValue = node.nodeValue.replace(/\\frac\{/g, '\\\\frac{');
-        issues.add('fracLiteral');
     });
 
     if (issues.size > 0) {
@@ -602,7 +591,10 @@ function MathText({ text, className, itemIndex }) {
             const renderedHtml = segments.map(segment => {
                 if (segment.type === 'math') {
                     try {
-                        return katex.renderToString(segment.value, {
+                        const toRender = segment.value
+                            .replace(/\\{2,}(?=[A-Za-z])/g, '\\')
+                            .replace(/&nbsp;/g, ' ');
+                        return katex.renderToString(toRender, {
                             throwOnError: false,
                             displayMode: segment.displayMode
                         });
@@ -733,11 +725,62 @@ function neutralizeUnpairedDollarSigns(text) {
     return working;
 }
 
-function escapeCurrencyDollars(s) {
+function escapeCurrencyDollarsMathSafe(input) {
+    if (typeof input !== 'string') return input;
+
+    const holders = [];
+    const protect = (regex) => {
+        input = input.replace(regex, (match) => {
+            const key = `__MATH_${holders.length}__`;
+            holders.push(match);
+            return key;
+        });
+    };
+
+    protect(/\$\$[\s\S]+?\$\$/g);
+    protect(/\$[^$]+\$/g);
+
+    input = input.replace(/\\\$(\s*\d[\d.,]*)/g, '&#36;$1');
+    input = input.replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '&#36;$1');
+    input = input.replace(/(?<!&)\$(?!\d)/g, '&#36;');
+
+    holders.forEach((match, index) => {
+        input = input.replace(`__MATH_${index}__`, match);
+    });
+
+    return input;
+}
+
+function stripBackslashesOutsideMath(input) {
+    if (typeof input !== 'string') return input;
+
+    const holders = [];
+    let working = input.replace(/\$\$[\s\S]+?\$\$/g, (match) => {
+        const token = `__M${holders.length}__`;
+        holders.push(match);
+        return token;
+    });
+
+    working = working.replace(/\$[^$]+\$/g, (match) => {
+        const token = `__M${holders.length}__`;
+        holders.push(match);
+        return token;
+    });
+
+    working = working.replace(/\\(?=\d|\$)/g, '');
+
+    holders.forEach((value, index) => {
+        working = working.replace(`__M${index}__`, value);
+    });
+
+    return working;
+}
+
+function deglueCommonBigrams(s) {
     if (typeof s !== 'string') return s;
     return s
-        .replace(/(\d(?:[.,]\d{1,2})?)\$(?!\d)/g, '$1&#36;')
-        .replace(/(?<!\\)\$(\s*\d)/g, '&#36;$1');
+        .replace(/\b(in|the|of|for|to)(?=[A-Za-z])/gi, '$1 ')
+        .replace(/\bper(?=[A-Za-z])/gi, 'per ');
 }
 
 function addSpacesAroundInlineMath(s) {
@@ -775,11 +818,14 @@ function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
     }
     working = repairLatexCorruption(working);
     working = decodeHtmlEntities(working);
+    working = stripBackslashesOutsideMath(working);
     working = neutralizeUnpairedDollarSigns(working);
-    working = escapeCurrencyDollars(working);
+    working = escapeCurrencyDollarsMathSafe(working);
+    working = working.replace(/(\d[\d.,]*)(\s*)&\#36;/g, '&#36;$1');
     working = addSpacesAroundInlineMath(working);
     working = repairSpacedTags(working);
     working = protectTables(working);
+    working = deglueCommonBigrams(working);
     return working;
 }
 
