@@ -11,13 +11,19 @@ const fs = require('fs');
 const path = require('path');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
-const geometrySchema = require('./schemas/geometrySchema');
+const { buildGeometrySchema, SUPPORTED_SHAPES } = require('./schemas/geometrySchema');
 const {
     GeometryJsonError,
     parseGeometryJson,
     SANITIZER_FEATURE_ENABLED,
     DEFAULT_MAX_DECIMALS
 } = require('./utils/geometryJson');
+
+const GEOMETRY_FIGURES_ENABLED = String(process.env.GEOMETRY_FIGURES_ENABLED || '').toLowerCase() === 'true';
+
+if (!GEOMETRY_FIGURES_ENABLED) {
+    console.info('Geometry figures disabled (GEOMETRY_FIGURES_ENABLED=false); using text-only diagram descriptions.');
+}
 
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
@@ -47,6 +53,11 @@ app.use(cors(corsOptions));
 // handle preflight requests
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
 app.use(express.json());
+
+app.get('/client-config.js', (req, res) => {
+    const payload = `window.__APP_CONFIG__ = window.__APP_CONFIG__ || {}; window.__APP_CONFIG__.geometryFiguresEnabled = ${GEOMETRY_FIGURES_ENABLED};`;
+    res.type('application/javascript').send(payload);
+});
 
 let curatedImages = [];
 // Load the new, structured image repository from the local file system.
@@ -421,13 +432,41 @@ const generateStandaloneQuestion = async (subject, topic) => {
 
 const buildGeometryPrompt = (topic, attempt) => {
     const decimalLimit = DEFAULT_MAX_DECIMALS;
-    const shapesList = geometrySchema.SUPPORTED_SHAPES.join(', ');
-    const sharedConstraints = `Return a single JSON object only.\nAll numeric values must be JSON numbers with at most ${decimalLimit} decimal places (no strings).\nDo not use scientific notation.\nKeep all coordinate values between 0 and 100.\nValidate that your JSON is syntactically correct before returning it.`;
+    const sharedConstraints = `Return a single JSON object only.\nAll numeric values must be JSON numbers with at most ${decimalLimit} decimal places (no strings).\nDo not use scientific notation.\nValidate that your JSON is syntactically correct before returning it.`;
 
+    if (!GEOMETRY_FIGURES_ENABLED) {
+        const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
+    The problem should clearly rely on a diagram that would normally accompany the question.
+    IMPORTANT: Do NOT return any images, SVG markup, or geometry specifications. Instead, append a concise, human-readable description of the required diagram (1–3 sentences) at the end of the question stem. Use plain text or simple Markdown only.
+    ${sharedConstraints}
+
+    Output JSON with the exact structure:
+    {
+      "question": string,
+      "choices": [string, string, string, string],
+      "answerIndex": number
+    }
+
+    • Set "answerIndex" to the zero-based index of the correct choice.
+    • Ensure "choices" are unique and relevant to the problem context.
+    • Keep all numeric entries as JSON numbers with at most ${decimalLimit} decimal places.
+    • Keep the language consistent with GED Geometry expectations.
+    • Focus on standard GED geometry figures such as ${SUPPORTED_SHAPES.join(', ')} when relevant to the problem.
+
+    Respond with JSON only—no commentary before or after the object.`;
+
+        if (attempt > 1) {
+            return `${basePrompt}\nDouble-check that the diagram description is appended and that no SVG or geometry specification is returned.`;
+        }
+
+        return basePrompt;
+    }
+
+    const shapesList = SUPPORTED_SHAPES.join(', ');
     const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
     The problem MUST require a visual diagram to be solved and should stay aligned with GED Geometry expectations.
     IMPORTANT: Format mathematical expressions for the question and choices using KaTeX-compatible LaTeX enclosed in single dollar signs when appropriate (fractions, exponents, radicals, etc.).
-    ${sharedConstraints}
+    ${sharedConstraints}\nKeep all coordinate values between 0 and 100.
 
     Output JSON with the exact structure:
     {
@@ -470,6 +509,7 @@ const buildGeometryPrompt = (topic, attempt) => {
 async function generateGeometryQuestion(topic, subject, attempt = 1) {
     const MAX_ATTEMPTS = 2;
     const prompt = buildGeometryPrompt(topic, attempt);
+    const schema = buildGeometrySchema(GEOMETRY_FIGURES_ENABLED);
     const parseMeta = { stage: null, hash: null };
     const recordStage = (stage, details = {}) => {
         parseMeta.stage = stage;
@@ -479,28 +519,38 @@ async function generateGeometryQuestion(topic, subject, attempt = 1) {
     };
 
     try {
-        const aiResponse = await callAI(prompt, geometrySchema, {
-            parser: raw => parseGeometryJson(raw, {
-                maxDecimals: DEFAULT_MAX_DECIMALS,
-                featureEnabled: SANITIZER_FEATURE_ENABLED,
-                onStage: recordStage
-            }),
-            onParserMetadata: meta => {
-                if (meta.stage) {
-                    parseMeta.stage = meta.stage;
-                }
-                if (meta.hash) {
-                    parseMeta.hash = meta.hash;
-                }
-            },
-            generationOverrides: attempt > 1 ? { temperature: 0.1 } : undefined
-        });
+        const callOptions = GEOMETRY_FIGURES_ENABLED
+            ? {
+                  parser: raw => parseGeometryJson(raw, {
+                      maxDecimals: DEFAULT_MAX_DECIMALS,
+                      featureEnabled: SANITIZER_FEATURE_ENABLED,
+                      onStage: recordStage
+                  }),
+                  onParserMetadata: meta => {
+                      if (meta.stage) {
+                          parseMeta.stage = meta.stage;
+                      }
+                      if (meta.hash) {
+                          parseMeta.hash = meta.hash;
+                      }
+                  },
+                  generationOverrides: attempt > 1 ? { temperature: 0.1 } : undefined
+              }
+            : attempt > 1
+                ? { generationOverrides: { temperature: 0.1 } }
+                : {};
 
-        if (parseMeta.stage) {
+        const aiResponse = await callAI(prompt, schema, callOptions);
+
+        if (GEOMETRY_FIGURES_ENABLED && parseMeta.stage) {
             console.info(`Geometry JSON parsed via ${parseMeta.stage}. hash=${parseMeta.hash || 'n/a'}`);
         }
 
-        const { question, choices, choiceRationales, answerIndex, geometrySpec } = aiResponse;
+        const { question, choices, answerIndex } = aiResponse;
+        const choiceRationales = Array.isArray(aiResponse.choiceRationales)
+            ? aiResponse.choiceRationales
+            : [];
+        const geometrySpec = GEOMETRY_FIGURES_ENABLED ? aiResponse.geometrySpec : undefined;
 
         const answerOptions = (choices || []).map((text, index) => ({
             text,
@@ -508,12 +558,17 @@ async function generateGeometryQuestion(topic, subject, attempt = 1) {
             rationale: (choiceRationales && choiceRationales[index]) || ''
         }));
 
-        return {
+        const questionPayload = {
             type: 'geometry',
             questionText: question,
-            geometrySpec,
-            answerOptions,
+            answerOptions
         };
+
+        if (GEOMETRY_FIGURES_ENABLED && geometrySpec) {
+            questionPayload.geometrySpec = geometrySpec;
+        }
+
+        return questionPayload;
     } catch (error) {
         if (error instanceof GeometryJsonError && error.needRegen) {
             console.warn(`Geometry JSON parsing failed at stage ${error.stage}. hash=${error.hash || 'n/a'}`);
