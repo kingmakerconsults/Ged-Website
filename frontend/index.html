@@ -776,11 +776,28 @@ function stripBackslashesOutsideMath(input) {
     return working;
 }
 
+const DEGLUE_SECOND_WORDS = new Set([
+    'the', 'this', 'that', 'those', 'these', 'their', 'there', 'them', 'they',
+    'to', 'of', 'for', 'per', 'and', 'or', 'a', 'an', 'be', 'is', 'are', 'was',
+    'were', 'with', 'from', 'in', 'on', 'at', 'by', 'as', 'it', 'its', 'we',
+    'our', 'you', 'your'
+]);
+
 function deglueCommonBigrams(s) {
     if (typeof s !== 'string') return s;
+
+    const fixTextSegment = (segment) => segment.replace(/\b(in|the|of|for|to|per)([A-Za-z]+)\b/g, (match, first, second) => {
+        const lowerSecond = second.toLowerCase();
+        if (DEGLUE_SECOND_WORDS.has(lowerSecond)) {
+            return `${first} ${second}`;
+        }
+        return match;
+    });
+
     return s
-        .replace(/\b(in|the|of|for|to)(?=[A-Za-z])/gi, '$1 ')
-        .replace(/\bper(?=[A-Za-z])/gi, 'per ');
+        .split(/(<[^>]+>)/g)
+        .map(part => (part.startsWith('<') && part.endsWith('>')) ? part : fixTextSegment(part))
+        .join('');
 }
 
 function addSpacesAroundInlineMath(s) {
