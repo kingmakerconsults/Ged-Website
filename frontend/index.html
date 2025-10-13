@@ -15,6 +15,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
 
@@ -46,6 +48,15 @@
             border-radius: 4px;
             font-weight: 500;
         }
+        .question-stem,
+        .question-stem * {
+            font-style: normal !important;
+        }
+        .question-stem {
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
     </style>
 </head>
 <body class="bg-slate-100">
@@ -54,26 +65,14 @@
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
 
+const ALLOWED_HTML_TAGS = [
+    'a','b','strong','i','em','u','s','span','p','br','ul','ol','li','table','thead','tbody','tfoot','tr','th','td','caption',
+    'colgroup','col','code','pre','sup','sub','div'
+];
+const ALLOWED_HTML_ATTR = ['href','title','target','rel','colspan','rowspan','align'];
+
 function MathText({ text, className }) {
     const containerRef = useRef(null);
-
-    // Function to render HTML content safely
-    const renderHtmlContent = (content) => {
-        if (typeof content !== 'string') return '';
-        // Use a temporary div to parse and sanitize HTML
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = content;
-        // Basic sanitization: allow table-related tags
-        const allowedTags = ['TABLE', 'THEAD', 'TBODY', 'TR', 'TH', 'TD', 'CAPTION', 'P', 'B', 'I', 'STRONG', 'EM', 'BR'];
-        const allElements = tempDiv.getElementsByTagName('*');
-        for (let i = allElements.length - 1; i >= 0; i--) {
-            const element = allElements[i];
-            if (!allowedTags.includes(element.tagName)) {
-                element.parentNode.removeChild(element);
-            }
-        }
-        return tempDiv.innerHTML;
-    };
 
     useEffect(() => {
         if (containerRef.current && typeof text === 'string') {
@@ -89,10 +88,9 @@ function MathText({ text, className }) {
                         console.error("KaTeX rendering error:", e);
                         return `\$${part}\$`;
                     }
-                } else {
-                    // This part is plain text, but might contain HTML tables
-                    return renderHtmlContent(part);
                 }
+                // This part is plain text, but might contain HTML tables
+                return sanitizeHtmlContent(part, { normalizeSpacing: true });
             }).join('');
 
             containerRef.current.innerHTML = renderedHtml;
@@ -104,9 +102,52 @@ function MathText({ text, className }) {
     return <span ref={containerRef} className={className} />;
 }
 
+function normalizePunctuationSpacing(value) {
+    if (typeof value !== 'string') return value;
+    return value.replace(/([.,;:!?])(?=\S)/g, (match, punct, offset, string) => {
+        const nextChar = string[offset + match.length];
+        if (!nextChar) return match;
+        if (nextChar === ' ') return match;
+        if ((punct === ':' || punct === ',') && /[0-9]/.test(nextChar)) {
+            return match;
+        }
+        if ((punct === ':' || punct === '.') && nextChar === '/') {
+            return match;
+        }
+        return `${punct} `;
+    });
+}
+
+function sanitizeHtmlContent(content, { normalizeSpacing = false } = {}) {
+    if (typeof content !== 'string') return '';
+    let working = content;
+    if (normalizeSpacing) {
+        working = normalizePunctuationSpacing(working);
+    }
+    working = unescapeHtml(working);
+
+    if (typeof DOMPurify !== 'undefined') {
+        return DOMPurify.sanitize(working, {
+            ALLOWED_TAGS: ALLOWED_HTML_TAGS,
+            ALLOWED_ATTR: ALLOWED_HTML_ATTR
+        });
+    }
+
+    return working
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
 function unescapeHtml(safe) {
     if (!safe) return '';
-    return safe.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+    return safe
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&');
 }
 
 function cleanRepeatedText(text) {
@@ -2045,12 +2086,15 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
             
             <div className="p-4 bg-slate-50 rounded-lg">
                 {currentQ.passage && (
-                    <div className="mb-4 prose max-w-none" dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(currentQ.passage)) }} />
+                    <div
+                        className="mb-4 prose max-w-none"
+                        dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(cleanRepeatedText(currentQ.passage), { normalizeSpacing: true }) }}
+                    />
                 )}
                 {currentQ.imageUrl && <img src={currentQ.imageUrl} alt={`Visual for question ${currentQ.questionNumber}`} className="my-4 mx-auto rounded-md border max-w-full h-auto" />}
 
-                <h3 className="text-xl font-semibold mb-4">
-                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} />
+                <h3 className="text-xl font-semibold mb-4 question-stem">
+                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} className="question-stem" />
                 </h3>
 
                 {isFillInTheBlank ? (
@@ -2070,7 +2114,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         {(currentQ.answerOptions || []).map((opt, i) => (
                             <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
                                <span className="flex-grow text-left">
-                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} />
+                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} className="question-stem" />
                                 </span>
                             </button>
                         ))}
@@ -2304,12 +2348,12 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     <div>
                         <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response (Essay)</h3>
                         <div className="prose max-w-none bg-slate-50 p-4 rounded-lg mb-4">
-                            <h4>{quiz.part2_essay.passages[0].title}</h4>
-                            <div dangerouslySetInnerHTML={{ __html: unescapeHtml(quiz.part2_essay.passages[0].content) }} />
+                            <h4 className="question-stem">{quiz.part2_essay.passages[0].title}</h4>
+                            <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[0].content, { normalizeSpacing: true }) }} />
                         </div>
                         <div className="prose max-w-none bg-slate-50 p-4 rounded-lg">
-                            <h4>{quiz.part2_essay.passages[1].title}</h4>
-                            <div dangerouslySetInnerHTML={{ __html: unescapeHtml(quiz.part2_essay.passages[1].content) }} />
+                            <h4 className="question-stem">{quiz.part2_essay.passages[1].title}</h4>
+                            <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[1].content, { normalizeSpacing: true }) }} />
                         </div>
                         <div className="mt-4">
                             <h4 className="font-bold">Essay Prompt:</h4>
@@ -2471,7 +2515,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                 {correctAnswer && correctAnswer.rationale && (
                                     <div className="mt-2 text-sm text-slate-600 explanation-text">
                                         <span className="font-semibold">Rationale:</span>{' '}
-                                        <MathText text={correctAnswer.rationale} />
+                                        <MathText text={correctAnswer.rationale} className="question-stem" />
                                     </div>
                                 )}
                                 {confidenceLevel && (
@@ -2527,10 +2571,10 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                  <div></div>
             </header>
             <article className="prose max-w-none">
-                <h3 className="text-2xl font-bold" dangerouslySetInnerHTML={{ __html: quiz.article.title }}></h3>
+                <h3 className="text-2xl font-bold question-stem" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.article.title, { normalizeSpacing: true }) }}></h3>
                 <p className="text-sm italic text-slate-500">{quiz.article.genre}</p>
                 {quiz.imageUrl && <img src={quiz.imageUrl} alt="Article supplemental image" className="my-4 mx-auto rounded-md border" />}
-                {quiz.article.text.map((p, i) => <p key={i} dangerouslySetInnerHTML={{ __html: p }}></p>)}
+                {quiz.article.text.map((p, i) => <p key={i} dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(p, { normalizeSpacing: true }) }}></p>)}
             </article>
             <section className="mt-8 pt-6 border-t">
                 <h3 className="text-2xl font-bold mb-4">Questions</h3>
@@ -2779,12 +2823,12 @@ const passagesData = [
                         </div>
                         <div className="grid lg:grid-cols-2 gap-8">
                             <article className="bg-white p-6 rounded-lg shadow-md">
-                                <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2">{selectedPassage.passage1.title}</h2>
-                                <div dangerouslySetInnerHTML={{ __html: selectedPassage.passage1.content }} />
+                                <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">{selectedPassage.passage1.title}</h2>
+                                <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage1.content, { normalizeSpacing: true }) }} />
                             </article>
                             <article className="bg-white p-6 rounded-lg shadow-md">
-                                <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2">{selectedPassage.passage2.title}</h2>
-                                <div dangerouslySetInnerHTML={{ __html: selectedPassage.passage2.content }} />
+                                <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">{selectedPassage.passage2.title}</h2>
+                                <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage2.content, { normalizeSpacing: true }) }} />
                             </article>
                         </div>
                     </div>
@@ -2884,7 +2928,7 @@ const passagesData = [
         return (
             <>
                 <div className="p-8 prose max-w-none">
-                    {fullEssay ? <div dangerouslySetInnerHTML={{ __html: fullEssay.replace(/\n/g, '<br/>') }} /> : <p><em>You did not write anything in the practice area.</em></p>}
+                    {fullEssay ? <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(fullEssay.replace(/\n/g, '<br/>'), { normalizeSpacing: true }) }} /> : <p><em>You did not write anything in the practice area.</em></p>}
                 </div>
                 <div className="p-6 border-t bg-gray-50 space-y-4">
                     <button onClick={handleGetScore} disabled={isScoring || !fullEssay} className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
