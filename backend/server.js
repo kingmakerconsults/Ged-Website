@@ -167,6 +167,10 @@ function cleanupQuizData(quiz) {
         if (typeof q.questionText === 'string') {
             // Replaces invalid \` with '
             q.questionText = q.questionText.replace(/\\`/g, "'");
+            q.questionText = q.questionText.replace(/\\\$/g, "$");
+            q.questionText = q.questionText
+                .replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '$$$1')
+                .replace(/\\\$(\s*\d[\d.,]*)/g, '$$$1');
         } else {
             // If questionText is not a string, log it and set to a default value
             console.warn("Invalid questionText found, setting to empty string:", q.questionText);
@@ -178,6 +182,10 @@ function cleanupQuizData(quiz) {
             q.answerOptions.forEach(opt => {
                 if (typeof opt.text === 'string') {
                     opt.text = opt.text.replace(/\\`/g, "'");
+                    opt.text = opt.text.replace(/\\\$/g, "$");
+                    opt.text = opt.text
+                        .replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '$$$1')
+                        .replace(/\\\$(\s*\d[\d.,]*)/g, '$$$1');
                 } else {
                     console.warn("Invalid answer option text found, setting to empty string:", opt.text);
                     opt.text = '';
@@ -253,6 +261,11 @@ const quizSchema = {
     required: ["id", "title", "subject", "questions"]
 };
 
+function repairIllegalJsonEscapes(s) {
+    if (typeof s !== 'string') return s;
+    return s.replace(/\\(?!["\\\/bfnrtu])/g, '\\\\');
+}
+
 const callAI = async (prompt, schema, options = {}) => {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey) {
@@ -295,12 +308,7 @@ const callAI = async (prompt, schema, options = {}) => {
         try {
             return JSON.parse(cleanedText);
         } catch (initialParseError) {
-            // Gemini occasionally returns LaTeX-style backslashes (e.g. \frac) without
-            // escaping them for JSON, which causes parsing to fail. Try to repair those
-            // strings by escaping any single backslashes that aren't part of a valid JSON
-            // escape sequence (e.g. \", \\/, \b, \f, \n, \r, \t, or \uXXXX).
-            const repairedText = cleanedText.replace(/(?<!\\)\\(?!["\\\/bfnrtu])/g, '\\\\');
-
+            const repairedText = repairIllegalJsonEscapes(cleanedText);
             try {
                 const parsed = JSON.parse(repairedText);
                 console.warn('Successfully repaired AI JSON response after initial parse failure.');
