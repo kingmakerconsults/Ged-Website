@@ -549,7 +549,50 @@ function GeometryFigure({ spec, className }) {
     );
 }
 
-function MathText({ text, className }) {
+function postRenderGuardrails(container, { itemIndex } = {}) {
+    if (!container || typeof document === 'undefined' || typeof NodeFilter === 'undefined' || !container.innerHTML) {
+        return;
+    }
+
+    const issues = new Set();
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    const tableTextNodes = [];
+    const fracTextNodes = [];
+
+    while (walker.nextNode()) {
+        const currentNode = walker.currentNode;
+        if (!currentNode || !currentNode.nodeValue) continue;
+        const value = currentNode.nodeValue;
+        if (/<\s*(?:tr|th|td)/i.test(value)) {
+            tableTextNodes.push(currentNode);
+        }
+        if (/\\frac\{/.test(value)) {
+            fracTextNodes.push(currentNode);
+        }
+    }
+
+    tableTextNodes.forEach(node => {
+        if (!node.parentNode) return;
+        const codeEl = document.createElement('code');
+        codeEl.className = 'raw-html-fragment';
+        codeEl.textContent = node.nodeValue;
+        node.parentNode.replaceChild(codeEl, node);
+        issues.add('tableMarkup');
+    });
+
+    fracTextNodes.forEach(node => {
+        if (!node.parentNode || !node.nodeValue) return;
+        node.nodeValue = node.nodeValue.replace(/\\frac\{/g, '\\\\frac{');
+        issues.add('fracLiteral');
+    });
+
+    if (issues.size > 0) {
+        const context = typeof itemIndex !== 'undefined' ? ` for item ${itemIndex}` : '';
+        console.warn(`[MathText] Post-render guardrails triggered${context}: ${Array.from(issues).join(', ')}`);
+    }
+}
+
+function MathText({ text, className, itemIndex }) {
     const containerRef = useRef(null);
 
     useEffect(() => {
@@ -572,10 +615,11 @@ function MathText({ text, className }) {
             }).join('');
 
             containerRef.current.innerHTML = renderedHtml;
+            postRenderGuardrails(containerRef.current, { itemIndex });
         } else if (containerRef.current) {
             containerRef.current.innerHTML = '';
         }
-    }, [text]);
+    }, [text, itemIndex]);
 
     return <span ref={containerRef} className={className} />;
 }
@@ -660,6 +704,35 @@ function decodeHtmlEntities(value) {
     return ENTITY_DECODER.value;
 }
 
+function neutralizeUnpairedDollarSigns(text) {
+    if (typeof text !== 'string' || text.indexOf('$') === -1) {
+        return text;
+    }
+
+    const placeholders = [];
+    let working = text;
+
+    working = working.replace(/\$\$([\s\S]+?)\$\$/g, (match) => {
+        const token = `__MATH_BLOCK_${placeholders.length}_${Math.random().toString(36).slice(2)}__`;
+        placeholders.push({ token, value: match });
+        return token;
+    });
+
+    working = working.replace(/\$([\s\S]+?)\$/g, (match) => {
+        const token = `__MATH_INLINE_${placeholders.length}_${Math.random().toString(36).slice(2)}__`;
+        placeholders.push({ token, value: match });
+        return token;
+    });
+
+    working = working.replace(/(?<!\\)\$/g, '&#36;');
+
+    placeholders.forEach(({ token, value }) => {
+        working = working.split(token).join(value);
+    });
+
+    return working;
+}
+
 function escapeCurrencyDollars(s) {
     if (typeof s !== 'string') return s;
     return s
@@ -678,7 +751,20 @@ function repairSpacedTags(s) {
     if (typeof s !== 'string') return s;
     return s
         .replace(/<\s*\/\s*([a-z]+)\s*>/gi, '</$1>')
-        .replace(/<\s*([a-z]+)\s*>/gi, '<$1>');
+        .replace(/<\s*([a-z]+)(\s[^>]*)?>/gi, (_, tagName, attrs = '') => {
+            const normalizedAttrs = attrs ? attrs.replace(/\s+$/, '') : '';
+            return `<${tagName}${normalizedAttrs}>`;
+        });
+}
+
+function protectTables(text) {
+    if (typeof text !== 'string' || text.toLowerCase().indexOf('<table') === -1) {
+        return text;
+    }
+
+    return text.replace(/<table[\s\S]*?<\/table>/gi, (tableContent) =>
+        tableContent.replace(/\$/g, '&#36;')
+    );
 }
 
 function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
@@ -689,9 +775,11 @@ function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
     }
     working = repairLatexCorruption(working);
     working = decodeHtmlEntities(working);
+    working = neutralizeUnpairedDollarSigns(working);
     working = escapeCurrencyDollars(working);
     working = addSpacesAroundInlineMath(working);
     working = repairSpacedTags(working);
+    working = protectTables(working);
     return working;
 }
 
@@ -727,8 +815,6 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
     let working = content;
     if (!skipPreprocess) {
         working = preprocessRawContent(working, { normalizeSpacing });
-    } else {
-        working = decodeHtmlEntities(working);
     }
 
     if (typeof DOMPurify !== 'undefined') {
@@ -2693,7 +2779,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                 )}
 
                 <h3 className="text-xl font-semibold mb-4 question-stem">
-                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} className="question-stem" />
+                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} className="question-stem" itemIndex={currentQ.questionNumber ?? (currentIndex + 1)} />
                 </h3>
 
                 {isFillInTheBlank ? (
@@ -2713,7 +2799,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         {(currentQ.answerOptions || []).map((opt, i) => (
                             <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
                                <span className="flex-grow text-left">
-                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} className="question-stem" />
+                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} />
                                 </span>
                             </button>
                         ))}
@@ -3102,7 +3188,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                         return (
                             <div key={index} className={`p-4 rounded-lg border ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
                                 <p className="font-semibold question-stem">
-                                    {question.questionNumber}. <MathText text={question.questionText || question.question} className="question-stem" />
+                                    {question.questionNumber}. <MathText text={question.questionText || question.question} className="question-stem" itemIndex={question.questionNumber ?? (index + 1)} />
                                 </p>
                                 {question.imageUrl && <img src={question.imageUrl} alt={`Visual for question ${question.questionNumber}`} className="my-2 rounded-md border max-w-xs h-auto" />}
                                 {GEOMETRY_FIGURES_ENABLED && question.geometrySpec && (
@@ -3115,13 +3201,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                 </p>
                                 {!isCorrect && correctAnswer && (
                                     <p className="text-green-700 question-stem">
-                                        Correct answer: <MathText text={correctAnswer.text} className="question-stem" />
+                                        Correct answer: <MathText text={correctAnswer.text} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-correct`} />
                                     </p>
                                 )}
                                 {correctAnswer && correctAnswer.rationale && (
                                     <div className="mt-2 text-sm text-slate-600 explanation-text">
                                         <span className="font-semibold">Rationale:</span>{' '}
-                                        <MathText text={correctAnswer.rationale} className="question-stem" />
+                                        <MathText text={correctAnswer.rationale} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`} />
                                     </div>
                                 )}
                                 {confidenceLevel && (
@@ -3193,13 +3279,13 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                                     <GeometryFigure spec={q.geometrySpec} className="w-full h-auto" />
                                 </div>
                             )}
-                            <p className="font-semibold question-stem">{i+1}. <MathText text={q.questionText || q.question} className="question-stem" /></p>
+                            <p className="font-semibold question-stem">{i+1}. <MathText text={q.questionText || q.question} className="question-stem" itemIndex={q.questionNumber ?? (i + 1)} /></p>
                             <div className="mt-2 space-y-1">
                                 {(q.answerOptions || []).map((opt, j) => (
                                     <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
                                         <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
                                         <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
-                                            <MathText text={opt.text} className="question-stem" />
+                                            <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} />
                                         </span>
                                     </label>
                                 ))}
@@ -3957,6 +4043,66 @@ function GraphingTool({ onExit }) {
             </div>
         </div>
     );
+}
+
+const MATH_PIPELINE_TEST_CASES = [
+    { description: 'Trailing currency symbol', input: 'The price is 7$ today.' },
+    { description: 'Leading currency symbol', input: 'Please pay $30 before Friday.' },
+    { description: 'Escaped currency should persist', input: 'Escaped currency \\$18 should stay as dollars.' },
+    { description: 'Inline math remains intact', input: 'Solve the equation $x + 3 = 9$ now.' },
+    { description: 'Display math remains intact', input: 'Compute $$\\frac{3}{4}$$ of the recipe.' },
+    { description: 'Broken LaTeX treated as text', input: 'Broken latex \\frac{2}{5} should remain plain text.' },
+    { description: 'Table with currency values', input: '<table><tr><th>Item</th><th>Cost ($)</th></tr><tr><td>Book</td><td>$5</td></tr></table>' },
+    { description: 'Spaced table markup with dollars', input: '< table >< tr >< td >$10< /td ></tr></table>' },
+    { description: 'Stray dollar sign in sentence', input: 'Sentence with stray $ sign in the middle.' },
+    { description: 'HTML entity currency stays escaped', input: 'HTML entity shows 5&#36; plus tax.' },
+    { description: 'Angles with math delimiters', input: 'Angles like $m\\angle ABC = 45^\\circ$ are fine.' },
+    { description: 'Table header currency', input: '<table><thead><tr><th>Revenue $ (USD)</th></tr></thead></table>' }
+];
+
+function runMathPipelineDiagnostics() {
+    const failures = [];
+
+    MATH_PIPELINE_TEST_CASES.forEach((test, index) => {
+        const processed = preprocessRawContent(test.input, { normalizeSpacing: true });
+        const segments = extractMathSegments(processed);
+        const textSegments = segments.filter(segment => segment.type === 'text');
+
+        const issues = [];
+
+        if (textSegments.some(seg => /(?<!\\)\$(?!\$)/.test(seg.value))) {
+            issues.push('loneDollarSign');
+        }
+
+        if (textSegments.some(seg => /<\s*(?:tr|th|td)/i.test(seg.value))) {
+            issues.push('rawTableMarkup');
+        }
+
+        const displayDelimiterMatches = processed.match(/\$\$/g) || [];
+        if (displayDelimiterMatches.length % 2 !== 0) {
+            issues.push('unbalancedDisplayMath');
+        }
+
+        const inlineScope = processed.replace(/\$\$[\s\S]+?\$\$/g, '');
+        const inlineDelimiterMatches = inlineScope.match(/\$/g) || [];
+        if (inlineDelimiterMatches.length % 2 !== 0) {
+            issues.push('unbalancedInlineMath');
+        }
+
+        if (issues.length > 0) {
+            failures.push({ index, description: test.description, issues, processed, segments });
+        }
+    });
+
+    if (failures.length > 0) {
+        console.warn('[MathPipelineDiagnostics] Failures detected:', failures);
+    } else {
+        console.info('[MathPipelineDiagnostics] All test cases passed.');
+    }
+}
+
+if (typeof window !== 'undefined' && window.location && window.location.search.includes('mathdiag=1')) {
+    setTimeout(runMathPipelineDiagnostics, 0);
 }
 
 // --- RENDER APP ---
