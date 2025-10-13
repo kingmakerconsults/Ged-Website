@@ -1224,6 +1224,64 @@ app.post('/api/auth/google', async (req, res) => {
     }
 });
 
+// --- JWT AUTHENTICATION MIDDLEWARE ---
+// This function will protect our new endpoints
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+    if (token == null) return res.sendStatus(401); // if there isn't any token
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403); // if token is no longer valid
+        req.user = user;
+        next(); // move on to the next middleware or the route handler
+    });
+};
+
+// --- API ENDPOINT TO SAVE A QUIZ ATTEMPT ---
+app.post('/api/quiz-attempts', authenticateToken, async (req, res) => {
+    try {
+        const userId = req.user.sub; // Get user ID from the verified token
+        const { subject, quizType, score, totalQuestions, scaledScore } = req.body;
+
+        const insertQuery = `
+            INSERT INTO quiz_attempts (user_id, subject, quiz_type, score, total_questions, scaled_score)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING *;
+        `;
+
+        const result = await pool.query(insertQuery, [userId, subject, quizType, score, totalQuestions, scaledScore]);
+
+        console.log(`Saved quiz attempt for user ${userId} in subject ${subject}`);
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error('Error saving quiz attempt:', error);
+        res.status(500).json({ error: 'Failed to save quiz attempt.' });
+    }
+});
+
+// --- API ENDPOINT TO GET ALL QUIZ ATTEMPTS FOR A USER ---
+app.get('/api/quiz-attempts', authenticateToken, async (req, res) => {
+    try {
+        const userId = req.user.sub; // Get user ID from the verified token
+
+        const selectQuery = `
+            SELECT subject, quiz_type, score, total_questions, scaled_score, attempted_at
+            FROM quiz_attempts
+            WHERE user_id = $1
+            ORDER BY attempted_at DESC;
+        `;
+
+        const { rows } = await pool.query(selectQuery, [userId]);
+
+        res.status(200).json(rows);
+    } catch (error) {
+        console.error('Error fetching quiz attempts:', error);
+        res.status(500).json({ error: 'Failed to fetch quiz attempts.' });
+    }
+});
+
 
 const { ALL_QUIZZES } = require('./premade-questions.js');
 
