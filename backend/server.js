@@ -246,8 +246,40 @@ const callAI = async (prompt, schema) => {
     };
     try {
         const response = await axios.post(apiUrl, payload);
-        const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
-        return JSON.parse(jsonText);
+        const rawText = response.data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (typeof rawText !== 'string') {
+            throw new Error('AI response did not include text content.');
+        }
+
+        const cleanedText = rawText
+            .replace(/```json/g, '')
+            .replace(/```/g, '')
+            .trim();
+
+        try {
+            return JSON.parse(cleanedText);
+        } catch (initialParseError) {
+            // Gemini occasionally returns LaTeX-style backslashes (e.g. \frac) without
+            // escaping them for JSON, which causes parsing to fail. Try to repair those
+            // strings by escaping any single backslashes that aren't part of an escaped
+            // backslash (\\) or a unicode escape (\uXXXX).
+            const repairedText = cleanedText.replace(/(?<!\\)\\(?![\\u])/g, '\\\\');
+
+            try {
+                const parsed = JSON.parse(repairedText);
+                console.warn('Successfully repaired AI JSON response after initial parse failure.');
+                return parsed;
+            } catch (reparseError) {
+                const snippet = repairedText.slice(0, 5000);
+                console.error('Failed to parse AI JSON response after repair attempt.', {
+                    initialError: initialParseError.message,
+                    repairError: reparseError.message,
+                    snippet,
+                });
+                throw reparseError;
+            }
+        }
     } catch (error) {
         console.error('Error calling Google AI API in callAI:', error.response ? error.response.data : error.message);
         throw error;
