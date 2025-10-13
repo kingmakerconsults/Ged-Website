@@ -662,9 +662,19 @@ function decodeHtmlEntities(value) {
 
 function escapeCurrencyDollars(s) {
     if (typeof s !== 'string') return s;
-    return s
+    const mathRegex = /\$\$([\s\S]+?)\$\$|\$([\s\S]+?)\$|\\\(([\s\S]+?)\\\)/g;
+    const placeholders = [];
+    const protectedInput = s.replace(mathRegex, match => {
+        const token = `__MATH_PLACEHOLDER_${placeholders.length}__`;
+        placeholders.push({ token, match });
+        return token;
+    });
+
+    const escaped = protectedInput
         .replace(/(\d(?:[.,]\d{1,2})?)\$(?!\d)/g, '$1&#36;')
         .replace(/(?<!\\)\$(\s*\d)/g, '&#36;$1');
+
+    return placeholders.reduce((output, { token, match }) => output.replace(token, match), escaped);
 }
 
 function addSpacesAroundInlineMath(s) {
