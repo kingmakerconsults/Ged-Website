@@ -12,6 +12,13 @@ const path = require('path');
 const { shapeRenderers } = require('./shapeRenderer.js');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
+const geometrySchema = require('./schemas/geometrySchema');
+const {
+    GeometryJsonError,
+    parseGeometryJson,
+    SANITIZER_FEATURE_ENABLED,
+    DEFAULT_MAX_DECIMALS
+} = require('./utils/geometryJson');
 
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
@@ -230,19 +237,21 @@ const quizSchema = {
     required: ["id", "title", "subject", "questions"]
 };
 
-const callAI = async (prompt, schema) => {
+const callAI = async (prompt, schema, options = {}) => {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey) {
         console.error('API key not configured on the server.');
         throw new Error('Server configuration error: GOOGLE_AI_API_KEY is not set.');
     }
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const { parser, onParserMetadata, generationOverrides } = options;
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
             responseMimeType: "application/json",
             responseSchema: schema,
-        },
+            ...(generationOverrides || {})
+        }
     };
     try {
         const response = await axios.post(apiUrl, payload);
@@ -256,6 +265,16 @@ const callAI = async (prompt, schema) => {
             .replace(/```json/g, '')
             .replace(/```/g, '')
             .trim();
+
+        if (typeof parser === 'function') {
+            const parsedResult = parser(cleanedText);
+            if (parsedResult && typeof parsedResult === 'object' && Object.prototype.hasOwnProperty.call(parsedResult, 'value')) {
+                onParserMetadata?.(parsedResult);
+                return parsedResult.value;
+            }
+            onParserMetadata?.({ stage: 'custom-parser' });
+            return parsedResult;
+        }
 
         try {
             return JSON.parse(cleanedText);
@@ -401,47 +420,66 @@ const generateStandaloneQuestion = async (subject, topic) => {
     return question;
 };
 
-async function generateGeometryQuestion(topic, subject, attempt = 1) {
-    const MAX_ATTEMPTS = 2;
-    const prompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
+const buildGeometryPrompt = (topic, attempt) => {
+    const decimalLimit = DEFAULT_MAX_DECIMALS;
+    const sharedConstraints = `Return a single JSON object only.\nAll numeric values must be JSON numbers with at most ${decimalLimit} decimal places (no strings).\nDo not use scientific notation.\nValidate that your JSON is syntactically correct before returning it.`;
+
+    const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
     The problem MUST require a visual stimulus to be solved.
     IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.
-    Your response MUST specify:
-    1.  A "shape" from this list: [rectangle, triangle, circle, cylinder, rectangular_prism, cone].
-    2.  The "dimensions" for that shape as a JSON object (e.g., {"w": 10, "h": 5}).
-    3.  The full "questionText".
-    4.  Four "answerOptions" with one marked as correct.
-    5.  The correct numerical "answer" for verification.`;
+    ${sharedConstraints}
+    Your JSON response MUST include:
+    - "shape": one of [rectangle, triangle, circle, cylinder, rectangular_prism, cone, trapezoid, pyramid].
+    - "dimensions": a JSON object mapping dimension labels (e.g., {"w": 10, "h": 5}).
+    - "questionText": the full prompt.
+    - "answerOptions": an array of answer option objects with "text", "isCorrect", and "rationale" fields.
+    - "answer": the correct numerical answer for verification.`;
 
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            shape: { type: "STRING" },
-            dimensions: {
-                type: 'OBJECT',
-                properties: {
-                    length: { type: 'NUMBER' },
-                    width: { type: 'NUMBER' },
-                    height: { type: 'NUMBER' },
-                    radius: { type: 'NUMBER' },
-                    side_a: { type: 'NUMBER' },
-                    side_b: { type: 'NUMBER' },
-                    side_c: { type: 'NUMBER' }
-                }
-            },
-            questionText: { type: "STRING" },
-            answer: {type: "NUMBER"},
-            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
-        },
-        required: ["shape", "dimensions", "questionText", "answer", "answerOptions"]
+    if (attempt > 1) {
+        return `${basePrompt}
+        RESPOND WITH STRICT JSON ONLY. Do not include commentary, explanations, or text outside the single JSON object. Ensure all numeric values adhere to the decimal rule before responding.`;
+    }
+
+    return basePrompt;
+};
+
+async function generateGeometryQuestion(topic, subject, attempt = 1) {
+    const MAX_ATTEMPTS = 2;
+    const prompt = buildGeometryPrompt(topic, attempt);
+    const parseMeta = { stage: null, hash: null };
+    const recordStage = (stage, details = {}) => {
+        parseMeta.stage = stage;
+        if (details.hash) {
+            parseMeta.hash = details.hash;
+        }
     };
 
     try {
-        const aiResponse = await callAI(prompt, schema);
+        const aiResponse = await callAI(prompt, geometrySchema, {
+            parser: raw => parseGeometryJson(raw, {
+                maxDecimals: DEFAULT_MAX_DECIMALS,
+                featureEnabled: SANITIZER_FEATURE_ENABLED,
+                onStage: recordStage
+            }),
+            onParserMetadata: meta => {
+                if (meta.stage) {
+                    parseMeta.stage = meta.stage;
+                }
+                if (meta.hash) {
+                    parseMeta.hash = meta.hash;
+                }
+            },
+            generationOverrides: attempt > 1 ? { temperature: 0.1 } : undefined
+        });
+
+        if (parseMeta.stage) {
+            console.info(`Geometry JSON parsed via ${parseMeta.stage}. hash=${parseMeta.hash || 'n/a'}`);
+        }
+
         const renderer = shapeRenderers[aiResponse.shape];
 
         if (!renderer) {
-            console.warn(`No SVG renderer found for shape: ${aiResponse.shape}. Skipping.`);
+            console.warn(`No SVG renderer found for shape: ${aiResponse.shape}. hash=${parseMeta.hash || 'n/a'}`);
             return null;
         }
 
@@ -450,27 +488,30 @@ async function generateGeometryQuestion(topic, subject, attempt = 1) {
         const imageUrl = `data:image/svg+xml;base64,${svgBase64}`;
 
         return {
-            type: 'image', // The frontend will treat this as an image question
+            type: 'image',
             questionText: aiResponse.questionText,
-            imageUrl: imageUrl, // The embedded SVG Data URI
+            imageUrl: imageUrl,
             answerOptions: aiResponse.answerOptions,
         };
     } catch (error) {
-        console.error(`Error generating geometry question on attempt ${attempt}.`);
-        // THIS IS THE CRUCIAL ADDITION:
-        if (error.response && error.response.data && error.response.data.candidates && error.response.data.candidates[0] && error.response.data.candidates[0].content && error.response.data.candidates[0].content.parts && error.response.data.candidates[0].content.parts[0]) {
-            console.error("---RAW AI RESPONSE THAT FAILED---:\n", error.response.data.candidates[0].content.parts[0].text);
-        } else {
-             console.error("---AI RESPONSE ERROR (Could not extract raw text)---:\n", error.response ? JSON.stringify(error.response.data, null, 2) : error.message);
+        if (error instanceof GeometryJsonError && error.needRegen) {
+            console.warn(`Geometry JSON parsing failed at stage ${error.stage}. hash=${error.hash || 'n/a'}`);
+            if (attempt < MAX_ATTEMPTS) {
+                console.log(`Retrying geometry question generation with strict prompt (attempt ${attempt + 1})...`);
+                return generateGeometryQuestion(topic, subject, attempt + 1);
+            }
         }
 
-        if (attempt < MAX_ATTEMPTS) {
-            console.log(`Retrying geometry question generation (attempt ${attempt + 1})...`);
-            return generateGeometryQuestion(topic, subject, attempt + 1);
-        } else {
-            console.error("Max retries reached for geometry question generation. Returning null.");
-            return null;
+        console.error(`Error generating geometry question on attempt ${attempt}.`, error.message);
+        if (error.response && error.response.data) {
+            console.error('Geometry generation API error payload (redacted).');
         }
+
+        if (attempt >= MAX_ATTEMPTS) {
+            console.error('Max retries reached for geometry question generation. Returning null.');
+        }
+
+        return null;
     }
 }
 
