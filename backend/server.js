@@ -13,9 +13,22 @@ const { shapeRenderers } = require('./shapeRenderer.js');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 
+// --- HYBRID AI: STEP 1 ---
+// Import both AI libraries
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { OpenAI } = require('openai');
+
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
 const port = process.env.PORT || 3001;
+
+// --- HYBRID AI: STEP 2 ---
+// Initialize both AI clients
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
+const openai = new OpenAI({
+    apiKey: process.env.OpenAI_API_key,
+});
+
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const allowedOrigins = [
@@ -228,6 +241,43 @@ const quizSchema = {
         }
     },
     required: ["id", "title", "subject", "questions"]
+};
+
+// --- HYBRID AI: STEP 3A ---
+// This is the "Drafter" function using Gemini
+// It quickly generates a draft, which may have minor errors.
+const generateDraftQuestion_Gemini = async (prompt) => {
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text().replace(/```json/g, '').replace(/```/g, '').trim();
+        return JSON.parse(text);
+    } catch (error) {
+        console.error("Gemini Draft Generation Failed:", error);
+        return null; // Return null on failure
+    }
+};
+
+// --- HYBRID AI: STEP 3B ---
+// This is the "Corrector" function using OpenAI
+// It takes a draft and forces it into a perfect JSON structure.
+const correctAndFinalizeQuestion_OpenAI = async (draftQuestionObject) => {
+    if (!draftQuestionObject) return null; // Pass through nulls
+    const prompt = `You are a meticulous editor for a GED math exam. Review the following JSON object for a single question. Your ONLY job is to fix all formatting errors, especially KaTeX syntax (e.g., ensure fractions are \\frac{...}{...}, not \\rac). Ensure the entire object is perfectly structured, valid JSON. Return only the corrected, valid JSON object. Do not change the substance or logic of the question.`;
+    const fullPrompt = `${prompt}\n\nDraft JSON to correct:\n${JSON.stringify(draftQuestionObject)}`;
+    try {
+        const response = await openai.chat.completions.create({
+            model: "gpt-4o",
+            messages: [{ role: "user", content: fullPrompt }],
+            response_format: { type: "json_object" },
+        });
+        const jsonString = response.choices[0].message.content;
+        return JSON.parse(jsonString);
+    } catch (error) {
+        console.error("OpenAI Correction Failed:", error);
+        return null; // Return null on failure
+    }
 };
 
 const callAI = async (prompt, schema) => {
@@ -755,97 +805,68 @@ app.post('/generate-quiz', async (req, res) => {
     }
 } else if (subject === 'Math' && comprehensive) {
     try {
-        console.log("Generating comprehensive Math exam with two-part structure...");
-        console.log("Request received for comprehensive Math exam."); // Added for debugging
+        console.log("Starting HYBRID comprehensive Math exam generation...");
 
-        // Part 1: Non-Calculator (5 questions)
-        const part1Promises = Array(5).fill().map(() => generateNonCalculatorQuestion());
-        const part1Questions = await Promise.all(part1Promises.map(p => p.catch(e => {
-            console.error("A promise in the non-calculator math section failed:", e);
-            return null;
-        })));
-
-        // Part 2: Calculator-Permitted (41 questions)
-        const part2Promises = [];
-        // Add 8 Geometry questions
-        for (let i = 0; i < 8; i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math'));
-        // Add 4 Fill-in-the-Blank questions
-        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank());
-        // Add 10 Data/Graphing questions
-        for (let i = 0; i < 5; i++) part2Promises.push(generateDataQuestion());
-        for (let i = 0; i < 5; i++) part2Promises.push(generateGraphingQuestion());
-        // Add 15 Standalone Algebra/Quantitative questions
-        for (let i = 0; i < 10; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities'));
-        for (let i = 0; i < 5; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents'));
-        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank());
-
-        const part2Results = await Promise.all(part2Promises.map(p => p.catch(e => {
-            console.error("A promise in the calculator math section failed:", e);
-            return null;
-        })));
-
-        let part2Questions = part2Results.flat().filter(q => q);
-        // Ensure we have exactly 41 questions for Part 2, even if some promises failed
-        while (part2Questions.length < 41) {
-            console.log("A question generation failed, adding a fallback question.");
-            part2Questions.push(await generateStandaloneQuestion('Math', 'General Problem Solving'));
-        }
-        part2Questions = part2Questions.slice(0, 41);
-
-
-        const allQuestions = [...part1Questions, ...part2Questions].filter(q => q);
-        allQuestions.forEach((q, index) => {
-            q.questionNumber = index + 1;
-        });
-
-        // --- NEW: Second Pass Correction for Math ---
-        console.log("Applying second-pass correction to all math questions...");
-        const correctedPart1 = await Promise.all(part1Questions.filter(q => q).map(q => reviewAndCorrectMathQuestion(q)));
-        const correctedPart2 = await Promise.all(part2Questions.map(q => reviewAndCorrectMathQuestion(q)));
-
-        const correctedAllQuestions = [...correctedPart1, ...correctedPart2];
-
-        // --- NEW: Final Server-Side Sanitization ---
-        correctedAllQuestions.forEach(q => {
-            if (q.questionText) {
-                // Fix the most common LaTeX error
-                q.questionText = q.questionText.replace(/\\rac/g, '\\frac');
-                // Remove any inline CSS from tables to help the frontend
-                q.questionText = q.questionText.replace(/style="[^"]*"/g, '');
-            }
-            if (q.answerOptions) {
-                q.answerOptions.forEach(opt => {
-                    if (opt.text) {
-                        opt.text = opt.text.replace(/\\rac/g, '\\frac');
-                    }
-                });
-            }
-        });
-        // --- End of Sanitization ---
-
-        correctedAllQuestions.forEach((q, index) => {
-            q.questionNumber = index + 1;
-        });
-        // --- End of Second Pass Correction ---
-
-        const draftQuiz = {
-            id: `ai_comp_math_${new Date().getTime()}`,
-            title: `Comprehensive Mathematical Reasoning Exam`,
-            subject: subject,
-            type: 'multi-part-math',
-            part1_non_calculator: correctedPart1,
-            part2_calculator: correctedPart2,
-            questions: correctedAllQuestions
+        const createTwoPassQuestion = async (draftPrompt) => {
+            const draft = await generateDraftQuestion_Gemini(draftPrompt);
+            return await correctAndFinalizeQuestion_OpenAI(draft);
         };
 
-        // Apply cleanup function to the entire assembled quiz object
-        const finalQuiz = cleanupQuizData(draftQuiz);
+        const nonCalcPrompt = `You are a GED Math exam creator specializing in non-calculator questions. Generate a single, high-quality question from the "Number Sense & Operations" domain (GED Indicator Q.1 or Q.2). The question must be solvable without a calculator, focusing on concepts like number properties, estimation, or basic arithmetic with integers, fractions, and decimals. CRITICAL: Do NOT generate a question that requires complex calculations. IMPORTANT: For all mathematical expressions, including fractions and exponents, you MUST use KaTeX-compatible LaTeX syntax enclosed in single dollar signs (e.g., '$\\frac{5}{8}$', '$x^2$'). Output a single valid JSON object for the question.`;
+        const geometryPrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "Geometry". The problem MUST require a visual stimulus to be solved. IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. Your response MUST specify: 1. A "shape" from this list: [rectangle, triangle, circle, cylinder, rectangular_prism, cone]. 2. The "dimensions" for that shape as a JSON object (e.g., {"w": 10, "h": 5}). 3. The full "questionText". 4. Four "answerOptions" with one marked as correct. 5. The correct numerical "answer" for verification.`;
+        const fillBlankPrompt = `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is perfectly formatted for KaTeX. With those rules in mind, generate a single, high-quality, GED-style math question (from any topic area) that requires a single numerical or simple fractional answer (e.g., 25, -10, 5/8). CRITICAL: The question MUST NOT have multiple-choice options. Output a single valid JSON object with three keys: "type": "fill-in-the-blank", "questionText", and "correctAnswer".`;
+        const dataPrompt = `You are a GED Math exam creator. Generate a single, high-quality, data-based question. FIRST, create a simple HTML table with a caption, 2-4 columns, and 3-5 rows of numerical data. SECOND, write a question that requires interpreting that table to find the mean, median, mode, or range. The question text MUST reference the HTML table. IMPORTANT: For all mathematical expressions, use KaTeX-compatible LaTeX syntax enclosed in single dollar signs. Output a single valid JSON object containing the 'questionText' (which INCLUDES the HTML table) and 'answerOptions'.`;
+        const graphingPrompt = `You are a GED Math exam creator. Generate a single, high-quality, GED-style question about functions or interpreting graphs (GED Indicators A.5, A.6, A.7). The question should focus on one of these concepts: Determining the slope of a line from a graph or equation; Understanding and using function notation; Interpreting a graph. IMPORTANT: Use KaTeX-compatible LaTeX for all mathematical notation. Output a single valid JSON object for the question.`;
+        const standaloneAlgebraPrompt = `Generate a single, standalone, GED-style math word problem or calculation problem for the topic "Expressions, Equations, and Inequalities". STRICT REQUIREMENT: The question MUST be a math problem that requires mathematical reasoning to solve. DO NOT generate a reading comprehension question. IMPORTANT: Use KaTeX-compatible LaTeX syntax. Output a single valid JSON object.`;
+        const standaloneQuantPrompt = `Generate a single, standalone, GED-style math word problem or calculation problem for the topic "Ratios, Proportions, and Percents". STRICT REQUIREMENT: The question MUST be a math problem. DO NOT generate a reading comprehension question. IMPORTANT: Use KaTeX-compatible LaTeX syntax. Output a single valid JSON object.`;
+        const fallbackPrompt = `Generate a single, standalone, GED-style math word problem or calculation problem for the topic "General Problem Solving". STRICT REQUIREMENT: The question MUST be a math problem. DO NOT generate a reading comprehension question. IMPORTANT: Use KaTeX-compatible LaTeX syntax. Output a single valid JSON object.`;
+
+        let promises = [
+            // Part 1: Non-Calculator (5 questions)
+            ...Array(5).fill(0).map(() => createTwoPassQuestion(nonCalcPrompt)),
+            // Part 2: Calculator-Permitted (41 questions)
+            ...Array(8).fill(0).map(() => createTwoPassQuestion(geometryPrompt)),
+            ...Array(5).fill(0).map(() => createTwoPassQuestion(fillBlankPrompt)),
+            ...Array(5).fill(0).map(() => createTwoPassQuestion(dataPrompt)),
+            ...Array(5).fill(0).map(() => createTwoPassQuestion(graphingPrompt)),
+            ...Array(10).fill(0).map(() => createTwoPassQuestion(standaloneAlgebraPrompt)),
+            ...Array(8).fill(0).map(() => createTwoPassQuestion(standaloneQuantPrompt))
+        ];
+
+        const results = await Promise.all(promises);
+        let finalQuestions = results.filter(q => q !== null);
+
+        while (finalQuestions.length < 46) {
+            console.log("A question failed, adding a fallback.");
+            const fallback = await createTwoPassQuestion(fallbackPrompt);
+            if (fallback) {
+                finalQuestions.push(fallback);
+            } else {
+                console.error("Fallback question generation also failed. Stopping.");
+                break;
+            }
+        }
+
+        finalQuestions = finalQuestions.slice(0, 46);
+
+        const part1Questions = finalQuestions.slice(0, 5).map(q => ({...q, calculator: false }));
+        const part2Questions = finalQuestions.slice(5).map(q => ({...q, calculator: true }));
+
+        const finalQuiz = {
+            id: `ai_comp_math_hybrid_${new Date().getTime()}`,
+            title: `Comprehensive Mathematical Reasoning Exam`,
+            subject: 'Math',
+            type: 'multi-part-math',
+            part1_non_calculator: part1Questions,
+            part2_calculator: part2Questions,
+            questions: [...part1Questions, ...part2Questions].map((q, i) => ({ ...q, questionNumber: i + 1 }))
+        };
 
         res.json(finalQuiz);
 
     } catch (error) {
-        console.error('Error generating comprehensive Math exam:', error);
-        res.status(500).json({ error: 'Failed to generate Math exam.' });
+        console.error('Critical Error in Hybrid Math Exam Generation:', error);
+        res.status(500).json({ error: 'Failed to generate hybrid Math exam.' });
     }
 } else {
             // This handles comprehensive requests for subjects without that logic yet.
