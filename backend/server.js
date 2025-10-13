@@ -485,6 +485,32 @@ async function generateGraphingQuestion() {
     return question;
 }
 
+async function generateMath_FillInTheBlank() {
+    const prompt = `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is perfectly formatted for KaTeX.
+- All fractions MUST be in the format '$\\frac{numerator}{denominator}$'.
+- All LaTeX expressions MUST be enclosed in single dollar signs '$'.
+
+With those rules in mind, generate a single, high-quality, GED-style math question (from any topic area) that requires a single numerical or simple fractional answer (e.g., 25, -10, 5/8).
+CRITICAL: The question MUST NOT have multiple-choice options. The answer should be a number that the user would type into a box.
+Output a single valid JSON object with three keys:
+1. "type": a string with the value "fill-in-the-blank".
+2. "questionText": a string containing the full question.
+3. "correctAnswer": a NUMBER or STRING containing the exact correct answer.`;
+
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            type: { type: "STRING", enum: ["fill-in-the-blank"] },
+            questionText: { type: "STRING" },
+            correctAnswer: { type: ["NUMBER", "STRING"] }
+        },
+        required: ["type", "questionText", "correctAnswer"]
+    };
+    const question = await callAI(prompt, schema);
+    question.calculator = true; // Most fill-in-the-blank will be calculator-permitted
+    return question;
+}
+
 async function generateRlaPart1() {
     const prompt = `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, with a concise, engaging title in <strong> tags. Format passages with <p> tags. The breakdown must be 3 informational texts and 1 literary text. For EACH passage, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions. Each question should be a JSON object. Return a single JSON array of these 20 question objects.`;
     const schema = { type: "ARRAY", items: singleQuestionSchema };
@@ -682,45 +708,55 @@ app.post('/generate-quiz', async (req, res) => {
     }
 } else if (subject === 'Math' && comprehensive) {
     try {
-        console.log("Generating comprehensive Math exam...");
-        const promises = [];
+        console.log("Generating comprehensive Math exam with two-part structure...");
 
-        // Step 1: Generate 5 Non-Calculator Questions
-        for (let i = 0; i < 5; i++) {
-            promises.push(generateNonCalculatorQuestion());
-        }
-
-        // Step 2: Generate 41 Calculator-Permitted Questions
-        // Quantitative (16 questions)
-        for (let i = 0; i < 7; i++) promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents'));
-        for (let i = 0; i < 6; i++) promises.push(generateGeometryQuestion('Geometry', 'Math'));
-        for (let i = 0; i < 3; i++) promises.push(generateDataQuestion());
-
-        // Algebraic (25 questions)
-        for (let i = 0; i < 14; i++) promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities'));
-        for (let i = 0; i < 11; i++) promises.push(generateGraphingQuestion());
-
-
-        const results = await Promise.all(promises.map(p => p.catch(e => {
-            console.error("A promise in the comprehensive math exam failed:", e);
-            return null; // Return null for failed promises
+        // Part 1: Non-Calculator (5 questions)
+        const part1Promises = Array(5).fill().map(() => generateNonCalculatorQuestion());
+        const part1Questions = await Promise.all(part1Promises.map(p => p.catch(e => {
+            console.error("A promise in the non-calculator math section failed:", e);
+            return null;
         })));
 
-        let allQuestions = results.flat().filter(q => q); // Filter out any nulls from failed generations
+        // Part 2: Calculator-Permitted (41 questions)
+        const part2Promises = [];
+        // Add 8 Geometry questions
+        for (let i = 0; i < 8; i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math'));
+        // Add 4 Fill-in-the-Blank questions
+        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank());
+        // Add 10 Data/Graphing questions
+        for (let i = 0; i < 5; i++) part2Promises.push(generateDataQuestion());
+        for (let i = 0; i < 5; i++) part2Promises.push(generateGraphingQuestion());
+        // Add 19 Standalone Algebra/Quantitative questions
+        for (let i = 0; i < 10; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities'));
+        for (let i = 0; i < 9; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents'));
 
-        // The comprehensive math exam should not be shuffled to maintain the non-calculator/calculator sections
-        let finalQuestions = allQuestions;
+        const part2Results = await Promise.all(part2Promises.map(p => p.catch(e => {
+            console.error("A promise in the calculator math section failed:", e);
+            return null;
+        })));
 
-        // Assign final question numbers BEFORE cleanup
-        finalQuestions.forEach((q, index) => {
+        let part2Questions = part2Results.flat().filter(q => q);
+        // Ensure we have exactly 41 questions for Part 2, even if some promises failed
+        while (part2Questions.length < 41) {
+            console.log("A question generation failed, adding a fallback question.");
+            part2Questions.push(await generateStandaloneQuestion('Math', 'General Problem Solving'));
+        }
+        part2Questions = part2Questions.slice(0, 41);
+
+
+        const allQuestions = [...part1Questions, ...part2Questions].filter(q => q);
+        allQuestions.forEach((q, index) => {
             q.questionNumber = index + 1;
         });
 
-        let draftQuiz = {
+        const draftQuiz = {
             id: `ai_comp_math_${new Date().getTime()}`,
             title: `Comprehensive Mathematical Reasoning Exam`,
             subject: subject,
-            questions: finalQuestions
+            type: 'multi-part-math',
+            part1_non_calculator: part1Questions.filter(q => q),
+            part2_calculator: part2Questions,
+            questions: allQuestions
         };
 
         // Apply cleanup function to the entire assembled quiz object
