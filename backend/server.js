@@ -166,7 +166,9 @@ function cleanupQuizData(quiz) {
         // Sanitize questionText
         if (typeof q.questionText === 'string') {
             // Replaces invalid \` with '
-            q.questionText = q.questionText.replace(/\\`/g, "'");
+            q.questionText = q.questionText
+                .replace(/\\`/g, "'")
+                .replace(/\\\$/g, '$');
         } else {
             // If questionText is not a string, log it and set to a default value
             console.warn("Invalid questionText found, setting to empty string:", q.questionText);
@@ -177,7 +179,9 @@ function cleanupQuizData(quiz) {
         if (Array.isArray(q.answerOptions)) {
             q.answerOptions.forEach(opt => {
                 if (typeof opt.text === 'string') {
-                    opt.text = opt.text.replace(/\\`/g, "'");
+                    opt.text = opt.text
+                        .replace(/\\`/g, "'")
+                        .replace(/\\\$/g, '$');
                 } else {
                     console.warn("Invalid answer option text found, setting to empty string:", opt.text);
                     opt.text = '';
