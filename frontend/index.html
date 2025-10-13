@@ -114,8 +114,22 @@ function normalizePunctuationSpacing(value) {
         if ((punct === ':' || punct === '.') && nextChar === '/') {
             return match;
         }
-        if (punct === '.' && /[\p{L}\p{N}]/u.test(nextChar)) {
-            return match;
+        if (punct === '.') {
+            const prevChar = string[offset - 1];
+            if (prevChar && /[0-9]/.test(prevChar) && /[0-9]/.test(nextChar)) {
+                return match;
+            }
+
+            const nextTokenMatch = string
+                .slice(offset + match.length)
+                .match(/^[\p{L}\p{N}-]+/u);
+            if (
+                nextTokenMatch &&
+                /[\p{L}\p{N}-]/u.test(prevChar || '') &&
+                /^[\p{Ll}\p{Nd}-]+$/u.test(nextTokenMatch[0])
+            ) {
+                return match;
+            }
         }
         return `${punct} `;
     });
