@@ -20,6 +20,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
 
+    <script>
+        window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
+        if (typeof window.__APP_CONFIG__.geometryFiguresEnabled === 'undefined') {
+            window.__APP_CONFIG__.geometryFiguresEnabled = false;
+        }
+    </script>
+    <script src="https://ged-website.onrender.com/client-config.js"></script>
+
     <style>
         body { font-family: 'Inter', sans-serif; }
         .quiz-nav::-webkit-scrollbar { height: 4px; }
@@ -71,7 +79,11 @@ const ALLOWED_HTML_TAGS = [
 ];
 const ALLOWED_HTML_ATTR = ['href','title','target','rel','colspan','rowspan','align'];
 
-const GEOMETRY_FIGURES_ENABLED = true;
+const GEOMETRY_FIGURES_ENABLED = Boolean(
+    typeof window !== 'undefined' &&
+    window.__APP_CONFIG__ &&
+    window.__APP_CONFIG__.geometryFiguresEnabled
+);
 
 const DEFAULT_FIGURE_STYLE = {
     stroke: '#1f2937',
