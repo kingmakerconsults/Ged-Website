@@ -369,7 +369,8 @@ const generateStandaloneQuestion = async (subject, topic) => {
     return question;
 };
 
-async function generateGeometryQuestion(topic, subject) {
+async function generateGeometryQuestion(topic, subject, attempt = 1) {
+    const MAX_ATTEMPTS = 2;
     const prompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
     The problem MUST require a visual stimulus to be solved.
     IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.
@@ -412,8 +413,17 @@ async function generateGeometryQuestion(topic, subject) {
             answerOptions: aiResponse.answerOptions,
         };
     } catch (error) {
-        console.error("Error generating geometry question:", error);
-        return null;
+        console.error(`Error generating geometry question on attempt ${attempt}.`);
+        console.error("---PROMPT---:\n", prompt);
+        console.error("---AI RESPONSE ERROR---:\n", error.response ? JSON.stringify(error.response.data, null, 2) : error.message);
+
+        if (attempt < MAX_ATTEMPTS) {
+            console.log(`Retrying geometry question generation (attempt ${attempt + 1})...`);
+            return generateGeometryQuestion(topic, subject, attempt + 1);
+        } else {
+            console.error("Max retries reached for geometry question generation. Returning null.");
+            return null;
+        }
     }
 }
 
@@ -588,6 +598,39 @@ async function reviewAndCorrectQuiz(draftQuiz) {
         return correctedQuiz;
     }
 
+async function reviewAndCorrectMathQuestion(questionObject) {
+    const prompt = `You are a meticulous GED math exam editor. Your only job is to review the following JSON question object and fix any errors in the KaTeX formatting. Ensure all mathematical expressions are correctly written (e.g., \\frac, not \\rac) and properly enclosed in single dollar signs. Do NOT change the substance of the question, the answers, or the logic. Return the corrected, valid JSON object.
+
+    Faulty JSON:
+    ${JSON.stringify(questionObject)}
+    `;
+
+    // We can reuse a generic schema for a single question object.
+    const schema = {
+        type: "OBJECT",
+        properties: {
+            questionText: { type: "STRING" },
+            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } },
+            // Add other potential fields to ensure schema is robust
+            type: { type: "STRING" },
+            calculator: { type: "BOOLEAN" },
+            questionNumber: { type: "NUMBER" },
+            imageUrl: { type: "STRING" },
+            correctAnswer: { type: ["NUMBER", "STRING"] }
+        },
+        required: ["questionText"] // questionText is the most critical part
+    };
+
+    try {
+        const correctedQuestion = await callAI(prompt, schema);
+        // Preserve original properties that might not be in the schema
+        return { ...questionObject, ...correctedQuestion };
+    } catch (error) {
+        console.error("Error correcting math question, returning original:", error);
+        return questionObject; // Return original on failure
+    }
+}
+
 
 app.post('/generate-quiz', async (req, res) => {
     const { subject, topic, comprehensive } = req.body;
@@ -709,6 +752,7 @@ app.post('/generate-quiz', async (req, res) => {
 } else if (subject === 'Math' && comprehensive) {
     try {
         console.log("Generating comprehensive Math exam with two-part structure...");
+        console.log("Request received for comprehensive Math exam."); // Added for debugging
 
         // Part 1: Non-Calculator (5 questions)
         const part1Promises = Array(5).fill().map(() => generateNonCalculatorQuestion());
@@ -749,14 +793,25 @@ app.post('/generate-quiz', async (req, res) => {
             q.questionNumber = index + 1;
         });
 
+        // --- NEW: Second Pass Correction for Math ---
+        console.log("Applying second-pass correction to all math questions...");
+        const correctedPart1 = await Promise.all(part1Questions.filter(q => q).map(q => reviewAndCorrectMathQuestion(q)));
+        const correctedPart2 = await Promise.all(part2Questions.map(q => reviewAndCorrectMathQuestion(q)));
+
+        const correctedAllQuestions = [...correctedPart1, ...correctedPart2];
+        correctedAllQuestions.forEach((q, index) => {
+            q.questionNumber = index + 1;
+        });
+        // --- End of Second Pass Correction ---
+
         const draftQuiz = {
             id: `ai_comp_math_${new Date().getTime()}`,
             title: `Comprehensive Mathematical Reasoning Exam`,
             subject: subject,
             type: 'multi-part-math',
-            part1_non_calculator: part1Questions.filter(q => q),
-            part2_calculator: part2Questions,
-            questions: allQuestions
+            part1_non_calculator: correctedPart1,
+            part2_calculator: correctedPart2,
+            questions: correctedAllQuestions
         };
 
         // Apply cleanup function to the entire assembled quiz object
