@@ -10,18 +10,42 @@ const {
 
 describe('geometry JSON sanitization and parsing', () => {
     test('sanitizes long float tails into at most two decimals', () => {
-        const raw = '{"shape":"cylinder","dimensions":{"radius":3,"width":6.0000000000000000000000000000001},"questionText":"Q","answerOptions":[],"answer":12}';
+        const raw = JSON.stringify({
+            question: 'Q',
+            choices: ['A', 'B', 'C', 'D'],
+            choiceRationales: ['r1', 'r2', 'r3', 'r4'],
+            answerIndex: 0,
+            geometrySpec: {
+                shape: 'circle',
+                params: {
+                    center: { x: 50.123456, y: 50.654321 },
+                    radius: 20.99999999
+                }
+            }
+        });
 
         const result = parseGeometryJson(raw, {
             onStage: () => {}
         });
 
-        assert.strictEqual(result.value.dimensions.width, 6);
+        assert.strictEqual(result.value.geometrySpec.params.radius, 21);
         assert.ok(['direct-parse', 'sanitized-parse'].includes(result.stage));
     });
 
     test('flags malformed exponent numbers for regeneration', () => {
-        const raw = '{"shape":"rectangular_prism","dimensions":{"length":10,"width":5.5000000000000018E000000abc},"questionText":"Q","answerOptions":[],"answer":20}';
+        const raw = JSON.stringify({
+            question: 'Q',
+            choices: ['A', 'B', 'C', 'D'],
+            answerIndex: 0,
+            geometrySpec: {
+                shape: 'rectangle',
+                params: {
+                    origin: { x: 10, y: 10 },
+                    width: '5.0000000000000001E003oops',
+                    height: 4
+                }
+            }
+        });
 
         assert.throws(() => {
             parseGeometryJson(raw, { onStage: () => {} });
@@ -29,17 +53,43 @@ describe('geometry JSON sanitization and parsing', () => {
     });
 
     test('repairs wrapped JSON content', () => {
-        const raw = `Here is the problem you asked for: {"shape":"triangle","dimensions":{"b":4,"h":3},"questionText":"Q","answerOptions":[],"answer":6}`;
-        const result = parseGeometryJson(raw, {
+        const wrapped = `Here is the problem you asked for: ${JSON.stringify({
+            question: 'Q',
+            choices: ['A', 'B', 'C', 'D'],
+            answerIndex: 1,
+            geometrySpec: {
+                shape: 'triangle',
+                params: {
+                    points: [
+                        { label: 'A', x: 10, y: 80 },
+                        { label: 'B', x: 80, y: 80 },
+                        { label: 'C', x: 45, y: 20 }
+                    ]
+                }
+            }
+        })}`;
+
+        const result = parseGeometryJson(wrapped, {
             onStage: () => {}
         });
 
-        assert.strictEqual(result.value.shape, 'triangle');
+        assert.strictEqual(result.value.geometrySpec.shape, 'triangle');
         assert.strictEqual(result.stage, 'repaired-parse');
     });
 
-    test('rejects schema violations for dimension numbers as strings', () => {
-        const raw = '{"shape":"rectangle","dimensions":{"w":"10","h":5},"questionText":"Q","answerOptions":[],"answer":50}';
+    test('rejects schema violations for non-numeric geometry parameters', () => {
+        const raw = JSON.stringify({
+            question: 'Q',
+            choices: ['A', 'B', 'C', 'D'],
+            answerIndex: 0,
+            geometrySpec: {
+                shape: 'circle',
+                params: {
+                    center: { x: '10', y: 20 },
+                    radius: 5
+                }
+            }
+        });
 
         assert.throws(() => {
             parseGeometryJson(raw, { onStage: () => {} });
