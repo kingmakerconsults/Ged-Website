@@ -660,6 +660,27 @@ function decodeHtmlEntities(value) {
     return ENTITY_DECODER.value;
 }
 
+function escapeCurrencyDollars(s) {
+    if (typeof s !== 'string') return s;
+    return s
+        .replace(/(\d(?:[.,]\d{1,2})?)\$(?!\d)/g, '$1&#36;')
+        .replace(/(?<!\\)\$(\s*\d)/g, '&#36;$1');
+}
+
+function addSpacesAroundInlineMath(s) {
+    if (typeof s !== 'string') return s;
+    return s
+        .replace(/([A-Za-z])\$(?!\$)/g, '$1 $')
+        .replace(/\$(?!\$)([A-Za-z])/g, ' $1');
+}
+
+function repairSpacedTags(s) {
+    if (typeof s !== 'string') return s;
+    return s
+        .replace(/<\s*\/\s*([a-z]+)\s*>/gi, '</$1>')
+        .replace(/<\s*([a-z]+)\s*>/gi, '<$1>');
+}
+
 function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
     if (typeof value !== 'string') return '';
     let working = normalizeLineBreaks(value);
@@ -668,6 +689,9 @@ function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
     }
     working = repairLatexCorruption(working);
     working = decodeHtmlEntities(working);
+    working = escapeCurrencyDollars(working);
+    working = addSpacesAroundInlineMath(working);
+    working = repairSpacedTags(working);
     return working;
 }
 
