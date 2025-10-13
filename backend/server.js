@@ -385,7 +385,18 @@ async function generateGeometryQuestion(topic, subject, attempt = 1) {
         type: "OBJECT",
         properties: {
             shape: { type: "STRING" },
-            dimensions: { type: "OBJECT" },
+            dimensions: {
+                type: 'OBJECT',
+                properties: {
+                    length: { type: 'NUMBER' },
+                    width: { type: 'NUMBER' },
+                    height: { type: 'NUMBER' },
+                    radius: { type: 'NUMBER' },
+                    side_a: { type: 'NUMBER' },
+                    side_b: { type: 'NUMBER' },
+                    side_c: { type: 'NUMBER' }
+                }
+            },
             questionText: { type: "STRING" },
             answer: {type: "NUMBER"},
             answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
@@ -516,7 +527,7 @@ Output a single valid JSON object with three keys:
         properties: {
             type: { type: "STRING", enum: ["fill-in-the-blank"] },
             questionText: { type: "STRING" },
-            correctAnswer: { type: ["NUMBER", "STRING"] }
+            correctAnswer: { type: 'STRING' }
         },
         required: ["type", "questionText", "correctAnswer"]
     };
