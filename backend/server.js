@@ -262,9 +262,9 @@ const callAI = async (prompt, schema) => {
         } catch (initialParseError) {
             // Gemini occasionally returns LaTeX-style backslashes (e.g. \frac) without
             // escaping them for JSON, which causes parsing to fail. Try to repair those
-            // strings by escaping any single backslashes that aren't part of an escaped
-            // backslash (\\) or a unicode escape (\uXXXX).
-            const repairedText = cleanedText.replace(/(?<!\\)\\(?![\\u])/g, '\\\\');
+            // strings by escaping any single backslashes that aren't part of a valid JSON
+            // escape sequence (e.g. \", \\/, \b, \f, \n, \r, \t, or \uXXXX).
+            const repairedText = cleanedText.replace(/(?<!\\)\\(?!["\\\/bfnrtu])/g, '\\\\');
 
             try {
                 const parsed = JSON.parse(repairedText);
