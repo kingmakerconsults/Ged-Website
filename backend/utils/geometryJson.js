@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const geometrySchema = require('../schemas/geometrySchema');
+const SUPPORTED_SHAPES = geometrySchema.SUPPORTED_SHAPES || [];
 
 const DEFAULT_MAX_DECIMALS = parseInt(process.env.GEOMETRY_MAX_DECIMALS || '2', 10);
 const SANITIZER_FEATURE_ENABLED = process.env.GEOMETRY_JSON_SANITIZER_ENABLED !== 'false';
@@ -91,6 +92,24 @@ const hashPayload = text => {
     return crypto.createHash('sha256').update(text).digest('hex').slice(0, 16);
 };
 
+const ensureNumber = value => typeof value === 'number' && Number.isFinite(value);
+
+const validatePoint = point => {
+    return point && ensureNumber(point.x) && ensureNumber(point.y);
+};
+
+const validatePointArray = (points, errors, path) => {
+    if (!Array.isArray(points) || points.length === 0) {
+        errors.push(`${path} must be a non-empty array.`);
+        return;
+    }
+    points.forEach((pt, index) => {
+        if (!validatePoint(pt)) {
+            errors.push(`${path}[${index}] must provide numeric x and y values.`);
+        }
+    });
+};
+
 const validateGeometryStructure = obj => {
     const errors = [];
 
@@ -99,60 +118,178 @@ const validateGeometryStructure = obj => {
         return { valid: false, errors };
     }
 
-    if (obj.shape && typeof obj.shape === 'string') {
-        const allowedShapes = geometrySchema.properties?.shape?.enum || [];
-        if (!allowedShapes.includes(obj.shape)) {
-            errors.push(`Shape '${obj.shape}' is not supported.`);
-        }
-    } else {
-        errors.push('Missing or invalid "shape" property.');
+    if (typeof obj.question !== 'string' || obj.question.trim().length === 0) {
+        errors.push('Missing or invalid "question" value.');
     }
 
-    if (obj.dimensions && typeof obj.dimensions === 'object' && !Array.isArray(obj.dimensions)) {
-        for (const [key, value] of Object.entries(obj.dimensions)) {
-            if (typeof value !== 'number' || Number.isNaN(value)) {
-                errors.push(`Dimension '${key}' must be a number.`);
+    if (!Array.isArray(obj.choices) || obj.choices.length < 2 || obj.choices.some(choice => typeof choice !== 'string')) {
+        errors.push('"choices" must be an array of at least two strings.');
+    }
+
+    if (!ensureNumber(obj.answerIndex) || Math.floor(obj.answerIndex) !== obj.answerIndex) {
+        errors.push('"answerIndex" must be an integer.');
+    } else if (Array.isArray(obj.choices) && (obj.answerIndex < 0 || obj.answerIndex >= obj.choices.length)) {
+        errors.push('"answerIndex" must reference an index in the choices array.');
+    }
+
+    if (obj.choiceRationales) {
+        if (!Array.isArray(obj.choiceRationales) || obj.choiceRationales.some(item => typeof item !== 'string')) {
+            errors.push('"choiceRationales" must be an array of strings when provided.');
+        } else if (obj.choiceRationales.length !== obj.choices.length) {
+            errors.push('"choiceRationales" length must match choices length.');
+        }
+    }
+
+    const spec = obj.geometrySpec;
+    if (!spec || typeof spec !== 'object' || Array.isArray(spec)) {
+        errors.push('Missing or invalid "geometrySpec" object.');
+    } else {
+        if (typeof spec.shape !== 'string' || !SUPPORTED_SHAPES.includes(spec.shape)) {
+            errors.push(spec.shape ? `Shape '${spec.shape}' is not supported.` : 'Missing "geometrySpec.shape".');
+        }
+
+        if (!spec.params || typeof spec.params !== 'object' || Array.isArray(spec.params)) {
+            errors.push('"geometrySpec.params" must be an object.');
+        } else {
+            const params = spec.params;
+
+            if (Array.isArray(params.points)) {
+                validatePointArray(params.points, errors, 'geometrySpec.params.points');
+            }
+
+            const requireNumber = (target, key) => {
+                if (!Object.prototype.hasOwnProperty.call(target, key) || typeof target[key] !== 'number' || Number.isNaN(target[key])) {
+                    errors.push(`"geometrySpec.params.${key}" must be a number.`);
+                }
+            };
+
+            if (spec.shape === 'triangle' || spec.shape === 'right_triangle' || spec.shape === 'polygon') {
+                if (!Array.isArray(params.points) || params.points.length < 3) {
+                    errors.push('Polygon-based shapes must include at least three labeled points.');
+                }
+            }
+
+            if (spec.shape === 'rectangle') {
+                requireNumber(params, 'width');
+                requireNumber(params, 'height');
+                if (params.origin && !validatePoint(params.origin)) {
+                    errors.push('"geometrySpec.params.origin" must include numeric x and y.');
+                }
+            }
+
+            if (spec.shape === 'circle') {
+                if (!validatePoint(params.center)) {
+                    errors.push('"geometrySpec.params.center" must include numeric x and y.');
+                }
+                requireNumber(params, 'radius');
+            }
+
+            if (spec.shape === 'regular_polygon') {
+                if (!validatePoint(params.center)) {
+                    errors.push('"geometrySpec.params.center" must include numeric x and y.');
+                }
+                requireNumber(params, 'radius');
+                requireNumber(params, 'sides');
+            }
+
+            if (spec.shape === 'line_angle') {
+                if (!validatePoint(params.vertex) || !validatePoint(params.ray1) || !validatePoint(params.ray2)) {
+                    errors.push('Line angle specifications require vertex, ray1, and ray2 points.');
+                }
+            }
+
+            if (spec.shape === 'cylinder_net') {
+                requireNumber(params, 'radius');
+                requireNumber(params, 'height');
+            }
+
+            if (spec.shape === 'rect_prism_net') {
+                requireNumber(params, 'length');
+                requireNumber(params, 'width');
+                requireNumber(params, 'height');
+            }
+
+            if (params.center && !validatePoint(params.center)) {
+                errors.push('"geometrySpec.params.center" must include numeric x and y.');
+            }
+
+            if (Object.prototype.hasOwnProperty.call(params, 'radius') && !ensureNumber(params.radius)) {
+                errors.push('"geometrySpec.params.radius" must be a number.');
+            }
+
+            if (params.sideLabels) {
+                if (!Array.isArray(params.sideLabels)) {
+                    errors.push('"geometrySpec.params.sideLabels" must be an array when provided.');
+                } else {
+                    params.sideLabels.forEach((entry, index) => {
+                        if (!entry || typeof entry !== 'object') {
+                            errors.push(`sideLabels[${index}] must be an object.`);
+                            return;
+                        }
+                        if (!Array.isArray(entry.between) || entry.between.length !== 2) {
+                            errors.push(`sideLabels[${index}].between must be an array of two point labels.`);
+                        }
+                        if (typeof entry.text !== 'string') {
+                            errors.push(`sideLabels[${index}].text must be a string.`);
+                        }
+                    });
+                }
+            }
+
+            if (params.rightAngle) {
+                if (!params.rightAngle.vertex || typeof params.rightAngle.vertex !== 'string') {
+                    errors.push('"geometrySpec.params.rightAngle.vertex" must be a string label.');
+                }
+                if (Object.prototype.hasOwnProperty.call(params.rightAngle, 'size') && !ensureNumber(params.rightAngle.size)) {
+                    errors.push('"geometrySpec.params.rightAngle.size" must be numeric when provided.');
+                }
+            }
+
+            if (params.labels) {
+                if (!Array.isArray(params.labels)) {
+                    errors.push('"geometrySpec.params.labels" must be an array when provided.');
+                } else {
+                    params.labels.forEach((label, index) => {
+                        if (!label || typeof label !== 'object' || typeof label.text !== 'string' || !validatePoint(label)) {
+                            errors.push(`labels[${index}] must include text, x, and y values.`);
+                        }
+                    });
+                }
+            }
+
+            if (params.segments) {
+                if (!Array.isArray(params.segments)) {
+                    errors.push('"geometrySpec.params.segments" must be an array when provided.');
+                } else {
+                    params.segments.forEach((segment, index) => {
+                        if (!segment || typeof segment !== 'object') {
+                            errors.push(`segments[${index}] must be an object.`);
+                            return;
+                        }
+                        if (!Array.isArray(segment.from) || !Array.isArray(segment.to)) {
+                            errors.push(`segments[${index}] must provide numeric coordinate arrays for from/to.`);
+                        } else if (segment.from.length !== 2 || segment.to.length !== 2 ||
+                            !segment.from.every(ensureNumber) || !segment.to.every(ensureNumber)) {
+                            errors.push(`segments[${index}] from/to must be [x,y] numeric coordinates.`);
+                        }
+                    });
+                }
             }
         }
-    } else {
-        errors.push('Missing or invalid "dimensions" object.');
-    }
 
-    if (typeof obj.questionText !== 'string' || obj.questionText.length === 0) {
-        errors.push('Missing or invalid "questionText" value.');
-    }
-
-    if (Object.prototype.hasOwnProperty.call(obj, 'answer') && typeof obj.answer !== 'number') {
-        errors.push('"answer" must be a number when provided.');
-    }
-
-    if (obj.answerOptions) {
-        if (!Array.isArray(obj.answerOptions)) {
-            errors.push('"answerOptions" must be an array.');
-        } else {
-            obj.answerOptions.forEach((option, index) => {
-                if (!option || typeof option !== 'object') {
-                    errors.push(`Answer option at index ${index} must be an object.`);
-                    return;
-                }
-                if (typeof option.text !== 'string') {
-                    errors.push(`Answer option ${index} is missing a valid "text" field.`);
-                }
-                if (typeof option.isCorrect !== 'boolean') {
-                    errors.push(`Answer option ${index} is missing a valid "isCorrect" field.`);
-                }
-                if (typeof option.rationale !== 'string') {
-                    errors.push(`Answer option ${index} is missing a valid "rationale" field.`);
+        if (spec.view && typeof spec.view === 'object') {
+            const view = spec.view;
+            ['xMin', 'xMax', 'yMin', 'yMax', 'padding', 'width', 'height'].forEach(key => {
+                if (Object.prototype.hasOwnProperty.call(view, key) && !ensureNumber(view[key])) {
+                    errors.push(`"geometrySpec.view.${key}" must be numeric when provided.`);
                 }
             });
+        } else if (spec.view && typeof spec.view !== 'object') {
+            errors.push('"geometrySpec.view" must be an object when provided.');
         }
-    } else {
-        errors.push('Missing "answerOptions" array.');
-    }
 
-    if (obj.choices) {
-        if (!Array.isArray(obj.choices) || obj.choices.some(choice => typeof choice !== 'number')) {
-            errors.push('"choices" must be an array of numbers when provided.');
+        if (spec.style && typeof spec.style !== 'object') {
+            errors.push('"geometrySpec.style" must be an object when provided.');
         }
     }
 

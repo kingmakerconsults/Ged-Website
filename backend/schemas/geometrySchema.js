@@ -1,61 +1,39 @@
+const SUPPORTED_SHAPES = [
+    'triangle',
+    'right_triangle',
+    'rectangle',
+    'circle',
+    'polygon',
+    'regular_polygon',
+    'line_angle',
+    'cylinder_net',
+    'rect_prism_net'
+];
+
 module.exports = {
-    type: 'object',
+    type: 'OBJECT',
     properties: {
-        shape: {
-            type: 'string',
-            enum: [
-                'circle',
-                'cone',
-                'cylinder',
-                'pyramid',
-                'rectangle',
-                'rectangular_prism',
-                'trapezoid',
-                'triangle'
-            ]
-        },
-        dimensions: {
-            type: 'object',
-            minProperties: 1,
-            additionalProperties: { type: 'number' }
-        },
-        questionText: { type: 'string' },
-        answer: { type: 'number' },
-        answerOptions: {
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    text: { type: 'string' },
-                    isCorrect: { type: 'boolean' },
-                    rationale: { type: 'string' }
-                },
-                required: ['text', 'isCorrect', 'rationale']
-            }
-        },
+        question: { type: 'STRING' },
         choices: {
-            type: 'array',
-            items: { type: 'number' }
+            type: 'ARRAY',
+            items: { type: 'STRING' }
+        },
+        choiceRationales: {
+            type: 'ARRAY',
+            items: { type: 'STRING' }
+        },
+        answerIndex: { type: 'NUMBER' },
+        geometrySpec: {
+            type: 'OBJECT',
+            properties: {
+                shape: { type: 'STRING', enum: SUPPORTED_SHAPES },
+                params: { type: 'OBJECT' },
+                style: { type: 'OBJECT' },
+                view: { type: 'OBJECT' }
+            },
+            required: ['shape', 'params']
         }
     },
-    required: ['shape', 'dimensions', 'questionText'],
-    additionalProperties: true,
-    allOf: [
-        {
-            if: {
-                properties: { dimensions: { type: 'object' } }
-            },
-            then: {
-                properties: {
-                    dimensions: {
-                        patternProperties: {
-                            '^.*$': {
-                                type: 'number'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    ]
+    required: ['question', 'choices', 'answerIndex', 'geometrySpec'],
+    SUPPORTED_SHAPES
 };

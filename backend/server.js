@@ -9,7 +9,6 @@ const cors = require('cors');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const { shapeRenderers } = require('./shapeRenderer.js');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 const geometrySchema = require('./schemas/geometrySchema');
@@ -422,22 +421,47 @@ const generateStandaloneQuestion = async (subject, topic) => {
 
 const buildGeometryPrompt = (topic, attempt) => {
     const decimalLimit = DEFAULT_MAX_DECIMALS;
-    const sharedConstraints = `Return a single JSON object only.\nAll numeric values must be JSON numbers with at most ${decimalLimit} decimal places (no strings).\nDo not use scientific notation.\nValidate that your JSON is syntactically correct before returning it.`;
+    const shapesList = geometrySchema.SUPPORTED_SHAPES.join(', ');
+    const sharedConstraints = `Return a single JSON object only.\nAll numeric values must be JSON numbers with at most ${decimalLimit} decimal places (no strings).\nDo not use scientific notation.\nKeep all coordinate values between 0 and 100.\nValidate that your JSON is syntactically correct before returning it.`;
 
     const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
-    The problem MUST require a visual stimulus to be solved.
-    IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.
+    The problem MUST require a visual diagram to be solved and should stay aligned with GED Geometry expectations.
+    IMPORTANT: Format mathematical expressions for the question and choices using KaTeX-compatible LaTeX enclosed in single dollar signs when appropriate (fractions, exponents, radicals, etc.).
     ${sharedConstraints}
-    Your JSON response MUST include:
-    - "shape": one of [rectangle, triangle, circle, cylinder, rectangular_prism, cone, trapezoid, pyramid].
-    - "dimensions": a JSON object mapping dimension labels (e.g., {"w": 10, "h": 5}).
-    - "questionText": the full prompt.
-    - "answerOptions": an array of answer option objects with "text", "isCorrect", and "rationale" fields.
-    - "answer": the correct numerical answer for verification.`;
+
+    Output JSON with the exact structure:
+    {
+      "question": string,
+      "choices": [string, string, string, string],
+      "choiceRationales": [string, string, string, string],
+      "answerIndex": number,
+      "geometrySpec": {
+        "shape": string,
+        "params": object,
+        "view": object (optional),
+        "style": object (optional)
+      }
+    }
+
+    • Set "answerIndex" to the zero-based index of the correct choice.
+    • Ensure "choices" and "choiceRationales" have the same length and ordering.
+    • Use one of the supported shapes: ${shapesList}.
+    • Keep all numeric entries as JSON numbers with at most ${decimalLimit} decimal places.
+
+    Geometry spec requirements:
+    • For triangle / right_triangle / polygon: provide "points" as an array of objects {"label": "A", "x": 10, "y": 20}.  Include any side length labels with "sideLabels": [{"between": ["A","B"], "text": "12 cm"}].  For right triangles include "rightAngle": {"vertex": "B", "size": 12} referencing one of the labeled points.
+    • For rectangle: provide "origin" (top-left point), "width", "height", and optional "labels" [{"text": "5 cm", "x": 50, "y": 10}].
+    • For circle: include "center" {"x": 50, "y": 50}, "radius", and optional labeled points in "points".
+    • For regular_polygon: specify "center", "radius", "sides", and optional starting angle "startAngle" (degrees).
+    • For line_angle: include "vertex", "ray1", and "ray2" points plus optional "angleLabel" and "angleDegrees".
+    • For cylinder_net: include numeric "radius" and "height" plus any labels needed for the net.
+    • For rect_prism_net: include numeric "length", "width", and "height" and describe labels for key faces.
+    • Optional helper data such as "segments", "labels", or "view" may be included for clarity.  Keep the structure deterministic.
+
+    Respond with JSON only—no commentary before or after the object.`;
 
     if (attempt > 1) {
-        return `${basePrompt}
-        RESPOND WITH STRICT JSON ONLY. Do not include commentary, explanations, or text outside the single JSON object. Ensure all numeric values adhere to the decimal rule before responding.`;
+        return `${basePrompt}\nDouble-check every number for the decimal rule before returning the JSON.`;
     }
 
     return basePrompt;
@@ -476,22 +500,19 @@ async function generateGeometryQuestion(topic, subject, attempt = 1) {
             console.info(`Geometry JSON parsed via ${parseMeta.stage}. hash=${parseMeta.hash || 'n/a'}`);
         }
 
-        const renderer = shapeRenderers[aiResponse.shape];
+        const { question, choices, choiceRationales, answerIndex, geometrySpec } = aiResponse;
 
-        if (!renderer) {
-            console.warn(`No SVG renderer found for shape: ${aiResponse.shape}. hash=${parseMeta.hash || 'n/a'}`);
-            return null;
-        }
-
-        const svgString = renderer(aiResponse.dimensions);
-        const svgBase64 = Buffer.from(svgString).toString('base64');
-        const imageUrl = `data:image/svg+xml;base64,${svgBase64}`;
+        const answerOptions = (choices || []).map((text, index) => ({
+            text,
+            isCorrect: index === answerIndex,
+            rationale: (choiceRationales && choiceRationales[index]) || ''
+        }));
 
         return {
-            type: 'image',
-            questionText: aiResponse.questionText,
-            imageUrl: imageUrl,
-            answerOptions: aiResponse.answerOptions,
+            type: 'geometry',
+            questionText: question,
+            geometrySpec,
+            answerOptions,
         };
     } catch (error) {
         if (error instanceof GeometryJsonError && error.needRegen) {
