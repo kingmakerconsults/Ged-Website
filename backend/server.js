@@ -99,7 +99,7 @@ const promptLibrary = {
 "Reasoning Through Language Arts (RLA)": {
     topic: (topic) => `Generate a 15-question GED-style RLA quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: The quiz must be 75% Informational Text (non-fiction, workplace documents) and 25% Literary Text. It must include a mix of reading comprehension questions and language/grammar questions. DO NOT generate Social Studies questions; generate RLA questions using passages ABOUT "${topic}".
-        Do not use '$...$' for currency; write $30 or 30 dollars, never 30$, and never wrap currency in LaTeX.`,
+        Do not use '$...$' for currency; write \$30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.`,
     comprehensive: {
     part1: `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, and each passage MUST have a concise, engaging title wrapped in <strong> tags. The passages must be formatted with <p> tags for each paragraph. The passage breakdown must be 3 informational texts and 1 literary text. For EACH of the 4 passages, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions.`,
     part2: `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two short, opposing passages that you create. The passages should be 3-4 paragraphs each and formatted with <p> tags. Each of the two passages MUST have its own title. The output should be a JSON object with two keys: "passages" (an array of two objects, each with a "title" and "content") and "prompt" (the essay question).`,
@@ -111,14 +111,14 @@ const promptLibrary = {
 - All fractions MUST be in the format '$\\frac{numerator}{denominator}$'.
 - All LaTeX expressions MUST be enclosed in single dollar signs '$'.
 - For example, 'five eighths' must be '$'\\frac{5}{8}'$'. 'x squared' must be '$x^2$'. There are no exceptions.
-        Do not use '$...$' for currency; write $30 or 30 dollars, never 30$, and never wrap currency in LaTeX.
+        Do not use '$...$' for currency; write \$30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
 
 With those rules in mind, generate a 15-question GED-style Math quiz focused on "${topic}".
 STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.`,
         comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
         STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.
         IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate. This is a non-negotiable requirement.
-        Do not use '$...$' for currency; write $30 or 30 dollars, never 30$, and never wrap currency in LaTeX.`
+        Do not use '$...$' for currency; write \$30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.`
     }
 };
 
@@ -167,8 +167,6 @@ function cleanupQuizData(quiz) {
         if (typeof q.questionText === 'string') {
             // Replaces invalid \` with '
             q.questionText = q.questionText.replace(/\\`/g, "'");
-            // Removes unnecessary backslashes before dollar signs
-            q.questionText = q.questionText.replace(/\\\$/g, "$");
         } else {
             // If questionText is not a string, log it and set to a default value
             console.warn("Invalid questionText found, setting to empty string:", q.questionText);
@@ -180,7 +178,6 @@ function cleanupQuizData(quiz) {
             q.answerOptions.forEach(opt => {
                 if (typeof opt.text === 'string') {
                     opt.text = opt.text.replace(/\\`/g, "'");
-                    opt.text = opt.text.replace(/\\\$/g, "$");
                 } else {
                     console.warn("Invalid answer option text found, setting to empty string:", opt.text);
                     opt.text = '';
