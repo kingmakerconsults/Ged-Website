@@ -1,6 +1,5 @@
 const crypto = require('crypto');
-const geometrySchema = require('../schemas/geometrySchema');
-const SUPPORTED_SHAPES = geometrySchema.SUPPORTED_SHAPES || [];
+const { SUPPORTED_SHAPES } = require('../schemas/geometrySchema');
 
 const DEFAULT_MAX_DECIMALS = parseInt(process.env.GEOMETRY_MAX_DECIMALS || '2', 10);
 const SANITIZER_FEATURE_ENABLED = process.env.GEOMETRY_JSON_SANITIZER_ENABLED !== 'false';

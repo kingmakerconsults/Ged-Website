@@ -10,7 +10,7 @@ const SUPPORTED_SHAPES = [
     'rect_prism_net'
 ];
 
-module.exports = {
+const BASE_SCHEMA = {
     type: 'OBJECT',
     properties: {
         question: { type: 'STRING' },
@@ -18,22 +18,48 @@ module.exports = {
             type: 'ARRAY',
             items: { type: 'STRING' }
         },
-        choiceRationales: {
-            type: 'ARRAY',
-            items: { type: 'STRING' }
-        },
-        answerIndex: { type: 'NUMBER' },
-        geometrySpec: {
-            type: 'OBJECT',
-            properties: {
-                shape: { type: 'STRING', enum: SUPPORTED_SHAPES },
-                params: { type: 'OBJECT' },
-                style: { type: 'OBJECT' },
-                view: { type: 'OBJECT' }
-            },
-            required: ['shape', 'params']
-        }
+        answerIndex: { type: 'NUMBER' }
     },
-    required: ['question', 'choices', 'answerIndex', 'geometrySpec'],
+    required: ['question', 'choices', 'answerIndex']
+};
+
+const FIGURE_PROPERTIES = {
+    choiceRationales: {
+        type: 'ARRAY',
+        items: { type: 'STRING' }
+    },
+    geometrySpec: {
+        type: 'OBJECT',
+        properties: {
+            shape: { type: 'STRING', enum: SUPPORTED_SHAPES },
+            params: { type: 'OBJECT' },
+            style: { type: 'OBJECT' },
+            view: { type: 'OBJECT' }
+        },
+        required: ['shape', 'params']
+    }
+};
+
+const buildGeometrySchema = (figuresEnabled = true) => {
+    if (!figuresEnabled) {
+        return {
+            ...BASE_SCHEMA,
+            properties: { ...BASE_SCHEMA.properties },
+            required: [...BASE_SCHEMA.required]
+        };
+    }
+
+    return {
+        ...BASE_SCHEMA,
+        properties: {
+            ...BASE_SCHEMA.properties,
+            ...FIGURE_PROPERTIES
+        },
+        required: [...BASE_SCHEMA.required, 'geometrySpec']
+    };
+};
+
+module.exports = {
+    buildGeometrySchema,
     SUPPORTED_SHAPES
 };
