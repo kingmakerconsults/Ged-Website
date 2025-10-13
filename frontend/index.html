@@ -65,6 +65,21 @@
             overflow-wrap: anywhere;
             word-break: normal;
         }
+        .question-stem table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+        }
+        .question-stem th,
+        .question-stem td {
+            border: 1px solid #e5e7eb;
+            padding: 0.4rem 0.6rem;
+            text-align: left;
+        }
+        .question-stem thead th {
+            background: #f3f4f6;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body class="bg-slate-100">
@@ -77,7 +92,8 @@ const ALLOWED_HTML_TAGS = [
     'a','b','strong','i','em','u','s','span','p','br','ul','ol','li','table','thead','tbody','tfoot','tr','th','td','caption',
     'colgroup','col','code','pre','sup','sub','div'
 ];
-const ALLOWED_HTML_ATTR = ['href','title','target','rel','colspan','rowspan','align'];
+const ALLOWED_HTML_ATTR = ['href','title','target','rel','colspan','rowspan','align','scope'];
+const ENTITY_DECODER = typeof document !== 'undefined' ? document.createElement('textarea') : null;
 
 const GEOMETRY_FIGURES_ENABLED = Boolean(
     typeof window !== 'undefined' &&
@@ -538,21 +554,21 @@ function MathText({ text, className }) {
 
     useEffect(() => {
         if (containerRef.current && typeof text === 'string') {
-            const parts = text.split('$');
-            const renderedHtml = parts.map((part, index) => {
-                if (index % 2 === 1) {
+            const preparedText = preprocessRawContent(text, { normalizeSpacing: true });
+            const segments = extractMathSegments(preparedText);
+            const renderedHtml = segments.map(segment => {
+                if (segment.type === 'math') {
                     try {
-                        return katex.renderToString(part, {
+                        return katex.renderToString(segment.value, {
                             throwOnError: false,
-                            displayMode: false
+                            displayMode: segment.displayMode
                         });
                     } catch (e) {
                         console.error("KaTeX rendering error:", e);
-                        return `\$${part}\$`;
+                        return sanitizeHtmlContent(segment.raw, { skipPreprocess: true });
                     }
                 }
-                // This part is plain text, but might contain HTML tables
-                return sanitizeHtmlContent(part, { normalizeSpacing: true });
+                return sanitizeHtmlContent(segment.value, { skipPreprocess: true });
             }).join('');
 
             containerRef.current.innerHTML = renderedHtml;
@@ -564,13 +580,35 @@ function MathText({ text, className }) {
     return <span ref={containerRef} className={className} />;
 }
 
+function normalizeLineBreaks(value) {
+    if (typeof value !== 'string') return value;
+    return value
+        .replace(/\r\n?/g, '\n')
+        .replace(/([^\n])\n(?!\n)/g, '$1 ')
+        .replace(/\n{3,}/g, '\n\n');
+}
+
+function surroundOperatorWithSpaces(source, match, offset) {
+    const before = offset > 0 ? source[offset - 1] : '';
+    const after = offset + match.length < source.length ? source[offset + match.length] : '';
+    const isAlphaBefore = before && /[A-Za-z]/.test(before);
+    const isAlphaAfter = after && /[A-Za-z]/.test(after);
+    if (isAlphaBefore || isAlphaAfter) {
+        return match;
+    }
+    const trimmed = match.replace(/\s+/g, ' ').trim();
+    const leading = before && !/[\s\n]/.test(before) ? ' ' : '';
+    const trailing = after && !/[\s\n]/.test(after) ? ' ' : '';
+    return `${leading}${trimmed}${trailing}`;
+}
+
 function normalizePunctuationSpacing(value) {
     if (typeof value !== 'string') return value;
-    return value.replace(/([.,;:!?])(?=\S)/g, (match, punct, offset, string) => {
+    let result = value.replace(/([.,;:!?])(?=\S)/g, (match, punct, offset, string) => {
         const nextChar = string[offset + match.length];
         if (!nextChar) return match;
-        if (nextChar === ' ') return match;
-        if ((punct === ':' || punct === ',') && /[0-9]/.test(nextChar)) {
+        if (/\s/.test(nextChar)) return match;
+        if ((punct === ':' || punct === ',' || punct === '.') && /[0-9]/.test(nextChar)) {
             return match;
         }
         if ((punct === ':' || punct === '.') && nextChar === '/') {
@@ -578,15 +616,96 @@ function normalizePunctuationSpacing(value) {
         }
         return `${punct} `;
     });
+    const wordOperators = ['plus', 'minus', 'times'];
+    wordOperators.forEach(op => {
+        const regex = new RegExp(op, 'gi');
+        result = result.replace(regex, (match, offset, string) => surroundOperatorWithSpaces(string, match, offset));
+    });
+    const dividedRegex = /divided\s+by/gi;
+    result = result.replace(dividedRegex, (match, offset, string) => surroundOperatorWithSpaces(string, match, offset));
+    result = result.replace(/[^\S\r\n]+([.,;:!?])/g, '$1');
+    result = result.replace(/[^\S\r\n]{2,}/g, ' ');
+    return result;
 }
 
-function sanitizeHtmlContent(content, { normalizeSpacing = false } = {}) {
-    if (typeof content !== 'string') return '';
-    let working = content;
+const LATEX_CONTROL_CHAR_ESCAPE = {
+    '\f': 'f',
+    '\n': 'n',
+    '\t': 't',
+    '\r': 'r',
+    '\b': 'b',
+    '\v': 'v'
+};
+
+function escapeLatexControlCharacters(input) {
+    return input.replace(/[\f\n\t\r\b\v]/g, char => {
+        const replacement = LATEX_CONTROL_CHAR_ESCAPE[char];
+        return replacement ? `\\${replacement}` : char;
+    });
+}
+
+function repairLatexCorruption(value) {
+    if (typeof value !== 'string') return value;
+    let working = value.replace(/(?:\^|\f)rac\{/gi, '\\frac{');
+    working = working.replace(/\$\$([\s\S]+?)\$\$/g, (_, inner) => `$$${escapeLatexControlCharacters(inner)}$$`);
+    working = working.replace(/\$([\s\S]+?)\$/g, (_, inner) => `$${escapeLatexControlCharacters(inner)}$`);
+    working = working.replace(/\\\(([\s\S]+?)\\\)/g, (_, inner) => `\\(${escapeLatexControlCharacters(inner)}\\)`);
+    return working;
+}
+
+function decodeHtmlEntities(value) {
+    if (typeof value !== 'string') return '';
+    if (!ENTITY_DECODER) return value;
+    ENTITY_DECODER.innerHTML = value;
+    return ENTITY_DECODER.value;
+}
+
+function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
+    if (typeof value !== 'string') return '';
+    let working = normalizeLineBreaks(value);
     if (normalizeSpacing) {
         working = normalizePunctuationSpacing(working);
     }
-    working = unescapeHtml(working);
+    working = repairLatexCorruption(working);
+    working = decodeHtmlEntities(working);
+    return working;
+}
+
+function extractMathSegments(input) {
+    const segments = [];
+    if (typeof input !== 'string' || !input.length) {
+        return segments;
+    }
+    const mathRegex = /\$\$([\s\S]+?)\$\$|\$([\s\S]+?)\$|\\\(([\s\S]+?)\\\)/g;
+    let lastIndex = 0;
+    let match;
+    while ((match = mathRegex.exec(input)) !== null) {
+        if (match.index > lastIndex) {
+            segments.push({ type: 'text', value: input.slice(lastIndex, match.index) });
+        }
+        if (typeof match[1] !== 'undefined') {
+            segments.push({ type: 'math', value: match[1], displayMode: true, raw: match[0] });
+        } else if (typeof match[2] !== 'undefined') {
+            segments.push({ type: 'math', value: match[2], displayMode: false, raw: match[0] });
+        } else {
+            segments.push({ type: 'math', value: match[3], displayMode: false, raw: match[0] });
+        }
+        lastIndex = mathRegex.lastIndex;
+    }
+    if (lastIndex < input.length) {
+        segments.push({ type: 'text', value: input.slice(lastIndex) });
+    }
+    return segments;
+}
+
+function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess = false } = {}) {
+    if (typeof content !== 'string') return '';
+    let working = content;
+    if (!skipPreprocess) {
+        working = preprocessRawContent(working, { normalizeSpacing });
+    } else {
+        working = decodeHtmlEntities(working);
+    }
 
     if (typeof DOMPurify !== 'undefined') {
         return DOMPurify.sanitize(working, {
@@ -599,17 +718,6 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false } = {}) {
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
-}
-
-function unescapeHtml(safe) {
-    if (!safe) return '';
-    return safe
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&nbsp;/g, ' ')
-        .replace(/&amp;/g, '&');
 }
 
 function cleanRepeatedText(text) {
