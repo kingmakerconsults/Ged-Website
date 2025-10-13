@@ -59,38 +59,31 @@ function MathText({ text, className }) {
 
     useEffect(() => {
         if (containerRef.current && typeof text === 'string') {
-            let processedText = text;
-
-            // --- AGGRESSIVE CORRECTION #1: Fix broken LaTeX commands like '\rac' ---
-            processedText = processedText.replace(/\\rac/g, '\\frac');
-
-            // --- AGGRESSIVE CORRECTION #2: Find any '\frac' commands that the AI forgot to wrap in '$' signs and add them. ---
-            processedText = processedText.replace(/(\\frac{[^}]+}{[^}]+})/g, (match) => {
-                // To avoid double-wrapping, we'll do a simple check. If the character
-                // before and after the match are already '$', we leave it alone.
-                const index = processedText.indexOf(match);
-                if (index > 0 && processedText[index - 1] === '$' && processedText[index + match.length] === '$') {
-                    return match; // It's already correctly wrapped.
+            // The text is split by '$' and processed. This handles both wrapped and non-wrapped LaTeX.
+            const parts = text.split('$');
+            const renderedHtml = parts.map((part, index) => {
+                if (index % 2 === 1) { // This is a LaTeX expression
+                    try {
+                        // Use KaTeX to render the LaTeX part
+                        return katex.renderToString(part, {
+                            throwOnError: false,
+                            displayMode: false
+                        });
+                    } catch (e) {
+                        console.error("KaTeX rendering error:", e);
+                        return `\$${part}\$`; // Return original on error
+                    }
+                } else {
+                    // This is plain text, so it can be directly included.
+                    // No need to wrap in a span, just return the text.
+                    return part;
                 }
-                // Otherwise, wrap the lonely \frac command in dollar signs.
-                return `$${match}$`;
-            });
-            
-            // --- STANDARD RENDERING ---
-            // Now, process the string to render all LaTeX, including the ones we just fixed.
-            const finalHtml = processedText.replace(/\$(.*?)\$/g, (match, expression) => {
-                try {
-                    return katex.renderToString(expression, {
-                        throwOnError: false,
-                        displayMode: false
-                    });
-                } catch (e) {
-                    console.error("KaTeX rendering error on expression:", expression, e);
-                    return match;
-                }
-            });
-            
-            containerRef.current.innerHTML = finalHtml;
+            }).join('');
+
+            containerRef.current.innerHTML = renderedHtml;
+        } else if (containerRef.current) {
+            // Clear the container if text is not a string
+            containerRef.current.innerHTML = '';
         }
     }, [text]);
 
@@ -1415,6 +1408,7 @@ function App() {
     }, [progress, currentUser]);
 
     const startQuiz = (quiz, subject) => {
+        console.log("Starting quiz with data:", quiz); // Debugging line
         const shuffledQuiz = {
             ...quiz,
             subject,
@@ -1424,8 +1418,8 @@ function App() {
             })) : []
         };
         setActiveQuiz(shuffledQuiz);
-        // For multi-part RLA, the view should still be 'quiz' so QuizRunner can handle routing.
-        const viewType = quiz.type === 'multi-part-rla' ? 'quiz' : (quiz.type || 'quiz');
+        // For any multi-part quiz, the view should be 'quiz' so the main QuizRunner can handle routing.
+        const viewType = (quiz.type === 'multi-part-rla' || quiz.type === 'multi-part-math') ? 'quiz' : (quiz.type || 'quiz');
         setView(viewType);
     };
     
@@ -1911,7 +1905,7 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                                <SparklesIcon className="h-8 w-8 text-purple-500" />
                                <h3 className="text-xl font-bold text-purple-800 mt-2">Comprehensive Exam</h3>
                                <p className="text-purple-600 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
-                               <button onClick={() => onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 transition">
+                               <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 transition">
                                     Start Comprehensive Exam
                                </button>
                             </div>
@@ -1965,46 +1959,37 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 }
 
 
-// This is the new, multi-part QuizRunner for index.html
-
-function QuizRunner({ quiz, onComplete, onExit }) {
-    if (quiz.type === 'multi-part-rla') {
-        return <MultiPartRlaRunner quiz={quiz} onComplete={onComplete} onExit={onExit} />;
-    }
-
-    // --- This is the original QuizRunner logic for single-part quizzes ---
-    const questions = quiz.questions || [];
+function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit }) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [answers, setAnswers] = useState(Array(questions.length).fill(null));
     const [marked, setMarked] = useState(Array(questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
-    const [timeLeft, setTimeLeft] = useState(quiz.timeLimit || questions.length * 90);
-    const [view, setView] = useState('quiz'); // 'quiz' or 'essay'
-    const [essayText, setEssayText] = useState('');
-    const [essayScore, setEssayScore] = useState(null);
-    const [isScoringEssay, setIsScoringEssay] = useState(false);
-
+    const [timeLeft, setTimeLeft] = useState(timeLimit || questions.length * 90);
     const handleSubmitRef = useRef();
 
     useEffect(() => {
+        if (!onComplete) return; // Don't run timer if there's no completion action (e.g., in a part of a larger quiz)
         const timer = setInterval(() => {
             setTimeLeft(prev => {
                 if (prev <= 1) {
                     clearInterval(timer);
-                    if (view === 'quiz') {
-                        handleSubmitRef.current();
-                    }
+                    handleSubmitRef.current();
                     return 0;
                 }
                 return prev - 1;
             });
         }, 1000);
         return () => clearInterval(timer);
-    }, [quiz, view]);
+    }, [questions, onComplete]);
 
     const handleSelect = (optionText) => {
         const newAnswers = [...answers];
         newAnswers[currentIndex] = optionText;
+        setAnswers(newAnswers);
+    };
+
+    const handleInputChange = (e) => {
+        const newAnswers = [...answers];
+        newAnswers[currentIndex] = e.target.value;
         setAnswers(newAnswers);
     };
 
@@ -2015,49 +2000,30 @@ function QuizRunner({ quiz, onComplete, onExit }) {
     };
 
     const handleSubmit = useCallback(() => {
-        if (quiz.essayPrompt && view === 'quiz') {
-            setView('essay');
-            return; // Don't submit results yet, move to essay portion
-        }
-
-        let score = 0;
-        questions.forEach((q, i) => {
-            const correctOption = q.answerOptions.find(opt => opt.isCorrect);
-            if (correctOption && answers[i] === correctOption.text) {
-                score++;
-            }
-        });
-
-        const percentage = (score / questions.length) * 100;
-        const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
-
-        onComplete({ score, totalQuestions: questions.length, scaledScore, answers, subject: quiz.subject, marked, confidence, essayScore });
-    }, [answers, quiz, onComplete, marked, confidence, view, essayScore, questions]);
+        onComplete({ answers, marked, confidence });
+    }, [answers, marked, onComplete, confidence]);
 
     useEffect(() => {
         handleSubmitRef.current = handleSubmit;
     }, [handleSubmit]);
 
-    const handleScoreEssay = async () => { /* ... (existing function code) ... */ };
     const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
-
-    if (view === 'essay') {
-      // ... (existing essay view JSX) ...
-    }
-
     const currentQ = questions[currentIndex];
-    
+    if (!currentQ) return <div>Loading question...</div>;
+
+    const isFillInTheBlank = !currentQ.answerOptions || currentQ.answerOptions.length === 0;
+
     return (
         <div className="fade-in">
             <header className="flex justify-between items-center pb-4 mb-4 border-b">
-                 <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
-                 <div className="font-bold text-red-600">{formatTime(timeLeft)}</div>
+                 {onExit && <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>}
+                 <h2 className="text-xl font-bold text-center text-slate-800">{quizTitle}</h2>
+                 {timeLimit && <div className="font-bold text-red-600">{formatTime(timeLeft)}</div>}
             </header>
 
             <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
                 {questions.map((_, i) => (
-                    <button key={i} onClick={() => setCurrentIndex(i)} className={`w-8 h-8 rounded-full font-bold text-sm ${i === currentIndex ? 'bg-sky-600 text-white' : answers[i] !== null ? 'bg-sky-200' : 'bg-slate-200'} ${marked[i] ? 'ring-2 ring-yellow-400' : ''}`}>
+                    <button key={i} onClick={() => setCurrentIndex(i)} className={`w-8 h-8 rounded-full font-bold text-sm ${i === currentIndex ? 'bg-sky-600 text-white' : answers[i] ? 'bg-sky-200' : 'bg-slate-200'} ${marked[i] ? 'ring-2 ring-yellow-400' : ''}`}>
                         {i + 1}
                     </button>
                 ))}
@@ -2065,45 +2031,44 @@ function QuizRunner({ quiz, onComplete, onExit }) {
             
             <div className="p-4 bg-slate-50 rounded-lg">
                 {currentQ.passage && (
-                    <div className="mb-4 prose max-w-none">
-                        {currentQ.passage.includes('<table') ? (
-                            <>
-                                {currentQ.chartDescription && <p className="mb-2 text-slate-600 italic">{currentQ.chartDescription}</p>}
-                                <ChartDisplay chartData={parseHtmlTable(unescapeHtml(currentQ.passage))} />
-                            </>
-                        ) : (
-                            <div dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(currentQ.passage)) }} />
-                        )}
-                    </div>
+                    <div className="mb-4 prose max-w-none" dangerouslySetInnerHTML={{ __html: cleanRepeatedText(unescapeHtml(currentQ.passage)) }} />
                 )}
                 {currentQ.imageUrl && <img src={currentQ.imageUrl} alt={`Visual for question ${currentQ.questionNumber}`} className="my-4 mx-auto rounded-md border max-w-full h-auto" />}
 
-                {/* --- THIS IS CHANGE #1 --- */}
                 <h3 className="text-xl font-semibold mb-4">
                     {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} />
                 </h3>
 
-                <div className="space-y-3">
-                    {(currentQ.answerOptions || []).map((opt, i) => (
-                        <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
-
-                           {/* --- THIS IS CHANGE #2 --- */}
-                           <span className="flex-grow text-left">
-                                <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} />
-                            </span>
-                        </button>
-                    ))}
-                </div>
-                {/* ... (no changes to the confidence meter) ... */}
+                {isFillInTheBlank ? (
+                    <div>
+                        <input
+                            type="text"
+                            value={answers[currentIndex] || ''}
+                            onChange={handleInputChange}
+                            placeholder="Enter your answer"
+                            className="w-full p-3 border border-slate-300 rounded-lg"
+                        />
+                    </div>
+                ) : (
+                    <div className="space-y-3">
+                        {(currentQ.answerOptions || []).map((opt, i) => (
+                            <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
+                               <span className="flex-grow text-left">
+                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} />
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
 
             <div className="mt-6 flex justify-between">
                 <button onClick={() => setCurrentIndex(p => Math.max(0, p - 1))} disabled={currentIndex === 0} className="px-4 py-2 bg-slate-200 rounded-md disabled:opacity-50">Previous</button>
                 <button onClick={() => setMarked(m => { const newM = [...m]; newM[currentIndex] = !newM[currentIndex]; return newM; })} className={`px-4 py-2 rounded-md ${marked[currentIndex] ? 'bg-yellow-300' : 'bg-slate-200'}`}>
-                    Mark for Review
+                    {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
                 </button>
                 {currentIndex === questions.length - 1 ? (
-                    <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded-md">{quiz.essayPrompt ? 'Continue to Essay' : 'Finish'}</button>
+                    <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded-md">{buttonText || 'Finish'}</button>
                 ) : (
                     <button onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))} className="px-4 py-2 bg-sky-500 text-white rounded-md">Next</button>
                 )}
@@ -2112,58 +2077,160 @@ function QuizRunner({ quiz, onComplete, onExit }) {
     );
 }
 
+function StandardQuizRunner({ quiz, onComplete, onExit }) {
+    const questions = quiz.questions || [];
+    const [answers, setAnswers] = useState(Array(questions.length).fill(null));
+
+    const handleComplete = (result) => {
+        let score = 0;
+        questions.forEach((q, i) => {
+            const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+            if (correctOption && result.answers[i] === correctOption.text) {
+                score++;
+            }
+        });
+        const percentage = (score / questions.length) * 100;
+        const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
+
+        onComplete({ score, totalQuestions: questions.length, scaledScore, answers: result.answers, subject: quiz.subject, marked: result.marked, confidence: result.confidence });
+    };
+
+    return <QuizInterface
+        questions={questions}
+        answers={answers}
+        setAnswers={setAnswers}
+        onComplete={handleComplete}
+        quizTitle={quiz.title}
+        onExit={onExit}
+        timeLimit={quiz.timeLimit}
+    />;
+}
+
+function MultiPartMathRunner({ quiz, onComplete, onExit }) {
+    const [part, setPart] = useState(1);
+    const [part1Result, setPart1Result] = useState(null);
+
+    const part1Questions = quiz.questions.slice(0, 5);
+    const part2Questions = quiz.questions.slice(5);
+
+    const [part1Answers, setPart1Answers] = useState(Array(part1Questions.length).fill(null));
+    const [part2Answers, setPart2Answers] = useState(Array(part2Questions.length).fill(null));
+
+    const handlePart1Complete = (result) => {
+        setPart1Result(result);
+        setPart(2);
+    };
+
+    const handlePart2Complete = (result) => {
+        const finalAnswers = [...part1Result.answers, ...result.answers];
+        const finalMarked = [...part1Result.marked, ...result.marked];
+        const finalConfidence = [...part1Result.confidence, ...result.confidence];
+
+        let score = 0;
+        quiz.questions.forEach((q, i) => {
+            const isFillIn = !q.answerOptions || q.answerOptions.length === 0;
+            if (isFillIn) {
+                if (String(finalAnswers[i]).trim() === String(q.answer)) {
+                    score++;
+                }
+            } else {
+                const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+                if (correctOption && finalAnswers[i] === correctOption.text) {
+                    score++;
+                }
+            }
+        });
+
+        const percentage = (score / quiz.questions.length) * 100;
+        const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
+
+        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers: finalAnswers, subject: quiz.subject, marked: finalMarked, confidence: finalConfidence });
+    };
+
+    if (part === 1) {
+        return <QuizInterface
+            questions={part1Questions}
+            answers={part1Answers}
+            setAnswers={setPart1Answers}
+            onComplete={handlePart1Complete}
+            quizTitle="Part 1: Non-Calculator Section"
+            buttonText="Continue to Part 2"
+            onExit={onExit}
+        />;
+    }
+
+    if (part === 2) {
+        return <QuizInterface
+            questions={part2Questions}
+            answers={part2Answers}
+            setAnswers={setPart2Answers}
+            onComplete={handlePart2Complete}
+            quizTitle="Part 2: Calculator-Permitted Section"
+            buttonText="Finish Exam"
+            onExit={onExit}
+        />;
+    }
+
+    return null;
+}
+
+function QuizRunner({ quiz, onComplete, onExit }) {
+    console.log("QuizRunner received quiz:", quiz); // Debugging line
+    if (!quiz) return <div className="text-center p-8">Loading quiz...</div>;
+
+    switch (quiz.type) {
+        case 'multi-part-math':
+            return <MultiPartMathRunner quiz={quiz} onComplete={onComplete} onExit={onExit} />;
+        case 'multi-part-rla':
+            // The existing MultiPartRlaRunner can be used as is for now
+            return <MultiPartRlaRunner quiz={quiz} onComplete={onComplete} onExit={onExit} />;
+        default:
+            return <StandardQuizRunner quiz={quiz} onComplete={onComplete} onExit={onExit} />;
+    }
+}
+
 function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     const [currentPart, setCurrentPart] = useState(1);
     const [isPaused, setIsPaused] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
 
-    // Define time limits for each part in seconds
-    const PART_TIMES = {
-        1: 35 * 60,  // Part 1: Reading Comprehension (35 minutes)
-        2: 45 * 60,  // Part 2: Extended Response (45 minutes)
-        3: 70 * 60,  // Part 3: Language & Grammar (70 minutes)
-    };
+    const PART_TIMES = { 1: 35 * 60, 2: 45 * 60, 3: 70 * 60 };
 
-    // State for all answers
     const [part1Answers, setPart1Answers] = useState(Array(quiz.part1_reading.length).fill(null));
     const [part3Answers, setPart3Answers] = useState(Array(quiz.part3_language.length).fill(null));
     const [essayText, setEssayText] = useState('');
     const [isScoring, setIsScoring] = useState(false);
     const [essayScore, setEssayScore] = useState(null);
+    const [part1Result, setPart1Result] = useState(null);
 
-    // Effect to manage and reset the timer when the part changes
     useEffect(() => {
-        setTimeLeft(PART_TIMES[currentPart]); // Set the time for the new part
+        setTimeLeft(PART_TIMES[currentPart]);
     }, [currentPart]);
 
-    // Effect for the countdown timer itself
     useEffect(() => {
-        if (isPaused || timeLeft <= 0) {
-            return;
-        }
-        const timerId = setInterval(() => {
-            setTimeLeft(t => t - 1);
-        }, 1000);
+        if (isPaused || timeLeft <= 0) return;
+        const timerId = setInterval(() => setTimeLeft(t => t - 1), 1000);
         return () => clearInterval(timerId);
     }, [isPaused, timeLeft]);
 
     const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
 
-    const handlePartComplete = () => {
-        if (currentPart < 3) {
-            setCurrentPart(currentPart + 1);
-        } else {
-            handleFinalSubmit();
-        }
+    const handlePart1Complete = (result) => {
+        setPart1Result(result);
+        setCurrentPart(2);
     };
 
-    const handleFinalSubmit = () => {
+    const handlePart2Complete = () => {
+        setCurrentPart(3);
+    };
+
+    const handleFinalSubmit = (part3Result) => {
         let score = 0;
         quiz.part1_reading.forEach((q, i) => {
-            if ((q.answerOptions.find(opt => opt.isCorrect)?.text || '') === part1Answers[i]) score++;
+            if ((q.answerOptions.find(opt => opt.isCorrect)?.text || '') === part1Result.answers[i]) score++;
         });
         quiz.part3_language.forEach((q, i) => {
-            if ((q.answerOptions.find(opt => opt.isCorrect)?.text || '') === part3Answers[i]) score++;
+            if ((q.answerOptions.find(opt => opt.isCorrect)?.text || '') === part3Result.answers[i]) score++;
         });
         const totalQuestions = quiz.part1_reading.length + quiz.part3_language.length;
         const percentage = totalQuestions > 0 ? (score / totalQuestions) * 100 : 0;
@@ -2173,23 +2240,18 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     };
 
     const handleScoreEssay = async () => {
-        if (!essayText.trim()) {
-            alert("Please write an essay before submitting for a score.");
-            return;
-        }
+        if (!essayText.trim()) return alert("Please write an essay before submitting for a score.");
         setIsScoring(true);
         try {
             const response = await fetch('https://ged-website.onrender.com/score-essay', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ essayText, completion: '5/5' }) // Assuming full completion for this context
+                body: JSON.stringify({ essayText, completion: '5/5' })
             });
             if (!response.ok) throw new Error('Failed to score essay.');
             const result = await response.json();
-            let jsonText = result.candidates[0].content.parts[0].text;
-            jsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
-            const parsedScore = JSON.parse(jsonText);
-            setEssayScore(parsedScore);
+            let jsonText = result.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
+            setEssayScore(JSON.parse(jsonText));
         } catch (error) {
             console.error("Error scoring essay:", error);
             setEssayScore({ error: "Sorry, could not score your essay." });
@@ -2201,18 +2263,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     const renderCurrentPart = () => {
         switch (currentPart) {
             case 1:
-                return (
-                    <div>
-                        <h3 className="text-2xl font-bold mb-4">Part 1: Reading Comprehension ({quiz.part1_reading.length} questions)</h3>
-                        <QuizInterface
-                            questions={quiz.part1_reading}
-                            answers={part1Answers}
-                            setAnswers={setPart1Answers}
-                            onComplete={handlePartComplete}
-                            buttonText="Continue to Essay"
-                        />
-                    </div>
-                );
+                return <QuizInterface
+                    questions={quiz.part1_reading}
+                    answers={part1Answers}
+                    setAnswers={setPart1Answers}
+                    onComplete={handlePart1Complete}
+                    quizTitle="Part 1: Reading Comprehension"
+                    buttonText="Continue to Essay"
+                />;
             case 2:
                 return (
                     <div>
@@ -2234,7 +2292,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                             <button onClick={handleScoreEssay} disabled={isScoring} className="px-4 py-2 bg-purple-600 text-white rounded-md disabled:bg-slate-400">
                                 {isScoring ? 'Scoring...' : 'Get AI Feedback'}
                             </button>
-                            <button onClick={handlePartComplete} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg">Continue to Final Section</button>
+                            <button onClick={handlePart2Complete} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg">Continue to Final Section</button>
                         </div>
                         {essayScore && (
                             <div className="mt-4 p-4 bg-purple-50 rounded-lg">
@@ -2250,18 +2308,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     </div>
                 );
             case 3:
-                 return (
-                    <div>
-                        <h3 className="text-2xl font-bold mb-4">Part 3: Language & Grammar ({quiz.part3_language.length} questions)</h3>
-                        <QuizInterface
-                            questions={quiz.part3_language}
-                            answers={part3Answers}
-                            setAnswers={setPart3Answers}
-                            onComplete={handleFinalSubmit}
-                            buttonText="Finish Exam"
-                        />
-                    </div>
-                );
+                 return <QuizInterface
+                    questions={quiz.part3_language}
+                    answers={part3Answers}
+                    setAnswers={setPart3Answers}
+                    onComplete={handleFinalSubmit}
+                    quizTitle="Part 3: Language & Grammar"
+                    buttonText="Finish Exam"
+                />;
             default: return null;
         }
     };
