@@ -620,20 +620,30 @@ async function reviewAndCorrectMathQuestion(questionObject) {
     ${JSON.stringify(questionObject)}
     `;
 
-    // We can reuse a generic schema for a single question object.
+    // CORRECTED SCHEMA
     const schema = {
         type: "OBJECT",
         properties: {
             questionText: { type: "STRING" },
-            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } },
-            // Add other potential fields to ensure schema is robust
-            type: { type: "STRING" },
+            answerOptions: {
+                type: "ARRAY",
+                items: {
+                    type: "OBJECT",
+                    properties: {
+                        text: { type: "STRING" },
+                        isCorrect: { type: "BOOLEAN" },
+                        rationale: { type: "STRING" }
+                    },
+                    required: ["text", "isCorrect", "rationale"]
+                }
+            },
+            questionType: { type: "STRING" }, // Renamed from "type"
             calculator: { type: "BOOLEAN" },
             questionNumber: { type: "NUMBER" },
             imageUrl: { type: "STRING" },
-            correctAnswer: { type: ["NUMBER", "STRING"] }
+            correctAnswer: { type: "STRING" } // Changed from list to single type
         },
-        required: ["questionText"] // questionText is the most critical part
+        required: ["questionText"]
     };
 
     try {
