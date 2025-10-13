@@ -114,6 +114,9 @@ function normalizePunctuationSpacing(value) {
         if ((punct === ':' || punct === '.') && nextChar === '/') {
             return match;
         }
+        if (punct === '.' && /[\p{L}\p{N}]/u.test(nextChar)) {
+            return match;
+        }
         return `${punct} `;
     });
 }
