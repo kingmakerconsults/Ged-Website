@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
+const { Pool } = require('pg');
 const { buildGeometrySchema, SUPPORTED_SHAPES } = require('./schemas/geometrySchema');
 const {
     GeometryJsonError,
@@ -24,6 +25,11 @@ const GEOMETRY_FIGURES_ENABLED = String(process.env.GEOMETRY_FIGURES_ENABLED || 
 if (!GEOMETRY_FIGURES_ENABLED) {
     console.info('Geometry figures disabled (GEOMETRY_FIGURES_ENABLED=false); using text-only diagram descriptions.');
 }
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
+});
 
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
@@ -1187,13 +1193,18 @@ app.post('/api/auth/google', async (req, res) => {
         const { sub, name, email, picture } = payload;
         const userId = sub;
 
-        // Log the login event
-        const logEntry = `[${new Date().toISOString()}] - User Logged In: ${name} (${email})\n`;
-        fs.appendFile(path.join(__dirname, 'logins.log'), logEntry, (err) => {
-            if (err) {
-                console.error('Failed to write to login log:', err);
-            }
-        });
+        // --- DATABASE INTERACTION ---
+        const now = new Date();
+        const userQuery = `
+            INSERT INTO users (id, name, email, picture_url, last_login)
+            VALUES ($1, $2, $3, $4, $5)
+            ON CONFLICT (id) DO UPDATE
+            SET name = $2, email = $3, picture_url = $4, last_login = $5;
+        `;
+        // Use the 'pool' object to run the query
+        await pool.query(userQuery, [userId, name, email, picture, now]);
+        console.log(`User ${name} (${email}) logged in and data was saved to the database.`);
+        // --- END DATABASE INTERACTION ---
 
         // Create a session token
         const token = jwt.sign({ sub: userId, name }, process.env.JWT_SECRET, { expiresIn: '1d' });
@@ -1208,8 +1219,8 @@ app.post('/api/auth/google', async (req, res) => {
             token,
         });
     } catch (error) {
-        console.error('Google Auth Error:', error);
-        res.status(401).json({ error: 'Invalid Google credential.' });
+        console.error('Google Auth or DB Error:', error);
+        res.status(500).json({ error: 'Authentication or database error.' });
     }
 });
 
