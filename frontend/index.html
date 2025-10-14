@@ -101,6 +101,45 @@ const ALLOWED_HTML_TAGS = [
 const ALLOWED_HTML_ATTR = ['href','title','target','rel','colspan','rowspan','align','scope'];
 const ENTITY_DECODER = typeof document !== 'undefined' ? document.createElement('textarea') : null;
 
+const MACROS = /(\\frac|\\sqrt|\\le|\\ge|\\lt|\\gt|\\neq|\\approx|\\pi|\\times|\\cdot|\\sin|\\cos|\\tan|\\log|\\ln)\b/;
+
+function autowrapLatexForKaTeX(text) {
+    if (typeof text !== 'string') return text;
+    if (/\$[^$]+\$/.test(text) || /\$\$[\s\S]+\$\$/.test(text)) return text;
+    return text.replace(/((?:\\[a-zA-Z]+(?:\{[^{}]*\}|\[[^\]]*\])*)+)/g, (match) => {
+        return MACROS.test(match) ? `$${match.trim()}$` : match;
+    });
+}
+
+function normalizeLatexForKaTeX(latex) {
+    if (typeof latex !== 'string') return latex;
+    return latex
+        .replace(/\\\\([A-Za-z]+)/g, '\\$1')
+        .replace(/\\left\s*/g, '')
+        .replace(/\\right\s*/g, '');
+}
+
+function renderStem(text) {
+    if (typeof text !== 'string') return '';
+    const wrapped = autowrapLatexForKaTeX(text);
+    const parts = wrapped.split(/(\$[^$]+\$)/g);
+    return parts.map(part => {
+        if (/^\$[^$]+\$/.test(part)) {
+            const inner = part.slice(1, -1);
+            try {
+                if (typeof katex === 'undefined') {
+                    throw new Error('KaTeX not available');
+                }
+                return katex.renderToString(normalizeLatexForKaTeX(inner), { throwOnError: false });
+            } catch (err) {
+                console.warn('KaTeX render fallback triggered:', err?.message || err);
+                return inner.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
+        }
+        return part.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }).join('');
+}
+
 const GEOMETRY_FIGURES_ENABLED = Boolean(
     typeof window !== 'undefined' &&
     window.__APP_CONFIG__ &&
@@ -591,44 +630,14 @@ function MathText({ text, className, itemIndex }) {
     const containerRef = useRef(null);
 
     useEffect(() => {
-        if (containerRef.current && typeof text === 'string') {
-            const rawInput = text;
-            const guardedInput = typeof normalizeLatexMacrosInMath === 'function'
-                ? rawInput.replace(/\$(.+?)\$/g, (_, m) => `$${normalizeLatexMacrosInMath(m)}$`)
-                : rawInput;
-            const preparedText = preprocessRawContent(guardedInput, { normalizeSpacing: true });
-            const segments = extractMathSegments(preparedText);
-            const renderedHtml = segments.map(segment => {
-                if (segment.type === 'math') {
-                    if (segment.raw && /^\$(\s*\d+(?:[.,]\d{1,2}))\$$/.test(segment.raw)) {
-                        const amount = segment.raw.replace(/^\$(\s*\d+(?:[.,]\d{1,2}))\$$/, '$1').trim();
-                        return sanitizeHtmlContent(`$${amount}`, { skipPreprocess: true });
-                    }
-                    try {
-                        const baseMath = typeof addMissingBackslashesInMath === 'function'
-                            ? addMissingBackslashesInMath(segment.value)
-                            : segment.value;
-                        const normalizedMath = typeof normalizeLatexMacrosInMath === 'function'
-                            ? normalizeLatexMacrosInMath(baseMath)
-                            : baseMath;
-                        const toRender = normalizedMath.replace(/&nbsp;/g, ' ');
-                        return katex.renderToString(toRender, {
-                            throwOnError: false,
-                            displayMode: segment.displayMode
-                        });
-                    } catch (e) {
-                        console.error("KaTeX rendering error:", e);
-                        return sanitizeHtmlContent(segment.raw, { skipPreprocess: true });
-                    }
-                }
-                return sanitizeHtmlContent(segment.value, { skipPreprocess: true });
-            }).join('');
-
-            containerRef.current.innerHTML = renderedHtml;
-            postRenderGuardrails(containerRef.current, { itemIndex });
-        } else if (containerRef.current) {
+        if (!containerRef.current) return;
+        if (typeof text !== 'string' || text.trim() === '') {
             containerRef.current.innerHTML = '';
+            return;
         }
+        const rendered = renderStem(text);
+        containerRef.current.innerHTML = rendered;
+        postRenderGuardrails(containerRef.current, { itemIndex });
     }, [text, itemIndex]);
 
     return <span ref={containerRef} className={className} />;

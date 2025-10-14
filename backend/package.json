@@ -12,6 +12,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
     "google-auth-library": "^9.11.0",
     "jsonwebtoken": "^9.0.2",
     "openai": "^6.3.0",
