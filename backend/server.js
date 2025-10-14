@@ -12,6 +12,9 @@ const path = require('path');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
+const Ajv = require('ajv');
+const addFormats = require('ajv-formats');
+const OpenAI = require('openai');
 const { buildGeometrySchema, SUPPORTED_SHAPES } = require('./schemas/geometrySchema');
 const {
     GeometryJsonError,
@@ -21,10 +24,233 @@ const {
 } = require('./utils/geometryJson');
 const TextSanitizer = require('./textSanitizer');
 
+const ajv = new Ajv({ allErrors: true, strict: false });
+addFormats(ajv);
+
+const openaiClient = process.env.OPENAI_API_KEY
+    ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+    : null;
+
 const GEOMETRY_FIGURES_ENABLED = String(process.env.GEOMETRY_FIGURES_ENABLED || '').toLowerCase() === 'true';
 
 if (!GEOMETRY_FIGURES_ENABLED) {
     console.info('Geometry figures disabled (GEOMETRY_FIGURES_ENABLED=false); using text-only diagram descriptions.');
+}
+
+function extractJSONArray(raw) {
+    if (typeof raw !== 'string') return null;
+    const bs = raw.indexOf('<BEGIN_JSON>');
+    const es = raw.lastIndexOf('<END_JSON>');
+    let body = (bs !== -1 && es !== -1) ? raw.slice(bs + 12, es) : raw;
+    const first = body.indexOf('[');
+    const last = body.lastIndexOf(']');
+    if (first === -1 || last === -1 || last <= first) return null;
+    try {
+        return JSON.parse(body.slice(first, last + 1));
+    } catch {
+        return null;
+    }
+}
+
+const QuestionSchema = {
+    type: 'object',
+    required: ['id', 'questionType', 'questionText'],
+    properties: {
+        id: { type: ['string', 'number'] },
+        questionType: { enum: ['standalone', 'freeResponse'] },
+        questionText: { type: 'string' },
+        answerOptions: {
+            type: 'array',
+            items: {
+                type: 'object',
+                required: ['text'],
+                properties: {
+                    text: { type: 'string' },
+                    isCorrect: { type: ['boolean', 'null'] },
+                    rationale: { type: ['string', 'null'] }
+                }
+            },
+            default: []
+        }
+    },
+    additionalProperties: true
+};
+
+const validateQuestion = ajv.compile(QuestionSchema);
+
+const MACROS = [
+    'frac', 'sqrt', 'times', 'cdot', 'le', 'ge', 'lt', 'gt', 'neq', 'approx',
+    'sin', 'cos', 'tan', 'log', 'ln', 'pi', 'pm', 'mp', 'theta', 'alpha', 'beta', 'gamma'
+];
+
+function normalizeLatexMacros(s) {
+    return typeof s === 'string' ? s.replace(/\\\\([A-Za-z]+)/g, '\\$1') : s;
+}
+
+function addMissingMacroBackslashes(s) {
+    if (typeof s !== 'string') return s;
+    const re = new RegExp(`\\b(${MACROS.join('|')})\\b(?=\\s*[\\[{(])`, 'g');
+    return s.replace(re, (match, _macro, offset, source) => {
+        const prev = offset > 0 ? source[offset - 1] : '';
+        return prev === '\\' ? match : `\\${match}`;
+    });
+}
+
+function stripDelimiters(s) {
+    if (typeof s !== 'string') return s;
+    return s
+        .replace(/\$\$([\s\S]+?)\$\$/g, '$1')
+        .replace(/\$([^$]+)\$/g, '$1')
+        .replace(/\\\(|\\\)/g, '')
+        .replace(/\\\[|\\\]/g, '');
+}
+
+function removeHtmlLike(s) {
+    return typeof s === 'string' ? s.replace(/[<>]/g, '') : s;
+}
+
+function normalizeCurrency(s) {
+    if (typeof s !== 'string') return s;
+    return s.replace(/\$(\s*\d+(?:[.,]\d{1,2})?)/g, 'USD $1');
+}
+
+function sanitizeTextKeepLatex(s) {
+    if (typeof s !== 'string') return s;
+    let out = s;
+    out = stripDelimiters(out);
+    out = normalizeLatexMacros(out);
+    out = addMissingMacroBackslashes(out);
+    out = removeHtmlLike(out);
+    out = normalizeCurrency(out);
+    out = out.replace(/\s{2,}/g, ' ').trim();
+    return out;
+}
+
+function sanitizeQuestionKeepLatex(q) {
+    if (!q || typeof q !== 'object') return q;
+    if (typeof q.questionText === 'string') {
+        q.questionText = sanitizeTextKeepLatex(q.questionText);
+    }
+    if (Array.isArray(q.answerOptions)) {
+        q.answerOptions = q.answerOptions.map((opt) => ({
+            ...opt,
+            text: sanitizeTextKeepLatex(opt?.text ?? ''),
+            rationale: sanitizeTextKeepLatex(opt?.rationale ?? '')
+        }));
+    } else {
+        q.answerOptions = [];
+    }
+    return q;
+}
+
+const NON_CALC_COUNT = 12;
+const GEOMETRY_COUNT = 12;
+const ALGEBRA_COUNT = 12;
+
+const STRICT_JSON_HEADER = `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
+Each item schema:
+{
+  "id": "<unique string>",
+  "questionType": "standalone" | "freeResponse",
+  "questionText": "Plain English with LaTeX commands allowed (e.g., \\frac{1}{2}, \\sqrt{9}, \\le, \\ge, \\pi). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.",
+  "answerOptions": [{"text":"...","isCorrect":true|false,"rationale":"..."}] // omit for freeResponse
+}
+Hard rules:
+- LaTeX commands allowed (\\frac, \\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).
+- Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.
+- No HTML or markdown tables. Describe any table verbally in questionText.
+- Ensure braces balance in \\frac{...}{...} and \\sqrt{...}. No custom macros.
+- Exactly N items; top-level is a JSON array only.`;
+
+const PROMPT_GEN_A = `${STRICT_JSON_HEADER}
+Create ${NON_CALC_COUNT} non-calculator questions (arithmetic, fractions/decimals/percents).`;
+const PROMPT_GEN_B = `${STRICT_JSON_HEADER}
+Create ${GEOMETRY_COUNT} geometry/measurement questions (areas, perimeters, circles; describe diagrams in text).`;
+const PROMPT_GEN_C = `${STRICT_JSON_HEADER}
+Create ${ALGEBRA_COUNT} algebra/functions/data questions (linear functions, slope, evaluate f(x), describe tables/graphs in text).`;
+
+const REVIEW_PROMPT = `SYSTEM: You receive a COMPLETE JSON array. Return ONLY the corrected JSON array (same length/order).
+Allowed changes: formatting-only.
+- Do NOT add/remove/reorder fields or items.
+- Fix LaTeX-only issues: balance braces in \\frac/\\sqrt; collapse \\\\macro -> \\macro; remove any stray delimiters ($, $$, \\(, \\[) if present; normalize spacing.
+- Do NOT introduce currency $; if present, replace with “USD …” or plain number + “dollars”.
+- No HTML/markdown.`;
+
+async function callGemini(prompt) {
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+    if (!apiKey) {
+        throw new Error('GOOGLE_AI_API_KEY is not configured.');
+    }
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }]
+    };
+    const response = await axios.post(apiUrl, payload);
+    const text = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (typeof text !== 'string') {
+        throw new Error('Gemini response missing text content.');
+    }
+    return text;
+}
+
+async function callChatGPT(prompt) {
+    if (!openaiClient) {
+        throw new Error('OPENAI_API_KEY is not configured.');
+    }
+    const response = await openaiClient.responses.create({
+        model: 'gpt-4o-mini',
+        input: prompt
+    });
+    if (!response || typeof response.output_text !== 'string') {
+        throw new Error('ChatGPT response missing text output.');
+    }
+    return response.output_text;
+}
+
+async function generateBatch(prompt) {
+    const raw = await callGemini(prompt);
+    const arr = extractJSONArray(raw);
+    if (!Array.isArray(arr)) {
+        throw new Error('Invalid JSON from model');
+    }
+    return arr;
+}
+
+async function runExam() {
+    const all = [];
+    const a = await generateBatch(PROMPT_GEN_A);
+    all.push(...a);
+    const b = await generateBatch(PROMPT_GEN_B);
+    all.push(...b);
+    const c = await generateBatch(PROMPT_GEN_C);
+    all.push(...c);
+
+    const cleaned = [];
+    for (const q of all) {
+        if (validateQuestion(q)) {
+            cleaned.push(sanitizeQuestionKeepLatex({ ...q }));
+        }
+    }
+
+    const reviewPayload = `<BEGIN_JSON>${JSON.stringify(cleaned)}</END_JSON>`;
+    let reviewedRaw;
+    try {
+        reviewedRaw = await callChatGPT(`${REVIEW_PROMPT}\n\n${reviewPayload}`);
+    } catch (error) {
+        console.error('ChatGPT review failed, falling back to sanitized batch.', error.message || error);
+        reviewedRaw = null;
+    }
+
+    const reviewed = reviewedRaw ? extractJSONArray(reviewedRaw) : null;
+
+    const final = [];
+    const source = Array.isArray(reviewed) ? reviewed : cleaned;
+    for (const q of source) {
+        if (validateQuestion(q)) {
+            final.push(sanitizeQuestionKeepLatex({ ...q }));
+        }
+    }
+    return final;
 }
 
 const pool = new Pool({
@@ -153,6 +379,17 @@ app.post('/define-word', async (req, res) => {
     } catch (error) {
         console.error('Error calling Google AI API for definition:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to get definition from AI service.' });
+    }
+});
+
+
+app.post('/api/math-autogen', async (_req, res) => {
+    try {
+        const items = await runExam();
+        res.json({ items });
+    } catch (error) {
+        console.error('Failed to generate math autogen batch:', error.message || error);
+        res.status(500).json({ error: 'Failed to generate math autogen batch.' });
     }
 });
 
