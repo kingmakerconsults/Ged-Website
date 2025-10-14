@@ -635,9 +635,16 @@ function MathText({ text, className, itemIndex }) {
             containerRef.current.innerHTML = '';
             return;
         }
-        const rendered = renderStem(text);
-        containerRef.current.innerHTML = rendered;
-        postRenderGuardrails(containerRef.current, { itemIndex });
+        const hasTable = /<\s*table\b/i.test(text);
+        if (hasTable) {
+            const safe = sanitizeHtmlContent(text, { normalizeSpacing: true });
+            containerRef.current.innerHTML = safe;
+            postRenderGuardrails(containerRef.current, { itemIndex });
+        } else {
+            const rendered = renderStem(text);
+            containerRef.current.innerHTML = rendered;
+            postRenderGuardrails(containerRef.current, { itemIndex });
+        }
     }, [text, itemIndex]);
 
     return <span ref={containerRef} className={className} />;
