@@ -148,6 +148,72 @@ function normalizeLatexForKaTeX(latex) {
         .replace(/\\right\s*/g, '');
 }
 
+function looksLikeInlineMath(segment) {
+    if (typeof segment !== 'string') {
+        return false;
+    }
+    if (/\\[A-Za-z]+/.test(segment)) {
+        return true;
+    }
+    if (/[A-Za-z0-9]\s*(?:[=+*/^])\s*[A-Za-z0-9]/.test(segment)) {
+        return true;
+    }
+    if (/[A-Za-z0-9]\s*(?:≥|≤|>|<)\s*[A-Za-z0-9]/.test(segment)) {
+        return true;
+    }
+    if (/[A-Za-z0-9]\s*-\s*[A-Za-z0-9]/.test(segment) && /\d/.test(segment)) {
+        return true;
+    }
+    return false;
+}
+
+function wrapPlainMathSegments(source) {
+    if (typeof source !== 'string' || source.length === 0) {
+        return source;
+    }
+
+    const isMathChar = (ch) => /[A-Za-z0-9+\-*/=^_()[\]{}\\\s<>≤≥,.:]/.test(ch);
+
+    let result = '';
+    let cursor = 0;
+
+    while (cursor < source.length) {
+        if (source[cursor] === '\\' && source[cursor + 1] === '(') {
+            const closeIndex = source.indexOf('\\)', cursor + 2);
+            if (closeIndex === -1) {
+                result += source.slice(cursor);
+                break;
+            }
+            result += source.slice(cursor, closeIndex + 2);
+            cursor = closeIndex + 2;
+            continue;
+        }
+
+        const char = source[cursor];
+        if (isMathChar(char)) {
+            const start = cursor;
+            while (cursor < source.length && isMathChar(source[cursor])) {
+                cursor += 1;
+            }
+            const segment = source.slice(start, cursor);
+            const leading = segment.match(/^\s*/)[0];
+            const trailing = segment.match(/\s*$/)[0];
+            const trimmed = segment.slice(leading.length, segment.length - trailing.length);
+            if (trimmed.length > 0 && looksLikeInlineMath(trimmed)) {
+                result += `${leading}\\(${trimmed}\\)${trailing}`;
+            } else {
+                result += segment;
+            }
+            continue;
+        }
+
+        result += char;
+        cursor += 1;
+    }
+
+    return result;
+}
+
 function smartWrapLatex(input) {
     if (typeof input !== 'string' || input.length === 0) {
         return input;
@@ -159,7 +225,7 @@ function smartWrapLatex(input) {
         return `@@M${slots.length - 1}@@`;
     });
 
-    const MACRO_PATTERN = /\\(?:frac|sqrt|text|pi|times|cdot|le|ge|lt|gt|neq|approx|sin|cos|tan|log|ln|pm|mp|theta|alpha|beta|gamma)\b/y;
+    const MACRO_PATTERN = /\\[A-Za-z]+/y;
 
     const grabBraces = (source, start) => {
         if (source[start] !== '{') {
@@ -222,7 +288,8 @@ function smartWrapLatex(input) {
     // no more than \text{P500}, spent \text{P120}
     // /frac{3}{4}, ^rac{2}{3}, ↑rac{1}{2}
 
-    return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
+    const wrappedPlain = wrapPlainMathSegments(result);
+    return wrappedPlain.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }
 
 function escapeHtml(value) {
