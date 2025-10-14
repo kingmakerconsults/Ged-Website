@@ -18,6 +18,12 @@ test('normalizeCurrencyOutsideMath fixes common currency defects', () => {
     assert.equal(normalizeCurrencyOutsideMath(input), expected);
 });
 
+test('normalizeCurrencyOutsideMath removes escaped dollar signs for currency', () => {
+    const input = 'The tickets cost \\$15, \\$20, and even \\$35.50 each.';
+    const expected = 'The tickets cost $15, $20, and even $35.50 each.';
+    assert.equal(normalizeCurrencyOutsideMath(input), expected);
+});
+
 test('normalizeLatexMacrosInMath collapses duplicated macro prefixes', () => {
     const input = String.raw`\\frac{1}{2} + \\sqrt{x} + \\sin(\\theta)`;
     const expected = String.raw`\frac{1}{2} + \sqrt{x} + \sin(\theta)`;
