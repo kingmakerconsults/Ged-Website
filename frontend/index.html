@@ -79,6 +79,11 @@
         });
 
         async function previewBypass() {
+            const password = typeof window !== 'undefined' ? window.prompt('Enter preview password') : null;
+            if (!password) {
+                return false;
+            }
+
             const isLocalhost = typeof window !== 'undefined' && ['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname);
             const origin = isLocalhost ? 'http://localhost:3001' : 'https://ged-website.onrender.com';
             try {
@@ -86,7 +91,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify({ password: 'Kingmaker123' })
+                    body: JSON.stringify({ password })
                 });
                 if (!response.ok) {
                     throw new Error(`Preview bypass failed with status ${response.status}`);
