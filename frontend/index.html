@@ -707,11 +707,11 @@ function neutralizeUnpairedDollarSigns(text) {
     }
 
     if (!(tokenizeMathSegments && restoreMathSegments)) {
-        return text.replace(/(?<!\)\$(?!\d)/g, '&#36;');
+        return text.replace(/(^|[^\\])\$(?!\d)/g, (_, prefix) => `${prefix}&#36;`);
     }
 
     const { masked, segments } = tokenizeMathSegments(text);
-    const working = masked.replace(/(?<!\)\$(?!\d)/g, '&#36;');
+    const working = masked.replace(/(^|[^\\])\$(?!\d)/g, (_, prefix) => `${prefix}&#36;`);
     return restoreMathSegments(working, segments);
 }
 
@@ -721,13 +721,13 @@ function escapeCurrencyDollarsMathSafe(input) {
     if (!(tokenizeMathSegments && restoreMathSegments)) {
         let fallback = input.replace(/\\$(\s*\d[\d.,]*)/g, '&#36;$1');
         fallback = fallback.replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '&#36;$1');
-        return fallback.replace(/(?<!&)\$(?!\d)/g, '&#36;');
+        return fallback.replace(/(^|[^&])\$(?!\d)/g, (_, prefix) => `${prefix}&#36;`);
     }
 
     const { masked, segments } = tokenizeMathSegments(input);
     let working = masked.replace(/\\$(\s*\d[\d.,]*)/g, '&#36;$1');
     working = working.replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '&#36;$1');
-    working = working.replace(/(?<!&)\$(?!\d)/g, '&#36;');
+    working = working.replace(/(^|[^&])\$(?!\d)/g, (_, prefix) => `${prefix}&#36;`);
     return restoreMathSegments(working, segments);
 }
 
@@ -735,11 +735,11 @@ function stripBackslashesOutsideMath(input) {
     if (typeof input !== 'string') return input;
 
     if (!(tokenizeMathSegments && restoreMathSegments)) {
-        return input.replace(/\(?=\d|\$)/g, '');
+        return input.replace(/\\(?=\d|\$)/g, '');
     }
 
     const { masked, segments } = tokenizeMathSegments(input);
-    const cleaned = masked.replace(/\(?=\d|\$)/g, '');
+    const cleaned = masked.replace(/\\(?=\d|\$)/g, '');
     return restoreMathSegments(cleaned, segments);
 }
 
@@ -4111,7 +4111,7 @@ function runMathPipelineDiagnostics() {
 
         const issues = [];
 
-        if (textSegments.some(seg => /(?<!\\)\$(?!\$)/.test(seg.value))) {
+        if (textSegments.some(seg => /(^|[^\\])\$(?!\$)/.test(seg.value))) {
             issues.push('loneDollarSign');
         }
 
