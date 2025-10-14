@@ -92,7 +92,7 @@
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
 
-const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs } = window.TextSanitizer || {};
+const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath } = window.TextSanitizer || {};
 
 const ALLOWED_HTML_TAGS = [
     'a','b','strong','i','em','u','s','span','p','br','ul','ol','li','table','thead','tbody','tfoot','tr','th','td','caption',
@@ -592,13 +592,26 @@ function MathText({ text, className, itemIndex }) {
 
     useEffect(() => {
         if (containerRef.current && typeof text === 'string') {
-            const preparedText = preprocessRawContent(text, { normalizeSpacing: true });
+            const rawInput = text;
+            const guardedInput = typeof normalizeLatexMacrosInMath === 'function'
+                ? rawInput.replace(/\$(.+?)\$/g, (_, m) => `$${normalizeLatexMacrosInMath(m)}$`)
+                : rawInput;
+            const preparedText = preprocessRawContent(guardedInput, { normalizeSpacing: true });
             const segments = extractMathSegments(preparedText);
             const renderedHtml = segments.map(segment => {
                 if (segment.type === 'math') {
+                    if (segment.raw && /^\$(\s*\d+(?:[.,]\d{1,2}))\$$/.test(segment.raw)) {
+                        const amount = segment.raw.replace(/^\$(\s*\d+(?:[.,]\d{1,2}))\$$/, '$1').trim();
+                        return sanitizeHtmlContent(`$${amount}`, { skipPreprocess: true });
+                    }
                     try {
-                        const toRender = (normalizeLatexMacrosInMath ? normalizeLatexMacrosInMath(segment.value) : segment.value)
-                            .replace(/&nbsp;/g, ' ');
+                        const baseMath = typeof addMissingBackslashesInMath === 'function'
+                            ? addMissingBackslashesInMath(segment.value)
+                            : segment.value;
+                        const normalizedMath = typeof normalizeLatexMacrosInMath === 'function'
+                            ? normalizeLatexMacrosInMath(baseMath)
+                            : baseMath;
+                        const toRender = normalizedMath.replace(/&nbsp;/g, ' ');
                         return katex.renderToString(toRender, {
                             throwOnError: false,
                             displayMode: segment.displayMode
@@ -2498,15 +2511,31 @@ function ProgressDashboard({ progress, onSubjectClick }) {
 const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon, ChartBarIcon, VariableIcon, ShapesIcon };
 
 function FormulaSheetModal({ onClose }) {
-    const Formula = ({ title, formula, description }) => (
-        <div className="mb-4">
-            <h4 className="font-bold text-md text-slate-700">{title}</h4>
-            <div className="p-2 bg-slate-200 rounded text-center my-1 text-lg">
-                <span dangerouslySetInnerHTML={{ __html: katex.renderToString(formula) }}></span>
+    const Formula = ({ title, formula, description }) => {
+        const sanitizedFormula = typeof formula === 'string'
+            ? (() => {
+                let working = formula;
+                if (typeof addMissingBackslashesInMath === 'function') {
+                    working = addMissingBackslashesInMath(working);
+                }
+                if (typeof normalizeLatexMacrosInMath === 'function') {
+                    working = normalizeLatexMacrosInMath(working);
+                }
+                return working;
+            })()
+            : formula;
+        const html = katex.renderToString(sanitizedFormula, { throwOnError: false, strict: 'ignore' });
+
+        return (
+            <div className="mb-4">
+                <h4 className="font-bold text-md text-slate-700">{title}</h4>
+                <div className="p-2 bg-slate-200 rounded text-center my-1 text-lg">
+                    <span dangerouslySetInnerHTML={{ __html: html }}></span>
+                </div>
+                {description && <p className="text-sm text-slate-500">{description}</p>}
             </div>
-            {description && <p className="text-sm text-slate-500">{description}</p>}
-        </div>
-    );
+        );
+    };
 
     return (
         <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
