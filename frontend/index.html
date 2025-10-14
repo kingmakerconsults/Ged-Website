@@ -701,17 +701,40 @@ function decodeHtmlEntities(value) {
     return ENTITY_DECODER.value;
 }
 
+function encodeStandaloneDollarSigns(text, disallowAmpersandPrefix = false) {
+    if (typeof text !== 'string' || text.indexOf('$') === -1) {
+        return text;
+    }
+
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (char === '$') {
+            const prev = i === 0 ? '' : text[i - 1];
+            const next = i + 1 < text.length ? text[i + 1] : '';
+            const nextIsDigit = next >= '0' && next <= '9';
+            if (prev !== '\\' && (!disallowAmpersandPrefix || prev !== '&') && !nextIsDigit) {
+                result += '&#36;';
+                continue;
+            }
+        }
+        result += char;
+    }
+
+    return result;
+}
+
 function neutralizeUnpairedDollarSigns(text) {
     if (typeof text !== 'string' || text.indexOf('$') === -1) {
         return text;
     }
 
     if (!(tokenizeMathSegments && restoreMathSegments)) {
-        return text.replace(/(^|[^\\])\$(?!\d)/g, (_, prefix) => `${prefix}&#36;`);
+        return encodeStandaloneDollarSigns(text);
     }
 
     const { masked, segments } = tokenizeMathSegments(text);
-    const working = masked.replace(/(^|[^\\])\$(?!\d)/g, (_, prefix) => `${prefix}&#36;`);
+    const working = encodeStandaloneDollarSigns(masked);
     return restoreMathSegments(working, segments);
 }
 
@@ -721,13 +744,13 @@ function escapeCurrencyDollarsMathSafe(input) {
     if (!(tokenizeMathSegments && restoreMathSegments)) {
         let fallback = input.replace(/\\$(\s*\d[\d.,]*)/g, '&#36;$1');
         fallback = fallback.replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '&#36;$1');
-        return fallback.replace(/(^|[^&])\$(?!\d)/g, (_, prefix) => `${prefix}&#36;`);
+        return encodeStandaloneDollarSigns(fallback, true);
     }
 
     const { masked, segments } = tokenizeMathSegments(input);
     let working = masked.replace(/\\$(\s*\d[\d.,]*)/g, '&#36;$1');
     working = working.replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '&#36;$1');
-    working = working.replace(/(^|[^&])\$(?!\d)/g, (_, prefix) => `${prefix}&#36;`);
+    working = encodeStandaloneDollarSigns(working, true);
     return restoreMathSegments(working, segments);
 }
 
@@ -735,11 +758,11 @@ function stripBackslashesOutsideMath(input) {
     if (typeof input !== 'string') return input;
 
     if (!(tokenizeMathSegments && restoreMathSegments)) {
-        return input.replace(/\\(?=\d|\$)/g, '');
+        return input.replace(/\(?=\d|\$)/g, '');
     }
 
     const { masked, segments } = tokenizeMathSegments(input);
-    const cleaned = masked.replace(/\\(?=\d|\$)/g, '');
+    const cleaned = masked.replace(/\(?=\d|\$)/g, '');
     return restoreMathSegments(cleaned, segments);
 }
 
