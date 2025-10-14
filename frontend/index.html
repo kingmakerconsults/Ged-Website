@@ -142,7 +142,55 @@ function autoWrapLatex(text) {
     if (typeof text !== 'string' || text.length === 0) {
         return text;
     }
-    return text.replace(/(?<!\\\()((?:\\[A-Za-z]+|[_^]|[0-9+\-*/=<>]|\\\{|\\\}|[()])+)(?!\\\))/g, '\\($1\\)');
+
+    const mathToken = '(?:\\\\[A-Za-z]+|\\d+(?:\\.\\d+)?|[A-Za-z](?:_{[^{}]+}|_[A-Za-z0-9]+)?|[+\\-*/=<>^]|[(){}\\[\\]]|[,.;]|\\\\text\\{[^{}]*\\})';
+    const mathSequence = new RegExp(`(?<!\\\\\()((?:${mathToken})(?:\\s*(?:${mathToken}))*)(?!\\\\\))`, 'g');
+
+    return text.replace(mathSequence, (match, core) => {
+        const trimmed = core.trim();
+        if (!trimmed) {
+            return match;
+        }
+
+        const hasMacro = /\\\\[A-Za-z]+/.test(trimmed);
+        const hasOperator = /[+\-*/=<>^]/.test(trimmed);
+        const hasDigit = /\d/.test(trimmed);
+        const hasParen = /[(){}\[\]]/.test(trimmed);
+        const hasUnderscore = /_/.test(trimmed);
+        const hasCaret = /\^/.test(trimmed);
+        const hasLongWord = /(?<!\\)[A-Za-z]{3,}/.test(trimmed);
+
+        if (/^\\\([\s\S]*\\\)$/.test(trimmed)) {
+            return match;
+        }
+
+        const shouldWrap = (
+            hasMacro ||
+            hasOperator ||
+            hasUnderscore ||
+            hasCaret ||
+            (hasDigit && /[A-Za-z]/.test(trimmed)) ||
+            (hasDigit && hasOperator) ||
+            (hasParen && (hasOperator || hasDigit || hasMacro || !hasLongWord))
+        );
+
+        if (!shouldWrap) {
+            return match;
+        }
+
+        if (/^[A-Za-z]$/.test(trimmed) && !hasMacro) {
+            return match;
+        }
+
+        if (hasLongWord && !(hasMacro || hasOperator || hasDigit || hasUnderscore || hasCaret)) {
+            return match;
+        }
+
+        const leading = core.match(/^\s*/)?.[0] ?? '';
+        const trailing = core.match(/\s*$/)?.[0] ?? '';
+
+        return `${leading}\\(${trimmed}\\)${trailing}`;
+    });
 }
 
 function normalizeLatexForKaTeX(latex) {
