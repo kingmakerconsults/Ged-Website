@@ -25,6 +25,7 @@ const {
     DEFAULT_MAX_DECIMALS
 } = require('./utils/geometryJson');
 const TextSanitizer = require('./textSanitizer');
+const { normalizeLatex } = require('./utils/normalizeLatex');
 const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
 const { adminPreviewBypass } = require('./src/middleware/adminBypass');
 const { sanitizeExamObject, sanitizeField } = require('./src/lib/sanitizeExamText');
@@ -156,46 +157,6 @@ Rules:
 - LaTeX macros allowed (\\frac, \\sqrt, \\pi, ^, _) but NO math delimiters ($, $$, \\(, \\[).
 - Replace currency symbols with words (e.g., "\\$50" → "50 dollars").
 - No HTML or markdown in questionText/rationales.`;
-
-function normalizeLatex(text) {
-    if (typeof text !== 'string' || !text.length) {
-        return text;
-    }
-
-    let normalized = text;
-
-    normalized = normalized
-        .replace(/\$\$([\s\S]*?)\$\$/g, '$1')
-        .replace(/\$([^$]*?)\$/g, '$1')
-        .replace(/\\\(([^]*?)\\\)/g, '$1')
-        .replace(/\\\[([^]*?)\\\]/g, '$1');
-
-    normalized = normalized.replace(/\\dfrac/g, '\\frac');
-
-    normalized = normalized
-        // repair /frac, ^rac, ↑rac, stray spaces before 'rac'
-        .replace(/(?:\\|\/|[\u2191\^])\s*rac\s*\{/g, '\\frac{')
-        .replace(/(?<![A-Za-z])rac\s*\{/g, '\\frac{')
-        .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
-        .replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
-
-    normalized = normalized.replace(/<\/?(?:table|thead|tbody|tfoot|tr|th|td|caption|colgroup|col)[^>]*>/gi, ' ');
-    normalized = normalized.replace(/<[^>]+>/g, ' ');
-
-    normalized = normalized.replace(/\$(\s*\d+(?:[.,]\d{1,2})?)/g, (_m, amount) => `${amount.trim()} dollars`);
-
-    normalized = normalized.replace(/(?<!\\)\*/g, '\\*');
-
-    normalized = normalized.replace(/(?<!\\)_/g, (match, offset, source) => {
-        const prev = offset > 0 ? source[offset - 1] : '';
-        if (/^[A-Za-z0-9)]$/.test(prev)) {
-            return match;
-        }
-        return '\\_';
-    });
-
-    return normalized.replace(/\s{2,}/g, ' ').trim();
-}
 
 function sanitizeTextKeepLatex(value) {
     if (typeof value !== 'string') {
@@ -1937,7 +1898,13 @@ const generateAIContent = async (prompt, schema) => {
 
 
 // The '0.0.0.0' is important for containerized environments like Render.
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Your service is live 🚀`);
-  console.log(`Server listening on port ${port}`);
-});
+if (require.main === module) {
+    app.listen(port, '0.0.0.0', () => {
+        console.log(`Your service is live 🚀`);
+        console.log(`Server listening on port ${port}`);
+    });
+}
+
+module.exports = {
+    normalizeLatex
+};
