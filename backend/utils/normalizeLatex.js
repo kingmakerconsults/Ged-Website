@@ -13,6 +13,11 @@ function normalizeLatex(text) {
         .replace(/\\\(([^]*?)\\\)/g, '$1')
         .replace(/\\\[([^]*?)\\\]/g, '$1');
 
+    // unwrap accidentally math-wrapped currency, e.g. "$12.50$" -> "$12.50"
+    normalized = normalized.replace(/\$(\s*\d+(?:[.,]\d{1,2}))\$/g, (_m, amount) => `$${amount.trim()}`);
+    // close-up whitespace after literal $, e.g. "$   12" -> "$12"
+    normalized = normalized.replace(/\$\s+(\d)/g, '$$1');
+
     normalized = normalized.replace(/\\dfrac/g, '\\frac');
 
     normalized = normalized
