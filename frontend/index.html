@@ -8,6 +8,9 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="textSanitizer.js"></script>
+    <script src="lib/normalizeProse.js"></script>
+    <script src="lib/mathSanitizer.js"></script>
+    <script src="lib/sanitizeExamText.js"></script>
     <script>
       // Safe, cross-browser math fixer that ONLY edits text inside math delimiters.
       // Supports $...$, $$...$$, \(...\), \[...\]
@@ -87,6 +90,24 @@
         .prose ::selection { background-color: #fef9c3; }
         .prose { max-width: 65ch; margin: auto; }
         .prose p { margin-bottom: 1em; }
+        .exam-root, .exam-body, .passage, .question-stem, .choice-text, .explanation, .rubric {
+            word-break: normal;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            white-space: normal;
+            line-height: 1.5;
+            text-align: left;
+            max-width: 75ch;
+        }
+
+        .break-all, [data-break="all"] {
+            word-break: normal !important;
+            overflow-wrap: break-word !important;
+        }
+
+        .math, code, pre, kbd, samp, .token {
+            overflow-wrap: anywhere;
+        }
         #pong-canvas { background-color: #1a202c; border-radius: 0.5rem; border: 2px solid #4a5568; }
         .option.correct { background-color: #dcfce7; border-color: #22c55e; }
         .option.incorrect { background-color: #fee2e2; border-color: #ef4444; position: relative; }
@@ -110,7 +131,7 @@
         }
         .question-stem {
             white-space: normal;
-            overflow-wrap: anywhere;
+            overflow-wrap: break-word;
             word-break: normal;
         }
         .question-stem table {
@@ -2465,10 +2486,14 @@ function App() {
         }
         return list
             .filter(item => item && typeof item === 'object')
-            .map(item => ({
-                ...item,
-                answerOptions: shuffleArray(Array.isArray(item.answerOptions) ? item.answerOptions : [])
-            }));
+            .map(item => {
+                const sanitizer = window.SanitizeExamText;
+                const sanitizedItem = sanitizer ? sanitizer.sanitizeExamObject(item, 'latex') : item;
+                return {
+                    ...sanitizedItem,
+                    answerOptions: shuffleArray(Array.isArray(sanitizedItem.answerOptions) ? sanitizedItem.answerOptions : [])
+                };
+            });
     };
 
     const startQuiz = (quizPayload, subject) => {
@@ -2480,18 +2505,21 @@ function App() {
             return;
         }
 
-        if (quizPayload.type === 'essay') {
-            setActiveQuiz({ ...quizPayload, subject });
+        const sanitizer = window.SanitizeExamText;
+        const sanitizedPayload = sanitizer ? sanitizer.sanitizeExamObject(quizPayload, 'latex') : quizPayload;
+
+        if (sanitizedPayload.type === 'essay') {
+            setActiveQuiz({ ...sanitizedPayload, subject });
             setView('essay');
             return;
         }
 
-        const sanitizedQuiz = { ...quizPayload, subject };
-        let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
+        const sanitizedQuiz = { ...sanitizedPayload, subject };
+        let normalizedQuestions = normalizeQuestionList(sanitizedPayload.questions);
 
-        if (quizPayload.type === 'multi-part-math') {
-            let part1 = normalizeQuestionList(quizPayload.part1_non_calculator);
-            let part2 = normalizeQuestionList(quizPayload.part2_calculator);
+        if (sanitizedPayload.type === 'multi-part-math') {
+            let part1 = normalizeQuestionList(sanitizedPayload.part1_non_calculator);
+            let part2 = normalizeQuestionList(sanitizedPayload.part2_calculator);
 
             if (!part1.length && normalizedQuestions.length) {
                 part1 = normalizedQuestions.slice(0, 5);
@@ -2501,7 +2529,7 @@ function App() {
             }
 
             if (!part1.length || !part2.length) {
-                console.error('Incomplete multi-part math payload received:', quizPayload);
+                console.error('Incomplete multi-part math payload received:', sanitizedPayload);
                 alert('The generated math exam was incomplete. Please try again.');
                 return;
             }
@@ -2509,15 +2537,15 @@ function App() {
             sanitizedQuiz.part1_non_calculator = part1;
             sanitizedQuiz.part2_calculator = part2;
             normalizedQuestions = [...part1, ...part2];
-        } else if (quizPayload.type === 'multi-part-rla') {
-            const part1 = normalizeQuestionList(quizPayload.part1_reading);
-            const part3 = normalizeQuestionList(quizPayload.part3_language);
-            const essay = quizPayload.part2_essay;
+        } else if (sanitizedPayload.type === 'multi-part-rla') {
+            const part1 = normalizeQuestionList(sanitizedPayload.part1_reading);
+            const part3 = normalizeQuestionList(sanitizedPayload.part3_language);
+            const essay = sanitizedPayload.part2_essay;
 
             const hasEssayContent = essay && typeof essay === 'object' && Array.isArray(essay.passages) && essay.passages.length >= 2 && typeof essay.prompt === 'string';
 
             if (!part1.length || !part3.length || !hasEssayContent) {
-                console.error('Incomplete multi-part RLA payload received:', quizPayload);
+                console.error('Incomplete multi-part RLA payload received:', sanitizedPayload);
                 alert('The generated RLA exam was incomplete. Please try again.');
                 return;
             }
@@ -2529,7 +2557,7 @@ function App() {
         }
 
         if (!normalizedQuestions.length) {
-            console.error('Quiz payload did not include any valid questions:', quizPayload);
+            console.error('Quiz payload did not include any valid questions:', sanitizedPayload);
             alert('The generated quiz did not include any questions. Please try again.');
             return;
         }
@@ -2709,6 +2737,70 @@ function App() {
 
 // --- VIEWS & COMPONENTS ---
 
+function AdminBypassForm() {
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await fetch('https://ged-website.onrender.com/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ password })
+            });
+
+            if (!response.ok) {
+                let message = 'Login failed';
+                try {
+                    const body = await response.json();
+                    if (body && body.error) message = body.error;
+                } catch (err) {
+                    // ignore
+                }
+                throw new Error(message);
+            }
+
+            window.location.reload();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Login failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto p-4 border rounded-lg shadow-sm bg-white">
+            <label className="text-sm font-medium text-slate-700" htmlFor="admin-bypass-password">
+                Preview Password
+            </label>
+            <input
+                id="admin-bypass-password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                placeholder="Enter password"
+                disabled={loading}
+            />
+            {error && <p className="text-sm text-red-600">{error}</p>}
+            <button
+                type="submit"
+                disabled={loading || !password}
+                className="bg-sky-600 text-white font-semibold py-2 px-4 rounded hover:bg-sky-700 disabled:opacity-60"
+            >
+                {loading ? 'Signing in…' : 'Sign in'}
+            </button>
+        </form>
+    );
+}
+
 function AuthScreen({ onLogin }) {
     const googleButton = useRef(null);
 
@@ -2764,11 +2856,18 @@ function AuthScreen({ onLogin }) {
         };
     }, [handleCredentialResponse]);
 
+    const showAdminBypass = typeof window !== 'undefined' && ['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname);
+
     return (
         <div className="text-center max-w-md mx-auto">
             <h2 className="text-3xl font-extrabold text-slate-800 mb-2">Welcome!</h2>
             <p className="text-slate-500 mb-6">Please sign in with Google to continue.</p>
             <div ref={googleButton} className="flex justify-center"></div>
+            {showAdminBypass && (
+                <div className="mt-8">
+                    <AdminBypassForm />
+                </div>
+            )}
         </div>
     );
 }
