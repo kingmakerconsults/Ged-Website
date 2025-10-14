@@ -1147,6 +1147,55 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
         .replace(/>/g, '&gt;');
 }
 
+function clientSanitizeQuiz(quiz) {
+    const clone = JSON.parse(JSON.stringify(quiz || {}));
+    const mathFixer = (window.TextSanitizer && typeof window.TextSanitizer.fixAllMathInText === 'function')
+        ? window.TextSanitizer.fixAllMathInText
+        : (value) => value;
+
+    clone.questions?.forEach(question => {
+        if (!question || typeof question !== 'object') {
+            return;
+        }
+
+        if (question.questionText) {
+            question.questionText = sanitizeHtmlContent(mathFixer(question.questionText), { normalizeSpacing: true });
+        }
+        if (question.question) {
+            question.question = sanitizeHtmlContent(mathFixer(question.question), { normalizeSpacing: true });
+        }
+        if (question.passage) {
+            question.passage = sanitizeHtmlContent(mathFixer(question.passage), { normalizeSpacing: true });
+        }
+        if (question.content && typeof question.content === 'object') {
+            if (question.content.questionText) {
+                question.content.questionText = sanitizeHtmlContent(mathFixer(question.content.questionText), { normalizeSpacing: true });
+            }
+            if (question.content.passage) {
+                question.content.passage = sanitizeHtmlContent(mathFixer(question.content.passage), { normalizeSpacing: true });
+            }
+        }
+        if (Array.isArray(question.answerOptions)) {
+            question.answerOptions.forEach(option => {
+                if (!option || typeof option !== 'object') {
+                    return;
+                }
+                if (option.text) {
+                    option.text = sanitizeHtmlContent(mathFixer(option.text), { normalizeSpacing: true });
+                }
+                if (option.rationale) {
+                    option.rationale = sanitizeHtmlContent(mathFixer(option.rationale), { normalizeSpacing: true });
+                }
+            });
+        }
+        if (question.explanation) {
+            question.explanation = sanitizeHtmlContent(mathFixer(question.explanation));
+        }
+    });
+
+    return clone;
+}
+
 function cleanRepeatedText(text) {
     if (!text || typeof text !== 'string') return text;
     const half = Math.floor(text.length / 2);
@@ -2907,16 +2956,23 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
+const SUBJECT_VERSION_MAP = {
+    Math: ['v1', 'v2']
+};
+
 function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
+    const [selectedVersion, setSelectedVersion] = useState('v1');
 
     const handleSelectSubject = (subject) => {
         setSelectedSubject(subject);
         setSelectedCategory(null);
         setAiQuizTopic('');
+        const versions = SUBJECT_VERSION_MAP[subject] || ['v1'];
+        setSelectedVersion(versions[0]);
     };
 
     const handleSelectCategory = (category) => {
@@ -2928,6 +2984,59 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
             setSelectedCategory(null);
         } else if (selectedSubject) {
             setSelectedSubject(null);
+        }
+    };
+
+    const handleStartPremadeQuiz = async (topic, subject) => {
+        const token = localStorage.getItem('appToken');
+        const countFromQuestions = Array.isArray(topic?.questions) && topic.questions.length ? topic.questions.length : null;
+        const countFromConfigParts = Array.isArray(topic?.config?.parts)
+            ? topic.config.parts.reduce((sum, part) => sum + (Number(part?.questionCount) || 0), 0)
+            : null;
+        const fallbackCount = Number(topic?.config?.questionCount);
+        const desiredCount = [countFromQuestions, countFromConfigParts, fallbackCount].find(value => Number.isFinite(value) && value > 0) || 15;
+
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+        }
+
+        try {
+            setLoadingMessage(`Loading ${subject} – Version ${selectedVersion.toUpperCase()}...`);
+            setIsLoading(true);
+            const response = await fetch('https://ged-website.onrender.com/api/premade', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({ subject, version: selectedVersion, count: desiredCount })
+            });
+
+            if (!response.ok) {
+                let errorMessage = `Request failed with status ${response.status}`;
+                try {
+                    const errBody = await response.json();
+                    if (errBody && errBody.error) {
+                        errorMessage = errBody.error;
+                    }
+                } catch (_) {
+                    // Ignore JSON parsing errors for error payloads
+                }
+                throw new Error(errorMessage);
+            }
+
+            const quiz = await response.json();
+            const sanitizedQuiz = clientSanitizeQuiz(quiz);
+
+            if (!Array.isArray(sanitizedQuiz.questions) || sanitizedQuiz.questions.length === 0) {
+                throw new Error('The premade quiz did not include any questions.');
+            }
+
+            onSelectQuiz(sanitizedQuiz, sanitizedQuiz.subject || subject);
+        } catch (error) {
+            console.error('Failed to load premade quiz:', error);
+            alert(`Failed to load premade quiz: ${error.message}`);
+        } finally {
+            setIsLoading(false);
+            setLoadingMessage('');
         }
     };
 
@@ -2960,19 +3069,42 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 
     // View 3: Topic Selection
     if (selectedSubject && selectedCategory) {
-        // This part remains the same
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
+        const versionsForSubject = SUBJECT_VERSION_MAP[selectedSubject] || ['v1'];
+        const disableVersionSelect = versionsForSubject.length <= 1;
         return (
             <div className="fade-in">
                 <Breadcrumb />
-                <h2 className="text-3xl font-extrabold text-slate-800 mb-4">{selectedCategory}</h2>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                    <h2 className="text-3xl font-extrabold text-slate-800">{selectedCategory}</h2>
+                    <div className="flex items-center gap-2">
+                        <label htmlFor="version-select" className="text-sm font-semibold text-slate-600">Version</label>
+                        <select
+                            id="version-select"
+                            value={selectedVersion}
+                            onChange={(e) => setSelectedVersion(e.target.value)}
+                            disabled={disableVersionSelect}
+                            className="px-3 py-2 border border-slate-300 rounded-md bg-white text-sm font-medium disabled:bg-slate-100 disabled:text-slate-400"
+                        >
+                            {versionsForSubject.map(version => (
+                                <option key={version} value={version}>{version.toUpperCase()}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {topics.map(topic => (
-                         <div key={topic.id} className="border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1">
+                        <div key={topic.id} className="border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1">
                             <h3 className="text-xl font-bold text-slate-800">{topic.title}</h3>
                             <p className="text-slate-500 text-sm my-2 flex-grow">{topic.description}</p>
                             <button
-                                onClick={() => onSelectQuiz(topic, selectedSubject)}
+                                onClick={() => {
+                                    if (topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool') {
+                                        onSelectQuiz(topic, selectedSubject);
+                                    } else {
+                                        handleStartPremadeQuiz(topic, selectedSubject);
+                                    }
+                                }}
                                 className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition"
                             >
                                 {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}

@@ -1744,22 +1744,107 @@ app.get('/api/quiz-attempts', authenticateToken, async (req, res) => {
 const { ALL_QUIZZES } = require('./premade-questions.js');
 
 // Helper function to get random questions from the premade data
-const getPremadeQuestions = (subject, count) => {
+const getPremadeQuestions = (subject, count, version = 'v1') => {
     const allQuestions = [];
-    if (ALL_QUIZZES[subject] && ALL_QUIZZES[subject].categories) {
-        Object.values(ALL_QUIZZES[subject].categories).forEach(category => {
-            if (category.topics) {
-                category.topics.forEach(topic => {
-                    if (topic.questions) {
-                        allQuestions.push(...topic.questions);
+    const subjectData = ALL_QUIZZES[subject];
+
+    const categories =
+        subjectData?.versions?.[version]?.categories ||
+        subjectData?.categories ||
+        null;
+
+    if (categories) {
+        Object.values(categories).forEach(category => {
+            category?.topics?.forEach(topic => {
+                topic?.questions?.forEach(q => {
+                    const cloned = JSON.parse(JSON.stringify(q));
+                    if (cloned && typeof cloned === 'object') {
+                        if (cloned.content && typeof cloned.content === 'object') {
+                            const { passage, imageURL, imageUrl, questionText } = cloned.content;
+                            if (typeof passage === 'string' && !cloned.passage) {
+                                cloned.passage = passage;
+                            }
+                            const derivedImage = imageURL || imageUrl;
+                            if (typeof derivedImage === 'string' && !cloned.imageUrl) {
+                                cloned.imageUrl = derivedImage;
+                            }
+                            if (typeof questionText === 'string' && !cloned.questionText) {
+                                cloned.questionText = questionText;
+                            }
+                        }
+                        if (typeof cloned.question === 'string' && !cloned.questionText) {
+                            cloned.questionText = cloned.question;
+                        }
+                        if (typeof cloned.questionText === 'string' && !cloned.question) {
+                            cloned.question = cloned.questionText;
+                        }
                     }
+                    allQuestions.push(cloned);
                 });
-            }
+            });
         });
     }
+
     const shuffled = allQuestions.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
+    const sliceCount = Number.isFinite(count) && count > 0 ? count : allQuestions.length;
+    return shuffled.slice(0, sliceCount);
 };
+
+function sanitizeMathString(s) {
+    if (typeof s !== 'string') return s;
+
+    let output = s.replace(/\\rac/g, '\\frac');
+    output = output.replace(/\$(\s+)/g, '$');
+    output = output.replace(/(\s+)\$/g, '$');
+    output = output.replace(/\$ *\$ *([0-9]+(\.[0-9]+)?)/g, '$1');
+
+    return output;
+}
+
+function sanitizeQuiz(quiz) {
+    const clone = JSON.parse(JSON.stringify(quiz));
+    clone.questions?.forEach(q => {
+        if (q.questionText) q.questionText = sanitizeMathString(q.questionText);
+        if (q.question) q.question = sanitizeMathString(q.question);
+        if (q.passage) q.passage = sanitizeMathString(q.passage);
+        if (q.content && typeof q.content === 'object') {
+            if (q.content.questionText) {
+                q.content.questionText = sanitizeMathString(q.content.questionText);
+            }
+            if (q.content.passage) {
+                q.content.passage = sanitizeMathString(q.content.passage);
+            }
+        }
+        if (Array.isArray(q.answerOptions)) {
+            q.answerOptions.forEach(option => {
+                if (option && typeof option === 'object') {
+                    if (option.text) option.text = sanitizeMathString(option.text);
+                    if (option.rationale) option.rationale = sanitizeMathString(option.rationale);
+                }
+            });
+        }
+        if (q.explanation) q.explanation = sanitizeMathString(q.explanation);
+    });
+    return clone;
+}
+
+app.post('/api/premade', express.json(), (req, res) => {
+    const { subject = 'Math', version = 'v1', count = 15 } = req.body || {};
+    try {
+        const questions = getPremadeQuestions(subject, count, version);
+        const quiz = {
+            id: `premade_${String(subject || '').toLowerCase()}_${version}_${Date.now()}`,
+            title: `${subject} – Version ${version.toUpperCase()}`,
+            subject,
+            type: 'quiz',
+            questions
+        };
+        res.json(sanitizeQuiz(quiz));
+    } catch (e) {
+        console.error('Premade fetch failed:', e);
+        res.status(500).json({ error: 'Failed to fetch premade quiz.' });
+    }
+});
 
 // Helper function to generate AI questions
 const generateAIContent = async (prompt, schema) => {
