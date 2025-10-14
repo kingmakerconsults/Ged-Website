@@ -47,6 +47,7 @@ function normalizeCurrencyOutsideMath(text) {
         return text;
     }
     let working = text;
+    working = working.replace(/\\+\$/g, '$');
     working = working.replace(/\$\$(?=\d)/g, '$');
     working = working.replace(/\$(\s*\d+(?:[.,]\d{1,2}))\$/g, (_, amount) => `$${amount.trim()}`);
     working = working.replace(/(\d+(?:[.,]\d{1,2}))\s*\$(?!\d)/g, (_, amount) => `$${amount}`);
