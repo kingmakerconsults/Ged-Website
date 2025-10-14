@@ -211,7 +211,7 @@ class ErrorBoundary extends React.Component {
     }
 }
 
-const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath, fixAllMathInText } = window.TextSanitizer || {};
+const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath, fixAllMathInText, collapseUnderscoredLatexMacros } = window.TextSanitizer || {};
 
 function applySafeMathFix(text) {
     if (typeof text !== 'string') {
@@ -220,14 +220,18 @@ function applySafeMathFix(text) {
     if (typeof fixAllMathInText === 'function') {
         return fixAllMathInText(text);
     }
+    let working = text;
+    if (typeof collapseUnderscoredLatexMacros === 'function') {
+        working = collapseUnderscoredLatexMacros(working);
+    }
     if (typeof addMissingBackslashesInMath === 'function') {
-        return addMissingBackslashesInMath(text);
+        return addMissingBackslashesInMath(working);
     }
     const legacy = (typeof window !== 'undefined' && window.TextSanitizer && window.TextSanitizer.addMissingBackslashesInMath);
     if (typeof legacy === 'function') {
-        return legacy(text);
+        return legacy(working);
     }
-    return text;
+    return working;
 }
 
 const ALLOWED_HTML_TAGS = [
@@ -252,6 +256,11 @@ function normalizeLatex(text) {
         .replace(/\\\(([^]*?)\\\)/g, '$1')
         .replace(/\\\[([^]*?)\\\]/g, '$1');
 
+    // unwrap accidentally math-wrapped currency, e.g. "$12.50$" -> "$12.50"
+    normalized = normalized.replace(/\$(\s*\d+(?:[.,]\d{1,2}))\$/g, (_m, amount) => `$${amount.trim()}`);
+    // close-up whitespace after literal $, e.g. "$   12" -> "$12"
+    normalized = normalized.replace(/\$\s+(\d)/g, '$$1');
+
     normalized = normalized.replace(/\\dfrac/g, '\\frac');
 
     normalized = normalized
@@ -260,15 +269,19 @@ function normalizeLatex(text) {
         .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
         .replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
 
-    normalized = normalized.replace(/\\[A-Za-z]+(?:\\_+\\[A-Za-z]+)+/g, (cmd) => {
-        const withoutPlaceholders = cmd.replace(/\\_/g, '');
-        return withoutPlaceholders.replace(/(?!^)\\(?=[A-Za-z])/g, '');
-    });
+    if (typeof collapseUnderscoredLatexMacros === 'function') {
+        normalized = collapseUnderscoredLatexMacros(normalized);
+    } else {
+        normalized = normalized.replace(/\\[A-Za-z]+(?:\\_+\\[A-Za-z]+)+/g, (cmd) => {
+            const withoutPlaceholders = cmd.replace(/\\_/g, '');
+            return withoutPlaceholders.replace(/(?!^)\\(?=[A-Za-z])/g, '');
+        });
 
-    normalized = normalized
-        .replace(/\\f(?:\\_+)?r(?:\\_+)?a(?:\\_+)?c/gi, '\\frac')
-        .replace(/\\s(?:\\_+)?q(?:\\_+)?r(?:\\_+)?t/gi, '\\sqrt')
-        .replace(/\\t(?:\\_+)?i(?:\\_+)?m(?:\\_+)?e(?:\\_+)?s/gi, '\\times');
+        normalized = normalized
+            .replace(/\\f(?:\\_+)?r(?:\\_+)?a(?:\\_+)?c/gi, '\\frac')
+            .replace(/\\s(?:\\_+)?q(?:\\_+)?r(?:\\_+)?t/gi, '\\sqrt')
+            .replace(/\\t(?:\\_+)?i(?:\\_+)?m(?:\\_+)?e(?:\\_+)?s/gi, '\\times');
+    }
 
     normalized = normalized.replace(/(?<![A-Za-z])rac\s*\{/g, '\\frac{');
 
@@ -416,8 +429,11 @@ function stripLeakedMathPlaceholders(text) {
 function renderStem(text) {
     text = stripLeakedMathPlaceholders(text);
     if (typeof text !== 'string') return '';
-    const normalized = normalizeLatex(text);
-    const rescued = applySafeMathFix(normalized);
+    const pass1 = normalizeLatex(text);
+    const pass2 = escapeCurrencyDollarsMathSafe(pass1);
+    const pass3 = neutralizeUnpairedDollarSigns(pass2);
+    const finalPlain = addSpacesAroundInlineMath(pass3);
+    const rescued = applySafeMathFix(finalPlain);
     const safeLatex = normalizeLatexForKaTeX(rescued);
     const wrapped = smartWrapLatex(safeLatex);
     if (typeof wrapped !== 'string' || wrapped.length === 0) {
