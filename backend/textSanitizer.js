@@ -47,6 +47,7 @@ function normalizeCurrencyOutsideMath(text) {
         return text;
     }
     let working = text;
+    working = working.replace(/\\+\$/g, '$');
     working = working.replace(/\$\$(?=\d)/g, '$');
     working = working.replace(/\$(\s*\d+(?:[.,]\d{1,2}))\$/g, (_, amount) => `$${amount.trim()}`);
     working = working.replace(/(\d+(?:[.,]\d{1,2}))\s*\$(?!\d)/g, (_, amount) => `$${amount}`);
@@ -94,14 +95,25 @@ function applyPhraseSpacingRepairs(text) {
 
 function collapseUnderscoredLatexMacros(s) {
     if (typeof s !== 'string') return s;
-    // Remove \_ placeholders between macro letters, e.g. \f\_\_\_\_r\_\_a\_\_c -> \frac
-    const squeezed = s.replace(/\\_(?:\\_)+/g, '\\_')
-        .replace(/\\_/g, '');
-    // Now fix common macros that may still be split by stray backslashes
-    return squeezed
-        .replace(/\\f(?:\\)?r(?:\\)?a(?:\\)?c/gi, '\\frac')
-        .replace(/\\s(?:\\)?q(?:\\)?r(?:\\)?t/gi, '\\sqrt')
-        .replace(/\\t(?:\\)?i(?:\\)?m(?:\\)?e(?:\\)?s/gi, '\\times');
+
+    // First, reduce double-escaped backslashes that sit directly in front of
+    // macro letters or the underscore placeholders that separate them. This
+    // allows a single code path to clean up both "\f\_r" and
+    // "\\f\\_r" style glitches.
+    let normalized = s.replace(/\\{2}(?=[A-Za-z_])/g, '\\');
+
+    // Next, repeatedly strip "\_" runs that appear immediately after a
+    // macro letter. Some generated strings contain long stretches like
+    // "\f\_\_\_\_r" where each pair has to be removed one at a time.
+    let previous;
+    do {
+        previous = normalized;
+        normalized = normalized.replace(/([A-Za-z])\\_/g, '$1');
+    } while (normalized !== previous);
+
+    // Finally, collapse residual sequences such as "\s\q\r\t" into
+    // "\sqrt" by removing stray backslashes between adjacent letters.
+    return normalized.replace(/\\([A-Za-z])(?:\\([A-Za-z]))+/g, (match) => `\\${match.replace(/\\/g, '')}`);
 }
 
 function normalizeLatexMacrosInMath(s) {
