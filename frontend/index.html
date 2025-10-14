@@ -116,9 +116,11 @@ function normalizeLatex(text) {
 
     normalized = normalized.replace(/\\dfrac/g, '\\frac');
 
-    normalized = normalized.replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}');
-
-    normalized = normalized.replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
+    normalized = normalized
+        // repair /frac, ^rac, ↑rac, stray spaces before 'rac'
+        .replace(/(?:\\|\/|[\u2191\^])\s*rac\s*\{/g, '\\frac{')
+        .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
+        .replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
 
     normalized = normalized.replace(/<\/?(?:table|thead|tbody|tfoot|tr|th|td|caption|colgroup|col)[^>]*>/gi, ' ');
     normalized = normalized.replace(/<[^>]+>/g, ' ');
@@ -138,19 +140,89 @@ function normalizeLatex(text) {
     return normalized.replace(/\s{2,}/g, ' ').trim();
 }
 
-function autoWrapLatex(text) {
-    if (typeof text !== 'string' || text.length === 0) {
-        return text;
-    }
-    return text.replace(/(?<!\\\()((?:\\[A-Za-z]+|[_^]|[0-9+\-*/=<>]|\\\{|\\\}|[()])+)(?!\\\))/g, '\\($1\\)');
-}
-
 function normalizeLatexForKaTeX(latex) {
     if (typeof latex !== 'string') return latex;
     return latex
         .replace(/\\\\([A-Za-z]+)/g, '\\$1')
         .replace(/\\left\s*/g, '')
         .replace(/\\right\s*/g, '');
+}
+
+function smartWrapLatex(input) {
+    if (typeof input !== 'string' || input.length === 0) {
+        return input;
+    }
+
+    const slots = [];
+    const masked = input.replace(/\\\([^\)]*\\\)|\$[^$]+\$/g, (match) => {
+        slots.push(match);
+        return `@@M${slots.length - 1}@@`;
+    });
+
+    const MACRO_PATTERN = /\\(?:frac|sqrt|text|pi|times|cdot|le|ge|lt|gt|neq|approx|sin|cos|tan|log|ln|pm|mp|theta|alpha|beta|gamma)\b/y;
+
+    const grabBraces = (source, start) => {
+        if (source[start] !== '{') {
+            return 0;
+        }
+        let depth = 0;
+        let index = start;
+        while (index < source.length) {
+            const ch = source[index++];
+            if (ch === '{') {
+                depth += 1;
+            } else if (ch === '}') {
+                depth -= 1;
+                if (depth === 0) {
+                    return index - start;
+                }
+            }
+        }
+        return 0;
+    };
+
+    let result = '';
+    let cursor = 0;
+
+    while (cursor < masked.length) {
+        const char = masked[cursor];
+        if (char === '\\') {
+            MACRO_PATTERN.lastIndex = cursor;
+            const match = MACRO_PATTERN.exec(masked);
+            if (match) {
+                let end = MACRO_PATTERN.lastIndex;
+                if (match[0] === '\\frac') {
+                    const first = grabBraces(masked, end);
+                    if (first) {
+                        end += first;
+                        const second = grabBraces(masked, end);
+                        if (second) {
+                            end += second;
+                        }
+                    }
+                } else {
+                    const groupLen = grabBraces(masked, end);
+                    if (groupLen) {
+                        end += groupLen;
+                    }
+                }
+                const segment = masked.slice(cursor, end);
+                result += `\\(${segment}\\)`;
+                cursor = end;
+                continue;
+            }
+        }
+        result += char;
+        cursor += 1;
+    }
+
+    // Sanity cases:
+    // equation \frac{x}{4} = \frac{15}{20}?
+    // 1\frac{1}{2} cups
+    // no more than \text{P500}, spent \text{P120}
+    // /frac{3}{4}, ^rac{2}{3}, ↑rac{1}{2}
+
+    return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }
 
 function escapeHtml(value) {
@@ -166,8 +238,11 @@ function escapeHtml(value) {
 function renderStem(text) {
     if (typeof text !== 'string') return '';
     const normalized = normalizeLatex(text);
-    const safeLatex = normalizeLatexForKaTeX(normalized);
-    const wrapped = autoWrapLatex(safeLatex);
+    const rescued = (typeof addMissingBackslashesInMath === 'function')
+        ? addMissingBackslashesInMath(normalized)
+        : normalized;
+    const safeLatex = normalizeLatexForKaTeX(rescued);
+    const wrapped = smartWrapLatex(safeLatex);
     if (typeof wrapped !== 'string' || wrapped.length === 0) {
         return '';
     }
