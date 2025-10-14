@@ -10,6 +10,13 @@ test('collapses macro split by \\_', () => {
     assert.ok(t.includes(String.raw`\sqrt{9}`));
 });
 
+test('collapses macro split by double-escaped underscores', () => {
+    const s = String.raw`\\f\\_\\_\\_\\_r\\_\\_a\\_\\_c{2}{5} plus \\t\\_\\i\\_\\m\\_\\e\\_\\s`;
+    const t = normalizeLatex(s);
+    assert.ok(t.includes(String.raw`\frac{2}{5}`));
+    assert.ok(t.includes(String.raw`\times`));
+});
+
 test('repairs naked rac', () => {
     assert.equal(normalizeLatex('rac{1}{6}'), String.raw`\frac{1}{6}`);
 });

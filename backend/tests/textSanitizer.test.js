@@ -48,3 +48,15 @@ test('tokenize and restore math segments preserves original text', () => {
     assert(masked.includes('__MATH_SEGMENT_0__'));
     assert.equal(restoreMathSegments(masked, segments), original);
 });
+
+test('collapseUnderscoredLatexMacros repairs fractured macros with placeholder underscores', () => {
+    const fragmented = String.raw`$\f\_\_\_\_r\_\_a\_\_c{5}{8}$`;
+    const collapsed = sanitizer.collapseUnderscoredLatexMacros(fragmented);
+    assert.equal(collapsed, String.raw`$\frac{5}{8}$`);
+});
+
+test('collapseUnderscoredLatexMacros fixes double-escaped splits', () => {
+    const fragmented = String.raw`$\\s\\_\\i\\_\\n(\\theta)$`;
+    const collapsed = sanitizer.collapseUnderscoredLatexMacros(fragmented);
+    assert.equal(collapsed, String.raw`$\sin(\theta)$`);
+});
