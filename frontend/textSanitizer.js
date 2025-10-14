@@ -131,6 +131,10 @@
         return mathStr.replace(macroRegex, (match) => `\\${match}`);
     }
 
+    function sanitizeExamTextV2_PlainOnly(obj, subject) {
+        return obj;
+    }
+
     return {
         tokenizeMathSegments,
         restoreMathSegments,
@@ -139,6 +143,7 @@
         applyPhraseSpacingRepairs,
         collapseUnderscoredLatexMacros,
         normalizeLatexMacrosInMath,
-        addMissingBackslashesInMath
+        addMissingBackslashesInMath,
+        sanitizeExamTextV2_PlainOnly
     };
 }));
