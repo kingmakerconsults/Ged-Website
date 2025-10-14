@@ -119,24 +119,55 @@ function normalizeLatexForKaTeX(latex) {
         .replace(/\\right\s*/g, '');
 }
 
+function escapeHTML(part = '') {
+    return part
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
 function renderStem(text) {
     if (typeof text !== 'string') return '';
     const wrapped = autowrapLatexForKaTeX(text);
-    const parts = wrapped.split(/(\$[^$]+\$)/g);
-    return parts.map(part => {
-        if (/^\$[^$]+\$/.test(part)) {
-            const inner = part.slice(1, -1);
+    const mathPattern = /\$\$([\s\S]+?)\$\$|\$([^$]+)\$|\\\[([\s\S]+?)\\\]/g;
+    const segments = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = mathPattern.exec(wrapped)) !== null) {
+        if (match.index > lastIndex) {
+            segments.push({ type: 'text', value: wrapped.slice(lastIndex, match.index) });
+        }
+        const [, displayContent, inlineContent, bracketContent] = match;
+        segments.push({
+            type: 'math',
+            value: displayContent ?? inlineContent ?? bracketContent ?? '',
+            displayMode: Boolean(displayContent || bracketContent)
+        });
+        lastIndex = match.index + match[0].length;
+    }
+
+    if (lastIndex < wrapped.length) {
+        segments.push({ type: 'text', value: wrapped.slice(lastIndex) });
+    }
+
+    return segments.map(segment => {
+        if (segment.type === 'math') {
             try {
                 if (typeof katex === 'undefined') {
                     throw new Error('KaTeX not available');
                 }
-                return katex.renderToString(normalizeLatexForKaTeX(inner), { throwOnError: false });
+                return katex.renderToString(normalizeLatexForKaTeX(segment.value), {
+                    throwOnError: false,
+                    displayMode: segment.displayMode
+                });
             } catch (err) {
                 console.warn('KaTeX render fallback triggered:', err?.message || err);
-                return inner.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return escapeHTML(segment.value);
             }
         }
-        return part.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+        return escapeHTML(segment.value);
     }).join('');
 }
 
