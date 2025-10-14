@@ -15,7 +15,6 @@ const { Pool } = require('pg');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const OpenAI = require('openai');
-const { jsonrepair } = require('jsonrepair');
 const pRetry = require('p-retry');
 const { buildGeometrySchema, SUPPORTED_SHAPES } = require('./schemas/geometrySchema');
 const {
@@ -107,61 +106,90 @@ const OPENAI_QUESTION_JSON_SCHEMA = {
     }
 };
 
-const MACROS = [
-    'frac', 'sqrt', 'times', 'cdot', 'le', 'ge', 'lt', 'gt', 'neq', 'approx',
-    'sin', 'cos', 'tan', 'log', 'ln', 'pi', 'pm', 'mp', 'theta', 'alpha', 'beta', 'gamma'
-];
+function createLimiter(limit) {
+    const queue = [];
+    let activeCount = 0;
 
-const SINGLE_ITEM_REPAIR_SYSTEM = `You will receive ONE question JSON object.
-Fix only formatting issues (JSON/LaTeX/currency). Keep meaning/logic the same.
+    const next = () => {
+        if (!queue.length || activeCount >= limit) {
+            return;
+        }
+        const { task, resolve, reject } = queue.shift();
+        activeCount += 1;
+        Promise.resolve()
+            .then(() => task())
+            .then((value) => {
+                resolve(value);
+            })
+            .catch((error) => {
+                reject(error);
+            })
+            .finally(() => {
+                activeCount -= 1;
+                next();
+            });
+    };
 
-Hard rules:
-- LaTeX macros allowed (\\frac, \\sqrt, etc.) but NO math delimiters ($, $$, \\ (, \\ [).
-- Replace $ currency with “USD 12.50” or “12.50 dollars”.
-- No HTML or markdown in questionText or rationale (describe tables in words).
-- Preserve fields. Do not add new top-level fields.`;
-
-function normalizeLatexMacros(s) {
-    return typeof s === 'string' ? s.replace(/\\\\([A-Za-z]+)/g, '\\$1') : s;
-}
-
-function addMissingMacroBackslashes(s) {
-    if (typeof s !== 'string') return s;
-    const re = new RegExp(`\\b(${MACROS.join('|')})\\b(?=\\s*[\\[{(])`, 'g');
-    return s.replace(re, (match, _macro, offset, source) => {
-        const prev = offset > 0 ? source[offset - 1] : '';
-        return prev === '\\' ? match : `\\${match}`;
+    return (task) => new Promise((resolve, reject) => {
+        queue.push({ task, resolve, reject });
+        next();
     });
 }
 
-function stripDelimiters(s) {
-    if (typeof s !== 'string') return s;
-    return s
-        .replace(/\$\$([\s\S]+?)\$\$/g, '$1')
-        .replace(/\$([^$]+)\$/g, '$1')
-        .replace(/\\\(|\\\)/g, '')
-        .replace(/\\\[|\\\]/g, '');
+const generationLimit = createLimiter(12);
+const repairLimit = createLimiter(8);
+
+const SINGLE_ITEM_REPAIR_SYSTEM = `You will receive ONE question JSON object.
+Fix only formatting issues (JSON/LaTeX/currency). Keep meaning the same.
+
+Rules:
+- LaTeX macros allowed (\\frac, \\sqrt, \\pi, ^, _) but NO math delimiters ($, $$, \\(, \\[).
+- Replace currency symbols with words (e.g., "\\$50" → "50 dollars").
+- No HTML or markdown in questionText/rationales.`;
+
+function normalizeLatex(text) {
+    if (typeof text !== 'string' || !text.length) {
+        return text;
+    }
+
+    let normalized = text;
+
+    normalized = normalized
+        .replace(/\$\$([\s\S]*?)\$\$/g, '$1')
+        .replace(/\$([^$]*?)\$/g, '$1')
+        .replace(/\\\(([^]*?)\\\)/g, '$1')
+        .replace(/\\\[([^]*?)\\\]/g, '$1');
+
+    normalized = normalized.replace(/\\dfrac/g, '\\frac');
+
+    normalized = normalized.replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}');
+
+    normalized = normalized.replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
+
+    normalized = normalized.replace(/<\/?(?:table|thead|tbody|tfoot|tr|th|td|caption|colgroup|col)[^>]*>/gi, ' ');
+    normalized = normalized.replace(/<[^>]+>/g, ' ');
+
+    normalized = normalized.replace(/\$(\s*\d+(?:[.,]\d{1,2})?)/g, (_m, amount) => `${amount.trim()} dollars`);
+
+    normalized = normalized.replace(/(?<!\\)\*/g, '\\*');
+
+    normalized = normalized.replace(/(?<!\\)_/g, (match, offset, source) => {
+        const prev = offset > 0 ? source[offset - 1] : '';
+        if (/^[A-Za-z0-9)]$/.test(prev)) {
+            return match;
+        }
+        return '\\_';
+    });
+
+    return normalized.replace(/\s{2,}/g, ' ').trim();
 }
 
-function removeHtmlLike(s) {
-    return typeof s === 'string' ? s.replace(/[<>]/g, '') : s;
-}
+function sanitizeTextKeepLatex(value) {
+    if (typeof value !== 'string') {
+        return value;
+    }
 
-function normalizeCurrency(s) {
-    if (typeof s !== 'string') return s;
-    return s.replace(/\$(\s*\d+(?:[.,]\d{1,2})?)/g, 'USD $1');
-}
-
-function sanitizeTextKeepLatex(s) {
-    if (typeof s !== 'string') return s;
-    let out = s;
-    out = stripDelimiters(out);
-    out = normalizeLatexMacros(out);
-    out = addMissingMacroBackslashes(out);
-    out = removeHtmlLike(out);
-    out = normalizeCurrency(out);
-    out = out.replace(/\s{2,}/g, ' ').trim();
-    return out;
+    return normalizeLatex(value);
 }
 
 function sanitizeQuestionKeepLatex(q) {
@@ -209,7 +237,7 @@ async function repairOneWithOpenAI(original) {
         return JSON.parse(text);
     };
 
-    return pRetry(run, { retries: 3, minTimeout: 500, maxTimeout: 1500 });
+    return pRetry(run, { retries: 2, minTimeout: 500, maxTimeout: 1500 });
 }
 
 function hasForbiddenContent(q) {
@@ -246,24 +274,29 @@ async function repairSubset(questions = []) {
     }
 
     const failures = [];
-    for (const i of badIdxs) {
-        const original = questions[i];
-        try {
-            const repairedLocal = JSON.parse(jsonrepair(JSON.stringify(original)));
-            let fixed = await repairOneWithOpenAI(repairedLocal);
 
-            if (!validateQuestion(fixed)) {
-                throw new Error('Ajv validation failed after repair.');
-            }
+    await Promise.all(
+        badIdxs.map((i) =>
+            repairLimit(async () => {
+                const original = questions[i];
+                try {
+                    const payload = JSON.parse(JSON.stringify(original));
+                    let fixed = await repairOneWithOpenAI(payload);
 
-            fixed = sanitizeQuestionKeepLatex(cloneQuestion(fixed));
-            out[i] = fixed;
-        } catch (err) {
-            console.error('Repair failed for index', i, err?.message || err);
-            failures.push({ index: i, id: original?.id });
-            out[i] = sanitizeQuestionKeepLatex(cloneQuestion(original));
-        }
-    }
+                    if (!validateQuestion(fixed)) {
+                        throw new Error('Ajv validation failed after repair.');
+                    }
+
+                    fixed = sanitizeQuestionKeepLatex(cloneQuestion(fixed));
+                    out[i] = fixed;
+                } catch (err) {
+                    console.error('Repair failed for index', i, err?.message || err);
+                    failures.push({ index: i, id: original?.id });
+                    out[i] = sanitizeQuestionKeepLatex(cloneQuestion(original));
+                }
+            })
+        )
+    );
 
     return { fixed: out, repaired: badIdxs.length - failures.length, failures };
 }
@@ -303,31 +336,38 @@ async function callGemini(prompt) {
     const payload = {
         contents: [{ parts: [{ text: prompt }] }]
     };
-    const response = await axios.post(apiUrl, payload);
-    const text = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (typeof text !== 'string') {
-        throw new Error('Gemini response missing text content.');
-    }
-    return text;
+
+    const run = async () => {
+        const response = await axios.post(apiUrl, payload, { timeout: 45000 });
+        const text = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (typeof text !== 'string') {
+            throw new Error('Gemini response missing text content.');
+        }
+        return text;
+    };
+
+    return pRetry(run, { retries: 2, minTimeout: 500, maxTimeout: 1500 });
 }
 
 async function generateBatch(prompt) {
-    const raw = await callGemini(prompt);
-    const arr = extractJSONArray(raw);
-    if (!Array.isArray(arr)) {
-        throw new Error('Invalid JSON from model');
-    }
-    return arr;
+    return generationLimit(async () => {
+        const raw = await callGemini(prompt);
+        const arr = extractJSONArray(raw);
+        if (!Array.isArray(arr)) {
+            throw new Error('Invalid JSON from model');
+        }
+        return arr;
+    });
 }
 
 async function runExam() {
-    const all = [];
-    const a = await generateBatch(PROMPT_GEN_A);
-    all.push(...a);
-    const b = await generateBatch(PROMPT_GEN_B);
-    all.push(...b);
-    const c = await generateBatch(PROMPT_GEN_C);
-    all.push(...c);
+    const [a, b, c] = await Promise.all([
+        generateBatch(PROMPT_GEN_A),
+        generateBatch(PROMPT_GEN_B),
+        generateBatch(PROMPT_GEN_C)
+    ]);
+
+    const all = [...a, ...b, ...c];
 
     const cleaned = [];
     for (const q of all) {
