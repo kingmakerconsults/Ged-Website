@@ -9,6 +9,7 @@ const cors = require('cors');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
@@ -24,6 +25,8 @@ const {
     DEFAULT_MAX_DECIMALS
 } = require('./utils/geometryJson');
 const TextSanitizer = require('./textSanitizer');
+const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
+const { sanitizeExamObject, sanitizeField } = require('./src/lib/sanitizeExamText');
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
@@ -191,24 +194,25 @@ function sanitizeTextKeepLatex(value) {
         return value;
     }
 
-    return normalizeLatex(value);
+    const normalized = normalizeLatex(value);
+    return sanitizeField(normalized, 'latex');
 }
 
 function sanitizeQuestionKeepLatex(q) {
     if (!q || typeof q !== 'object') return q;
-    if (typeof q.questionText === 'string') {
-        q.questionText = sanitizeTextKeepLatex(q.questionText);
+
+    const base = {
+        ...q,
+        answerOptions: Array.isArray(q.answerOptions) ? q.answerOptions.map((opt) => ({ ...opt })) : []
+    };
+
+    const sanitized = sanitizeExamObject(base, 'latex');
+
+    if (!Array.isArray(sanitized.answerOptions)) {
+        sanitized.answerOptions = [];
     }
-    if (Array.isArray(q.answerOptions)) {
-        q.answerOptions = q.answerOptions.map((opt) => ({
-            ...opt,
-            text: sanitizeTextKeepLatex(opt?.text ?? ''),
-            rationale: sanitizeTextKeepLatex(opt?.rationale ?? '')
-        }));
-    } else {
-        q.answerOptions = [];
-    }
-    return q;
+
+    return sanitized;
 }
 
 function cloneQuestion(q) {
@@ -409,6 +413,7 @@ const corsOptions = {
     }
     return callback(null, true);
   },
+  credentials: true,
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
@@ -416,6 +421,7 @@ app.use(cors(corsOptions));
 // handle preflight requests
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/client-config.js', (req, res) => {
     const payload = `window.__APP_CONFIG__ = window.__APP_CONFIG__ || {}; window.__APP_CONFIG__.geometryFiguresEnabled = ${GEOMETRY_FIGURES_ENABLED};`;
@@ -1665,6 +1671,7 @@ app.post('/api/auth/google', async (req, res) => {
 
         // Create a session token
         const token = jwt.sign({ sub: userId, name }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        setAuthCookie(res, token, 24 * 60 * 60 * 1000);
 
         res.status(200).json({
             user: {
@@ -1681,24 +1688,10 @@ app.post('/api/auth/google', async (req, res) => {
     }
 });
 
-// --- JWT AUTHENTICATION MIDDLEWARE ---
-// This function will protect our new endpoints
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Expects "Bearer TOKEN"
-
-    if (token == null) return res.sendStatus(401); // Unauthorized if no token
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403); // Forbidden if token is invalid
-        req.user = user;
-        next(); // Proceed to the route handler
-    });
-};
-
+app.post('/api/admin/login', adminBypassLogin);
 
 // --- API ENDPOINT TO SAVE A QUIZ ATTEMPT ---
-app.post('/api/quiz-attempts', authenticateToken, async (req, res) => {
+app.post('/api/quiz-attempts', requireAuth, async (req, res) => {
     try {
         const userId = req.user.sub; // Get user ID from the verified token
         const { subject, quizType, score, totalQuestions, scaledScore } = req.body;
@@ -1722,7 +1715,7 @@ app.post('/api/quiz-attempts', authenticateToken, async (req, res) => {
 
 
 // --- API ENDPOINT TO GET ALL QUIZ ATTEMPTS FOR A USER ---
-app.get('/api/quiz-attempts', authenticateToken, async (req, res) => {
+app.get('/api/quiz-attempts', requireAuth, async (req, res) => {
     try {
         const userId = req.user.sub; // Get user ID from the verified token
 
