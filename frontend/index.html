@@ -2480,6 +2480,12 @@ function App() {
             return;
         }
 
+        if (quizPayload.type === 'essay') {
+            setActiveQuiz({ ...quizPayload, subject });
+            setView('essay');
+            return;
+        }
+
         const sanitizedQuiz = { ...quizPayload, subject };
         let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
 
