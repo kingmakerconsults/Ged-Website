@@ -106,9 +106,26 @@ const MACROS = /(\\frac|\\sqrt|\\le|\\ge|\\lt|\\gt|\\neq|\\approx|\\pi|\\times|\
 function autowrapLatexForKaTeX(text) {
     if (typeof text !== 'string') return text;
     if (/\$[^$]+\$/.test(text) || /\$\$[\s\S]+\$\$/.test(text)) return text;
-    return text.replace(/((?:\\[a-zA-Z]+(?:\{[^{}]*\}|\[[^\]]*\])*)+)/g, (match) => {
+
+    const displayPlaceholders = [];
+    const placeholderPattern = /__AUTOWRAP_DISPLAY_BLOCK_(\d+)__/g;
+    const displayIsolator = /\\\[[\s\S]+?\\\]/g;
+
+    const isolated = text.replace(displayIsolator, (match) => {
+        const token = `__AUTOWRAP_DISPLAY_BLOCK_${displayPlaceholders.length}__`;
+        displayPlaceholders.push(match);
+        return token;
+    });
+
+    const wrapped = isolated.replace(/((?:\\[a-zA-Z]+(?:\{[^{}]*\}|\[[^\]]*\])*)+)/g, (match) => {
         return MACROS.test(match) ? `$${match.trim()}$` : match;
     });
+
+    if (!displayPlaceholders.length) {
+        return wrapped;
+    }
+
+    return wrapped.replace(placeholderPattern, (_, index) => displayPlaceholders[Number(index)] ?? '');
 }
 
 function normalizeLatexForKaTeX(latex) {
