@@ -29,6 +29,16 @@
     </script>
     <script src="https://ged-website.onrender.com/client-config.js"></script>
 
+    <script>
+        window.addEventListener('error', (event) => {
+            const detail = event.error || event.message;
+            console.error('Global error:', detail);
+        });
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled promise rejection:', event.reason);
+        });
+    </script>
+
     <style>
         body { font-family: 'Inter', sans-serif; }
         .quiz-nav::-webkit-scrollbar { height: 4px; }
@@ -89,8 +99,36 @@
 <body class="bg-slate-100">
     <div id="root"></div>
 
-<script type="text/babel">
+<script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback } = React;
+
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { err: null };
+    }
+
+    static getDerivedStateFromError(err) {
+        return { err };
+    }
+
+    componentDidCatch(err, info) {
+        console.error('Render error:', err, info);
+    }
+
+    render() {
+        if (this.state.err) {
+            return (
+                <div style={{ padding: '16px', background: '#fee2e2', color: '#991b1b', fontFamily: 'Inter, sans-serif' }}>
+                    <h2 style={{ marginTop: 0 }}>Something went wrong.</h2>
+                    <pre style={{ whiteSpace: 'pre-wrap' }}>{String(this.state.err)}</pre>
+                </div>
+            );
+        }
+
+        return this.props.children;
+    }
+}
 
 const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath } = window.TextSanitizer || {};
 
@@ -2351,19 +2389,80 @@ function App() {
         }
     }, [progress, currentUser]);
 
-    const startQuiz = (quiz, subject) => {
-        console.log("Starting quiz with data:", quiz); // Debugging line
-        const shuffledQuiz = {
-            ...quiz,
-            subject,
-            questions: quiz.questions ? quiz.questions.map(q => ({
-                ...q,
-                answerOptions: shuffleArray(q.answerOptions)
-            })) : []
-        };
-        setActiveQuiz(shuffledQuiz);
+    const normalizeQuestionList = (list) => {
+        if (!Array.isArray(list)) {
+            return [];
+        }
+        return list
+            .filter(item => item && typeof item === 'object')
+            .map(item => ({
+                ...item,
+                answerOptions: shuffleArray(Array.isArray(item.answerOptions) ? item.answerOptions : [])
+            }));
+    };
+
+    const startQuiz = (quizPayload, subject) => {
+        console.log("Starting quiz with data:", quizPayload); // Debugging line
+
+        if (!quizPayload || typeof quizPayload !== 'object') {
+            console.error('Received invalid quiz payload:', quizPayload);
+            alert('Sorry, the generated quiz data was invalid. Please try again.');
+            return;
+        }
+
+        const sanitizedQuiz = { ...quizPayload, subject };
+        let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
+
+        if (quizPayload.type === 'multi-part-math') {
+            let part1 = normalizeQuestionList(quizPayload.part1_non_calculator);
+            let part2 = normalizeQuestionList(quizPayload.part2_calculator);
+
+            if (!part1.length && normalizedQuestions.length) {
+                part1 = normalizedQuestions.slice(0, 5);
+            }
+            if (!part2.length && normalizedQuestions.length) {
+                part2 = normalizedQuestions.slice(part1.length || 5);
+            }
+
+            if (!part1.length || !part2.length) {
+                console.error('Incomplete multi-part math payload received:', quizPayload);
+                alert('The generated math exam was incomplete. Please try again.');
+                return;
+            }
+
+            sanitizedQuiz.part1_non_calculator = part1;
+            sanitizedQuiz.part2_calculator = part2;
+            normalizedQuestions = [...part1, ...part2];
+        } else if (quizPayload.type === 'multi-part-rla') {
+            const part1 = normalizeQuestionList(quizPayload.part1_reading);
+            const part3 = normalizeQuestionList(quizPayload.part3_language);
+            const essay = quizPayload.part2_essay;
+
+            const hasEssayContent = essay && typeof essay === 'object' && Array.isArray(essay.passages) && essay.passages.length >= 2 && typeof essay.prompt === 'string';
+
+            if (!part1.length || !part3.length || !hasEssayContent) {
+                console.error('Incomplete multi-part RLA payload received:', quizPayload);
+                alert('The generated RLA exam was incomplete. Please try again.');
+                return;
+            }
+
+            sanitizedQuiz.part1_reading = part1;
+            sanitizedQuiz.part3_language = part3;
+            sanitizedQuiz.part2_essay = essay;
+            normalizedQuestions = [...part1, ...part3];
+        }
+
+        if (!normalizedQuestions.length) {
+            console.error('Quiz payload did not include any valid questions:', quizPayload);
+            alert('The generated quiz did not include any questions. Please try again.');
+            return;
+        }
+
+        sanitizedQuiz.questions = normalizedQuestions;
+
+        setActiveQuiz(sanitizedQuiz);
         // For any multi-part quiz, the view should be 'quiz' so the main QuizRunner can handle routing.
-        const viewType = (quiz.type === 'multi-part-rla' || quiz.type === 'multi-part-math') ? 'quiz' : (quiz.type || 'quiz');
+        const viewType = (sanitizedQuiz.type === 'multi-part-rla' || sanitizedQuiz.type === 'multi-part-math') ? 'quiz' : (sanitizedQuiz.type || 'quiz');
         setView(viewType);
     };
     
@@ -4427,7 +4526,11 @@ if (typeof window !== 'undefined' && window.location && window.location.search.i
 // --- RENDER APP ---
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
-root.render(<App />);
+root.render(
+    <ErrorBoundary>
+        <App />
+    </ErrorBoundary>
+);
 
 </script>
 
