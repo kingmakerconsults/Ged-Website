@@ -15,6 +15,8 @@ const { Pool } = require('pg');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const OpenAI = require('openai');
+const { jsonrepair } = require('jsonrepair');
+const pRetry = require('p-retry');
 const { buildGeometrySchema, SUPPORTED_SHAPES } = require('./schemas/geometrySchema');
 const {
     GeometryJsonError,
@@ -78,10 +80,46 @@ const QuestionSchema = {
 
 const validateQuestion = ajv.compile(QuestionSchema);
 
+const OPENAI_QUESTION_JSON_SCHEMA = {
+    name: 'Question',
+    schema: {
+        type: 'object',
+        required: ['id', 'questionType', 'questionText'],
+        additionalProperties: true,
+        properties: {
+            id: { type: ['string', 'number'] },
+            questionType: { type: 'string', enum: ['standalone', 'freeResponse'] },
+            questionText: { type: 'string' },
+            answerOptions: {
+                type: 'array',
+                items: {
+                    type: 'object',
+                    required: ['text'],
+                    properties: {
+                        text: { type: 'string' },
+                        isCorrect: { type: ['boolean', 'null'] },
+                        rationale: { type: ['string', 'null'] }
+                    }
+                },
+                default: []
+            }
+        }
+    }
+};
+
 const MACROS = [
     'frac', 'sqrt', 'times', 'cdot', 'le', 'ge', 'lt', 'gt', 'neq', 'approx',
     'sin', 'cos', 'tan', 'log', 'ln', 'pi', 'pm', 'mp', 'theta', 'alpha', 'beta', 'gamma'
 ];
+
+const SINGLE_ITEM_REPAIR_SYSTEM = `You will receive ONE question JSON object.
+Fix only formatting issues (JSON/LaTeX/currency). Keep meaning/logic the same.
+
+Hard rules:
+- LaTeX macros allowed (\\frac, \\sqrt, etc.) but NO math delimiters ($, $$, \\ (, \\ [).
+- Replace $ currency with “USD 12.50” or “12.50 dollars”.
+- No HTML or markdown in questionText or rationale (describe tables in words).
+- Preserve fields. Do not add new top-level fields.`;
 
 function normalizeLatexMacros(s) {
     return typeof s === 'string' ? s.replace(/\\\\([A-Za-z]+)/g, '\\$1') : s;
@@ -143,6 +181,93 @@ function sanitizeQuestionKeepLatex(q) {
     return q;
 }
 
+function cloneQuestion(q) {
+    if (!q || typeof q !== 'object') return q;
+    return {
+        ...q,
+        answerOptions: Array.isArray(q.answerOptions)
+            ? q.answerOptions.map((opt) => ({ ...opt }))
+            : q.answerOptions
+    };
+}
+
+async function repairOneWithOpenAI(original) {
+    if (!openaiClient) throw new Error('OPENAI_API_KEY not configured.');
+
+    const run = async () => {
+        const resp = await openaiClient.responses.create({
+            model: 'gpt-4o-mini',
+            input: [
+                { role: 'system', content: SINGLE_ITEM_REPAIR_SYSTEM },
+                { role: 'user', content: JSON.stringify(original) }
+            ],
+            response_format: { type: 'json_schema', json_schema: OPENAI_QUESTION_JSON_SCHEMA },
+            temperature: 0.1
+        });
+
+        const text = resp.output_text;
+        return JSON.parse(text);
+    };
+
+    return pRetry(run, { retries: 3, minTimeout: 500, maxTimeout: 1500 });
+}
+
+function hasForbiddenContent(q) {
+    const textBits = [q?.questionText || ''];
+    if (Array.isArray(q?.answerOptions)) {
+        for (const opt of q.answerOptions) {
+            textBits.push(opt?.text || '');
+        }
+    }
+    const s = textBits.join(' ');
+    if (/[<](?:table|tr|td|th|thead|tbody|caption)\b/i.test(s)) return true;
+    if (/\$\$|\\\[|\\\]|\$(?!\d)/.test(s)) return true;
+    if (/\$\s*\d/.test(s)) return true;
+    return false;
+}
+
+function needsRepair(q) {
+    if (!validateQuestion(q)) return true;
+    if (hasForbiddenContent(q)) return true;
+    const sanitized = sanitizeQuestionKeepLatex(cloneQuestion(q));
+    return JSON.stringify(sanitized) !== JSON.stringify(q);
+}
+
+async function repairSubset(questions = []) {
+    const out = questions.map((q) => cloneQuestion(q));
+    const badIdxs = [];
+
+    questions.forEach((q, i) => {
+        if (needsRepair(q)) badIdxs.push(i);
+    });
+
+    if (!badIdxs.length) {
+        return { fixed: out, repaired: 0, failures: [] };
+    }
+
+    const failures = [];
+    for (const i of badIdxs) {
+        const original = questions[i];
+        try {
+            const repairedLocal = JSON.parse(jsonrepair(JSON.stringify(original)));
+            let fixed = await repairOneWithOpenAI(repairedLocal);
+
+            if (!validateQuestion(fixed)) {
+                throw new Error('Ajv validation failed after repair.');
+            }
+
+            fixed = sanitizeQuestionKeepLatex(cloneQuestion(fixed));
+            out[i] = fixed;
+        } catch (err) {
+            console.error('Repair failed for index', i, err?.message || err);
+            failures.push({ index: i, id: original?.id });
+            out[i] = sanitizeQuestionKeepLatex(cloneQuestion(original));
+        }
+    }
+
+    return { fixed: out, repaired: badIdxs.length - failures.length, failures };
+}
+
 const NON_CALC_COUNT = 12;
 const GEOMETRY_COUNT = 12;
 const ALGEBRA_COUNT = 12;
@@ -169,13 +294,6 @@ Create ${GEOMETRY_COUNT} geometry/measurement questions (areas, perimeters, circ
 const PROMPT_GEN_C = `${STRICT_JSON_HEADER}
 Create ${ALGEBRA_COUNT} algebra/functions/data questions (linear functions, slope, evaluate f(x), describe tables/graphs in text).`;
 
-const REVIEW_PROMPT = `SYSTEM: You receive a COMPLETE JSON array. Return ONLY the corrected JSON array (same length/order).
-Allowed changes: formatting-only.
-- Do NOT add/remove/reorder fields or items.
-- Fix LaTeX-only issues: balance braces in \\frac/\\sqrt; collapse \\\\macro -> \\macro; remove any stray delimiters ($, $$, \\(, \\[) if present; normalize spacing.
-- Do NOT introduce currency $; if present, replace with “USD …” or plain number + “dollars”.
-- No HTML/markdown.`;
-
 async function callGemini(prompt) {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey) {
@@ -191,20 +309,6 @@ async function callGemini(prompt) {
         throw new Error('Gemini response missing text content.');
     }
     return text;
-}
-
-async function callChatGPT(prompt) {
-    if (!openaiClient) {
-        throw new Error('OPENAI_API_KEY is not configured.');
-    }
-    const response = await openaiClient.responses.create({
-        model: 'gpt-4o-mini',
-        input: prompt
-    });
-    if (!response || typeof response.output_text !== 'string') {
-        throw new Error('ChatGPT response missing text output.');
-    }
-    return response.output_text;
 }
 
 async function generateBatch(prompt) {
@@ -228,29 +332,13 @@ async function runExam() {
     const cleaned = [];
     for (const q of all) {
         if (validateQuestion(q)) {
-            cleaned.push(sanitizeQuestionKeepLatex({ ...q }));
+            cleaned.push(sanitizeQuestionKeepLatex(cloneQuestion(q)));
         }
     }
+    const { fixed, repaired, failures } = await repairSubset(cleaned);
+    console.info(`Targeted repair complete: repaired=${repaired}, failures=${failures.length}`);
 
-    const reviewPayload = `<BEGIN_JSON>${JSON.stringify(cleaned)}</END_JSON>`;
-    let reviewedRaw;
-    try {
-        reviewedRaw = await callChatGPT(`${REVIEW_PROMPT}\n\n${reviewPayload}`);
-    } catch (error) {
-        console.error('ChatGPT review failed, falling back to sanitized batch.', error.message || error);
-        reviewedRaw = null;
-    }
-
-    const reviewed = reviewedRaw ? extractJSONArray(reviewedRaw) : null;
-
-    const final = [];
-    const source = Array.isArray(reviewed) ? reviewed : cleaned;
-    for (const q of source) {
-        if (validateQuestion(q)) {
-            final.push(sanitizeQuestionKeepLatex({ ...q }));
-        }
-    }
-    return final;
+    return fixed;
 }
 
 const pool = new Pool({
@@ -390,6 +478,16 @@ app.post('/api/math-autogen', async (_req, res) => {
     } catch (error) {
         console.error('Failed to generate math autogen batch:', error.message || error);
         res.status(500).json({ error: 'Failed to generate math autogen batch.' });
+    }
+});
+
+app.post('/api/exam/repair', express.json(), async (req, res) => {
+    try {
+        const items = Array.isArray(req.body?.items) ? req.body.items : [];
+        const { fixed, repaired, failures } = await repairSubset(items);
+        res.json({ items: fixed, repaired, failures });
+    } catch (e) {
+        res.status(500).json({ error: e?.message || 'repair failed' });
     }
 });
 
