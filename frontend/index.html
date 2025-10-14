@@ -101,14 +101,48 @@ const ALLOWED_HTML_TAGS = [
 const ALLOWED_HTML_ATTR = ['href','title','target','rel','colspan','rowspan','align','scope'];
 const ENTITY_DECODER = typeof document !== 'undefined' ? document.createElement('textarea') : null;
 
-const MACROS = /(\\frac|\\sqrt|\\le|\\ge|\\lt|\\gt|\\neq|\\approx|\\pi|\\times|\\cdot|\\sin|\\cos|\\tan|\\log|\\ln)\b/;
+function normalizeLatex(text) {
+    if (typeof text !== 'string' || text.length === 0) {
+        return text;
+    }
 
-function autowrapLatexForKaTeX(text) {
-    if (typeof text !== 'string') return text;
-    if (/\$[^$]+\$/.test(text) || /\$\$[\s\S]+\$\$/.test(text)) return text;
-    return text.replace(/((?:\\[a-zA-Z]+(?:\{[^{}]*\}|\[[^\]]*\])*)+)/g, (match) => {
-        return MACROS.test(match) ? `$${match.trim()}$` : match;
+    let normalized = text;
+
+    normalized = normalized
+        .replace(/\$\$([\s\S]*?)\$\$/g, '$1')
+        .replace(/\$([^$]*?)\$/g, '$1')
+        .replace(/\\\(([^]*?)\\\)/g, '$1')
+        .replace(/\\\[([^]*?)\\\]/g, '$1');
+
+    normalized = normalized.replace(/\\dfrac/g, '\\frac');
+
+    normalized = normalized.replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}');
+
+    normalized = normalized.replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
+
+    normalized = normalized.replace(/<\/?(?:table|thead|tbody|tfoot|tr|th|td|caption|colgroup|col)[^>]*>/gi, ' ');
+    normalized = normalized.replace(/<[^>]+>/g, ' ');
+
+    normalized = normalized.replace(/\$(\s*\d+(?:[.,]\d{1,2})?)/g, (_m, amount) => `${amount.trim()} dollars`);
+
+    normalized = normalized.replace(/(?<!\\)\*/g, '\\*');
+
+    normalized = normalized.replace(/(?<!\\)_/g, (match, offset, source) => {
+        const prev = offset > 0 ? source[offset - 1] : '';
+        if (/^[A-Za-z0-9)]$/.test(prev)) {
+            return match;
+        }
+        return '\\_';
     });
+
+    return normalized.replace(/\s{2,}/g, ' ').trim();
+}
+
+function autoWrapLatex(text) {
+    if (typeof text !== 'string' || text.length === 0) {
+        return text;
+    }
+    return text.replace(/(?<!\\\()((?:\\[A-Za-z]+|[_^]|[0-9+\-*/=<>]|\\\{|\\\}|[()])+)(?!\\\))/g, '\\($1\\)');
 }
 
 function normalizeLatexForKaTeX(latex) {
@@ -119,25 +153,55 @@ function normalizeLatexForKaTeX(latex) {
         .replace(/\\right\s*/g, '');
 }
 
+function escapeHtml(value) {
+    if (typeof value !== 'string' || value.length === 0) {
+        return '';
+    }
+    return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
 function renderStem(text) {
     if (typeof text !== 'string') return '';
-    const wrapped = autowrapLatexForKaTeX(text);
-    const parts = wrapped.split(/(\$[^$]+\$)/g);
-    return parts.map(part => {
-        if (/^\$[^$]+\$/.test(part)) {
-            const inner = part.slice(1, -1);
-            try {
-                if (typeof katex === 'undefined') {
-                    throw new Error('KaTeX not available');
-                }
-                return katex.renderToString(normalizeLatexForKaTeX(inner), { throwOnError: false });
-            } catch (err) {
-                console.warn('KaTeX render fallback triggered:', err?.message || err);
-                return inner.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            }
+    const normalized = normalizeLatex(text);
+    const safeLatex = normalizeLatexForKaTeX(normalized);
+    const wrapped = autoWrapLatex(safeLatex);
+    if (typeof wrapped !== 'string' || wrapped.length === 0) {
+        return '';
+    }
+
+    const parts = [];
+    const regex = /\\\(([^]*?)\\\)/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(wrapped)) !== null) {
+        const preceding = wrapped.slice(lastIndex, match.index);
+        if (preceding) {
+            parts.push(escapeHtml(preceding));
         }
-        return part.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }).join('');
+        const inner = match[1];
+        try {
+            if (typeof katex === 'undefined') {
+                throw new Error('KaTeX not available');
+            }
+            const latex = normalizeLatexForKaTeX(inner);
+            parts.push(katex.renderToString(latex, { throwOnError: false }));
+        } catch (err) {
+            console.warn('KaTeX render fallback triggered:', err?.message || err);
+            parts.push(escapeHtml(inner));
+        }
+        lastIndex = regex.lastIndex;
+    }
+
+    const trailing = wrapped.slice(lastIndex);
+    if (trailing) {
+        parts.push(escapeHtml(trailing));
+    }
+
+    return parts.join('');
 }
 
 const GEOMETRY_FIGURES_ENABLED = Boolean(
