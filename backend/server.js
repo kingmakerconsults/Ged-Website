@@ -440,7 +440,9 @@ const promptLibrary = {
     "Social Studies": {
         topic: (topic) => `Generate a 15-question GED-style Social Studies quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.
-        STRICT STIMULUS REQUIREMENTS: A variety of stimuli MUST be used. Include at least 2 questions based on a chart/graph, 2 questions based on a historical quote, and 2 questions based on an image from the provided descriptions. The rest should be text passages.`,
+        STRICT STIMULUS REQUIREMENTS: A variety of stimuli MUST be used. Include at least 2 questions based on a chart/graph, 2 questions based on a historical quote, and 2 questions based on an image from the provided descriptions. The rest should be text passages.
+        NO REDUNDANCY RULE: All 15 questions must feature distinct scenarios, time periods, data sets, and stimulus materials. Do not reuse wording, answer choices, or prompts across questions.
+        GROUPING RULE: Questions that share a passage, visual, or prompt must stay together as a cluster so the learner sees the full stimulus before moving on.`,
         comprehensive: `Generate a 35-question comprehensive GED Social Studies exam.
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, and 15% Geography & the World.
         STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.`
@@ -448,7 +450,10 @@ const promptLibrary = {
     "Science": {
         topic: (topic) => `Generate a 15-question GED-style Science quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 40% Life Science, 40% Physical Science, 20% Earth and Space Science.
-        STRICT STIMULUS REQUIREMENTS: Ensure a mix of stimuli, including text passages, data tables/graphs, and diagrams from the provided descriptions. Questions should test reading comprehension of scientific texts and scientific reasoning.`,
+        STRICT STIMULUS REQUIREMENTS: Ensure a mix of stimuli, including text passages, data tables/graphs, and diagrams from the provided descriptions. Questions should test reading comprehension of scientific texts and scientific reasoning.
+        NO REDUNDANCY RULE: All 15 questions must cover different experimental setups, phenomena, or data sets. Do not repeat question wording, contexts, or answer choices.
+        IMAGE ALIGNMENT RULE: Any requested image must directly represent the scientific concept in the question (e.g., cell diagrams for biology, circuit diagrams for physical science, climate charts for Earth science). Avoid generic or tangential imagery and never request illustrations unrelated to the prompt.
+        GROUPING RULE: Questions built from the same passage, data display, or diagram must appear consecutively so students review the shared stimulus in one segment.`,
         comprehensive: `Generate a 38-question comprehensive GED Science exam.
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 40% Life Science, 40% Physical Science, 20% Earth and Space Science.
         STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, data tables formatted as HTML, charts, and scientific diagrams from the provided descriptions.`
@@ -777,9 +782,15 @@ const callAI = async (prompt, schema, options = {}) => {
 
 // Helper functions for generating different types of quiz content
 
-const generatePassageSet = async (topic, subject, numQuestions) => {
-    const prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'.
-    Then, based ONLY on the passage, generate ${numQuestions} unique multiple-choice questions. VARY THE QUESTION TYPE: ask about main idea, details, vocabulary, or inferences. The question text MUST NOT repeat the passage.
+const generatePassageSet = async (topic, subject, numQuestions, options = {}) => {
+    const { existingQuestionTexts = [] } = options;
+    const dedupeGuidance = existingQuestionTexts.length
+        ? `\nEXISTING QUESTION STEMS (already used in this quiz — avoid repeating or paraphrasing them, and do not reuse the same historical event or civic scenario):\n${existingQuestionTexts.map((text, index) => `${index + 1}. ${text}`).join('\n')}\n`
+        : '';
+
+    const prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'.${dedupeGuidance}
+    Then, based ONLY on the passage, generate ${numQuestions} unique multiple-choice questions. EACH question must examine a different takeaway or skill (for example: main idea, supporting detail, inference, vocabulary-in-context, author's purpose) so that no two questions feel redundant.
+    The question text MUST NOT repeat sentences from the passage, and it must clearly reference the unique detail it is asking about.
     Output a single valid JSON object with keys "passage" and "questions".`;
 
     const questionSchema = {
@@ -809,7 +820,11 @@ const generatePassageSet = async (topic, subject, numQuestions) => {
 };
 
 
-const generateImageQuestion = async (topic, subject, imagePool, numQuestions) => {
+const generateImageQuestion = async (topic, subject, imagePool, numQuestions, options = {}) => {
+    const { existingQuestionTexts = [] } = options;
+    const dedupeGuidance = existingQuestionTexts.length
+        ? `\nEXISTING QUESTION STEMS (already used in this quiz — avoid repeating or paraphrasing them, and do not reuse the same analytical focus):\n${existingQuestionTexts.map((text, index) => `${index + 1}. ${text}`).join('\n')}\n`
+        : '';
     // Filter by subject AND the specific topic (category)
     let relevantImages = imagePool.filter(img => img.subject === subject && img.category === topic);
     let selectedImage;
@@ -825,8 +840,9 @@ const generateImageQuestion = async (topic, subject, imagePool, numQuestions) =>
 
     if (!selectedImage) return null;
 
-    const imagePrompt = `You are a GED exam creator. This stimulus is for an IMAGE from the topic '${topic}'.
-Based on the following image context, generate a set of ${numQuestions} unique questions that require visual interpretation, asking about the main idea, symbolism, or specific details.
+    const imagePrompt = `You are a GED exam creator. This stimulus is for an IMAGE from the topic '${topic}'.${dedupeGuidance}
+Based on the following image context, generate a set of ${numQuestions} unique questions that require visual interpretation. Each question must focus on a different observable detail, trend, or inference so the set covers multiple aspects of the same image.
+If the subject is Science, prioritize scientifically accurate terminology and align the question with the exact concept depicted.
 
 **Image Context:**
 - **Description:** ${selectedImage.detailedDescription}
@@ -861,7 +877,11 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
     }
 };
 
-const generateStandaloneQuestion = async (subject, topic) => {
+const generateStandaloneQuestion = async (subject, topic, options = {}) => {
+    const { existingQuestionTexts = [] } = options;
+    const dedupeGuidance = existingQuestionTexts.length
+        ? `\nEXISTING QUESTION STEMS (already used in this quiz — avoid repeating or paraphrasing them, and select a scenario that has not appeared yet):\n${existingQuestionTexts.map((text, index) => `${index + 1}. ${text}`).join('\n')}\n`
+        : '';
     let prompt;
     // Conditional prompt based on the subject
     if (subject === 'Math') {
@@ -873,6 +893,7 @@ const generateStandaloneQuestion = async (subject, topic) => {
     } else {
         prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
         The question should not require any external passage, chart, or image.
+        The scenario must explore a fresh angle that has not appeared in any prior question in this quiz.${dedupeGuidance}
         Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
     }
 
@@ -885,10 +906,92 @@ const generateStandaloneQuestion = async (subject, topic) => {
         required: ["questionText", "answerOptions"]
     };
 
-    const question = await callAI(prompt, schema);
+const question = await callAI(prompt, schema);
     question.type = 'standalone';
     return question;
 };
+
+const normalizeQuestionKey = (text) => {
+    if (typeof text !== 'string') {
+        return '';
+    }
+    return text.replace(/\s+/g, ' ').trim().toLowerCase();
+};
+
+const MAX_BLOCK_ATTEMPTS = 3;
+
+async function attemptQuestionBlock(task, seenKeys, existingQuestionTexts) {
+    for (let attempt = 1; attempt <= MAX_BLOCK_ATTEMPTS; attempt++) {
+        try {
+            const raw = await task.generator(existingQuestionTexts);
+            const items = Array.isArray(raw) ? raw.filter(Boolean) : [raw].filter(Boolean);
+
+            if (!items.length) {
+                continue;
+            }
+
+            const localKeys = new Set();
+            const uniqueQuestions = [];
+            let droppedQuestion = false;
+
+            for (const question of items) {
+                if (!question || typeof question !== 'object') {
+                    droppedQuestion = true;
+                    continue;
+                }
+
+                const key = normalizeQuestionKey(question.questionText);
+
+                if (!key || localKeys.has(key) || seenKeys.has(key)) {
+                    droppedQuestion = true;
+                    continue;
+                }
+
+                localKeys.add(key);
+                uniqueQuestions.push(question);
+            }
+
+            if (!uniqueQuestions.length) {
+                continue;
+            }
+
+            if (!droppedQuestion || attempt === MAX_BLOCK_ATTEMPTS) {
+                return uniqueQuestions;
+            }
+        } catch (error) {
+            console.error(`Error generating ${task.type} block (attempt ${attempt}):`, error);
+        }
+    }
+
+    return [];
+}
+
+async function runSequentialQuestionPlan(plan) {
+    const seenKeys = new Set();
+    const seenTexts = new Map();
+    const blocks = [];
+
+    for (const task of plan) {
+        const existingTexts = Array.from(seenTexts.values());
+        const blockQuestions = await attemptQuestionBlock(task, seenKeys, existingTexts);
+
+        if (!blockQuestions.length) {
+            continue;
+        }
+
+        for (const question of blockQuestions) {
+            const key = normalizeQuestionKey(question.questionText);
+            if (key && !seenKeys.has(key)) {
+                seenKeys.add(key);
+                seenTexts.set(key, question.questionText);
+            }
+        }
+
+        blocks.push({ type: task.type, questions: blockQuestions });
+    }
+
+    return { blocks, seenKeys, seenTexts };
+}
 
 const buildGeometryPrompt = (topic, attempt) => {
     const decimalLimit = DEFAULT_MAX_DECIMALS;
@@ -1491,11 +1594,12 @@ app.post('/generate-quiz', async (req, res) => {
             console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
 
             const TOTAL_QUESTIONS = 15;
-            let promises = []; // Single promises array for all logic paths.
+            let finalQuestions = [];
 
             if (subject === 'Math') {
                 // --- MATH-SPECIFIC LOGIC ---
                 console.log("Generating Math quiz without passages.");
+                const promises = [];
                 let visualQuestionCount = 0;
                 if (topic.toLowerCase().includes('geometry')) {
                     console.log('Geometry topic detected. Generating 5 visual questions.');
@@ -1508,34 +1612,75 @@ app.post('/generate-quiz', async (req, res) => {
                 for (let i = 0; i < remainingQuestions; i++) {
                     promises.push(generateStandaloneQuestion(subject, topic));
                 }
+
+                const results = await Promise.all(promises);
+                const allQuestions = results.flat().filter(q => q);
+                finalQuestions = shuffleArray(allQuestions).slice(0, TOTAL_QUESTIONS);
             } else {
                 // --- LOGIC FOR OTHER SUBJECTS (Social Studies, Science, RLA) ---
                 console.log(`Generating ${subject} quiz with passages and other stimuli.`);
                 const numPassageSets = 3; // e.g., 3 passages with 2 questions each = 6 questions
                 const numImageSets = 2;   // e.g., 2 images with 2 questions each = 4 questions
 
+                const generationPlan = [];
+
                 for (let i = 0; i < numPassageSets; i++) {
-                    promises.push(generatePassageSet(topic, subject, 2));
+                    generationPlan.push({
+                        type: 'passage',
+                        generator: (existingQuestionTexts) => generatePassageSet(topic, subject, 2, { existingQuestionTexts })
+                    });
                 }
+
                 for (let i = 0; i < numImageSets; i++) {
-                    promises.push(generateImageQuestion(topic, subject, curatedImages, 2));
+                    generationPlan.push({
+                        type: 'image',
+                        generator: (existingQuestionTexts) => generateImageQuestion(topic, subject, curatedImages, 2, { existingQuestionTexts })
+                    });
                 }
-                 // Fill the rest with standalone questions to ensure we reach the total.
-                 const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
-                 const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
-                 for (let i = 0; i < remainingQuestions; i++) {
-                     promises.push(generateStandaloneQuestion(subject, topic));
-                 }
+
+                const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
+                const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
+                for (let i = 0; i < remainingQuestions; i++) {
+                    generationPlan.push({
+                        type: 'standalone',
+                        generator: (existingQuestionTexts) => generateStandaloneQuestion(subject, topic, { existingQuestionTexts })
+                    });
+                }
+
+                const { blocks, seenKeys, seenTexts } = await runSequentialQuestionPlan(generationPlan);
+                finalQuestions = blocks.flatMap(block => block.questions);
+
+                let fillerAttempts = 0;
+                while (finalQuestions.length < TOTAL_QUESTIONS && fillerAttempts < TOTAL_QUESTIONS * 2) {
+                    fillerAttempts += 1;
+                    try {
+                        const fillerQuestion = await generateStandaloneQuestion(subject, topic, {
+                            existingQuestionTexts: Array.from(seenTexts.values())
+                        });
+
+                        if (!fillerQuestion || !fillerQuestion.questionText) {
+                            continue;
+                        }
+
+                        const fillerKey = normalizeQuestionKey(fillerQuestion.questionText);
+                        if (!fillerKey || seenKeys.has(fillerKey)) {
+                            continue;
+                        }
+
+                        seenKeys.add(fillerKey);
+                        seenTexts.set(fillerKey, fillerQuestion.questionText);
+                        finalQuestions.push(fillerQuestion);
+                    } catch (fillerError) {
+                        console.error('Error generating filler standalone question:', fillerError);
+                    }
+                }
+
+                if (finalQuestions.length < TOTAL_QUESTIONS) {
+                    console.warn(`Generated ${finalQuestions.length} unique questions (requested ${TOTAL_QUESTIONS}) for ${subject} topic ${topic}.`);
+                }
+
+                finalQuestions = finalQuestions.slice(0, TOTAL_QUESTIONS);
             }
-
-            // --- Execute all promises, assemble, shuffle, and finalize the quiz ---
-            const results = await Promise.all(promises);
-            let allQuestions = results.flat().filter(q => q); // Filter out any nulls from failed generations
-
-            // Shuffle the collected questions for variety
-            const shuffledQuestions = shuffleArray(allQuestions);
-
-            let finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
 
             // Assign question numbers
             finalQuestions.forEach((q, index) => {
