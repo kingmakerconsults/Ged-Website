@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="textSanitizer.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
@@ -80,6 +81,9 @@
             background: #f3f4f6;
             font-weight: 600;
         }
+        h3 {
+            overflow-wrap: break-word;
+        }
     </style>
 </head>
 <body class="bg-slate-100">
@@ -87,6 +91,8 @@
 
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
+
+const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs } = window.TextSanitizer || {};
 
 const ALLOWED_HTML_TAGS = [
     'a','b','strong','i','em','u','s','span','p','br','ul','ol','li','table','thead','tbody','tfoot','tr','th','td','caption',
@@ -591,8 +597,7 @@ function MathText({ text, className, itemIndex }) {
             const renderedHtml = segments.map(segment => {
                 if (segment.type === 'math') {
                     try {
-                        const toRender = segment.value
-                            .replace(/\\{2,}(?=[A-Za-z])/g, '\\')
+                        const toRender = (normalizeLatexMacrosInMath ? normalizeLatexMacrosInMath(segment.value) : segment.value)
                             .replace(/&nbsp;/g, ' ');
                         return katex.renderToString(toRender, {
                             throwOnError: false,
@@ -701,79 +706,41 @@ function neutralizeUnpairedDollarSigns(text) {
         return text;
     }
 
-    const placeholders = [];
-    let working = text;
+    if (!(tokenizeMathSegments && restoreMathSegments)) {
+        return text.replace(/(?<!\)\$(?!\d)/g, '&#36;');
+    }
 
-    working = working.replace(/\$\$([\s\S]+?)\$\$/g, (match) => {
-        const token = `__MATH_BLOCK_${placeholders.length}_${Math.random().toString(36).slice(2)}__`;
-        placeholders.push({ token, value: match });
-        return token;
-    });
-
-    working = working.replace(/\$([\s\S]+?)\$/g, (match) => {
-        const token = `__MATH_INLINE_${placeholders.length}_${Math.random().toString(36).slice(2)}__`;
-        placeholders.push({ token, value: match });
-        return token;
-    });
-
-    working = working.replace(/(?<!\\)\$/g, '&#36;');
-
-    placeholders.forEach(({ token, value }) => {
-        working = working.split(token).join(value);
-    });
-
-    return working;
+    const { masked, segments } = tokenizeMathSegments(text);
+    const working = masked.replace(/(?<!\)\$(?!\d)/g, '&#36;');
+    return restoreMathSegments(working, segments);
 }
 
 function escapeCurrencyDollarsMathSafe(input) {
     if (typeof input !== 'string') return input;
 
-    const holders = [];
-    const protect = (regex) => {
-        input = input.replace(regex, (match) => {
-            const key = `__MATH_${holders.length}__`;
-            holders.push(match);
-            return key;
-        });
-    };
+    if (!(tokenizeMathSegments && restoreMathSegments)) {
+        let fallback = input.replace(/\\$(\s*\d[\d.,]*)/g, '&#36;$1');
+        fallback = fallback.replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '&#36;$1');
+        return fallback.replace(/(?<!&)\$(?!\d)/g, '&#36;');
+    }
 
-    protect(/\$\$[\s\S]+?\$\$/g);
-    protect(/\$[^$]+\$/g);
-
-    input = input.replace(/\\\$(\s*\d[\d.,]*)/g, '&#36;$1');
-    input = input.replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '&#36;$1');
-    input = input.replace(/(?<!&)\$(?!\d)/g, '&#36;');
-
-    holders.forEach((match, index) => {
-        input = input.replace(`__MATH_${index}__`, match);
-    });
-
-    return input;
+    const { masked, segments } = tokenizeMathSegments(input);
+    let working = masked.replace(/\\$(\s*\d[\d.,]*)/g, '&#36;$1');
+    working = working.replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '&#36;$1');
+    working = working.replace(/(?<!&)\$(?!\d)/g, '&#36;');
+    return restoreMathSegments(working, segments);
 }
 
 function stripBackslashesOutsideMath(input) {
     if (typeof input !== 'string') return input;
 
-    const holders = [];
-    let working = input.replace(/\$\$[\s\S]+?\$\$/g, (match) => {
-        const token = `__M${holders.length}__`;
-        holders.push(match);
-        return token;
-    });
+    if (!(tokenizeMathSegments && restoreMathSegments)) {
+        return input.replace(/\(?=\d|\$)/g, '');
+    }
 
-    working = working.replace(/\$[^$]+\$/g, (match) => {
-        const token = `__M${holders.length}__`;
-        holders.push(match);
-        return token;
-    });
-
-    working = working.replace(/\\(?=\d|\$)/g, '');
-
-    holders.forEach((value, index) => {
-        working = working.replace(`__M${index}__`, value);
-    });
-
-    return working;
+    const { masked, segments } = tokenizeMathSegments(input);
+    const cleaned = masked.replace(/\(?=\d|\$)/g, '');
+    return restoreMathSegments(cleaned, segments);
 }
 
 function deglueCommonBigrams(s) {
@@ -818,6 +785,32 @@ function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
     }
     working = repairLatexCorruption(working);
     working = decodeHtmlEntities(working);
+
+    if (tokenizeMathSegments && restoreMathSegments) {
+        const { masked, segments } = tokenizeMathSegments(working);
+        let plain = masked;
+        if (stripTextMacroInPlain) {
+            plain = stripTextMacroInPlain(plain);
+        }
+        if (applyPhraseSpacingRepairs) {
+            plain = applyPhraseSpacingRepairs(plain);
+        }
+        if (normalizeCurrencyOutsideMath) {
+            plain = normalizeCurrencyOutsideMath(plain);
+        }
+        working = restoreMathSegments(plain, segments);
+    } else {
+        if (stripTextMacroInPlain) {
+            working = stripTextMacroInPlain(working);
+        }
+        if (applyPhraseSpacingRepairs) {
+            working = applyPhraseSpacingRepairs(working);
+        }
+        if (normalizeCurrencyOutsideMath) {
+            working = normalizeCurrencyOutsideMath(working);
+        }
+    }
+
     working = stripBackslashesOutsideMath(working);
     working = neutralizeUnpairedDollarSigns(working);
     working = escapeCurrencyDollarsMathSafe(working);
@@ -834,7 +827,7 @@ function extractMathSegments(input) {
     if (typeof input !== 'string' || !input.length) {
         return segments;
     }
-    const mathRegex = /\$\$([\s\S]+?)\$\$|\$([\s\S]+?)\$|\\\(([\s\S]+?)\\\)/g;
+    const mathRegex = /\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]|\$([\s\S]+?)\$|\\\(([\s\S]+?)\\\)/g;
     let lastIndex = 0;
     let match;
     while ((match = mathRegex.exec(input)) !== null) {
@@ -844,9 +837,11 @@ function extractMathSegments(input) {
         if (typeof match[1] !== 'undefined') {
             segments.push({ type: 'math', value: match[1], displayMode: true, raw: match[0] });
         } else if (typeof match[2] !== 'undefined') {
-            segments.push({ type: 'math', value: match[2], displayMode: false, raw: match[0] });
-        } else {
+            segments.push({ type: 'math', value: match[2], displayMode: true, raw: match[0] });
+        } else if (typeof match[3] !== 'undefined') {
             segments.push({ type: 'math', value: match[3], displayMode: false, raw: match[0] });
+        } else {
+            segments.push({ type: 'math', value: match[4], displayMode: false, raw: match[0] });
         }
         lastIndex = mathRegex.lastIndex;
     }

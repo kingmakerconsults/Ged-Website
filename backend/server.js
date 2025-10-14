@@ -156,6 +156,17 @@ app.post('/define-word', async (req, res) => {
 });
 
 
+function fixStr(value) {
+    if (typeof value !== 'string') {
+        return value;
+    }
+    return value
+        .replace(/\\\$/g, '$')
+        .replace(new RegExp('\\\\`', 'g'), '`')
+        .replace(/\$\$(?=\d)/g, '$')
+        .replace(/\\([A-Za-z]{2,})/g, '\$1');
+}
+
 function cleanupQuizData(quiz) {
     if (!quiz || !Array.isArray(quiz.questions)) {
         console.warn("cleanupQuizData received invalid quiz object or no questions array.");
@@ -163,37 +174,62 @@ function cleanupQuizData(quiz) {
     }
 
     quiz.questions.forEach(q => {
-        // Sanitize questionText
         if (typeof q.questionText === 'string') {
-            // Replaces invalid \` with '
-            q.questionText = q.questionText.replace(/\\`/g, "'");
-            q.questionText = q.questionText.replace(/\\\$/g, "$");
-            q.questionText = q.questionText
-                .replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '$$$1')
-                .replace(/\\\$(\s*\d[\d.,]*)/g, '$$$1');
+            q.questionText = fixStr(q.questionText);
         } else {
-            // If questionText is not a string, log it and set to a default value
-            console.warn("Invalid questionText found, setting to empty string:", q.questionText);
+            console.warn("Invalid questionText encountered, substituting empty string.", {
+                questionNumber: q.questionNumber
+            });
             q.questionText = '';
         }
 
-        // Sanitize answerOptions
+        if (typeof q.rationale === 'string') {
+            q.rationale = fixStr(q.rationale);
+        }
+
         if (Array.isArray(q.answerOptions)) {
-            q.answerOptions.forEach(opt => {
-                if (typeof opt.text === 'string') {
-                    opt.text = opt.text.replace(/\\`/g, "'");
-                    opt.text = opt.text.replace(/\\\$/g, "$");
-                    opt.text = opt.text
-                        .replace(/(\d[\d.,]*)(\s*)\$(?!\d)/g, '$$$1')
-                        .replace(/\\\$(\s*\d[\d.,]*)/g, '$$$1');
-                } else {
-                    console.warn("Invalid answer option text found, setting to empty string:", opt.text);
-                    opt.text = '';
+            const originalOptions = q.answerOptions.map(opt => (
+                opt && typeof opt === 'object' ? { ...opt } : opt
+            ));
+            const sanitizedOptions = [];
+            let sanitizeFailed = false;
+
+            q.answerOptions.forEach((opt, index) => {
+                if (!opt || typeof opt !== 'object') {
+                    sanitizeFailed = true;
+                    return;
                 }
+
+                const sanitizedText = typeof opt.text === 'string' ? fixStr(opt.text) : opt.text;
+                const sanitizedRationale = typeof opt.rationale === 'string' ? fixStr(opt.rationale) : opt.rationale;
+
+                if (typeof sanitizedText !== 'string' || typeof sanitizedRationale !== 'string') {
+                    sanitizeFailed = true;
+                }
+
+                sanitizedOptions.push({
+                    ...opt,
+                    text: typeof sanitizedText === 'string' ? sanitizedText : '',
+                    rationale: typeof sanitizedRationale === 'string' ? sanitizedRationale : ''
+                });
             });
+
+            if (!sanitizeFailed && sanitizedOptions.length === q.answerOptions.length) {
+                q.answerOptions = sanitizedOptions;
+            } else {
+                const preview = Array.isArray(originalOptions) && originalOptions.length
+                    ? JSON.stringify(originalOptions[0]).slice(0, 200)
+                    : undefined;
+                console.warn('sanitizeOptionsFailed', {
+                    questionNumber: q.questionNumber,
+                    preview
+                });
+                q.answerOptions = Array.isArray(originalOptions) ? originalOptions : [];
+            }
         } else {
-            // If answerOptions is not an array, log and set to empty array
-            console.warn("Invalid answerOptions found, setting to empty array:", q.answerOptions);
+            console.warn('Invalid answerOptions found, setting to empty array.', {
+                questionNumber: q.questionNumber
+            });
             q.answerOptions = [];
         }
     });
@@ -201,7 +237,6 @@ function cleanupQuizData(quiz) {
     return quiz;
 }
 
-// Helper function to shuffle an array (Fisher-Yates shuffle)
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
