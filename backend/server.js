@@ -648,14 +648,25 @@ function shuffleArray(array) {
 const singleQuestionSchema = {
     type: "OBJECT",
     properties: {
-      type: { type: "STRING" },
-      passage: { type: "STRING" },
-      chartDescription: { type: "STRING" },
-      questionText: { type: "STRING" },
-      imageDescriptionForMatch: { type: "STRING" }, // For matching URLs
-      answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+        type: { type: "STRING" },
+        passage: { type: "STRING" },
+        chartDescription: { type: "STRING" },
+        questionText: { type: "STRING" },
+        imageDescriptionForMatch: { type: "STRING" }, // For matching URLs
+        answerOptions: {
+            type: "ARRAY",
+            items: {
+                type: "OBJECT",
+                properties: {
+                    text: { type: "STRING" },
+                    isCorrect: { type: "BOOLEAN" },
+                    rationale: { type: "STRING" }
+                },
+                required: ["text", "isCorrect", "rationale"]
+            }
+        }
     },
-    required: ["type", "questionText", "answerOptions"]
+    required: ["questionText", "answerOptions"]
 };
 
 const finalQuestionSchema = {
