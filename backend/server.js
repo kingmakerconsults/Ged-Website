@@ -137,7 +137,7 @@ function createLimiter(limit) {
 }
 
 const generationLimit = createLimiter(12);
-const repairLimit = createLimiter(8);
+const repairLimit = createLimiter(12);
 
 const SINGLE_ITEM_REPAIR_SYSTEM = `You will receive ONE question JSON object.
 Fix only formatting issues (JSON/LaTeX/currency). Keep meaning the same.
@@ -162,9 +162,11 @@ function normalizeLatex(text) {
 
     normalized = normalized.replace(/\\dfrac/g, '\\frac');
 
-    normalized = normalized.replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}');
-
-    normalized = normalized.replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
+    normalized = normalized
+        // repair /frac, ^rac, ↑rac, stray spaces before 'rac'
+        .replace(/(?:\\|\/|[\u2191\^])\s*rac\s*\{/g, '\\frac{')
+        .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
+        .replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
 
     normalized = normalized.replace(/<\/?(?:table|thead|tbody|tfoot|tr|th|td|caption|colgroup|col)[^>]*>/gi, ' ');
     normalized = normalized.replace(/<[^>]+>/g, ' ');
