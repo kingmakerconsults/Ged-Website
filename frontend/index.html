@@ -8,6 +8,43 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="textSanitizer.js"></script>
+    <script>
+      // Safe, cross-browser math fixer that ONLY edits text inside math delimiters.
+      // Supports $...$, $$...$$, \(...\), \[...\]
+      (function () {
+        // Insert a "\" before common LaTeX macros when missing, but don't use look-behind
+        const MACRO_FIX = /(^|[^\\])\b(frac|sqrt|times|div|cdot|le|ge|lt|gt|pi|sin|cos|tan|log|ln|pm|mp|neq|approx|theta|alpha|beta|gamma)\b(?=\s*[\[{(])/g;
+
+        function addMissingBackslashesInSegment(seg) {
+          return seg.replace(MACRO_FIX, (_m, p1, macro) => `${p1}\\${macro}`);
+        }
+
+        // Apply fix ONLY inside math segments
+        function fixAllMathInText(input) {
+          if (typeof input !== 'string' || input.length === 0) return input;
+
+          // $...$ and $$...$$
+          input = input.replace(/\$\$([\s\S]*?)\$\$|\$([\s\S]*?)\$/g, (m, m1, m2) => {
+            const body = m1 ?? m2;
+            const fixed = addMissingBackslashesInSegment(body);
+            return m1 != null ? `$$${fixed}$$` : `$${fixed}$`;
+          });
+
+          // \(...\)
+          input = input.replace(/\\\(([\s\S]*?)\\\)/g, (_m, body) => `\\(${addMissingBackslashesInSegment(body)}\\)`);
+
+          // \[...\]
+          input = input.replace(/\\\[([\s\S]*?)\\\]/g, (_m, body) => `\\[${addMissingBackslashesInSegment(body)}\\]`);
+
+          return input;
+        }
+
+        // Expose/override
+        window.TextSanitizer = window.TextSanitizer || {};
+        window.TextSanitizer.fixAllMathInText = fixAllMathInText;
+        window.TextSanitizer.addMissingBackslashesInMath = fixAllMathInText; // backward-compat with your current call site
+      })();
+    </script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
@@ -130,7 +167,24 @@ class ErrorBoundary extends React.Component {
     }
 }
 
-const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath } = window.TextSanitizer || {};
+const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath, fixAllMathInText } = window.TextSanitizer || {};
+
+function applySafeMathFix(text) {
+    if (typeof text !== 'string') {
+        return text;
+    }
+    if (typeof fixAllMathInText === 'function') {
+        return fixAllMathInText(text);
+    }
+    if (typeof addMissingBackslashesInMath === 'function') {
+        return addMissingBackslashesInMath(text);
+    }
+    const legacy = (typeof window !== 'undefined' && window.TextSanitizer && window.TextSanitizer.addMissingBackslashesInMath);
+    if (typeof legacy === 'function') {
+        return legacy(text);
+    }
+    return text;
+}
 
 const ALLOWED_HTML_TAGS = [
     'a','b','strong','i','em','u','s','span','p','br','ul','ol','li','table','thead','tbody','tfoot','tr','th','td','caption',
@@ -184,6 +238,27 @@ function normalizeLatexForKaTeX(latex) {
         .replace(/\\\\([A-Za-z]+)/g, '\\$1')
         .replace(/\\left\s*/g, '')
         .replace(/\\right\s*/g, '');
+}
+
+const KATEX_RENDER_OPTIONS = { throwOnError: false, strict: 'ignore' };
+
+function renderLatexToHtml(latexInput) {
+    if (typeof latexInput !== 'string') {
+        return '';
+    }
+    if (typeof katex === 'undefined') {
+        throw new Error('KaTeX not available');
+    }
+    const latex = normalizeLatexForKaTeX(latexInput);
+    if (typeof document !== 'undefined' && typeof document.createElement === 'function' && typeof katex.render === 'function') {
+        const container = document.createElement('span');
+        katex.render(latex, container, KATEX_RENDER_OPTIONS);
+        return container.innerHTML;
+    }
+    if (typeof katex.renderToString === 'function') {
+        return katex.renderToString(latex, KATEX_RENDER_OPTIONS);
+    }
+    throw new Error('KaTeX render helpers missing');
 }
 
 function smartWrapLatex(input) {
@@ -276,9 +351,7 @@ function escapeHtml(value) {
 function renderStem(text) {
     if (typeof text !== 'string') return '';
     const normalized = normalizeLatex(text);
-    const rescued = (typeof addMissingBackslashesInMath === 'function')
-        ? addMissingBackslashesInMath(normalized)
-        : normalized;
+    const rescued = applySafeMathFix(normalized);
     const safeLatex = normalizeLatexForKaTeX(rescued);
     const wrapped = smartWrapLatex(safeLatex);
     if (typeof wrapped !== 'string' || wrapped.length === 0) {
@@ -297,11 +370,8 @@ function renderStem(text) {
         }
         const inner = match[1];
         try {
-            if (typeof katex === 'undefined') {
-                throw new Error('KaTeX not available');
-            }
-            const latex = normalizeLatexForKaTeX(inner);
-            parts.push(katex.renderToString(latex, { throwOnError: false }));
+            const html = renderLatexToHtml(inner);
+            parts.push(html);
         } catch (err) {
             console.warn('KaTeX render fallback triggered:', err?.message || err);
             parts.push(escapeHtml(inner));
@@ -2769,16 +2839,20 @@ function FormulaSheetModal({ onClose }) {
         const sanitizedFormula = typeof formula === 'string'
             ? (() => {
                 let working = formula;
-                if (typeof addMissingBackslashesInMath === 'function') {
-                    working = addMissingBackslashesInMath(working);
-                }
+                working = applySafeMathFix(working);
                 if (typeof normalizeLatexMacrosInMath === 'function') {
                     working = normalizeLatexMacrosInMath(working);
                 }
                 return working;
             })()
             : formula;
-        const html = katex.renderToString(sanitizedFormula, { throwOnError: false, strict: 'ignore' });
+        let html = '';
+        try {
+            html = renderLatexToHtml(sanitizedFormula);
+        } catch (err) {
+            console.warn('KaTeX render fallback triggered:', err?.message || err);
+            html = escapeHtml(typeof sanitizedFormula === 'string' ? sanitizedFormula : '');
+        }
 
         return (
             <div className="mb-4">
