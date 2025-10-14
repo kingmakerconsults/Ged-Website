@@ -27,6 +27,11 @@ const {
 const TextSanitizer = require('./textSanitizer');
 const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
 const { sanitizeExamObject, sanitizeField } = require('./src/lib/sanitizeExamText');
+const {
+    generateMathExamTwoPass,
+    VALIDATOR_SYSTEM_PROMPT,
+    VALIDATOR_USER_PROMPT
+} = require('./src/services/mathTwoPass');
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
@@ -36,6 +41,7 @@ const openaiClient = process.env.OPENAI_API_KEY
     : null;
 
 const GEOMETRY_FIGURES_ENABLED = String(process.env.GEOMETRY_FIGURES_ENABLED || '').toLowerCase() === 'true';
+const MATH_TWO_PASS_ENABLED = String(process.env.MATH_TWO_PASS_ENABLED || 'true').toLowerCase() === 'true';
 
 if (!GEOMETRY_FIGURES_ENABLED) {
     console.info('Geometry figures disabled (GEOMETRY_FIGURES_ENABLED=false); using text-only diagram descriptions.');
@@ -716,6 +722,21 @@ const quizSchema = {
     required: ["id", "title", "subject", "questions"]
 };
 
+const MATH_VALIDATOR_SCHEMA = {
+    type: "ARRAY",
+    items: {
+        type: "OBJECT",
+        properties: {
+            qid: { type: "STRING" },
+            field: { type: "STRING" },
+            corrected: { type: "STRING" },
+            notes: { type: "STRING" }
+        },
+        required: ["qid", "field", "corrected"],
+        additionalProperties: true
+    }
+};
+
 function repairIllegalJsonEscapes(s) {
     if (typeof s !== 'string') return s;
     return s.replace(/\\(?!["\\\/bfnrtu])/g, '\\\\');
@@ -783,6 +804,122 @@ const callAI = async (prompt, schema, options = {}) => {
         throw error;
     }
 };
+
+async function callMathValidator(payload) {
+    if (!MATH_TWO_PASS_ENABLED) {
+        return [];
+    }
+
+    const system = payload?.system || VALIDATOR_SYSTEM_PROMPT;
+    const user = payload?.user || VALIDATOR_USER_PROMPT;
+    const prompt = `SYSTEM:\n${system}\n\nUSER:\n${user}`;
+
+    try {
+        return await callAI(prompt, MATH_VALIDATOR_SCHEMA, {
+            generationOverrides: { temperature: 0.2 }
+        });
+    } catch (error) {
+        console.error('Math validator call failed; continuing with auto-fixed text.', error.message || error);
+        return [];
+    }
+}
+
+async function runMathTwoPassOnQuestions(questions, subject) {
+    if (!MATH_TWO_PASS_ENABLED) {
+        return;
+    }
+
+    if (!Array.isArray(questions) || !questions.length) {
+        return;
+    }
+
+    const exam = {
+        subject: subject || '',
+        questions: []
+    };
+
+    const questionMap = new Map();
+
+    questions.forEach((question, index) => {
+        if (!question || typeof question !== 'object') {
+            return;
+        }
+
+        const qid = String(
+            question.id != null
+                ? question.id
+                : question.questionNumber != null
+                    ? question.questionNumber
+                    : `math-${index}`
+        );
+
+        const choiceMap = new Map();
+        const choices = Array.isArray(question.answerOptions)
+            ? question.answerOptions.map((opt, idx) => {
+                const choiceId = String(opt && opt.id != null ? opt.id : idx);
+                if (opt) {
+                    choiceMap.set(choiceId, opt);
+                }
+                return {
+                    id: choiceId,
+                    text: typeof (opt && opt.text) === 'string' ? opt.text : ''
+                };
+            })
+            : [];
+
+        questionMap.set(qid, {
+            original: question,
+            choices: choiceMap
+        });
+
+        exam.questions.push({
+            id: qid,
+            stem: typeof question.questionText === 'string' ? question.questionText : '',
+            choices,
+            explanation: typeof question.rationale === 'string' ? question.rationale : undefined
+        });
+    });
+
+    if (!exam.questions.length) {
+        return;
+    }
+
+    const processed = await generateMathExamTwoPass(() => Promise.resolve(exam), callMathValidator);
+
+    if (!processed || !Array.isArray(processed.questions)) {
+        return;
+    }
+
+    processed.questions.forEach((processedQuestion) => {
+        const entry = questionMap.get(String(processedQuestion.id));
+        if (!entry) {
+            return;
+        }
+
+        const { original, choices } = entry;
+
+        if (typeof processedQuestion.stem === 'string') {
+            original.questionText = processedQuestion.stem;
+        }
+
+        if (Array.isArray(processedQuestion.choices)) {
+            processedQuestion.choices.forEach((choice) => {
+                const target = choices.get(String(choice.id));
+                if (target && typeof choice.text === 'string') {
+                    target.text = choice.text;
+                }
+            });
+        }
+
+        if (typeof processedQuestion.explanation === 'string') {
+            if (original.rationale !== undefined) {
+                original.rationale = processedQuestion.explanation;
+            } else if (processedQuestion.explanation.length) {
+                original.rationale = processedQuestion.explanation;
+            }
+        }
+    });
+}
 
 // Helper functions for generating different types of quiz content
 
@@ -1438,11 +1575,22 @@ app.post('/generate-quiz', async (req, res) => {
         });
 
         // --- NEW: Second Pass Correction for Math ---
-        console.log("Applying second-pass correction to all math questions...");
-        const correctedPart1 = await Promise.all(part1Questions.filter(q => q).map(q => reviewAndCorrectMathQuestion(q)));
-        const correctedPart2 = await Promise.all(part2Questions.map(q => reviewAndCorrectMathQuestion(q)));
+        let correctedPart1;
+        let correctedPart2;
+        let correctedAllQuestions;
 
-        const correctedAllQuestions = [...correctedPart1, ...correctedPart2];
+        if (MATH_TWO_PASS_ENABLED) {
+            console.log("Applying math two-pass linting pipeline...");
+            correctedPart1 = part1Questions.filter(q => q);
+            correctedPart2 = part2Questions.filter(q => q);
+            correctedAllQuestions = [...correctedPart1, ...correctedPart2];
+            await runMathTwoPassOnQuestions(correctedAllQuestions, subject);
+        } else {
+            console.log("Applying legacy math correction pipeline...");
+            correctedPart1 = await Promise.all(part1Questions.filter(q => q).map(q => reviewAndCorrectMathQuestion(q)));
+            correctedPart2 = await Promise.all(part2Questions.map(q => reviewAndCorrectMathQuestion(q)));
+            correctedAllQuestions = [...correctedPart1, ...correctedPart2];
+        }
 
         // --- NEW: Final Server-Side Sanitization ---
         correctedAllQuestions.forEach(q => {
@@ -1550,6 +1698,11 @@ app.post('/generate-quiz', async (req, res) => {
             finalQuestions.forEach((q, index) => {
                 q.questionNumber = index + 1;
             });
+
+            if (subject === 'Math' && MATH_TWO_PASS_ENABLED) {
+                console.log('Applying math two-pass linting pipeline to topic quiz...');
+                await runMathTwoPassOnQuestions(finalQuestions, subject);
+            }
 
             let draftQuiz = {
                 id: `ai_topic_${new Date().getTime()}`,
