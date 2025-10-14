@@ -1,3 +1,19 @@
+function collapseSplitLatexCommands(source) {
+    if (typeof source !== 'string' || !source.length) {
+        return source;
+    }
+
+    let normalized = source.replace(/\\{2}(?=[A-Za-z_])/g, '\\');
+
+    let previous;
+    do {
+        previous = normalized;
+        normalized = normalized.replace(/([A-Za-z])\\_/g, '$1');
+    } while (normalized !== previous);
+
+    return normalized.replace(/\\([A-Za-z])(?:\\([A-Za-z]))+/g, (match) => `\\${match.replace(/\\/g, '')}`);
+}
+
 function normalizeLatex(text) {
     if (typeof text !== 'string' || !text.length) {
         return text;
@@ -26,15 +42,7 @@ function normalizeLatex(text) {
         .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
         .replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
 
-    normalized = normalized.replace(/\\[A-Za-z]+(?:\\_+\\[A-Za-z]+)+/g, (cmd) => {
-        const withoutPlaceholders = cmd.replace(/\\_/g, '');
-        return withoutPlaceholders.replace(/(?!^)\\(?=[A-Za-z])/g, '');
-    });
-
-    normalized = normalized
-        .replace(/\\f(?:\\_+)?r(?:\\_+)?a(?:\\_+)?c/gi, '\\frac')
-        .replace(/\\s(?:\\_+)?q(?:\\_+)?r(?:\\_+)?t/gi, '\\sqrt')
-        .replace(/\\t(?:\\_+)?i(?:\\_+)?m(?:\\_+)?e(?:\\_+)?s/gi, '\\times');
+    normalized = collapseSplitLatexCommands(normalized);
 
     normalized = normalized.replace(/(?<![A-Za-z])rac\s*\{/g, '\\frac{');
 

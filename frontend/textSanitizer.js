@@ -102,14 +102,16 @@
 
     function collapseUnderscoredLatexMacros(s) {
         if (typeof s !== 'string') return s;
-        // Remove \_ placeholders between macro letters, e.g. \f\_\_\_\_r\_\_a\_\_c -> \frac
-        const squeezed = s.replace(/\\_(?:\\_)+/g, '\\_')
-            .replace(/\\_/g, '');
-        // Now fix common macros that may still be split by stray backslashes
-        return squeezed
-            .replace(/\\f(?:\\)?r(?:\\)?a(?:\\)?c/gi, '\\frac')
-            .replace(/\\s(?:\\)?q(?:\\)?r(?:\\)?t/gi, '\\sqrt')
-            .replace(/\\t(?:\\)?i(?:\\)?m(?:\\)?e(?:\\)?s/gi, '\\times');
+
+        let normalized = s.replace(/\\{2}(?=[A-Za-z_])/g, '\\');
+
+        let previous;
+        do {
+            previous = normalized;
+            normalized = normalized.replace(/([A-Za-z])\\_/g, '$1');
+        } while (normalized !== previous);
+
+        return normalized.replace(/\\([A-Za-z])(?:\\([A-Za-z]))+/g, (match) => `\\${match.replace(/\\/g, '')}`);
     }
 
     function normalizeLatexMacrosInMath(latex) {
