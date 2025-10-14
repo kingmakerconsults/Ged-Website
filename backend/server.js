@@ -26,6 +26,7 @@ const {
 } = require('./utils/geometryJson');
 const TextSanitizer = require('./textSanitizer');
 const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
+const { adminPreviewBypass } = require('./src/middleware/adminBypass');
 const { sanitizeExamObject, sanitizeField } = require('./src/lib/sanitizeExamText');
 const {
     generateMathExamTwoPass,
@@ -174,6 +175,7 @@ function normalizeLatex(text) {
     normalized = normalized
         // repair /frac, ^rac, ↑rac, stray spaces before 'rac'
         .replace(/(?:\\|\/|[\u2191\^])\s*rac\s*\{/g, '\\frac{')
+        .replace(/(?<![A-Za-z])rac\s*\{/g, '\\frac{')
         .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
         .replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
 
@@ -387,10 +389,14 @@ async function runExam() {
             cleaned.push(sanitizeQuestionKeepLatex(cloneQuestion(q)));
         }
     }
-    const { fixed, repaired, failures } = await repairSubset(cleaned);
-    console.info(`Targeted repair complete: repaired=${repaired}, failures=${failures.length}`);
-
-    return fixed;
+    try {
+        const { fixed, repaired, failures } = await repairSubset(cleaned);
+        console.info(`Targeted repair complete: repaired=${repaired}, failures=${failures.length}`);
+        return fixed;
+    } catch (error) {
+        console.error('Repair subset failed, returning sanitized originals.', error);
+        return cleaned;
+    }
 }
 
 const pool = new Pool({
@@ -1840,6 +1846,8 @@ app.post('/api/auth/google', async (req, res) => {
         res.status(500).json({ error: 'Authentication or database error.' });
     }
 });
+
+app.post('/admin/bypass-login', adminPreviewBypass);
 
 app.post('/api/admin/login', adminBypassLogin);
 
