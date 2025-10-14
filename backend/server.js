@@ -155,7 +155,9 @@ Fix only formatting issues (JSON/LaTeX/currency). Keep meaning the same.
 
 Rules:
 - LaTeX macros allowed (\\frac, \\sqrt, \\pi, ^, _) but NO math delimiters ($, $$, \\(, \\[).
-- Replace currency symbols with words (e.g., "\\$50" → "50 dollars").
+- Currency: keep the literal dollar sign (e.g., "$12.50").
+- If currency is accidentally wrapped in math delimiters — "$12.50$", "$$12.50$$", "\\($12.50\\)" — remove the delimiters so it becomes plain "$12.50".
+- Never rewrite "$12.50" as "12.50 dollars".
 - No HTML or markdown in questionText/rationales.`;
 
 function sanitizeTextKeepLatex(value) {
@@ -535,7 +537,10 @@ function fixStr(value) {
                 return `$${currencyMatch[1].trim()}`;
             }
         }
-        const withBackslashes = TextSanitizer.addMissingBackslashesInMath(segment);
+        const collapsed = typeof TextSanitizer.collapseUnderscoredLatexMacros === 'function'
+            ? TextSanitizer.collapseUnderscoredLatexMacros(segment)
+            : segment;
+        const withBackslashes = TextSanitizer.addMissingBackslashesInMath(collapsed);
         return TextSanitizer.normalizeLatexMacrosInMath(withBackslashes);
     });
 
