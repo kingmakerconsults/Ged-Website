@@ -212,13 +212,22 @@ async function repairOneWithOpenAI(original) {
     return pRetry(run, { retries: 3, minTimeout: 500, maxTimeout: 1500 });
 }
 
-function hasForbiddenContent(q) {
-    const textBits = [q?.questionText || ''];
+function getQuestionTextSegments(q) {
+    const segments = [];
+    if (typeof q?.questionText === 'string') {
+        segments.push(q.questionText);
+    }
     if (Array.isArray(q?.answerOptions)) {
         for (const opt of q.answerOptions) {
-            textBits.push(opt?.text || '');
+            if (typeof opt?.text === 'string') segments.push(opt.text);
+            if (typeof opt?.rationale === 'string') segments.push(opt.rationale);
         }
     }
+    return segments;
+}
+
+function hasForbiddenContent(q) {
+    const textBits = getQuestionTextSegments(q);
     const s = textBits.join(' ');
     if (/[<](?:table|tr|td|th|thead|tbody|caption)\b/i.test(s)) return true;
     if (/\$\$|\\\[|\\\]|\$(?!\d)/.test(s)) return true;
@@ -226,15 +235,84 @@ function hasForbiddenContent(q) {
     return false;
 }
 
+function findMatchingBrace(text, startIndex) {
+    let depth = 0;
+    for (let i = startIndex; i < text.length; i += 1) {
+        const char = text[i];
+        if (char === '{') {
+            depth += 1;
+        } else if (char === '}') {
+            depth -= 1;
+            if (depth === 0) return i;
+            if (depth < 0) return -1;
+        }
+    }
+    return -1;
+}
+
+function hasBraceImbalance(text) {
+    if (typeof text !== 'string') return false;
+    let depth = 0;
+    for (const char of text) {
+        if (char === '{') {
+            depth += 1;
+        } else if (char === '}') {
+            depth -= 1;
+            if (depth < 0) return true;
+        }
+    }
+    return depth !== 0;
+}
+
+const MACROS_REQUIRING_BRACES = [
+    { macro: '\\frac', braceGroups: 2 },
+    { macro: '\\sqrt', braceGroups: 1 }
+];
+
+function hasBrokenLatexMacro(text) {
+    if (typeof text !== 'string') return false;
+    for (const { macro, braceGroups } of MACROS_REQUIRING_BRACES) {
+        let idx = text.indexOf(macro);
+        while (idx !== -1) {
+            let cursor = idx + macro.length;
+            let missingGroup = false;
+            for (let group = 0; group < braceGroups; group += 1) {
+                while (cursor < text.length && /\s/.test(text[cursor])) {
+                    cursor += 1;
+                }
+                if (cursor >= text.length || text[cursor] !== '{') {
+                    missingGroup = true;
+                    break;
+                }
+                const closing = findMatchingBrace(text, cursor);
+                if (closing === -1) {
+                    missingGroup = true;
+                    break;
+                }
+                cursor = closing + 1;
+            }
+            if (missingGroup) return true;
+            idx = text.indexOf(macro, idx + macro.length);
+        }
+    }
+    return false;
+}
+
+function hasLatexStructuralErrors(q) {
+    const segments = getQuestionTextSegments(q);
+    return segments.some((segment) => hasBraceImbalance(segment) || hasBrokenLatexMacro(segment));
+}
+
 function needsRepair(q) {
     if (!validateQuestion(q)) return true;
     if (hasForbiddenContent(q)) return true;
+    if (hasLatexStructuralErrors(q)) return true;
     const sanitized = sanitizeQuestionKeepLatex(cloneQuestion(q));
     return JSON.stringify(sanitized) !== JSON.stringify(q);
 }
 
 async function repairSubset(questions = []) {
-    const out = questions.map((q) => cloneQuestion(q));
+    const out = questions.map((q) => sanitizeQuestionKeepLatex(cloneQuestion(q)));
     const badIdxs = [];
 
     questions.forEach((q, i) => {
@@ -256,8 +334,7 @@ async function repairSubset(questions = []) {
                 throw new Error('Ajv validation failed after repair.');
             }
 
-            fixed = sanitizeQuestionKeepLatex(cloneQuestion(fixed));
-            out[i] = fixed;
+            out[i] = sanitizeQuestionKeepLatex(cloneQuestion(fixed));
         } catch (err) {
             console.error('Repair failed for index', i, err?.message || err);
             failures.push({ index: i, id: original?.id });
@@ -332,7 +409,7 @@ async function runExam() {
     const cleaned = [];
     for (const q of all) {
         if (validateQuestion(q)) {
-            cleaned.push(sanitizeQuestionKeepLatex(cloneQuestion(q)));
+            cleaned.push(cloneQuestion(q));
         }
     }
     const { fixed, repaired, failures } = await repairSubset(cleaned);
