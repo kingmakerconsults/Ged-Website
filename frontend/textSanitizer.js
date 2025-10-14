@@ -103,7 +103,17 @@
         if (typeof latex !== 'string' || !latex.length) {
             return latex;
         }
-        return latex.replace(/\\\\([A-Za-z]{2,})/g, (_, macro) => String.fromCharCode(92) + macro);
+        return latex.replace(/\\\\([A-Za-z]+)/g, (_, macro) => `\\${macro}`);
+    }
+
+    function addMissingBackslashesInMath(mathStr) {
+        if (typeof mathStr !== 'string') return mathStr;
+        const MACROS = [
+            'frac','sqrt','times','div','cdot','le','ge','lt','gt','pi',
+            'sin','cos','tan','log','ln','pm','mp','neq','approx','theta','alpha','beta','gamma'
+        ];
+        const macroRegex = new RegExp(`(?<!\\)\\b(${MACROS.join('|')})\\b(?=\\s*[\\[{(])`, 'g');
+        return mathStr.replace(macroRegex, (match) => `\\${match}`);
     }
 
     return {
@@ -112,6 +122,7 @@
         normalizeCurrencyOutsideMath,
         stripTextMacroInPlain,
         applyPhraseSpacingRepairs,
-        normalizeLatexMacrosInMath
+        normalizeLatexMacrosInMath,
+        addMissingBackslashesInMath
     };
 }));
