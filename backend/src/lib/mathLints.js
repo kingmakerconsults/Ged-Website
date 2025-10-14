@@ -24,7 +24,7 @@ function autoFixMathText(input) {
     let s = input ?? '';
     const issues = [];
 
-    s = s.replace(/(^|[^\\])rac\s*\{/g, (_m, pre) => {
+    s = s.replace(/(^|[^\\])(frac|rac)\s*\{/g, (_m, pre) => {
         issues.push({ id: '', field: 'stem', message: 'Added missing backslash in \\frac', before: input });
         return `${pre}\\frac{`;
     });

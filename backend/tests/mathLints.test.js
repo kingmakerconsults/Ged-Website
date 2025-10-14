@@ -10,6 +10,12 @@ test('fixes missing backslash in frac', () => {
     assert.equal(needsGptCorrection(text).length, 0);
 });
 
+test('fixes bare frac token at start of string', () => {
+    const { text } = autoFixMathText('frac{1}{2}');
+    assert.equal(text, '\\frac{1}{2}');
+    assert.equal(needsGptCorrection(text).length, 0);
+});
+
 test('exponent normalization', () => {
     const { text } = autoFixMathText('area = s^2 and volume = s^(3)');
     assert.ok(text.includes('s^{2}'));
