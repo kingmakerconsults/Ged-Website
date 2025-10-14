@@ -588,6 +588,12 @@ function cleanupQuizData(quiz) {
             q.questionText = '';
         }
 
+        if (typeof q.scenarioSummary === 'string') {
+            q.scenarioSummary = fixStr(q.scenarioSummary);
+        } else if (q.scenarioSummary != null) {
+            q.scenarioSummary = '';
+        }
+
         if (typeof q.rationale === 'string') {
             q.rationale = fixStr(q.rationale);
         }
@@ -783,23 +789,33 @@ const callAI = async (prompt, schema, options = {}) => {
 // Helper functions for generating different types of quiz content
 
 const generatePassageSet = async (topic, subject, numQuestions, options = {}) => {
-    const { existingQuestionTexts = [] } = options;
-    const dedupeGuidance = existingQuestionTexts.length
-        ? `\nEXISTING QUESTION STEMS (already used in this quiz — avoid repeating or paraphrasing them, and do not reuse the same historical event or civic scenario):\n${existingQuestionTexts.map((text, index) => `${index + 1}. ${text}`).join('\n')}\n`
-        : '';
+    const { existingQuestionTexts = [], existingScenarioSummaries = [] } = options;
+    const dedupeSegments = [];
+
+    if (existingQuestionTexts.length) {
+        dedupeSegments.push(`EXISTING QUESTION STEMS (already used in this quiz — avoid repeating or paraphrasing them, and do not reuse the same historical event or civic scenario):\n${existingQuestionTexts.map((text, index) => `${index + 1}. ${text}`).join('\n')}`);
+    }
+
+    if (existingScenarioSummaries.length) {
+        dedupeSegments.push(`EXISTING SCENARIO SUMMARIES (each describes a context already covered — choose a completely different context):\n${existingScenarioSummaries.map((summary, index) => `${index + 1}. ${summary}`).join('\n')}`);
+    }
+
+    const dedupeGuidance = dedupeSegments.length ? `\n${dedupeSegments.join('\n\n')}\n` : '';
 
     const prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'.${dedupeGuidance}
     Then, based ONLY on the passage, generate ${numQuestions} unique multiple-choice questions. EACH question must examine a different takeaway or skill (for example: main idea, supporting detail, inference, vocabulary-in-context, author's purpose) so that no two questions feel redundant.
     The question text MUST NOT repeat sentences from the passage, and it must clearly reference the unique detail it is asking about.
+    For each question, include an additional field named "scenarioSummary" (1 sentence, 12-25 words) that concisely states the unique context or scenario the question focuses on. These summaries will be used to eliminate duplicate contexts, so they must be specific and mutually distinct.
     Output a single valid JSON object with keys "passage" and "questions".`;
 
     const questionSchema = {
         type: "OBJECT",
         properties: {
             questionText: { type: "STRING" },
+            scenarioSummary: { type: "STRING" },
             answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
         },
-        required: ["questionText", "answerOptions"]
+        required: ["questionText", "scenarioSummary", "answerOptions"]
     };
 
     const schema = {
@@ -814,6 +830,7 @@ const generatePassageSet = async (topic, subject, numQuestions, options = {}) =>
     const result = await callAI(prompt, schema);
     return result.questions.map(q => ({
         ...q,
+        scenarioSummary: typeof q.scenarioSummary === 'string' ? q.scenarioSummary.trim() : '',
         passage: result.passage,
         type: 'passage'
     }));
@@ -821,10 +838,18 @@ const generatePassageSet = async (topic, subject, numQuestions, options = {}) =>
 
 
 const generateImageQuestion = async (topic, subject, imagePool, numQuestions, options = {}) => {
-    const { existingQuestionTexts = [] } = options;
-    const dedupeGuidance = existingQuestionTexts.length
-        ? `\nEXISTING QUESTION STEMS (already used in this quiz — avoid repeating or paraphrasing them, and do not reuse the same analytical focus):\n${existingQuestionTexts.map((text, index) => `${index + 1}. ${text}`).join('\n')}\n`
-        : '';
+    const { existingQuestionTexts = [], existingScenarioSummaries = [] } = options;
+    const dedupeSegments = [];
+
+    if (existingQuestionTexts.length) {
+        dedupeSegments.push(`EXISTING QUESTION STEMS (already used in this quiz — avoid repeating or paraphrasing them, and do not reuse the same analytical focus):\n${existingQuestionTexts.map((text, index) => `${index + 1}. ${text}`).join('\n')}`);
+    }
+
+    if (existingScenarioSummaries.length) {
+        dedupeSegments.push(`EXISTING SCENARIO SUMMARIES (contexts already covered — choose a different experiment, data set, or historical moment):\n${existingScenarioSummaries.map((summary, index) => `${index + 1}. ${summary}`).join('\n')}`);
+    }
+
+    const dedupeGuidance = dedupeSegments.length ? `\n${dedupeSegments.join('\n\n')}\n` : '';
     // Filter by subject AND the specific topic (category)
     let relevantImages = imagePool.filter(img => img.subject === subject && img.category === topic);
     let selectedImage;
@@ -848,6 +873,7 @@ If the subject is Science, prioritize scientifically accurate terminology and al
 - **Description:** ${selectedImage.detailedDescription}
 - **Usage Directives:** ${selectedImage.usageDirectives || 'N/A'}
 
+For each question, include a "scenarioSummary" field (1 sentence, 12-25 words) that names the specific scientific or historical focus shown in the image so we can verify uniqueness.
 Output a JSON array of the question objects, each including an 'imagePath' key with the value '${selectedImage.filePath}'.`;
 
     const imageQuestionSchema = {
@@ -856,10 +882,11 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
             type: "OBJECT",
             properties: {
                 questionText: { type: "STRING" },
+                scenarioSummary: { type: "STRING" },
                 answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } },
                 imagePath: { type: "STRING" }
             },
-            required: ["questionText", "answerOptions", "imagePath"]
+            required: ["questionText", "scenarioSummary", "answerOptions", "imagePath"]
         }
     };
 
@@ -868,6 +895,7 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
         // Map imagePath to imageUrl and add type
         return questions.map(q => ({
             ...q,
+            scenarioSummary: typeof q.scenarioSummary === 'string' ? q.scenarioSummary.trim() : '',
             imageUrl: q.imagePath.replace(/^\/frontend/, ''), // Keep this transformation
             type: 'image'
         }));
@@ -878,10 +906,18 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
 };
 
 const generateStandaloneQuestion = async (subject, topic, options = {}) => {
-    const { existingQuestionTexts = [] } = options;
-    const dedupeGuidance = existingQuestionTexts.length
-        ? `\nEXISTING QUESTION STEMS (already used in this quiz — avoid repeating or paraphrasing them, and select a scenario that has not appeared yet):\n${existingQuestionTexts.map((text, index) => `${index + 1}. ${text}`).join('\n')}\n`
-        : '';
+    const { existingQuestionTexts = [], existingScenarioSummaries = [] } = options;
+    const dedupeSegments = [];
+
+    if (existingQuestionTexts.length) {
+        dedupeSegments.push(`EXISTING QUESTION STEMS (already used in this quiz — avoid repeating or paraphrasing them, and select a scenario that has not appeared yet):\n${existingQuestionTexts.map((text, index) => `${index + 1}. ${text}`).join('\n')}`);
+    }
+
+    if (existingScenarioSummaries.length) {
+        dedupeSegments.push(`EXISTING SCENARIO SUMMARIES (contexts already covered — choose a fresh situation, legislation, data trend, or experiment):\n${existingScenarioSummaries.map((summary, index) => `${index + 1}. ${summary}`).join('\n')}`);
+    }
+
+    const dedupeGuidance = dedupeSegments.length ? `\n${dedupeSegments.join('\n\n')}\n` : '';
     let prompt;
     // Conditional prompt based on the subject
     if (subject === 'Math') {
@@ -889,25 +925,29 @@ const generateStandaloneQuestion = async (subject, topic, options = {}) => {
         STRICT REQUIREMENT: The question MUST be a math problem that requires mathematical reasoning to solve.
         DO NOT generate a reading passage or a reading comprehension question (e.g., "What is the main idea...").
         IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.
-        Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+        Include a field named "scenarioSummary" (1 sentence, 12-25 words) describing the unique situation or data set used in the problem.
+        Output a single valid JSON object for the question, including "questionText", "scenarioSummary", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
     } else {
         prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
         The question should not require any external passage, chart, or image.
         The scenario must explore a fresh angle that has not appeared in any prior question in this quiz.${dedupeGuidance}
-        Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+        Include a field named "scenarioSummary" (1 sentence, 12-25 words) describing the distinct scenario, event, or data set featured in the question.
+        Output a single valid JSON object for the question, including "questionText", "scenarioSummary", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
     }
 
     const schema = {
         type: "OBJECT",
         properties: {
             questionText: { type: "STRING" },
+            scenarioSummary: { type: "STRING" },
             answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
         },
-        required: ["questionText", "answerOptions"]
+        required: ["questionText", "scenarioSummary", "answerOptions"]
     };
 
-const question = await callAI(prompt, schema);
+    const question = await callAI(prompt, schema);
     question.type = 'standalone';
+    question.scenarioSummary = typeof question.scenarioSummary === 'string' ? question.scenarioSummary.trim() : '';
     return question;
 };
 
@@ -918,12 +958,25 @@ const normalizeQuestionKey = (text) => {
     return text.replace(/\s+/g, ' ').trim().toLowerCase();
 };
 
+const normalizeScenarioKey = (text) => {
+    if (typeof text !== 'string') {
+        return '';
+    }
+
+    return text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]+/g, ' ')
+        .replace(/\b(the|a|an|of|in|on|to|for|with|and|from|by|about|based|using)\b/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+};
+
 const MAX_BLOCK_ATTEMPTS = 3;
 
-async function attemptQuestionBlock(task, seenKeys, existingQuestionTexts) {
+async function attemptQuestionBlock(task, seenKeys, existingQuestionTexts, seenScenarioKeys, existingScenarioSummaries) {
     for (let attempt = 1; attempt <= MAX_BLOCK_ATTEMPTS; attempt++) {
         try {
-            const raw = await task.generator(existingQuestionTexts);
+            const raw = await task.generator({ existingQuestionTexts, existingScenarioSummaries });
             const items = Array.isArray(raw) ? raw.filter(Boolean) : [raw].filter(Boolean);
 
             if (!items.length) {
@@ -931,6 +984,7 @@ async function attemptQuestionBlock(task, seenKeys, existingQuestionTexts) {
             }
 
             const localKeys = new Set();
+            const localScenarioKeys = new Set();
             const uniqueQuestions = [];
             let droppedQuestion = false;
 
@@ -941,13 +995,23 @@ async function attemptQuestionBlock(task, seenKeys, existingQuestionTexts) {
                 }
 
                 const key = normalizeQuestionKey(question.questionText);
+                const scenarioSummary = typeof question.scenarioSummary === 'string' ? question.scenarioSummary.trim() : '';
+                const scenarioKey = normalizeScenarioKey(scenarioSummary || question.passage || question.imagePath || question.questionText);
 
-                if (!key || localKeys.has(key) || seenKeys.has(key)) {
+                if (!scenarioSummary) {
+                    droppedQuestion = true;
+                    continue;
+                }
+
+                if (!key || localKeys.has(key) || seenKeys.has(key) || (scenarioKey && (localScenarioKeys.has(scenarioKey) || seenScenarioKeys.has(scenarioKey)))) {
                     droppedQuestion = true;
                     continue;
                 }
 
                 localKeys.add(key);
+                if (scenarioKey) {
+                    localScenarioKeys.add(scenarioKey);
+                }
                 uniqueQuestions.push(question);
             }
 
@@ -969,11 +1033,14 @@ async function attemptQuestionBlock(task, seenKeys, existingQuestionTexts) {
 async function runSequentialQuestionPlan(plan) {
     const seenKeys = new Set();
     const seenTexts = new Map();
+    const seenScenarioKeys = new Set();
+    const seenScenarioSummaries = new Map();
     const blocks = [];
 
     for (const task of plan) {
         const existingTexts = Array.from(seenTexts.values());
-        const blockQuestions = await attemptQuestionBlock(task, seenKeys, existingTexts);
+        const existingScenarioSummaries = Array.from(seenScenarioSummaries.values());
+        const blockQuestions = await attemptQuestionBlock(task, seenKeys, existingTexts, seenScenarioKeys, existingScenarioSummaries);
 
         if (!blockQuestions.length) {
             continue;
@@ -981,16 +1048,23 @@ async function runSequentialQuestionPlan(plan) {
 
         for (const question of blockQuestions) {
             const key = normalizeQuestionKey(question.questionText);
+            const scenarioSummary = typeof question.scenarioSummary === 'string' ? question.scenarioSummary.trim() : '';
+            const scenarioKey = normalizeScenarioKey(scenarioSummary || question.passage || question.imagePath || question.questionText);
             if (key && !seenKeys.has(key)) {
                 seenKeys.add(key);
                 seenTexts.set(key, question.questionText);
             }
+            if (scenarioKey && !seenScenarioKeys.has(scenarioKey)) {
+                seenScenarioKeys.add(scenarioKey);
+                seenScenarioSummaries.set(scenarioKey, scenarioSummary);
+            }
+            question.scenarioSummary = scenarioSummary;
         }
 
         blocks.push({ type: task.type, questions: blockQuestions });
     }
 
-    return { blocks, seenKeys, seenTexts };
+    return { blocks, seenKeys, seenTexts, seenScenarioKeys, seenScenarioSummaries };
 }
 
 const buildGeometryPrompt = (topic, attempt) => {
@@ -1627,14 +1701,14 @@ app.post('/generate-quiz', async (req, res) => {
                 for (let i = 0; i < numPassageSets; i++) {
                     generationPlan.push({
                         type: 'passage',
-                        generator: (existingQuestionTexts) => generatePassageSet(topic, subject, 2, { existingQuestionTexts })
+                        generator: ({ existingQuestionTexts = [], existingScenarioSummaries = [] }) => generatePassageSet(topic, subject, 2, { existingQuestionTexts, existingScenarioSummaries })
                     });
                 }
 
                 for (let i = 0; i < numImageSets; i++) {
                     generationPlan.push({
                         type: 'image',
-                        generator: (existingQuestionTexts) => generateImageQuestion(topic, subject, curatedImages, 2, { existingQuestionTexts })
+                        generator: ({ existingQuestionTexts = [], existingScenarioSummaries = [] }) => generateImageQuestion(topic, subject, curatedImages, 2, { existingQuestionTexts, existingScenarioSummaries })
                     });
                 }
 
@@ -1643,11 +1717,11 @@ app.post('/generate-quiz', async (req, res) => {
                 for (let i = 0; i < remainingQuestions; i++) {
                     generationPlan.push({
                         type: 'standalone',
-                        generator: (existingQuestionTexts) => generateStandaloneQuestion(subject, topic, { existingQuestionTexts })
+                        generator: ({ existingQuestionTexts = [], existingScenarioSummaries = [] }) => generateStandaloneQuestion(subject, topic, { existingQuestionTexts, existingScenarioSummaries })
                     });
                 }
 
-                const { blocks, seenKeys, seenTexts } = await runSequentialQuestionPlan(generationPlan);
+                const { blocks, seenKeys, seenTexts, seenScenarioKeys, seenScenarioSummaries } = await runSequentialQuestionPlan(generationPlan);
                 finalQuestions = blocks.flatMap(block => block.questions);
 
                 let fillerAttempts = 0;
@@ -1655,7 +1729,8 @@ app.post('/generate-quiz', async (req, res) => {
                     fillerAttempts += 1;
                     try {
                         const fillerQuestion = await generateStandaloneQuestion(subject, topic, {
-                            existingQuestionTexts: Array.from(seenTexts.values())
+                            existingQuestionTexts: Array.from(seenTexts.values()),
+                            existingScenarioSummaries: Array.from(seenScenarioSummaries.values())
                         });
 
                         if (!fillerQuestion || !fillerQuestion.questionText) {
@@ -1663,12 +1738,20 @@ app.post('/generate-quiz', async (req, res) => {
                         }
 
                         const fillerKey = normalizeQuestionKey(fillerQuestion.questionText);
-                        if (!fillerKey || seenKeys.has(fillerKey)) {
+                        const fillerScenarioSummary = typeof fillerQuestion.scenarioSummary === 'string' ? fillerQuestion.scenarioSummary.trim() : '';
+                        const fillerScenarioKey = normalizeScenarioKey(fillerScenarioSummary || fillerQuestion.passage || fillerQuestion.imagePath || fillerQuestion.questionText);
+
+                        if (!fillerKey || !fillerScenarioSummary || seenKeys.has(fillerKey) || (fillerScenarioKey && seenScenarioKeys.has(fillerScenarioKey))) {
                             continue;
                         }
 
                         seenKeys.add(fillerKey);
                         seenTexts.set(fillerKey, fillerQuestion.questionText);
+                        if (fillerScenarioKey) {
+                            seenScenarioKeys.add(fillerScenarioKey);
+                            seenScenarioSummaries.set(fillerScenarioKey, fillerScenarioSummary);
+                        }
+                        fillerQuestion.scenarioSummary = fillerScenarioSummary;
                         finalQuestions.push(fillerQuestion);
                     } catch (fillerError) {
                         console.error('Error generating filler standalone question:', fillerError);
