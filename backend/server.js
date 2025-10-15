@@ -7,6 +7,8 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 15000;
+const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
 const fs = require('fs');
 const path = require('path');
 
@@ -190,6 +192,32 @@ function humanizeSource(value) {
     return trimmed;
 }
 
+function imageDisplayCredit(filePathOrKey) {
+    if (!filePathOrKey) return '';
+    const key = String(filePathOrKey).replace(/^\s+|\s+$/g, '').replace(/^\/frontend/i, '');
+    if (!key) return '';
+
+    const normalized = key.startsWith('/') ? key : `/${key}`;
+    const meta = IMAGE_BY_PATH.get(normalized)
+        || IMAGE_BY_PATH.get(normalized.slice(1))
+        || IMAGE_BY_PATH.get(String(filePathOrKey))
+        || null;
+
+    if (!meta || typeof meta !== 'object') return '';
+
+    const creditCandidate = meta.credit
+        || meta.source
+        || meta.attribution
+        || meta.origin
+        || meta.title
+        || meta.altText
+        || meta.license
+        || meta.licenseUrl
+        || '';
+
+    return humanizeSource(creditCandidate);
+}
+
 function normalizeStimulusAndSource(item) {
     if (!item || typeof item !== 'object') return item;
 
@@ -204,38 +232,51 @@ function normalizeStimulusAndSource(item) {
 
     if (rawSrc) {
         const cleanSrc = rawSrc.replace(/^\/frontend/i, '');
-        out.imageUrl = cleanSrc;
+        const normalizedSrc = cleanSrc
+            ? (cleanSrc.startsWith('/') ? cleanSrc : `/${cleanSrc}`)
+            : '';
+        out.imageUrl = normalizedSrc;
         out.stimulusImage = {
             ...(out.stimulusImage || {}),
-            src: cleanSrc
+            src: normalizedSrc
         };
+
+        const assetBase = (out.asset && typeof out.asset === 'object') ? { ...out.asset } : {};
+        assetBase.imagePath = normalizedSrc;
+
+        const credit = imageDisplayCredit(rawSrc);
+        if (credit) {
+            assetBase.displaySource = credit;
+            out.source = credit;
+            out.displaySource = credit;
+        }
 
         const currentSource = typeof out.source === 'string' ? out.source.trim() : '';
         const sourceLooksLikePath = currentSource && /^\/?(frontend\/)?images?/i.test(currentSource);
-        const meta = IMAGE_BY_PATH.get(cleanSrc) || IMAGE_BY_PATH.get(cleanSrc.replace(/^\//, '')) || IMAGE_BY_PATH.get(rawSrc);
-
-        if (meta) {
-            const creditCandidate = meta.credit
-                || meta.attribution
-                || meta.sourceUrl
-                || meta.origin
-                || meta.title
-                || meta.altText
-                || meta.licenseUrl
-                || '';
-            const friendly = humanizeSource(creditCandidate);
-            if (friendly) {
-                out.source = friendly;
-            } else if (creditCandidate) {
-                out.source = String(creditCandidate);
-            } else if (sourceLooksLikePath) {
-                delete out.source;
-            }
-        } else if (sourceLooksLikePath) {
+        if (!credit && sourceLooksLikePath) {
             delete out.source;
         }
-    } else if (out.source && /^\/?(frontend\/)?images?/i.test(String(out.source))) {
-        delete out.source;
+
+        out.asset = assetBase;
+    }
+
+    if (!rawSrc && typeof out.source === 'string') {
+        const sourceTrimmed = out.source.trim();
+        const credit = imageDisplayCredit(sourceTrimmed);
+        const looksLikePath = /^\/?(frontend\/)?images?/i.test(sourceTrimmed);
+        if (credit) {
+            out.source = credit;
+            out.displaySource = credit;
+            const assetBase = (out.asset && typeof out.asset === 'object') ? { ...out.asset } : {};
+            assetBase.displaySource = credit;
+            out.asset = assetBase;
+        } else if (looksLikePath) {
+            delete out.source;
+        }
+    }
+
+    if (out.asset && out.displaySource && !out.asset.displaySource) {
+        out.asset.displaySource = out.displaySource;
     }
 
     if (out.source) {
@@ -632,7 +673,7 @@ async function callGemini(prompt) {
     };
 
     const run = async () => {
-        const response = await axios.post(apiUrl, payload, { timeout: 45000 });
+        const response = await http.post(apiUrl, payload);
         const text = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
         if (typeof text !== 'string') {
             throw new Error('Gemini response missing text content.');
@@ -641,7 +682,7 @@ async function callGemini(prompt) {
     };
 
     return withRetry(run, {
-        retries: 2,
+        retries: 1,
         minTimeout: 500,
         maxTimeout: 1500,
         onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini call failed: ${err?.message || err}`)
@@ -1093,7 +1134,7 @@ app.post('/define-word', async (req, res) => {
     };
 
     try {
-        const response = await axios.post(apiUrl, payload);
+        const response = await http.post(apiUrl, payload);
         const definition = response.data.candidates[0].content.parts[0].text;
         res.json({ definition });
     } catch (error) {
@@ -1117,8 +1158,10 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
     }
 
     try {
-        const snippets = await retrieveSnippets(subject, topic);
-        const images = findImagesForSubjectTopic(subject, topic, 6);
+        const [snippets, images] = await Promise.all([
+            retrieveSnippets(subject, topic),
+            Promise.resolve(findImagesForSubjectTopic(subject, topic, 6))
+        ]);
 
         const prompt = buildTopicPrompt_VarietyPack(subject, topic, 12, snippets, images);
         const generatedItems = await generateQuizItemsWithFallback(
@@ -1137,6 +1180,24 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         }
 
         let cleaned = generatedItems.map((item) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), subject));
+        cleaned = cleaned.map((q) => {
+            if (q && q.asset && typeof q.asset === 'object' && q.asset.imagePath) {
+                const asset = { ...q.asset };
+                const credit = imageDisplayCredit(asset.imagePath);
+                const strippedPath = String(asset.imagePath).replace(/^\/frontend/i, '');
+                const normalizedAssetPath = strippedPath
+                    ? (strippedPath.startsWith('/') ? strippedPath : `/${strippedPath}`)
+                    : '';
+                asset.imagePath = normalizedAssetPath;
+                const next = { ...q, asset };
+                if (credit) {
+                    asset.displaySource = credit;
+                    next.displaySource = credit;
+                }
+                return next;
+            }
+            return q;
+        });
         const badIdx = cleaned
             .map((question, idx) => (needsRepair(question, subject) ? idx : -1))
             .filter((idx) => idx >= 0);
@@ -1508,7 +1569,7 @@ const callAI = async (prompt, schema, options = {}) => {
         }
     };
     try {
-        const response = await axios.post(apiUrl, payload);
+        const response = await http.post(apiUrl, payload);
         const rawText = response.data.candidates?.[0]?.content?.parts?.[0]?.text;
 
         if (typeof rawText !== 'string') {
@@ -2617,7 +2678,7 @@ app.post('/score-essay', async (req, res) => {
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     try {
-        const response = await axios.post(apiUrl, payload);
+        const response = await http.post(apiUrl, payload);
         res.json(response.data);
     } catch (error) {
         console.error('Error calling Google AI API for essay scoring:', error.response ? error.response.data : error.message);
@@ -2750,7 +2811,7 @@ const generateAIContent = async (prompt, schema) => {
             responseSchema: schema,
         },
     };
-    const response = await axios.post(apiUrl, payload);
+    const response = await http.post(apiUrl, payload);
     const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
     return JSON.parse(jsonText);
 };

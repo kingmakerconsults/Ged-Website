@@ -3440,6 +3440,11 @@ function Stem({ item }) {
         ? (item.questionText || item.question).trim()
         : '';
 
+    const displaySource = (item?.asset && item.asset.displaySource)
+        || item.displaySource
+        || item.source
+        || '';
+
     return (
         <div className="stem space-y-4">
             {item.stimulusImage?.src && (
@@ -3473,8 +3478,8 @@ function Stem({ item }) {
                 </div>
             )}
 
-            {item.source && (
-                <div className="mt-2 text-xs opacity-70">Source: {item.source}</div>
+            {displaySource && (
+                <div className="mt-2 text-xs opacity-70">Source: {displaySource}</div>
             )}
         </div>
     );
