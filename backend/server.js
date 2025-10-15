@@ -341,6 +341,8 @@ Each item schema:
   "passage"?: string,
   "questionText": string,
   "answerOptions": [{"text":string,"isCorrect":boolean,"rationale":string}],
+  "itemType"?: "passage" | "image" | "standalone",
+  "difficulty"?: "easy" | "medium" | "hard",
   "stimulusImage"?: {"src":string,"alt"?:string},
   "groupId"?: string
 }
@@ -943,6 +945,17 @@ function tagMissingItemType(x){
         if (it.passage) it.itemType = 'passage';
         else if (it.stimulusImage?.src) it.itemType = 'image';
         else it.itemType = 'standalone';
+    }
+    return it;
+}
+
+function tagMissingDifficulty(x){
+    const it = { ...x };
+    const level = typeof it.difficulty === 'string' ? it.difficulty.toLowerCase() : '';
+    if (level === 'easy' || level === 'medium' || level === 'hard') {
+        it.difficulty = level;
+    } else {
+        it.difficulty = 'medium';
     }
     return it;
 }
@@ -1777,6 +1790,7 @@ async function reviewAndCorrectMathQuestion(questionObject) {
 
 app.post('/api/generate/topic', express.json(), async (req, res) => {
     const { subject = 'Science', topic = 'Ecosystems' } = req.body || {};
+    const QUIZ_COUNT = 12;
     try {
         const ctx = (subject === 'Science' || subject === 'Social Studies')
             ? await retrieveSnippets(subject, topic)
@@ -1786,12 +1800,12 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
             ? findImagesForSubjectTopic(subject, topic, 6)
             : [];
 
-        const prompt = buildTopicPrompt_VarietyPack(subject, topic, 12, ctx, imgs);
+        const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
 
         let items = await generateWithGemini_OneCall(subject, prompt);
 
         items = items.map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
-        items = items.map(tagMissingItemType);
+        items = items.map(tagMissingItemType).map(tagMissingDifficulty);
 
         const bad = [];
         items.forEach((it, i) => { if (!validateQuestion(it)) bad.push(i); });
@@ -1801,14 +1815,15 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
             fixed.forEach((f, j) => {
                 items[bad[j]] = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(f)), subject);
             });
-            items = items.map(tagMissingItemType);
+            items = items.map(tagMissingItemType).map(tagMissingDifficulty);
         }
 
         items = enforceVarietyMix(items, { passage: 4, image: 3, standalone: 5 });
         items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
         items = dedupeNearDuplicates(items, 0.85);
         items = groupedShuffle(items);
-        items = items.slice(0, 12).map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
+        items = items.map(tagMissingItemType).map(tagMissingDifficulty);
+        items = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
 
         res.json({ subject, topic, items });
     } catch (err) {
