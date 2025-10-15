@@ -63,6 +63,29 @@ function extractJSONArray(raw) {
     }
 }
 
+// Count words and clamp politely at boundary (keeps punctuation)
+function limitWords(text, max = 250) {
+    if (typeof text !== 'string') return text;
+    const words = text.trim().split(/\s+/);
+    if (words.length <= max) return text.trim();
+    const clipped = words.slice(0, max).join(' ');
+    return /[.?!]$/.test(clipped) ? clipped : clipped + '…';
+}
+
+// Apply to any fields that can contain long prose (e.g., passage/stem)
+function enforceWordCapsOnItem(item, subject) {
+    const out = JSON.parse(JSON.stringify(item));
+
+    if (subject === 'RLA') {
+        if (out.passage) out.passage = limitWords(out.passage, 250);
+    }
+
+    if (out.passage) out.passage = limitWords(out.passage, 250);
+    if (out.questionText) out.questionText = limitWords(out.questionText, 250);
+
+    return out;
+}
+
 const QuestionSchema = {
     type: 'object',
     required: ['id', 'questionType', 'questionText'],
@@ -228,7 +251,7 @@ function hasForbiddenContent(q) {
     return false;
 }
 
-function needsRepair(q) {
+function needsRepairLegacy(q) {
     if (!validateQuestion(q)) return true;
     if (hasForbiddenContent(q)) return true;
     const sanitized = sanitizeQuestionKeepLatex(cloneQuestion(q));
@@ -240,7 +263,7 @@ async function repairSubset(questions = []) {
     const badIdxs = [];
 
     questions.forEach((q, i) => {
-        if (needsRepair(q)) badIdxs.push(i);
+        if (needsRepairLegacy(q)) badIdxs.push(i);
     });
 
     if (!badIdxs.length) {
@@ -279,7 +302,7 @@ const NON_CALC_COUNT = 12;
 const GEOMETRY_COUNT = 12;
 const ALGEBRA_COUNT = 12;
 
-const STRICT_JSON_HEADER = `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
+const STRICT_JSON_HEADER_MATH = `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
 Each item schema:
 {
   "id": "<unique string>",
@@ -292,14 +315,15 @@ Hard rules:
 - Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.
 - No HTML or markdown tables. Describe any table verbally in questionText.
 - Ensure braces balance in \\frac{...}{...} and \\sqrt{...}. No custom macros.
+- If a passage/stimulus is used, it MUST be <= 250 words.
 - Exactly N items; top-level is a JSON array only.`;
 
-const PROMPT_GEN_A = `${STRICT_JSON_HEADER}
-Create ${NON_CALC_COUNT} non-calculator questions (arithmetic, fractions/decimals/percents).`;
-const PROMPT_GEN_B = `${STRICT_JSON_HEADER}
-Create ${GEOMETRY_COUNT} geometry/measurement questions (areas, perimeters, circles; describe diagrams in text).`;
-const PROMPT_GEN_C = `${STRICT_JSON_HEADER}
-Create ${ALGEBRA_COUNT} algebra/functions/data questions (linear functions, slope, evaluate f(x), describe tables/graphs in text).`;
+const STRICT_JSON_HEADER_RLA = `SYSTEM: Output ONLY a compact JSON array of N items (no extra text).
+Item schema: {"id":string|number,"questionType":"standalone"|"freeResponse","passage":string?,"questionText":string,"answerOptions":[{"text":string,"isCorrect":boolean,"rationale":string}]}
+Rules:
+- For RLA comprehensive: each passage MUST be <= 250 words. Prefer 150–230 words.
+- Keep questionText concise and targeted; avoid fluff.
+- Exactly N items; top-level is JSON array only.`;
 
 async function callGemini(prompt) {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
@@ -323,40 +347,107 @@ async function callGemini(prompt) {
     return pRetry(run, { retries: 2, minTimeout: 500, maxTimeout: 1500 });
 }
 
-async function generateBatch(prompt) {
+function buildCombinedPrompt_Math(totalCounts) {
+    const { NON_CALC_COUNT, GEOMETRY_COUNT, ALGEBRA_COUNT } = totalCounts;
+    return `${STRICT_JSON_HEADER_MATH}
+Create ONE flat JSON array with ${NON_CALC_COUNT + GEOMETRY_COUNT + ALGEBRA_COUNT} math questions in random order:
+- Non-calculator: ${NON_CALC_COUNT}
+- Geometry/measurement (describe visuals in text; no images): ${GEOMETRY_COUNT}
+- Algebra/functions/data (describe any graph/table in text): ${ALGEBRA_COUNT}
+Do NOT include section labels or headings.`;
+}
+
+async function generateWithGemini_OneCall(subject, prompt) {
     return generationLimit(async () => {
         const raw = await callGemini(prompt);
         const arr = extractJSONArray(raw);
-        if (!Array.isArray(arr)) {
-            throw new Error('Invalid JSON from model');
-        }
+        if (!Array.isArray(arr)) throw new Error('Invalid JSON from Gemini');
         return arr;
     });
 }
 
-async function runExam() {
-    const [a, b, c] = await Promise.all([
-        generateBatch(PROMPT_GEN_A),
-        generateBatch(PROMPT_GEN_B),
-        generateBatch(PROMPT_GEN_C)
-    ]);
+function hasSchemaIssues(item) {
+    const hasOptions = Array.isArray(item?.answerOptions) && item.answerOptions.length >= 3;
+    const oneCorrect = hasOptions && item.answerOptions.filter((o) => o && o.isCorrect === true).length === 1;
+    return !(item && item.questionText && hasOptions && oneCorrect);
+}
 
-    const all = [...a, ...b, ...c];
+function needsRepair(item, subject) {
+    if (hasSchemaIssues(item)) return true;
 
-    const cleaned = [];
-    for (const q of all) {
-        if (validateQuestion(q)) {
-            cleaned.push(sanitizeQuestionKeepLatex(cloneQuestion(q)));
+    const wordCount = (s) => (typeof s === 'string' ? s.trim().split(/\s+/).length : 0);
+    if (subject === 'RLA' && wordCount(item?.passage) > 250) return true;
+    if (item?.passage && wordCount(item.passage) > 250) return true;
+    if (wordCount(item?.questionText) > 250) return true;
+
+    return false;
+}
+
+const REPAIR_SYSTEM = `You receive an array of quiz items. Fix ONLY schema/format issues:
+- Preserve meaning; do not change difficulty.
+- Ensure exactly one isCorrect=true per item; keep rationales.
+- Ensure any passage <= 250 words; keep questionText <= 250 words.
+Return ONLY the fixed JSON array in the same order.`;
+
+async function repairBatchWithChatGPT_once(itemsNeedingFix) {
+    if (!openaiClient) {
+        console.warn('OpenAI client not configured; skipping repair.');
+        return itemsNeedingFix;
+    }
+
+    const input = JSON.stringify(itemsNeedingFix);
+    const resp = await openaiClient.responses.create({
+        model: 'gpt-4o-mini',
+        input: [
+            { role: 'system', content: REPAIR_SYSTEM },
+            { role: 'user', content: input }
+        ],
+        response_format: { type: 'json_object' }
+    });
+    const text = resp.output_text;
+    const parsed = JSON.parse(text);
+    return Array.isArray(parsed) ? parsed : (parsed.items || parsed.data || parsed.questions || parsed.value || parsed);
+}
+
+async function generateExam(subject, promptBuilder, counts) {
+    const prompt = promptBuilder(counts);
+
+    let items = await generateWithGemini_OneCall(subject, prompt);
+    items = items.map((i) => enforceWordCapsOnItem(i, subject));
+
+    const badIdxs = [];
+    items.forEach((it, idx) => {
+        if (needsRepair(it, subject)) badIdxs.push(idx);
+    });
+
+    if (badIdxs.length) {
+        try {
+            const toFix = badIdxs.map((i) => items[i]);
+            const fixedSubset = await repairBatchWithChatGPT_once(toFix);
+            fixedSubset.forEach((fixed, j) => {
+                items[badIdxs[j]] = enforceWordCapsOnItem(fixed, subject);
+            });
+        } catch (err) {
+            console.warn('Repair batch failed; continuing with original items.', err?.message || err);
         }
     }
-    try {
-        const { fixed, repaired, failures } = await repairSubset(cleaned);
-        console.info(`Targeted repair complete: repaired=${repaired}, failures=${failures.length}`);
-        return fixed;
-    } catch (error) {
-        console.error('Repair subset failed, returning sanitized originals.', error);
-        return cleaned;
+
+    return items.map((it) => enforceWordCapsOnItem(it, subject));
+}
+
+async function runExam() {
+    const counts = { NON_CALC_COUNT, GEOMETRY_COUNT, ALGEBRA_COUNT };
+    const generated = await generateExam('Math', buildCombinedPrompt_Math, counts);
+
+    const cleaned = [];
+    for (const q of generated) {
+        const sanitized = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(q)), 'Math');
+        if (validateQuestion(sanitized)) {
+            cleaned.push(sanitized);
+        }
     }
+
+    return cleaned;
 }
 
 const pool = new Pool({
@@ -891,11 +982,11 @@ const generatePassageSet = async (topic, subject, numQuestions) => {
     };
 
     const result = await callAI(prompt, schema);
-    return result.questions.map(q => ({
+    return result.questions.map(q => enforceWordCapsOnItem({
         ...q,
         passage: result.passage,
         type: 'passage'
-    }));
+    }, subject));
 };
 
 
@@ -940,11 +1031,11 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
     try {
         const questions = await callAI(imagePrompt, imageQuestionSchema);
         // Map imagePath to imageUrl and add type
-        return questions.map(q => ({
+        return questions.map(q => enforceWordCapsOnItem({
             ...q,
             imageUrl: q.imagePath.replace(/^\/frontend/, ''), // Keep this transformation
             type: 'image'
-        }));
+        }, subject));
     } catch (error) {
         console.error(`Error generating image question for topic ${topic}:`, error);
         return null; // Return null or empty array on error to not break Promise.all
@@ -977,7 +1068,7 @@ const generateStandaloneQuestion = async (subject, topic) => {
 
     const question = await callAI(prompt, schema);
     question.type = 'standalone';
-    return question;
+    return enforceWordCapsOnItem(question, subject);
 };
 
 const buildGeometryPrompt = (topic, attempt) => {
@@ -1159,7 +1250,7 @@ async function generateNonCalculatorQuestion() {
     const question = await callAI(prompt, schema);
     question.type = 'standalone';
     question.calculator = false; // Explicitly mark as non-calculator
-    return question;
+    return enforceWordCapsOnItem(question, 'Math');
 }
 
 async function generateDataQuestion() {
@@ -1182,7 +1273,7 @@ async function generateDataQuestion() {
     const question = await callAI(prompt, schema);
     question.type = 'standalone'; // The table is part of the question text
     question.calculator = true;
-    return question;
+    return enforceWordCapsOnItem(question, 'Math');
 }
 
 async function generateGraphingQuestion() {
@@ -1206,7 +1297,7 @@ async function generateGraphingQuestion() {
     const question = await callAI(prompt, schema);
     question.type = 'standalone';
     question.calculator = true;
-    return question;
+    return enforceWordCapsOnItem(question, 'Math');
 }
 
 async function generateMath_FillInTheBlank() {
@@ -1232,18 +1323,22 @@ Output a single valid JSON object with three keys:
     };
     const question = await callAI(prompt, schema);
     question.calculator = true; // Most fill-in-the-blank will be calculator-permitted
-    return question;
+    return enforceWordCapsOnItem(question, 'Math');
 }
 
 async function generateRlaPart1() {
-    const prompt = `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, with a concise, engaging title in <strong> tags. Format passages with <p> tags. The breakdown must be 3 informational texts and 1 literary text. For EACH passage, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions. Each question should be a JSON object. Return a single JSON array of these 20 question objects.`;
+    const prompt = `${STRICT_JSON_HEADER_RLA}
+Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 passages (3 informational, 1 literary), each 150-230 words and NEVER above 250 words, with concise titles in <strong> tags and <p> tags for paragraphs. For EACH passage, generate exactly 5 reading comprehension questions (total 20). Return the JSON array of question objects only.`;
     const schema = { type: "ARRAY", items: singleQuestionSchema };
     const questions = await callAI(prompt, schema);
+    const cappedQuestions = Array.isArray(questions)
+        ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
+        : [];
     // Group questions by passage
     const passages = {};
     let passageCounter = 0;
     let currentPassageTitle = '';
-    questions.forEach(q => {
+    cappedQuestions.forEach(q => {
         if (q.passage && q.passage !== currentPassageTitle) {
             currentPassageTitle = q.passage;
             passageCounter++;
@@ -1255,13 +1350,13 @@ async function generateRlaPart1() {
 
     let groupedQuestions = [];
     Object.values(passages).forEach(p => {
-        p.questions.forEach(q => groupedQuestions.push({ ...q, passage: p.passage, type: 'passage' }));
+        p.questions.forEach(q => groupedQuestions.push(enforceWordCapsOnItem({ ...q, passage: p.passage, type: 'passage' }, 'RLA')));
     });
     return groupedQuestions;
 }
 
 async function generateRlaPart2() {
-    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each). Each passage MUST have its own title. Output a JSON object with keys "passages" (an array of two objects, each with "title" and "content") and "prompt" (the essay question).`;
+    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each, 150-230 words and never above 250 words). Each passage MUST have its own title. Output a JSON object with keys "passages" (an array of two objects, each with "title" and "content") and "prompt" (the essay question, <= 250 words).`;
     const schema = {
         type: "OBJECT",
         properties: {
@@ -1270,18 +1365,32 @@ async function generateRlaPart2() {
         },
         required: ["passages", "prompt"]
     };
-    return await callAI(prompt, schema);
+    const result = await callAI(prompt, schema);
+    if (Array.isArray(result?.passages)) {
+        result.passages = result.passages.map((p) => ({
+            ...p,
+            content: limitWords(p?.content || '', 250)
+        }));
+    }
+    if (typeof result?.prompt === 'string') {
+        result.prompt = limitWords(result.prompt, 250);
+    }
+    return result;
 }
 
 async function generateRlaPart3() {
-    const prompt = `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each). The passages should contain a mix of grammatical errors and/or awkward phrasing. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences and improving word choice. This should total 25 questions. Each question should be a JSON object. Return a single JSON array of these 25 question objects.`;
+    const prompt = `${STRICT_JSON_HEADER_RLA}
+Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each, keep each passage <= 250 words). The passages should contain a mix of grammatical errors and/or awkward phrasing. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences and improving word choice. This should total 25 questions. Return only the JSON array of the 25 question objects.`;
     const schema = { type: "ARRAY", items: singleQuestionSchema };
     const questions = await callAI(prompt, schema);
+    const cappedQuestions = Array.isArray(questions)
+        ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
+        : [];
     // Group questions by passage
     const passages = {};
     let passageCounter = 0;
     let currentPassageTitle = '';
-    questions.forEach(q => {
+    cappedQuestions.forEach(q => {
         if (q.passage && q.passage !== currentPassageTitle) {
             currentPassageTitle = q.passage;
             passageCounter++;
@@ -1292,7 +1401,7 @@ async function generateRlaPart3() {
     });
      let groupedQuestions = [];
     Object.values(passages).forEach(p => {
-        p.questions.forEach(q => groupedQuestions.push({ ...q, passage: p.passage, type: 'passage' }));
+        p.questions.forEach(q => groupedQuestions.push(enforceWordCapsOnItem({ ...q, passage: p.passage, type: 'passage' }, 'RLA')));
     });
     return groupedQuestions;
 }
