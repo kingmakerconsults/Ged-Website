@@ -630,41 +630,60 @@ async function retrieveSnippets(subject, topic) {
     return out;
 }
 
-function buildTopicPromptWithContext(subject, topic, n, context) {
-    const ctx = JSON.stringify(context.map(c => ({
-        url: c.url,
-        title: c.title,
-        text: c.text,
-        table: c.table
+function buildTopicPrompt_VarietyPack(subject, topic, n = 12, ctx = [], imgs = []) {
+    const contextJSON = JSON.stringify(ctx.map(c => ({
+        url: c.url, title: c.title, text: c.text, table: c.table || null
     })));
 
-    const base = `${STRICT_JSON_HEADER_SHARED}
-SUBJECT STYLE: GED ${subject} (Topic set)
-Use the provided CONTEXT strictly for facts and data; do not fabricate. If a table is present, you MAY include a small HTML <table> in the stem.
-Citations: for each item, include a "source" field with one of the context URLs you used.
-Generate ${n} questions about "${topic}". Avoid duplicates.`;
+    const imagesJSON = JSON.stringify((imgs || []).map((im, i) => ({
+        id: im.id || `img${i+1}`, src: im.filePath, alt: im.altText || '', description: im.detailedDescription || ''
+    })));
 
-    return `${base}\nCONTEXT:${ctx}`;
-}
+    const MIX_RULES = `
+Mix (exactly ${n} items):
+- 4 items with a TEXT PASSAGE stimulus -> set itemType:"passage"
+- 3 items with an IMAGE/DIAGRAM/MAP stimulus -> set itemType:"image"
+- 5 items STANDALONE (no stimulus) -> set itemType:"standalone"
 
-function buildTopicPrompt_SocialStudies(topic, n = 15, images = []) {
+Difficulty distribution (approximate): 4 easy, 5 medium, 3 hard. Include a "difficulty" field for each item.
+
+Variety rules:
+- Rotate sub-skills; avoid repeating the same wording template.
+- If multiple items use the same PASSAGE or the same IMAGE (same src), assign the same groupId (e.g., "passage-1" or "img:img2").
+- Write stems so the stimulus is actually needed (interpret the data/figure/text), not decorative.
+
+Citations:
+- For passage/image items, include a "source" with a URL from CONTEXT (for passage) or the image "src" (for image).
+- For standalone items, "source" can be omitted or set to a relevant CONTEXT URL if used.
+
+Word caps:
+- Any passage ≤ 250 words. Keep questionText concise.
+`;
+
+    const SUBSKILLS = {
+        "Science": `
+Subskills to rotate (Science):
+- data interpretation (tables, rates, units), variables & controls, cause/effect, model reading, basic calc (percent, ratio), experimental design, claims vs evidence.
+Prefer plain text; use small <table> only when essential.`,
+        "Social Studies": `
+Subskills to rotate (Social Studies):
+- civics processes, document interpretation (quotes), economic reasoning (supply/demand, inflation, unemployment), map/graph reading, chronology/timeline, main idea/inference, rights & responsibilities.`,
+        "Math": `
+Subskills to rotate (Math):
+- number operations, fractions/decimals/percents, ratios/proportions, linear equations/inequalities, functions/graphs (described in text), geometry/measurement, data & probability. Use inline $...$ for expressions; no $$ display math.`,
+        "Reasoning Through Language Arts (RLA)": `
+Subskills to rotate (RLA):
+- main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`
+    };
+
     return `${STRICT_JSON_HEADER_SHARED}
-SUBJECT STYLE: GED Social Studies (Topic set)
-Content target: ~50% Civics/Government, ~20% U.S. History, ~15% Economics, ~15% Geography/World.
-Stimuli: favor text; you MAY use at most ${Math.min(5, images.length)} images from IMAGE_CONTEXT for data/graphs/maps/political cartoons.
-${SHARED_IMAGE_RULES}
-Grouping rule: If multiple questions use the same passage or the same image (same src), assign a "groupId" so they can be kept together.
-Generate ${n} questions focused on "${topic}". Keep items self-contained; avoid outside knowledge.${buildImageContextBlock(images)}`;
-}
-
-function buildTopicPrompt_Science(topic, n = 15, images = []) {
-    return `${STRICT_JSON_HEADER_SHARED}
-SUBJECT STYLE: GED Science (Topic set)
-Distribution target: ~40% Life, ~40% Physical, ~20% Earth/Space.
-Stimuli: prefer concise text; you MAY use at most ${Math.min(5, images.length)} images from IMAGE_CONTEXT if relevant to the question (data, diagrams, apparatus).
-${SHARED_IMAGE_RULES}
-Grouping rule: If multiple questions use the same passage or the same image (same src), assign a "groupId" so they can be kept together.
-Generate ${n} questions focused on "${topic}". Emphasize data reasoning and variable relationships.${buildImageContextBlock(images)}`;
+SUBJECT STYLE: GED ${subject} — Topic Pack on "${topic}"
+Use only the CONTEXT and IMAGES provided (if any) for factual details. Do not fabricate specific data.
+${MIX_RULES}
+${SUBSKILLS[subject] || ''}
+CONTEXT:${contextJSON}
+IMAGES:${imagesJSON}
+Return ONE compact JSON array with exactly ${n} items.`;
 }
 
 // Add this new prompt library to server.js
@@ -911,6 +930,74 @@ function groupedShuffle(items) {
         out.push(...g);
     }
     return out;
+}
+
+function tagMissingItemType(x){
+    const it = { ...x };
+    if (!it.itemType) {
+        if (it.passage) it.itemType = 'passage';
+        else if (it.stimulusImage?.src) it.itemType = 'image';
+        else it.itemType = 'standalone';
+    }
+    return it;
+}
+
+function enforceVarietyMix(items, wanted){
+    const out = [];
+    const byType = { passage: [], image: [], standalone: [] };
+    for (const it of items) (byType[it.itemType] ? byType[it.itemType] : byType.standalone).push(it);
+
+    const take = (arr, n) => arr.slice(0, Math.max(0, n));
+    out.push(...take(byType.passage, wanted.passage));
+    out.push(...take(byType.image, wanted.image));
+    out.push(...take(byType.standalone, wanted.standalone));
+
+    const need = 12 - out.length;
+    if (need > 0) {
+        const pool = items.filter(it => !out.includes(it));
+        out.push(...pool.slice(0, need));
+    }
+    return out.slice(0, 12);
+}
+
+function enforceDifficultySpread(items, target){
+    const buckets = { easy:[], medium:[], hard:[], other:[] };
+    for (const it of items) (buckets[it.difficulty] || buckets.other).push(it);
+
+    const pick = [];
+    const take = (arr, n) => arr.splice(0, Math.max(0, n));
+    pick.push(...take(buckets.easy, target.easy));
+    pick.push(...take(buckets.medium, target.medium));
+    pick.push(...take(buckets.hard, target.hard));
+
+    const rest = [...buckets.easy, ...buckets.medium, ...buckets.hard, ...buckets.other];
+    while (pick.length < 12 && rest.length) pick.push(rest.shift());
+    return pick.slice(0, 12);
+}
+
+function stemText(it){
+    return (it.questionText || it.stem || '').toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+}
+function jaccard(a,b){
+    const A = new Set(a.split(' ').filter(Boolean));
+    const B = new Set(b.split(' ').filter(Boolean));
+    const inter = [...A].filter(x=>B.has(x)).length;
+    const uni = new Set([...A,...B]).size || 1;
+    return inter/uni;
+}
+function dedupeNearDuplicates(items, threshold=0.85){
+    const kept = [];
+    for (const it of items) {
+        const t = stemText(it);
+        const dup = kept.some(k => jaccard(t, stemText(k)) >= threshold);
+        if (!dup) kept.push(it);
+    }
+    const need = 12 - kept.length;
+    if (need>0){
+        const pool = items.filter(x => !kept.includes(x));
+        kept.push(...pool.slice(0, need));
+    }
+    return kept.slice(0, 12);
 }
 
 const singleQuestionSchema = {
@@ -1684,43 +1771,37 @@ async function reviewAndCorrectMathQuestion(questionObject) {
 
 
 app.post('/api/generate/topic', express.json(), async (req, res) => {
-    const { subject = 'Math', topic = 'Fractions', count = 15 } = req.body || {};
+    const { subject = 'Science', topic = 'Ecosystems' } = req.body || {};
     try {
-        let prompt;
-        if (subject === 'Social Studies' || subject === 'Science') {
-            const ctx = await retrieveSnippets(subject, topic);
-            if (ctx.length) {
-                prompt = buildTopicPromptWithContext(subject, topic, count, ctx);
-            } else if (subject === 'Social Studies') {
-                const imgs = findImagesForSubjectTopic('Social Studies', topic, 5);
-                prompt = buildTopicPrompt_SocialStudies(topic, count, imgs);
-            } else {
-                const imgs = findImagesForSubjectTopic('Science', topic, 5);
-                prompt = buildTopicPrompt_Science(topic, count, imgs);
-            }
-        } else {
-            prompt = existingTopicPrompt(subject, topic, count);
-        }
+        const ctx = (subject === 'Science' || subject === 'Social Studies')
+            ? await retrieveSnippets(subject, topic)
+            : [];
+
+        const imgs = (subject === 'Science' || subject === 'Social Studies')
+            ? findImagesForSubjectTopic(subject, topic, 6)
+            : [];
+
+        const prompt = buildTopicPrompt_VarietyPack(subject, topic, 12, ctx, imgs);
 
         let items = await generateWithGemini_OneCall(subject, prompt);
+
         items = items.map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
+        items = items.map(tagMissingItemType);
 
-        const badIdxs = [];
-        items.forEach((it, i) => {
-            if (!validateQuestion(it)) badIdxs.push(i);
-        });
+        const bad = [];
+        items.forEach((it, i) => { if (!validateQuestion(it)) bad.push(i); });
 
-        if (badIdxs.length) {
-            const fixedSubset = await repairBatchWithChatGPT_once(badIdxs.map((i) => items[i]));
-            if (Array.isArray(fixedSubset)) {
-                fixedSubset.forEach((fx, j) => {
-                    items[badIdxs[j]] = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(fx)), subject);
-                });
-            } else {
-                console.warn('ChatGPT repair did not return array; keeping original items.');
-            }
+        if (bad.length) {
+            const fixed = await repairBatchWithChatGPT_once(bad.map(i => items[i]));
+            fixed.forEach((f, j) => {
+                items[bad[j]] = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(f)), subject);
+            });
+            items = items.map(tagMissingItemType);
         }
 
+        items = enforceVarietyMix(items, { passage: 4, image: 3, standalone: 5 });
+        items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
+        items = dedupeNearDuplicates(items, 0.85);
         items = groupedShuffle(items);
 
         res.json({ subject, topic, items });
