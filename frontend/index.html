@@ -3429,6 +3429,10 @@ function Stem({ item }) {
                     />
                 </div>
             )}
+
+            {item.source && (
+                <div className="mt-2 text-xs opacity-70">Source: {item.source}</div>
+            )}
         </div>
     );
 }
