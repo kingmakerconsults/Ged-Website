@@ -7,8 +7,104 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
-const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 15000;
+const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
+
+function nowNs() { return process.hrtime.bigint(); }
+function toMs(nsDiff) { return Number(nsDiff) / 1e6; }
+
+async function timed(label, fn) {
+    const start = nowNs();
+    try {
+        const data = await fn();
+        const ms = toMs(nowNs() - start);
+        console.log(`[AI][OK] ${label} in ${Math.round(ms)} ms`);
+        return { data, ms };
+    } catch (err) {
+        const ms = toMs(nowNs() - start);
+        console.warn(`[AI][FAIL] ${label} after ${Math.round(ms)} ms: ${err?.message}`);
+        throw Object.assign(err, { elapsedMs: ms });
+    }
+}
+
+// Rolling latency (last 200)
+const AI_LATENCY = {
+    buf: [],
+    push(ms) { this.buf.push(ms); if (this.buf.length > 200) this.buf.shift(); },
+    stats() {
+        const arr = [...this.buf].sort((a, b) => a - b);
+        if (!arr.length) return { count: 0, p50: 0, p95: 0, p99: 0, avg: 0 };
+        const q = (p) => arr[Math.min(arr.length - 1, Math.floor((p / 100) * (arr.length - 1)))];
+        const sum = arr.reduce((s, v) => s + v, 0);
+        return { count: arr.length, p50: q(50), p95: q(95), p99: q(99), avg: sum / arr.length };
+    }
+};
+
+const GEMINI_SOFT_TIMEOUT_MS = Number(process.env.GEMINI_SOFT_TIMEOUT_MS) || 70000;
+const FALLBACK_TIMEOUT_MS = Number(process.env.FALLBACK_TIMEOUT_MS) || 35000;
+
+function delay(ms) { return new Promise((r) => setTimeout(r, ms)); }
+
+async function raceGeminiWithDelayedFallback({ runGemini, runChatGPT }) {
+    let resolved = false;
+    let winner = null;
+    let latencyMs = 0;
+    const fallbackConfigured = Boolean(process.env.OPENAI_API_KEY);
+
+    const geminiPromise = timed('gemini:topic', runGemini)
+        .then(({ data, ms }) => {
+            if (!resolved) {
+                resolved = true;
+                winner = { model: 'gemini', data, ms };
+            }
+        })
+        .catch((err) => {
+            if (!resolved) {
+                console.warn('[AI] Gemini error:', err?.message);
+                if (!fallbackConfigured) {
+                    resolved = true;
+                    winner = { model: 'gemini-error', error: err, ms: err?.elapsedMs ?? 0 };
+                }
+            }
+        });
+
+    const fallbackStarter = (async () => {
+        await delay(GEMINI_SOFT_TIMEOUT_MS);
+        if (resolved) return;
+        if (!fallbackConfigured) return;
+        try {
+            const r = await timed('chatgpt:fallback', runChatGPT);
+            if (!resolved) {
+                resolved = true;
+                winner = { model: 'chatgpt', data: r.data, ms: r.ms };
+            }
+        } catch (err) {
+            if (!resolved) {
+                console.warn('[AI] ChatGPT fallback failed:', err?.message);
+            }
+        }
+    })();
+
+    const hardCap = delay(MODEL_HTTP_TIMEOUT_MS).then(() => {
+        if (!resolved) {
+            resolved = true;
+            winner = { model: 'timeout', data: null, ms: MODEL_HTTP_TIMEOUT_MS };
+        }
+    });
+
+    while (!winner) {
+        await delay(25);
+    }
+
+    try {
+        await Promise.race([geminiPromise, fallbackStarter, hardCap]);
+    } catch (err) {
+        console.warn('[AI] race drain error:', err?.message);
+    }
+
+    latencyMs = winner.ms ?? 0;
+    return { winner, latencyMs };
+}
 const fs = require('fs');
 const path = require('path');
 
@@ -142,6 +238,54 @@ function extractJSONArray(raw) {
     } catch {
         return null;
     }
+}
+
+function parseGeminiResponse(data) {
+    if (!data) return null;
+    const parts = data?.candidates?.[0]?.content?.parts;
+    let text = '';
+    if (Array.isArray(parts)) {
+        text = parts.map((part) => (typeof part?.text === 'string' ? part.text : '')).join('').trim();
+    }
+    if (!text && typeof data?.candidates?.[0]?.content?.parts?.[0]?.text === 'string') {
+        text = data.candidates[0].content.parts[0].text;
+    }
+    if (typeof text !== 'string' || !text.trim()) return null;
+    return extractJSONArray(text);
+}
+
+function parseOpenAIResponse(data) {
+    if (!data) return null;
+    let text = typeof data?.output_text === 'string' ? data.output_text : '';
+    if (!text && Array.isArray(data?.output)) {
+        const msg = data.output.find((entry) => Array.isArray(entry?.content));
+        if (msg) {
+            text = msg.content
+                .map((chunk) => (typeof chunk?.text === 'string' ? chunk.text : ''))
+                .join('')
+                .trim();
+        }
+    }
+    if (!text && Array.isArray(data?.choices)) {
+        text = data.choices
+            .map((choice) => choice?.message?.content)
+            .filter((val) => typeof val === 'string')
+            .join('')
+            .trim();
+    }
+    if (typeof text !== 'string' || !text.trim()) return null;
+    const json = extractJSONArray(text);
+    if (json) return json;
+    try {
+        const parsed = JSON.parse(text);
+        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed?.items)) return parsed.items;
+        if (Array.isArray(parsed?.questions)) return parsed.questions;
+        if (Array.isArray(parsed?.data)) return parsed.data;
+    } catch (err) {
+        return null;
+    }
+    return null;
 }
 
 // Count words and clamp politely at boundary (keeps punctuation)
@@ -662,31 +806,36 @@ function normalizeSubjectParam(rawSubject) {
     return SUBJECT_PARAM_ALIASES.get(lower) || null;
 }
 
-async function callGemini(prompt) {
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    if (!apiKey) {
-        throw new Error('GOOGLE_AI_API_KEY is not configured.');
+const GEMINI_API_KEY = process.env.GOOGLE_API_KEY || process.env.GOOGLE_AI_API_KEY;
+const GEMINI_URL = GEMINI_API_KEY
+    ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`
+    : null;
+const OPENAI_URL = 'https://api.openai.com/v1/responses';
+
+async function callGemini(payload, { signal } = {}) {
+    if (!GEMINI_API_KEY || !GEMINI_URL) {
+        throw new Error('GOOGLE_API_KEY is not configured.');
     }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }]
-    };
 
-    const run = async () => {
-        const response = await http.post(apiUrl, payload);
-        const text = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (typeof text !== 'string') {
-            throw new Error('Gemini response missing text content.');
+    const response = await http.post(GEMINI_URL, payload, { signal });
+    return response.data;
+}
+
+async function callChatGPT(payload, { signal } = {}) {
+    if (!process.env.OPENAI_API_KEY) {
+        throw new Error('ChatGPT fallback unavailable: OPENAI_API_KEY not configured.');
+    }
+
+    const config = {
+        signal,
+        headers: {
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+            'Content-Type': 'application/json'
         }
-        return text;
     };
 
-    return withRetry(run, {
-        retries: 1,
-        minTimeout: 500,
-        maxTimeout: 1500,
-        onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini call failed: ${err?.message || err}`)
-    });
+    const response = await http.post(OPENAI_URL, payload, config);
+    return response.data;
 }
 
 function buildCombinedPrompt_Math(totalCounts) {
@@ -701,8 +850,9 @@ Do NOT include section labels or headings.`;
 
 async function generateWithGemini_OneCall(subject, prompt) {
     return generationLimit(async () => {
-        const raw = await callGemini(prompt);
-        const arr = extractJSONArray(raw);
+        const payload = { contents: [{ parts: [{ text: prompt }] }] };
+        const raw = await callGemini(payload);
+        const arr = parseGeminiResponse(raw);
         if (!Array.isArray(arr)) throw new Error('Invalid JSON from Gemini');
         return arr;
     });
@@ -710,79 +860,98 @@ async function generateWithGemini_OneCall(subject, prompt) {
 
 const CHATGPT_FALLBACK_SYSTEM_PROMPT = 'You generate GED-style quiz items. Always respond with ONLY a valid JSON array of question objects. Do not include commentary.';
 
-async function generateWithChatGPT_Fallback(subject, prompt) {
-    if (!openaiClient) {
-        throw new Error('ChatGPT fallback unavailable: OPENAI_API_KEY not configured.');
-    }
-
+async function generateWithChatGPT_Fallback(subject, prompt, { signal } = {}) {
     return generationLimit(async () => {
-        const response = await openaiClient.responses.create({
+        const payload = {
             model: 'gpt-4o-mini',
             temperature: 0.4,
             input: [
                 { role: 'system', content: CHATGPT_FALLBACK_SYSTEM_PROMPT },
                 { role: 'user', content: prompt }
             ]
-        });
+        };
 
-        const text = response.output_text;
-        let arr = extractJSONArray(text);
-        if (!Array.isArray(arr)) {
-            try {
-                const parsed = JSON.parse(text);
-                if (Array.isArray(parsed)) {
-                    arr = parsed;
-                } else if (Array.isArray(parsed?.items)) {
-                    arr = parsed.items;
-                } else if (Array.isArray(parsed?.questions)) {
-                    arr = parsed.questions;
-                }
-            } catch (e) {
-                // fall through to error below
-            }
-        }
-
+        const raw = await callChatGPT(payload, { signal });
+        const arr = parseOpenAIResponse(raw);
         if (!Array.isArray(arr)) {
             throw new Error('Invalid JSON from ChatGPT fallback');
         }
-
         return arr;
     });
 }
 
 async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions = {}, fallbackRetryOptions = {}) {
-    try {
-        return await withRetry(
-            () => generateWithGemini_OneCall(subject, prompt),
-            geminiRetryOptions
-        );
-    } catch (err) {
-        if (!isTimeoutError(err)) {
-            throw err;
+    const geminiPayload = { contents: [{ parts: [{ text: prompt }] }] };
+    const chatgptPayload = {
+        model: 'gpt-4o-mini',
+        temperature: 0.4,
+        input: [
+            { role: 'system', content: CHATGPT_FALLBACK_SYSTEM_PROMPT },
+            { role: 'user', content: prompt }
+        ]
+    };
+
+    const geminiOptions = {
+        retries: geminiRetryOptions?.retries ?? 1,
+        factor: geminiRetryOptions?.factor ?? 2,
+        minTimeout: geminiRetryOptions?.minTimeout ?? 600,
+        maxTimeout: geminiRetryOptions?.maxTimeout ?? 3000,
+        onFailedAttempt: geminiRetryOptions?.onFailedAttempt
+            || ((error, attempt) => console.warn(`[retry ${attempt}] Gemini topic generation failed: ${error?.message || error}`))
+    };
+
+    const fallbackOptions = {
+        retries: fallbackRetryOptions?.retries ?? 1,
+        factor: fallbackRetryOptions?.factor ?? 2,
+        minTimeout: fallbackRetryOptions?.minTimeout ?? geminiOptions.minTimeout,
+        maxTimeout: fallbackRetryOptions?.maxTimeout ?? geminiOptions.maxTimeout,
+        onFailedAttempt: fallbackRetryOptions?.onFailedAttempt
+            || ((error, attempt) => console.warn(`[retry ${attempt}] ChatGPT fallback failed: ${error?.message || error}`))
+    };
+
+    const { winner, latencyMs } = await raceGeminiWithDelayedFallback({
+        runGemini: async () => {
+            return await withRetry(
+                () => generationLimit(() => callGemini(geminiPayload)),
+                geminiOptions
+            );
+        },
+        runChatGPT: async () => {
+            return await withRetry(
+                () => {
+                    const controller = new AbortController();
+                    const timeout = setTimeout(() => controller.abort('fallback-timeout'), FALLBACK_TIMEOUT_MS);
+                    return generationLimit(() => callChatGPT(chatgptPayload, { signal: controller.signal }))
+                        .finally(() => clearTimeout(timeout));
+                },
+                fallbackOptions
+            );
         }
+    });
 
-        if (!openaiClient) {
-            console.warn('ChatGPT fallback unavailable: OPENAI_API_KEY not configured.');
-            throw err;
-        }
-
-        console.warn('[fallback] Switching to ChatGPT due to Gemini timeout.');
-
-        const mergedFallbackOptions = {
-            retries: 1,
-            minTimeout: geminiRetryOptions?.minTimeout,
-            maxTimeout: geminiRetryOptions?.maxTimeout,
-            ...fallbackRetryOptions
-        };
-
-        mergedFallbackOptions.onFailedAttempt = fallbackRetryOptions?.onFailedAttempt
-            || ((error, attempt) => console.warn(`[retry ${attempt}] ChatGPT fallback failed: ${error?.message || error}`));
-
-        return await withRetry(
-            () => generateWithChatGPT_Fallback(subject, prompt),
-            mergedFallbackOptions
-        );
+    if (winner.model === 'timeout') {
+        throw Object.assign(new Error('AI timed out'), { statusCode: 504, latencyMs: MODEL_HTTP_TIMEOUT_MS });
     }
+
+    if (winner.model === 'gemini-error') {
+        throw winner.error || new Error('Gemini failed before fallback could start.');
+    }
+
+    let items = null;
+    if (winner.model === 'gemini') {
+        items = parseGeminiResponse(winner.data);
+    } else if (winner.model === 'chatgpt') {
+        items = parseOpenAIResponse(winner.data);
+    }
+
+    if (!Array.isArray(items)) {
+        throw new Error('Model returned an invalid response format.');
+    }
+
+    const roundedLatency = Math.round(latencyMs || 0);
+    AI_LATENCY.push(roundedLatency);
+
+    return { items, model: winner.model, latencyMs: roundedLatency };
 }
 
 function hasSchemaIssues(item) {
@@ -838,7 +1007,7 @@ async function repairBatchWithChatGPT_once(itemsNeedingFix) {
 async function generateExam(subject, promptBuilder, counts) {
     const prompt = promptBuilder(counts);
 
-    let items = await generateQuizItemsWithFallback(
+    const { items: generatedItems } = await generateQuizItemsWithFallback(
         subject,
         prompt,
         {
@@ -847,7 +1016,7 @@ async function generateExam(subject, promptBuilder, counts) {
             onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini exam generation failed: ${err?.message || err}`)
         }
     );
-    items = items.map((i) => enforceWordCapsOnItem(i, subject));
+    let items = generatedItems.map((i) => enforceWordCapsOnItem(i, subject));
 
     const badIdxs = [];
     items.forEach((it, idx) => {
@@ -1164,7 +1333,7 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         ]);
 
         const prompt = buildTopicPrompt_VarietyPack(subject, topic, 12, snippets, images);
-        const generatedItems = await generateQuizItemsWithFallback(
+        const { items: generatedItems, model: winnerModel, latencyMs } = await generateQuizItemsWithFallback(
             subject,
             prompt,
             {
@@ -1229,10 +1398,20 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             .slice(0, 12)
             .map((item, index) => ({ ...item, questionNumber: item.questionNumber ?? index + 1 }));
 
-        res.json({ success: true, subject, topic, difficulty: difficulty || null, items });
+        res.set('X-Model', winnerModel || 'unknown');
+        res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
+        res.json({ success: true, subject, topic, difficulty: difficulty || null, items, model: winnerModel || 'unknown', latencyMs: latencyMs ?? 0 });
     } catch (err) {
         console.error('Topic quiz generation failed:', err?.message || err);
-        res.status(500).json({ error: err?.message || 'Failed to generate topic quiz.' });
+        const status = err?.statusCode === 504 ? 504 : 500;
+        const body = err?.statusCode === 504
+            ? { error: 'AI timed out', model: 'timeout', latencyMs: err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS }
+            : { error: err?.message || 'Failed to generate topic quiz.' };
+        if (status === 504) {
+            res.set('X-Model', 'timeout');
+            res.set('X-Model-Latency-Ms', String(err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS));
+        }
+        res.status(status).json(body);
     }
 });
 
@@ -2254,7 +2433,7 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
 
         const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
 
-        let items = await generateQuizItemsWithFallback(
+        const { items: generatedItems, model: winnerModel, latencyMs } = await generateQuizItemsWithFallback(
             subject,
             prompt,
             {
@@ -2264,7 +2443,7 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
             }
         );
 
-        items = items.map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
+        let items = generatedItems.map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
 
         const bad = [];
@@ -2292,11 +2471,34 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
         items = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
 
-        res.json({ subject, topic, items });
+        res.set('X-Model', winnerModel || 'unknown');
+        res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
+        res.json({ subject, topic, items, model: winnerModel || 'unknown', latencyMs: latencyMs ?? 0 });
     } catch (err) {
         console.error('topic generation failed', err);
-        res.status(500).json({ error: 'Failed to generate topic quiz.' });
+        const status = err?.statusCode === 504 ? 504 : 500;
+        const body = err?.statusCode === 504
+            ? { error: 'AI timed out', model: 'timeout', latencyMs: err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS }
+            : { error: 'Failed to generate topic quiz.' };
+        if (status === 504) {
+            res.set('X-Model', 'timeout');
+            res.set('X-Model-Latency-Ms', String(err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS));
+        }
+        res.status(status).json(body);
     }
+});
+
+app.get('/metrics/ai', (_req, res) => {
+    const stats = AI_LATENCY.stats();
+    const toSec = (value) => Math.round((value || 0) / 1000);
+    res.json({
+        model: 'gemini+chatgpt-fallback',
+        count: stats.count,
+        p50s: toSec(stats.p50),
+        p95s: toSec(stats.p95),
+        p99s: toSec(stats.p99),
+        avgs: toSec(stats.avg)
+    });
 });
 
 
