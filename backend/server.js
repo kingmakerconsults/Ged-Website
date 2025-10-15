@@ -407,6 +407,66 @@ Image rules:
 - Do NOT add external links or unknown images. Use only provided local paths.
 `;
 
+function buildTopicQuizPrompt(subject, topic, difficulty) {
+    const baseHeader = STRICT_JSON_HEADER_SHARED;
+    const typeHint = subject === 'Math'
+        ? 'math problem-solving, algebra, geometry, word problems'
+        : subject === 'RLA'
+            ? 'reading comprehension, main idea, inference, tone, grammar'
+            : subject === 'Science'
+                ? 'data interpretation, experiments, cause and effect, life/earth/physical sciences'
+                : 'history, civics, economics, geography, map or chart interpretation';
+
+    const structure = subject === 'Math'
+        ? 'a mix of numeric and text-based problems; describe any visuals in text'
+        : 'include a 150-250 word passage for at least 4 of the 12 questions; the rest may reference short stimuli or stand-alone questions.';
+
+    const difficultyLine = difficulty ? `\nAim overall difficulty toward a ${difficulty} level.` : '';
+
+    return `${baseHeader}
+Generate exactly 12 GED-level ${subject} questions on the topic "${topic}".
+Focus on variety and balance:
+
+* 4 passage-based (each <= 250 words)
+* 3 image or data-based (describe visuals in text)
+* 5 standalone conceptual questions.
+Vary difficulty (easy, medium, hard mix).${difficultyLine}
+Each question must match the subject focus: ${typeHint}.
+${structure}
+${SHARED_IMAGE_RULES}`;
+}
+
+const SUBJECT_PARAM_ALIASES = new Map([
+    ['math', 'Math'],
+    ['science', 'Science'],
+    ['social studies', 'Social Studies'],
+    ['social-studies', 'Social Studies'],
+    ['socialstudies', 'Social Studies'],
+    ['rla', 'RLA'],
+    ['reasoning through language arts', 'RLA'],
+    ['reasoning through language arts (rla)', 'RLA'],
+    ['reasoning-through-language-arts', 'RLA'],
+    ['reasoning-through-language-arts-(rla)', 'RLA']
+]);
+
+function normalizeSubjectParam(rawSubject) {
+    if (!rawSubject) return null;
+    const lower = String(rawSubject).trim().toLowerCase();
+    const variants = [
+        lower,
+        lower.replace(/%20/g, ' '),
+        lower.replace(/-/g, ' '),
+        lower.replace(/_/g, ' ')
+    ];
+
+    for (const variant of variants) {
+        const normalized = SUBJECT_PARAM_ALIASES.get(variant);
+        if (normalized) return normalized;
+    }
+
+    return SUBJECT_PARAM_ALIASES.get(lower) || null;
+}
+
 async function callGemini(prompt) {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey) {
@@ -781,6 +841,82 @@ app.post('/define-word', async (req, res) => {
     } catch (error) {
         console.error('Error calling Google AI API for definition:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to get definition from AI service.' });
+    }
+});
+
+
+app.post('/api/topic-based/:subject', async (req, res) => {
+    const normalizedSubject = normalizeSubjectParam(req.params.subject);
+    const { topic, difficulty } = req.body || {};
+
+    if (!normalizedSubject) {
+        return res.status(400).json({ error: 'Unsupported subject.' });
+    }
+
+    if (!topic || typeof topic !== 'string') {
+        return res.status(400).json({ error: 'A topic is required.' });
+    }
+
+    try {
+        let prompt;
+        if (normalizedSubject === 'Math') {
+            const mathCounts = { NON_CALC_COUNT: 4, GEOMETRY_COUNT: 4, ALGEBRA_COUNT: 4 };
+            prompt = `${buildCombinedPrompt_Math(mathCounts)}\nFocus all scenarios on the topic "${topic}". Ensure variety across quantitative and contextual problems.`;
+        } else {
+            prompt = buildTopicQuizPrompt(normalizedSubject, topic, difficulty);
+        }
+
+        let items = await generateWithGemini_OneCall(normalizedSubject, prompt);
+        if (!Array.isArray(items)) {
+            items = [];
+        }
+
+        items = items.map((item) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), normalizedSubject));
+
+        if (items.length > 12) {
+            items = items.slice(0, 12);
+        }
+
+        const bad = items
+            .map((it, idx) => (needsRepair(it, normalizedSubject) ? idx : -1))
+            .filter((idx) => idx >= 0);
+
+        if (bad.length) {
+            try {
+                const toFix = bad.map((idx) => items[idx]);
+                const repaired = await repairBatchWithChatGPT_once(toFix);
+                if (Array.isArray(repaired)) {
+                    repaired.forEach((fixed, idx) => {
+                        if (fixed) {
+                            items[bad[idx]] = enforceWordCapsOnItem(
+                                sanitizeQuestionKeepLatex(cloneQuestion(fixed)),
+                                normalizedSubject
+                            );
+                        }
+                    });
+                }
+            } catch (repairError) {
+                console.warn('Topic-based repair failed; continuing with original items.', repairError?.message || repairError);
+            }
+        }
+
+        items = items.map((item) => enforceWordCapsOnItem(item, normalizedSubject));
+
+        if (items.length > 12) {
+            items = items.slice(0, 12);
+        }
+
+        const questions = items.map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
+
+        res.json({
+            subject: normalizedSubject,
+            topic,
+            difficulty: difficulty || null,
+            questions
+        });
+    } catch (error) {
+        console.error('Failed to generate topic-based quiz:', error?.message || error);
+        res.status(500).json({ error: 'Failed to generate topic-based quiz.' });
     }
 });
 
