@@ -55,6 +55,14 @@ const openaiClient = process.env.OPENAI_API_KEY
     ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
     : null;
 
+function isTimeoutError(err) {
+    if (!err) return false;
+    if (err.name === 'AbortError') return true;
+    if (err.code === 'ECONNABORTED') return true;
+    const message = String(err.message || err).toLowerCase();
+    return message.includes('timeout');
+}
+
 // --- begin local retry helper ---
 async function withRetry(fn, {
     retries = 3,
@@ -72,8 +80,14 @@ async function withRetry(fn, {
             attempt++;
             await onFailedAttempt(err, attempt);
             if (attempt > retries) throw err;
-            await new Promise((r) => setTimeout(r, Math.min(delay, maxTimeout)));
-            delay *= factor;
+
+            let adjustedDelay = delay;
+            if (isTimeoutError(err)) {
+                adjustedDelay = Math.min(delay * 1.5, maxTimeout);
+            }
+
+            await new Promise((r) => setTimeout(r, Math.min(adjustedDelay, maxTimeout)));
+            delay = Math.min(Math.max(adjustedDelay * factor, minTimeout), maxTimeout);
         }
     }
 }
@@ -506,7 +520,7 @@ async function callGemini(prompt) {
     };
 
     const run = async () => {
-        const response = await axios.post(apiUrl, payload, { timeout: 45000 });
+        const response = await axios.post(apiUrl, payload, { timeout: 90000 });
         const text = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
         if (typeof text !== 'string') {
             throw new Error('Gemini response missing text content.');
@@ -539,6 +553,83 @@ async function generateWithGemini_OneCall(subject, prompt) {
         if (!Array.isArray(arr)) throw new Error('Invalid JSON from Gemini');
         return arr;
     });
+}
+
+const CHATGPT_FALLBACK_SYSTEM_PROMPT = 'You generate GED-style quiz items. Always respond with ONLY a valid JSON array of question objects. Do not include commentary.';
+
+async function generateWithChatGPT_Fallback(subject, prompt) {
+    if (!openaiClient) {
+        throw new Error('ChatGPT fallback unavailable: OPENAI_API_KEY not configured.');
+    }
+
+    return generationLimit(async () => {
+        const response = await openaiClient.responses.create({
+            model: 'gpt-4o-mini',
+            temperature: 0.4,
+            input: [
+                { role: 'system', content: CHATGPT_FALLBACK_SYSTEM_PROMPT },
+                { role: 'user', content: prompt }
+            ]
+        });
+
+        const text = response.output_text;
+        let arr = extractJSONArray(text);
+        if (!Array.isArray(arr)) {
+            try {
+                const parsed = JSON.parse(text);
+                if (Array.isArray(parsed)) {
+                    arr = parsed;
+                } else if (Array.isArray(parsed?.items)) {
+                    arr = parsed.items;
+                } else if (Array.isArray(parsed?.questions)) {
+                    arr = parsed.questions;
+                }
+            } catch (e) {
+                // fall through to error below
+            }
+        }
+
+        if (!Array.isArray(arr)) {
+            throw new Error('Invalid JSON from ChatGPT fallback');
+        }
+
+        return arr;
+    });
+}
+
+async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions = {}, fallbackRetryOptions = {}) {
+    try {
+        return await withRetry(
+            () => generateWithGemini_OneCall(subject, prompt),
+            geminiRetryOptions
+        );
+    } catch (err) {
+        if (!isTimeoutError(err)) {
+            throw err;
+        }
+
+        if (!openaiClient) {
+            console.warn('ChatGPT fallback unavailable: OPENAI_API_KEY not configured.');
+            throw err;
+        }
+
+        console.warn('[fallback] Switching to ChatGPT due to Gemini timeout.');
+
+        const mergedFallbackOptions = {
+            retries: 1,
+            minTimeout: geminiRetryOptions?.minTimeout,
+            maxTimeout: geminiRetryOptions?.maxTimeout,
+            ...fallbackRetryOptions
+        };
+
+        mergedFallbackOptions.onFailedAttempt = fallbackRetryOptions?.onFailedAttempt
+            || ((error, attempt) => console.warn(`[retry ${attempt}] ChatGPT fallback failed: ${error?.message || error}`));
+
+        return await withRetry(
+            () => generateWithChatGPT_Fallback(subject, prompt),
+            mergedFallbackOptions
+        );
+    }
 }
 
 function hasSchemaIssues(item) {
@@ -594,8 +685,9 @@ async function repairBatchWithChatGPT_once(itemsNeedingFix) {
 async function generateExam(subject, promptBuilder, counts) {
     const prompt = promptBuilder(counts);
 
-    let items = await withRetry(
-        () => generateWithGemini_OneCall(subject, prompt),
+    let items = await generateQuizItemsWithFallback(
+        subject,
+        prompt,
         {
             retries: 2,
             minTimeout: 800,
@@ -917,8 +1009,9 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         const images = findImagesForSubjectTopic(subject, topic, 6);
 
         const prompt = buildTopicPrompt_VarietyPack(subject, topic, 12, snippets, images);
-        const generatedItems = await withRetry(
-            () => generateWithGemini_OneCall(subject, prompt),
+        const generatedItems = await generateQuizItemsWithFallback(
+            subject,
+            prompt,
             {
                 retries: 2,
                 minTimeout: 800,
@@ -1987,8 +2080,9 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
 
         const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
 
-        let items = await withRetry(
-            () => generateWithGemini_OneCall(subject, prompt),
+        let items = await generateQuizItemsWithFallback(
+            subject,
+            prompt,
             {
                 retries: 2,
                 minTimeout: 800,
