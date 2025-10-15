@@ -190,6 +190,21 @@ function humanizeSource(value) {
     return trimmed;
 }
 
+function coerceImageSourceCandidate(candidate) {
+    if (typeof candidate === 'string') {
+        return candidate.trim();
+    }
+
+    if (candidate && typeof candidate === 'object') {
+        const nested = candidate.src || candidate.url || candidate.href;
+        if (typeof nested === 'string') {
+            return nested.trim();
+        }
+    }
+
+    return '';
+}
+
 function normalizeStimulusAndSource(item) {
     if (!item || typeof item !== 'object') return item;
 
@@ -200,7 +215,9 @@ function normalizeStimulusAndSource(item) {
             : item?.stimulusImage
     };
 
-    const rawSrc = (out?.stimulusImage?.src || out?.imageUrl || out?.imageURL || '').trim();
+    const rawSrc = coerceImageSourceCandidate(out?.stimulusImage?.src)
+        || coerceImageSourceCandidate(out?.imageUrl)
+        || coerceImageSourceCandidate(out?.imageURL);
 
     if (rawSrc) {
         const cleanSrc = rawSrc.replace(/^\/frontend/i, '');
