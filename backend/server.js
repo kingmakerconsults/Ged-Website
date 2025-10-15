@@ -639,29 +639,7 @@ function buildTopicPrompt_VarietyPack(subject, topic, n = 12, ctx = [], imgs = [
         id: im.id || `img${i+1}`, src: im.filePath, alt: im.altText || '', description: im.detailedDescription || ''
     })));
 
-    const MIX_RULES = subject === 'Math'
-        ? `
-Mix (exactly ${n} items):
-- 3 items with an IMAGE/DIAGRAM/MAP stimulus -> set itemType:"image"
-- ${n - 3} items STANDALONE (no stimulus) -> set itemType:"standalone"
-
-Math topic sets should NOT include long reading passages. Focus on concise scenarios or visuals that require computation or reasoning.
-
-Difficulty distribution (approximate): 4 easy, 5 medium, 3 hard. Include a "difficulty" field for each item.
-
-Variety rules:
-- Rotate sub-skills; avoid repeating the same wording template.
-- If multiple items use the same IMAGE (same src), assign the same groupId (e.g., "img:img2").
-- Write stems so the stimulus is actually needed (interpret the data/figure/text), not decorative.
-
-Citations:
-- For image items, include a "source" with the image "src".
-- For standalone items, "source" can be omitted or set to a relevant CONTEXT URL if used.
-
-Word caps:
-- Keep questionText concise.
-`
-        : `
+    const MIX_RULES = `
 Mix (exactly ${n} items):
 - 4 items with a TEXT PASSAGE stimulus -> set itemType:"passage"
 - 3 items with an IMAGE/DIAGRAM/MAP stimulus -> set itemType:"image"
@@ -692,8 +670,7 @@ Subskills to rotate (Social Studies):
 - civics processes, document interpretation (quotes), economic reasoning (supply/demand, inflation, unemployment), map/graph reading, chronology/timeline, main idea/inference, rights & responsibilities.`,
         "Math": `
 Subskills to rotate (Math):
-- number operations, fractions/decimals/percents, ratios/proportions, linear equations/inequalities, functions/graphs (described in text), geometry/measurement, data & probability. Use inline $...$ for expressions; no $$ display math.
-- Prefer standalone or data/visual prompts; avoid long reading passages.`,
+- number operations, fractions/decimals/percents, ratios/proportions, linear equations/inequalities, functions/graphs (described in text), geometry/measurement, data & probability. Use inline $...$ for expressions; no $$ display math.`,
         "Reasoning Through Language Arts (RLA)": `
 Subskills to rotate (RLA):
 - main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`
@@ -960,165 +937,6 @@ function groupedShuffle(items) {
     return out;
 }
 
-const VALID_ITEM_TYPES = new Set(['passage', 'image', 'standalone']);
-const VALID_DIFFICULTIES = new Set(['easy', 'medium', 'hard']);
-
-function normalizeTopicItem(item) {
-    if (!item || typeof item !== 'object') return item;
-    const normalized = { ...item };
-
-    if (!VALID_ITEM_TYPES.has(normalized.itemType)) {
-        if (normalized.passage) normalized.itemType = 'passage';
-        else if (normalized.stimulusImage?.src) normalized.itemType = 'image';
-        else normalized.itemType = 'standalone';
-    }
-
-    if (!VALID_DIFFICULTIES.has(normalized.difficulty)) {
-        normalized.difficulty = 'medium';
-    }
-
-    return normalized;
-}
-
-function topicUniquenessKey(item) {
-    const stem = stemText(item);
-    const passageFragment = typeof item?.passage === 'string' ? item.passage.trim().slice(0, 160) : '';
-    const imageKey = item?.stimulusImage?.src || '';
-    return `${stem}||${passageFragment}||${imageKey}`;
-}
-
-function ensureGroupIds(items) {
-    const groups = new Map();
-    items.forEach((item, idx) => {
-        const key = deriveStimulusGroupKey(item, idx);
-        if (!groups.has(key)) groups.set(key, []);
-        groups.get(key).push(item);
-    });
-
-    let passageCounter = 1;
-    let imageCounter = 1;
-    let genericCounter = 1;
-
-    for (const [key, groupItems] of groups.entries()) {
-        if (!groupItems || groupItems.length <= 1) continue;
-
-        let assignedId;
-        if (key.startsWith('gid:')) {
-            assignedId = key.slice(4);
-        } else if (key.startsWith('img:')) {
-            const suffix = key.slice(4);
-            assignedId = suffix ? `img:${suffix}` : `img:auto-${imageCounter++}`;
-        } else if (key.startsWith('p:')) {
-            assignedId = `passage-${passageCounter++}`;
-        } else {
-            assignedId = `group-${genericCounter++}`;
-        }
-
-        groupItems.forEach((item) => {
-            if (item && (!item.groupId || typeof item.groupId !== 'string')) {
-                item.groupId = assignedId;
-            }
-        });
-    }
-
-    return items;
-}
-
-function selectTopicItems(items, mixTarget, diffTarget, desired = 12) {
-    const normalizedPool = items.map(normalizeTopicItem);
-    const desiredCount = desired || 12;
-
-    const buckets = { passage: [], image: [], standalone: [] };
-    normalizedPool.forEach((item, idx) => {
-        const entry = { item, idx, key: topicUniquenessKey(item) };
-        const type = VALID_ITEM_TYPES.has(item.itemType) ? item.itemType : 'standalone';
-        (buckets[type] || buckets.standalone).push(entry);
-    });
-
-    const selection = [];
-    const selectedKeys = new Set();
-    const typeCounts = { passage: 0, image: 0, standalone: 0 };
-    const diffCounts = { easy: 0, medium: 0, hard: 0 };
-    const targetTypeCounts = {
-        passage: Math.max(0, mixTarget?.passage || 0),
-        image: Math.max(0, mixTarget?.image || 0),
-        standalone: Math.max(0, mixTarget?.standalone || 0)
-    };
-    const targetDiffCounts = {
-        easy: Math.max(0, diffTarget?.easy || 0),
-        medium: Math.max(0, diffTarget?.medium || 0),
-        hard: Math.max(0, diffTarget?.hard || 0)
-    };
-
-    const passesDiffNeed = (entry) => diffCounts[entry.item.difficulty] < targetDiffCounts[entry.item.difficulty];
-    const isNearDuplicate = (candidate) => selection.some((existing) => jaccard(stemText(existing), stemText(candidate)) >= 0.88);
-
-    const tryAdd = (entry) => {
-        if (!entry) return false;
-        if (selectedKeys.has(entry.key)) return false;
-        if (isNearDuplicate(entry.item)) return false;
-
-        selection.push(entry.item);
-        selectedKeys.add(entry.key);
-        typeCounts[entry.item.itemType] = (typeCounts[entry.item.itemType] || 0) + 1;
-        diffCounts[entry.item.difficulty] = (diffCounts[entry.item.difficulty] || 0) + 1;
-        return true;
-    };
-
-    const pickFromBucket = (type) => {
-        const needed = targetTypeCounts[type];
-        if (!needed) return;
-        const bucket = buckets[type];
-        let safety = bucket.length * 2;
-        while (typeCounts[type] < needed && bucket.length && safety > 0) {
-            let index = bucket.findIndex(passesDiffNeed);
-            if (index === -1) index = 0;
-            const [candidate] = bucket.splice(index, 1);
-            safety -= 1;
-            if (!tryAdd(candidate) && candidate) {
-                bucket.push(candidate); // keep available for later passes
-            }
-        }
-    };
-
-    pickFromBucket('passage');
-    pickFromBucket('image');
-    pickFromBucket('standalone');
-
-    const leftovers = [...buckets.passage, ...buckets.image, ...buckets.standalone];
-    let safety = leftovers.length * 2;
-    while (selection.length < desiredCount && leftovers.length && safety > 0) {
-        let index = leftovers.findIndex(passesDiffNeed);
-        if (index === -1) index = 0;
-        const [candidate] = leftovers.splice(index, 1);
-        safety -= 1;
-        if (!tryAdd(candidate) && candidate) {
-            leftovers.push(candidate);
-        }
-    }
-
-    // Final sweep if we still need more items, ignoring difficulty balance.
-    const remainingPool = leftovers.length ? leftovers : [...buckets.passage, ...buckets.image, ...buckets.standalone];
-    let remainingSafety = remainingPool.length * 2;
-    while (selection.length < desiredCount && remainingPool.length && remainingSafety > 0) {
-        const candidate = remainingPool.shift();
-        remainingSafety -= 1;
-        if (tryAdd(candidate)) continue;
-        if (candidate) remainingPool.push(candidate);
-    }
-
-    return selection.slice(0, desiredCount);
-}
-
-function topicMixTargetsForSubject(subject) {
-    if (subject === 'Math') {
-        return { passage: 0, image: 3, standalone: 9 };
-    }
-    return { passage: 4, image: 3, standalone: 5 };
-}
-
-const TOPIC_DIFFICULTY_TARGET = { easy: 4, medium: 5, hard: 3 };
-
 function tagMissingItemType(x){
     const it = { ...x };
     if (!it.itemType) {
@@ -1129,17 +947,37 @@ function tagMissingItemType(x){
     return it;
 }
 
-function enforceVarietyMix(items, wanted, diffTarget = null, desired = 12){
-    return selectTopicItems(items, wanted, diffTarget || { easy: 0, medium: 0, hard: 0 }, desired);
+function enforceVarietyMix(items, wanted){
+    const out = [];
+    const byType = { passage: [], image: [], standalone: [] };
+    for (const it of items) (byType[it.itemType] ? byType[it.itemType] : byType.standalone).push(it);
+
+    const take = (arr, n) => arr.slice(0, Math.max(0, n));
+    out.push(...take(byType.passage, wanted.passage));
+    out.push(...take(byType.image, wanted.image));
+    out.push(...take(byType.standalone, wanted.standalone));
+
+    const need = 12 - out.length;
+    if (need > 0) {
+        const pool = items.filter(it => !out.includes(it));
+        out.push(...pool.slice(0, need));
+    }
+    return out.slice(0, 12);
 }
 
-function enforceDifficultySpread(items, target, desired = 12){
-    const mixFromItems = {
-        passage: items.filter((it) => normalizeTopicItem(it).itemType === 'passage').length,
-        image: items.filter((it) => normalizeTopicItem(it).itemType === 'image').length,
-        standalone: items.filter((it) => normalizeTopicItem(it).itemType === 'standalone').length
-    };
-    return selectTopicItems(items, mixFromItems, target, desired);
+function enforceDifficultySpread(items, target){
+    const buckets = { easy:[], medium:[], hard:[], other:[] };
+    for (const it of items) (buckets[it.difficulty] || buckets.other).push(it);
+
+    const pick = [];
+    const take = (arr, n) => arr.splice(0, Math.max(0, n));
+    pick.push(...take(buckets.easy, target.easy));
+    pick.push(...take(buckets.medium, target.medium));
+    pick.push(...take(buckets.hard, target.hard));
+
+    const rest = [...buckets.easy, ...buckets.medium, ...buckets.hard, ...buckets.other];
+    while (pick.length < 12 && rest.length) pick.push(rest.shift());
+    return pick.slice(0, 12);
 }
 
 function stemText(it){
@@ -1152,15 +990,19 @@ function jaccard(a,b){
     const uni = new Set([...A,...B]).size || 1;
     return inter/uni;
 }
-function dedupeNearDuplicates(items, threshold=0.85, desired = 12){
+function dedupeNearDuplicates(items, threshold=0.85){
     const kept = [];
     for (const it of items) {
         const t = stemText(it);
         const dup = kept.some(k => jaccard(t, stemText(k)) >= threshold);
         if (!dup) kept.push(it);
-        if (kept.length >= desired) break;
     }
-    return kept.slice(0, desired);
+    const need = 12 - kept.length;
+    if (need>0){
+        const pool = items.filter(x => !kept.includes(x));
+        kept.push(...pool.slice(0, need));
+    }
+    return kept.slice(0, 12);
 }
 
 const singleQuestionSchema = {
@@ -1962,10 +1804,9 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
             items = items.map(tagMissingItemType);
         }
 
-        const mixTargets = topicMixTargetsForSubject(subject);
-        items = enforceVarietyMix(items, mixTargets, TOPIC_DIFFICULTY_TARGET, 12);
-        items = dedupeNearDuplicates(items, 0.85, 12);
-        items = ensureGroupIds(items);
+        items = enforceVarietyMix(items, { passage: 4, image: 3, standalone: 5 });
+        items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
+        items = dedupeNearDuplicates(items, 0.85);
         items = groupedShuffle(items);
         items = items.slice(0, 12).map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
 
