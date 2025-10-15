@@ -47,6 +47,7 @@ function normalizeCurrencyOutsideMath(text) {
         return text;
     }
     let working = text;
+    working = working.replace(/\\+\$/g, '$');
     working = working.replace(/\$\$(?=\d)/g, '$');
     working = working.replace(/\$(\s*\d+(?:[.,]\d{1,2}))\$/g, (_, amount) => `$${amount.trim()}`);
     working = working.replace(/(\d+(?:[.,]\d{1,2}))\s*\$(?!\d)/g, (_, amount) => `$${amount}`);
@@ -92,6 +93,29 @@ function applyPhraseSpacingRepairs(text) {
     ), text);
 }
 
+function collapseUnderscoredLatexMacros(s) {
+    if (typeof s !== 'string') return s;
+
+    // First, reduce double-escaped backslashes that sit directly in front of
+    // macro letters or the underscore placeholders that separate them. This
+    // allows a single code path to clean up both "\f\_r" and
+    // "\\f\\_r" style glitches.
+    let normalized = s.replace(/\\{2}(?=[A-Za-z_])/g, '\\');
+
+    // Next, repeatedly strip "\_" runs that appear immediately after a
+    // macro letter. Some generated strings contain long stretches like
+    // "\f\_\_\_\_r" where each pair has to be removed one at a time.
+    let previous;
+    do {
+        previous = normalized;
+        normalized = normalized.replace(/([A-Za-z])\\_/g, '$1');
+    } while (normalized !== previous);
+
+    // Finally, collapse residual sequences such as "\s\q\r\t" into
+    // "\sqrt" by removing stray backslashes between adjacent letters.
+    return normalized.replace(/\\([A-Za-z])(?:\\([A-Za-z]))+/g, (match) => `\\${match.replace(/\\/g, '')}`);
+}
+
 function normalizeLatexMacrosInMath(s) {
     if (typeof s !== 'string') return s;
     return s.replace(/\\\\([A-Za-z]+)/g, '\\$1');
@@ -107,12 +131,18 @@ function addMissingBackslashesInMath(mathStr) {
     return mathStr.replace(macroRegex, (match) => `\\${match}`);
 }
 
+function sanitizeExamTextV2_PlainOnly(obj, subject) {
+    return obj;
+}
+
 module.exports = {
     tokenizeMathSegments,
     restoreMathSegments,
     normalizeCurrencyOutsideMath,
     stripTextMacroInPlain,
     applyPhraseSpacingRepairs,
+    collapseUnderscoredLatexMacros,
     normalizeLatexMacrosInMath,
-    addMissingBackslashesInMath
+    addMissingBackslashesInMath,
+    sanitizeExamTextV2_PlainOnly
 };

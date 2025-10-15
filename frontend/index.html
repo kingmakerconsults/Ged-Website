@@ -67,6 +67,12 @@
             window.__APP_CONFIG__.geometryFiguresEnabled = false;
         }
     </script>
+    <script>
+      window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
+      if (typeof window.__APP_CONFIG__.mathRenderMode === 'undefined') {
+        window.__APP_CONFIG__.mathRenderMode = 'plain'; // 'plain' now, 'math-lite' later
+      }
+    </script>
     <script src="https://ged-website.onrender.com/client-config.js"></script>
 
     <script>
@@ -211,7 +217,7 @@ class ErrorBoundary extends React.Component {
     }
 }
 
-const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath, fixAllMathInText } = window.TextSanitizer || {};
+const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath, fixAllMathInText, collapseUnderscoredLatexMacros } = window.TextSanitizer || {};
 
 function applySafeMathFix(text) {
     if (typeof text !== 'string') {
@@ -220,14 +226,18 @@ function applySafeMathFix(text) {
     if (typeof fixAllMathInText === 'function') {
         return fixAllMathInText(text);
     }
+    let working = text;
+    if (typeof collapseUnderscoredLatexMacros === 'function') {
+        working = collapseUnderscoredLatexMacros(working);
+    }
     if (typeof addMissingBackslashesInMath === 'function') {
-        return addMissingBackslashesInMath(text);
+        return addMissingBackslashesInMath(working);
     }
     const legacy = (typeof window !== 'undefined' && window.TextSanitizer && window.TextSanitizer.addMissingBackslashesInMath);
     if (typeof legacy === 'function') {
-        return legacy(text);
+        return legacy(working);
     }
-    return text;
+    return working;
 }
 
 const ALLOWED_HTML_TAGS = [
@@ -236,6 +246,22 @@ const ALLOWED_HTML_TAGS = [
 ];
 const ALLOWED_HTML_ATTR = ['href','title','target','rel','colspan','rowspan','align','scope'];
 const ENTITY_DECODER = typeof document !== 'undefined' ? document.createElement('textarea') : null;
+
+function collapseSplitLatexCommands(source) {
+    if (typeof source !== 'string' || source.length === 0) {
+        return source;
+    }
+
+    let normalized = source.replace(/\\{2}(?=[A-Za-z_])/g, '\\');
+
+    let previous;
+    do {
+        previous = normalized;
+        normalized = normalized.replace(/([A-Za-z])\\_/g, '$1');
+    } while (normalized !== previous);
+
+    return normalized.replace(/\\([A-Za-z])(?:\\([A-Za-z]))+/g, (match) => `\\${match.replace(/\\/g, '')}`);
+}
 
 function normalizeLatex(text) {
     if (typeof text !== 'string' || text.length === 0) {
@@ -252,6 +278,11 @@ function normalizeLatex(text) {
         .replace(/\\\(([^]*?)\\\)/g, '$1')
         .replace(/\\\[([^]*?)\\\]/g, '$1');
 
+    // unwrap accidentally math-wrapped currency, e.g. "$12.50$" -> "$12.50"
+    normalized = normalized.replace(/\$(\s*\d+(?:[.,]\d{1,2}))\$/g, (_m, amount) => `$${amount.trim()}`);
+    // close-up whitespace after literal $, e.g. "$   12" -> "$12"
+    normalized = normalized.replace(/\$\s+(\d)/g, '$$1');
+
     normalized = normalized.replace(/\\dfrac/g, '\\frac');
 
     normalized = normalized
@@ -260,15 +291,11 @@ function normalizeLatex(text) {
         .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
         .replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
 
-    normalized = normalized.replace(/\\[A-Za-z]+(?:\\_+\\[A-Za-z]+)+/g, (cmd) => {
-        const withoutPlaceholders = cmd.replace(/\\_/g, '');
-        return withoutPlaceholders.replace(/(?!^)\\(?=[A-Za-z])/g, '');
-    });
+    normalized = collapseSplitLatexCommands(normalized);
 
-    normalized = normalized
-        .replace(/\\f(?:\\_+)?r(?:\\_+)?a(?:\\_+)?c/gi, '\\frac')
-        .replace(/\\s(?:\\_+)?q(?:\\_+)?r(?:\\_+)?t/gi, '\\sqrt')
-        .replace(/\\t(?:\\_+)?i(?:\\_+)?m(?:\\_+)?e(?:\\_+)?s/gi, '\\times');
+    if (typeof collapseUnderscoredLatexMacros === 'function') {
+        normalized = collapseUnderscoredLatexMacros(normalized);
+    }
 
     normalized = normalized.replace(/(?<![A-Za-z])rac\s*\{/g, '\\frac{');
 
@@ -416,8 +443,11 @@ function stripLeakedMathPlaceholders(text) {
 function renderStem(text) {
     text = stripLeakedMathPlaceholders(text);
     if (typeof text !== 'string') return '';
-    const normalized = normalizeLatex(text);
-    const rescued = applySafeMathFix(normalized);
+    const pass1 = normalizeLatex(text);
+    const pass2 = escapeCurrencyDollarsMathSafe(pass1);
+    const pass3 = neutralizeUnpairedDollarSigns(pass2);
+    const finalPlain = addSpacesAroundInlineMath(pass3);
+    const rescued = applySafeMathFix(finalPlain);
     const safeLatex = normalizeLatexForKaTeX(rescued);
     const wrapped = smartWrapLatex(safeLatex);
     if (typeof wrapped !== 'string' || wrapped.length === 0) {
@@ -939,7 +969,7 @@ function postRenderGuardrails(container, { itemIndex } = {}) {
     }
 }
 
-function MathText({ text, className, itemIndex }) {
+function MathText({ text, className, itemIndex, subject }) {
     const containerRef = useRef(null);
 
     useEffect(() => {
@@ -948,17 +978,17 @@ function MathText({ text, className, itemIndex }) {
             containerRef.current.innerHTML = '';
             return;
         }
-        const hasTable = /<\s*table\b/i.test(text);
-        if (hasTable) {
-            const safe = sanitizeHtmlContent(text, { normalizeSpacing: true });
-            containerRef.current.innerHTML = safe;
-            postRenderGuardrails(containerRef.current, { itemIndex });
-        } else {
-            const rendered = renderStem(text);
-            containerRef.current.innerHTML = rendered;
-            postRenderGuardrails(containerRef.current, { itemIndex });
-        }
-    }, [text, itemIndex]);
+
+        const ALLOW_TAGS = ['table', 'thead', 'tbody', 'tr', 'th', 'td', 'caption', 'p', 'br', 'strong', 'em', 'b', 'i', 'ul', 'ol', 'li'];
+        const ALLOW_ATTR = ['colspan', 'rowspan', 'scope', 'align'];
+
+        const sanitized = DOMPurify.sanitize(text, {
+            ALLOWED_TAGS: ALLOW_TAGS,
+            ALLOWED_ATTR: ALLOW_ATTR
+        });
+
+        containerRef.current.innerHTML = sanitized;
+    }, [text, subject, itemIndex]);
 
     return <span ref={containerRef} className={className} />;
 }
@@ -2559,17 +2589,17 @@ function App() {
             });
     };
 
-    const startQuiz = (quizPayload, subject) => {
-        console.log("Starting quiz with data:", quizPayload); // Debugging line
+    const startQuiz = (quiz, subject) => {
+        console.log("Starting quiz with data:", quiz); // Debugging line
 
-        if (!quizPayload || typeof quizPayload !== 'object') {
-            console.error('Received invalid quiz payload:', quizPayload);
+        if (!quiz || typeof quiz !== 'object') {
+            console.error('Received invalid quiz payload:', quiz);
             alert('Sorry, the generated quiz data was invalid. Please try again.');
             return;
         }
 
         const sanitizer = window.SanitizeExamText;
-        const sanitizedPayload = sanitizer ? sanitizer.sanitizeExamObject(quizPayload, 'latex') : quizPayload;
+        const sanitizedPayload = sanitizer ? sanitizer.sanitizeExamObject(quiz, 'latex') : quiz;
 
         if (sanitizedPayload.type === 'essay') {
             setActiveQuiz({ ...sanitizedPayload, subject });
@@ -3260,7 +3290,7 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 }
 
 
-function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit }) {
+function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit, subject }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [marked, setMarked] = useState(Array(questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
@@ -3314,6 +3344,8 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
 
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
 
+    const subjectForRender = currentQ.subject || subject || 'Math';
+
     return (
         <div className="fade-in">
             <header className="flex justify-between items-center pb-4 mb-4 border-b">
@@ -3345,7 +3377,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                 )}
 
                 <h3 className="text-xl font-semibold mb-4 question-stem">
-                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} className="question-stem" itemIndex={currentQ.questionNumber ?? (currentIndex + 1)} />
+                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} className="question-stem" itemIndex={currentQ.questionNumber ?? (currentIndex + 1)} subject={currentQ.subject || quiz.subject || 'Math'} />
                 </h3>
 
                 {isFillInTheBlank ? (
@@ -3365,7 +3397,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         {(currentQ.answerOptions || []).map((opt, i) => (
                             <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
                                <span className="flex-grow text-left">
-                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} />
+                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={currentQ.subject || quiz.subject || 'Math'} />
                                 </span>
                             </button>
                         ))}
@@ -3414,6 +3446,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         quizTitle={quiz.title}
         onExit={onExit}
         timeLimit={quiz.timeLimit}
+        subject={quiz.subject}
     />;
 }
 
@@ -3467,6 +3500,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             quizTitle="Part 1: Non-Calculator Section"
             buttonText="Continue to Part 2"
             onExit={onExit}
+            subject={quiz.subject}
         />;
     }
 
@@ -3491,6 +3525,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             quizTitle="Part 2: Calculator-Permitted Section"
             buttonText="Finish Exam"
             onExit={onExit}
+            subject={quiz.subject}
         />;
     }
 
@@ -3593,6 +3628,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     onComplete={handlePart1Complete}
                     quizTitle="Part 1: Reading Comprehension"
                     buttonText="Continue to Essay"
+                    subject={quiz.subject}
                 />;
             case 2:
                 return (
@@ -3631,13 +3667,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     </div>
                 );
             case 3:
-                 return <QuizInterface
+                return <QuizInterface
                     questions={quiz.part3_language}
                     answers={part3Answers}
                     setAnswers={setPart3Answers}
                     onComplete={handleFinalSubmit}
                     quizTitle="Part 3: Language & Grammar"
                     buttonText="Finish Exam"
+                    subject={quiz.subject}
                 />;
             default: return null;
         }
@@ -3754,7 +3791,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                         return (
                             <div key={index} className={`p-4 rounded-lg border ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
                                 <p className="font-semibold question-stem">
-                                    {question.questionNumber}. <MathText text={question.questionText || question.question} className="question-stem" itemIndex={question.questionNumber ?? (index + 1)} />
+                                    {question.questionNumber}. <MathText text={question.questionText || question.question} className="question-stem" itemIndex={question.questionNumber ?? (index + 1)} subject={question.subject || quiz.subject || 'Math'} />
                                 </p>
                                 {question.imageUrl && <img src={question.imageUrl} alt={`Visual for question ${question.questionNumber}`} className="my-2 rounded-md border max-w-xs h-auto" />}
                                 {GEOMETRY_FIGURES_ENABLED && question.geometrySpec && (
@@ -3767,13 +3804,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                 </p>
                                 {!isCorrect && correctAnswer && (
                                     <p className="text-green-700 question-stem">
-                                        Correct answer: <MathText text={correctAnswer.text} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-correct`} />
+                                        Correct answer: <MathText text={correctAnswer.text} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-correct`} subject={question.subject || quiz.subject || 'Math'} />
                                     </p>
                                 )}
                                 {correctAnswer && correctAnswer.rationale && (
                                     <div className="mt-2 text-sm text-slate-600 explanation-text">
                                         <span className="font-semibold">Rationale:</span>{' '}
-                                        <MathText text={correctAnswer.rationale} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`} />
+                                        <MathText text={correctAnswer.rationale} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`} subject={question.subject || quiz.subject || 'Math'} />
                                     </div>
                                 )}
                                 {confidenceLevel && (
@@ -3845,13 +3882,13 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                                     <GeometryFigure spec={q.geometrySpec} className="w-full h-auto" />
                                 </div>
                             )}
-                            <p className="font-semibold question-stem">{i+1}. <MathText text={q.questionText || q.question} className="question-stem" itemIndex={q.questionNumber ?? (i + 1)} /></p>
+                            <p className="font-semibold question-stem">{i+1}. <MathText text={q.questionText || q.question} className="question-stem" itemIndex={q.questionNumber ?? (i + 1)} subject={q.subject || quiz.subject || 'Math'} /></p>
                             <div className="mt-2 space-y-1">
                                 {(q.answerOptions || []).map((opt, j) => (
                                     <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
                                         <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
                                         <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
-                                            <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} />
+                                            <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} subject={q.subject || quiz.subject || 'Math'} />
                                         </span>
                                     </label>
                                 ))}
