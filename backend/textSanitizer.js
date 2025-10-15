@@ -131,6 +131,10 @@ function addMissingBackslashesInMath(mathStr) {
     return mathStr.replace(macroRegex, (match) => `\\${match}`);
 }
 
+function sanitizeExamTextV2_PlainOnly(obj, subject) {
+    return obj;
+}
+
 module.exports = {
     tokenizeMathSegments,
     restoreMathSegments,
@@ -139,5 +143,6 @@ module.exports = {
     applyPhraseSpacingRepairs,
     collapseUnderscoredLatexMacros,
     normalizeLatexMacrosInMath,
-    addMissingBackslashesInMath
+    addMissingBackslashesInMath,
+    sanitizeExamTextV2_PlainOnly
 };

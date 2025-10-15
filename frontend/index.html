@@ -67,6 +67,12 @@
             window.__APP_CONFIG__.geometryFiguresEnabled = false;
         }
     </script>
+    <script>
+      window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
+      if (typeof window.__APP_CONFIG__.mathRenderMode === 'undefined') {
+        window.__APP_CONFIG__.mathRenderMode = 'plain'; // 'plain' now, 'math-lite' later
+      }
+    </script>
     <script src="https://ged-website.onrender.com/client-config.js"></script>
 
     <script>
@@ -963,7 +969,7 @@ function postRenderGuardrails(container, { itemIndex } = {}) {
     }
 }
 
-function MathText({ text, className, itemIndex }) {
+function MathText({ text, className, itemIndex, subject }) {
     const containerRef = useRef(null);
 
     useEffect(() => {
@@ -972,17 +978,17 @@ function MathText({ text, className, itemIndex }) {
             containerRef.current.innerHTML = '';
             return;
         }
-        const hasTable = /<\s*table\b/i.test(text);
-        if (hasTable) {
-            const safe = sanitizeHtmlContent(text, { normalizeSpacing: true });
-            containerRef.current.innerHTML = safe;
-            postRenderGuardrails(containerRef.current, { itemIndex });
-        } else {
-            const rendered = renderStem(text);
-            containerRef.current.innerHTML = rendered;
-            postRenderGuardrails(containerRef.current, { itemIndex });
-        }
-    }, [text, itemIndex]);
+
+        const ALLOW_TAGS = ['table', 'thead', 'tbody', 'tr', 'th', 'td', 'caption', 'p', 'br', 'strong', 'em', 'b', 'i', 'ul', 'ol', 'li'];
+        const ALLOW_ATTR = ['colspan', 'rowspan', 'scope', 'align'];
+
+        const sanitized = DOMPurify.sanitize(text, {
+            ALLOWED_TAGS: ALLOW_TAGS,
+            ALLOWED_ATTR: ALLOW_ATTR
+        });
+
+        containerRef.current.innerHTML = sanitized;
+    }, [text, subject, itemIndex]);
 
     return <span ref={containerRef} className={className} />;
 }
@@ -3284,7 +3290,7 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 }
 
 
-function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit }) {
+function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit, subject }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [marked, setMarked] = useState(Array(questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
@@ -3338,6 +3344,8 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
 
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
 
+    const subjectForRender = currentQ.subject || subject || 'Math';
+
     return (
         <div className="fade-in">
             <header className="flex justify-between items-center pb-4 mb-4 border-b">
@@ -3369,7 +3377,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                 )}
 
                 <h3 className="text-xl font-semibold mb-4 question-stem">
-                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} className="question-stem" itemIndex={currentQ.questionNumber ?? (currentIndex + 1)} />
+                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} className="question-stem" itemIndex={currentQ.questionNumber ?? (currentIndex + 1)} subject={subjectForRender} />
                 </h3>
 
                 {isFillInTheBlank ? (
@@ -3389,7 +3397,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         {(currentQ.answerOptions || []).map((opt, i) => (
                             <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
                                <span className="flex-grow text-left">
-                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} />
+                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={subjectForRender} />
                                 </span>
                             </button>
                         ))}
@@ -3438,6 +3446,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         quizTitle={quiz.title}
         onExit={onExit}
         timeLimit={quiz.timeLimit}
+        subject={quiz.subject}
     />;
 }
 
@@ -3491,6 +3500,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             quizTitle="Part 1: Non-Calculator Section"
             buttonText="Continue to Part 2"
             onExit={onExit}
+            subject={quiz.subject}
         />;
     }
 
@@ -3515,6 +3525,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             quizTitle="Part 2: Calculator-Permitted Section"
             buttonText="Finish Exam"
             onExit={onExit}
+            subject={quiz.subject}
         />;
     }
 
@@ -3617,6 +3628,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     onComplete={handlePart1Complete}
                     quizTitle="Part 1: Reading Comprehension"
                     buttonText="Continue to Essay"
+                    subject={quiz.subject}
                 />;
             case 2:
                 return (
@@ -3655,13 +3667,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     </div>
                 );
             case 3:
-                 return <QuizInterface
+                return <QuizInterface
                     questions={quiz.part3_language}
                     answers={part3Answers}
                     setAnswers={setPart3Answers}
                     onComplete={handleFinalSubmit}
                     quizTitle="Part 3: Language & Grammar"
                     buttonText="Finish Exam"
+                    subject={quiz.subject}
                 />;
             default: return null;
         }
@@ -3778,7 +3791,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                         return (
                             <div key={index} className={`p-4 rounded-lg border ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
                                 <p className="font-semibold question-stem">
-                                    {question.questionNumber}. <MathText text={question.questionText || question.question} className="question-stem" itemIndex={question.questionNumber ?? (index + 1)} />
+                                    {question.questionNumber}. <MathText text={question.questionText || question.question} className="question-stem" itemIndex={question.questionNumber ?? (index + 1)} subject={question.subject || quiz.subject || 'Math'} />
                                 </p>
                                 {question.imageUrl && <img src={question.imageUrl} alt={`Visual for question ${question.questionNumber}`} className="my-2 rounded-md border max-w-xs h-auto" />}
                                 {GEOMETRY_FIGURES_ENABLED && question.geometrySpec && (
@@ -3791,13 +3804,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                 </p>
                                 {!isCorrect && correctAnswer && (
                                     <p className="text-green-700 question-stem">
-                                        Correct answer: <MathText text={correctAnswer.text} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-correct`} />
+                                        Correct answer: <MathText text={correctAnswer.text} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-correct`} subject={question.subject || quiz.subject || 'Math'} />
                                     </p>
                                 )}
                                 {correctAnswer && correctAnswer.rationale && (
                                     <div className="mt-2 text-sm text-slate-600 explanation-text">
                                         <span className="font-semibold">Rationale:</span>{' '}
-                                        <MathText text={correctAnswer.rationale} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`} />
+                                        <MathText text={correctAnswer.rationale} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`} subject={question.subject || quiz.subject || 'Math'} />
                                     </div>
                                 )}
                                 {confidenceLevel && (
@@ -3869,13 +3882,13 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                                     <GeometryFigure spec={q.geometrySpec} className="w-full h-auto" />
                                 </div>
                             )}
-                            <p className="font-semibold question-stem">{i+1}. <MathText text={q.questionText || q.question} className="question-stem" itemIndex={q.questionNumber ?? (i + 1)} /></p>
+                            <p className="font-semibold question-stem">{i+1}. <MathText text={q.questionText || q.question} className="question-stem" itemIndex={q.questionNumber ?? (i + 1)} subject={q.subject || quiz.subject || 'Math'} /></p>
                             <div className="mt-2 space-y-1">
                                 {(q.answerOptions || []).map((opt, j) => (
                                     <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
                                         <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
                                         <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
-                                            <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} />
+                                            <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} subject={q.subject || quiz.subject || 'Math'} />
                                         </span>
                                     </label>
                                 ))}
