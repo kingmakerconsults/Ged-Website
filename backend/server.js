@@ -24,7 +24,6 @@ const {
     SANITIZER_FEATURE_ENABLED,
     DEFAULT_MAX_DECIMALS
 } = require('./utils/geometryJson');
-const TextSanitizer = require('./textSanitizer');
 const { normalizeLatex } = require('./utils/normalizeLatex');
 const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
 const { adminPreviewBypass } = require('./src/middleware/adminBypass');
@@ -517,36 +516,14 @@ app.post('/api/exam/repair', express.json(), async (req, res) => {
 
 
 function fixStr(value) {
-    if (typeof value !== 'string') return value;
-
-    // 1) Mask math so plain-text repairs never touch it
-    const { masked, segments } = TextSanitizer.tokenizeMathSegments(value);
-
-    // 2) Clean *non-math* areas
-    let plain = TextSanitizer.normalizeCurrencyOutsideMath(masked);
-    plain = TextSanitizer.stripTextMacroInPlain(plain);
-    plain = TextSanitizer.applyPhraseSpacingRepairs(plain);
-
-    // 3) Normalize math segments
-    const normalizedSegments = segments.map((segment) => {
-        if (typeof segment === 'string') {
-            const currencyMatch = segment.match(/^\$(\s*\d+(?:[.,]\d{1,2}))\$$/);
-            if (currencyMatch) {
-                return `$${currencyMatch[1].trim()}`;
-            }
-        }
-        const withBackslashes = TextSanitizer.addMissingBackslashesInMath(segment);
-        return TextSanitizer.normalizeLatexMacrosInMath(withBackslashes);
-    });
-
-    // 4) Restore math into the cleaned plain text
-    let restored = TextSanitizer.restoreMathSegments(plain, normalizedSegments);
-
-    // 5) Final harmless unescapes
-    restored = restored.replace(/\\`/g, '`').replace(/\\\$/g, '$');
-    restored = TextSanitizer.normalizeCurrencyOutsideMath(restored);
-
-    return restored;
+    if (typeof value !== 'string') {
+        return value;
+    }
+    return value
+        .replace(/\\\$/g, '$')
+        .replace(new RegExp('\\\\`', 'g'), '`')
+        .replace(/\$\$(?=\d)/g, '$')
+        .replace(/\\([A-Za-z]{2,})/g, '\$1');
 }
 
 function cleanupQuizData(quiz) {
