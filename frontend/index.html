@@ -2887,6 +2887,111 @@ function AdminBypassForm() {
     );
 }
 
+function AdminPasswordLogin({ onAdminLogin }) {
+    const [isOpen, setIsOpen] = useState(false);
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+
+    const ADMIN_PASSWORD = 'Kingmaker123!';
+
+    const resetState = () => {
+        setPassword('');
+        setError('');
+        setSubmitting(false);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (submitting) {
+            return;
+        }
+
+        setSubmitting(true);
+        if (password.trim() === ADMIN_PASSWORD) {
+            const adminUser = {
+                id: 'admin',
+                name: 'Admin',
+                email: 'admin@learningcanvas.com',
+                picture: 'https://ui-avatars.com/api/?name=Admin&background=0EA5E9&color=FFFFFF'
+            };
+
+            try {
+                localStorage.setItem('customNameSet_admin', 'true');
+            } catch (err) {
+                console.warn('Unable to persist admin custom name flag:', err);
+            }
+
+            resetState();
+            setIsOpen(false);
+            onAdminLogin(adminUser, 'admin-bypass-token');
+            return;
+        }
+
+        setError('Incorrect password. Please try again.');
+        setSubmitting(false);
+    };
+
+    const handleClose = () => {
+        setIsOpen(false);
+        resetState();
+    };
+
+    return (
+        <>
+            <button
+                type="button"
+                onClick={() => setIsOpen(true)}
+                className="fixed bottom-6 right-6 z-40 px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full shadow-lg shadow-slate-900/30 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+            >
+                Admin Login
+            </button>
+
+            {isOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70">
+                    <div className="relative w-11/12 max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+                        <button
+                            type="button"
+                            onClick={handleClose}
+                            className="absolute top-3 right-3 text-slate-400 hover:text-slate-600 text-2xl leading-none"
+                            aria-label="Close admin login"
+                        >
+                            &times;
+                        </button>
+                        <h3 className="text-xl font-bold text-slate-800 mb-1">Admin Access</h3>
+                        <p className="text-sm text-slate-500 mb-4">Enter the administrator password to continue.</p>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label htmlFor="admin-password" className="block text-sm font-medium text-slate-600">
+                                    Password
+                                </label>
+                                <input
+                                    id="admin-password"
+                                    type="password"
+                                    value={password}
+                                    onChange={(event) => setPassword(event.target.value)}
+                                    className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                    placeholder="Enter password"
+                                    autoComplete="current-password"
+                                    disabled={submitting}
+                                />
+                            </div>
+                            {error && <p className="text-sm text-red-600">{error}</p>}
+                            <button
+                                type="submit"
+                                disabled={submitting || password.trim() === ''}
+                                className="w-full rounded-lg bg-sky-600 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
+                            >
+                                {submitting ? 'Verifying…' : 'Login'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+}
+
 function AuthScreen({ onLogin }) {
     const googleButton = useRef(null);
 
@@ -2945,16 +3050,19 @@ function AuthScreen({ onLogin }) {
     const showAdminBypass = typeof window !== 'undefined' && ['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname);
 
     return (
-        <div className="text-center max-w-md mx-auto">
-            <h2 className="text-3xl font-extrabold text-slate-800 mb-2">Welcome!</h2>
-            <p className="text-slate-500 mb-6">Please sign in with Google to continue.</p>
-            <div ref={googleButton} className="flex justify-center"></div>
-            {showAdminBypass && (
-                <div className="mt-8">
-                    <AdminBypassForm />
-                </div>
-            )}
-        </div>
+        <>
+            <div className="text-center max-w-md mx-auto">
+                <h2 className="text-3xl font-extrabold text-slate-800 mb-2">Welcome!</h2>
+                <p className="text-slate-500 mb-6">Please sign in with Google to continue.</p>
+                <div ref={googleButton} className="flex justify-center"></div>
+                {showAdminBypass && (
+                    <div className="mt-8">
+                        <AdminBypassForm />
+                    </div>
+                )}
+            </div>
+            <AdminPasswordLogin onAdminLogin={onLogin} />
+        </>
     );
 }
 
