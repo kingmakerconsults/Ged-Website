@@ -402,7 +402,7 @@ app.get('/client-config.js', (req, res) => {
 
 let curatedImages = [];
 // Load the new, structured image repository from the local file system.
-const imageRepositoryPath = path.join(__dirname, 'image_metadata_final.json');
+const imageRepositoryPath = path.join(__dirname, 'data', 'image_metadata_final.json');
 
 try {
     const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
@@ -1836,7 +1836,7 @@ app.get('/api/quiz-attempts', requireAuth, async (req, res) => {
 });
 
 
-const { ALL_QUIZZES } = require('./premade-questions.js');
+const { ALL_QUIZZES } = require('./data/premade-questions.js');
 
 // Helper function to get random questions from the premade data
 const getPremadeQuestions = (subject, count) => {
