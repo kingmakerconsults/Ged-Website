@@ -893,23 +893,28 @@ function shuffleArray(array) {
     return array;
 }
 
-function groupedShuffle(items) {
-    const groups = new Map();
-    const keyOf = (x, idx) => {
-        if (x.groupId && typeof x.groupId === 'string') return `gid:${x.groupId}`;
-        if (x.stimulusImage?.src) return `img:${x.stimulusImage.src}`;
-        if (x.passage && typeof x.passage === 'string') {
-            const len = x.passage.length;
-            const first = len ? x.passage.charCodeAt(0) : 0;
-            const last = len ? x.passage.charCodeAt(len - 1) : 0;
+function deriveStimulusGroupKey(x, idx = 0) {
+    if (!x || typeof x !== 'object') return `solo:${idx}`;
+    if (x.groupId && typeof x.groupId === 'string') return `gid:${x.groupId}`;
+    if (x.stimulusImage?.src) return `img:${x.stimulusImage.src}`;
+    if (x.passage && typeof x.passage === 'string') {
+        const text = x.passage.trim();
+        if (text.length) {
+            const len = text.length;
+            const first = text.charCodeAt(0);
+            const last = text.charCodeAt(text.length - 1);
             const h = (len ^ (first << 5) ^ (last << 2)) >>> 0;
             return `p:${h}`;
         }
-        return `solo:${idx}`;
-    };
+    }
+    return `solo:${idx}`;
+}
+
+function groupedShuffle(items) {
+    const groups = new Map();
 
     items.forEach((it, idx) => {
-        const k = keyOf(it, idx);
+        const k = deriveStimulusGroupKey(it, idx);
         if (!groups.has(k)) groups.set(k, []);
         groups.get(k).push(it);
     });
@@ -1803,6 +1808,7 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
         items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
         items = dedupeNearDuplicates(items, 0.85);
         items = groupedShuffle(items);
+        items = items.slice(0, 12).map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
 
         res.json({ subject, topic, items });
     } catch (err) {
