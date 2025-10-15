@@ -44,6 +44,8 @@ const openaiClient = process.env.OPENAI_API_KEY
 
 const GEOMETRY_FIGURES_ENABLED = String(process.env.GEOMETRY_FIGURES_ENABLED || '').toLowerCase() === 'true';
 const MATH_TWO_PASS_ENABLED = String(process.env.MATH_TWO_PASS_ENABLED || 'true').toLowerCase() === 'true';
+const MATH_SANITIZER_V2_ENABLED = String(process.env.MATH_SANITIZER_V2_ENABLED || 'true').toLowerCase() === 'true';
+const MATH_RENDER_MODE = process.env.MATH_RENDER_MODE || 'plain'; // 'plain' | 'math-lite' (future)
 
 if (!GEOMETRY_FIGURES_ENABLED) {
     console.info('Geometry figures disabled (GEOMETRY_FIGURES_ENABLED=false); using text-only diagram descriptions.');
@@ -155,7 +157,9 @@ Fix only formatting issues (JSON/LaTeX/currency). Keep meaning the same.
 
 Rules:
 - LaTeX macros allowed (\\frac, \\sqrt, \\pi, ^, _) but NO math delimiters ($, $$, \\(, \\[).
-- Replace currency symbols with words (e.g., "\\$50" → "50 dollars").
+- Currency: keep the literal dollar sign (e.g., "$12.50").
+- If currency is accidentally wrapped in math delimiters — "$12.50$", "$$12.50$$", "\\($12.50\\)" — remove the delimiters so it becomes plain "$12.50".
+- Never rewrite "$12.50" as "12.50 dollars".
 - No HTML or markdown in questionText/rationales.`;
 
 function sanitizeTextKeepLatex(value) {
@@ -194,14 +198,42 @@ function cloneQuestion(q) {
     };
 }
 
+function sanitizeQuestionForRender(question, fallbackSubject) {
+    const cloned = cloneQuestion(question);
+    if (!cloned || typeof cloned !== 'object') {
+        return cloned;
+    }
+
+    if (fallbackSubject && !cloned.subject) {
+        cloned.subject = fallbackSubject;
+    }
+
+    const subject = cloned.subject || fallbackSubject || 'Math';
+
+    if (!MATH_SANITIZER_V2_ENABLED) {
+        return sanitizeQuestionKeepLatex(cloned);
+    }
+
+    if (subject === 'Math') {
+        // Future: pipe through mathSanitizerV2 when math-lite enabled
+        return cloned;
+    }
+
+    return cloned;
+}
+
 async function repairOneWithOpenAI(original) {
     if (!openaiClient) throw new Error('OPENAI_API_KEY not configured.');
 
     const run = async () => {
+        const sys = globalThis.__REPAIR_PROMPT_OVERRIDE__ || (MATH_SANITIZER_V2_ENABLED && MATH_RENDER_MODE === 'plain'
+            ? TOPIC_VALIDATOR_SYSTEM
+            : SINGLE_ITEM_REPAIR_SYSTEM);
+
         const resp = await openaiClient.responses.create({
             model: 'gpt-4o-mini',
             input: [
-                { role: 'system', content: SINGLE_ITEM_REPAIR_SYSTEM },
+                { role: 'system', content: sys },
                 { role: 'user', content: JSON.stringify(original) }
             ],
             response_format: { type: 'json_schema', json_schema: OPENAI_QUESTION_JSON_SCHEMA },
@@ -223,7 +255,6 @@ function hasForbiddenContent(q) {
         }
     }
     const s = textBits.join(' ');
-    if (/[<](?:table|tr|td|th|thead|tbody|caption)\b/i.test(s)) return true;
     if (/\$\$|\\\[|\\\]|\$(?!\d)/.test(s)) return true;
     if (/\$\s*\d/.test(s)) return true;
     return false;
@@ -232,7 +263,7 @@ function hasForbiddenContent(q) {
 function needsRepair(q) {
     if (!validateQuestion(q)) return true;
     if (hasForbiddenContent(q)) return true;
-    const sanitized = sanitizeQuestionKeepLatex(cloneQuestion(q));
+    const sanitized = sanitizeQuestionForRender(q, q?.subject);
     return JSON.stringify(sanitized) !== JSON.stringify(q);
 }
 
@@ -262,12 +293,12 @@ async function repairSubset(questions = []) {
                         throw new Error('Ajv validation failed after repair.');
                     }
 
-                    fixed = sanitizeQuestionKeepLatex(cloneQuestion(fixed));
-                    out[i] = fixed;
+                    const sanitizedFixed = sanitizeQuestionForRender(fixed, fixed?.subject || original?.subject);
+                    out[i] = sanitizedFixed;
                 } catch (err) {
                     console.error('Repair failed for index', i, err?.message || err);
                     failures.push({ index: i, id: original?.id });
-                    out[i] = sanitizeQuestionKeepLatex(cloneQuestion(original));
+                    out[i] = sanitizeQuestionForRender(original, original?.subject);
                 }
             })
         )
@@ -301,6 +332,34 @@ const PROMPT_GEN_B = `${STRICT_JSON_HEADER}
 Create ${GEOMETRY_COUNT} geometry/measurement questions (areas, perimeters, circles; describe diagrams in text).`;
 const PROMPT_GEN_C = `${STRICT_JSON_HEADER}
 Create ${ALGEBRA_COUNT} algebra/functions/data questions (linear functions, slope, evaluate f(x), describe tables/graphs in text).`;
+
+const STRICT_JSON_PLAIN = `SYSTEM: Return ONLY JSON (no prose). JSON array of N items.
+Each item:
+{
+  "id": "<unique>",
+  "questionType": "standalone" | "freeResponse",
+  "questionText": "Plain English only. No LaTeX, no $...$, no \\(...\\). Use simple fractions like 3/4. HTML tables allowed.",
+  "answerOptions": [{"text":"...", "isCorrect":true|false, "rationale":"..."}] // omit for freeResponse
+}
+Hard rules:
+- Plain text only EXCEPT tables: <table>, <thead>, <tbody>, <tr>, <th>, <td> allowed.
+- No images or links. No markdown.
+- Currency: write "USD 12.50" or "12.50 dollars" (no dollar symbols).
+- Each string must be safe JSON (escape quotes).
+- Exactly N items. Top-level must be an array only.`;
+
+const TOPIC_MATH_AUTHOR = (topic, count = 15) => `${STRICT_JSON_PLAIN}
+Create ${count} GED-style Math questions for the topic "${topic}".
+Coverage: whole numbers, fractions/decimals/percents, ratios/rates, one-variable equations, simple geometry measurement.
+Tables: if a question needs a table, include a minimal HTML table in questionText.
+No multi-item passages; each item stands alone.`;
+
+// Pass 2: validator/repair (plain text rules)
+const TOPIC_VALIDATOR_SYSTEM = `You receive ONE question JSON object. Keep meaning the same. Fix formatting only:
+- Ensure plain text (no LaTeX macros), allow HTML tables only.
+- Replace $ with "dollars" or "USD".
+- No math delimiters.
+- Ensure answerOptions array exists for 'standalone'.`;
 
 async function callGemini(prompt) {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
@@ -346,9 +405,10 @@ async function runExam() {
 
     const cleaned = [];
     for (const q of all) {
-        if (validateQuestion(q)) {
-            cleaned.push(sanitizeQuestionKeepLatex(cloneQuestion(q)));
+        if (!validateQuestion(q)) {
+            continue;
         }
+        cleaned.push(sanitizeQuestionForRender(q, q?.subject || 'Math'));
     }
     try {
         const { fixed, repaired, failures } = await repairSubset(cleaned);
@@ -495,6 +555,40 @@ app.post('/define-word', async (req, res) => {
 });
 
 
+app.post('/api/generate/topic', express.json(), async (req, res) => {
+    const { subject = 'Math', topic = 'Fractions & Decimals', count = 15 } = req.body || {};
+
+    try {
+        const safeCount = Number.isFinite(Number(count)) ? Number(count) : 15;
+        const authorPrompt = subject === 'Math'
+            ? TOPIC_MATH_AUTHOR(topic, safeCount)
+            : `${STRICT_JSON_PLAIN}\nCreate ${safeCount} ${subject} questions for the topic "${topic}".`;
+
+        const raw = await generateBatch(authorPrompt);
+        const arr = Array.isArray(raw) ? raw : [];
+
+        if (MATH_SANITIZER_V2_ENABLED && MATH_RENDER_MODE === 'plain') {
+            globalThis.__REPAIR_PROMPT_OVERRIDE__ = TOPIC_VALIDATOR_SYSTEM;
+        }
+
+        const cleaned = [];
+        for (const item of arr) {
+            if (!validateQuestion(item)) continue;
+            const subjectTag = item?.subject || subject;
+            cleaned.push(sanitizeQuestionForRender(item, subjectTag));
+        }
+
+        const { fixed } = await repairSubset(cleaned);
+        res.json({ subject, topic, items: fixed });
+    } catch (err) {
+        console.error('Topic generation failed:', err);
+        res.status(500).json({ error: 'Failed to generate topic quiz.' });
+    } finally {
+        delete globalThis.__REPAIR_PROMPT_OVERRIDE__;
+    }
+});
+
+
 app.post('/api/math-autogen', async (_req, res) => {
     try {
         const items = await runExam();
@@ -519,6 +613,10 @@ app.post('/api/exam/repair', express.json(), async (req, res) => {
 function fixStr(value) {
     if (typeof value !== 'string') return value;
 
+    if (MATH_SANITIZER_V2_ENABLED) {
+        return value;
+    }
+
     // 1) Mask math so plain-text repairs never touch it
     const { masked, segments } = TextSanitizer.tokenizeMathSegments(value);
 
@@ -535,7 +633,10 @@ function fixStr(value) {
                 return `$${currencyMatch[1].trim()}`;
             }
         }
-        const withBackslashes = TextSanitizer.addMissingBackslashesInMath(segment);
+        const collapsed = typeof TextSanitizer.collapseUnderscoredLatexMacros === 'function'
+            ? TextSanitizer.collapseUnderscoredLatexMacros(segment)
+            : segment;
+        const withBackslashes = TextSanitizer.addMissingBackslashesInMath(collapsed);
         return TextSanitizer.normalizeLatexMacrosInMath(withBackslashes);
     });
 

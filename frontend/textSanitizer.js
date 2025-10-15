@@ -54,6 +54,7 @@
             return text;
         }
         let working = text;
+        working = working.replace(/\\+\$/g, '$');
         working = working.replace(/\$\$(?=\d)/g, '$');
         working = working.replace(/\$(\s*\d+(?:[.,]\d{1,2}))\$/g, (_, amount) => `$${amount.trim()}`);
         working = working.replace(/(\d+(?:[.,]\d{1,2}))\s*\$(?!\d)/g, (_, amount) => `$${amount}`);
@@ -99,6 +100,20 @@
         ), text);
     }
 
+    function collapseUnderscoredLatexMacros(s) {
+        if (typeof s !== 'string') return s;
+
+        let normalized = s.replace(/\\{2}(?=[A-Za-z_])/g, '\\');
+
+        let previous;
+        do {
+            previous = normalized;
+            normalized = normalized.replace(/([A-Za-z])\\_/g, '$1');
+        } while (normalized !== previous);
+
+        return normalized.replace(/\\([A-Za-z])(?:\\([A-Za-z]))+/g, (match) => `\\${match.replace(/\\/g, '')}`);
+    }
+
     function normalizeLatexMacrosInMath(latex) {
         if (typeof latex !== 'string' || !latex.length) {
             return latex;
@@ -116,13 +131,19 @@
         return mathStr.replace(macroRegex, (match) => `\\${match}`);
     }
 
+    function sanitizeExamTextV2_PlainOnly(obj, subject) {
+        return obj;
+    }
+
     return {
         tokenizeMathSegments,
         restoreMathSegments,
         normalizeCurrencyOutsideMath,
         stripTextMacroInPlain,
         applyPhraseSpacingRepairs,
+        collapseUnderscoredLatexMacros,
         normalizeLatexMacrosInMath,
-        addMissingBackslashesInMath
+        addMissingBackslashesInMath,
+        sanitizeExamTextV2_PlainOnly
     };
 }));
