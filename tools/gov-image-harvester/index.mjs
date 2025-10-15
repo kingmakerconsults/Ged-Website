@@ -384,6 +384,7 @@ async function main() {
             duplicates += 1;
             continue;
           }
+          perSeedCount += 1;
           const { dominantType, metaText } = inferDominantType(image, pageInfo);
           const { buffer, width, height } = await downloadAndNormalize(image.srcAbs);
           const sha1 = createSha1(buffer);
@@ -466,7 +467,6 @@ async function main() {
 
           console.log(`[+] ${subject} ${filePathMeta} (${width}x${height}) ${host} sha1=${sha1.slice(0, 10)}`);
           saved += 1;
-          perSeedCount += 1;
         } catch (imageErr) {
           errors += 1;
           console.error(`  [!] Image error for ${image.srcAbs}: ${imageErr.message}`);
