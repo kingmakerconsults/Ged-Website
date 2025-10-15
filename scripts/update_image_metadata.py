@@ -1,17 +1,21 @@
-import os
 import json
+import os
+import time
+from pathlib import Path
+
 import google.generativeai as genai
 from dotenv import load_dotenv
 from PIL import Image
-import time
 
 # --- Configuration ---
-# Load environment variables from .env file
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parents[1]
+# Load environment variables from optional local files
+load_dotenv(BASE_DIR / '.env')
+load_dotenv(BASE_DIR / 'backend' / '.env')
 
 # Constants
-IMAGES_DIR = "frontend/Images"
-METADATA_FILE = "backend/image_metadata_final.json"
+IMAGES_DIR = BASE_DIR / "frontend" / "Images"
+METADATA_FILE = BASE_DIR / "backend" / "data" / "image_metadata_final.json"
 BASE_URL = "https://ezged.netlify.app/Images/"
 
 # --- Main Functions ---
@@ -45,18 +49,14 @@ def get_existing_filenames(metadata):
 
 def scan_image_directories(path):
     """Scans all subdirectories for valid image files."""
-    image_files = []
-    for root, _, files in os.walk(path):
-        for file in files:
-            if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
-                image_files.append(os.path.join(root, file))
-    return image_files
+    supported_suffixes = {'.png', '.jpg', '.jpeg', '.gif'}
+    return [p for p in path.rglob('*') if p.suffix.lower() in supported_suffixes]
 
 def identify_new_images(image_paths, existing_filenames):
     """Identifies new images that are not in the metadata file."""
     new_images = []
     for path in image_paths:
-        filename = os.path.basename(path)
+        filename = path.name
         if filename not in existing_filenames:
             new_images.append(path)
     return new_images
@@ -84,7 +84,8 @@ Your description MUST follow this two-part structure:
 Provide only the new, two-part detailedDescription as your output.
 """
     try:
-        print(f"INFO: Processing image '{os.path.basename(image_path)}'...")
+        image_name = Path(image_path).name
+        print(f"INFO: Processing image '{image_name}'...")
         img = Image.open(image_path)
         response = model.generate_content([prompt, img])
 
@@ -94,10 +95,10 @@ Provide only the new, two-part detailedDescription as your output.
         except ValueError:
             if response.prompt_feedback.block_reason:
                 block_reason_name = response.prompt_feedback.block_reason.name
-                print(f"WARN: Description for '{os.path.basename(image_path)}' was blocked. Reason: {block_reason_name}")
+                print(f"WARN: Description for '{image_name}' was blocked. Reason: {block_reason_name}")
                 return f"Error: Description generation blocked due to {block_reason_name}."
             else:
-                print(f"WARN: Could not generate description for '{os.path.basename(image_path)}'. Response was empty.")
+                print(f"WARN: Could not generate description for '{image_name}'. Response was empty.")
                 return "Error: Could not generate a description for this image. The response was empty."
 
     except Exception as e:
@@ -125,7 +126,8 @@ def main():
     print(f"Found {len(existing_metadata)} existing image entries.")
 
     all_image_paths = scan_image_directories(IMAGES_DIR)
-    print(f"Found {len(all_image_paths)} total images in '{IMAGES_DIR}'.")
+    images_dir_display = IMAGES_DIR.relative_to(BASE_DIR)
+    print(f"Found {len(all_image_paths)} total images in '{images_dir_display}'.")
 
     new_image_paths = identify_new_images(all_image_paths, existing_filenames)
 
@@ -138,12 +140,16 @@ def main():
 
     new_metadata_entries = []
     for path in new_image_paths:
-        filename = os.path.basename(path)
-        relative_path = os.path.relpath(os.path.dirname(path), IMAGES_DIR)
-        subject = relative_path.split(os.path.sep)[0] if relative_path != '.' else 'General'
+        filename = path.name
+        relative_path = path.relative_to(IMAGES_DIR)
+        relative_parts = relative_path.parts
+        subject = relative_parts[0] if len(relative_parts) > 1 else 'General'
+        if len(relative_parts) > 1:
+            relative_url = '/'.join(relative_parts)
+        else:
+            relative_url = f"{subject}/{relative_parts[0]}"
 
-        url_path = os.path.join(subject, filename).replace('\\', '/')
-        image_url = BASE_URL + url_path
+        image_url = BASE_URL + relative_url
 
         description = generate_description(model, path)
 
@@ -165,9 +171,9 @@ def main():
 
     updated_metadata = existing_metadata + new_metadata_entries
     try:
-        with open(METADATA_FILE, 'w') as f:
-            json.dump(updated_metadata, f, indent=4)
-        print(f"Successfully added {len(new_metadata_entries)} new image entries to '{METADATA_FILE}'.")
+        with open(METADATA_FILE, 'w', encoding='utf-8') as f:
+            json.dump(updated_metadata, f, ensure_ascii=False, indent=4)
+        print(f"Successfully added {len(new_metadata_entries)} new image entries to '{METADATA_FILE.relative_to(BASE_DIR)}'.")
     except IOError as e:
         print(f"ERROR: Could not write to metadata file '{METADATA_FILE}'. Reason: {e}")
 
