@@ -39,6 +39,7 @@ const {
     DEFAULT_MAX_DECIMALS
 } = require('./utils/geometryJson');
 const { normalizeLatex } = require('./utils/normalizeLatex');
+const { fetchApproved } = require('./src/fetch/fetcher');
 const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
 const { adminPreviewBypass } = require('./src/middleware/adminBypass');
 const { sanitizeExamObject, sanitizeField } = require('./src/lib/sanitizeExamText');
@@ -580,6 +581,70 @@ try {
     console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
 } catch (error) {
     console.error('Failed to load or parse image_metadata.json:', error);
+}
+
+function pickCandidateUrls(subject, topic) {
+    if (subject === 'Social Studies') {
+        return [
+            `https://www.britannica.com/search?query=${encodeURIComponent(topic)}`,
+            `https://www.loc.gov/search/?q=${encodeURIComponent(topic)}&all=true`,
+            `https://www.census.gov/topics.html`
+        ];
+    }
+    if (subject === 'Science') {
+        const seeds = [
+            `https://www.nasa.gov/search/?q=${encodeURIComponent(topic)}`,
+            `https://www.noaa.gov/search?s=${encodeURIComponent(topic)}`
+        ];
+        if (/climate|weather|atmosphere|carbon|warming/i.test(topic)) {
+            seeds.splice(1, 0, 'https://climate.nasa.gov/');
+        }
+        return seeds;
+    }
+    return [];
+}
+
+function compactText(s, maxWords = 300) {
+    if (!s) return '';
+    const words = s.trim().split(/\s+/);
+    return words.slice(0, maxWords).join(' ');
+}
+
+async function retrieveSnippets(subject, topic) {
+    const seeds = pickCandidateUrls(subject, topic);
+    const out = [];
+    for (const url of seeds) {
+        try {
+            const page = await fetchApproved(url);
+            out.push({
+                url: page.url,
+                title: page.title,
+                text: compactText(page.text, 320),
+                table: page.tables?.[0] || null
+            });
+            if (out.length >= 3) break;
+        } catch (e) {
+            // ignore individual fetch failures
+        }
+    }
+    return out;
+}
+
+function buildTopicPromptWithContext(subject, topic, n, context) {
+    const ctx = JSON.stringify(context.map(c => ({
+        url: c.url,
+        title: c.title,
+        text: c.text,
+        table: c.table
+    })));
+
+    const base = `${STRICT_JSON_HEADER_SHARED}
+SUBJECT STYLE: GED ${subject} (Topic set)
+Use the provided CONTEXT strictly for facts and data; do not fabricate. If a table is present, you MAY include a small HTML <table> in the stem.
+Citations: for each item, include a "source" field with one of the context URLs you used.
+Generate ${n} questions about "${topic}". Avoid duplicates.`;
+
+    return `${base}\nCONTEXT:${ctx}`;
 }
 
 function buildTopicPrompt_SocialStudies(topic, n = 15, images = []) {
@@ -1622,12 +1687,17 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
     const { subject = 'Math', topic = 'Fractions', count = 15 } = req.body || {};
     try {
         let prompt;
-        if (subject === 'Social Studies') {
-            const imgs = findImagesForSubjectTopic('Social Studies', topic, 5);
-            prompt = buildTopicPrompt_SocialStudies(topic, count, imgs);
-        } else if (subject === 'Science') {
-            const imgs = findImagesForSubjectTopic('Science', topic, 5);
-            prompt = buildTopicPrompt_Science(topic, count, imgs);
+        if (subject === 'Social Studies' || subject === 'Science') {
+            const ctx = await retrieveSnippets(subject, topic);
+            if (ctx.length) {
+                prompt = buildTopicPromptWithContext(subject, topic, count, ctx);
+            } else if (subject === 'Social Studies') {
+                const imgs = findImagesForSubjectTopic('Social Studies', topic, 5);
+                prompt = buildTopicPrompt_SocialStudies(topic, count, imgs);
+            } else {
+                const imgs = findImagesForSubjectTopic('Science', topic, 5);
+                prompt = buildTopicPrompt_Science(topic, count, imgs);
+            }
         } else {
             prompt = existingTopicPrompt(subject, topic, count);
         }
