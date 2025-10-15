@@ -866,10 +866,16 @@ app.post('/api/topic-based/:subject', async (req, res) => {
             prompt = buildTopicQuizPrompt(normalizedSubject, topic, difficulty);
         }
 
-        let items = await generateWithGemini_OneCall(normalizedSubject, prompt);
-        if (!Array.isArray(items)) {
-            items = [];
-        }
+        let items = await pRetry(
+            async () => {
+                const generated = await generateWithGemini_OneCall(normalizedSubject, prompt);
+                if (!Array.isArray(generated)) {
+                    throw new Error('Gemini returned an invalid response format.');
+                }
+                return generated;
+            },
+            { retries: 2, minTimeout: 500, maxTimeout: 2000 }
+        );
 
         items = items.map((item) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), normalizedSubject));
 
