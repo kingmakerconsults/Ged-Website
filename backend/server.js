@@ -30,7 +30,6 @@ const { Pool } = require('pg');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const OpenAI = require('openai');
-const pRetry = require('p-retry');
 const { buildGeometrySchema, SUPPORTED_SHAPES } = require('./schemas/geometrySchema');
 const {
     GeometryJsonError,
@@ -55,6 +54,30 @@ addFormats(ajv);
 const openaiClient = process.env.OPENAI_API_KEY
     ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
     : null;
+
+// --- begin local retry helper ---
+async function withRetry(fn, {
+    retries = 3,
+    factor = 2,
+    minTimeout = 600,   // ms
+    maxTimeout = 5000,  // ms
+    onFailedAttempt = () => {}
+} = {}) {
+    let attempt = 0;
+    let delay = minTimeout;
+    while (true) {
+        try {
+            return await fn();
+        } catch (err) {
+            attempt++;
+            await onFailedAttempt(err, attempt);
+            if (attempt > retries) throw err;
+            await new Promise((r) => setTimeout(r, Math.min(delay, maxTimeout)));
+            delay *= factor;
+        }
+    }
+}
+// --- end local retry helper ---
 
 const GEOMETRY_FIGURES_ENABLED = String(process.env.GEOMETRY_FIGURES_ENABLED || '').toLowerCase() === 'true';
 const MATH_TWO_PASS_ENABLED = String(process.env.MATH_TWO_PASS_ENABLED || 'true').toLowerCase() === 'true';
@@ -249,7 +272,12 @@ async function repairOneWithOpenAI(original) {
         return JSON.parse(text);
     };
 
-    return pRetry(run, { retries: 2, minTimeout: 500, maxTimeout: 1500 });
+    return withRetry(run, {
+        retries: 2,
+        minTimeout: 500,
+        maxTimeout: 1500,
+        onFailedAttempt: (err, n) => console.warn(`[retry ${n}] OpenAI single-item repair failed: ${err?.message || err}`)
+    });
 }
 
 function hasForbiddenContent(q) {
@@ -486,7 +514,12 @@ async function callGemini(prompt) {
         return text;
     };
 
-    return pRetry(run, { retries: 2, minTimeout: 500, maxTimeout: 1500 });
+    return withRetry(run, {
+        retries: 2,
+        minTimeout: 500,
+        maxTimeout: 1500,
+        onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini call failed: ${err?.message || err}`)
+    });
 }
 
 function buildCombinedPrompt_Math(totalCounts) {
@@ -538,14 +571,21 @@ async function repairBatchWithChatGPT_once(itemsNeedingFix) {
     }
 
     const input = JSON.stringify(itemsNeedingFix);
-    const resp = await openaiClient.responses.create({
-        model: 'gpt-4o-mini',
-        input: [
-            { role: 'system', content: REPAIR_SYSTEM },
-            { role: 'user', content: input }
-        ],
-        response_format: { type: 'json_object' }
-    });
+    const resp = await withRetry(
+        () => openaiClient.responses.create({
+            model: 'gpt-4o-mini',
+            input: [
+                { role: 'system', content: REPAIR_SYSTEM },
+                { role: 'user', content: input }
+            ],
+            response_format: { type: 'json_object' }
+        }),
+        {
+            retries: 2,
+            minTimeout: 800,
+            onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT batch repair failed: ${err?.message || err}`)
+        }
+    );
     const text = resp.output_text;
     const parsed = JSON.parse(text);
     return Array.isArray(parsed) ? parsed : (parsed.items || parsed.data || parsed.questions || parsed.value || parsed);
@@ -554,7 +594,14 @@ async function repairBatchWithChatGPT_once(itemsNeedingFix) {
 async function generateExam(subject, promptBuilder, counts) {
     const prompt = promptBuilder(counts);
 
-    let items = await generateWithGemini_OneCall(subject, prompt);
+    let items = await withRetry(
+        () => generateWithGemini_OneCall(subject, prompt),
+        {
+            retries: 2,
+            minTimeout: 800,
+            onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini exam generation failed: ${err?.message || err}`)
+        }
+    );
     items = items.map((i) => enforceWordCapsOnItem(i, subject));
 
     const badIdxs = [];
@@ -565,7 +612,14 @@ async function generateExam(subject, promptBuilder, counts) {
     if (badIdxs.length) {
         try {
             const toFix = badIdxs.map((i) => items[i]);
-            const fixedSubset = await repairBatchWithChatGPT_once(toFix);
+            const fixedSubset = await withRetry(
+                () => repairBatchWithChatGPT_once(toFix),
+                {
+                    retries: 2,
+                    minTimeout: 800,
+                    onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT repair batch failed: ${err?.message || err}`)
+                }
+            );
             fixedSubset.forEach((fixed, j) => {
                 items[badIdxs[j]] = enforceWordCapsOnItem(fixed, subject);
             });
@@ -863,7 +917,14 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         const images = findImagesForSubjectTopic(subject, topic, 6);
 
         const prompt = buildTopicPrompt_VarietyPack(subject, topic, 12, snippets, images);
-        const generatedItems = await generateWithGemini_OneCall(subject, prompt);
+        const generatedItems = await withRetry(
+            () => generateWithGemini_OneCall(subject, prompt),
+            {
+                retries: 2,
+                minTimeout: 800,
+                onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini topic generation failed: ${err?.message || err}`)
+            }
+        );
 
         if (!Array.isArray(generatedItems)) {
             throw new Error('Model returned an invalid response format.');
@@ -876,7 +937,14 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
 
         if (badIdx.length) {
             const toFix = badIdx.map((idx) => cleaned[idx]);
-            const repaired = await repairBatchWithChatGPT_once(toFix);
+            const repaired = await withRetry(
+                () => repairBatchWithChatGPT_once(toFix),
+                {
+                    retries: 2,
+                    minTimeout: 800,
+                    onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT topic repair failed: ${err?.message || err}`)
+                }
+            );
             if (Array.isArray(repaired)) {
                 repaired.forEach((fixed, repairIdx) => {
                     if (fixed) {
@@ -1919,7 +1987,14 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
 
         const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
 
-        let items = await generateWithGemini_OneCall(subject, prompt);
+        let items = await withRetry(
+            () => generateWithGemini_OneCall(subject, prompt),
+            {
+                retries: 2,
+                minTimeout: 800,
+                onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini topic pack generation failed: ${err?.message || err}`)
+            }
+        );
 
         items = items.map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
@@ -1928,7 +2003,14 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
         items.forEach((it, i) => { if (!validateQuestion(it)) bad.push(i); });
 
         if (bad.length) {
-            const fixed = await repairBatchWithChatGPT_once(bad.map(i => items[i]));
+            const fixed = await withRetry(
+                () => repairBatchWithChatGPT_once(bad.map(i => items[i])),
+                {
+                    retries: 2,
+                    minTimeout: 800,
+                    onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT topic pack repair failed: ${err?.message || err}`)
+                }
+            );
             fixed.forEach((f, j) => {
                 items[bad[j]] = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(f)), subject);
             });
