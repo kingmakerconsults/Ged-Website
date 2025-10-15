@@ -11,6 +11,23 @@ const fs = require('fs');
 const path = require('path');
 
 let IMAGE_DB = [];
+const IMAGE_BY_PATH = new Map();
+
+function rebuildImagePathIndex() {
+    IMAGE_BY_PATH.clear();
+    for (const im of Array.isArray(IMAGE_DB) ? IMAGE_DB : []) {
+        if (!im || typeof im !== 'object') continue;
+        const rawPath = im.filePath || im.src || im.path;
+        if (typeof rawPath !== 'string' || !rawPath) continue;
+        const clean = rawPath.replace(/^\/frontend/i, '');
+        if (!clean) continue;
+        const normalized = clean.startsWith('/') ? clean : `/${clean}`;
+        IMAGE_BY_PATH.set(normalized, im);
+        IMAGE_BY_PATH.set(normalized.slice(1), im);
+        IMAGE_BY_PATH.set(rawPath, im);
+    }
+}
+
 try {
     const raw = fs.readFileSync(path.join(__dirname, 'image_metadata_final.json'), 'utf8');
     IMAGE_DB = JSON.parse(raw);
@@ -23,6 +40,8 @@ try {
         console.warn('Fallback image metadata not loaded:', fallbackErr.message);
     }
 }
+
+rebuildImagePathIndex();
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
@@ -59,8 +78,9 @@ function isTimeoutError(err) {
     if (!err) return false;
     if (err.name === 'AbortError') return true;
     if (err.code === 'ECONNABORTED') return true;
+    if (err.code === 'ECONNRESET') return true;
     const message = String(err.message || err).toLowerCase();
-    return message.includes('timeout');
+    return message.includes('timeout') || message.includes('socket hang up');
 }
 
 // --- begin local retry helper ---
@@ -86,7 +106,14 @@ async function withRetry(fn, {
                 adjustedDelay = Math.min(delay * 1.5, maxTimeout);
             }
 
-            await new Promise((r) => setTimeout(r, Math.min(adjustedDelay, maxTimeout)));
+            const boundedDelay = Math.min(Math.max(adjustedDelay, minTimeout), maxTimeout);
+            const jitterFactor = 0.8 + Math.random() * 0.4; // jitter between 80% and 120%
+            const waitMs = Math.min(
+                Math.max(Math.round(boundedDelay * jitterFactor), minTimeout),
+                maxTimeout
+            );
+
+            await new Promise((r) => setTimeout(r, waitMs));
             delay = Math.min(Math.max(adjustedDelay * factor, minTimeout), maxTimeout);
         }
     }
@@ -134,6 +161,91 @@ function enforceWordCapsOnItem(item, subject) {
 
     if (out.passage) out.passage = limitWords(out.passage, 250);
     if (out.questionText) out.questionText = limitWords(out.questionText, 250);
+
+    return out;
+}
+
+function humanizeSource(value) {
+    if (typeof value !== 'string') {
+        if (value == null) return '';
+        value = String(value);
+    }
+
+    const trimmed = value.trim();
+    if (!trimmed) return '';
+
+    if (/^https?:\/\//i.test(trimmed)) {
+        try {
+            const url = new URL(trimmed);
+            return url.hostname.replace(/^www\./i, '');
+        } catch (err) {
+            return trimmed;
+        }
+    }
+
+    if (trimmed.length > 80) {
+        return `${trimmed.slice(0, 77)}…`;
+    }
+
+    return trimmed;
+}
+
+function normalizeStimulusAndSource(item) {
+    if (!item || typeof item !== 'object') return item;
+
+    const out = {
+        ...item,
+        stimulusImage: item?.stimulusImage && typeof item.stimulusImage === 'object'
+            ? { ...item.stimulusImage }
+            : item?.stimulusImage
+    };
+
+    const rawSrc = (out?.stimulusImage?.src || out?.imageUrl || out?.imageURL || '').trim();
+
+    if (rawSrc) {
+        const cleanSrc = rawSrc.replace(/^\/frontend/i, '');
+        out.imageUrl = cleanSrc;
+        out.stimulusImage = {
+            ...(out.stimulusImage || {}),
+            src: cleanSrc
+        };
+
+        const currentSource = typeof out.source === 'string' ? out.source.trim() : '';
+        const sourceLooksLikePath = currentSource && /^\/?(frontend\/)?images?/i.test(currentSource);
+        const meta = IMAGE_BY_PATH.get(cleanSrc) || IMAGE_BY_PATH.get(cleanSrc.replace(/^\//, '')) || IMAGE_BY_PATH.get(rawSrc);
+
+        if (meta) {
+            const creditCandidate = meta.credit
+                || meta.attribution
+                || meta.sourceUrl
+                || meta.origin
+                || meta.title
+                || meta.altText
+                || meta.licenseUrl
+                || '';
+            const friendly = humanizeSource(creditCandidate);
+            if (friendly) {
+                out.source = friendly;
+            } else if (creditCandidate) {
+                out.source = String(creditCandidate);
+            } else if (sourceLooksLikePath) {
+                delete out.source;
+            }
+        } else if (sourceLooksLikePath) {
+            delete out.source;
+        }
+    } else if (out.source && /^\/?(frontend\/)?images?/i.test(String(out.source))) {
+        delete out.source;
+    }
+
+    if (out.source) {
+        const friendlyExisting = humanizeSource(out.source);
+        if (friendlyExisting) {
+            out.source = friendlyExisting;
+        } else {
+            delete out.source;
+        }
+    }
 
     return out;
 }
@@ -520,7 +632,7 @@ async function callGemini(prompt) {
     };
 
     const run = async () => {
-        const response = await axios.post(apiUrl, payload, { timeout: 90000 });
+        const response = await axios.post(apiUrl, payload, { timeout: 45000 });
         const text = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
         if (typeof text !== 'string') {
             throw new Error('Gemini response missing text content.');
@@ -1013,8 +1125,9 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             subject,
             prompt,
             {
-                retries: 2,
-                minTimeout: 800,
+                retries: 1,
+                minTimeout: 600,
+                maxTimeout: 3000,
                 onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini topic generation failed: ${err?.message || err}`)
             }
         );
@@ -1051,7 +1164,7 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         }
 
         const items = cleaned
-            .map((item) => enforceWordCapsOnItem(item, subject))
+            .map((item) => normalizeStimulusAndSource(enforceWordCapsOnItem(item, subject)))
             .slice(0, 12)
             .map((item, index) => ({ ...item, questionNumber: item.questionNumber ?? index + 1 }));
 
