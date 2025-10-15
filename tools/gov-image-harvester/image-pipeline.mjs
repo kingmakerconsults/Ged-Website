@@ -6,8 +6,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const MAX_BYTES = 10 * 1024 * 1024; // 10MB
-const MIN_WIDTH = 640;
-const MIN_HEIGHT = 480;
+const MIN_BYTES = 15 * 1024; // 15KB
+const MIN_WIDTH = 400;
+const MIN_HEIGHT = 400;
 const VALID_MIMES = new Set([
   'image/png',
   'image/jpeg',
@@ -49,7 +50,11 @@ async function readBodyLimited(response) {
     }
     chunks.push(chunk);
   }
-  return Buffer.concat(chunks);
+  const buffer = Buffer.concat(chunks);
+  if (buffer.length < MIN_BYTES) {
+    throw new Error(`Image below minimum file size (${buffer.length} bytes)`);
+  }
+  return buffer;
 }
 
 async function normalizeBuffer(buffer, mime) {
@@ -71,29 +76,6 @@ async function normalizeBuffer(buffer, mime) {
   const output = await pipeline.toBuffer();
   const finalMeta = await sharp(output).metadata();
   return { buffer: output, metadata: finalMeta };
-}
-
-function guessDominantType(stats, metadata) {
-  const totalEntropy = stats.channels.reduce((sum, channel) => sum + (channel.entropy ?? 0), 0);
-  const avgEntropy = stats.channels.length ? totalEntropy / stats.channels.length : 0;
-  const ratio = metadata.width && metadata.height ? metadata.width / metadata.height : 1;
-
-  if (avgEntropy < 2.2) {
-    if (ratio >= 0.9 && ratio <= 1.4) {
-      return 'table';
-    }
-    return 'chart';
-  }
-  if (avgEntropy < 3) {
-    if (ratio >= 0.8 && ratio <= 1.25) {
-      return 'diagram';
-    }
-    return 'chart';
-  }
-  if (avgEntropy < 3.6) {
-    return 'map';
-  }
-  return 'photo';
 }
 
 export function createSha1(buffer) {
@@ -129,13 +111,10 @@ export async function downloadAndNormalize(url) {
   if (!Number.isFinite(ratio) || ratio < 0.5 || ratio > 2) {
     throw new Error(`Image outside allowed aspect ratio (${metadata.width}x${metadata.height})`);
   }
-  const stats = await sharp(normalized).stats();
-  const dominantType = guessDominantType(stats, metadata);
   return {
     buffer: normalized,
     width: metadata.width,
-    height: metadata.height,
-    dominantType
+    height: metadata.height
   };
 }
 
