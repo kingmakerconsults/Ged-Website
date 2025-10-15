@@ -845,84 +845,59 @@ app.post('/define-word', async (req, res) => {
 });
 
 
-app.post('/api/topic-based/:subject', async (req, res) => {
-    const normalizedSubject = normalizeSubjectParam(req.params.subject);
+app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
+    const rawSubject = req.params.subject;
+    const subject = normalizeSubjectParam(rawSubject);
     const { topic, difficulty } = req.body || {};
 
-    if (!normalizedSubject) {
-        return res.status(400).json({ error: 'Unsupported subject.' });
+    if (!subject) {
+        return res.status(400).json({ error: 'Invalid subject' });
     }
 
     if (!topic || typeof topic !== 'string') {
-        return res.status(400).json({ error: 'A topic is required.' });
+        return res.status(400).json({ error: 'Missing topic' });
     }
 
     try {
-        let prompt;
-        if (normalizedSubject === 'Math') {
-            const mathCounts = { NON_CALC_COUNT: 4, GEOMETRY_COUNT: 4, ALGEBRA_COUNT: 4 };
-            prompt = `${buildCombinedPrompt_Math(mathCounts)}\nFocus all scenarios on the topic "${topic}". Ensure variety across quantitative and contextual problems.`;
-        } else {
-            prompt = buildTopicQuizPrompt(normalizedSubject, topic, difficulty);
+        const snippets = await retrieveSnippets(subject, topic);
+        const images = findImagesForSubjectTopic(subject, topic, 6);
+
+        const prompt = buildTopicPrompt_VarietyPack(subject, topic, 12, snippets, images);
+        const generatedItems = await generateWithGemini_OneCall(subject, prompt);
+
+        if (!Array.isArray(generatedItems)) {
+            throw new Error('Model returned an invalid response format.');
         }
 
-        let items = await pRetry(
-            async () => {
-                const generated = await generateWithGemini_OneCall(normalizedSubject, prompt);
-                if (!Array.isArray(generated)) {
-                    throw new Error('Gemini returned an invalid response format.');
-                }
-                return generated;
-            },
-            { retries: 2, minTimeout: 500, maxTimeout: 2000 }
-        );
-
-        items = items.map((item) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), normalizedSubject));
-
-        if (items.length > 12) {
-            items = items.slice(0, 12);
-        }
-
-        const bad = items
-            .map((it, idx) => (needsRepair(it, normalizedSubject) ? idx : -1))
+        let cleaned = generatedItems.map((item) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), subject));
+        const badIdx = cleaned
+            .map((question, idx) => (needsRepair(question, subject) ? idx : -1))
             .filter((idx) => idx >= 0);
 
-        if (bad.length) {
-            try {
-                const toFix = bad.map((idx) => items[idx]);
-                const repaired = await repairBatchWithChatGPT_once(toFix);
-                if (Array.isArray(repaired)) {
-                    repaired.forEach((fixed, idx) => {
-                        if (fixed) {
-                            items[bad[idx]] = enforceWordCapsOnItem(
-                                sanitizeQuestionKeepLatex(cloneQuestion(fixed)),
-                                normalizedSubject
-                            );
-                        }
-                    });
-                }
-            } catch (repairError) {
-                console.warn('Topic-based repair failed; continuing with original items.', repairError?.message || repairError);
+        if (badIdx.length) {
+            const toFix = badIdx.map((idx) => cleaned[idx]);
+            const repaired = await repairBatchWithChatGPT_once(toFix);
+            if (Array.isArray(repaired)) {
+                repaired.forEach((fixed, repairIdx) => {
+                    if (fixed) {
+                        cleaned[badIdx[repairIdx]] = enforceWordCapsOnItem(
+                            sanitizeQuestionKeepLatex(cloneQuestion(fixed)),
+                            subject
+                        );
+                    }
+                });
             }
         }
 
-        items = items.map((item) => enforceWordCapsOnItem(item, normalizedSubject));
+        const items = cleaned
+            .map((item) => enforceWordCapsOnItem(item, subject))
+            .slice(0, 12)
+            .map((item, index) => ({ ...item, questionNumber: item.questionNumber ?? index + 1 }));
 
-        if (items.length > 12) {
-            items = items.slice(0, 12);
-        }
-
-        const questions = items.map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
-
-        res.json({
-            subject: normalizedSubject,
-            topic,
-            difficulty: difficulty || null,
-            questions
-        });
-    } catch (error) {
-        console.error('Failed to generate topic-based quiz:', error?.message || error);
-        res.status(500).json({ error: 'Failed to generate topic-based quiz.' });
+        res.json({ success: true, subject, topic, difficulty: difficulty || null, items });
+    } catch (err) {
+        console.error('Topic quiz generation failed:', err?.message || err);
+        res.status(500).json({ error: err?.message || 'Failed to generate topic quiz.' });
     }
 });
 
