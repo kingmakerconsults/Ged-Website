@@ -3284,8 +3284,13 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 
 
 function Stem({ item }) {
+    const passageContent = typeof item.passage === 'string' ? item.passage.trim() : '';
+    const questionContent = typeof (item.questionText || item.question) === 'string'
+        ? (item.questionText || item.question).trim()
+        : '';
+
     return (
-        <div className="stem">
+        <div className="stem space-y-4">
             {item.stimulusImage?.src && (
                 <div className="mb-3">
                     <img
@@ -3296,12 +3301,26 @@ function Stem({ item }) {
                     />
                 </div>
             )}
-            <MathText
-                text={item.passage ? `${item.passage}\n\n${item.questionText || item.question || ''}` : (item.questionText || item.question || '')}
-                className="question-stem"
-                itemIndex={item.questionNumber}
-                subject={item.subject}
-            />
+
+            {passageContent && (
+                <MathText
+                    text={passageContent}
+                    className="question-stem block"
+                    itemIndex={`${item.questionNumber}-passage`}
+                    subject={item.subject}
+                />
+            )}
+
+            {questionContent && (
+                <div className="mt-2">
+                    <MathText
+                        text={questionContent}
+                        className="question-stem block font-bold text-slate-900"
+                        itemIndex={`${item.questionNumber}-question`}
+                        subject={item.subject}
+                    />
+                </div>
+            )}
         </div>
     );
 }
