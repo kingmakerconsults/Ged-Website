@@ -110,8 +110,30 @@ export async function fetchHtml(url, timeoutMs = 10000) {
   return { html, finalUrl };
 }
 
+const CATEGORY_SCORE = {
+  'loc.gov': 1,
+  'archives.gov': 0.95,
+  'nationalgeographic.com': 0.9,
+  'pewresearch.org': 0.9,
+  'ourworldindata.org': 0.9,
+  'cia.gov': 0.85,
+  'un.org': 0.85,
+  'pbs.org': 0.8,
+  'smithsonianmag.com': 0.8
+};
+
 const SCORE_KEYWORDS = ['map', 'graph', 'chart', 'diagram', 'table', 'census', 'hurricane', 'inflation', 'gdp', 'population', 'timeline'];
+const BONUS_KEYWORDS = ['map', 'chart', 'graph', 'timeline', 'infographic', 'cartoon', 'diagram'];
 const BAD_CLASSES = ['logo', 'icon', 'sprite', 'banner', 'decorative', 'advertisement', 'social', 'avatar'];
+const WATERMARK_PATTERN = /(shutterstock|alamy|getty)/i;
+
+function toRegistrableDomain(hostname) {
+  const parts = hostname.split('.').filter(Boolean);
+  if (parts.length <= 2) {
+    return hostname;
+  }
+  return parts.slice(-2).join('.');
+}
 
 function resolveUrl(baseUrl, relative) {
   try {
@@ -136,8 +158,20 @@ function scoreCandidate(candidate) {
       score += 2;
     }
   }
+  for (const keyword of BONUS_KEYWORDS) {
+    if (candidate.fileName.includes(keyword) || candidate.caption.toLowerCase().includes(keyword)) {
+      score += 0.2;
+      break;
+    }
+  }
   if (candidate.width && candidate.width >= 600) score += 1;
   if (candidate.height && candidate.height >= 400) score += 1;
+  const categoryDomain = candidate.registrableDomain;
+  if (CATEGORY_SCORE[categoryDomain]) {
+    score += CATEGORY_SCORE[categoryDomain];
+  } else if (CATEGORY_SCORE[candidate.hostname]) {
+    score += CATEGORY_SCORE[candidate.hostname];
+  }
   return score;
 }
 
@@ -198,13 +232,20 @@ export function extractPageInfo(html, baseUrl) {
     if (!src) continue;
     const abs = resolveUrl(baseUrl, src);
     if (!abs || seen.has(abs)) continue;
+    if (WATERMARK_PATTERN.test(abs)) continue;
+    const { hostname } = new URL(abs);
+    if (!isHostnameAllowed(hostname)) continue;
     seen.add(abs);
     const caption = textContent(figure.querySelector('figcaption'));
     const alt = img.getAttribute('alt') ? img.getAttribute('alt').trim() : '';
     const width = parseInt(img.getAttribute('width'), 10) || undefined;
     const height = parseInt(img.getAttribute('height'), 10) || undefined;
+    if ((width && width < 400) || (height && height < 400)) continue;
     const classNames = new Set((img.getAttribute('class') || '').toLowerCase().split(/\s+/).filter(Boolean));
     const context = collectSurroundingText(figure) || collectSurroundingText(img);
+    const pathname = new URL(abs).pathname;
+    const fileName = pathname ? pathname.split('/').pop()?.toLowerCase() ?? '' : '';
+    const registrableDomain = toRegistrableDomain(hostname.toLowerCase());
     images.push({
       srcAbs: abs,
       alt,
@@ -213,6 +254,9 @@ export function extractPageInfo(html, baseUrl) {
       height,
       classNames,
       context,
+      hostname: hostname.toLowerCase(),
+      registrableDomain,
+      fileName,
       score: 0,
       rel: img.getAttribute('rel') || ''
     });
@@ -224,13 +268,20 @@ export function extractPageInfo(html, baseUrl) {
     if (!src) continue;
     const abs = resolveUrl(baseUrl, src);
     if (!abs || seen.has(abs)) continue;
+    if (WATERMARK_PATTERN.test(abs)) continue;
+    const { hostname } = new URL(abs);
+    if (!isHostnameAllowed(hostname)) continue;
     seen.add(abs);
     const width = parseInt(img.getAttribute('width'), 10) || undefined;
     const height = parseInt(img.getAttribute('height'), 10) || undefined;
+    if ((width && width < 400) || (height && height < 400)) continue;
     const classNames = new Set((img.getAttribute('class') || '').toLowerCase().split(/\s+/).filter(Boolean));
     const alt = img.getAttribute('alt') ? img.getAttribute('alt').trim() : '';
     const caption = '';
     const context = collectSurroundingText(img);
+    const pathname = new URL(abs).pathname;
+    const fileName = pathname ? pathname.split('/').pop()?.toLowerCase() ?? '' : '';
+    const registrableDomain = toRegistrableDomain(hostname.toLowerCase());
     images.push({
       srcAbs: abs,
       alt,
@@ -239,6 +290,9 @@ export function extractPageInfo(html, baseUrl) {
       height,
       classNames,
       context,
+      hostname: hostname.toLowerCase(),
+      registrableDomain,
+      fileName,
       score: 0,
       rel: img.getAttribute('rel') || ''
     });
