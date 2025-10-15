@@ -3290,7 +3290,7 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 }
 
 
-function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit }) {
+function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit, subject }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [marked, setMarked] = useState(Array(questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
@@ -3343,6 +3343,8 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     if (!currentQ) return <div>Loading question...</div>;
 
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
+
+    const subjectForRender = currentQ.subject || subject || 'Math';
 
     return (
         <div className="fade-in">
@@ -3444,6 +3446,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         quizTitle={quiz.title}
         onExit={onExit}
         timeLimit={quiz.timeLimit}
+        subject={quiz.subject}
     />;
 }
 
@@ -3497,6 +3500,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             quizTitle="Part 1: Non-Calculator Section"
             buttonText="Continue to Part 2"
             onExit={onExit}
+            subject={quiz.subject}
         />;
     }
 
@@ -3521,6 +3525,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             quizTitle="Part 2: Calculator-Permitted Section"
             buttonText="Finish Exam"
             onExit={onExit}
+            subject={quiz.subject}
         />;
     }
 
@@ -3623,6 +3628,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     onComplete={handlePart1Complete}
                     quizTitle="Part 1: Reading Comprehension"
                     buttonText="Continue to Essay"
+                    subject={quiz.subject}
                 />;
             case 2:
                 return (
@@ -3661,13 +3667,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     </div>
                 );
             case 3:
-                 return <QuizInterface
+                return <QuizInterface
                     questions={quiz.part3_language}
                     answers={part3Answers}
                     setAnswers={setPart3Answers}
                     onComplete={handleFinalSubmit}
                     quizTitle="Part 3: Language & Grammar"
                     buttonText="Finish Exam"
+                    subject={quiz.subject}
                 />;
             default: return null;
         }
