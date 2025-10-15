@@ -9,6 +9,20 @@ const cors = require('cors');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+
+let IMAGE_DB = [];
+try {
+    const raw = fs.readFileSync(path.join(__dirname, 'image_metadata_final.json'), 'utf8');
+    IMAGE_DB = JSON.parse(raw);
+} catch (e) {
+    console.warn('Image metadata not loaded:', e.message);
+    try {
+        const fallbackRaw = fs.readFileSync(path.join(__dirname, 'data', 'image_metadata_final.json'), 'utf8');
+        IMAGE_DB = JSON.parse(fallbackRaw);
+    } catch (fallbackErr) {
+        console.warn('Fallback image metadata not loaded:', fallbackErr.message);
+    }
+}
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
@@ -318,12 +332,77 @@ Hard rules:
 - If a passage/stimulus is used, it MUST be <= 250 words.
 - Exactly N items; top-level is a JSON array only.`;
 
+const STRICT_JSON_HEADER_SHARED = `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap output between <BEGIN_JSON> and <END_JSON>.
+Each item schema:
+{
+  "id": string | number,
+  "questionType": "standalone" | "freeResponse",
+  "passage"?: string,
+  "questionText": string,
+  "answerOptions": [{"text":string,"isCorrect":boolean,"rationale":string}],
+  "stimulusImage"?: {"src":string,"alt"?:string},
+  "groupId"?: string
+}
+Hard rules:
+- Exactly N items; JSON array only (no trailing text).
+- Keep any passage <= 250 words and questionText <= 250 words.
+- Ensure exactly one answer option has isCorrect=true when multiple-choice.`;
+
 const STRICT_JSON_HEADER_RLA = `SYSTEM: Output ONLY a compact JSON array of N items (no extra text).
 Item schema: {"id":string|number,"questionType":"standalone"|"freeResponse","passage":string?,"questionText":string,"answerOptions":[{"text":string,"isCorrect":boolean,"rationale":string}]}
 Rules:
 - For RLA comprehensive: each passage MUST be <= 250 words. Prefer 150–230 words.
 - Keep questionText concise and targeted; avoid fluff.
 - Exactly N items; top-level is JSON array only.`;
+
+const norm = (s) => (s || '').toLowerCase();
+
+function findImagesForSubjectTopic(subject, topic, limit = 5) {
+    const s = norm(subject);
+    const t = norm(topic);
+    let pool = IMAGE_DB.filter((img) => norm(img.subject).includes(s));
+
+    if (t) {
+        pool = pool.filter((img) => {
+            const bag = [
+                norm(img.altText),
+                norm((img.keywords || []).join(' ')),
+                norm(img.detailedDescription)
+            ].join(' ');
+            return t.split(/\s*[,&/]\s*|\s+/g).some((tok) => tok && bag.includes(tok));
+        });
+    }
+
+    const seen = new Set();
+    const out = [];
+    for (const img of pool) {
+        const key = (img.fileName || '').split('.')[0];
+        if (seen.has(key)) continue;
+        seen.add(key);
+        out.push(img);
+        if (out.length >= limit) break;
+    }
+    return out;
+}
+
+function buildImageContextBlock(images = []) {
+    if (!images.length) return '';
+    const payload = images.map((im, i) => ({
+        id: `img${i + 1}`,
+        src: im.filePath,
+        alt: im.altText || '',
+        description: im.detailedDescription || ''
+    }));
+    return `\nIMAGE_CONTEXT (local files you MUST reference): ${JSON.stringify(payload)}\n`;
+}
+
+const SHARED_IMAGE_RULES = `
+Image rules:
+- Use an image ONLY if it genuinely helps answer the question.
+- When you use an image, set "stimulusImage":{"src":"<exact src from IMAGE_CONTEXT>","alt":"<alt from IMAGE_CONTEXT>"} in the JSON item.
+- Write the question so the learner must look at the image (interpretation of data, trend, map, symbolism, etc.).
+- Do NOT add external links or unknown images. Use only provided local paths.
+`;
 
 async function callGemini(prompt) {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
@@ -503,6 +582,26 @@ try {
     console.error('Failed to load or parse image_metadata.json:', error);
 }
 
+function buildTopicPrompt_SocialStudies(topic, n = 15, images = []) {
+    return `${STRICT_JSON_HEADER_SHARED}
+SUBJECT STYLE: GED Social Studies (Topic set)
+Content target: ~50% Civics/Government, ~20% U.S. History, ~15% Economics, ~15% Geography/World.
+Stimuli: favor text; you MAY use at most ${Math.min(5, images.length)} images from IMAGE_CONTEXT for data/graphs/maps/political cartoons.
+${SHARED_IMAGE_RULES}
+Grouping rule: If multiple questions use the same passage or the same image (same src), assign a "groupId" so they can be kept together.
+Generate ${n} questions focused on "${topic}". Keep items self-contained; avoid outside knowledge.${buildImageContextBlock(images)}`;
+}
+
+function buildTopicPrompt_Science(topic, n = 15, images = []) {
+    return `${STRICT_JSON_HEADER_SHARED}
+SUBJECT STYLE: GED Science (Topic set)
+Distribution target: ~40% Life, ~40% Physical, ~20% Earth/Space.
+Stimuli: prefer concise text; you MAY use at most ${Math.min(5, images.length)} images from IMAGE_CONTEXT if relevant to the question (data, diagrams, apparatus).
+${SHARED_IMAGE_RULES}
+Grouping rule: If multiple questions use the same passage or the same image (same src), assign a "groupId" so they can be kept together.
+Generate ${n} questions focused on "${topic}". Emphasize data reasoning and variable relationships.${buildImageContextBlock(images)}`;
+}
+
 // Add this new prompt library to server.js
 
 const promptLibrary = {
@@ -550,6 +649,21 @@ STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitativ
         Do not use '$...$' for currency; write \$30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.`
     }
 };
+
+function existingTopicPrompt(subject, topic, count = 15) {
+    const entry = promptLibrary?.[subject];
+    if (entry && typeof entry.topic === 'function') {
+        try {
+            if (entry.topic.length >= 2) {
+                return entry.topic(topic, count);
+            }
+            return entry.topic(topic);
+        } catch (err) {
+            console.warn('Error building legacy topic prompt, using fallback:', err?.message || err);
+        }
+    }
+    return `Generate ${count} GED-style ${subject} questions focused on "${topic}".`;
+}
 
 app.get('/', (req, res) => {
   res.send('Learning Canvas Backend is running!');
@@ -693,6 +807,45 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+}
+
+function groupedShuffle(items) {
+    const groups = new Map();
+    const keyOf = (x, idx) => {
+        if (x.groupId && typeof x.groupId === 'string') return `gid:${x.groupId}`;
+        if (x.stimulusImage?.src) return `img:${x.stimulusImage.src}`;
+        if (x.passage && typeof x.passage === 'string') {
+            const len = x.passage.length;
+            const first = len ? x.passage.charCodeAt(0) : 0;
+            const last = len ? x.passage.charCodeAt(len - 1) : 0;
+            const h = (len ^ (first << 5) ^ (last << 2)) >>> 0;
+            return `p:${h}`;
+        }
+        return `solo:${idx}`;
+    };
+
+    items.forEach((it, idx) => {
+        const k = keyOf(it, idx);
+        if (!groups.has(k)) groups.set(k, []);
+        groups.get(k).push(it);
+    });
+
+    const groupKeys = Array.from(groups.keys());
+    for (let i = groupKeys.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [groupKeys[i], groupKeys[j]] = [groupKeys[j], groupKeys[i]];
+    }
+
+    const out = [];
+    for (const k of groupKeys) {
+        const g = groups.get(k);
+        for (let i = g.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [g[i], g[j]] = [g[j], g[i]];
+        }
+        out.push(...g);
+    }
+    return out;
 }
 
 const singleQuestionSchema = {
@@ -1463,6 +1616,49 @@ async function reviewAndCorrectMathQuestion(questionObject) {
         return questionObject; // Return original on failure
     }
 }
+
+
+app.post('/api/generate/topic', express.json(), async (req, res) => {
+    const { subject = 'Math', topic = 'Fractions', count = 15 } = req.body || {};
+    try {
+        let prompt;
+        if (subject === 'Social Studies') {
+            const imgs = findImagesForSubjectTopic('Social Studies', topic, 5);
+            prompt = buildTopicPrompt_SocialStudies(topic, count, imgs);
+        } else if (subject === 'Science') {
+            const imgs = findImagesForSubjectTopic('Science', topic, 5);
+            prompt = buildTopicPrompt_Science(topic, count, imgs);
+        } else {
+            prompt = existingTopicPrompt(subject, topic, count);
+        }
+
+        let items = await generateWithGemini_OneCall(subject, prompt);
+        items = items.map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
+
+        const badIdxs = [];
+        items.forEach((it, i) => {
+            if (!validateQuestion(it)) badIdxs.push(i);
+        });
+
+        if (badIdxs.length) {
+            const fixedSubset = await repairBatchWithChatGPT_once(badIdxs.map((i) => items[i]));
+            if (Array.isArray(fixedSubset)) {
+                fixedSubset.forEach((fx, j) => {
+                    items[badIdxs[j]] = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(fx)), subject);
+                });
+            } else {
+                console.warn('ChatGPT repair did not return array; keeping original items.');
+            }
+        }
+
+        items = groupedShuffle(items);
+
+        res.json({ subject, topic, items });
+    } catch (err) {
+        console.error('topic generation failed', err);
+        res.status(500).json({ error: 'Failed to generate topic quiz.' });
+    }
+});
 
 
 app.post('/generate-quiz', async (req, res) => {
