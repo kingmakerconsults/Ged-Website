@@ -2589,17 +2589,17 @@ function App() {
             });
     };
 
-    const startQuiz = (quizPayload, subject) => {
-        console.log("Starting quiz with data:", quizPayload); // Debugging line
+    const startQuiz = (quiz, subject) => {
+        console.log("Starting quiz with data:", quiz); // Debugging line
 
-        if (!quizPayload || typeof quizPayload !== 'object') {
-            console.error('Received invalid quiz payload:', quizPayload);
+        if (!quiz || typeof quiz !== 'object') {
+            console.error('Received invalid quiz payload:', quiz);
             alert('Sorry, the generated quiz data was invalid. Please try again.');
             return;
         }
 
         const sanitizer = window.SanitizeExamText;
-        const sanitizedPayload = sanitizer ? sanitizer.sanitizeExamObject(quizPayload, 'latex') : quizPayload;
+        const sanitizedPayload = sanitizer ? sanitizer.sanitizeExamObject(quiz, 'latex') : quiz;
 
         if (sanitizedPayload.type === 'essay') {
             setActiveQuiz({ ...sanitizedPayload, subject });
