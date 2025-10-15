@@ -3369,7 +3369,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                 )}
 
                 <h3 className="text-xl font-semibold mb-4 question-stem">
-                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} className="question-stem" itemIndex={currentQ.questionNumber ?? (currentIndex + 1)} subject={currentQ.subject || quiz.subject || 'Math'} />
+                    {currentQ.questionNumber}. <MathText text={currentQ.questionText || currentQ.question} className="question-stem" itemIndex={currentQ.questionNumber ?? (currentIndex + 1)} subject={subjectForRender} />
                 </h3>
 
                 {isFillInTheBlank ? (
@@ -3389,7 +3389,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         {(currentQ.answerOptions || []).map((opt, i) => (
                             <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
                                <span className="flex-grow text-left">
-                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={currentQ.subject || quiz.subject || 'Math'} />
+                                   <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={opt.text} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={subjectForRender} />
                                 </span>
                             </button>
                         ))}
