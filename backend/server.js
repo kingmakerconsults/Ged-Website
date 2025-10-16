@@ -1381,7 +1381,28 @@ function buildTopicPrompt_VarietyPack(subject, topic, n = 12, ctx = [], imgs = [
         id: im.id || `img${i+1}`, src: im.filePath, alt: im.altText || '', description: im.detailedDescription || ''
     })));
 
-    const MIX_RULES = `
+    let MIX_RULES;
+    if (subject === 'Math') {
+        MIX_RULES = `
+Mix (exactly ${n} items):
+- Generate exactly 12 standalone GED Math problems. Each item MUST be fully standalone and must not rely on any shared passages or images.
+- Absolutely DO NOT create passages or request/use any images for these questions.
+- Every item MUST include "itemType": "standalone".
+
+Difficulty distribution (approximate): 4 easy, 5 medium, 3 hard. Include a "difficulty" field for each item.
+
+Variety rules:
+- Rotate sub-skills; avoid repeating the same wording template.
+- Ensure each problem is independent and never references passages or images.
+
+Citations:
+- For standalone items, "source" can be omitted or set to a relevant CONTEXT URL if used.
+
+Word caps:
+- Keep questionText concise.
+`;
+    } else {
+        MIX_RULES = `
 Mix (exactly ${n} items):
 - Create 2 passages. Generate 2 questions for each passage (total 4 passage questions).
 - Use 2 images. Generate 2 questions for the first image and 1 question for the second image (total 3 image questions).
@@ -1402,6 +1423,7 @@ Citations:
 Word caps:
 - Any passage ≤ 250 words. Keep questionText concise.
 `;
+    }
 
     const SUBSKILLS = {
         "Science": `
@@ -1413,7 +1435,7 @@ Subskills to rotate (Social Studies):
 - civics processes, document interpretation (quotes), economic reasoning (supply/demand, inflation, unemployment), map/graph reading, chronology/timeline, main idea/inference, rights & responsibilities.`,
         "Math": `
 Subskills to rotate (Math):
-- number operations, fractions/decimals/percents, ratios/proportions, linear equations/inequalities, functions/graphs (described in text), geometry/measurement, data & probability. Use inline $...$ for expressions; no $$ display math.`,
+- number operations, fractions/decimals/percents, ratios/proportions, linear equations/inequalities, functions/graphs (described in text), geometry/measurement, data & probability. Use inline $...$ for expressions; no $$ display math. CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.`,
         "Reasoning Through Language Arts (RLA)": `
 Subskills to rotate (RLA):
 - main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`,
@@ -1485,12 +1507,14 @@ Examples of INCORRECT Formatting to AVOID:
 * '&#36;15.50$' (Incorrect: Do not wrap currency in math delimiters.)
 
 With those rules in mind, generate a 15-question GED-style Math quiz focused on "${topic}".
-STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.`,
+STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.
+CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.`,
         comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
         STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.
         IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate. This is a non-negotiable requirement.
         CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
-        CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.`
+        CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
+        CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.`
     }
 };
 
@@ -1607,10 +1631,16 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         }
 
         // 6. Enforce mix, dedupe, and shuffle
-        items = enforceVarietyMix(items, { passage: 4, image: 3, standalone: 5 });
-        items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
-        items = dedupeNearDuplicates(items, 0.85);
-        items = groupedShuffle(items);
+        if (subject === 'Math') {
+            items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
+            items = dedupeNearDuplicates(items, 0.85);
+            items = shuffleArray(items);
+        } else {
+            items = enforceVarietyMix(items, { passage: 4, image: 3, standalone: 5 });
+            items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
+            items = dedupeNearDuplicates(items, 0.85);
+            items = groupedShuffle(items);
+        }
         
         // 7. Final cleanup and response
         const finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...normalizeStimulusAndSource(item), questionNumber: idx + 1 }));

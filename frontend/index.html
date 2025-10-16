@@ -1316,6 +1316,7 @@ function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
     working = repairSpacedTags(working);
     working = protectTables(working);
     working = deglueCommonBigrams(working);
+    working = working.replace(/\$\s*([A-Za-z])\s*\$/g, '$1');
     return working;
 }
 

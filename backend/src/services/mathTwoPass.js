@@ -93,7 +93,7 @@ function logCorrection(qid, field, before, after, notes) {
     console.debug('mathTwoPass correction applied', { qid, field, before, after, notes });
 }
 
-const VALIDATOR_SYSTEM_PROMPT = 'You are a strict math text formatter. Output JSON ONLY. No prose.';
+const VALIDATOR_SYSTEM_PROMPT = 'You are a strict math text formatter. Output JSON ONLY. No prose. Aggressively remove dollar signs from around single variables (e.g., convert "What is the value of $x$?" to "What is the value of x?").';
 
 const VALIDATOR_USER_PROMPT = `You will receive a list of items, each with {qid, field, text}.
 For each item:
