@@ -1538,12 +1538,53 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             throw new Error('Model returned an invalid response format.');
         }
 
-        const cleaned = generatedItems.map((item) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), subject));
+        const finalizeItem = (item, index) => {
+            const sanitized = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), subject);
+            const normalized = normalizeStimulusAndSource(sanitized);
+            return { ...normalized, questionNumber: normalized.questionNumber ?? index + 1 };
+        };
 
-        const items = cleaned
+        let items = generatedItems
             .slice(0, 12)
-            .map((item) => normalizeStimulusAndSource(item))
-            .map((item, index) => ({ ...item, questionNumber: item.questionNumber ?? index + 1 }));
+            .map((item, index) => finalizeItem(item, index));
+
+        if (subject === 'Math' && MATH_TWO_PASS_ENABLED) {
+            try {
+                const mathChecked = await applyMathCorrectnessPass(items);
+                if (Array.isArray(mathChecked) && mathChecked.length) {
+                    items = mathChecked.slice(0, 12).map((item, index) => finalizeItem(item, index));
+                }
+            } catch (error) {
+                console.error('Math correctness pass failed for topic quiz items:', error.message || error);
+            }
+        }
+
+        const badIdxs = [];
+        items.forEach((item, idx) => {
+            if (needsRepair(item, subject)) badIdxs.push(idx);
+        });
+
+        if (badIdxs.length) {
+            try {
+                const toFix = badIdxs.map((i) => items[i]);
+                const fixedSubset = await withRetry(
+                    () => repairBatchWithChatGPT_once(toFix),
+                    {
+                        retries: 2,
+                        minTimeout: 800,
+                        onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT repair batch failed: ${err?.message || err}`)
+                    }
+                );
+                fixedSubset.forEach((fixed, j) => {
+                    const targetIdx = badIdxs[j];
+                    items[targetIdx] = finalizeItem(fixed, targetIdx);
+                });
+            } catch (error) {
+                console.warn('Repair batch failed for topic quiz items; continuing with original items.', error?.message || error);
+            }
+        }
+
+        items = items.map((item, index) => ({ ...item, questionNumber: index + 1 }));
 
         res.set('X-Model', 'gemini-2.5-flash');
         res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
