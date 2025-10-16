@@ -491,35 +491,29 @@ function stripLeakedMathPlaceholders(text) {
 }
 
 function renderStem(text) {
-    if (typeof text !== 'string') return '';
-    
-    // This pipeline prepares the text for rendering.
-    // It now correctly handles currency and avoids double-escaping.
-    const preparedText = preprocessRawContent(text, { normalizeSpacing: true });
+    if (typeof text !== 'string') {
+        return '';
+    }
 
-    const segments = extractMathSegments(preparedText);
-    const parts = [];
+    const cleanedText = preprocessRawContent(text, { normalizeSpacing: true });
+    const segments = extractMathSegments(cleanedText);
+    const renderedParts = [];
 
-    segments.forEach(segment => {
-        if (segment.type === 'text') {
-            // For regular text, just push it. It's already been processed.
-            parts.push(segment.value);
-        } else if (segment.type === 'math') {
+    for (const segment of segments) {
+        if (segment.type === 'math') {
             try {
-                // For math text, render it with KaTeX.
-                const html = renderLatexToHtml(segment.value);
-                parts.push(html);
+                renderedParts.push(renderLatexToHtml(segment.value));
             } catch (err) {
                 console.warn('KaTeX render failed:', err);
-                parts.push(segment.raw); // Fallback to raw text on error
+                renderedParts.push(segment.raw);
             }
+        } else {
+            renderedParts.push(segment.value);
         }
-    });
+    }
 
-    const finalHtml = parts.join('');
-
-    // Sanitize the final combined HTML once to ensure security.
-    return DOMPurify.sanitize(finalHtml, {
+    const combinedHtml = renderedParts.join('');
+    return DOMPurify.sanitize(combinedHtml, {
         ALLOWED_TAGS: [...ALLOWED_HTML_TAGS, 'span', 'path', 'svg'],
         ALLOWED_ATTR: [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns']
     });
