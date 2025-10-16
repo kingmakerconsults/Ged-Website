@@ -764,6 +764,8 @@ Hard rules:
 - Keep any passage <= 250 words and questionText <= 250 words.
 - Ensure exactly one answer option has isCorrect=true when multiple-choice.`;
 
+const TOPIC_STIMULUS_SUBJECTS = new Set(['Science', 'Social Studies', 'Reasoning Through Language Arts (RLA)', 'RLA']);
+
 const STRICT_JSON_HEADER_RLA = `SYSTEM: Output ONLY a compact JSON array of N items (no extra text).
 Item schema: {"id":string|number,"questionType":"standalone"|"freeResponse","passage":string?,"questionText":string,"answerOptions":[{"text":string,"isCorrect":boolean,"rationale":string}]}
 Rules:
@@ -1314,6 +1316,12 @@ function pickCandidateUrls(subject, topic) {
         }
         return seeds;
     }
+    if (subject === 'Reasoning Through Language Arts (RLA)' || subject === 'RLA') {
+        return [
+            `https://www.britannica.com/search?query=${encodeURIComponent(topic)}`,
+            `https://www.loc.gov/search/?q=${encodeURIComponent(topic)}&all=true`
+        ];
+    }
     return [];
 }
 
@@ -1385,6 +1393,9 @@ Subskills to rotate (Social Studies):
 Subskills to rotate (Math):
 - number operations, fractions/decimals/percents, ratios/proportions, linear equations/inequalities, functions/graphs (described in text), geometry/measurement, data & probability. Use inline $...$ for expressions; no $$ display math.`,
         "Reasoning Through Language Arts (RLA)": `
+Subskills to rotate (RLA):
+- main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`,
+        "RLA": `
 Subskills to rotate (RLA):
 - main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`
     };
@@ -2584,11 +2595,14 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
     const { subject = 'Science', topic = 'Ecosystems' } = req.body || {};
     const QUIZ_COUNT = 12;
     try {
-        const ctx = (subject === 'Science' || subject === 'Social Studies')
+        const subjectNeedsRetrieval = TOPIC_STIMULUS_SUBJECTS.has(subject);
+        const subjectNeedsImages = TOPIC_STIMULUS_SUBJECTS.has(subject);
+
+        const ctx = subjectNeedsRetrieval
             ? await retrieveSnippets(subject, topic)
             : [];
 
-        const imgs = (subject === 'Science' || subject === 'Social Studies')
+        const imgs = subjectNeedsImages
             ? findImagesForSubjectTopic(subject, topic, 6)
             : [];
 
