@@ -493,6 +493,7 @@ function stripLeakedMathPlaceholders(text) {
 function renderStem(text) {
     text = stripLeakedMathPlaceholders(text);
     if (typeof text !== 'string') return '';
+    const sanitizeNonMathFragment = fragment => sanitizeHtmlContent(fragment, { skipPreprocess: true });
     const pass1 = normalizeLatex(text);
     const pass2 = escapeCurrencyDollarsMathSafe(pass1);
     const pass3 = neutralizeUnpairedDollarSigns(pass2);
@@ -512,7 +513,7 @@ function renderStem(text) {
     while ((match = regex.exec(wrapped)) !== null) {
         const preceding = wrapped.slice(lastIndex, match.index);
         if (preceding) {
-            parts.push(escapeHtml(preceding));
+            parts.push(sanitizeNonMathFragment(preceding));
         }
         const inner = match[1];
         try {
@@ -527,7 +528,7 @@ function renderStem(text) {
 
     const trailing = wrapped.slice(lastIndex);
     if (trailing) {
-        parts.push(escapeHtml(trailing));
+        parts.push(sanitizeNonMathFragment(trailing));
     }
 
     return parts.join('');
