@@ -109,6 +109,15 @@
 
     <style>
         body { font-family: 'Inter', sans-serif; }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url('Logo.svg') center/110vmin no-repeat;
+            opacity: 0.08;
+            z-index: -1;
+            pointer-events: none;
+        }
         .quiz-nav::-webkit-scrollbar { height: 4px; }
         .quiz-nav::-webkit-scrollbar-track { background: #f1f1f1; }
         .quiz-nav::-webkit-scrollbar-thumb { background: #888; border-radius: 2px; }
@@ -2843,7 +2852,7 @@ function App() {
     };
 
     return (
-        <>
+        <div className="min-h-screen flex flex-col">
             <AppHeader currentUser={currentUser} onLogout={handleLogout} />
             {isLoading && (
                 <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50">
@@ -2854,13 +2863,16 @@ function App() {
             )}
             {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
             {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} />}
-            <main className="w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
+            <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
                 <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                     {renderView()}
                 </div>
             </main>
-            <footer className="w-full text-center text-xs sm:text-sm text-slate-500 pb-6">Zachary Smith Copyright Pending</footer>
-        </>
+            <footer className="w-full flex flex-col items-center gap-3 text-xs sm:text-sm text-slate-500 pb-6">
+                <img src="Logo.svg" alt="Kingmakerconsults logo" className="h-36 w-auto object-contain" />
+                <p>Kingmakerconsults Copyright pending</p>
+            </footer>
+        </div>
     );
 }
 
