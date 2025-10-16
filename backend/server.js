@@ -1315,7 +1315,8 @@ function authenticateBearerToken(req, res, next) {
 
     try {
         const payload = jwt.verify(token, secret);
-        req.user = { ...(req.user || {}), userId: payload.userId };
+        const resolvedUserId = payload.userId || payload.sub;
+        req.user = { ...(req.user || {}), userId: resolvedUserId };
         return next();
     } catch (error) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -3354,7 +3355,8 @@ app.post('/api/auth/google', async (req, res) => {
         // --- END DATABASE INTERACTION ---
 
         // Create a session token
-        const token = jwt.sign({ sub: userId, name }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const tokenPayload = { userId, sub: userId, name };
+        const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1d' });
         setAuthCookie(res, token, 24 * 60 * 60 * 1000);
 
         res.status(200).json({

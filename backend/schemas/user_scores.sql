@@ -1,10 +1,17 @@
 -- Schema for user authentication and score tracking
 -- Run these statements against your Render PostgreSQL database.
 
+-- Enable UUID generation for password-based registrations while still allowing
+-- Google OAuth users to provide their own string identifiers.
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
 CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
+    id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+    name TEXT,
     email TEXT NOT NULL UNIQUE,
-    password_hash TEXT NOT NULL,
+    picture_url TEXT,
+    password_hash TEXT,
+    last_login TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
