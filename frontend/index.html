@@ -109,6 +109,15 @@
 
     <style>
         body { font-family: 'Inter', sans-serif; }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url('Logo.svg') center/90vmin no-repeat;
+            opacity: 0.12;
+            z-index: -1;
+            pointer-events: none;
+        }
         .quiz-nav::-webkit-scrollbar { height: 4px; }
         .quiz-nav::-webkit-scrollbar-track { background: #f1f1f1; }
         .quiz-nav::-webkit-scrollbar-thumb { background: #888; border-radius: 2px; }
@@ -2859,7 +2868,10 @@ function App() {
                     {renderView()}
                 </div>
             </main>
-            <footer className="w-full text-center text-xs sm:text-sm text-slate-500 pb-6">Zachary Smith Copyright Pending</footer>
+            <footer className="w-full flex flex-col items-center gap-3 text-xs sm:text-sm text-slate-500 pb-6">
+                <img src="Logo.svg" alt="Kingmakerconsults logo" className="h-36 w-auto object-contain" />
+                <p>Kingmakerconsults Copyright pending</p>
+            </footer>
         </>
     );
 }
