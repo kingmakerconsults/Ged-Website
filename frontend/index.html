@@ -2560,12 +2560,21 @@ function NamePromptModal({ user, onSave }) {
 
 // --- Main App Component ---
 function App() {
+    const SMITHING_PROMPTS = [
+        "Heating the forge...",
+        "The smith is at the anvil...",
+        "Hammering out the questions...",
+        "Shaping the perfect practice test...",
+        "Quenching the final details...",
+        "Smithing your exam now..."
+    ];
     const [view, setView] = useState('start');
     const [activeQuiz, setActiveQuiz] = useState(null);
     const [quizResults, setQuizResults] = useState(null);
     const [activeGenerator, setActiveGenerator] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState('');
+    const [revolvingPrompt, setRevolvingPrompt] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
     const [progress, setProgress] = useState({});
     const [showFormulaSheet, setShowFormulaSheet] = useState(false);
@@ -2645,6 +2654,25 @@ function App() {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        let intervalId = null;
+        if (isLoading) {
+            let currentIndex = 0;
+            setRevolvingPrompt(SMITHING_PROMPTS[currentIndex]);
+
+            intervalId = setInterval(() => {
+                currentIndex = (currentIndex + 1) % SMITHING_PROMPTS.length;
+                setRevolvingPrompt(SMITHING_PROMPTS[currentIndex]);
+            }, 2500);
+        }
+
+        return () => {
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+        };
+    }, [isLoading]);
 
     useEffect(() => {
         if (currentUser) {
@@ -2954,9 +2982,10 @@ function App() {
             <div className="min-h-screen flex flex-col">
                 <AppHeader currentUser={currentUser} onLogout={handleLogout} />
                 {isLoading && (
-                    <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+                    <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50 text-center px-4">
                         <h2 className="text-3xl font-bold text-white mb-4">Loading...</h2>
-                        <p className="text-xl text-sky-300">{loadingMessage}</p>
+                        <p className="text-xl text-sky-300 mb-2">{loadingMessage}</p>
+                        <p className="text-lg text-slate-300 italic h-8 transition-opacity duration-500">{revolvingPrompt}</p>
                         {/* Optional: Add a spinner element here */}
                     </div>
                 )}
