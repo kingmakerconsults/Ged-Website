@@ -157,6 +157,7 @@ rebuildImagePathIndex();
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const { Pool } = require('pg');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
@@ -1269,6 +1270,66 @@ const pool = new Pool({
     ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
 });
 
+const SALT_ROUNDS = 10;
+const USER_TOKEN_TTL = '12h';
+
+function formatUserRow(row) {
+    if (!row) return null;
+    const email = row.email || '';
+    const fallbackName = email.includes('@') ? email.split('@')[0] : (email || 'Learner');
+    return {
+        id: row.id,
+        email,
+        name: row.name || fallbackName,
+        createdAt: row.created_at || null,
+        picture: row.picture || null,
+    };
+}
+
+function formatScoreRow(row) {
+    if (!row) return null;
+    return {
+        id: row.id,
+        userId: row.user_id,
+        subject: row.subject,
+        score: typeof row.score === 'number' ? row.score : Number(row.score),
+        takenAt: row.taken_at,
+    };
+}
+
+function authenticateBearerToken(req, res, next) {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        console.error('JWT_SECRET is not configured; authentication endpoints are unavailable.');
+        return res.status(500).json({ error: 'Authentication unavailable' });
+    }
+
+    const authorization = req.headers.authorization || '';
+    const token = authorization.startsWith('Bearer ')
+        ? authorization.slice('Bearer '.length).trim()
+        : null;
+
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    try {
+        const payload = jwt.verify(token, secret);
+        req.user = { ...(req.user || {}), userId: payload.userId };
+        return next();
+    } catch (error) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+}
+
+function createUserToken(userId) {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        throw new Error('JWT_SECRET is not configured');
+    }
+    return jwt.sign({ userId }, secret, { expiresIn: USER_TOKEN_TTL });
+}
+
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
 const port = process.env.PORT || 3001;
@@ -1299,6 +1360,127 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
 app.use(express.json());
 app.use(cookieParser());
+
+app.post('/api/register', async (req, res) => {
+    const { email, password } = req.body || {};
+
+    if (typeof email !== 'string' || typeof password !== 'string') {
+        return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    if (!process.env.JWT_SECRET) {
+        console.error('Registration attempted without JWT_SECRET configured.');
+        return res.status(500).json({ error: 'Registration unavailable' });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) {
+        return res.status(400).json({ error: 'A valid email address is required' });
+    }
+
+    if (password.length < 6) {
+        return res.status(400).json({ error: 'Password must be at least 6 characters long' });
+    }
+
+    try {
+        const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+        const result = await pool.query(
+            'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at',
+            [normalizedEmail, passwordHash]
+        );
+
+        const user = formatUserRow(result.rows[0]);
+        const token = createUserToken(user.id);
+        return res.status(201).json({ message: 'Registration successful', user, token });
+    } catch (error) {
+        if (error?.code === '23505') {
+            return res.status(409).json({ error: 'Email already in use' });
+        }
+        console.error('Registration failed:', error);
+        return res.status(500).json({ error: 'Registration failed' });
+    }
+});
+
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body || {};
+
+    if (typeof email !== 'string' || typeof password !== 'string') {
+        return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    if (!process.env.JWT_SECRET) {
+        console.error('Login attempted without JWT_SECRET configured.');
+        return res.status(500).json({ error: 'Login unavailable' });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) {
+        return res.status(400).json({ error: 'A valid email address is required' });
+    }
+
+    try {
+        const result = await pool.query(
+            'SELECT id, email, password_hash, created_at FROM users WHERE email = $1',
+            [normalizedEmail]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        const userRow = result.rows[0];
+        const valid = await bcrypt.compare(password, userRow.password_hash);
+        if (!valid) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        const user = formatUserRow(userRow);
+        const token = createUserToken(user.id);
+        return res.status(200).json({ message: 'Login successful', user, token });
+    } catch (error) {
+        console.error('Login failed:', error);
+        return res.status(500).json({ error: 'Login failed' });
+    }
+});
+
+app.post('/api/scores', authenticateBearerToken, async (req, res) => {
+    const { subject, score } = req.body || {};
+
+    if (typeof subject !== 'string' || !subject.trim()) {
+        return res.status(400).json({ error: 'Subject is required' });
+    }
+
+    const numericScore = Number(score);
+    if (!Number.isFinite(numericScore)) {
+        return res.status(400).json({ error: 'Score must be a number' });
+    }
+
+    try {
+        const result = await pool.query(
+            'INSERT INTO scores (user_id, subject, score) VALUES ($1, $2, $3) RETURNING id, user_id, subject, score, taken_at',
+            [req.user.userId, subject.trim(), Math.round(numericScore)]
+        );
+
+        return res.status(201).json(formatScoreRow(result.rows[0]));
+    } catch (error) {
+        console.error('Failed to save score:', error);
+        return res.status(500).json({ error: 'Failed to save score' });
+    }
+});
+
+app.get('/api/scores', authenticateBearerToken, async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT id, user_id, subject, score, taken_at FROM scores WHERE user_id = $1 ORDER BY taken_at ASC',
+            [req.user.userId]
+        );
+
+        return res.status(200).json(result.rows.map(formatScoreRow));
+    } catch (error) {
+        console.error('Failed to fetch scores:', error);
+        return res.status(500).json({ error: 'Failed to fetch scores' });
+    }
+});
 
 app.get('/client-config.js', (req, res) => {
     const payload = `window.__APP_CONFIG__ = window.__APP_CONFIG__ || {}; window.__APP_CONFIG__.geometryFiguresEnabled = ${GEOMETRY_FIGURES_ENABLED};`;
