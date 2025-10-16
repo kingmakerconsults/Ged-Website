@@ -195,7 +195,7 @@
     <div id="root"></div>
 
 <script type="text/babel" data-presets="env,react">
-const { useState, useEffect, useRef, useCallback } = React;
+const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
 const SUBJECT_PROGRESS_KEYS = [
     "Social Studies",
@@ -2614,6 +2614,19 @@ function App() {
     const [userScores, setUserScores] = useState([]);
     const [showFormulaSheet, setShowFormulaSheet] = useState(false);
     const [showNamePrompt, setShowNamePrompt] = useState(false);
+    const [isMathToolsOpen, setIsMathToolsOpen] = useState(false);
+    const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
+    const [mathToolsInitialized, setMathToolsInitialized] = useState(false);
+
+    const openMathTools = useCallback((tab = 'graphing') => {
+        setMathToolsActiveTab(tab);
+        setIsMathToolsOpen(true);
+        setMathToolsInitialized(true);
+    }, []);
+
+    const closeMathTools = useCallback(() => {
+        setIsMathToolsOpen(false);
+    }, []);
 
     const recalcProgress = useCallback((scoresList) => {
         setProgress(buildProgressFromScores(scoresList));
@@ -2848,9 +2861,16 @@ function App() {
             return;
         }
 
-        if (['simulation', 'graphing_tool', 'geometry_practice_tool'].includes(quizPayload.type)) {
+        if (quizPayload.type === 'simulation') {
             setActiveQuiz({ ...quizPayload, subject });
-            setView(quizPayload.type);
+            setView('simulation');
+            return;
+        }
+
+        if (quizPayload.type === 'graphing_tool' || quizPayload.type === 'geometry_practice_tool') {
+            openMathTools(quizPayload.type === 'graphing_tool' ? 'graphing' : 'geometry');
+            setActiveQuiz(null);
+            setView('start');
             return;
         }
 
@@ -3017,10 +3037,6 @@ function App() {
                         </div>
                     </div>
                 );
-            case 'graphing_tool':
-                return <GraphingTool onExit={navigateHome} />;
-            case 'geometry_practice_tool':
-                return <GeometryPracticeTool onExit={navigateHome} />;
             case 'results':
                 return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} onReviewMarked={handleReviewMarked} />;
             case 'generator':
@@ -3038,6 +3054,7 @@ function App() {
                         setIsLoading={setIsLoading}
                         setLoadingMessage={setLoadingMessage}
                         setShowFormulaSheet={setShowFormulaSheet}
+                        onOpenMathTools={openMathTools}
                         onSelectGenerator={async (subject, topic, setIsLoading, setLoadingMessage) => {
                             if (!topic) {
                                 alert("Please select a topic first.");
@@ -3080,6 +3097,16 @@ function App() {
         }
     };
 
+    const mathToolsNodes = useMemo(() => {
+        if (!mathToolsInitialized) {
+            return null;
+        }
+        return {
+            graphing: <GraphingTool key="math-tools-graphing" />,
+            geometry: <GeometryPracticeTool key="math-tools-geometry" />,
+        };
+    }, [mathToolsInitialized]);
+
     return (
         <>
             <div className="min-h-screen flex flex-col">
@@ -3094,6 +3121,14 @@ function App() {
                 )}
                 {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
                 {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} />}
+                <MathPracticeToolsModal
+                    isOpen={isMathToolsOpen}
+                    onClose={closeMathTools}
+                    activeTab={mathToolsActiveTab}
+                    onTabChange={setMathToolsActiveTab}
+                    graphingNode={mathToolsNodes ? mathToolsNodes.graphing : null}
+                    geometryNode={mathToolsNodes ? mathToolsNodes.geometry : null}
+                />
                 <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
                     <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                         {renderView()}
@@ -3616,7 +3651,7 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet }) {
+function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
@@ -3722,12 +3757,20 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
         return (
             <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || 'bg-slate-800'} text-white`}>
                 <Breadcrumb variant="onColor" />
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
                     <h2 className="text-3xl font-extrabold text-white">{selectedSubject}</h2>
                     {selectedSubject === 'Math' && (
-                        <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
-                            Formula Sheet
-                        </button>
+                        <div className="flex flex-wrap gap-2">
+                            <button
+                                onClick={() => onOpenMathTools?.()}
+                                className="px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg shadow-sm hover:bg-sky-600 transition"
+                            >
+                                Math Practice Tools
+                            </button>
+                            <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
+                                Formula Sheet
+                            </button>
+                        </div>
                     )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -5579,12 +5622,18 @@ function GeometryPracticeTool({ onExit }) {
         generateProblem('rectangle');
     }, []);
 
+    const showExitButton = typeof onExit === 'function';
+
     return (
         <div className="fade-in">
-            <header className="flex justify-between items-center pb-4 mb-4 border-b">
-                <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                <h2 className="text-xl font-bold text-center text-slate-800">Geometry Practice Tool</h2>
-                <div></div>
+            <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b">
+                <div className="flex-none min-w-[120px]">
+                    {showExitButton && (
+                        <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                    )}
+                </div>
+                <h2 className="text-xl font-bold text-center text-slate-800 flex-1">Geometry Practice Tool</h2>
+                <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
             </header>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 bg-slate-50 rounded-lg p-4 flex flex-col items-center justify-center">
@@ -5640,6 +5689,8 @@ function GraphingTool({ onExit }) {
     const boardInstance = React.useRef(null);
     const plottedFunctions = React.useRef([]);
     const intersectionPoints = React.useRef([]);
+    const plottedPoints = React.useRef([]);
+    const toolModeRef = React.useRef('plotLine');
     const [equationInputs, setEquationInputs] = React.useState(['2x + 1']);
     const [tableData, setTableData] = React.useState([]);
     const [error, setError] = React.useState('');
@@ -5655,14 +5706,19 @@ function GraphingTool({ onExit }) {
             });
 
             boardInstance.current.on('up', function(e) {
-                if (toolMode === 'plotPoint') {
+                if (toolModeRef.current === 'plotPoint') {
                     const coords = boardInstance.current.getUsrCoordsOfMouse(e);
                     const x = Math.round(coords[0]);
                     const y = Math.round(coords[1]);
-                    boardInstance.current.create('point', [x, y], { name: `(${x}, ${y})`, size: 4 });
+                    const point = boardInstance.current.create('point', [x, y], { name: `(${x}, ${y})`, size: 4 });
+                    plottedPoints.current.push(point);
                 }
             });
         }
+    }, []);
+
+    React.useEffect(() => {
+        toolModeRef.current = toolMode;
     }, [toolMode]);
 
     const palette = ['#2563eb', '#16a34a', '#f97316', '#9333ea', '#ef4444', '#0ea5e9', '#facc15', '#a855f7'];
@@ -5671,18 +5727,17 @@ function GraphingTool({ onExit }) {
         const board = boardInstance.current;
         if (!board) return;
         board.suspendUpdate();
-        plottedFunctions.current.forEach((graph) => {
-            if (graph && graph.id && board.objects[graph.id]) {
-                board.removeObject(graph);
+        const removeIfExists = (obj) => {
+            if (obj && obj.id && board.objects[obj.id]) {
+                board.removeObject(obj);
             }
-        });
-        intersectionPoints.current.forEach((point) => {
-            if (point && point.id && board.objects[point.id]) {
-                board.removeObject(point);
-            }
-        });
+        };
+        plottedFunctions.current.forEach(removeIfExists);
+        intersectionPoints.current.forEach(removeIfExists);
+        plottedPoints.current.forEach(removeIfExists);
         plottedFunctions.current = [];
         intersectionPoints.current = [];
+        plottedPoints.current = [];
         board.unsuspendUpdate();
     }, []);
 
@@ -5768,19 +5823,7 @@ function GraphingTool({ onExit }) {
     };
 
     const handleClear = () => {
-        const board = boardInstance.current;
-        if (!board) return;
-        board.suspendUpdate();
-        // Clear all function graphs and points
-        const allObjects = Object.values(board.objects);
-        for(let i = allObjects.length - 1; i >= 0; i--) {
-            if (allObjects[i].elType === 'functiongraph' || allObjects[i].elType === 'point') {
-                board.removeObject(allObjects[i]);
-            }
-        }
-        plottedFunctions.current = [];
-        intersectionPoints.current = [];
-        board.unsuspendUpdate();
+        clearPlottedObjects();
         setError('');
         setTableData([]);
         setEquationInputs(['2x + 1']);
@@ -5806,12 +5849,18 @@ function GraphingTool({ onExit }) {
         });
     };
 
+    const showExitButton = typeof onExit === 'function';
+
     return (
         <div className="fade-in">
-             <header className="flex justify-between items-center pb-4 mb-4 border-b">
-                 <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800">Interactive Graphing Tool</h2>
-                 <div></div>
+             <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b">
+                 <div className="flex-none min-w-[120px]">
+                     {showExitButton && (
+                         <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                     )}
+                 </div>
+                 <h2 className="text-xl font-bold text-center text-slate-800 flex-1">Interactive Graphing Tool</h2>
+                 <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
             </header>
             <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-grow">
@@ -5897,6 +5946,92 @@ function GraphingTool({ onExit }) {
                         ))}
                     </div>
                 )}
+            </div>
+        </div>
+    );
+}
+
+function MathPracticeToolsModal({ isOpen, onClose, activeTab, onTabChange, graphingNode, geometryNode }) {
+    const overlayRef = React.useRef(null);
+
+    React.useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                onClose?.();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isOpen, onClose]);
+
+    const handleOverlayClick = (event) => {
+        if (event.target === overlayRef.current) {
+            onClose?.();
+        }
+    };
+
+    const tabs = [
+        { id: 'graphing', label: 'Graphing Tool' },
+        { id: 'geometry', label: 'Geometry Tool' },
+    ];
+
+    return (
+        <div
+            ref={overlayRef}
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 px-4 py-6"
+            style={{ display: isOpen ? 'flex' : 'none' }}
+            onClick={handleOverlayClick}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Math Practice Tools"
+        >
+            <div
+                className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden"
+                onClick={(event) => event.stopPropagation()}
+            >
+                <div className="flex items-center justify-between border-b px-6 py-4 bg-slate-50">
+                    <h2 className="text-2xl font-bold text-slate-800">Math Practice Tools</h2>
+                    <button
+                        onClick={onClose}
+                        className="text-slate-500 hover:text-slate-800 transition"
+                        aria-label="Close math practice tools"
+                    >
+                        ✕
+                    </button>
+                </div>
+                <div className="px-6 pt-4">
+                    <div className="flex flex-wrap gap-2">
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                onClick={() => onTabChange?.(tab.id)}
+                                className={`px-4 py-2 rounded-lg font-semibold transition ${activeTab === tab.id ? 'bg-sky-600 text-white shadow' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                <div className="p-6 pt-4 space-y-6">
+                    {graphingNode && (
+                        <div style={{ display: activeTab === 'graphing' ? 'block' : 'none' }}>
+                            {graphingNode}
+                        </div>
+                    )}
+                    {geometryNode && (
+                        <div style={{ display: activeTab === 'geometry' ? 'block' : 'none' }}>
+                            {geometryNode}
+                        </div>
+                    )}
+                    {!graphingNode && !geometryNode && (
+                        <div className="py-16 text-center text-slate-500">
+                            Preparing tools...
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
