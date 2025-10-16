@@ -643,17 +643,17 @@ async function repairOneWithOpenAI(original) {
     if (!openaiClient) throw new Error('OPENAI_API_KEY not configured.');
 
     const run = async () => {
-        const resp = await openaiClient.responses.create({
+        const resp = await openaiClient.chat.completions.create({
             model: 'gpt-4o-mini',
-            input: [
+            messages: [
                 { role: 'system', content: SINGLE_ITEM_REPAIR_SYSTEM },
                 { role: 'user', content: JSON.stringify(original) }
             ],
-            response_format: { type: 'json_schema', json_schema: OPENAI_QUESTION_JSON_SCHEMA },
+            response_format: { type: 'json_object' },
             temperature: 0.1
         });
 
-        const text = resp.output_text;
+        const text = resp.choices[0].message.content;
         return JSON.parse(text);
     };
 
@@ -1093,9 +1093,9 @@ async function repairBatchWithChatGPT_once(itemsNeedingFix) {
 
     const input = JSON.stringify(itemsNeedingFix);
     const resp = await withRetry(
-        () => openaiClient.responses.create({
+        () => openaiClient.chat.completions.create({
             model: 'gpt-4o-mini',
-            input: [
+            messages: [
                 { role: 'system', content: REPAIR_SYSTEM },
                 { role: 'user', content: input }
             ],
@@ -1107,7 +1107,7 @@ async function repairBatchWithChatGPT_once(itemsNeedingFix) {
             onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT batch repair failed: ${err?.message || err}`)
         }
     );
-    const text = resp.output_text;
+    const text = resp.choices[0].message.content;
     const parsed = JSON.parse(text);
     return Array.isArray(parsed) ? parsed : (parsed.items || parsed.data || parsed.questions || parsed.value || parsed);
 }
@@ -1125,17 +1125,17 @@ async function chatgptCorrectnessCheck(questions, { timeoutMs } = {}) {
     const payload = JSON.stringify({ questions });
 
     try {
-        const response = await openaiClient.responses.create({
+        const response = await openaiClient.chat.completions.create({
             model: 'gpt-4o-mini',
             temperature: 0.1,
-            input: [
+            messages: [
                 { role: 'system', content: MATH_CORRECTNESS_SYSTEM_PROMPT },
                 { role: 'user', content: payload }
             ],
-            response_format: { type: 'json_schema', json_schema: MATH_CORRECTNESS_JSON_SCHEMA }
+            response_format: { type: 'json_object' }
         });
 
-        const text = response.output_text;
+        const text = response.choices[0].message.content;
         const parsed = JSON.parse(text);
         if (!parsed || !Array.isArray(parsed.fixes) || !parsed.fixes.length) {
             return questions;
