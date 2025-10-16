@@ -1019,28 +1019,14 @@ function postRenderGuardrails(container, { itemIndex } = {}) {
     }
 }
 
-function MathText({ text, className, itemIndex, subject }) {
-    const containerRef = useRef(null);
+function MathText({ text, className }) {
+    if (typeof text !== 'string' || text.trim() === '') {
+        return <span className={className}></span>;
+    }
 
-    useEffect(() => {
-        if (!containerRef.current) return;
-        if (typeof text !== 'string' || text.trim() === '') {
-            containerRef.current.innerHTML = '';
-            return;
-        }
+    const renderedHtml = renderStem(text);
 
-        const ALLOW_TAGS = ['img','table', 'thead', 'tbody', 'tr', 'th', 'td', 'caption', 'p', 'br', 'strong', 'em', 'b', 'i', 'ul', 'ol', 'li'];
-        const ALLOW_ATTR = ['src','alt','colspan', 'rowspan', 'scope', 'align'];
-
-        const sanitized = DOMPurify.sanitize(text, {
-            ALLOWED_TAGS: ALLOW_TAGS,
-            ALLOWED_ATTR: ALLOW_ATTR
-        });
-
-        containerRef.current.innerHTML = sanitized;
-    }, [text, subject, itemIndex]);
-
-    return <span ref={containerRef} className={className} />;
+    return <span className={className} dangerouslySetInnerHTML={{ __html: renderedHtml }} />;
 }
 
 function normalizeLineBreaks(value) {
