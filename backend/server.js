@@ -1485,80 +1485,69 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
     }
 
     try {
-        const [snippets, images] = await Promise.all([
-            retrieveSnippets(subject, topic),
-            Promise.resolve(findImagesForSubjectTopic(subject, topic, 6))
-        ]);
+        const answerOptionSchema = {
+            type: "OBJECT",
+            properties: {
+                text: { type: "STRING" },
+                isCorrect: { type: "BOOLEAN" }
+            },
+            required: ["text", "isCorrect"]
+        };
 
-        const prompt = buildTopicPrompt_VarietyPack(subject, topic, 12, snippets, images);
-        const { items: generatedItems, model: winnerModel, latencyMs } = await generateQuizItemsWithFallback(
-            subject,
-            prompt,
-            {
-                retries: 1,
-                minTimeout: 600,
-                maxTimeout: 3000,
-                onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini topic generation failed: ${err?.message || err}`)
-            }
-        );
+        const questionSchema = {
+            type: "OBJECT",
+            properties: {
+                questionText: { type: "STRING" },
+                answerOptions: {
+                    type: "ARRAY",
+                    minItems: 4,
+                    maxItems: 4,
+                    items: answerOptionSchema
+                }
+            },
+            required: ["questionText", "answerOptions"]
+        };
+
+        const schema = {
+            type: "ARRAY",
+            minItems: 12,
+            maxItems: 12,
+            items: questionSchema
+        };
+
+        const difficultyLine = difficulty && typeof difficulty === 'string'
+            ? `Focus the rigor at a ${difficulty.trim()} level.`
+            : '';
+
+        const prompt = [
+            `You are an expert GED exam writer creating topic practice questions.`,
+            `Create exactly 12 multiple-choice questions for the ${subject} section on the topic "${topic}".`,
+            `Each question must have four answer options with exactly one correct answer (set isCorrect to true for the correct option and false for the others).`,
+            `Use authentic GED style and difficulty, write clear adult-learner friendly language, and ensure every question is solvable without external materials.`,
+            `For math expressions or symbols, format them using KaTeX-compatible LaTeX surrounded by single dollar signs.`,
+            `Avoid passages or images unless explicitly required by the subject.`,
+            difficultyLine,
+            `Return only the JSON array that matches the provided schema.`
+        ]
+            .filter(Boolean)
+            .join('\n\n');
+
+        const { data: generatedItems, ms: latencyMs } = await timed('gemini:topic-json', () => callAI(prompt, schema));
 
         if (!Array.isArray(generatedItems)) {
             throw new Error('Model returned an invalid response format.');
         }
 
-        let cleaned = generatedItems.map((item) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), subject));
-        cleaned = cleaned.map((q) => {
-            if (q && q.asset && typeof q.asset === 'object' && q.asset.imagePath) {
-                const asset = { ...q.asset };
-                const credit = imageDisplayCredit(asset.imagePath);
-                const strippedPath = String(asset.imagePath).replace(/^\/frontend/i, '');
-                const normalizedAssetPath = strippedPath
-                    ? (strippedPath.startsWith('/') ? strippedPath : `/${strippedPath}`)
-                    : '';
-                asset.imagePath = normalizedAssetPath;
-                const next = { ...q, asset };
-                if (credit) {
-                    asset.displaySource = credit;
-                    next.displaySource = credit;
-                }
-                return next;
-            }
-            return q;
-        });
-        const badIdx = cleaned
-            .map((question, idx) => (needsRepair(question, subject) ? idx : -1))
-            .filter((idx) => idx >= 0);
-
-        if (badIdx.length) {
-            const toFix = badIdx.map((idx) => cleaned[idx]);
-            const repaired = await withRetry(
-                () => repairBatchWithChatGPT_once(toFix),
-                {
-                    retries: 2,
-                    minTimeout: 800,
-                    onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT topic repair failed: ${err?.message || err}`)
-                }
-            );
-            if (Array.isArray(repaired)) {
-                repaired.forEach((fixed, repairIdx) => {
-                    if (fixed) {
-                        cleaned[badIdx[repairIdx]] = enforceWordCapsOnItem(
-                            sanitizeQuestionKeepLatex(cloneQuestion(fixed)),
-                            subject
-                        );
-                    }
-                });
-            }
-        }
+        const cleaned = generatedItems.map((item) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), subject));
 
         const items = cleaned
-            .map((item) => normalizeStimulusAndSource(enforceWordCapsOnItem(item, subject)))
             .slice(0, 12)
+            .map((item) => normalizeStimulusAndSource(item))
             .map((item, index) => ({ ...item, questionNumber: item.questionNumber ?? index + 1 }));
 
-        res.set('X-Model', winnerModel || 'unknown');
+        res.set('X-Model', 'gemini-2.5-flash');
         res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
-        res.json({ success: true, subject, topic, difficulty: difficulty || null, items, model: winnerModel || 'unknown', latencyMs: latencyMs ?? 0 });
+        res.json({ success: true, subject, topic, difficulty: difficulty || null, items, model: 'gemini-2.5-flash', latencyMs: latencyMs ?? 0 });
     } catch (err) {
         console.error('Topic quiz generation failed:', err?.message || err);
         const status = err?.statusCode === 504 ? 504 : 500;
