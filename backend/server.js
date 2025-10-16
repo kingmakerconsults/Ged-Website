@@ -778,17 +778,36 @@ const norm = (s) => (s || '').toLowerCase();
 function findImagesForSubjectTopic(subject, topic, limit = 5) {
     const s = norm(subject);
     const t = norm(topic);
-    let pool = IMAGE_DB.filter((img) => norm(img.subject).includes(s));
 
-    if (t) {
-        pool = pool.filter((img) => {
+    // First, try a strict match on both subject and category (topic)
+    let pool = IMAGE_DB.filter(img => norm(img.subject).includes(s) && norm(img.category).includes(t));
+
+    // If no strict matches, fall back to searching keywords within the correct subject
+    if (pool.length < limit) {
+        const subjectPool = IMAGE_DB.filter(img => norm(img.subject).includes(s));
+        const keywordMatches = subjectPool.filter(img => {
             const bag = [
                 norm(img.altText),
                 norm((img.keywords || []).join(' ')),
-                norm(img.detailedDescription)
+                norm(img.detailedDescription),
+                norm(img.category)
             ].join(' ');
-            return t.split(/\s*[,&/]\s*|\s+/g).some((tok) => tok && bag.includes(tok));
+            // Check if any part of the topic name is in the keyword bag
+            return t.split(/[\s,&/|]+/g).some(tok => tok && bag.includes(tok));
         });
+        // Combine strict matches with keyword matches, avoiding duplicates
+        const existingIds = new Set(pool.map(p => p.id));
+        keywordMatches.forEach(match => {
+            if (!existingIds.has(match.id)) {
+                pool.push(match);
+            }
+        });
+    }
+    
+    // If still nothing, return empty to let the prompt handle it
+    if (pool.length === 0) {
+        console.warn(`No relevant images found for subject "${subject}" and topic "${topic}".`);
+        return [];
     }
 
     const seen = new Set();
@@ -1364,9 +1383,9 @@ function buildTopicPrompt_VarietyPack(subject, topic, n = 12, ctx = [], imgs = [
 
     const MIX_RULES = `
 Mix (exactly ${n} items):
-- 4 items with a TEXT PASSAGE stimulus -> set itemType:"passage"
-- 3 items with an IMAGE/DIAGRAM/MAP stimulus -> set itemType:"image"
-- 5 items STANDALONE (no stimulus) -> set itemType:"standalone"
+- Create 2 passages. Generate 2 questions for each passage (total 4 passage questions).
+- Use 2 images. Generate 2 questions for the first image and 1 question for the second image (total 3 image questions).
+- Create 5 standalone questions.
 
 Difficulty distribution (approximate): 4 easy, 5 medium, 3 hard. Include a "difficulty" field for each item.
 
@@ -1374,6 +1393,7 @@ Variety rules:
 - Rotate sub-skills; avoid repeating the same wording template.
 - If multiple items use the same PASSAGE or the same IMAGE (same src), assign the same groupId (e.g., "passage-1" or "img:img2").
 - Write stems so the stimulus is actually needed (interpret the data/figure/text), not decorative.
+- **IMPORTANT:** If the IMAGES list provided below is empty, DO NOT use any images. Instead, generate 3 additional standalone questions for a total of 8.
 
 Citations:
 - For passage/image items, include a "source" with a URL from CONTEXT (for passage) or the image "src" (for image).
