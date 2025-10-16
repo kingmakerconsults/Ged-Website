@@ -226,13 +226,6 @@ const SUBJECT_COLORS = {
         border: 'border-sky-600',
         hoverBorder: 'hover:border-sky-500',
     },
-    Simulations: {
-        background: 'bg-orange-500',
-        hoverBackground: 'hover:bg-orange-600',
-        text: 'text-orange-800',
-        border: 'border-orange-500',
-        hoverBorder: 'hover:border-orange-400',
-    },
 };
 
 class ErrorBoundary extends React.Component {
@@ -3397,10 +3390,10 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                         <button
                             key={categoryName}
                             onClick={() => handleSelectCategory(categoryName)}
-                            className={`text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white text-slate-800 transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 ${subjectColors.hoverBorder || ''}`}
+                            className={`text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 ${subjectColors.hoverBorder || ''}`}
                         >
-                            <h3 className="text-xl font-bold text-slate-900">{categoryName}</h3>
-                            <p className="text-slate-600 text-sm my-2 flex-grow">{category.description}</p>
+                            <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-800'}`}>{categoryName}</h3>
+                            <p className="text-slate-500 text-sm my-2 flex-grow">{category.description}</p>
                         </button>
                     ))}
                     {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
