@@ -5024,84 +5024,263 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
 
 
 function GeometryPracticeTool({ onExit }) {
+    const roundToTwo = (value) => Math.round(value * 100) / 100;
+    const formatNumber = (value) => {
+        const rounded = roundToTwo(value);
+        return Number.isInteger(rounded) ? rounded : rounded.toFixed(2);
+    };
+
     const SHAPE_LIBRARY = {
         rectangle: {
-            questions: ['area', 'perimeter'],
+            questions: [
+                {
+                    type: 'area',
+                    getPrompt: (shapeLabel) => `What is the area of the ${shapeLabel}?`,
+                    getAnswer: (dims) => dims.w * dims.h,
+                },
+                {
+                    type: 'perimeter',
+                    getPrompt: (shapeLabel) => `What is the perimeter of the ${shapeLabel}?`,
+                    getAnswer: (dims) => 2 * (dims.w + dims.h),
+                },
+                {
+                    type: 'missing_height',
+                    getPrompt: (shapeLabel, dims) => `The ${shapeLabel} has an area of ${formatNumber(dims.w * dims.h)} and a width of ${formatNumber(dims.w)}. What is the missing height?`,
+                    getAnswer: (dims) => dims.h,
+                    getContext: () => ({ hiddenLabels: ['h'] }),
+                },
+            ],
             generateDims: () => ({ w: Math.floor(Math.random() * 20) + 5, h: Math.floor(Math.random() * 20) + 5 }),
-            formulas: {
-                area: (dims) => dims.w * dims.h,
-                perimeter: (dims) => 2 * dims.w + 2 * dims.h,
-            },
-            render: ({ w, h }) => (
-                <g>
-                    <rect x="50" y="75" width={w * 8} height={h * 8} stroke="black" fill="none" strokeWidth="2" />
-                    <text x={50 + (w*8)/2} y="70" textAnchor="middle">{w}</text>
-                    <text x={45} y={75 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{h}</text>
-                </g>
-            )
+            render: ({ w, h }, context = {}) => {
+                const hidden = context.hiddenLabels || [];
+                return (
+                    <g>
+                        <rect x="50" y="75" width={w * 8} height={h * 8} stroke="black" fill="none" strokeWidth="2" />
+                        <text x={50 + (w*8)/2} y="70" textAnchor="middle">{hidden.includes('w') ? '?' : w}</text>
+                        <text x={45} y={75 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                    </g>
+                );
+            }
         },
         triangle: {
-            questions: ['area'],
+            questions: [
+                {
+                    type: 'area',
+                    getPrompt: (shapeLabel) => `What is the area of the ${shapeLabel}?`,
+                    getAnswer: (dims) => 0.5 * dims.b * dims.h,
+                },
+                {
+                    type: 'missing_height',
+                    getPrompt: (shapeLabel, dims) => `The ${shapeLabel} has an area of ${formatNumber(0.5 * dims.b * dims.h)} and a base of ${formatNumber(dims.b)}. What is the missing height?`,
+                    getAnswer: (dims) => dims.h,
+                    getContext: () => ({ hiddenLabels: ['h'] }),
+                },
+            ],
             generateDims: () => ({ b: Math.floor(Math.random() * 20) + 8, h: Math.floor(Math.random() * 15) + 6 }),
-            formulas: { area: (dims) => 0.5 * dims.b * dims.h },
-            render: ({ b, h }) => (
-                <g>
-                    <polygon points={`50,${50+h*8} ${50+b*8},${50+h*8} ${50+b*8},50`} stroke="black" fill="none" strokeWidth="2" />
-                    <text x={50 + (b*8)/2} y={55+h*8} textAnchor="middle">{b}</text>
-                    <text x={55+b*8} y={50+(h*8)/2} dominantBaseline="middle">{h}</text>
-                </g>
-            )
+            render: ({ b, h }, context = {}) => {
+                const hidden = context.hiddenLabels || [];
+                return (
+                    <g>
+                        <polygon points={`50,${50+h*8} ${50+b*8},${50+h*8} ${50+b*8},50`} stroke="black" fill="none" strokeWidth="2" />
+                        <text x={50 + (b*8)/2} y={55+h*8} textAnchor="middle">{hidden.includes('b') ? '?' : b}</text>
+                        <text x={55+b*8} y={50+(h*8)/2} dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                    </g>
+                );
+            }
         },
         circle: {
-            questions: ['area', 'circumference'],
+            questions: [
+                {
+                    type: 'area',
+                    getPrompt: (shapeLabel) => `What is the area of the ${shapeLabel}?`,
+                    getAnswer: (dims) => Math.PI * dims.r * dims.r,
+                },
+                {
+                    type: 'circumference',
+                    getPrompt: (shapeLabel) => `What is the circumference of the ${shapeLabel}?`,
+                    getAnswer: (dims) => 2 * Math.PI * dims.r,
+                },
+                {
+                    type: 'missing_radius',
+                    getPrompt: (shapeLabel, dims) => `The ${shapeLabel} has an area of ${formatNumber(Math.PI * dims.r * dims.r)}. What is the radius?`,
+                    getAnswer: (dims) => dims.r,
+                    getContext: () => ({ hiddenLabels: ['r'] }),
+                },
+            ],
             generateDims: () => ({ r: Math.floor(Math.random() * 10) + 5 }),
-            formulas: {
-                area: (dims) => Math.round(Math.PI * dims.r * dims.r * 100) / 100,
-                circumference: (dims) => Math.round(2 * Math.PI * dims.r * 100) / 100,
-            },
-            render: ({ r }) => (
-                <g>
-                    <circle cx="150" cy="150" r={r * 8} stroke="black" fill="none" strokeWidth="2" />
-                    <line x1="150" y1="150" x2={150 + r * 8} y2="150" stroke="black" strokeDasharray="4" />
-                    <text x={150 + (r*8)/2} y="145">{r}</text>
-                </g>
-            )
+            render: ({ r }, context = {}) => {
+                const hidden = context.hiddenLabels || [];
+                return (
+                    <g>
+                        <circle cx="150" cy="150" r={r * 8} stroke="black" fill="none" strokeWidth="2" />
+                        <line x1="150" y1="150" x2={150 + r * 8} y2="150" stroke="black" strokeDasharray="4" />
+                        <text x={150 + (r*8)/2} y="145">{hidden.includes('r') ? '?' : r}</text>
+                    </g>
+                );
+            }
         },
         rectangular_prism: {
-            questions: ['volume'],
+            questions: [
+                {
+                    type: 'volume',
+                    getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,
+                    getAnswer: (dims) => dims.l * dims.w * dims.h,
+                },
+                {
+                    type: 'missing_height',
+                    getPrompt: (shapeLabel, dims) => `The ${shapeLabel} has a volume of ${formatNumber(dims.l * dims.w * dims.h)}, a length of ${formatNumber(dims.l)}, and a width of ${formatNumber(dims.w)}. What is the missing height?`,
+                    getAnswer: (dims) => dims.h,
+                    getContext: () => ({ hiddenLabels: ['h'] }),
+                },
+            ],
             generateDims: () => ({ l: Math.floor(Math.random() * 15) + 8, w: Math.floor(Math.random() * 10) + 5, h: Math.floor(Math.random() * 10) + 5 }),
-            formulas: { volume: (dims) => dims.l * dims.w * dims.h },
-            render: ({ l, w, h }) => (
-                <g stroke="black" fill="none" strokeWidth="2">
-                    <rect x={50} y={50} width={l*8} height={h*8} />
-                    <path d={`M ${50},${50} l ${w*3},-${w*3}`} />
-                    <path d={`M ${50+l*8},${50} l ${w*3},-${w*3}`} />
-                    <path d={`M ${50+l*8},${50+h*8} l ${w*3},-${w*3}`} />
-                    <path d={`M ${50+w*3},${50-w*3} H ${50+w*3+l*8}`} />
-                    <path d={`M ${50+w*3+l*8},${50-w*3} V ${50-w*3+h*8}`} />
-                    <text x={50 + (l*8)/2} y={45+h*8} textAnchor="middle">{l}</text>
-                    <text x={55+l*8+(w*3)/2} y={45-w*3+(h*8)/2} >{w}</text>
-                    <text x={45} y={50 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{h}</text>
-                </g>
-            )
+            render: ({ l, w, h }, context = {}) => {
+                const hidden = context.hiddenLabels || [];
+                return (
+                    <g stroke="black" fill="none" strokeWidth="2">
+                        <rect x={50} y={50} width={l*8} height={h*8} />
+                        <path d={`M ${50},${50} l ${w*3},-${w*3}`} />
+                        <path d={`M ${50+l*8},${50} l ${w*3},-${w*3}`} />
+                        <path d={`M ${50+l*8},${50+h*8} l ${w*3},-${w*3}`} />
+                        <path d={`M ${50+w*3},${50-w*3} H ${50+w*3+l*8}`} />
+                        <path d={`M ${50+w*3+l*8},${50-w*3} V ${50-w*3+h*8}`} />
+                        <text x={50 + (l*8)/2} y={45+h*8} textAnchor="middle">{hidden.includes('l') ? '?' : l}</text>
+                        <text x={55+l*8+(w*3)/2} y={45-w*3+(h*8)/2} >{hidden.includes('w') ? '?' : w}</text>
+                        <text x={45} y={50 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                    </g>
+                );
+            }
         },
         cylinder: {
-            questions: ['volume'],
+            questions: [
+                {
+                    type: 'volume',
+                    getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,
+                    getAnswer: (dims) => Math.PI * dims.r * dims.r * dims.h,
+                },
+                {
+                    type: 'surface_area',
+                    getPrompt: (shapeLabel) => `What is the surface area of the ${shapeLabel}?`,
+                    getAnswer: (dims) => 2 * Math.PI * dims.r * (dims.r + dims.h),
+                },
+                {
+                    type: 'missing_height',
+                    getPrompt: (shapeLabel, dims) => `The ${shapeLabel} has a volume of ${formatNumber(Math.PI * dims.r * dims.r * dims.h)} and a radius of ${formatNumber(dims.r)}. What is the missing height?`,
+                    getAnswer: (dims) => dims.h,
+                    getContext: () => ({ hiddenLabels: ['h'] }),
+                },
+            ],
             generateDims: () => ({ r: Math.floor(Math.random() * 8) + 3, h: Math.floor(Math.random() * 15) + 5 }),
-            formulas: {
-                volume: (dims) => Math.round(Math.PI * dims.r * dims.r * dims.h * 100) / 100,
-            },
-            render: ({ r, h }) => (
-                <g stroke="black" fill="none" strokeWidth="2">
-                    <ellipse cx="150" cy="50" rx={r*5} ry={r*2} />
-                    <path d={`M ${150 - r*5},50 L ${150 - r*5},${50 + h*5}`} />
-                    <path d={`M ${150 + r*5},50 L ${150 + r*5},${50 + h*5}`} />
-                    <ellipse cx="150" cy={50 + h*5} rx={r*5} ry={r*2} />
-                    <text x="145" y={50 + (h*5)/2} textAnchor="end" dominantBaseline="middle">{h}</text>
-                    <text x={150} y={55+h*5} textAnchor="middle">{r}</text>
-                </g>
-            )
-        }
+            render: ({ r, h }, context = {}) => {
+                const hidden = context.hiddenLabels || [];
+                return (
+                    <g stroke="black" fill="none" strokeWidth="2">
+                        <ellipse cx="150" cy="50" rx={r*5} ry={r*2} />
+                        <path d={`M ${150 - r*5},50 L ${150 - r*5},${50 + h*5}`} />
+                        <path d={`M ${150 + r*5},50 L ${150 + r*5},${50 + h*5}`} />
+                        <ellipse cx="150" cy={50 + h*5} rx={r*5} ry={r*2} />
+                        <text x="145" y={50 + (h*5)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={150} y={55+h*5} textAnchor="middle">{hidden.includes('r') ? '?' : r}</text>
+                    </g>
+                );
+            }
+        },
+        cone: {
+            questions: [
+                {
+                    type: 'volume',
+                    getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,
+                    getAnswer: (dims) => (Math.PI * dims.r * dims.r * dims.h) / 3,
+                },
+                {
+                    type: 'surface_area',
+                    getPrompt: (shapeLabel) => `What is the surface area of the ${shapeLabel}?`,
+                    getAnswer: (dims) => Math.PI * dims.r * (dims.r + Math.sqrt(dims.h * dims.h + dims.r * dims.r)),
+                },
+                {
+                    type: 'missing_height',
+                    getPrompt: (shapeLabel, dims) => `The ${shapeLabel} has a volume of ${formatNumber((Math.PI * dims.r * dims.r * dims.h) / 3)} and a radius of ${formatNumber(dims.r)}. What is the missing height?`,
+                    getAnswer: (dims) => dims.h,
+                    getContext: () => ({ hiddenLabels: ['h'] }),
+                },
+            ],
+            generateDims: () => ({ r: Math.floor(Math.random() * 6) + 3, h: Math.floor(Math.random() * 12) + 5 }),
+            render: ({ r, h }, context = {}) => {
+                const hidden = context.hiddenLabels || [];
+                const baseRadius = r * 6;
+                const height = h * 6;
+                const centerX = 150;
+                const baseY = 200;
+                return (
+                    <g stroke="black" fill="none" strokeWidth="2">
+                        <ellipse cx={centerX} cy={baseY} rx={baseRadius} ry={baseRadius / 3} />
+                        <line x1={centerX - baseRadius} y1={baseY} x2={centerX} y2={baseY - height} />
+                        <line x1={centerX + baseRadius} y1={baseY} x2={centerX} y2={baseY - height} />
+                        <text x={centerX - baseRadius - 10} y={baseY - height / 2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={centerX + baseRadius / 2} y={baseY + 20} textAnchor="middle">{hidden.includes('r') ? '?' : r}</text>
+                    </g>
+                );
+            }
+        },
+        sphere: {
+            questions: [
+                {
+                    type: 'volume',
+                    getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,
+                    getAnswer: (dims) => (4 / 3) * Math.PI * Math.pow(dims.r, 3),
+                },
+                {
+                    type: 'surface_area',
+                    getPrompt: (shapeLabel) => `What is the surface area of the ${shapeLabel}?`,
+                    getAnswer: (dims) => 4 * Math.PI * dims.r * dims.r,
+                },
+                {
+                    type: 'missing_radius',
+                    getPrompt: (shapeLabel, dims) => `The ${shapeLabel} has a volume of ${formatNumber((4 / 3) * Math.PI * Math.pow(dims.r, 3))}. What is the radius?`,
+                    getAnswer: (dims) => dims.r,
+                    getContext: () => ({ hiddenLabels: ['r'] }),
+                },
+            ],
+            generateDims: () => ({ r: Math.floor(Math.random() * 8) + 3 }),
+            render: ({ r }, context = {}) => {
+                const hidden = context.hiddenLabels || [];
+                return (
+                    <g stroke="black" fill="none" strokeWidth="2">
+                        <circle cx="150" cy="130" r={r * 8} />
+                        <ellipse cx="150" cy="130" rx={r * 8} ry={r * 3} strokeDasharray="6" />
+                        <line x1="150" y1="130" x2={150 + r * 8} y2="130" strokeDasharray="4" />
+                        <text x={150 + (r*8)/2} y="120">{hidden.includes('r') ? '?' : r}</text>
+                    </g>
+                );
+            }
+        },
+        right_triangle: {
+            questions: [
+                {
+                    type: 'hypotenuse',
+                    getPrompt: (shapeLabel, dims) => `The ${shapeLabel} has legs a = ${formatNumber(dims.a)} and b = ${formatNumber(dims.b)}. What is the length of the hypotenuse?`,
+                    getAnswer: (dims) => Math.sqrt(dims.a * dims.a + dims.b * dims.b),
+                },
+            ],
+            generateDims: () => ({ a: Math.floor(Math.random() * 10) + 4, b: Math.floor(Math.random() * 10) + 4 }),
+            render: ({ a, b }, context = {}) => {
+                const hidden = context.hiddenLabels || [];
+                const scale = 10;
+                const startX = 60;
+                const startY = 200;
+                const pointB = [startX + a * scale, startY];
+                const pointC = [startX, startY - b * scale];
+                return (
+                    <g stroke="black" fill="none" strokeWidth="2">
+                        <polygon points={`${startX},${startY} ${pointB[0]},${pointB[1]} ${pointC[0]},${pointC[1]}`} />
+                        <path d={`M ${startX + 20},${startY} L ${startX + 20},${startY - 20} L ${startX},${startY - 20}`} strokeWidth="2" />
+                        <text x={startX + (a * scale) / 2} y={startY + 20} textAnchor="middle">{hidden.includes('a') ? '?' : `a = ${a}`}</text>
+                        <text x={startX - 20} y={startY - (b * scale) / 2} textAnchor="end" dominantBaseline="middle">{hidden.includes('b') ? '?' : `b = ${b}`}</text>
+                        <text x={(startX + pointB[0]) / 2 + 10} y={(startY + pointC[1]) / 2} textAnchor="middle">c</text>
+                    </g>
+                );
+            }
+        },
     };
 
     const [currentProblem, setCurrentProblem] = useState(null);
@@ -5112,16 +5291,21 @@ function GeometryPracticeTool({ onExit }) {
         const shapeData = SHAPE_LIBRARY[shape];
         if (!shapeData) return;
 
-        const questionType = shapeData.questions[Math.floor(Math.random() * shapeData.questions.length)];
+        const questionConfig = shapeData.questions[Math.floor(Math.random() * shapeData.questions.length)];
         const dims = shapeData.generateDims();
-        const correctAnswer = shapeData.formulas[questionType](dims);
+        const shapeLabel = shape.replace('_', ' ');
+        const context = questionConfig.getContext ? questionConfig.getContext(dims) : {};
+        const correctAnswer = roundToTwo(questionConfig.getAnswer(dims));
+        const prompt = questionConfig.getPrompt(shapeLabel, dims, context);
 
         setCurrentProblem({
             shape,
             dims,
-            questionType,
+            questionType: questionConfig.type,
             correctAnswer,
-            renderer: shapeData.render
+            renderer: shapeData.render,
+            prompt,
+            context,
         });
         setFeedback('');
         setUserAnswer('');
@@ -5158,9 +5342,9 @@ function GeometryPracticeTool({ onExit }) {
                     {currentProblem ? (
                         <>
                             <svg width="100%" height="300" viewBox="0 0 350 250">
-                                {currentProblem.renderer(currentProblem.dims)}
+                                {currentProblem.renderer(currentProblem.dims, currentProblem.context)}
                             </svg>
-                            <p className="text-lg font-semibold mt-4 capitalize">What is the {currentProblem.questionType} of the {currentProblem.shape.replace('_', ' ')}?</p>
+                            <p className="text-lg font-semibold mt-4">{currentProblem.prompt}</p>
                         </>
                     ) : (
                         <p>Select a shape to begin.</p>
@@ -5205,7 +5389,10 @@ function GeometryPracticeTool({ onExit }) {
 function GraphingTool({ onExit }) {
     const boardRef = React.useRef(null);
     const boardInstance = React.useRef(null);
-    const [equationInput, setEquationInput] = React.useState('2x + 1');
+    const plottedFunctions = React.useRef([]);
+    const intersectionPoints = React.useRef([]);
+    const [equationInputs, setEquationInputs] = React.useState(['2x + 1']);
+    const [tableData, setTableData] = React.useState([]);
     const [error, setError] = React.useState('');
     const [toolMode, setToolMode] = React.useState('plotLine'); // 'plotLine' or 'plotPoint'
 
@@ -5229,21 +5416,103 @@ function GraphingTool({ onExit }) {
         }
     }, [toolMode]);
 
+    const palette = ['#2563eb', '#16a34a', '#f97316', '#9333ea', '#ef4444', '#0ea5e9', '#facc15', '#a855f7'];
+
+    const clearPlottedObjects = React.useCallback(() => {
+        const board = boardInstance.current;
+        if (!board) return;
+        board.suspendUpdate();
+        plottedFunctions.current.forEach((graph) => {
+            if (graph && graph.id && board.objects[graph.id]) {
+                board.removeObject(graph);
+            }
+        });
+        intersectionPoints.current.forEach((point) => {
+            if (point && point.id && board.objects[point.id]) {
+                board.removeObject(point);
+            }
+        });
+        plottedFunctions.current = [];
+        intersectionPoints.current = [];
+        board.unsuspendUpdate();
+    }, []);
+
     const handlePlot = () => {
         setError('');
         if (toolMode !== 'plotLine') return;
 
         try {
-            const preparedInput = equationInput.toLowerCase().replace(/\s/g, '');
-            const parts = preparedInput.match(/^(-?\d*\.?\d*)x([+-]\d+\.?\d*)?$/);
-            if (!parts) throw new Error("Use 'mx+b' format, e.g., '3x-4'.");
+            const board = boardInstance.current;
+            if (!board) return;
 
-            const m = parts[1] === '-' ? -1 : (parts[1] === '' ? 1 : parseFloat(parts[1]));
-            const b = parts[2] ? parseFloat(parts[2]) : 0;
-            if(isNaN(m) || isNaN(b)) throw new Error("Invalid number format.");
+            const parsedEquations = equationInputs.map((input) => {
+                const trimmed = (input || '').trim();
+                if (!trimmed) {
+                    throw new Error('Please enter an equation for each input field.');
+                }
+                const preparedInput = trimmed.toLowerCase().replace(/\s/g, '');
+                const parts = preparedInput.match(/^(-?\d*\.?\d*)x([+-]\d+\.?\d*)?$/);
+                if (!parts) {
+                    throw new Error("Use 'mx+b' format, e.g., '3x-4'.");
+                }
 
-            const func = (x) => m * x + b;
-            boardInstance.current.create('functiongraph', [func], { strokeColor: '#3b82f6', strokeWidth: 3 });
+                const m = parts[1] === '-' ? -1 : (parts[1] === '' ? 1 : parseFloat(parts[1]));
+                const b = parts[2] ? parseFloat(parts[2]) : 0;
+                if (isNaN(m) || isNaN(b)) {
+                    throw new Error('Invalid number format.');
+                }
+
+                return {
+                    input: trimmed,
+                    func: (x) => m * x + b,
+                };
+            });
+
+            clearPlottedObjects();
+
+            board.suspendUpdate();
+
+            const newTableData = [];
+
+            parsedEquations.forEach(({ input, func }, index) => {
+                const color = palette[index % palette.length];
+                const graph = board.create('functiongraph', [func], {
+                    strokeColor: color,
+                    strokeWidth: 3,
+                });
+                plottedFunctions.current.push(graph);
+
+                const values = Array.from({ length: 11 }, (_, idx) => {
+                    const x = idx - 5;
+                    return { x, y: func(x) };
+                });
+
+                newTableData.push({ equation: input, color, values });
+            });
+
+            if (plottedFunctions.current.length > 1) {
+                for (let i = 0; i < plottedFunctions.current.length - 1; i++) {
+                    for (let j = i + 1; j < plottedFunctions.current.length; j++) {
+                        const intersection = board.create('intersection', [plottedFunctions.current[i], plottedFunctions.current[j]], {
+                            name: '',
+                            size: 3,
+                            strokeColor: '#f97316',
+                            fillColor: '#f97316',
+                        });
+                        if (intersection.label) {
+                            intersection.label.setText(() => `(${intersection.X().toFixed(2)}, ${intersection.Y().toFixed(2)})`);
+                            intersection.label.setAttribute({
+                                offset: [10, -10],
+                                strokeColor: '#0f172a',
+                            });
+                        }
+                        intersectionPoints.current.push(intersection);
+                    }
+                }
+            }
+
+            board.unsuspendUpdate();
+            setTableData(newTableData);
         } catch (e) {
             setError(e.message || "Could not plot equation.");
         }
@@ -5251,6 +5520,7 @@ function GraphingTool({ onExit }) {
 
     const handleClear = () => {
         const board = boardInstance.current;
+        if (!board) return;
         board.suspendUpdate();
         // Clear all function graphs and points
         const allObjects = Object.values(board.objects);
@@ -5259,8 +5529,32 @@ function GraphingTool({ onExit }) {
                 board.removeObject(allObjects[i]);
             }
         }
+        plottedFunctions.current = [];
+        intersectionPoints.current = [];
         board.unsuspendUpdate();
         setError('');
+        setTableData([]);
+        setEquationInputs(['2x + 1']);
+    };
+
+    const handleEquationChange = (index, value) => {
+        setEquationInputs((prev) => {
+            const updated = [...prev];
+            updated[index] = value;
+            return updated;
+        });
+    };
+
+    const addEquationInput = () => {
+        setEquationInputs((prev) => [...prev, '']);
+    };
+
+    const removeEquationInput = (index) => {
+        setEquationInputs((prev) => {
+            if (prev.length === 1) return prev;
+            const updated = prev.filter((_, idx) => idx !== index);
+            return updated.length > 0 ? updated : ['2x + 1'];
+        });
     };
 
     return (
@@ -5274,7 +5568,7 @@ function GraphingTool({ onExit }) {
                 <div className="flex-grow">
                      <div id="graphing-tool-board" ref={boardRef} className="jxgbox" style={{ width: '100%', height: '400px' }}></div>
                 </div>
-                <div className="md:w-64 flex-shrink-0">
+                <div className="md:w-72 flex-shrink-0">
                     <h3 className="text-lg font-semibold text-slate-700 mb-2">Tools</h3>
                     <div className="flex gap-2 mb-4">
                         <button onClick={() => setToolMode('plotLine')} className={`flex-1 p-2 font-semibold rounded-md transition ${toolMode === 'plotLine' ? 'bg-sky-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}`}>Plot Line</button>
@@ -5283,12 +5577,32 @@ function GraphingTool({ onExit }) {
 
                     {toolMode === 'plotLine' ? (
                         <div>
-                            <label htmlFor="equation" className="font-semibold text-slate-600">Equation ( y = )</label>
-                            <input
-                                type="text" id="equation" value={equationInput} onChange={(e) => setEquationInput(e.target.value)}
-                                placeholder="e.g., 2x - 3" className="w-full p-2 border border-slate-300 rounded-md mt-1 mb-3"
-                            />
-                            <button onClick={handlePlot} className="w-full p-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700 transition">Plot Line</button>
+                            <p className="font-semibold text-slate-600 mb-2">Equations (y = )</p>
+                            <div className="space-y-3">
+                                {equationInputs.map((value, index) => (
+                                    <div key={index} className="flex items-center gap-2">
+                                        <input
+                                            type="text"
+                                            value={value}
+                                            onChange={(e) => handleEquationChange(index, e.target.value)}
+                                            placeholder="e.g., 2x - 3"
+                                            className="flex-1 p-2 border border-slate-300 rounded-md"
+                                        />
+                                        <button
+                                            onClick={() => removeEquationInput(index)}
+                                            className="p-2 text-sm bg-slate-200 rounded-md hover:bg-slate-300"
+                                            title="Remove equation"
+                                            disabled={equationInputs.length === 1}
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex gap-2 mt-3">
+                                <button onClick={addEquationInput} className="flex-1 p-2 bg-slate-200 text-slate-700 font-semibold rounded-md hover:bg-slate-300 transition">Add Equation</button>
+                                <button onClick={handlePlot} className="flex-1 p-2 bg-sky-600 text-white font-bold rounded-md hover:bg-sky-700 transition">Plot All</button>
+                            </div>
                         </div>
                     ) : (
                         <div>
@@ -5298,6 +5612,42 @@ function GraphingTool({ onExit }) {
                     <button onClick={handleClear} className="w-full p-2 mt-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition">Clear All</button>
                     {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
                 </div>
+            </div>
+            <div className="mt-6 bg-white shadow-sm rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-slate-700 mb-3">Table of Values</h3>
+                {tableData.length === 0 ? (
+                    <p className="text-slate-500 text-sm">Plot at least one equation to see table values from x = -5 to x = 5.</p>
+                ) : (
+                    <div className="grid md:grid-cols-2 gap-4">
+                        {tableData.map(({ equation, color, values }, index) => (
+                            <div key={index} className="border border-slate-200 rounded-md overflow-hidden">
+                                <div className="flex items-center justify-between bg-slate-100 px-3 py-2">
+                                    <span className="text-sm font-semibold text-slate-700">y = {equation}</span>
+                                    <span className="inline-flex items-center gap-2 text-xs text-slate-500">
+                                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color }}></span>
+                                        Graph Color
+                                    </span>
+                                </div>
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="bg-slate-50 text-slate-600">
+                                            <th className="px-3 py-2 text-left">x</th>
+                                            <th className="px-3 py-2 text-left">y</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {values.map(({ x, y }) => (
+                                            <tr key={x} className="odd:bg-white even:bg-slate-50 text-slate-700">
+                                                <td className="px-3 py-1">{x}</td>
+                                                <td className="px-3 py-1">{Number.isFinite(y) ? y.toFixed(2) : 'N/A'}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
