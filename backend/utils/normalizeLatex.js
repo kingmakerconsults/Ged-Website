@@ -14,6 +14,39 @@ function collapseSplitLatexCommands(source) {
     return normalized.replace(/\\([A-Za-z])(?:\\([A-Za-z]))+/g, (match) => `\\${match.replace(/\\/g, '')}`);
 }
 
+function normalizeFractionDelimiters(source) {
+    if (typeof source !== 'string' || !/\\+frac/.test(source)) {
+        return source;
+    }
+
+    let cleaned = source;
+
+    // Remove redundant dollar-sign wrapped inline math like $\( ... \)$
+    cleaned = cleaned.replace(/\$\s*\\\(([^$]*?\\frac[^$]*?)\\\)\s*\$/g, (_match, inner) => `\\(${inner.trim()}\\)`);
+
+    // Replace any $...$ segment that only contains a fraction with \(...\)
+    cleaned = cleaned.replace(/\$+\s*(\\\([^$]*?\\frac[^$]*?\\\)|\\\[[^$]*?\\frac[^$]*?\\\]|\\frac[^$]*?)\s*\$+/g, (match, inner) => {
+        if (typeof inner !== 'string' || !inner.includes('\\frac')) {
+            return match;
+        }
+        let body = inner.trim();
+        body = body.replace(/^\\\(/, '').replace(/\\\)$/, '');
+        body = body.replace(/^\\\[/, '').replace(/\\\]$/, '');
+        return `\\(${body.trim()}\\)`;
+    });
+
+    // Normalize excessive escaping before frac
+    cleaned = cleaned.replace(/\\{2,}frac/g, '\\frac');
+
+    // Tighten braces around numerators and denominators
+    cleaned = cleaned.replace(/\\frac\s*\{\s*([^{}]+?)\s*\}\s*\{\s*([^{}]+?)\s*\}/g, (_match, a, b) => `\\frac{${a.trim()}}{${b.trim()}}`);
+
+    // Collapse whitespace inside inline math delimiters
+    cleaned = cleaned.replace(/\\\(\s+/g, '\\(').replace(/\s+\\\)/g, '\\)');
+
+    return cleaned;
+}
+
 function normalizeLatex(text) {
     if (typeof text !== 'string' || !text.length) {
         return text;
@@ -58,6 +91,10 @@ function normalizeLatex(text) {
         }
         return '\\_';
     });
+
+    if (/\\+frac/.test(normalized)) {
+        normalized = normalizeFractionDelimiters(normalized);
+    }
 
     return normalized.replace(/\s{2,}/g, ' ').trim();
 }

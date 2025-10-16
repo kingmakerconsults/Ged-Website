@@ -8,7 +8,12 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
+const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
+
+function selectModelTimeoutMs({ examType } = {}) {
+    return examType === 'comprehensive' ? COMPREHENSIVE_TIMEOUT_MS : MODEL_HTTP_TIMEOUT_MS;
+}
 
 function nowNs() { return process.hrtime.bigint(); }
 function toMs(nsDiff) { return Number(nsDiff) / 1e6; }
@@ -25,6 +30,13 @@ async function timed(label, fn) {
         console.warn(`[AI][FAIL] ${label} after ${Math.round(ms)} ms: ${err?.message}`);
         throw Object.assign(err, { elapsedMs: ms });
     }
+}
+
+function logGenerationDuration(examType, subject, startMs, status = 'completed') {
+    if (!startMs) return;
+    const elapsed = Date.now() - startMs;
+    const label = `${examType || 'standard'}:${subject || 'unknown'}`;
+    console.log(`[${label}] Generation ${status} in ${elapsed}ms`);
 }
 
 // Rolling latency (last 200)
@@ -488,6 +500,66 @@ const OPENAI_QUESTION_JSON_SCHEMA = {
     }
 };
 
+const SIMPLE_CHOICE_JSON_SCHEMA = {
+    type: 'object',
+    additionalProperties: true,
+    required: ['text'],
+    properties: {
+        text: { type: 'string' },
+        isCorrect: { type: ['boolean', 'null'] },
+        rationale: { type: ['string', 'null'] }
+    }
+};
+
+const MATH_CORRECTNESS_JSON_SCHEMA = {
+    name: 'MathCorrectness',
+    schema: {
+        type: 'object',
+        required: ['fixes'],
+        additionalProperties: false,
+        properties: {
+            fixes: {
+                type: 'array',
+                default: [],
+                items: {
+                    type: 'object',
+                    required: ['index', 'question'],
+                    additionalProperties: true,
+                    properties: {
+                        index: { type: 'integer', minimum: 0 },
+                        reason: { type: 'string' },
+                        question: {
+                            type: 'object',
+                            additionalProperties: true,
+                            required: ['questionText'],
+                            properties: {
+                                questionText: { type: 'string' },
+                                answerOptions: {
+                                    type: 'array',
+                                    items: SIMPLE_CHOICE_JSON_SCHEMA,
+                                    default: []
+                                },
+                                correctAnswer: { type: ['string', 'number', 'null'] },
+                                calculator: { type: ['boolean', 'null'] },
+                                questionNumber: { type: ['integer', 'string', 'null'] },
+                                type: { type: 'string' }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+
+const MATH_CORRECTNESS_SYSTEM_PROMPT = `You are an expert GED math reviewer.
+Carefully verify each question in the provided JSON array. For any question with an incorrect solution, invalid math, or unclear wording, rewrite ONLY that question with the fix applied.
+Return a JSON object with a "fixes" array. Each element must include:
+- "index": zero-based index of the question to replace.
+- "question": the fully corrected question object.
+- Optional "reason" explaining the change.
+Do not include entries for questions that are already correct.`;
+
 function createLimiter(limit) {
     const queue = [];
     let activeCount = 0;
@@ -812,22 +884,27 @@ const GEMINI_URL = GEMINI_API_KEY
     : null;
 const OPENAI_URL = 'https://api.openai.com/v1/responses';
 
-async function callGemini(payload, { signal } = {}) {
+async function callGemini(payload, { signal, timeoutMs } = {}) {
     if (!GEMINI_API_KEY || !GEMINI_URL) {
         throw new Error('GOOGLE_API_KEY is not configured.');
     }
 
-    const response = await http.post(GEMINI_URL, payload, { signal });
+    const config = { signal };
+    if (timeoutMs) {
+        config.timeout = timeoutMs;
+    }
+    const response = await http.post(GEMINI_URL, payload, config);
     return response.data;
 }
 
-async function callChatGPT(payload, { signal } = {}) {
+async function callChatGPT(payload, { signal, timeoutMs } = {}) {
     if (!process.env.OPENAI_API_KEY) {
         throw new Error('ChatGPT fallback unavailable: OPENAI_API_KEY not configured.');
     }
 
     const config = {
         signal,
+        timeout: timeoutMs,
         headers: {
             Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
             'Content-Type': 'application/json'
@@ -948,6 +1025,10 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
         throw new Error('Model returned an invalid response format.');
     }
 
+    if (subject === 'Math') {
+        items = await applyMathCorrectnessPass(items);
+    }
+
     const roundedLatency = Math.round(latencyMs || 0);
     AI_LATENCY.push(roundedLatency);
 
@@ -1002,6 +1083,83 @@ async function repairBatchWithChatGPT_once(itemsNeedingFix) {
     const text = resp.output_text;
     const parsed = JSON.parse(text);
     return Array.isArray(parsed) ? parsed : (parsed.items || parsed.data || parsed.questions || parsed.value || parsed);
+}
+
+async function chatgptCorrectnessCheck(questions, { timeoutMs } = {}) {
+    if (!openaiClient) {
+        console.warn('ChatGPT correctness check skipped: OPENAI_API_KEY not configured.');
+        return questions;
+    }
+
+    if (!Array.isArray(questions) || !questions.length) {
+        return questions;
+    }
+
+    const payload = JSON.stringify({ questions });
+
+    try {
+        const response = await openaiClient.responses.create({
+            model: 'gpt-4o-mini',
+            temperature: 0.1,
+            input: [
+                { role: 'system', content: MATH_CORRECTNESS_SYSTEM_PROMPT },
+                { role: 'user', content: payload }
+            ],
+            response_format: { type: 'json_schema', json_schema: MATH_CORRECTNESS_JSON_SCHEMA }
+        });
+
+        const text = response.output_text;
+        const parsed = JSON.parse(text);
+        if (!parsed || !Array.isArray(parsed.fixes) || !parsed.fixes.length) {
+            return questions;
+        }
+
+        const updated = questions.map((q) => cloneQuestion(q));
+
+        parsed.fixes.forEach((fix) => {
+            const idx = Number.isInteger(fix?.index) ? fix.index : -1;
+            if (idx < 0 || idx >= updated.length) {
+                return;
+            }
+
+            const replacement = fix?.question;
+            if (!replacement || typeof replacement !== 'object') {
+                return;
+            }
+
+            if (typeof fix?.reason === 'string' && fix.reason.trim()) {
+                console.log(`ChatGPT corrected math question ${idx}: ${fix.reason.trim()}`);
+            }
+
+            const base = cloneQuestion(updated[idx]);
+            const merged = {
+                ...base,
+                ...replacement,
+                answerOptions: Array.isArray(replacement.answerOptions)
+                    ? replacement.answerOptions.map((opt) => ({ ...opt }))
+                    : base.answerOptions
+            };
+            updated[idx] = merged;
+        });
+
+        return updated;
+    } catch (error) {
+        console.error('ChatGPT math correctness check failed:', error.message || error);
+        return questions;
+    }
+}
+
+async function applyMathCorrectnessPass(questions, options = {}) {
+    if (!Array.isArray(questions) || questions.length <= 5) {
+        return questions;
+    }
+
+    try {
+        return await chatgptCorrectnessCheck(questions, options);
+    } catch (error) {
+        console.error('Math correctness pass failed:', error.message || error);
+        return questions;
+    }
 }
 
 async function generateExam(subject, promptBuilder, counts) {
@@ -1441,11 +1599,19 @@ function fixStr(value) {
     if (typeof value !== 'string') {
         return value;
     }
-    return value
+    let cleaned = value
         .replace(/\\\$/g, '$')
         .replace(new RegExp('\\\\`', 'g'), '`')
-        .replace(/\$\$(?=\d)/g, '$')
-        .replace(/\\([A-Za-z]{2,})/g, '\$1');
+        .replace(/\$\$(?=\d)/g, '$');
+
+    if (/\\+frac/.test(cleaned)) {
+        cleaned = cleaned
+            .replace(/\$\\\(/g, '\\(')
+            .replace(/\\\)\$/g, '\\)')
+            .replace(/\\{2,}frac/g, '\\frac');
+    }
+
+    return cleaned;
 }
 
 function cleanupQuizData(quiz) {
@@ -1738,7 +1904,7 @@ const callAI = async (prompt, schema, options = {}) => {
         throw new Error('Server configuration error: GOOGLE_AI_API_KEY is not set.');
     }
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    const { parser, onParserMetadata, generationOverrides } = options;
+    const { parser, onParserMetadata, generationOverrides, timeoutMs, signal } = options;
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
@@ -1748,7 +1914,15 @@ const callAI = async (prompt, schema, options = {}) => {
         }
     };
     try {
-        const response = await http.post(apiUrl, payload);
+        const requestConfig = {};
+        if (timeoutMs) {
+            requestConfig.timeout = timeoutMs;
+        }
+        if (signal) {
+            requestConfig.signal = signal;
+        }
+
+        const response = await http.post(apiUrl, payload, requestConfig);
         const rawText = response.data.candidates?.[0]?.content?.parts?.[0]?.text;
 
         if (typeof rawText !== 'string') {
@@ -1912,7 +2086,7 @@ async function runMathTwoPassOnQuestions(questions, subject) {
 
 // Helper functions for generating different types of quiz content
 
-const generatePassageSet = async (topic, subject, numQuestions) => {
+const generatePassageSet = async (topic, subject, numQuestions, options = {}) => {
     const prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'.
     Then, based ONLY on the passage, generate ${numQuestions} unique multiple-choice questions. VARY THE QUESTION TYPE: ask about main idea, details, vocabulary, or inferences. The question text MUST NOT repeat the passage.
     Output a single valid JSON object with keys "passage" and "questions".`;
@@ -1935,7 +2109,7 @@ const generatePassageSet = async (topic, subject, numQuestions) => {
         required: ["passage", "questions"]
     };
 
-    const result = await callAI(prompt, schema);
+    const result = await callAI(prompt, schema, options);
     return result.questions.map(q => enforceWordCapsOnItem({
         ...q,
         passage: result.passage,
@@ -1944,7 +2118,7 @@ const generatePassageSet = async (topic, subject, numQuestions) => {
 };
 
 
-const generateImageQuestion = async (topic, subject, imagePool, numQuestions) => {
+const generateImageQuestion = async (topic, subject, imagePool, numQuestions, options = {}) => {
     // Filter by subject AND the specific topic (category)
     let relevantImages = imagePool.filter(img => img.subject === subject && img.category === topic);
     let selectedImage;
@@ -1983,7 +2157,7 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
     };
 
     try {
-        const questions = await callAI(imagePrompt, imageQuestionSchema);
+        const questions = await callAI(imagePrompt, imageQuestionSchema, options);
         // Map imagePath to imageUrl and add type
         return questions.map(q => enforceWordCapsOnItem({
             ...q,
@@ -1996,7 +2170,7 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
     }
 };
 
-const generateStandaloneQuestion = async (subject, topic) => {
+const generateStandaloneQuestion = async (subject, topic, options = {}) => {
     let prompt;
     // Conditional prompt based on the subject
     if (subject === 'Math') {
@@ -2020,7 +2194,7 @@ const generateStandaloneQuestion = async (subject, topic) => {
         required: ["questionText", "answerOptions"]
     };
 
-    const question = await callAI(prompt, schema);
+    const question = await callAI(prompt, schema, options);
     question.type = 'standalone';
     return enforceWordCapsOnItem(question, subject);
 };
@@ -2101,7 +2275,7 @@ const buildGeometryPrompt = (topic, attempt) => {
     return basePrompt;
 };
 
-async function generateGeometryQuestion(topic, subject, attempt = 1) {
+async function generateGeometryQuestion(topic, subject, attempt = 1, options = {}) {
     const MAX_ATTEMPTS = 2;
     const prompt = buildGeometryPrompt(topic, attempt);
     const schema = buildGeometrySchema(GEOMETRY_FIGURES_ENABLED);
@@ -2135,7 +2309,18 @@ async function generateGeometryQuestion(topic, subject, attempt = 1) {
                 ? { generationOverrides: { temperature: 0.1 } }
                 : {};
 
-        const aiResponse = await callAI(prompt, schema, callOptions);
+        const mergedOptions = {
+            ...callOptions,
+            ...options
+        };
+        if (callOptions?.generationOverrides || options?.generationOverrides) {
+            mergedOptions.generationOverrides = {
+                ...(callOptions?.generationOverrides || {}),
+                ...(options?.generationOverrides || {})
+            };
+        }
+
+        const aiResponse = await callAI(prompt, schema, mergedOptions);
 
         if (GEOMETRY_FIGURES_ENABLED && parseMeta.stage) {
             console.info(`Geometry JSON parsed via ${parseMeta.stage}. hash=${parseMeta.hash || 'n/a'}`);
@@ -2169,7 +2354,7 @@ async function generateGeometryQuestion(topic, subject, attempt = 1) {
             console.warn(`Geometry JSON parsing failed at stage ${error.stage}. hash=${error.hash || 'n/a'}`);
             if (attempt < MAX_ATTEMPTS) {
                 console.log(`Retrying geometry question generation with strict prompt (attempt ${attempt + 1})...`);
-                return generateGeometryQuestion(topic, subject, attempt + 1);
+                return generateGeometryQuestion(topic, subject, attempt + 1, options);
             }
         }
 
@@ -2186,7 +2371,7 @@ async function generateGeometryQuestion(topic, subject, attempt = 1) {
     }
 }
 
-async function generateNonCalculatorQuestion() {
+async function generateNonCalculatorQuestion(options = {}) {
     const prompt = `You are a GED Math exam creator specializing in non-calculator questions.
     Generate a single, high-quality question from the "Number Sense & Operations" domain (GED Indicator Q.1 or Q.2).
     The question must be solvable without a calculator, focusing on concepts like number properties, estimation, or basic arithmetic with integers, fractions, and decimals.
@@ -2201,13 +2386,13 @@ async function generateNonCalculatorQuestion() {
         },
         required: ["questionText", "answerOptions"]
     };
-    const question = await callAI(prompt, schema);
+    const question = await callAI(prompt, schema, options);
     question.type = 'standalone';
     question.calculator = false; // Explicitly mark as non-calculator
     return enforceWordCapsOnItem(question, 'Math');
 }
 
-async function generateDataQuestion() {
+async function generateDataQuestion(options = {}) {
     const prompt = `You are a GED Math exam creator.
     Generate a single, high-quality, data-based question.
     FIRST, create a simple HTML table with a caption, 2-4 columns, and 3-5 rows of numerical data.
@@ -2224,13 +2409,13 @@ async function generateDataQuestion() {
         },
         required: ["questionText", "answerOptions"]
     };
-    const question = await callAI(prompt, schema);
+    const question = await callAI(prompt, schema, options);
     question.type = 'standalone'; // The table is part of the question text
     question.calculator = true;
     return enforceWordCapsOnItem(question, 'Math');
 }
 
-async function generateGraphingQuestion() {
+async function generateGraphingQuestion(options = {}) {
     const prompt = `You are a GED Math exam creator.
     Generate a single, high-quality, GED-style question about functions or interpreting graphs (GED Indicators A.5, A.6, A.7).
     The question should focus on one of these concepts:
@@ -2248,13 +2433,13 @@ async function generateGraphingQuestion() {
         },
         required: ["questionText", "answerOptions"]
     };
-    const question = await callAI(prompt, schema);
+    const question = await callAI(prompt, schema, options);
     question.type = 'standalone';
     question.calculator = true;
     return enforceWordCapsOnItem(question, 'Math');
 }
 
-async function generateMath_FillInTheBlank() {
+async function generateMath_FillInTheBlank(options = {}) {
     const prompt = `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is perfectly formatted for KaTeX.
 - All fractions MUST be in the format '$\\frac{numerator}{denominator}$'.
 - All LaTeX expressions MUST be enclosed in single dollar signs '$'.
@@ -2275,16 +2460,16 @@ Output a single valid JSON object with three keys:
         },
         required: ["type", "questionText", "correctAnswer"]
     };
-    const question = await callAI(prompt, schema);
+    const question = await callAI(prompt, schema, options);
     question.calculator = true; // Most fill-in-the-blank will be calculator-permitted
     return enforceWordCapsOnItem(question, 'Math');
 }
 
-async function generateRlaPart1() {
+async function generateRlaPart1(options = {}) {
     const prompt = `${STRICT_JSON_HEADER_RLA}
 Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 passages (3 informational, 1 literary), each 150-230 words and NEVER above 250 words, with concise titles in <strong> tags and <p> tags for paragraphs. For EACH passage, generate exactly 5 reading comprehension questions (total 20). Return the JSON array of question objects only.`;
     const schema = { type: "ARRAY", items: singleQuestionSchema };
-    const questions = await callAI(prompt, schema);
+    const questions = await callAI(prompt, schema, options);
     const cappedQuestions = Array.isArray(questions)
         ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
         : [];
@@ -2309,7 +2494,7 @@ Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 pa
     return groupedQuestions;
 }
 
-async function generateRlaPart2() {
+async function generateRlaPart2(options = {}) {
     const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each, 150-230 words and never above 250 words). Each passage MUST have its own title. Output a JSON object with keys "passages" (an array of two objects, each with "title" and "content") and "prompt" (the essay question, <= 250 words).`;
     const schema = {
         type: "OBJECT",
@@ -2319,7 +2504,7 @@ async function generateRlaPart2() {
         },
         required: ["passages", "prompt"]
     };
-    const result = await callAI(prompt, schema);
+    const result = await callAI(prompt, schema, options);
     if (Array.isArray(result?.passages)) {
         result.passages = result.passages.map((p) => ({
             ...p,
@@ -2332,11 +2517,11 @@ async function generateRlaPart2() {
     return result;
 }
 
-async function generateRlaPart3() {
+async function generateRlaPart3(options = {}) {
     const prompt = `${STRICT_JSON_HEADER_RLA}
 Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each, keep each passage <= 250 words). The passages should contain a mix of grammatical errors and/or awkward phrasing. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences and improving word choice. This should total 25 questions. Return only the JSON array of the 25 question objects.`;
     const schema = { type: "ARRAY", items: singleQuestionSchema };
-    const questions = await callAI(prompt, schema);
+    const questions = await callAI(prompt, schema, options);
     const cappedQuestions = Array.isArray(questions)
         ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
         : [];
@@ -2360,7 +2545,7 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
     return groupedQuestions;
 }
 
-async function reviewAndCorrectQuiz(draftQuiz) {
+async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
     const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam. Your task is to review and improve it based on these rules:
     1.  **IMPROVE QUESTION VARIETY:** The top priority. If you see repetitive question phrasing, rewrite some questions to ask about specific details, inferences, or data points.
     2.  **ENSURE CLARITY:** Fix any grammatical errors or awkward phrasing.
@@ -2371,11 +2556,11 @@ async function reviewAndCorrectQuiz(draftQuiz) {
     ${JSON.stringify(draftQuiz, null, 2)}
     ---
     Return the corrected and improved quiz as a single, valid JSON object.`;
-        const correctedQuiz = await callAI(prompt, quizSchema);
+        const correctedQuiz = await callAI(prompt, quizSchema, options);
         return correctedQuiz;
     }
 
-async function reviewAndCorrectMathQuestion(questionObject) {
+async function reviewAndCorrectMathQuestion(questionObject, options = {}) {
     const prompt = `You are an expert GED math editor. Review the following JSON question object. Your ONLY job is to fix formatting. **Aggressively correct all KaTeX syntax errors.** For example, FIX \`\\rac{...}\` to \`\\frac{...}\`. Ensure all math expressions are properly enclosed in single dollar signs '$' with correct spacing around them. **Simplify any HTML tables** by removing ALL inline CSS (e.g., \`style="..."\`). Return only the corrected, valid JSON object.
 
     Faulty JSON:
@@ -2409,7 +2594,7 @@ async function reviewAndCorrectMathQuestion(questionObject) {
     };
 
     try {
-        const correctedQuestion = await callAI(prompt, schema);
+        const correctedQuestion = await callAI(prompt, schema, options);
         // Preserve original properties that might not be in the schema
         return { ...questionObject, ...correctedQuestion };
     } catch (error) {
@@ -2509,10 +2694,15 @@ app.post('/generate-quiz', async (req, res) => {
         return res.status(400).json({ error: 'Subject and comprehensive flag are required.' });
     }
 
+    const examType = comprehensive ? 'comprehensive' : 'standard';
+    const generationStart = Date.now();
+
     if (comprehensive) {
         // --- COMPREHENSIVE EXAM LOGIC ---
         if (subject === 'Social Studies') {
             try {
+                const timeoutMs = selectModelTimeoutMs({ examType });
+                const aiOptions = { timeoutMs };
                 const blueprint = {
                     'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
                     'U.S. History':           { passages: 3, images: 2, standalone: 1 },
@@ -2523,9 +2713,9 @@ app.post('/generate-quiz', async (req, res) => {
                 let promises = [];
 
                 for (const [category, counts] of Object.entries(blueprint)) {
-                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
+                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions));
+                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category, aiOptions));
                 }
 
                 const results = await Promise.all(promises);
@@ -2542,15 +2732,19 @@ app.post('/generate-quiz', async (req, res) => {
                 };
 
                 console.log("Social Studies draft complete. Sending for second pass review...");
-                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
+                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
+                logGenerationDuration(examType, subject, generationStart);
                 res.json(finalQuiz);
 
             } catch (error) {
                 console.error('Error generating Social Studies exam:', error);
+                logGenerationDuration(examType, subject, generationStart, 'failed');
                 res.status(500).json({ error: 'Failed to generate Social Studies exam.' });
             }
         } else if (subject === 'Science') {
             try {
+                const timeoutMs = selectModelTimeoutMs({ examType });
+                const aiOptions = { timeoutMs };
                 const blueprint = {
                     'Life Science': { passages: 3, images: 3, standalone: 6 },
                     'Physical Science': { passages: 3, images: 2, standalone: 6 },
@@ -2560,9 +2754,9 @@ app.post('/generate-quiz', async (req, res) => {
                 let promises = [];
 
                 for (const [category, counts] of Object.entries(blueprint)) {
-                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1));
-                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category));
+                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
+                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions));
+                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category, aiOptions));
                 }
 
                 const results = await Promise.all(promises);
@@ -2578,21 +2772,26 @@ app.post('/generate-quiz', async (req, res) => {
                 };
 
                 console.log("Science draft complete. Sending for second pass review...");
-                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz);
+                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
+                logGenerationDuration(examType, subject, generationStart);
                 res.json(finalQuiz);
 
             } catch (error) {
                 console.error('Error generating Science exam:', error);
+                logGenerationDuration(examType, subject, generationStart, 'failed');
                 res.status(500).json({ error: 'Failed to generate Science exam.' });
             }
         } else if (subject === 'Reasoning Through Language Arts (RLA)') {
     try {
         console.log("Generating comprehensive RLA exam...");
 
+        const timeoutMs = selectModelTimeoutMs({ examType });
+        const aiOptions = { timeoutMs };
+
         const [part1Questions, part2Essay, part3Questions] = await Promise.all([
-            generateRlaPart1(),
-            generateRlaPart2(),
-            generateRlaPart3()
+            generateRlaPart1(aiOptions),
+            generateRlaPart2(aiOptions),
+            generateRlaPart3(aiOptions)
         ]);
 
         const allQuestions = [...part1Questions, ...part3Questions];
@@ -2613,10 +2812,12 @@ app.post('/generate-quiz', async (req, res) => {
         };
 
         // RLA does not need a second review pass due to its complex, multi-part nature
+        logGenerationDuration(examType, subject, generationStart);
         res.json(finalQuiz);
 
     } catch (error) {
         console.error('Error generating comprehensive RLA exam:', error);
+        logGenerationDuration(examType, subject, generationStart, 'failed');
         res.status(500).json({ error: 'Failed to generate RLA exam.' });
     }
 } else if (subject === 'Math' && comprehensive) {
@@ -2624,8 +2825,11 @@ app.post('/generate-quiz', async (req, res) => {
         console.log("Generating comprehensive Math exam with two-part structure...");
         console.log("Request received for comprehensive Math exam."); // Added for debugging
 
+        const timeoutMs = selectModelTimeoutMs({ examType });
+        const aiOptions = { timeoutMs };
+
         // Part 1: Non-Calculator (5 questions)
-        const part1Promises = Array(5).fill().map(() => generateNonCalculatorQuestion());
+        const part1Promises = Array(5).fill().map(() => generateNonCalculatorQuestion(aiOptions));
         const part1Questions = await Promise.all(part1Promises.map(p => p.catch(e => {
             console.error("A promise in the non-calculator math section failed:", e);
             return null;
@@ -2634,16 +2838,16 @@ app.post('/generate-quiz', async (req, res) => {
         // Part 2: Calculator-Permitted (41 questions)
         const part2Promises = [];
         // Add 8 Geometry questions
-        for (let i = 0; i < 8; i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math'));
+        for (let i = 0; i < 8; i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math', 1, aiOptions));
         // Add 4 Fill-in-the-Blank questions
-        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank());
+        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
         // Add 10 Data/Graphing questions
-        for (let i = 0; i < 5; i++) part2Promises.push(generateDataQuestion());
-        for (let i = 0; i < 5; i++) part2Promises.push(generateGraphingQuestion());
+        for (let i = 0; i < 5; i++) part2Promises.push(generateDataQuestion(aiOptions));
+        for (let i = 0; i < 5; i++) part2Promises.push(generateGraphingQuestion(aiOptions));
         // Add 15 Standalone Algebra/Quantitative questions
-        for (let i = 0; i < 10; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities'));
-        for (let i = 0; i < 5; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents'));
-        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank());
+        for (let i = 0; i < 10; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities', aiOptions));
+        for (let i = 0; i < 5; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents', aiOptions));
+        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
 
         const part2Results = await Promise.all(part2Promises.map(p => p.catch(e => {
             console.error("A promise in the calculator math section failed:", e);
@@ -2654,7 +2858,7 @@ app.post('/generate-quiz', async (req, res) => {
         // Ensure we have exactly 41 questions for Part 2, even if some promises failed
         while (part2Questions.length < 41) {
             console.log("A question generation failed, adding a fallback question.");
-            part2Questions.push(await generateStandaloneQuestion('Math', 'General Problem Solving'));
+            part2Questions.push(await generateStandaloneQuestion('Math', 'General Problem Solving', aiOptions));
         }
         part2Questions = part2Questions.slice(0, 41);
 
@@ -2677,9 +2881,16 @@ app.post('/generate-quiz', async (req, res) => {
             await runMathTwoPassOnQuestions(correctedAllQuestions, subject);
         } else {
             console.log("Applying legacy math correction pipeline...");
-            correctedPart1 = await Promise.all(part1Questions.filter(q => q).map(q => reviewAndCorrectMathQuestion(q)));
-            correctedPart2 = await Promise.all(part2Questions.map(q => reviewAndCorrectMathQuestion(q)));
+            correctedPart1 = await Promise.all(part1Questions.filter(q => q).map(q => reviewAndCorrectMathQuestion(q, aiOptions)));
+            correctedPart2 = await Promise.all(part2Questions.map(q => reviewAndCorrectMathQuestion(q, aiOptions)));
             correctedAllQuestions = [...correctedPart1, ...correctedPart2];
+        }
+
+        correctedAllQuestions = await applyMathCorrectnessPass(correctedAllQuestions, aiOptions);
+        if (Array.isArray(correctedAllQuestions)) {
+            const part1Count = correctedPart1.length;
+            correctedPart1 = correctedAllQuestions.slice(0, part1Count);
+            correctedPart2 = correctedAllQuestions.slice(part1Count);
         }
 
         // --- NEW: Final Server-Side Sanitization ---
@@ -2718,14 +2929,17 @@ app.post('/generate-quiz', async (req, res) => {
         // Apply cleanup function to the entire assembled quiz object
         const finalQuiz = cleanupQuizData(draftQuiz);
 
+        logGenerationDuration(examType, subject, generationStart);
         res.json(finalQuiz);
 
     } catch (error) {
         console.error('Error generating comprehensive Math exam:', error);
+        logGenerationDuration(examType, subject, generationStart, 'failed');
         res.status(500).json({ error: 'Failed to generate Math exam.' });
     }
 } else {
             // This handles comprehensive requests for subjects without that logic yet.
+            logGenerationDuration(examType, subject, generationStart, 'failed');
             res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
         }
 } else {
@@ -2792,6 +3006,7 @@ app.post('/generate-quiz', async (req, res) => {
             if (subject === 'Math' && MATH_TWO_PASS_ENABLED) {
                 console.log('Applying math two-pass linting pipeline to topic quiz...');
                 await runMathTwoPassOnQuestions(finalQuestions, subject);
+                finalQuestions = await applyMathCorrectnessPass(finalQuestions);
             }
 
             let draftQuiz = {
@@ -2805,12 +3020,14 @@ app.post('/generate-quiz', async (req, res) => {
             const finalQuiz = cleanupQuizData(draftQuiz);
 
             console.log("Quiz generation and post-processing complete.");
+            logGenerationDuration(examType, subject, generationStart);
             res.json(finalQuiz); // Send the cleaned quiz directly to the user
 
         } catch (error) {
             // Use topic and subject in the error log if they are available
             const errorMessage = req.body.topic ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating topic-specific quiz';
             console.error(errorMessage, error);
+            logGenerationDuration(examType, subject, generationStart, 'failed');
             res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
         }
     }
