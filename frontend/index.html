@@ -491,46 +491,38 @@ function stripLeakedMathPlaceholders(text) {
 }
 
 function renderStem(text) {
-    text = stripLeakedMathPlaceholders(text);
     if (typeof text !== 'string') return '';
-    const pass1 = normalizeLatex(text);
-    const pass2 = escapeCurrencyDollarsMathSafe(pass1);
-    const pass3 = neutralizeUnpairedDollarSigns(pass2);
-    const finalPlain = addSpacesAroundInlineMath(pass3);
-    const rescued = applySafeMathFix(finalPlain);
-    const safeLatex = normalizeLatexForKaTeX(rescued);
-    const wrapped = smartWrapLatex(safeLatex);
-    if (typeof wrapped !== 'string' || wrapped.length === 0) {
-        return '';
-    }
+    
+    // This pipeline prepares the text for rendering.
+    // It now correctly handles currency and avoids double-escaping.
+    const preparedText = preprocessRawContent(text, { normalizeSpacing: true });
 
+    const segments = extractMathSegments(preparedText);
     const parts = [];
-    const regex = /\\\(([^]*?)\\\)/g;
-    let lastIndex = 0;
-    let match;
 
-    while ((match = regex.exec(wrapped)) !== null) {
-        const preceding = wrapped.slice(lastIndex, match.index);
-        if (preceding) {
-            parts.push(escapeHtml(preceding));
+    segments.forEach(segment => {
+        if (segment.type === 'text') {
+            // For regular text, just push it. It's already been processed.
+            parts.push(segment.value);
+        } else if (segment.type === 'math') {
+            try {
+                // For math text, render it with KaTeX.
+                const html = renderLatexToHtml(segment.value);
+                parts.push(html);
+            } catch (err) {
+                console.warn('KaTeX render failed:', err);
+                parts.push(segment.raw); // Fallback to raw text on error
+            }
         }
-        const inner = match[1];
-        try {
-            const html = renderLatexToHtml(inner);
-            parts.push(html);
-        } catch (err) {
-            console.warn('KaTeX render fallback triggered:', err?.message || err);
-            parts.push(escapeHtml(inner));
-        }
-        lastIndex = regex.lastIndex;
-    }
+    });
 
-    const trailing = wrapped.slice(lastIndex);
-    if (trailing) {
-        parts.push(escapeHtml(trailing));
-    }
+    const finalHtml = parts.join('');
 
-    return parts.join('');
+    // Sanitize the final combined HTML once to ensure security.
+    return DOMPurify.sanitize(finalHtml, {
+        ALLOWED_TAGS: [...ALLOWED_HTML_TAGS, 'span', 'path', 'svg'],
+        ALLOWED_ATTR: [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns']
+    });
 }
 
 const GEOMETRY_FIGURES_ENABLED = Boolean(
@@ -1019,12 +1011,20 @@ function postRenderGuardrails(container, { itemIndex } = {}) {
     }
 }
 
-function MathText({ text, className }) {
+function MathText({ text, className, subject }) {
     if (typeof text !== 'string' || text.trim() === '') {
         return <span className={className}></span>;
     }
 
-    const renderedHtml = renderStem(text);
+    let renderedHtml;
+
+    // ONLY run the complex math/currency renderer for the Math subject.
+    if (subject === 'Math') {
+        renderedHtml = renderStem(text);
+    } else {
+        // For all other subjects, just sanitize the HTML and display it.
+        renderedHtml = DOMPurify.sanitize(text);
+    }
 
     return <span className={className} dangerouslySetInnerHTML={{ __html: renderedHtml }} />;
 }
