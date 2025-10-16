@@ -197,6 +197,21 @@
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback } = React;
 
+const DEFAULT_COLOR_SCHEME = {
+    background: 'bg-slate-800',
+    onBackgroundText: 'text-white',
+    accent: 'bg-sky-600',
+    accentHover: 'hover:bg-sky-700',
+    accentText: 'text-white',
+    navAnsweredBg: 'bg-emerald-500',
+    navAnsweredText: 'text-white',
+    navDefaultBg: 'bg-slate-200',
+    navDefaultText: 'text-slate-700',
+    optionSelectedBg: 'bg-sky-100',
+    optionSelectedBorder: 'border-sky-300',
+    optionHover: 'hover:bg-slate-100',
+};
+
 const SUBJECT_COLORS = {
     Science: {
         background: 'bg-red-600',
@@ -2661,6 +2676,12 @@ function App() {
             return;
         }
 
+        if (['simulation', 'graphing_tool', 'geometry_practice_tool'].includes(quizPayload.type)) {
+            setActiveQuiz({ ...quizPayload, subject });
+            setView(quizPayload.type);
+            return;
+        }
+
         const preparedQuiz = { ...quizPayload, subject };
         let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
 
@@ -2802,7 +2823,38 @@ function App() {
             case 'essay':
                 return <EssayGuide onExit={navigateHome} />;
             case 'simulation':
-                return <div className="text-center p-8"><h1 className="text-2xl font-bold">The Game of Life Simulation</h1><p className="my-4">This feature is coming soon!</p><button onClick={navigateHome} className="mt-4 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">Go Back</button></div>;
+                return (
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 text-white p-8 sm:p-10 text-center shadow-xl">
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.25),_transparent_55%)] pointer-events-none"></div>
+                        <div className="relative z-10 flex flex-col items-center gap-6">
+                            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white/20 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-9 h-9">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l3.5 3.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h1 className="text-3xl font-extrabold">The Game of Life Simulation</h1>
+                                <p className="mt-3 text-lg text-orange-50/90 max-w-xl">
+                                    We&apos;re polishing this interactive experience. Soon you&apos;ll be able to explore scenarios, make choices, and see how decisions impact real-world outcomes.
+                                </p>
+                            </div>
+                            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 max-w-2xl w-full text-left">
+                                <h2 className="text-sm uppercase tracking-wide text-orange-100/90">What to Expect</h2>
+                                <ul className="mt-2 space-y-1 text-base">
+                                    <li>• Dynamic, choice-driven practice scenarios</li>
+                                    <li>• Instant feedback with skill tips</li>
+                                    <li>• Progress tracking tailored to you</li>
+                                </ul>
+                            </div>
+                            <button
+                                onClick={navigateHome}
+                                className="px-6 py-2.5 rounded-full bg-white text-orange-600 font-semibold shadow-lg transition hover:shadow-xl hover:bg-orange-50"
+                            >
+                                Back to Dashboard
+                            </button>
+                        </div>
+                    </div>
+                );
             case 'graphing_tool':
                 return <GraphingTool onExit={navigateHome} />;
             case 'geometry_practice_tool':
