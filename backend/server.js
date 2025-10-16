@@ -57,25 +57,27 @@ const FALLBACK_TIMEOUT_MS = Number(process.env.FALLBACK_TIMEOUT_MS) || 35000;
 
 function delay(ms) { return new Promise((r) => setTimeout(r, ms)); }
 
-async function raceGeminiWithDelayedFallback({ runGemini, runChatGPT }) {
+async function raceGeminiWithDelayedFallback({ primaryFn, fallbackFn, primaryModelName = 'primary', fallbackModelName = 'fallback' }) {
     let resolved = false;
     let winner = null;
     let latencyMs = 0;
-    const fallbackConfigured = Boolean(process.env.OPENAI_API_KEY);
+    const fallbackConfigured = fallbackModelName === 'chatgpt'
+        ? Boolean(process.env.OPENAI_API_KEY)
+        : true;
 
-    const geminiPromise = timed('gemini:topic', runGemini)
+    const primaryPromise = timed(`${primaryModelName}:topic`, primaryFn)
         .then(({ data, ms }) => {
             if (!resolved) {
                 resolved = true;
-                winner = { model: 'gemini', data, ms };
+                winner = { model: primaryModelName, data, ms };
             }
         })
         .catch((err) => {
             if (!resolved) {
-                console.warn('[AI] Gemini error:', err?.message);
+                console.warn(`[AI] ${primaryModelName} error:`, err?.message);
                 if (!fallbackConfigured) {
                     resolved = true;
-                    winner = { model: 'gemini-error', error: err, ms: err?.elapsedMs ?? 0 };
+                    winner = { model: `${primaryModelName}-error`, error: err, ms: err?.elapsedMs ?? 0 };
                 }
             }
         });
@@ -85,14 +87,14 @@ async function raceGeminiWithDelayedFallback({ runGemini, runChatGPT }) {
         if (resolved) return;
         if (!fallbackConfigured) return;
         try {
-            const r = await timed('chatgpt:fallback', runChatGPT);
+            const r = await timed(`${fallbackModelName}:fallback`, fallbackFn);
             if (!resolved) {
                 resolved = true;
-                winner = { model: 'chatgpt', data: r.data, ms: r.ms };
+                winner = { model: fallbackModelName, data: r.data, ms: r.ms };
             }
         } catch (err) {
             if (!resolved) {
-                console.warn('[AI] ChatGPT fallback failed:', err?.message);
+                console.warn(`[AI] ${fallbackModelName} fallback failed:`, err?.message);
             }
         }
     })();
@@ -109,7 +111,7 @@ async function raceGeminiWithDelayedFallback({ runGemini, runChatGPT }) {
     }
 
     try {
-        await Promise.race([geminiPromise, fallbackStarter, hardCap]);
+        await Promise.race([primaryPromise, fallbackStarter, hardCap]);
     } catch (err) {
         console.warn('[AI] race drain error:', err?.message);
     }
@@ -988,32 +990,53 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
             || ((error, attempt) => console.warn(`[retry ${attempt}] ChatGPT fallback failed: ${error?.message || error}`))
     };
 
-    const { winner, latencyMs } = await raceGeminiWithDelayedFallback({
-        runGemini: async () => {
-            return await withRetry(
-                () => generationLimit(() => callGemini(geminiPayload)),
-                geminiOptions
-            );
-        },
-        runChatGPT: async () => {
-            return await withRetry(
-                () => {
-                    const controller = new AbortController();
-                    const timeout = setTimeout(() => controller.abort('fallback-timeout'), FALLBACK_TIMEOUT_MS);
-                    return generationLimit(() => callChatGPT(chatgptPayload, { signal: controller.signal }))
-                        .finally(() => clearTimeout(timeout));
-                },
-                fallbackOptions
-            );
-        }
-    });
+    const runGeminiFn = async () => {
+        return await withRetry(
+            () => generationLimit(() => callGemini(geminiPayload)),
+            geminiOptions
+        );
+    };
+
+    const runChatGptFn = async () => {
+        return await withRetry(
+            () => {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort('fallback-timeout'), FALLBACK_TIMEOUT_MS);
+                return generationLimit(() => callChatGPT(chatgptPayload, { signal: controller.signal }))
+                    .finally(() => clearTimeout(timeout));
+            },
+            fallbackOptions
+        );
+    };
+
+    let raceConfig;
+
+    if (subject === 'Math') {
+        console.log('[AI Strategy] Using OpenAI as primary for Math.');
+        raceConfig = {
+            primaryFn: runChatGptFn,
+            fallbackFn: runGeminiFn,
+            primaryModelName: 'chatgpt',
+            fallbackModelName: 'gemini'
+        };
+    } else {
+        console.log(`[AI Strategy] Using Gemini as primary for ${subject}.`);
+        raceConfig = {
+            primaryFn: runGeminiFn,
+            fallbackFn: runChatGptFn,
+            primaryModelName: 'gemini',
+            fallbackModelName: 'chatgpt'
+        };
+    }
+
+    const { winner, latencyMs } = await raceGeminiWithDelayedFallback(raceConfig);
 
     if (winner.model === 'timeout') {
         throw Object.assign(new Error('AI timed out'), { statusCode: 504, latencyMs: MODEL_HTTP_TIMEOUT_MS });
     }
 
-    if (winner.model === 'gemini-error') {
-        throw winner.error || new Error('Gemini failed before fallback could start.');
+    if (winner.model === `${raceConfig.primaryModelName}-error`) {
+        throw winner.error || new Error(`${raceConfig.primaryModelName} failed before fallback could start.`);
     }
 
     let items = null;
