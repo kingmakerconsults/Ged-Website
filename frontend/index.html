@@ -108,32 +108,14 @@
     </script>
 
     <style>
-        html, body {
-            height: 100%;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            position: relative;
-            background-color: #f1f5f9;
-        }
-        #root {
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            z-index: 1;
-        }
+        body { font-family: 'Inter', sans-serif; }
         body::before {
             content: "";
             position: fixed;
             inset: 0;
-            background-image: url('Logo.svg');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: min(165vmin, 120vw);
-            opacity: 0.06;
-            z-index: 0;
+            background: url('Logo.svg') center/90vmin no-repeat;
+            opacity: 0.12;
+            z-index: -1;
             pointer-events: none;
         }
         .quiz-nav::-webkit-scrollbar { height: 4px; }
@@ -2870,7 +2852,7 @@ function App() {
     };
 
     return (
-        <>
+        <div className="min-h-screen flex flex-col">
             <AppHeader currentUser={currentUser} onLogout={handleLogout} />
             {isLoading && (
                 <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50">
@@ -2886,7 +2868,7 @@ function App() {
                     {renderView()}
                 </div>
             </main>
-            <footer className="mt-auto w-full flex flex-col items-center gap-3 text-xs sm:text-sm text-slate-500 pb-6">
+            <footer className="w-full flex flex-col items-center gap-3 text-xs sm:text-sm text-slate-500 pb-6">
                 <img src="Logo.svg" alt="Kingmakerconsults logo" className="h-36 w-auto object-contain" />
                 <p>Kingmakerconsults Copyright pending</p>
             </footer>
