@@ -3346,20 +3346,25 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 
     // View 3: Topic Selection
     if (selectedSubject && selectedCategory) {
-        // This part remains the same
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
+        const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
         return (
-            <div className="fade-in">
-                <Breadcrumb />
-                <h2 className="text-3xl font-extrabold text-slate-800 mb-4">{selectedCategory}</h2>
+            <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'}`}>
+                <Breadcrumb variant="onColor" />
+                <h2 className="text-3xl font-extrabold text-white mb-4">{selectedCategory}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {topics.map(topic => (
-                         <div key={topic.id} className="border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1">
-                            <h3 className="text-xl font-bold text-slate-800">{topic.title}</h3>
-                            <p className="text-slate-500 text-sm my-2 flex-grow">{topic.description}</p>
+                        <div
+                            key={topic.id}
+                            className={`rounded-xl border ${subjectColors.surfaceBorder || 'border-white/40'} bg-white/95 text-slate-900 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl`}
+                        >
+                            <div>
+                                <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
+                                <p className="text-slate-600 text-sm my-3 flex-grow">{topic.description}</p>
+                            </div>
                             <button
                                 onClick={() => onSelectQuiz(topic, selectedSubject)}
-                                className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition"
+                                className={`w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition ${subjectColors.accent || DEFAULT_COLOR_SCHEME.accent} ${subjectColors.accentHover || DEFAULT_COLOR_SCHEME.accentHover} ${subjectColors.accentText || 'text-white'}`}
                             >
                                 {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}
                             </button>
@@ -3619,103 +3624,145 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
 
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
 
-    const subjectForRender = currentQ.subject || subject || 'Math';
+    const subjectForRender = currentQ.subject || subject || 'Default';
+    const colorScheme = SUBJECT_COLORS[subjectForRender] || DEFAULT_COLOR_SCHEME;
 
     return (
         <div className="fade-in">
-            {showTimer && (
-                <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b">
-                     {onExit && <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>}
-                     <h2 className="text-xl font-bold text-center text-slate-800 flex-1">{quizTitle}</h2>
-                     <div className="flex flex-col sm:items-end gap-2">
-                        <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-700'}`}>
-                            <span role="img" aria-label="timer">⏱️</span>
-                            <span>{formatTime(timeLeft)}</span>
-                            {isPaused && <span className="text-xs uppercase tracking-wide">Paused</span>}
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <button
-                                type="button"
-                                onClick={handlePauseToggle}
-                                disabled={!isPaused && pausesRemaining === 0}
-                                className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${isPaused ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-sky-600 text-white hover:bg-sky-700 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed'}`}
-                            >
-                                {isPaused ? 'Resume Timer' : 'Pause Timer'}
+            <div className={`rounded-2xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surface || 'bg-slate-50'} p-4 sm:p-6 shadow-lg`}> 
+                {showTimer && (
+                    <header className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b ${colorScheme.divider || 'border-slate-200'}`}>
+                        {onExit && (
+                            <button onClick={onExit} className={`flex items-center gap-1 text-sm font-semibold ${colorScheme.text || 'text-slate-600'} hover:underline`}>
+                                <ArrowLeftIcon /> Back
                             </button>
-                            <span className="text-xs text-slate-500">
-                                {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
-                            </span>
-                        </div>
-                     </div>
-                </header>
-            )}
-
-            <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
-                {questions.map((_, i) => (
-                    <button key={i} onClick={() => setCurrentIndex(i)} className={`w-8 h-8 rounded-full font-bold text-sm ${i === currentIndex ? 'bg-sky-600 text-white' : answers[i] ? 'bg-sky-200' : 'bg-slate-200'} ${marked[i] ? 'ring-2 ring-yellow-400' : ''}`}>
-                        {i + 1}
-                    </button>
-                ))}
-            </div>
-            
-            <div className="p-4 bg-slate-50 rounded-lg">
-                <div className="mb-4">
-                    <div className="flex items-start gap-3">
-                        <span className="text-xl font-semibold leading-relaxed">{currentQ.questionNumber}.</span>
-                        <Stem item={currentQ} />
-                    </div>
-                </div>
-                {currentQ.imageUrl && !currentQ.stimulusImage?.src && (
-                    <img
-                        src={currentQ.imageUrl}
-                        alt={`Visual for question ${currentQ.questionNumber}`}
-                        className="my-4 mx-auto rounded-md border max-w-full h-auto"
-                    />
-                )}
-                {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
-                    <div className="my-4 mx-auto max-w-md bg-white border rounded-md p-4 shadow-sm">
-                        <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
-                    </div>
-                )}
-
-                {isFillInTheBlank ? (
-                    <div>
-                        <label htmlFor="fill-in-blank-answer" className="block text-sm font-medium text-slate-700 mb-1">Enter your answer:</label>
-                        <input
-                            id="fill-in-blank-answer"
-                            type="text"
-                            value={answers[currentIndex] || ''}
-                            onChange={handleInputChange}
-                            placeholder="Type your answer here"
-                            className="w-full max-w-sm p-3 border border-slate-300 rounded-lg"
-                        />
-                    </div>
-                ) : (
-                    <div className="space-y-3">
-                        {(currentQ.answerOptions || []).map((opt, i) => {
-                            const cleanedOptionText = opt.text.trim().replace(/^\$\$/, '$');
-                            return (
-                                <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
-                                   <span className="flex-grow text-left">
-                                       <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={cleanedOptionText} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={subjectForRender} />
-                                    </span>
+                        )}
+                        <h2 className={`text-xl font-bold text-center flex-1 ${colorScheme.text || 'text-slate-800'}`}>{quizTitle}</h2>
+                        <div className="flex flex-col sm:items-end gap-2">
+                            <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? 'bg-red-100 text-red-700' : `${colorScheme.navDefaultBg || 'bg-slate-100'} ${colorScheme.navDefaultText || 'text-slate-700'}`}`}>
+                                <span role="img" aria-label="timer">⏱️</span>
+                                <span>{formatTime(timeLeft)}</span>
+                                {isPaused && <span className="text-xs uppercase tracking-wide">Paused</span>}
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    onClick={handlePauseToggle}
+                                    disabled={!isPaused && pausesRemaining === 0}
+                                    className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${isPaused ? 'bg-green-600 text-white hover:bg-green-700' : `${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} text-white ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover} disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed`}`}
+                                >
+                                    {isPaused ? 'Resume Timer' : 'Pause Timer'}
                                 </button>
-                            );
-                        })}
-                    </div>
+                                <span className="text-xs text-slate-500">
+                                    {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
+                                </span>
+                            </div>
+                        </div>
+                    </header>
                 )}
-            </div>
 
-            <div className="mt-6 flex justify-between">
-                <button onClick={() => setCurrentIndex(p => Math.max(0, p - 1))} disabled={currentIndex === 0} className="px-4 py-2 bg-slate-200 rounded-md disabled:opacity-50">Previous</button>
-                <button onClick={() => setMarked(m => { const newM = [...m]; newM[currentIndex] = !newM[currentIndex]; return newM; })} className={`px-4 py-2 rounded-md ${marked[currentIndex] ? 'bg-yellow-300' : 'bg-slate-200'}`}>
-                    {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
-                </button>
-                {currentIndex === questions.length - 1 ? (
-                    <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded-md">{buttonText || 'Finish'}</button>
-                ) : (
-                    <button onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))} className="px-4 py-2 bg-sky-500 text-white rounded-md">Next</button>
-                )}
+                <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
+                    {questions.map((_, i) => {
+                        const isActive = i === currentIndex;
+                        const isAnswered = Boolean(answers[i]);
+                        const navStateClass = isActive
+                            ? `${colorScheme.background || DEFAULT_COLOR_SCHEME.background} text-white`
+                            : isAnswered
+                                ? `${colorScheme.navAnsweredBg || DEFAULT_COLOR_SCHEME.navAnsweredBg} ${colorScheme.navAnsweredText || DEFAULT_COLOR_SCHEME.navAnsweredText}`
+                                : `${colorScheme.navDefaultBg || DEFAULT_COLOR_SCHEME.navDefaultBg} ${colorScheme.navDefaultText || DEFAULT_COLOR_SCHEME.navDefaultText}`;
+                        return (
+                            <button
+                                key={i}
+                                onClick={() => setCurrentIndex(i)}
+                                className={`w-8 h-8 rounded-full font-bold text-sm transition ${navStateClass} ${marked[i] ? 'ring-2 ring-yellow-400' : ''}`}
+                            >
+                                {i + 1}
+                            </button>
+                        );
+                    })}
+                </div>
+
+                <div className={`p-4 sm:p-6 rounded-xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surfaceStrong || colorScheme.surface || 'bg-slate-50'} shadow-inner`}> 
+                    <div className="mb-4">
+                        <div className="flex items-start gap-3">
+                            <span className={`text-xl font-semibold leading-relaxed ${colorScheme.text || 'text-slate-800'}`}>{currentQ.questionNumber}.</span>
+                            <Stem item={currentQ} />
+                        </div>
+                    </div>
+                    {currentQ.imageUrl && !currentQ.stimulusImage?.src && (
+                        <img
+                            src={currentQ.imageUrl}
+                            alt={`Visual for question ${currentQ.questionNumber}`}
+                            className="my-4 mx-auto rounded-md border max-w-full h-auto"
+                        />
+                    )}
+                    {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
+                        <div className="my-4 mx-auto max-w-md bg-white border rounded-md p-4 shadow-sm">
+                            <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
+                        </div>
+                    )}
+
+                    {isFillInTheBlank ? (
+                        <div>
+                            <label htmlFor="fill-in-blank-answer" className={`block text-sm font-medium mb-1 ${colorScheme.text || 'text-slate-700'}`}>Enter your answer:</label>
+                            <input
+                                id="fill-in-blank-answer"
+                                type="text"
+                                value={answers[currentIndex] || ''}
+                                onChange={handleInputChange}
+                                placeholder="Type your answer here"
+                                className={`w-full max-w-sm p-3 border rounded-lg focus:outline-none ${colorScheme.inputBorder || 'border-slate-300'} ${colorScheme.ring || 'focus:ring-sky-300 focus:border-sky-400'}`}
+                            />
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {(currentQ.answerOptions || []).map((opt, i) => {
+                                const cleanedOptionText = opt.text.trim().replace(/^\$\$/, '$');
+                                const isSelected = answers[currentIndex] === opt.text;
+                                const optionStateClass = isSelected
+                                    ? `${colorScheme.optionSelectedBg || DEFAULT_COLOR_SCHEME.optionSelectedBg} ${colorScheme.optionSelectedBorder || DEFAULT_COLOR_SCHEME.optionSelectedBorder}`
+                                    : `bg-white ${colorScheme.optionHover || DEFAULT_COLOR_SCHEME.optionHover} border-white`;
+                                return (
+                                    <button
+                                        key={i}
+                                        onClick={() => handleSelect(opt.text)}
+                                        className={`w-full text-left p-3 rounded-lg border-2 transition shadow-sm text-slate-800 ${optionStateClass}`}
+                                    >
+                                        <span className="flex-grow text-left">
+                                            <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
+                                            <MathText text={cleanedOptionText} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={subjectForRender} />
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
+
+                <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <button
+                        onClick={() => setCurrentIndex(p => Math.max(0, p - 1))}
+                        disabled={currentIndex === 0}
+                        className={`px-4 py-2 rounded-md font-semibold border bg-white ${colorScheme.surfaceBorder || 'border-slate-300'} text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition`}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        onClick={() => setMarked(m => { const newM = [...m]; newM[currentIndex] = !newM[currentIndex]; return newM; })}
+                        className={`px-4 py-2 rounded-md font-semibold transition ${marked[currentIndex] ? 'bg-yellow-300 text-slate-900' : `${colorScheme.navDefaultBg || 'bg-slate-200'} ${colorScheme.navDefaultText || 'text-slate-700'}`}`}
+                    >
+                        {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
+                    </button>
+                    {currentIndex === questions.length - 1 ? (
+                        <button onClick={handleSubmit} className={`px-4 py-2 rounded-md font-semibold text-white transition ${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover}`}>
+                            {buttonText || 'Finish'}
+                        </button>
+                    ) : (
+                        <button onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))} className={`px-4 py-2 rounded-md font-semibold text-white transition ${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover}`}>
+                            Next
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
