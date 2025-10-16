@@ -210,6 +210,10 @@ const DEFAULT_COLOR_SCHEME = {
     optionSelectedBg: 'bg-sky-100',
     optionSelectedBorder: 'border-sky-300',
     optionHover: 'hover:bg-slate-100',
+    scoreBackground: 'bg-slate-100',
+    scoreHoverBackground: 'hover:bg-slate-200',
+    scoreText: 'text-slate-800',
+    scoreBorder: 'border-slate-200',
 };
 
 const SUBJECT_COLORS = {
@@ -219,6 +223,10 @@ const SUBJECT_COLORS = {
         text: 'text-red-800',
         border: 'border-red-600',
         hoverBorder: 'hover:border-red-500',
+        scoreBackground: 'bg-red-50',
+        scoreHoverBackground: 'hover:bg-red-100',
+        scoreText: 'text-red-700',
+        scoreBorder: 'border-red-200',
     },
     'Social Studies': {
         background: 'bg-green-600',
@@ -226,6 +234,10 @@ const SUBJECT_COLORS = {
         text: 'text-green-800',
         border: 'border-green-600',
         hoverBorder: 'hover:border-green-500',
+        scoreBackground: 'bg-green-50',
+        scoreHoverBackground: 'hover:bg-green-100',
+        scoreText: 'text-green-700',
+        scoreBorder: 'border-green-200',
     },
     'Reasoning Through Language Arts (RLA)': {
         background: 'bg-purple-600',
@@ -233,6 +245,10 @@ const SUBJECT_COLORS = {
         text: 'text-purple-800',
         border: 'border-purple-600',
         hoverBorder: 'hover:border-purple-500',
+        scoreBackground: 'bg-purple-50',
+        scoreHoverBackground: 'hover:bg-purple-100',
+        scoreText: 'text-purple-700',
+        scoreBorder: 'border-purple-200',
     },
     Math: {
         background: 'bg-sky-600',
@@ -240,6 +256,21 @@ const SUBJECT_COLORS = {
         text: 'text-sky-800',
         border: 'border-sky-600',
         hoverBorder: 'hover:border-sky-500',
+        scoreBackground: 'bg-sky-50',
+        scoreHoverBackground: 'hover:bg-sky-100',
+        scoreText: 'text-sky-700',
+        scoreBorder: 'border-sky-200',
+    },
+    'Simulations': {
+        background: 'bg-orange-500',
+        hoverBackground: 'hover:bg-orange-600',
+        text: 'text-orange-800',
+        border: 'border-orange-500',
+        hoverBorder: 'hover:border-orange-400',
+        scoreBackground: 'bg-orange-50',
+        scoreHoverBackground: 'hover:bg-orange-100',
+        scoreText: 'text-orange-700',
+        scoreBorder: 'border-orange-200',
     },
 };
 
@@ -3228,27 +3259,34 @@ function ProgressDashboard({ progress, onSubjectClick }) {
 
     const totalQuizzes = Object.values(progress).reduce((acc, subject) => acc + (subject.total || 0), 0);
     const subjects = ["Social Studies", "Reasoning Through Language Arts (RLA)", "Science", "Math"];
-    const colors = {
-        "Social Studies": "text-sky-700",
-        "Reasoning Through Language Arts (RLA)": "text-amber-700",
-        "Science": "text-green-700",
-        "Math": "text-red-700"
+    const getScoreTheme = (subject) => SUBJECT_COLORS[subject] || {};
+    const getCardClasses = (subject) => {
+        const theme = getScoreTheme(subject);
+        const backgroundClass = theme.scoreBackground || DEFAULT_COLOR_SCHEME.scoreBackground;
+        const hoverClass = theme.scoreHoverBackground || DEFAULT_COLOR_SCHEME.scoreHoverBackground;
+        const borderClass = theme.scoreBorder || DEFAULT_COLOR_SCHEME.scoreBorder;
+        return `p-4 rounded-lg text-center shadow-inner border transition-colors duration-200 ${backgroundClass} ${hoverClass} ${borderClass}`;
     };
+    const getScoreTextClass = (subject) => {
+        const theme = getScoreTheme(subject);
+        return theme.scoreText || theme.text || DEFAULT_COLOR_SCHEME.scoreText;
+    };
+    const totalCardClasses = `p-4 rounded-lg text-center shadow-inner border ${DEFAULT_COLOR_SCHEME.scoreBorder} ${DEFAULT_COLOR_SCHEME.scoreBackground} sm:col-span-3 lg:col-span-1`;
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-            <div className="bg-slate-100 p-4 rounded-lg text-center shadow-inner sm:col-span-3 lg:col-span-1">
-                <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">Total Quizzes</p>
+            <div className={totalCardClasses}>
+                <p className="text-slate-600 text-sm font-semibold uppercase tracking-wider">Total Quizzes</p>
                 <p className="text-4xl font-bold text-slate-800">{totalQuizzes}</p>
             </div>
             {subjects.map(subject => (
                 <button
                     key={subject}
                     onClick={() => onSubjectClick(subject)}
-                    className="bg-slate-100 p-4 rounded-lg text-center shadow-inner hover:bg-slate-200 transition"
+                    className={getCardClasses(subject)}
                 >
-                    <p className="text-slate-500 text-sm font-semibold uppercase tracking-wider">{subject}</p>
-                    <p className={`text-4xl font-bold ${colors[subject]}`}>{calculateAverage(progress[subject]?.scores)}</p>
+                    <p className="text-slate-600 text-sm font-semibold uppercase tracking-wider">{subject}</p>
+                    <p className={`text-4xl font-bold ${getScoreTextClass(subject)}`}>{calculateAverage(progress[subject]?.scores)}</p>
                 </button>
             ))}
         </div>
