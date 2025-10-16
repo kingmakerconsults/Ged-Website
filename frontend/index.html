@@ -108,7 +108,34 @@
     </script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            position: relative;
+            background-color: #f1f5f9;
+        }
+        #root {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url('Logo.svg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: min(165vmin, 120vw);
+            opacity: 0.06;
+            z-index: 0;
+            pointer-events: none;
+        }
         .quiz-nav::-webkit-scrollbar { height: 4px; }
         .quiz-nav::-webkit-scrollbar-track { background: #f1f1f1; }
         .quiz-nav::-webkit-scrollbar-thumb { background: #888; border-radius: 2px; }
@@ -2854,12 +2881,15 @@ function App() {
             )}
             {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
             {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} />}
-            <main className="w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
+            <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
                 <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                     {renderView()}
                 </div>
             </main>
-            <footer className="w-full text-center text-xs sm:text-sm text-slate-500 pb-6">Zachary Smith Copyright Pending</footer>
+            <footer className="mt-auto w-full flex flex-col items-center gap-3 text-xs sm:text-sm text-slate-500 pb-6">
+                <img src="Logo.svg" alt="Kingmakerconsults logo" className="h-36 w-auto object-contain" />
+                <p>Kingmakerconsults Copyright pending</p>
+            </footer>
         </>
     );
 }
