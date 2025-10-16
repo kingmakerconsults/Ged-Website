@@ -1433,11 +1433,23 @@ const promptLibrary = {
 },
     "Math": {
         topic: (topic) => `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is perfectly formatted for KaTeX. This is a non-negotiable, critical requirement. Failure to format correctly will make the output unusable.
-- All fractions MUST be in the format '$\\frac{numerator}{denominator}$'.
-- All LaTeX expressions MUST be enclosed in single dollar signs '$'.
-- For example, 'five eighths' must be '$'\\frac{5}{8}'$'. 'x squared' must be '$x^2$'. There are no exceptions.
-        CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
-        CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
+
+MANDATORY FORMATTING RULES:
+1. **Fractions:** All fractions MUST be written as '$\\frac{numerator}{denominator}$'. For example, 'five eighths' must be '$\\frac{5}{8}$'.
+2. **Delimiters:** Enclose every LaTeX math expression in single dollar signs '$'.
+3. **Commands:** Always include the leading backslash on LaTeX commands (e.g., use '$\\frac{1}{2}$', not '$frac{1}{2}$').
+4. **Currency:** Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
+5. **Answer Options:** For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency answers, use a single dollar sign like $10.50.
+
+Examples of CORRECT Formatting to IMITATE:
+* '$\\frac{3}{4}$'
+* '$x^2$'
+* '$15.50'
+
+Examples of INCORRECT Formatting to AVOID:
+* '$1/2$' (Incorrect: Always use the \\frac{...} command for fractions).
+* '$$x^2$$' (Incorrect: Never use double dollar signs.)
+* '&#36;15.50$' (Incorrect: Do not wrap currency in math delimiters.)
 
 With those rules in mind, generate a 15-question GED-style Math quiz focused on "${topic}".
 STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.`,
@@ -2517,11 +2529,19 @@ async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
     }
 
 async function reviewAndCorrectMathQuestion(questionObject, options = {}) {
-    const prompt = `You are an expert GED math editor. Review the following JSON question object. Your ONLY job is to fix formatting. **Aggressively correct all KaTeX syntax errors.** For example, FIX \`\\rac{...}\` to \`\\frac{...}\`. Ensure all math expressions are properly enclosed in single dollar signs '$' with correct spacing around them. **Simplify any HTML tables** by removing ALL inline CSS (e.g., \`style="..."\`). Return only the corrected, valid JSON object.
+    const prompt = `You are an expert GED math editor. Your ONLY job is to fix formatting in the following JSON object. **Aggressively correct all syntax errors.**
+**CRITICAL RULES:**
+1.  **FIX FRACTIONS:** Convert all slash fractions (e.g., \`$1/2$\`) to use the \`\\frac\` command (e.g., \`$\\frac{1}{2}$\`).
+2.  **FIX LATEX:** Ensure all LaTeX commands have a leading backslash (e.g., \`frac\` becomes \`\\frac\`).
+3.  **FIX DELIMITERS:** Ensure all math expressions are properly enclosed in single dollar signs '$'.
+4.  **FIX ANSWERS:** Remove any \`$$\` prefixes from the 'text' field in 'answerOptions'. Currency in answers should be a single '$', like '$15.50'.
+5.  **FIX HTML:** Simplify any HTML tables by removing ALL inline CSS (e.g., \`style="..."\`).
 
-    Faulty JSON:
-    ${JSON.stringify(questionObject)}
-    `;
+Return only the corrected, valid JSON object, preserving all other fields and values.
+
+Faulty JSON:
+${JSON.stringify(questionObject)}
+`;
 
     // CORRECTED SCHEMA
     const schema = {
