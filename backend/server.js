@@ -166,7 +166,7 @@ const {
     SANITIZER_FEATURE_ENABLED,
     DEFAULT_MAX_DECIMALS
 } = require('./utils/geometryJson');
-const { normalizeLatex } = require('./utils/normalizeLatex');
+const normalizeLatex = (text) => text;
 const { fetchApproved } = require('./src/fetch/fetcher');
 const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
 const { adminPreviewBypass } = require('./src/middleware/adminBypass');
@@ -922,6 +922,8 @@ Create ONE flat JSON array with ${NON_CALC_COUNT + GEOMETRY_COUNT + ALGEBRA_COUN
 - Non-calculator: ${NON_CALC_COUNT}
 - Geometry/measurement (describe visuals in text; no images): ${GEOMETRY_COUNT}
 - Algebra/functions/data (describe any graph/table in text): ${ALGEBRA_COUNT}
+CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$.
+For currency, use a single dollar sign like $10.50.
 Do NOT include section labels or headings.`;
 }
 
@@ -1412,13 +1414,15 @@ const promptLibrary = {
 - All LaTeX expressions MUST be enclosed in single dollar signs '$'.
 - For example, 'five eighths' must be '$'\\frac{5}{8}'$'. 'x squared' must be '$x^2$'. There are no exceptions.
         CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
+        CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
 
 With those rules in mind, generate a 15-question GED-style Math quiz focused on "${topic}".
 STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.`,
         comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
         STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.
         IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate. This is a non-negotiable requirement.
-        CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.`
+        CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
+        CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.`
     }
 };
 
@@ -2102,6 +2106,7 @@ const generateStandaloneQuestion = async (subject, topic, options = {}) => {
         DO NOT generate a reading passage or a reading comprehension question (e.g., "What is the main idea...").
         IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.
         CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
+        CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
         Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
     } else {
         prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
@@ -2301,6 +2306,7 @@ async function generateNonCalculatorQuestion(options = {}) {
     The question must be solvable without a calculator, focusing on concepts like number properties, estimation, or basic arithmetic with integers, fractions, and decimals.
     CRITICAL: Do NOT generate a question that requires complex calculations.
     IMPORTANT: For all mathematical expressions, including fractions and exponents, you MUST use KaTeX-compatible LaTeX syntax enclosed in single dollar signs (e.g., '$\\frac{5}{8}$', '$x^2$').
+    CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
     Output a single valid JSON object for the question.`;
     const schema = {
         type: "OBJECT",
@@ -2323,6 +2329,7 @@ async function generateDataQuestion(options = {}) {
     SECOND, write a question that requires interpreting that table to find the mean, median, mode, or range.
     The question text MUST reference the HTML table.
     IMPORTANT: For all mathematical expressions, use KaTeX-compatible LaTeX syntax enclosed in single dollar signs.
+    CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
     Output a single valid JSON object containing the 'questionText' (which INCLUDES the HTML table) and 'answerOptions'.`;
 
     const schema = {
@@ -2348,6 +2355,7 @@ async function generateGraphingQuestion(options = {}) {
     - Interpreting a graph to identify relationships between variables, find specific points, or determine intercepts.
     You can optionally reference one of the curated graph images if the context fits.
     IMPORTANT: Use KaTeX-compatible LaTeX for all mathematical notation (e.g., '$f(x)$', '$x^2$').
+    CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
     Output a single valid JSON object for the question.`;
     const schema = {
         type: "OBJECT",
@@ -2370,6 +2378,7 @@ async function generateMath_FillInTheBlank(options = {}) {
 
 With those rules in mind, generate a single, high-quality, GED-style math question (from any topic area) that requires a single numerical or simple fractional answer (e.g., 25, -10, 5/8).
 CRITICAL: The question MUST NOT have multiple-choice options. The answer should be a number that the user would type into a box.
+CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
 Output a single valid JSON object with three keys:
 1. "type": a string with the value "fill-in-the-blank".
 2. "questionText": a string containing the full question.
