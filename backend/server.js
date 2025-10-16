@@ -1351,6 +1351,8 @@ async function retrieveSnippets(subject, topic) {
     return out;
 }
 
+// START: New Helper Functions for Variety Pack Generation
+
 function buildTopicPrompt_VarietyPack(subject, topic, n = 12, ctx = [], imgs = []) {
     const contextJSON = JSON.stringify(ctx.map(c => ({
         url: c.url, title: c.title, text: c.text, table: c.table || null
@@ -1521,94 +1523,95 @@ app.post('/define-word', async (req, res) => {
 });
 
 
+// =================================================================
+// REPLACED ROUTE: This now uses the "Variety Pack" logic.
+// =================================================================
 app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
     const rawSubject = req.params.subject;
     const subject = normalizeSubjectParam(rawSubject);
     const { topic, difficulty } = req.body || {};
+    const QUIZ_COUNT = 12;
 
     if (!subject) {
-        return res.status(400).json({ error: 'Invalid subject' });
+        return res.status(400).json({ success: false, error: 'Invalid subject' });
     }
-
     if (!topic || typeof topic !== 'string') {
-        return res.status(400).json({ error: 'Missing topic' });
+        return res.status(400).json({ success: false, error: 'Missing or invalid topic' });
     }
 
     try {
-        const answerOptionSchema = {
-            type: "OBJECT",
-            properties: {
-                text: { type: "STRING" },
-                isCorrect: { type: "BOOLEAN" }
-            },
-            required: ["text", "isCorrect"]
-        };
+        console.log(`[Variety Pack] Starting generation for Subject: ${subject}, Topic: ${topic}`);
 
-        const questionSchema = {
-            type: "OBJECT",
-            properties: {
-                questionText: { type: "STRING" },
-                answerOptions: {
-                    type: "ARRAY",
-                    minItems: 4,
-                    maxItems: 4,
-                    items: answerOptionSchema
-                }
-            },
-            required: ["questionText", "answerOptions"]
-        };
+        // 1. Retrieve web context for relevant subjects
+        const subjectNeedsRetrieval = ['Science', 'Social Studies', 'RLA', 'Reasoning Through Language Arts (RLA)'].includes(subject);
+        const ctx = subjectNeedsRetrieval ? await retrieveSnippets(subject, topic) : [];
+        console.log(`[Variety Pack] Retrieved ${ctx.length} context snippets.`);
 
-        const schema = {
-            type: "ARRAY",
-            minItems: 12,
-            maxItems: 12,
-            items: questionSchema
-        };
+        // 2. Find relevant images for Science and Social Studies only
+        const subjectNeedsImages = ['Science', 'Social Studies'].includes(subject);
+        const imgs = subjectNeedsImages ? findImagesForSubjectTopic(subject, topic, 6) : [];
+        console.log(`[Variety Pack] Found ${imgs.length} candidate images.`);
 
-        const difficultyLine = difficulty && typeof difficulty === 'string'
-            ? `Focus the rigor at a ${difficulty.trim()} level.`
-            : '';
+        // 3. Build the "Variety Pack" prompt
+        const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
 
-        const prompt = [
-            `You are an expert GED exam writer creating topic practice questions.`,
-            `Create exactly 12 multiple-choice questions for the ${subject} section on the topic "${topic}".`,
-            `Each question must have four answer options with exactly one correct answer (set isCorrect to true for the correct option and false for the others).`,
-            `Use authentic GED style and difficulty, write clear adult-learner friendly language, and ensure every question is solvable without external materials.`,
-            `For math expressions or symbols, format them using KaTeX-compatible LaTeX surrounded by single dollar signs.`,
-            `Avoid passages or images unless explicitly required by the subject.`,
-            difficultyLine,
-            `Return only the JSON array that matches the provided schema.`
-        ]
-            .filter(Boolean)
-            .join('\n\n');
+        // 4. Call the AI with fallback logic
+        const { items: generatedItems, model: winnerModel, latencyMs } = await generateWithGemini_OneCall(subject, prompt)
+            .then(items => ({ items, model: 'gemini', latencyMs: 0 })) // Simplified for clarity
+            .catch(async (geminiErr) => {
+                console.warn(`[Variety Pack] Gemini call failed: ${geminiErr.message}. Attempting ChatGPT fallback.`);
+                const items = await generateWithChatGPT_Fallback(subject, prompt);
+                return { items, model: 'chatgpt-fallback', latencyMs: 0 };
+            });
 
-        const { data: generatedItems, ms: latencyMs } = await timed('gemini:topic-json', () => callAI(prompt, schema));
+        console.log(`[Variety Pack] Received ${generatedItems.length} items from AI model: ${winnerModel}.`);
+        
+        // 5. Post-processing and validation
+        let items = generatedItems.map((it) => enforceWordCapsOnItem(it, subject));
+        items = items.map(tagMissingItemType).map(tagMissingDifficulty);
 
-        if (!Array.isArray(generatedItems)) {
-            throw new Error('Model returned an invalid response format.');
+        const bad = [];
+        items.forEach((it, i) => { if (hasSchemaIssues(it)) bad.push(i); });
+
+        if (bad.length) {
+            console.log(`[Variety Pack] Repairing ${bad.length} items with schema issues...`);
+            const toFix = bad.map(i => items[i]);
+            const fixedSubset = await repairBatchWithChatGPT_once(toFix);
+            if (Array.isArray(fixedSubset)) {
+                fixedSubset.forEach((f, j) => {
+                    const originalIndex = bad[j];
+                    items[originalIndex] = enforceWordCapsOnItem(f, subject);
+                });
+                items = items.map(tagMissingItemType).map(tagMissingDifficulty); // Re-tag after repair
+            }
         }
 
-        const cleaned = generatedItems.map((item) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(item)), subject));
+        // 6. Enforce mix, dedupe, and shuffle
+        items = enforceVarietyMix(items, { passage: 4, image: 3, standalone: 5 });
+        items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
+        items = dedupeNearDuplicates(items, 0.85);
+        items = groupedShuffle(items);
+        
+        // 7. Final cleanup and response
+        const finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...normalizeStimulusAndSource(item), questionNumber: idx + 1 }));
 
-        const items = cleaned
-            .slice(0, 12)
-            .map((item) => normalizeStimulusAndSource(item))
-            .map((item, index) => ({ ...item, questionNumber: item.questionNumber ?? index + 1 }));
+        console.log(`[Variety Pack] Successfully generated and processed ${finalItems.length} questions.`);
 
-        res.set('X-Model', 'gemini-2.5-flash');
+        res.set('X-Model', winnerModel || 'unknown');
         res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
-        res.json({ success: true, subject, topic, difficulty: difficulty || null, items, model: 'gemini-2.5-flash', latencyMs: latencyMs ?? 0 });
+        res.json({
+            success: true,
+            subject,
+            topic,
+            items: finalItems,
+            model: winnerModel || 'unknown',
+            latencyMs: latencyMs ?? 0
+        });
+
     } catch (err) {
-        console.error('Topic quiz generation failed:', err?.message || err);
-        const status = err?.statusCode === 504 ? 504 : 500;
-        const body = err?.statusCode === 504
-            ? { error: 'AI timed out', model: 'timeout', latencyMs: err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS }
-            : { error: err?.message || 'Failed to generate topic quiz.' };
-        if (status === 504) {
-            res.set('X-Model', 'timeout');
-            res.set('X-Model-Latency-Ms', String(err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS));
-        }
-        res.status(status).json(body);
+        console.error('[Variety Pack] Generation failed:', err);
+        const status = err?.statusCode || 500;
+        res.status(status).json({ success: false, error: err.message || 'Failed to generate topic quiz.' });
     }
 });
 
@@ -1787,6 +1790,7 @@ function dedupeNearDuplicates(items, threshold=0.85){
     }
     return kept.slice(0, 12);
 }
+// END: New Helper Functions
 
 const singleQuestionSchema = {
     type: "OBJECT",
