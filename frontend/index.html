@@ -197,6 +197,154 @@
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback } = React;
 
+const SUBJECT_COLORS = {
+    Science: {
+        background: 'bg-red-600',
+        hoverBackground: 'hover:bg-red-700',
+        text: 'text-red-800',
+        border: 'border-red-600',
+        hoverBorder: 'hover:border-red-500',
+        surface: 'bg-red-50',
+        surfaceStrong: 'bg-red-100',
+        surfaceBorder: 'border-red-200',
+        divider: 'border-red-200',
+        accent: 'bg-red-600',
+        accentHover: 'hover:bg-red-700',
+        accentText: 'text-white',
+        onBackgroundText: 'text-white',
+        navDefaultBg: 'bg-red-100',
+        navDefaultText: 'text-red-800',
+        navAnsweredBg: 'bg-red-200',
+        navAnsweredText: 'text-red-900',
+        optionHover: 'hover:bg-red-50',
+        optionSelectedBg: 'bg-red-100',
+        optionSelectedBorder: 'border-red-500',
+        ring: 'focus:ring-red-300 focus:border-red-400',
+        inputBorder: 'border-red-300',
+    },
+    'Social Studies': {
+        background: 'bg-green-600',
+        hoverBackground: 'hover:bg-green-700',
+        text: 'text-green-800',
+        border: 'border-green-600',
+        hoverBorder: 'hover:border-green-500',
+        surface: 'bg-green-50',
+        surfaceStrong: 'bg-green-100',
+        surfaceBorder: 'border-green-200',
+        divider: 'border-green-200',
+        accent: 'bg-green-600',
+        accentHover: 'hover:bg-green-700',
+        accentText: 'text-white',
+        onBackgroundText: 'text-white',
+        navDefaultBg: 'bg-green-100',
+        navDefaultText: 'text-green-800',
+        navAnsweredBg: 'bg-green-200',
+        navAnsweredText: 'text-green-900',
+        optionHover: 'hover:bg-green-50',
+        optionSelectedBg: 'bg-green-100',
+        optionSelectedBorder: 'border-green-500',
+        ring: 'focus:ring-green-300 focus:border-green-400',
+        inputBorder: 'border-green-300',
+    },
+    'Reasoning Through Language Arts (RLA)': {
+        background: 'bg-purple-600',
+        hoverBackground: 'hover:bg-purple-700',
+        text: 'text-purple-800',
+        border: 'border-purple-600',
+        hoverBorder: 'hover:border-purple-500',
+        surface: 'bg-purple-50',
+        surfaceStrong: 'bg-purple-100',
+        surfaceBorder: 'border-purple-200',
+        divider: 'border-purple-200',
+        accent: 'bg-purple-600',
+        accentHover: 'hover:bg-purple-700',
+        accentText: 'text-white',
+        onBackgroundText: 'text-white',
+        navDefaultBg: 'bg-purple-100',
+        navDefaultText: 'text-purple-800',
+        navAnsweredBg: 'bg-purple-200',
+        navAnsweredText: 'text-purple-900',
+        optionHover: 'hover:bg-purple-50',
+        optionSelectedBg: 'bg-purple-100',
+        optionSelectedBorder: 'border-purple-500',
+        ring: 'focus:ring-purple-300 focus:border-purple-400',
+        inputBorder: 'border-purple-300',
+    },
+    Math: {
+        background: 'bg-sky-600',
+        hoverBackground: 'hover:bg-sky-700',
+        text: 'text-sky-800',
+        border: 'border-sky-600',
+        hoverBorder: 'hover:border-sky-500',
+        surface: 'bg-sky-50',
+        surfaceStrong: 'bg-sky-100',
+        surfaceBorder: 'border-sky-200',
+        divider: 'border-sky-200',
+        accent: 'bg-sky-600',
+        accentHover: 'hover:bg-sky-700',
+        accentText: 'text-white',
+        onBackgroundText: 'text-white',
+        navDefaultBg: 'bg-sky-100',
+        navDefaultText: 'text-sky-800',
+        navAnsweredBg: 'bg-sky-200',
+        navAnsweredText: 'text-sky-900',
+        optionHover: 'hover:bg-sky-50',
+        optionSelectedBg: 'bg-sky-100',
+        optionSelectedBorder: 'border-sky-500',
+        ring: 'focus:ring-sky-300 focus:border-sky-400',
+        inputBorder: 'border-sky-300',
+    },
+    Simulations: {
+        background: 'bg-orange-500',
+        hoverBackground: 'hover:bg-orange-600',
+        text: 'text-orange-800',
+        border: 'border-orange-500',
+        hoverBorder: 'hover:border-orange-400',
+        surface: 'bg-orange-50',
+        surfaceStrong: 'bg-orange-100',
+        surfaceBorder: 'border-orange-200',
+        divider: 'border-orange-200',
+        accent: 'bg-orange-500',
+        accentHover: 'hover:bg-orange-600',
+        accentText: 'text-white',
+        onBackgroundText: 'text-white',
+        navDefaultBg: 'bg-orange-100',
+        navDefaultText: 'text-orange-800',
+        navAnsweredBg: 'bg-orange-200',
+        navAnsweredText: 'text-orange-900',
+        optionHover: 'hover:bg-orange-50',
+        optionSelectedBg: 'bg-orange-100',
+        optionSelectedBorder: 'border-orange-500',
+        ring: 'focus:ring-orange-300 focus:border-orange-400',
+        inputBorder: 'border-orange-300',
+    },
+};
+
+const DEFAULT_COLOR_SCHEME = {
+    background: 'bg-sky-600',
+    hoverBackground: 'hover:bg-sky-700',
+    text: 'text-sky-800',
+    border: 'border-sky-600',
+    hoverBorder: 'hover:border-sky-500',
+    surface: 'bg-sky-50',
+    surfaceStrong: 'bg-sky-100',
+    surfaceBorder: 'border-sky-200',
+    divider: 'border-sky-200',
+    accent: 'bg-sky-600',
+    accentHover: 'hover:bg-sky-700',
+    accentText: 'text-white',
+    onBackgroundText: 'text-white',
+    navDefaultBg: 'bg-sky-100',
+    navDefaultText: 'text-sky-800',
+    navAnsweredBg: 'bg-sky-200',
+    navAnsweredText: 'text-sky-900',
+    optionHover: 'hover:bg-sky-50',
+    optionSelectedBg: 'bg-sky-100',
+    optionSelectedBorder: 'border-sky-500',
+    ring: 'focus:ring-sky-300 focus:border-sky-400',
+    inputBorder: 'border-sky-300',
+};
+
 class ErrorBoundary extends React.Component {
     constructor(props) {
         super(props);
@@ -2770,8 +2918,23 @@ function App() {
                  return <ReadingPractice quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />;
             case 'essay':
                 return <EssayGuide onExit={navigateHome} />;
-            case 'simulation':
-                return <div className="text-center p-8"><h1 className="text-2xl font-bold">The Game of Life Simulation</h1><p className="my-4">This feature is coming soon!</p><button onClick={navigateHome} className="mt-4 px-4 py-2 bg-sky-500 text-white rounded">Go Back</button></div>;
+            case 'simulation': {
+                const simulationColors = SUBJECT_COLORS['Simulations'] || DEFAULT_COLOR_SCHEME;
+                return (
+                    <div className="fade-in">
+                        <div className={`text-center rounded-2xl -m-4 sm:-m-6 md:-m-8 p-6 sm:p-10 ${simulationColors.background || 'bg-orange-500'} ${simulationColors.onBackgroundText || 'text-white'} shadow-xl`}>
+                            <h1 className="text-3xl font-extrabold mb-3">The Game of Life Simulation</h1>
+                            <p className="text-lg mb-6 text-white/90">This interactive experience is coming soon. Stay tuned!</p>
+                            <button
+                                onClick={navigateHome}
+                                className={`mt-2 px-6 py-3 rounded-lg font-semibold shadow ${simulationColors.accent || 'bg-orange-500'} ${simulationColors.accentHover || 'hover:bg-orange-600'} ${simulationColors.accentText || 'text-white'}`}
+                            >
+                                Go Back
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
             case 'graphing_tool':
                 return <GraphingTool onExit={navigateHome} />;
             case 'geometry_practice_tool':
@@ -2855,7 +3018,7 @@ function App() {
                 </main>
                 <footer className="w-full flex flex-col items-center gap-3 text-xs sm:text-sm text-slate-500 pb-6">
                     <img src="Logo.svg" alt="Kingmakerconsults logo" className="h-40 w-auto object-contain" />
-                    <p>Kingmakerconsults Copyright pending</p>
+                    <p>Kingmakerconsults Copyright © pending</p>
                 </footer>
             </div>
         </>
@@ -3286,34 +3449,54 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
         ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
         : [];
 
-    const Breadcrumb = () => (
-        <div className="mb-4 text-lg font-semibold text-slate-600 flex items-center gap-2">
-            <button onClick={handleBack} className="flex items-center gap-1 text-sky-600 hover:underline">
-                <ArrowLeftIcon />
-                Back
-            </button>
-            <span>/</span>
-            <span>{selectedSubject}</span>
-            {selectedCategory && <><span>/</span><span className="text-slate-800">{selectedCategory}</span></>}
-        </div>
-    );
+    const Breadcrumb = ({ variant = 'default' } = {}) => {
+        const isOnColor = variant === 'onColor';
+        const containerClass = isOnColor
+            ? 'text-white'
+            : 'text-slate-600';
+        const buttonClass = isOnColor
+            ? 'text-white hover:text-slate-200'
+            : 'text-sky-600 hover:underline';
+
+        return (
+            <div className={`mb-4 text-lg font-semibold flex items-center gap-2 ${containerClass}`}>
+                <button onClick={handleBack} className={`flex items-center gap-1 ${buttonClass}`}>
+                    <ArrowLeftIcon />
+                    Back
+                </button>
+                <span>/</span>
+                <span>{selectedSubject}</span>
+                {selectedCategory && (
+                    <>
+                        <span>/</span>
+                        <span className={isOnColor ? 'text-white' : 'text-slate-800'}>{selectedCategory}</span>
+                    </>
+                )}
+            </div>
+        );
+    };
 
     // View 3: Topic Selection
     if (selectedSubject && selectedCategory) {
-        // This part remains the same
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
+        const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
         return (
-            <div className="fade-in">
-                <Breadcrumb />
-                <h2 className="text-3xl font-extrabold text-slate-800 mb-4">{selectedCategory}</h2>
+            <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'}`}>
+                <Breadcrumb variant="onColor" />
+                <h2 className="text-3xl font-extrabold text-white mb-4">{selectedCategory}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {topics.map(topic => (
-                         <div key={topic.id} className="border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1">
-                            <h3 className="text-xl font-bold text-slate-800">{topic.title}</h3>
-                            <p className="text-slate-500 text-sm my-2 flex-grow">{topic.description}</p>
+                        <div
+                            key={topic.id}
+                            className={`rounded-xl border ${subjectColors.surfaceBorder || 'border-white/40'} bg-white/95 text-slate-900 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl`}
+                        >
+                            <div>
+                                <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
+                                <p className="text-slate-600 text-sm my-3 flex-grow">{topic.description}</p>
+                            </div>
                             <button
                                 onClick={() => onSelectQuiz(topic, selectedSubject)}
-                                className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition"
+                                className={`w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition ${subjectColors.accent || DEFAULT_COLOR_SCHEME.accent} ${subjectColors.accentHover || DEFAULT_COLOR_SCHEME.accentHover} ${subjectColors.accentText || 'text-white'}`}
                             >
                                 {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}
                             </button>
@@ -3327,63 +3510,72 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
     // View 2: Category Selection (with updated "Smith a Quiz" box)
     if (selectedSubject) {
         const subject = AppData[selectedSubject];
+        const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
         return (
-            <div className="fade-in">
-                <Breadcrumb />
+            <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'}`}>
+                <Breadcrumb variant="onColor" />
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-3xl font-extrabold text-slate-800">{selectedSubject}</h2>
+                    <h2 className="text-3xl font-extrabold text-white">{selectedSubject}</h2>
                     {selectedSubject === 'Math' && (
-                        <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700">
+                        <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
                             Formula Sheet
                         </button>
                     )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {Object.entries(subject.categories).map(([categoryName, category]) => (
-                        <button key={categoryName} onClick={() => handleSelectCategory(categoryName)} className="text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:border-sky-300 hover:-translate-y-1">
-                            <h3 className="text-xl font-bold text-slate-800">{categoryName}</h3>
-                            <p className="text-slate-500 text-sm my-2 flex-grow">{category.description}</p>
+                        <button
+                            key={categoryName}
+                            onClick={() => handleSelectCategory(categoryName)}
+                            className={`text-left rounded-xl p-4 flex flex-col justify-between bg-white/95 text-slate-800 transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 border ${subjectColors.surfaceBorder || 'border-slate-200'} ${subjectColors.hoverBorder || ''}`}
+                        >
+                            <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{categoryName}</h3>
+                            <p className="text-slate-600 text-sm my-2 flex-grow">{category.description}</p>
                         </button>
                     ))}
-                     { (selectedSubject === "Social Studies" || selectedSubject === "Reasoning Through Language Arts (RLA)" || selectedSubject === "Science" || selectedSubject === "Math") && (
+                    {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                         <>
                             {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
-                            <div className="border-2 border-dashed border-sky-400 rounded-lg p-4 flex flex-col justify-between bg-sky-50 hover:shadow-lg hover:border-sky-500 transition-all">
-                               <div>
-                                   <div className="flex items-center justify-center gap-2">
-                                       <SparklesIcon className="h-8 w-8 text-sky-500" />
-                                       <h3 className="text-xl font-bold text-sky-800">Smith a Quiz</h3>
-                                   </div>
-                                   <p className="text-sky-600 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
-                                   <select
-                                        value={aiQuizTopic}
-                                        onChange={(e) => setAiQuizTopic(e.target.value)}
-                                        className="w-full p-2 border border-sky-300 rounded-md mb-2 text-base"
-                                    >
-                                        <option value="">-- Select a Topic --</option>
-                                        {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
-                                    </select>
-                               </div>
-                               <button
+                            <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
+                                <div>
+                                    <div className="flex items-center justify-center gap-2">
+                                        <SparklesIcon className="h-8 w-8 text-white" />
+                                        <h3 className="text-xl font-bold text-white">Smith a Quiz</h3>
+                                    </div>
+                                    <p className="text-white/80 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
+                                    <div className="mt-2">
+                                        <label className="block text-white font-semibold mb-1" htmlFor="ai-quiz-topic">Choose a topic</label>
+                                        <select
+                                            id="ai-quiz-topic"
+                                            value={aiQuizTopic}
+                                            onChange={(e) => setAiQuizTopic(e.target.value)}
+                                            className="w-full px-3 py-2 border border-white/70 bg-white/90 text-slate-800 rounded-md focus:outline-none focus:ring-2 focus:ring-white/70"
+                                        >
+                                            <option value="">Select a topic</option>
+                                            {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+                                <button
                                     onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
                                     disabled={!aiQuizTopic}
-                                    className="w-full mt-2 px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition disabled:bg-slate-400 disabled:cursor-not-allowed"
+                                    className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/50 disabled:text-white/70 disabled:cursor-not-allowed"
                                 >
                                     Generate Quiz
-                               </button>
+                                </button>
                             </div>
                             {/* --- END OF UPDATED BOX --- */}
 
-                             <div className="border-2 border-dashed border-purple-400 rounded-lg p-4 flex flex-col justify-center items-center bg-purple-50 hover:shadow-lg hover:border-purple-500 transition-all md:col-span-2 lg:col-span-1">
-                               <SparklesIcon className="h-8 w-8 text-purple-500" />
-                               <h3 className="text-xl font-bold text-purple-800 mt-2">Comprehensive Exam</h3>
-                               <p className="text-purple-600 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
-                               <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 transition">
+                            <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-center items-center bg-white/10 hover:shadow-lg hover:border-white transition-all md:col-span-2 lg:col-span-1">
+                                <SparklesIcon className="h-8 w-8 text-white" />
+                                <h3 className="text-xl font-bold text-white mt-2">Comprehensive Exam</h3>
+                                <p className="text-white/80 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
+                                <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition">
                                     Start Comprehensive Exam
-                               </button>
+                                </button>
                             </div>
                         </>
-                     )}
+                    )}
                 </div>
             </div>
         );
@@ -3419,10 +3611,15 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {Object.entries(AppData).map(([subjectName, subject]) => {
                     const IconComponent = ICONS[subject.icon];
+                    const colorScheme = SUBJECT_COLORS[subjectName] || DEFAULT_COLOR_SCHEME;
                     return (
-                        <button key={subjectName} onClick={() => handleSelectSubject(subjectName)} className="group text-center p-6 bg-white rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-                            <IconComponent className="h-16 w-16 mx-auto text-sky-500 group-hover:text-sky-600 transition-colors" />
-                            <h2 className="text-2xl font-bold text-slate-800 mt-4">{subjectName}</h2>
+                        <button
+                            key={subjectName}
+                            onClick={() => handleSelectSubject(subjectName)}
+                            className={`group text-center p-6 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 ${colorScheme.background || 'bg-sky-600'} ${colorScheme.hoverBackground || 'hover:bg-sky-700'} ${colorScheme.border || 'border-sky-600'}`}
+                        >
+                            <IconComponent className="h-16 w-16 mx-auto text-white" />
+                            <h2 className="text-2xl font-bold text-white mt-4">{subjectName}</h2>
                         </button>
                     );
                 })}
@@ -3559,103 +3756,145 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
 
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
 
-    const subjectForRender = currentQ.subject || subject || 'Math';
+    const subjectForRender = currentQ.subject || subject || 'Default';
+    const colorScheme = SUBJECT_COLORS[subjectForRender] || DEFAULT_COLOR_SCHEME;
 
     return (
         <div className="fade-in">
-            {showTimer && (
-                <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b">
-                     {onExit && <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>}
-                     <h2 className="text-xl font-bold text-center text-slate-800 flex-1">{quizTitle}</h2>
-                     <div className="flex flex-col sm:items-end gap-2">
-                        <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-700'}`}>
-                            <span role="img" aria-label="timer">⏱️</span>
-                            <span>{formatTime(timeLeft)}</span>
-                            {isPaused && <span className="text-xs uppercase tracking-wide">Paused</span>}
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <button
-                                type="button"
-                                onClick={handlePauseToggle}
-                                disabled={!isPaused && pausesRemaining === 0}
-                                className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${isPaused ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-sky-600 text-white hover:bg-sky-700 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed'}`}
-                            >
-                                {isPaused ? 'Resume Timer' : 'Pause Timer'}
+            <div className={`rounded-2xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surface || 'bg-slate-50'} p-4 sm:p-6 shadow-lg`}> 
+                {showTimer && (
+                    <header className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b ${colorScheme.divider || 'border-slate-200'}`}>
+                        {onExit && (
+                            <button onClick={onExit} className={`flex items-center gap-1 text-sm font-semibold ${colorScheme.text || 'text-slate-600'} hover:underline`}>
+                                <ArrowLeftIcon /> Back
                             </button>
-                            <span className="text-xs text-slate-500">
-                                {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
-                            </span>
-                        </div>
-                     </div>
-                </header>
-            )}
-
-            <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
-                {questions.map((_, i) => (
-                    <button key={i} onClick={() => setCurrentIndex(i)} className={`w-8 h-8 rounded-full font-bold text-sm ${i === currentIndex ? 'bg-sky-600 text-white' : answers[i] ? 'bg-sky-200' : 'bg-slate-200'} ${marked[i] ? 'ring-2 ring-yellow-400' : ''}`}>
-                        {i + 1}
-                    </button>
-                ))}
-            </div>
-            
-            <div className="p-4 bg-slate-50 rounded-lg">
-                <div className="mb-4">
-                    <div className="flex items-start gap-3">
-                        <span className="text-xl font-semibold leading-relaxed">{currentQ.questionNumber}.</span>
-                        <Stem item={currentQ} />
-                    </div>
-                </div>
-                {currentQ.imageUrl && !currentQ.stimulusImage?.src && (
-                    <img
-                        src={currentQ.imageUrl}
-                        alt={`Visual for question ${currentQ.questionNumber}`}
-                        className="my-4 mx-auto rounded-md border max-w-full h-auto"
-                    />
-                )}
-                {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
-                    <div className="my-4 mx-auto max-w-md bg-white border rounded-md p-4 shadow-sm">
-                        <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
-                    </div>
-                )}
-
-                {isFillInTheBlank ? (
-                    <div>
-                        <label htmlFor="fill-in-blank-answer" className="block text-sm font-medium text-slate-700 mb-1">Enter your answer:</label>
-                        <input
-                            id="fill-in-blank-answer"
-                            type="text"
-                            value={answers[currentIndex] || ''}
-                            onChange={handleInputChange}
-                            placeholder="Type your answer here"
-                            className="w-full max-w-sm p-3 border border-slate-300 rounded-lg"
-                        />
-                    </div>
-                ) : (
-                    <div className="space-y-3">
-                        {(currentQ.answerOptions || []).map((opt, i) => {
-                            const cleanedOptionText = opt.text.trim().replace(/^\$\$/, '$');
-                            return (
-                                <button key={i} onClick={() => handleSelect(opt.text)} className={`w-full text-left p-3 rounded-lg border-2 transition ${answers[currentIndex] === opt.text ? 'bg-sky-100 border-sky-500' : 'bg-white hover:bg-sky-50 border-white'}`}>
-                                   <span className="flex-grow text-left">
-                                       <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span> <MathText text={cleanedOptionText} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={subjectForRender} />
-                                    </span>
+                        )}
+                        <h2 className={`text-xl font-bold text-center flex-1 ${colorScheme.text || 'text-slate-800'}`}>{quizTitle}</h2>
+                        <div className="flex flex-col sm:items-end gap-2">
+                            <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? 'bg-red-100 text-red-700' : `${colorScheme.navDefaultBg || 'bg-slate-100'} ${colorScheme.navDefaultText || 'text-slate-700'}`}`}>
+                                <span role="img" aria-label="timer">⏱️</span>
+                                <span>{formatTime(timeLeft)}</span>
+                                {isPaused && <span className="text-xs uppercase tracking-wide">Paused</span>}
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    onClick={handlePauseToggle}
+                                    disabled={!isPaused && pausesRemaining === 0}
+                                    className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${isPaused ? 'bg-green-600 text-white hover:bg-green-700' : `${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} text-white ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover} disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed`}`}
+                                >
+                                    {isPaused ? 'Resume Timer' : 'Pause Timer'}
                                 </button>
-                            );
-                        })}
-                    </div>
+                                <span className="text-xs text-slate-500">
+                                    {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
+                                </span>
+                            </div>
+                        </div>
+                    </header>
                 )}
-            </div>
 
-            <div className="mt-6 flex justify-between">
-                <button onClick={() => setCurrentIndex(p => Math.max(0, p - 1))} disabled={currentIndex === 0} className="px-4 py-2 bg-slate-200 rounded-md disabled:opacity-50">Previous</button>
-                <button onClick={() => setMarked(m => { const newM = [...m]; newM[currentIndex] = !newM[currentIndex]; return newM; })} className={`px-4 py-2 rounded-md ${marked[currentIndex] ? 'bg-yellow-300' : 'bg-slate-200'}`}>
-                    {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
-                </button>
-                {currentIndex === questions.length - 1 ? (
-                    <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded-md">{buttonText || 'Finish'}</button>
-                ) : (
-                    <button onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))} className="px-4 py-2 bg-sky-500 text-white rounded-md">Next</button>
-                )}
+                <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
+                    {questions.map((_, i) => {
+                        const isActive = i === currentIndex;
+                        const isAnswered = Boolean(answers[i]);
+                        const navStateClass = isActive
+                            ? `${colorScheme.background || DEFAULT_COLOR_SCHEME.background} text-white`
+                            : isAnswered
+                                ? `${colorScheme.navAnsweredBg || DEFAULT_COLOR_SCHEME.navAnsweredBg} ${colorScheme.navAnsweredText || DEFAULT_COLOR_SCHEME.navAnsweredText}`
+                                : `${colorScheme.navDefaultBg || DEFAULT_COLOR_SCHEME.navDefaultBg} ${colorScheme.navDefaultText || DEFAULT_COLOR_SCHEME.navDefaultText}`;
+                        return (
+                            <button
+                                key={i}
+                                onClick={() => setCurrentIndex(i)}
+                                className={`w-8 h-8 rounded-full font-bold text-sm transition ${navStateClass} ${marked[i] ? 'ring-2 ring-yellow-400' : ''}`}
+                            >
+                                {i + 1}
+                            </button>
+                        );
+                    })}
+                </div>
+
+                <div className={`p-4 sm:p-6 rounded-xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surfaceStrong || colorScheme.surface || 'bg-slate-50'} shadow-inner`}> 
+                    <div className="mb-4">
+                        <div className="flex items-start gap-3">
+                            <span className={`text-xl font-semibold leading-relaxed ${colorScheme.text || 'text-slate-800'}`}>{currentQ.questionNumber}.</span>
+                            <Stem item={currentQ} />
+                        </div>
+                    </div>
+                    {currentQ.imageUrl && !currentQ.stimulusImage?.src && (
+                        <img
+                            src={currentQ.imageUrl}
+                            alt={`Visual for question ${currentQ.questionNumber}`}
+                            className="my-4 mx-auto rounded-md border max-w-full h-auto"
+                        />
+                    )}
+                    {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
+                        <div className="my-4 mx-auto max-w-md bg-white border rounded-md p-4 shadow-sm">
+                            <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
+                        </div>
+                    )}
+
+                    {isFillInTheBlank ? (
+                        <div>
+                            <label htmlFor="fill-in-blank-answer" className={`block text-sm font-medium mb-1 ${colorScheme.text || 'text-slate-700'}`}>Enter your answer:</label>
+                            <input
+                                id="fill-in-blank-answer"
+                                type="text"
+                                value={answers[currentIndex] || ''}
+                                onChange={handleInputChange}
+                                placeholder="Type your answer here"
+                                className={`w-full max-w-sm p-3 border rounded-lg focus:outline-none ${colorScheme.inputBorder || 'border-slate-300'} ${colorScheme.ring || 'focus:ring-sky-300 focus:border-sky-400'}`}
+                            />
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {(currentQ.answerOptions || []).map((opt, i) => {
+                                const cleanedOptionText = opt.text.trim().replace(/^\$\$/, '$');
+                                const isSelected = answers[currentIndex] === opt.text;
+                                const optionStateClass = isSelected
+                                    ? `${colorScheme.optionSelectedBg || DEFAULT_COLOR_SCHEME.optionSelectedBg} ${colorScheme.optionSelectedBorder || DEFAULT_COLOR_SCHEME.optionSelectedBorder}`
+                                    : `bg-white ${colorScheme.optionHover || DEFAULT_COLOR_SCHEME.optionHover} border-white`;
+                                return (
+                                    <button
+                                        key={i}
+                                        onClick={() => handleSelect(opt.text)}
+                                        className={`w-full text-left p-3 rounded-lg border-2 transition shadow-sm text-slate-800 ${optionStateClass}`}
+                                    >
+                                        <span className="flex-grow text-left">
+                                            <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
+                                            <MathText text={cleanedOptionText} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={subjectForRender} />
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
+
+                <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <button
+                        onClick={() => setCurrentIndex(p => Math.max(0, p - 1))}
+                        disabled={currentIndex === 0}
+                        className={`px-4 py-2 rounded-md font-semibold border bg-white ${colorScheme.surfaceBorder || 'border-slate-300'} text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition`}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        onClick={() => setMarked(m => { const newM = [...m]; newM[currentIndex] = !newM[currentIndex]; return newM; })}
+                        className={`px-4 py-2 rounded-md font-semibold transition ${marked[currentIndex] ? 'bg-yellow-300 text-slate-900' : `${colorScheme.navDefaultBg || 'bg-slate-200'} ${colorScheme.navDefaultText || 'text-slate-700'}`}`}
+                    >
+                        {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
+                    </button>
+                    {currentIndex === questions.length - 1 ? (
+                        <button onClick={handleSubmit} className={`px-4 py-2 rounded-md font-semibold text-white transition ${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover}`}>
+                            {buttonText || 'Finish'}
+                        </button>
+                    ) : (
+                        <button onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))} className={`px-4 py-2 rounded-md font-semibold text-white transition ${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover}`}>
+                            Next
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
