@@ -521,7 +521,15 @@ function renderStem(text) {
     // Sanitize the final combined HTML once to ensure security.
     return DOMPurify.sanitize(finalHtml, {
         ALLOWED_TAGS: [...ALLOWED_HTML_TAGS, 'span', 'path', 'svg'],
-        ALLOWED_ATTR: [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns']
+        ALLOWED_ATTR: [
+            ...ALLOWED_HTML_ATTR,
+            'class',
+            'style',
+            'd',
+            'viewBox',
+            'xmlns',
+            'aria-hidden'
+        ]
     });
 }
 
