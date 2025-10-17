@@ -2,6 +2,8 @@ import { fetch } from 'undici';
 import PQueue from 'p-queue';
 import robotsParser from 'robots-parser';
 import { JSDOM } from 'jsdom';
+import { XMLParser } from 'fast-xml-parser';
+import { IMAGE_KEYWORDS } from './image-pipeline.mjs';
 import { isHostnameAllowed } from './allowlist.mjs';
 
 const USER_AGENT = 'GedGovHarvester/1.0 (+https://example.com)';
@@ -10,6 +12,7 @@ const BASE_BACKOFF_MS = 600;
 
 const robotsCache = new Map();
 const temporaryAllowedDomains = new Set();
+const sitemapParser = new XMLParser({ ignoreAttributes: false, trimValues: true });
 const queue = new PQueue({
   concurrency: 3,
   intervalCap: 6,
@@ -64,6 +67,111 @@ function isTemporarilyAllowed(hostname) {
     }
   }
   return false;
+}
+
+function normalizeSitemapLocation(loc, baseUrl) {
+  if (!loc) return '';
+  let candidate = String(loc).trim();
+  if (!candidate) return '';
+  const match = candidate.match(/https?:\/\/[^\s"'>]+/i);
+  if (match) {
+    candidate = match[0];
+  }
+  try {
+    return new URL(candidate, baseUrl).toString();
+  } catch (err) {
+    return '';
+  }
+}
+
+export function parseSitemap(xml, baseUrl) {
+  if (!xml) return [];
+  let parsed;
+  try {
+    parsed = sitemapParser.parse(xml);
+  } catch (err) {
+    return [];
+  }
+  const entries = [];
+  if (parsed?.urlset?.url) {
+    const urls = Array.isArray(parsed.urlset.url) ? parsed.urlset.url : [parsed.urlset.url];
+    for (const entry of urls) {
+      if (!entry) continue;
+      const normalized = normalizeSitemapLocation(entry.loc, baseUrl);
+      if (!normalized) continue;
+      entries.push({
+        loc: normalized,
+        lastmod: entry.lastmod || '',
+        isIndex: false
+      });
+    }
+  }
+  if (parsed?.sitemapindex?.sitemap) {
+    const nested = Array.isArray(parsed.sitemapindex.sitemap)
+      ? parsed.sitemapindex.sitemap
+      : [parsed.sitemapindex.sitemap];
+    for (const entry of nested) {
+      if (!entry) continue;
+      const normalized = normalizeSitemapLocation(entry.loc, baseUrl);
+      if (!normalized) continue;
+      entries.push({
+        loc: normalized,
+        lastmod: entry.lastmod || '',
+        isIndex: true
+      });
+    }
+  }
+  return entries;
+}
+
+export async function fetchSitemap(urlLike) {
+  const { html } = await fetchHtml(urlLike);
+  return html;
+}
+
+export async function collectAllSitemaps(url, depth = 0, maxDepth = 2, seen = new Set()) {
+  if (depth > maxDepth) return [];
+  let safe;
+  try {
+    safe = safeURL(url);
+  } catch (err) {
+    return [];
+  }
+  const absoluteUrl = safe.toString();
+  if (seen.has(absoluteUrl)) {
+    return [];
+  }
+  seen.add(absoluteUrl);
+  let xml;
+  try {
+    xml = await fetchSitemap(absoluteUrl);
+  } catch (err) {
+    console.warn(`[WARN] Failed to fetch sitemap: ${absoluteUrl}. ${err.message}`);
+    return [];
+  }
+  const entries = parseSitemap(xml, absoluteUrl);
+  const results = [];
+  const unique = new Set();
+  const pushEntry = (entry) => {
+    if (!entry?.loc) return;
+    if (unique.has(entry.loc)) return;
+    unique.add(entry.loc);
+    results.push(entry);
+  };
+  for (const entry of entries) {
+    pushEntry(entry);
+  }
+  for (const entry of entries) {
+    const loc = entry?.loc;
+    if (!loc) continue;
+    const shouldRecurse = entry.isIndex || /\.xml($|[?#])/i.test(loc);
+    if (!shouldRecurse) continue;
+    const nested = await collectAllSitemaps(loc, depth + 1, maxDepth, seen);
+    for (const child of nested) {
+      pushEntry(child);
+    }
+  }
+  return results;
 }
 
 async function fetchWithRetry(url, options = {}, attempt = 1) {
@@ -142,15 +250,90 @@ export async function fetchHtml(url, timeoutMs = 10000) {
     throw new Error(`Domain not allowed: ${target.hostname}`);
   }
   const targetUrl = target.toString();
-  const robots = await getRobots(targetUrl);
+  let robots;
+  try {
+    robots = await getRobots(targetUrl);
+  } catch (err) {
+    const robotError = new Error(`Robots unavailable for ${target.hostname}: ${err.message}`);
+    robotError.code = 'ROBOTS_UNAVAILABLE';
+    throw robotError;
+  }
   if (robots && !isPathAllowed(robots, targetUrl)) {
-    throw new Error(`Robots disallow ${targetUrl}`);
+    const disallowError = new Error(`Robots disallow ${targetUrl}`);
+    disallowError.code = 'ROBOTS_DISALLOWED';
+    throw disallowError;
   }
   await sleep(addJitter(50));
   const response = await queue.add(() => fetchWithRetry(targetUrl, { timeout: timeoutMs }));
   const html = await response.text();
   const finalUrl = response.url ?? targetUrl;
-  return { html, finalUrl };
+  const inlineCandidates = extractInlineImageCandidatesFromHtml(html, finalUrl);
+  return { html, finalUrl, inlineCandidates };
+}
+
+function extractInlineImageCandidatesFromHtml(html, baseUrl) {
+  if (!html || typeof html !== 'string') return [];
+  if (!/<img|data-chart|map-figure|infographic/i.test(html)) return [];
+  let document;
+  try {
+    const dom = new JSDOM(html);
+    document = dom.window.document;
+  } catch (err) {
+    return [];
+  }
+  const seen = new Set();
+  const results = [];
+
+  const tryPush = (rawUrl, alt = '', className = '') => {
+    if (!rawUrl) return;
+    const candidateText = `${rawUrl} ${alt} ${className}`;
+    if (!IMAGE_KEYWORDS.test(candidateText)) return;
+    const match = rawUrl.match(/https?:\/\/[^\s"'>]+/i);
+    const normalized = match ? match[0] : rawUrl;
+    const abs = resolveUrl(baseUrl, normalized);
+    if (!abs || seen.has(abs)) return;
+    seen.add(abs);
+    results.push({ url: abs, alt: alt?.trim?.() || '' });
+  };
+
+  const dataAttributes = [
+    'src',
+    'data-src',
+    'data-original',
+    'data-url',
+    'data-image',
+    'data-infographic',
+    'data-chart',
+    'data-map'
+  ];
+
+  const imgElements = Array.from(document.querySelectorAll('img'));
+  for (const img of imgElements) {
+    const alt = img.getAttribute('alt') || '';
+    const className = img.getAttribute('class') || '';
+    for (const attr of dataAttributes) {
+      const value = img.getAttribute(attr);
+      if (!value) continue;
+      tryPush(value, alt, className);
+    }
+    if (img.dataset) {
+      for (const value of Object.values(img.dataset)) {
+        tryPush(value, alt, className);
+      }
+    }
+  }
+
+  const specialSelectors = '[data-chart], [data-map], [data-graph], [data-infographic], map-figure, infographic';
+  const specialElements = Array.from(document.querySelectorAll(specialSelectors));
+  for (const node of specialElements) {
+    for (const attr of dataAttributes) {
+      const value = node.getAttribute?.(attr);
+      if (!value) continue;
+      tryPush(value, '', '');
+    }
+  }
+
+  return results;
 }
 
 const CATEGORY_SCORE = {
@@ -299,7 +482,7 @@ function collectSurroundingText(img) {
   return blocks.slice(0, 5).join('\n');
 }
 
-export function extractPageInfo(html, baseUrl) {
+export function extractPageInfo(html, baseUrl, inlineCandidates = []) {
   const dom = new JSDOM(html);
   const { document } = dom.window;
   const title = textContent(document.querySelector('title'));
@@ -379,6 +562,37 @@ export function extractPageInfo(html, baseUrl) {
       score: 0,
       rel: img.getAttribute('rel') || ''
     });
+  }
+
+  if (inlineCandidates && inlineCandidates.length) {
+    for (const candidate of inlineCandidates) {
+      if (!candidate?.url || seen.has(candidate.url)) continue;
+      let hostname;
+      try {
+        ({ hostname } = new URL(candidate.url));
+      } catch (err) {
+        continue;
+      }
+      if (!isHostnameAllowed(hostname)) continue;
+      seen.add(candidate.url);
+      const registrableDomain = toRegistrableDomain(hostname.toLowerCase());
+      const pathname = new URL(candidate.url).pathname;
+      const fileName = pathname ? pathname.split('/').pop()?.toLowerCase() ?? '' : '';
+      images.push({
+        srcAbs: candidate.url,
+        alt: candidate.alt || '',
+        caption: '',
+        width: undefined,
+        height: undefined,
+        classNames: new Set(),
+        context: '',
+        hostname: hostname.toLowerCase(),
+        registrableDomain,
+        fileName,
+        score: 0,
+        rel: ''
+      });
+    }
   }
 
   const scored = images

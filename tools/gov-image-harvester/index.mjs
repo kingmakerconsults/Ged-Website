@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { XMLParser } from 'fast-xml-parser';
-import { fetchHtml, extractPageInfo, setTemporaryAllowedDomains } from './crawler.mjs';
+import { fetchHtml, extractPageInfo, setTemporaryAllowedDomains, collectAllSitemaps } from './crawler.mjs';
 import { downloadAndNormalize, createSha1, decideFileName, writeImage } from './image-pipeline.mjs';
 import { loadMetadata, buildIndexes, upsertEntry, saveMetadata } from './metadata.mjs';
 import crypto from 'node:crypto';
@@ -34,6 +33,7 @@ const SUBJECT_CONFIG = {
       'nationalgeographic.com',
       'education.nationalgeographic.org',
       'pewresearch.org',
+      'datacommons.org',
       'statista.com',
       'ourworldindata.org',
       'worldbank.org',
@@ -47,7 +47,9 @@ const SUBJECT_CONFIG = {
       'reuters.com',
       'graphics.reuters.com',
       'pbs.org',
+      'pbslearningmedia.org',
       'smithsonianmag.com',
+      'history.com',
       'teachinghistory.org',
       'ed.gov',
       'opendata.arcgis.com'
@@ -73,8 +75,13 @@ const SUBJECT_CONFIG = {
       'nctm.org',
       'ams.org',
       'statisticshowto.com',
+      'education.nationalgeographic.org',
       'ourworldindata.org',
       'worldbank.org',
+      'datacommons.org',
+      'statista.com',
+      'pbslearningmedia.org',
+      'history.com',
       'opendata.arcgis.com',
       'census.gov',
       'bls.gov',
@@ -101,8 +108,6 @@ const STATE_PATH = path.resolve('tools/gov-image-harvester/.crawl-state.json');
 const MAX_SEED_PER_SITEMAP = 80;
 const MAX_PAGES = 300;
 const MAX_IMAGES_PER_SEED = 3;
-
-const xmlParser = new XMLParser({ ignoreAttributes: false, trimValues: true });
 
 const DEFAULT_SITEMAP_PATHS = ['/sitemap.xml', '/sitemap_index.xml'];
 
@@ -200,13 +205,6 @@ function ensureSubjectState(state, subject) {
   return state.subjects[subject];
 }
 
-async function fetchSitemap(url) {
-  const safe = normalizeUrlLike(url);
-  if (!safe) throw new Error('Empty sitemap url');
-  const { html } = await fetchHtml(safe);
-  return html;
-}
-
 function normalizeUrlLike(u) {
   if (!u) return '';
   let s = String(u).trim();
@@ -235,53 +233,29 @@ async function collectSeedUrls(subject, topics, limit, configOverride) {
     if (!sitemapUrl) continue;
     if (seeds.size > MAX_PAGES) break;
     try {
-      const xml = await fetchSitemap(sitemapUrl);
-      const parsed = xmlParser.parse(xml);
-      let urls = [];
-      if (parsed.urlset?.url) {
-        urls = Array.isArray(parsed.urlset.url) ? parsed.urlset.url : [parsed.urlset.url];
-      } else if (parsed.sitemapindex?.sitemap) {
-        const nested = Array.isArray(parsed.sitemapindex.sitemap)
-          ? parsed.sitemapindex.sitemap
-          : [parsed.sitemapindex.sitemap];
-        const limitedNested = nested.slice(0, 5);
-        for (const child of limitedNested) {
-          const childLocRaw = child.loc;
-          const childLoc = normalizeUrlLike(childLocRaw);
-          if (!childLoc) continue;
-          try {
-            const childXml = await fetchSitemap(childLoc);
-            const childParsed = xmlParser.parse(childXml);
-            const childUrls = childParsed.urlset?.url || [];
-            const normalized = Array.isArray(childUrls) ? childUrls : [childUrls];
-            for (const entry of normalized) {
-              if (entry?.loc) {
-                urls.push(entry);
-              }
-            }
-          } catch (error) {
-            // ignore nested errors but continue
-          }
-        }
+      const sitemapEntries = await collectAllSitemaps(sitemapUrl, 0, 3);
+      const uniqueEntries = new Map();
+      for (const entry of sitemapEntries) {
+        if (!entry || entry.isIndex) continue;
+        const loc = normalizeUrlLike(entry.loc);
+        if (!loc) continue;
+        if (/\.xml($|[?#])/i.test(loc)) continue;
+        if (uniqueEntries.has(loc)) continue;
+        uniqueEntries.set(loc, {
+          loc,
+          lastmod: entry.lastmod || ''
+        });
       }
       const filtered = filterByTopics(
-        urls
-          .map((entry) => {
-            const loc = normalizeUrlLike(entry?.loc);
-            return {
-              loc,
-              lastmod: entry?.lastmod || ''
-            };
-          })
-          .filter((entry) => {
-            if (!entry.loc) return false;
-            try {
-              const h = new URL(entry.loc).hostname;
-              return isAllowedHost(subject, h, config);
-            } catch {
-              return false;
-            }
-          }),
+        Array.from(uniqueEntries.values()).filter((entry) => {
+          if (!entry.loc) return false;
+          try {
+            const h = new URL(entry.loc).hostname;
+            return isAllowedHost(subject, h, config);
+          } catch {
+            return false;
+          }
+        }),
         topics
       ).slice(0, MAX_SEED_PER_SITEMAP);
       for (const entry of filtered) {
@@ -536,8 +510,8 @@ async function main() {
       continue;
     }
     try {
-      const { html, finalUrl } = await fetchHtml(pageUrl);
-      const pageInfo = extractPageInfo(html, finalUrl);
+      const { html, finalUrl, inlineCandidates } = await fetchHtml(pageUrl);
+      const pageInfo = extractPageInfo(html, finalUrl, inlineCandidates);
       const canonicalSource = canonicalizeUrl(finalUrl);
       if (subjectState.visitedPages[canonicalSource] && !topics.length) {
         subjectState.visitedPages[pageUrl] = Date.now();
@@ -548,6 +522,7 @@ async function main() {
         const imgHost = new URL(img.srcAbs).hostname;
         return isAllowedHost(subject, imgHost, config);
       });
+      console.log(`[crawl] Extracted ${candidateImages.length} images from ${finalUrl}`);
       if (candidateImages.length === 0) {
         subjectState.visitedPages[pageUrl] = Date.now();
         subjectState.visitedPages[canonicalSource] = Date.now();

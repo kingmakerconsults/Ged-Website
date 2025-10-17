@@ -9,6 +9,7 @@ const MAX_BYTES = 10 * 1024 * 1024; // 10MB
 const MIN_BYTES = 15 * 1024; // 15KB
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 400;
+export const IMAGE_KEYWORDS = /(chart|graph|map|diagram|infographic|plot|visualization|data)/i;
 const VALID_MIMES = new Set([
   'image/png',
   'image/jpeg',
