@@ -1578,24 +1578,27 @@ app.use('/api/generate', apiLimiter);
 const port = process.env.PORT || 3001;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-const allowedOrigins = [
+const whitelist = [
+    'http://localhost:3000',
+    'http://localhost:8000',
     'https://ezged.netlify.app',
-    'https://quiz.ez-ged.com',
-    'http://localhost:8000' // For local testing
+    'https://quiz.ez-ged.com'
 ];
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true,
-  optionsSuccessStatus: 200
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) {
+            return callback(null, true);
+        }
+        if (whitelist.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    credentials: true,
+    optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 
@@ -3877,6 +3880,13 @@ const generateAIContent = async (prompt, schema) => {
 };
 
 
+
+app.use((err, req, res, next) => {
+    console.error(err?.stack || err);
+    res.status(500).json({
+        error: 'Something went wrong on our end. Please try again later.'
+    });
+});
 
 // The '0.0.0.0' is important for containerized environments like Render.
 if (require.main === module) {
