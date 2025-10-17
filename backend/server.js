@@ -1,8 +1,9 @@
 // server.js (Updated Version)
 
+const path = require('path');
 // Only use dotenv for local development. Render will provide environment variables in production.
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
+    require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 }
 const express = require('express');
 const cors = require('cors');
@@ -120,7 +121,6 @@ async function raceGeminiWithDelayedFallback({ primaryFn, fallbackFn, primaryMod
     return { winner, latencyMs };
 }
 const fs = require('fs');
-const path = require('path');
 
 let IMAGE_DB = [];
 const IMAGE_BY_PATH = new Map();
@@ -1361,6 +1361,12 @@ app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all rou
 app.use(express.json());
 app.use(cookieParser());
 
+// Serve static image folders from the 'frontend' directory
+app.use('/images/rla', express.static(path.join(__dirname, '../frontend/Images/RLA')));
+app.use('/images/science', express.static(path.join(__dirname, '../frontend/Images/Science')));
+app.use('/images/social-studies', express.static(path.join(__dirname, '../frontend/Images/Social Studies')));
+app.use('/images/math', express.static(path.join(__dirname, '../frontend/Images/Math')));
+
 app.post('/api/register', async (req, res) => {
     const { email, password } = req.body || {};
 
@@ -1773,8 +1779,8 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         const ctx = subjectNeedsRetrieval ? await retrieveSnippets(subject, topic) : [];
         console.log(`[Variety Pack] Retrieved ${ctx.length} context snippets.`);
 
-        // 2. Find relevant images for Science and Social Studies only
-        const subjectNeedsImages = ['Science', 'Social Studies'].includes(subject);
+        // 2. Find relevant images for Science, Social Studies, and Math
+        const subjectNeedsImages = ['Science', 'Social Studies', 'Math'].includes(subject);
         const imgs = subjectNeedsImages ? findImagesForSubjectTopic(subject, topic, 6) : [];
         console.log(`[Variety Pack] Found ${imgs.length} candidate images.`);
 
