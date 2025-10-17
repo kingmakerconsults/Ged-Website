@@ -1,40 +1,23 @@
 export const ALLOWLIST = [
-  'nasa.gov',
-  'noaa.gov',
-  'nhc.noaa.gov',
-  'climate.nasa.gov',
-  'data.gov',
-  'bls.gov',
-  'census.gov',
-  'archives.gov',
-  'loc.gov',
-  'libraryofcongress.gov', // maps, archives mirror
-  'usgs.gov',
-  'epa.gov',
-  'nps.gov',
-  'nih.gov',
-  'ncbi.nlm.nih.gov',
-  'carto.com', // maps, open data
-  'nationalgeographic.com', // maps, infographics
-  'pewresearch.org', // data, charts
-  'statista.com', // infographics, data
-  'ourworldindata.org', // global development charts
-  'worldbank.org', // development data visuals
-  'imf.org', // economic charts
-  'cia.gov', // factbook maps
-  'un.org', // international maps, infographics
-  'who.int', // global health maps
-  'data.oecd.org', // economic charts
-  'oecd.org', // economic organization insights
-  'britannica.com', // reference maps, diagrams
-  'reuters.com', // news graphics
-  'graphics.reuters.com', // detailed news graphics
-  'pbs.org', // education visuals
-  'smithsonianmag.com', // historical infographics
-  'teachinghistory.org', // educator visuals
-  'ed.gov', // education resources
-  'education.nationalgeographic.org', // classroom assets
-  'opendata.arcgis.com' // hosted government data maps
+  // === Government & Intergovernmental Organizations (IGOs) ===
+  'nasa.gov', 'noaa.gov', 'usgs.gov', 'epa.gov', 'nih.gov', 'cdc.gov',
+  'data.gov', 'bls.gov', 'census.gov', 'archives.gov', 'loc.gov', 'nps.gov',
+  'un.org', 'who.int', 'worldbank.org', 'imf.org', 'oecd.org',
+
+  // === Museums, Archives & Cultural Institutions ===
+  'si.edu', 'smithsonianmag.com', 'amnh.org', 'fieldmuseum.org', 'gilderlehrman.org',
+
+  // === Academic, University & Research Institutions ===
+  'mit.edu', 'stanford.edu', 'harvard.edu', 'pewresearch.org',
+  'ourworldintdata.org', 'science.org', 'nature.com',
+
+  // === Reputable News & Reference ===
+  'nationalgeographic.com', 'scientificamerican.com', 'history.com', 'pbs.org',
+  'reuters.com', 'apnews.com', 'britannica.com',
+
+  // === Math & Data Visualization Tools/Resources ===
+  'khanacademy.org', 'mathworld.wolfram.com', 'purplemath.com', 'desmos.com',
+  'mathisfun.com', 'statisticshowto.com', 'carto.com', 'opendata.arcgis.com'
 ];
 
 const ALWAYS_TRUSTED_TLDS = ['.gov', '.edu'];
