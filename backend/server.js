@@ -1315,7 +1315,7 @@ function authenticateBearerToken(req, res, next) {
 
     try {
         const payload = jwt.verify(token, secret);
-        req.user = { ...(req.user || {}), userId: payload.userId };
+        req.user = { ...(req.user || {}), userId: payload.sub };
         return next();
     } catch (error) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -3344,6 +3344,8 @@ app.post('/api/auth/google', async (req, res) => {
         }
 
         const normalizedEmail = email.trim().toLowerCase();
+        const displayName = name?.trim() || null;
+        const pictureUrl = picture || null;
         const now = new Date();
 
         const existingUserResult = await pool.query(
@@ -3362,7 +3364,7 @@ app.post('/api/auth/google', async (req, res) => {
                      last_login = $3
                  WHERE id = $4
                  RETURNING *;`,
-                [name ?? existingUser.name, picture ?? existingUser.picture_url, now, existingUser.id]
+                [displayName ?? existingUser.name, pictureUrl ?? existingUser.picture_url, now, existingUser.id]
             );
 
             userRow = updateResult.rows[0];
@@ -3371,7 +3373,7 @@ app.post('/api/auth/google', async (req, res) => {
                 `INSERT INTO users (email, name, picture_url, password_hash, last_login)
                  VALUES ($1, $2, $3, $4, $5)
                  RETURNING *;`,
-                [normalizedEmail, name ?? null, picture ?? null, null, now]
+                [normalizedEmail, displayName, pictureUrl, null, now]
             );
             userRow = insertResult.rows[0];
         }
