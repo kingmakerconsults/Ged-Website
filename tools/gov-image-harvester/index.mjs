@@ -2,7 +2,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { XMLParser } from 'fast-xml-parser';
-import { fetchHtml, extractPageInfo } from './crawler.mjs';
+import { fetchHtml, extractPageInfo, setTemporaryAllowedDomains } from './crawler.mjs';
 import { downloadAndNormalize, createSha1, decideFileName, writeImage } from './image-pipeline.mjs';
 import { loadMetadata, buildIndexes, upsertEntry, saveMetadata } from './metadata.mjs';
 import crypto from 'node:crypto';
@@ -104,13 +104,58 @@ const MAX_IMAGES_PER_SEED = 3;
 
 const xmlParser = new XMLParser({ ignoreAttributes: false, trimValues: true });
 
+const DEFAULT_SITEMAP_PATHS = ['/sitemap.xml', '/sitemap_index.xml'];
+
+async function discoverSitemapsForDomain(domain) {
+  const tried = [];
+  const found = new Set();
+
+  const d = String(domain).trim().replace(/^https?:\/\//, '');
+  const candidates = [
+    `https://${d}${DEFAULT_SITEMAP_PATHS[0]}`,
+    `https://${d}${DEFAULT_SITEMAP_PATHS[1]}`,
+    `https://www.${d}${DEFAULT_SITEMAP_PATHS[0]}`,
+    `https://www.${d}${DEFAULT_SITEMAP_PATHS[1]}`
+  ];
+
+  for (const url of candidates) {
+    tried.push(url);
+    try {
+      const { html } = await fetchHtml(url);
+      if (html && html.trim().length) found.add(url);
+    } catch {}
+  }
+
+  for (const robots of [`https://${d}/robots.txt`, `https://www.${d}/robots.txt`]) {
+    tried.push(robots);
+    try {
+      const { html } = await fetchHtml(robots);
+      if (html) {
+        const lines = html.split(/\r?\n/);
+        for (const line of lines) {
+          const m = line.match(/^\s*Sitemap:\s*(\S+)/i);
+          if (m) {
+            const u = m[1].trim();
+            const resolved = u.startsWith('//') ? `https:${u}` : u;
+            try {
+              new URL(resolved);
+              found.add(resolved);
+            } catch {}
+          }
+        }
+      }
+    } catch {}
+  }
+  return { tried, sitemaps: [...found] };
+}
+
 function parseArgs(argv) {
   const args = {};
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
     if (token.startsWith('--')) {
       const key = token.slice(2);
-      if (['subject', 'topics', 'limit'].includes(key)) {
+      if (['subject', 'topics', 'limit', 'domains'].includes(key)) {
         args[key] = argv[i + 1];
         i += 1;
       } else if (key === 'dry') {
@@ -182,8 +227,8 @@ function filterByTopics(urls, topics) {
   });
 }
 
-async function collectSeedUrls(subject, topics, limit) {
-  const config = SUBJECT_CONFIG[subject];
+async function collectSeedUrls(subject, topics, limit, configOverride) {
+  const config = configOverride || SUBJECT_CONFIG[subject];
   const seeds = new Set();
   for (const sitemapUrlRaw of config.sitemaps) {
     const sitemapUrl = normalizeUrlLike(sitemapUrlRaw);
@@ -232,7 +277,7 @@ async function collectSeedUrls(subject, topics, limit) {
             if (!entry.loc) return false;
             try {
               const h = new URL(entry.loc).hostname;
-              return shouldAcceptHost(subject, h);
+              return isAllowedHost(subject, h, config);
             } catch {
               return false;
             }
@@ -246,7 +291,7 @@ async function collectSeedUrls(subject, topics, limit) {
     } catch (error) {
       console.warn(`[WARN] Skipping failed sitemap: ${sitemapUrl}`);
       if (error?.message) {
-        console.warn(`  Reason: ${error.message}`);
+        console.warn(`Reason: ${error.message}`);
       }
       continue;
     }
@@ -372,16 +417,38 @@ function ensureLicense(pageInfo, hostname, subject) {
   };
 }
 
-function shouldAcceptHost(subject, host) {
-  const config = SUBJECT_CONFIG[subject];
-  if (!config) return false;
-  const lower = host.toLowerCase();
-  for (const allowed of config.allowedDomains) {
-    if (lower === allowed || lower.endsWith(`.${allowed}`)) {
-      return true;
+function isAllowedHost(subject, hostname, config) {
+  if (!hostname) return false;
+  const subj = SUBJECT_CONFIG[subject];
+  if (!subj) return false;
+  const cfg = config || subj;
+  const lower = hostname.toLowerCase();
+  const noWww = lower.replace(/^www\./, '');
+
+  let baseAllowed = false;
+  if (subj.allowedDomains && subj.allowedDomains.size > 0) {
+    for (const allowed of subj.allowedDomains) {
+      const normAllowed = allowed.toLowerCase();
+      if (lower === normAllowed || lower.endsWith(`.${normAllowed}`)) {
+        baseAllowed = true;
+        break;
+      }
     }
   }
-  return false;
+
+  let cliAllowed = false;
+  if (cfg?.cliAllowedDomains && cfg.cliAllowedDomains.size > 0) {
+    for (const allowed of cfg.cliAllowedDomains) {
+      const norm = allowed.toLowerCase();
+      if (!norm) continue;
+      if (lower === norm || lower.endsWith(`.${norm}`) || noWww === norm) {
+        cliAllowed = true;
+        break;
+      }
+    }
+  }
+
+  return baseAllowed || cliAllowed;
 }
 
 async function main() {
@@ -395,6 +462,56 @@ async function main() {
   const topics = argv.topics ? argv.topics.split(',').map((t) => t.trim()).filter(Boolean) : [];
   const limit = argv.limit ? Math.max(1, parseInt(argv.limit, 10)) : 40;
   const dryRun = Boolean(argv.dry);
+  const subjectCfg = SUBJECT_CONFIG[subject];
+  const config = subjectCfg;
+
+  const cliDomains = Array.from(
+    new Set(
+      (argv.domains ? String(argv.domains).split(',') : [])
+        .map((s) => s.trim())
+        .filter(Boolean)
+    )
+  );
+
+  const tmpAllowed = new Set();
+  const normalizeCliDomain = (value) => {
+    if (!value) return '';
+    let d = String(value).trim();
+    if (!d) return '';
+    d = d.replace(/^https?:\/\//, '');
+    d = d.replace(/#.*/, '');
+    d = d.replace(/\/.*$/, '');
+    d = d.replace(/:\\d+$/, '');
+    return d.toLowerCase();
+  };
+
+  for (const dom of cliDomains) {
+    const normalized = normalizeCliDomain(dom);
+    if (!normalized) continue;
+    tmpAllowed.add(normalized);
+    tmpAllowed.add(normalized.replace(/^www\./, ''));
+  }
+
+  setTemporaryAllowedDomains(tmpAllowed);
+
+  let discovered = [];
+  if (cliDomains.length) {
+    for (const dom of cliDomains) {
+      const { tried, sitemaps } = await discoverSitemapsForDomain(dom);
+      if (sitemaps.length) {
+        console.log(`[info] ${dom}: using ${sitemaps.length} sitemap(s)`);
+        discovered.push(...sitemaps);
+      } else {
+        console.warn(`[WARN] No sitemap found for ${dom} (tried: ${tried.join(', ')})`);
+      }
+    }
+  }
+
+  const defaultSitemaps = subjectCfg?.sitemaps ? [...subjectCfg.sitemaps] : [];
+  const allSitemaps = [...new Set([...(discovered || []), ...defaultSitemaps])];
+
+  config.sitemaps = allSitemaps;
+  config.cliAllowedDomains = tmpAllowed;
 
   const metadataEntries = await loadMetadata(METADATA_PATH);
   const metadataIndexes = buildIndexes(metadataEntries);
@@ -403,7 +520,7 @@ async function main() {
   state.subjects = state.subjects || {};
   const subjectState = ensureSubjectState(state, subject);
 
-  const seeds = await collectSeedUrls(subject, topics, limit);
+  const seeds = await collectSeedUrls(subject, topics, limit, config);
 
   let saved = 0;
   let duplicates = 0;
@@ -414,7 +531,7 @@ async function main() {
   for (const pageUrl of seeds) {
     if (saved >= limit) break;
     const host = new URL(pageUrl).hostname;
-    if (!shouldAcceptHost(subject, host)) continue;
+    if (!isAllowedHost(subject, host, config)) continue;
     if (subjectState.visitedPages[pageUrl] && !topics.length) {
       continue;
     }
@@ -429,7 +546,7 @@ async function main() {
       }
       const candidateImages = pageInfo.images.filter((img) => {
         const imgHost = new URL(img.srcAbs).hostname;
-        return shouldAcceptHost(subject, imgHost);
+        return isAllowedHost(subject, imgHost, config);
       });
       if (candidateImages.length === 0) {
         subjectState.visitedPages[pageUrl] = Date.now();
