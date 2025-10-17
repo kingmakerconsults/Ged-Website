@@ -1659,7 +1659,190 @@ const AppData = {
                         ]
                     }
                 ]
-            }
+            },
+            "Scientific Numeracy": {
+                description: "Practice applying mathematical skills to interpret scientific data, charts, and formulas.",
+                image: "./images/science_numeracy.png",
+                topics: [
+                {
+                    id: "science_scientific_numeracy_practice_set_1",
+                    title: "Comprehensive Practice Set 1",
+                    description: "Fifteen-question set covering data analysis, graph interpretation, probability, and formula application in science contexts.",
+                    questions: [
+                        {
+                            questionNumber: 1,
+                            passage: `<p>A botanist measures the height (in cm) of five plants grown under identical conditions. The heights recorded are: 15, 18, 15, 22, and 20.</p>`,
+                            question: "What is the <strong>mean</strong> height of these five plants?",
+                            answerOptions: [
+                                { text: "15 cm", rationale: "Incorrect. 15 is the mode (the most frequent value), not the mean.", isCorrect: false },
+                                { text: "18 cm", rationale: "Correct. The sum of the heights (15 + 18 + 15 + 22 + 20) is 90. The mean is 90 / 5 = 18.", isCorrect: true },
+                                { text: "18.5 cm", rationale: "Incorrect. This value is close but does not match the correct mean calculation.", isCorrect: false },
+                                { text: "22 cm", rationale: "Incorrect. 22 is the maximum height, not the mean.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 2,
+                            passage: `<p>In pea plants, the allele for purple flowers (P) is dominant over the allele for white flowers (p). The Punnett square below shows a cross between two heterozygous parent plants (Pp × Pp).</p>
+                                      <table><thead><tr><th></th><th>P</th><th>p</th></tr></thead><tbody><tr><th>P</th><td>PP</td><td>Pp</td></tr><tr><th>p</th><td>Pp</td><td>pp</td></tr></tbody></table>`,
+                            question: "Based on the Punnett square, what is the probability that an offspring will have white flowers?",
+                            answerOptions: [
+                                { text: "0%", rationale: "Incorrect. There is one pp combination in the square.", isCorrect: false },
+                                { text: "25%", rationale: "Correct. One of the four genotypes is pp, producing white flowers.", isCorrect: true },
+                                { text: "50%", rationale: "Incorrect. This would describe the probability of heterozygous offspring (Pp).", isCorrect: false },
+                                { text: "75%", rationale: "Incorrect. This is the probability of purple flowers (PP or Pp).", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 3,
+                            passage: "<p>The formula to calculate density is: <strong>Density = Mass / Volume</strong> or $d = \\frac{m}{V}$.</p><p>A scientist is studying a rock sample with a mass of 450 grams and a volume of 150 cm³.</p>",
+                            question: "What is the density of the rock sample?",
+                            answerOptions: [
+                                { text: "3 g/cm³", rationale: "Correct. Density = 450 g ÷ 150 cm³ = 3 g/cm³.", isCorrect: true },
+                                { text: "0.33 g/cm³", rationale: "Incorrect. This reverses the division (volume divided by mass).", isCorrect: false },
+                                { text: "600 g/cm³", rationale: "Incorrect. This is the sum of the mass and volume values.", isCorrect: false },
+                                { text: "67,500 g/cm³", rationale: "Incorrect. This multiplies mass and volume instead of dividing.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 4,
+                            passage: `<p>The line graph below shows a cheetah's speed during a 10-second sprint. From 0–4 seconds the speed increases from 0 to 20 m/s, from 4–8 seconds it rises from 20 to 30 m/s, and from 8–10 seconds it drops from 30 to 15 m/s.</p>`,
+                            question: "During which time interval is the cheetah's speed decreasing?",
+                            answerOptions: [
+                                { text: "0 to 4 seconds", rationale: "Incorrect. The speed increases during this interval.", isCorrect: false },
+                                { text: "4 to 8 seconds", rationale: "Incorrect. The speed is still increasing.", isCorrect: false },
+                                { text: "8 to 10 seconds", rationale: "Correct. The speed falls from 30 to 15 m/s in this interval.", isCorrect: true },
+                                { text: "The speed is always increasing.", rationale: "Incorrect. The graph shows a decline after 8 seconds.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 5,
+                            passage: `<p>A researcher collects the following data on the number of eggs laid by a species of turtle over six nesting seasons: 95, 110, 85, 110, 120, 90.</p>`,
+                            question: "What is the <strong>range</strong> of the number of eggs laid?",
+                            answerOptions: [
+                                { text: "110", rationale: "Incorrect. 110 is the most frequent value (mode).", isCorrect: false },
+                                { text: "105", rationale: "Incorrect. 105 is the mean of the data set.", isCorrect: false },
+                                { text: "35", rationale: "Correct. Range = 120 − 85 = 35.", isCorrect: true },
+                                { text: "85", rationale: "Incorrect. 85 is the minimum value, not the range.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 6,
+                            passage: `<p>Newton's Second Law of Motion is represented by the formula: <strong>Force = mass × acceleration</strong> or $F = ma$.</p><p>An object with a mass of 15 kg is accelerating at a rate of 5 m/s².</p>`,
+                            question: "How much force is being applied to the object?",
+                            answerOptions: [
+                                { text: "3 N", rationale: "Incorrect. This would result from dividing mass by acceleration.", isCorrect: false },
+                                { text: "20 N", rationale: "Incorrect. This is the sum of the mass and acceleration values.", isCorrect: false },
+                                { text: "75 N", rationale: "Correct. Force = 15 kg × 5 m/s² = 75 N.", isCorrect: true },
+                                { text: "10 N", rationale: "Incorrect. This subtracts acceleration from mass.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 7,
+                            passage: `<p>A seismologist records the magnitude of seven recent earthquakes: 3.5, 4.2, 3.8, 5.1, 4.2, 3.9, 4.5.</p>`,
+                            question: "What is the <strong>median</strong> magnitude of these earthquakes?",
+                            answerOptions: [
+                                { text: "5.1", rationale: "Incorrect. 5.1 is the maximum value.", isCorrect: false },
+                                { text: "4.2", rationale: "Correct. Ordered values are 3.5, 3.8, 3.9, 4.2, 4.2, 4.5, 5.1 and the middle value is 4.2.", isCorrect: true },
+                                { text: "3.5", rationale: "Incorrect. 3.5 is the minimum value.", isCorrect: false },
+                                { text: "4.17", rationale: "Incorrect. This approximates the mean, not the median.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 8,
+                            passage: `<p>The bar chart below shows the average rainfall (in mm) for a city during the first four months of the year.</p>
+                                      <table><thead><tr><th>Month</th><th>Rainfall (mm)</th></tr></thead><tbody><tr><td>January</td><td>68</td></tr><tr><td>February</td><td>52</td></tr><tr><td>March</td><td>74</td></tr><tr><td>April</td><td>88</td></tr></tbody></table>`,
+                            question: "Which month had the greatest amount of rainfall?",
+                            answerOptions: [
+                                { text: "January", rationale: "Incorrect. April has a higher rainfall total.", isCorrect: false },
+                                { text: "February", rationale: "Incorrect. February has the lowest total in the table.", isCorrect: false },
+                                { text: "March", rationale: "Incorrect. March has 74 mm, less than April.", isCorrect: false },
+                                { text: "April", rationale: "Correct. April records the highest rainfall at 88 mm.", isCorrect: true }
+                            ]
+                        },
+                        {
+                            questionNumber: 9,
+                            passage: `<p>In a species of fish, the allele for blue scales (B) is dominant over the allele for yellow scales (b). The Punnett square shows a cross between a homozygous dominant fish (BB) and a heterozygous fish (Bb).</p>
+                                      <table><thead><tr><th></th><th>B</th><th>B</th></tr></thead><tbody><tr><th>B</th><td>BB</td><td>BB</td></tr><tr><th>b</th><td>Bb</td><td>Bb</td></tr></tbody></table>`,
+                            question: "What is the probability that an offspring will have yellow scales?",
+                            answerOptions: [
+                                { text: "0%", rationale: "Correct. All genotypes are BB or Bb, both of which show blue scales.", isCorrect: true },
+                                { text: "25%", rationale: "Incorrect. A bb genotype never appears in the cross.", isCorrect: false },
+                                { text: "50%", rationale: "Incorrect. Half the offspring are Bb, but they still display blue scales.", isCorrect: false },
+                                { text: "100%", rationale: "Incorrect. 100% will have blue scales, not yellow.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 10,
+                            passage: `<p>During a chemical reaction, the temperature of a solution is measured every minute for 10 minutes. The readings in Celsius are: 22, 24, 25, 26, 26, 26, 27, 28, 28, 29.</p>`,
+                            question: "What is the <strong>mode</strong> of the temperature readings?",
+                            answerOptions: [
+                                { text: "26°C", rationale: "Correct. The value 26 appears three times, more than any other reading.", isCorrect: true },
+                                { text: "28°C", rationale: "Incorrect. 28 appears twice.", isCorrect: false },
+                                { text: "26.1°C", rationale: "Incorrect. This approximates the mean, not the mode.", isCorrect: false },
+                                { text: "26.5°C", rationale: "Incorrect. This is the median, not the mode.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 11,
+                            passage: "<p>The formula to calculate speed is: <strong>Speed = Distance / Time</strong> or $s = \\frac{d}{t}$.</p><p>A car travels a distance of 300 miles in 5 hours.</p>",
+                            question: "What is the average speed of the car?",
+                            answerOptions: [
+                                { text: "60 mph", rationale: "Correct. Speed = 300 miles ÷ 5 hours = 60 mph.", isCorrect: true },
+                                { text: "1500 mph", rationale: "Incorrect. This multiplies distance and time.", isCorrect: false },
+                                { text: "0.016 mph", rationale: "Incorrect. This divides time by distance.", isCorrect: false },
+                                { text: "295 mph", rationale: "Incorrect. This subtracts time from distance.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 12,
+                            passage: `<p>The pie chart below shows the composition of gases in Earth's atmosphere.</p>
+                                      <table><thead><tr><th>Gas</th><th>Approximate Percentage</th></tr></thead><tbody><tr><td>Nitrogen</td><td>78%</td></tr><tr><td>Oxygen</td><td>21%</td></tr><tr><td>Other Gases</td><td>1%</td></tr></tbody></table>`,
+                            question: "According to the chart, which two gases make up approximately 99% of the atmosphere?",
+                            answerOptions: [
+                                { text: "Oxygen and Other Gases", rationale: "Incorrect. Together they total 22%.", isCorrect: false },
+                                { text: "Nitrogen and Other Gases", rationale: "Incorrect. Together they make up 79%.", isCorrect: false },
+                                { text: "Nitrogen and Oxygen", rationale: "Correct. 78% + 21% = 99% of the atmosphere.", isCorrect: true },
+                                { text: "Only Nitrogen", rationale: "Incorrect. Nitrogen alone accounts for 78%.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 13,
+                            passage: `<p>An experiment measures the boiling point of four different liquids. The results are:</p>
+                                      <table><thead><tr><th>Liquid</th><th>Boiling Point (°C)</th></tr></thead><tbody><tr><td>Liquid A</td><td>78</td></tr><tr><td>Liquid B</td><td>100</td></tr><tr><td>Liquid C</td><td>56</td></tr><tr><td>Liquid D</td><td>118</td></tr></tbody></table>`,
+                            question: "What is the difference between the range and the median of these boiling points (use the absolute difference)?",
+                            answerOptions: [
+                                { text: "23°C", rationale: "Incorrect. This is neither the range nor the median difference.", isCorrect: false },
+                                { text: "62°C", rationale: "Incorrect. 62°C is the range itself (118 − 56).", isCorrect: false },
+                                { text: "89°C", rationale: "Incorrect. 89°C is the median value, not the difference.", isCorrect: false },
+                                { text: "27°C", rationale: "Correct. Median = (78 + 100) ÷ 2 = 89; range = 62; |89 − 62| = 27°C.", isCorrect: true }
+                            ]
+                        },
+                        {
+                            questionNumber: 14,
+                            passage: `<p>In physics, the formula for work is: <strong>Work = Force × Distance</strong> or $W = Fd$. Work is measured in joules (J).</p><p>A person pushes a box with a force of 50 newtons over a distance of 10 meters.</p>`,
+                            question: "How much work has the person done?",
+                            answerOptions: [
+                                { text: "5 J", rationale: "Incorrect. This divides force by distance.", isCorrect: false },
+                                { text: "500 J", rationale: "Correct. Work = 50 N × 10 m = 500 J.", isCorrect: true },
+                                { text: "60 J", rationale: "Incorrect. This adds force and distance.", isCorrect: false },
+                                { text: "40 J", rationale: "Incorrect. This subtracts distance from force.", isCorrect: false }
+                            ]
+                        },
+                        {
+                            questionNumber: 15,
+                            passage: `<p>The table below shows the pH values of several common substances.</p>
+                                      <table><thead><tr><th>Substance</th><th>pH Value</th></tr></thead><tbody><tr><td>Lemon Juice</td><td>2</td></tr><tr><td>Pure Water</td><td>7</td></tr><tr><td>Baking Soda</td><td>9</td></tr><tr><td>Bleach</td><td>13</td></tr></tbody></table>`,
+                            question: "Based on the table, which substance is neutral (neither acidic nor basic)?",
+                            answerOptions: [
+                                { text: "Lemon Juice", rationale: "Incorrect. A pH of 2 is strongly acidic.", isCorrect: false },
+                                { text: "Pure Water", rationale: "Correct. A pH of 7 is neutral.", isCorrect: true },
+                                { text: "Baking Soda", rationale: "Incorrect. A pH of 9 is basic (alkaline).", isCorrect: false },
+                                { text: "Bleach", rationale: "Incorrect. A pH of 13 is strongly basic.", isCorrect: false }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     },
 "Math": {
