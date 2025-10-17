@@ -60,6 +60,39 @@ const SUBJECT_CONFIG = {
       'https://www.nps.gov/sitemap.xml',
       'https://www.data.gov/sitemap.xml'
     ]
+  },
+  Math: {
+    folder: 'Math',
+    allowedDomains: new Set([
+      'khanacademy.org',
+      'mathisfun.com',
+      'mathworld.wolfram.com',
+      'purplemath.com',
+      'desmos.com',
+      'openstax.org',
+      'nctm.org',
+      'ams.org',
+      'statisticshowto.com',
+      'ourworldindata.org',
+      'worldbank.org',
+      'opendata.arcgis.com',
+      'census.gov',
+      'bls.gov',
+      'bea.gov',
+      'fred.stlouisfed.org'
+    ]),
+    sitemaps: [
+      'https://www.khanacademy.org/sitemap.xml',
+      'https://www.mathisfun.com/sitemap.xml',
+      'https://mathworld.wolfram.com/sitemap_index.xml',
+      'https://www.purplemath.com/sitemap.xml',
+      'https://www.desmos.com/sitemap.xml',
+      'https://openstax.org/sitemap.xml',
+      'https://www.nctm.org/sitemap.xml',
+      'https://www.ams.org/sitemap.xml',
+      'https://www.statisticshowto.com/sitemap_index.xml',
+      'https://fred.stlouisfed.org/sitemap.xml'
+    ]
   }
 };
 
@@ -123,8 +156,19 @@ function ensureSubjectState(state, subject) {
 }
 
 async function fetchSitemap(url) {
-  const { html } = await fetchHtml(url);
+  const safe = normalizeUrlLike(url);
+  if (!safe) throw new Error('Empty sitemap url');
+  const { html } = await fetchHtml(safe);
   return html;
+}
+
+function normalizeUrlLike(u) {
+  if (!u) return '';
+  let s = String(u).trim();
+  if (!s) return '';
+  if (s.startsWith('//')) s = 'https:' + s;
+  s = s.replace(/\s+/g, '');
+  return s;
 }
 
 function filterByTopics(urls, topics) {
@@ -141,7 +185,9 @@ function filterByTopics(urls, topics) {
 async function collectSeedUrls(subject, topics, limit) {
   const config = SUBJECT_CONFIG[subject];
   const seeds = new Set();
-  for (const sitemapUrl of config.sitemaps) {
+  for (const sitemapUrlRaw of config.sitemaps) {
+    const sitemapUrl = normalizeUrlLike(sitemapUrlRaw);
+    if (!sitemapUrl) continue;
     if (seeds.size > MAX_PAGES) break;
     try {
       const xml = await fetchSitemap(sitemapUrl);
@@ -155,7 +201,8 @@ async function collectSeedUrls(subject, topics, limit) {
           : [parsed.sitemapindex.sitemap];
         const limitedNested = nested.slice(0, 5);
         for (const child of limitedNested) {
-          const childLoc = child.loc;
+          const childLocRaw = child.loc;
+          const childLoc = normalizeUrlLike(childLocRaw);
           if (!childLoc) continue;
           try {
             const childXml = await fetchSitemap(childLoc);
@@ -174,11 +221,22 @@ async function collectSeedUrls(subject, topics, limit) {
       }
       const filtered = filterByTopics(
         urls
-          .map((entry) => ({
-            loc: entry?.loc,
-            lastmod: entry?.lastmod || ''
-          }))
-          .filter((entry) => entry.loc && shouldAcceptHost(subject, new URL(entry.loc).hostname)),
+          .map((entry) => {
+            const loc = normalizeUrlLike(entry?.loc);
+            return {
+              loc,
+              lastmod: entry?.lastmod || ''
+            };
+          })
+          .filter((entry) => {
+            if (!entry.loc) return false;
+            try {
+              const h = new URL(entry.loc).hostname;
+              return shouldAcceptHost(subject, h);
+            } catch {
+              return false;
+            }
+          }),
         topics
       ).slice(0, MAX_SEED_PER_SITEMAP);
       for (const entry of filtered) {
@@ -330,7 +388,7 @@ async function main() {
   const argv = parseArgs(process.argv.slice(2));
   const subject = argv.subject;
   if (!subject || !SUBJECT_CONFIG[subject]) {
-    console.error('Usage: node tools/gov-image-harvester/index.mjs --subject <Science|"Social Studies"> [--topics "..." --limit N --dry]');
+    console.error('Usage: node tools/gov-image-harvester/index.mjs --subject <Science|"Social Studies"|Math> [--topics "..." --limit N --dry]');
     process.exitCode = 1;
     return;
   }
