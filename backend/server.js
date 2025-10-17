@@ -1737,30 +1737,34 @@ try {
 }
 
 function pickCandidateUrls(subject, topic) {
+    const encodedTopic = encodeURIComponent(topic);
+    // Base sources that are always included
+    const sources = [
+        `https://www.google.com/search?q=${encodedTopic}+site%3A.gov`,
+        `https://www.britannica.com/search?query=${encodedTopic}`
+    ];
+
     if (subject === 'Social Studies') {
-        return [
-            `https://www.britannica.com/search?query=${encodeURIComponent(topic)}`,
-            `https://www.loc.gov/search/?q=${encodeURIComponent(topic)}&all=true`,
-            `https://www.census.gov/topics.html`
-        ];
+        sources.unshift(
+            `https://www.loc.gov/search/?q=${encodedTopic}&all=true`,
+            `https://www.archives.gov/search?query=${encodedTopic}`,
+            `https://smithsonianmag.com/search/?q=${encodedTopic}`
+        );
     }
     if (subject === 'Science') {
-        const seeds = [
-            `https://www.nasa.gov/search/?q=${encodeURIComponent(topic)}`,
-            `https://www.noaa.gov/search?s=${encodeURIComponent(topic)}`
-        ];
-        if (/climate|weather|atmosphere|carbon|warming/i.test(topic)) {
-            seeds.splice(1, 0, 'https://climate.nasa.gov/');
-        }
-        return seeds;
+        sources.unshift(
+            `https://www.nasa.gov/search/?q=${encodedTopic}`,
+            `https://www.noaa.gov/search?s=${encodedTopic}`,
+            `https://www.scientificamerican.com/search/?q=${encodedTopic}`
+        );
     }
     if (subject === 'Reasoning Through Language Arts (RLA)' || subject === 'RLA') {
-        return [
-            `https://www.britannica.com/search?query=${encodeURIComponent(topic)}`,
-            `https://www.loc.gov/search/?q=${encodeURIComponent(topic)}&all=true`
-        ];
+        sources.unshift(
+            `https://www.gutenberg.org/ebooks/search/?query=${encodedTopic}`,
+            `https://public-domain-poetry.com/search/${encodedTopic.replace(/%20/g, '-')}`
+        );
     }
-    return [];
+    return sources;
 }
 
 function compactText(s, maxWords = 300) {
@@ -2919,7 +2923,7 @@ Output a single valid JSON object with three keys:
 
 async function generateRlaPart1(options = {}) {
     const prompt = `${STRICT_JSON_HEADER_RLA}
-Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 passages (3 informational, 1 literary), each 150-230 words and NEVER above 250 words, with concise titles in <strong> tags and <p> tags for paragraphs. For EACH passage, generate exactly 5 reading comprehension questions (total 20). Return the JSON array of question objects only.`;
+Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 passages: 2 informational texts, 1 literary prose text (like a short story excerpt), and 1 public domain poem. Each passage should be an appropriate length for a GED test, have a title in <strong> tags, and use <p> tags for paragraphs. For EACH of the 4 passages, generate exactly 5 reading comprehension questions (total 20). Return the JSON array of question objects only.`;
     const schema = { type: "ARRAY", items: singleQuestionSchema };
     const questions = await callAI(prompt, schema, options);
     const cappedQuestions = Array.isArray(questions)
@@ -3071,15 +3075,26 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
         const subjectNeedsRetrieval = TOPIC_STIMULUS_SUBJECTS.has(subject);
         const subjectNeedsImages = TOPIC_STIMULUS_SUBJECTS.has(subject);
 
-        const ctx = subjectNeedsRetrieval
-            ? await retrieveSnippets(subject, topic)
-            : [];
+        let prompt;
+        if (subject === 'RLA' && topic === 'Poetry Analysis') {
+            prompt = `${STRICT_JSON_HEADER_RLA}
+Generate a 12-question quiz based on a single, well-known, public-domain poem suitable for a GED-level audience.
+First, select a complete poem (e.g., by Robert Frost, Emily Dickinson, Langston Hughes, or from public-domain-poetry.com).
+The 'passage' for ALL 12 questions MUST be the full text of this single poem.
+The questions should analyze the poem's theme, tone, structure, figurative language (metaphors, similes), and word choice.
+All 12 items must share the same 'passage' field. Assign the same 'groupId' to all 12 items.`;
+        } else {
+            // This is the existing logic
+            const ctx = subjectNeedsRetrieval
+                ? await retrieveSnippets(subject, topic)
+                : [];
 
-        const imgs = subjectNeedsImages
-            ? findImagesForSubjectTopic(subject, topic, 6)
-            : [];
+            const imgs = subjectNeedsImages
+                ? findImagesForSubjectTopic(subject, topic, 6)
+                : [];
 
-        const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
+            prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
+        }
 
         const { items: generatedItems, model: winnerModel, latencyMs } = await generateQuizItemsWithFallback(
             subject,
