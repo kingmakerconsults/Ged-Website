@@ -1270,6 +1270,237 @@ const pool = new Pool({
     ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
 });
 
+const QUESTION_BANK_SUBJECTS = new Set(['Science', 'Social Studies', 'RLA']);
+const HYBRID_ELIGIBLE_SUBJECTS = new Set([
+    'Science',
+    'Social Studies',
+    'RLA',
+    'Reasoning Through Language Arts (RLA)'
+]);
+const QUESTION_BANK_TARGET_COUNT = 8;
+const HYBRID_TOTAL_QUESTIONS = 12;
+
+function isDatabaseConfigured() {
+    return Boolean(process.env.DATABASE_URL);
+}
+
+function normalizeQuestionBankSubject(subject) {
+    if (!subject) return null;
+    const trimmed = subject.trim();
+    if (trimmed === 'Reasoning Through Language Arts (RLA)' || trimmed === 'RLA') {
+        return 'RLA';
+    }
+    return QUESTION_BANK_SUBJECTS.has(trimmed) ? trimmed : null;
+}
+
+function extractPassageFromQuestion(question) {
+    if (!question || typeof question !== 'object') return null;
+    const direct = typeof question.passage === 'string' ? question.passage.trim() : '';
+    if (direct) return direct;
+    const fromContent = question.content && typeof question.content.passage === 'string'
+        ? question.content.passage.trim()
+        : '';
+    if (fromContent) return fromContent;
+    const fromStimulus = question.stimulus && typeof question.stimulus.content === 'string'
+        ? question.stimulus.content.trim()
+        : '';
+    if (fromStimulus) return fromStimulus;
+    if (question.stimulus && typeof question.stimulus.text === 'string') {
+        const text = question.stimulus.text.trim();
+        if (text) return text;
+    }
+    return null;
+}
+
+function parseQuestionData(row) {
+    if (!row) return null;
+    const raw = row.question_data;
+    if (!raw) return null;
+    if (typeof raw === 'object') return raw;
+    try {
+        return JSON.parse(raw);
+    } catch (error) {
+        console.warn('Failed to parse question_data JSON from bank:', error?.message || error);
+        return null;
+    }
+}
+
+async function fetchQuestionsFromBank({ subject, category, userId, limit }) {
+    if (!isDatabaseConfigured()) return [];
+    if (!subject || !category || limit <= 0) return [];
+
+    try {
+        const { rows } = await pool.query(
+            `SELECT q.id, q.question_data
+             FROM questions q
+             LEFT JOIN user_seen_questions usq
+               ON usq.question_id = q.id AND usq.user_id = $3
+             WHERE q.subject = $1
+               AND q.category = $2
+               AND usq.question_id IS NULL
+             ORDER BY random()
+             LIMIT $4;`,
+            [subject, category, userId || null, limit]
+        );
+
+        return rows
+            .map((row) => ({ id: row.id, question: parseQuestionData(row) }))
+            .filter((entry) => entry.question && typeof entry.question === 'object');
+    } catch (error) {
+        console.error('Failed to fetch questions from bank:', error);
+        return [];
+    }
+}
+
+function buildUserSeenInsertQuery(count) {
+    const placeholders = [];
+    for (let i = 0; i < count; i++) {
+        placeholders.push(`($1, $${i + 2})`);
+    }
+    return `INSERT INTO user_seen_questions (user_id, question_id)
+            VALUES ${placeholders.join(', ')}
+            ON CONFLICT (user_id, question_id) DO NOTHING;`;
+}
+
+async function markQuestionsAsSeen(userId, questionIds) {
+    if (!isDatabaseConfigured()) return;
+    if (!userId) return;
+    if (!Array.isArray(questionIds) || !questionIds.length) return;
+
+    try {
+        const params = [userId, ...questionIds];
+        const query = buildUserSeenInsertQuery(questionIds.length);
+        await pool.query(query, params);
+    } catch (error) {
+        console.error('Failed to mark questions as seen:', error);
+    }
+}
+
+async function saveGeneratedQuestionsToBank({ subject, category, questions, userId }) {
+    const normalizedSubject = normalizeQuestionBankSubject(subject);
+    if (!normalizedSubject) return;
+    if (!Array.isArray(questions) || !questions.length) return;
+    if (!isDatabaseConfigured()) return;
+
+    const passageIdMap = new Map();
+    const insertedQuestionIds = [];
+
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+
+        for (const question of questions) {
+            if (!question || typeof question !== 'object') continue;
+
+            let passageId = null;
+            const passageContent = extractPassageFromQuestion(question);
+            if (passageContent) {
+                if (passageIdMap.has(passageContent)) {
+                    passageId = passageIdMap.get(passageContent);
+                } else {
+                    const passageResult = await client.query(
+                        `INSERT INTO passages (subject, category, content)
+                         VALUES ($1, $2, $3)
+                         RETURNING id;`,
+                        [normalizedSubject, category || null, passageContent]
+                    );
+                    passageId = passageResult.rows[0]?.id ?? null;
+                    passageIdMap.set(passageContent, passageId);
+                }
+            }
+
+            const itemType = question.type || question.item_type || question.questionType || null;
+            const serialized = JSON.stringify(question);
+            const questionResult = await client.query(
+                `INSERT INTO questions (subject, category, item_type, question_data, passage_id)
+                 VALUES ($1, $2, $3, $4::jsonb, $5)
+                 RETURNING id;`,
+                [normalizedSubject, category || null, itemType, serialized, passageId]
+            );
+
+            const insertedId = questionResult.rows[0]?.id;
+            if (insertedId) {
+                insertedQuestionIds.push(insertedId);
+            }
+        }
+
+        await client.query('COMMIT');
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        client.release();
+    }
+
+    if (insertedQuestionIds.length && userId) {
+        await markQuestionsAsSeen(userId, insertedQuestionIds);
+    }
+}
+
+function scheduleGeneratedQuestionSave(payload) {
+    if (!payload || !Array.isArray(payload.questions) || !payload.questions.length) {
+        return;
+    }
+
+    setImmediate(async () => {
+        try {
+            await saveGeneratedQuestionsToBank(payload);
+        } catch (error) {
+            console.error('Failed to save AI-generated questions to bank:', error);
+        }
+    });
+}
+
+async function generateHybridQuestionsForSubject(subject, topic, count) {
+    if (!count || count <= 0) {
+        return [];
+    }
+
+    const generated = [];
+    const plan = [
+        () => generatePassageSet(topic, subject, 2),
+        () => generatePassageSet(topic, subject, 2),
+        () => generatePassageSet(topic, subject, 2),
+        () => generateImageQuestion(topic, subject, curatedImages, 2),
+        () => generateImageQuestion(topic, subject, curatedImages, 2)
+    ];
+
+    for (let i = 0; i < 6; i++) {
+        plan.push(() => generateStandaloneQuestion(subject, topic));
+    }
+
+    for (const factory of plan) {
+        if (generated.length >= count) break;
+        try {
+            const result = await factory();
+            const items = Array.isArray(result) ? result : [result];
+            for (const item of items) {
+                if (item && typeof item === 'object') {
+                    generated.push(item);
+                    if (generated.length >= count) break;
+                }
+            }
+        } catch (error) {
+            console.error(`Hybrid generation task failed for ${subject}:`, error);
+        }
+    }
+
+    let attempts = 0;
+    while (generated.length < count && attempts < 6) {
+        attempts += 1;
+        try {
+            const fallback = await generateStandaloneQuestion(subject, topic);
+            if (fallback && typeof fallback === 'object') {
+                generated.push(fallback);
+            }
+        } catch (error) {
+            console.error(`Fallback standalone generation failed for ${subject}:`, error);
+        }
+    }
+
+    return generated.slice(0, count);
+}
+
 const SALT_ROUNDS = 10;
 const USER_TOKEN_TTL = '12h';
 
@@ -3176,18 +3407,17 @@ app.post('/generate-quiz', async (req, res) => {
 } else {
         // --- CORRECTED TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
         try {
-            const { subject, topic } = req.body;
-            if (!topic) {
+            if (!topic || typeof topic !== 'string') {
                 return res.status(400).json({ error: 'Topic is required for non-comprehensive quizzes.' });
             }
             console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
 
-            const TOTAL_QUESTIONS = 15;
-            let promises = []; // Single promises array for all logic paths.
+            const userId = req.user?.userId || req.user?.sub || req.body?.userId || req.body?.user_id || null;
 
             if (subject === 'Math') {
-                // --- MATH-SPECIFIC LOGIC ---
+                const TOTAL_QUESTIONS = 12;
                 console.log("Generating Math quiz without passages.");
+                let promises = [];
                 let visualQuestionCount = 0;
                 if (topic.toLowerCase().includes('geometry')) {
                     console.log('Geometry topic detected. Generating 5 visual questions.');
@@ -3200,61 +3430,140 @@ app.post('/generate-quiz', async (req, res) => {
                 for (let i = 0; i < remainingQuestions; i++) {
                     promises.push(generateStandaloneQuestion(subject, topic));
                 }
-            } else {
-                // --- LOGIC FOR OTHER SUBJECTS (Social Studies, Science, RLA) ---
-                console.log(`Generating ${subject} quiz with passages and other stimuli.`);
-                const numPassageSets = 3; // e.g., 3 passages with 2 questions each = 6 questions
-                const numImageSets = 2;   // e.g., 2 images with 2 questions each = 4 questions
 
-                for (let i = 0; i < numPassageSets; i++) {
-                    promises.push(generatePassageSet(topic, subject, 2));
+                const results = await Promise.all(promises);
+                let allQuestions = results.flat().filter(q => q);
+                const shuffledQuestions = shuffleArray(allQuestions);
+                let finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
+
+                finalQuestions.forEach((q, index) => {
+                    q.questionNumber = index + 1;
+                });
+
+                if (MATH_TWO_PASS_ENABLED) {
+                    console.log('Applying math two-pass linting pipeline to topic quiz...');
+                    await runMathTwoPassOnQuestions(finalQuestions, subject);
+                    finalQuestions = await applyMathCorrectnessPass(finalQuestions);
                 }
-                for (let i = 0; i < numImageSets; i++) {
-                    promises.push(generateImageQuestion(topic, subject, curatedImages, 2));
-                }
-                 // Fill the rest with standalone questions to ensure we reach the total.
-                 const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
-                 const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
-                 for (let i = 0; i < remainingQuestions; i++) {
-                     promises.push(generateStandaloneQuestion(subject, topic));
-                 }
+
+                const finalQuiz = {
+                    id: `ai_topic_${new Date().getTime()}`,
+                    title: `${subject}: ${topic}`,
+                    subject,
+                    questions: finalQuestions,
+                };
+
+                logGenerationDuration(examType, subject, generationStart);
+                res.json(finalQuiz);
+                return;
             }
 
-            // --- Execute all promises, assemble, shuffle, and finalize the quiz ---
+            const normalizedSubjectForBank = normalizeQuestionBankSubject(subject);
+            const isHybridSubject = HYBRID_ELIGIBLE_SUBJECTS.has(subject) || Boolean(normalizedSubjectForBank);
+
+            if (isHybridSubject) {
+                const bankSubject = normalizedSubjectForBank || normalizeQuestionBankSubject(subject);
+                let bankQuestionIds = [];
+                let bankQuestions = [];
+
+                if (bankSubject) {
+                    const bankEntries = await fetchQuestionsFromBank({
+                        subject: bankSubject,
+                        category: topic,
+                        userId,
+                        limit: QUESTION_BANK_TARGET_COUNT
+                    });
+                    bankQuestionIds = bankEntries.map((entry) => entry.id);
+                    bankQuestions = bankEntries.map((entry) => cloneQuestion(entry.question));
+                }
+
+                const questionsNeededFromAI = Math.max(HYBRID_TOTAL_QUESTIONS - bankQuestions.length, 0);
+                let generatedQuestions = [];
+                if (questionsNeededFromAI > 0) {
+                    generatedQuestions = await generateHybridQuestionsForSubject(subject, topic, questionsNeededFromAI);
+                }
+
+                let combinedQuestions = [...bankQuestions, ...generatedQuestions];
+                if (combinedQuestions.length < HYBRID_TOTAL_QUESTIONS) {
+                    const deficit = HYBRID_TOTAL_QUESTIONS - combinedQuestions.length;
+                    if (deficit > 0) {
+                        const filler = await generateHybridQuestionsForSubject(subject, topic, deficit);
+                        generatedQuestions.push(...filler);
+                        combinedQuestions = [...combinedQuestions, ...filler];
+                    }
+                }
+
+                const generatedClonesForBank = generatedQuestions.map((question) => cloneQuestion(question));
+                const shuffledQuestions = shuffleArray(combinedQuestions.map((question) => cloneQuestion(question)));
+                const finalQuestions = shuffledQuestions.slice(0, HYBRID_TOTAL_QUESTIONS);
+
+                finalQuestions.forEach((q, index) => {
+                    q.questionNumber = index + 1;
+                });
+
+                await markQuestionsAsSeen(userId, bankQuestionIds);
+
+                const finalQuiz = {
+                    id: `ai_topic_${new Date().getTime()}`,
+                    title: `${subject}: ${topic}`,
+                    subject,
+                    questions: finalQuestions,
+                };
+
+                logGenerationDuration(examType, subject, generationStart);
+                res.json(finalQuiz);
+
+                if (generatedClonesForBank.length) {
+                    scheduleGeneratedQuestionSave({
+                        subject,
+                        category: topic,
+                        questions: generatedClonesForBank,
+                        userId
+                    });
+                }
+
+                return;
+            }
+
+            const TOTAL_QUESTIONS = 15;
+            let promises = [];
+            console.log(`Generating ${subject} quiz with passages and other stimuli (legacy path).`);
+            const numPassageSets = 3;
+            const numImageSets = 2;
+
+            for (let i = 0; i < numPassageSets; i++) {
+                promises.push(generatePassageSet(topic, subject, 2));
+            }
+            for (let i = 0; i < numImageSets; i++) {
+                promises.push(generateImageQuestion(topic, subject, curatedImages, 2));
+            }
+
+            const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
+            const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
+            for (let i = 0; i < remainingQuestions; i++) {
+                promises.push(generateStandaloneQuestion(subject, topic));
+            }
+
             const results = await Promise.all(promises);
-            let allQuestions = results.flat().filter(q => q); // Filter out any nulls from failed generations
-
-            // Shuffle the collected questions for variety
+            let allQuestions = results.flat().filter(q => q);
             const shuffledQuestions = shuffleArray(allQuestions);
+            const finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
 
-            let finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
-
-            // Assign question numbers
             finalQuestions.forEach((q, index) => {
                 q.questionNumber = index + 1;
             });
 
-            if (subject === 'Math' && MATH_TWO_PASS_ENABLED) {
-                console.log('Applying math two-pass linting pipeline to topic quiz...');
-                await runMathTwoPassOnQuestions(finalQuestions, subject);
-                finalQuestions = await applyMathCorrectnessPass(finalQuestions);
-            }
-
-            let draftQuiz = {
+            const finalQuiz = {
                 id: `ai_topic_${new Date().getTime()}`,
                 title: `${subject}: ${topic}`,
-                subject: subject,
+                subject,
                 questions: finalQuestions,
             };
 
-            const finalQuiz = draftQuiz;
-
-            console.log("Quiz generation and post-processing complete.");
             logGenerationDuration(examType, subject, generationStart);
-            res.json(finalQuiz); // Send the cleaned quiz directly to the user
+            res.json(finalQuiz);
 
         } catch (error) {
-            // Use topic and subject in the error log if they are available
             const errorMessage = req.body.topic ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating topic-specific quiz';
             console.error(errorMessage, error);
             logGenerationDuration(examType, subject, generationStart, 'failed');
