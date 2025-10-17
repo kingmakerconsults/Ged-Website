@@ -1604,7 +1604,7 @@ app.use(cors(corsOptions));
 
 // handle preflight requests
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
 // Serve static image folders from the 'frontend' directory
@@ -3726,6 +3726,7 @@ app.post('/api/auth/google', async (req, res) => {
         });
         const payload = ticket.getPayload();
         const { name, email, picture } = payload;
+        const googleId = payload?.sub || payload?.['sub'] || null;
 
         if (!email) {
             throw new Error('Google login did not provide an email address.');
@@ -3772,6 +3773,8 @@ app.post('/api/auth/google', async (req, res) => {
 
         console.log(`User ${userRow.name} (${userRow.email}) logged in and data was saved to the database.`);
 
+        console.log(`[SECURITY] Successful login for user ID: ${googleId || 'unknown'}, email: ${normalizedEmail}`);
+
         const token = jwt.sign({ sub: userRow.id, name: userRow.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
         setAuthCookie(res, token, 24 * 60 * 60 * 1000);
 
@@ -3787,6 +3790,7 @@ app.post('/api/auth/google', async (req, res) => {
             token,
         });
     } catch (error) {
+        console.warn(`[SECURITY] Failed login attempt. Error: ${error.message}`);
         console.error('Google Auth or DB Error:', error);
         res.status(500).json({ error: 'Authentication or database error.' });
     }
