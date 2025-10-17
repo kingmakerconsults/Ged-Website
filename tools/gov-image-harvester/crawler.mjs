@@ -9,6 +9,7 @@ const MAX_RETRIES = 4;
 const BASE_BACKOFF_MS = 600;
 
 const robotsCache = new Map();
+const temporaryAllowedDomains = new Set();
 const queue = new PQueue({
   concurrency: 3,
   intervalCap: 6,
@@ -29,6 +30,40 @@ function safeURL(u) {
   const s = String(u ?? '').trim();
   const fixed = s.startsWith('//') ? `https:${s}` : s.replace(/\s+/g, '');
   return new URL(fixed);
+}
+
+function normalizeTemporaryDomain(value) {
+  if (!value) return '';
+  let d = String(value).trim().toLowerCase();
+  if (!d) return '';
+  d = d.replace(/^https?:\/\//, '');
+  d = d.replace(/#.*/, '');
+  d = d.replace(/\/.*$/, '');
+  d = d.replace(/:\\d+$/, '');
+  return d;
+}
+
+export function setTemporaryAllowedDomains(domains = []) {
+  temporaryAllowedDomains.clear();
+  if (!domains) return;
+  for (const entry of domains) {
+    const normalized = normalizeTemporaryDomain(entry);
+    if (!normalized) continue;
+    temporaryAllowedDomains.add(normalized);
+    temporaryAllowedDomains.add(normalized.replace(/^www\./, ''));
+  }
+}
+
+function isTemporarilyAllowed(hostname) {
+  if (!hostname) return false;
+  const lower = hostname.toLowerCase();
+  for (const allowed of temporaryAllowedDomains) {
+    if (!allowed) continue;
+    if (lower === allowed || lower.endsWith(`.${allowed}`)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 async function fetchWithRetry(url, options = {}, attempt = 1) {
@@ -72,7 +107,7 @@ async function fetchWithRetry(url, options = {}, attempt = 1) {
 export async function getRobots(urlLike) {
   const target = safeURL(urlLike);
   const { hostname, origin } = target;
-  if (!isHostnameAllowed(hostname)) {
+  if (!isHostnameAllowed(hostname) && !isTemporarilyAllowed(hostname)) {
     throw new Error(`Robots check failed: domain not allowed (${hostname})`);
   }
   if (robotsCache.has(hostname)) {
@@ -103,7 +138,7 @@ function isPathAllowed(parser, url) {
 
 export async function fetchHtml(url, timeoutMs = 10000) {
   const target = safeURL(url);
-  if (!isHostnameAllowed(target.hostname)) {
+  if (!isHostnameAllowed(target.hostname) && !isTemporarilyAllowed(target.hostname)) {
     throw new Error(`Domain not allowed: ${target.hostname}`);
   }
   const targetUrl = target.toString();
