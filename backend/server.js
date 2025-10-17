@@ -506,44 +506,40 @@ const OPENAI_QUESTION_JSON_SCHEMA = {
 };
 
 const SCIENTIFIC_NUMERACY_SCHEMA = {
-    name: 'ScientificNumeracyQuiz',
-    schema: {
-        type: 'object',
-        required: ['questions'],
-        additionalProperties: true,
-        properties: {
-            title: { type: 'string' },
-            description: { type: 'string' },
-            questions: {
-                type: 'array',
-                items: {
-                    type: 'object',
-                    required: ['questionNumber', 'passage', 'question', 'answerOptions'],
-                    additionalProperties: true,
-                    properties: {
-                        questionNumber: { type: 'integer' },
-                        passage: { type: 'string' },
-                        question: { type: 'string' },
-                        answerOptions: {
-                            type: 'array',
-                            minItems: 1,
-                            items: {
-                                type: 'object',
-                                required: ['text', 'rationale', 'isCorrect'],
-                                additionalProperties: true,
-                                properties: {
-                                    text: { type: 'string' },
-                                    rationale: { type: 'string' },
-                                    isCorrect: { type: 'boolean' }
-                                }
-                            }
+    type: 'object',
+    properties: {
+        questions: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    questionNumber: { type: 'integer' },
+                    passage: {
+                        type: 'string',
+                        description: 'A passage containing scientific context. It can include HTML for tables (<table>) or text descriptions of charts and graphs. All math formulas should use LaTeX inside single dollar signs (e.g., $d = \\frac{m}{V}$).'
+                    },
+                    question: {
+                        type: 'string',
+                        description: 'The question based on the passage. Can use <strong> tags for emphasis.'
+                    },
+                    answerOptions: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                text: { type: 'string' },
+                                rationale: { type: 'string', description: 'A clear explanation for why this option is correct or incorrect.' },
+                                isCorrect: { type: 'boolean' }
+                            },
+                            required: ['text', 'rationale', 'isCorrect']
                         }
                     }
                 },
-                default: []
+                required: ['questionNumber', 'passage', 'question', 'answerOptions']
             }
         }
-    }
+    },
+    required: ['questions']
 };
 
 const SIMPLE_CHOICE_JSON_SCHEMA = {
