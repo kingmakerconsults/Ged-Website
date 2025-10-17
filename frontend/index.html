@@ -264,6 +264,8 @@ const DEFAULT_COLOR_SCHEME = {
     scoreBorder: 'border-slate-200',
 };
 
+const SMITH_QUIZ_EXCLUDED_TOPIC_TYPES = new Set(['essay', 'simulation', 'graphing_tool', 'geometry_practice_tool']);
+
 const SUBJECT_COLORS = {
     Science: {
         background: 'bg-red-600',
@@ -3695,7 +3697,11 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
     // --- NEW: Logic to get topics for the dropdown (moved from AIQuizGenerator) ---
     // This includes the fix for the white screen error using optional chaining (`?.`)
     const availableTopics = selectedSubject && AppData[selectedSubject]?.categories
-        ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
+        ? Object.values(AppData[selectedSubject].categories).flatMap(category =>
+            (category.topics || [])
+                .filter(topic => !SMITH_QUIZ_EXCLUDED_TOPIC_TYPES.has(topic.type))
+                .map(topic => topic.title)
+        )
         : [];
 
     const Breadcrumb = ({ variant = 'default' } = {}) => {
@@ -5245,7 +5251,11 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
     const [error, setError] = useState(null);
 
     const availableTopics = AppData[subject]
-        ? Object.values(AppData[subject].categories).flatMap(category => category.topics.map(topic => topic.title))
+        ? Object.values(AppData[subject].categories).flatMap(category =>
+            (category.topics || [])
+                .filter(topic => !SMITH_QUIZ_EXCLUDED_TOPIC_TYPES.has(topic.type))
+                .map(topic => topic.title)
+        )
         : [];
 
     const handleGenerate = async () => {
