@@ -6,6 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 }
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const axios = require('axios');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
@@ -1562,6 +1563,15 @@ function createUserToken(userId) {
 }
 
 const app = express();
+// Apply rate limiting to AI generation routes to protect against abuse.
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    message: 'Too many requests from this IP, please try again after 15 minutes',
+    standardHeaders: true,
+    legacyHeaders: false
+});
+app.use('/api/generate', apiLimiter);
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
 const port = process.env.PORT || 3001;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -3098,7 +3108,19 @@ ${JSON.stringify(questionObject)}
 
 
 app.post('/api/generate/topic', express.json(), async (req, res) => {
-    const { subject = 'Science', topic = 'Ecosystems' } = req.body || {};
+    let { subject, topic } = req.body || {};
+
+    if (!subject || typeof subject !== 'string' || !topic || typeof topic !== 'string') {
+        return res.status(400).json({ error: 'Invalid subject or topic provided.' });
+    }
+
+    subject = subject.trim();
+    topic = topic.trim();
+
+    if (!subject || !topic) {
+        return res.status(400).json({ error: 'Invalid subject or topic provided.' });
+    }
+
     const QUIZ_COUNT = 12;
     try {
         const subjectNeedsRetrieval = TOPIC_STIMULUS_SUBJECTS.has(subject);
