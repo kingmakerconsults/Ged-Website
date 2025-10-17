@@ -480,7 +480,8 @@ async function main() {
       subjectState.visitedPages[canonicalSource] = Date.now();
     } catch (err) {
       errors += 1;
-      console.error(`Failed to process ${pageUrl}: ${err.message}`);
+      console.warn(`[WARN] Failed to process ${pageUrl}: ${err.message}. Skipping.`);
+      continue;
     }
   }
 
