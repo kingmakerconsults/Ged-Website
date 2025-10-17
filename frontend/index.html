@@ -3826,6 +3826,18 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                                 >
                                     Generate Quiz
                                 </button>
+                                {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
+                                    <button
+                                        onClick={() => onSelectQuiz({
+                                            id: 'essay_practice_tool',
+                                            title: 'Essay Practice Tool',
+                                            type: 'essay'
+                                        }, selectedSubject)}
+                                        className="w-full mt-2 px-4 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 transition"
+                                    >
+                                        Launch Essay Practice Tool
+                                    </button>
+                                )}
                             </div>
                             {/* --- END OF UPDATED BOX --- */}
 
