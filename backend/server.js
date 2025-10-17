@@ -3355,26 +3355,23 @@ app.post('/api/auth/google', async (req, res) => {
         if (existingUserResult.rowCount > 0) {
             const existingUser = existingUserResult.rows[0];
 
-            await pool.query(
+            const updateResult = await pool.query(
                 `UPDATE users
                  SET name = $1,
                      picture_url = $2,
                      last_login = $3
-                 WHERE id = $4;`,
+                 WHERE id = $4
+                 RETURNING *;`,
                 [name ?? existingUser.name, picture ?? existingUser.picture_url, now, existingUser.id]
             );
 
-            const refreshedUserResult = await pool.query(
-                'SELECT * FROM users WHERE id = $1 LIMIT 1;',
-                [existingUser.id]
-            );
-            userRow = refreshedUserResult.rows[0];
+            userRow = updateResult.rows[0];
         } else {
             const insertResult = await pool.query(
-                `INSERT INTO users (email, name, picture_url, last_login)
-                 VALUES ($1, $2, $3, $4)
+                `INSERT INTO users (email, name, picture_url, password_hash, last_login)
+                 VALUES ($1, $2, $3, $4, $5)
                  RETURNING *;`,
-                [normalizedEmail, name ?? null, picture ?? null, now]
+                [normalizedEmail, name ?? null, picture ?? null, null, now]
             );
             userRow = insertResult.rows[0];
         }
