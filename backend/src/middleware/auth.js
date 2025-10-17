@@ -16,7 +16,7 @@ function isBypassEnabled() {
 function getCookieOptions(maxAgeMs) {
     return {
         httpOnly: true,
-        sameSite: 'lax',
+        sameSite: 'strict',
         secure: process.env.NODE_ENV === 'production',
         maxAge: maxAgeMs
     };
