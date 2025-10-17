@@ -505,6 +505,47 @@ const OPENAI_QUESTION_JSON_SCHEMA = {
     }
 };
 
+const SCIENTIFIC_NUMERACY_SCHEMA = {
+    name: 'ScientificNumeracyQuiz',
+    schema: {
+        type: 'object',
+        required: ['questions'],
+        additionalProperties: true,
+        properties: {
+            title: { type: 'string' },
+            description: { type: 'string' },
+            questions: {
+                type: 'array',
+                items: {
+                    type: 'object',
+                    required: ['questionNumber', 'passage', 'question', 'answerOptions'],
+                    additionalProperties: true,
+                    properties: {
+                        questionNumber: { type: 'integer' },
+                        passage: { type: 'string' },
+                        question: { type: 'string' },
+                        answerOptions: {
+                            type: 'array',
+                            minItems: 1,
+                            items: {
+                                type: 'object',
+                                required: ['text', 'rationale', 'isCorrect'],
+                                additionalProperties: true,
+                                properties: {
+                                    text: { type: 'string' },
+                                    rationale: { type: 'string' },
+                                    isCorrect: { type: 'boolean' }
+                                }
+                            }
+                        }
+                    }
+                },
+                default: []
+            }
+        }
+    }
+};
+
 const SIMPLE_CHOICE_JSON_SCHEMA = {
     type: 'object',
     additionalProperties: true,
