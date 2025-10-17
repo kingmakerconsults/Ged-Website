@@ -25,6 +25,12 @@ function addJitter(ms) {
   return ms + jitter;
 }
 
+function safeURL(u) {
+  const s = String(u ?? '').trim();
+  const fixed = s.startsWith('//') ? `https:${s}` : s.replace(/\s+/g, '');
+  return new URL(fixed);
+}
+
 async function fetchWithRetry(url, options = {}, attempt = 1) {
   const controller = new AbortController();
   const timeout = options.timeout ?? 10000;
@@ -64,7 +70,8 @@ async function fetchWithRetry(url, options = {}, attempt = 1) {
 }
 
 export async function getRobots(urlLike) {
-  const { hostname, origin } = new URL(urlLike);
+  const target = safeURL(urlLike);
+  const { hostname, origin } = target;
   if (!isHostnameAllowed(hostname)) {
     throw new Error(`Robots check failed: domain not allowed (${hostname})`);
   }
@@ -95,18 +102,19 @@ function isPathAllowed(parser, url) {
 }
 
 export async function fetchHtml(url, timeoutMs = 10000) {
-  const target = new URL(url);
+  const target = safeURL(url);
   if (!isHostnameAllowed(target.hostname)) {
     throw new Error(`Domain not allowed: ${target.hostname}`);
   }
-  const robots = await getRobots(url);
-  if (robots && !isPathAllowed(robots, url)) {
-    throw new Error(`Robots disallow ${url}`);
+  const targetUrl = target.toString();
+  const robots = await getRobots(targetUrl);
+  if (robots && !isPathAllowed(robots, targetUrl)) {
+    throw new Error(`Robots disallow ${targetUrl}`);
   }
   await sleep(addJitter(50));
-  const response = await queue.add(() => fetchWithRetry(url, { timeout: timeoutMs }));
+  const response = await queue.add(() => fetchWithRetry(targetUrl, { timeout: timeoutMs }));
   const html = await response.text();
-  const finalUrl = response.url ?? url;
+  const finalUrl = response.url ?? targetUrl;
   return { html, finalUrl };
 }
 
@@ -122,8 +130,48 @@ const CATEGORY_SCORE = {
   'smithsonianmag.com': 0.8
 };
 
-const SCORE_KEYWORDS = ['map', 'graph', 'chart', 'diagram', 'table', 'census', 'hurricane', 'inflation', 'gdp', 'population', 'timeline'];
-const BONUS_KEYWORDS = ['map', 'chart', 'graph', 'timeline', 'infographic', 'cartoon', 'diagram'];
+const SCORE_KEYWORDS = [
+  'map',
+  'graph',
+  'chart',
+  'diagram',
+  'table',
+  'census',
+  'hurricane',
+  'inflation',
+  'gdp',
+  'population',
+  'timeline',
+  'fraction',
+  'algebra',
+  'geometry',
+  'equation',
+  'slope',
+  'histogram',
+  'boxplot',
+  'scatter',
+  'probability',
+  'mean',
+  'median',
+  'mode',
+  'standard deviation'
+];
+const BONUS_KEYWORDS = [
+  'map',
+  'chart',
+  'graph',
+  'timeline',
+  'infographic',
+  'cartoon',
+  'diagram',
+  'equation',
+  'function',
+  'parabola',
+  'linear',
+  'pie chart',
+  'bar chart',
+  'box plot'
+];
 const BAD_CLASSES = ['logo', 'icon', 'sprite', 'banner', 'decorative', 'advertisement', 'social', 'avatar'];
 const WATERMARK_PATTERN = /(shutterstock|alamy|getty)/i;
 
