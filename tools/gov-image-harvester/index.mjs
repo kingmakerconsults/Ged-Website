@@ -186,7 +186,11 @@ async function collectSeedUrls(subject, topics, limit) {
         seeds.add(entry.loc);
       }
     } catch (error) {
-      console.error(`Failed to parse sitemap ${sitemapUrl}: ${error.message}`);
+      console.warn(`[WARN] Skipping failed sitemap: ${sitemapUrl}`);
+      if (error?.message) {
+        console.warn(`  Reason: ${error.message}`);
+      }
+      continue;
     }
   }
   if (topics && topics.length > 0) {
