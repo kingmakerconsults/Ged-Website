@@ -2951,7 +2951,36 @@ Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 pa
 }
 
 async function generateRlaPart2(options = {}) {
-    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each, 150-230 words and never above 250 words). Each passage MUST have its own title. Output a JSON object with keys "passages" (an array of two objects, each with "title" and "content") and "prompt" (the essay question, <= 250 words).`;
+    const prompt = `
+You are an expert GED exam content creator. Your task is to generate the "Extended Response" (essay) portion of the Reasoning Through Language Arts (RLA) test.
+
+The output MUST be a single JSON object with three specific keys: "passage1", "passage2", and "prompt".
+
+**Content and Formatting Rules:**
+
+1.  **Generate Two Passages:**
+    * Create two source texts, \`passage1\` and \`passage2\`.
+    * The two passages MUST present opposing or conflicting arguments on the same non-controversial, accessible topic (e.g., the benefits of year-round schooling, the impact of technology on communication, the value of mandatory community service).
+    * Each passage MUST be between **250 and 350 words**. This word count is a strict requirement.
+    * Each passage must start with a title enclosed in \`<strong>\` tags.
+    * The content should be written at a level appropriate for a high school equivalency test-taker.
+
+2.  **Generate the Essay Prompt:**
+    * The \`prompt\` key must contain the specific instructions for the test-taker. It should follow this exact template:
+        "The following two passages present opposing arguments on the topic of [Your Topic Here]. Analyze both passages to determine which position is better supported by evidence. Write an essay in which you explain your conclusion. Use specific details and examples from both texts to support your analysis. Your essay should be approximately 4-5 paragraphs long."
+
+**Example of the Required JSON Output Structure:**
+
+\`\`\`json
+{
+  "passage1": "<strong>Title for Passage One</strong><p>Text of the first passage, presenting one side of the argument, strictly between 250 and 350 words...</p>",
+  "passage2": "<strong>Title for Passage Two</strong><p>Text of the second passage, presenting the opposing side of the argument, strictly between 250 and 350 words...</p>",
+  "prompt": "The following two passages present opposing arguments on the topic of [Your Topic Here]. Analyze both passages to determine which position is better supported by evidence. Write an essay in which you explain your conclusion. Use specific details and examples from both texts to support your analysis. Your essay should be approximately 4-5 paragraphs long."
+}
+\`\`\`
+
+Now, generate the content.
+`;
     const schema = {
         type: "OBJECT",
         properties: {
