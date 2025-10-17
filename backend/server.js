@@ -3343,34 +3343,38 @@ app.post('/api/auth/google', async (req, res) => {
             throw new Error('Google login did not provide an email address.');
         }
 
+        const normalizedEmail = email.trim().toLowerCase();
         const now = new Date();
-        let userRow = null;
 
-        // Attempt to find existing user by email
         const existingUserResult = await pool.query(
             'SELECT * FROM users WHERE email = $1 LIMIT 1;',
-            [email]
+            [normalizedEmail]
         );
 
-        if (existingUserResult.rows.length > 0) {
-            // Update existing user with latest details
-            const updateResult = await pool.query(
+        let userRow;
+        if (existingUserResult.rowCount > 0) {
+            const existingUser = existingUserResult.rows[0];
+
+            await pool.query(
                 `UPDATE users
                  SET name = $1,
                      picture_url = $2,
                      last_login = $3
-                 WHERE email = $4
-                 RETURNING *;`,
-                [name, picture, now, email]
+                 WHERE id = $4;`,
+                [name ?? existingUser.name, picture ?? existingUser.picture_url, now, existingUser.id]
             );
-            userRow = updateResult.rows[0];
+
+            const refreshedUserResult = await pool.query(
+                'SELECT * FROM users WHERE id = $1 LIMIT 1;',
+                [existingUser.id]
+            );
+            userRow = refreshedUserResult.rows[0];
         } else {
-            // Insert new user letting the database handle the id
             const insertResult = await pool.query(
-                `INSERT INTO users (name, email, picture_url, last_login)
+                `INSERT INTO users (email, name, picture_url, last_login)
                  VALUES ($1, $2, $3, $4)
                  RETURNING *;`,
-                [name, email, picture, now]
+                [normalizedEmail, name ?? null, picture ?? null, now]
             );
             userRow = insertResult.rows[0];
         }
@@ -3381,7 +3385,6 @@ app.post('/api/auth/google', async (req, res) => {
 
         console.log(`User ${userRow.name} (${userRow.email}) logged in and data was saved to the database.`);
 
-        // Create a session token using the database user id
         const token = jwt.sign({ sub: userRow.id, name: userRow.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
         setAuthCookie(res, token, 24 * 60 * 60 * 1000);
 
