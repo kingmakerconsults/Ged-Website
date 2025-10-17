@@ -8,6 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
+const helmet = require('helmet');
 const axios = require('axios');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
@@ -1563,6 +1564,7 @@ function createUserToken(userId) {
 }
 
 const app = express();
+app.use(helmet());
 // Apply rate limiting to AI generation routes to protect against abuse.
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -1638,6 +1640,7 @@ app.post('/api/register', async (req, res) => {
 
         const user = formatUserRow(result.rows[0]);
         const token = createUserToken(user.id);
+        setAuthCookie(res, token, 24 * 60 * 60 * 1000);
         return res.status(201).json({ message: 'Registration successful', user, token });
     } catch (error) {
         if (error?.code === '23505') {
@@ -1683,6 +1686,7 @@ app.post('/api/login', async (req, res) => {
 
         const user = formatUserRow(userRow);
         const token = createUserToken(user.id);
+        setAuthCookie(res, token, 24 * 60 * 60 * 1000);
         return res.status(200).json({ message: 'Login successful', user, token });
     } catch (error) {
         console.error('Login failed:', error);
