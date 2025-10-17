@@ -4,7 +4,10 @@
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email TEXT NOT NULL UNIQUE,
-    password_hash TEXT NOT NULL,
+    password_hash TEXT,
+    name TEXT,
+    picture_url TEXT,
+    last_login TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
