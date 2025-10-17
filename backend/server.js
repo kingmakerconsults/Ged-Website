@@ -3337,32 +3337,62 @@ app.post('/api/auth/google', async (req, res) => {
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
-        const { sub, name, email, picture } = payload;
-        const userId = sub;
+        const { name, email, picture } = payload;
 
-        // --- DATABASE INTERACTION ---
+        if (!email) {
+            throw new Error('Google login did not provide an email address.');
+        }
+
         const now = new Date();
-        const userQuery = `
-            INSERT INTO users (id, name, email, picture_url, last_login)
-            VALUES ($1, $2, $3, $4, $5)
-            ON CONFLICT (id) DO UPDATE
-            SET name = $2, email = $3, picture_url = $4, last_login = $5;
-        `;
-        // Use the 'pool' object to run the query
-        await pool.query(userQuery, [userId, name, email, picture, now]);
-        console.log(`User ${name} (${email}) logged in and data was saved to the database.`);
-        // --- END DATABASE INTERACTION ---
+        let userRow = null;
 
-        // Create a session token
-        const token = jwt.sign({ sub: userId, name }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        // Attempt to find existing user by email
+        const existingUserResult = await pool.query(
+            'SELECT * FROM users WHERE email = $1 LIMIT 1;',
+            [email]
+        );
+
+        if (existingUserResult.rows.length > 0) {
+            // Update existing user with latest details
+            const updateResult = await pool.query(
+                `UPDATE users
+                 SET name = $1,
+                     picture_url = $2,
+                     last_login = $3
+                 WHERE email = $4
+                 RETURNING *;`,
+                [name, picture, now, email]
+            );
+            userRow = updateResult.rows[0];
+        } else {
+            // Insert new user letting the database handle the id
+            const insertResult = await pool.query(
+                `INSERT INTO users (name, email, picture_url, last_login)
+                 VALUES ($1, $2, $3, $4)
+                 RETURNING *;`,
+                [name, email, picture, now]
+            );
+            userRow = insertResult.rows[0];
+        }
+
+        if (!userRow) {
+            throw new Error('Failed to retrieve user from database after Google login.');
+        }
+
+        console.log(`User ${userRow.name} (${userRow.email}) logged in and data was saved to the database.`);
+
+        // Create a session token using the database user id
+        const token = jwt.sign({ sub: userRow.id, name: userRow.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
         setAuthCookie(res, token, 24 * 60 * 60 * 1000);
 
         res.status(200).json({
             user: {
-                id: userId,
-                name,
-                email,
-                picture,
+                id: userRow.id,
+                name: userRow.name,
+                email: userRow.email,
+                picture: userRow.picture_url,
+                pictureUrl: userRow.picture_url,
+                last_login: userRow.last_login,
             },
             token,
         });
