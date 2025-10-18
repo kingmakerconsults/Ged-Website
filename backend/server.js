@@ -3367,6 +3367,27 @@ app.post('/generate-quiz', async (req, res) => {
             generateRlaPart3(aiOptions)
         ]);
 
+        const isNonEmptyArray = (value) => Array.isArray(value) && value.length > 0;
+        const hasContent = (text) => typeof text === 'string' && text.trim().length > 0;
+        const isValidEssay = (essay) => {
+            if (!essay || typeof essay !== 'object') return false;
+            if (!hasContent(essay.prompt)) return false;
+            if (!Array.isArray(essay.passages) || essay.passages.length === 0) return false;
+            return essay.passages.every((passage) => {
+                if (!passage || typeof passage !== 'object') return false;
+                if ('content' in passage) {
+                    return hasContent(passage.content);
+                }
+                // Support potential legacy formats where the passage text is under a generic key
+                const values = Object.values(passage).filter((v) => typeof v === 'string');
+                return values.some((v) => hasContent(v));
+            });
+        };
+
+        if (!isNonEmptyArray(part1Questions) || !isNonEmptyArray(part3Questions) || !isValidEssay(part2Essay)) {
+            throw new Error('AI failed to generate a valid RLA exam part.');
+        }
+
         const allQuestions = [...part1Questions, ...part3Questions];
         allQuestions.forEach((q, index) => {
             q.questionNumber = index + 1;
