@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fetchHtml, extractPageInfo, setTemporaryAllowedDomains, collectAllSitemaps } from './crawler.mjs';
+import { fetchHtml, extractPageInfo, setTemporaryAllowedDomains, fetchSitemap } from './crawler.mjs';
 import { downloadAndNormalize, createSha1, decideFileName, writeImage } from './image-pipeline.mjs';
 import { loadMetadata, buildIndexes, upsertEntry, saveMetadata } from './metadata.mjs';
 import crypto from 'node:crypto';
+import { XMLParser } from 'fast-xml-parser';
 
 const SUBJECT_CONFIG = {
   Science: {
@@ -121,6 +122,8 @@ const MAX_IMAGES_PER_SEED = 3;
 
 const DEFAULT_SITEMAP_PATHS = ['/sitemap.xml', '/sitemap_index.xml'];
 
+const xmlParser = new XMLParser({ ignoreAttributes: false, trimValues: true });
+
 async function discoverSitemapsForDomain(domain) {
   const tried = [];
   const found = new Set();
@@ -235,37 +238,66 @@ function filterByTopics(urls, topics) {
   });
 }
 
-async function collectSeedUrls(subject, topics, limit, configOverride) {
-  const config = configOverride || SUBJECT_CONFIG[subject];
+function shouldAcceptHost(subject, hostname) {
+  return isAllowedHost(subject, hostname, SUBJECT_CONFIG[subject]);
+}
+
+async function collectSeedUrls(subject, topics, limit) {
+  const config = SUBJECT_CONFIG[subject];
+
+  // NEW LOGIC: If no sitemaps, build a search URL as a seed
+  if (!config.sitemaps || config.sitemaps.length === 0) {
+    if (topics.length > 0) {
+      const query = encodeURIComponent(topics.join(' ') + ' site:wikipedia.org');
+      const searchUrl = `https://www.google.com/search?q=${query}&tbm=isch`;
+      console.log(`[INFO] No sitemaps found. Using search URL as seed: ${searchUrl}`);
+      return [searchUrl];
+    } else {
+      console.warn(`[WARN] The "${subject}" profile has no sitemaps and no --topics were provided. No seeds to crawl.`);
+      return [];
+    }
+  }
+
+  // --- Existing logic continues below ---
   const seeds = new Set();
-  for (const sitemapUrlRaw of config.sitemaps) {
-    const sitemapUrl = normalizeUrlLike(sitemapUrlRaw);
-    if (!sitemapUrl) continue;
+  for (const sitemapUrl of config.sitemaps) {
     if (seeds.size > MAX_PAGES) break;
     try {
-      const sitemapEntries = await collectAllSitemaps(sitemapUrl, 0, 3);
-      const uniqueEntries = new Map();
-      for (const entry of sitemapEntries) {
-        if (!entry || entry.isIndex) continue;
-        const loc = normalizeUrlLike(entry.loc);
-        if (!loc) continue;
-        if (/\.xml($|[?#])/i.test(loc)) continue;
-        if (uniqueEntries.has(loc)) continue;
-        uniqueEntries.set(loc, {
-          loc,
-          lastmod: entry.lastmod || ''
-        });
+      const xml = await fetchSitemap(sitemapUrl);
+      const parsed = xmlParser.parse(xml);
+      let urls = [];
+      if (parsed.urlset?.url) {
+        urls = Array.isArray(parsed.urlset.url) ? parsed.urlset.url : [parsed.urlset.url];
+      } else if (parsed.sitemapindex?.sitemap) {
+        const nested = Array.isArray(parsed.sitemapindex.sitemap)
+          ? parsed.sitemapindex.sitemap
+          : [parsed.sitemapindex.sitemap];
+        const limitedNested = nested.slice(0, 5);
+        for (const child of limitedNested) {
+          const childLoc = child.loc;
+          if (!childLoc) continue;
+          try {
+            const childXml = await fetchSitemap(childLoc);
+            const childParsed = xmlParser.parse(childXml);
+            const childUrls = childParsed.urlset?.url || [];
+            const normalized = Array.isArray(childUrls) ? childUrls : [childUrls];
+            for (const entry of normalized) {
+              if (entry?.loc) {
+                urls.push(entry);
+              }
+            }
+          } catch (error) {
+            // ignore nested errors but continue
+          }
+        }
       }
       const filtered = filterByTopics(
-        Array.from(uniqueEntries.values()).filter((entry) => {
-          if (!entry.loc) return false;
-          try {
-            const h = new URL(entry.loc).hostname;
-            return isAllowedHost(subject, h, config);
-          } catch {
-            return false;
-          }
-        }),
+        urls
+          .map((entry) => ({
+            loc: entry?.loc,
+            lastmod: entry?.lastmod || ''
+          }))
+          .filter((entry) => entry.loc && shouldAcceptHost(subject, new URL(entry.loc).hostname)),
         topics
       ).slice(0, MAX_SEED_PER_SITEMAP);
       for (const entry of filtered) {
@@ -275,7 +307,7 @@ async function collectSeedUrls(subject, topics, limit, configOverride) {
     } catch (error) {
       console.warn(`[WARN] Skipping failed sitemap: ${sitemapUrl}`);
       if (error?.message) {
-        console.warn(`Reason: ${error.message}`);
+        console.warn(`  Reason: ${error.message}`);
       }
       continue;
     }
@@ -504,7 +536,7 @@ async function main() {
   state.subjects = state.subjects || {};
   const subjectState = ensureSubjectState(state, subject);
 
-  const seeds = await collectSeedUrls(subject, topics, limit, config);
+  const seeds = await collectSeedUrls(subject, topics, limit);
 
   let saved = 0;
   let duplicates = 0;
