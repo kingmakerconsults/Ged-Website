@@ -245,20 +245,45 @@ function shouldAcceptHost(subject, hostname) {
 async function collectSeedUrls(subject, topics, limit) {
   const config = SUBJECT_CONFIG[subject];
 
-  // NEW LOGIC: If no sitemaps, build a search URL as a seed
+  // NEW LOGIC for profiles without sitemaps (like Wikipedia)
   if (!config.sitemaps || config.sitemaps.length === 0) {
     if (topics.length > 0) {
       const query = encodeURIComponent(topics.join(' ') + ' site:wikipedia.org');
-      const searchUrl = `https://www.google.com/search?q=${query}&tbm=isch`;
-      console.log(`[INFO] No sitemaps found. Using search URL as seed: ${searchUrl}`);
-      return [searchUrl];
+      const searchUrl = `https://www.google.com/search?q=${query}`;
+      console.log(`[INFO] No sitemaps configured. Searching Google for seed URLs: ${searchUrl}`);
+
+      try {
+        const { html: googleHtml } = await fetchHtml(searchUrl);
+        const seeds = new Set();
+        
+        // This regex finds the actual Wikipedia links inside the Google search results HTML.
+        const linkRegex = /href="\/url\?q=(https:\/\/[a-z]{2,3}\.wikipedia\.org\/wiki\/[^&"]*)/g;
+        let match;
+        while ((match = linkRegex.exec(googleHtml)) !== null) {
+          try {
+            const decodedUrl = decodeURIComponent(match[1]);
+            seeds.add(decodedUrl);
+          } catch (e) { /* Ignore malformed URLs */ }
+        }
+
+        if (seeds.size === 0) {
+          console.warn('[WARN] Could not find any Wikipedia links from the Google search. The harvester has no pages to visit.');
+          return [];
+        }
+
+        console.log(`[INFO] Found ${seeds.size} seed pages from Google search.`);
+        return Array.from(seeds).slice(0, limit);
+      } catch (error) {
+        console.error(`[ERROR] Failed to fetch or parse seeds from Google: ${error.message}`);
+        return [];
+      }
     } else {
-      console.warn(`[WARN] The "${subject}" profile has no sitemaps and no --topics were provided. No seeds to crawl.`);
+      console.warn(`[WARN] The "${subject}" profile has no sitemaps and no --topics were provided. Cannot generate seeds.`);
       return [];
     }
   }
 
-  // --- Existing logic continues below ---
+  // EXISTING SITEMAP LOGIC (unchanged)
   const seeds = new Set();
   for (const sitemapUrl of config.sitemaps) {
     if (seeds.size > MAX_PAGES) break;
@@ -269,9 +294,7 @@ async function collectSeedUrls(subject, topics, limit) {
       if (parsed.urlset?.url) {
         urls = Array.isArray(parsed.urlset.url) ? parsed.urlset.url : [parsed.urlset.url];
       } else if (parsed.sitemapindex?.sitemap) {
-        const nested = Array.isArray(parsed.sitemapindex.sitemap)
-          ? parsed.sitemapindex.sitemap
-          : [parsed.sitemapindex.sitemap];
+        const nested = Array.isArray(parsed.sitemapindex.sitemap) ? parsed.sitemapindex.sitemap : [parsed.sitemapindex.sitemap];
         const limitedNested = nested.slice(0, 5);
         for (const child of limitedNested) {
           const childLoc = child.loc;
