@@ -7,6 +7,19 @@ import { loadMetadata, buildIndexes, upsertEntry, saveMetadata } from './metadat
 import crypto from 'node:crypto';
 import { XMLParser } from 'fast-xml-parser';
 
+const WIKI_API = 'https://en.wikipedia.org/w/api.php';
+const COMMONS_API = 'https://commons.wikimedia.org/w/api.php';
+
+async function fetchJson(url, params = {}) {
+  const u = new URL(url);
+  Object.entries(params).forEach(([k, v]) => u.searchParams.set(k, v));
+  const res = await fetch(u, {
+    headers: { 'User-Agent': 'GED-Harvester/1.0 (contact: admin@example.com)' }
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status} for ${u}`);
+  return res.json();
+}
+
 const SUBJECT_CONFIG = {
   Science: {
     folder: 'Science',
@@ -124,6 +137,136 @@ const DEFAULT_SITEMAP_PATHS = ['/sitemap.xml', '/sitemap_index.xml'];
 
 const xmlParser = new XMLParser({ ignoreAttributes: false, trimValues: true });
 
+const apiImageCache = new Map();
+
+function cleanCommonsText(value) {
+  if (!value) return '';
+  return value
+    .replace(/<\/?[a-z][^>]*>/gi, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+async function fetchWikipediaTitlesByTopics(topics, limit = 50) {
+  if (!topics || topics.length === 0) return [];
+  const q = topics.join(' ');
+  const titles = [];
+  let sroffset = 0;
+
+  while (titles.length < limit) {
+    const data = await fetchJson(WIKI_API, {
+      action: 'query',
+      list: 'search',
+      srsearch: q,
+      srlimit: Math.min(50, limit - titles.length),
+      sroffset,
+      format: 'json',
+      origin: '*'
+    });
+    const batch = (data?.query?.search || []).map((s) => s.title);
+    titles.push(...batch);
+    if (!data?.continue?.sroffset || batch.length === 0) break;
+    sroffset = data.continue.sroffset;
+    await new Promise((r) => setTimeout(r, 200));
+  }
+  return Array.from(new Set(titles)).slice(0, limit);
+}
+
+async function fetchCommonsImagesForTitles(titles, limit = 150, onlyTypes = [], filenameContains = []) {
+  const results = [];
+  const typeMatchers = (onlyTypes || []).map((s) => s.toLowerCase());
+  const nameMatchers = (filenameContains || []).map((s) => s.toLowerCase());
+
+  for (const title of titles) {
+    if (results.length >= limit) break;
+
+    const page = await fetchJson(WIKI_API, {
+      action: 'query',
+      prop: 'images',
+      titles: title,
+      imlimit: 'max',
+      format: 'json',
+      origin: '*'
+    });
+
+    const pages = page?.query?.pages ? Object.values(page.query.pages) : [];
+    const images = (pages[0]?.images || [])
+      .map((img) => img?.title)
+      .filter(Boolean);
+    if (images.length === 0) continue;
+
+    const chunkSize = 50;
+    for (let i = 0; i < images.length && results.length < limit; i += chunkSize) {
+      const batch = images.slice(i, i + chunkSize);
+      const data = await fetchJson(COMMONS_API, {
+        action: 'query',
+        prop: 'imageinfo',
+        titles: batch.join('|'),
+        iiprop: 'url|mime|size|extmetadata',
+        iiurlwidth: 1600,
+        format: 'json',
+        origin: '*'
+      });
+
+      const pages2 = data?.query?.pages ? Object.values(data.query.pages) : [];
+      for (const p of pages2) {
+        const ii = Array.isArray(p?.imageinfo) ? p.imageinfo[0] : null;
+        if (!ii?.url) continue;
+
+        const fileTitle = (p.title || '').toLowerCase();
+        const mime = (ii.mime || '').toLowerCase();
+        const lic = ii.extmetadata?.LicenseShortName?.value || '';
+        const objectName = cleanCommonsText(ii.extmetadata?.ObjectName?.value || '');
+        const description = cleanCommonsText(ii.extmetadata?.ImageDescription?.value || objectName);
+        const credit = cleanCommonsText(ii.extmetadata?.Credit?.value || '');
+        const licenseUrl = cleanCommonsText(ii.extmetadata?.LicenseUrl?.value || '');
+
+        if (nameMatchers.length && !nameMatchers.some((k) => fileTitle.includes(k))) continue;
+
+        if (typeMatchers.length) {
+          const metaName = (objectName || description || '').toLowerCase();
+          const hit = typeMatchers.some(
+            (t) =>
+              fileTitle.includes(t) ||
+              metaName.includes(t) ||
+              (mime.includes('svg') && (t === 'chart' || t === 'diagram'))
+          );
+          if (!hit) continue;
+        }
+
+        const commonsTitle = (p.title || '').replace(/ /g, '_');
+        const commonsPage = commonsTitle
+          ? `https://commons.wikimedia.org/wiki/${encodeURI(commonsTitle)}`
+          : '';
+
+        results.push({
+          url: ii.url,
+          width: ii.width,
+          height: ii.height,
+          mime,
+          license: lic,
+          licenseUrl,
+          credit,
+          description,
+          sourcePage: title,
+          filename: p.title,
+          commonsPage
+        });
+
+        if (results.length >= limit) break;
+      }
+
+      await new Promise((r) => setTimeout(r, 200));
+    }
+  }
+
+  return results;
+}
+
 async function discoverSitemapsForDomain(domain) {
   const tried = [];
   const found = new Set();
@@ -175,6 +318,12 @@ function parseArgs(argv) {
       const key = token.slice(2);
       if (['subject', 'topics', 'limit', 'domains'].includes(key)) {
         args[key] = argv[i + 1];
+        i += 1;
+      } else if (key === 'only-types') {
+        args.onlyTypes = argv[i + 1];
+        i += 1;
+      } else if (key === 'filename-contains') {
+        args.filenameContains = argv[i + 1];
         i += 1;
       } else if (key === 'dry') {
         args.dry = true;
@@ -242,45 +391,25 @@ function shouldAcceptHost(subject, hostname) {
   return isAllowedHost(subject, hostname, SUBJECT_CONFIG[subject]);
 }
 
-async function collectSeedUrls(subject, topics, limit) {
+async function collectSeedUrls(subject, topics, limit, opts = {}) {
   const config = SUBJECT_CONFIG[subject];
+  const onlyTypes = (opts.onlyTypes || []).map((s) => s.toLowerCase());
+  const filenameContains = (opts.filenameContains || []).map((s) => s.toLowerCase());
 
-  // NEW LOGIC for profiles without sitemaps (like Wikipedia)
-  if (!config.sitemaps || config.sitemaps.length === 0) {
-    if (topics.length > 0) {
-      const query = encodeURIComponent(topics.join(' ') + ' site:wikipedia.org');
-      const searchUrl = `https://www.google.com/search?q=${query}`;
-      console.log(`[INFO] No sitemaps configured. Searching Google for seed URLs: ${searchUrl}`);
-
-      try {
-        const { html: googleHtml } = await fetchHtml(searchUrl);
-        const seeds = new Set();
-        
-        // This regex finds the actual Wikipedia links inside the Google search results HTML.
-        const linkRegex = /href="\/url\?q=(https:\/\/[a-z]{2,3}\.wikipedia\.org\/wiki\/[^&"]*)/g;
-        let match;
-        while ((match = linkRegex.exec(googleHtml)) !== null) {
-          try {
-            const decodedUrl = decodeURIComponent(match[1]);
-            seeds.add(decodedUrl);
-          } catch (e) { /* Ignore malformed URLs */ }
-        }
-
-        if (seeds.size === 0) {
-          console.warn('[WARN] Could not find any Wikipedia links from the Google search. The harvester has no pages to visit.');
-          return [];
-        }
-
-        console.log(`[INFO] Found ${seeds.size} seed pages from Google search.`);
-        return Array.from(seeds).slice(0, limit);
-      } catch (error) {
-        console.error(`[ERROR] Failed to fetch or parse seeds from Google: ${error.message}`);
-        return [];
-      }
-    } else {
-      console.warn(`[WARN] The "${subject}" profile has no sitemaps and no --topics were provided. Cannot generate seeds.`);
+  if (!config?.sitemaps || config.sitemaps.length === 0) {
+    if (!topics || topics.length === 0) {
+      console.warn(`[WARN] Subject "${subject}" has no sitemaps and no topics; nothing to do.`);
       return [];
     }
+    console.log(`[INFO] Using MediaWiki API provider for "${subject}" (no sitemaps).`);
+    apiImageCache.clear();
+    const titles = await fetchWikipediaTitlesByTopics(topics, Math.min(limit * 2, 200));
+    if (titles.length === 0) return [];
+    const images = await fetchCommonsImagesForTitles(titles, limit, onlyTypes, filenameContains);
+    for (const image of images) {
+      apiImageCache.set(image.url, image);
+    }
+    return images.map((x) => x.url);
   }
 
   // EXISTING SITEMAP LOGIC (unchanged)
@@ -500,6 +629,10 @@ async function main() {
   }
   const topics = argv.topics ? argv.topics.split(',').map((t) => t.trim()).filter(Boolean) : [];
   const limit = argv.limit ? Math.max(1, parseInt(argv.limit, 10)) : 40;
+  const onlyTypes = argv.onlyTypes ? argv.onlyTypes.split(',').map((t) => t.trim()).filter(Boolean) : [];
+  const filenameContains = argv.filenameContains
+    ? argv.filenameContains.split(',').map((t) => t.trim()).filter(Boolean)
+    : [];
   const dryRun = Boolean(argv.dry);
   const subjectCfg = SUBJECT_CONFIG[subject];
   const config = subjectCfg;
@@ -559,7 +692,9 @@ async function main() {
   state.subjects = state.subjects || {};
   const subjectState = ensureSubjectState(state, subject);
 
-  const seeds = await collectSeedUrls(subject, topics, limit);
+  const seeds = await collectSeedUrls(subject, topics, limit, { onlyTypes, filenameContains });
+
+  const usingMediaWikiProvider = !config.sitemaps || config.sitemaps.length === 0;
 
   let saved = 0;
   let duplicates = 0;
@@ -567,136 +702,270 @@ async function main() {
 
   const acceptedPerPage = new Map(); // canonicalSource -> { count, entries: [], groupId }
 
-  for (const pageUrl of seeds) {
-    if (saved >= limit) break;
-    const host = new URL(pageUrl).hostname;
-    if (!isAllowedHost(subject, host, config)) continue;
-    if (subjectState.visitedPages[pageUrl] && !topics.length) {
-      continue;
-    }
-    try {
-      const { html, finalUrl, inlineCandidates } = await fetchHtml(pageUrl);
-      const pageInfo = extractPageInfo(html, finalUrl, inlineCandidates);
-      const canonicalSource = canonicalizeUrl(finalUrl);
-      if (subjectState.visitedPages[canonicalSource] && !topics.length) {
-        subjectState.visitedPages[pageUrl] = Date.now();
-        subjectState.visitedPages[canonicalSource] = Date.now();
-        continue;
-      }
-      const candidateImages = pageInfo.images.filter((img) => {
-        const imgHost = new URL(img.srcAbs).hostname;
-        return isAllowedHost(subject, imgHost, config);
-      });
-      console.log(`[crawl] Extracted ${candidateImages.length} images from ${finalUrl}`);
-      if (candidateImages.length === 0) {
-        subjectState.visitedPages[pageUrl] = Date.now();
-        subjectState.visitedPages[canonicalSource] = Date.now();
-        continue;
-      }
-      let perSeedCount = 0;
-      for (const image of candidateImages) {
-        if (saved >= limit) break;
-        if (perSeedCount >= MAX_IMAGES_PER_SEED) break;
-        try {
-          const imageCanonical = canonicalizeUrl(image.srcAbs);
-          if (subjectState.sourceUrls[imageCanonical]) {
-            duplicates += 1;
-            continue;
-          }
-          const { dominantType, metaText } = inferDominantType(image, pageInfo);
-          const { buffer, width, height } = await downloadAndNormalize(image.srcAbs);
-          const sha1 = createSha1(buffer);
-          if (metadataIndexes.bySha.has(sha1) || state.sha1[sha1]) {
-            duplicates += 1;
-            continue;
-          }
-          const imageHost = new URL(image.srcAbs).hostname.toLowerCase();
-          const targetDir = path.resolve('frontend', 'Images', SUBJECT_CONFIG[subject].folder);
-          const fileName = await decideFileName(
-            {
-              sourceTitle: pageInfo.title,
-              alt: image.alt,
-              pageTitle: pageInfo.title,
-              sha1
-            },
-            targetDir
-          );
-          const filePathFs = path.join(targetDir, fileName);
-          const filePathMeta = path.posix.join('/frontend/Images', SUBJECT_CONFIG[subject].folder, fileName);
-          const altText = generateAltText(image, pageInfo, dominantType);
-          const detailedDescription = generateDetailedDescription(image, pageInfo, dominantType);
-          const keywords = generateKeywords(image, pageInfo, dominantType, metaText);
-          const { license, licenseNote } = ensureLicense(pageInfo, imageHost, subject);
-
-          let record = acceptedPerPage.get(canonicalSource);
-          if (!record) {
-            record = { count: 0, entries: [], groupId: null };
-            acceptedPerPage.set(canonicalSource, record);
-          }
-          const previousCount = record.count;
-          record.count += 1;
-
-          const metadataEntry = {
-            id: crypto.randomUUID(),
-            subject,
-            fileName,
-            filePath: filePathMeta,
-            width,
-            height,
-            dominantType,
-            altText,
-            detailedDescription,
-            keywords,
-            sourceUrl: canonicalSource,
-            sourceDomain: imageHost,
-            sourceTitle: pageInfo.title || '',
-            sourcePublished: pageInfo.published || '',
-            license,
-            licenseNote,
-            educationalUse: 'instructional',
-            sha1,
-            collectedAt: new Date().toISOString()
-          };
-
-          record.entries.push(metadataEntry);
-
-          if (record.count > 1) {
-            if (!record.groupId) {
-              record.groupId = `${new URL(canonicalSource).hostname}:${new URL(canonicalSource).pathname}`;
-            }
-            metadataEntry.groupId = record.groupId;
-            if (previousCount === 1 && record.entries.length >= 2) {
-              record.entries[0].groupId = record.groupId;
-            }
-          }
-
-          if (!dryRun) {
-            await writeImage(buffer, filePathFs, dryRun);
-            if (!record.groupId) {
-              delete metadataEntry.groupId;
-            }
-            upsertEntry(metadataEntries, metadataIndexes, metadataEntry);
-            if (record.groupId && previousCount === 1 && record.entries.length >= 2) {
-              upsertEntry(metadataEntries, metadataIndexes, record.entries[0]);
-            }
-            state.sha1[sha1] = true;
-            subjectState.sourceUrls[imageCanonical] = true;
-          }
-
-          console.log(`[+] ${subject} ${filePathMeta} (${width}x${height}) ${host} sha1=${sha1.slice(0, 10)}`);
-          saved += 1;
-          perSeedCount += 1;
-        } catch (imageErr) {
-          errors += 1;
-          console.error(`  [!] Image error for ${image.srcAbs}: ${imageErr.message}`);
+  if (usingMediaWikiProvider) {
+    for (const imageUrl of seeds) {
+      if (saved >= limit) break;
+      const metadata = apiImageCache.get(imageUrl);
+      if (!metadata) continue;
+      const host = new URL(imageUrl).hostname;
+      if (!isAllowedHost(subject, host, config)) continue;
+      try {
+        const imageCanonical = canonicalizeUrl(imageUrl);
+        if (subjectState.sourceUrls[imageCanonical]) {
+          duplicates += 1;
+          continue;
         }
+        const { buffer, width: dlWidth, height: dlHeight } = await downloadAndNormalize(imageUrl);
+        const sha1 = createSha1(buffer);
+        if (metadataIndexes.bySha.has(sha1) || state.sha1[sha1]) {
+          duplicates += 1;
+          continue;
+        }
+
+        const description = metadata.description || metadata.sourcePage || metadata.filename || '';
+        const credit = metadata.credit ? ` ${metadata.credit}` : '';
+        const cleanDescription = cleanCommonsText(`${description}${credit}`.trim());
+        const imageForMeta = {
+          srcAbs: imageUrl,
+          alt: cleanDescription || metadata.sourcePage || metadata.filename || '',
+          caption: cleanDescription,
+          context: cleanDescription
+        };
+        const pageTitle = metadata.sourcePage || metadata.filename || 'Wikimedia Commons Image';
+        const pageInfo = {
+          title: pageTitle,
+          images: [imageForMeta],
+          published: '',
+          licenseNote: metadata.licenseUrl ? `License details: ${metadata.licenseUrl}` : ''
+        };
+        const { dominantType, metaText } = inferDominantType(imageForMeta, pageInfo);
+        const altText = generateAltText(imageForMeta, pageInfo, dominantType);
+        const detailedDescription = generateDetailedDescription(imageForMeta, pageInfo, dominantType);
+        const keywords = generateKeywords(imageForMeta, pageInfo, dominantType, metaText);
+        const targetDir = path.resolve('frontend', 'Images', SUBJECT_CONFIG[subject].folder);
+        const fileName = await decideFileName(
+          {
+            sourceTitle: pageInfo.title,
+            alt: imageForMeta.alt,
+            pageTitle: pageInfo.title,
+            sha1
+          },
+          targetDir
+        );
+        const filePathFs = path.join(targetDir, fileName);
+        const filePathMeta = path.posix.join('/frontend/Images', SUBJECT_CONFIG[subject].folder, fileName);
+        const licenseLines = [];
+        if (metadata.licenseUrl) {
+          licenseLines.push(`License: ${metadata.licenseUrl}`);
+        }
+        if (metadata.credit) {
+          licenseLines.push(`Credit: ${metadata.credit}`);
+        }
+        if (metadata.commonsPage) {
+          licenseLines.push(`Source: ${metadata.commonsPage}`);
+        }
+        const licenseNote = licenseLines.length
+          ? licenseLines.join(' | ')
+          : 'Refer to Wikimedia Commons for licensing and attribution.';
+        const sourceUrl = metadata.commonsPage || imageUrl;
+        const canonicalSource = canonicalizeUrl(sourceUrl);
+        let record = acceptedPerPage.get(canonicalSource);
+        if (!record) {
+          record = { count: 0, entries: [], groupId: null };
+          acceptedPerPage.set(canonicalSource, record);
+        }
+        const previousCount = record.count;
+        record.count += 1;
+
+        const metadataEntry = {
+          id: crypto.randomUUID(),
+          subject,
+          fileName,
+          filePath: filePathMeta,
+          width: dlWidth || metadata.width,
+          height: dlHeight || metadata.height,
+          dominantType,
+          altText,
+          detailedDescription,
+          keywords,
+          sourceUrl,
+          sourceDomain: host.toLowerCase(),
+          sourceTitle: pageInfo.title || '',
+          sourcePublished: '',
+          license: metadata.license || 'See Wikimedia Commons for license details',
+          licenseNote,
+          educationalUse: 'instructional',
+          sha1,
+          collectedAt: new Date().toISOString()
+        };
+
+        record.entries.push(metadataEntry);
+
+        if (record.count > 1) {
+          if (!record.groupId) {
+            record.groupId = `${new URL(sourceUrl).hostname}:${new URL(sourceUrl).pathname}`;
+          }
+          metadataEntry.groupId = record.groupId;
+          if (previousCount === 1 && record.entries.length >= 2) {
+            record.entries[0].groupId = record.groupId;
+          }
+        }
+
+        if (!dryRun) {
+          await writeImage(buffer, filePathFs, dryRun);
+          if (!record.groupId) {
+            delete metadataEntry.groupId;
+          }
+          upsertEntry(metadataEntries, metadataIndexes, metadataEntry);
+          if (record.groupId && previousCount === 1 && record.entries.length >= 2) {
+            upsertEntry(metadataEntries, metadataIndexes, record.entries[0]);
+          }
+          state.sha1[sha1] = true;
+          subjectState.sourceUrls[imageCanonical] = true;
+          subjectState.visitedPages[canonicalSource] = Date.now();
+        }
+
+        const logWidth = dlWidth || metadata.width || '?';
+        const logHeight = dlHeight || metadata.height || '?';
+        console.log(`[+] ${subject} ${filePathMeta} (${logWidth}x${logHeight}) ${host} sha1=${sha1.slice(0, 10)}`);
+        saved += 1;
+      } catch (imageErr) {
+        errors += 1;
+        console.error(`  [!] Image error for ${imageUrl}: ${imageErr.message}`);
       }
-      subjectState.visitedPages[pageUrl] = Date.now();
-      subjectState.visitedPages[canonicalSource] = Date.now();
-    } catch (err) {
-      errors += 1;
-      console.warn(`[WARN] Failed to process ${pageUrl}: ${err.message}. Skipping.`);
-      continue;
+    }
+  } else {
+    for (const pageUrl of seeds) {
+      if (saved >= limit) break;
+      const host = new URL(pageUrl).hostname;
+      if (!isAllowedHost(subject, host, config)) continue;
+      if (subjectState.visitedPages[pageUrl] && !topics.length) {
+        continue;
+      }
+      try {
+        const { html, finalUrl, inlineCandidates } = await fetchHtml(pageUrl);
+        const pageInfo = extractPageInfo(html, finalUrl, inlineCandidates);
+        const canonicalSource = canonicalizeUrl(finalUrl);
+        if (subjectState.visitedPages[canonicalSource] && !topics.length) {
+          subjectState.visitedPages[pageUrl] = Date.now();
+          subjectState.visitedPages[canonicalSource] = Date.now();
+          continue;
+        }
+        const candidateImages = pageInfo.images.filter((img) => {
+          const imgHost = new URL(img.srcAbs).hostname;
+          return isAllowedHost(subject, imgHost, config);
+        });
+        console.log(`[crawl] Extracted ${candidateImages.length} images from ${finalUrl}`);
+        if (candidateImages.length === 0) {
+          subjectState.visitedPages[pageUrl] = Date.now();
+          subjectState.visitedPages[canonicalSource] = Date.now();
+          continue;
+        }
+        let perSeedCount = 0;
+        for (const image of candidateImages) {
+          if (saved >= limit) break;
+          if (perSeedCount >= MAX_IMAGES_PER_SEED) break;
+          try {
+            const imageCanonical = canonicalizeUrl(image.srcAbs);
+            if (subjectState.sourceUrls[imageCanonical]) {
+              duplicates += 1;
+              continue;
+            }
+            const { dominantType, metaText } = inferDominantType(image, pageInfo);
+            const { buffer, width, height } = await downloadAndNormalize(image.srcAbs);
+            const sha1 = createSha1(buffer);
+            if (metadataIndexes.bySha.has(sha1) || state.sha1[sha1]) {
+              duplicates += 1;
+              continue;
+            }
+            const imageHost = new URL(image.srcAbs).hostname.toLowerCase();
+            const targetDir = path.resolve('frontend', 'Images', SUBJECT_CONFIG[subject].folder);
+            const fileName = await decideFileName(
+              {
+                sourceTitle: pageInfo.title,
+                alt: image.alt,
+                pageTitle: pageInfo.title,
+                sha1
+              },
+              targetDir
+            );
+            const filePathFs = path.join(targetDir, fileName);
+            const filePathMeta = path.posix.join('/frontend/Images', SUBJECT_CONFIG[subject].folder, fileName);
+            const altText = generateAltText(image, pageInfo, dominantType);
+            const detailedDescription = generateDetailedDescription(image, pageInfo, dominantType);
+            const keywords = generateKeywords(image, pageInfo, dominantType, metaText);
+            const { license, licenseNote } = ensureLicense(pageInfo, imageHost, subject);
+
+            let record = acceptedPerPage.get(canonicalSource);
+            if (!record) {
+              record = { count: 0, entries: [], groupId: null };
+              acceptedPerPage.set(canonicalSource, record);
+            }
+            const previousCount = record.count;
+            record.count += 1;
+
+            const metadataEntry = {
+              id: crypto.randomUUID(),
+              subject,
+              fileName,
+              filePath: filePathMeta,
+              width,
+              height,
+              dominantType,
+              altText,
+              detailedDescription,
+              keywords,
+              sourceUrl: canonicalSource,
+              sourceDomain: imageHost,
+              sourceTitle: pageInfo.title || '',
+              sourcePublished: pageInfo.published || '',
+              license,
+              licenseNote,
+              educationalUse: 'instructional',
+              sha1,
+              collectedAt: new Date().toISOString()
+            };
+
+            record.entries.push(metadataEntry);
+
+            if (record.count > 1) {
+              if (!record.groupId) {
+                record.groupId = `${new URL(canonicalSource).hostname}:${new URL(canonicalSource).pathname}`;
+              }
+              metadataEntry.groupId = record.groupId;
+              if (previousCount === 1 && record.entries.length >= 2) {
+                record.entries[0].groupId = record.groupId;
+              }
+            }
+
+            if (!dryRun) {
+              await writeImage(buffer, filePathFs, dryRun);
+              if (!record.groupId) {
+                delete metadataEntry.groupId;
+              }
+              upsertEntry(metadataEntries, metadataIndexes, metadataEntry);
+              if (record.groupId && previousCount === 1 && record.entries.length >= 2) {
+                upsertEntry(metadataEntries, metadataIndexes, record.entries[0]);
+              }
+              state.sha1[sha1] = true;
+              subjectState.sourceUrls[imageCanonical] = true;
+            }
+
+            console.log(`[+] ${subject} ${filePathMeta} (${width}x${height}) ${host} sha1=${sha1.slice(0, 10)}`);
+            saved += 1;
+            perSeedCount += 1;
+          } catch (imageErr) {
+            errors += 1;
+            console.error(`  [!] Image error for ${image.srcAbs}: ${imageErr.message}`);
+          }
+        }
+        subjectState.visitedPages[pageUrl] = Date.now();
+        subjectState.visitedPages[canonicalSource] = Date.now();
+      } catch (err) {
+        errors += 1;
+        console.warn(`[WARN] Failed to process ${pageUrl}: ${err.message}. Skipping.`);
+        continue;
+      }
     }
   }
 
