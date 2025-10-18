@@ -59,6 +59,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
 
     <script>
         window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
@@ -1133,21 +1134,31 @@ function postRenderGuardrails(container, { itemIndex } = {}) {
 }
 
 function MathText({ text, className, subject }) {
-    if (typeof text !== 'string' || text.trim() === '') {
-        return <span className={className}></span>;
-    }
+    const containerRef = React.useRef(null);
 
-    let renderedHtml;
+    React.useEffect(() => {
+        if (containerRef.current) {
+            renderMathInElement(containerRef.current, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ],
+                throwOnError: false
+            });
+        }
+    }, [text]);
 
-    // ONLY run the complex math/currency renderer for the Math subject.
-    if (subject === 'Math') {
-        renderedHtml = renderStem(text);
-    } else {
-        // For all other subjects, just sanitize the HTML and display it.
-        renderedHtml = DOMPurify.sanitize(text);
-    }
+    const sanitizedHtml = DOMPurify.sanitize(text);
 
-    return <span className={className} dangerouslySetInnerHTML={{ __html: renderedHtml }} />;
+    return (
+        <span
+            ref={containerRef}
+            className={className}
+            dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+        />
+    );
 }
 
 function normalizeLineBreaks(value) {
