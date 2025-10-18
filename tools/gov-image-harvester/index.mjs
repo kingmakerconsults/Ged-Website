@@ -19,6 +19,11 @@ const SUBJECT_CONFIG = {
       'https://www.nih.gov/sitemap.xml'
     ]
   },
+  'Science Wikipedia': {
+    folder: 'Science',
+    allowedDomains: new Set(['wikipedia.org', 'wikimedia.org']),
+    sitemaps: []
+  },
   'Social Studies': {
     folder: 'Social Studies',
     allowedDomains: new Set([
@@ -62,6 +67,11 @@ const SUBJECT_CONFIG = {
       'https://www.nps.gov/sitemap.xml',
       'https://www.data.gov/sitemap.xml'
     ]
+  },
+  'Social Studies Wikipedia': {
+    folder: 'Social Studies',
+    allowedDomains: new Set(['wikipedia.org', 'wikimedia.org']),
+    sitemaps: []
   },
   Math: {
     folder: 'Math',
