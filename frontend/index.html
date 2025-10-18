@@ -1478,9 +1478,43 @@ function ChartDisplay({ chartData }) {
 
 // --- DATA SOURCE ---
 // New hierarchical data structure for all application content.
+const ScienceFormulas = [
+    {
+        name: 'Density',
+        formula: 'd = \\frac{m}{V}',
+        variables: 'd = density, m = mass, V = volume'
+    },
+    {
+        name: 'Average Speed',
+        formula: 's = \\frac{d}{t}',
+        variables: 's = speed, d = distance, t = time'
+    },
+    {
+        name: 'Force',
+        formula: 'F = ma',
+        variables: 'F = force, m = mass, a = acceleration'
+    },
+    {
+        name: 'Work',
+        formula: 'W = Fd',
+        variables: 'W = work, F = force, d = distance'
+    },
+    {
+        name: 'Mean (Average)',
+        formula: '\\text{Mean} = \\frac{\\text{Sum of values}}{\\text{Number of values}}',
+        variables: 'A statistical measure of the central tendency.'
+    },
+    {
+        name: 'Range',
+        formula: '\\text{Range} = \\text{Maximum Value} - \\text{Minimum Value}',
+        variables: 'A statistical measure of the spread of data.'
+    }
+];
+
 const AppData = {
     "Science": {
         icon: "BeakerIcon",
+        description: "Strengthen your scientific numeracy with core formulas, data analysis, and real-world applications.",
         categories: {
             "Scientific Numeracy": {
                 description: "Practice applying mathematical skills to interpret scientific data, charts, and formulas.",
@@ -3858,6 +3892,7 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
+    const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
     const userDisplayName = currentUser?.name || currentUser?.email || 'Learner';
     const userInitial = userDisplayName ? userDisplayName.trim().charAt(0).toUpperCase() : 'U';
 
@@ -3865,10 +3900,12 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
         setSelectedSubject(subject);
         setSelectedCategory(null);
         setAiQuizTopic('');
+        setViewScienceFormulas(false);
     };
 
     const handleSelectCategory = (category) => {
         setSelectedCategory(category);
+        setViewScienceFormulas(false);
     };
 
     const handleBack = () => {
@@ -3877,6 +3914,7 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
         } else if (selectedSubject) {
             setSelectedSubject(null);
         }
+        setViewScienceFormulas(false);
     };
 
     // --- NEW: If detailed view is active, render it instead of the main dashboard ---
@@ -3979,6 +4017,21 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                         </div>
                     )}
                 </div>
+                {subject?.description && (
+                    <p className="text-white/80 text-base mb-4">{subject.description}</p>
+                )}
+                {selectedSubject === 'Science' && (
+                    <div className="mb-6">
+                        <button
+                            onClick={() => setViewScienceFormulas(!viewScienceFormulas)}
+                            className="bg-indigo-100 text-indigo-800 px-5 py-3 rounded-lg hover:bg-indigo-200 transition-colors w-full text-left flex justify-between items-center"
+                        >
+                            <span className="font-semibold">View Common Scientific Numeracy Formulas</span>
+                            <span className="text-xl">{viewScienceFormulas ? '−' : '+'}</span>
+                        </button>
+                        {viewScienceFormulas && <ScienceFormulaSheet />}
+                    </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {Object.entries(subject.categories).map(([categoryName, category]) => (
                         <button
@@ -4162,12 +4215,14 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const [timeLeft, setTimeLeft] = useState(timeLimit || questions.length * 90);
     const [isPaused, setIsPaused] = useState(false);
     const [pausesRemaining, setPausesRemaining] = useState(2);
+    const [showFormulas, setShowFormulas] = useState(false);
     const handleSubmitRef = useRef(() => {});
 
     useEffect(() => {
         setTimeLeft(timeLimit || questions.length * 90);
         setIsPaused(false);
         setPausesRemaining(2);
+        setShowFormulas(false);
     }, [questions, timeLimit]);
 
     useEffect(() => {
@@ -4232,11 +4287,12 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
 
     const subjectForRender = currentQ.subject || subject || 'Default';
+    const isScienceQuiz = subject === 'Science' || subjectForRender === 'Science';
     const colorScheme = SUBJECT_COLORS[subjectForRender] || DEFAULT_COLOR_SCHEME;
 
     return (
         <div className="fade-in">
-            <div className={`rounded-2xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surface || 'bg-slate-50'} p-4 sm:p-6 shadow-lg`}> 
+            <div className={`rounded-2xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surface || 'bg-slate-50'} p-4 sm:p-6 shadow-lg`}>
                 {showTimer && (
                     <header className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b ${colorScheme.divider || 'border-slate-200'}`}>
                         {onExit && (
@@ -4246,6 +4302,15 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         )}
                         <h2 className={`text-xl font-bold text-center flex-1 ${colorScheme.text || 'text-slate-800'}`}>{quizTitle}</h2>
                         <div className="flex flex-col sm:items-end gap-2">
+                            {isScienceQuiz && (
+                                <button
+                                    type="button"
+                                    onClick={() => setShowFormulas(true)}
+                                    className="bg-blue-100 text-blue-800 px-4 py-2 rounded-md hover:bg-blue-200 transition-colors"
+                                >
+                                    Formulas
+                                </button>
+                            )}
                             <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? 'bg-red-100 text-red-700' : `${colorScheme.navDefaultBg || 'bg-slate-100'} ${colorScheme.navDefaultText || 'text-slate-700'}`}`}>
                                 <span role="img" aria-label="timer">⏱️</span>
                                 <span>{formatTime(timeLeft)}</span>
@@ -4370,6 +4435,36 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         </button>
                     )}
                 </div>
+            </div>
+            {showFormulas && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-3xl">
+                        <ScienceFormulaSheet title="Science Formula Sheet" />
+                        <button
+                            onClick={() => setShowFormulas(false)}
+                            className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 w-full"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
+function ScienceFormulaSheet({ title }) {
+    return (
+        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 mt-4">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">{title || 'Scientific Numeracy Formulas'}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                {ScienceFormulas.map((item, index) => (
+                    <div key={index} className="p-3 bg-gray-50 rounded-md">
+                        <p className="font-bold text-lg text-indigo-700">{item.name}</p>
+                        <p className="text-xl my-2 text-center text-gray-900 bg-gray-100 p-2 rounded">${item.formula}$</p>
+                        <p className="text-sm text-gray-600 italic">{item.variables}</p>
+                    </div>
+                ))}
             </div>
         </div>
     );
