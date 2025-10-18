@@ -4472,7 +4472,11 @@ function ScienceFormulaSheet({ title }) {
                 {ScienceFormulas.map((item, index) => (
                     <div key={index} className="p-3 bg-gray-50 rounded-md">
                         <p className="font-bold text-lg text-indigo-700">{item.name}</p>
-                        <p className="text-xl my-2 text-center text-gray-900 bg-gray-100 p-2 rounded">${item.formula}$</p>
+                        <MathText
+                            text={`$$${item.formula}$$`}
+                            className="text-xl my-2 text-center text-gray-900 bg-gray-100 p-2 rounded block"
+                            subject="Science"
+                        />
                         <p className="text-sm text-gray-600 italic">{item.variables}</p>
                     </div>
                 ))}
