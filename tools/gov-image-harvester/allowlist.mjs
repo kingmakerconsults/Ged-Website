@@ -15,7 +15,7 @@ export const ALLOWLIST = [
 
   // === Reputable News & Reference ===
   'nationalgeographic.com', 'scientificamerican.com', 'history.com', 'pbs.org',
-  'reuters.com', 'apnews.com', 'britannica.com',
+  'reuters.com', 'apnews.com', 'britannica.com', 'wikipedia.org',
 
   // === Math & Data Visualization Tools/Resources ===
   'khanacademy.org', 'mathworld.wolfram.com', 'purplemath.com', 'desmos.com',
