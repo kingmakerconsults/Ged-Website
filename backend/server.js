@@ -985,35 +985,86 @@ function safeJson(raw) {
 let IMAGE_DB = [];
 const IMAGE_BY_PATH = new Map();
 
+function normalizeImagePath(input) {
+    if (!input || typeof input !== 'string') return '';
+    let working = input.trim();
+    if (!working) return '';
+
+    const urlMatch = working.match(/^https?:\/\/[^/]+(\/.*)$/i);
+    if (urlMatch) {
+        working = urlMatch[1];
+    }
+
+    working = working.replace(/\\+/g, '/');
+    working = working.replace(/^\.\/?/, '/');
+    if (!working.startsWith('/')) {
+        working = `/${working}`;
+    }
+
+    if (!/^\/frontend\//i.test(working)) {
+        if (/^\/?images?/i.test(working)) {
+            working = working.replace(/^\/?images?/i, '/frontend/images');
+        } else {
+            working = working.startsWith('/frontend') ? working : `/frontend${working}`;
+        }
+    }
+
+    working = working.replace(/\/+/g, '/');
+    return working;
+}
+
 function rebuildImagePathIndex() {
     IMAGE_BY_PATH.clear();
     for (const im of Array.isArray(IMAGE_DB) ? IMAGE_DB : []) {
         if (!im || typeof im !== 'object') continue;
         const rawPath = im.filePath || im.src || im.path;
-        if (typeof rawPath !== 'string' || !rawPath) continue;
-        const clean = rawPath.replace(/^\/frontend/i, '');
-        if (!clean) continue;
-        const normalized = clean.startsWith('/') ? clean : `/${clean}`;
+        const normalized = normalizeImagePath(rawPath);
+        if (!normalized) continue;
         IMAGE_BY_PATH.set(normalized, im);
-        IMAGE_BY_PATH.set(normalized.slice(1), im);
-        IMAGE_BY_PATH.set(rawPath, im);
+        IMAGE_BY_PATH.set(normalized.replace(/^\//, ''), im);
+        if (rawPath && rawPath !== normalized) {
+            IMAGE_BY_PATH.set(String(rawPath), im);
+        }
     }
 }
 
-try {
-    const raw = fs.readFileSync(path.join(__dirname, 'image_metadata_final.json'), 'utf8');
-    IMAGE_DB = JSON.parse(raw);
-} catch (e) {
-    console.warn('Image metadata not loaded:', e.message);
-    try {
-        const fallbackRaw = fs.readFileSync(path.join(__dirname, 'data', 'image_metadata_final.json'), 'utf8');
-        IMAGE_DB = JSON.parse(fallbackRaw);
-    } catch (fallbackErr) {
-        console.warn('Fallback image metadata not loaded:', fallbackErr.message);
+function loadImageMetadata() {
+    const primaryPath = path.join(__dirname, 'image_metadata_final.json');
+    const fallbackPath = path.join(__dirname, 'data', 'image_metadata_final.json');
+    const paths = [primaryPath, fallbackPath];
+
+    for (const candidate of paths) {
+        try {
+            if (!fs.existsSync(candidate)) continue;
+            const raw = fs.readFileSync(candidate, 'utf8');
+            const parsed = JSON.parse(raw);
+            if (!Array.isArray(parsed)) {
+                console.warn(`[IMG-WARN] Metadata at ${candidate} was not an array.`);
+                continue;
+            }
+            IMAGE_DB = parsed.map((img) => {
+                if (!img || typeof img !== 'object') return img;
+                const normalizedPath = normalizeImagePath(img.filePath || img.src || img.path);
+                return {
+                    ...img,
+                    filePath: normalizedPath || img.filePath || img.src || img.path,
+                    src: normalizedPath || img.src || img.filePath || img.path,
+                };
+            });
+            rebuildImagePathIndex();
+            console.log(`[IMG-LOAD] Loaded ${IMAGE_DB.length} images from ${candidate}.`);
+            return;
+        } catch (err) {
+            console.warn(`[IMG-WARN] Failed to load metadata from ${candidate}: ${err?.message || err}`);
+        }
     }
+
+    IMAGE_DB = [];
+    rebuildImagePathIndex();
+    console.warn('[IMG-WARN] No image metadata could be loaded.');
 }
 
-rebuildImagePathIndex();
+loadImageMetadata();
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
@@ -1244,12 +1295,13 @@ function humanizeSource(value) {
 
 function imageDisplayCredit(filePathOrKey) {
     if (!filePathOrKey) return '';
-    const key = String(filePathOrKey).replace(/^\s+|\s+$/g, '').replace(/^\/frontend/i, '');
+    const key = String(filePathOrKey).trim();
     if (!key) return '';
 
-    const normalized = key.startsWith('/') ? key : `/${key}`;
+    const normalized = normalizeImagePath(key);
+    const altNormalized = normalized.replace(/^\//, '');
     const meta = IMAGE_BY_PATH.get(normalized)
-        || IMAGE_BY_PATH.get(normalized.slice(1))
+        || IMAGE_BY_PATH.get(altNormalized)
         || IMAGE_BY_PATH.get(String(filePathOrKey))
         || null;
 
@@ -1278,13 +1330,10 @@ function normalizeStimulusAndSource(item) {
             : item?.stimulusImage
     };
 
-    const rawSrc = (out?.stimulusImage?.src || out?.imageUrl || out?.imageURL || '').trim();
+    const rawSrc = (out?.stimulusImage?.src || out?.imageUrl || out?.imageURL || out?.asset?.imagePath || '').trim();
+    const normalizedSrc = normalizeImagePath(rawSrc);
 
-    if (rawSrc) {
-        const cleanSrc = rawSrc.replace(/^\/frontend/i, '');
-        const normalizedSrc = cleanSrc
-            ? (cleanSrc.startsWith('/') ? cleanSrc : `/${cleanSrc}`)
-            : '';
+    if (normalizedSrc) {
         out.imageUrl = normalizedSrc;
         out.stimulusImage = {
             ...(out.stimulusImage || {}),
@@ -1294,7 +1343,7 @@ function normalizeStimulusAndSource(item) {
         const assetBase = (out.asset && typeof out.asset === 'object') ? { ...out.asset } : {};
         assetBase.imagePath = normalizedSrc;
 
-        const credit = imageDisplayCredit(rawSrc);
+        const credit = imageDisplayCredit(normalizedSrc) || imageDisplayCredit(rawSrc);
         if (credit) {
             assetBase.displaySource = credit;
             out.source = credit;
@@ -1310,7 +1359,7 @@ function normalizeStimulusAndSource(item) {
         out.asset = assetBase;
     }
 
-    if (!rawSrc && typeof out.source === 'string') {
+    if (!normalizedSrc && typeof out.source === 'string') {
         const sourceTrimmed = out.source.trim();
         const credit = imageDisplayCredit(sourceTrimmed);
         const looksLikePath = /^\/?(frontend\/)?images?/i.test(sourceTrimmed);
@@ -1702,63 +1751,90 @@ Rules:
 - Keep questionText concise and targeted; avoid fluff.
 - Exactly N items; top-level is JSON array only.`;
 
-const norm = (s) => (s || '').toLowerCase();
-
 function findImagesForSubjectTopic(subject, topic, limit = 5) {
-    const s = norm(subject);
-    const t = norm(topic);
+    const normStr = (s) => (s || '').toLowerCase();
+    const s = normStr(subject);
+    const t = normStr(topic);
 
-    // First, try a strict match on both subject and category (topic)
-    let pool = IMAGE_DB.filter(img => norm(img.subject).includes(s) && norm(img.category).includes(t));
-
-    // If no strict matches, fall back to searching keywords within the correct subject
-    if (pool.length < limit) {
-        const subjectPool = IMAGE_DB.filter(img => norm(img.subject).includes(s));
-        const keywordMatches = subjectPool.filter(img => {
-            const bag = [
-                norm(img.altText),
-                norm((img.keywords || []).join(' ')),
-                norm(img.detailedDescription),
-                norm(img.category)
-            ].join(' ');
-            // Check if any part of the topic name is in the keyword bag
-            return t.split(/[\s,&/|]+/g).some(tok => tok && bag.includes(tok));
-        });
-        // Combine strict matches with keyword matches, avoiding duplicates
-        const existingIds = new Set(pool.map(p => p.id));
-        keywordMatches.forEach(match => {
-            if (!existingIds.has(match.id)) {
-                pool.push(match);
-            }
-        });
-    }
-    
-    // If still nothing, return empty to let the prompt handle it
-    if (pool.length === 0) {
-        console.warn(`No relevant images found for subject "${subject}" and topic "${topic}".`);
+    if (!s) {
+        console.warn(`[IMG-WARN] Missing subject in image lookup (topic=${topic})`);
         return [];
+    }
+
+    let pool = IMAGE_DB.filter((img) => normStr(img.subject).includes(s) && normStr(img.category).includes(t));
+
+    if (pool.length < limit) {
+        const subjectPool = IMAGE_DB.filter((img) => normStr(img.subject).includes(s));
+        const keywordMatches = subjectPool.filter((img) => {
+            const bag = [
+                normStr(img.altText),
+                normStr((img.keywords || []).join(' ')),
+                normStr(img.detailedDescription),
+                normStr(img.category)
+            ].join(' ');
+            return t.split(/[\s,&/|]+/g).some((tok) => tok && bag.includes(tok));
+        });
+        const existing = new Set(pool.map((p) => p.filePath || p.src || p.path));
+        for (const m of keywordMatches) {
+            const dedupeKey = m.filePath || m.src || m.path;
+            if (!dedupeKey || existing.has(dedupeKey)) continue;
+            existing.add(dedupeKey);
+            pool.push(m);
+            if (pool.length >= limit) break;
+        }
+    }
+
+    if (pool.length === 0) {
+        console.warn(`[IMG-WARN] No image matches for Subject="${subject}", Topic="${topic}".`);
+    }
+
+    if (pool.length === 0) {
+        pool = IMAGE_DB.filter((img) => normStr(img.subject).includes(s)).slice(0, limit);
+        if (pool.length) {
+            console.warn(`[IMG-FALLBACK] Using subject-only images for "${subject}" (${topic}).`);
+        }
     }
 
     const seen = new Set();
     const out = [];
     for (const img of pool) {
-        const key = (img.fileName || '').split('.')[0];
-        if (seen.has(key)) continue;
+        const key = img.filePath || img.src || img.path;
+        if (!key || seen.has(key)) continue;
         seen.add(key);
-        out.push(img);
+        const normalizedSrc = normalizeImagePath(key);
+        out.push({
+            ...img,
+            filePath: normalizedSrc,
+            src: normalizedSrc
+        });
         if (out.length >= limit) break;
     }
+
+    const sample = out[0]?.src || 'none';
+    if (out.length === 0) {
+        console.warn(`[IMG-SELECT] Subject: ${subject}, Topic: ${topic}, Found: 0, Using: none`);
+    } else {
+        console.log(`[IMG-SELECT] Subject: ${subject}, Topic: ${topic}, Found: ${out.length}, Using: ${sample}`);
+    }
+
     return out;
 }
 
 function buildImageContextBlock(images = []) {
     if (!images.length) return '';
-    const payload = images.map((im, i) => ({
-        id: `img${i + 1}`,
-        src: im.filePath,
-        alt: im.altText || '',
-        description: im.detailedDescription || ''
-    }));
+    const payload = images
+        .map((im, i) => {
+            const normalizedSrc = normalizeImagePath(im?.filePath || im?.src || im?.path);
+            if (!normalizedSrc) return null;
+            return {
+                id: `img${i + 1}`,
+                src: normalizedSrc,
+                alt: im?.altText || '',
+                description: im?.detailedDescription || ''
+            };
+        })
+        .filter(Boolean);
+    if (!payload.length) return '';
     return `\nIMAGE_CONTEXT (local files you MUST reference): ${JSON.stringify(payload)}\n`;
 }
 
@@ -3255,16 +3331,32 @@ app.get('/client-config.js', (req, res) => {
 });
 
 let curatedImages = [];
-// Load the new, structured image repository from the local file system.
 const imageRepositoryPath = path.join(__dirname, 'data', 'image_metadata_final.json');
 
-try {
-    const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
-    curatedImages = JSON.parse(imageData);
-    console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
-} catch (error) {
-    console.error('Failed to load or parse image_metadata.json:', error);
+function loadCuratedImages() {
+    if (Array.isArray(IMAGE_DB) && IMAGE_DB.length) {
+        curatedImages = IMAGE_DB;
+        console.log(`[IMG-LOAD] Curated image pool ready with ${curatedImages.length} shared records.`);
+        return;
+    }
+
+    try {
+        const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
+        const parsed = JSON.parse(imageData);
+        if (Array.isArray(parsed)) {
+            curatedImages = parsed.map((img) => ({
+                ...img,
+                filePath: normalizeImagePath(img?.filePath || img?.src || img?.path),
+                src: normalizeImagePath(img?.src || img?.filePath || img?.path)
+            }));
+            console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
+        }
+    } catch (error) {
+        console.error('Failed to load or parse image_metadata.json:', error);
+    }
 }
+
+loadCuratedImages();
 
 function pickCandidateUrls(subject, topic) {
     const encodedTopic = encodeURIComponent(topic);
@@ -3596,7 +3688,16 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         }
         
         // 7. Final cleanup and response
-        const finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...normalizeStimulusAndSource(item), questionNumber: idx + 1 }));
+        const finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => {
+            const normalized = normalizeStimulusAndSource(item);
+            const chosenSrc = normalized?.stimulusImage?.src || normalized?.asset?.imagePath || '';
+            if (chosenSrc) {
+                console.log(`[IMG-SELECT] Subject: ${subject}, Topic: ${topic}, Found: ${imgs.length}, Using: ${chosenSrc}`);
+            } else if (subjectNeedsImages) {
+                console.warn(`[IMG-SELECT] Subject: ${subject}, Topic: ${topic}, Found: ${imgs.length}, Using: none`);
+            }
+            return { ...normalized, questionNumber: idx + 1 };
+        });
 
         console.log(`[Variety Pack] Successfully generated and processed ${finalItems.length} questions.`);
 

@@ -5415,15 +5415,26 @@ function Stem({ item }) {
         || item.source
         || '';
 
+    const imageSrc = (item?.stimulusImage && item.stimulusImage.src)
+        || (item?.asset && item.asset.imagePath)
+        || '';
+    const imageAlt = (item?.stimulusImage && item.stimulusImage.alt)
+        || '';
+
     return (
         <div className="stem space-y-4">
-            {item.stimulusImage?.src && (
+            {imageSrc && (
                 <div className="mb-3">
                     <img
-                        src={item.stimulusImage.src}
-                        alt={item.stimulusImage.alt || 'stimulus'}
+                        src={imageSrc}
+                        alt={imageAlt || 'stimulus'}
                         className="max-w-full rounded-md shadow"
                         loading="lazy"
+                        onError={(event) => {
+                            const failedSrc = event?.currentTarget?.src || imageSrc;
+                            const id = item?.id || item?.questionNumber || 'unknown-item';
+                            console.warn(`[IMG-LOAD] Failed to load ${failedSrc} for ${id}`);
+                        }}
                     />
                 </div>
             )}
