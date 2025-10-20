@@ -2157,6 +2157,41 @@ app.get('/api/admin/users', authenticateBearerToken, async (req, res) => {
     }
 });
 
+app.get('/api/admin/scores/:userId', authenticateBearerToken, async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'Database unavailable' });
+    }
+
+    const role = typeof req.user?.role === 'string' ? req.user.role.toLowerCase() : null;
+    if (role !== 'admin') {
+        return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    const { userId: rawUserId } = req.params || {};
+    const userId = Number(rawUserId);
+
+    if (!Number.isInteger(userId) || userId <= 0) {
+        return res.status(400).json({ error: 'Invalid user ID' });
+    }
+
+    try {
+        const result = await pool.query(
+            `SELECT id, user_id, subject, score, taken_at
+             FROM test_results
+             WHERE user_id = $1
+             ORDER BY taken_at DESC NULLS LAST, id DESC;`,
+            [userId]
+        );
+
+        const rows = Array.isArray(result?.rows) ? result.rows : [];
+        const formatted = rows.map(formatScoreRow).filter(Boolean);
+        return res.status(200).json(formatted);
+    } catch (error) {
+        console.error('Failed to fetch student test results:', error);
+        return res.status(500).json({ error: 'Failed to fetch scores' });
+    }
+});
+
 app.get('/api/instructor/dashboard', authenticateBearerToken, async (req, res) => {
     if (!isDatabaseConfigured()) {
         return res.status(503).json({ error: 'Database unavailable' });
