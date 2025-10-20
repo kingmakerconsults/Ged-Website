@@ -1624,21 +1624,48 @@ function neutralizeUnpairedDollarSigns(text) {
     return restoreMathSegments(working, segments);
 }
 
-function renderImageSection(container, imageUrl, items) {
+function renderImageSection(container, imageData, items) {
     if (!container) {
         return;
     }
 
     container.innerHTML = '';
 
+    let imageUrl = null;
+    let meta = null;
+    if (typeof imageData === 'string') {
+        imageUrl = imageData;
+    } else if (imageData && typeof imageData === 'object') {
+        imageUrl = imageData.image_url || imageData.imageUrl || imageData.url || imageData.path || imageData.src || null;
+        meta = imageData.meta || imageData.metadata || imageData.imageMeta || null;
+    }
+
+    const firstItem = Array.isArray(items) && items.length ? items[0] : null;
+    if (!meta && firstItem && typeof firstItem === 'object') {
+        meta = firstItem.imageMeta || null;
+    }
+
     if (imageUrl) {
+        const figure = document.createElement('figure');
+        figure.style.margin = '12px 0 16px';
+        figure.style.display = 'block';
+
         const img = document.createElement('img');
         img.src = imageUrl;
-        img.alt = 'Question image';
+        img.alt = meta?.title ? `Screenshot: ${meta.title}` : 'Screenshot';
         img.style.maxWidth = '100%';
         img.style.display = 'block';
-        img.style.margin = '12px 0 16px';
-        container.appendChild(img);
+        img.style.marginBottom = '8px';
+        figure.appendChild(img);
+
+        const figcaption = document.createElement('figcaption');
+        figcaption.className = 'text-sm text-slate-600';
+        const captionFallback = meta?.title ? `Screenshot — ${meta.title}` : meta?.caption || 'Screenshot';
+        const captionSource = firstItem?.imageRef?.caption || imageData?.caption || captionFallback;
+        figcaption.textContent = captionSource;
+        figure.appendChild(figcaption);
+
+        container.appendChild(figure);
     }
 
     if (!Array.isArray(items) || !items.length) {
@@ -1725,8 +1752,7 @@ function handleImageBankPayload(payload) {
         return;
     }
 
-    const imageUrl = image.image_url || image.imageUrl || image.url || null;
-    renderImageSection(container, imageUrl, questions);
+    renderImageSection(container, image, questions);
 }
 
 window.renderImageSection = renderImageSection;

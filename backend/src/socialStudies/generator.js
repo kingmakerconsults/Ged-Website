@@ -8,6 +8,10 @@ const {
 const { fetchExternalBlurb } = require('./blurbs');
 const { validateSocialStudiesItem } = require('./validator');
 const { planDifficulty, expandDifficultyCounts } = require('./difficulty');
+const { deriveVisualFeatures } = require('../utils/visualFeatures');
+const { deriveIsScreenshot } = require('../utils/metaLoader');
+const { validateSS } = require('./validators');
+const { clampPassage } = require('./passage');
 
 const TYPE_RATIOS = {
     map: 0.3,
@@ -36,7 +40,7 @@ Rules:
 - The solution must be 2-4 sentences citing visual evidence.
 - Avoid any markdown, HTML, or commentary.`;
 
-const SYSTEM_MESSAGE = `Create a Social Studies question that centers on the attached image. The stem must reference concrete features visible in that image (legend, axes, symbols, dates, labels, etc.) or integrate a short sourced passage directly tied to it. Do not include strategy language about how to read the image.`;
+const SYSTEM_MESSAGE = `Create a Social Studies question that centers on the attached image. The stem must reference concrete features visible in that image (legend, axes, symbols, dates, labels, etc.) or integrate a short sourced passage directly tied to it. Begin every stem with "Screenshot:" or "According to the screenshot..." and do not include strategy language about how to read the image.`;
 
 const MAX_ATTEMPTS_PER_ITEM = 6;
 
@@ -145,6 +149,7 @@ function renderImageContext(meta = {}) {
 function buildUserPrompt({ imageMeta, questionType, difficulty, blurb }) {
     const context = renderImageContext(imageMeta);
     const anchorGuidance = 'Ensure the stem mentions at least two explicit visual elements such as legend, key, scale, axis labels, shading, colors, symbols, compass directions, dates, captions, or numeric values shown on the image.';
+    const stemRule = 'Begin the stem with "Screenshot:" or "According to the screenshot..." and keep it focused on the visual evidence (no test-taking strategies).';
     const economicHint = blurb ? 'Incorporate the passage only if it clarifies the visual evidence; keep it between 60 and 200 words.' : 'Focus on the visual evidence unless a very short contextual sentence is necessary.';
     const blurbSection = blurb
         ? `Passage source (use verbatim as the "passage" field; do not exceed 200 words):\n"""\n${blurb.text}\n"""\nCite in the solution as ${blurb.citation}`
@@ -155,6 +160,7 @@ You must create exactly 1 GED Social Studies multiple-choice question.
 Difficulty: ${difficulty}.
 Question type focus: ${questionType}.
 ${anchorGuidance}
+${stemRule}
 ${economicHint}
 
 Image briefing:
@@ -213,9 +219,10 @@ function buildSource(blurb, imageMeta) {
 
 function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb }) {
     const answerOptions = formatAnswerOptions(raw.answerOptions);
-    const passage = typeof raw.passage === 'string' && raw.passage.trim().length
+    const rawPassage = typeof raw.passage === 'string' && raw.passage.trim().length
         ? raw.passage.trim()
         : (blurb ? blurb.text : undefined);
+    const passage = rawPassage ? clampPassage(rawPassage) : undefined;
 
     const source = buildSource(blurb, imageMeta);
     const baseId = raw.id != null ? String(raw.id) : crypto.randomUUID();
@@ -229,7 +236,7 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
         questionText: typeof raw.questionText === 'string' ? raw.questionText.trim() : '',
         answerOptions,
         solution: typeof raw.solution === 'string' ? raw.solution.trim() : '',
-        passage,
+        passage: passage && passage.trim().length ? passage : undefined,
         source: source || undefined,
         imageRef: {
             path: imageMeta?.filePath,
@@ -312,11 +319,40 @@ async function generateSingleItem({ planEntry, difficulty, allowExternalBlurbs, 
                 difficulty,
                 blurb
             });
+            const features = combo.imageMeta?.features || deriveVisualFeatures(combo.imageMeta || {});
+            if (combo.imageMeta && !combo.imageMeta.features) {
+                combo.imageMeta.features = features;
+            }
+            const fileName = combo.imageMeta?.fileName || (combo.imageMeta?.filePath || '').split('/').pop() || '';
+            const isScreenshot = combo.imageMeta?.isScreenshot != null
+                ? combo.imageMeta.isScreenshot
+                : deriveIsScreenshot(fileName, combo.imageMeta);
+
             const validation = validateSocialStudiesItem(normalized, combo.imageMeta);
-            if (validation.valid) {
+            let screenshotValid = true;
+            if (validation.valid && isScreenshot) {
+                const ssCandidate = {
+                    stem: normalized.questionText || '',
+                    choices: normalized.answerOptions.map((opt) => opt?.text || ''),
+                    correctIndex: normalized.answerOptions.findIndex((opt) => opt?.isCorrect),
+                    imageRef: normalized.imageRef,
+                    passage: normalized.passage ? { text: normalized.passage } : undefined
+                };
+                screenshotValid = validateSS(ssCandidate, combo.imageMeta, features, true);
+                if (!screenshotValid) {
+                    console.error('SS_FAIL', {
+                        file: fileName,
+                        reason: 'validation',
+                        flags: { hasTable: features.hasTable, hasChart: features.hasChart, hasMap: features.hasMap },
+                        title: combo.imageMeta?.title
+                    });
+                }
+            }
+
+            if (validation.valid && screenshotValid) {
                 return normalized;
             }
-            lastErrors = validation.errors;
+            lastErrors = screenshotValid ? validation.errors : ['Screenshot validation failed.'];
         }
 
         if (attemptsWithCurrentImage < 2) {

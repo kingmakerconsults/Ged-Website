@@ -19,6 +19,7 @@ const {
     deriveVisualFeatures,
     buildFeatureSignature
 } = require('../src/utils/visualFeatures');
+const { validateSS } = require('../src/socialStudies/validators');
 
 const IMAGE_META_SAMPLE = {
     id: 'sample-image',
@@ -213,6 +214,28 @@ test('screenshot validator ensures captions and signature metadata propagate', (
     assert(normalized.imageRef.caption.startsWith('Screenshot —'), 'Caption should be prefixed with Screenshot —');
     assert(Array.isArray(normalized.featureSignature) && normalized.featureSignature.includes('federalBranches'));
     assert.equal(normalized.imageFileName, BRANCHES_SCREENSHOT_META.fileName);
+});
+
+test('validateSS enforces screenshot stem anchors and captions', () => {
+    const features = deriveVisualFeatures(REGION_SCREENSHOT_META);
+
+    const valid = {
+        stem: "Screenshot: Types of Regions. According to the table's Type and Example columns, which region type centers on a nodal focus?",
+        choices: ['Formal', 'Functional', 'Perceptual', 'Political'],
+        correctIndex: 1,
+        imageRef: { caption: 'Screenshot — Types of Regions' }
+    };
+
+    assert.equal(validateSS(valid, REGION_SCREENSHOT_META, features, true), true);
+
+    const invalid = {
+        stem: 'Which region focuses on a center?',
+        choices: ['Formal', 'Functional', 'Perceptual', 'Political'],
+        correctIndex: 1,
+        imageRef: { caption: 'Types of Regions' }
+    };
+
+    assert.equal(validateSS(invalid, REGION_SCREENSHOT_META, features, true), false);
 });
 
 test('fetchExternalBlurb returns cached Britannica-style entry', async () => {

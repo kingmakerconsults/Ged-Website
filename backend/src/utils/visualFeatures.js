@@ -1,5 +1,5 @@
-function gatherText(meta) {
-    const candidates = [
+function gatherText(meta = {}) {
+    const fields = [
         meta?.title,
         meta?.altText,
         meta?.caption,
@@ -7,8 +7,7 @@ function gatherText(meta) {
         meta?.usageDirectives,
         meta?.ocrText
     ];
-
-    return candidates
+    return fields
         .filter((value) => typeof value === 'string' && value.trim().length)
         .join(' ')
         .toLowerCase();
@@ -19,30 +18,22 @@ function uniqueKeywords(text) {
     return Array.from(new Set(matches)).slice(0, 500);
 }
 
-function deriveIsScreenshot(fileName, meta = {}) {
-    const fromFile = typeof fileName === 'string' && /^screenshot/i.test(fileName);
-    const tags = Array.isArray(meta.tags) ? meta.tags.map((tag) => String(tag).toLowerCase()) : [];
-    const fromTags = tags.includes('screenshot');
-    const fromType = typeof meta.type === 'string' && meta.type.toLowerCase() === 'screenshot';
-    return Boolean(fromFile || fromTags || fromType);
-}
-
 function deriveVisualFeatures(meta = {}) {
     const text = gatherText(meta);
-
+    const mapPrimary = /(map|compass|north|state|county|river|choropleth)/.test(text);
+    const mapSecondary = /(legend|scale|miles|shaded)/.test(text);
+    const hasMap = mapPrimary || (mapSecondary && /map/.test(text));
     const features = {
-        hasTable: /(table|row|column|type|definition|example|header)/.test(text),
-        hasMap: /(map|scale|miles|compass|north|state|county|river|shaded|choropleth)/.test(text),
-        hasChart: /(chart|graph|axis|x-?axis|y-?axis|bar|line|pie|key|series|units|year|percentage)/.test(text),
-        hasTimeline: /(timeline|date range|era|decade)/.test(text),
+        hasTable: /(table|row|column|header|definition|example)/.test(text),
+        hasMap,
+        hasChart: /(chart|graph|axis|x-?axis|y-?axis|bar|line|pie|key|series|units|year|percentage|btu)/.test(text),
+        hasTimeline: /(timeline|decade|era|date range)/.test(text),
         hasCartoon: /(cartoon|satire|symbol|allegory)/.test(text),
-        keywords: uniqueKeywords(text)
+        keywords: uniqueKeywords(text),
+        typesOfRegions: /types of regions|formal|functional|perceptual/.test(text),
+        energyConsumption: /energy consumption|btu|nuclear|coal|natural gas|petroleum/.test(text),
+        federalBranches: /executive|judicial|legislative|supreme court|house of representatives|senate/.test(text)
     };
-
-    features.typesOfRegions = /types of regions|formal|functional|perceptual/.test(text);
-    features.energyConsumption = /energy consumption|btu|nuclear|coal|natural gas|petroleum/.test(text);
-    features.federalBranches = /executive|judicial|legislative|supreme court|cabinet|house of representatives|senate/.test(text);
-
     return features;
 }
 
@@ -60,8 +51,6 @@ function buildFeatureSignature(features = {}) {
 }
 
 module.exports = {
-    deriveIsScreenshot,
     deriveVisualFeatures,
     buildFeatureSignature
 };
-
