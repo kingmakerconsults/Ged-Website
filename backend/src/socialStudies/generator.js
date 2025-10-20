@@ -24,23 +24,35 @@ const CIVICS_TYPES = ['photo', 'political-cartoon', 'document-excerpt'];
 const CHART_TYPES = ['chart', 'timeline'];
 const ECON_TYPES = ['chart', 'table'];
 
-const SOCIAL_JSON_HEADER = `SYSTEM: Return ONLY JSON, no prose or markdown. Wrap the response between <BEGIN_JSON> and <END_JSON>.
-Each item must follow this schema:
+const SOCIAL_JSON_HEADER = `SYSTEM: Output only valid JSON. No markdown, no code fences, no trailing commas, no comments.
+Return a JSON object that matches this structure:
 {
-  "id": string | number,
-  "questionText": string,
-  "answerOptions": [{"text": string, "isCorrect": boolean, "rationale": string}],
-  "solution": string,
-  "difficulty": "easy" | "medium" | "hard",
-  "passage"?: string
+  "id": string,
+  "title": string,
+  "subject": string,
+  "items": [
+    {
+      "questionNumber": integer,
+      "visualType": "map" | "chart" | "table" | "photo",
+      "difficulty": "easy" | "medium" | "hard",
+      "stem": string,
+      "choices": [string, string, string, string],
+      "correctIndex": integer,
+      "rationale": string,
+      "passage"?: string,
+      "source"?: string
+    }
+  ]
 }
 Rules:
-- Exactly 1 item in the array.
-- Provide exactly 4 answerOptions; mark only one option with isCorrect=true.
-- The solution must be 2-4 sentences citing visual evidence.
-- Avoid any markdown, HTML, or commentary.`;
+- Exactly 1 item in the "items" array.
+- Each stem must begin with "According to the image" or "According to the <visual type>" and reference at least two concrete visual features (legend, axis labels, headers, dates, symbols, etc.).
+- Provide exactly four distinct answer choices in "choices" and set "correctIndex" to the zero-based index of the correct choice.
+- Use "rationale" for a 2-3 sentence explanation citing the visible evidence.
+- If a brief context is essential, place it in "passage" (60-200 words). Omit the field otherwise.
+- Never use the word "Screenshot" anywhere.`;
 
-const SYSTEM_MESSAGE = `Create a Social Studies question that centers on the attached image. The stem must reference concrete features visible in that image (legend, axes, symbols, dates, labels, etc.) or integrate a short sourced passage directly tied to it. Begin every stem with "Screenshot:" or "According to the screenshot..." and do not include strategy language about how to read the image.`;
+const SYSTEM_MESSAGE = `You are a GED Social Studies item writer. Create image-based multiple-choice questions that rely on the provided visual. Each stem must start with "According to the image..." or "According to the map/chart/table/photo..." and cite at least two concrete visual anchors. Do not produce passage-only questions; if context is needed, keep it in the passage field (60-200 words). Never use the word "Screenshot" and always respond with valid JSON only.`;
 
 const MAX_ATTEMPTS_PER_ITEM = 6;
 
@@ -148,9 +160,11 @@ function renderImageContext(meta = {}) {
 
 function buildUserPrompt({ imageMeta, questionType, difficulty, blurb }) {
     const context = renderImageContext(imageMeta);
-    const anchorGuidance = 'Ensure the stem mentions at least two explicit visual elements such as legend, key, scale, axis labels, shading, colors, symbols, compass directions, dates, captions, or numeric values shown on the image.';
-    const stemRule = 'Begin the stem with "Screenshot:" or "According to the screenshot..." and keep it focused on the visual evidence (no test-taking strategies).';
-    const economicHint = blurb ? 'Incorporate the passage only if it clarifies the visual evidence; keep it between 60 and 200 words.' : 'Focus on the visual evidence unless a very short contextual sentence is necessary.';
+    const anchorGuidance = 'Ensure the stem explicitly references at least two concrete visual features such as the legend, key, scale, axis labels, shading, colors, compass directions, dates, captions, or numeric values shown on the image.';
+    const stemRule = 'Begin the stem with "According to the image..." or "According to the map/chart/table/photo..." and keep it focused solely on the visual evidence (no test-taking strategies or generic advice). Never use the word "Screenshot".';
+    const economicHint = blurb
+        ? 'Integrate the passage only if it clarifies the visual evidence; keep it between 60 and 200 words and place it in the "passage" field.'
+        : 'Favor image-only analysis unless a brief contextual passage (60-200 words) is essential.';
     const blurbSection = blurb
         ? `Passage source (use verbatim as the "passage" field; do not exceed 200 words):\n"""\n${blurb.text}\n"""\nCite in the solution as ${blurb.citation}`
         : 'Do not include a passage unless essential; prefer image-only analysis.';
@@ -170,8 +184,8 @@ ${blurbSection}
 
 Hard rules:
 - Stem <= 35 words and free of test-taking advice.
-- Provide exactly 4 answer options with rationales; avoid duplicate text.
-- Solution must cite specific features (legend, labels, axes, colors, dates, etc.) and be 2-4 sentences long.
+- Provide exactly four distinct answer choices that align with the image evidence and set only one correct index.
+- Rationale must cite specific visual anchors (legend, labels, axes, colors, dates, etc.) and be 2-3 sentences long.
 - Maintain neutral, evidence-based tone aligned with GED expectations.`;
 }
 
@@ -218,7 +232,15 @@ function buildSource(blurb, imageMeta) {
 }
 
 function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb }) {
-    const answerOptions = formatAnswerOptions(raw.answerOptions);
+    let answerOptions = formatAnswerOptions(raw.answerOptions);
+    if ((!answerOptions.length || !Array.isArray(raw.answerOptions)) && Array.isArray(raw.choices)) {
+        const rationale = typeof raw.rationale === 'string' ? raw.rationale.trim() : '';
+        answerOptions = raw.choices.slice(0, 4).map((choice, idx) => ({
+            text: typeof choice === 'string' ? choice.trim() : '',
+            isCorrect: idx === raw.correctIndex,
+            rationale: idx === raw.correctIndex ? rationale : ''
+        }));
+    }
     const rawPassage = typeof raw.passage === 'string' && raw.passage.trim().length
         ? raw.passage.trim()
         : (blurb ? blurb.text : undefined);
@@ -227,15 +249,21 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
     const source = buildSource(blurb, imageMeta);
     const baseId = raw.id != null ? String(raw.id) : crypto.randomUUID();
     const captionSource = buildCaption(imageMeta, source);
+    const stemSource = typeof raw.stem === 'string' ? raw.stem.trim() : '';
+    const fallbackStem = typeof raw.questionText === 'string' ? raw.questionText.trim() : '';
+    const stem = (stemSource || fallbackStem || '').replace(/\bScreenshot\b/gi, 'image');
+    const solution = typeof raw.solution === 'string'
+        ? raw.solution.trim()
+        : (typeof raw.rationale === 'string' ? raw.rationale.trim() : '');
 
     return {
         id: baseId,
         domain: 'social_studies',
-        questionType,
+        questionType: raw.questionType || raw.visualType || questionType,
         difficulty: raw.difficulty || difficulty,
-        questionText: typeof raw.questionText === 'string' ? raw.questionText.trim() : '',
+        questionText: stem,
         answerOptions,
-        solution: typeof raw.solution === 'string' ? raw.solution.trim() : '',
+        solution,
         passage: passage && passage.trim().length ? passage : undefined,
         source: source || undefined,
         imageRef: {
