@@ -1547,12 +1547,24 @@ function formatUserRow(row) {
     if (!row) return null;
     const email = row.email || '';
     const fallbackName = email.includes('@') ? email.split('@')[0] : (email || 'Learner');
+    const organizationId = row.organization_id ?? row.organizationId ?? null;
+    const organizationName = row.organization_name ?? row.organizationName ?? null;
+    const picture = row.picture || row.picture_url || null;
+    const loginCount = row.login_count != null ? Number(row.login_count) : null;
     return {
         id: row.id,
         email,
         name: row.name || fallbackName,
         createdAt: row.created_at || null,
-        picture: row.picture || null,
+        picture,
+        picture_url: picture,
+        organization_id: organizationId,
+        organizationId,
+        organization_name: organizationName,
+        organizationName,
+        role: row.role || null,
+        last_login: row.last_login || null,
+        login_count: loginCount,
     };
 }
 
@@ -1592,12 +1604,23 @@ function authenticateBearerToken(req, res, next) {
     }
 }
 
-function createUserToken(userId) {
+function createUserToken(userId, role = null) {
     const secret = process.env.JWT_SECRET;
     if (!secret) {
         throw new Error('JWT_SECRET is not configured');
     }
-    return jwt.sign({ userId }, secret, { expiresIn: USER_TOKEN_TTL });
+    const payload = { sub: userId, userId };
+    if (role) {
+        payload.role = role;
+    }
+    return jwt.sign(payload, secret, { expiresIn: USER_TOKEN_TTL });
+}
+
+function getUserIdFromRequest(req) {
+    if (!req || !req.user) {
+        return null;
+    }
+    return req.user.sub ?? req.user.userId ?? req.user.id ?? null;
 }
 
 const app = express();
@@ -1674,12 +1697,14 @@ app.post('/api/register', async (req, res) => {
     try {
         const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
         const result = await pool.query(
-            'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at',
+            `INSERT INTO users (email, password_hash, login_count, last_login)
+             VALUES ($1, $2, 1, NOW())
+             RETURNING id, email, created_at, name, organization_id, role, last_login, login_count, picture_url;`,
             [normalizedEmail, passwordHash]
         );
 
         const user = formatUserRow(result.rows[0]);
-        const token = createUserToken(user.id);
+        const token = createUserToken(user.id, user.role);
         setAuthCookie(res, token, 24 * 60 * 60 * 1000);
         return res.status(201).json({ message: 'Registration successful', user, token });
     } catch (error) {
@@ -1710,7 +1735,9 @@ app.post('/api/login', async (req, res) => {
 
     try {
         const result = await pool.query(
-            'SELECT id, email, password_hash, created_at FROM users WHERE email = $1',
+            `SELECT id, email, password_hash, created_at, name, organization_id, role, last_login, login_count, picture_url
+             FROM users
+             WHERE email = $1`,
             [normalizedEmail]
         );
 
@@ -1724,8 +1751,17 @@ app.post('/api/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        const user = formatUserRow(userRow);
-        const token = createUserToken(user.id);
+        const updateResult = await pool.query(
+            `UPDATE users
+             SET last_login = NOW(),
+                 login_count = COALESCE(login_count, 0) + 1
+             WHERE id = $1
+             RETURNING id, email, created_at, name, organization_id, role, last_login, login_count, picture_url;`,
+            [userRow.id]
+        );
+
+        const user = formatUserRow(updateResult.rows[0] || userRow);
+        const token = createUserToken(user.id, user.role);
         setAuthCookie(res, token, 24 * 60 * 60 * 1000);
         return res.status(200).json({ message: 'Login successful', user, token });
     } catch (error) {
@@ -1770,6 +1806,147 @@ app.get('/api/scores', authenticateBearerToken, async (req, res) => {
     } catch (error) {
         console.error('Failed to fetch scores:', error);
         return res.status(500).json({ error: 'Failed to fetch scores' });
+    }
+});
+
+app.get('/api/organizations', async (_req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'Database unavailable' });
+    }
+
+    try {
+        const { rows } = await pool.query(
+            'SELECT id, name FROM organizations ORDER BY name ASC;'
+        );
+        return res.status(200).json(rows);
+    } catch (error) {
+        console.error('Failed to fetch organizations:', error);
+        return res.status(500).json({ error: 'Failed to fetch organizations' });
+    }
+});
+
+app.post('/api/student/join-organization', requireAuth, async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'Database unavailable' });
+    }
+
+    const userId = getUserIdFromRequest(req);
+    if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { organization_id: organizationIdInput } = req.body || {};
+    const organizationId = Number.parseInt(organizationIdInput, 10);
+
+    if (!Number.isInteger(organizationId) || organizationId <= 0) {
+        return res.status(400).json({ error: 'A valid organization_id is required' });
+    }
+
+    try {
+        const organizationResult = await pool.query(
+            'SELECT id, name FROM organizations WHERE id = $1;',
+            [organizationId]
+        );
+
+        if (organizationResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Organization not found' });
+        }
+
+        await pool.query(
+            `UPDATE users
+             SET organization_id = $1
+             WHERE id = $2;`,
+            [organizationId, userId]
+        );
+
+        const organization = organizationResult.rows[0];
+        return res.status(200).json({
+            message: 'Organization joined successfully',
+            organization,
+        });
+    } catch (error) {
+        console.error('Failed to join organization:', error);
+        return res.status(500).json({ error: 'Failed to join organization' });
+    }
+});
+
+app.post('/api/instructor/dashboard', requireAuth, async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'Database unavailable' });
+    }
+
+    const role = typeof req.user?.role === 'string' ? req.user.role.toLowerCase() : null;
+    if (role !== 'instructor') {
+        return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    const accessCode = typeof req.body?.access_code === 'string' ? req.body.access_code.trim() : '';
+    if (!accessCode) {
+        return res.status(400).json({ error: 'An access_code is required' });
+    }
+
+    try {
+        const organizationResult = await pool.query(
+            'SELECT id, name FROM organizations WHERE access_code = $1;',
+            [accessCode]
+        );
+
+        if (organizationResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Invalid organization code' });
+        }
+
+        const organization = organizationResult.rows[0];
+
+        const studentsResult = await pool.query(
+            `SELECT id, name, email, last_login, login_count
+             FROM users
+             WHERE organization_id = $1
+             ORDER BY name ASC;`,
+            [organization.id]
+        );
+
+        const students = studentsResult.rows || [];
+        const studentIds = students.map((student) => student.id).filter((id) => Number.isInteger(Number(id)));
+
+        let testResultsMap = new Map();
+        if (studentIds.length > 0) {
+            const results = await pool.query(
+                `SELECT *
+                 FROM test_results
+                 WHERE user_id = ANY($1::int[])
+                 ORDER BY id DESC;`,
+                [studentIds]
+            );
+
+            testResultsMap = results.rows.reduce((map, row) => {
+                const key = row.user_id;
+                if (!map.has(key)) {
+                    map.set(key, []);
+                }
+                map.get(key).push(row);
+                return map;
+            }, new Map());
+        }
+
+        const payload = {
+            organization: {
+                id: organization.id,
+                name: organization.name,
+            },
+            students: students.map((student) => ({
+                id: student.id,
+                name: student.name,
+                email: student.email,
+                last_login: student.last_login,
+                login_count: student.login_count,
+                test_results: testResultsMap.get(student.id) || [],
+            })),
+        };
+
+        return res.status(200).json(payload);
+    } catch (error) {
+        console.error('Failed to build instructor dashboard:', error);
+        return res.status(500).json({ error: 'Failed to load instructor dashboard' });
     }
 });
 
@@ -3808,7 +3985,8 @@ app.post('/api/auth/google', async (req, res) => {
                 `UPDATE users
                  SET name = $1,
                      picture_url = $2,
-                     last_login = $3
+                     last_login = $3,
+                     login_count = COALESCE(login_count, 0) + 1
                  WHERE id = $4
                  RETURNING *;`,
                 [displayName ?? existingUser.name, pictureUrl ?? existingUser.picture_url, now, existingUser.id]
@@ -3817,8 +3995,8 @@ app.post('/api/auth/google', async (req, res) => {
             userRow = updateResult.rows[0];
         } else {
             const insertResult = await pool.query(
-                `INSERT INTO users (email, name, picture_url, password_hash, last_login)
-                 VALUES ($1, $2, $3, $4, $5)
+                `INSERT INTO users (email, name, picture_url, password_hash, last_login, login_count)
+                 VALUES ($1, $2, $3, $4, $5, 1)
                  RETURNING *;`,
                 [normalizedEmail, displayName, pictureUrl, null, now]
             );
@@ -3833,7 +4011,11 @@ app.post('/api/auth/google', async (req, res) => {
 
         console.log(`[SECURITY] Successful login for user ID: ${googleId || 'unknown'}, email: ${normalizedEmail}`);
 
-        const token = jwt.sign({ sub: userRow.id, name: userRow.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const tokenPayload = { sub: userRow.id, name: userRow.name };
+        if (userRow.role) {
+            tokenPayload.role = userRow.role;
+        }
+        const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1d' });
         setAuthCookie(res, token, 24 * 60 * 60 * 1000);
 
         res.status(200).json({
@@ -3844,6 +4026,10 @@ app.post('/api/auth/google', async (req, res) => {
                 picture: userRow.picture_url,
                 pictureUrl: userRow.picture_url,
                 last_login: userRow.last_login,
+                login_count: userRow.login_count,
+                organization_id: userRow.organization_id,
+                role: userRow.role,
+                organization_name: userRow.organization_name,
             },
             token,
         });
