@@ -36,7 +36,7 @@ const IMAGE_TIMEOUT_MS = 7000;
 const ACCEPT_IMAGE = /^image\//i;
 
 const DEBUG_LOG_SCHEMAS = String(process.env.DEBUG_LOG_SCHEMAS || '').toLowerCase() === 'true';
-const LOGGED_SCHEMA_PAYLOADS = new Set();
+const LOGGED_SCHEMA_ERRORS = new Set();
 
 function selectModelTimeoutMs({ examType } = {}) {
     return examType === 'comprehensive' ? COMPREHENSIVE_TIMEOUT_MS : MODEL_HTTP_TIMEOUT_MS;
@@ -1258,7 +1258,7 @@ function parseGeminiResponse(data) {
     }
     if (typeof text !== 'string' || !text.trim()) return null;
     try {
-        return parseJsonWithRepair(text).value;
+        return parseJsonWithRepair(text);
     } catch (err) {
         return extractJSONArray(text);
     }
@@ -1287,7 +1287,7 @@ function parseOpenAIResponse(data) {
     const json = extractJSONArray(text);
     if (json) return json;
     try {
-        const parsed = parseJsonWithRepair(text).value;
+        const parsed = parseJsonWithRepair(text);
         if (Array.isArray(parsed)) return parsed;
         if (Array.isArray(parsed?.items)) return parsed.items;
         if (Array.isArray(parsed?.questions)) return parsed.questions;
@@ -1298,40 +1298,150 @@ function parseOpenAIResponse(data) {
     return null;
 }
 
-function sanitizeSSItem(item = {}) {
-    if (!item || typeof item !== 'object') return item;
-    const clone = { ...item };
-    if (typeof clone.stem === 'string') {
-        clone.stem = clone.stem.replace(/\bScreenshot\b/gi, 'image').trim();
-    }
-    if (Array.isArray(clone.choices)) {
-        clone.choices = clone.choices
-            .slice(0, 4)
-            .map((choice) => (typeof choice === 'string' ? choice.trim() : ''));
-    }
-    if (typeof clone.passage === 'string') {
-        const words = clone.passage.trim().split(/\s+/);
-        if (words.length > 200) {
-            clone.passage = `${words.slice(0, 200).join(' ')}…`;
-        } else {
-            clone.passage = clone.passage.trim();
-        }
-    }
-    return clone;
+const SS_STIMULUS_REGEX = /image|map|chart|table|photo/i;
+const SS_VISUAL_CUE_REGEX = /(legend|key|axis|label|row|column|header|scale|symbol|date|title)/i;
+
+function replaceScreenshotTerm(value) {
+    if (typeof value !== 'string') return value;
+    return value.replace(/\bScreenshot\b/gi, 'image');
 }
 
-function isValidSSItem(q = {}) {
-    const stem = typeof q.stem === 'string' ? q.stem : '';
-    const startOK = /^(according to (the )?(image|map|chart|table|photo)|in (the )?(image|map|chart|table|photo))/i.test(stem);
-    const fourChoices = Array.isArray(q.choices) && q.choices.length === 4;
-    const idxOK = Number.isInteger(q.correctIndex) && q.correctIndex >= 0 && q.correctIndex < 4;
-    const anchors = /(legend|key|scale|axis|x-?axis|y-?axis|label|row|column|header|shaded|symbol|date|title)/i.test(stem);
-    return startOK && fourChoices && idxOK && anchors;
+function clampPassageToTwoHundredWords(text) {
+    if (typeof text !== 'string') return undefined;
+    const trimmed = replaceScreenshotTerm(text).trim();
+    if (!trimmed) return undefined;
+    const words = trimmed.split(/\s+/);
+    if (words.length > 200) {
+        return `${words.slice(0, 200).join(' ')}…`;
+    }
+    return trimmed;
+}
+
+function normalizeSSAnswerOptions(rawOptions, fallbackChoices, correctIndex, rationale) {
+    const source = Array.isArray(rawOptions) && rawOptions.length
+        ? rawOptions.slice(0, 4)
+        : Array.isArray(fallbackChoices)
+            ? fallbackChoices.slice(0, 4)
+            : [];
+
+    if (source.length !== 4) {
+        return null;
+    }
+
+    const options = source.map((opt) => {
+        if (typeof opt === 'string') {
+            return { text: opt };
+        }
+        if (opt && typeof opt === 'object') {
+            return {
+                text: opt.text,
+                rationale: opt.rationale,
+                isCorrect: opt.isCorrect === true
+            };
+        }
+        return { text: '' };
+    });
+
+    const resolvedIndex = Number.isInteger(correctIndex) && correctIndex >= 0 && correctIndex < options.length
+        ? correctIndex
+        : options.findIndex((opt) => opt.isCorrect);
+
+    if (resolvedIndex < 0 || resolvedIndex >= options.length) {
+        return null;
+    }
+
+    const normalized = options.map((opt, idx) => {
+        const text = replaceScreenshotTerm(typeof opt.text === 'string' ? opt.text : '').trim();
+        const optionRationale = typeof opt.rationale === 'string' ? opt.rationale.trim() : '';
+        return {
+            text,
+            isCorrect: idx === resolvedIndex,
+            rationale: idx === resolvedIndex
+                ? (optionRationale || (typeof rationale === 'string' ? rationale.trim() : ''))
+                : optionRationale
+        };
+    });
+
+    if (normalized.some((opt) => !opt.text)) {
+        return null;
+    }
+
+    return { options: normalized, correctIndex: resolvedIndex };
+}
+
+function normalizeSocialStudiesQuestion(raw = {}) {
+    if (!raw || typeof raw !== 'object') return null;
+
+    const questionTextSource = typeof raw.questionText === 'string' && raw.questionText.trim().length
+        ? raw.questionText
+        : raw.stem;
+    const questionText = replaceScreenshotTerm(typeof questionTextSource === 'string' ? questionTextSource : '').trim();
+    if (!questionText) return null;
+
+    const type = typeof raw.type === 'string'
+        ? raw.type.trim()
+        : (typeof raw.visualType === 'string' ? raw.visualType.trim() : '');
+
+    const fallbackChoices = Array.isArray(raw.choices)
+        ? raw.choices.map((choice) => ({ text: choice }))
+        : [];
+
+    const rationale = typeof raw.rationale === 'string' ? raw.rationale.trim() : '';
+    const answerOptions = normalizeSSAnswerOptions(raw.answerOptions, fallbackChoices, raw.correctIndex, rationale);
+    if (!answerOptions) return null;
+
+    const passage = clampPassageToTwoHundredWords(raw.passage);
+    const source = typeof raw.source === 'string' ? raw.source.trim() : undefined;
+    const questionNumber = Number.isInteger(raw.questionNumber) ? raw.questionNumber : undefined;
+
+    return {
+        questionNumber,
+        type,
+        questionText,
+        passage,
+        source,
+        answerOptions: answerOptions.options,
+        correctIndex: answerOptions.correctIndex,
+        rationale
+    };
+}
+
+function validShape(q) {
+    return Array.isArray(q.answerOptions) && q.answerOptions.length === 4
+        && Number.isInteger(q.correctIndex)
+        && q.correctIndex >= 0 && q.correctIndex < 4;
+}
+
+function validByType(q) {
+    if ((q.type || '').toLowerCase() === 'passage') {
+        const words = (q.passage || '').split(/\s+/).filter(Boolean).length;
+        return words >= 60 && words <= 200;
+    }
+    if (SS_STIMULUS_REGEX.test(q.type || '')) {
+        return SS_VISUAL_CUE_REGEX.test(q.questionText || '');
+    }
+    return true;
+}
+
+function rebalance(questions) {
+    const images = questions.filter((q) => SS_STIMULUS_REGEX.test(q.type || ''));
+    const passages = questions.filter((q) => (q.type || '').toLowerCase() === 'passage');
+    const half = Math.floor(questions.length / 2);
+    const takeImg = images.slice(0, half);
+    const takePas = passages.slice(0, half);
+    if (!takeImg.length || !takePas.length) {
+        return questions;
+    }
+    const used = new Set([...takeImg, ...takePas]);
+    const remainder = questions.filter((q) => !used.has(q));
+    return [...takeImg, ...takePas, ...remainder];
 }
 
 function prepareSocialStudiesItems(payload) {
     let candidates = [];
-    if (payload && Array.isArray(payload.items)) {
+    if (payload && Array.isArray(payload.questions)) {
+        candidates = payload.questions;
+    } else if (payload && Array.isArray(payload.items)) {
         candidates = payload.items;
     } else if (Array.isArray(payload)) {
         candidates = payload;
@@ -1339,11 +1449,27 @@ function prepareSocialStudiesItems(payload) {
     if (!Array.isArray(candidates)) {
         throw new Error('Model returned invalid Social Studies payload.');
     }
-    const sanitized = candidates.map(sanitizeSSItem).filter(isValidSSItem);
-    if (!sanitized.length) {
+
+    let normalized = candidates.map(normalizeSocialStudiesQuestion).filter(Boolean);
+    normalized = normalized.filter((q) => validShape(q) && validByType(q));
+
+    if (!normalized.length) {
         throw new Error('SS_VALIDATION_EMPTY_AFTER_FILTER');
     }
-    return sanitized;
+
+    const balanced = rebalance(normalized);
+
+    return balanced.map((q, idx) => ({
+        ...q,
+        questionNumber: idx + 1,
+        questionText: replaceScreenshotTerm(q.questionText || '').trim(),
+        passage: q.passage,
+        answerOptions: q.answerOptions.map((opt, optionIdx) => ({
+            text: replaceScreenshotTerm(opt.text || '').trim(),
+            isCorrect: optionIdx === q.correctIndex,
+            rationale: typeof opt.rationale === 'string' ? opt.rationale : ''
+        }))
+    }));
 }
 
 // Count words and clamp politely at boundary (keeps punctuation)
@@ -2050,7 +2176,7 @@ async function callLLM({ system, user }) {
     return text;
 }
 
-async function callGemini(payload, { signal, timeoutMs } = {}) {
+async function callGemini(payload, { signal, timeoutMs, callSite } = {}) {
     if (!GEMINI_API_KEY || !GEMINI_URL) {
         throw new Error('GOOGLE_API_KEY is not configured.');
     }
@@ -2059,8 +2185,16 @@ async function callGemini(payload, { signal, timeoutMs } = {}) {
     if (timeoutMs) {
         config.timeout = timeoutMs;
     }
-    const response = await http.post(GEMINI_URL, payload, config);
-    return response.data;
+    try {
+        const response = await http.post(GEMINI_URL, payload, config);
+        return response.data;
+    } catch (error) {
+        if (error?.response?.status === 400 && callSite && !LOGGED_SCHEMA_ERRORS.has(callSite)) {
+            LOGGED_SCHEMA_ERRORS.add(callSite);
+            console.error(`SS_SCHEMA_400_ADDITIONALPROPS: ${callSite}`);
+        }
+        throw error;
+    }
 }
 
 async function callChatGPT(payload, { signal, timeoutMs } = {}) {
@@ -2154,10 +2288,11 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
             }
         ]
     };
+    const geminiCallSite = subject === 'Social Studies' ? 'ss-generate-quiz-items' : null;
     if (subject === 'Social Studies') {
         geminiPayload.generationConfig = {
             response_mime_type: 'application/json',
-            response_schema: SS_SCHEMA
+            response_schema: SS_RESPONSE_SCHEMA
         };
     }
     if (normalizedPrompt.system) {
@@ -2199,7 +2334,7 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
 
     const runGeminiFn = async () => {
         return await withRetry(
-            () => generationLimit(() => callGemini(geminiPayload)),
+            () => generationLimit(() => callGemini(geminiPayload, { callSite: geminiCallSite })),
             geminiOptions
         );
     };
@@ -4408,37 +4543,42 @@ const quizSchema = {
     required: ["id", "title", "subject", "questions"]
 };
 
-const SS_SCHEMA = {
+const SS_RESPONSE_SCHEMA = {
     type: "object",
     properties: {
         id: { type: "string" },
         title: { type: "string" },
         subject: { type: "string" },
-        items: {
+        questions: {
             type: "array",
             items: {
                 type: "object",
                 properties: {
                     questionNumber: { type: "integer" },
-                    visualType: { type: "string" },
-                    difficulty: { type: "string" },
-                    stem: { type: "string" },
-                    choices: {
+                    type: { type: "string" },
+                    questionText: { type: "string" },
+                    passage: { type: "string" },
+                    source: { type: "string" },
+                    answerOptions: {
                         type: "array",
-                        items: { type: "string" },
+                        items: {
+                            type: "object",
+                            properties: {
+                                text: { type: "string" }
+                            },
+                            required: ["text"]
+                        },
                         minItems: 4,
                         maxItems: 4
                     },
                     correctIndex: { type: "integer" },
-                    rationale: { type: "string" },
-                    passage: { type: "string" },
-                    source: { type: "string" }
+                    rationale: { type: "string" }
                 },
-                required: ["visualType", "difficulty", "stem", "choices", "correctIndex"]
+                required: ["type", "questionText", "answerOptions", "correctIndex"]
             }
         }
     },
-    required: ["items"]
+    required: ["questions"]
 };
 
 const MATH_VALIDATOR_SCHEMA = {
@@ -4467,16 +4607,19 @@ function sanitizeModelText(text) {
         .trim();
 }
 
-function parseJsonWithRepair(rawText) {
-    const cleanedText = sanitizeModelText(rawText);
+function parseJsonWithRepair(raw) {
+    const cleaned = String(raw)
+        .replace(/```json|```/gi, '')
+        .replace(/\u0000/g, '')
+        .replace(/\r\n/g, '\n')
+        .trim();
     try {
-        return { value: JSON.parse(cleanedText), cleanedText };
-    } catch (initialError) {
+        return JSON.parse(cleaned);
+    } catch (err) {
         try {
-            const repaired = jsonrepair(cleanedText);
-            return { value: JSON.parse(repaired), cleanedText: repaired };
+            return JSON.parse(jsonrepair(cleaned));
         } catch (repairError) {
-            const snippet = cleanedText.slice(0, 500);
+            const snippet = cleaned.slice(0, 300);
             console.error('SS_PARSE_UNTERMINATED', {
                 message: repairError.message,
                 snippet
@@ -4493,7 +4636,7 @@ const callAI = async (prompt, schema, options = {}) => {
         throw new Error('Server configuration error: GOOGLE_AI_API_KEY is not set.');
     }
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    const { parser, onParserMetadata, generationOverrides, timeoutMs, signal } = options;
+    const { parser, onParserMetadata, generationOverrides, timeoutMs, signal, callSite } = options;
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
@@ -4530,17 +4673,11 @@ const callAI = async (prompt, schema, options = {}) => {
             onParserMetadata?.({ stage: 'custom-parser' });
             return parsedResult;
         }
-        const { value } = parseJsonWithRepair(rawText);
-        return value;
+        return parseJsonWithRepair(rawText);
     } catch (error) {
-        if (error?.response?.status === 400 && schema) {
-            const serialized = JSON.stringify(schema);
-            if (DEBUG_LOG_SCHEMAS && !LOGGED_SCHEMA_PAYLOADS.has(serialized)) {
-                LOGGED_SCHEMA_PAYLOADS.add(serialized);
-                console.error('SS_SCHEMA_400_ADDITIONALPROPS', { schema: serialized });
-            } else {
-                console.error('SS_SCHEMA_400_ADDITIONALPROPS');
-            }
+        if (error?.response?.status === 400 && schema && callSite && !LOGGED_SCHEMA_ERRORS.has(callSite)) {
+            LOGGED_SCHEMA_ERRORS.add(callSite);
+            console.error(`SS_SCHEMA_400_ADDITIONALPROPS: ${callSite}`);
         }
         console.error('Error calling Google AI API in callAI:', error.response ? error.response.data : error.message);
         throw error;
@@ -5578,7 +5715,10 @@ Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQui
     ${JSON.stringify(draftQuiz, null, 2)}
     ---
     Return the corrected and improved quiz as a single, valid JSON object.`;
-        const correctedQuiz = await callAI(prompt, quizSchema, options);
+        const isSocialStudies = draftQuiz.subject === 'Social Studies';
+        const schema = isSocialStudies ? SS_RESPONSE_SCHEMA : quizSchema;
+        const callOptions = isSocialStudies ? { ...options, callSite: 'ss-review' } : options;
+        const correctedQuiz = await callAI(prompt, schema, callOptions);
         return correctedQuiz;
     }
 
