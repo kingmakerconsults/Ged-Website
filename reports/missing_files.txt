@@ -1,8 +1,0 @@
-frontend/Images/Social Studies/about-the-library-of-congress-library-of-congress_fb3283a6.png
-frontend/Images/Social Studies/educator-resources-national-archives_38c1d2b5.png
-frontend/Images/Social Studies/fiction-prize-prizes-poetry-literature-programs-library-of-congress_08d72493.png
-frontend/Images/Social Studies/fiction-prize-prizes-poetry-literature-programs-library-of-congress_18791312.png
-frontend/Images/Social Studies/home-the-gershwin-prize-events-at-the-library-of-congress-library-of-congress_25b16e31.png
-frontend/Images/Social Studies/home-the-gershwin-prize-events-at-the-library-of-congress-library-of-congress_d53d559e.png
-frontend/Images/Social Studies/home-the-gershwin-prize-events-at-the-library-of-congress-library-of-congress_e0243efb.png
-frontend/Images/Social Studies/william-j-clinton-presidential-library-and-museum-national-archives_8911c834.png
