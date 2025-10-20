@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { loadImageMeta } = require('../../utils/metaLoader');
-const { deriveIsScreenshot, deriveVisualFeatures, buildFeatureSignature } = require('../utils/visualFeatures');
+const { loadImageMeta, deriveIsScreenshot } = require('../utils/metaLoader');
+const { deriveVisualFeatures, buildFeatureSignature } = require('../utils/visualFeatures');
 
 const METADATA_PATH = path.join(__dirname, '../../data/image_metadata_final.json');
 const RECENT_BUFFER_SIZE = 200;

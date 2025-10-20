@@ -1,4 +1,5 @@
-const { deriveVisualFeatures, deriveIsScreenshot } = require('../utils/visualFeatures');
+const { deriveVisualFeatures } = require('../utils/visualFeatures');
+const { deriveIsScreenshot } = require('../utils/metaLoader');
 
 const STEM_FORBIDDEN = /(\b(best|most likely) strategy\b|\bhow should (a|the) student\b|\bread the title\b)/i;
 const STEM_STRATEGY_FORBIDDEN = /(\bstrategy\b|\bfirst step\b|\bon-screen directions\b|\bpractice set\b)/i;

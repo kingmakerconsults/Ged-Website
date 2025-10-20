@@ -1267,6 +1267,9 @@ function enforceWordCapsOnItem(item, subject) {
     const out = JSON.parse(JSON.stringify(item));
 
     if (subject === 'RLA') {
+        if (out.imageRef || out.imageMeta) {
+            throw new Error('RLA_IMAGE_NOT_ALLOWED');
+        }
         if (out.passage) out.passage = limitWords(out.passage, 250);
     }
 
