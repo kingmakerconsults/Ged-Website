@@ -1597,7 +1597,13 @@ function authenticateBearerToken(req, res, next) {
 
     try {
         const payload = jwt.verify(token, secret);
-        req.user = { ...(req.user || {}), userId: payload.sub };
+        const userId = payload.sub ?? payload.userId ?? payload.id ?? null;
+        req.user = {
+            ...(req.user || {}),
+            ...payload,
+            userId,
+            sub: payload.sub ?? userId
+        };
         return next();
     } catch (error) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -2011,7 +2017,59 @@ app.get('/api/organizations', async (_req, res) => {
     }
 });
 
-app.post('/api/student/join-organization', requireAuth, async (req, res) => {
+app.post('/api/student/join-organization', authenticateBearerToken, async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'Database unavailable' });
+    }
+
+    try {
+        const userId = getUserIdFromRequest(req);
+        if (!userId) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const accessCode = typeof req.body?.accessCode === 'string'
+            ? req.body.accessCode.trim()
+            : typeof req.body?.access_code === 'string'
+                ? req.body.access_code.trim()
+                : '';
+
+        if (!accessCode) {
+            return res.status(400).json({ error: 'An access code is required' });
+        }
+
+        const organizationResult = await pool.query(
+            'SELECT id, name FROM organizations WHERE access_code = $1;',
+            [accessCode]
+        );
+
+        if (organizationResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Invalid Access Code' });
+        }
+
+        const organization = organizationResult.rows[0];
+
+        await pool.query(
+            `UPDATE users
+             SET organization_id = $1
+             WHERE id = $2;`,
+            [organization.id, userId]
+        );
+
+        return res.status(200).json({
+            message: 'Organization joined successfully',
+            organization: {
+                id: organization.id,
+                name: organization.name,
+            },
+        });
+    } catch (error) {
+        console.error('Failed to join organization:', error);
+        return res.status(500).json({ error: 'Failed to join organization' });
+    }
+});
+
+app.get('/api/instructor/dashboard', authenticateBearerToken, async (req, res) => {
     if (!isDatabaseConfigured()) {
         return res.status(503).json({ error: 'Database unavailable' });
     }
@@ -2021,117 +2079,44 @@ app.post('/api/student/join-organization', requireAuth, async (req, res) => {
         return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const { organization_id: organizationIdInput } = req.body || {};
-    const organizationId = Number.parseInt(organizationIdInput, 10);
-
-    if (!Number.isInteger(organizationId) || organizationId <= 0) {
-        return res.status(400).json({ error: 'A valid organization_id is required' });
-    }
-
-    try {
-        const organizationResult = await pool.query(
-            'SELECT id, name FROM organizations WHERE id = $1;',
-            [organizationId]
-        );
-
-        if (organizationResult.rowCount === 0) {
-            return res.status(404).json({ error: 'Organization not found' });
-        }
-
-        await pool.query(
-            `UPDATE users
-             SET organization_id = $1
-             WHERE id = $2;`,
-            [organizationId, userId]
-        );
-
-        const organization = organizationResult.rows[0];
-        return res.status(200).json({
-            message: 'Organization joined successfully',
-            organization,
-        });
-    } catch (error) {
-        console.error('Failed to join organization:', error);
-        return res.status(500).json({ error: 'Failed to join organization' });
-    }
-});
-
-app.post('/api/instructor/dashboard', requireAuth, async (req, res) => {
-    if (!isDatabaseConfigured()) {
-        return res.status(503).json({ error: 'Database unavailable' });
-    }
-
     const role = typeof req.user?.role === 'string' ? req.user.role.toLowerCase() : null;
     if (role !== 'instructor') {
         return res.status(403).json({ error: 'Forbidden' });
     }
 
-    const accessCode = typeof req.body?.access_code === 'string' ? req.body.access_code.trim() : '';
-    if (!accessCode) {
-        return res.status(400).json({ error: 'An access_code is required' });
-    }
-
     try {
-        const organizationResult = await pool.query(
-            'SELECT id, name FROM organizations WHERE access_code = $1;',
-            [accessCode]
+        const instructorResult = await pool.query(
+            'SELECT organization_id FROM users WHERE id = $1;',
+            [userId]
         );
 
-        if (organizationResult.rowCount === 0) {
-            return res.status(404).json({ error: 'Invalid organization code' });
+        if (instructorResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Instructor not found' });
         }
 
-        const organization = organizationResult.rows[0];
+        const organizationId = instructorResult.rows[0]?.organization_id;
+        if (!organizationId) {
+            return res.status(200).json([]);
+        }
 
         const studentsResult = await pool.query(
-            `SELECT id, name, email, last_login, login_count
+            `SELECT name, email, login_count, last_login
              FROM users
-             WHERE organization_id = $1
-             ORDER BY name ASC;`,
-            [organization.id]
+             WHERE organization_id = $1 AND role = 'student'
+             ORDER BY name ASC NULLS LAST, email ASC;`,
+            [organizationId]
         );
 
-        const students = studentsResult.rows || [];
-        const studentIds = students.map((student) => student.id).filter((id) => Number.isInteger(Number(id)));
+        const students = (studentsResult.rows || []).map((row) => ({
+            name: row.name || (row.email ? row.email.split('@')[0] : null) || 'Student',
+            email: row.email || null,
+            login_count: row.login_count != null ? Number(row.login_count) : null,
+            last_login: row.last_login || null,
+        }));
 
-        let testResultsMap = new Map();
-        if (studentIds.length > 0) {
-            const results = await pool.query(
-                `SELECT *
-                 FROM test_results
-                 WHERE user_id = ANY($1::int[])
-                 ORDER BY id DESC;`,
-                [studentIds]
-            );
-
-            testResultsMap = results.rows.reduce((map, row) => {
-                const key = row.user_id;
-                if (!map.has(key)) {
-                    map.set(key, []);
-                }
-                map.get(key).push(row);
-                return map;
-            }, new Map());
-        }
-
-        const payload = {
-            organization: {
-                id: organization.id,
-                name: organization.name,
-            },
-            students: students.map((student) => ({
-                id: student.id,
-                name: student.name,
-                email: student.email,
-                last_login: student.last_login,
-                login_count: student.login_count,
-                test_results: testResultsMap.get(student.id) || [],
-            })),
-        };
-
-        return res.status(200).json(payload);
+        return res.status(200).json(students);
     } catch (error) {
-        console.error('Failed to build instructor dashboard:', error);
+        console.error('Failed to load instructor dashboard:', error);
         return res.status(500).json({ error: 'Failed to load instructor dashboard' });
     }
 });
