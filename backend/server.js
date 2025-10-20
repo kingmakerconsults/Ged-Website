@@ -1770,6 +1770,82 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+app.post('/api/instructor/login', async (req, res) => {
+    const { email, password, organizationId, accessCode } = req.body || {};
+
+    if (typeof email !== 'string' || typeof password !== 'string' || typeof accessCode !== 'string') {
+        return res.status(400).json({ error: 'Email, password, and access code are required' });
+    }
+
+    const numericOrganizationId = Number(organizationId);
+    if (!Number.isInteger(numericOrganizationId)) {
+        return res.status(400).json({ error: 'A valid organization is required' });
+    }
+
+    if (!process.env.JWT_SECRET) {
+        console.error('Instructor login attempted without JWT_SECRET configured.');
+        return res.status(500).json({ error: 'Login unavailable' });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) {
+        return res.status(400).json({ error: 'A valid email address is required' });
+    }
+
+    try {
+        const organizationResult = await pool.query(
+            `SELECT id, access_code
+             FROM organizations
+             WHERE id = $1`,
+            [numericOrganizationId]
+        );
+
+        if (
+            organizationResult.rowCount === 0 ||
+            String(organizationResult.rows[0].access_code || '').trim() !== accessCode.trim()
+        ) {
+            return res.status(401).json({ error: 'Invalid organization or access code.' });
+        }
+
+        const userResult = await pool.query(
+            `SELECT id, email, password_hash, created_at, name, organization_id, role, last_login, login_count, picture_url
+             FROM users
+             WHERE email = $1`,
+            [normalizedEmail]
+        );
+
+        if (userResult.rowCount === 0) {
+            return res.status(401).json({ error: 'Invalid email or password.' });
+        }
+
+        const userRow = userResult.rows[0];
+        const validPassword = await bcrypt.compare(password, userRow.password_hash);
+        if (!validPassword) {
+            return res.status(401).json({ error: 'Invalid email or password.' });
+        }
+
+        const updateResult = await pool.query(
+            `UPDATE users
+             SET role = 'instructor',
+                 organization_id = $1,
+                 last_login = NOW(),
+                 login_count = COALESCE(login_count, 0) + 1
+             WHERE id = $2
+             RETURNING id, email, created_at, name, organization_id, role, last_login, login_count, picture_url;`,
+            [numericOrganizationId, userRow.id]
+        );
+
+        const updatedUser = formatUserRow(updateResult.rows[0] || userRow);
+        const token = createUserToken(updatedUser.id, 'instructor');
+        setAuthCookie(res, token, 24 * 60 * 60 * 1000);
+
+        return res.status(200).json({ message: 'Login successful', user: updatedUser, token });
+    } catch (error) {
+        console.error('Instructor login failed:', error);
+        return res.status(500).json({ error: 'Login failed' });
+    }
+});
+
 app.post('/api/scores', authenticateBearerToken, async (req, res) => {
     const { subject, score } = req.body || {};
 
