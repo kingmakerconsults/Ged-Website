@@ -12,6 +12,7 @@ const helmet = require('helmet');
 const axios = require('axios');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
+const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -2020,14 +2021,51 @@ async function generateWithChatGPT_Fallback(subject, prompt, { signal } = {}) {
     });
 }
 
+function normalizePrompt(prompt) {
+    if (typeof prompt === 'string') {
+        return { user: prompt, system: null, fallbackSystem: null };
+    }
+    if (!prompt || typeof prompt !== 'object') {
+        throw new Error('Prompt must be a string or an object with a user property.');
+    }
+    const user = prompt.user;
+    if (typeof user !== 'string' || !user.trim()) {
+        throw new Error('Prompt.user must be a non-empty string.');
+    }
+    const system = typeof prompt.system === 'string' && prompt.system.trim().length
+        ? prompt.system
+        : null;
+    const fallbackSystem = typeof prompt.fallbackSystem === 'string' && prompt.fallbackSystem.trim().length
+        ? prompt.fallbackSystem
+        : null;
+    return { user, system, fallbackSystem };
+}
+
 async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions = {}, fallbackRetryOptions = {}) {
-    const geminiPayload = { contents: [{ parts: [{ text: prompt }] }] };
+    const normalizedPrompt = normalizePrompt(prompt);
+    const geminiPayload = {
+        contents: [
+            {
+                parts: [{ text: normalizedPrompt.user }]
+            }
+        ]
+    };
+    if (normalizedPrompt.system) {
+        geminiPayload.systemInstruction = {
+            role: 'system',
+            parts: [{ text: normalizedPrompt.system }]
+        };
+    }
+    const fallbackSystem = normalizedPrompt.fallbackSystem
+        || (normalizedPrompt.system
+            ? `${CHATGPT_FALLBACK_SYSTEM_PROMPT}\n\n${normalizedPrompt.system}`
+            : CHATGPT_FALLBACK_SYSTEM_PROMPT);
     const chatgptPayload = {
         model: 'gpt-4o-mini',
         temperature: 0.4,
         input: [
-            { role: 'system', content: CHATGPT_FALLBACK_SYSTEM_PROMPT },
-            { role: 'user', content: prompt }
+            { role: 'system', content: fallbackSystem },
+            { role: 'user', content: normalizedPrompt.user }
         ]
     };
 
@@ -4985,6 +5023,22 @@ app.get('/metrics/ai', (_req, res) => {
         p99s: toSec(stats.p99),
         avgs: toSec(stats.avg)
     });
+});
+
+app.post('/generate/social-studies-items', express.json(), async (req, res) => {
+    const { count, allowExternalBlurbs = true } = req.body || {};
+    try {
+        const items = await generateSocialStudiesItems({
+            count,
+            allowExternalBlurbs,
+            generateWithFallback: (subject, prompt, geminiOptions, fallbackOptions) =>
+                generateQuizItemsWithFallback(subject, prompt, geminiOptions, fallbackOptions)
+        });
+        res.json({ items });
+    } catch (error) {
+        console.error('Failed to generate social studies items:', error?.message || error);
+        res.status(500).json({ error: 'Failed to generate social studies items.' });
+    }
 });
 
 
