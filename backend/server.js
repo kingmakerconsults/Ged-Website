@@ -13,6 +13,7 @@ const axios = require('axios');
 const fetch = require('node-fetch');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
+const { loadImageMeta } = require('./utils/metaLoader');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
@@ -1155,12 +1156,12 @@ function loadImageMetadata() {
         try {
             if (!fs.existsSync(candidate)) continue;
             const raw = fs.readFileSync(candidate, 'utf8');
-            const parsed = JSON.parse(raw);
-            if (!Array.isArray(parsed)) {
-                console.warn(`[IMG-WARN] Metadata at ${candidate} was not an array.`);
+            const parsedList = loadImageMeta(raw);
+            if (!Array.isArray(parsedList) || !parsedList.length) {
+                console.warn(`[IMG-WARN] Metadata at ${candidate} was empty or invalid.`);
                 continue;
             }
-            IMAGE_DB = parsed.map((img) => {
+            IMAGE_DB = parsedList.map((img) => {
                 if (!img || typeof img !== 'object') return img;
                 const normalizedPath = normalizeImagePath(img.filePath || img.src || img.path);
                 return {

@@ -1,5 +1,12 @@
+const { deriveVisualFeatures, deriveIsScreenshot } = require('../utils/visualFeatures');
+
 const STEM_FORBIDDEN = /(\b(best|most likely) strategy\b|\bhow should (a|the) student\b|\bread the title\b)/i;
+const STEM_STRATEGY_FORBIDDEN = /(\bstrategy\b|\bfirst step\b|\bon-screen directions\b|\bpractice set\b)/i;
 const VISUAL_ANCHORS = /(legend|key|scale|axis|label|shaded|color|colour|symbol|direction|compass|date|caption|source|track|route|boundary|state|river|percentage|median|rate|timeline|event|period|latitude|longitude|grid|trend|bar|line|slice|sector|population|percent|index|figure|table|column|row)/gi;
+
+const TABLE_TERMS = ['table', 'row', 'column', 'header', 'definition', 'example', 'type'];
+const CHART_TERMS = ['axis', 'x-axis', 'y-axis', 'legend', 'series', 'units', 'year'];
+const MAP_TERMS = ['legend', 'scale', 'compass', 'shaded', 'state', 'region', 'river'];
 
 function wordCount(text = '') {
     return text.trim().split(/\s+/).filter(Boolean).length;
@@ -71,6 +78,12 @@ function validateSocialStudiesItem(item = {}, imageMeta = {}) {
     const solution = item.solution || item.explanation || '';
     const passage = item.passage || '';
 
+    const features = imageMeta?.features || deriveVisualFeatures(imageMeta);
+    const fileName = imageMeta?.fileName || (imageMeta?.filePath || '').split('/').pop() || '';
+    const isScreenshot = imageMeta?.isScreenshot != null
+        ? imageMeta.isScreenshot
+        : deriveIsScreenshot(fileName, imageMeta);
+
     if (typeof stem !== 'string' || !stem.trim()) {
         errors.push('Missing or invalid stem.');
     } else {
@@ -105,12 +118,84 @@ function validateSocialStudiesItem(item = {}, imageMeta = {}) {
         }
     }
 
-    const valid = errors.length === 0;
-    return { valid, errors };
+    let screenshotValidation = { valid: true, errors: [] };
+    if (isScreenshot) {
+        screenshotValidation = validateSocialStudiesScreenshotItem(item, imageMeta, features);
+    }
+
+    const combinedErrors = errors.concat(screenshotValidation.errors || []);
+    const valid = combinedErrors.length === 0;
+    return { valid, errors: combinedErrors };
+}
+
+function countOverlap(stem = '', choices = [], keywords = []) {
+    const bag = new Set(
+        (stem + ' ' + choices.map((choice) => choice?.text || '').join(' '))
+            .toLowerCase()
+            .match(/[a-z][a-z\-]+/g) || []
+    );
+    return keywords
+        .map((k) => (typeof k === 'string' ? k.toLowerCase() : ''))
+        .filter((k) => k && bag.has(k)).length;
+}
+
+function countAnchorMatches(text = '', terms = []) {
+    const lower = text.toLowerCase();
+    const seen = new Set();
+    for (const term of terms) {
+        const normalized = term.toLowerCase();
+        if (lower.includes(normalized)) {
+            seen.add(normalized);
+        }
+    }
+    return seen.size;
+}
+
+function validateSocialStudiesScreenshotItem(item = {}, imageMeta = {}, features = {}) {
+    const errors = [];
+    const stem = item.questionText || item.stem || '';
+    const choices = item.answerOptions || item.choices || [];
+    const keywords = Array.isArray(features.keywords) ? features.keywords : [];
+
+    if (typeof stem !== 'string' || !stem.trim()) {
+        errors.push('Screenshot stem missing.');
+    } else if (STEM_STRATEGY_FORBIDDEN.test(stem)) {
+        errors.push('Screenshot stem cannot mention strategies or directions.');
+    }
+
+    if (features.hasTable && countAnchorMatches(stem, TABLE_TERMS) < 2) {
+        errors.push('Screenshot table items must cite at least two table anchors.');
+    }
+    if (features.hasChart && countAnchorMatches(stem, CHART_TERMS) < 2) {
+        errors.push('Screenshot chart items must cite axes or legend anchors.');
+    }
+    if (features.hasMap && countAnchorMatches(stem, MAP_TERMS) < 2) {
+        errors.push('Screenshot map items must cite map-specific anchors.');
+    }
+
+    if (keywords.length && countOverlap(stem, choices, keywords) < 2) {
+        errors.push('Screenshot items must reuse at least two metadata keywords.');
+    }
+
+    const correct = Array.isArray(choices) ? choices.find((opt) => opt && opt.isCorrect) : null;
+    if (!correct || extractAnchors(correct.rationale || '').length === 0) {
+        errors.push('Correct rationale must reference a visible element from the screenshot.');
+    }
+
+    const isScreenshot = item.isScreenshot || imageMeta?.isScreenshot || deriveIsScreenshot(imageMeta?.fileName || '', imageMeta);
+    if (isScreenshot) {
+        const caption = item.imageRef?.caption || '';
+        if (!/^Screenshot —/.test(caption)) {
+            errors.push('Screenshot captions must begin with "Screenshot —".');
+        }
+    }
+
+    return { valid: errors.length === 0, errors };
 }
 
 module.exports = {
     validateSocialStudiesItem,
+    validateSocialStudiesScreenshotItem,
     extractAnchors,
     keywordOverlap,
     hasExactlyOneCorrectOption,

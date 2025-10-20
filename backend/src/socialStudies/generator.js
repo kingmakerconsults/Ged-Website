@@ -169,6 +169,21 @@ Hard rules:
 - Maintain neutral, evidence-based tone aligned with GED expectations.`;
 }
 
+function sanitizeFileName(name = '') {
+    if (!name) return '';
+    return name.replace(/\.[^.]+$/, '').replace(/[\-_]+/g, ' ').trim();
+}
+
+function buildCaption(imageMeta = {}, source = null) {
+    if (!imageMeta) return undefined;
+    if (imageMeta.isScreenshot) {
+        const base = imageMeta.title || imageMeta.sourceTitle || sanitizeFileName(imageMeta.fileName || imageMeta.filePath || '');
+        const display = base ? base : 'Screenshot';
+        return `Screenshot — ${display}`;
+    }
+    return source?.title || imageMeta.sourceTitle || imageMeta.title || undefined;
+}
+
 function formatAnswerOptions(options = []) {
     if (!Array.isArray(options)) return [];
     return options.slice(0, 4).map((opt) => ({
@@ -204,7 +219,7 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
 
     const source = buildSource(blurb, imageMeta);
     const baseId = raw.id != null ? String(raw.id) : crypto.randomUUID();
-    const captionSource = source?.title || imageMeta?.sourceTitle || null;
+    const captionSource = buildCaption(imageMeta, source);
 
     return {
         id: baseId,
@@ -223,7 +238,13 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
             width: imageMeta?.width || undefined,
             height: imageMeta?.height || undefined
         },
-        imageMeta: imageMeta ? { ...imageMeta } : undefined
+        imageMeta: imageMeta ? { ...imageMeta } : undefined,
+        isScreenshot: Boolean(imageMeta?.isScreenshot),
+        featureSignature: Array.isArray(imageMeta?.featureSignature) && imageMeta.featureSignature.length
+            ? [...imageMeta.featureSignature]
+            : undefined,
+        imageFileName: imageMeta?.fileName || undefined,
+        imageFingerprint: imageMeta?.fingerprint || imageMeta?.sha256 || undefined
     };
 }
 
