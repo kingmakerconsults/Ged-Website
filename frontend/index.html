@@ -207,6 +207,7 @@
 </head>
 <body class="bg-slate-100">
     <div id="root"></div>
+    <div id="section-root" class="mx-auto my-6 max-w-4xl px-4"></div>
 
     <div
         id="student-scores-modal"
@@ -617,6 +618,10 @@ async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
             throw new Error('The exam generator returned invalid JSON.');
         }
 
+        if (payload && typeof handleImageBankPayload === 'function') {
+            handleImageBankPayload(payload);
+        }
+
         if (!response.ok) {
             const message = payload?.error || `Request failed with status ${response.status}`;
             throw new Error(message);
@@ -674,6 +679,10 @@ async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
         payload = await response.json();
     } catch (err) {
         throw new Error('The quiz service returned invalid JSON.');
+    }
+
+    if (payload && typeof handleImageBankPayload === 'function') {
+        handleImageBankPayload(payload);
     }
 
     if (!response.ok) {
@@ -1604,6 +1613,114 @@ function neutralizeUnpairedDollarSigns(text) {
     const working = masked.replace(/(^|[^\\])\$(?!\d)/g, (_, prefix) => `${prefix}&#36;`);
     return restoreMathSegments(working, segments);
 }
+
+function renderImageSection(container, imageUrl, items) {
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = '';
+
+    if (imageUrl) {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.alt = 'Question image';
+        img.style.maxWidth = '100%';
+        img.style.display = 'block';
+        img.style.margin = '12px 0 16px';
+        container.appendChild(img);
+    }
+
+    if (!Array.isArray(items) || !items.length) {
+        return;
+    }
+
+    items.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = 'mb-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm';
+
+        const stem = document.createElement('div');
+        stem.className = 'question-stem text-slate-800';
+        const cachedStem = q?.katex_html_cache?.stem_html || q?.katex_html_cache?.stem;
+        if (cachedStem) {
+            stem.innerHTML = cachedStem;
+        } else {
+            const rawStem = q?.question_norm?.stem || q?.question_data?.stem_raw || q?.stem || q?.questionText || '';
+            stem.textContent = rawStem;
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(stem);
+            }
+        }
+        card.appendChild(stem);
+
+        const list = document.createElement('ul');
+        list.className = 'mt-3 list-disc space-y-2 pl-6 text-slate-700';
+        const choiceHtml = q?.katex_html_cache?.choices_html || q?.katex_html_cache?.choices;
+        const choiceTexts = Array.isArray(choiceHtml) && choiceHtml.length
+            ? choiceHtml
+            : (Array.isArray(q?.question_norm?.choices) && q.question_norm.choices.length
+                ? q.question_norm.choices
+                : Array.isArray(q?.question_data?.choices)
+                    ? q.question_data.choices
+                    : Array.isArray(q?.answerOptions)
+                        ? q.answerOptions.map((opt) => (typeof opt?.text === 'string' ? opt.text : ''))
+                        : []);
+
+        choiceTexts.forEach((choice) => {
+            const li = document.createElement('li');
+            if (choice && choice.replace) {
+                const trimmed = choice.replace(/^\s+|\s+$/g, '');
+                const isHtml = /^\s*</.test(trimmed);
+                if (isHtml) {
+                    li.innerHTML = choice;
+                } else {
+                    li.textContent = choice;
+                    if (typeof renderMathInElement === 'function') {
+                        renderMathInElement(li);
+                    }
+                }
+            } else if (typeof choice === 'string') {
+                li.textContent = choice;
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(li);
+                }
+            }
+            list.appendChild(li);
+        });
+
+        card.appendChild(list);
+        container.appendChild(card);
+    });
+}
+
+function handleImageBankPayload(payload) {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    const container = document.getElementById('section-root');
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = '';
+
+    if (!payload) {
+        return;
+    }
+
+    const image = payload.image || payload.image_data || null;
+    const questions = Array.isArray(payload.questions) ? payload.questions : null;
+    if (!image || !questions || !questions.length) {
+        return;
+    }
+
+    const imageUrl = image.image_url || image.imageUrl || image.url || null;
+    renderImageSection(container, imageUrl, questions);
+}
+
+window.renderImageSection = renderImageSection;
+window.handleImageBankPayload = handleImageBankPayload;
 
 function escapeCurrencyDollarsMathSafe(input) {
     if (typeof input !== 'string') return input;

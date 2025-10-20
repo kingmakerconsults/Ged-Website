@@ -10,12 +10,21 @@ const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const helmet = require('helmet');
 const axios = require('axios');
+const fetch = require('node-fetch');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
+
+// ==== IMAGE BANK / REUSE CONFIG ====
+const BANK_IMAGE_FIRST_ENABLED = true;
+const BANK_IMAGE_PULL_RATIO = 0.60; // ~60% pulled from bank (if available)
+const BANK_IMAGE_GROWTH_RATIO = 0.30; // ~30% forced new generation (grow bank)
+const BANK_MAX_FETCH = 100;
+const IMAGE_TIMEOUT_MS = 7000;
+const ACCEPT_IMAGE = /^image\//i;
 
 function selectModelTimeoutMs({ examType } = {}) {
     return examType === 'comprehensive' ? COMPREHENSIVE_TIMEOUT_MS : MODEL_HTTP_TIMEOUT_MS;
@@ -127,6 +136,7 @@ async function raceGeminiWithDelayedFallback({ primaryFn, fallbackFn, primaryMod
 }
 const fs = require('fs');
 const crypto = require('crypto');
+const AbortController = globalThis.AbortController || fetch.AbortController;
 
 const LOG_DIR = path.join(__dirname, 'logs');
 const VALIDATION_LOG = path.join(LOG_DIR, 'question_validations.jsonl');
@@ -290,7 +300,16 @@ function normalizeLatexText(s) {
 function normalizeQuestion(raw) {
     const stem = normalizeLatexText(raw?.stem_raw);
     const choices = Array.isArray(raw?.choices) ? raw.choices.map(normalizeLatexText) : [];
-    return { stem, choices, answer_index: raw?.answer_index };
+    const out = { stem, choices, answer_index: raw?.answer_index };
+    const imageUrl = raw?.image_url || raw?.imageUrl;
+    if (imageUrl) {
+        out.image_url = String(imageUrl);
+    }
+    const altText = raw?.alt_text || raw?.altText;
+    if (altText) {
+        out.alt_text = String(altText);
+    }
+    return out;
 }
 
 function renderInlineKatexToHtml(txt) {
@@ -314,10 +333,19 @@ function renderQuestionToHtml(norm) {
         if (!h) return null;
         choices_html.push(h);
     }
-    return {
-        stem_html: sanitizeHtml(stem_html),
-        choices_html: choices_html.map(sanitizeHtml)
+    const sanitizedStem = sanitizeHtml(stem_html);
+    const sanitizedChoices = choices_html.map((frag) => sanitizeHtml(frag));
+    const html = {
+        stem_html: sanitizedStem,
+        choices_html: sanitizedChoices
     };
+    if (norm?.image_url) {
+        html.image_url = norm.image_url;
+    }
+    if (norm?.alt_text) {
+        html.alt_text = norm.alt_text;
+    }
+    return html;
 }
 
 function fingerprintOf(norm) {
@@ -325,6 +353,31 @@ function fingerprintOf(norm) {
     h.update(norm?.stem || '');
     for (const c of norm?.choices || []) h.update('\x1f' + c);
     return h.digest('hex');
+}
+
+function sha256Hex(s) {
+    return crypto.createHash('sha256').update(String(s)).digest('hex');
+}
+
+async function probeImageHead(url) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), IMAGE_TIMEOUT_MS);
+    try {
+        const res = await fetch(url, { method: 'HEAD', redirect: 'follow', signal: ctrl.signal });
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+        }
+        const ctype = String(res.headers.get('content-type') || '');
+        if (!ACCEPT_IMAGE.test(ctype)) {
+            throw new Error(`Not an image: ${ctype}`);
+        }
+        return { ok: true, contentType: ctype };
+    } catch (err) {
+        const message = err?.message || String(err);
+        return { ok: false, error: message };
+    } finally {
+        clearTimeout(timer);
+    }
 }
 
 function ensureQuestionBankFile() {
@@ -2345,6 +2398,99 @@ const pool = new Pool({
     ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
 });
 
+async function fetchImagesFromBank({ domain, tag, limit = 10 } = {}) {
+    const clauses = [];
+    const values = [];
+    if (domain) {
+        values.push(domain);
+        clauses.push(`domain = $${values.length}`);
+    }
+    if (tag) {
+        values.push(tag);
+        clauses.push(`$${values.length} = ANY(tags)`);
+    }
+    values.push(Math.max(1, Math.min(limit, BANK_MAX_FETCH)));
+    const sql = `
+        SELECT image_id, image_url, alt_text, domain, tags
+        FROM public.images
+        ${clauses.length ? `WHERE ${clauses.join(' AND ')}` : ''}
+        ORDER BY random()
+        LIMIT $${values.length};
+    `;
+    const { rows } = await pool.query(sql, values);
+    return rows;
+}
+
+async function fetchBankQuestionsForImage(image_id, limit = 10) {
+    if (!image_id) return [];
+    const sql = `
+        SELECT question_id, subject, category, item_type, domain, difficulty, tags,
+               question_data, question_norm, katex_html_cache, image_url_cached, image_alt
+        FROM public.questions
+        WHERE katex_ok IS TRUE AND image_id = $1
+        ORDER BY random()
+        LIMIT $2;
+    `;
+    const { rows } = await pool.query(sql, [image_id, Math.max(1, Math.min(limit, BANK_MAX_FETCH))]);
+    return rows;
+}
+
+async function saveImageQuestionToBank({ image, subject, category, item_type, domain, difficulty, tags = [], question_data }) {
+    if (!question_data || typeof question_data !== 'object') {
+        throw new Error('question_data required');
+    }
+
+    const payload = { ...question_data };
+    if (image?.image_url && !payload.image_url) {
+        payload.image_url = image.image_url;
+    }
+    if (image?.alt_text && !payload.alt_text) {
+        payload.alt_text = image.alt_text;
+    }
+
+    const norm = normalizeQuestion(payload);
+    const html = renderQuestionToHtml(norm);
+    if (html && image?.image_url) {
+        html.image_url = image.image_url;
+    }
+    if (html && image?.alt_text) {
+        html.alt_text = image.alt_text;
+    }
+    const katex_ok = !!html;
+    const fingerprint = fingerprintOf(norm);
+
+    const query = `
+        INSERT INTO public.questions
+          (subject, category, item_type, domain, difficulty, tags,
+           image_id, image_alt, image_url_cached,
+           question_data, question_norm, katex_html_cache, katex_ok, fingerprint, created_at)
+        VALUES ($1,$2,$3,$4,$5,$6,
+                $7,$8,$9,
+                $10::jsonb,$11::jsonb,$12::jsonb,$13,$14,NOW())
+        ON CONFLICT (fingerprint) DO NOTHING
+        RETURNING question_id, katex_ok;
+    `;
+    const values = [
+        subject || null,
+        category || null,
+        item_type || 'image_mcq',
+        domain || image?.domain || null,
+        difficulty || null,
+        Array.isArray(tags) ? tags : [],
+        image?.image_id || null,
+        image?.alt_text || null,
+        image?.image_url || payload.image_url || null,
+        payload,
+        norm,
+        html,
+        katex_ok,
+        fingerprint
+    ];
+
+    const { rows } = await pool.query(query, values);
+    return rows[0] || null;
+}
+
 const QUESTION_BANK_SUBJECTS = new Set(['Science', 'Social Studies', 'RLA']);
 const HYBRID_ELIGIBLE_SUBJECTS = new Set([
     'Science',
@@ -2762,6 +2908,166 @@ app.post('/question-bank/save', async (req, res) => {
         return res.status(500).json({ error: 'save_failed', detail: String(e) });
     } finally {
         client.release();
+    }
+});
+
+app.post('/image-bank/save', async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'database_unavailable' });
+    }
+
+    const { image_url, alt_text, domain, tags = [] } = req.body || {};
+    if (!image_url) {
+        return res.status(400).json({ error: 'image_url required' });
+    }
+
+    const probe = await probeImageHead(image_url);
+    if (!probe.ok) {
+        return res.status(400).json({ error: 'invalid_image', detail: probe.error });
+    }
+
+    const fingerprint = sha256Hex(image_url);
+    const meta = { content_type: probe.contentType };
+
+    try {
+        const query = `
+            INSERT INTO public.images (image_url, alt_text, domain, tags, meta, image_fingerprint)
+            VALUES ($1,$2,$3,$4,$5::jsonb,$6)
+            ON CONFLICT (image_url) DO UPDATE
+                SET alt_text = COALESCE(EXCLUDED.alt_text, public.images.alt_text),
+                    domain   = COALESCE(EXCLUDED.domain, public.images.domain),
+                    tags     = CASE WHEN array_length(EXCLUDED.tags,1) IS NULL THEN public.images.tags ELSE EXCLUDED.tags END
+            RETURNING image_id, image_url, alt_text, domain, tags;
+        `;
+        const values = [
+            image_url,
+            alt_text || null,
+            domain || null,
+            Array.isArray(tags) ? tags : [],
+            meta,
+            fingerprint
+        ];
+        const { rows } = await pool.query(query, values);
+        res.json({ status: 'ok', image: rows[0] });
+    } catch (err) {
+        console.error('Failed to save image metadata:', err?.message || err);
+        res.status(500).json({ error: 'failed_to_save_image' });
+    }
+});
+
+app.get('/image-bank/fetch', async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'database_unavailable' });
+    }
+
+    try {
+        const { domain, tag } = req.query || {};
+        const limit = Math.max(1, Math.min(parseInt(req.query?.limit ?? '10', 10) || 10, BANK_MAX_FETCH));
+        const items = await fetchImagesFromBank({ domain, tag, limit });
+        res.json({ items });
+    } catch (err) {
+        console.error('Failed to fetch images from bank:', err?.message || err);
+        res.status(500).json({ error: 'failed_to_fetch_images' });
+    }
+});
+
+app.post('/image-bank/generate-questions', async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'database_unavailable' });
+    }
+
+    const { image_id, subject, category, domain, difficulty, count = 4 } = req.body || {};
+    if (!image_id) {
+        return res.status(400).json({ error: 'image_id required' });
+    }
+
+    try {
+        const { rows } = await pool.query(
+            `SELECT image_id, image_url, alt_text, domain, tags FROM public.images WHERE image_id = $1`,
+            [image_id]
+        );
+        if (!rows.length) {
+            return res.status(404).json({ error: 'image_not_found' });
+        }
+
+        const image = rows[0];
+        const generated = await generateImageItemsWithAI({
+            image_url: image.image_url,
+            alt_text: image.alt_text,
+            subject,
+            category,
+            domain,
+            difficulty,
+            count
+        });
+
+        let saved = 0;
+        for (const g of generated) {
+            try {
+                const row = await saveImageQuestionToBank({
+                    image,
+                    subject,
+                    category,
+                    item_type: g.item_type || 'image_mcq',
+                    domain,
+                    difficulty: g.difficulty || difficulty || null,
+                    tags: g.tags || [],
+                    question_data: g.question_data
+                });
+                if (row) {
+                    saved += 1;
+                }
+            } catch (err) {
+                console.error('saveImageQuestionToBank failed:', err?.message || err);
+            }
+        }
+
+        res.json({ status: 'ok', saved_count: saved });
+    } catch (err) {
+        console.error('Failed to generate image questions:', err?.message || err);
+        res.status(500).json({ error: 'failed_to_generate_questions' });
+    }
+});
+
+app.get('/image-bank/debug/summary', async (_req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'database_unavailable' });
+    }
+
+    try {
+        const query = `
+            SELECT i.image_id, i.image_url, COUNT(q.question_id) AS q_count
+            FROM public.images i
+            LEFT JOIN public.questions q ON q.image_id = i.image_id
+            GROUP BY 1,2
+            ORDER BY q_count DESC, i.created_at DESC
+            LIMIT 50;
+        `;
+        const { rows } = await pool.query(query);
+        res.json(rows);
+    } catch (err) {
+        console.error('Failed to fetch image bank summary:', err?.message || err);
+        res.status(500).json({ error: 'failed_to_fetch_summary' });
+    }
+});
+
+app.get('/image-bank/questions', async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'database_unavailable' });
+    }
+
+    const { image_id } = req.query || {};
+    if (!image_id) {
+        return res.status(400).json({ error: 'image_id required' });
+    }
+
+    try {
+        const limit = Math.max(1, Math.min(parseInt(req.query?.limit ?? '10', 10) || 10, BANK_MAX_FETCH));
+        const rows = await fetchBankQuestionsForImage(image_id, limit);
+        res.json(rows);
+    } catch (err) {
+        console.error('Failed to fetch questions for image:', err?.message || err);
+        res.status(500).json({ error: 'failed_to_fetch_questions' });
     }
 });
 
@@ -4236,21 +4542,228 @@ const generatePassageSet = async (topic, subject, numQuestions, options = {}) =>
 };
 
 
-const generateImageQuestion = async (topic, subject, imagePool, numQuestions, options = {}) => {
-    // Filter by subject AND the specific topic (category)
-    let relevantImages = imagePool.filter(img => img.subject === subject && img.category === topic);
-    let selectedImage;
-
-    if (relevantImages.length > 0) {
-        selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
-    } else {
-        // Fallback to just subject if no images match the specific topic
-        const subjectImages = imagePool.filter(img => img.subject === subject);
-        if (subjectImages.length === 0) return null; // No images for this subject at all
-        selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
+async function generateImageItemsWithAI({ image_url, alt_text, subject, category, domain, difficulty, count = 4 }) {
+    const safeCount = Math.max(1, Math.min(Number(count) || 1, 10));
+    if (!image_url) {
+        return [];
     }
 
-    if (!selectedImage) return null;
+    const schema = {
+        type: "ARRAY",
+        items: {
+            type: "OBJECT",
+            properties: {
+                stem: { type: "STRING" },
+                choices: {
+                    type: "ARRAY",
+                    items: { type: "STRING" },
+                    minItems: 3,
+                    maxItems: 6
+                },
+                answer_index: { type: "INTEGER" },
+                tags: { type: "ARRAY", items: { type: "STRING" } },
+                difficulty: { type: "STRING" },
+                alt_text: { type: "STRING" }
+            },
+            required: ["stem", "choices", "answer_index"],
+            additionalProperties: true
+        }
+    };
+
+    const contextLines = [
+        `Image URL: ${image_url}`,
+        alt_text ? `Alt text: ${alt_text}` : 'Alt text: (not provided)'
+    ];
+    if (category) contextLines.push(`Category: ${category}`);
+    if (domain) contextLines.push(`Domain: ${domain}`);
+    if (difficulty) contextLines.push(`Desired difficulty: ${difficulty}`);
+    if (subject) contextLines.push(`Subject: ${subject}`);
+
+    const prompt = `You create GED-style multiple choice questions. Use ONLY the visual details of the provided image to craft ${safeCount} unique questions.
+- Each question must rely on interpreting the exact image at ${image_url}.
+- Provide four answer choices per question when possible; always mark the correct choice with a zero-based index.
+- If mathematical notation is needed, use KaTeX-friendly inline LaTeX wrapped in \\( ... \\).
+- Keep the language concise and appropriate for GED students.
+
+Return a JSON array where each object has:
+{
+  "stem": string,
+  "choices": string[4],
+  "answer_index": number (0-based),
+  "tags": string[] (optional),
+  "difficulty": string (optional)
+}
+
+${contextLines.join('\n')}`;
+
+    const result = await callAI(prompt, schema, {
+        generationOverrides: { temperature: 0.7 }
+    });
+
+    if (!Array.isArray(result)) {
+        return [];
+    }
+
+    return result.map((entry) => {
+        const rawChoices = Array.isArray(entry?.choices) ? entry.choices : [];
+        const normalizedChoices = rawChoices
+            .map((choice) => (typeof choice === 'string' ? choice : ''))
+            .filter((choice) => choice && choice.trim().length);
+        const choices = normalizedChoices.length ? normalizedChoices : rawChoices.map((choice) => String(choice || ''));
+        const answerIndex = Number.isInteger(entry?.answer_index) ? entry.answer_index : 0;
+        const tags = Array.isArray(entry?.tags) ? entry.tags.filter((t) => typeof t === 'string' && t.trim().length) : [];
+        const derivedAlt = typeof entry?.alt_text === 'string' && entry.alt_text.trim().length ? entry.alt_text.trim() : null;
+        const difficultyLabel = typeof entry?.difficulty === 'string' && entry.difficulty.trim().length
+            ? entry.difficulty.trim()
+            : difficulty || null;
+
+        return {
+            item_type: 'image_mcq',
+            tags,
+            difficulty: difficultyLabel,
+            question_data: {
+                stem_raw: typeof entry?.stem === 'string' ? entry.stem : '',
+                choices,
+                answer_index: answerIndex,
+                image_url,
+                alt_text: derivedAlt || alt_text || null
+            }
+        };
+    });
+}
+
+async function assembleImageSection({ subject, category, domain, difficulty, totalNeeded }) {
+    const needed = Math.max(1, Number(totalNeeded) || 1);
+    let images = await fetchImagesFromBank({ domain, limit: 5 });
+    if (!images.length && domain) {
+        images = await fetchImagesFromBank({ limit: 5 });
+    }
+    if (!images.length) {
+        throw new Error('no_images_in_bank');
+    }
+
+    const image = images[0];
+    const reuseTarget = Math.floor(needed * BANK_IMAGE_PULL_RATIO);
+    const growthTarget = Math.ceil(needed * BANK_IMAGE_GROWTH_RATIO);
+
+    const reused = await fetchBankQuestionsForImage(image.image_id, reuseTarget || needed);
+    const needNew = Math.max(growthTarget, needed - reused.length);
+
+    if (needNew > 0) {
+        const generated = await generateImageItemsWithAI({
+            image_url: image.image_url,
+            alt_text: image.alt_text,
+            subject,
+            category,
+            domain: domain || image.domain,
+            difficulty,
+            count: needNew
+        });
+
+        for (const g of generated) {
+            try {
+                await saveImageQuestionToBank({
+                    image,
+                    subject,
+                    category,
+                    item_type: g.item_type || 'image_mcq',
+                    domain: domain || image.domain,
+                    difficulty: g.difficulty || difficulty || null,
+                    tags: g.tags || [],
+                    question_data: g.question_data
+                });
+            } catch (err) {
+                console.error('saveImageQuestionToBank failed:', err?.message || err);
+            }
+        }
+    }
+
+    const finalBatch = await fetchBankQuestionsForImage(image.image_id, needed);
+    return { image, questions: finalBatch.slice(0, needed) };
+}
+
+const generateImageQuestion = async (topic, subject, imagePool, numQuestions, options = {}) => {
+    const totalRequested = Math.max(1, Number(numQuestions) || 1);
+
+    if (BANK_IMAGE_FIRST_ENABLED && isDatabaseConfigured()) {
+        try {
+            const { image, questions } = await assembleImageSection({
+                subject,
+                category: topic,
+                domain: topic,
+                difficulty: options?.difficulty,
+                totalNeeded: totalRequested
+            });
+
+            if (questions && questions.length) {
+                const bankImageUrl = image?.image_url || null;
+                const bankAlt = image?.alt_text || null;
+
+                const converted = questions.slice(0, totalRequested).map((row) => {
+                    const norm = row?.question_norm || {};
+                    const data = row?.question_data || {};
+                    const rawChoices = Array.isArray(norm?.choices) && norm.choices.length
+                        ? norm.choices
+                        : Array.isArray(data?.choices)
+                            ? data.choices
+                            : [];
+                    const choices = rawChoices.map((choice) => (typeof choice === 'string' ? choice : String(choice || '')));
+                    const answerIndex = Number.isInteger(norm?.answer_index)
+                        ? norm.answer_index
+                        : Number.isInteger(data?.answer_index)
+                            ? data.answer_index
+                            : 0;
+                    const answerOptions = choices.map((choiceText, choiceIdx) => ({
+                        text: choiceText,
+                        isCorrect: choiceIdx === answerIndex,
+                        rationale: ''
+                    }));
+
+                    const questionBase = {
+                        questionText: norm?.stem || data?.stem_raw || '',
+                        answerOptions,
+                        imageUrl: row?.image_url_cached || data?.image_url || bankImageUrl,
+                        imageAlt: row?.image_alt || data?.alt_text || bankAlt,
+                        type: 'image'
+                    };
+
+                    const enforced = enforceWordCapsOnItem(questionBase, subject);
+                    return {
+                        ...enforced,
+                        question_norm: norm,
+                        question_data: data,
+                        katex_html_cache: row?.katex_html_cache || null,
+                        bankQuestionId: row?.question_id || null
+                    };
+                }).filter(Boolean);
+
+                if (converted.length) {
+                    return converted;
+                }
+            }
+        } catch (err) {
+            console.warn('assembleImageSection failed:', err?.message || err);
+        }
+    }
+
+    // Fallback to curated image pool generation
+    const filteredByTopic = Array.isArray(imagePool)
+        ? imagePool.filter((img) => img.subject === subject && img.category === topic)
+        : [];
+    let selectedImage = filteredByTopic.length
+        ? filteredByTopic[Math.floor(Math.random() * filteredByTopic.length)]
+        : null;
+
+    if (!selectedImage && Array.isArray(imagePool)) {
+        const subjectImages = imagePool.filter((img) => img.subject === subject);
+        if (subjectImages.length > 0) {
+            selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
+        }
+    }
+
+    if (!selectedImage) {
+        return null;
+    }
 
     const imagePrompt = `You are a GED exam creator. This stimulus is for an IMAGE from the topic '${topic}'.
 Based on the following image context, generate a set of ${numQuestions} unique questions that require visual interpretation, asking about the main idea, symbolism, or specific details.
@@ -4267,7 +4780,18 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
             type: "OBJECT",
             properties: {
                 questionText: { type: "STRING" },
-                answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } },
+                answerOptions: {
+                    type: "ARRAY",
+                    items: {
+                        type: "OBJECT",
+                        properties: {
+                            text: { type: "STRING" },
+                            isCorrect: { type: "BOOLEAN" },
+                            rationale: { type: "STRING" }
+                        },
+                        required: ["text", "isCorrect", "rationale"]
+                    }
+                },
                 imagePath: { type: "STRING" }
             },
             required: ["questionText", "answerOptions", "imagePath"]
@@ -4276,15 +4800,14 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
 
     try {
         const questions = await callAI(imagePrompt, imageQuestionSchema, options);
-        // Map imagePath to imageUrl and add type
-        return questions.map(q => enforceWordCapsOnItem({
+        return questions.map((q) => enforceWordCapsOnItem({
             ...q,
-            imageUrl: q.imagePath.replace(/^\/frontend/, ''), // Keep this transformation
+            imageUrl: q.imagePath.replace(/^\/frontend/, ''),
             type: 'image'
         }, subject));
     } catch (error) {
         console.error(`Error generating image question for topic ${topic}:`, error);
-        return null; // Return null or empty array on error to not break Promise.all
+        return null;
     }
 };
 
