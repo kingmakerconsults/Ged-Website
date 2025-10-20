@@ -2906,6 +2906,12 @@ function App() {
     const [instructorStudents, setInstructorStudents] = useState([]);
     const [instructorDashboardLoading, setInstructorDashboardLoading] = useState(false);
     const [instructorDashboardError, setInstructorDashboardError] = useState(null);
+    const [showJoinOrganizationModal, setShowJoinOrganizationModal] = useState(false);
+    const [joinOrganizationSubmitting, setJoinOrganizationSubmitting] = useState(false);
+    const [joinOrganizationError, setJoinOrganizationError] = useState(null);
+    const [adminUsers, setAdminUsers] = useState([]);
+    const [adminUsersLoading, setAdminUsersLoading] = useState(false);
+    const [adminUsersError, setAdminUsersError] = useState(null);
 
     const openMathTools = useCallback((tab = 'graphing') => {
         setMathToolsActiveTab(tab);
@@ -2997,6 +3003,48 @@ function App() {
         }
     }, [authToken]);
 
+    const fetchAdminUsers = useCallback(async (tokenOverride) => {
+        const activeToken = tokenOverride || authToken || localStorage.getItem('appToken');
+
+        if (!activeToken) {
+            setAdminUsers([]);
+            setAdminUsersError('Your session has expired. Please log in again.');
+            setAdminUsersLoading(false);
+            return;
+        }
+
+        try {
+            setAdminUsersLoading(true);
+            setAdminUsersError(null);
+
+            const response = await fetch(`${API_BASE_URL}/api/admin/users`, {
+                headers: {
+                    Authorization: `Bearer ${activeToken}`,
+                },
+            });
+
+            let payload = [];
+            try {
+                payload = await response.json();
+            } catch (error) {
+                payload = [];
+            }
+
+            if (!response.ok) {
+                const message = payload?.error || 'Unable to load admin dashboard';
+                throw new Error(message);
+            }
+
+            const normalized = Array.isArray(payload) ? payload : [];
+            setAdminUsers(normalized);
+        } catch (error) {
+            setAdminUsers([]);
+            setAdminUsersError(error instanceof Error ? error.message : 'Unable to load admin dashboard');
+        } finally {
+            setAdminUsersLoading(false);
+        }
+    }, [authToken]);
+
     const persistScore = useCallback(async (subject, scaledScore) => {
         if (!currentUser) {
             return;
@@ -3054,9 +3102,21 @@ function App() {
                     setShowNamePrompt(true);
                 }
 
-                if (typeof profile.role === 'string' && profile.role.toLowerCase() === 'instructor') {
+                const normalizedRole = typeof profile.role === 'string' ? profile.role.toLowerCase() : 'student';
+
+                if (normalizedRole === 'admin') {
+                    setView('admin-dashboard');
+                    fetchAdminUsers(storedToken);
+                } else if (normalizedRole === 'instructor') {
                     setView('instructor-dashboard');
                     fetchInstructorDashboardData(storedToken);
+                } else {
+                    setView('start');
+                }
+
+                const hasOrganization = Boolean(profile.organization_id ?? profile.organizationId);
+                if (!hasOrganization && normalizedRole === 'student') {
+                    setShowJoinOrganizationModal(true);
                 }
 
                 loadScores(storedToken);
@@ -3067,7 +3127,27 @@ function App() {
             localStorage.removeItem('appToken');
             setAuthToken(null);
         }
-    }, [loadScores, fetchInstructorDashboardData]);
+    }, [loadScores, fetchInstructorDashboardData, fetchAdminUsers]);
+
+    useEffect(() => {
+        if (!currentUser) {
+            setShowJoinOrganizationModal(false);
+            setJoinOrganizationError(null);
+            setJoinOrganizationSubmitting(false);
+            return;
+        }
+
+        const normalizedRole = typeof currentUser.role === 'string' ? currentUser.role.toLowerCase() : 'student';
+        const hasOrganization = Boolean(currentUser.organization_id ?? currentUser.organizationId);
+
+        if (normalizedRole === 'student' && !hasOrganization) {
+            setShowJoinOrganizationModal(true);
+        } else if (showJoinOrganizationModal) {
+            setShowJoinOrganizationModal(false);
+            setJoinOrganizationError(null);
+            setJoinOrganizationSubmitting(false);
+        }
+    }, [currentUser, showJoinOrganizationModal]);
 
     const handleLogin = (user, token) => {
         if (!token) {
@@ -3094,16 +3174,29 @@ function App() {
         recalcProgress([]);
         setInstructorStudents([]);
         setInstructorDashboardError(null);
+        setAdminUsers([]);
+        setAdminUsersError(null);
+        setJoinOrganizationError(null);
+        setShowJoinOrganizationModal(false);
 
         const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
         if (!customNameSet) {
             setShowNamePrompt(true);
         }
-        if (typeof profile.role === 'string' && profile.role.toLowerCase() === 'instructor') {
+        const normalizedRole = typeof profile.role === 'string' ? profile.role.toLowerCase() : 'student';
+
+        if (normalizedRole === 'admin') {
+            setView('admin-dashboard');
+            fetchAdminUsers(token);
+        } else if (normalizedRole === 'instructor') {
             setView('instructor-dashboard');
             fetchInstructorDashboardData(token);
         } else {
             setView('start');
+            const hasOrganization = Boolean(profile.organization_id ?? profile.organizationId);
+            if (!hasOrganization) {
+                setShowJoinOrganizationModal(true);
+            }
         }
         loadScores(token);
     };
@@ -3129,6 +3222,12 @@ function App() {
         setInstructorStudents([]);
         setInstructorDashboardError(null);
         setInstructorDashboardLoading(false);
+        setAdminUsers([]);
+        setAdminUsersError(null);
+        setAdminUsersLoading(false);
+        setShowJoinOrganizationModal(false);
+        setJoinOrganizationError(null);
+        setJoinOrganizationSubmitting(false);
         setView('start');
         if (window.google && google.accounts.id) {
             google.accounts.id.disableAutoSelect();
@@ -3170,17 +3269,52 @@ function App() {
 
             return nextProfile;
         });
+        setShowJoinOrganizationModal(false);
+        setJoinOrganizationError(null);
     }, []);
+
+    const handleConfirmOrganizationSelection = useCallback(async () => {
+        const activeToken = authToken || localStorage.getItem('appToken');
+
+        if (!activeToken) {
+            setJoinOrganizationError('Your session has expired. Please log in again.');
+            return;
+        }
+
+        try {
+            setJoinOrganizationSubmitting(true);
+            setJoinOrganizationError(null);
+
+            const response = await fetch(`${API_BASE_URL}/api/student/select-organization`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${activeToken}`,
+                },
+                body: JSON.stringify({ organizationId: 1 }),
+            });
+
+            const payload = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(payload?.error || 'Unable to join organization');
+            }
+
+            const organization = payload?.organization || { id: 1, name: 'Commonpoint Bronx' };
+            handleStudentOrganizationJoined(organization);
+        } catch (error) {
+            setJoinOrganizationError(error instanceof Error ? error.message : 'Unable to join organization');
+        } finally {
+            setJoinOrganizationSubmitting(false);
+        }
+    }, [authToken, handleStudentOrganizationJoined]);
 
     const userRole = typeof currentUser?.role === 'string' ? currentUser.role.toLowerCase() : 'student';
     const userOrganizationId = currentUser?.organization_id ?? currentUser?.organizationId ?? null;
 
     const studentAffiliationSection = useMemo(() => {
-        if (!currentUser || userRole === 'instructor' || userOrganizationId) {
-            return null;
-        }
-        return <StudentOrganizationAffiliation onJoined={handleStudentOrganizationJoined} token={authToken} />;
-    }, [authToken, currentUser, handleStudentOrganizationJoined, userOrganizationId, userRole]);
+        return null;
+    }, [currentUser, userOrganizationId, userRole]);
 
     const instructorPortalSection = useMemo(() => {
         if (!currentUser || userRole !== 'instructor') {
@@ -3413,6 +3547,18 @@ function App() {
             return <AuthScreen onLogin={handleLogin} />;
         }
         switch (view) {
+            case 'admin-dashboard':
+                return (
+                    <div className="mx-auto w-full max-w-5xl">
+                        <AdminDashboardView
+                            isVisible={true}
+                            users={adminUsers}
+                            loading={adminUsersLoading}
+                            error={adminUsersError}
+                            onRefresh={() => fetchAdminUsers()}
+                        />
+                    </div>
+                );
             case 'instructor-dashboard':
                 return (
                     <div className="mx-auto w-full max-w-5xl">
@@ -3551,6 +3697,12 @@ function App() {
                 )}
                 {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
                 {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} />}
+                <JoinOrganizationModal
+                    isOpen={showJoinOrganizationModal}
+                    onConfirm={handleConfirmOrganizationSelection}
+                    loading={joinOrganizationSubmitting}
+                    error={joinOrganizationError}
+                />
                 <MathPracticeToolsModal
                     isOpen={isMathToolsOpen}
                     onClose={closeMathTools}
@@ -3665,7 +3817,8 @@ function AdminPasswordLogin({ onAdminLogin }) {
                 id: 'admin',
                 name: 'Admin',
                 email: 'admin@learningcanvas.com',
-                picture: 'https://ui-avatars.com/api/?name=Admin&background=0EA5E9&color=FFFFFF'
+                picture: 'https://ui-avatars.com/api/?name=Admin&background=0EA5E9&color=FFFFFF',
+                role: 'admin',
             };
 
             try {
@@ -3780,13 +3933,14 @@ function AuthScreen({ onLogin }) {
             setInstructorError(null);
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/instructor/google-login`, {
+                const response = await fetch(`${API_BASE_URL}/api/auth/google`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         credential,
+                        intendedRole: 'instructor',
                         organizationId: INSTRUCTOR_ORGANIZATION_ID,
                         accessCode: instructorAccessCode.trim(),
                     }),
@@ -4693,6 +4847,51 @@ function StudentOrganizationAffiliation({ token, onJoined }) {
 }
 
 
+function JoinOrganizationModal({ isOpen, onConfirm, loading, error }) {
+    return (
+        <div
+            id="join-organization-modal"
+            style={{ display: isOpen ? 'flex' : 'none' }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4"
+        >
+            <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+                <h2 className="text-2xl font-bold text-slate-800">Join Your Organization</h2>
+                <p className="mt-2 text-sm text-slate-600">
+                    Select your organization to finish setting up your account.
+                </p>
+                <div className="mt-6 space-y-2">
+                    <label className="text-sm font-semibold text-slate-600" htmlFor="join-organization-name">
+                        Organization
+                    </label>
+                    <input
+                        id="join-organization-name"
+                        type="text"
+                        value="Commonpoint Bronx"
+                        disabled
+                        className="w-full rounded-lg border border-slate-300 bg-slate-100 px-3 py-2 text-slate-700 shadow-sm"
+                    />
+                </div>
+                {error && (
+                    <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+                        {error}
+                    </div>
+                )}
+                <div className="mt-6 flex justify-end">
+                    <button
+                        type="button"
+                        onClick={onConfirm}
+                        disabled={loading}
+                        className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
+                    >
+                        {loading ? 'Joining…' : 'Confirm'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+
 function InstructorDashboardView({ isVisible, loading, error, students, onRefresh, onLogout }) {
     const hasStudents = Array.isArray(students) && students.length > 0;
 
@@ -4772,6 +4971,99 @@ function InstructorDashboardView({ isVisible, loading, error, students, onRefres
                 </table>
             </div>
             {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+        </div>
+    );
+}
+
+
+function AdminDashboardView({ isVisible, users, loading, error, onRefresh }) {
+    const safeUsers = Array.isArray(users) ? users : [];
+    const handleRefresh = useCallback(() => {
+        if (typeof onRefresh === 'function') {
+            onRefresh();
+        }
+    }, [onRefresh]);
+
+    return (
+        <div
+            id="admin-dashboard-view"
+            style={{ display: isVisible ? 'block' : 'none' }}
+            className="space-y-6"
+        >
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h2 className="text-3xl font-bold text-slate-800">Admin Dashboard</h2>
+                    <p className="text-slate-500">Overview of all registered users.</p>
+                </div>
+                <div className="flex items-center gap-3">
+                    <button
+                        type="button"
+                        onClick={handleRefresh}
+                        disabled={loading}
+                        className="inline-flex items-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
+                    >
+                        {loading ? 'Refreshing…' : 'Refresh'}
+                    </button>
+                </div>
+            </div>
+            {error && (
+                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {error}
+                </div>
+            )}
+            <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow">
+                <table className="min-w-full divide-y divide-slate-200 text-left">
+                    <thead className="bg-slate-50">
+                        <tr>
+                            <th scope="col" className="px-4 py-3 text-sm font-semibold uppercase tracking-wide text-slate-600">Name</th>
+                            <th scope="col" className="px-4 py-3 text-sm font-semibold uppercase tracking-wide text-slate-600">Email</th>
+                            <th scope="col" className="px-4 py-3 text-sm font-semibold uppercase tracking-wide text-slate-600">Role</th>
+                            <th scope="col" className="px-4 py-3 text-sm font-semibold uppercase tracking-wide text-slate-600">Organization</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                        {loading ? (
+                            <tr>
+                                <td colSpan={4} className="px-4 py-6 text-center text-sm text-slate-500">
+                                    Loading users…
+                                </td>
+                            </tr>
+                        ) : safeUsers.length === 0 ? (
+                            <tr>
+                                <td colSpan={4} className="px-4 py-6 text-center text-sm text-slate-500">
+                                    No users found.
+                                </td>
+                            </tr>
+                        ) : (
+                            safeUsers.map((user) => {
+                                const displayRole = typeof user.role === 'string' && user.role.trim()
+                                    ? user.role
+                                    : 'student';
+                                const organizationValue =
+                                    user.organization_id != null && user.organization_id !== ''
+                                        ? user.organization_id
+                                        : '—';
+                                return (
+                                    <tr key={user.id || `${user.email || 'user'}-${displayRole}`} className="hover:bg-slate-50">
+                                        <td className="px-4 py-3 text-sm text-slate-700">
+                                            {user.name || (user.email ? user.email.split('@')[0] : 'User')}
+                                        </td>
+                                        <td className="px-4 py-3 text-sm text-slate-600 break-all">
+                                            {user.email || '—'}
+                                        </td>
+                                        <td className="px-4 py-3 text-sm text-slate-600">
+                                            {displayRole}
+                                        </td>
+                                        <td className="px-4 py-3 text-sm text-slate-600">
+                                            {organizationValue}
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
