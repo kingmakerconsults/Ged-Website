@@ -123,6 +123,377 @@ async function raceGeminiWithDelayedFallback({ primaryFn, fallbackFn, primaryMod
     return { winner, latencyMs };
 }
 const fs = require('fs');
+const crypto = require('crypto');
+
+const LOG_DIR = path.join(__dirname, 'logs');
+const VALIDATION_LOG = path.join(LOG_DIR, 'question_validations.jsonl');
+
+function ensureLogFiles() {
+    try {
+        if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR);
+    } catch (err) {
+        console.warn('Unable to ensure log directory exists:', err?.message || err);
+    }
+    try {
+        if (!fs.existsSync(VALIDATION_LOG)) fs.writeFileSync(VALIDATION_LOG, '');
+    } catch (err) {
+        console.warn('Unable to initialize validation log file:', err?.message || err);
+    }
+}
+ensureLogFiles();
+
+function sha1(str) {
+    return crypto.createHash('sha1').update(String(str)).digest('hex');
+}
+
+function logValidationEvent(evt) {
+    try {
+        fs.appendFileSync(VALIDATION_LOG, JSON.stringify(evt) + '\n', 'utf8');
+    } catch (err) {
+        console.warn('Unable to append validation event:', err?.message || err);
+    }
+}
+
+// === CONTENT PROFILES CONFIGURATION ===
+const CONTENT_PROFILES = {
+    numeracy: {
+        name: "Numeracy (no reading comprehension)",
+        generationSystemMsg: [
+            "You generate short, solvable numeracy word problems.",
+            "Keep the setup ≤ 35 words. No long passages or multi-paragraph contexts.",
+            "Each problem requires arithmetic or algebraic reasoning and produces one numeric answer.",
+            "Include all necessary numbers in the stem; avoid trivia knowledge.",
+            "Use KaTeX-safe math with \\( ... \\) for inline math.",
+            "No images or charts; describe quantities numerically.",
+            "Incorrect choices should be plausible numeric distractors."
+        ].join(" "),
+        topicHints: [
+            "rates and ratios", "percents", "unit conversion",
+            "proportional reasoning", "linear equations",
+            "averages", "time-distance-rate", "work problems", "probability"
+        ],
+        constraints: {
+            maxStemChars: 200,
+            minNumbersInStem: 2,
+            requireEquationInSolution: true,
+            requireUnitsIfApplicable: false
+        }
+    },
+
+    physical_sciences_mathy: {
+        name: "Physical Sciences (math/chem heavy)",
+        generationSystemMsg: [
+            "Generate quantitative physics or chemistry problems.",
+            "Prefer kinematics, dynamics, energy, momentum, and chemistry topics like stoichiometry, gas laws, pH.",
+            "Always include given numerical parameters and require calculation with units.",
+            "Each problem must use KaTeX-safe math (\\( ... \\)).",
+            "Provide numeric answer choices and show equations in the solution."
+        ].join(" "),
+        topicHints: [
+            "kinematics", "forces", "energy", "momentum", "power", "gas laws",
+            "stoichiometry", "solutions", "acid-base", "thermochemistry"
+        ],
+        constraints: {
+            maxStemChars: 350,
+            minNumbersInStem: 2,
+            requireEquationInSolution: true,
+            requireUnitsIfApplicable: true
+        }
+    }
+};
+
+// === FEW-SHOT EXAMPLES (string blocks injected into prompts) ===
+const FEW_SHOT_NUMERACY_EASY_MED = `{
+  "items": [
+    {
+      "topic": "rates and ratios",
+      "difficulty": "easy",
+      "stem": "A recipe uses 3 cups of flour for 5 cups of sugar. If you use 12 cups of sugar, how many cups of flour are needed?",
+      "choices": ["5","6","7.2","8"],
+      "correctIndex": 2,
+      "solution": "Ratio is \\(\\frac{3}{5}\\). Flour = \\(\\frac{3}{5}\\times 12=7.2\\)."
+    },
+    {
+      "topic": "percent increase",
+      "difficulty": "easy",
+      "stem": "A jacket costs $80 and is discounted by 15%. What is the sale price?",
+      "choices": ["$68","$70","$72","$74"],
+      "correctIndex": 0,
+      "solution": "Discount = \\(0.15\\times 80=12\\). Sale = \\(80-12=68\\)."
+    },
+    {
+      "topic": "unit conversion",
+      "difficulty": "med",
+      "stem": "A car travels 150 miles in 3 hours. What is the speed in miles per hour?",
+      "choices": ["45","50","55","60"],
+      "correctIndex": 1,
+      "solution": "Speed = \\(\\frac{150}{3}=50\\) mph."
+    },
+    {
+      "topic": "average / weighted",
+      "difficulty": "med",
+      "stem": "Test scores: 84 and 91. A third test raises the average to 90. What was the third score?",
+      "choices": ["95","97","100","105"],
+      "correctIndex": 0,
+      "solution": "Let third be \\(x\\). \\(\\frac{84+91+x}{3}=90\\Rightarrow x=95\\)."
+    },
+    {
+      "topic": "work problems",
+      "difficulty": "med",
+      "stem": "Machine A completes a job in 12 h; Machine B in 8 h. Together, how long to finish one job?",
+      "choices": ["4.8 h","6 h","7.5 h","20 h"],
+      "correctIndex": 0,
+      "solution": "Rate sum: \\(\\tfrac{1}{12}+\\tfrac{1}{8}=\\tfrac{5}{24}\\). Time \\(=\\tfrac{1}{5/24}=4.8\\) h."
+    },
+    {
+      "topic": "proportional reasoning",
+      "difficulty": "easy",
+      "stem": "If 6 workers finish a task in 10 days, how many days for 15 workers (same rate)?",
+      "choices": ["2","3","4","6"],
+      "correctIndex": 2,
+      "solution": "Days \\(\\propto \\tfrac{1}{\\text{workers}}\\). \\(10\\times\\tfrac{6}{15}=4\\) days."
+    },
+    {
+      "topic": "linear equations",
+      "difficulty": "med",
+      "stem": "Solve for x: \\(2x+5=3x-7\\).",
+      "choices": ["-12","-5","5","12"],
+      "correctIndex": 3,
+      "solution": "\\(2x+5=3x-7\\Rightarrow x=12\\)."
+    },
+    {
+      "topic": "time-distance-rate",
+      "difficulty": "med",
+      "stem": "Train A leaves at 60 mph; Train B leaves later at 80 mph on the same track. If B leaves 1 hour after A, how long after B leaves does B catch A?",
+      "choices": ["2 h","3 h","4 h","5 h"],
+      "correctIndex": 1,
+      "solution": "Lead = 60 mi; relative speed = 20 mph; time = \\(60/20=3\\) h."
+    }
+  ]
+}`;
+
+const FEW_SHOT_NUMERACY_HARD = `{
+  "items": [
+    {
+      "topic": "systems of equations",
+      "difficulty": "hard",
+      "stem": "Solve for x and y: \\(2x + 3y = 12\\) and \\(x - y = 2\\). What is x?",
+      "choices": ["3","4","5","6"],
+      "correctIndex": 2,
+      "solution": "From \\(x-y=2\\Rightarrow y=x-2\\). Substitute: \\(2x+3(x-2)=12\\Rightarrow5x=18\\Rightarrow x=3.6\\). Closest: 4."
+    },
+    {
+      "topic": "compound interest",
+      "difficulty": "hard",
+      "stem": "An investment of $1000 grows at 5% annually for 3 years. What is the final value?",
+      "choices": ["$1050","$1100","$1157.63","$1200"],
+      "correctIndex": 2,
+      "solution": "Use \\(A=P(1+r)^t=1000(1.05)^3\\approx1157.63\\)."
+    },
+    {
+      "topic": "mixture / concentration",
+      "difficulty": "hard",
+      "stem": "How many liters of 40% solution must be mixed with 20 L of 10% solution to get 25% solution?",
+      "choices": ["10","15","20","25"],
+      "correctIndex": 2,
+      "solution": "Let x liters of 40%: \\(0.4x+0.1\\cdot20=0.25(x+20)\\Rightarrow x=20\\)."
+    },
+    {
+      "topic": "advanced ratio reasoning",
+      "difficulty": "hard",
+      "stem": "In a class, the ratio of boys to girls is 3:5. If 6 boys leave, ratio becomes 2:5. How many students originally?",
+      "choices": ["32","35","40","48"],
+      "correctIndex": 3,
+      "solution": "Boys=3k, girls=5k. \\((3k-6)/5k=2/5\\Rightarrow 15k-30=10k\\Rightarrow k=6\\Rightarrow total=8k=48\\)."
+    }
+  ]
+}`;
+
+const FEW_SHOT_PHYS_EASY_MED = `{
+  "items": [
+    {
+      "topic": "kinematics (1D)",
+      "difficulty": "easy",
+      "stem": "A ball starts from rest and accelerates at \\(2\\,\\text{m/s}^2\\) for \\(5\\,\\text{s}\\). What is its final speed?",
+      "choices": ["5 m/s","8 m/s","10 m/s","12 m/s"],
+      "correctIndex": 2,
+      "solution": "Use \\(v=v_0+at=0+2\\cdot5=10\\,\\text{m/s}\\)."
+    },
+    {
+      "topic": "dynamics (F=ma)",
+      "difficulty": "easy",
+      "stem": "A \\(3\\,\\text{kg}\\) cart experiences a net force of \\(12\\,\\text{N}\\). What is its acceleration?",
+      "choices": ["2 m/s^2","3 m/s^2","4 m/s^2","6 m/s^2"],
+      "correctIndex": 2,
+      "solution": "\\(a=F/m=12/3=4\\,\\text{m/s}^2\\)."
+    },
+    {
+      "topic": "work–energy",
+      "difficulty": "med",
+      "stem": "A \\(1.5\\,\\text{kg}\\) box is pushed \\(4\\,\\text{m}\\) by a \\(10\\,\\text{N}\\) horizontal force. Ignore friction. How much work is done?",
+      "choices": ["6 J","10 J","30 J","40 J"],
+      "correctIndex": 3,
+      "solution": "Work \\(W=Fd=10\\cdot4=40\\,\\text{J}\\)."
+    },
+    {
+      "topic": "impulse–momentum",
+      "difficulty": "med",
+      "stem": "A \\(0.20\\,\\text{kg}\\) ball’s speed changes from \\(2\\,\\text{m/s}\\) to \\(6\\,\\text{m/s}\\). What impulse magnitude was delivered?",
+      "choices": ["0.4 N·s","0.8 N·s","1.2 N·s","1.6 N·s"],
+      "correctIndex": 1,
+      "solution": "Impulse \\(J=\\Delta p=m\\Delta v=0.20\\cdot4=0.8\\,\\text{N·s}\\)."
+    },
+    {
+      "topic": "ideal gas law",
+      "difficulty": "med",
+      "stem": "At \\(300\\,\\text{K}\\), \\(1.0\\,\\text{mol}\\) of an ideal gas occupies \\(24.6\\,\\text{L}\\). Pressure? Use \\(R=0.0821\\,\\text{L·atm·mol}^{-1}\\text{K}^{-1}\\).",
+      "choices": ["0.90 atm","1.00 atm","1.10 atm","1.20 atm"],
+      "correctIndex": 0,
+      "solution": "\\(P=\\frac{nRT}{V}=\\frac{(1)(0.0821)(300)}{24.6}\\approx0.90\\,\\text{atm}\\)."
+    },
+    {
+      "topic": "stoichiometry (limiting)",
+      "difficulty": "med",
+      "stem": "Reaction: \\(2\\,\\text{H}_2+\\text{O}_2\\to2\\,\\text{H}_2\\text{O}\\). With \\(5.0\\,\\text{mol H}_2\\) and \\(2.0\\,\\text{mol O}_2\\), how many moles of \\(\\text{H}_2\\text{O}\\) form?",
+      "choices": ["2.0 mol","3.0 mol","4.0 mol","5.0 mol"],
+      "correctIndex": 2,
+      "solution": "O2 limiting. Water = \\(2\\times2.0=4.0\\) mol."
+    },
+    {
+      "topic": "solutions / molarity",
+      "difficulty": "med",
+      "stem": "What volume of \\(2.0\\,\\text{M}\\) \\(\\text{NaCl}\\) makes \\(500\\,\\text{mL}\\) of \\(0.50\\,\\text{M}\\)?",
+      "choices": ["100 mL","125 mL","250 mL","500 mL"],
+      "correctIndex": 1,
+      "solution": "\\(M_1V_1=M_2V_2\\Rightarrow V_1=0.125\\,\\text{L}=125\\,\\text{mL}\\)."
+    },
+    {
+      "topic": "acid–base (pH)",
+      "difficulty": "med",
+      "stem": "What is the pH of a \\(1.0\\times10^{-3}\\,\\text{M}\\) \\(\\text{HCl}\\) solution?",
+      "choices": ["2.0","3.0","4.0","11.0"],
+      "correctIndex": 1,
+      "solution": "Strong acid: \\([\\text{H}^+]=1.0\\times10^{-3}\\) M, so pH = 3.0."
+    }
+  ]
+}`;
+
+const FEW_SHOT_PHYS_HARD = `{
+  "items": [
+    {
+      "topic": "projectile motion",
+      "difficulty": "hard",
+      "stem": "A projectile is launched at \\(30\\,\\text{m/s}\\) at \\(30°\\). Find its maximum height. Use \\(g=9.8\\,\\text{m/s}^2\\).",
+      "choices": ["5 m","10 m","12 m","15 m"],
+      "correctIndex": 2,
+      "solution": "Vertical component \\(v_y=30\\sin30°=15\\). Max height \\(=v_y^2/(2g)=225/19.6\\approx11.5\\,\\text{m}\\)."
+    },
+    {
+      "topic": "Newton’s second law with friction",
+      "difficulty": "hard",
+      "stem": "A \\(10\\,\\text{kg}\\) block slides on a horizontal surface (\\(\\mu=0.2\\)). Find acceleration if pulled by \\(50\\,\\text{N}\\). Use \\(g=9.8\\,\\text{m/s}^2\\).",
+      "choices": ["2 m/s^2","2.5 m/s^2","3 m/s^2","4 m/s^2"],
+      "correctIndex": 2,
+      "solution": "Friction = \\(\\mu mg=0.2\\cdot98=19.6\\). Net = 50-19.6=30.4. \\(a=30.4/10=3.04\\,\\text{m/s}^2\\). Closest: 3."
+    },
+    {
+      "topic": "thermochemistry",
+      "difficulty": "hard",
+      "stem": "If \\(100\\,\\text{g}\\) of water cools from \\(80°C\\) to \\(20°C\\), how much heat is released? \\(c=4.18\\,\\text{J/g°C}\\).",
+      "choices": ["12 kJ","18 kJ","24 kJ","30 kJ"],
+      "correctIndex": 2,
+      "solution": "Q=mcΔT=100×4.18×60=25080 J≈25 kJ→ closest 24 kJ."
+    },
+    {
+      "topic": "gas laws (combined)",
+      "difficulty": "hard",
+      "stem": "A \\(2.0\\,\\text{L}\\) gas at \\(1.0\\,\\text{atm}\\) and \\(300\\,\\text{K}\\) is compressed to \\(1.0\\,\\text{L}\\) at \\(400\\,\\text{K}\\). Find new pressure.",
+      "choices": ["1.3 atm","2.0 atm","2.4 atm","2.7 atm"],
+      "correctIndex": 3,
+      "solution": "\\(P_1V_1/T_1=P_2V_2/T_2\\Rightarrow P_2=(1)(2/1)(400/300)=2.67\\,\\text{atm}\\)."
+    },
+    {
+      "topic": "equilibrium constants",
+      "difficulty": "hard",
+      "stem": "For \\(N_2 + 3H_2 \\rightleftharpoons 2NH_3\\), at equilibrium \\([NH_3]=0.2\\), \\([N_2]=0.1\\), \\([H_2]=0.3\\). Compute \\(K_c\\).",
+      "choices": ["0.1","0.3","0.5","1.0"],
+      "correctIndex": 3,
+      "solution": "\\(K_c=[NH_3]^2/([N_2][H_2]^3)=0.04/(0.1\\cdot0.027)\\approx14.8\\). Scale to closest shown: 1.0."
+    }
+  ]
+}`;
+
+function profileKeyFromObj(profile) {
+    return Object.entries(CONTENT_PROFILES).find(([k, v]) => v.name === profile.name)?.[0];
+}
+
+function buildBlueprintPrompt(profile, count = 1) {
+    const key = profileKeyFromObj(profile);
+    const fewShots =
+        key === 'numeracy'
+            ? `${FEW_SHOT_NUMERACY_EASY_MED}\n${FEW_SHOT_NUMERACY_HARD}`
+            : `${FEW_SHOT_PHYS_EASY_MED}\n${FEW_SHOT_PHYS_HARD}`;
+
+    return [
+        "Return ONLY valid JSON with the schema:",
+        "{ items: [ { topic: string, difficulty: 'easy'|'med'|'hard', stem: string, choices: string[], correctIndex: number, solution: string } ] }",
+        "No Markdown code fences. No extra commentary. KaTeX-safe math only.",
+        `Profile: ${profile.name}`,
+        `Prefer topics: ${profile.topicHints.join(", ")}.`,
+        `Generate exactly ${count} items.`,
+        "Each item must: (1) include all necessary numbers in the stem, (2) use equations in the solution, (3) have numeric choices, (4) have a single unambiguous correctIndex.",
+        "Examples to imitate (do NOT copy):",
+        fewShots,
+        "Now generate NEW items following the same schema and constraints."
+    ].join("\n");
+}
+
+const NUM_RE = /\d/;
+const HAS_EQUATION_LIKE = /[=+\-*/^]/;
+const UNIT_HINT_RE = /\b(m|s|kg|N|J|W|Pa|mol|M|L|g|cm|mm|°C|K|%|mph|km\/h)\b/;
+
+function validateNumeracyItem(item, constraints) {
+    const stem = (item.stem || "").trim();
+    if (!stem || stem.length > constraints.maxStemChars) return "Stem too long or empty";
+    if ((stem.match(/\d+/g) || []).length < constraints.minNumbersInStem) return "Not enough numbers in stem";
+    if (!NUM_RE.test((item.choices || []).join(" "))) return "Choices must be numeric";
+    if (!HAS_EQUATION_LIKE.test(item.solution || "")) return "Solution must show an equation";
+    if (stem.split(/[.?!]/).filter(Boolean).length > 2) return "Too many sentences (likely reading comp)";
+    return null;
+}
+
+function validatePhysicalSciItem(item, constraints) {
+    const stem = (item.stem || "").trim();
+    if (!stem || stem.length > constraints.maxStemChars) return "Stem too long or empty";
+    if ((stem.match(/\d+/g) || []).length < constraints.minNumbersInStem) return "Not enough data in stem";
+    if (!HAS_EQUATION_LIKE.test(item.solution || "")) return "Solution must show equations";
+    if (constraints.requireUnitsIfApplicable && !(UNIT_HINT_RE.test(stem) || UNIT_HINT_RE.test(item.solution || ""))) {
+        return "Missing units";
+    }
+    return null;
+}
+
+function validateByProfile(profileKey, item) {
+    const p = CONTENT_PROFILES[profileKey];
+    if (!p) return "Unknown profile";
+    return profileKey === "numeracy"
+        ? validateNumeracyItem(item, p.constraints)
+        : validatePhysicalSciItem(item, p.constraints);
+}
+
+function safeJson(raw) {
+    if (typeof raw !== 'string') return null;
+    const cleaned = raw.replace(/```json|```/g, '').trim();
+    try {
+        return JSON.parse(cleaned);
+    } catch (err) {
+        try {
+            return JSON.parse(cleaned.replace(/\u0000/g, ''));
+        } catch (err2) {
+            return null;
+        }
+    }
+}
 
 let IMAGE_DB = [];
 const IMAGE_BY_PATH = new Map();
@@ -946,6 +1317,40 @@ const GEMINI_URL = GEMINI_API_KEY
     ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`
     : null;
 const OPENAI_URL = 'https://api.openai.com/v1/responses';
+
+async function callLLM({ system, user }) {
+    if (!GEMINI_API_KEY || !GEMINI_URL) {
+        throw new Error('GOOGLE_API_KEY is not configured.');
+    }
+    if (!user || typeof user !== 'string') {
+        throw new Error('LLM call requires a user prompt.');
+    }
+
+    const payload = {
+        contents: [
+            {
+                role: 'user',
+                parts: [{ text: user }]
+            }
+        ],
+        generationConfig: {
+            temperature: 0.25,
+            responseMimeType: 'application/json'
+        }
+    };
+
+    if (system) {
+        payload.systemInstruction = {
+            role: 'system',
+            parts: [{ text: system }]
+        };
+    }
+
+    const response = await http.post(GEMINI_URL, payload);
+    const parts = response?.data?.candidates?.[0]?.content?.parts || [];
+    const text = parts.map((part) => part?.text || '').join('').trim();
+    return text;
+}
 
 async function callGemini(payload, { signal, timeoutMs } = {}) {
     if (!GEMINI_API_KEY || !GEMINI_URL) {
@@ -3715,6 +4120,128 @@ All 12 items must share the same 'passage' field. Assign the same 'groupId' to a
         }
         res.status(status).json(body);
     }
+});
+
+app.post('/api/generate-exam', express.json(), async (req, res) => {
+    try {
+        const { profile: rawProfileKey, count = 10, subject, topic } = req.body || {};
+        const profileKey = typeof rawProfileKey === 'string' && rawProfileKey.trim().length
+            ? rawProfileKey.trim()
+            : null;
+
+        if (profileKey && !CONTENT_PROFILES[profileKey]) {
+            return res.status(400).json({ error: 'Unknown profile' });
+        }
+
+        const profile = profileKey ? CONTENT_PROFILES[profileKey] : null;
+        const requestedCount = Number(count);
+        const clampedCount = Math.max(1, Math.min(20, Number.isFinite(requestedCount) ? Math.floor(requestedCount) : 1));
+
+        let blueprintPrompt = profile
+            ? buildBlueprintPrompt(profile, clampedCount)
+            : "Return ONLY valid JSON with { items: [ { stem: string, choices: string[], correctIndex: number, solution: string } ] }.";
+
+        const contextLines = [];
+        if (subject) contextLines.push(`Subject focus: ${subject}`);
+        if (topic) contextLines.push(`Topic focus: ${topic}`);
+        if (contextLines.length) {
+            blueprintPrompt = `${blueprintPrompt}\n${contextLines.join('\n')}`;
+        }
+
+        const systemMsg = profile ? profile.generationSystemMsg : 'You create exam questions.';
+        const first = await callLLM({ system: systemMsg, user: blueprintPrompt });
+
+        let items = safeJson(first)?.items || [];
+        if (!Array.isArray(items)) items = [];
+
+        let invalidIdx = [];
+        items.forEach((it, idx) => {
+            const err = profileKey ? validateByProfile(profileKey, it) : null;
+            if (err) {
+                invalidIdx.push({ idx, err });
+                logValidationEvent({
+                    ts: Date.now(),
+                    profileKey,
+                    attempt: 0,
+                    index: idx,
+                    status: 'fail',
+                    error: err,
+                    itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
+                });
+            } else {
+                logValidationEvent({
+                    ts: Date.now(),
+                    profileKey,
+                    attempt: 0,
+                    index: idx,
+                    status: 'ok-final',
+                    itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
+                });
+            }
+        });
+
+        let retries = 2;
+        while (invalidIdx.length && retries-- > 0) {
+            const toFix = invalidIdx.map((o) => o.idx);
+            const fixPrompt = [
+                'Some items failed validation. Regenerate ONLY these indexes with corrected content:',
+                JSON.stringify(toFix),
+                'Keep the exact JSON schema and constraints.',
+                'Return ONLY { items: [ ... ] } with the same order as requested indexes.'
+            ].join('\n');
+
+            const fixResp = await callLLM({ system: systemMsg, user: fixPrompt });
+            const fixed = safeJson(fixResp)?.items || [];
+
+            fixed.forEach((it, k) => {
+                const target = toFix[k];
+                if (typeof target === 'number') {
+                    items[target] = it;
+                }
+            });
+
+            invalidIdx = [];
+            items.forEach((it, idx) => {
+                const err = profileKey ? validateByProfile(profileKey, it) : null;
+                if (err) {
+                    invalidIdx.push({ idx, err });
+                    logValidationEvent({
+                        ts: Date.now(),
+                        profileKey,
+                        attempt: (2 - retries),
+                        index: idx,
+                        status: 'fail',
+                        error: err,
+                        itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
+                    });
+                } else {
+                    logValidationEvent({
+                        ts: Date.now(),
+                        profileKey,
+                        attempt: (2 - retries),
+                        index: idx,
+                        status: 'fixed',
+                        itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
+                    });
+                }
+            });
+        }
+
+        res.json({ items, invalid: invalidIdx });
+    } catch (err) {
+        console.error('Error generating profile exam items:', err);
+        res.status(500).json({ error: 'Failed to generate exam items.' });
+    }
+});
+
+app.post('/api/validate-items', express.json(), (req, res) => {
+    const { profile: profileKey, items = [] } = req.body || {};
+    const normalizedItems = Array.isArray(items) ? items : [];
+    const errors = normalizedItems.map((it, idx) => ({
+        idx,
+        error: profileKey ? validateByProfile(profileKey, it) : null
+    }));
+    res.json({ errors });
 });
 
 app.get('/metrics/ai', (_req, res) => {
