@@ -13,6 +13,7 @@ const axios = require('axios');
 const fetch = require('node-fetch');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
+const { jsonrepair } = require('jsonrepair');
 const { loadImageMeta } = require('./utils/metaLoader');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
@@ -33,6 +34,9 @@ const BANK_IMAGE_GROWTH_RATIO = 0.30; // ~30% forced new generation (grow bank)
 const BANK_MAX_FETCH = 100;
 const IMAGE_TIMEOUT_MS = 7000;
 const ACCEPT_IMAGE = /^image\//i;
+
+const DEBUG_LOG_SCHEMAS = String(process.env.DEBUG_LOG_SCHEMAS || '').toLowerCase() === 'true';
+const LOGGED_SCHEMA_PAYLOADS = new Set();
 
 function selectModelTimeoutMs({ examType } = {}) {
     return examType === 'comprehensive' ? COMPREHENSIVE_TIMEOUT_MS : MODEL_HTTP_TIMEOUT_MS;
@@ -1253,7 +1257,11 @@ function parseGeminiResponse(data) {
         text = data.candidates[0].content.parts[0].text;
     }
     if (typeof text !== 'string' || !text.trim()) return null;
-    return extractJSONArray(text);
+    try {
+        return parseJsonWithRepair(text).value;
+    } catch (err) {
+        return extractJSONArray(text);
+    }
 }
 
 function parseOpenAIResponse(data) {
@@ -1279,7 +1287,7 @@ function parseOpenAIResponse(data) {
     const json = extractJSONArray(text);
     if (json) return json;
     try {
-        const parsed = JSON.parse(text);
+        const parsed = parseJsonWithRepair(text).value;
         if (Array.isArray(parsed)) return parsed;
         if (Array.isArray(parsed?.items)) return parsed.items;
         if (Array.isArray(parsed?.questions)) return parsed.questions;
@@ -1288,6 +1296,54 @@ function parseOpenAIResponse(data) {
         return null;
     }
     return null;
+}
+
+function sanitizeSSItem(item = {}) {
+    if (!item || typeof item !== 'object') return item;
+    const clone = { ...item };
+    if (typeof clone.stem === 'string') {
+        clone.stem = clone.stem.replace(/\bScreenshot\b/gi, 'image').trim();
+    }
+    if (Array.isArray(clone.choices)) {
+        clone.choices = clone.choices
+            .slice(0, 4)
+            .map((choice) => (typeof choice === 'string' ? choice.trim() : ''));
+    }
+    if (typeof clone.passage === 'string') {
+        const words = clone.passage.trim().split(/\s+/);
+        if (words.length > 200) {
+            clone.passage = `${words.slice(0, 200).join(' ')}…`;
+        } else {
+            clone.passage = clone.passage.trim();
+        }
+    }
+    return clone;
+}
+
+function isValidSSItem(q = {}) {
+    const stem = typeof q.stem === 'string' ? q.stem : '';
+    const startOK = /^(according to (the )?(image|map|chart|table|photo)|in (the )?(image|map|chart|table|photo))/i.test(stem);
+    const fourChoices = Array.isArray(q.choices) && q.choices.length === 4;
+    const idxOK = Number.isInteger(q.correctIndex) && q.correctIndex >= 0 && q.correctIndex < 4;
+    const anchors = /(legend|key|scale|axis|x-?axis|y-?axis|label|row|column|header|shaded|symbol|date|title)/i.test(stem);
+    return startOK && fourChoices && idxOK && anchors;
+}
+
+function prepareSocialStudiesItems(payload) {
+    let candidates = [];
+    if (payload && Array.isArray(payload.items)) {
+        candidates = payload.items;
+    } else if (Array.isArray(payload)) {
+        candidates = payload;
+    }
+    if (!Array.isArray(candidates)) {
+        throw new Error('Model returned invalid Social Studies payload.');
+    }
+    const sanitized = candidates.map(sanitizeSSItem).filter(isValidSSItem);
+    if (!sanitized.length) {
+        throw new Error('SS_VALIDATION_EMPTY_AFTER_FILTER');
+    }
+    return sanitized;
 }
 
 // Count words and clamp politely at boundary (keeps punctuation)
@@ -2098,6 +2154,12 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
             }
         ]
     };
+    if (subject === 'Social Studies') {
+        geminiPayload.generationConfig = {
+            response_mime_type: 'application/json',
+            response_schema: SS_SCHEMA
+        };
+    }
     if (normalizedPrompt.system) {
         geminiPayload.systemInstruction = {
             role: 'system',
@@ -2184,11 +2246,16 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
         throw winner.error || new Error(`${raceConfig.primaryModelName} failed before fallback could start.`);
     }
 
-    let items = null;
+    let parsedPayload = null;
     if (winner.model === 'gemini') {
-        items = parseGeminiResponse(winner.data);
+        parsedPayload = parseGeminiResponse(winner.data);
     } else if (winner.model === 'chatgpt') {
-        items = parseOpenAIResponse(winner.data);
+        parsedPayload = parseOpenAIResponse(winner.data);
+    }
+
+    let items = parsedPayload;
+    if (subject === 'Social Studies') {
+        items = prepareSocialStudiesItems(parsedPayload);
     }
 
     if (!Array.isArray(items)) {
@@ -4341,6 +4408,39 @@ const quizSchema = {
     required: ["id", "title", "subject", "questions"]
 };
 
+const SS_SCHEMA = {
+    type: "object",
+    properties: {
+        id: { type: "string" },
+        title: { type: "string" },
+        subject: { type: "string" },
+        items: {
+            type: "array",
+            items: {
+                type: "object",
+                properties: {
+                    questionNumber: { type: "integer" },
+                    visualType: { type: "string" },
+                    difficulty: { type: "string" },
+                    stem: { type: "string" },
+                    choices: {
+                        type: "array",
+                        items: { type: "string" },
+                        minItems: 4,
+                        maxItems: 4
+                    },
+                    correctIndex: { type: "integer" },
+                    rationale: { type: "string" },
+                    passage: { type: "string" },
+                    source: { type: "string" }
+                },
+                required: ["visualType", "difficulty", "stem", "choices", "correctIndex"]
+            }
+        }
+    },
+    required: ["items"]
+};
+
 const MATH_VALIDATOR_SCHEMA = {
     type: "ARRAY",
     items: {
@@ -4356,9 +4456,34 @@ const MATH_VALIDATOR_SCHEMA = {
     }
 };
 
-function repairIllegalJsonEscapes(s) {
-    if (typeof s !== 'string') return s;
-    return s.replace(/\\(?!["\\\/bfnrtu])/g, '\\\\');
+function sanitizeModelText(text) {
+    if (typeof text !== 'string') return '';
+    return text
+        .replace(/^\uFEFF/, '')
+        .replace(/[\u200B-\u200D\u2060\uFEFF]/g, '')
+        .replace(/```json|```/g, '')
+        .replace(/\r\n/g, '\n')
+        .replace(/\u0000/g, '')
+        .trim();
+}
+
+function parseJsonWithRepair(rawText) {
+    const cleanedText = sanitizeModelText(rawText);
+    try {
+        return { value: JSON.parse(cleanedText), cleanedText };
+    } catch (initialError) {
+        try {
+            const repaired = jsonrepair(cleanedText);
+            return { value: JSON.parse(repaired), cleanedText: repaired };
+        } catch (repairError) {
+            const snippet = cleanedText.slice(0, 500);
+            console.error('SS_PARSE_UNTERMINATED', {
+                message: repairError.message,
+                snippet
+            });
+            throw repairError;
+        }
+    }
 }
 
 const callAI = async (prompt, schema, options = {}) => {
@@ -4372,11 +4497,14 @@ const callAI = async (prompt, schema, options = {}) => {
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
-            responseMimeType: "application/json",
-            responseSchema: schema,
+            response_mime_type: "application/json",
+            response_schema: schema,
             ...(generationOverrides || {})
         }
     };
+    if (!schema) {
+        delete payload.generationConfig.response_schema;
+    }
     try {
         const requestConfig = {};
         if (timeoutMs) {
@@ -4393,13 +4521,8 @@ const callAI = async (prompt, schema, options = {}) => {
             throw new Error('AI response did not include text content.');
         }
 
-        const cleanedText = rawText
-            .replace(/```json/g, '')
-            .replace(/```/g, '')
-            .trim();
-
         if (typeof parser === 'function') {
-            const parsedResult = parser(cleanedText);
+            const parsedResult = parser(sanitizeModelText(rawText));
             if (parsedResult && typeof parsedResult === 'object' && Object.prototype.hasOwnProperty.call(parsedResult, 'value')) {
                 onParserMetadata?.(parsedResult);
                 return parsedResult.value;
@@ -4407,26 +4530,18 @@ const callAI = async (prompt, schema, options = {}) => {
             onParserMetadata?.({ stage: 'custom-parser' });
             return parsedResult;
         }
-
-        try {
-            return JSON.parse(cleanedText);
-        } catch (initialParseError) {
-            const repairedText = repairIllegalJsonEscapes(cleanedText);
-            try {
-                const parsed = JSON.parse(repairedText);
-                console.warn('Successfully repaired AI JSON response after initial parse failure.');
-                return parsed;
-            } catch (reparseError) {
-                const snippet = repairedText.slice(0, 5000);
-                console.error('Failed to parse AI JSON response after repair attempt.', {
-                    initialError: initialParseError.message,
-                    repairError: reparseError.message,
-                    snippet,
-                });
-                throw reparseError;
+        const { value } = parseJsonWithRepair(rawText);
+        return value;
+    } catch (error) {
+        if (error?.response?.status === 400 && schema) {
+            const serialized = JSON.stringify(schema);
+            if (DEBUG_LOG_SCHEMAS && !LOGGED_SCHEMA_PAYLOADS.has(serialized)) {
+                LOGGED_SCHEMA_PAYLOADS.add(serialized);
+                console.error('SS_SCHEMA_400_ADDITIONALPROPS', { schema: serialized });
+            } else {
+                console.error('SS_SCHEMA_400_ADDITIONALPROPS');
             }
         }
-    } catch (error) {
         console.error('Error calling Google AI API in callAI:', error.response ? error.response.data : error.message);
         throw error;
     }
@@ -5452,7 +5567,8 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
 }
 
 async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
-    const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam. Your task is to review and improve it based on these rules:
+    const prompt = `You are a meticulous GED exam editor. Output only valid JSON. No markdown, no code fences, no trailing commas, no comments.
+Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam. Your task is to review and improve it based on these rules:
     1.  **IMPROVE QUESTION VARIETY:** The top priority. If you see repetitive question phrasing, rewrite some questions to ask about specific details, inferences, or data points.
     2.  **ENSURE CLARITY:** Fix any grammatical errors or awkward phrasing.
     3.  **MAINTAIN JSON STRUCTURE:** The final output MUST be a perfectly valid JSON object that strictly adheres to the original schema. Do not change any field names.

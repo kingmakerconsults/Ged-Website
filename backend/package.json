@@ -18,6 +18,7 @@
     "express": "^4.19.2",
     "express-rate-limit": "file:vendor/express-rate-limit",
     "helmet": "file:vendor/helmet",
+    "jsonrepair": "file:vendor/jsonrepair",
     "google-auth-library": "^9.11.0",
     "jsdom": "^24.0.0",
     "jsonwebtoken": "^9.0.2",
