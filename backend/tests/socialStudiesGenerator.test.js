@@ -15,6 +15,10 @@ const {
 const {
     normalizeItem
 } = require('../src/socialStudies/generator');
+const {
+    deriveVisualFeatures,
+    buildFeatureSignature
+} = require('../src/utils/visualFeatures');
 
 const IMAGE_META_SAMPLE = {
     id: 'sample-image',
@@ -28,6 +32,49 @@ const IMAGE_META_SAMPLE = {
     height: 768,
     sourceTitle: 'Sample Atlas Entry'
 };
+
+function enrichScreenshotMeta(meta) {
+    const features = deriveVisualFeatures(meta);
+    return {
+        ...meta,
+        features,
+        featureSignature: buildFeatureSignature(features),
+        isScreenshot: true
+    };
+}
+
+const REGION_SCREENSHOT_META = enrichScreenshotMeta({
+    id: 'types-of-regions',
+    filePath: 'Screenshot 2024-02-10 Types of Regions.png',
+    fileName: 'Screenshot 2024-02-10 Types of Regions.png',
+    title: 'Types of Regions',
+    altText: 'Types of Regions table listing Formal, Functional, and Perceptual examples such as Latin America in the Example column.',
+    detailedDescription: 'Types of Regions table with columns Type, Definition, and Example. The Perceptual row lists Latin America while Formal lists Rocky Mountains.',
+    keywords: ['formal', 'functional', 'perceptual'],
+    dominantType: 'table'
+});
+
+const ENERGY_SCREENSHOT_META = enrichScreenshotMeta({
+    id: 'energy-consumption',
+    filePath: 'Screenshot 2023-11-21 Energy Consumption.png',
+    fileName: 'Screenshot 2023-11-21 Energy Consumption.png',
+    title: 'U.S. Energy Consumption',
+    altText: 'Line chart with legend showing Nuclear, Coal, Natural Gas, and Petroleum consumption in Btus from 2000 to 2020.',
+    detailedDescription: 'Consumption (Btus) appears on the y-axis while the x-axis lists years 2000, 2005, 2010, 2015, and 2020. A legend identifies lines for Nuclear, Coal, Natural Gas, and Petroleum with coal declining the most.',
+    keywords: ['nuclear', 'coal', 'natural', 'gas', 'petroleum'],
+    dominantType: 'chart'
+});
+
+const BRANCHES_SCREENSHOT_META = enrichScreenshotMeta({
+    id: 'branches-table',
+    filePath: 'Screenshot 2023-12-02 Branches of Government.png',
+    fileName: 'Screenshot 2023-12-02 Branches of Government.png',
+    title: 'Branches of Government',
+    altText: 'Table with Branch, Consists Of, and Powers columns highlighting the Judicial branch evaluates laws.',
+    detailedDescription: 'Branches of Government table. Executive branch row notes the President and Vice President enforce laws, Judicial row explains Supreme Court evaluates laws, Legislative row describes Congress proposing bills.',
+    keywords: ['executive', 'judicial', 'legislative'],
+    dominantType: 'table'
+});
 
 function buildValidItem() {
     return {
@@ -66,6 +113,106 @@ test('validator enforces visual anchors and choice structure', () => {
 
     const validResult = validateSocialStudiesItem(buildValidItem(), IMAGE_META_SAMPLE);
     assert.equal(validResult.valid, true, validResult.errors?.join('\n'));
+});
+
+test('screenshot validator blocks strategy language and missing anchors', () => {
+    const strategyItem = {
+        questionText: 'According to the on-screen directions, what is the first step the student should take?',
+        answerOptions: [
+            { text: 'Read the practice set instructions', isCorrect: true, rationale: 'The instructions appear at the top.' },
+            { text: 'Study the Perceptual region row', isCorrect: false, rationale: 'Not mentioned.' },
+            { text: 'Check the legend for shading', isCorrect: false, rationale: 'No legend on the table.' },
+            { text: 'Skip to the last column', isCorrect: false, rationale: 'No support provided.' }
+        ],
+        solution: 'The stem should focus on the table columns such as the Example column rather than directions. The screenshot itself lists Formal, Functional, and Perceptual types with examples like Latin America.',
+        imageRef: { caption: 'Screenshot — Types of Regions' },
+        isScreenshot: true
+    };
+
+    const invalid = validateSocialStudiesItem(strategyItem, REGION_SCREENSHOT_META);
+    assert.equal(invalid.valid, false);
+    assert(invalid.errors.some((msg) => msg.includes('strateg')));
+
+    const validItem = {
+        questionText: 'In the Types of Regions table, which Type lists Latin America in the Example column?',
+        answerOptions: [
+            { text: 'Formal', isCorrect: false, rationale: 'The Formal row lists Rocky Mountains in the Example column.' },
+            { text: 'Functional', isCorrect: false, rationale: 'The Functional row references a TV station coverage area.' },
+            { text: 'Perceptual', isCorrect: true, rationale: 'The Perceptual row of the table shows Latin America under Example.' },
+            { text: 'Nodal', isCorrect: false, rationale: 'Nodal does not appear in the table columns.' }
+        ],
+        solution: 'The table row labeled Perceptual includes Latin America in the Example column. That evidence confirms Perceptual is the correct type listed in the screenshot.',
+        imageRef: { caption: 'Screenshot — Types of Regions' },
+        isScreenshot: true
+    };
+
+    const valid = validateSocialStudiesItem(validItem, REGION_SCREENSHOT_META);
+    assert.equal(valid.valid, true, valid.errors.join('\n'));
+});
+
+test('screenshot validator enforces chart anchors and keyword overlap', () => {
+    const weakChartItem = {
+        questionText: 'Which source drops the most over time?',
+        answerOptions: [
+            { text: 'Coal', isCorrect: true, rationale: 'Coal declines visibly.' },
+            { text: 'Natural Gas', isCorrect: false, rationale: 'The line trends upward.' },
+            { text: 'Petroleum', isCorrect: false, rationale: 'Petroleum fluctuates.' },
+            { text: 'Nuclear', isCorrect: false, rationale: 'Nuclear stays steady.' }
+        ],
+        solution: 'Coal decreases more than the other sources. The coal series drops across the years shown on the x-axis.',
+        imageRef: { caption: 'Screenshot — U.S. Energy Consumption' },
+        isScreenshot: true
+    };
+
+    const weakResult = validateSocialStudiesItem(weakChartItem, ENERGY_SCREENSHOT_META);
+    assert.equal(weakResult.valid, false);
+    assert(weakResult.errors.some((msg) => msg.includes('axes')));
+
+    const strongChartItem = {
+        questionText: 'According to the Consumption (Btus) y-axis and the legend, which energy source falls the furthest between 2000 and 2020?',
+        answerOptions: [
+            { text: 'Coal', isCorrect: true, rationale: 'The chart shows the coal line dropping sharply below the others.' },
+            { text: 'Natural Gas', isCorrect: false, rationale: 'The natural gas line trends upward on the graph.' },
+            { text: 'Petroleum', isCorrect: false, rationale: 'The petroleum series remains high without a steep decline.' },
+            { text: 'Nuclear', isCorrect: false, rationale: 'The nuclear line stays nearly flat in the legend color.' }
+        ],
+        solution: 'The legend and Consumption (Btus) y-axis show the coal line dropping from roughly 20 to about 10 quadrillion Btus. That steep decline is greater than the changes on the other series across the years labeled on the x-axis.',
+        imageRef: { caption: 'Screenshot — U.S. Energy Consumption' },
+        isScreenshot: true
+    };
+
+    const strongResult = validateSocialStudiesItem(strongChartItem, ENERGY_SCREENSHOT_META);
+    assert.equal(strongResult.valid, true, strongResult.errors.join('\n'));
+});
+
+test('screenshot validator ensures captions and signature metadata propagate', () => {
+    const item = {
+        id: 'screenshot-1',
+        questionType: 'table',
+        difficulty: 'easy',
+        questionText: 'In the Branches of Government table, which branch is paired with evaluating laws?',
+        answerOptions: [
+            { text: 'Executive', isCorrect: false, rationale: 'The Executive row lists enforcing laws.' },
+            { text: 'Judicial', isCorrect: true, rationale: 'The Judicial row notes that this branch evaluates laws.' },
+            { text: 'Legislative', isCorrect: false, rationale: 'The Legislative row focuses on proposing bills.' },
+            { text: 'Cabinet', isCorrect: false, rationale: 'Cabinet is not a column heading in the table.' }
+        ],
+        solution: 'The Powers column in the table shows the Judicial branch evaluates laws, so that is the correct choice.',
+        imageRef: { caption: 'Screenshot — Branches of Government' },
+        isScreenshot: true
+    };
+
+    const normalized = normalizeItem(item, {
+        imageMeta: BRANCHES_SCREENSHOT_META,
+        questionType: 'table',
+        difficulty: 'medium',
+        blurb: null
+    });
+
+    assert(normalized.isScreenshot, 'Screenshot flag should be true');
+    assert(normalized.imageRef.caption.startsWith('Screenshot —'), 'Caption should be prefixed with Screenshot —');
+    assert(Array.isArray(normalized.featureSignature) && normalized.featureSignature.includes('federalBranches'));
+    assert.equal(normalized.imageFileName, BRANCHES_SCREENSHOT_META.fileName);
 });
 
 test('fetchExternalBlurb returns cached Britannica-style entry', async () => {

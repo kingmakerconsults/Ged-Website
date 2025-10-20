@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const { loadImageMeta } = require('../../utils/metaLoader');
+const { deriveIsScreenshot, deriveVisualFeatures, buildFeatureSignature } = require('../utils/visualFeatures');
 
 const METADATA_PATH = path.join(__dirname, '../../data/image_metadata_final.json');
 const RECENT_BUFFER_SIZE = 200;
@@ -10,18 +12,44 @@ let METADATA_CACHE = null;
 function loadMetadata() {
     if (METADATA_CACHE) return METADATA_CACHE;
     const raw = fs.readFileSync(METADATA_PATH, 'utf8');
-    const parsed = JSON.parse(raw);
+    const parsed = loadImageMeta(raw);
     const social = parsed.filter((entry) => {
         const subject = (entry.subject || '').toLowerCase();
         return subject.includes('social');
     });
 
-    METADATA_CACHE = social.map((entry) => ({
-        ...entry,
-        keywords: Array.isArray(entry.keywords)
+    METADATA_CACHE = social.map((entry) => {
+        const filePath = entry.filePath || entry.src || entry.path || '';
+        const fileName = String(filePath).split('/').pop() || '';
+        const normalizedKeywords = Array.isArray(entry.keywords)
             ? entry.keywords.map((k) => String(k).toLowerCase().trim()).filter(Boolean)
-            : []
-    }));
+            : [];
+        const normalizedTags = Array.isArray(entry.tags)
+            ? entry.tags.map((tag) => String(tag).trim())
+            : [];
+
+        const isScreenshot = deriveIsScreenshot(fileName, entry);
+        if (isScreenshot && !normalizedTags.some((tag) => tag.toLowerCase() === 'screenshot')) {
+            normalizedTags.push('screenshot');
+        }
+
+        const enriched = {
+            ...entry,
+            filePath,
+            fileName,
+            tags: normalizedTags,
+            keywords: normalizedKeywords
+        };
+
+        const features = deriveVisualFeatures(enriched);
+
+        return {
+            ...enriched,
+            isScreenshot,
+            features,
+            featureSignature: buildFeatureSignature(features)
+        };
+    });
 
     preloadTopImages(METADATA_CACHE.slice(0, 10));
 
