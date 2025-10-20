@@ -1038,6 +1038,7 @@ function safeJson(raw) {
 
 let IMAGE_DB = [];
 const IMAGE_BY_PATH = new Map();
+const MISSING_IMAGE_LOG = new Set();
 
 function normalizeImagePath(input) {
     if (!input || typeof input !== 'string') return '';
@@ -1055,7 +1056,7 @@ function normalizeImagePath(input) {
         working = `/${working}`;
     }
 
-    if (!/^\/frontend\//i.test(working)) {
+    if (!/^\/(?:frontend|assets)\//i.test(working)) {
         if (/^\/?images?/i.test(working)) {
             working = working.replace(/^\/?images?/i, '/frontend/images');
         } else {
@@ -1074,12 +1075,55 @@ function rebuildImagePathIndex() {
         const rawPath = im.filePath || im.src || im.path;
         const normalized = normalizeImagePath(rawPath);
         if (!normalized) continue;
+        const lowered = normalized.toLowerCase();
         IMAGE_BY_PATH.set(normalized, im);
         IMAGE_BY_PATH.set(normalized.replace(/^\//, ''), im);
+        IMAGE_BY_PATH.set(lowered, im);
+        IMAGE_BY_PATH.set(lowered.replace(/^\//, ''), im);
         if (rawPath && rawPath !== normalized) {
             IMAGE_BY_PATH.set(String(rawPath), im);
         }
     }
+}
+
+function resolveImageMeta(input) {
+    if (!input) {
+        return { src: null, altText: 'Image unavailable' };
+    }
+
+    let working = String(input);
+    try {
+        working = decodeURI(working);
+    } catch (err) {
+        // ignore decoding errors
+    }
+
+    const clean = working
+        .toLowerCase()
+        .replace(/[#?].*$/, '')
+        .replace(/\\/g, '/')
+        .replace(/\/{2,}/g, '/');
+    const base = clean.split('/').pop() || clean;
+
+    const meta = IMAGE_BY_PATH.get(clean)
+        || IMAGE_BY_PATH.get('/' + clean)
+        || IMAGE_BY_PATH.get(base)
+        || IMAGE_BY_PATH.get('/' + base)
+        || IMAGE_DB.find((im) => {
+            const candidate = (im?.filePath || im?.src || '').toLowerCase();
+            return candidate.endsWith(base);
+        });
+
+    if (meta && typeof meta === 'object') {
+        return meta;
+    }
+
+    if (base && !MISSING_IMAGE_LOG.has(base)) {
+        MISSING_IMAGE_LOG.add(base);
+        console.warn(`[IMG-META] Missing metadata for ${base}`);
+    }
+
+    return { src: null, altText: 'Image unavailable' };
 }
 
 function loadImageMetadata() {
@@ -1348,16 +1392,8 @@ function humanizeSource(value) {
 
 function imageDisplayCredit(filePathOrKey) {
     if (!filePathOrKey) return '';
-    const key = String(filePathOrKey).trim();
-    if (!key) return '';
 
-    const normalized = normalizeImagePath(key);
-    const altNormalized = normalized.replace(/^\//, '');
-    const meta = IMAGE_BY_PATH.get(normalized)
-        || IMAGE_BY_PATH.get(altNormalized)
-        || IMAGE_BY_PATH.get(String(filePathOrKey))
-        || null;
-
+    const meta = resolveImageMeta(filePathOrKey);
     if (!meta || typeof meta !== 'object') return '';
 
     const creditCandidate = meta.credit
@@ -1384,29 +1420,37 @@ function normalizeStimulusAndSource(item) {
     };
 
     const rawSrc = (out?.stimulusImage?.src || out?.imageUrl || out?.imageURL || out?.asset?.imagePath || '').trim();
-    const normalizedSrc = normalizeImagePath(rawSrc);
+    const meta = resolveImageMeta(rawSrc);
+    const resolvedSrc = meta?.src || rawSrc;
+    const normalizedSrc = resolvedSrc ? normalizeImagePath(resolvedSrc) : '';
 
     if (normalizedSrc) {
-        out.imageUrl = normalizedSrc;
+        const encodedSrc = encodeURI(normalizedSrc);
+        out.imageUrl = encodedSrc;
         out.stimulusImage = {
             ...(out.stimulusImage || {}),
-            src: normalizedSrc
+            src: encodedSrc,
+            alt: meta?.altText || (out.stimulusImage && out.stimulusImage.alt) || '',
+            detailedDescription: meta?.detailedDescription || (out.stimulusImage && out.stimulusImage.detailedDescription) || undefined
         };
 
         const assetBase = (out.asset && typeof out.asset === 'object') ? { ...out.asset } : {};
-        assetBase.imagePath = normalizedSrc;
+        assetBase.imagePath = encodedSrc;
+        if (meta?.altText) {
+            assetBase.altText = meta.altText;
+        }
 
         const credit = imageDisplayCredit(normalizedSrc) || imageDisplayCredit(rawSrc);
         if (credit) {
             assetBase.displaySource = credit;
             out.source = credit;
             out.displaySource = credit;
-        }
-
-        const currentSource = typeof out.source === 'string' ? out.source.trim() : '';
-        const sourceLooksLikePath = currentSource && /^\/?(frontend\/)?images?/i.test(currentSource);
-        if (!credit && sourceLooksLikePath) {
-            delete out.source;
+        } else {
+            const currentSource = typeof out.source === 'string' ? out.source.trim() : '';
+            const sourceLooksLikePath = currentSource && /^\/?(frontend\/)?images?/i.test(currentSource);
+            if (sourceLooksLikePath) {
+                delete out.source;
+            }
         }
 
         out.asset = assetBase;
@@ -2860,6 +2904,7 @@ app.use('/images/rla', express.static(path.join(__dirname, '../frontend/Images/R
 app.use('/images/science', express.static(path.join(__dirname, '../frontend/Images/Science')));
 app.use('/images/social-studies', express.static(path.join(__dirname, '../frontend/Images/Social Studies')));
 app.use('/images/math', express.static(path.join(__dirname, '../frontend/Images/Math')));
+app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
 
 app.post('/question-bank/save', async (req, res) => {
     const client = await pool.connect();
@@ -4511,9 +4556,33 @@ async function runMathTwoPassOnQuestions(questions, subject) {
 // Helper functions for generating different types of quiz content
 
 const generatePassageSet = async (topic, subject, numQuestions, options = {}) => {
-    const prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'.
-    Then, based ONLY on the passage, generate ${numQuestions} unique multiple-choice questions. VARY THE QUESTION TYPE: ask about main idea, details, vocabulary, or inferences. The question text MUST NOT repeat the passage.
-    Output a single valid JSON object with keys "passage" and "questions".`;
+    const {
+        minWords = 150,
+        maxWords = 250,
+        requireAttribution = false,
+        requireAdapted = false,
+        adaptationSourceHint = 'reputable public-domain sources such as Encyclopædia Britannica, the Library of Congress, the Smithsonian, or the National Archives',
+        requireNamedEntity = false
+    } = options;
+
+    const passageInstructions = [
+        `Write an informational passage of ${minWords}-${maxWords} words focused on '${topic}' within the '${subject}' domain.`,
+        requireAdapted
+            ? `Ground the passage in verifiable facts from ${adaptationSourceHint} and paraphrase responsibly; avoid direct quotations.`
+            : 'Ensure the passage is factually accurate and concise.',
+        'Maintain a neutral, academic tone appropriate for GED learners.',
+        requireNamedEntity ? 'Mention at least one specific named person, place, document, or event relevant to the topic.' : '',
+        requireAttribution ? 'Include the exact sentence "Adapted from an encyclopedia entry." as the final sentence.' : ''
+    ].filter(Boolean).join(' ');
+
+    const questionInstructions = [
+        `After the passage, create ${numQuestions} GED-style multiple-choice questions that rely only on the passage.`,
+        'Rotate question purposes (e.g., main idea, inference, cause/effect, vocabulary in context, author purpose).',
+        'Write concise stems that do not copy sentences verbatim from the passage.',
+        'Provide exactly four answer options per question, each with a brief rationale. Mark one option as correct by setting "isCorrect": true.'
+    ].join(' ');
+
+    const prompt = `You are a GED exam creator. ${passageInstructions} ${questionInstructions} Return a single valid JSON object with keys "passage" and "questions".`;
 
     const questionSchema = {
         type: "OBJECT",
@@ -4534,9 +4603,21 @@ const generatePassageSet = async (topic, subject, numQuestions, options = {}) =>
     };
 
     const result = await callAI(prompt, schema, options);
-    return result.questions.map(q => enforceWordCapsOnItem({
+    let passageText = typeof result?.passage === 'string' ? result.passage.trim() : '';
+    if (passageText) {
+        passageText = limitWords(passageText, maxWords);
+        const wordCount = passageText.split(/\s+/).filter(Boolean).length;
+        if (wordCount < minWords) {
+            console.warn(`[PASSAGE] Generated passage under target length (${wordCount} words < ${minWords}). Topic: ${topic}`);
+        }
+        if (requireAttribution && !/adapted from an encyclopedia entry\.?$/i.test(passageText)) {
+            passageText = `${passageText.replace(/\s+$/, '')} Adapted from an encyclopedia entry.`;
+        }
+    }
+
+    return result.questions.map((q) => enforceWordCapsOnItem({
         ...q,
-        passage: result.passage,
+        passage: passageText,
         type: 'passage'
     }, subject));
 };
@@ -4581,7 +4662,10 @@ async function generateImageItemsWithAI({ image_url, alt_text, subject, category
 
     const prompt = `You create GED-style multiple choice questions. Use ONLY the visual details of the provided image to craft ${safeCount} unique questions.
 - Each question must rely on interpreting the exact image at ${image_url}.
+- Focus on concrete labels, legend entries, axis titles, dates, or quantities visible in the image. Avoid meta-language about strategies or readers.
 - Provide four answer choices per question when possible; always mark the correct choice with a zero-based index.
+- When the visual contains numeric or comparative information, reference it explicitly (e.g., higher, lower, total, percentage).
+- Mention at least two specific visual anchors (legend terms, axis labels, place names, dates, symbols, etc.) in each stem.
 - If mathematical notation is needed, use KaTeX-friendly inline LaTeX wrapped in \\( ... \\).
 - Keep the language concise and appropriate for GED students.
 
@@ -4719,11 +4803,21 @@ const generateImageQuestion = async (topic, subject, imagePool, numQuestions, op
                         rationale: ''
                     }));
 
+                    const rawImagePath = row?.image_url_cached || data?.image_url || bankImageUrl;
+                    const imageMeta = resolveImageMeta(rawImagePath);
+                    const normalizedImagePath = imageMeta?.src
+                        ? normalizeImagePath(imageMeta.src)
+                        : normalizeImagePath(rawImagePath || '');
+                    const encodedImagePath = normalizedImagePath ? encodeURI(normalizedImagePath) : null;
+                    const mergedAlt = imageMeta?.altText || row?.image_alt || data?.alt_text || bankAlt || '';
+
+                    const resolvedPath = encodedImagePath || rawImagePath || null;
                     const questionBase = {
                         questionText: norm?.stem || data?.stem_raw || '',
                         answerOptions,
-                        imageUrl: row?.image_url_cached || data?.image_url || bankImageUrl,
-                        imageAlt: row?.image_alt || data?.alt_text || bankAlt,
+                        imageUrl: resolvedPath,
+                        imageAlt: mergedAlt,
+                        imageRef: resolvedPath ? { path: resolvedPath, altText: mergedAlt } : undefined,
                         type: 'image'
                     };
 
@@ -4766,11 +4860,16 @@ const generateImageQuestion = async (topic, subject, imagePool, numQuestions, op
     }
 
     const imagePrompt = `You are a GED exam creator. This stimulus is for an IMAGE from the topic '${topic}'.
-Based on the following image context, generate a set of ${numQuestions} unique questions that require visual interpretation, asking about the main idea, symbolism, or specific details.
+Based on the following image context, generate a set of ${numQuestions} unique questions that require direct interpretation of the visual evidence. Do not include strategy advice or references to "students" or "readers".
 
 **Image Context:**
 - **Description:** ${selectedImage.detailedDescription}
 - **Usage Directives:** ${selectedImage.usageDirectives || 'N/A'}
+
+Each question must:
+- Reference at least two concrete visual anchors (legend entries, axis titles, dates, symbols, geographic labels, etc.).
+- Use comparative or quantitative language whenever the visual presents numerical data (e.g., greater than, decreased, highest).
+- Provide exactly four answer options with rationales and identify the correct option.
 
 Output a JSON array of the question objects, each including an 'imagePath' key with the value '${selectedImage.filePath}'.`;
 
@@ -4809,6 +4908,142 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
         console.error(`Error generating image question for topic ${topic}:`, error);
         return null;
     }
+};
+
+const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, options = {}) => {
+    const totalRequested = Math.max(1, Number(numQuestions) || 1);
+    if (!Array.isArray(imagePool) || !imagePool.length) {
+        return [];
+    }
+
+    const {
+        minWords = 80,
+        maxWords = 120,
+        requireAttribution = true,
+        requireNamedEntity = true
+    } = options;
+
+    const byCategory = imagePool.filter((img) => {
+        const matchesSubject = !subject || img.subject === subject;
+        const matchesCategory = !topic || img.category === topic;
+        return matchesSubject && matchesCategory;
+    });
+
+    let selectedImage = byCategory.length
+        ? byCategory[Math.floor(Math.random() * byCategory.length)]
+        : null;
+
+    if (!selectedImage) {
+        const subjectImages = imagePool.filter((img) => img.subject === subject);
+        if (subjectImages.length) {
+            selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
+        } else {
+            selectedImage = imagePool[Math.floor(Math.random() * imagePool.length)];
+        }
+    }
+
+    if (!selectedImage) {
+        return [];
+    }
+
+    const resolvedMeta = resolveImageMeta(selectedImage.filePath || selectedImage.src || selectedImage.path || '');
+    const normalizedPathRaw = resolvedMeta?.src
+        ? normalizeImagePath(resolvedMeta.src)
+        : normalizeImagePath(selectedImage.filePath || selectedImage.src || selectedImage.path || '');
+    const normalizedPath = normalizedPathRaw || null;
+    const encodedPath = normalizedPath ? encodeURI(normalizedPath) : null;
+    const mergedAlt = resolvedMeta?.altText || selectedImage.altText || '';
+    const description = resolvedMeta?.detailedDescription || selectedImage.detailedDescription || '';
+    const usage = resolvedMeta?.usageDirectives || selectedImage.usageDirectives || '';
+    const keywords = Array.isArray(selectedImage.keywords) && selectedImage.keywords.length
+        ? selectedImage.keywords.join(', ')
+        : Array.isArray(resolvedMeta?.keywords) && resolvedMeta.keywords.length
+            ? resolvedMeta.keywords.join(', ')
+            : '';
+
+    const schema = {
+        type: 'OBJECT',
+        properties: {
+            passage: { type: 'STRING' },
+            questions: {
+                type: 'ARRAY',
+                items: {
+                    type: 'OBJECT',
+                    properties: {
+                        questionText: { type: 'STRING' },
+                        answerOptions: {
+                            type: 'ARRAY',
+                            items: {
+                                type: 'OBJECT',
+                                properties: {
+                                    text: { type: 'STRING' },
+                                    isCorrect: { type: 'BOOLEAN' },
+                                    rationale: { type: 'STRING' }
+                                },
+                                required: ['text', 'isCorrect', 'rationale']
+                            }
+                        },
+                        imagePath: { type: 'STRING' }
+                    },
+                    required: ['questionText', 'answerOptions', 'imagePath']
+                }
+            }
+        },
+        required: ['passage', 'questions']
+    };
+
+    const promptParts = [
+        `You are a GED Social Studies exam creator. Use the visual described below to craft an integrated reading-and-visual task about "${topic}".`,
+        `First, write an informational passage of ${minWords}-${maxWords} words that contextualizes the visual evidence.`,
+        requireNamedEntity ? 'Mention at least one specific named person, place, policy, or event in the passage.' : '',
+        'Keep the passage neutral in tone and grounded in verifiable facts.',
+        requireAttribution ? 'End the passage with the exact sentence "Adapted from an encyclopedia entry."' : '',
+        `After the passage, create ${totalRequested} GED-style multiple-choice questions that require synthesizing details from both the passage and the visual.`
+    ].filter(Boolean).join(' ');
+
+    const questionRules = [
+        'Each question must cite at least one detail from the passage and one explicit visual element (legend term, axis label, color, date, region, statistic, etc.).',
+        'Do not provide strategy advice or refer to students or readers.',
+        'Use comparative or quantitative language whenever the image contains numeric information.',
+        'Provide exactly four answer options with rationales; mark one option with "isCorrect": true.',
+        normalizedPath
+            ? `Set "imagePath" to "${normalizedPath}" for every question.`
+            : 'Ensure each question includes an "imagePath" that accurately references the described visual.'
+    ].join(' ');
+
+    const contextBlock = [
+        '**Image Summary:**',
+        `- Alt Text: ${mergedAlt || 'N/A'}`,
+        `- Description: ${description || 'N/A'}`,
+        `- Usage Notes: ${usage || 'N/A'}`,
+        keywords ? `- Keywords: ${keywords}` : null
+    ].filter(Boolean).join('\n');
+
+    const prompt = `${promptParts}\n\n${contextBlock}\n\n${questionRules}\nReturn a JSON object with "passage" and "questions".`;
+
+    const result = await callAI(prompt, schema, options);
+
+    let passageText = typeof result?.passage === 'string' ? result.passage.trim() : '';
+    if (passageText) {
+        passageText = limitWords(passageText, maxWords);
+        const wordCount = passageText.split(/\s+/).filter(Boolean).length;
+        if (wordCount < minWords) {
+            console.warn(`[INTEGRATED] Passage under target length (${wordCount} words < ${minWords}) for topic ${topic}.`);
+        }
+        if (requireAttribution && !/adapted from an encyclopedia entry\.?$/i.test(passageText)) {
+            passageText = `${passageText.replace(/\s+$/, '')} Adapted from an encyclopedia entry.`;
+        }
+    }
+
+    const questions = Array.isArray(result?.questions) ? result.questions.slice(0, totalRequested) : [];
+    return questions.map((question) => enforceWordCapsOnItem({
+        ...question,
+        passage: passageText,
+        imageUrl: encodedPath || normalizedPath || null,
+        imageAlt: mergedAlt,
+        imageRef: encodedPath ? { path: encodedPath, altText: mergedAlt } : undefined,
+        type: 'integrated'
+    }, subject));
 };
 
 const generateStandaloneQuestion = async (subject, topic, options = {}) => {
@@ -5581,23 +5816,123 @@ app.post('/generate-quiz', async (req, res) => {
             try {
                 const timeoutMs = selectModelTimeoutMs({ examType });
                 const aiOptions = { timeoutMs };
-                const blueprint = {
-                    'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
-                    'U.S. History':           { passages: 3, images: 2, standalone: 1 },
-                    'Economics':              { passages: 3, images: 1, standalone: 0 },
-                    'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
-                };
-                const TOTAL_QUESTIONS = 35;
-                let promises = [];
+                const blueprintPlan = [
+                    { category: 'Civics & Government', type: 'passage', questionCount: 2, adapted: true },
+                    { category: 'Civics & Government', type: 'passage', questionCount: 2 },
+                    { category: 'Civics & Government', type: 'passage', questionCount: 2 },
+                    { category: 'Civics & Government', type: 'image', questionCount: 2 },
+                    { category: 'Civics & Government', type: 'image', questionCount: 2 },
+                    { category: 'Civics & Government', type: 'image', questionCount: 1 },
+                    { category: 'Civics & Government', type: 'integrated', questionCount: 2 },
 
-                for (const [category, counts] of Object.entries(blueprint)) {
-                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
-                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions));
-                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category, aiOptions));
+                    { category: 'U.S. History', type: 'passage', questionCount: 2, adapted: true },
+                    { category: 'U.S. History', type: 'passage', questionCount: 1 },
+                    { category: 'U.S. History', type: 'image', questionCount: 2 },
+                    { category: 'U.S. History', type: 'image', questionCount: 1 },
+                    { category: 'U.S. History', type: 'integrated', questionCount: 2 },
+
+                    { category: 'Economics', type: 'passage', questionCount: 2, adapted: true },
+                    { category: 'Economics', type: 'passage', questionCount: 2 },
+                    { category: 'Economics', type: 'image', questionCount: 2 },
+                    { category: 'Economics', type: 'image', questionCount: 2 },
+                    { category: 'Economics', type: 'integrated', questionCount: 2 },
+
+                    { category: 'Geography & the World', type: 'passage', questionCount: 2, adapted: true },
+                    { category: 'Geography & the World', type: 'passage', questionCount: 1 },
+                    { category: 'Geography & the World', type: 'image', questionCount: 2 },
+                    { category: 'Geography & the World', type: 'image', questionCount: 1 },
+                    { category: 'Geography & the World', type: 'integrated', questionCount: 1 },
+
+                    { category: 'Contemporary Issues', type: 'passage', questionCount: 2, adapted: true },
+                    { category: 'Contemporary Issues', type: 'passage', questionCount: 1 },
+                    { category: 'Contemporary Issues', type: 'passage', questionCount: 1 },
+                    { category: 'Contemporary Issues', type: 'image', questionCount: 2 },
+                    { category: 'Contemporary Issues', type: 'image', questionCount: 1 },
+                    { category: 'Contemporary Issues', type: 'integrated', questionCount: 1 }
+                ];
+
+                const TOTAL_QUESTIONS = 46;
+
+                const generationTasks = blueprintPlan.map((task) => {
+                    if (task.type === 'passage') {
+                        return generatePassageSet(task.category, subject, task.questionCount, {
+                            ...aiOptions,
+                            minWords: 80,
+                            maxWords: 130,
+                            requireAttribution: !!task.adapted,
+                            requireAdapted: !!task.adapted,
+                            requireNamedEntity: true
+                        });
+                    }
+                    if (task.type === 'image') {
+                        return generateImageQuestion(task.category, subject, curatedImages, task.questionCount, aiOptions);
+                    }
+                    if (task.type === 'integrated') {
+                        return generateIntegratedSet(task.category, subject, curatedImages, task.questionCount, {
+                            ...aiOptions,
+                            minWords: 80,
+                            maxWords: 120,
+                            requireAttribution: true,
+                            requireNamedEntity: true
+                        });
+                    }
+                    return Promise.resolve([]);
+                });
+
+                const results = await Promise.all(generationTasks);
+                let allQuestions = [];
+                results.forEach((items, idx) => {
+                    const task = blueprintPlan[idx];
+                    const batch = Array.isArray(items) ? items : [items];
+                    batch.forEach((question) => {
+                        if (!question) return;
+                        const enriched = { ...question };
+                        if (!enriched.category) {
+                            enriched.category = task.category;
+                        }
+                        if (!enriched.domain) {
+                            enriched.domain = task.category;
+                        }
+                        allQuestions.push(enriched);
+                    });
+                });
+
+                const seenStimuli = new Set();
+                allQuestions = allQuestions.filter((question) => {
+                    const passageKey = typeof question?.passage === 'string' ? question.passage.trim() : '';
+                    const imageKey = question?.imageUrl || question?.imageRef?.path || '';
+                    const comboKey = passageKey && imageKey ? `${imageKey}::${passageKey}` : null;
+                    if (comboKey) {
+                        if (seenStimuli.has(comboKey)) {
+                            return false;
+                        }
+                        seenStimuli.add(comboKey);
+                    }
+                    return true;
+                });
+
+                if (allQuestions.length < TOTAL_QUESTIONS) {
+                    const fillerCategories = [
+                        'Civics & Government',
+                        'U.S. History',
+                        'Economics',
+                        'Geography & the World',
+                        'Contemporary Issues'
+                    ];
+                    let fillerIndex = 0;
+                    while (allQuestions.length < TOTAL_QUESTIONS && fillerIndex < fillerCategories.length * 2) {
+                        const category = fillerCategories[fillerIndex % fillerCategories.length];
+                        fillerIndex += 1;
+                        try {
+                            const filler = await generateStandaloneQuestion(subject, category, aiOptions);
+                            if (filler) {
+                                allQuestions.push({ ...filler, category });
+                            }
+                        } catch (err) {
+                            console.warn('Fallback standalone generation failed for Social Studies comprehensive:', err?.message || err);
+                        }
+                    }
                 }
-
-                const results = await Promise.all(promises);
-                let allQuestions = results.flat().filter(q => q);
                 // The user wants to remove the shuffle to keep question sets grouped.
                 const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
                 draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
