@@ -168,7 +168,7 @@ function fixAllMathInText(input) {
     });
 }
 
-function normalizeLatex(text) {
+const normalizeLatex = (text) => {
     if (typeof text !== 'string') {
         return '';
     }
@@ -182,7 +182,7 @@ function normalizeLatex(text) {
         .trim();
 
     return fixAllMathInText(collapsed);
-}
+};
 
 function escapeHtml(str = '') {
     return str
@@ -1111,7 +1111,6 @@ const {
     SANITIZER_FEATURE_ENABLED,
     DEFAULT_MAX_DECIMALS
 } = require('./utils/geometryJson');
-const normalizeLatex = (text) => text;
 const { fetchApproved } = require('./src/fetch/fetcher');
 const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
 const { adminPreviewBypass } = require('./src/middleware/adminBypass');
