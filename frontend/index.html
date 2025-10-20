@@ -830,6 +830,16 @@ function normalizeLatexForKaTeX(latex) {
 
 const KATEX_RENDER_OPTIONS = { throwOnError: false, strict: 'ignore' };
 
+const CLIENT_SIDE_MATH_RENDER_OPTIONS = {
+    delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true }
+    ],
+    throwOnError: false
+};
+
 function renderLatexToHtml(latexInput) {
     if (typeof latexInput !== 'string') {
         return '';
@@ -1648,7 +1658,7 @@ function renderImageSection(container, imageUrl, items) {
             const rawStem = q?.question_norm?.stem || q?.question_data?.stem_raw || q?.stem || q?.questionText || '';
             stem.textContent = rawStem;
             if (typeof renderMathInElement === 'function') {
-                renderMathInElement(stem);
+                renderMathInElement(stem, CLIENT_SIDE_MATH_RENDER_OPTIONS);
             }
         }
         card.appendChild(stem);
@@ -1676,13 +1686,13 @@ function renderImageSection(container, imageUrl, items) {
                 } else {
                     li.textContent = choice;
                     if (typeof renderMathInElement === 'function') {
-                        renderMathInElement(li);
+                        renderMathInElement(li, CLIENT_SIDE_MATH_RENDER_OPTIONS);
                     }
                 }
             } else if (typeof choice === 'string') {
                 li.textContent = choice;
                 if (typeof renderMathInElement === 'function') {
-                    renderMathInElement(li);
+                    renderMathInElement(li, CLIENT_SIDE_MATH_RENDER_OPTIONS);
                 }
             }
             list.appendChild(li);
