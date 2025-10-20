@@ -10,8 +10,8 @@ const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const helmet = require('helmet');
 const axios = require('axios');
-const katex = require('./vendor/katex');
-const sanitizeHtml = require('./vendor/sanitize-html');
+const katex = require('katex');
+const sanitizeHtml = require('sanitize-html');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -265,6 +265,65 @@ function sanitizeKatexHtml(html) {
 
     const cleaned = sanitizeHtml(html, SANITIZE_OPTIONS);
     return cleaned && cleaned.trim().length ? cleaned : null;
+}
+
+function normalizeLatexText(s) {
+    if (!s) return s;
+    let t = s
+        .replace(/\r\n?/g, "\n")
+        .replace(/\t/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    t = t.replace(/\\f\\\(/g, "f(").replace(/\\f\s*\\\)/g, "f)");
+
+    t = t.replace(/\\\((.+?)\\\)|\\\[(.+?)\\\]/g, (m, inline, display) => {
+        const body = inline ?? display ?? "";
+        const fixed = body.replace(MACRO_FIX, (_m, p1, macro) => `${p1}\\${macro}`);
+        return inline ? `\\(${fixed}\\)` : `\\[${fixed}\\]`;
+    });
+
+    return t;
+}
+
+function normalizeQuestion(raw) {
+    const stem = normalizeLatexText(raw?.stem_raw);
+    const choices = Array.isArray(raw?.choices) ? raw.choices.map(normalizeLatexText) : [];
+    return { stem, choices, answer_index: raw?.answer_index };
+}
+
+function renderInlineKatexToHtml(txt) {
+    if (!txt) return null;
+    try {
+        return txt.replace(/\\\((.+?)\\\)/g, (_m, body) => {
+            const html = katex.renderToString(body, { throwOnError: true, output: "html" });
+            return html;
+        });
+    } catch (e) {
+        return null;
+    }
+}
+
+function renderQuestionToHtml(norm) {
+    const stem_html = renderInlineKatexToHtml(norm?.stem);
+    if (!stem_html) return null;
+    const choices_html = [];
+    for (const c of norm?.choices || []) {
+        const h = renderInlineKatexToHtml(c);
+        if (!h) return null;
+        choices_html.push(h);
+    }
+    return {
+        stem_html: sanitizeHtml(stem_html),
+        choices_html: choices_html.map(sanitizeHtml)
+    };
+}
+
+function fingerprintOf(norm) {
+    const h = crypto.createHash('sha256');
+    h.update(norm?.stem || '');
+    for (const c of norm?.choices || []) h.update('\x1f' + c);
+    return h.digest('hex');
 }
 
 function ensureQuestionBankFile() {
@@ -960,6 +1019,37 @@ const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { Pool } = require('pg');
+
+async function ensureSchema(pool) {
+    await pool.query(`
+    CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+    ALTER TABLE public.questions
+      ADD COLUMN IF NOT EXISTS question_norm jsonb,
+      ADD COLUMN IF NOT EXISTS katex_html_cache jsonb,
+      ADD COLUMN IF NOT EXISTS katex_ok boolean DEFAULT false,
+      ADD COLUMN IF NOT EXISTS fingerprint text,
+      ADD COLUMN IF NOT EXISTS tags text[] DEFAULT '{}',
+      ADD COLUMN IF NOT EXISTS difficulty text,
+      ADD COLUMN IF NOT EXISTS domain text;
+
+    CREATE UNIQUE INDEX IF NOT EXISTS questions_fingerprint_uidx
+      ON public.questions(fingerprint) WHERE fingerprint IS NOT NULL;
+
+    CREATE INDEX IF NOT EXISTS questions_question_data_gin
+      ON public.questions USING gin (question_data);
+
+    CREATE INDEX IF NOT EXISTS questions_question_norm_gin
+      ON public.questions USING gin (question_norm);
+
+    CREATE INDEX IF NOT EXISTS questions_tags_gin
+      ON public.questions USING gin (tags);
+
+    CREATE INDEX IF NOT EXISTS questions_reuse_filters_idx
+      ON public.questions (domain, difficulty, subject, category)
+      WHERE katex_ok IS TRUE;
+  `);
+}
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const OpenAI = require('openai');
@@ -2511,6 +2601,88 @@ app.use('/images/rla', express.static(path.join(__dirname, '../frontend/Images/R
 app.use('/images/science', express.static(path.join(__dirname, '../frontend/Images/Science')));
 app.use('/images/social-studies', express.static(path.join(__dirname, '../frontend/Images/Social Studies')));
 app.use('/images/math', express.static(path.join(__dirname, '../frontend/Images/Math')));
+
+app.post('/question-bank/save', async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { subject, category, item_type, domain, difficulty, tags = [], question_data } = req.body || {};
+        if (!question_data || !Array.isArray(question_data.choices)) {
+            return res.status(400).json({ error: 'Invalid question_data' });
+        }
+
+        const question_norm = normalizeQuestion(question_data);
+        const fp = fingerprintOf(question_norm);
+        const html = renderQuestionToHtml(question_norm);
+        const katex_ok = !!html;
+
+        const katex_html_cache = html || null;
+
+        const q = `
+      INSERT INTO public.questions
+        (subject, category, item_type, domain, difficulty, tags,
+         question_data, question_norm, katex_html_cache, katex_ok, fingerprint, created_at)
+      VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb,$9::jsonb,$10,$11, NOW())
+      ON CONFLICT (fingerprint) DO NOTHING
+      RETURNING id AS question_id, katex_ok
+    `;
+        const vals = [
+            subject || null,
+            category || null,
+            item_type || null,
+            domain || null,
+            difficulty || null,
+            tags,
+            question_data,
+            question_norm,
+            katex_html_cache,
+            katex_ok,
+            fp
+        ];
+
+        const { rows } = await client.query(q, vals);
+        if (rows.length === 0) {
+            return res.status(200).json({ status: 'duplicate', fingerprint: fp });
+        }
+        return res.status(201).json({ status: 'saved', question_id: rows[0].question_id, katex_ok });
+    } catch (e) {
+        console.error('save bank error', e);
+        return res.status(500).json({ error: 'save_failed', detail: String(e) });
+    } finally {
+        client.release();
+    }
+});
+
+app.get('/question-bank/fetch', async (req, res) => {
+    const { domain, difficulty, subject, category } = req.query;
+    const limit = Math.max(1, Math.min(parseInt(req.query.limit || '10', 10), 50));
+
+    const where = ['katex_ok IS TRUE'];
+    const vals = [];
+    function add(field, value) {
+        if (value) { vals.push(value); where.push(`${field} = $${vals.length}`); }
+    }
+    add('domain', domain);
+    add('difficulty', difficulty);
+    add('subject', subject);
+    add('category', category);
+
+    const sql = `
+    SELECT id AS question_id, subject, category, item_type, domain, difficulty, tags,
+           question_norm, katex_html_cache
+    FROM public.questions
+    ${where.length ? 'WHERE ' + where.join(' AND ') : ''}
+    ORDER BY random()
+    LIMIT ${limit};
+  `;
+
+    try {
+        const { rows } = await pool.query(sql, vals);
+        return res.json({ items: rows });
+    } catch (e) {
+        console.error('fetch bank error', e);
+        return res.status(500).json({ error: 'fetch_failed', detail: String(e) });
+    }
+});
 
 app.post('/api/register', async (req, res) => {
     const { email, password } = req.body || {};
@@ -5445,10 +5617,17 @@ app.use((err, req, res, next) => {
 
 // The '0.0.0.0' is important for containerized environments like Render.
 if (require.main === module) {
-    app.listen(port, '0.0.0.0', () => {
-        console.log(`Your service is live 🚀`);
-        console.log(`Server listening on port ${port}`);
-    });
+    ensureSchema(pool)
+        .then(() => {
+            app.listen(port, '0.0.0.0', () => {
+                console.log(`Your service is live 🚀`);
+                console.log(`Server listening on port ${port}`);
+            });
+        })
+        .catch((err) => {
+            console.error('Failed to ensure database schema:', err);
+            process.exit(1);
+        });
 }
 
 module.exports = {
