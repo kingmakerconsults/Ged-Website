@@ -10,6 +10,8 @@ const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const helmet = require('helmet');
 const axios = require('axios');
+const katex = require('./vendor/katex');
+const sanitizeHtml = require('./vendor/sanitize-html');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -127,6 +129,8 @@ const crypto = require('crypto');
 
 const LOG_DIR = path.join(__dirname, 'logs');
 const VALIDATION_LOG = path.join(LOG_DIR, 'question_validations.jsonl');
+const QUESTION_BANK_DIR = path.join(__dirname, 'data');
+const QUESTION_BANK_PATH = path.join(QUESTION_BANK_DIR, 'questions.json');
 
 function ensureLogFiles() {
     try {
@@ -141,6 +145,430 @@ function ensureLogFiles() {
     }
 }
 ensureLogFiles();
+
+const MACRO_FIX = /(^|[^\\A-Za-z])\b(frac|sqrt|times|div|cdot|le|ge|lt|gt|pi|sin|cos|tan|log|ln|pm|mp|neq|approx|theta|alpha|beta|gamma)\b(?=\s*[\[{])/g;
+
+function addMissingBackslashesInSegment(seg = '') {
+    return seg.replace(MACRO_FIX, (_m, p1, macro) => `${p1}\\${macro}`);
+}
+
+function fixAllMathInText(input) {
+    if (typeof input !== 'string' || !input.length) {
+        return input;
+    }
+
+    return input.replace(/\$\$([\s\S]*?)\$\$|\$([\s\S]*?)\$|\\\(([\s\S]*?)\\\)|\\\[([\s\S]*?)\\\]/g, (match, g1, g2, g3, g4) => {
+        const body = g1 ?? g2 ?? g3 ?? g4 ?? '';
+        const fixed = addMissingBackslashesInSegment(body);
+        if (g1 != null) return `$$${fixed}$$`;
+        if (g2 != null) return `$${fixed}$`;
+        if (g3 != null) return `\\(${fixed}\\)`;
+        if (g4 != null) return `\\[${fixed}\\]`;
+        return match;
+    });
+}
+
+function normalizeLatex(text) {
+    if (typeof text !== 'string') {
+        return '';
+    }
+
+    const collapsed = text
+        .replace(/\r\n?/g, '\n')
+        .replace(/\t/g, ' ')
+        .replace(/\s+/g, ' ')
+        .replace(/\\f\\\(/g, 'f(')
+        .replace(/\\f\s*\\\)/g, 'f)')
+        .trim();
+
+    return fixAllMathInText(collapsed);
+}
+
+function escapeHtml(str = '') {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function renderMathSegments(str) {
+    if (typeof str !== 'string' || !str.length) {
+        return '';
+    }
+
+    const segments = [];
+    const regex = /(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\])/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(str)) !== null) {
+        const [full] = match;
+        const before = str.slice(lastIndex, match.index);
+        if (before) {
+            segments.push(`<span class="katex-text">${escapeHtml(before)}</span>`);
+        }
+
+        const displayMode = full.startsWith('$$') || full.startsWith('\\[');
+        const body = full.startsWith('$$')
+            ? full.slice(2, -2)
+            : full.startsWith('\\(')
+                ? full.slice(2, -2)
+                : full.startsWith('\\[')
+                    ? full.slice(2, -2)
+                    : full.slice(1, -1);
+
+        const escapedBody = escapeHtml(body.trim());
+        const modeClass = displayMode ? 'katex-math display' : 'katex-math inline';
+        segments.push(`<span class="${modeClass}"><span class="katex-math-content">${escapedBody}</span></span>`);
+
+        lastIndex = match.index + full.length;
+    }
+
+    if (lastIndex < str.length) {
+        const tail = str.slice(lastIndex);
+        if (tail) {
+            segments.push(`<span class="katex-text">${escapeHtml(tail)}</span>`);
+        }
+    }
+
+    const joined = segments.join('').replace(/\n/g, '<br />');
+    return `<span class="katex-wrapper">${joined}</span>`;
+}
+
+function renderKatexSafe(str) {
+    if (typeof str !== 'string' || !str.trim()) {
+        return null;
+    }
+
+    try {
+        return katex.renderToString(str, { throwOnError: true, output: 'html' });
+    } catch (err) {
+        try {
+            return renderMathSegments(str);
+        } catch {
+            return null;
+        }
+    }
+}
+
+const SANITIZE_OPTIONS = {
+    allowedTags: ['span', 'br'],
+    allowedAttributes: { span: ['class'] }
+};
+
+function sanitizeKatexHtml(html) {
+    if (typeof html !== 'string' || !html.length) {
+        return null;
+    }
+
+    const cleaned = sanitizeHtml(html, SANITIZE_OPTIONS);
+    return cleaned && cleaned.trim().length ? cleaned : null;
+}
+
+function ensureQuestionBankFile() {
+    try {
+        if (!fs.existsSync(QUESTION_BANK_DIR)) {
+            fs.mkdirSync(QUESTION_BANK_DIR, { recursive: true });
+        }
+        if (!fs.existsSync(QUESTION_BANK_PATH)) {
+            fs.writeFileSync(QUESTION_BANK_PATH, '[]', 'utf8');
+        }
+    } catch (err) {
+        console.warn('Unable to prepare question bank storage:', err?.message || err);
+    }
+}
+
+ensureQuestionBankFile();
+
+function loadQuestionBankFromDisk() {
+    try {
+        const raw = fs.readFileSync(QUESTION_BANK_PATH, 'utf8');
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+            return parsed;
+        }
+    } catch (err) {
+        console.warn('Unable to load question bank:', err?.message || err);
+    }
+    return [];
+}
+
+let QUESTION_BANK = loadQuestionBankFromDisk();
+let QUESTION_HASHES = new Map();
+
+function computeQuestionHash(stemNorm, choicesNorm = []) {
+    return sha1(`${stemNorm || ''}||${choicesNorm.join('||')}`);
+}
+
+function rebuildQuestionHashes() {
+    QUESTION_HASHES = new Map();
+    QUESTION_BANK.forEach((entry) => {
+        if (!entry) return;
+        const hash = entry.hash || computeQuestionHash(entry.stem_norm, (entry.choices || []).map((c) => c?.norm || ''));
+        entry.hash = hash;
+        QUESTION_HASHES.set(hash, entry.id);
+    });
+}
+
+rebuildQuestionHashes();
+
+function persistQuestionBank() {
+    try {
+        fs.writeFileSync(QUESTION_BANK_PATH, JSON.stringify(QUESTION_BANK, null, 2), 'utf8');
+    } catch (err) {
+        console.warn('Unable to persist question bank:', err?.message || err);
+    }
+}
+
+function difficultyToCanonical(value) {
+    const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
+    if (normalized === 'easy') return 'easy';
+    if (normalized === 'hard') return 'hard';
+    if (normalized === 'medium') return 'medium';
+    if (normalized === 'med') return 'medium';
+    return 'medium';
+}
+
+function normalizeDomain(value) {
+    return typeof value === 'string' && value.trim().length ? value.trim().toLowerCase() : 'general';
+}
+
+function finalizeChoice(choiceRaw) {
+    const raw = typeof choiceRaw === 'string' ? choiceRaw : '';
+    const norm = normalizeLatex(raw);
+    const rendered = renderKatexSafe(norm);
+    const html = sanitizeKatexHtml(rendered);
+    return {
+        raw,
+        norm,
+        html
+    };
+}
+
+function finalizeQuestionForCache(question, { domain, difficulty }) {
+    if (!question || typeof question !== 'object') {
+        return null;
+    }
+
+    const stemRaw = typeof question.stem === 'string' ? question.stem : '';
+    const stemNorm = normalizeLatex(stemRaw);
+    const stemHtml = sanitizeKatexHtml(renderKatexSafe(stemNorm));
+    const choiceEntries = Array.isArray(question.choices) ? question.choices.map(finalizeChoice) : [];
+    const choicesNorm = choiceEntries.map((c) => c.norm);
+    const choiceHtml = choiceEntries.map((c) => c.html);
+    const answerIndex = Number.isInteger(question.correctIndex) ? question.correctIndex : 0;
+    const canonicalDifficulty = difficultyToCanonical(question.difficulty);
+    const tags = Array.isArray(question.tags)
+        ? question.tags.filter((tag) => typeof tag === 'string' && tag.trim().length)
+        : (typeof question.topic === 'string' && question.topic.trim().length ? [question.topic.trim()] : []);
+    const solutionRaw = typeof question.solution === 'string' ? question.solution : '';
+    const solutionNorm = normalizeLatex(solutionRaw);
+    const solutionHtml = sanitizeKatexHtml(renderKatexSafe(solutionNorm));
+    const katexOk = Boolean(stemHtml) && choiceHtml.every((html) => typeof html === 'string' && html.length);
+
+    const hash = computeQuestionHash(stemNorm, choicesNorm);
+    const existingId = QUESTION_HASHES.get(hash);
+    const id = existingId || crypto.randomUUID?.() || `cached-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    const cacheEntry = {
+        id,
+        domain: normalizeDomain(domain),
+        difficulty: canonicalDifficulty,
+        stem_raw: stemRaw,
+        stem_norm: stemNorm,
+        choices: choiceEntries.map((c) => ({ raw: c.raw, norm: c.norm })),
+        answer_index: answerIndex,
+        solution_raw: solutionRaw,
+        solution_norm: solutionNorm,
+        katex_html_cache: {
+            stem: stemHtml,
+            choices: choiceHtml,
+            solution: solutionHtml
+        },
+        katex_ok: katexOk,
+        tags,
+        createdAt: new Date().toISOString(),
+        hash
+    };
+
+    if (!existingId) {
+        QUESTION_BANK.push(cacheEntry);
+        QUESTION_HASHES.set(hash, id);
+        persistQuestionBank();
+    } else {
+        const idx = QUESTION_BANK.findIndex((entry) => entry && entry.id === existingId);
+        if (idx >= 0) {
+            const original = QUESTION_BANK[idx];
+            const updatedEntry = {
+                ...original,
+                ...cacheEntry,
+                createdAt: original?.createdAt || cacheEntry.createdAt
+            };
+            QUESTION_BANK[idx] = updatedEntry;
+            persistQuestionBank();
+        }
+    }
+
+    return {
+        ...question,
+        id,
+        stem: stemNorm,
+        choices: choicesNorm,
+        correctIndex: answerIndex,
+        difficulty: canonicalDifficulty,
+        solution: solutionNorm,
+        stem_raw: stemRaw,
+        stem_norm: stemNorm,
+        solution_raw: solutionRaw,
+        solution_norm: solutionNorm,
+        katex_html_cache: {
+            stem: stemHtml,
+            choices: choiceHtml,
+            solution: solutionHtml
+        },
+        katex_ok: katexOk,
+        tags
+    };
+}
+
+function convertBankEntryToItem(entry) {
+    if (!entry) return null;
+    const choices = Array.isArray(entry.choices) ? entry.choices.map((c) => c?.norm || '') : [];
+    return {
+        id: entry.id,
+        stem: entry.stem_norm || entry.stem_raw || '',
+        choices,
+        correctIndex: Number.isInteger(entry.answer_index) ? entry.answer_index : 0,
+        difficulty: entry.difficulty || 'medium',
+        solution: entry.solution_norm || entry.solution_raw || '',
+        tags: Array.isArray(entry.tags) ? entry.tags : [],
+        katex_html_cache: entry.katex_html_cache || { stem: null, choices: [] },
+        stem_raw: entry.stem_raw,
+        stem_norm: entry.stem_norm,
+        solution_raw: entry.solution_raw,
+        solution_norm: entry.solution_norm,
+        katex_ok: Boolean(entry.katex_ok)
+    };
+}
+
+function computeDifficultyPlan(count) {
+    const total = Math.max(0, Number(count) || 0);
+    if (!total) return { easy: 0, medium: 0, hard: 0 };
+    let easy = Math.round(total * 0.33);
+    let medium = Math.round(total * 0.42);
+    let hard = total - easy - medium;
+    if (hard < 0) {
+        medium += hard;
+        hard = 0;
+    }
+    if (medium < 0) {
+        easy += medium;
+        medium = 0;
+    }
+    const adjust = total - (easy + medium + hard);
+    if (adjust > 0) {
+        medium += adjust;
+    } else if (adjust < 0) {
+        medium = Math.max(0, medium + adjust);
+    }
+    return { easy, medium, hard };
+}
+
+function takeFromBank(domain, count) {
+    const normalizedDomain = normalizeDomain(domain);
+    const plan = computeDifficultyPlan(count);
+    const eligible = QUESTION_BANK.filter((entry) => entry.domain === normalizedDomain && entry.katex_ok);
+    if (!eligible.length) {
+        return { reused: [], remaining: plan };
+    }
+
+    const pool = shuffleArray ? shuffleArray([...eligible]) : [...eligible];
+    const reused = [];
+    const remaining = { ...plan };
+
+    const takeForDifficulty = (diff, quota) => {
+        if (quota <= 0) return;
+        for (let i = 0; i < pool.length && quota > 0; i += 1) {
+            const candidate = pool[i];
+            if (!candidate) continue;
+            const candidateDiff = difficultyToCanonical(candidate.difficulty);
+            if (candidateDiff !== diff) continue;
+            reused.push(candidate);
+            pool.splice(i, 1);
+            quota -= 1;
+            i -= 1;
+        }
+        remaining[diff] = quota;
+    };
+
+    takeForDifficulty('easy', remaining.easy);
+    takeForDifficulty('medium', remaining.medium);
+    takeForDifficulty('hard', remaining.hard);
+
+    while (reused.length < count && pool.length) {
+        reused.push(pool.shift());
+    }
+
+    return {
+        reused: reused.map(convertBankEntryToItem).filter(Boolean),
+        remaining: {
+            easy: Math.max(0, remaining.easy),
+            medium: Math.max(0, remaining.medium),
+            hard: Math.max(0, remaining.hard)
+        }
+    };
+}
+
+function validateQuestionBankEntries() {
+    let updated = 0;
+    let okCount = 0;
+
+    QUESTION_BANK = QUESTION_BANK.map((entry) => {
+        if (!entry) return entry;
+        const stemNorm = entry.stem_norm || normalizeLatex(entry.stem_raw || '');
+        const stemHtml = sanitizeKatexHtml(renderKatexSafe(stemNorm));
+        const choiceEntries = Array.isArray(entry.choices) ? entry.choices : [];
+        const choiceHtml = choiceEntries.map((choice) => {
+            const norm = choice?.norm || normalizeLatex(choice?.raw || '');
+            return sanitizeKatexHtml(renderKatexSafe(norm));
+        });
+        const solutionNorm = entry.solution_norm || normalizeLatex(entry.solution_raw || '');
+        const solutionHtml = sanitizeKatexHtml(renderKatexSafe(solutionNorm));
+        const katexOk = Boolean(stemHtml) && choiceHtml.every((html) => typeof html === 'string' && html.length);
+
+        const cacheChanged =
+            stemHtml !== (entry.katex_html_cache?.stem || null)
+            || choiceHtml.some((html, idx) => html !== (entry.katex_html_cache?.choices?.[idx] || null))
+            || solutionHtml !== (entry.katex_html_cache?.solution || null)
+            || katexOk !== Boolean(entry.katex_ok);
+
+        if (cacheChanged) {
+            updated += 1;
+            entry.katex_html_cache = {
+                stem: stemHtml,
+                choices: choiceHtml,
+                solution: solutionHtml
+            };
+            entry.katex_ok = katexOk;
+            entry.stem_norm = stemNorm;
+            entry.solution_norm = solutionNorm;
+        }
+
+        if (entry.katex_ok) {
+            okCount += 1;
+        }
+
+        return entry;
+    });
+
+    if (updated) {
+        persistQuestionBank();
+    }
+
+    return { total: QUESTION_BANK.length, updated, ok: okCount };
+}
 
 function sha1(str) {
     return crypto.createHash('sha1').update(String(str)).digest('hex');
@@ -4137,70 +4565,34 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
         const requestedCount = Number(count);
         const clampedCount = Math.max(1, Math.min(20, Number.isFinite(requestedCount) ? Math.floor(requestedCount) : 1));
 
-        let blueprintPrompt = profile
-            ? buildBlueprintPrompt(profile, clampedCount)
-            : "Return ONLY valid JSON with { items: [ { stem: string, choices: string[], correctIndex: number, solution: string } ] }.";
-
-        const contextLines = [];
-        if (subject) contextLines.push(`Subject focus: ${subject}`);
-        if (topic) contextLines.push(`Topic focus: ${topic}`);
-        if (contextLines.length) {
-            blueprintPrompt = `${blueprintPrompt}\n${contextLines.join('\n')}`;
+        let reusedItems = [];
+        if (profileKey) {
+            const reuseResult = takeFromBank(profileKey, clampedCount);
+            reusedItems = reuseResult.reused || [];
         }
 
-        const systemMsg = profile ? profile.generationSystemMsg : 'You create exam questions.';
-        const first = await callLLM({ system: systemMsg, user: blueprintPrompt });
-
-        let items = safeJson(first)?.items || [];
-        if (!Array.isArray(items)) items = [];
-
+        let remainingCount = Math.max(0, clampedCount - reusedItems.length);
+        let items = [];
         let invalidIdx = [];
-        items.forEach((it, idx) => {
-            const err = profileKey ? validateByProfile(profileKey, it) : null;
-            if (err) {
-                invalidIdx.push({ idx, err });
-                logValidationEvent({
-                    ts: Date.now(),
-                    profileKey,
-                    attempt: 0,
-                    index: idx,
-                    status: 'fail',
-                    error: err,
-                    itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
-                });
-            } else {
-                logValidationEvent({
-                    ts: Date.now(),
-                    profileKey,
-                    attempt: 0,
-                    index: idx,
-                    status: 'ok-final',
-                    itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
-                });
+
+        if (remainingCount > 0) {
+            let blueprintPrompt = profile
+                ? buildBlueprintPrompt(profile, remainingCount)
+                : "Return ONLY valid JSON with { items: [ { stem: string, choices: string[], correctIndex: number, solution: string } ] }.";
+
+            const contextLines = [];
+            if (subject) contextLines.push(`Subject focus: ${subject}`);
+            if (topic) contextLines.push(`Topic focus: ${topic}`);
+            if (contextLines.length) {
+                blueprintPrompt = `${blueprintPrompt}\n${contextLines.join('\n')}`;
             }
-        });
 
-        let retries = 2;
-        while (invalidIdx.length && retries-- > 0) {
-            const toFix = invalidIdx.map((o) => o.idx);
-            const fixPrompt = [
-                'Some items failed validation. Regenerate ONLY these indexes with corrected content:',
-                JSON.stringify(toFix),
-                'Keep the exact JSON schema and constraints.',
-                'Return ONLY { items: [ ... ] } with the same order as requested indexes.'
-            ].join('\n');
+            const systemMsg = profile ? profile.generationSystemMsg : 'You create exam questions.';
+            const first = await callLLM({ system: systemMsg, user: blueprintPrompt });
 
-            const fixResp = await callLLM({ system: systemMsg, user: fixPrompt });
-            const fixed = safeJson(fixResp)?.items || [];
+            items = safeJson(first)?.items || [];
+            if (!Array.isArray(items)) items = [];
 
-            fixed.forEach((it, k) => {
-                const target = toFix[k];
-                if (typeof target === 'number') {
-                    items[target] = it;
-                }
-            });
-
-            invalidIdx = [];
             items.forEach((it, idx) => {
                 const err = profileKey ? validateByProfile(profileKey, it) : null;
                 if (err) {
@@ -4208,7 +4600,7 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                     logValidationEvent({
                         ts: Date.now(),
                         profileKey,
-                        attempt: (2 - retries),
+                        attempt: 0,
                         index: idx,
                         status: 'fail',
                         error: err,
@@ -4218,16 +4610,72 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                     logValidationEvent({
                         ts: Date.now(),
                         profileKey,
-                        attempt: (2 - retries),
+                        attempt: 0,
                         index: idx,
-                        status: 'fixed',
+                        status: 'ok-final',
                         itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
                     });
                 }
             });
+
+            let retries = 2;
+            while (invalidIdx.length && retries-- > 0) {
+                const toFix = invalidIdx.map((o) => o.idx);
+                const fixPrompt = [
+                    'Some items failed validation. Regenerate ONLY these indexes with corrected content:',
+                    JSON.stringify(toFix),
+                    'Keep the exact JSON schema and constraints.',
+                    'Return ONLY { items: [ ... ] } with the same order as requested indexes.'
+                ].join('\n');
+
+                const fixResp = await callLLM({ system: systemMsg, user: fixPrompt });
+                const fixed = safeJson(fixResp)?.items || [];
+
+                fixed.forEach((it, k) => {
+                    const target = toFix[k];
+                    if (typeof target === 'number') {
+                        items[target] = it;
+                    }
+                });
+
+                invalidIdx = [];
+                items.forEach((it, idx) => {
+                    const err = profileKey ? validateByProfile(profileKey, it) : null;
+                    if (err) {
+                        invalidIdx.push({ idx, err });
+                        logValidationEvent({
+                            ts: Date.now(),
+                            profileKey,
+                            attempt: (2 - retries),
+                            index: idx,
+                            status: 'fail',
+                            error: err,
+                            itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
+                        });
+                    } else {
+                        logValidationEvent({
+                            ts: Date.now(),
+                            profileKey,
+                            attempt: (2 - retries),
+                            index: idx,
+                            status: 'fixed',
+                            itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
+                        });
+                    }
+                });
+            }
+
+            items = items
+                .map((item) => finalizeQuestionForCache(item, { domain: profileKey, difficulty: item?.difficulty }))
+                .filter(Boolean);
+            remainingCount = Math.max(0, clampedCount - reusedItems.length - items.length);
         }
 
-        res.json({ items, invalid: invalidIdx });
+        const combined = [...reusedItems, ...items];
+        const truncated = combined.slice(0, clampedCount);
+        const finalItems = shuffleArray ? shuffleArray(truncated) : truncated;
+
+        res.json({ items: finalItems, invalid: invalidIdx });
     } catch (err) {
         console.error('Error generating profile exam items:', err);
         res.status(500).json({ error: 'Failed to generate exam items.' });
@@ -4242,6 +4690,16 @@ app.post('/api/validate-items', express.json(), (req, res) => {
         error: profileKey ? validateByProfile(profileKey, it) : null
     }));
     res.json({ errors });
+});
+
+app.post('/api/validate-bank', async (_req, res) => {
+    try {
+        const result = validateQuestionBankEntries();
+        res.json({ success: true, ...result });
+    } catch (err) {
+        console.error('Question bank validation failed:', err);
+        res.status(500).json({ success: false, error: 'Unable to validate question bank.' });
+    }
 });
 
 app.get('/metrics/ai', (_req, res) => {

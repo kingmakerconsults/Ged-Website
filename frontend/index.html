@@ -1490,6 +1490,27 @@ function MathText({ text, className, subject, itemIndex }) {
     );
 }
 
+function CachedMathText({ html, text, className, subject, itemIndex }) {
+    const hasHtml = typeof html === 'string' && html.trim().length > 0;
+    if (hasHtml) {
+        return (
+            <span
+                className={className}
+                dangerouslySetInnerHTML={{ __html: html }}
+            />
+        );
+    }
+
+    return (
+        <MathText
+            text={text}
+            className={className}
+            subject={subject}
+            itemIndex={itemIndex}
+        />
+    );
+}
+
 function normalizeLineBreaks(value) {
     if (typeof value !== 'string') return value;
     return value
@@ -5381,6 +5402,14 @@ function Stem({ item }) {
         ? (item.questionText || item.question).trim()
         : '';
 
+    const cachedStemHtml = typeof item?.katex_html_cache?.stem === 'string'
+        ? item.katex_html_cache.stem
+        : '';
+    const normalizedQuestion = React.useMemo(
+        () => lintAndRepairMath(questionContent),
+        [questionContent]
+    );
+
     const displaySource = (item?.asset && item.asset.displaySource)
         || item.displaySource
         || item.source
@@ -5410,8 +5439,9 @@ function Stem({ item }) {
 
             {questionContent && (
                 <div className="mt-2">
-                    <MathText
-                        text={lintAndRepairMath(questionContent)}
+                    <CachedMathText
+                        html={cachedStemHtml}
+                        text={normalizedQuestion}
                         className="question-stem block font-bold text-slate-900"
                         itemIndex={`${item.questionNumber}-question`}
                         subject={item.subject}
@@ -5620,6 +5650,9 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         <div className="space-y-3">
                             {(currentQ.answerOptions || []).map((opt, i) => {
                                 const cleanedOptionText = lintAndRepairMath(opt.text.trim().replace(/^\$\$/, '$'));
+                                const cachedOptionHtml = typeof currentQ?.katex_html_cache?.choices?.[i] === 'string'
+                                    ? currentQ.katex_html_cache.choices[i]
+                                    : '';
                                 const isSelected = answers[currentIndex] === opt.text;
                                 const optionStateClass = isSelected
                                     ? `${colorScheme.optionSelectedBg || DEFAULT_COLOR_SCHEME.optionSelectedBg} ${colorScheme.optionSelectedBorder || DEFAULT_COLOR_SCHEME.optionSelectedBorder}`
@@ -5632,7 +5665,13 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                     >
                                         <span className="flex-grow text-left">
                                             <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
-                                            <MathText text={cleanedOptionText} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={subjectForRender} />
+                                            <CachedMathText
+                                                html={cachedOptionHtml}
+                                                text={cleanedOptionText}
+                                                className="question-stem"
+                                                itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`}
+                                                subject={subjectForRender}
+                                            />
                                         </span>
                                     </button>
                                 );
@@ -6185,7 +6224,14 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 <div className="space-y-4 text-left">
                     {(quiz.questions || []).map((question, index) => {
                         const userAnswer = results.answers[index];
-                        const correctAnswer = (question.answerOptions || []).find(opt => opt.isCorrect);
+                        const answerOptions = question.answerOptions || [];
+                        const correctAnswer = answerOptions.find(opt => opt.isCorrect);
+                        const correctAnswerIndex = answerOptions.findIndex(opt => opt.isCorrect);
+                        const correctAnswerHtml = typeof question?.katex_html_cache?.choices?.[correctAnswerIndex] === 'string'
+                            ? question.katex_html_cache.choices[correctAnswerIndex]
+                            : '';
+                        const correctAnswerText = correctAnswer ? lintAndRepairMath(correctAnswer.text) : '';
+                        const correctRationaleText = correctAnswer?.rationale ? lintAndRepairMath(correctAnswer.rationale) : '';
                         const isCorrect = correctAnswer && userAnswer === correctAnswer.text;
                         const confidenceLevel = results.confidence ? results.confidence[index] : null;
 
@@ -6216,8 +6262,9 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                 {!isCorrect && correctAnswer && (
                                     <p className="text-green-700 question-stem">
                                         Correct answer:{' '}
-                                        <MathText
-                                            text={lintAndRepairMath(correctAnswer.text)}
+                                        <CachedMathText
+                                            html={correctAnswerHtml}
+                                            text={correctAnswerText}
                                             className="question-stem"
                                             itemIndex={`${question.questionNumber ?? (index + 1)}-correct`}
                                             subject={question.subject || quiz.subject || 'Math'}
@@ -6228,7 +6275,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                     <div className="mt-2 text-sm text-slate-600 explanation-text">
                                         <span className="font-semibold">Rationale:</span>{' '}
                                         <MathText
-                                            text={lintAndRepairMath(correctAnswer.rationale)}
+                                            text={correctRationaleText}
                                             className="question-stem"
                                             itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`}
                                             subject={question.subject || quiz.subject || 'Math'}
@@ -6323,7 +6370,8 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                                     <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
                                         <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
                                         <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
-                                            <MathText
+                                            <CachedMathText
+                                                html={typeof q?.katex_html_cache?.choices?.[j] === 'string' ? q.katex_html_cache.choices[j] : ''}
                                                 text={lintAndRepairMath(opt.text)}
                                                 className="question-stem"
                                                 itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`}
