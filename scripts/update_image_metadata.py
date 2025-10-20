@@ -105,7 +105,7 @@ Provide only the new, two-part detailedDescription as your output.
         error_message = str(e)
         print(f"ERROR: Failed to generate description for '{image_path}'. Reason: {error_message}")
         if "API key not valid" in error_message:
-             return "STOP: The provided GOOGLE_API_KEY is not valid. Please check your key."
+            return "STOP: The provided GOOGLE_API_KEY is not valid. Please check your key."
         if "429" in error_message or "Resource has been exhausted" in error_message:
             print("INFO: Rate limit likely reached. Waiting for 60 seconds before retry...")
             time.sleep(60)
