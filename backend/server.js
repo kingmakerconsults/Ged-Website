@@ -1799,6 +1799,8 @@ app.post('/api/instructor/login', async (req, res) => {
     }
 
     try {
+        console.log('Received access code from user:', req.body.accessCode);
+        console.log('Type of received code:', typeof req.body.accessCode);
         const organizationResult = await pool.query(
             `SELECT id, access_code
              FROM organizations
@@ -2017,6 +2019,60 @@ app.get('/api/organizations', async (_req, res) => {
     }
 });
 
+app.post('/api/student/select-organization', authenticateBearerToken, async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'Database unavailable' });
+    }
+
+    try {
+        const userId = getUserIdFromRequest(req);
+        if (!userId) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const rawOrganizationId = req.body?.organizationId ?? req.body?.organization_id;
+        const organizationId = Number(rawOrganizationId);
+
+        if (!Number.isInteger(organizationId) || organizationId <= 0) {
+            return res.status(400).json({ error: 'A valid organization is required' });
+        }
+
+        const organizationResult = await pool.query(
+            'SELECT id, name FROM organizations WHERE id = $1;',
+            [organizationId]
+        );
+
+        if (organizationResult.rowCount === 0) {
+            return res.status(404).json({ error: 'Organization not found' });
+        }
+
+        const organization = organizationResult.rows[0];
+
+        const updateResult = await pool.query(
+            `UPDATE users
+             SET organization_id = $1
+             WHERE id = $2
+             RETURNING id, organization_id;`,
+            [organization.id, userId]
+        );
+
+        if (updateResult.rowCount === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        return res.status(200).json({
+            message: 'Organization selected successfully',
+            organization: {
+                id: organization.id,
+                name: organization.name,
+            },
+        });
+    } catch (error) {
+        console.error('Failed to select organization:', error);
+        return res.status(500).json({ error: 'Failed to select organization' });
+    }
+});
+
 app.post('/api/student/join-organization', authenticateBearerToken, async (req, res) => {
     if (!isDatabaseConfigured()) {
         return res.status(503).json({ error: 'Database unavailable' });
@@ -2066,6 +2122,38 @@ app.post('/api/student/join-organization', authenticateBearerToken, async (req, 
     } catch (error) {
         console.error('Failed to join organization:', error);
         return res.status(500).json({ error: 'Failed to join organization' });
+    }
+});
+
+app.get('/api/admin/users', authenticateBearerToken, async (req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'Database unavailable' });
+    }
+
+    const role = typeof req.user?.role === 'string' ? req.user.role.toLowerCase() : null;
+    if (role !== 'admin') {
+        return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    try {
+        const result = await pool.query(
+            `SELECT id, name, email, role, organization_id
+             FROM users
+             ORDER BY created_at ASC, id ASC;`
+        );
+
+        const users = (result.rows || []).map((row) => ({
+            id: row.id,
+            name: row.name || null,
+            email: row.email || null,
+            role: row.role || null,
+            organization_id: row.organization_id,
+        }));
+
+        return res.status(200).json(users);
+    } catch (error) {
+        console.error('Failed to fetch admin user list:', error);
+        return res.status(500).json({ error: 'Failed to fetch users' });
     }
 });
 
@@ -4126,6 +4214,9 @@ app.post('/score-essay', async (req, res) => {
 app.post('/api/auth/google', async (req, res) => {
     try {
         const { credential } = req.body;
+        const intendedRole = typeof req.body?.intendedRole === 'string'
+            ? req.body.intendedRole.trim().toLowerCase()
+            : null;
         const ticket = await client.verifyIdToken({
             idToken: credential,
             audience: process.env.GOOGLE_CLIENT_ID,
@@ -4176,6 +4267,31 @@ app.post('/api/auth/google', async (req, res) => {
 
         if (!userRow) {
             throw new Error('Failed to retrieve user from database after Google login.');
+        }
+
+        if (intendedRole === 'instructor') {
+            try {
+                const updateRoleResult = await pool.query(
+                    `UPDATE users
+                     SET role = 'instructor',
+                         organization_id = $1
+                     WHERE id = $2
+                     RETURNING *;`,
+                    [1, userRow.id]
+                );
+
+                if (updateRoleResult.rowCount > 0) {
+                    userRow = updateRoleResult.rows[0];
+                } else {
+                    userRow.role = 'instructor';
+                    userRow.organization_id = 1;
+                }
+            } catch (error) {
+                console.error('Failed to update instructor role after Google login:', error);
+                throw error;
+            }
+        } else if (!userRow.role) {
+            userRow.role = 'student';
         }
 
         console.log(`User ${userRow.name} (${userRow.email}) logged in and data was saved to the database.`);
