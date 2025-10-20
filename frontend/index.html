@@ -15,7 +15,7 @@
       // Supports $...$, $$...$$, \(...\), \[...\]
       (function () {
         // Insert a "\" before common LaTeX macros when missing, but don't use look-behind
-        const MACRO_FIX = /(^|[^\\])\b(frac|sqrt|times|div|cdot|le|ge|lt|gt|pi|sin|cos|tan|log|ln|pm|mp|neq|approx|theta|alpha|beta|gamma)\b(?=\s*[\[{(])/g;
+        const MACRO_FIX = /(^|[^\\A-Za-z])\b(frac|sqrt|times|div|cdot|le|ge|lt|gt|pi|sin|cos|tan|log|ln|pm|mp|neq|approx|theta|alpha|beta|gamma)\b(?=\s*[\[{])/g;
 
         function addMissingBackslashesInSegment(seg) {
           return seg.replace(MACRO_FIX, (_m, p1, macro) => `${p1}\\${macro}`);
