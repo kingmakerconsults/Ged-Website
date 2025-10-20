@@ -158,214 +158,105 @@ function ensureLogFiles() {
 }
 ensureLogFiles();
 
-const MACRO_FIX = /(^|[^\\A-Za-z])\b(frac|sqrt|times|div|cdot|le|ge|lt|gt|pi|sin|cos|tan|log|ln|pm|mp|neq|approx|theta|alpha|beta|gamma)\b(?=\s*[\[{])/g;
-
-function addMissingBackslashesInSegment(seg = '') {
-    return seg.replace(MACRO_FIX, (_m, p1, macro) => `${p1}\\${macro}`);
-}
-
-function fixAllMathInText(input) {
-    if (typeof input !== 'string' || !input.length) {
-        return input;
-    }
-
-    return input.replace(/\$\$([\s\S]*?)\$\$|\$([\s\S]*?)\$|\\\(([\s\S]*?)\\\)|\\\[([\s\S]*?)\\\]/g, (match, g1, g2, g3, g4) => {
-        const body = g1 ?? g2 ?? g3 ?? g4 ?? '';
-        const fixed = addMissingBackslashesInSegment(body);
-        if (g1 != null) return `$$${fixed}$$`;
-        if (g2 != null) return `$${fixed}$`;
-        if (g3 != null) return `\\(${fixed}\\)`;
-        if (g4 != null) return `\\[${fixed}\\]`;
-        return match;
-    });
-}
-
-const normalizeLatex = (text) => {
-    if (typeof text !== 'string') {
-        return '';
-    }
-
-    const collapsed = text
-        .replace(/\r\n?/g, '\n')
-        .replace(/\t/g, ' ')
-        .replace(/\s+/g, ' ')
-        .replace(/\\f\\\(/g, 'f(')
-        .replace(/\\f\s*\\\)/g, 'f)')
-        .trim();
-
-    return fixAllMathInText(collapsed);
+const SANITIZE_OPTIONS = {
+    allowedTags: ['span', 'br'],
+    allowedAttributes: { span: ['class'] }
 };
 
-function escapeHtml(str = '') {
-    return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+// Normalize LaTeX text coming from AI or DB before we KaTeX-render it.
+function normalizeLatexText(input) {
+    if (input == null) return "";
+    let s = String(input);
+
+    // 1) Collapse Windows newlines/tabs & excess spaces
+    s = s.replace(/\r\n?/g, "\n").replace(/\t/g, " ").replace(/[ \u00A0]+/g, " ").trim();
+
+    // 2) First: unescape over-escaped backslashes (turn \\frac -> \frac)
+    //    Do this BEFORE any other LaTeX macro rewrites.
+    s = s
+        .replace(/\\\\/g, "\\")
+        .replace(/\\{2}frac/g, "\\frac")
+        .replace(/\\{2}sqrt/g, "\\sqrt")
+        .replace(/\\{2}pi/g, "\\pi")
+        .replace(/\\{2}times/g, "\\times")
+        .replace(/\\{2}div/g, "\\div")
+        .replace(/\\{2}cdot/g, "\\cdot")
+        .replace(/\\{2}le/g, "\\le")
+        .replace(/\\{2}ge/g, "\\ge");
+
+    // 3) Clean up common tokenization glitches around f( ... )
+    //    (Sometimes models emit \f\(...\) or add stray backslashes).
+    s = s
+        .replace(/\\f\\\(/g, "f(")
+        .replace(/\\f\s*\\\)/g, "f)")
+        .replace(/\\f\(\s*/g, "f(")
+        .replace(/\s*\\\)/g, ")");
+
+    // 4) Keep inline/display math delimiters intact. If author already used \(...\) or \[...\], leave as-is.
+    //    If raw macros appear without delimiters, we still allow server-side KaTeX to render them (works fine).
+
+    return s;
 }
 
-function renderMathSegments(str) {
-    if (typeof str !== 'string' || !str.length) {
-        return '';
-    }
+function normalizeQuestion(raw) {
+    const stem = normalizeLatexText(raw?.stem_raw || "");
+    const choices = Array.isArray(raw?.choices) ? raw.choices.map(normalizeLatexText) : [];
+    const out = { stem, choices, answer_index: raw?.answer_index ?? 0 };
 
-    const segments = [];
-    const regex = /(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\])/g;
-    let lastIndex = 0;
-    let match;
+    if (raw?.image_url) out.image_url = String(raw.image_url);
+    if (raw?.imageUrl && !out.image_url) out.image_url = String(raw.imageUrl);
+    if (raw?.alt_text) out.alt_text = String(raw.alt_text);
+    if (raw?.altText && !out.alt_text) out.alt_text = String(raw.altText);
 
-    while ((match = regex.exec(str)) !== null) {
-        const [full] = match;
-        const before = str.slice(lastIndex, match.index);
-        if (before) {
-            segments.push(`<span class="katex-text">${escapeHtml(before)}</span>`);
-        }
-
-        const displayMode = full.startsWith('$$') || full.startsWith('\\[');
-        const body = full.startsWith('$$')
-            ? full.slice(2, -2)
-            : full.startsWith('\\(')
-                ? full.slice(2, -2)
-                : full.startsWith('\\[')
-                    ? full.slice(2, -2)
-                    : full.slice(1, -1);
-
-        const escapedBody = escapeHtml(body.trim());
-        const modeClass = displayMode ? 'katex-math display' : 'katex-math inline';
-        segments.push(`<span class="${modeClass}"><span class="katex-math-content">${escapedBody}</span></span>`);
-
-        lastIndex = match.index + full.length;
-    }
-
-    if (lastIndex < str.length) {
-        const tail = str.slice(lastIndex);
-        if (tail) {
-            segments.push(`<span class="katex-text">${escapeHtml(tail)}</span>`);
-        }
-    }
-
-    const joined = segments.join('').replace(/\n/g, '<br />');
-    return `<span class="katex-wrapper">${joined}</span>`;
+    return out;
 }
 
-function renderKatexSafe(str) {
-    if (typeof str !== 'string' || !str.trim()) {
-        return null;
-    }
-
+function renderInlineKatexToHtml(txt) {
+    if (!txt) return null;
+    // Render only LaTeX bodies; \(...\) delimiters are fine as-is.
+    // We accept inline \(...\) OR bare macros: KaTeX can render both.
     try {
-        return katex.renderToString(str, { throwOnError: true, output: 'html' });
-    } catch (err) {
+        // Render all \(...\) groups; for bare text, render whole string.
+        // Simplest robust approach: let KaTeX render whole string; it will ignore plain text.
+        const html = katex.renderToString(txt, { throwOnError: true, output: "html" });
+        const cleaned = sanitizeHtml(html, SANITIZE_OPTIONS);
+        return cleaned && cleaned.trim().length ? cleaned : null;
+    } catch {
+        // As a fallback, try to render only the inline groups
         try {
-            return renderMathSegments(str);
+            const replaced = txt.replace(/\\\((.+?)\\\)|\\\[(.+?)\\\]/g, (_m, inline, display) =>
+                katex.renderToString(inline ?? display, {
+                    throwOnError: true,
+                    output: "html",
+                    displayMode: Boolean(display)
+                })
+            );
+            const cleaned = sanitizeHtml(replaced, SANITIZE_OPTIONS);
+            return cleaned && cleaned.trim().length ? cleaned : null;
         } catch {
             return null;
         }
     }
 }
 
-const SANITIZE_OPTIONS = {
-    allowedTags: ['span', 'br'],
-    allowedAttributes: { span: ['class'] }
-};
-
-function sanitizeKatexHtml(html) {
-    if (typeof html !== 'string' || !html.length) {
-        return null;
-    }
-
-    const cleaned = sanitizeHtml(html, SANITIZE_OPTIONS);
-    return cleaned && cleaned.trim().length ? cleaned : null;
-}
-
-function normalizeLatexText(input) {
-    if (input == null) {
-        return "";
-    }
-
-    let cleaned = String(input)
-        .replace(/\r\n?/g, "\n")
-        .replace(/\t/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-
-    const doubleEscapePattern = /\\\\(?=[A-Za-z\\()\[\]{}])/g;
-    let previous;
-    do {
-        previous = cleaned;
-        cleaned = cleaned.replace(doubleEscapePattern, "\\");
-    } while (cleaned !== previous);
-
-    cleaned = cleaned
-        .replace(/\\f\\\(/g, 'f(')
-        .replace(/\\f\s*\\\)/g, 'f)');
-
-    cleaned = cleaned
-        .replace(/\\\\frac/g, "\\frac")
-        .replace(/\\\\sqrt/g, "\\sqrt")
-        .replace(/\\\\pi/g, "\\pi");
-
-    cleaned = cleaned
-        .replace(/\\\((.+?)\\\)|\\\[(.+?)\\\]/g, (m, inline, display) => {
-            const body = inline ?? display ?? "";
-            const fixed = body.replace(MACRO_FIX, (_m, p1, macro) => `${p1}\\${macro}`);
-            return inline ? `\\(${fixed}\\)` : `\\[${fixed}\\]`;
-        })
-        .replace(/\s+/g, " ")
-        .trim();
-
-    return cleaned;
-}
-
-function normalizeQuestion(raw) {
-    const stem = normalizeLatexText(raw?.stem_raw);
-    const choices = Array.isArray(raw?.choices) ? raw.choices.map(normalizeLatexText) : [];
-    const out = { stem, choices, answer_index: raw?.answer_index };
-    const imageUrl = raw?.image_url || raw?.imageUrl;
-    if (imageUrl) {
-        out.image_url = String(imageUrl);
-    }
-    const altText = raw?.alt_text || raw?.altText;
-    if (altText) {
-        out.alt_text = String(altText);
-    }
-    return out;
-}
-
-function renderInlineKatexToHtml(txt) {
-    if (!txt) return null;
-    try {
-        return txt.replace(/\\\((.+?)\\\)/g, (_m, body) => {
-            const html = katex.renderToString(body, { throwOnError: true, output: "html" });
-            return html;
-        });
-    } catch (e) {
-        return null;
-    }
-}
-
 function renderQuestionToHtml(norm) {
-    const stem_html = renderInlineKatexToHtml(norm?.stem);
+    if (!norm || typeof norm !== 'object') return null;
+
+    const stem_html = renderInlineKatexToHtml(norm.stem);
     if (!stem_html) return null;
+
     const choices_html = [];
-    for (const c of norm?.choices || []) {
+    const choices = Array.isArray(norm.choices) ? norm.choices : [];
+    for (const c of choices) {
         const h = renderInlineKatexToHtml(c);
         if (!h) return null;
         choices_html.push(h);
     }
-    const sanitizedStem = sanitizeHtml(stem_html);
-    const sanitizedChoices = choices_html.map((frag) => sanitizeHtml(frag));
-    const html = {
-        stem_html: sanitizedStem,
-        choices_html: sanitizedChoices
-    };
-    if (norm?.image_url) {
-        html.image_url = norm.image_url;
-    }
-    if (norm?.alt_text) {
-        html.alt_text = norm.alt_text;
-    }
+
+    const html = { stem_html, choices_html };
+    if (norm.image_url) html.image_url = norm.image_url;
+    if (norm.alt_text) html.alt_text = norm.alt_text;
+
     return html;
 }
 
@@ -471,9 +362,8 @@ function normalizeDomain(value) {
 
 function finalizeChoice(choiceRaw) {
     const raw = typeof choiceRaw === 'string' ? choiceRaw : '';
-    const norm = normalizeLatex(raw);
-    const rendered = renderKatexSafe(norm);
-    const html = sanitizeKatexHtml(rendered);
+    const norm = normalizeLatexText(raw);
+    const html = renderInlineKatexToHtml(norm);
     return {
         raw,
         norm,
@@ -487,8 +377,8 @@ function finalizeQuestionForCache(question, { domain, difficulty }) {
     }
 
     const stemRaw = typeof question.stem === 'string' ? question.stem : '';
-    const stemNorm = normalizeLatex(stemRaw);
-    const stemHtml = sanitizeKatexHtml(renderKatexSafe(stemNorm));
+    const stemNorm = normalizeLatexText(stemRaw);
+    const stemHtml = renderInlineKatexToHtml(stemNorm);
     const choiceEntries = Array.isArray(question.choices) ? question.choices.map(finalizeChoice) : [];
     const choicesNorm = choiceEntries.map((c) => c.norm);
     const choiceHtml = choiceEntries.map((c) => c.html);
@@ -498,8 +388,8 @@ function finalizeQuestionForCache(question, { domain, difficulty }) {
         ? question.tags.filter((tag) => typeof tag === 'string' && tag.trim().length)
         : (typeof question.topic === 'string' && question.topic.trim().length ? [question.topic.trim()] : []);
     const solutionRaw = typeof question.solution === 'string' ? question.solution : '';
-    const solutionNorm = normalizeLatex(solutionRaw);
-    const solutionHtml = sanitizeKatexHtml(renderKatexSafe(solutionNorm));
+    const solutionNorm = normalizeLatexText(solutionRaw);
+    const solutionHtml = renderInlineKatexToHtml(solutionNorm);
     const katexOk = Boolean(stemHtml) && choiceHtml.every((html) => typeof html === 'string' && html.length);
 
     const hash = computeQuestionHash(stemNorm, choicesNorm);
@@ -661,15 +551,15 @@ function validateQuestionBankEntries() {
 
     QUESTION_BANK = QUESTION_BANK.map((entry) => {
         if (!entry) return entry;
-        const stemNorm = entry.stem_norm || normalizeLatex(entry.stem_raw || '');
-        const stemHtml = sanitizeKatexHtml(renderKatexSafe(stemNorm));
+        const stemNorm = entry.stem_norm || normalizeLatexText(entry.stem_raw || '');
+        const stemHtml = renderInlineKatexToHtml(stemNorm);
         const choiceEntries = Array.isArray(entry.choices) ? entry.choices : [];
         const choiceHtml = choiceEntries.map((choice) => {
-            const norm = choice?.norm || normalizeLatex(choice?.raw || '');
-            return sanitizeKatexHtml(renderKatexSafe(norm));
+            const norm = normalizeLatexText(choice?.norm ?? choice?.raw ?? '');
+            return renderInlineKatexToHtml(norm);
         });
-        const solutionNorm = entry.solution_norm || normalizeLatex(entry.solution_raw || '');
-        const solutionHtml = sanitizeKatexHtml(renderKatexSafe(solutionNorm));
+        const solutionNorm = entry.solution_norm || normalizeLatexText(entry.solution_raw || '');
+        const solutionHtml = renderInlineKatexToHtml(solutionNorm);
         const katexOk = Boolean(stemHtml) && choiceHtml.every((html) => typeof html === 'string' && html.length);
 
         const cacheChanged =
@@ -1704,7 +1594,7 @@ function sanitizeTextKeepLatex(value) {
         return value;
     }
 
-    const normalized = normalizeLatex(value);
+    const normalized = normalizeLatexText(value);
     return sanitizeField(normalized, 'latex');
 }
 
@@ -2515,12 +2405,6 @@ async function saveImageQuestionToBank({ image, subject, category, item_type, do
 
     const norm = normalizeQuestion(payload);
     const html = renderQuestionToHtml(norm);
-    if (html && image?.image_url) {
-        html.image_url = image.image_url;
-    }
-    if (html && image?.alt_text) {
-        html.alt_text = image.alt_text;
-    }
     const katex_ok = !!html;
     const fingerprint = fingerprintOf(norm);
 
@@ -2974,6 +2858,52 @@ app.post('/question-bank/save', async (req, res) => {
         return res.status(500).json({ error: 'save_failed', detail: String(e) });
     } finally {
         client.release();
+    }
+});
+
+app.post('/admin/rerender-bad-math', async (_req, res) => {
+    if (!isDatabaseConfigured()) {
+        return res.status(503).json({ error: 'database_unavailable' });
+    }
+
+    try {
+        const { rows } = await pool.query(`
+            SELECT id AS question_id, question_norm
+            FROM public.questions
+            WHERE katex_ok = false
+            ORDER BY created_at DESC
+            LIMIT 500
+        `);
+
+        let ok = 0;
+        let fail = 0;
+
+        for (const row of rows) {
+            try {
+                const html = renderQuestionToHtml(row.question_norm);
+                const good = !!html;
+                await pool.query(
+                    `UPDATE public.questions
+                        SET katex_html_cache = $1::jsonb,
+                            katex_ok = $2
+                     WHERE id = $3`,
+                    [good ? html : null, good, row.question_id]
+                );
+                if (good) {
+                    ok += 1;
+                } else {
+                    fail += 1;
+                }
+            } catch (err) {
+                console.warn('Failed to re-render question math:', err?.message || err);
+                fail += 1;
+            }
+        }
+
+        res.json({ re_rendered: ok, failed: fail });
+    } catch (err) {
+        console.error('Failed to rerender bad math rows:', err?.message || err);
+        res.status(500).json({ error: 'rerender_failed' });
     }
 });
 
@@ -6664,5 +6594,5 @@ if (require.main === module) {
 }
 
 module.exports = {
-    normalizeLatex
+    normalizeLatexText
 };
