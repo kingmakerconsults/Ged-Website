@@ -278,23 +278,43 @@ function sanitizeKatexHtml(html) {
     return cleaned && cleaned.trim().length ? cleaned : null;
 }
 
-function normalizeLatexText(s) {
-    if (!s) return s;
-    let t = s
+function normalizeLatexText(input) {
+    if (input == null) {
+        return "";
+    }
+
+    let cleaned = String(input)
         .replace(/\r\n?/g, "\n")
         .replace(/\t/g, " ")
         .replace(/\s+/g, " ")
         .trim();
 
-    t = t.replace(/\\f\\\(/g, "f(").replace(/\\f\s*\\\)/g, "f)");
+    const doubleEscapePattern = /\\\\(?=[A-Za-z\\()\[\]{}])/g;
+    let previous;
+    do {
+        previous = cleaned;
+        cleaned = cleaned.replace(doubleEscapePattern, "\\");
+    } while (cleaned !== previous);
 
-    t = t.replace(/\\\((.+?)\\\)|\\\[(.+?)\\\]/g, (m, inline, display) => {
-        const body = inline ?? display ?? "";
-        const fixed = body.replace(MACRO_FIX, (_m, p1, macro) => `${p1}\\${macro}`);
-        return inline ? `\\(${fixed}\\)` : `\\[${fixed}\\]`;
-    });
+    cleaned = cleaned
+        .replace(/\\f\\\(/g, 'f(')
+        .replace(/\\f\s*\\\)/g, 'f)');
 
-    return t;
+    cleaned = cleaned
+        .replace(/\\\\frac/g, "\\frac")
+        .replace(/\\\\sqrt/g, "\\sqrt")
+        .replace(/\\\\pi/g, "\\pi");
+
+    cleaned = cleaned
+        .replace(/\\\((.+?)\\\)|\\\[(.+?)\\\]/g, (m, inline, display) => {
+            const body = inline ?? display ?? "";
+            const fixed = body.replace(MACRO_FIX, (_m, p1, macro) => `${p1}\\${macro}`);
+            return inline ? `\\(${fixed}\\)` : `\\[${fixed}\\]`;
+        })
+        .replace(/\s+/g, " ")
+        .trim();
+
+    return cleaned;
 }
 
 function normalizeQuestion(raw) {
