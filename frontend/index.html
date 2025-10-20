@@ -246,6 +246,43 @@ const ensureUserProfile = (user) => {
     };
 };
 
+const normalizeAppUser = (user) => {
+    const profile = ensureUserProfile(user);
+    if (!profile) {
+        return null;
+    }
+
+    const organizationId = user?.organizationId ?? user?.organization_id ?? null;
+    if (organizationId != null) {
+        profile.organizationId = organizationId;
+        profile.organization_id = organizationId;
+    }
+
+    const organizationName = user?.organizationName ?? user?.organization_name ?? null;
+    if (organizationName) {
+        profile.organizationName = organizationName;
+        profile.organization_name = organizationName;
+    }
+
+    if (typeof user?.role === 'string') {
+        profile.role = user.role;
+    }
+
+    if (user?.last_login) {
+        profile.last_login = user.last_login;
+    }
+
+    if (user?.login_count != null) {
+        profile.login_count = user.login_count;
+    }
+
+    if (!profile.picture && user?.picture_url) {
+        profile.picture = user.picture_url;
+    }
+
+    return profile;
+};
+
 const DEFAULT_COLOR_SCHEME = {
     background: 'bg-slate-800',
     onBackgroundText: 'text-white',
@@ -2953,7 +2990,7 @@ function App() {
 
         try {
             const parsedUser = JSON.parse(storedUser);
-            const profile = ensureUserProfile(parsedUser);
+            const profile = normalizeAppUser(parsedUser);
             if (profile) {
                 setCurrentUser(profile);
                 const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
@@ -2975,7 +3012,7 @@ function App() {
             return;
         }
 
-        const profile = ensureUserProfile(user);
+        const profile = normalizeAppUser(user);
         if (!profile) {
             console.error('Login response did not include a valid user profile.');
             return;
@@ -3021,6 +3058,60 @@ function App() {
             google.accounts.id.disableAutoSelect();
         }
     };
+
+    const handleStudentOrganizationJoined = useCallback((organization) => {
+        if (!organization || typeof organization !== 'object') {
+            return;
+        }
+
+        setCurrentUser((previous) => {
+            if (!previous) {
+                return previous;
+            }
+
+            const organizationId = organization.id ?? organization.organization_id ?? organization.organizationId;
+            if (!organizationId) {
+                return previous;
+            }
+
+            const organizationName = organization.name ?? organization.organization_name ?? organization.organizationName ?? previous.organization_name ?? previous.organizationName ?? null;
+            const nextProfile = {
+                ...previous,
+                organization_id: organizationId,
+                organizationId,
+            };
+
+            if (organizationName) {
+                nextProfile.organization_name = organizationName;
+                nextProfile.organizationName = organizationName;
+            }
+
+            try {
+                localStorage.setItem('appUser', JSON.stringify(nextProfile));
+            } catch (error) {
+                console.warn('Unable to persist organization selection:', error);
+            }
+
+            return nextProfile;
+        });
+    }, []);
+
+    const userRole = typeof currentUser?.role === 'string' ? currentUser.role.toLowerCase() : 'student';
+    const userOrganizationId = currentUser?.organization_id ?? currentUser?.organizationId ?? null;
+
+    const studentAffiliationSection = useMemo(() => {
+        if (!currentUser || userRole === 'instructor' || userOrganizationId) {
+            return null;
+        }
+        return <StudentOrganizationAffiliation onJoined={handleStudentOrganizationJoined} />;
+    }, [currentUser, handleStudentOrganizationJoined, userOrganizationId, userRole]);
+
+    const instructorPortalSection = useMemo(() => {
+        if (!currentUser || userRole !== 'instructor') {
+            return null;
+        }
+        return <InstructorDashboard />;
+    }, [currentUser, userRole]);
 
     const handleGenerateComprehensiveExam = async (subject) => {
         setIsLoading(true);
@@ -3292,17 +3383,19 @@ function App() {
             case 'start':
             default:
                 return (
-                    <StartScreen 
+                    <StartScreen
                         currentUser={currentUser}
                         onLogout={handleLogout}
                         progress={progress}
-                        onSelectQuiz={startQuiz} 
+                        onSelectQuiz={startQuiz}
                         onStartPopQuiz={handleStartPopQuiz}
                         onStartComprehensiveExam={handleGenerateComprehensiveExam}
                         setIsLoading={setIsLoading}
                         setLoadingMessage={setLoadingMessage}
                         setShowFormulaSheet={setShowFormulaSheet}
                         onOpenMathTools={openMathTools}
+                        studentAffiliationSection={studentAffiliationSection}
+                        instructorPortalSection={instructorPortalSection}
                         onSelectGenerator={async (subject, topic, setIsLoading, setLoadingMessage) => {
                             if (!topic) {
                                 alert("Please select a topic first.");
@@ -3899,7 +3992,7 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
+function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools, studentAffiliationSection, instructorPortalSection }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
@@ -4139,6 +4232,16 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                     </>
                 )}
             </header>
+            {studentAffiliationSection && (
+                <div className="mb-6">
+                    {studentAffiliationSection}
+                </div>
+            )}
+            {instructorPortalSection && (
+                <div className="mb-6">
+                    {instructorPortalSection}
+                </div>
+            )}
             {currentUser && <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />}
             <div className="my-6 text-center">
                 <button
@@ -4164,6 +4267,327 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                     );
                 })}
             </div>
+        </div>
+    );
+}
+
+
+function StudentOrganizationAffiliation({ onJoined }) {
+    const [organizations, setOrganizations] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [selectedOrganization, setSelectedOrganization] = useState('');
+    const [joining, setJoining] = useState(false);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchOrganizations = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${API_BASE_URL}/api/organizations`, {
+                    credentials: 'include',
+                });
+                const body = await response.json().catch(() => []);
+                if (!response.ok) {
+                    throw new Error(body?.error || 'Unable to load organizations');
+                }
+                if (!isMounted) {
+                    return;
+                }
+                const normalized = Array.isArray(body) ? body.filter((org) => org && typeof org === 'object') : [];
+                setOrganizations(normalized);
+                if (normalized.length > 0) {
+                    setSelectedOrganization(String(normalized[0].id));
+                }
+                setError(null);
+            } catch (err) {
+                if (!isMounted) {
+                    return;
+                }
+                setError(err instanceof Error ? err.message : 'Unable to load organizations');
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchOrganizations();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const handleJoin = async () => {
+        if (!selectedOrganization) {
+            setError('Please select an organization.');
+            return;
+        }
+
+        try {
+            setJoining(true);
+            setError(null);
+            const response = await fetch(`${API_BASE_URL}/api/student/join-organization`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ organization_id: Number(selectedOrganization) }),
+            });
+            const body = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(body?.error || 'Unable to join organization');
+            }
+            const organization = body?.organization || organizations.find((org) => String(org.id) === String(selectedOrganization));
+            if (organization && typeof onJoined === 'function') {
+                onJoined(organization);
+            }
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Unable to join organization');
+        } finally {
+            setJoining(false);
+        }
+    };
+
+    return (
+        <div className="rounded-2xl border border-sky-100 bg-sky-50/80 p-6 text-left shadow-sm">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h3 className="text-lg font-semibold text-slate-800">Join Your Organization</h3>
+                    <p className="text-sm text-slate-600">Connect your account so your instructor can view your progress.</p>
+                </div>
+            </div>
+            {loading ? (
+                <p className="mt-4 text-sm text-slate-600">Loading organizations…</p>
+            ) : organizations.length === 0 ? (
+                <p className="mt-4 text-sm text-slate-600">No organizations are available yet. Please check back later.</p>
+            ) : (
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+                    <label className="flex-1 text-sm font-semibold text-slate-600" htmlFor="student-organization-select">
+                        Organization
+                        <select
+                            id="student-organization-select"
+                            value={selectedOrganization}
+                            onChange={(event) => setSelectedOrganization(event.target.value)}
+                            className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                        >
+                            {organizations.map((organization) => (
+                                <option key={organization.id} value={organization.id}>
+                                    {organization.name}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+                    <button
+                        type="button"
+                        onClick={handleJoin}
+                        disabled={joining}
+                        className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
+                    >
+                        {joining ? 'Joining…' : 'Join'}
+                    </button>
+                </div>
+            )}
+            {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+        </div>
+    );
+}
+
+
+function InstructorAccessPanel({ accessCode, onAccessCodeChange, onSubmit, loading }) {
+    return (
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+            <label className="flex-1 text-sm font-semibold text-slate-600" htmlFor="instructor-access-code">
+                Organization Code
+                <input
+                    id="instructor-access-code"
+                    type="text"
+                    value={accessCode}
+                    onChange={(event) => onAccessCodeChange(event.target.value)}
+                    placeholder="Enter your access code"
+                    className="mt-1 w-full rounded-lg border border-amber-200 bg-white px-3 py-2 text-slate-700 shadow-sm focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                />
+            </label>
+            <button
+                type="button"
+                onClick={onSubmit}
+                disabled={loading || !accessCode.trim()}
+                className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-amber-700 disabled:opacity-60"
+            >
+                {loading ? 'Loading…' : 'View Dashboard'}
+            </button>
+        </div>
+    );
+}
+
+
+function InstructorDashboard() {
+    const [accessCode, setAccessCode] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [dashboard, setDashboard] = useState(null);
+    const [selectedStudentId, setSelectedStudentId] = useState(null);
+
+    const handleSubmit = useCallback(async () => {
+        if (!accessCode.trim()) {
+            setError('Please enter an organization code.');
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE_URL}/api/instructor/dashboard`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ access_code: accessCode.trim() }),
+            });
+            const body = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(body?.error || 'Unable to load dashboard');
+            }
+            setDashboard(body);
+            const firstStudentId = Array.isArray(body?.students) && body.students.length > 0 ? body.students[0].id : null;
+            setSelectedStudentId(firstStudentId ?? null);
+        } catch (err) {
+            setDashboard(null);
+            setSelectedStudentId(null);
+            setError(err instanceof Error ? err.message : 'Unable to load dashboard');
+        } finally {
+            setLoading(false);
+        }
+    }, [accessCode]);
+
+    const students = useMemo(() => (Array.isArray(dashboard?.students) ? dashboard.students : []), [dashboard]);
+
+    const selectedStudent = useMemo(() => {
+        return students.find((student) => String(student.id) === String(selectedStudentId)) || null;
+    }, [students, selectedStudentId]);
+
+    const formatDate = useCallback((value) => {
+        if (!value) {
+            return '—';
+        }
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) {
+            return typeof value === 'string' ? value : '—';
+        }
+        return date.toLocaleString();
+    }, []);
+
+    const renderScore = useCallback((result) => {
+        if (result == null || typeof result !== 'object') {
+            return '—';
+        }
+        if (result.score != null) {
+            return result.score;
+        }
+        if (result.scaled_score != null) {
+            return result.scaled_score;
+        }
+        if (result.percentage != null) {
+            return `${result.percentage}%`;
+        }
+        return '—';
+    }, []);
+
+    return (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/80 p-6 text-left shadow-sm">
+            <div>
+                <h3 className="text-lg font-semibold text-amber-900">Instructor Dashboard</h3>
+                <p className="text-sm text-amber-800/80">Enter your organization code to review student activity and test results.</p>
+            </div>
+            <InstructorAccessPanel
+                accessCode={accessCode}
+                onAccessCodeChange={setAccessCode}
+                onSubmit={handleSubmit}
+                loading={loading}
+            />
+            {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+            {dashboard && (
+                <div className="mt-6 space-y-6">
+                    <div>
+                        <h4 className="text-base font-semibold text-amber-900">
+                            Organization: <span className="font-bold">{dashboard.organization?.name || 'Unknown Organization'}</span>
+                        </h4>
+                        <div className="mt-3 overflow-x-auto rounded-lg border border-white/60 bg-white/80 shadow-sm">
+                            <table className="min-w-full divide-y divide-amber-100">
+                                <thead className="bg-amber-100/70 text-amber-900">
+                                    <tr>
+                                        <th scope="col" className="px-4 py-2 text-left text-sm font-semibold">Student Name</th>
+                                        <th scope="col" className="px-4 py-2 text-left text-sm font-semibold">Last Login</th>
+                                        <th scope="col" className="px-4 py-2 text-left text-sm font-semibold">Login Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-amber-100 text-sm text-amber-900">
+                                    {students.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={3} className="px-4 py-4 text-center text-amber-700">
+                                                No students are currently affiliated with this organization.
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        students.map((student) => {
+                                            const isSelected = String(student.id) === String(selectedStudentId);
+                                            return (
+                                                <tr
+                                                    key={student.id}
+                                                    className={`cursor-pointer transition-colors hover:bg-amber-50 ${isSelected ? 'bg-amber-50/80' : ''}`}
+                                                    onClick={() => setSelectedStudentId(student.id)}
+                                                >
+                                                    <td className="px-4 py-2 font-medium text-amber-900 underline-offset-2 hover:underline">
+                                                        {student.name || student.email || 'Student'}
+                                                    </td>
+                                                    <td className="px-4 py-2 text-amber-800/90">{formatDate(student.last_login)}</td>
+                                                    <td className="px-4 py-2 text-amber-800/90">{student.login_count ?? '—'}</td>
+                                                </tr>
+                                            );
+                                        })
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div className="rounded-xl border border-white/70 bg-white/90 p-4 shadow-sm">
+                        <h5 className="text-base font-semibold text-amber-900">Student Details</h5>
+                        {selectedStudent ? (
+                            <div className="mt-3 space-y-3">
+                                <div className="rounded-lg border border-amber-100 bg-amber-50/60 p-3">
+                                    <p className="text-sm text-amber-900"><span className="font-semibold">Name:</span> {selectedStudent.name || selectedStudent.email || 'Student'}</p>
+                                    <p className="text-sm text-amber-900"><span className="font-semibold">Email:</span> {selectedStudent.email || '—'}</p>
+                                    <p className="text-sm text-amber-900"><span className="font-semibold">Last Login:</span> {formatDate(selectedStudent.last_login)}</p>
+                                    <p className="text-sm text-amber-900"><span className="font-semibold">Login Count:</span> {selectedStudent.login_count ?? '—'}</p>
+                                </div>
+                                <div>
+                                    <h6 className="text-sm font-semibold text-amber-900">Test Results</h6>
+                                    {Array.isArray(selectedStudent.test_results) && selectedStudent.test_results.length > 0 ? (
+                                        <div className="mt-2 grid gap-2">
+                                            {selectedStudent.test_results.map((result, index) => {
+                                                const key = result.id ?? `${result.test_name || result.subject || 'result'}-${index}`;
+                                                const title = result.test_name || result.exam_name || result.subject || 'Assessment';
+                                                const takenAt = result.taken_at || result.completed_at || result.created_at || result.updated_at || null;
+                                                return (
+                                                    <div key={key} className="rounded-lg border border-amber-100 bg-white p-3 shadow-sm">
+                                                        <p className="text-sm font-semibold text-amber-900">{title}</p>
+                                                        <p className="text-xs text-amber-800/90">Taken: {formatDate(takenAt)}</p>
+                                                        <p className="text-xs text-amber-800/90">Score: {renderScore(result)}</p>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        <p className="mt-2 text-sm text-amber-800/90">No test results recorded yet.</p>
+                                    )}
+                                </div>
+                            </div>
+                        ) : (
+                            <p className="mt-2 text-sm text-amber-800/90">Select a student to view their detailed results.</p>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
