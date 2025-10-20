@@ -599,7 +599,70 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
-async function generateTopicQuiz(subjectParam, topic, difficulty) {
+async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
+    const normalizedProfile = typeof profileKey === 'string' && profileKey.trim().length ? profileKey.trim() : '';
+
+    if (normalizedProfile) {
+        const qaProfileLabel = QA_PROFILE_LABELS[normalizedProfile] || normalizedProfile;
+        const response = await fetch(`${API_BASE_URL}/api/generate-exam`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ subject: subjectParam, topic, count: 12, profile: normalizedProfile })
+        });
+
+        let payload = null;
+        try {
+            payload = await response.json();
+        } catch (err) {
+            throw new Error('The exam generator returned invalid JSON.');
+        }
+
+        if (!response.ok) {
+            const message = payload?.error || `Request failed with status ${response.status}`;
+            throw new Error(message);
+        }
+
+        if (!Array.isArray(payload?.items)) {
+            throw new Error('The exam generator did not return any items.');
+        }
+
+        if (Array.isArray(payload.invalid) && payload.invalid.length) {
+            console.warn('Validator reported issues for some generated items:', payload.invalid);
+        }
+
+        const timestamp = Date.now();
+        return payload.items.map((item, idx) => {
+            const stem = typeof item?.stem === 'string' ? item.stem.trim() : '';
+            const solution = typeof item?.solution === 'string' ? item.solution.trim() : '';
+            const rawChoices = Array.isArray(item?.choices) ? item.choices : [];
+            const safeCorrectIndex = typeof item?.correctIndex === 'number' && item.correctIndex >= 0 && item.correctIndex < rawChoices.length
+                ? item.correctIndex
+                : 0;
+            const answerOptions = rawChoices.map((choice, choiceIdx) => ({
+                id: `choice-${choiceIdx}`,
+                text: String(choice),
+                isCorrect: choiceIdx === safeCorrectIndex,
+                rationale: solution
+            }));
+
+            return {
+                id: `profile-${normalizedProfile}-${timestamp}-${idx}`,
+                questionNumber: idx + 1,
+                questionText: stem,
+                question: stem,
+                answerOptions,
+                rationale: solution,
+                solution,
+                difficulty: item?.difficulty || null,
+                topic: item?.topic || topic,
+                subject: subjectParam,
+                qaProfileKey: normalizedProfile,
+                qaProfileLabel,
+                type: 'standard'
+            };
+        });
+    }
+
     const response = await fetch(`${API_BASE_URL}/api/topic-based/${encodeURIComponent(subjectParam)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -622,7 +685,15 @@ async function generateTopicQuiz(subjectParam, topic, difficulty) {
         throw new Error('The quiz service returned an unexpected payload.');
     }
 
-    return payload.items.map((item, idx) => ({ ...item, questionNumber: item.questionNumber ?? idx + 1 }));
+    const qaProfileLabel = normalizedProfile ? (QA_PROFILE_LABELS[normalizedProfile] || normalizedProfile) : null;
+    const qaProfileKey = normalizedProfile || null;
+
+    return payload.items.map((item, idx) => ({
+        ...item,
+        questionNumber: item.questionNumber ?? idx + 1,
+        qaProfileKey,
+        qaProfileLabel
+    }));
 }
 const SUBJECT_PARAM_MAP = {
     'Science': 'Science',
@@ -637,6 +708,11 @@ const resolveSubjectParam = (subject) => {
         return '';
     }
     return SUBJECT_PARAM_MAP[subject] || subject;
+};
+
+const QA_PROFILE_LABELS = {
+    numeracy: 'Numeracy (no reading comprehension)',
+    physical_sciences_mathy: 'Physical Sciences (math/chem heavy)'
 };
 
 function applySafeMathFix(text) {
@@ -5350,7 +5426,7 @@ function Stem({ item }) {
     );
 }
 
-function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit, subject, showTimer = true }) {
+function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit, subject, showTimer = true, qaProfile }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [marked, setMarked] = useState(Array(questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
@@ -5429,6 +5505,11 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
 
     const subjectForRender = currentQ.subject || subject || 'Default';
+    const normalizedQaProfile = qaProfile && (QA_PROFILE_LABELS[qaProfile] || qaProfile);
+    const activeProfileLabel = currentQ.qaProfileLabel
+        || (currentQ.qaProfileKey && (QA_PROFILE_LABELS[currentQ.qaProfileKey] || currentQ.qaProfileKey))
+        || normalizedQaProfile
+        || '';
     const isScienceQuiz = subject === 'Science' || subjectForRender === 'Science';
     const colorScheme = SUBJECT_COLORS[subjectForRender] || DEFAULT_COLOR_SCHEME;
 
@@ -5442,7 +5523,14 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                 <ArrowLeftIcon /> Back
                             </button>
                         )}
-                        <h2 className={`text-xl font-bold text-center flex-1 ${colorScheme.text || 'text-slate-800'}`}>{quizTitle}</h2>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-2 flex-1">
+                            <h2 className={`text-xl font-bold text-center sm:text-left flex-1 ${colorScheme.text || 'text-slate-800'}`}>{quizTitle}</h2>
+                            {activeProfileLabel && (
+                                <span className="ml-0 sm:ml-2 inline-flex items-center text-xs bg-gray-200 px-2 py-0.5 rounded uppercase tracking-wide text-gray-700">
+                                    {activeProfileLabel}
+                                </span>
+                            )}
+                        </div>
                         <div className="flex flex-col sm:items-end gap-2">
                             {isScienceQuiz && (
                                 <button
@@ -5643,6 +5731,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         onExit={onExit}
         timeLimit={quiz.timeLimit}
         subject={quiz.subject}
+        qaProfile={quiz.qaProfileLabel || quiz.qaProfileKey || ''}
     />;
 }
 
@@ -5697,6 +5786,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             buttonText="Continue to Part 2"
             onExit={onExit}
             subject={quiz.subject}
+            qaProfile={quiz.qaProfileLabel || quiz.qaProfileKey || ''}
         />;
     }
 
@@ -5722,6 +5812,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             buttonText="Finish Exam"
             onExit={onExit}
             subject={quiz.subject}
+            qaProfile={quiz.qaProfileLabel || quiz.qaProfileKey || ''}
         />;
     }
 
@@ -5914,6 +6005,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                             buttonText="Continue to Essay"
                             subject={quiz.subject}
                             showTimer={false}
+                            qaProfile={quiz.qaProfileLabel || quiz.qaProfileKey || ''}
                         />
                     </div>
                 );
@@ -5972,6 +6064,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                             buttonText="Finish Exam"
                             subject={quiz.subject}
                             showTimer={false}
+                            qaProfile={quiz.qaProfileLabel || quiz.qaProfileKey || ''}
                         />
                     </div>
                 );
@@ -6746,6 +6839,7 @@ const passagesData = [
 function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLoadingMessage }) {
     const [selectedTopic, setSelectedTopic] = useState('');
     const [error, setError] = useState(null);
+    const [questionProfile, setQuestionProfile] = useState('');
 
     const availableTopics = AppData[subject]
         ? Object.values(AppData[subject].categories).flatMap(category =>
@@ -6754,6 +6848,12 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
                 .map(topic => topic.title)
         )
         : [];
+
+    const profileOptions = [
+        { value: '', label: 'Default' },
+        { value: 'numeracy', label: QA_PROFILE_LABELS.numeracy },
+        { value: 'physical_sciences_mathy', label: QA_PROFILE_LABELS.physical_sciences_mathy }
+    ];
 
     const handleGenerate = async () => {
         if (!selectedTopic) {
@@ -6770,18 +6870,22 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
         setError(null);
 
         try {
-            const questions = await generateTopicQuiz(subjectParam, selectedTopic);
+            const questions = await generateTopicQuiz(subjectParam, selectedTopic, undefined, questionProfile);
 
             if (!questions.length) {
                 throw new Error('The quiz service returned an empty quiz.');
             }
+
+            const qaProfileLabel = questionProfile ? (QA_PROFILE_LABELS[questionProfile] || questionProfile) : null;
 
             const generatedQuiz = {
                 subject,
                 topic: selectedTopic,
                 id: `ai_${Date.now()}`,
                 title: `${subject} Quiz: ${selectedTopic}`,
-                questions
+                questions,
+                qaProfileKey: questionProfile || null,
+                qaProfileLabel
             };
 
             onQuizGenerated(generatedQuiz);
@@ -6805,7 +6909,7 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
                 <h3 className="text-2xl font-bold text-slate-800">Create a New Quiz</h3>
                 <p className="text-slate-500 mt-2 mb-6">Select a topic from {subject} to generate a unique 15-question practice exam.</p>
                 
-                <select 
+                <select
                     value={selectedTopic}
                     onChange={(e) => setSelectedTopic(e.target.value)}
                     className="w-full p-3 border border-sky-300 rounded-md mb-4 text-lg"
@@ -6814,8 +6918,21 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
                     {availableTopics.map(topic => <option key={topic} value={topic}>{topic}</option>)}
                 </select>
 
-                <button 
-                    onClick={handleGenerate} 
+                <div className="text-left mb-4">
+                    <label className="block text-sm font-medium mb-1">Question Profile</label>
+                    <select
+                        value={questionProfile}
+                        onChange={(e) => setQuestionProfile(e.target.value)}
+                        className="w-full border border-sky-300 rounded-md px-2 py-2 text-base"
+                    >
+                        {profileOptions.map((option) => (
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <button
+                    onClick={handleGenerate}
                     disabled={isLoading}
                     className="w-full px-8 py-4 bg-sky-600 text-white font-bold rounded-lg shadow-md hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
                 >
