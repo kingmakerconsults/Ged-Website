@@ -1,18 +1,16 @@
 # Image Metadata Audit
 
 ## Inventory Cross-Reference
-- Total metadata records reviewed: 28
-- Total image files discovered in `frontend/Images`: 281
+- Total metadata records reviewed: 1,427
+- Total image files discovered in `frontend/Images`: 560
 
 ## Missing Files (metadata without matching asset)
-All `filePath` values in `image_metadata_final.json` now resolve to files in the repository.
+- 867 metadata records reference image paths that do not exist in the repository and should be reviewed for archival or asset restoration.
 
 ## Untracked Files (assets without metadata entry)
-- 261 image files have no entry in the current metadata JSON. The complete list is available in `reports/untracked_files.txt`.
-
-## Coherence Check
-- No filename-versus-description conflicts were detected. All expanded descriptions were aligned with the implied content of each filename and the available alt text/source context.
+- 0 image files are currently missing from `image_metadata_final.json`. All known assets are now represented (see `reports/untracked_files.txt`).
 
 ## Remediation Notes
-- Expanded metadata descriptions and directives were written for all 28 records.
-- Previously broken `filePath` values have been updated or removed so that every metadata entry points to a locally available asset.
+- Added placeholder metadata for 258 previously untracked local assets, capturing file dimensions, SHA-1 hashes, and subject-specific descriptions for future refinement.
+- Synchronized `backend/data/image_metadata_final.json` with the repository root copy so both sources now include the full inventory.
+- Updated the untracked assets report to confirm coverage as of the latest audit.
