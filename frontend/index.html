@@ -66,11 +66,14 @@
         if (typeof window.__APP_CONFIG__.geometryFiguresEnabled === 'undefined') {
             window.__APP_CONFIG__.geometryFiguresEnabled = false;
         }
+        if (typeof window.__APP_CONFIG__.mathMode === 'undefined') {
+            window.__APP_CONFIG__.mathMode = 'plain_fractions';
+        }
     </script>
     <script>
       window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
-      if (typeof window.__APP_CONFIG__.mathRenderMode === 'undefined') {
-        window.__APP_CONFIG__.mathRenderMode = 'plain'; // 'plain' now, 'math-lite' later
+      if (typeof window.__APP_CONFIG__.mathMode === 'undefined') {
+        window.__APP_CONFIG__.mathMode = 'plain_fractions';
       }
     </script>
     <script src="https://ged-website.onrender.com/client-config.js"></script>
@@ -238,6 +241,11 @@
 
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
+
+const APP_MATH_MODE = (window.__APP_CONFIG__ && window.__APP_CONFIG__.mathMode === 'katex')
+    ? 'katex'
+    : 'plain_fractions';
+const SHOULD_USE_KATEX = APP_MATH_MODE === 'katex';
 
 const SUBJECT_PROGRESS_KEYS = [
     "Social Studies",
@@ -844,6 +852,9 @@ function renderLatexToHtml(latexInput) {
     if (typeof latexInput !== 'string') {
         return '';
     }
+    if (!SHOULD_USE_KATEX) {
+        return escapeHtml(toPlainFractions(latexInput));
+    }
     if (typeof katex === 'undefined') {
         throw new Error('KaTeX not available');
     }
@@ -944,6 +955,24 @@ function escapeHtml(value) {
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
+}
+
+function toPlainFractions(input) {
+    if (input == null) {
+        return '';
+    }
+    let text = String(input);
+
+    text = text.replace(/\\\(\s*\\frac/gi, '\\frac')
+        .replace(/\\\)\s*/g, '')
+        .replace(/\\\[\s*\\frac/gi, '\\frac')
+        .replace(/\\\]\s*/g, '');
+
+    text = text.replace(/\\\\/g, '\\');
+
+    text = text.replace(/\\frac\s*\{\s*([+-]?\d+)\s*\}\s*\{\s*([+-]?\d+)\s*\}/gi, (_m, a, b) => `${a}/${b}`);
+
+    return text;
 }
 
 function stripLeakedMathPlaceholders(text) {
@@ -1481,13 +1510,20 @@ function postRenderGuardrails(container, { itemIndex } = {}) {
 }
 
 function MathText({ text, className, subject, itemIndex }) {
+    if (!SHOULD_USE_KATEX) {
+        return (
+            <span className={className}>
+                {toPlainFractions(text ?? '')}
+            </span>
+        );
+    }
     const containerRef = React.useRef(null);
 
     const processedText = React.useMemo(() => lintAndRepairMath(text), [text]);
     const sanitizedHtml = React.useMemo(() => DOMPurify.sanitize(processedText), [processedText]);
 
     React.useEffect(() => {
-        if (!containerRef.current) return;
+        if (!containerRef.current || !SHOULD_USE_KATEX) return;
         renderMathInElement(containerRef.current, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
@@ -1510,6 +1546,13 @@ function MathText({ text, className, subject, itemIndex }) {
 }
 
 function CachedMathText({ html, text, className, subject, itemIndex }) {
+    if (!SHOULD_USE_KATEX) {
+        return (
+            <span className={className}>
+                {toPlainFractions(text ?? '')}
+            </span>
+        );
+    }
     const hasHtml = typeof html === 'string' && html.trim().length > 0;
     if (hasHtml) {
         return (
@@ -1678,13 +1721,13 @@ function renderImageSection(container, imageData, items) {
 
         const stem = document.createElement('div');
         stem.className = 'question-stem text-slate-800';
-        const cachedStem = q?.katex_html_cache?.stem_html || q?.katex_html_cache?.stem;
+        const cachedStem = SHOULD_USE_KATEX && (q?.katex_html_cache?.stem_html || q?.katex_html_cache?.stem);
         if (cachedStem) {
             stem.innerHTML = cachedStem;
         } else {
             const rawStem = q?.question_norm?.stem || q?.question_data?.stem_raw || q?.stem || q?.questionText || '';
-            stem.textContent = rawStem;
-            if (typeof renderMathInElement === 'function') {
+            stem.textContent = SHOULD_USE_KATEX ? rawStem : toPlainFractions(rawStem);
+            if (SHOULD_USE_KATEX && typeof renderMathInElement === 'function') {
                 renderMathInElement(stem, CLIENT_SIDE_MATH_RENDER_OPTIONS);
             }
         }
@@ -1692,7 +1735,7 @@ function renderImageSection(container, imageData, items) {
 
         const list = document.createElement('ul');
         list.className = 'mt-3 list-disc space-y-2 pl-6 text-slate-700';
-        const choiceHtml = q?.katex_html_cache?.choices_html || q?.katex_html_cache?.choices;
+        const choiceHtml = SHOULD_USE_KATEX && (q?.katex_html_cache?.choices_html || q?.katex_html_cache?.choices);
         const choiceTexts = Array.isArray(choiceHtml) && choiceHtml.length
             ? choiceHtml
             : (Array.isArray(q?.question_norm?.choices) && q.question_norm.choices.length
@@ -1709,16 +1752,16 @@ function renderImageSection(container, imageData, items) {
                 const trimmed = choice.replace(/^\s+|\s+$/g, '');
                 const isHtml = /^\s*</.test(trimmed);
                 if (isHtml) {
-                    li.innerHTML = choice;
+                    li.innerHTML = SHOULD_USE_KATEX ? choice : escapeHtml(toPlainFractions(choice));
                 } else {
-                    li.textContent = choice;
-                    if (typeof renderMathInElement === 'function') {
+                    li.textContent = SHOULD_USE_KATEX ? choice : toPlainFractions(choice);
+                    if (SHOULD_USE_KATEX && typeof renderMathInElement === 'function') {
                         renderMathInElement(li, CLIENT_SIDE_MATH_RENDER_OPTIONS);
                     }
                 }
             } else if (typeof choice === 'string') {
-                li.textContent = choice;
-                if (typeof renderMathInElement === 'function') {
+                li.textContent = SHOULD_USE_KATEX ? choice : toPlainFractions(choice);
+                if (SHOULD_USE_KATEX && typeof renderMathInElement === 'function') {
                     renderMathInElement(li, CLIENT_SIDE_MATH_RENDER_OPTIONS);
                 }
             }

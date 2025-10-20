@@ -19,6 +19,13 @@ const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
 
+const VALID_MATH_MODES = new Set(['plain_fractions', 'katex']);
+const DEFAULT_MATH_MODE = (() => {
+    const mode = (process.env.MATH_MODE || 'plain_fractions').toLowerCase();
+    return VALID_MATH_MODES.has(mode) ? mode : 'plain_fractions';
+})();
+const SHOULD_RENDER_KATEX = DEFAULT_MATH_MODE === 'katex';
+
 // ==== IMAGE BANK / REUSE CONFIG ====
 const BANK_IMAGE_FIRST_ENABLED = true;
 const BANK_IMAGE_PULL_RATIO = 0.60; // ~60% pulled from bank (if available)
@@ -198,10 +205,31 @@ function normalizeLatexText(input) {
     return s;
 }
 
-function normalizeQuestion(raw) {
+function toPlainFractions(input) {
+    if (input == null) return input;
+    let s = String(input);
+
+    s = s.replace(/\\\(\s*\\frac/gi, '\\frac')
+        .replace(/\\\)\s*/g, '')
+        .replace(/\\\[\s*\\frac/gi, '\\frac')
+        .replace(/\\\]\s*/g, '');
+
+    s = s.replace(/\\\\/g, '\\');
+
+    s = s.replace(/\\frac\s*\{\s*([+-]?\d+)\s*\}\s*\{\s*([+-]?\d+)\s*\}/gi, (_m, a, b) => `${a}/${b}`);
+
+    return s;
+}
+
+function normalizeQuestion(raw, mathMode = DEFAULT_MATH_MODE) {
     const stem = normalizeLatexText(raw?.stem_raw || "");
     const choices = Array.isArray(raw?.choices) ? raw.choices.map(normalizeLatexText) : [];
     const out = { stem, choices, answer_index: raw?.answer_index ?? 0 };
+
+    if (mathMode === 'plain_fractions') {
+        out.stem = toPlainFractions(out.stem);
+        out.choices = out.choices.map(toPlainFractions);
+    }
 
     if (raw?.image_url) out.image_url = String(raw.image_url);
     if (raw?.imageUrl && !out.image_url) out.image_url = String(raw.imageUrl);
@@ -212,7 +240,7 @@ function normalizeQuestion(raw) {
 }
 
 function renderInlineKatexToHtml(txt) {
-    if (!txt) return null;
+    if (!txt || !SHOULD_RENDER_KATEX) return null;
     // Render only LaTeX bodies; \(...\) delimiters are fine as-is.
     // We accept inline \(...\) OR bare macros: KaTeX can render both.
     try {
@@ -240,7 +268,7 @@ function renderInlineKatexToHtml(txt) {
 }
 
 function renderQuestionToHtml(norm) {
-    if (!norm || typeof norm !== 'object') return null;
+    if (!norm || typeof norm !== 'object' || !SHOULD_RENDER_KATEX) return null;
 
     const stem_html = renderInlineKatexToHtml(norm.stem);
     if (!stem_html) return null;
@@ -362,7 +390,10 @@ function normalizeDomain(value) {
 
 function finalizeChoice(choiceRaw) {
     const raw = typeof choiceRaw === 'string' ? choiceRaw : '';
-    const norm = normalizeLatexText(raw);
+    let norm = normalizeLatexText(raw);
+    if (!SHOULD_RENDER_KATEX) {
+        norm = toPlainFractions(norm);
+    }
     const html = renderInlineKatexToHtml(norm);
     return {
         raw,
@@ -377,7 +408,10 @@ function finalizeQuestionForCache(question, { domain, difficulty }) {
     }
 
     const stemRaw = typeof question.stem === 'string' ? question.stem : '';
-    const stemNorm = normalizeLatexText(stemRaw);
+    let stemNorm = normalizeLatexText(stemRaw);
+    if (!SHOULD_RENDER_KATEX) {
+        stemNorm = toPlainFractions(stemNorm);
+    }
     const stemHtml = renderInlineKatexToHtml(stemNorm);
     const choiceEntries = Array.isArray(question.choices) ? question.choices.map(finalizeChoice) : [];
     const choicesNorm = choiceEntries.map((c) => c.norm);
@@ -388,7 +422,10 @@ function finalizeQuestionForCache(question, { domain, difficulty }) {
         ? question.tags.filter((tag) => typeof tag === 'string' && tag.trim().length)
         : (typeof question.topic === 'string' && question.topic.trim().length ? [question.topic.trim()] : []);
     const solutionRaw = typeof question.solution === 'string' ? question.solution : '';
-    const solutionNorm = normalizeLatexText(solutionRaw);
+    let solutionNorm = normalizeLatexText(solutionRaw);
+    if (!SHOULD_RENDER_KATEX) {
+        solutionNorm = toPlainFractions(solutionNorm);
+    }
     const solutionHtml = renderInlineKatexToHtml(solutionNorm);
     const katexOk = Boolean(stemHtml) && choiceHtml.every((html) => typeof html === 'string' && html.length);
 
@@ -2406,7 +2443,7 @@ async function saveImageQuestionToBank({ image, subject, category, item_type, do
         payload.alt_text = image.alt_text;
     }
 
-    const norm = normalizeQuestion(payload);
+    const norm = normalizeQuestion(payload, DEFAULT_MATH_MODE);
     const html = renderQuestionToHtml(norm);
     const katex_ok = !!html;
     const fingerprint = fingerprintOf(norm);
@@ -2822,7 +2859,7 @@ app.post('/question-bank/save', async (req, res) => {
             return res.status(400).json({ error: 'Invalid question_data' });
         }
 
-        const question_norm = normalizeQuestion(question_data);
+        const question_norm = normalizeQuestion(question_data, DEFAULT_MATH_MODE);
         const fp = fingerprintOf(question_norm);
         const html = renderQuestionToHtml(question_norm);
         const katex_ok = !!html;
@@ -3668,7 +3705,11 @@ app.get('/api/instructor/dashboard', authenticateBearerToken, async (req, res) =
 });
 
 app.get('/client-config.js', (req, res) => {
-    const payload = `window.__APP_CONFIG__ = window.__APP_CONFIG__ || {}; window.__APP_CONFIG__.geometryFiguresEnabled = ${GEOMETRY_FIGURES_ENABLED};`;
+    const payload = [
+        'window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};',
+        `window.__APP_CONFIG__.geometryFiguresEnabled = ${GEOMETRY_FIGURES_ENABLED};`,
+        `window.__APP_CONFIG__.mathMode = '${DEFAULT_MATH_MODE}';`
+    ].join(' ');
     res.type('application/javascript').send(payload);
 });
 

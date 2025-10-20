@@ -33,8 +33,21 @@ export function lintAndRepairMath(text) {
   return working;
 }
 
+function toPlainFractions(input) {
+  if (input == null) {
+    return '';
+  }
+  let text = String(input);
+  text = text.replace(/\\\(\s*\\frac/gi, '\\frac')
+    .replace(/\\\)\s*/g, '')
+    .replace(/\\\[\s*\\frac/gi, '\\frac')
+    .replace(/\\\]\s*/g, '');
+  text = text.replace(/\\\\/g, '\\');
+  return text.replace(/\\frac\s*\{\s*([+-]?\d+)\s*\}\s*\{\s*([+-]?\d+)\s*\}/gi, (_m, a, b) => `${a}/${b}`);
+}
+
 function renderLatexToHtml(latex) {
-  return `<span class="katex">${escapeHtml(latex)}</span>`;
+  return escapeHtml(toPlainFractions(latex));
 }
 
 function renderStem(text) {
@@ -79,25 +92,24 @@ const isMain = (() => {
 
 if (isMain) {
   const cases = [
-    { input: '/frac{2}{3}x - 7 = 5', expectKatex: true },
-    { input: '^rac{1}{2}', expectKatex: true },
-    { input: '\\dfrac{a}{b}', expectKatex: true },
-    { input: '\\left(\\frac{a}{b}\\right)', expectKatex: true },
-    { input: '$12', expectKatex: false, expectedLiteral: '$12' },
-    { input: '$ 12.50', expectKatex: false, expectedLiteral: '$ 12.50' },
-    { input: 'What is \\(\\frac{2}{3}\\)x?', expectKatex: true, expectedLiteral: 'What is ' }
+    { input: '/frac{2}{3}x - 7 = 5', includes: ['2/3'], excludes: ['\\frac'] },
+    { input: '^rac{1}{2}', includes: ['1/2'], excludes: ['\\frac'] },
+    { input: '\\dfrac{a}{b}', includes: ['\\frac{a}{b}'] },
+    { input: '\\left(\\frac{a}{b}\\right)', includes: ['\\frac{a}{b}'], excludes: ['\\left'] },
+    { input: '$12', includes: ['$12'] },
+    { input: '$ 12.50', includes: ['$ 12.50'] },
+    { input: 'What is \\(\\frac{2}{3}\\)x?', includes: ['2/3'], excludes: ['\\frac'] }
   ];
 
   for (const testCase of cases) {
     const html = pipeline(testCase.input);
-    if (testCase.expectKatex) {
-      assert.match(html, /<span class=\"katex\">/);
-    } else {
-      assert.doesNotMatch(html, /<span class=\"katex\">/);
-    }
-    if (testCase.expectedLiteral) {
-      assert.ok(html.includes(testCase.expectedLiteral), `Expected literal "${testCase.expectedLiteral}" in ${html}`);
-    }
+    assert.doesNotMatch(html, /<span class=\"katex\">/);
+    (testCase.includes || []).forEach(expected => {
+      assert.ok(html.includes(expected), `Expected "${expected}" in ${html}`);
+    });
+    (testCase.excludes || []).forEach(unexpected => {
+      assert.ok(!html.includes(unexpected), `Did not expect "${unexpected}" in ${html}`);
+    });
   }
 
   console.log('Math rendering pipeline cases passed.');
