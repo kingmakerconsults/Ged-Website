@@ -1846,6 +1846,116 @@ app.post('/api/instructor/login', async (req, res) => {
     }
 });
 
+app.post('/api/instructor/google-login', async (req, res) => {
+    const { credential, organizationId, accessCode } = req.body || {};
+
+    if (!process.env.JWT_SECRET) {
+        console.error('Instructor Google login attempted without JWT_SECRET configured.');
+        return res.status(500).json({ error: 'Login unavailable' });
+    }
+
+    if (!process.env.GOOGLE_CLIENT_ID) {
+        console.error('Instructor Google login attempted without GOOGLE_CLIENT_ID configured.');
+        return res.status(500).json({ error: 'Login unavailable' });
+    }
+
+    const idToken = typeof credential === 'string' ? credential.trim() : '';
+    if (!idToken) {
+        return res.status(400).json({ error: 'A Google credential is required' });
+    }
+
+    const numericOrganizationId = Number(organizationId);
+    if (!Number.isInteger(numericOrganizationId)) {
+        return res.status(400).json({ error: 'A valid organization is required' });
+    }
+
+    if (typeof accessCode !== 'string' || !accessCode.trim()) {
+        return res.status(400).json({ error: 'An organization access code is required' });
+    }
+
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+        const email = payload?.email;
+        if (!email) {
+            return res.status(400).json({ error: 'Google login did not provide an email address' });
+        }
+
+        const normalizedEmail = email.trim().toLowerCase();
+        if (!normalizedEmail) {
+            return res.status(400).json({ error: 'A valid email address is required' });
+        }
+
+        const organizationResult = await pool.query(
+            `SELECT id, access_code
+             FROM organizations
+             WHERE id = $1`,
+            [numericOrganizationId]
+        );
+
+        if (
+            organizationResult.rowCount === 0 ||
+            String(organizationResult.rows[0].access_code || '').trim() !== accessCode.trim()
+        ) {
+            return res.status(401).json({ error: 'Invalid organization or access code.' });
+        }
+
+        const displayName = typeof payload?.name === 'string' ? payload.name.trim() || null : null;
+        const pictureUrl = typeof payload?.picture === 'string' ? payload.picture : null;
+
+        const userResult = await pool.query(
+            `SELECT id, email, name, organization_id, role, last_login, login_count, picture_url
+             FROM users
+             WHERE email = $1
+             LIMIT 1;`,
+            [normalizedEmail]
+        );
+
+        let userRow;
+        if (userResult.rowCount > 0) {
+            const existingUser = userResult.rows[0];
+            const updateResult = await pool.query(
+                `UPDATE users
+                 SET name = COALESCE($1, name),
+                     picture_url = COALESCE($2, picture_url),
+                     role = 'instructor',
+                     organization_id = $3,
+                     last_login = NOW(),
+                     login_count = COALESCE(login_count, 0) + 1
+                 WHERE id = $4
+                 RETURNING id, email, created_at, name, organization_id, role, last_login, login_count, picture_url;`,
+                [displayName, pictureUrl, numericOrganizationId, existingUser.id]
+            );
+            userRow = updateResult.rows[0];
+        } else {
+            const insertResult = await pool.query(
+                `INSERT INTO users (email, name, picture_url, password_hash, role, organization_id, last_login, login_count)
+                 VALUES ($1, $2, $3, $4, 'instructor', $5, NOW(), 1)
+                 RETURNING id, email, created_at, name, organization_id, role, last_login, login_count, picture_url;`,
+                [normalizedEmail, displayName, pictureUrl, null, numericOrganizationId]
+            );
+            userRow = insertResult.rows[0];
+        }
+
+        if (!userRow) {
+            throw new Error('Failed to persist instructor record after Google login.');
+        }
+
+        const user = formatUserRow(userRow);
+        const token = createUserToken(user.id, 'instructor');
+        setAuthCookie(res, token, 24 * 60 * 60 * 1000);
+
+        return res.status(200).json({ message: 'Login successful', user: { ...user, role: 'instructor' }, token });
+    } catch (error) {
+        console.error('Instructor Google login failed:', error);
+        return res.status(500).json({ error: 'Login failed' });
+    }
+});
+
 app.post('/api/scores', authenticateBearerToken, async (req, res) => {
     const { subject, score } = req.body || {};
 

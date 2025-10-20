@@ -3657,6 +3657,8 @@ function AdminPasswordLogin({ onAdminLogin }) {
 
 function AuthScreen({ onLogin }) {
     const googleButton = useRef(null);
+    const instructorGoogleButton = useRef(null);
+    const googleSigninContextRef = useRef('student');
     const [activeView, setActiveView] = useState('selection');
     const [studentEmail, setStudentEmail] = useState('');
     const [studentPassword, setStudentPassword] = useState('');
@@ -3671,13 +3673,72 @@ function AuthScreen({ onLogin }) {
     const INSTRUCTOR_ORGANIZATION_ID = 1;
 
     const handleCredentialResponse = useCallback(async (response) => {
+        const credential = response?.credential;
+        if (!credential) {
+            console.error('Google credential was missing from the response.');
+            return;
+        }
+
+        const mode = googleSigninContextRef.current || 'student';
+
+        if (mode === 'instructor') {
+            if (!instructorAccessCode.trim()) {
+                setInstructorError('Please enter your organization access code before using Google sign-in.');
+                return;
+            }
+
+            setInstructorSubmitting(true);
+            setInstructorError(null);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/instructor/google-login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        credential,
+                        organizationId: INSTRUCTOR_ORGANIZATION_ID,
+                        accessCode: instructorAccessCode.trim(),
+                    }),
+                });
+
+                let body = {};
+                try {
+                    body = await response.json();
+                } catch (err) {
+                    body = {};
+                }
+
+                if (!response.ok) {
+                    const message = body?.error || 'Google sign-in failed. Please try again.';
+                    setInstructorError(message);
+                    return;
+                }
+
+                if (body?.user && body?.token) {
+                    onLogin(body.user, body.token);
+                } else {
+                    setInstructorError('Unexpected response from server.');
+                }
+            } catch (error) {
+                console.error('Instructor Google login failed:', error);
+                setInstructorError('Google sign-in failed. Please try again.');
+            } finally {
+                setInstructorSubmitting(false);
+            }
+
+            return;
+        }
+
         try {
-            const res = await fetch('https://ged-website.onrender.com/api/auth/google', {
+            setStudentError(null);
+            const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ credential: response.credential }),
+                body: JSON.stringify({ credential }),
             });
 
             if (!res.ok) {
@@ -3687,27 +3748,48 @@ function AuthScreen({ onLogin }) {
             const { user, token } = await res.json();
             onLogin(user, token);
         } catch (error) {
-            console.error("Login Error:", error);
+            console.error('Login Error:', error);
+            setStudentError('Google sign-in failed. Please try again.');
         }
-    }, [onLogin]);
+    }, [onLogin, instructorAccessCode, setInstructorError, setInstructorSubmitting, setStudentError, INSTRUCTOR_ORGANIZATION_ID]);
 
     useEffect(() => {
+        function initializeGoogleSignIn() {
+            if (!(window.google && window.google.accounts && window.google.accounts.id)) {
+                return;
+            }
+
+            window.google.accounts.id.initialize({
+                client_id: '828659988606-p9ct562f068p1778im2ck2o5iga89i7m.apps.googleusercontent.com',
+                callback: handleCredentialResponse,
+                ux_mode: 'popup',
+            });
+
+            if (googleButton.current) {
+                window.google.accounts.id.renderButton(
+                    googleButton.current,
+                    { theme: 'outline', size: 'large', text: 'signin_with', shape: 'rectangular' }
+                );
+            }
+
+            if (instructorGoogleButton.current) {
+                window.google.accounts.id.renderButton(
+                    instructorGoogleButton.current,
+                    { theme: 'outline', size: 'large', text: 'signin_with', shape: 'rectangular' }
+                );
+            }
+        }
+
+        if (window.google && window.google.accounts && window.google.accounts.id) {
+            initializeGoogleSignIn();
+            return () => {};
+        }
+
         const script = document.createElement('script');
         script.src = 'https://accounts.google.com/gsi/client';
         script.async = true;
         script.defer = true;
-        script.onload = () => {
-            if (window.google && google.accounts.id && googleButton.current) {
-                google.accounts.id.initialize({
-                    client_id: '828659988606-p9ct562f068p1778im2ck2o5iga89i7m.apps.googleusercontent.com',
-                    callback: handleCredentialResponse,
-                });
-                google.accounts.id.renderButton(
-                    googleButton.current,
-                    { theme: "outline", size: "large", text: "signin_with", shape: "rectangular" }
-                );
-            }
-        };
+        script.onload = initializeGoogleSignIn;
         script.onerror = () => {
             console.error('Google Sign-In script failed to load.');
         };
@@ -3715,9 +3797,10 @@ function AuthScreen({ onLogin }) {
         document.body.appendChild(script);
 
         return () => {
-            const goggleScript = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
-            if (goggleScript) {
-                document.body.removeChild(goggleScript);
+            script.onload = null;
+            script.onerror = null;
+            if (script.parentNode) {
+                script.parentNode.removeChild(script);
             }
         };
     }, [handleCredentialResponse]);
@@ -3904,7 +3987,13 @@ function AuthScreen({ onLogin }) {
                         <span>Or continue with</span>
                         <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
                     </div>
-                    <div ref={googleButton} className="flex justify-center"></div>
+                    <div
+                        ref={googleButton}
+                        className="flex justify-center"
+                        onClick={() => {
+                            googleSigninContextRef.current = 'student';
+                        }}
+                    ></div>
                     {showAdminBypass && (
                         <div className="mt-8">
                             <AdminBypassForm />
@@ -3981,6 +4070,18 @@ function AuthScreen({ onLogin }) {
                             {instructorSubmitting ? 'Please wait…' : 'Login as Instructor'}
                         </button>
                     </form>
+                    <div className="my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-slate-400">
+                        <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
+                        <span>Or continue with</span>
+                        <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
+                    </div>
+                    <div
+                        ref={instructorGoogleButton}
+                        className="flex justify-center"
+                        onClick={() => {
+                            googleSigninContextRef.current = 'instructor';
+                        }}
+                    ></div>
                 </div>
             </div>
             <AdminPasswordLogin onAdminLogin={onLogin} />
