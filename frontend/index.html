@@ -172,6 +172,12 @@
             overflow-wrap: break-word;
             word-break: normal;
         }
+        .katex-error {
+            background: #fff3cd;
+            color: #7a5c00;
+            padding: 0 2px;
+            border-radius: 3px;
+        }
         .question-stem table {
             width: 100%;
             border-collapse: collapse;
@@ -854,13 +860,23 @@ function stripLeakedMathPlaceholders(text) {
         .replace(/MATH_SEGMENT_[A-Z0-9]+/gi, '');
 }
 
+function lintAndRepairMath(text) {
+    if (typeof text !== 'string') {
+        return '';
+    }
+
+    let working = preprocessRawContent(text, { normalizeSpacing: true });
+    working = smartWrapLatex(working);
+    working = neutralizeUnpairedDollarSigns(working);
+    return working;
+}
+
 function renderStem(text) {
     if (typeof text !== 'string') {
         return '';
     }
 
-    const cleanedText = preprocessRawContent(text, { normalizeSpacing: true });
-    const segments = extractMathSegments(cleanedText);
+    const segments = extractMathSegments(text);
     const renderedParts = [];
 
     for (const segment of segments) {
@@ -868,8 +884,8 @@ function renderStem(text) {
             try {
                 renderedParts.push(renderLatexToHtml(segment.value));
             } catch (err) {
-                console.warn('KaTeX render failed:', err);
-                renderedParts.push(segment.raw);
+                console.warn('KaTeX render failed:', err, segment.value);
+                renderedParts.push(`<span class="katex-error" title="${escapeHtml(String(err))}">${escapeHtml(segment.raw)}</span>`);
             }
         } else {
             renderedParts.push(segment.value);
@@ -1369,24 +1385,25 @@ function postRenderGuardrails(container, { itemIndex } = {}) {
     }
 }
 
-function MathText({ text, className, subject }) {
+function MathText({ text, className, subject, itemIndex }) {
     const containerRef = React.useRef(null);
 
-    React.useEffect(() => {
-        if (containerRef.current) {
-            renderMathInElement(containerRef.current, {
-                delimiters: [
-                    {left: "$$", right: "$$", display: true},
-                    {left: "$", right: "$", display: false},
-                    {left: "\\(", right: "\\)", display: false},
-                    {left: "\\[", right: "\\]", display: true}
-                ],
-                throwOnError: false
-            });
-        }
-    }, [text]);
+    const processedText = React.useMemo(() => lintAndRepairMath(text), [text]);
+    const sanitizedHtml = React.useMemo(() => DOMPurify.sanitize(processedText), [processedText]);
 
-    const sanitizedHtml = DOMPurify.sanitize(text);
+    React.useEffect(() => {
+        if (!containerRef.current) return;
+        renderMathInElement(containerRef.current, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            throwOnError: false
+        });
+        postRenderGuardrails(containerRef.current, { itemIndex });
+    }, [sanitizedHtml, itemIndex]);
 
     return (
         <span
@@ -5308,7 +5325,7 @@ function Stem({ item }) {
 
             {passageContent && (
                 <MathText
-                    text={passageContent}
+                    text={lintAndRepairMath(passageContent)}
                     className="question-stem block"
                     itemIndex={`${item.questionNumber}-passage`}
                     subject={item.subject}
@@ -5318,7 +5335,7 @@ function Stem({ item }) {
             {questionContent && (
                 <div className="mt-2">
                     <MathText
-                        text={questionContent}
+                        text={lintAndRepairMath(questionContent)}
                         className="question-stem block font-bold text-slate-900"
                         itemIndex={`${item.questionNumber}-question`}
                         subject={item.subject}
@@ -5514,7 +5531,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     ) : (
                         <div className="space-y-3">
                             {(currentQ.answerOptions || []).map((opt, i) => {
-                                const cleanedOptionText = opt.text.trim().replace(/^\$\$/, '$');
+                                const cleanedOptionText = lintAndRepairMath(opt.text.trim().replace(/^\$\$/, '$'));
                                 const isSelected = answers[currentIndex] === opt.text;
                                 const optionStateClass = isSelected
                                     ? `${colorScheme.optionSelectedBg || DEFAULT_COLOR_SCHEME.optionSelectedBg} ${colorScheme.optionSelectedBorder || DEFAULT_COLOR_SCHEME.optionSelectedBorder}`
@@ -5587,7 +5604,7 @@ function ScienceFormulaSheet({ title }) {
                     <div key={index} className="p-3 bg-gray-50 rounded-md">
                         <p className="font-bold text-lg text-indigo-700">{item.name}</p>
                         <MathText
-                            text={`$$${item.formula}$$`}
+                            text={lintAndRepairMath(`$$${item.formula}$$`)}
                             className="text-xl my-2 text-center text-gray-900 bg-gray-100 p-2 rounded block"
                             subject="Science"
                         />
@@ -5905,12 +5922,22 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     <div>
                         <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response (Essay)</h3>
                         <div className="prose max-w-none bg-slate-50 p-4 rounded-lg mb-4">
-                            <h4 className="question-stem">{quiz.part2_essay.passages[0].title}</h4>
-                            <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[0].content, { normalizeSpacing: true }) }} />
+                            <h4
+                                className="question-stem"
+                                dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(quiz.part2_essay.passages[0].title)) }}
+                            />
+                            <div
+                                dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(quiz.part2_essay.passages[0].content)) }}
+                            />
                         </div>
                         <div className="prose max-w-none bg-slate-50 p-4 rounded-lg">
-                            <h4 className="question-stem">{quiz.part2_essay.passages[1].title}</h4>
-                            <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[1].content, { normalizeSpacing: true }) }} />
+                            <h4
+                                className="question-stem"
+                                dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(quiz.part2_essay.passages[1].title)) }}
+                            />
+                            <div
+                                dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(quiz.part2_essay.passages[1].content)) }}
+                            />
                         </div>
                         <div className="mt-4">
                             <h4 className="font-bold">Essay Prompt:</h4>
@@ -6095,13 +6122,24 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                 </p>
                                 {!isCorrect && correctAnswer && (
                                     <p className="text-green-700 question-stem">
-                                        Correct answer: <MathText text={correctAnswer.text} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-correct`} subject={question.subject || quiz.subject || 'Math'} />
+                                        Correct answer:{' '}
+                                        <MathText
+                                            text={lintAndRepairMath(correctAnswer.text)}
+                                            className="question-stem"
+                                            itemIndex={`${question.questionNumber ?? (index + 1)}-correct`}
+                                            subject={question.subject || quiz.subject || 'Math'}
+                                        />
                                     </p>
                                 )}
                                 {correctAnswer && correctAnswer.rationale && (
                                     <div className="mt-2 text-sm text-slate-600 explanation-text">
                                         <span className="font-semibold">Rationale:</span>{' '}
-                                        <MathText text={correctAnswer.rationale} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`} subject={question.subject || quiz.subject || 'Math'} />
+                                        <MathText
+                                            text={lintAndRepairMath(correctAnswer.rationale)}
+                                            className="question-stem"
+                                            itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`}
+                                            subject={question.subject || quiz.subject || 'Math'}
+                                        />
                                     </div>
                                 )}
                                 {confidenceLevel && (
@@ -6157,10 +6195,18 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                  <div></div>
             </header>
             <article className="prose max-w-none">
-                <h3 className="text-2xl font-bold question-stem" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.article.title, { normalizeSpacing: true }) }}></h3>
+                <h3
+                    className="text-2xl font-bold question-stem"
+                    dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(quiz.article.title)) }}
+                />
                 <p className="text-sm italic text-slate-500">{quiz.article.genre}</p>
                 {quiz.imageUrl && <img src={quiz.imageUrl} alt="Article supplemental image" className="my-4 mx-auto rounded-md border" />}
-                {quiz.article.text.map((p, i) => <p key={i} dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(p, { normalizeSpacing: true }) }}></p>)}
+                {quiz.article.text.map((p, i) => (
+                    <p
+                        key={i}
+                        dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(p)) }}
+                    />
+                ))}
             </article>
             <section className="mt-8 pt-6 border-t">
                 <h3 className="text-2xl font-bold mb-4">Questions</h3>
@@ -6184,7 +6230,12 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                                     <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
                                         <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
                                         <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
-                                            <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} subject={q.subject || quiz.subject || 'Math'} />
+                                            <MathText
+                                                text={lintAndRepairMath(opt.text)}
+                                                className="question-stem"
+                                                itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`}
+                                                subject={q.subject || quiz.subject || 'Math'}
+                                            />
                                         </span>
                                     </label>
                                 ))}
@@ -6419,11 +6470,17 @@ const passagesData = [
         switch (overlayView) {
             case 'passage1':
                 return (
-                    <div className="prose max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage1.content, { normalizeSpacing: true }) }} />
+                    <div
+                        className="prose max-w-none text-sm text-slate-700"
+                        dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(selectedPassage.passage1.content)) }}
+                    />
                 );
             case 'passage2':
                 return (
-                    <div className="prose max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage2.content, { normalizeSpacing: true }) }} />
+                    <div
+                        className="prose max-w-none text-sm text-slate-700"
+                        dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(selectedPassage.passage2.content)) }}
+                    />
                 );
             default:
                 return (
@@ -6468,11 +6525,15 @@ const passagesData = [
                         <div className="grid lg:grid-cols-2 gap-8">
                             <article className="bg-white p-6 rounded-lg shadow-md">
                                 <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">{selectedPassage.passage1.title}</h2>
-                                <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage1.content, { normalizeSpacing: true }) }} />
+                                <div
+                                    dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(selectedPassage.passage1.content)) }}
+                                />
                             </article>
                             <article className="bg-white p-6 rounded-lg shadow-md">
                                 <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">{selectedPassage.passage2.title}</h2>
-                                <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage2.content, { normalizeSpacing: true }) }} />
+                                <div
+                                    dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(selectedPassage.passage2.content)) }}
+                                />
                             </article>
                         </div>
                     </div>
@@ -6585,7 +6646,13 @@ const passagesData = [
         return (
             <>
                 <div className="p-8 prose max-w-none">
-                    {fullEssay ? <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(fullEssay.replace(/\n/g, '<br/>'), { normalizeSpacing: true }) }} /> : <p><em>You did not write anything in the practice area.</em></p>}
+                    {fullEssay ? (
+                        <div
+                            dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(fullEssay.replace(/\n/g, '<br/>'))) }}
+                        />
+                    ) : (
+                        <p><em>You did not write anything in the practice area.</em></p>
+                    )}
                 </div>
                 <div className="p-6 border-t bg-gray-50 space-y-4">
                     <button onClick={handleGetScore} disabled={isScoring || !fullEssay} className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
