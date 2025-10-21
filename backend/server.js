@@ -1334,7 +1334,7 @@ async function ensureSchema(pool) {
       ADD COLUMN IF NOT EXISTS difficulty text,
       ADD COLUMN IF NOT EXISTS domain text;
 
-    CREATE UNIQUE INDEX IF NOT EXISTS questions_fingerprint_uidx
+    CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS questions_fingerprint_uidx
       ON public.questions(fingerprint) WHERE fingerprint IS NOT NULL;
 
     CREATE INDEX IF NOT EXISTS questions_question_data_gin
@@ -4216,7 +4216,14 @@ function loadCuratedImages() {
 
     try {
         const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
-        const parsed = JSON.parse(imageData);
+        let parsed;
+        try {
+            parsed = JSON.parse(imageData);
+        } catch (parseError) {
+            curatedImages = [];
+            console.error('Failed to parse image_metadata_final.json. The image repository file might be corrupted:', parseError);
+            return;
+        }
         if (Array.isArray(parsed)) {
             curatedImages = parsed.map((img) => ({
                 ...img,
@@ -4226,7 +4233,8 @@ function loadCuratedImages() {
             console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
         }
     } catch (error) {
-        console.error('Failed to load or parse image_metadata.json:', error);
+        curatedImages = [];
+        console.error('Failed to load image_metadata_final.json. The image repository file might be corrupted:', error);
     }
 }
 
@@ -6550,7 +6558,7 @@ app.post('/generate-quiz', async (req, res) => {
 
                 const TOTAL_QUESTIONS = 46;
 
-                const generationTasks = blueprintPlan.map((task) => {
+                const generationTasks = blueprintPlan.map((task) => async () => {
                     if (task.type === 'passage') {
                         return generatePassageSet(task.category, subject, task.questionCount, {
                             ...aiOptions,
@@ -6573,16 +6581,17 @@ app.post('/generate-quiz', async (req, res) => {
                             requireNamedEntity: true
                         });
                     }
-                    return Promise.resolve([]);
+                    return [];
                 });
 
-                const results = await Promise.all(generationTasks);
                 let allQuestions = [];
-                results.forEach((items, idx) => {
+                for (let idx = 0; idx < generationTasks.length; idx++) {
+                    const executeTask = generationTasks[idx];
+                    const items = await executeTask();
                     const task = blueprintPlan[idx];
                     const batch = Array.isArray(items) ? items : [items];
-                    batch.forEach((question) => {
-                        if (!question) return;
+                    for (const question of batch) {
+                        if (!question) continue;
                         const enriched = { ...question };
                         if (!enriched.category) {
                             enriched.category = task.category;
@@ -6591,8 +6600,8 @@ app.post('/generate-quiz', async (req, res) => {
                             enriched.domain = task.category;
                         }
                         allQuestions.push(enriched);
-                    });
-                });
+                    }
+                }
 
                 const seenStimuli = new Set();
                 allQuestions = allQuestions.filter((question) => {
