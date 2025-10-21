@@ -331,6 +331,120 @@ function VocabularySection({ subject }) {
     );
 }
 
+function VocabularyOverview({ onSelectSubject }) {
+    const [subjectEntries, setSubjectEntries] = React.useState([]);
+
+    React.useEffect(() => {
+        let isMounted = true;
+
+        const buildEntries = () => {
+            const vocabularyIndex = (window.VocabularyIndex && typeof window.VocabularyIndex === 'object')
+                ? window.VocabularyIndex
+                : {};
+
+            const orderedEntries = SUBJECT_PROGRESS_KEYS
+                .map((subjectName) => [subjectName, vocabularyIndex[subjectName]])
+                .filter(([, list]) => Array.isArray(list) && list.length > 0);
+
+            const remainingEntries = Object.entries(vocabularyIndex)
+                .filter(([subjectName, list]) => {
+                    if (!Array.isArray(list) || !list.length) {
+                        return false;
+                    }
+                    return !SUBJECT_PROGRESS_KEYS.includes(subjectName);
+                });
+
+            return [...orderedEntries, ...remainingEntries];
+        };
+
+        const updateEntries = () => {
+            if (!isMounted) {
+                return;
+            }
+            setSubjectEntries(buildEntries());
+        };
+
+        updateEntries();
+
+        if (window.VocabularyIndex) {
+            return () => {
+                isMounted = false;
+            };
+        }
+
+        const intervalId = window.setInterval(() => {
+            if (window.VocabularyIndex) {
+                updateEntries();
+                window.clearInterval(intervalId);
+            }
+        }, 100);
+
+        return () => {
+            isMounted = false;
+            window.clearInterval(intervalId);
+        };
+    }, []);
+
+    if (!subjectEntries.length) {
+        return null;
+    }
+
+    return (
+        <section className="mt-10">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+                <div>
+                    <h2 className="text-2xl font-bold text-slate-800">Vocabulary Highlights</h2>
+                    <p className="text-sm text-slate-500">Preview essential academic language for each subject.</p>
+                </div>
+            </div>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                {subjectEntries.map(([subjectName, vocabList]) => {
+                    const terms = Array.isArray(vocabList) ? vocabList : [];
+                    const previewTerms = terms.slice(0, 4);
+                    const colorScheme = SUBJECT_COLORS[subjectName] || {};
+
+                    return (
+                        <div
+                            key={subjectName}
+                            className="flex flex-col h-full rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden"
+                        >
+                            <div className={`${colorScheme.background || 'bg-slate-800'} px-4 py-3`}>
+                                <h3 className="text-lg font-semibold text-white">{subjectName}</h3>
+                            </div>
+                            <div className="flex-1 px-4 py-3">
+                                <ul className="space-y-3">
+                                    {previewTerms.map(({ term, definition }) => (
+                                        <li key={term} className="text-sm text-slate-600">
+                                            <span className="block font-semibold text-slate-700">{term}</span>
+                                            <span>{definition}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                                {terms.length > previewTerms.length && (
+                                    <p className="mt-3 text-xs text-slate-400">
+                                        +{terms.length - previewTerms.length} more terms available.
+                                    </p>
+                                )}
+                            </div>
+                            {typeof onSelectSubject === 'function' && (
+                                <div className="px-4 pb-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => onSelectSubject(subjectName)}
+                                        className={`w-full px-3 py-2 text-sm font-semibold rounded-lg transition text-white shadow-sm ${colorScheme.background || 'bg-slate-800'} ${colorScheme.hoverBackground || 'hover:bg-slate-900'}`}
+                                    >
+                                        View all terms
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+        </section>
+    );
+}
+
 const buildProgressFromScores = (scores = []) => {
     const progress = createEmptyProgress();
     (Array.isArray(scores) ? scores : []).forEach((entry) => {
@@ -5496,6 +5610,7 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                     Start a 5-Minute Pop Quiz ⏱️
                 </button>
             </div>
+            <VocabularyOverview onSelectSubject={handleSelectSubject} />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {Object.entries(AppData).map(([subjectName, subject]) => {
                     const IconComponent = ICONS[subject.icon];
