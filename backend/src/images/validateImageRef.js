@@ -1,18 +1,35 @@
-const Ajv = require('ajv');
-const addFormats = require('ajv-formats');
-const sanitizeHtml = require('sanitize-html');
+let Ajv = null;
+let addFormats = null;
+try {
+    Ajv = require('ajv');
+    addFormats = require('ajv-formats');
+} catch (err) {
+    Ajv = null;
+    addFormats = null;
+}
+
+let sanitizeHtmlLib = null;
+try {
+    sanitizeHtmlLib = require('sanitize-html');
+} catch (err) {
+    sanitizeHtmlLib = null;
+}
 
 const schema = require('../../schemas/imageRef.schema.json');
 
-const ajv = new Ajv({
+let validate;
+const ajv = Ajv ? new Ajv({
     allErrors: true,
     strict: false,
     removeAdditional: 'failing',
     useDefaults: false
-});
-addFormats(ajv);
-
-const validate = ajv.compile(schema);
+}) : null;
+if (ajv && typeof addFormats === 'function') {
+    addFormats(ajv);
+}
+if (ajv) {
+    validate = ajv.compile(schema);
+}
 
 const MAX_ALT_LENGTH = 250;
 const MAX_CAPTION_LENGTH = 800;
@@ -23,12 +40,19 @@ function clampLength(value, maxLength) {
     return value.length > maxLength ? value.slice(0, maxLength) : value;
 }
 
+function stripHtml(value) {
+    if (sanitizeHtmlLib) {
+        return sanitizeHtmlLib(String(value), {
+            allowedTags: [],
+            allowedAttributes: {}
+        });
+    }
+    return String(value).replace(/<[^>]*>/g, '');
+}
+
 function cleanString(value, maxLength = MAX_TEXT_LENGTH) {
     if (value == null) return undefined;
-    const stripped = sanitizeHtml(String(value), {
-        allowedTags: [],
-        allowedAttributes: {}
-    })
+    const stripped = stripHtml(String(value))
         .replace(/\s+/g, ' ')
         .trim();
     if (!stripped) return undefined;
@@ -51,6 +75,88 @@ function toPositiveInteger(value) {
     if (!Number.isFinite(num) || num <= 0) return undefined;
     const rounded = Math.round(num);
     return rounded > 0 ? rounded : undefined;
+}
+
+function fallbackValidatePayload(payload) {
+    const errors = [];
+
+    const checkString = (value, path, { required = false, min = 0, max = Infinity, pattern = null } = {}) => {
+        if (value == null) {
+            if (required) {
+                errors.push({ path, keyword: 'required', message: 'is required' });
+            }
+            return;
+        }
+        if (typeof value !== 'string') {
+            errors.push({ path, keyword: 'type', message: 'must be string' });
+            return;
+        }
+        if (value.length < min) {
+            errors.push({ path, keyword: 'minLength', message: `must NOT have fewer than ${min} characters` });
+        }
+        if (value.length > max) {
+            errors.push({ path, keyword: 'maxLength', message: `must NOT have more than ${max} characters` });
+        }
+        if (pattern && !pattern.test(value)) {
+            errors.push({ path, keyword: 'pattern', message: 'must match pattern' });
+        }
+    };
+
+    const checkPositiveInteger = (value, path) => {
+        if (value == null) return;
+        const num = Number(value);
+        if (!Number.isFinite(num) || num <= 0 || Math.round(num) !== num) {
+            errors.push({ path, keyword: 'type', message: 'must be a positive integer' });
+        }
+    };
+
+    checkString(payload.imageUrl, '/imageUrl', { required: true, min: 1, max: 2048, pattern: /^(https?:\/\/|\/).+/ });
+    checkString(payload.alt, '/alt', { required: true, min: 1, max: 500 });
+    checkString(payload.subject, '/subject', { required: true, min: 1, max: 120 });
+    checkString(payload.caption, '/caption', { min: 1, max: 1000 });
+    checkString(payload.credit, '/credit', { min: 1, max: 500 });
+    checkString(payload.license, '/license', { min: 1, max: 500 });
+    checkPositiveInteger(payload.width, '/width');
+    checkPositiveInteger(payload.height, '/height');
+
+    if (payload.tags != null) {
+        if (!Array.isArray(payload.tags)) {
+            errors.push({ path: '/tags', keyword: 'type', message: 'must be an array' });
+        } else {
+            if (payload.tags.length > 50) {
+                errors.push({ path: '/tags', keyword: 'maxItems', message: 'must NOT have more than 50 items' });
+            }
+            const seen = new Set();
+            payload.tags.forEach((tag, index) => {
+                if (typeof tag !== 'string') {
+                    errors.push({ path: `/tags/${index}`, keyword: 'type', message: 'must be string' });
+                    return;
+                }
+                if (!tag.length) {
+                    errors.push({ path: `/tags/${index}`, keyword: 'minLength', message: 'must NOT have fewer than 1 characters' });
+                }
+                if (tag.length > 120) {
+                    errors.push({ path: `/tags/${index}`, keyword: 'maxLength', message: 'must NOT have more than 120 characters' });
+                }
+                const lower = tag.toLowerCase();
+                if (seen.has(lower)) {
+                    errors.push({ path: '/tags', keyword: 'uniqueItems', message: 'must NOT contain duplicate items' });
+                } else {
+                    seen.add(lower);
+                }
+            });
+        }
+    }
+
+    return { valid: errors.length === 0, errors };
+}
+
+if (!validate) {
+    validate = (payload) => {
+        const result = fallbackValidatePayload(payload);
+        validate.errors = result.errors;
+        return result.valid;
+    };
 }
 
 function buildPayload(imageRef = {}) {
