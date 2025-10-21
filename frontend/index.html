@@ -58,7 +58,12 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
 
     <script type="module">
-      import VocabularyIndex from './data/vocabulary_index.json' assert { type: 'json' };
+      async function loadJson(url) {
+        const r = await fetch(url, { cache: 'no-store' });
+        if (!r.ok) throw new Error(`Failed to load ${url}: ${r.status}`);
+        return r.json();
+      }
+      const VocabularyIndex = await loadJson('./data/vocabulary_index.json');
       window.VocabularyIndex = VocabularyIndex;
     </script>
 
@@ -81,7 +86,7 @@
         window.__APP_CONFIG__.mathMode = 'plain_fractions';
       }
     </script>
-    <script src="https://ged-website.onrender.com/client-config.js"></script>
+    <script src="/client-config.js"></script>
 
     <script>
         window.addEventListener('error', (event) => {
