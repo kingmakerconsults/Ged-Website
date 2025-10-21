@@ -6660,7 +6660,10 @@ app.post('/generate-quiz', async (req, res) => {
                 const seenStimuli = new Set();
                 allQuestions = allQuestions.filter((question) => {
                     const passageKey = typeof question?.passage === 'string' ? question.passage.trim() : '';
-                    const imageKey = question?.imageUrl || question?.imageRef?.path || '';
+                    const imageKey = question?.imageUrl
+                        || question?.imageRef?.imageUrl
+                        || question?.imageRef?.path
+                        || '';
                     const comboKey = passageKey && imageKey ? `${imageKey}::${passageKey}` : null;
                     if (comboKey) {
                         if (seenStimuli.has(comboKey)) {

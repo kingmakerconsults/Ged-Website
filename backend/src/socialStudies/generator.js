@@ -10,6 +10,7 @@ const { validateSocialStudiesItem } = require('./validator');
 const { planDifficulty, expandDifficultyCounts } = require('./difficulty');
 const { deriveVisualFeatures } = require('../utils/visualFeatures');
 const { deriveIsScreenshot, probeImageHead, DEFAULT_ALT } = require('../utils/metaLoader');
+const { validateImageRef } = require('../images/validateImageRef');
 const { validateSS } = require('./validators');
 const { clampPassage } = require('./passage');
 const { resolveImage } = require('../../imageResolver');
@@ -54,7 +55,7 @@ function sanitizeImageMeta(meta = {}) {
         if (sourceTitle) cleaned.source.title = sourceTitle;
         if (sourceUrl) cleaned.source.url = sourceUrl;
     }
-    ['width', 'height', 'dominantType', 'keywords', 'usageDirectives', 'detailedDescription', 'featureSignature', 'isScreenshot', 'subject', 'category']
+    ['width', 'height', 'dominantType', 'keywords', 'usageDirectives', 'detailedDescription', 'featureSignature', 'isScreenshot', 'subject', 'category', 'license']
         .forEach((key) => {
             if (meta[key] != null) {
                 cleaned[key] = Array.isArray(meta[key]) ? [...meta[key]] : meta[key];
@@ -459,10 +460,14 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
         source: source || undefined,
         imageRef: {
             path: imageMeta?.filePath,
+            imageUrl: imageMeta?.imageUrl,
             altText: imageMeta?.altText || '',
             caption: captionSource || undefined,
+            credit: imageMeta?.credit || undefined,
+            license: imageMeta?.license || undefined,
             width: imageMeta?.width || undefined,
-            height: imageMeta?.height || undefined
+            height: imageMeta?.height || undefined,
+            tags: Array.isArray(imageMeta?.keywords) ? [...imageMeta.keywords] : undefined
         },
         imageMeta: imageMeta ? { ...imageMeta } : undefined,
         isScreenshot: Boolean(imageMeta?.isScreenshot),
@@ -487,18 +492,72 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
     cleaned.correctIndex = Number.isInteger(correctIndex) && correctIndex >= 0 ? correctIndex : 0;
     cleaned.topic = imageMeta?.category || (Array.isArray(imageMeta?.topics) ? imageMeta.topics[0] : questionType) || 'social_studies';
 
-    const resolvedUrl = cleaned?.imageRef?.imageUrl || cleaned?.image?.imageUrl || cleaned?.image_url || null;
+    const inlineRef = cleaned?.imageRef || {};
+    const resolvedUrl = inlineRef.imageUrl
+        || cleaned?.image?.imageUrl
+        || cleaned?.image_url
+        || null;
+
     if (resolvedUrl) {
-        cleaned.image_url = resolvedUrl;
-    }
-    const altCandidate = cleaned?.imageRef?.imageMeta?.alt
-        || cleaned?.imageRef?.altText
-        || cleaned?.imageMeta?.altText
-        || cleaned?.imageMeta?.alt
-        || DEFAULT_ALT;
-    cleaned.alt_text = altCandidate;
-    if (cleaned.imageMeta && altCandidate && !cleaned.imageMeta.altText) {
-        cleaned.imageMeta.altText = altCandidate;
+        const altCandidate = inlineRef.alt
+            || inlineRef.altText
+            || inlineRef.imageMeta?.alt
+            || cleaned?.imageMeta?.altText
+            || cleaned?.imageMeta?.alt
+            || DEFAULT_ALT;
+        const captionCandidate = inlineRef.caption
+            || inlineRef.imageMeta?.caption
+            || cleaned?.imageMeta?.caption
+            || undefined;
+        const creditCandidate = inlineRef.credit
+            || inlineRef.imageMeta?.credit
+            || cleaned?.imageMeta?.credit
+            || undefined;
+        const licenseCandidate = inlineRef.license
+            || inlineRef.imageMeta?.license
+            || cleaned?.imageMeta?.license
+            || undefined;
+        const widthCandidate = inlineRef.width
+            || inlineRef.imageMeta?.width
+            || cleaned?.imageMeta?.width
+            || undefined;
+        const heightCandidate = inlineRef.height
+            || inlineRef.imageMeta?.height
+            || cleaned?.imageMeta?.height
+            || undefined;
+        const tagsCandidate = inlineRef.tags
+            || inlineRef.imageMeta?.keywords
+            || cleaned?.imageMeta?.keywords
+            || undefined;
+
+        const canonicalRef = validateImageRef({
+            imageUrl: resolvedUrl,
+            alt: altCandidate || DEFAULT_ALT,
+            subject: cleaned.domain || 'social_studies',
+            caption: captionCandidate,
+            credit: creditCandidate,
+            license: licenseCandidate,
+            width: widthCandidate,
+            height: heightCandidate,
+            tags: tagsCandidate
+        });
+
+        cleaned.imageRef = canonicalRef;
+        cleaned.image_url = canonicalRef.imageUrl;
+        cleaned.alt_text = canonicalRef.alt;
+        if (cleaned.imageMeta && canonicalRef.alt && !cleaned.imageMeta.altText) {
+            cleaned.imageMeta.altText = canonicalRef.alt;
+        }
+        if (cleaned.imageMeta && canonicalRef.caption && !cleaned.imageMeta.caption) {
+            cleaned.imageMeta.caption = canonicalRef.caption;
+        }
+        if (cleaned.imageMeta && canonicalRef.credit && !cleaned.imageMeta.credit) {
+            cleaned.imageMeta.credit = canonicalRef.credit;
+        }
+    } else {
+        delete cleaned.imageRef;
+        delete cleaned.image_url;
+        delete cleaned.alt_text;
     }
 
     return cleaned;

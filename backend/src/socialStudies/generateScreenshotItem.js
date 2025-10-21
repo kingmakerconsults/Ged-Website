@@ -1,8 +1,9 @@
-const { deriveIsScreenshot } = require('../utils/metaLoader');
+const { deriveIsScreenshot, DEFAULT_ALT } = require('../utils/metaLoader');
 const { deriveVisualFeatures } = require('../utils/visualFeatures');
 const { pickTemplate } = require('./dispatch');
 const { validateSS } = require('./validators');
 const { resolveImage } = require('../../imageResolver');
+const { validateImageRef } = require('../images/validateImageRef');
 
 const FILENAME_RX = /\.(?:png|jpe?g|gif|webp|svg)\b/i;
 const SCREENSHOT_RX = /\b[Ss]creenshot(s)?\b/g;
@@ -57,10 +58,19 @@ function generateItemForMeta(meta = {}, imageUrl) {
     });
     const fallbackUrl = typeof imageUrl === 'string' && imageUrl.trim() ? imageUrl.trim() : null;
     const resolvedUrl = resolved?.imageUrl || fallbackUrl;
-    const imageRef = resolvedUrl ? { imageUrl: resolvedUrl } : null;
-    if (imageRef && resolved?.imageMeta) {
-        imageRef.imageMeta = resolved.imageMeta;
-    }
+    const imageRef = resolvedUrl
+        ? validateImageRef({
+            imageUrl: resolvedUrl,
+            alt: resolved?.imageMeta?.altText || resolved?.imageMeta?.alt || meta?.altText || DEFAULT_ALT,
+            subject: meta?.subject || 'social_studies',
+            caption: resolved?.imageMeta?.caption || meta?.caption,
+            credit: resolved?.imageMeta?.credit || meta?.credit,
+            license: resolved?.imageMeta?.license || meta?.license,
+            width: resolved?.imageMeta?.width || meta?.width,
+            height: resolved?.imageMeta?.height || meta?.height,
+            tags: resolved?.imageMeta?.keywords || meta?.keywords || meta?.tags
+        })
+        : null;
 
     const item = {
         domain: 'social_studies',

@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ged-website.example.com/schemas/imageRef.schema.json",
+  "title": "Image Reference",
+  "type": "object",
+  "required": ["imageUrl", "alt", "subject"],
+  "additionalProperties": false,
+  "properties": {
+    "imageUrl": {
+      "type": "string",
+      "pattern": "^(https?:\\/\\/|\/).+"
+    },
+    "alt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "caption": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "credit": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 120
+      },
+      "maxItems": 50,
+      "uniqueItems": true
+    }
+  }
+}

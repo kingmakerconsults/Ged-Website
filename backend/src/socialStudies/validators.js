@@ -28,7 +28,9 @@ function validateSS(item = {}, meta = {}, features = {}, isScreenshot = false) {
 
     const overlapOK = countOverlap(stem, choices, features.keywords || []) >= 2;
 
-    const captionSource = item?.imageRef?.imageMeta?.caption || item?.imageRef?.caption || '';
+    const captionSource = item?.imageRef?.caption
+        || item?.imageRef?.imageMeta?.caption
+        || '';
     const captionOK = !isScreenshot || (captionSource.trim().length > 0 && !/\.(?:png|jpe?g|gif|webp|svg)\b/i.test(captionSource) && !/\b[Ss]creenshot(s)?\b/.test(captionSource));
 
     const passageText = item?.passage?.text || '';

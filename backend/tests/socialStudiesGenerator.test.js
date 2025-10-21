@@ -237,7 +237,7 @@ test('screenshot validator ensures captions and signature metadata propagate', (
 
     assert(normalized.isScreenshot, 'Screenshot flag should be true');
     assert(normalized.imageRef.imageUrl && normalized.imageRef.imageUrl.startsWith('/img/'), 'Expected resolved image URL');
-    const normalizedCaption = normalized.imageRef.imageMeta?.caption || '';
+    const normalizedCaption = normalized.imageRef.caption || '';
     assert(normalizedCaption.length > 0, 'Caption should be populated');
     assert(!/screenshot/i.test(normalizedCaption), 'Caption should not mention screenshot');
     assert(!/\.(png|jpe?g|gif|webp|svg)/i.test(normalizedCaption), 'Caption should not include filenames');
@@ -310,10 +310,9 @@ test('normalizeItem adds social studies metadata fields', () => {
     assert.equal(normalized.questionType, 'map');
     assert(normalized.imageRef && typeof normalized.imageRef.imageUrl === 'string');
     assert(normalized.imageRef.imageUrl.startsWith('/img/'));
-    const inlineMeta = normalized.imageRef.imageMeta || {};
-    assert.equal(inlineMeta.alt, IMAGE_META_SAMPLE.altText);
-    assert(!/screenshot/i.test(inlineMeta.caption || ''));
-    assert(!/\.(png|jpe?g|gif|webp|svg)/i.test(inlineMeta.caption || ''));
+    assert.equal(normalized.imageRef.alt, IMAGE_META_SAMPLE.altText);
+    assert(!/screenshot/i.test((normalized.imageRef.caption || '')));
+    assert(!/\.(png|jpe?g|gif|webp|svg)/i.test((normalized.imageRef.caption || '')));
     assert(normalized.source && normalized.source.citation.includes('Source'));
     assert(normalized.imageMeta && normalized.imageMeta.id === IMAGE_META_SAMPLE.id);
     assert.equal(Object.prototype.hasOwnProperty.call(normalized.imageMeta, 'fileName'), false);
