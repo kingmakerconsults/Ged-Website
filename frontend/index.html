@@ -944,6 +944,17 @@ function applySafeMathFix(text) {
     return working;
 }
 
+function normalizeFormulaLatex(formula) {
+    if (typeof formula !== 'string') {
+        return '';
+    }
+    let working = applySafeMathFix(formula);
+    if (typeof normalizeLatexMacrosInMath === 'function') {
+        working = normalizeLatexMacrosInMath(working);
+    }
+    return working;
+}
+
 const ALLOWED_HTML_TAGS = [
     'a','b','strong','i','em','u','s','span','p','br','ul','ol','li','table','thead','tbody','tfoot','tr','th','td','caption',
     'colgroup','col','code','pre','sup','sub','div','img'
@@ -1152,18 +1163,31 @@ function toPlainFractions(input) {
     if (input == null) {
         return '';
     }
+
     let text = String(input);
 
-    text = text.replace(/\\\(\s*\\frac/gi, '\\frac')
-        .replace(/\\\)\s*/g, '')
-        .replace(/\\\[\s*\\frac/gi, '\\frac')
-        .replace(/\\\]\s*/g, '');
+    if (text.indexOf('&') !== -1) {
+        text = decodeHtmlEntities(text);
+    }
 
-    text = text.replace(/\\\\/g, '\\');
+    text = text.replace(/\$\$?([\s\S]*?)\$\$?/g, '$1');
 
-    text = text.replace(/\\frac\s*\{\s*([+-]?\d+)\s*\}\s*\{\s*([+-]?\d+)\s*\}/gi, (_m, a, b) => `${a}/${b}`);
+    text = text
+        .replace(/\\left\s*/gi, '')
+        .replace(/\\right\s*/gi, '')
+        .replace(/\\text\s*\{\s*([^{}]*)\s*\}/gi, '$1')
+        .replace(/\\\\/g, '\\');
 
-    return text;
+    text = text.replace(/\\frac\s*\{\s*([^{}]+)\s*\}\s*\{\s*([^{}]+)\s*\}/gi, (_m, a, b) => `${a}/${b}`);
+
+    text = text
+        .replace(/\\times/gi, '×')
+        .replace(/\\cdot/gi, '·')
+        .replace(/\\pi/gi, 'π')
+        .replace(/\\%/g, '%')
+        .replace(/\\,/g, ' ');
+
+    return text.replace(/\s{2,}/g, ' ').trim();
 }
 
 function stripLeakedMathPlaceholders(text) {
@@ -1761,6 +1785,67 @@ function CachedMathText({ html, text, className, subject, itemIndex }) {
             subject={subject}
             itemIndex={itemIndex}
         />
+    );
+}
+
+function FormulaDisplay({ latex, className = '', inline = false }) {
+    const rawLatex = React.useMemo(() => {
+        if (typeof latex !== 'string') {
+            return '';
+        }
+        const trimmed = latex.trim();
+        if (!trimmed) {
+            return '';
+        }
+        return decodeHtmlEntities(trimmed);
+    }, [latex]);
+
+    const plainText = React.useMemo(() => toPlainFractions(rawLatex), [rawLatex]);
+
+    const katexHtml = React.useMemo(() => {
+        if (!SHOULD_USE_KATEX || !rawLatex) {
+            return null;
+        }
+
+        try {
+            const normalized = normalizeLatexForKaTeX(rawLatex);
+            if (typeof katex !== 'undefined') {
+                if (typeof katex.renderToString === 'function') {
+                    return katex.renderToString(normalized, {
+                        ...KATEX_RENDER_OPTIONS,
+                        displayMode: !inline
+                    });
+                }
+                if (typeof document !== 'undefined' && typeof document.createElement === 'function' && typeof katex.render === 'function') {
+                    const node = document.createElement('span');
+                    katex.render(normalized, node, {
+                        ...KATEX_RENDER_OPTIONS,
+                        displayMode: !inline
+                    });
+                    return node.innerHTML;
+                }
+            }
+        } catch (error) {
+            console.warn('Formula render fallback triggered:', error?.message || error);
+        }
+
+        return null;
+    }, [rawLatex, inline]);
+
+    if (SHOULD_USE_KATEX && katexHtml) {
+        const Element = inline ? 'span' : 'div';
+        return (
+            <Element
+                className={className}
+                dangerouslySetInnerHTML={{ __html: katexHtml }}
+            />
+        );
+    }
+
+    return (
+        <code className={className}>
+            {plainText}
+        </code>
     );
 }
 
@@ -5282,30 +5367,15 @@ const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon, ChartBarIco
 
 function FormulaSheetModal({ onClose }) {
     const Formula = ({ title, formula, description }) => {
-        const sanitizedFormula = typeof formula === 'string'
-            ? (() => {
-                let working = formula;
-                working = applySafeMathFix(working);
-                if (typeof normalizeLatexMacrosInMath === 'function') {
-                    working = normalizeLatexMacrosInMath(working);
-                }
-                return working;
-            })()
-            : formula;
-        let html = '';
-        try {
-            html = renderLatexToHtml(sanitizedFormula);
-        } catch (err) {
-            console.warn('KaTeX render fallback triggered:', err?.message || err);
-            html = escapeHtml(typeof sanitizedFormula === 'string' ? sanitizedFormula : '');
-        }
+        const preparedLatex = React.useMemo(() => normalizeFormulaLatex(formula), [formula]);
 
         return (
             <div className="mb-4">
                 <h4 className="font-bold text-md text-slate-700">{title}</h4>
-                <div className="p-2 bg-slate-200 rounded text-center my-1 text-lg">
-                    <span dangerouslySetInnerHTML={{ __html: html }}></span>
-                </div>
+                <FormulaDisplay
+                    latex={preparedLatex}
+                    className="p-2 bg-slate-200 rounded text-center my-1 text-lg block"
+                />
                 {description && <p className="text-sm text-slate-500">{description}</p>}
             </div>
         );
@@ -6350,17 +6420,19 @@ function ScienceFormulaSheet({ title }) {
                 Use these foundational formulas and definitions to interpret science questions with confidence.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                {ScienceFormulas.map((item, index) => (
-                    <div key={index} className="p-3 bg-gray-50 rounded-md">
-                        <p className="font-bold text-lg text-indigo-700">{item.name}</p>
-                        <MathText
-                            text={lintAndRepairMath(`$$${item.formula}$$`)}
-                            className="text-xl my-2 text-center text-gray-900 bg-gray-100 p-2 rounded block"
-                            subject="Science"
-                        />
-                        <p className="text-sm text-gray-600 italic">{item.variables}</p>
-                    </div>
-                ))}
+                {ScienceFormulas.map((item, index) => {
+                    const latex = normalizeFormulaLatex(item.formula);
+                    return (
+                        <div key={index} className="p-3 bg-gray-50 rounded-md">
+                            <p className="font-bold text-lg text-indigo-700">{item.name}</p>
+                            <FormulaDisplay
+                                latex={latex}
+                                className="text-xl my-2 text-center text-gray-900 bg-gray-100 p-2 rounded block"
+                            />
+                            <p className="text-sm text-gray-600 italic">{item.variables}</p>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
