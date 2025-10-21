@@ -4,7 +4,7 @@ function countOverlap(stem = '', choices = [], keywords = []) {
 }
 
 function validateSS(item = {}, meta = {}, features = {}, isScreenshot = false) {
-    const mustStart = /^(screenshot:|according to the screenshot|according to the (map|chart|table|photo))/i;
+    const mustStart = /^according to the (image|map|chart|table|photo)/i;
     const strategy = /\bstrategy\b|\bfirst step\b|\bhow should\b|\bon-screen directions\b|\bpractice set\b/i;
 
     const stem = item.stem || '';
@@ -28,8 +28,8 @@ function validateSS(item = {}, meta = {}, features = {}, isScreenshot = false) {
 
     const overlapOK = countOverlap(stem, choices, features.keywords || []) >= 2;
 
-    const caption = item?.imageRef?.caption || '';
-    const captionOK = !isScreenshot || /^Screenshot — /.test(caption) || /^Screenshot:/.test(stem);
+    const captionSource = item?.imageRef?.imageMeta?.caption || item?.imageRef?.caption || '';
+    const captionOK = !isScreenshot || (captionSource.trim().length > 0 && !/\.(?:png|jpe?g|gif|webp|svg)\b/i.test(captionSource) && !/\b[Ss]creenshot(s)?\b/.test(captionSource));
 
     const passageText = item?.passage?.text || '';
     const passageOK = !passageText || passageText.trim().split(/\s+/).length <= 200;

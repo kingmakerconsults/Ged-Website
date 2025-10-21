@@ -125,8 +125,13 @@ test('screenshot validator blocks strategy language and missing anchors', () => 
             { text: 'Check the legend for shading', isCorrect: false, rationale: 'No legend on the table.' },
             { text: 'Skip to the last column', isCorrect: false, rationale: 'No support provided.' }
         ],
-        solution: 'The stem should focus on the table columns such as the Example column rather than directions. The screenshot itself lists Formal, Functional, and Perceptual types with examples like Latin America.',
-        imageRef: { caption: 'Screenshot — Types of Regions' },
+        solution: 'The stem should focus on the table columns such as the Example column rather than directions. The image itself lists Formal, Functional, and Perceptual types with examples like Latin America.',
+        imageRef: {
+            imageMeta: {
+                caption: 'Types of Regions table with Formal, Functional, and Perceptual examples',
+                alt: 'Table of region types'
+            }
+        },
         isScreenshot: true
     };
 
@@ -135,15 +140,20 @@ test('screenshot validator blocks strategy language and missing anchors', () => 
     assert(invalid.errors.some((msg) => msg.includes('strateg')));
 
     const validItem = {
-        questionText: 'In the Types of Regions table, which Type lists Latin America in the Example column?',
+        questionText: 'According to the table\'s Type and Example columns, which Type lists Latin America in the Example column?',
         answerOptions: [
             { text: 'Formal', isCorrect: false, rationale: 'The Formal row lists Rocky Mountains in the Example column.' },
             { text: 'Functional', isCorrect: false, rationale: 'The Functional row references a TV station coverage area.' },
             { text: 'Perceptual', isCorrect: true, rationale: 'The Perceptual row of the table shows Latin America under Example.' },
             { text: 'Nodal', isCorrect: false, rationale: 'Nodal does not appear in the table columns.' }
         ],
-        solution: 'The table row labeled Perceptual includes Latin America in the Example column. That evidence confirms Perceptual is the correct type listed in the screenshot.',
-        imageRef: { caption: 'Screenshot — Types of Regions' },
+        solution: 'The table row labeled Perceptual includes Latin America in the Example column. That evidence confirms Perceptual is the correct type listed in the image.',
+        imageRef: {
+            imageMeta: {
+                caption: 'Types of Regions table with Formal, Functional, and Perceptual examples',
+                alt: 'Table of region types'
+            }
+        },
         isScreenshot: true
     };
 
@@ -161,7 +171,12 @@ test('screenshot validator enforces chart anchors and keyword overlap', () => {
             { text: 'Nuclear', isCorrect: false, rationale: 'Nuclear stays steady.' }
         ],
         solution: 'Coal decreases more than the other sources. The coal series drops across the years shown on the x-axis.',
-        imageRef: { caption: 'Screenshot — U.S. Energy Consumption' },
+        imageRef: {
+            imageMeta: {
+                caption: 'Line chart of U.S. energy consumption sources with legend and axes labels',
+                alt: 'Energy consumption line chart'
+            }
+        },
         isScreenshot: true
     };
 
@@ -178,7 +193,12 @@ test('screenshot validator enforces chart anchors and keyword overlap', () => {
             { text: 'Nuclear', isCorrect: false, rationale: 'The nuclear line stays nearly flat in the legend color.' }
         ],
         solution: 'The legend and Consumption (Btus) y-axis show the coal line dropping from roughly 20 to about 10 quadrillion Btus. That steep decline is greater than the changes on the other series across the years labeled on the x-axis.',
-        imageRef: { caption: 'Screenshot — U.S. Energy Consumption' },
+        imageRef: {
+            imageMeta: {
+                caption: 'Line chart of U.S. energy consumption sources with legend and axes labels',
+                alt: 'Energy consumption line chart'
+            }
+        },
         isScreenshot: true
     };
 
@@ -199,7 +219,12 @@ test('screenshot validator ensures captions and signature metadata propagate', (
             { text: 'Cabinet', isCorrect: false, rationale: 'Cabinet is not a column heading in the table.' }
         ],
         solution: 'The Powers column in the table shows the Judicial branch evaluates laws, so that is the correct choice.',
-        imageRef: { caption: 'Screenshot — Branches of Government' },
+        imageRef: {
+            imageMeta: {
+                caption: 'Branches of Government table describing each branch and its powers',
+                alt: 'Branches of Government table'
+            }
+        },
         isScreenshot: true
     };
 
@@ -211,19 +236,27 @@ test('screenshot validator ensures captions and signature metadata propagate', (
     });
 
     assert(normalized.isScreenshot, 'Screenshot flag should be true');
-    assert(normalized.imageRef.caption.startsWith('Screenshot —'), 'Caption should be prefixed with Screenshot —');
+    assert(normalized.imageRef.imageUrl && normalized.imageRef.imageUrl.startsWith('/img/'), 'Expected resolved image URL');
+    const normalizedCaption = normalized.imageRef.imageMeta?.caption || '';
+    assert(normalizedCaption.length > 0, 'Caption should be populated');
+    assert(!/screenshot/i.test(normalizedCaption), 'Caption should not mention screenshot');
+    assert(!/\.(png|jpe?g|gif|webp|svg)/i.test(normalizedCaption), 'Caption should not include filenames');
     assert(Array.isArray(normalized.featureSignature) && normalized.featureSignature.includes('federalBranches'));
-    assert.equal(normalized.imageFileName, BRANCHES_SCREENSHOT_META.fileName);
+    assert.equal(Object.prototype.hasOwnProperty.call(normalized, 'imageFileName'), false);
 });
 
 test('validateSS enforces screenshot stem anchors and captions', () => {
     const features = deriveVisualFeatures(REGION_SCREENSHOT_META);
 
     const valid = {
-        stem: "Screenshot: Types of Regions. According to the table's Type and Example columns, which region type centers on a nodal focus?",
+        stem: "According to the table's Type and Example columns, which region type centers on a nodal focus?",
         choices: ['Formal', 'Functional', 'Perceptual', 'Political'],
         correctIndex: 1,
-        imageRef: { caption: 'Screenshot — Types of Regions' }
+        imageRef: {
+            imageMeta: {
+                caption: 'Types of Regions table with Formal, Functional, and Perceptual examples'
+            }
+        }
     };
 
     assert.equal(validateSS(valid, REGION_SCREENSHOT_META, features, true), true);
@@ -232,7 +265,11 @@ test('validateSS enforces screenshot stem anchors and captions', () => {
         stem: 'Which region focuses on a center?',
         choices: ['Formal', 'Functional', 'Perceptual', 'Political'],
         correctIndex: 1,
-        imageRef: { caption: 'Types of Regions' }
+        imageRef: {
+            imageMeta: {
+                caption: 'Types of Regions'
+            }
+        }
     };
 
     assert.equal(validateSS(invalid, REGION_SCREENSHOT_META, features, true), false);
@@ -271,11 +308,15 @@ test('normalizeItem adds social studies metadata fields', () => {
 
     assert.equal(normalized.domain, 'social_studies');
     assert.equal(normalized.questionType, 'map');
-    assert(normalized.imageRef && normalized.imageRef.path === IMAGE_META_SAMPLE.filePath);
-    assert.equal(normalized.imageRef.altText, IMAGE_META_SAMPLE.altText);
-    assert.equal(normalized.imageRef.caption, "Freedmen's Bureau");
+    assert(normalized.imageRef && typeof normalized.imageRef.imageUrl === 'string');
+    assert(normalized.imageRef.imageUrl.startsWith('/img/'));
+    const inlineMeta = normalized.imageRef.imageMeta || {};
+    assert.equal(inlineMeta.alt, IMAGE_META_SAMPLE.altText);
+    assert(!/screenshot/i.test(inlineMeta.caption || ''));
+    assert(!/\.(png|jpe?g|gif|webp|svg)/i.test(inlineMeta.caption || ''));
     assert(normalized.source && normalized.source.citation.includes('Source'));
     assert(normalized.imageMeta && normalized.imageMeta.id === IMAGE_META_SAMPLE.id);
+    assert.equal(Object.prototype.hasOwnProperty.call(normalized.imageMeta, 'fileName'), false);
 });
 
 test('selectVisualCombo rotates question types to avoid triple repeats', () => {
