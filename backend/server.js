@@ -216,6 +216,52 @@ const fs = require('fs');
 const crypto = require('crypto');
 const AbortController = globalThis.AbortController || fetch.AbortController;
 
+const CLIENT_DIST_DIR = path.join(__dirname, '../frontend/dist');
+const CLIENT_INDEX_FILE = path.join(CLIENT_DIST_DIR, 'index.html');
+const HASHED_ASSET_REGEX = /\.[a-f0-9]{8,}\./i;
+const SPA_ROUTE_PREFIX_BLOCKLIST = ['/api', '/health', '/admin', '/question-bank', '/img', '/images'];
+
+function detectContentHashedAssets(rootDir) {
+    const stack = [rootDir];
+    const visited = new Set();
+
+    while (stack.length) {
+        const currentDir = stack.pop();
+        if (!currentDir || visited.has(currentDir)) continue;
+        visited.add(currentDir);
+
+        let entries = [];
+        try {
+            entries = fs.readdirSync(currentDir, { withFileTypes: true });
+        } catch (err) {
+            console.warn(`[SPA][WARN] Unable to read client build directory ${currentDir}:`, err?.message || err);
+            continue;
+        }
+
+        for (const entry of entries) {
+            if (entry.isFile() && HASHED_ASSET_REGEX.test(entry.name)) {
+                return true;
+            }
+            if (entry.isDirectory() && (entry.name === 'assets' || entry.name === 'static')) {
+                stack.push(path.join(currentDir, entry.name));
+            }
+        }
+    }
+
+    return false;
+}
+
+const CLIENT_BUILD_EXISTS = fs.existsSync(CLIENT_INDEX_FILE);
+const CLIENT_BUILD_HAS_HASHES = CLIENT_BUILD_EXISTS && detectContentHashedAssets(CLIENT_DIST_DIR);
+
+if (CLIENT_BUILD_EXISTS) {
+    if (CLIENT_BUILD_HAS_HASHES) {
+        console.log('[SPA] Client build detected with content-hashed assets.');
+    } else {
+        console.warn('[SPA][WARN] Client build detected but no content-hashed assets were found.');
+    }
+}
+
 const LOG_DIR = path.join(__dirname, 'logs');
 const VALIDATION_LOG = path.join(LOG_DIR, 'question_validations.jsonl');
 const QUESTION_BANK_DIR = path.join(__dirname, 'data');
@@ -3330,6 +3376,27 @@ app.use('/images/social-studies', express.static(path.join(__dirname, '../fronte
 app.use('/images/math', express.static(path.join(__dirname, '../frontend/Images/Math')));
 app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
 
+if (CLIENT_BUILD_EXISTS) {
+    const ONE_HOUR_IN_SECONDS = 60 * 60;
+    const clientStaticOptions = {
+        index: false,
+        setHeaders(res, filePath) {
+            const basename = path.basename(filePath);
+            if (basename === 'index.html') {
+                res.setHeader('Cache-Control', 'no-store');
+            } else if (HASHED_ASSET_REGEX.test(basename)) {
+                res.setHeader('Cache-Control', 'public,max-age=31536000,immutable');
+            } else {
+                res.setHeader('Cache-Control', `public,max-age=${ONE_HOUR_IN_SECONDS}`);
+            }
+        }
+    };
+
+    app.use(express.static(CLIENT_DIST_DIR, clientStaticOptions));
+} else {
+    console.warn('[SPA][WARN] No built frontend found at frontend/dist. Serving backend status message instead.');
+}
+
 app.post('/question-bank/save', async (req, res) => {
     const client = await pool.connect();
     try {
@@ -4453,10 +4520,6 @@ function existingTopicPrompt(subject, topic, count = 15) {
     }
     return `Generate ${count} GED-style ${subject} questions focused on "${topic}".`;
 }
-
-app.get('/', (req, res) => {
-  res.send('Learning Canvas Backend is running!');
-});
 
 app.get('/health/images', (_req, res) => {
     try {
@@ -7316,6 +7379,25 @@ const generateAIContent = async (prompt, schema) => {
 };
 
 
+
+if (CLIENT_BUILD_EXISTS) {
+    app.get('*', (req, res, next) => {
+        if (req.method !== 'GET') return next();
+        if (SPA_ROUTE_PREFIX_BLOCKLIST.some((prefix) => req.path.startsWith(prefix))) return next();
+
+        const acceptHeader = String(req.headers.accept || '');
+        if (!acceptHeader.includes('text/html')) {
+            return next();
+        }
+
+        res.setHeader('Cache-Control', 'no-store');
+        res.sendFile(CLIENT_INDEX_FILE);
+    });
+} else {
+    app.get('/', (_req, res) => {
+        res.send('Learning Canvas Backend is running! Build the frontend to enable the UI.');
+    });
+}
 
 app.use((err, req, res, next) => {
     console.error(err?.stack || err);
