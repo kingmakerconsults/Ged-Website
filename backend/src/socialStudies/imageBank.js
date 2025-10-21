@@ -4,41 +4,65 @@ const { loadImageMeta, deriveIsScreenshot } = require('../utils/metaLoader');
 const { deriveVisualFeatures, buildFeatureSignature } = require('../utils/visualFeatures');
 
 const METADATA_PATH = path.join(__dirname, '../../data/image_metadata_final.json');
+const IMAGE_ROOTS = [
+    path.join(__dirname, '../../public/img'),
+    path.join(__dirname, '../../../frontend/Images/Social Studies'),
+    path.join(__dirname, '../../../frontend/Images/Science'),
+    path.join(__dirname, '../../../frontend/Images/Math'),
+    path.join(__dirname, '../../../frontend/Images/RLA')
+];
 const RECENT_BUFFER_SIZE = 200;
 const KEYWORD_WINDOW = 60;
+
+const TYPE_CURSORS = new Map();
+const TYPE_POOLS = new Map();
+const TYPE_POOL_INDEX = new Map();
 
 let METADATA_CACHE = null;
 
 function loadMetadata() {
     if (METADATA_CACHE) return METADATA_CACHE;
-    const raw = fs.readFileSync(METADATA_PATH, 'utf8');
-    const parsed = loadImageMeta(raw);
-    const social = parsed.filter((entry) => {
-        const subject = (entry.subject || '').toLowerCase();
-        return subject.includes('social');
-    });
+    let parsedList = [];
+    try {
+        const meta = loadImageMeta(METADATA_PATH);
+        parsedList = Array.isArray(meta.list) ? meta.list : [];
+    } catch (err) {
+        console.warn('[socialStudies] Failed to load image metadata:', err?.message || err);
+        parsedList = [];
+    }
 
-    METADATA_CACHE = social.map((entry) => {
-        const filePath = entry.filePath || entry.src || entry.path || '';
-        const fileName = String(filePath).split('/').pop() || '';
-        const normalizedKeywords = Array.isArray(entry.keywords)
-            ? entry.keywords.map((k) => String(k).toLowerCase().trim()).filter(Boolean)
+    const candidates = parsedList.map((entry) => {
+        const fileName = entry.file;
+        const encodedPath = fileName ? `/img/${encodeURIComponent(fileName)}` : '';
+        const tags = Array.isArray(entry.tags)
+            ? entry.tags.map((tag) => String(tag).trim()).filter(Boolean)
             : [];
-        const normalizedTags = Array.isArray(entry.tags)
-            ? entry.tags.map((tag) => String(tag).trim())
-            : [];
+        const lowerTags = tags.map((tag) => tag.toLowerCase());
+        const normalizedKeywords = lowerTags.filter(Boolean);
+        const baseSubject = (entry.subject || '').toLowerCase();
+        const subjectTag = lowerTags.find((tag) => tag === 'social-studies' || tag === 'social studies');
+        const subject = subjectTag ? 'Social Studies' : (baseSubject ? baseSubject.replace(/\b\w/g, (m) => m.toUpperCase()) : 'General');
 
         const isScreenshot = deriveIsScreenshot(fileName, entry);
-        if (isScreenshot && !normalizedTags.some((tag) => tag.toLowerCase() === 'screenshot')) {
-            normalizedTags.push('screenshot');
+        if (isScreenshot && !lowerTags.includes('screenshot')) {
+            tags.push('screenshot');
+            normalizedKeywords.push('screenshot');
         }
 
         const enriched = {
             ...entry,
-            filePath,
+            subject,
+            category: entry.type || 'General',
+            dominantType: entry.type || 'photo',
             fileName,
-            tags: normalizedTags,
-            keywords: normalizedKeywords
+            filePath: encodedPath,
+            src: encodedPath,
+            tags,
+            keywords: normalizedKeywords,
+            altText: entry.alt || '',
+            caption: entry.caption || '',
+            credit: entry.credit || '',
+            detailedDescription: entry.ocrText || ''
         };
 
         const features = deriveVisualFeatures(enriched);
@@ -51,6 +75,23 @@ function loadMetadata() {
         };
     });
 
+    METADATA_CACHE = candidates.filter((entry) => {
+        const subject = (entry.subject || '').toLowerCase();
+        const tags = Array.isArray(entry.tags) ? entry.tags.map((tag) => tag.toLowerCase()) : [];
+        return subject.includes('social') || tags.includes('social-studies') || tags.includes('social studies');
+    });
+
+    TYPE_POOLS.clear();
+    TYPE_POOL_INDEX.clear();
+    TYPE_POOLS.set('any', [...METADATA_CACHE]);
+    for (const meta of METADATA_CACHE) {
+        const typeKey = meta.dominantType || 'any';
+        if (!TYPE_POOLS.has(typeKey)) {
+            TYPE_POOLS.set(typeKey, []);
+        }
+        TYPE_POOLS.get(typeKey).push(meta);
+    }
+
     preloadTopImages(METADATA_CACHE.slice(0, 10));
 
     return METADATA_CACHE;
@@ -58,12 +99,20 @@ function loadMetadata() {
 
 function preloadTopImages(entries = []) {
     for (const meta of entries) {
-        if (!meta || !meta.filePath) continue;
-        try {
-            const diskPath = path.join(__dirname, '../../..', meta.filePath);
-            fs.accessSync(diskPath);
-        } catch (err) {
-            console.warn('[socialStudies] Missing image asset:', meta.filePath);
+        if (!meta || !meta.fileName) continue;
+        let found = false;
+        for (const root of IMAGE_ROOTS) {
+            const diskPath = path.join(root, meta.fileName);
+            try {
+                fs.accessSync(diskPath);
+                found = true;
+                break;
+            } catch (err) {
+                // try next root
+            }
+        }
+        if (!found) {
+            console.warn('[socialStudies] Missing image asset:', meta.fileName);
         }
     }
 }
@@ -208,44 +257,61 @@ function rankCandidates(candidates, { requireEconomic = false } = {}) {
     return scored.map((s) => s.meta);
 }
 
-function pickImage({ allowTags = [], avoidRecent = true, requireFields = ['altText', 'detailedDescription'], questionType, requireEconomic = false } = {}) {
+function pickImage({ allowTags = [], requireFields = ['altText'], questionType, requireEconomic = false } = {}) {
     const metadata = loadMetadata();
+    if (!metadata.length) return null;
+    const poolKey = questionType || 'any';
+    const pool = TYPE_POOLS.get(poolKey) || TYPE_POOLS.get('any') || metadata;
+    if (!pool || !pool.length) return null;
+
     const predicate = questionType ? QUESTION_TYPE_PREDICATES[questionType] : null;
-    let candidates = metadata.filter((meta) => {
-        if (predicate && !predicate(meta)) return false;
-        if (!hasRequiredFields(meta, requireFields)) return false;
-        if (allowTags.length && !filterByTags(meta, allowTags)) return false;
-        if (requireEconomic && !prefersEconomic(meta)) return false;
-        return true;
-    });
+    const lastUsedId = recentIdQueue.length ? recentIdQueue[recentIdQueue.length - 1] : null;
+    const startIndex = TYPE_POOL_INDEX.has(poolKey) ? TYPE_POOL_INDEX.get(poolKey) : 0;
+    const total = pool.length;
 
-    if (!candidates.length) return null;
+    let index = startIndex % total;
+    let attempts = 0;
+    while (attempts < total) {
+        const candidate = pool[index];
+        index = (index + 1) % total;
+        attempts += 1;
+        if (!candidate) continue;
+        if (predicate && !predicate(candidate)) continue;
+        if (allowTags.length && !filterByTags(candidate, allowTags)) continue;
+        if (requireEconomic && !prefersEconomic(candidate)) continue;
+        if (!hasRequiredFields(candidate, requireFields)) continue;
+        if (lastUsedId && candidate.id === lastUsedId && total > 1) continue;
+        if (violatesDiversity(candidate)) continue;
 
-    if (avoidRecent) {
-        candidates = candidates.filter((meta) => !recentIdSet.has(meta.id));
+        TYPE_POOL_INDEX.set(poolKey, index);
+        TYPE_CURSORS.set(poolKey, index - 1);
+        markImageUsed(candidate, questionType || null);
+        return candidate;
     }
 
-    if (!candidates.length) {
-        candidates = metadata.filter((meta) => {
-            if (predicate && !predicate(meta)) return false;
-            if (!hasRequiredFields(meta, requireFields)) return false;
-            if (allowTags.length && !filterByTags(meta, allowTags)) return false;
-            if (requireEconomic && !prefersEconomic(meta)) return false;
-            return true;
-        });
+    index = startIndex % total;
+    attempts = 0;
+    while (attempts < total) {
+        const candidate = pool[index];
+        index = (index + 1) % total;
+        attempts += 1;
+        if (!candidate) continue;
+        if (predicate && !predicate(candidate)) continue;
+        if (allowTags.length && !filterByTags(candidate, allowTags)) continue;
+        if (requireEconomic && !prefersEconomic(candidate)) continue;
+        if (!hasRequiredFields(candidate, requireFields)) continue;
+        if (lastUsedId && candidate.id === lastUsedId && total > 1) continue;
+
+        TYPE_POOL_INDEX.set(poolKey, index);
+        TYPE_CURSORS.set(poolKey, index - 1);
+        markImageUsed(candidate, questionType || null);
+        return candidate;
     }
 
-    if (!candidates.length) return null;
-
-    const ranked = rankCandidates(candidates, { requireEconomic });
-    const chosen = ranked[0];
-    if (chosen) {
-        markImageUsed(chosen, questionType || null);
-    }
-    return chosen || null;
+    return null;
 }
 
-function selectVisualCombo({ desiredType, allowTags = [], requireFields = ['altText', 'detailedDescription'], requireEconomic = false } = {}) {
+function selectVisualCombo({ desiredType, allowTags = [], requireFields = ['altText'], requireEconomic = false } = {}) {
     const typesToConsider = desiredType ? [desiredType] : Object.keys(QUESTION_TYPE_PREDICATES);
     const history = getRecentTypes();
 
