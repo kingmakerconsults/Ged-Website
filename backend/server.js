@@ -29,7 +29,7 @@ const axios = require('axios');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const { jsonrepair } = require('jsonrepair');
-const { loadImageMeta } = require('./utils/metaLoader');
+const { loadImageMeta, resolveImageRef } = require('./src/images/metaLoader');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const vocabularyData = require('../data/vocabulary_index.json');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
@@ -80,6 +80,56 @@ function logGenerationDuration(examType, subject, startMs, status = 'completed')
     const elapsed = Date.now() - startMs;
     const label = `${examType || 'standard'}:${subject || 'unknown'}`;
     console.log(`[${label}] Generation ${status} in ${elapsed}ms`);
+}
+
+function extractChoiceTexts(item = {}) {
+    if (!item || typeof item !== 'object') return [];
+    if (Array.isArray(item.choices)) {
+        return item.choices.map((choice) => {
+            if (typeof choice === 'string') return choice;
+            if (choice && typeof choice.text === 'string') return choice.text;
+            return '';
+        });
+    }
+    if (Array.isArray(item.answerOptions)) {
+        return item.answerOptions.map((opt) => {
+            if (typeof opt === 'string') return opt;
+            if (opt && typeof opt.text === 'string') return opt.text;
+            return '';
+        });
+    }
+    return [];
+}
+
+function hasImageUrl(item = {}) {
+    const ref = item?.imageRef;
+    if (ref && typeof ref.imageUrl === 'string' && ref.imageUrl.trim()) {
+        return true;
+    }
+    if (item?.stimulusImage && typeof item.stimulusImage.imageUrl === 'string' && item.stimulusImage.imageUrl.trim()) {
+        return true;
+    }
+    if (item?.image && typeof item.image.imageUrl === 'string' && item.image.imageUrl.trim()) {
+        return true;
+    }
+    return false;
+}
+
+function validateItems(items = []) {
+    const invalid = [];
+    items.forEach((item, index) => {
+        const stem = typeof item?.stem === 'string' ? item.stem : typeof item?.questionText === 'string' ? item.questionText : '';
+        const mentionsImage = /\bimage\b/i.test(stem || '');
+        const choices = extractChoiceTexts(item).filter((text) => typeof text === 'string' && text.trim().length > 0);
+        const id = item?.id || item?.questionNumber || index;
+        if ((mentionsImage || item?.imageRef) && !hasImageUrl(item)) {
+            invalid.push({ index, id, reason: 'missing imageUrl' });
+        }
+        if (choices.length < 4) {
+            invalid.push({ index, id, reason: 'bad choices' });
+        }
+    });
+    return invalid;
 }
 
 // Rolling latency (last 200)
@@ -425,6 +475,10 @@ function finalizeChoice(choiceRaw) {
 function finalizeQuestionForCache(question, { domain, difficulty }) {
     if (!question || typeof question !== 'object') {
         return null;
+    }
+
+    if (typeof domain === 'string' && domain.toUpperCase() === 'RLA' && question.imageRef) {
+        delete question.imageRef;
     }
 
     const stemRaw = typeof question.stem === 'string' ? question.stem : '';
@@ -1004,8 +1058,15 @@ function safeJson(raw) {
     }
 }
 
+function emptyMeta() {
+    return { list: [], byFile: new Map(), byId: new Map(), path: null };
+}
+
+let IMAGE_META = emptyMeta();
 let IMAGE_DB = [];
-const IMAGE_BY_PATH = new Map();
+const IMAGE_BY_FILE = new Map();
+const IMAGE_BY_ID = new Map();
+const IMAGE_BY_URL = new Map();
 const MISSING_IMAGE_LOG = new Set();
 
 function normalizeImagePath(input) {
@@ -1013,124 +1074,204 @@ function normalizeImagePath(input) {
     let working = input.trim();
     if (!working) return '';
 
-    const urlMatch = working.match(/^https?:\/\/[^/]+(\/.*)$/i);
-    if (urlMatch) {
-        working = urlMatch[1];
-    }
-
-    working = working.replace(/\\+/g, '/');
-    working = working.replace(/^\.\/?/, '/');
-    if (!working.startsWith('/')) {
-        working = `/${working}`;
-    }
-
-    if (!/^\/(?:frontend|assets)\//i.test(working)) {
-        if (/^\/?images?/i.test(working)) {
-            working = working.replace(/^\/?images?/i, '/frontend/images');
-        } else {
-            working = working.startsWith('/frontend') ? working : `/frontend${working}`;
-        }
-    }
-
-    working = working.replace(/\/+/g, '/');
-    return working;
-}
-
-function rebuildImagePathIndex() {
-    IMAGE_BY_PATH.clear();
-    for (const im of Array.isArray(IMAGE_DB) ? IMAGE_DB : []) {
-        if (!im || typeof im !== 'object') continue;
-        const rawPath = im.filePath || im.src || im.path;
-        const normalized = normalizeImagePath(rawPath);
-        if (!normalized) continue;
-        const lowered = normalized.toLowerCase();
-        IMAGE_BY_PATH.set(normalized, im);
-        IMAGE_BY_PATH.set(normalized.replace(/^\//, ''), im);
-        IMAGE_BY_PATH.set(lowered, im);
-        IMAGE_BY_PATH.set(lowered.replace(/^\//, ''), im);
-        if (rawPath && rawPath !== normalized) {
-            IMAGE_BY_PATH.set(String(rawPath), im);
-        }
-    }
-}
-
-function resolveImageMeta(input) {
-    if (!input) {
-        return { src: null, altText: 'Image unavailable' };
-    }
-
-    let working = String(input);
     try {
         working = decodeURI(working);
     } catch (err) {
-        // ignore decoding errors
+        // ignore decode failures
     }
 
-    const clean = working
-        .toLowerCase()
-        .replace(/[#?].*$/, '')
-        .replace(/\\/g, '/')
-        .replace(/\/{2,}/g, '/');
-    const base = clean.split('/').pop() || clean;
-
-    const meta = IMAGE_BY_PATH.get(clean)
-        || IMAGE_BY_PATH.get('/' + clean)
-        || IMAGE_BY_PATH.get(base)
-        || IMAGE_BY_PATH.get('/' + base)
-        || IMAGE_DB.find((im) => {
-            const candidate = (im?.filePath || im?.src || '').toLowerCase();
-            return candidate.endsWith(base);
-        });
-
-    if (meta && typeof meta === 'object') {
-        return meta;
+    if (/^https?:\/\//i.test(working)) {
+        try {
+            const parsed = new URL(working);
+            working = parsed.pathname || '';
+        } catch (err) {
+            working = working.replace(/^https?:\/\/[^/]+/i, '');
+        }
     }
 
-    if (base && !MISSING_IMAGE_LOG.has(base)) {
-        MISSING_IMAGE_LOG.add(base);
-        console.warn(`[IMG-META] Missing metadata for ${base}`);
+    working = working.replace(/\\+/g, '/');
+    working = working.replace(/\/{2,}/g, '/');
+    working = working.replace(/^(\.\/)+/g, '');
+    working = working.replace(/^\/+/, '');
+
+    const lower = working.toLowerCase();
+    if (lower.startsWith('img/')) {
+        working = working.slice(4);
+    } else if (lower.startsWith('/img/')) {
+        working = working.slice(5);
     }
 
-    return { src: null, altText: 'Image unavailable' };
+    const base = working.split('/').pop() || '';
+    if (!base) return '';
+    let decoded = base;
+    try {
+        decoded = decodeURIComponent(base);
+    } catch (err) {
+        // ignore decode issues
+    }
+    return `/img/${encodeURIComponent(decoded)}`;
+}
+
+function enrichImageRecord(record = {}) {
+    const tags = Array.isArray(record.tags)
+        ? record.tags.map((tag) => String(tag).trim()).filter(Boolean)
+        : [];
+    const lowerTags = tags.map((tag) => tag.toLowerCase());
+    const dominantType = record.type || 'photo';
+    const subjectMap = new Map([
+        ['social-studies', 'Social Studies'],
+        ['social studies', 'Social Studies'],
+        ['science', 'Science'],
+        ['math', 'Math'],
+        ['rla', 'RLA']
+    ]);
+    const subjectKey = lowerTags.find((tag) => subjectMap.has(tag));
+    const subject = subjectKey ? subjectMap.get(subjectKey) : 'General';
+    const category = (() => {
+        for (let i = 0; i < lowerTags.length; i += 1) {
+            if (!subjectMap.has(lowerTags[i])) {
+                return tags[i];
+            }
+        }
+        return dominantType;
+    })();
+    const normalizedPath = normalizeImagePath(record.file || record.filePath || record.src || '');
+    const altText = typeof record.alt === 'string' ? record.alt : '';
+    const caption = typeof record.caption === 'string' ? record.caption : '';
+    const credit = typeof record.credit === 'string' ? record.credit : '';
+    const detailedDescription = typeof record.ocrText === 'string' ? record.ocrText : '';
+
+    return {
+        ...record,
+        tags,
+        keywords: tags,
+        dominantType,
+        subject,
+        category,
+        fileName: record.file,
+        filePath: normalizedPath || record.file,
+        src: normalizedPath || record.file,
+        altText,
+        caption,
+        credit,
+        detailedDescription
+    };
+}
+
+function installImageMetadata(meta) {
+    IMAGE_META = meta;
+    IMAGE_DB = meta.list.map(enrichImageRecord);
+    IMAGE_BY_FILE.clear();
+    IMAGE_BY_ID.clear();
+    IMAGE_BY_URL.clear();
+    for (const entry of IMAGE_DB) {
+        if (!entry || typeof entry !== 'object') continue;
+        const { file, id, filePath, src } = entry;
+        if (file) {
+            IMAGE_BY_FILE.set(file, entry);
+            IMAGE_BY_FILE.set(String(file).toLowerCase(), entry);
+        }
+        if (id) {
+            IMAGE_BY_ID.set(id, entry);
+        }
+        const urlKey = (filePath || src || '').toLowerCase();
+        if (urlKey) {
+            IMAGE_BY_URL.set(urlKey, entry);
+            IMAGE_BY_URL.set(urlKey.replace(/^\//, ''), entry);
+        }
+    }
+}
+
+function findImageRecord(ref) {
+    if (!ref) return null;
+    if (typeof ref === 'string') {
+        let key = ref.trim();
+        if (!key) return null;
+        try {
+            key = decodeURI(key);
+        } catch (err) {
+            // ignore decode issues
+        }
+        const lowered = key.toLowerCase();
+        const base = lowered.split('/').pop();
+        return IMAGE_BY_FILE.get(key)
+            || IMAGE_BY_FILE.get(lowered)
+            || IMAGE_BY_URL.get(lowered)
+            || IMAGE_BY_URL.get(lowered.replace(/^\//, ''))
+            || (base ? IMAGE_BY_FILE.get(base) : null)
+            || (base ? IMAGE_BY_FILE.get(base.toLowerCase()) : null)
+            || IMAGE_BY_ID.get(key)
+            || null;
+    }
+    if (typeof ref === 'object') {
+        return findImageRecord(ref.file || ref.path || ref.imagePath || ref.src || ref.id || '');
+    }
+    return null;
+}
+
+function resolveImageMeta(input) {
+    const record = findImageRecord(input);
+    const lookup = record ? record.file : input;
+    const resolved = resolveImageRef(lookup, IMAGE_META);
+    if (!resolved) {
+        const key = typeof input === 'string' ? input : input?.file || input?.id || '';
+        if (key && !MISSING_IMAGE_LOG.has(key)) {
+            MISSING_IMAGE_LOG.add(key);
+            console.warn(`[IMG-META] Missing metadata for ${key}`);
+        }
+        return { src: null, altText: 'Image unavailable' };
+    }
+    const baseCandidate = (() => {
+        if (!lookup || typeof lookup !== 'string') return null;
+        const direct = IMAGE_META.byFile.get(lookup);
+        if (direct) return direct;
+        const lowered = IMAGE_META.byFile.get(lookup.toLowerCase());
+        if (lowered) return lowered;
+        const base = lookup.split('/').pop();
+        if (!base) return null;
+        return IMAGE_META.byFile.get(base) || IMAGE_META.byFile.get(base.toLowerCase());
+    })();
+    const enriched = record || findImageRecord(resolved.imageUrl) || (baseCandidate ? enrichImageRecord(baseCandidate) : null);
+    const out = enriched ? { ...enriched } : {};
+    out.src = resolved.imageUrl;
+    out.filePath = resolved.imageUrl;
+    out.altText = resolved.imageMeta?.alt || enriched?.altText || 'Image';
+    out.caption = resolved.imageMeta?.caption || enriched?.caption || '';
+    out.credit = resolved.imageMeta?.credit || enriched?.credit || '';
+    out.detailedDescription = enriched?.detailedDescription || '';
+    return out;
 }
 
 function loadImageMetadata() {
-    const primaryPath = path.join(__dirname, 'image_metadata_final.json');
-    const fallbackPath = path.join(__dirname, 'data', 'image_metadata_final.json');
-    const paths = [primaryPath, fallbackPath];
+    const candidates = [
+        path.join(__dirname, 'data', 'image_metadata_final.json'),
+        path.join(__dirname, 'image_metadata_final.json')
+    ];
 
-    for (const candidate of paths) {
+    for (const candidate of candidates) {
         try {
             if (!fs.existsSync(candidate)) continue;
-            const raw = fs.readFileSync(candidate, 'utf8');
-            const parsedList = loadImageMeta(raw);
-            if (!Array.isArray(parsedList) || !parsedList.length) {
-                console.warn(`[IMG-WARN] Metadata at ${candidate} was empty or invalid.`);
-                continue;
+            const meta = loadImageMeta(candidate);
+            installImageMetadata(meta);
+            for (const item of IMAGE_META.list.slice(0, 5)) {
+                const check = resolveImageRef(item.file, IMAGE_META);
+                if (!check?.imageUrl) {
+                    throw new Error(`Image resolve failed for ${item.file}`);
+                }
             }
-            IMAGE_DB = parsedList.map((img) => {
-                if (!img || typeof img !== 'object') return img;
-                const normalizedPath = normalizeImagePath(img.filePath || img.src || img.path);
-                return {
-                    ...img,
-                    filePath: normalizedPath || img.filePath || img.src || img.path,
-                    src: normalizedPath || img.src || img.filePath || img.path,
-                };
-            });
-            rebuildImagePathIndex();
-            console.log(`[IMG-LOAD] Loaded ${IMAGE_DB.length} images from ${candidate}.`);
+            console.log(`[IMG-LOAD] Loaded ${IMAGE_META.list.length} images from ${candidate}.`);
             return;
         } catch (err) {
             console.warn(`[IMG-WARN] Failed to load metadata from ${candidate}: ${err?.message || err}`);
         }
     }
 
-    IMAGE_DB = [];
-    rebuildImagePathIndex();
+    installImageMetadata(emptyMeta());
     console.warn('[IMG-WARN] No image metadata could be loaded.');
 }
 
 loadImageMetadata();
+
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
@@ -1322,6 +1463,15 @@ function replaceScreenshotTerm(value) {
     return value.replace(/\bScreenshot\b/gi, 'image');
 }
 
+function scrubbing(s = '') {
+    if (typeof s !== 'string') {
+        s = s == null ? '' : String(s);
+    }
+    return s
+        .replace(/\b[Ss]creenshot(s)?\b/g, 'image')
+        .replace(/\b[\w.\- ]+\.(png|jpe?g|gif|webp|svg)\b/g, 'the image');
+}
+
 function clampPassageToTwoHundredWords(text) {
     if (typeof text !== 'string') return undefined;
     const trimmed = replaceScreenshotTerm(text).trim();
@@ -1428,6 +1578,12 @@ function validShape(q) {
         && q.correctIndex >= 0 && q.correctIndex < 4;
 }
 
+function validSS(q = {}) {
+    const has4 = Array.isArray(q?.answerOptions) && q.answerOptions.length === 4;
+    const imgOK = !q?.imageRef || !!q.imageRef.imageUrl;
+    return has4 && imgOK;
+}
+
 function validByType(q) {
     if ((q.type || '').toLowerCase() === 'passage') {
         const words = (q.passage || '').split(/\s+/).filter(Boolean).length;
@@ -1454,6 +1610,29 @@ function rebalance(questions) {
 }
 
 function prepareSocialStudiesItems(payload) {
+    const sanitizeList = (list = []) => {
+        if (!Array.isArray(list)) return [];
+        return list.filter((q, idx) => {
+            const ok = validSS(q);
+            if (!ok) {
+                const has4 = Array.isArray(q?.answerOptions) && q.answerOptions.length === 4;
+                const imgOK = !q?.imageRef || !!q.imageRef?.imageUrl;
+                console.warn('DROP_SS_ITEM', {
+                    reason: !imgOK ? 'no_image_url' : 'bad_choices',
+                    qid: q?.id || q?.questionNumber || idx
+                });
+            }
+            return ok;
+        });
+    };
+
+    if (payload && Array.isArray(payload.questions)) {
+        payload.questions = sanitizeList(payload.questions);
+    }
+    if (payload && Array.isArray(payload.items)) {
+        payload.items = sanitizeList(payload.items);
+    }
+
     let candidates = [];
     if (payload && Array.isArray(payload.questions)) {
         candidates = payload.questions;
@@ -1478,13 +1657,14 @@ function prepareSocialStudiesItems(payload) {
     return balanced.map((q, idx) => ({
         ...q,
         questionNumber: idx + 1,
-        questionText: replaceScreenshotTerm(q.questionText || '').trim(),
+        questionText: scrubbing(replaceScreenshotTerm(q.questionText || '').trim()).trim(),
         passage: q.passage,
         answerOptions: q.answerOptions.map((opt, optionIdx) => ({
-            text: replaceScreenshotTerm(opt.text || '').trim(),
+            text: scrubbing(replaceScreenshotTerm(opt.text || '').trim()).trim(),
             isCorrect: optionIdx === q.correctIndex,
-            rationale: typeof opt.rationale === 'string' ? opt.rationale : ''
-        }))
+            rationale: scrubbing(typeof opt.rationale === 'string' ? opt.rationale : '').trim()
+        })),
+        rationale: scrubbing(q.rationale || '').trim()
     }));
 }
 
@@ -1537,6 +1717,26 @@ function humanizeSource(value) {
     }
 
     return trimmed;
+}
+
+function validateImageQuestion(q) {
+    if (!q || typeof q !== 'object') return false;
+    if (!Array.isArray(q.answerOptions) || q.answerOptions.length !== 4) return false;
+    if (/\.(png|jpe?g|gif|webp)/i.test(q.questionText || '')) return false;
+    if (q.imageRef && !q.imageRef.imageUrl) return false;
+    return true;
+}
+
+function filterValidImageItems(items = []) {
+    if (!Array.isArray(items)) return [];
+    return items.filter((item, index) => {
+        const ok = validateImageQuestion(item);
+        if (!ok) {
+            const id = item?.id || index;
+            console.warn(`[IMG-VALIDATE] Dropping invalid social studies item (${id}).`);
+        }
+        return ok;
+    });
 }
 
 function imageDisplayCredit(filePathOrKey) {
@@ -3062,6 +3262,30 @@ app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all rou
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
+// --- Static assets (images) with CORS + long cache ---
+const STATIC_IMAGE_DIRS = [
+    path.join(__dirname, 'public/img'),
+    path.join(__dirname, '../frontend/Images/Social Studies'),
+    path.join(__dirname, '../frontend/Images/Science'),
+    path.join(__dirname, '../frontend/Images/Math'),
+    path.join(__dirname, '../frontend/Images/RLA')
+];
+const imageStaticOptions = {
+    fallthrough: true,
+    setHeaders(res, filePath) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        if (/\.(png|jpe?g|gif|webp|svg)$/i.test(filePath)) {
+            res.setHeader('Cache-Control', 'public,max-age=31536000,immutable');
+            res.type(path.extname(filePath));
+        }
+    }
+};
+STATIC_IMAGE_DIRS.forEach((dir) => {
+    if (fs.existsSync(dir)) {
+        app.use('/img', cors(), express.static(dir, imageStaticOptions));
+    }
+});
+
 // Serve static image folders from the 'frontend' directory
 app.use('/images/rla', express.static(path.join(__dirname, '../frontend/Images/RLA')));
 app.use('/images/science', express.static(path.join(__dirname, '../frontend/Images/Science')));
@@ -4119,10 +4343,12 @@ const promptLibrary = {
         topic: (topic) => `Generate a 15-question GED-style Social Studies quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.
         STRICT STIMULUS REQUIREMENTS: A variety of stimuli MUST be used. Include at least 2 questions based on a chart/graph, 2 questions based on a historical quote, and 2 questions based on an image from the provided descriptions. The rest should be text passages.
-        NO REDUNDANCY RULE: All 15 questions must feature distinct scenarios, time periods, data sets, and stimulus materials. Do not reuse wording, answer choices, or prompts across questions.`,
+        NO REDUNDANCY RULE: All 15 questions must feature distinct scenarios, time periods, data sets, and stimulus materials. Do not reuse wording, answer choices, or prompts across questions.
+        When an image is referenced, write the question so it can be answered from the image; never include filenames or the word 'screenshot'. Passages (when used) are 60–200 words.`,
         comprehensive: `Generate a 35-question comprehensive GED Social Studies exam.
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, and 15% Geography & the World.
-        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.`
+        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.
+        When an image is referenced, write the question so it can be answered from the image; never include filenames or the word 'screenshot'. Passages (when used) are 60–200 words.`
     },
     "Science": {
         topic: (topic) => `Generate a 15-question GED-style Science quiz focused on "${topic}".
@@ -4193,6 +4419,16 @@ function existingTopicPrompt(subject, topic, count = 15) {
 
 app.get('/', (req, res) => {
   res.send('Learning Canvas Backend is running!');
+});
+
+app.get('/health/images', (_req, res) => {
+    try {
+        const meta = JSON.parse(fs.readFileSync('image_metadata_final.json', 'utf8'));
+        const ok = Array.isArray(meta) && meta.every((m) => m && m.file);
+        res.json({ ok, count: Array.isArray(meta) ? meta.length : 0 });
+    } catch (e) {
+        res.status(500).json({ ok: false, error: e.message });
+    }
 });
 
 // NEW FEATURE: Endpoint to define a word, as used in your index.html
@@ -4301,7 +4537,7 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         }
         
         // 7. Final cleanup and response
-        const finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => {
+        let finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => {
             const normalized = normalizeStimulusAndSource(item);
             const chosenSrc = normalized?.stimulusImage?.src || normalized?.asset?.imagePath || '';
             if (chosenSrc) {
@@ -4311,6 +4547,17 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             }
             return { ...normalized, questionNumber: idx + 1 };
         });
+
+        if (subject === 'Social Studies') {
+            const validationIssues = validateItems(finalItems);
+            if (validationIssues.length) {
+                console.warn('[validate-items] Dropping invalid Social Studies items from topic generator', validationIssues);
+                const invalidIndices = new Set(validationIssues.map((issue) => issue.index));
+                finalItems = finalItems
+                    .filter((_, idx) => !invalidIndices.has(idx))
+                    .map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
+            }
+        }
 
         console.log(`[Variety Pack] Successfully generated and processed ${finalItems.length} questions.`);
 
@@ -5731,6 +5978,133 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
     return groupedQuestions;
 }
 
+function extractPrimaryImageUrl(question) {
+    if (!question || typeof question !== 'object') {
+        return null;
+    }
+
+    const candidates = [
+        question.imageUrl,
+        question?.imageRef?.imageUrl,
+        question?.imageRef?.path,
+        question?.stimulusImage?.imageUrl,
+        question?.image?.imageUrl
+    ];
+
+    for (const candidate of candidates) {
+        if (typeof candidate === 'string' && candidate.trim()) {
+            return candidate.trim();
+        }
+    }
+
+    return null;
+}
+
+function restoreImageAttachments(correctedQuiz, draftQuiz) {
+    if (!correctedQuiz || typeof correctedQuiz !== 'object') {
+        return correctedQuiz;
+    }
+    if (!draftQuiz || typeof draftQuiz !== 'object') {
+        return correctedQuiz;
+    }
+
+    const originalQuestions = Array.isArray(draftQuiz.questions) ? draftQuiz.questions : [];
+    const correctedQuestions = Array.isArray(correctedQuiz.questions) ? correctedQuiz.questions : [];
+
+    if (!originalQuestions.length || !correctedQuestions.length) {
+        return correctedQuiz;
+    }
+
+    const originalMap = new Map();
+    originalQuestions.forEach((question, index) => {
+        const key = Number.isInteger(question?.questionNumber) ? question.questionNumber : index + 1;
+        originalMap.set(key, question);
+    });
+
+    const mergedQuestions = correctedQuestions.map((question, index) => {
+        const key = Number.isInteger(question?.questionNumber) ? question.questionNumber : index + 1;
+        const original = originalMap.get(key);
+        if (!original) {
+            return question;
+        }
+
+        const originalImageUrl = extractPrimaryImageUrl(original);
+        const correctedImageUrl = extractPrimaryImageUrl(question);
+        const originalType = typeof original?.type === 'string' ? original.type.toLowerCase() : '';
+        const correctedType = typeof question?.type === 'string' ? question.type.toLowerCase() : '';
+        const imageRequired = Boolean(originalImageUrl)
+            || ['image', 'integrated'].includes(originalType)
+            || ['image', 'integrated'].includes(correctedType);
+
+        if (!imageRequired) {
+            return question;
+        }
+
+        const merged = { ...question };
+        const finalImageUrl = correctedImageUrl || originalImageUrl;
+
+        if (finalImageUrl && (!merged.imageUrl || !merged.imageUrl.trim())) {
+            merged.imageUrl = finalImageUrl;
+        }
+
+        const originalAltCandidates = [
+            original.imageAlt,
+            original?.imageRef?.altText,
+            original?.imageRef?.imageMeta?.alt,
+            original?.imageRef?.imageMeta?.altText,
+            original?.imageRef?.imageMeta?.title
+        ];
+        const originalAlt = originalAltCandidates.find((value) => typeof value === 'string' && value.trim());
+
+        if (originalAlt && (!merged.imageAlt || !merged.imageAlt.trim())) {
+            merged.imageAlt = originalAlt.trim();
+        }
+
+        if (original?.imageMeta && !merged.imageMeta) {
+            merged.imageMeta = { ...original.imageMeta };
+        }
+
+        const correctedRef = merged.imageRef && typeof merged.imageRef === 'object' ? { ...merged.imageRef } : {};
+        const originalRef = original?.imageRef && typeof original.imageRef === 'object' ? original.imageRef : null;
+
+        if (originalRef) {
+            if (!correctedRef.imageUrl && typeof originalRef.imageUrl === 'string' && originalRef.imageUrl.trim()) {
+                correctedRef.imageUrl = originalRef.imageUrl.trim();
+            }
+            if (!correctedRef.imageUrl && typeof originalRef.path === 'string' && originalRef.path.trim()) {
+                correctedRef.imageUrl = originalRef.path.trim();
+            }
+            if (!correctedRef.path && typeof originalRef.path === 'string' && originalRef.path.trim()) {
+                correctedRef.path = originalRef.path.trim();
+            }
+            if (!correctedRef.altText && typeof originalRef.altText === 'string' && originalRef.altText.trim()) {
+                correctedRef.altText = originalRef.altText.trim();
+            }
+            if (!correctedRef.caption && typeof originalRef.caption === 'string' && originalRef.caption.trim()) {
+                correctedRef.caption = originalRef.caption.trim();
+            }
+            if (!correctedRef.imageMeta && originalRef.imageMeta && typeof originalRef.imageMeta === 'object') {
+                correctedRef.imageMeta = { ...originalRef.imageMeta };
+            }
+        }
+
+        if (!correctedRef.imageUrl && finalImageUrl) {
+            correctedRef.imageUrl = finalImageUrl;
+        }
+        if (!correctedRef.altText && originalAlt) {
+            correctedRef.altText = originalAlt.trim();
+        }
+
+        if (Object.keys(correctedRef).length) {
+            merged.imageRef = correctedRef;
+        }
+
+        return merged;
+    });
+
+    return { ...correctedQuiz, questions: mergedQuestions };
+}
+
 async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
     const prompt = `You are a meticulous GED exam editor. Output only valid JSON. No markdown, no code fences, no trailing commas, no comments.
 Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam. Your task is to review and improve it based on these rules:
@@ -5747,6 +6121,9 @@ Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQui
         const schema = isSocialStudies ? SS_RESPONSE_SCHEMA : quizSchema;
         const callOptions = isSocialStudies ? { ...options, callSite: 'ss-review' } : options;
         const correctedQuiz = await callAI(prompt, schema, callOptions);
+        if (isSocialStudies) {
+            return restoreImageAttachments(correctedQuiz, draftQuiz);
+        }
         return correctedQuiz;
     }
 
@@ -6020,9 +6397,15 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
 
         const combined = [...reusedItems, ...items];
         const truncated = combined.slice(0, clampedCount);
-        const finalItems = shuffleArray ? shuffleArray(truncated) : truncated;
+        let finalItems = shuffleArray ? shuffleArray(truncated) : truncated;
+        const validationIssues = validateItems(finalItems);
+        if (validationIssues.length) {
+            console.warn('[validate-items] Dropping invalid items from /api/generate-exam', validationIssues);
+            const invalidIndices = new Set(validationIssues.map((issue) => issue.index));
+            finalItems = finalItems.filter((_, idx) => !invalidIndices.has(idx));
+        }
 
-        res.json({ items: finalItems, invalid: invalidIdx });
+        res.json({ items: finalItems, invalid: invalidIdx, dropped: validationIssues });
     } catch (err) {
         console.error('Error generating profile exam items:', err);
         res.status(500).json({ error: 'Failed to generate exam items.' });
@@ -6071,7 +6454,7 @@ app.post('/generate/social-studies-items', express.json(), async (req, res) => {
             generateWithFallback: (subject, prompt, geminiOptions, fallbackOptions) =>
                 generateQuizItemsWithFallback(subject, prompt, geminiOptions, fallbackOptions)
         });
-        res.json({ items });
+        res.json({ items: filterValidImageItems(items) });
     } catch (error) {
         console.error('Failed to generate social studies items:', error?.message || error);
         res.status(500).json({ error: 'Failed to generate social studies items.' });
@@ -6908,17 +7291,23 @@ app.use((err, req, res, next) => {
 
 // The '0.0.0.0' is important for containerized environments like Render.
 if (require.main === module) {
-    ensureSchema(pool)
-        .then(() => {
-            app.listen(port, '0.0.0.0', () => {
-                console.log(`Your service is live 🚀`);
-                console.log(`Server listening on port ${port}`);
-            });
-        })
-        .catch((err) => {
-            console.error('Failed to ensure database schema:', err);
-            process.exit(1);
+    const startServer = () => {
+        app.listen(port, '0.0.0.0', () => {
+            console.log(`Your service is live 🚀`);
+            console.log(`Server listening on port ${port}`);
         });
+    };
+
+    if (isDatabaseConfigured()) {
+        ensureSchema(pool)
+            .then(startServer)
+            .catch((err) => {
+                console.error('Failed to ensure database schema:', err);
+                process.exit(1);
+            });
+    } else {
+        startServer();
+    }
 }
 
 module.exports = {

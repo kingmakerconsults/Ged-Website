@@ -5,6 +5,9 @@ const STEM_FORBIDDEN = /(\b(best|most likely) strategy\b|\bhow should (a|the) st
 const STEM_STRATEGY_FORBIDDEN = /(\bstrategy\b|\bfirst step\b|\bon-screen directions\b|\bpractice set\b)/i;
 const VISUAL_ANCHORS = /(legend|key|scale|axis|label|shaded|color|colour|symbol|direction|compass|date|caption|source|track|route|boundary|state|river|percentage|median|rate|timeline|event|period|latitude|longitude|grid|trend|bar|line|slice|sector|population|percent|index|figure|table|column|row)/gi;
 
+const FILENAME_IN_TEXT_RX = /\.(?:png|jpe?g|gif|webp|svg)\b/i;
+const SCREENSHOT_WORD_RX = /\b[Ss]creenshot(s)?\b/;
+
 const TABLE_TERMS = ['table', 'row', 'column', 'header', 'definition', 'example', 'type'];
 const CHART_TERMS = ['axis', 'x-axis', 'y-axis', 'legend', 'series', 'units', 'year'];
 const MAP_TERMS = ['legend', 'scale', 'compass', 'shaded', 'state', 'region', 'river'];
@@ -185,9 +188,19 @@ function validateSocialStudiesScreenshotItem(item = {}, imageMeta = {}, features
 
     const isScreenshot = item.isScreenshot || imageMeta?.isScreenshot || deriveIsScreenshot(imageMeta?.fileName || '', imageMeta);
     if (isScreenshot) {
-        const caption = item.imageRef?.caption || '';
-        if (!/^Screenshot —/.test(caption)) {
-            errors.push('Screenshot captions must begin with "Screenshot —".');
+        const caption = item?.imageRef?.imageMeta?.caption
+            || item?.imageRef?.caption
+            || imageMeta?.caption
+            || '';
+        if (!caption || !caption.trim()) {
+            errors.push('Image-based items must include a descriptive caption.');
+        } else {
+            if (SCREENSHOT_WORD_RX.test(caption)) {
+                errors.push('Captions must not include the word "screenshot".');
+            }
+            if (FILENAME_IN_TEXT_RX.test(caption)) {
+                errors.push('Captions must not include filenames.');
+            }
         }
     }
 

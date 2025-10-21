@@ -2,6 +2,41 @@ const { deriveIsScreenshot } = require('../utils/metaLoader');
 const { deriveVisualFeatures } = require('../utils/visualFeatures');
 const { pickTemplate } = require('./dispatch');
 const { validateSS } = require('./validators');
+const { resolveImage } = require('../../imageResolver');
+
+const FILENAME_RX = /\.(?:png|jpe?g|gif|webp|svg)\b/i;
+const SCREENSHOT_RX = /\b[Ss]creenshot(s)?\b/g;
+
+function stripSourceLines(text = '') {
+    if (typeof text !== 'string') return '';
+    return text
+        .replace(/Source:\s*[^\n]+?\.(?:png|jpe?g|gif|webp|svg)\s*$/gmi, '')
+        .replace(SCREENSHOT_RX, 'image')
+        .trim();
+}
+
+function sanitizeMeta(meta = {}, resolvedMeta = {}) {
+    const output = { ...meta };
+    delete output.fileName;
+    delete output.filePath;
+    delete output.file;
+    delete output.path;
+    if (meta.id) output.id = meta.id;
+    if (resolvedMeta.title) output.title = stripSourceLines(resolvedMeta.title);
+    if (resolvedMeta.alt || resolvedMeta.altText) {
+        output.altText = stripSourceLines(resolvedMeta.altText || resolvedMeta.alt);
+    }
+    if (resolvedMeta.caption) output.caption = stripSourceLines(resolvedMeta.caption);
+    if (output.caption && (FILENAME_RX.test(output.caption) || SCREENSHOT_RX.test(output.caption))) {
+        output.caption = stripSourceLines(output.caption.replace(FILENAME_RX, ''));
+    }
+    if (output.title) output.title = stripSourceLines(output.title);
+    if (output.caption) output.caption = stripSourceLines(output.caption);
+    if (output.altText) output.altText = stripSourceLines(output.altText);
+    if (meta.subject) output.subject = meta.subject;
+    if (meta.category) output.category = meta.category;
+    return output;
+}
 
 function generateItemForMeta(meta = {}, imageUrl) {
     const fileName = (meta.file || meta.path || meta.image_url || imageUrl || meta.fileName || meta.filePath || '')
@@ -13,16 +48,26 @@ function generateItemForMeta(meta = {}, imageUrl) {
 
     const draft = pickTemplate(meta, features);
 
+    const resolved = resolveImage({
+        file: meta?.fileName || fileName,
+        path: meta?.filePath || meta?.path,
+        title: meta?.title,
+        caption: meta?.caption,
+        alt: meta?.altText
+    });
+    const fallbackUrl = typeof imageUrl === 'string' && imageUrl.trim() ? imageUrl.trim() : null;
+    const resolvedUrl = resolved?.imageUrl || fallbackUrl;
+    const imageRef = resolvedUrl ? { imageUrl: resolvedUrl } : null;
+    if (imageRef && resolved?.imageMeta) {
+        imageRef.imageMeta = resolved.imageMeta;
+    }
+
     const item = {
         domain: 'social_studies',
         difficulty: 'medium',
         skill: 'identify',
-        imageRef: {
-            path: imageUrl || `/static/images/${fileName}`,
-            altText: meta?.altText || meta?.title || fileName,
-            caption: isScreenshot ? `Screenshot — ${meta?.title || fileName}` : (meta?.title || '')
-        },
-        imageMeta: meta,
+        imageRef: imageRef || undefined,
+        imageMeta: sanitizeMeta(meta, resolved?.imageMeta || {}),
         questionType: features.hasTable ? 'table' : features.hasChart ? 'chart' : features.hasMap ? 'map' : 'photo',
         ...draft
     };

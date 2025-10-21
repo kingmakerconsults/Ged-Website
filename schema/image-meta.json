@@ -1,0 +1,20 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "file", "type", "credit"],
+    "properties": {
+      "id": { "type": "string" },
+      "file": { "type": "string" },
+      "type": { "type": "string" },
+      "title": { "type": "string" },
+      "alt": { "type": "string" },
+      "caption": { "type": "string" },
+      "credit": { "type": "string" },
+      "sourceUrl": { "type": "string" },
+      "tags": { "type": "array", "items": { "type": "string" } },
+      "year": { "type": "integer" },
+      "ocrText": { "type": "string" }
+    }
+  }
+}
