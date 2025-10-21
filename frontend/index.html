@@ -203,24 +203,44 @@
             text-align: left;
         }
         .ss-figure {
-            margin: 0 0 0.75rem 0;
+            margin: 0 auto 1rem;
+            width: 100%;
+            max-width: min(100%, 48rem);
+        }
+        .ss-figure:not(.missing) {
+            background: #ffffff;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: 0 18px 32px -24px rgba(15, 23, 42, 0.55);
+            overflow: hidden;
         }
         .ss-figure img {
+            display: block;
+            width: 100%;
             max-width: 100%;
             height: auto;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 30px -12px rgba(15, 23, 42, 0.35);
+            object-fit: contain;
+            background: #f8fafc;
         }
         .ss-figcap {
-            margin-top: 0.25rem;
+            padding: 0.75rem 1rem 1rem;
+            margin: 0;
             font-size: 0.85rem;
-            color: #64748b;
+            color: #475569;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-word;
         }
         .ss-figure.missing {
             background: #f8fafc;
             border: 1px dashed #cbd5e1;
             padding: 0.75rem;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
+            box-shadow: none;
         }
         .question-stem thead th {
             background: #f3f4f6;
@@ -1909,6 +1929,223 @@ function stripFileSource(s = '') {
         .trim();
 }
 
+const EXAM_IMAGE_SUBJECTS = new Set(['Social Studies', 'Science']);
+
+function canonicalizeExamSubject(value) {
+    if (typeof value !== 'string') {
+        return '';
+    }
+    const trimmed = value.trim();
+    if (!trimmed) {
+        return '';
+    }
+    const normalized = trimmed.toLowerCase().replace(/[_-]+/g, ' ');
+    if (normalized.includes('social') && normalized.includes('stud')) {
+        return 'Social Studies';
+    }
+    if (normalized.includes('science')) {
+        return 'Science';
+    }
+    return '';
+}
+
+function inferExamSubject(...candidates) {
+    for (const candidate of candidates) {
+        const resolved = canonicalizeExamSubject(candidate);
+        if (resolved) {
+            return resolved;
+        }
+    }
+    return '';
+}
+
+function findFirstString(...values) {
+    for (const value of values) {
+        if (typeof value === 'string') {
+            const trimmed = value.trim();
+            if (trimmed) {
+                return trimmed;
+            }
+        }
+    }
+    return '';
+}
+
+function mergeImageMetaLayers(layers = []) {
+    return layers.reduce((acc, layer) => {
+        if (!layer || typeof layer !== 'object') {
+            return acc;
+        }
+        const target = acc;
+        if (!target.caption && typeof layer.caption === 'string') target.caption = layer.caption;
+        if (!target.title && typeof layer.title === 'string') target.title = layer.title;
+        if (!target.alt && typeof layer.alt === 'string') target.alt = layer.alt;
+        if (!target.altText && typeof layer.altText === 'string') target.altText = layer.altText;
+        if (!target.credit && typeof layer.credit === 'string') target.credit = layer.credit;
+        if (!target.attribution && typeof layer.attribution === 'string') target.attribution = layer.attribution;
+        if (!target.image_url && typeof layer.image_url === 'string') target.image_url = layer.image_url;
+        if (!target.imageUrl && typeof layer.imageUrl === 'string') target.imageUrl = layer.imageUrl;
+        if (!target.path && typeof layer.path === 'string') target.path = layer.path;
+        if (!target.src && typeof layer.src === 'string') target.src = layer.src;
+        if (!target.source && layer.source && typeof layer.source === 'object') {
+            target.source = { ...layer.source };
+        }
+        return target;
+    }, {});
+}
+
+function normalizeExamCaption(value) {
+    if (typeof value !== 'string') {
+        return '';
+    }
+    const stripped = stripFileSource(decodeHtmlEntities(value));
+    const cleaned = stripped.replace(/\s+/g, ' ').trim();
+    return cleaned;
+}
+
+function normalizeExamAlt(value, fallback) {
+    const normalized = normalizeExamCaption(value);
+    const safeFallback = typeof fallback === 'string' && fallback.trim()
+        ? fallback.trim()
+        : 'Exam image';
+    const finalValue = normalized || safeFallback;
+    return finalValue.slice(0, 160);
+}
+
+function toImageRefObject(imageRef) {
+    if (!imageRef) {
+        return null;
+    }
+    if (typeof imageRef === 'string') {
+        return { imageUrl: imageRef };
+    }
+    if (typeof imageRef === 'object') {
+        return imageRef;
+    }
+    return null;
+}
+
+function resolveExamImageDescriptor(imageRef, options = {}) {
+    const refObject = toImageRefObject(imageRef);
+    const subject = inferExamSubject(options.subject, refObject?.subject, refObject?.subjectName);
+    const enforceGate = Boolean(subject);
+    if (enforceGate && !EXAM_IMAGE_SUBJECTS.has(subject)) {
+        return null;
+    }
+
+    const metaLayers = [];
+    if (refObject && typeof refObject === 'object') {
+        if (refObject.imageMeta) metaLayers.push(refObject.imageMeta);
+        if (refObject.meta) metaLayers.push(refObject.meta);
+        if (refObject.metadata) metaLayers.push(refObject.metadata);
+    }
+    if (Array.isArray(options.metaLayers)) {
+        metaLayers.push(...options.metaLayers);
+    }
+
+    const mergedMeta = mergeImageMetaLayers(metaLayers);
+    const url = findFirstString(
+        typeof imageRef === 'string' ? imageRef : '',
+        refObject?.imageUrl,
+        refObject?.image_url,
+        refObject?.url,
+        refObject?.path,
+        refObject?.src,
+        mergedMeta.imageUrl,
+        mergedMeta.image_url,
+        mergedMeta.path,
+        mergedMeta.src,
+        options.fallbackUrl
+    );
+
+    if (!url) {
+        return null;
+    }
+
+    const defaultAlt = subject === 'Science'
+        ? 'Science exam image'
+        : subject === 'Social Studies'
+            ? 'Social studies exam image'
+            : 'Exam image';
+
+    const alt = normalizeExamAlt(
+        findFirstString(
+            options.alt,
+            refObject?.alt,
+            refObject?.altText,
+            mergedMeta.alt,
+            mergedMeta.altText,
+            mergedMeta.title,
+            mergedMeta.caption
+        ),
+        options.fallbackAlt || defaultAlt
+    );
+
+    const caption = normalizeExamCaption(
+        findFirstString(
+            options.caption,
+            refObject?.caption,
+            mergedMeta.caption,
+            mergedMeta.title,
+            mergedMeta.credit,
+            mergedMeta.attribution,
+            mergedMeta.source?.title,
+            options.fallbackCaption
+        )
+    );
+
+    const descriptor = {
+        url,
+        alt,
+        caption,
+        subject,
+        testId: options.testId || 'exam-image'
+    };
+
+    if (typeof options.tabIndex === 'number') {
+        descriptor.tabIndex = options.tabIndex;
+    }
+
+    return descriptor;
+}
+
+function renderExamImage(imageRef, options = {}) {
+    const descriptor = resolveExamImageDescriptor(imageRef, options);
+    if (!descriptor) {
+        return null;
+    }
+
+    const figure = document.createElement('figure');
+    figure.className = 'ss-figure';
+    figure.dataset.testid = descriptor.testId;
+    if (typeof descriptor.tabIndex === 'number') {
+        figure.tabIndex = descriptor.tabIndex;
+    }
+
+    const img = document.createElement('img');
+    img.src = descriptor.url;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.alt = descriptor.alt;
+    img.onerror = () => {
+        figure.remove();
+    };
+    figure.appendChild(img);
+
+    if (descriptor.caption) {
+        const figcaption = document.createElement('figcaption');
+        figcaption.className = 'ss-figcap';
+        figcaption.textContent = descriptor.caption;
+        figure.appendChild(figcaption);
+    }
+
+    if (options.container && typeof options.container.appendChild === 'function') {
+        options.container.appendChild(figure);
+    }
+
+    return figure;
+}
+
 function renderImageSection(container, imageData, items) {
     if (!container) {
         return;
@@ -1916,50 +2153,40 @@ function renderImageSection(container, imageData, items) {
 
     container.innerHTML = '';
 
-    let imageUrl = null;
-    let meta = null;
-    if (typeof imageData === 'string') {
-        imageUrl = imageData;
-    } else if (imageData && typeof imageData === 'object') {
-        imageUrl = imageData.image_url || imageData.imageUrl || imageData.url || imageData.path || imageData.src || null;
-        meta = imageData.meta || imageData.metadata || imageData.imageMeta || null;
-    }
-
     const firstItem = Array.isArray(items) && items.length ? items[0] : null;
-    if (!meta && firstItem && typeof firstItem === 'object') {
-        meta = firstItem.imageMeta || firstItem.imageRef?.imageMeta || null;
+    const subject = inferExamSubject(
+        firstItem?.subject,
+        firstItem?.subjectName,
+        firstItem?.subject_name,
+        firstItem?.subjectArea,
+        firstItem?.subject_area,
+        firstItem?.exam_subject,
+        imageData && typeof imageData === 'object' ? imageData.subject : null,
+        imageData && typeof imageData === 'object' ? imageData?.meta?.subject : null,
+        imageData && typeof imageData === 'object' ? imageData?.metadata?.subject : null
+    );
+
+    const metaLayers = [];
+    if (firstItem && typeof firstItem === 'object') {
+        if (firstItem.imageMeta) metaLayers.push(firstItem.imageMeta);
+        if (firstItem.imageRef?.imageMeta) metaLayers.push(firstItem.imageRef.imageMeta);
+    }
+    if (imageData && typeof imageData === 'object') {
+        if (imageData.imageMeta) metaLayers.push(imageData.imageMeta);
+        if (imageData.meta) metaLayers.push(imageData.meta);
+        if (imageData.metadata) metaLayers.push(imageData.metadata);
     }
 
-    if (imageUrl) {
-        const figure = document.createElement('figure');
-        figure.className = 'ss-figure';
+    const canonicalImageRef = (firstItem && typeof firstItem === 'object' && firstItem.imageRef)
+        || imageData
+        || (typeof imageData === 'string' ? { imageUrl: imageData } : null);
 
-        const img = document.createElement('img');
-        img.src = imageUrl;
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        img.alt = stripFileSource(meta?.alt || meta?.altText || meta?.title || 'Social studies image').slice(0, 160) || 'Social studies image';
-        img.onerror = () => {
-            figure.remove();
-        };
-        figure.appendChild(img);
-
-        const captionSource = stripFileSource(
-            firstItem?.imageRef?.imageMeta?.caption
-            || firstItem?.imageRef?.caption
-            || meta?.caption
-            || meta?.title
-            || ''
-        ) || 'Social studies image';
-        if (captionSource) {
-            const figcaption = document.createElement('figcaption');
-            figcaption.className = 'ss-figcap';
-            figcaption.textContent = captionSource;
-            figure.appendChild(figcaption);
-        }
-
-        container.appendChild(figure);
-    }
+    renderExamImage(canonicalImageRef, {
+        container,
+        subject,
+        metaLayers,
+        tabIndex: 0
+    });
 
     if (!Array.isArray(items) || !items.length) {
         return;
@@ -2041,6 +2268,8 @@ function handleImageBankPayload(payload) {
     renderImageSection(container, image, questions);
 }
 
+window.renderExamImage = renderExamImage;
+window.resolveExamImageDescriptor = resolveExamImageDescriptor;
 window.renderImageSection = renderImageSection;
 window.handleImageBankPayload = handleImageBankPayload;
 
@@ -5987,59 +6216,60 @@ function AdminDashboardView({ isVisible, users, loading, error, onRefresh }) {
 
 
 const StimulusFigure = React.memo(function StimulusFigure({ item }) {
-    if (!item?.imageRef?.imageUrl) {
-        return null;
-    }
-    const mergedMeta = React.useMemo(() => {
-        const base = buildImageMeta(item || {}, 'the image');
-        const inlineRefMeta = item?.imageRef?.imageMeta || {};
-        const combined = { ...base, ...(item?.imageMeta || {}), ...inlineRefMeta };
-        if (combined.caption) combined.caption = stripFileSource(combined.caption);
-        if (combined.alt) combined.alt = stripFileSource(combined.alt);
-        if (combined.altText) combined.altText = stripFileSource(combined.altText);
-        if (combined.title) combined.title = stripFileSource(combined.title);
-        return combined;
+    const metaLayers = React.useMemo(() => {
+        const layers = [];
+        if (item?.imageMeta) layers.push(item.imageMeta);
+        if (item?.imageRef?.imageMeta) layers.push(item.imageRef.imageMeta);
+        if (item?.asset?.imageMeta) layers.push(item.asset.imageMeta);
+        if (item?.stimulusImage?.imageMeta) layers.push(item.stimulusImage.imageMeta);
+        return layers;
     }, [item]);
 
-    const resolvedUrl = React.useMemo(() => {
-        if (item && typeof item === 'object') {
-            const direct = item.imageRef?.imageUrl || item.resolvedImageUrl;
-            if (typeof direct === 'string' && direct.trim()) {
-                return direct.trim();
-            }
+    const subject = React.useMemo(() => inferExamSubject(
+        item?.subject,
+        item?.subjectName,
+        item?.subject_name,
+        item?.subjectArea,
+        item?.subject_area,
+        item?.exam_subject
+    ), [item]);
+
+    const descriptor = React.useMemo(() => resolveExamImageDescriptor(
+        (item && typeof item === 'object' && item.imageRef)
+            || item?.stimulusImage
+            || item,
+        {
+            subject,
+            metaLayers,
+            tabIndex: 0
         }
-        return getImageUrl(mergedMeta);
-    }, [item, mergedMeta]);
+    ), [item, metaLayers, subject]);
 
-    const caption = stripFileSource(
-        item?.imageRef?.imageMeta?.caption
-        || item?.imageRef?.caption
-        || mergedMeta?.caption
-        || ''
-    );
-    const alt = stripFileSource(mergedMeta?.alt || mergedMeta?.altText || mergedMeta?.title || 'Image').slice(0, 160) || 'Image';
-
-    if (!resolvedUrl) {
-        return null;
-    }
-
-    const handleError = (event) => {
-        const figure = event?.currentTarget?.closest('figure');
+    const handleError = React.useCallback((event) => {
+        const figure = event?.currentTarget?.closest('[data-testid="exam-image"]');
         if (figure) {
             figure.remove();
         }
-    };
+    }, []);
+
+    if (!descriptor) {
+        return null;
+    }
 
     return (
-        <figure className="ss-figure">
+        <figure
+            className="ss-figure"
+            data-testid={descriptor.testId}
+            tabIndex={descriptor.tabIndex ?? undefined}
+        >
             <img
-                src={resolvedUrl}
-                alt={alt}
+                src={descriptor.url}
+                alt={descriptor.alt}
                 loading="lazy"
                 decoding="async"
                 onError={handleError}
             />
-            {caption && <figcaption className="ss-figcap">{caption}</figcaption>}
+            {descriptor.caption && <figcaption className="ss-figcap">{descriptor.caption}</figcaption>}
         </figure>
     );
 });
