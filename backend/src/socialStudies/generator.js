@@ -12,6 +12,7 @@ const { deriveVisualFeatures } = require('../utils/visualFeatures');
 const { deriveIsScreenshot } = require('../utils/metaLoader');
 const { validateSS } = require('./validators');
 const { clampPassage } = require('./passage');
+const { resolveImage } = require('../../imageResolver');
 
 const TYPE_RATIOS = {
     map: 0.3,
@@ -19,6 +20,153 @@ const TYPE_RATIOS = {
     charts: 0.25,
     economics: 0.2
 };
+
+const SOURCE_FILENAME_RX = /Source:\s*[^\n]+?\.(?:png|jpe?g|gif|webp|svg)\s*$/gmi;
+const SCREENSHOT_WORD_RX = /\b[Ss]creenshot(s)?\b/g;
+
+function stripSourceLines(text = '') {
+    if (typeof text !== 'string') return '';
+    return text
+        .replace(SOURCE_FILENAME_RX, '')
+        .replace(SCREENSHOT_WORD_RX, 'image')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+}
+
+function sanitizeImageMeta(meta = {}) {
+    if (!meta || typeof meta !== 'object') return undefined;
+    const cleaned = {};
+    const title = stripSourceLines(meta.title || meta.sourceTitle || '');
+    if (title) cleaned.title = title;
+    const altText = stripSourceLines(meta.altText || meta.alt || '');
+    if (altText) cleaned.altText = altText;
+    const caption = stripSourceLines(meta.caption || '');
+    if (caption) cleaned.caption = caption;
+    const credit = stripSourceLines(meta.credit || '');
+    if (credit) cleaned.credit = credit;
+    const attribution = stripSourceLines(meta.attribution || '');
+    if (attribution) cleaned.attribution = attribution;
+    if (meta.id) cleaned.id = meta.id;
+    const sourceTitle = stripSourceLines(meta?.source?.title || meta.sourceTitle || '');
+    const sourceUrl = meta?.source?.url || meta.sourceUrl || null;
+    if (sourceTitle || sourceUrl) {
+        cleaned.source = {};
+        if (sourceTitle) cleaned.source.title = sourceTitle;
+        if (sourceUrl) cleaned.source.url = sourceUrl;
+    }
+    ['width', 'height', 'dominantType', 'keywords', 'usageDirectives', 'detailedDescription', 'featureSignature', 'isScreenshot', 'subject', 'category']
+        .forEach((key) => {
+            if (meta[key] != null) {
+                cleaned[key] = Array.isArray(meta[key]) ? [...meta[key]] : meta[key];
+            }
+        });
+    return Object.keys(cleaned).length ? cleaned : undefined;
+}
+
+function attachImageIfPresent(item = {}) {
+    const existingUrl = typeof item?.imageRef?.imageUrl === 'string' ? item.imageRef.imageUrl : null;
+    if (existingUrl) {
+        const mergedMeta = {
+            ...(item.imageMeta || {}),
+            ...(item.imageRef.imageMeta || {})
+        };
+        const cleanedMeta = sanitizeImageMeta(mergedMeta);
+        const imageRef = { imageUrl: existingUrl };
+        if (cleanedMeta) {
+            const inlineMeta = {};
+            if (cleanedMeta.title) inlineMeta.title = cleanedMeta.title;
+            if (cleanedMeta.altText) {
+                inlineMeta.alt = cleanedMeta.altText;
+                inlineMeta.altText = cleanedMeta.altText;
+            }
+            if (cleanedMeta.caption) inlineMeta.caption = cleanedMeta.caption;
+            if (Object.keys(inlineMeta).length) {
+                imageRef.imageMeta = inlineMeta;
+            }
+            item.imageMeta = cleanedMeta;
+        } else {
+            delete item.imageMeta;
+        }
+        item.imageRef = imageRef;
+        return item;
+    }
+
+    const ref = item.imageRef || item.image || item.figure || item.asset;
+    const resolved = resolveImage(ref || item.imageMeta || null);
+    if (!resolved || !resolved.imageUrl) {
+        delete item.imageRef;
+        if (item.imageMeta) {
+            const cleaned = sanitizeImageMeta(item.imageMeta);
+            if (cleaned) {
+                item.imageMeta = cleaned;
+            } else {
+                delete item.imageMeta;
+            }
+        }
+        return item;
+    }
+
+    const mergedMeta = {
+        ...(item.imageMeta || {}),
+        ...(resolved.imageMeta || {})
+    };
+    const cleanedMeta = sanitizeImageMeta(mergedMeta);
+    const imageRef = { imageUrl: resolved.imageUrl };
+    if (cleanedMeta) {
+        const inlineMeta = {};
+        if (cleanedMeta.title) inlineMeta.title = cleanedMeta.title;
+        if (cleanedMeta.altText) {
+            inlineMeta.alt = cleanedMeta.altText;
+            inlineMeta.altText = cleanedMeta.altText;
+        }
+        if (cleanedMeta.caption) inlineMeta.caption = cleanedMeta.caption;
+        if (Object.keys(inlineMeta).length) {
+            imageRef.imageMeta = inlineMeta;
+        }
+        item.imageMeta = cleanedMeta;
+    } else {
+        delete item.imageMeta;
+    }
+
+    item.imageRef = imageRef;
+    return item;
+}
+
+function sanitizeAnswerOptions(options = []) {
+    if (!Array.isArray(options)) return [];
+    return options.slice(0, 4).map((opt) => {
+        const text = stripSourceLines(opt?.text || opt || '');
+        const rationale = stripSourceLines(opt?.rationale || '');
+        return {
+            text,
+            isCorrect: opt?.isCorrect === true,
+            rationale
+        };
+    });
+}
+
+function sanitizeItem(item = {}) {
+    if (!item || typeof item !== 'object') return item;
+    item.questionText = stripSourceLines(item.questionText || item.stem || '');
+    if (item.questionText) {
+        item.stem = item.questionText;
+    }
+    if (item.passage) {
+        const cleanedPassage = stripSourceLines(item.passage);
+        item.passage = cleanedPassage ? clampPassage(cleanedPassage) : undefined;
+    }
+    if (item.solution) {
+        item.solution = stripSourceLines(item.solution);
+    }
+    if (Array.isArray(item.answerOptions)) {
+        item.answerOptions = sanitizeAnswerOptions(item.answerOptions);
+    }
+    const choices = Array.isArray(item.choices) ? item.choices : item.answerOptions?.map((opt) => opt.text) || [];
+    if (Array.isArray(choices)) {
+        item.choices = choices.map((choice) => stripSourceLines(typeof choice === 'string' ? choice : String(choice || '')));
+    }
+    return attachImageIfPresent(item);
+}
 
 const CIVICS_TYPES = ['photo', 'political-cartoon', 'document-excerpt'];
 const CHART_TYPES = ['chart', 'timeline'];
@@ -49,10 +197,11 @@ Rules:
 - Each stem must begin with "According to the image" or "According to the <visual type>" and reference at least two concrete visual features (legend, axis labels, headers, dates, symbols, etc.).
 - Provide exactly four distinct answer choices in "choices" and set "correctIndex" to the zero-based index of the correct choice.
 - Use "rationale" for a 2-3 sentence explanation citing the visible evidence.
-- If a brief context is essential, place it in "passage" (60-200 words). Omit the field otherwise.
-- Never use the word "Screenshot" anywhere.`;
+- If a brief context is essential, place it in "passage" (≤200 words). Omit the field otherwise.
+- Never use the word "Screenshot" or include filenames anywhere.
+- Every question must be answerable using only information visible in the provided image.`;
 
-const SYSTEM_MESSAGE = `You are a GED Social Studies item writer. Create image-based multiple-choice questions that rely on the provided visual. Each stem must start with "According to the image..." or "According to the map/chart/table/photo..." and cite at least two concrete visual anchors. Do not produce passage-only questions; if context is needed, keep it in the passage field (60-200 words). Never use the word "Screenshot" and always respond with valid JSON only.`;
+const SYSTEM_MESSAGE = `You are a GED Social Studies item writer. Create image-based multiple-choice questions that rely solely on the provided visual evidence. Each stem must start with "According to the image..." or "According to the map/chart/table/photo..." and cite at least two concrete visual anchors. When a passage is necessary, keep it under 200 words and ensure the question still depends on the image. Do not mention filenames, do not tell the student how to view an image, and never use the word "Screenshot". Always respond with valid JSON only.`;
 
 const MAX_ATTEMPTS_PER_ITEM = 6;
 
@@ -161,7 +310,7 @@ function renderImageContext(meta = {}) {
 function buildUserPrompt({ imageMeta, questionType, difficulty, blurb }) {
     const context = renderImageContext(imageMeta);
     const anchorGuidance = 'Ensure the stem explicitly references at least two concrete visual features such as the legend, key, scale, axis labels, shading, colors, compass directions, dates, captions, or numeric values shown on the image.';
-    const stemRule = 'Begin the stem with "According to the image..." or "According to the map/chart/table/photo..." and keep it focused solely on the visual evidence (no test-taking strategies or generic advice). Never use the word "Screenshot".';
+    const stemRule = 'Begin the stem with "According to the image..." or "According to the map/chart/table/photo..." and keep it focused solely on the visual evidence (no test-taking strategies, filenames, or viewing instructions). Never use the word "Screenshot".';
     const economicHint = blurb
         ? 'Integrate the passage only if it clarifies the visual evidence; keep it between 60 and 200 words and place it in the "passage" field.'
         : 'Favor image-only analysis unless a brief contextual passage (60-200 words) is essential.';
@@ -189,28 +338,20 @@ Hard rules:
 - Maintain neutral, evidence-based tone aligned with GED expectations.`;
 }
 
-function sanitizeFileName(name = '') {
-    if (!name) return '';
-    return name.replace(/\.[^.]+$/, '').replace(/[\-_]+/g, ' ').trim();
-}
-
 function buildCaption(imageMeta = {}, source = null) {
     if (!imageMeta) return undefined;
-    if (imageMeta.isScreenshot) {
-        const base = imageMeta.title || imageMeta.sourceTitle || sanitizeFileName(imageMeta.fileName || imageMeta.filePath || '');
-        const display = base ? base : 'Screenshot';
-        return `Screenshot — ${display}`;
-    }
-    return source?.title || imageMeta.sourceTitle || imageMeta.title || undefined;
+    const candidates = [
+        imageMeta.caption,
+        imageMeta.title,
+        imageMeta.sourceTitle,
+        source?.citation,
+        source?.title
+    ].map((value) => stripSourceLines(value || ''));
+    return candidates.find((value) => value) || undefined;
 }
 
 function formatAnswerOptions(options = []) {
-    if (!Array.isArray(options)) return [];
-    return options.slice(0, 4).map((opt) => ({
-        text: typeof opt?.text === 'string' ? opt.text.trim() : '',
-        isCorrect: opt?.isCorrect === true,
-        rationale: typeof opt?.rationale === 'string' ? opt.rationale.trim() : ''
-    }));
+    return sanitizeAnswerOptions(options);
 }
 
 function buildSource(blurb, imageMeta) {
@@ -235,11 +376,11 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
     let answerOptions = formatAnswerOptions(raw.answerOptions);
     if ((!answerOptions.length || !Array.isArray(raw.answerOptions)) && Array.isArray(raw.choices)) {
         const rationale = typeof raw.rationale === 'string' ? raw.rationale.trim() : '';
-        answerOptions = raw.choices.slice(0, 4).map((choice, idx) => ({
+        answerOptions = sanitizeAnswerOptions(raw.choices.slice(0, 4).map((choice, idx) => ({
             text: typeof choice === 'string' ? choice.trim() : '',
             isCorrect: idx === raw.correctIndex,
             rationale: idx === raw.correctIndex ? rationale : ''
-        }));
+        })));
     }
     const rawPassage = typeof raw.passage === 'string' && raw.passage.trim().length
         ? raw.passage.trim()
@@ -251,12 +392,12 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
     const captionSource = buildCaption(imageMeta, source);
     const stemSource = typeof raw.stem === 'string' ? raw.stem.trim() : '';
     const fallbackStem = typeof raw.questionText === 'string' ? raw.questionText.trim() : '';
-    const stem = (stemSource || fallbackStem || '').replace(/\bScreenshot\b/gi, 'image');
+    const stem = stripSourceLines(stemSource || fallbackStem || '');
     const solution = typeof raw.solution === 'string'
         ? raw.solution.trim()
         : (typeof raw.rationale === 'string' ? raw.rationale.trim() : '');
 
-    return {
+    const normalized = {
         id: baseId,
         domain: 'social_studies',
         questionType: raw.questionType || raw.visualType || questionType,
@@ -278,9 +419,10 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
         featureSignature: Array.isArray(imageMeta?.featureSignature) && imageMeta.featureSignature.length
             ? [...imageMeta.featureSignature]
             : undefined,
-        imageFileName: imageMeta?.fileName || undefined,
         imageFingerprint: imageMeta?.fingerprint || imageMeta?.sha256 || undefined
     };
+
+    return sanitizeItem(normalized);
 }
 
 async function maybeFetchBlurb({ imageMeta, allowExternalBlurbs, maxWords = 200 }) {
@@ -426,7 +568,7 @@ async function generateSocialStudiesItems({ count, allowExternalBlurbs = true, g
         items.push(item);
     }
 
-    return items;
+    return items.map((item) => sanitizeItem(item));
 }
 
 module.exports = {

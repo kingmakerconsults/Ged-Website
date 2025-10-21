@@ -82,6 +82,56 @@ function logGenerationDuration(examType, subject, startMs, status = 'completed')
     console.log(`[${label}] Generation ${status} in ${elapsed}ms`);
 }
 
+function extractChoiceTexts(item = {}) {
+    if (!item || typeof item !== 'object') return [];
+    if (Array.isArray(item.choices)) {
+        return item.choices.map((choice) => {
+            if (typeof choice === 'string') return choice;
+            if (choice && typeof choice.text === 'string') return choice.text;
+            return '';
+        });
+    }
+    if (Array.isArray(item.answerOptions)) {
+        return item.answerOptions.map((opt) => {
+            if (typeof opt === 'string') return opt;
+            if (opt && typeof opt.text === 'string') return opt.text;
+            return '';
+        });
+    }
+    return [];
+}
+
+function hasImageUrl(item = {}) {
+    const ref = item?.imageRef;
+    if (ref && typeof ref.imageUrl === 'string' && ref.imageUrl.trim()) {
+        return true;
+    }
+    if (item?.stimulusImage && typeof item.stimulusImage.imageUrl === 'string' && item.stimulusImage.imageUrl.trim()) {
+        return true;
+    }
+    if (item?.image && typeof item.image.imageUrl === 'string' && item.image.imageUrl.trim()) {
+        return true;
+    }
+    return false;
+}
+
+function validateItems(items = []) {
+    const invalid = [];
+    items.forEach((item, index) => {
+        const stem = typeof item?.stem === 'string' ? item.stem : typeof item?.questionText === 'string' ? item.questionText : '';
+        const mentionsImage = /\bimage\b/i.test(stem || '');
+        const choices = extractChoiceTexts(item).filter((text) => typeof text === 'string' && text.trim().length > 0);
+        const id = item?.id || item?.questionNumber || index;
+        if ((mentionsImage || item?.imageRef) && !hasImageUrl(item)) {
+            invalid.push({ index, id, reason: 'missing imageUrl' });
+        }
+        if (choices.length < 4) {
+            invalid.push({ index, id, reason: 'bad choices' });
+        }
+    });
+    return invalid;
+}
+
 // Rolling latency (last 200)
 const AI_LATENCY = {
     buf: [],
@@ -3062,6 +3112,17 @@ app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all rou
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
+// --- Static assets (images) with CORS + long cache ---
+app.use('/img', cors(), express.static(path.join(__dirname, 'public/img'), {
+    setHeaders(res, filePath) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        if (/\.(png|jpe?g|gif|webp|svg)$/i.test(filePath)) {
+            res.setHeader('Cache-Control', 'public,max-age=31536000,immutable');
+            res.type(path.extname(filePath));
+        }
+    }
+}));
+
 // Serve static image folders from the 'frontend' directory
 app.use('/images/rla', express.static(path.join(__dirname, '../frontend/Images/RLA')));
 app.use('/images/science', express.static(path.join(__dirname, '../frontend/Images/Science')));
@@ -4301,7 +4362,7 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         }
         
         // 7. Final cleanup and response
-        const finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => {
+        let finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => {
             const normalized = normalizeStimulusAndSource(item);
             const chosenSrc = normalized?.stimulusImage?.src || normalized?.asset?.imagePath || '';
             if (chosenSrc) {
@@ -4311,6 +4372,17 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             }
             return { ...normalized, questionNumber: idx + 1 };
         });
+
+        if (subject === 'Social Studies') {
+            const validationIssues = validateItems(finalItems);
+            if (validationIssues.length) {
+                console.warn('[validate-items] Dropping invalid Social Studies items from topic generator', validationIssues);
+                const invalidIndices = new Set(validationIssues.map((issue) => issue.index));
+                finalItems = finalItems
+                    .filter((_, idx) => !invalidIndices.has(idx))
+                    .map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
+            }
+        }
 
         console.log(`[Variety Pack] Successfully generated and processed ${finalItems.length} questions.`);
 
@@ -6020,9 +6092,15 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
 
         const combined = [...reusedItems, ...items];
         const truncated = combined.slice(0, clampedCount);
-        const finalItems = shuffleArray ? shuffleArray(truncated) : truncated;
+        let finalItems = shuffleArray ? shuffleArray(truncated) : truncated;
+        const validationIssues = validateItems(finalItems);
+        if (validationIssues.length) {
+            console.warn('[validate-items] Dropping invalid items from /api/generate-exam', validationIssues);
+            const invalidIndices = new Set(validationIssues.map((issue) => issue.index));
+            finalItems = finalItems.filter((_, idx) => !invalidIndices.has(idx));
+        }
 
-        res.json({ items: finalItems, invalid: invalidIdx });
+        res.json({ items: finalItems, invalid: invalidIdx, dropped: validationIssues });
     } catch (err) {
         console.error('Error generating profile exam items:', err);
         res.status(500).json({ error: 'Failed to generate exam items.' });

@@ -1722,6 +1722,15 @@ function neutralizeUnpairedDollarSigns(text) {
     return restoreMathSegments(working, segments);
 }
 
+const FILENAME_SOURCE = /Source:\s*[^\n]+?\.(?:png|jpe?g|gif|webp|svg)\s*$/gmi;
+function stripFileSource(s = '') {
+    if (typeof s !== 'string') return '';
+    return s
+        .replace(FILENAME_SOURCE, '')
+        .replace(/\b[Ss]creenshot(s)?\b/g, 'image')
+        .trim();
+}
+
 function renderImageSection(container, imageData, items) {
     if (!container) {
         return;
@@ -1740,28 +1749,36 @@ function renderImageSection(container, imageData, items) {
 
     const firstItem = Array.isArray(items) && items.length ? items[0] : null;
     if (!meta && firstItem && typeof firstItem === 'object') {
-        meta = firstItem.imageMeta || null;
+        meta = firstItem.imageMeta || firstItem.imageRef?.imageMeta || null;
     }
 
     if (imageUrl) {
         const figure = document.createElement('figure');
-        figure.style.margin = '12px 0 16px';
-        figure.style.display = 'block';
+        figure.className = 'ss-figure';
 
         const img = document.createElement('img');
         img.src = imageUrl;
-        img.alt = meta?.title ? `Screenshot: ${meta.title}` : 'Screenshot';
-        img.style.maxWidth = '100%';
-        img.style.display = 'block';
-        img.style.marginBottom = '8px';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.alt = stripFileSource(meta?.alt || meta?.altText || meta?.title || 'Image').slice(0, 160);
+        img.onerror = () => {
+            figure.remove();
+        };
         figure.appendChild(img);
 
-        const figcaption = document.createElement('figcaption');
-        figcaption.className = 'text-sm text-slate-600';
-        const captionFallback = meta?.title ? `Screenshot — ${meta.title}` : meta?.caption || 'Screenshot';
-        const captionSource = firstItem?.imageRef?.caption || imageData?.caption || captionFallback;
-        figcaption.textContent = captionSource;
-        figure.appendChild(figcaption);
+        const captionSource = stripFileSource(
+            firstItem?.imageRef?.imageMeta?.caption
+            || firstItem?.imageRef?.caption
+            || meta?.caption
+            || meta?.title
+            || ''
+        );
+        if (captionSource) {
+            const figcaption = document.createElement('figcaption');
+            figcaption.className = 'ss-figcap';
+            figcaption.textContent = captionSource;
+            figure.appendChild(figcaption);
+        }
 
         container.appendChild(figure);
     }
@@ -1781,7 +1798,8 @@ function renderImageSection(container, imageData, items) {
             stem.innerHTML = cachedStem;
         } else {
             const rawStem = q?.question_norm?.stem || q?.question_data?.stem_raw || q?.stem || q?.questionText || '';
-            stem.textContent = SHOULD_USE_KATEX ? rawStem : toPlainFractions(rawStem);
+            const cleanedStem = stripFileSource(rawStem);
+            stem.textContent = SHOULD_USE_KATEX ? cleanedStem : toPlainFractions(cleanedStem);
             if (SHOULD_USE_KATEX && typeof renderMathInElement === 'function') {
                 renderMathInElement(stem, CLIENT_SIDE_MATH_RENDER_OPTIONS);
             }
@@ -1804,18 +1822,19 @@ function renderImageSection(container, imageData, items) {
         choiceTexts.forEach((choice) => {
             const li = document.createElement('li');
             if (choice && choice.replace) {
-                const trimmed = choice.replace(/^\s+|\s+$/g, '');
+                const trimmed = stripFileSource(choice.replace(/^\s+|\s+$/g, ''));
                 const isHtml = /^\s*</.test(trimmed);
                 if (isHtml) {
-                    li.innerHTML = SHOULD_USE_KATEX ? choice : escapeHtml(toPlainFractions(choice));
+                    li.innerHTML = SHOULD_USE_KATEX ? trimmed : escapeHtml(toPlainFractions(trimmed));
                 } else {
-                    li.textContent = SHOULD_USE_KATEX ? choice : toPlainFractions(choice);
+                    li.textContent = SHOULD_USE_KATEX ? trimmed : toPlainFractions(trimmed);
                     if (SHOULD_USE_KATEX && typeof renderMathInElement === 'function') {
                         renderMathInElement(li, CLIENT_SIDE_MATH_RENDER_OPTIONS);
                     }
                 }
             } else if (typeof choice === 'string') {
-                li.textContent = SHOULD_USE_KATEX ? choice : toPlainFractions(choice);
+                const cleanedChoice = stripFileSource(choice);
+                li.textContent = SHOULD_USE_KATEX ? cleanedChoice : toPlainFractions(cleanedChoice);
                 if (SHOULD_USE_KATEX && typeof renderMathInElement === 'function') {
                     renderMathInElement(li, CLIENT_SIDE_MATH_RENDER_OPTIONS);
                 }
@@ -5803,62 +5822,65 @@ function AdminDashboardView({ isVisible, users, loading, error, onRefresh }) {
 
 
 const StimulusFigure = React.memo(function StimulusFigure({ item }) {
-    const imageMeta = React.useMemo(() => {
-        if (item && typeof item === 'object' && item.imageMeta) {
-            return item.imageMeta;
-        }
-        return buildImageMeta(item || {}, 'the image');
+    const mergedMeta = React.useMemo(() => {
+        const base = buildImageMeta(item || {}, 'the image');
+        const inlineRefMeta = item?.imageRef?.imageMeta || {};
+        const combined = { ...base, ...(item?.imageMeta || {}), ...inlineRefMeta };
+        if (combined.caption) combined.caption = stripFileSource(combined.caption);
+        if (combined.alt) combined.alt = stripFileSource(combined.alt);
+        if (combined.altText) combined.altText = stripFileSource(combined.altText);
+        if (combined.title) combined.title = stripFileSource(combined.title);
+        return combined;
     }, [item]);
 
     const resolvedUrl = React.useMemo(() => {
-        if (item && typeof item === 'object' && typeof item.resolvedImageUrl === 'string' && item.resolvedImageUrl.trim()) {
-            return item.resolvedImageUrl.trim();
+        if (item && typeof item === 'object') {
+            const direct = item.imageRef?.imageUrl || item.resolvedImageUrl;
+            if (typeof direct === 'string' && direct.trim()) {
+                return direct.trim();
+            }
         }
-        return getImageUrl(imageMeta);
-    }, [item, imageMeta]);
+        return getImageUrl(mergedMeta);
+    }, [item, mergedMeta]);
 
-    const [imageFailed, setImageFailed] = React.useState(() => !resolvedUrl);
+    const caption = stripFileSource(
+        item?.imageRef?.imageMeta?.caption
+        || item?.imageRef?.caption
+        || mergedMeta?.caption
+        || ''
+    );
+    const alt = stripFileSource(mergedMeta?.alt || mergedMeta?.altText || mergedMeta?.title || 'Image').slice(0, 160) || 'Image';
 
-    React.useEffect(() => {
-        setImageFailed(!resolvedUrl);
-    }, [resolvedUrl]);
-
-    const creditText = typeof imageMeta?.credit === 'string' ? imageMeta.credit : '';
-    const sourceTitle = typeof imageMeta?.source?.title === 'string' ? imageMeta.source.title : '';
-    const titleText = typeof imageMeta?.title === 'string' ? imageMeta.title : '';
-    const fallbackCaption = creditText || sourceTitle || titleText;
-    const missingCaption = fallbackCaption || 'Image unavailable';
-    const figureCaption = (imageFailed || !resolvedUrl) ? missingCaption : fallbackCaption;
-    const shouldRender = Boolean(resolvedUrl) || Boolean(figureCaption);
-
-    if (!shouldRender) {
+    if (!resolvedUrl) {
         return null;
     }
 
-    const figureClass = `ss-figure${imageFailed || !resolvedUrl ? ' missing' : ''}`;
-    const altText = titleText ? `Image: ${titleText}` : 'Image';
+    const handleError = (event) => {
+        const figure = event?.currentTarget?.closest('figure');
+        if (figure) {
+            figure.remove();
+        }
+    };
 
     return (
-        <figure className={figureClass}>
-            {resolvedUrl && !imageFailed && (
-                <img
-                    src={resolvedUrl}
-                    alt={altText}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    onError={() => setImageFailed(true)}
-                />
-            )}
-            {figureCaption && <figcaption className="ss-figcap">{figureCaption}</figcaption>}
+        <figure className="ss-figure">
+            <img
+                src={resolvedUrl}
+                alt={alt}
+                loading="lazy"
+                decoding="async"
+                onError={handleError}
+            />
+            {caption && <figcaption className="ss-figcap">{caption}</figcaption>}
         </figure>
     );
 });
 
 
 function Stem({ item }) {
-    const passageContent = typeof item.passage === 'string' ? item.passage.trim() : '';
+    const passageContent = typeof item.passage === 'string' ? stripFileSource(item.passage.trim()) : '';
     const questionContent = typeof (item.questionText || item.question) === 'string'
-        ? (item.questionText || item.question).trim()
+        ? stripFileSource((item.questionText || item.question).trim())
         : '';
 
     const cachedStemHtml = typeof item?.katex_html_cache?.stem === 'string'
