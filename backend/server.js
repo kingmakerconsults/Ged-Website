@@ -5978,6 +5978,133 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
     return groupedQuestions;
 }
 
+function extractPrimaryImageUrl(question) {
+    if (!question || typeof question !== 'object') {
+        return null;
+    }
+
+    const candidates = [
+        question.imageUrl,
+        question?.imageRef?.imageUrl,
+        question?.imageRef?.path,
+        question?.stimulusImage?.imageUrl,
+        question?.image?.imageUrl
+    ];
+
+    for (const candidate of candidates) {
+        if (typeof candidate === 'string' && candidate.trim()) {
+            return candidate.trim();
+        }
+    }
+
+    return null;
+}
+
+function restoreImageAttachments(correctedQuiz, draftQuiz) {
+    if (!correctedQuiz || typeof correctedQuiz !== 'object') {
+        return correctedQuiz;
+    }
+    if (!draftQuiz || typeof draftQuiz !== 'object') {
+        return correctedQuiz;
+    }
+
+    const originalQuestions = Array.isArray(draftQuiz.questions) ? draftQuiz.questions : [];
+    const correctedQuestions = Array.isArray(correctedQuiz.questions) ? correctedQuiz.questions : [];
+
+    if (!originalQuestions.length || !correctedQuestions.length) {
+        return correctedQuiz;
+    }
+
+    const originalMap = new Map();
+    originalQuestions.forEach((question, index) => {
+        const key = Number.isInteger(question?.questionNumber) ? question.questionNumber : index + 1;
+        originalMap.set(key, question);
+    });
+
+    const mergedQuestions = correctedQuestions.map((question, index) => {
+        const key = Number.isInteger(question?.questionNumber) ? question.questionNumber : index + 1;
+        const original = originalMap.get(key);
+        if (!original) {
+            return question;
+        }
+
+        const originalImageUrl = extractPrimaryImageUrl(original);
+        const correctedImageUrl = extractPrimaryImageUrl(question);
+        const originalType = typeof original?.type === 'string' ? original.type.toLowerCase() : '';
+        const correctedType = typeof question?.type === 'string' ? question.type.toLowerCase() : '';
+        const imageRequired = Boolean(originalImageUrl)
+            || ['image', 'integrated'].includes(originalType)
+            || ['image', 'integrated'].includes(correctedType);
+
+        if (!imageRequired) {
+            return question;
+        }
+
+        const merged = { ...question };
+        const finalImageUrl = correctedImageUrl || originalImageUrl;
+
+        if (finalImageUrl && (!merged.imageUrl || !merged.imageUrl.trim())) {
+            merged.imageUrl = finalImageUrl;
+        }
+
+        const originalAltCandidates = [
+            original.imageAlt,
+            original?.imageRef?.altText,
+            original?.imageRef?.imageMeta?.alt,
+            original?.imageRef?.imageMeta?.altText,
+            original?.imageRef?.imageMeta?.title
+        ];
+        const originalAlt = originalAltCandidates.find((value) => typeof value === 'string' && value.trim());
+
+        if (originalAlt && (!merged.imageAlt || !merged.imageAlt.trim())) {
+            merged.imageAlt = originalAlt.trim();
+        }
+
+        if (original?.imageMeta && !merged.imageMeta) {
+            merged.imageMeta = { ...original.imageMeta };
+        }
+
+        const correctedRef = merged.imageRef && typeof merged.imageRef === 'object' ? { ...merged.imageRef } : {};
+        const originalRef = original?.imageRef && typeof original.imageRef === 'object' ? original.imageRef : null;
+
+        if (originalRef) {
+            if (!correctedRef.imageUrl && typeof originalRef.imageUrl === 'string' && originalRef.imageUrl.trim()) {
+                correctedRef.imageUrl = originalRef.imageUrl.trim();
+            }
+            if (!correctedRef.imageUrl && typeof originalRef.path === 'string' && originalRef.path.trim()) {
+                correctedRef.imageUrl = originalRef.path.trim();
+            }
+            if (!correctedRef.path && typeof originalRef.path === 'string' && originalRef.path.trim()) {
+                correctedRef.path = originalRef.path.trim();
+            }
+            if (!correctedRef.altText && typeof originalRef.altText === 'string' && originalRef.altText.trim()) {
+                correctedRef.altText = originalRef.altText.trim();
+            }
+            if (!correctedRef.caption && typeof originalRef.caption === 'string' && originalRef.caption.trim()) {
+                correctedRef.caption = originalRef.caption.trim();
+            }
+            if (!correctedRef.imageMeta && originalRef.imageMeta && typeof originalRef.imageMeta === 'object') {
+                correctedRef.imageMeta = { ...originalRef.imageMeta };
+            }
+        }
+
+        if (!correctedRef.imageUrl && finalImageUrl) {
+            correctedRef.imageUrl = finalImageUrl;
+        }
+        if (!correctedRef.altText && originalAlt) {
+            correctedRef.altText = originalAlt.trim();
+        }
+
+        if (Object.keys(correctedRef).length) {
+            merged.imageRef = correctedRef;
+        }
+
+        return merged;
+    });
+
+    return { ...correctedQuiz, questions: mergedQuestions };
+}
+
 async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
     const prompt = `You are a meticulous GED exam editor. Output only valid JSON. No markdown, no code fences, no trailing commas, no comments.
 Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam. Your task is to review and improve it based on these rules:
@@ -5994,6 +6121,9 @@ Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQui
         const schema = isSocialStudies ? SS_RESPONSE_SCHEMA : quizSchema;
         const callOptions = isSocialStudies ? { ...options, callSite: 'ss-review' } : options;
         const correctedQuiz = await callAI(prompt, schema, callOptions);
+        if (isSocialStudies) {
+            return restoreImageAttachments(correctedQuiz, draftQuiz);
+        }
         return correctedQuiz;
     }
 
