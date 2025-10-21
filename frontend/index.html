@@ -5822,6 +5822,9 @@ function AdminDashboardView({ isVisible, users, loading, error, onRefresh }) {
 
 
 const StimulusFigure = React.memo(function StimulusFigure({ item }) {
+    if (!item?.imageRef?.imageUrl) {
+        return null;
+    }
     const mergedMeta = React.useMemo(() => {
         const base = buildImageMeta(item || {}, 'the image');
         const inlineRefMeta = item?.imageRef?.imageMeta || {};
