@@ -394,5 +394,6 @@ module.exports = {
     loadImageMeta,
     resolveImageRef,
     probeImageHead,
-    DEFAULT_ALT
+    DEFAULT_ALT,
+    deriveUrl
 };

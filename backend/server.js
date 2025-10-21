@@ -7232,6 +7232,39 @@ app.post('/admin/bypass-login', adminPreviewBypass);
 
 app.post('/api/admin/login', adminBypassLogin);
 
+// New endpoint for test user login - MOCKED to bypass database
+if (process.env.NODE_ENV !== 'production') {
+    app.post('/api/test-login', async (req, res) => {
+    const { email, organizationId } = req.body;
+        if (!email) {
+            return res.status(400).json({ error: 'Email is required' });
+        }
+
+        // Bypassing database for test login
+        const dummyUser = {
+            id: 'test-user-' + Math.random().toString(36).substring(2),
+            email: email,
+            name: 'Test User',
+            role: 'student',
+            organization_id: organizationId || 1,
+            organizationId: organizationId || 1,
+            created_at: new Date().toISOString(),
+            last_login: new Date().toISOString(),
+            login_count: 1,
+            picture_url: null,
+        };
+
+        try {
+            const token = createUserToken(dummyUser.id, dummyUser.role);
+             setAuthCookie(res, token, 24 * 60 * 60 * 1000);
+            res.status(200).json({ token, user: formatUserRow(dummyUser) });
+        } catch (error) {
+            console.error('Test login failed:', error);
+            res.status(500).json({ error: 'Test login failed' });
+        }
+    });
+}
+
 // --- API ENDPOINT TO SAVE A QUIZ ATTEMPT ---
 app.post('/api/quiz-attempts', requireAuth, async (req, res) => {
     try {

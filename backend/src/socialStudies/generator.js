@@ -13,6 +13,7 @@ const { deriveIsScreenshot, probeImageHead, DEFAULT_ALT } = require('../utils/me
 const { validateSS } = require('./validators');
 const { clampPassage } = require('./passage');
 const { resolveImage } = require('../../imageResolver');
+const { deriveUrl } = require('../images/metaLoader');
 
 const TYPE_RATIOS = {
     map: 0.3,
@@ -92,7 +93,15 @@ function attachImageIfPresent(item = {}) {
     }
 
     const ref = item.imageRef || item.image || item.figure || item.asset;
-    const resolved = resolveImage(ref || item.imageMeta || null);
+    let resolved = resolveImage(ref || item.imageMeta || null);
+
+    if (!resolved && item.imageMeta) {
+        const { url } = deriveUrl(item.imageMeta);
+        if (url) {
+            resolved = { imageUrl: url, imageMeta: { ...item.imageMeta } };
+        }
+    }
+
     if (!resolved || !resolved.imageUrl) {
         delete item.imageRef;
         if (item.imageMeta) {
@@ -464,7 +473,7 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
             width: imageMeta?.width || undefined,
             height: imageMeta?.height || undefined
         },
-        imageMeta: imageMeta ? { ...imageMeta } : undefined,
+        imageMeta: { ...(raw.imageMeta || {}), ...(raw.imageRef?.imageMeta || {}), ...(imageMeta || {}) },
         isScreenshot: Boolean(imageMeta?.isScreenshot),
         featureSignature: Array.isArray(imageMeta?.featureSignature) && imageMeta.featureSignature.length
             ? [...imageMeta.featureSignature]

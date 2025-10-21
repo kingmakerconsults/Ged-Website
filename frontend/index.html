@@ -232,6 +232,8 @@
             overflow-y: auto;
         }
     </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body class="bg-slate-100">
     <div id="root"></div>
@@ -2129,32 +2131,32 @@ function ChartDisplay({ chartData }) {
 const ScienceFormulas = [
     {
         name: 'Density',
-        formula: 'd = \\frac{m}{V}',
+        formula: '$$d = \\frac{m}{V}$$',
         variables: 'd = density (mass per unit volume), m = mass, V = volume'
     },
     {
         name: 'Average Speed',
-        formula: 'v = \\frac{d}{t}',
+        formula: '$$v = \\frac{d}{t}$$',
         variables: 'v = average speed, d = distance traveled, t = elapsed time'
     },
     {
         name: 'Force',
-        formula: 'F = ma',
+        formula: '$$F = ma$$',
         variables: 'F = net force, m = mass, a = acceleration'
     },
     {
         name: 'Work',
-        formula: 'W = F \\times d',
+        formula: '$$W = F \\times d$$',
         variables: 'W = work, F = applied force, d = displacement in the direction of the force'
     },
     {
         name: 'Mean (Average)',
-        formula: '\\bar{x} = \\frac{\\text{Sum of data values}}{\\text{Number of data values}}',
+        formula: '$$\\bar{x} = \\frac{\\text{Sum of data values}}{\\text{Number of data values}}$$',
         variables: '\\bar{x} = mean (average) of the data set'
     },
     {
         name: 'Range',
-        formula: '\\text{Range} = \\text{Maximum value} - \\text{Minimum value}',
+        formula: '$$\\text{Range} = \\text{Maximum value} - \\text{Minimum value}$$',
         variables: 'Describes the spread between the largest and smallest values in a data set.'
     }
 ];
@@ -6222,6 +6224,45 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     );
 }
 
+function FormulaCard({ formula }) {
+    const [showVocab, setShowVocab] = useState(false);
+
+    const vocabList = formula.variables.split(',').map(item => {
+        const parts = item.split('=').map(part => part.trim());
+        if (parts.length === 2) {
+            return { variable: parts[0], definition: parts[1] };
+        }
+        return null;
+    }).filter(Boolean);
+
+    return (
+        <div className="p-3 bg-gray-50 rounded-md border border-gray-200">
+            <p className="font-bold text-lg text-indigo-700">{formula.name}</p>
+            <div className="text-xl my-2 text-center text-gray-900 bg-gray-100 p-2 rounded block">
+                {formula.formula}
+            </div>
+            <p className="text-sm text-gray-600 italic">{formula.variables}</p>
+
+            <button
+                className="vocab-toggle-btn mt-2 bg-indigo-500 text-white px-3 py-1 rounded-md text-sm"
+                onClick={() => setShowVocab(!showVocab)}
+            >
+                {showVocab ? 'Hide Vocabulary' : 'Show Vocabulary'}
+            </button>
+
+            {showVocab && (
+                <div className="vocab-list mt-2">
+                    <ul className="list-disc pl-5">
+                        {vocabList.map((item, index) => (
+                            <li key={index}><strong>{item.variable}:</strong> {item.definition}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
+}
+
 function ScienceFormulaSheet({ title }) {
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 mt-4">
@@ -6231,15 +6272,7 @@ function ScienceFormulaSheet({ title }) {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                 {ScienceFormulas.map((item, index) => (
-                    <div key={index} className="p-3 bg-gray-50 rounded-md">
-                        <p className="font-bold text-lg text-indigo-700">{item.name}</p>
-                        <MathText
-                            text={lintAndRepairMath(`$$${item.formula}$$`)}
-                            className="text-xl my-2 text-center text-gray-900 bg-gray-100 p-2 rounded block"
-                            subject="Science"
-                        />
-                        <p className="text-sm text-gray-600 italic">{item.variables}</p>
-                    </div>
+                    <FormulaCard key={index} formula={item} />
                 ))}
             </div>
         </div>
