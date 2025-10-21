@@ -1,5 +1,21 @@
 // server.js (Updated Version)
 
+// Fetch shim: prefer global (Node 18+), fallback only if truly missing
+if (typeof globalThis.fetch !== 'function') {
+    // Lazy-load node-fetch v2 only when needed (do NOT add as a normal dependency)
+    globalThis.fetch = (...args) => import('node-fetch').then(m => m.default(...args));
+    if (typeof globalThis.Headers !== 'function' || typeof globalThis.Request !== 'function' || typeof globalThis.Response !== 'function') {
+        // also lazy-provide classes if needed
+        import('node-fetch').then(m => {
+            globalThis.Headers = m.Headers;
+            globalThis.Request = m.Request;
+            globalThis.Response = m.Response;
+        });
+    }
+}
+
+console.log(`[BOOT] Node ${process.version} | fetch:${typeof fetch} | NODE_ENV=${process.env.NODE_ENV || 'development'}`);
+
 const path = require('path');
 // Only use dotenv for local development. Render will provide environment variables in production.
 if (process.env.NODE_ENV !== 'production') {
@@ -10,7 +26,6 @@ const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const helmet = require('helmet');
 const axios = require('axios');
-const fetch = require('node-fetch');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const { jsonrepair } = require('jsonrepair');
