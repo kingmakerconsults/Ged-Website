@@ -3330,6 +3330,16 @@ app.use('/images/social-studies', express.static(path.join(__dirname, '../fronte
 app.use('/images/math', express.static(path.join(__dirname, '../frontend/Images/Math')));
 app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
 
+const DATA_STATIC_DIRS = [
+    path.join(__dirname, 'data'),
+    path.join(__dirname, '../data')
+];
+DATA_STATIC_DIRS.forEach((dir) => {
+    if (fs.existsSync(dir)) {
+        app.use('/data', express.static(dir, { maxAge: '1d' }));
+    }
+});
+
 app.post('/question-bank/save', async (req, res) => {
     const client = await pool.connect();
     try {

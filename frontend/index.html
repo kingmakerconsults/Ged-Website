@@ -284,13 +284,124 @@ const createEmptyProgress = () => SUBJECT_PROGRESS_KEYS.reduce((acc, subject) =>
     return acc;
 }, {});
 
+function SafeInlineLatex({ latex }) {
+    if (!latex) return null;
+    const useKatex = Boolean(window.__APP_CONFIG__ && window.__APP_CONFIG__.mathMode === 'katex');
+    if (!useKatex) {
+        let plain = String(latex)
+            .replace(/\frac\s*\{\s*([+-]?\d+)\s*\}\s*\{\s*([+-]?\d+)\s*\}/gi, (_, a, b) => `${a}/${b}`)
+            .replace(/\text\s*\{([^}]*)\}/gi, '$1')
+            .replace(/\times/g, '×')
+            .replace(/\cdot/g, '·');
+        if (plain.startsWith('\\(') && plain.endsWith('\\)')) {
+            plain = plain.slice(2, -2);
+        } else if (plain.startsWith('\\[') && plain.endsWith('\\]')) {
+            plain = plain.slice(2, -2);
+        }
+        return <span>{plain}</span>;
+    }
+    try {
+        if (typeof katex === 'undefined' || typeof katex.renderToString !== 'function') {
+            throw new Error('KaTeX unavailable');
+        }
+        const html = katex.renderToString(latex, { throwOnError: false });
+        return <span dangerouslySetInnerHTML={{ __html: html }} />;
+    } catch {
+        return <span>{latex}</span>;
+    }
+}
+
+const SUBJECT_ALIASES = {
+    'Science': ['Science'],
+    'Math': ['Math', 'Mathematics'],
+    'RLA': ['RLA', 'Language Arts', 'Reasoning Through Language Arts', 'Reasoning Through Language Arts (RLA)', 'English'],
+    'Social Studies': ['Social Studies', 'History', 'Civics']
+};
+
+function resolveSubjectVocabularyKey(subject) {
+    if (typeof subject !== 'string') {
+        return subject;
+    }
+    const trimmed = subject.trim();
+    const lowered = trimmed.toLowerCase();
+    for (const [canonical, aliases] of Object.entries(SUBJECT_ALIASES)) {
+        if (canonical.toLowerCase() === lowered) {
+            return canonical;
+        }
+        if (aliases.some(alias => typeof alias === 'string' && alias.toLowerCase() === lowered)) {
+            return canonical;
+        }
+    }
+    return trimmed;
+}
+
+const VOCABULARY_INDEX_URL = '/data/vocabulary_index.json';
+let vocabularyLoadPromise = null;
+
+async function ensureVocabularyIndexLoaded() {
+    if (window.VocabularyIndex && typeof window.VocabularyIndex === 'object') {
+        return window.VocabularyIndex;
+    }
+    if (!vocabularyLoadPromise) {
+        vocabularyLoadPromise = fetch(VOCABULARY_INDEX_URL)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Failed to load vocabulary index: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((payload) => {
+                window.VocabularyIndex = payload || {};
+                return window.VocabularyIndex;
+            })
+            .catch((error) => {
+                console.warn('Vocabulary index request failed:', error);
+                window.VocabularyIndex = window.VocabularyIndex || {};
+                return window.VocabularyIndex;
+            });
+    }
+    return vocabularyLoadPromise;
+}
+
+function getVocabForSubject(subject) {
+    const subjectKey = resolveSubjectVocabularyKey(subject);
+    const index = window.VocabularyIndex || {};
+    const candidates = (SUBJECT_ALIASES[subjectKey] || [subjectKey]).flatMap((key) => {
+        if (typeof key !== 'string') {
+            return [];
+        }
+        const trimmed = key.trim();
+        return [trimmed, trimmed.toLowerCase(), trimmed.toUpperCase()];
+    });
+    for (const candidate of candidates) {
+        if (Array.isArray(index[candidate]) && index[candidate].length) {
+            return index[candidate];
+        }
+    }
+    return [];
+}
+
 function VocabularySection({ subject }) {
-    const vocabList = (window.VocabularyIndex && window.VocabularyIndex[subject]) || [];
-    const [isOpen, setIsOpen] = React.useState(false);
+    const resolvedSubject = React.useMemo(() => resolveSubjectVocabularyKey(subject), [subject]);
+    const [isOpen, setIsOpen] = React.useState(true);
+    const [vocabList, setVocabList] = React.useState(() => getVocabForSubject(resolvedSubject));
 
     React.useEffect(() => {
-        setIsOpen(false);
-    }, [subject]);
+        let isActive = true;
+        ensureVocabularyIndexLoaded().then(() => {
+            if (!isActive) {
+                return;
+            }
+            setVocabList(getVocabForSubject(resolvedSubject));
+        });
+        return () => {
+            isActive = false;
+        };
+    }, [resolvedSubject]);
+
+    React.useEffect(() => {
+        setIsOpen(true);
+    }, [resolvedSubject]);
 
     if (!vocabList.length) {
         return null;
@@ -298,35 +409,40 @@ function VocabularySection({ subject }) {
 
     return (
         <div className="mt-6">
-            <button
-                type="button"
-                onClick={() => setIsOpen(prev => !prev)}
-                className="w-full flex items-center justify-between gap-3 px-5 py-3 rounded-xl border border-white/60 bg-white/10 text-left shadow-sm transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/70"
-                aria-expanded={isOpen}
-            >
-                <span className="text-base sm:text-lg font-semibold tracking-tight">
-                    {subject} Vocabulary
-                </span>
-                <span className="text-xl font-bold" aria-hidden="true">{isOpen ? '−' : '+'}</span>
-            </button>
-            {isOpen && (
-                <div className="mt-4 p-6 bg-white shadow rounded-2xl border border-slate-200">
-                    <p className="text-slate-600 text-sm mb-4">
-                        Review essential academic language to boost your performance in {subject}.
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {vocabList.map(({ term, definition }) => (
-                            <div
-                                key={term}
-                                className="p-3 rounded-lg border border-slate-100 bg-slate-50 hover:bg-slate-100 transition"
-                            >
-                                <p className="font-semibold text-slate-700">{term}</p>
-                                <p className="text-sm text-slate-600">{definition}</p>
-                            </div>
-                        ))}
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                <button
+                    type="button"
+                    onClick={() => setIsOpen(prev => !prev)}
+                    className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                    aria-expanded={isOpen}
+                >
+                    <div>
+                        <p className="text-base sm:text-lg font-semibold text-slate-800">Subject Vocabulary</p>
+                        {resolvedSubject && (
+                            <p className="text-xs text-slate-500 mt-1">Key terms for {resolvedSubject}</p>
+                        )}
                     </div>
-                </div>
-            )}
+                    <span className="text-xl font-bold text-slate-500" aria-hidden="true">{isOpen ? '−' : '+'}</span>
+                </button>
+                {isOpen && (
+                    <div className="px-5 pb-5">
+                        <p className="text-slate-600 text-sm mb-4">
+                            Strengthen your understanding with essential vocabulary for {resolvedSubject || subject}.
+                        </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {vocabList.map(({ term, definition }) => (
+                                <div
+                                    key={term}
+                                    className="rounded-lg border border-slate-100 bg-slate-50 px-4 py-3 hover:bg-slate-100 transition"
+                                >
+                                    <p className="font-semibold text-slate-700">{term}</p>
+                                    <p className="text-sm text-slate-600 mt-1">{definition}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
@@ -5354,8 +5470,24 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
+    const vocabularySubject = useMemo(() => resolveSubjectVocabularyKey(selectedSubject), [selectedSubject]);
     const userDisplayName = currentUser?.name || currentUser?.email || 'Learner';
     const userInitial = userDisplayName ? userDisplayName.trim().charAt(0).toUpperCase() : 'U';
+
+    useEffect(() => {
+        if (selectedSubject !== 'Science') {
+            return undefined;
+        }
+        if (typeof window === 'undefined') {
+            return undefined;
+        }
+        const config = window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
+        const previousMode = config.mathMode;
+        config.mathMode = 'katex';
+        return () => {
+            config.mathMode = previousMode;
+        };
+    }, [selectedSubject]);
 
     const handleSelectSubject = (subject) => {
         setSelectedSubject(subject);
@@ -5481,7 +5613,6 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                 {subject?.description && (
                     <p className="text-white/80 text-base mb-4">{subject.description}</p>
                 )}
-                <VocabularySection subject={selectedSubject} />
                 {selectedSubject === 'Science' && (
                     <div className="mb-6">
                         <button
@@ -5496,6 +5627,7 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                         {viewScienceFormulas && <ScienceFormulaSheet />}
                     </div>
                 )}
+                <VocabularySection subject={vocabularySubject} />
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {Object.entries(subject.categories).map(([categoryName, category]) => (
                         <button
@@ -6348,11 +6480,9 @@ function ScienceFormulaSheet({ title }) {
                 {ScienceFormulas.map((item, index) => (
                     <div key={index} className="p-3 bg-gray-50 rounded-md">
                         <p className="font-bold text-lg text-indigo-700">{item.name}</p>
-                        <MathText
-                            text={lintAndRepairMath(`$$${item.formula}$$`)}
-                            className="text-xl my-2 text-center text-gray-900 bg-gray-100 p-2 rounded block"
-                            subject="Science"
-                        />
+                        <div className="text-lg font-medium text-slate-800 text-center bg-gray-100 p-2 rounded my-2">
+                            <SafeInlineLatex latex={`\\(${item.formula}\\)`} />
+                        </div>
                         <p className="text-sm text-gray-600 italic">{item.variables}</p>
                     </div>
                 ))}
