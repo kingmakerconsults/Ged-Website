@@ -1059,7 +1059,7 @@ function safeJson(raw) {
 }
 
 function emptyMeta() {
-    return { list: [], byFile: new Map(), byId: new Map(), path: null };
+    return { list: [], byFile: new Map(), byId: new Map(), byUrl: new Map(), path: null };
 }
 
 let IMAGE_META = emptyMeta();
@@ -1081,12 +1081,7 @@ function normalizeImagePath(input) {
     }
 
     if (/^https?:\/\//i.test(working)) {
-        try {
-            const parsed = new URL(working);
-            working = parsed.pathname || '';
-        } catch (err) {
-            working = working.replace(/^https?:\/\/[^/]+/i, '');
-        }
+        return working;
     }
 
     working = working.replace(/\\+/g, '/');
@@ -1113,44 +1108,77 @@ function normalizeImagePath(input) {
 }
 
 function enrichImageRecord(record = {}) {
-    const tags = Array.isArray(record.tags)
-        ? record.tags.map((tag) => String(tag).trim()).filter(Boolean)
-        : [];
+    if (!record || typeof record !== 'object') return null;
+
+    const rawTags = Array.isArray(record.tags) ? record.tags : [];
+    const rawTopics = Array.isArray(record.topics) ? record.topics : [];
+    const tags = rawTags.map((tag) => String(tag).trim()).filter(Boolean);
+    const topics = rawTopics.map((topic) => String(topic).trim()).filter(Boolean);
     const lowerTags = tags.map((tag) => tag.toLowerCase());
-    const dominantType = record.type || 'photo';
+    const lowerTopics = topics.map((topic) => topic.toLowerCase());
+
     const subjectMap = new Map([
         ['social-studies', 'Social Studies'],
         ['social studies', 'Social Studies'],
+        ['social_studies', 'Social Studies'],
         ['science', 'Science'],
         ['math', 'Math'],
-        ['rla', 'RLA']
+        ['mathematics', 'Math'],
+        ['rla', 'RLA'],
+        ['language arts', 'RLA']
     ]);
-    const subjectKey = lowerTags.find((tag) => subjectMap.has(tag));
-    const subject = subjectKey ? subjectMap.get(subjectKey) : 'General';
+
+    const subjectCandidate = typeof record.subject === 'string' ? record.subject.trim() : '';
+    const normalizedSubject = subjectCandidate.replace(/[_-]+/g, ' ').toLowerCase();
+    const subject = subjectMap.get(normalizedSubject)
+        || subjectMap.get(subjectCandidate.toLowerCase())
+        || (normalizedSubject ? normalizedSubject.replace(/\b\w/g, (m) => m.toUpperCase()) : 'General');
+
     const category = (() => {
+        if (record.original?.category) return record.original.category;
+        if (record.original?.type) return record.original.type;
+        if (topics.length) return topics[0];
         for (let i = 0; i < lowerTags.length; i += 1) {
             if (!subjectMap.has(lowerTags[i])) {
                 return tags[i];
             }
         }
-        return dominantType;
+        return subject;
     })();
-    const normalizedPath = normalizeImagePath(record.file || record.filePath || record.src || '');
-    const altText = typeof record.alt === 'string' ? record.alt : '';
+
+    const dominantType = record.original?.type
+        || record.original?.dominantType
+        || record.dominantType
+        || category
+        || 'photo';
+
+    const normalizedPath = normalizeImagePath(record.url || record.filePath || record.src || record.file || '');
+    const altText = typeof record.alt === 'string' && record.alt.trim() ? record.alt : 'Social studies image';
     const caption = typeof record.caption === 'string' ? record.caption : '';
     const credit = typeof record.credit === 'string' ? record.credit : '';
-    const detailedDescription = typeof record.ocrText === 'string' ? record.ocrText : '';
+    const detailedDescription = typeof record.original?.detailedDescription === 'string'
+        ? record.original.detailedDescription
+        : typeof record.original?.description === 'string'
+            ? record.original.description
+            : typeof record.original?.ocrText === 'string'
+                ? record.original.ocrText
+                : '';
+
+    const keywords = Array.from(new Set([...lowerTags, ...lowerTopics].filter(Boolean)));
+    const fileName = record.fileName || record.file || (normalizedPath.startsWith('/img/') ? normalizedPath.split('/').pop() : '');
 
     return {
         ...record,
         tags,
-        keywords: tags,
+        topics,
+        keywords,
         dominantType,
         subject,
         category,
-        fileName: record.file,
-        filePath: normalizedPath || record.file,
-        src: normalizedPath || record.file,
+        fileName,
+        filePath: normalizedPath || record.file || '',
+        src: normalizedPath || record.url || '',
+        url: normalizedPath || record.url || '',
         altText,
         caption,
         credit,
@@ -1160,24 +1188,29 @@ function enrichImageRecord(record = {}) {
 
 function installImageMetadata(meta) {
     IMAGE_META = meta;
-    IMAGE_DB = meta.list.map(enrichImageRecord);
+    IMAGE_DB = meta.list.map(enrichImageRecord).filter(Boolean);
     IMAGE_BY_FILE.clear();
     IMAGE_BY_ID.clear();
     IMAGE_BY_URL.clear();
     for (const entry of IMAGE_DB) {
         if (!entry || typeof entry !== 'object') continue;
-        const { file, id, filePath, src } = entry;
-        if (file) {
-            IMAGE_BY_FILE.set(file, entry);
-            IMAGE_BY_FILE.set(String(file).toLowerCase(), entry);
+        const { file, fileName, id, filePath, src, url } = entry;
+        const fileKeys = [file, fileName].filter(Boolean);
+        for (const key of fileKeys) {
+            IMAGE_BY_FILE.set(key, entry);
+            IMAGE_BY_FILE.set(String(key).toLowerCase(), entry);
         }
         if (id) {
             IMAGE_BY_ID.set(id, entry);
         }
-        const urlKey = (filePath || src || '').toLowerCase();
-        if (urlKey) {
-            IMAGE_BY_URL.set(urlKey, entry);
-            IMAGE_BY_URL.set(urlKey.replace(/^\//, ''), entry);
+        const urlCandidates = [filePath, src, url]
+            .map((value) => (typeof value === 'string' ? value.trim() : ''))
+            .filter(Boolean);
+        for (const candidate of urlCandidates) {
+            const lower = candidate.toLowerCase();
+            IMAGE_BY_URL.set(lower, entry);
+            IMAGE_BY_URL.set(lower.replace(/^\//, ''), entry);
+            IMAGE_BY_URL.set(candidate, entry);
         }
     }
 }
@@ -1211,7 +1244,7 @@ function findImageRecord(ref) {
 
 function resolveImageMeta(input) {
     const record = findImageRecord(input);
-    const lookup = record ? record.file : input;
+    const lookup = record ? (record.fileName || record.file || record.url) : input;
     const resolved = resolveImageRef(lookup, IMAGE_META);
     if (!resolved) {
         const key = typeof input === 'string' ? input : input?.file || input?.id || '';
@@ -1223,19 +1256,24 @@ function resolveImageMeta(input) {
     }
     const baseCandidate = (() => {
         if (!lookup || typeof lookup !== 'string') return null;
-        const direct = IMAGE_META.byFile.get(lookup);
+        const trimmed = lookup.trim();
+        const direct = IMAGE_META.byFile.get(trimmed)
+            || IMAGE_META.byFile.get(trimmed.toLowerCase())
+            || IMAGE_META.byUrl?.get(trimmed)
+            || IMAGE_META.byUrl?.get(trimmed.toLowerCase());
         if (direct) return direct;
-        const lowered = IMAGE_META.byFile.get(lookup.toLowerCase());
-        if (lowered) return lowered;
-        const base = lookup.split('/').pop();
+        const base = trimmed.split('/').pop();
         if (!base) return null;
-        return IMAGE_META.byFile.get(base) || IMAGE_META.byFile.get(base.toLowerCase());
+        return IMAGE_META.byFile.get(base)
+            || IMAGE_META.byFile.get(base.toLowerCase())
+            || IMAGE_META.byUrl?.get(base)
+            || IMAGE_META.byUrl?.get(base.toLowerCase());
     })();
     const enriched = record || findImageRecord(resolved.imageUrl) || (baseCandidate ? enrichImageRecord(baseCandidate) : null);
     const out = enriched ? { ...enriched } : {};
     out.src = resolved.imageUrl;
     out.filePath = resolved.imageUrl;
-    out.altText = resolved.imageMeta?.alt || enriched?.altText || 'Image';
+    out.altText = resolved.imageMeta?.alt || enriched?.altText || 'Social studies image';
     out.caption = resolved.imageMeta?.caption || enriched?.caption || '';
     out.credit = resolved.imageMeta?.credit || enriched?.credit || '';
     out.detailedDescription = enriched?.detailedDescription || '';
@@ -1252,11 +1290,16 @@ function loadImageMetadata() {
         try {
             if (!fs.existsSync(candidate)) continue;
             const meta = loadImageMeta(candidate);
+            if (!Array.isArray(meta.list) || !meta.list.length) {
+                console.warn(`[IMG-WARN] Metadata at ${candidate} did not contain usable entries.`);
+                continue;
+            }
             installImageMetadata(meta);
             for (const item of IMAGE_META.list.slice(0, 5)) {
-                const check = resolveImageRef(item.file, IMAGE_META);
+                const pointer = item.file || item.fileName || item.url;
+                const check = resolveImageRef(pointer, IMAGE_META);
                 if (!check?.imageUrl) {
-                    throw new Error(`Image resolve failed for ${item.file}`);
+                    throw new Error(`Image resolve failed for ${pointer || 'unknown'}`);
                 }
             }
             console.log(`[IMG-LOAD] Loaded ${IMAGE_META.list.length} images from ${candidate}.`);
@@ -1856,8 +1899,7 @@ const QuestionSchema = {
             },
             default: []
         }
-    },
-    additionalProperties: true
+    }
 };
 
 const validateQuestion = ajv.compile(QuestionSchema);
@@ -1867,7 +1909,6 @@ const OPENAI_QUESTION_JSON_SCHEMA = {
     schema: {
         type: 'object',
         required: ['id', 'questionType', 'questionText'],
-        additionalProperties: true,
         properties: {
             id: { type: ['string', 'number'] },
             questionType: { type: 'string', enum: ['standalone', 'freeResponse'] },
@@ -1928,7 +1969,6 @@ const SCIENTIFIC_NUMERACY_SCHEMA = {
 
 const SIMPLE_CHOICE_JSON_SCHEMA = {
     type: 'object',
-    additionalProperties: true,
     required: ['text'],
     properties: {
         text: { type: 'string' },
@@ -1942,7 +1982,6 @@ const MATH_CORRECTNESS_JSON_SCHEMA = {
     schema: {
         type: 'object',
         required: ['fixes'],
-        additionalProperties: false,
         properties: {
             fixes: {
                 type: 'array',
@@ -1950,13 +1989,11 @@ const MATH_CORRECTNESS_JSON_SCHEMA = {
                 items: {
                     type: 'object',
                     required: ['index', 'question'],
-                    additionalProperties: true,
                     properties: {
                         index: { type: 'integer', minimum: 0 },
                         reason: { type: 'string' },
                         question: {
                             type: 'object',
-                            additionalProperties: true,
                             required: ['questionText'],
                             properties: {
                                 questionText: { type: 'string' },
@@ -4866,8 +4903,7 @@ const MATH_VALIDATOR_SCHEMA = {
             corrected: { type: "STRING" },
             notes: { type: "STRING" }
         },
-        required: ["qid", "field", "corrected"],
-        additionalProperties: true
+        required: ["qid", "field", "corrected"]
     }
 };
 
@@ -5168,8 +5204,7 @@ async function generateImageItemsWithAI({ image_url, alt_text, subject, category
                 difficulty: { type: "STRING" },
                 alt_text: { type: "STRING" }
             },
-            required: ["stem", "choices", "answer_index"],
-            additionalProperties: true
+            required: ["stem", "choices", "answer_index"]
         }
     };
 

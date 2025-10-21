@@ -9,7 +9,7 @@ const { fetchExternalBlurb } = require('./blurbs');
 const { validateSocialStudiesItem } = require('./validator');
 const { planDifficulty, expandDifficultyCounts } = require('./difficulty');
 const { deriveVisualFeatures } = require('../utils/visualFeatures');
-const { deriveIsScreenshot } = require('../utils/metaLoader');
+const { deriveIsScreenshot, probeImageHead, DEFAULT_ALT } = require('../utils/metaLoader');
 const { validateSS } = require('./validators');
 const { clampPassage } = require('./passage');
 const { resolveImage } = require('../../imageResolver');
@@ -204,6 +204,56 @@ Rules:
 const SYSTEM_MESSAGE = `You are a GED Social Studies item writer. Create image-based multiple-choice questions that rely solely on the provided visual evidence. Each stem must start with "According to the image..." or "According to the map/chart/table/photo..." and cite at least two concrete visual anchors. When a passage is necessary, keep it under 200 words and ensure the question still depends on the image. Do not mention filenames, do not tell the student how to view an image, and never use the word "Screenshot". Always respond with valid JSON only.`;
 
 const MAX_ATTEMPTS_PER_ITEM = 6;
+
+const HEAD_PROBE_CACHE = new Map();
+
+async function fetchHeadProbe(url) {
+    if (!HEAD_PROBE_CACHE.has(url)) {
+        const probePromise = probeImageHead(url).then((result) => {
+            HEAD_PROBE_CACHE.set(url, result);
+            return result;
+        });
+        HEAD_PROBE_CACHE.set(url, probePromise);
+    }
+    const cached = HEAD_PROBE_CACHE.get(url);
+    return typeof cached?.then === 'function' ? cached : Promise.resolve(cached);
+}
+
+async function ensureImageAvailability(item, stats) {
+    if (!item || typeof item !== 'object') {
+        return item;
+    }
+    const imageUrl = item?.imageRef?.imageUrl || item?.image_url || item?.imageUrl || null;
+    if (!imageUrl || !/^https?:\/\//i.test(imageUrl)) {
+        if (imageUrl) {
+            item.image_url = imageUrl;
+        }
+        return item;
+    }
+
+    if (stats) {
+        stats.attempted = (stats.attempted || 0) + 1;
+    }
+
+    const result = await fetchHeadProbe(imageUrl);
+    if (result?.ok) {
+        item.image_url = imageUrl;
+        return item;
+    }
+
+    if (stats) {
+        stats.failed = (stats.failed || 0) + 1;
+        if (stats.failedUrls && typeof stats.failedUrls.add === 'function') {
+            stats.failedUrls.add(imageUrl);
+        }
+    }
+
+    delete item.imageRef;
+    delete item.imageMeta;
+    item.image_url = undefined;
+    item.alt_text = undefined;
+    return item;
+}
 
 function shuffle(array) {
     const arr = [...array];
@@ -422,7 +472,36 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
         imageFingerprint: imageMeta?.fingerprint || imageMeta?.sha256 || undefined
     };
 
-    return sanitizeItem(normalized);
+    const cleaned = sanitizeItem(normalized);
+
+    const stemValue = cleaned.questionText || cleaned.stem || stem || '';
+    const formattedChoices = Array.isArray(cleaned.answerOptions)
+        ? cleaned.answerOptions.map((opt) => stripSourceLines(opt?.text || ''))
+        : (Array.isArray(cleaned.choices) ? cleaned.choices.map((choice) => stripSourceLines(choice || '')) : []);
+    const correctIndex = Array.isArray(cleaned.answerOptions)
+        ? cleaned.answerOptions.findIndex((opt) => opt?.isCorrect)
+        : cleaned.correctIndex;
+
+    cleaned.stem = stemValue;
+    cleaned.choices = formattedChoices;
+    cleaned.correctIndex = Number.isInteger(correctIndex) && correctIndex >= 0 ? correctIndex : 0;
+    cleaned.topic = imageMeta?.category || (Array.isArray(imageMeta?.topics) ? imageMeta.topics[0] : questionType) || 'social_studies';
+
+    const resolvedUrl = cleaned?.imageRef?.imageUrl || cleaned?.image?.imageUrl || cleaned?.image_url || null;
+    if (resolvedUrl) {
+        cleaned.image_url = resolvedUrl;
+    }
+    const altCandidate = cleaned?.imageRef?.imageMeta?.alt
+        || cleaned?.imageRef?.altText
+        || cleaned?.imageMeta?.altText
+        || cleaned?.imageMeta?.alt
+        || DEFAULT_ALT;
+    cleaned.alt_text = altCandidate;
+    if (cleaned.imageMeta && altCandidate && !cleaned.imageMeta.altText) {
+        cleaned.imageMeta.altText = altCandidate;
+    }
+
+    return cleaned;
 }
 
 async function maybeFetchBlurb({ imageMeta, allowExternalBlurbs, maxWords = 200 }) {
@@ -556,6 +635,7 @@ async function generateSocialStudiesItems({ count, allowExternalBlurbs = true, g
     const typePlan = planQuestionTypes(total);
 
     const items = [];
+    const probeStats = { attempted: 0, failed: 0, failedUrls: new Set() };
     for (let i = 0; i < total; i += 1) {
         const difficulty = difficulties[i % difficulties.length];
         const planEntry = typePlan[i];
@@ -565,10 +645,16 @@ async function generateSocialStudiesItems({ count, allowExternalBlurbs = true, g
             allowExternalBlurbs,
             generateWithFallback
         });
-        items.push(item);
+        const sanitized = sanitizeItem(item);
+        await ensureImageAvailability(sanitized, probeStats);
+        items.push(sanitized);
     }
 
-    return items.map((item) => sanitizeItem(item));
+    if (probeStats.failed > 0 && probeStats.attempted > 0) {
+        console.warn(`[socialStudies] ${probeStats.failed}/${probeStats.attempted} images failed HEAD probe.`);
+    }
+
+    return items;
 }
 
 module.exports = {

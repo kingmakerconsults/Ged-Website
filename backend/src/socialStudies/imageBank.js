@@ -22,47 +22,63 @@ let METADATA_CACHE = null;
 
 function loadMetadata() {
     if (METADATA_CACHE) return METADATA_CACHE;
-    let parsedList = [];
-    try {
-        const meta = loadImageMeta(METADATA_PATH);
-        parsedList = Array.isArray(meta.list) ? meta.list : [];
-    } catch (err) {
-        console.warn('[socialStudies] Failed to load image metadata:', err?.message || err);
-        parsedList = [];
-    }
+    const meta = loadImageMeta(METADATA_PATH);
+    const parsedList = Array.isArray(meta.list) ? meta.list : [];
 
     const candidates = parsedList.map((entry) => {
-        const fileName = entry.file;
-        const encodedPath = fileName ? `/img/${encodeURIComponent(fileName)}` : '';
+        const fileName = entry.fileName || entry.file || '';
+        const encodedPath = typeof entry.url === 'string' && entry.url.trim()
+            ? entry.url.trim()
+            : (fileName ? `/img/${encodeURIComponent(fileName)}` : '');
         const tags = Array.isArray(entry.tags)
             ? entry.tags.map((tag) => String(tag).trim()).filter(Boolean)
             : [];
+        const topics = Array.isArray(entry.topics)
+            ? entry.topics.map((topic) => String(topic).trim()).filter(Boolean)
+            : [];
         const lowerTags = tags.map((tag) => tag.toLowerCase());
-        const normalizedKeywords = lowerTags.filter(Boolean);
-        const baseSubject = (entry.subject || '').toLowerCase();
-        const subjectTag = lowerTags.find((tag) => tag === 'social-studies' || tag === 'social studies');
-        const subject = subjectTag ? 'Social Studies' : (baseSubject ? baseSubject.replace(/\b\w/g, (m) => m.toUpperCase()) : 'General');
+        const lowerTopics = topics.map((topic) => topic.toLowerCase());
+        const normalizedKeywords = Array.from(new Set([...lowerTags, ...lowerTopics].filter(Boolean)));
+        const baseSubject = typeof entry.subject === 'string' ? entry.subject.trim().toLowerCase() : '';
+        const subjectTag = lowerTags.find((tag) => tag === 'social-studies' || tag === 'social studies' || tag === 'social_studies');
+        const subject = subjectTag
+            ? 'Social Studies'
+            : (baseSubject ? baseSubject.replace(/\b\w/g, (m) => m.toUpperCase()) : 'General');
 
         const isScreenshot = deriveIsScreenshot(fileName, entry);
-        if (isScreenshot && !lowerTags.includes('screenshot')) {
-            tags.push('screenshot');
+        if (isScreenshot && !normalizedKeywords.includes('screenshot')) {
             normalizedKeywords.push('screenshot');
+            if (!lowerTags.includes('screenshot')) {
+                tags.push('screenshot');
+            }
         }
+
+        const category = entry.original?.category
+            || entry.original?.type
+            || topics[0]
+            || subject;
+
+        const dominantType = entry.original?.type
+            || entry.original?.dominantType
+            || entry.dominantType
+            || category
+            || 'photo';
 
         const enriched = {
             ...entry,
             subject,
-            category: entry.type || 'General',
-            dominantType: entry.type || 'photo',
+            category,
+            dominantType,
             fileName,
             filePath: encodedPath,
             src: encodedPath,
             tags,
+            topics,
             keywords: normalizedKeywords,
-            altText: entry.alt || '',
+            altText: entry.alt || 'Social studies image',
             caption: entry.caption || '',
             credit: entry.credit || '',
-            detailedDescription: entry.ocrText || ''
+            detailedDescription: entry.original?.detailedDescription || entry.original?.description || ''
         };
 
         const features = deriveVisualFeatures(enriched);
@@ -100,6 +116,9 @@ function loadMetadata() {
 function preloadTopImages(entries = []) {
     for (const meta of entries) {
         if (!meta || !meta.fileName) continue;
+        if (typeof meta.filePath === 'string' && /^https?:\/\//i.test(meta.filePath)) {
+            continue;
+        }
         let found = false;
         for (const root of IMAGE_ROOTS) {
             const diskPath = path.join(root, meta.fileName);

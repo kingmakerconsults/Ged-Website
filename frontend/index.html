@@ -1760,7 +1760,7 @@ function renderImageSection(container, imageData, items) {
         img.src = imageUrl;
         img.loading = 'lazy';
         img.decoding = 'async';
-        img.alt = stripFileSource(meta?.alt || meta?.altText || meta?.title || 'Image').slice(0, 160);
+        img.alt = stripFileSource(meta?.alt || meta?.altText || meta?.title || 'Social studies image').slice(0, 160) || 'Social studies image';
         img.onerror = () => {
             figure.remove();
         };
@@ -1772,7 +1772,7 @@ function renderImageSection(container, imageData, items) {
             || meta?.caption
             || meta?.title
             || ''
-        );
+        ) || 'Social studies image';
         if (captionSource) {
             const figcaption = document.createElement('figcaption');
             figcaption.className = 'ss-figcap';

@@ -1,4 +1,4 @@
-const { loadImageMeta, resolveImageRef } = require('../images/metaLoader');
+const { loadImageMeta, resolveImageRef, probeImageHead, DEFAULT_ALT } = require('../images/metaLoader');
 
 function deriveIsScreenshot(fileName = '', meta = {}) {
     const normalized = String(fileName || meta.file || '').toLowerCase();
@@ -18,5 +18,7 @@ function deriveIsScreenshot(fileName = '', meta = {}) {
 module.exports = {
     loadImageMeta,
     resolveImageRef,
-    deriveIsScreenshot
+    deriveIsScreenshot,
+    probeImageHead,
+    DEFAULT_ALT
 };
