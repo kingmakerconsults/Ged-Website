@@ -477,6 +477,10 @@ function finalizeQuestionForCache(question, { domain, difficulty }) {
         return null;
     }
 
+    if (typeof domain === 'string' && domain.toUpperCase() === 'RLA' && question.imageRef) {
+        delete question.imageRef;
+    }
+
     const stemRaw = typeof question.stem === 'string' ? question.stem : '';
     let stemNorm = normalizeLatexText(stemRaw);
     if (!SHOULD_RENDER_KATEX) {
@@ -1459,6 +1463,15 @@ function replaceScreenshotTerm(value) {
     return value.replace(/\bScreenshot\b/gi, 'image');
 }
 
+function scrubbing(s = '') {
+    if (typeof s !== 'string') {
+        s = s == null ? '' : String(s);
+    }
+    return s
+        .replace(/\b[Ss]creenshot(s)?\b/g, 'image')
+        .replace(/\b[\w.\- ]+\.(png|jpe?g|gif|webp|svg)\b/g, 'the image');
+}
+
 function clampPassageToTwoHundredWords(text) {
     if (typeof text !== 'string') return undefined;
     const trimmed = replaceScreenshotTerm(text).trim();
@@ -1565,6 +1578,12 @@ function validShape(q) {
         && q.correctIndex >= 0 && q.correctIndex < 4;
 }
 
+function validSS(q = {}) {
+    const has4 = Array.isArray(q?.answerOptions) && q.answerOptions.length === 4;
+    const imgOK = !q?.imageRef || !!q.imageRef.imageUrl;
+    return has4 && imgOK;
+}
+
 function validByType(q) {
     if ((q.type || '').toLowerCase() === 'passage') {
         const words = (q.passage || '').split(/\s+/).filter(Boolean).length;
@@ -1591,6 +1610,29 @@ function rebalance(questions) {
 }
 
 function prepareSocialStudiesItems(payload) {
+    const sanitizeList = (list = []) => {
+        if (!Array.isArray(list)) return [];
+        return list.filter((q, idx) => {
+            const ok = validSS(q);
+            if (!ok) {
+                const has4 = Array.isArray(q?.answerOptions) && q.answerOptions.length === 4;
+                const imgOK = !q?.imageRef || !!q.imageRef?.imageUrl;
+                console.warn('DROP_SS_ITEM', {
+                    reason: !imgOK ? 'no_image_url' : 'bad_choices',
+                    qid: q?.id || q?.questionNumber || idx
+                });
+            }
+            return ok;
+        });
+    };
+
+    if (payload && Array.isArray(payload.questions)) {
+        payload.questions = sanitizeList(payload.questions);
+    }
+    if (payload && Array.isArray(payload.items)) {
+        payload.items = sanitizeList(payload.items);
+    }
+
     let candidates = [];
     if (payload && Array.isArray(payload.questions)) {
         candidates = payload.questions;
@@ -1615,13 +1657,14 @@ function prepareSocialStudiesItems(payload) {
     return balanced.map((q, idx) => ({
         ...q,
         questionNumber: idx + 1,
-        questionText: replaceScreenshotTerm(q.questionText || '').trim(),
+        questionText: scrubbing(replaceScreenshotTerm(q.questionText || '').trim()).trim(),
         passage: q.passage,
         answerOptions: q.answerOptions.map((opt, optionIdx) => ({
-            text: replaceScreenshotTerm(opt.text || '').trim(),
+            text: scrubbing(replaceScreenshotTerm(opt.text || '').trim()).trim(),
             isCorrect: optionIdx === q.correctIndex,
-            rationale: typeof opt.rationale === 'string' ? opt.rationale : ''
-        }))
+            rationale: scrubbing(typeof opt.rationale === 'string' ? opt.rationale : '').trim()
+        })),
+        rationale: scrubbing(q.rationale || '').trim()
     }));
 }
 
@@ -4300,10 +4343,12 @@ const promptLibrary = {
         topic: (topic) => `Generate a 15-question GED-style Social Studies quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.
         STRICT STIMULUS REQUIREMENTS: A variety of stimuli MUST be used. Include at least 2 questions based on a chart/graph, 2 questions based on a historical quote, and 2 questions based on an image from the provided descriptions. The rest should be text passages.
-        NO REDUNDANCY RULE: All 15 questions must feature distinct scenarios, time periods, data sets, and stimulus materials. Do not reuse wording, answer choices, or prompts across questions.`,
+        NO REDUNDANCY RULE: All 15 questions must feature distinct scenarios, time periods, data sets, and stimulus materials. Do not reuse wording, answer choices, or prompts across questions.
+        When an image is referenced, write the question so it can be answered from the image; never include filenames or the word 'screenshot'. Passages (when used) are 60–200 words.`,
         comprehensive: `Generate a 35-question comprehensive GED Social Studies exam.
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, and 15% Geography & the World.
-        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.`
+        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.
+        When an image is referenced, write the question so it can be answered from the image; never include filenames or the word 'screenshot'. Passages (when used) are 60–200 words.`
     },
     "Science": {
         topic: (topic) => `Generate a 15-question GED-style Science quiz focused on "${topic}".
@@ -4374,6 +4419,16 @@ function existingTopicPrompt(subject, topic, count = 15) {
 
 app.get('/', (req, res) => {
   res.send('Learning Canvas Backend is running!');
+});
+
+app.get('/health/images', (_req, res) => {
+    try {
+        const meta = JSON.parse(fs.readFileSync('image_metadata_final.json', 'utf8'));
+        const ok = Array.isArray(meta) && meta.every((m) => m && m.file);
+        res.json({ ok, count: Array.isArray(meta) ? meta.length : 0 });
+    } catch (e) {
+        res.status(500).json({ ok: false, error: e.message });
+    }
 });
 
 // NEW FEATURE: Endpoint to define a word, as used in your index.html
@@ -7106,17 +7161,23 @@ app.use((err, req, res, next) => {
 
 // The '0.0.0.0' is important for containerized environments like Render.
 if (require.main === module) {
-    ensureSchema(pool)
-        .then(() => {
-            app.listen(port, '0.0.0.0', () => {
-                console.log(`Your service is live 🚀`);
-                console.log(`Server listening on port ${port}`);
-            });
-        })
-        .catch((err) => {
-            console.error('Failed to ensure database schema:', err);
-            process.exit(1);
+    const startServer = () => {
+        app.listen(port, '0.0.0.0', () => {
+            console.log(`Your service is live 🚀`);
+            console.log(`Server listening on port ${port}`);
         });
+    };
+
+    if (isDatabaseConfigured()) {
+        ensureSchema(pool)
+            .then(startServer)
+            .catch((err) => {
+                console.error('Failed to ensure database schema:', err);
+                process.exit(1);
+            });
+    } else {
+        startServer();
+    }
 }
 
 module.exports = {
