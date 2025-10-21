@@ -662,7 +662,7 @@ function hideStudentScoresModal() {
     }
     const list = document.getElementById('scores-list-container');
     if (list) {
-        list.innerHTML = '';
+        list.replaceChildren();
     }
     const subtitle = document.getElementById('student-scores-modal-subtitle');
     if (subtitle) {
@@ -685,7 +685,7 @@ async function showStudentScores(userId, displayName = '') {
         subtitle.textContent = resolvedName;
     }
 
-    list.innerHTML = '';
+    list.replaceChildren();
 
     const numericId = Number(userId);
     if (!Number.isInteger(numericId) || numericId <= 0) {
@@ -733,7 +733,7 @@ async function showStudentScores(userId, displayName = '') {
             throw new Error(message);
         }
 
-        list.innerHTML = '';
+        list.replaceChildren();
         const scores = Array.isArray(payload) ? payload : [];
 
         if (scores.length === 0) {
@@ -782,7 +782,7 @@ async function showStudentScores(userId, displayName = '') {
             });
         }
     } catch (error) {
-        list.innerHTML = '';
+        list.replaceChildren();
         const errorItem = document.createElement('li');
         errorItem.className = 'rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600';
         errorItem.textContent = error instanceof Error ? error.message : 'Unable to load student scores.';
@@ -1722,6 +1722,26 @@ function GeometryFigure({ spec, className }) {
     );
 }
 
+function HtmlBlock({ html, className, as: Component = 'div' }) {
+    return (
+        <Component
+            className={className}
+            dangerouslySetInnerHTML={{ __html: html || '' }}
+            suppressHydrationWarning
+        />
+    );
+}
+
+function HtmlListItem({ html, className }) {
+    return (
+        <li
+            className={className}
+            dangerouslySetInnerHTML={{ __html: html || '' }}
+            suppressHydrationWarning
+        />
+    );
+}
+
 function MathText({ text, className, as: Component = 'span' }) {
     const content = React.useMemo(() => {
         if (typeof text !== 'string') {
@@ -1734,33 +1754,6 @@ function MathText({ text, className, as: Component = 'span' }) {
     return (
         <Component className={className} suppressHydrationWarning>
             {content}
-        </Component>
-    );
-}
-
-function CachedMathText({ html, text, className, as: Component = 'span' }) {
-    const hasHtml = typeof html === 'string' && html.trim().length > 0;
-    const fallbackContent = React.useMemo(() => {
-        if (typeof text !== 'string') {
-            return '';
-        }
-        const cleaned = lintAndRepairMath(text);
-        return SHOULD_USE_KATEX ? cleaned : toPlainFractions(cleaned);
-    }, [text]);
-
-    if (hasHtml) {
-        return (
-            <Component
-                className={className}
-                dangerouslySetInnerHTML={{ __html: html }}
-                suppressHydrationWarning
-            />
-        );
-    }
-
-    return (
-        <Component className={className} suppressHydrationWarning>
-            {fallbackContent}
         </Component>
     );
 }
@@ -2151,7 +2144,7 @@ function renderImageSection(container, imageData, items) {
         return;
     }
 
-    container.innerHTML = '';
+    container.replaceChildren();
 
     const firstItem = Array.isArray(items) && items.length ? items[0] : null;
     const subject = inferExamSubject(
@@ -2253,7 +2246,7 @@ function handleImageBankPayload(payload) {
         return;
     }
 
-    container.innerHTML = '';
+    container.replaceChildren();
 
     if (!payload) {
         return;
@@ -6277,13 +6270,31 @@ const StimulusFigure = React.memo(function StimulusFigure({ item }) {
 
 function Stem({ item }) {
     const passageContent = typeof item.passage === 'string' ? stripFileSource(item.passage.trim()) : '';
-    const questionContent = typeof (item.questionText || item.question) === 'string'
-        ? stripFileSource((item.questionText || item.question).trim())
+    const questionContent = typeof (item.questionText || item.question || item.stem) === 'string'
+        ? stripFileSource((item.questionText || item.question || item.stem).trim())
         : '';
 
-    const cachedStemHtml = typeof item?.katex_html_cache?.stem === 'string'
-        ? item.katex_html_cache.stem
-        : '';
+    const questionHtml = React.useMemo(() => {
+        const cache = item?.katex_html_cache;
+        const candidates = [
+            cache?.stem_html,
+            cache?.stemHtml,
+            cache?.stem,
+            item?.stem_html,
+            item?.question_html
+        ];
+
+        const resolved = candidates.find((value) => typeof value === 'string' && value.trim().length > 0);
+        if (resolved) {
+            return resolved;
+        }
+
+        if (!questionContent) {
+            return '';
+        }
+
+        return escapeHtml(questionContent);
+    }, [item, questionContent]);
     const sourceCandidates = [
         item?.imageMeta?.credit,
         item?.imageMeta?.source?.title,
@@ -6304,15 +6315,11 @@ function Stem({ item }) {
                 />
             )}
 
-            {questionContent && (
-                <div className="mt-2">
-                    <CachedMathText
-                        html={cachedStemHtml}
-                        text={questionContent}
-                        className="question-stem block font-bold text-slate-900"
-                        as="div"
-                    />
-                </div>
+            {questionHtml && (
+                <HtmlBlock
+                    html={questionHtml}
+                    className="mt-2 question-stem block font-bold text-slate-900"
+                />
             )}
 
             {displaySource && (
@@ -6514,6 +6521,9 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                 const cachedOptionHtml = typeof currentQ?.katex_html_cache?.choices?.[i] === 'string'
                                     ? currentQ.katex_html_cache.choices[i]
                                     : '';
+                                const resolvedOptionHtml = cachedOptionHtml && cachedOptionHtml.trim().length > 0
+                                    ? cachedOptionHtml
+                                    : (optionText ? escapeHtml(optionText) : '');
                                 const isSelected = answers[currentIndex] === opt.text;
                                 const optionStateClass = isSelected
                                     ? `${colorScheme.optionSelectedBg || DEFAULT_COLOR_SCHEME.optionSelectedBg} ${colorScheme.optionSelectedBorder || DEFAULT_COLOR_SCHEME.optionSelectedBorder}`
@@ -6526,9 +6536,8 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                     >
                                         <span className="flex-grow text-left">
                                             <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
-                                            <CachedMathText
-                                                html={cachedOptionHtml}
-                                                text={optionText}
+                                            <HtmlBlock
+                                                html={resolvedOptionHtml}
                                                 className="question-stem"
                                             />
                                         </span>
@@ -7094,9 +7103,40 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                         const correctAnswerHtml = typeof question?.katex_html_cache?.choices?.[correctAnswerIndex] === 'string'
                             ? question.katex_html_cache.choices[correctAnswerIndex]
                             : '';
-                        const correctAnswerText = correctAnswer?.text ?? '';
+                        const correctAnswerText = typeof correctAnswer?.text === 'string'
+                            ? stripFileSource(correctAnswer.text)
+                            : '';
+                        const resolvedCorrectAnswerHtml = correctAnswerHtml && correctAnswerHtml.trim().length > 0
+                            ? correctAnswerHtml
+                            : (correctAnswerText ? escapeHtml(correctAnswerText) : '');
                         const correctRationaleText = correctAnswer?.rationale ?? '';
                         const isCorrect = correctAnswer && userAnswer === correctAnswer.text;
+                        const optionItems = answerOptions.map((option, choiceIndex) => {
+                            const cachedChoiceHtml = typeof question?.katex_html_cache?.choices?.[choiceIndex] === 'string'
+                                ? question.katex_html_cache.choices[choiceIndex]
+                                : '';
+                            const optionText = typeof option?.text === 'string'
+                                ? stripFileSource(option.text)
+                                : '';
+                            const resolvedChoiceHtml = cachedChoiceHtml && cachedChoiceHtml.trim().length > 0
+                                ? cachedChoiceHtml
+                                : (optionText ? escapeHtml(optionText) : '');
+                            const isChoiceCorrect = Boolean(option?.isCorrect);
+                            const isChoiceSelected = userAnswer === option.text;
+                            const choiceClasses = [
+                                'question-stem',
+                                isChoiceCorrect ? 'font-semibold text-green-700' : '',
+                                !isChoiceCorrect && isChoiceSelected ? 'text-red-700 line-through' : '',
+                            ].filter(Boolean).join(' ').trim();
+
+                            return (
+                                <HtmlListItem
+                                    key={choiceIndex}
+                                    html={resolvedChoiceHtml}
+                                    className={choiceClasses || 'question-stem'}
+                                />
+                            );
+                        });
                         const confidenceLevel = results.confidence ? results.confidence[index] : null;
 
                         const getConfidenceColor = (level) => {
@@ -7118,18 +7158,23 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                         <GeometryFigure spec={question.geometrySpec} className="w-full h-auto" />
                                     </div>
                                 )}
+                                {optionItems.length > 0 && (
+                                    <ul className="mt-2 list-disc pl-5 space-y-1">
+                                        {optionItems}
+                                    </ul>
+                                )}
                                 <p className={`mt-2 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
                                     Your answer: {userAnswer || "No answer"} {isCorrect ? '✔' : '✘'}
                                 </p>
-                                {!isCorrect && correctAnswer && (
-                                    <p className="text-green-700 question-stem">
-                                        Correct answer:{' '}
-                                        <CachedMathText
-                                            html={correctAnswerHtml}
-                                            text={correctAnswerText}
+                                {!isCorrect && correctAnswer && resolvedCorrectAnswerHtml && (
+                                    <div className="mt-2 text-green-700 question-stem">
+                                        <span className="font-semibold">Correct answer: </span>
+                                        <HtmlBlock
+                                            html={resolvedCorrectAnswerHtml}
                                             className="question-stem"
+                                            as="span"
                                         />
-                                    </p>
+                                    </div>
                                 )}
                                 {correctAnswer && correctAnswer.rationale && (
                                     <div className="mt-2 text-sm text-slate-600 explanation-text">
@@ -7222,18 +7267,27 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                                 <Stem item={{ ...q, questionNumber: q.questionNumber ?? (i + 1) }} />
                             </div>
                             <div className="mt-2 space-y-1">
-                                {(q.answerOptions || []).map((opt, j) => (
-                                    <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
-                                        <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
-                                        <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
-                                            <CachedMathText
-                                                html={typeof q?.katex_html_cache?.choices?.[j] === 'string' ? q.katex_html_cache.choices[j] : ''}
-                                                text={typeof opt.text === 'string' ? stripFileSource(opt.text) : ''}
-                                                className="question-stem"
-                                            />
-                                        </span>
-                                    </label>
-                                ))}
+                                {(q.answerOptions || []).map((opt, j) => {
+                                    const optionText = typeof opt.text === 'string' ? stripFileSource(opt.text) : '';
+                                    const cachedOptionHtml = typeof q?.katex_html_cache?.choices?.[j] === 'string'
+                                        ? q.katex_html_cache.choices[j]
+                                        : '';
+                                    const resolvedOptionHtml = cachedOptionHtml && cachedOptionHtml.trim().length > 0
+                                        ? cachedOptionHtml
+                                        : (optionText ? escapeHtml(optionText) : '');
+
+                                    return (
+                                        <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
+                                            <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
+                                            <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
+                                                <HtmlBlock
+                                                    html={resolvedOptionHtml}
+                                                    className="question-stem"
+                                                />
+                                            </span>
+                                        </label>
+                                    );
+                                })}
                             </div>
                         </div>
                     ))}
@@ -8631,12 +8685,21 @@ if (typeof window !== 'undefined' && window.location && window.location.search.i
 
 // --- RENDER APP ---
 const container = document.getElementById('root');
-const root = ReactDOM.createRoot(container);
-root.render(
-    <ErrorBoundary>
-        <App />
-    </ErrorBoundary>
-);
+
+if (container && container.hasChildNodes()) {
+    ReactDOM.hydrateRoot(
+        container,
+        <ErrorBoundary>
+            <App />
+        </ErrorBoundary>
+    );
+} else if (container) {
+    ReactDOM.createRoot(container).render(
+        <ErrorBoundary>
+            <App />
+        </ErrorBoundary>
+    );
+}
 
 </script>
 
