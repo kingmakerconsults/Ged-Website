@@ -57,6 +57,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
 
+    <script type="module">
+      import VocabularyIndex from './data/vocabulary_index.json' assert { type: 'json' };
+      window.VocabularyIndex = VocabularyIndex;
+    </script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
@@ -258,6 +263,127 @@ const createEmptyProgress = () => SUBJECT_PROGRESS_KEYS.reduce((acc, subject) =>
     acc[subject] = { scores: [], total: 0 };
     return acc;
 }, {});
+
+function VocabularySection({ subject }) {
+    const [vocabList, setVocabList] = React.useState(() => {
+        if (!subject) {
+            return [];
+        }
+        if (window.VocabularyIndex && window.VocabularyIndex[subject]) {
+            return window.VocabularyIndex[subject];
+        }
+        if (window.__VocabularyCache && window.__VocabularyCache[subject]) {
+            return window.__VocabularyCache[subject];
+        }
+        return [];
+    });
+
+    React.useEffect(() => {
+        let isMounted = true;
+        if (!subject) {
+            setVocabList([]);
+            return () => { isMounted = false; };
+        }
+
+        const ensureCache = () => {
+            if (!window.__VocabularyCache) {
+                window.__VocabularyCache = {};
+            }
+            return window.__VocabularyCache;
+        };
+
+        const cache = ensureCache();
+
+        const applyVocabulary = (data) => {
+            if (!isMounted || !data) {
+                return;
+            }
+            const list = Array.isArray(data[subject]) ? data[subject] : [];
+            cache[subject] = list;
+            setVocabList(list);
+        };
+
+        if (window.VocabularyIndex) {
+            applyVocabulary(window.VocabularyIndex);
+        } else if (cache[subject]) {
+            setVocabList(cache[subject]);
+        } else {
+            const fetchAllVocabulary = () => {
+                if (!window.__VocabularyDataPromise) {
+                    window.__VocabularyDataPromise = fetch('./data/vocabulary_index.json')
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error('Failed to load local vocabulary data');
+                            }
+                            return response.json();
+                        })
+                        .catch(() => null);
+                }
+                return window.__VocabularyDataPromise;
+            };
+
+            const ensureVocabularyData = () => {
+                return fetchAllVocabulary().then((data) => {
+                    if (data && typeof data === 'object') {
+                        return data;
+                    }
+                    const encodedSubject = encodeURIComponent(subject);
+                    return fetch(`/api/vocabulary/${encodedSubject}`)
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error('Failed to load vocabulary from API');
+                            }
+                            return response.json();
+                        })
+                        .then((payload) => ({ [payload.subject]: payload.vocab || [] }))
+                        .catch(() => ({ [subject]: [] }));
+                });
+            };
+
+            ensureVocabularyData()
+                .then((data) => {
+                    if (isMounted) {
+                        applyVocabulary(data || {});
+                    }
+                })
+                .catch(() => {
+                    if (isMounted) {
+                        applyVocabulary({ [subject]: [] });
+                    }
+                });
+        }
+
+        return () => {
+            isMounted = false;
+        };
+    }, [subject]);
+
+    if (!vocabList.length) {
+        return null;
+    }
+
+    return (
+        <div className="mt-8 p-6 bg-white shadow rounded-2xl border border-slate-200">
+            <h2 className="text-xl font-semibold mb-3 text-slate-800">
+                {subject} Vocabulary
+            </h2>
+            <p className="text-slate-500 text-sm mb-4">
+                Key academic terms that strengthen your GED performance in this subject.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {vocabList.map(({ term, definition }) => (
+                    <div
+                        key={term}
+                        className="p-3 rounded-lg border border-slate-100 bg-slate-50 hover:bg-slate-100 transition"
+                    >
+                        <p className="font-semibold text-slate-700">{term}</p>
+                        <p className="text-sm text-slate-600">{definition}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
 
 const buildProgressFromScores = (scores = []) => {
     const progress = createEmptyProgress();
@@ -5121,6 +5247,7 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
                 {subject?.description && (
                     <p className="text-white/80 text-base mb-4">{subject.description}</p>
                 )}
+                <VocabularySection subject={selectedSubject} />
                 {selectedSubject === 'Science' && (
                     <div className="mb-6">
                         <button

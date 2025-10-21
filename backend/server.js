@@ -31,6 +31,7 @@ const sanitizeHtml = require('sanitize-html');
 const { jsonrepair } = require('jsonrepair');
 const { loadImageMeta } = require('./utils/metaLoader');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
+const vocabularyData = require('../data/vocabulary_index.json');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -3694,6 +3695,18 @@ app.get('/api/organizations', async (_req, res) => {
         console.error('Failed to fetch organizations:', error);
         return res.status(500).json({ error: 'Failed to fetch organizations' });
     }
+});
+
+app.get('/api/vocabulary/:subject', (req, res) => {
+    const subjectParam = req.params.subject || '';
+    const lowerParam = subjectParam.toLowerCase();
+    const compactParam = lowerParam.replace(/[^a-z0-9]/g, '');
+    const normalizedKey = Object.keys(vocabularyData).find((key) => {
+        const lowerKey = key.toLowerCase();
+        return lowerKey === lowerParam || lowerKey.replace(/[^a-z0-9]/g, '') === compactParam;
+    });
+    const vocab = normalizedKey ? vocabularyData[normalizedKey] : [];
+    res.json({ subject: normalizedKey || subjectParam, vocab });
 });
 
 app.post('/api/student/select-organization', authenticateBearerToken, async (req, res) => {
