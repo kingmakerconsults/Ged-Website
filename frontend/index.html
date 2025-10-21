@@ -4454,6 +4454,7 @@ function App() {
                 <JoinOrganizationModal
                     isOpen={showJoinOrganizationModal}
                     onConfirm={handleConfirmOrganizationSelection}
+                    onLogout={handleLogout}
                     loading={joinOrganizationSubmitting}
                     error={joinOrganizationError}
                 />
@@ -5604,7 +5605,7 @@ function StudentOrganizationAffiliation({ token, onJoined }) {
 }
 
 
-function JoinOrganizationModal({ isOpen, onConfirm, loading, error }) {
+function JoinOrganizationModal({ isOpen, onConfirm, onLogout, loading, error }) {
     return (
         <div
             id="join-organization-modal"
@@ -5633,12 +5634,21 @@ function JoinOrganizationModal({ isOpen, onConfirm, loading, error }) {
                         {error}
                     </div>
                 )}
-                <div className="mt-6 flex justify-end">
+                <div className="mt-6 flex items-center justify-between">
+                    {typeof onLogout === 'function' && (
+                        <button
+                            type="button"
+                            onClick={onLogout}
+                            className="text-sm font-semibold text-slate-500 hover:text-slate-700"
+                        >
+                            Log out
+                        </button>
+                    )}
                     <button
                         type="button"
                         onClick={onConfirm}
                         disabled={loading}
-                        className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
+                        className="ml-auto rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
                     >
                         {loading ? 'Joining…' : 'Confirm'}
                     </button>
