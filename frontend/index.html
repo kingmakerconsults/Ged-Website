@@ -197,6 +197,26 @@
             padding: 0.4rem 0.6rem;
             text-align: left;
         }
+        .ss-figure {
+            margin: 0 0 0.75rem 0;
+        }
+        .ss-figure img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 30px -12px rgba(15, 23, 42, 0.35);
+        }
+        .ss-figcap {
+            margin-top: 0.25rem;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .ss-figure.missing {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+        }
         .question-stem thead th {
             background: #f3f4f6;
             font-weight: 600;
@@ -3421,6 +3441,157 @@ function NamePromptModal({ user, onSave }) {
     );
 }
 
+function stripFilenames(text, fallback = 'the image') {
+    if (typeof text !== 'string' || !text.trim()) {
+        return typeof text === 'string' ? text.trim() : text;
+    }
+    return text
+        .replace(/'?\b(?:screenshot|img|image)[^'"\s]*?\.(?:png|jpe?g|gif|webp)\b'?/ig, fallback)
+        .replace(/\b[\w.-]+\.(?:png|jpe?g|gif|webp)\b/ig, fallback)
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+}
+
+function deScreenshot(text) {
+    return typeof text === 'string' ? text.replace(/\bScreenshot\b/gi, 'image') : text;
+}
+
+function sanitizeLearnerFacingText(text, fallback = 'the image') {
+    if (typeof text !== 'string') return text;
+    return deScreenshot(stripFilenames(text, fallback));
+}
+
+function sanitizeAnswerOption(option, fallback = 'the image') {
+    if (!option || typeof option !== 'object') {
+        if (typeof option === 'string') {
+            return sanitizeLearnerFacingText(option, fallback);
+        }
+        return option;
+    }
+    const sanitized = { ...option };
+    if (typeof sanitized.text === 'string') {
+        sanitized.text = sanitizeLearnerFacingText(sanitized.text, fallback);
+    }
+    if (typeof sanitized.rationale === 'string') {
+        sanitized.rationale = sanitizeLearnerFacingText(sanitized.rationale, fallback);
+    }
+    return sanitized;
+}
+
+function buildImageMeta(item, fallback = 'the image') {
+    const candidates = [item?.imageMeta, item?.asset, item?.image, item?.stimulusImage].filter((meta) => meta && typeof meta === 'object');
+    const meta = candidates.reduce((acc, candidate) => {
+        const copy = acc;
+        if (!copy.title && typeof candidate.title === 'string') copy.title = candidate.title;
+        if (!copy.credit && typeof candidate.credit === 'string') copy.credit = candidate.credit;
+        if (!copy.attribution && typeof candidate.attribution === 'string') copy.attribution = candidate.attribution;
+        if (!copy.caption && typeof candidate.caption === 'string') copy.caption = candidate.caption;
+        if (!copy.image_url && typeof candidate.image_url === 'string') copy.image_url = candidate.image_url;
+        if (!copy.image_url && typeof candidate.imageUrl === 'string') copy.image_url = candidate.imageUrl;
+        if (!copy.image_url && typeof candidate.src === 'string') copy.image_url = candidate.src;
+        if (!copy.path && typeof candidate.path === 'string') copy.path = candidate.path;
+        if (!copy.path && typeof candidate.imagePath === 'string') copy.path = candidate.imagePath;
+        if (!copy.file && typeof candidate.file === 'string') copy.file = candidate.file;
+        if (!copy.file && typeof candidate.fileName === 'string') copy.file = candidate.fileName;
+        if (!copy.file && typeof candidate.filename === 'string') copy.file = candidate.filename;
+        if (!copy.source && typeof candidate.source === 'object') copy.source = { ...candidate.source };
+        return copy;
+    }, { ...item?.imageMeta });
+
+    if (!meta.image_url && typeof item?.imageUrl === 'string') meta.image_url = item.imageUrl;
+    if (!meta.image_url && typeof item?.imageURL === 'string') meta.image_url = item.imageURL;
+
+    if (!meta.path && typeof meta.image_url === 'string') meta.path = meta.image_url;
+    if (!meta.file && typeof meta.path === 'string' && meta.path.includes('/')) {
+        const parts = meta.path.split('/');
+        const candidateFile = parts[parts.length - 1];
+        if (candidateFile) meta.file = candidateFile;
+    }
+
+    if (!meta.credit) {
+        const creditFallbacks = [item?.displaySource, item?.source, item?.asset?.displaySource, item?.asset?.credit].filter((value) => typeof value === 'string' && value.trim());
+        if (creditFallbacks.length) {
+            meta.credit = creditFallbacks[0];
+        }
+    }
+
+    if (meta.source && typeof meta.source.title === 'string') {
+        meta.source = { ...meta.source, title: sanitizeLearnerFacingText(meta.source.title, fallback) };
+    }
+
+    if (meta.title) meta.title = sanitizeLearnerFacingText(meta.title, fallback);
+    if (meta.credit) meta.credit = sanitizeLearnerFacingText(meta.credit, '');
+    if (meta.attribution) meta.attribution = sanitizeLearnerFacingText(meta.attribution, '');
+    if (meta.caption) meta.caption = sanitizeLearnerFacingText(meta.caption, fallback);
+
+    return meta;
+}
+
+function getImageUrl(meta) {
+    if (!meta || typeof meta !== 'object') return null;
+    const directUrl = typeof meta.image_url === 'string' ? meta.image_url.trim() : '';
+    const fields = [directUrl, meta.imageUrl, meta.src, meta.path, meta.file, meta.fileName, meta.filename, meta.imagePath];
+
+    for (const field of fields) {
+        if (typeof field !== 'string') continue;
+        const trimmed = field.trim();
+        if (!trimmed) continue;
+        if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith('data:')) {
+            return trimmed;
+        }
+        if (trimmed.startsWith('//')) {
+            return `https:${trimmed}`;
+        }
+        if (trimmed.startsWith('/') || trimmed.toLowerCase().startsWith('images/')) {
+            return trimmed;
+        }
+        const segments = trimmed.split('/');
+        const file = segments[segments.length - 1];
+        if (!file) continue;
+        const base = (typeof window !== 'undefined' && window.__ASSET_BASE__) || 'Images/';
+        const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+        return `${normalizedBase}${encodeURIComponent(file)}`;
+    }
+    return null;
+}
+
+function prepareQuestionForDisplay(item) {
+    if (!item || typeof item !== 'object') {
+        return item;
+    }
+
+    const prepared = { ...item };
+    const fallback = sanitizeLearnerFacingText(prepared?.imageMeta?.title || prepared?.stimulusImage?.alt || prepared?.asset?.title || '', 'the image') || 'the image';
+
+    if (typeof prepared.questionText === 'string') {
+        const cleaned = sanitizeLearnerFacingText(prepared.questionText, fallback);
+        prepared.questionText = cleaned;
+    }
+    if (typeof prepared.question === 'string') {
+        const cleaned = sanitizeLearnerFacingText(prepared.question, fallback);
+        prepared.question = cleaned;
+    }
+    if (typeof prepared.rationale === 'string') {
+        prepared.rationale = sanitizeLearnerFacingText(prepared.rationale, fallback);
+    }
+
+    if (typeof prepared.source === 'string') {
+        prepared.source = sanitizeLearnerFacingText(prepared.source, '');
+    }
+    if (typeof prepared.displaySource === 'string') {
+        prepared.displaySource = sanitizeLearnerFacingText(prepared.displaySource, '');
+    }
+
+    if (Array.isArray(prepared.answerOptions)) {
+        prepared.answerOptions = prepared.answerOptions.map((opt) => sanitizeAnswerOption(opt, fallback));
+    }
+
+    prepared.imageMeta = buildImageMeta(prepared, fallback);
+    prepared.resolvedImageUrl = getImageUrl(prepared.imageMeta);
+
+    return prepared;
+}
+
 // --- Main App Component ---
 function App() {
     const SMITHING_PROMPTS = [
@@ -3933,10 +4104,13 @@ function App() {
         }
         return list
             .filter(item => item && typeof item === 'object')
-            .map(item => ({
-                ...item,
-                answerOptions: shuffleArray(Array.isArray(item.answerOptions) ? item.answerOptions : [])
-            }));
+            .map((item) => {
+                const prepared = prepareQuestionForDisplay(item);
+                return {
+                    ...prepared,
+                    answerOptions: shuffleArray(Array.isArray(prepared.answerOptions) ? prepared.answerOptions : [])
+                };
+            });
     };
 
     const startQuiz = (quizPayload, subject) => {
@@ -5628,6 +5802,59 @@ function AdminDashboardView({ isVisible, users, loading, error, onRefresh }) {
 
 
 
+const StimulusFigure = React.memo(function StimulusFigure({ item }) {
+    const imageMeta = React.useMemo(() => {
+        if (item && typeof item === 'object' && item.imageMeta) {
+            return item.imageMeta;
+        }
+        return buildImageMeta(item || {}, 'the image');
+    }, [item]);
+
+    const resolvedUrl = React.useMemo(() => {
+        if (item && typeof item === 'object' && typeof item.resolvedImageUrl === 'string' && item.resolvedImageUrl.trim()) {
+            return item.resolvedImageUrl.trim();
+        }
+        return getImageUrl(imageMeta);
+    }, [item, imageMeta]);
+
+    const [imageFailed, setImageFailed] = React.useState(() => !resolvedUrl);
+
+    React.useEffect(() => {
+        setImageFailed(!resolvedUrl);
+    }, [resolvedUrl]);
+
+    const creditText = typeof imageMeta?.credit === 'string' ? imageMeta.credit : '';
+    const sourceTitle = typeof imageMeta?.source?.title === 'string' ? imageMeta.source.title : '';
+    const titleText = typeof imageMeta?.title === 'string' ? imageMeta.title : '';
+    const fallbackCaption = creditText || sourceTitle || titleText;
+    const missingCaption = fallbackCaption || 'Image unavailable';
+    const figureCaption = (imageFailed || !resolvedUrl) ? missingCaption : fallbackCaption;
+    const shouldRender = Boolean(resolvedUrl) || Boolean(figureCaption);
+
+    if (!shouldRender) {
+        return null;
+    }
+
+    const figureClass = `ss-figure${imageFailed || !resolvedUrl ? ' missing' : ''}`;
+    const altText = titleText ? `Image: ${titleText}` : 'Image';
+
+    return (
+        <figure className={figureClass}>
+            {resolvedUrl && !imageFailed && (
+                <img
+                    src={resolvedUrl}
+                    alt={altText}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    onError={() => setImageFailed(true)}
+                />
+            )}
+            {figureCaption && <figcaption className="ss-figcap">{figureCaption}</figcaption>}
+        </figure>
+    );
+});
+
+
 function Stem({ item }) {
     const passageContent = typeof item.passage === 'string' ? item.passage.trim() : '';
     const questionContent = typeof (item.questionText || item.question) === 'string'
@@ -5642,34 +5869,17 @@ function Stem({ item }) {
         [questionContent]
     );
 
-    const displaySource = (item?.asset && item.asset.displaySource)
-        || item.displaySource
-        || item.source
-        || '';
-
-    const imageSrc = (item?.stimulusImage && item.stimulusImage.src)
-        || (item?.asset && item.asset.imagePath)
-        || '';
-    const imageAlt = (item?.stimulusImage && item.stimulusImage.alt)
-        || '';
+    const sourceCandidates = [
+        item?.imageMeta?.credit,
+        item?.imageMeta?.source?.title,
+        item?.displaySource,
+        item?.source
+    ];
+    const displaySource = sourceCandidates.find((value) => typeof value === 'string' && value.trim()) || '';
 
     return (
         <div className="stem space-y-4">
-            {imageSrc && (
-                <div className="mb-3">
-                    <img
-                        src={imageSrc}
-                        alt={imageAlt || 'stimulus'}
-                        className="max-w-full rounded-md shadow"
-                        loading="lazy"
-                        onError={(event) => {
-                            const failedSrc = event?.currentTarget?.src || imageSrc;
-                            const id = item?.id || item?.questionNumber || 'unknown-item';
-                            console.warn(`[IMG-LOAD] Failed to load ${failedSrc} for ${id}`);
-                        }}
-                    />
-                </div>
-            )}
+            <StimulusFigure item={item} />
 
             {passageContent && (
                 <MathText
@@ -5864,13 +6074,6 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                             <Stem item={currentQ} />
                         </div>
                     </div>
-                    {currentQ.imageUrl && !currentQ.stimulusImage?.src && (
-                        <img
-                            src={currentQ.imageUrl}
-                            alt={`Visual for question ${currentQ.questionNumber}`}
-                            className="my-4 mx-auto rounded-md border max-w-full h-auto"
-                        />
-                    )}
                     {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
                         <div className="my-4 mx-auto max-w-md bg-white border rounded-md p-4 shadow-sm">
                             <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
@@ -6491,9 +6694,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                     <span className="font-semibold question-stem leading-relaxed">{question.questionNumber}.</span>
                                     <Stem item={question} />
                                 </div>
-                                {question.imageUrl && !question.stimulusImage?.src && (
-                                    <img src={question.imageUrl} alt={`Visual for question ${question.questionNumber}`} className="my-2 rounded-md border max-w-xs h-auto" />
-                                )}
+                                <StimulusFigure item={question} />
                                 {GEOMETRY_FIGURES_ENABLED && question.geometrySpec && (
                                     <div className="my-3 max-w-md">
                                         <GeometryFigure spec={question.geometrySpec} className="w-full h-auto" />
@@ -6596,9 +6797,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 <div className="space-y-6">
                     {quiz.questions.map((q, i) => (
                         <div key={i} className={`p-4 rounded-lg transition-colors ${isSubmitted ? (answers[i] === (q.answerOptions || []).find(o=>o.isCorrect)?.text ? 'bg-green-50' : 'bg-red-50') : 'bg-slate-50'}`}>
-                            {q.imageUrl && !(q.stimulusImage && q.stimulusImage.src) && (
-                                <img src={q.imageUrl} alt={`Visual for question ${i + 1}`} className="my-2 rounded-md border max-w-xs h-auto" />
-                            )}
+                            <StimulusFigure item={q} />
                             {GEOMETRY_FIGURES_ENABLED && q.geometrySpec && (
                                 <div className="my-3 max-w-md">
                                     <GeometryFigure spec={q.geometrySpec} className="w-full h-auto" />
