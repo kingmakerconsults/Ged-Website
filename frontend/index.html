@@ -1159,6 +1159,16 @@ function escapeHtml(value) {
         .replace(/>/g, '&gt;');
 }
 
+function safeRemoveChild(parent, child) {
+    if (!parent || !child || typeof parent.contains !== 'function') {
+        return;
+    }
+
+    if (parent.contains(child)) {
+        parent.removeChild(child);
+    }
+}
+
 function toPlainFractions(input) {
     if (input == null) {
         return '';
@@ -1692,99 +1702,46 @@ function GeometryFigure({ spec, className }) {
     );
 }
 
-function postRenderGuardrails(container, { itemIndex } = {}) {
-    if (!container || typeof document === 'undefined' || typeof NodeFilter === 'undefined' || !container.innerHTML) {
-        return;
-    }
-
-    const issues = new Set();
-    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
-    const tableTextNodes = [];
-    while (walker.nextNode()) {
-        const currentNode = walker.currentNode;
-        if (!currentNode || !currentNode.nodeValue) continue;
-        const value = currentNode.nodeValue;
-        if (/<\s*(?:tr|th|td)/i.test(value)) {
-            tableTextNodes.push(currentNode);
+function MathText({ text, className, as: Component = 'span' }) {
+    const content = React.useMemo(() => {
+        if (typeof text !== 'string') {
+            return '';
         }
-    }
-
-    tableTextNodes.forEach(node => {
-        if (!node.parentNode) return;
-        const codeEl = document.createElement('code');
-        codeEl.className = 'raw-html-fragment';
-        codeEl.textContent = node.nodeValue;
-        node.parentNode.replaceChild(codeEl, node);
-        issues.add('tableMarkup');
-    });
-
-    if (issues.size > 0) {
-        const context = typeof itemIndex !== 'undefined' ? ` for item ${itemIndex}` : '';
-        console.warn(`[MathText] Post-render guardrails triggered${context}: ${Array.from(issues).join(', ')}`);
-    }
-}
-
-function MathText({ text, className, subject, itemIndex }) {
-    if (!SHOULD_USE_KATEX) {
-        return (
-            <span className={className}>
-                {toPlainFractions(text ?? '')}
-            </span>
-        );
-    }
-    const containerRef = React.useRef(null);
-
-    const processedText = React.useMemo(() => lintAndRepairMath(text), [text]);
-    const sanitizedHtml = React.useMemo(() => DOMPurify.sanitize(processedText), [processedText]);
-
-    React.useEffect(() => {
-        if (!containerRef.current || !SHOULD_USE_KATEX) return;
-        renderMathInElement(containerRef.current, {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true }
-            ],
-            throwOnError: false
-        });
-        postRenderGuardrails(containerRef.current, { itemIndex });
-    }, [sanitizedHtml, itemIndex]);
+        const cleaned = lintAndRepairMath(text);
+        return SHOULD_USE_KATEX ? cleaned : toPlainFractions(cleaned);
+    }, [text]);
 
     return (
-        <span
-            ref={containerRef}
-            className={className}
-            dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-        />
+        <Component className={className} suppressHydrationWarning>
+            {content}
+        </Component>
     );
 }
 
-function CachedMathText({ html, text, className, subject, itemIndex }) {
-    if (!SHOULD_USE_KATEX) {
-        return (
-            <span className={className}>
-                {toPlainFractions(text ?? '')}
-            </span>
-        );
-    }
+function CachedMathText({ html, text, className, as: Component = 'span' }) {
     const hasHtml = typeof html === 'string' && html.trim().length > 0;
+    const fallbackContent = React.useMemo(() => {
+        if (typeof text !== 'string') {
+            return '';
+        }
+        const cleaned = lintAndRepairMath(text);
+        return SHOULD_USE_KATEX ? cleaned : toPlainFractions(cleaned);
+    }, [text]);
+
     if (hasHtml) {
         return (
-            <span
+            <Component
                 className={className}
                 dangerouslySetInnerHTML={{ __html: html }}
+                suppressHydrationWarning
             />
         );
     }
 
     return (
-        <MathText
-            text={text}
-            className={className}
-            subject={subject}
-            itemIndex={itemIndex}
-        />
+        <Component className={className} suppressHydrationWarning>
+            {fallbackContent}
+        </Component>
     );
 }
 
@@ -2021,9 +1978,6 @@ function renderImageSection(container, imageData, items) {
             const rawStem = q?.question_norm?.stem || q?.question_data?.stem_raw || q?.stem || q?.questionText || '';
             const cleanedStem = stripFileSource(rawStem);
             stem.textContent = SHOULD_USE_KATEX ? cleanedStem : toPlainFractions(cleanedStem);
-            if (SHOULD_USE_KATEX && typeof renderMathInElement === 'function') {
-                renderMathInElement(stem, CLIENT_SIDE_MATH_RENDER_OPTIONS);
-            }
         }
         card.appendChild(stem);
 
@@ -2049,16 +2003,10 @@ function renderImageSection(container, imageData, items) {
                     li.innerHTML = SHOULD_USE_KATEX ? trimmed : escapeHtml(toPlainFractions(trimmed));
                 } else {
                     li.textContent = SHOULD_USE_KATEX ? trimmed : toPlainFractions(trimmed);
-                    if (SHOULD_USE_KATEX && typeof renderMathInElement === 'function') {
-                        renderMathInElement(li, CLIENT_SIDE_MATH_RENDER_OPTIONS);
-                    }
                 }
             } else if (typeof choice === 'string') {
                 const cleanedChoice = stripFileSource(choice);
                 li.textContent = SHOULD_USE_KATEX ? cleanedChoice : toPlainFractions(cleanedChoice);
-                if (SHOULD_USE_KATEX && typeof renderMathInElement === 'function') {
-                    renderMathInElement(li, CLIENT_SIDE_MATH_RENDER_OPTIONS);
-                }
             }
             list.appendChild(li);
         });
@@ -5001,9 +4949,7 @@ function AuthScreen({ onLogin }) {
         return () => {
             script.onload = null;
             script.onerror = null;
-            if (script.parentNode) {
-                script.parentNode.removeChild(script);
-            }
+            safeRemoveChild(script.parentNode, script);
         };
     }, [handleCredentialResponse]);
 
@@ -6108,11 +6054,6 @@ function Stem({ item }) {
     const cachedStemHtml = typeof item?.katex_html_cache?.stem === 'string'
         ? item.katex_html_cache.stem
         : '';
-    const normalizedQuestion = React.useMemo(
-        () => lintAndRepairMath(questionContent),
-        [questionContent]
-    );
-
     const sourceCandidates = [
         item?.imageMeta?.credit,
         item?.imageMeta?.source?.title,
@@ -6127,10 +6068,9 @@ function Stem({ item }) {
 
             {passageContent && (
                 <MathText
-                    text={lintAndRepairMath(passageContent)}
+                    text={passageContent}
                     className="question-stem block"
-                    itemIndex={`${item.questionNumber}-passage`}
-                    subject={item.subject}
+                    as="div"
                 />
             )}
 
@@ -6138,10 +6078,9 @@ function Stem({ item }) {
                 <div className="mt-2">
                     <CachedMathText
                         html={cachedStemHtml}
-                        text={normalizedQuestion}
+                        text={questionContent}
                         className="question-stem block font-bold text-slate-900"
-                        itemIndex={`${item.questionNumber}-question`}
-                        subject={item.subject}
+                        as="div"
                     />
                 </div>
             )}
@@ -6339,7 +6278,9 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     ) : (
                         <div className="space-y-3">
                             {(currentQ.answerOptions || []).map((opt, i) => {
-                                const cleanedOptionText = lintAndRepairMath(opt.text.trim().replace(/^\$\$/, '$'));
+                                const optionText = typeof opt.text === 'string'
+                                    ? stripFileSource(opt.text.trim().replace(/^\$\$/, '$'))
+                                    : '';
                                 const cachedOptionHtml = typeof currentQ?.katex_html_cache?.choices?.[i] === 'string'
                                     ? currentQ.katex_html_cache.choices[i]
                                     : '';
@@ -6357,10 +6298,8 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                             <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
                                             <CachedMathText
                                                 html={cachedOptionHtml}
-                                                text={cleanedOptionText}
+                                                text={optionText}
                                                 className="question-stem"
-                                                itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`}
-                                                subject={subjectForRender}
                                             />
                                         </span>
                                     </button>
@@ -6925,8 +6864,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                         const correctAnswerHtml = typeof question?.katex_html_cache?.choices?.[correctAnswerIndex] === 'string'
                             ? question.katex_html_cache.choices[correctAnswerIndex]
                             : '';
-                        const correctAnswerText = correctAnswer ? lintAndRepairMath(correctAnswer.text) : '';
-                        const correctRationaleText = correctAnswer?.rationale ? lintAndRepairMath(correctAnswer.rationale) : '';
+                        const correctAnswerText = correctAnswer?.text ?? '';
+                        const correctRationaleText = correctAnswer?.rationale ?? '';
                         const isCorrect = correctAnswer && userAnswer === correctAnswer.text;
                         const confidenceLevel = results.confidence ? results.confidence[index] : null;
 
@@ -6959,8 +6898,6 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                             html={correctAnswerHtml}
                                             text={correctAnswerText}
                                             className="question-stem"
-                                            itemIndex={`${question.questionNumber ?? (index + 1)}-correct`}
-                                            subject={question.subject || quiz.subject || 'Math'}
                                         />
                                     </p>
                                 )}
@@ -6970,8 +6907,6 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                         <MathText
                                             text={correctRationaleText}
                                             className="question-stem"
-                                            itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`}
-                                            subject={question.subject || quiz.subject || 'Math'}
                                         />
                                     </div>
                                 )}
@@ -7063,10 +6998,8 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                                         <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
                                             <CachedMathText
                                                 html={typeof q?.katex_html_cache?.choices?.[j] === 'string' ? q.katex_html_cache.choices[j] : ''}
-                                                text={lintAndRepairMath(opt.text)}
+                                                text={typeof opt.text === 'string' ? stripFileSource(opt.text) : ''}
                                                 className="question-stem"
-                                                itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`}
-                                                subject={q.subject || quiz.subject || 'Math'}
                                             />
                                         </span>
                                     </label>
