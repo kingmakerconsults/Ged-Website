@@ -6208,6 +6208,71 @@ function AdminDashboardView({ isVisible, users, loading, error, onRefresh }) {
 
 
 
+const ExamImageFigure = React.memo(function ExamImageFigure({
+    imageRef,
+    subject,
+    metaLayers,
+    className,
+    captionClassName,
+    testId = 'exam-image',
+    tabIndex,
+    fallbackAlt,
+    fallbackCaption
+}) {
+    const normalizedMetaLayers = React.useMemo(() => {
+        if (!Array.isArray(metaLayers)) {
+            return [];
+        }
+        return metaLayers.filter((layer) => layer && typeof layer === 'object');
+    }, [metaLayers]);
+
+    const descriptor = React.useMemo(() => resolveExamImageDescriptor(imageRef, {
+        subject,
+        metaLayers: normalizedMetaLayers,
+        tabIndex,
+        testId,
+        fallbackAlt,
+        fallbackCaption
+    }), [imageRef, subject, normalizedMetaLayers, tabIndex, testId, fallbackAlt, fallbackCaption]);
+
+    const handleError = React.useCallback((event) => {
+        const figure = event?.currentTarget?.closest('[data-testid="exam-image"]');
+        if (figure) {
+            figure.remove();
+        }
+    }, []);
+
+    if (!descriptor) {
+        return null;
+    }
+
+    const figureClassName = ['ss-figure', typeof className === 'string' ? className : '']
+        .filter(Boolean)
+        .join(' ');
+    const figcaptionClassName = ['ss-figcap', typeof captionClassName === 'string' ? captionClassName : '']
+        .filter(Boolean)
+        .join(' ');
+
+    return (
+        <figure
+            className={figureClassName}
+            data-testid={descriptor.testId}
+            tabIndex={typeof descriptor.tabIndex === 'number' ? descriptor.tabIndex : undefined}
+        >
+            <img
+                src={descriptor.url}
+                alt={descriptor.alt}
+                loading="lazy"
+                decoding="async"
+                onError={handleError}
+            />
+            {descriptor.caption && (
+                <figcaption className={figcaptionClassName}>{descriptor.caption}</figcaption>
+            )}
+        </figure>
+    );
+});
+
 const StimulusFigure = React.memo(function StimulusFigure({ item }) {
     const metaLayers = React.useMemo(() => {
         const layers = [];
@@ -6227,43 +6292,23 @@ const StimulusFigure = React.memo(function StimulusFigure({ item }) {
         item?.exam_subject
     ), [item]);
 
-    const descriptor = React.useMemo(() => resolveExamImageDescriptor(
+    const imageRef = React.useMemo(() => (
         (item && typeof item === 'object' && item.imageRef)
             || item?.stimulusImage
-            || item,
-        {
-            subject,
-            metaLayers,
-            tabIndex: 0
-        }
-    ), [item, metaLayers, subject]);
+            || item
+    ), [item]);
 
-    const handleError = React.useCallback((event) => {
-        const figure = event?.currentTarget?.closest('[data-testid="exam-image"]');
-        if (figure) {
-            figure.remove();
-        }
-    }, []);
-
-    if (!descriptor) {
+    if (!imageRef) {
         return null;
     }
 
     return (
-        <figure
-            className="ss-figure"
-            data-testid={descriptor.testId}
-            tabIndex={descriptor.tabIndex ?? undefined}
-        >
-            <img
-                src={descriptor.url}
-                alt={descriptor.alt}
-                loading="lazy"
-                decoding="async"
-                onError={handleError}
-            />
-            {descriptor.caption && <figcaption className="ss-figcap">{descriptor.caption}</figcaption>}
-        </figure>
+        <ExamImageFigure
+            imageRef={imageRef}
+            subject={subject}
+            metaLayers={metaLayers}
+            tabIndex={0}
+        />
     );
 });
 
@@ -7206,6 +7251,51 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
      const [answers, setAnswers] = useState({});
      const [isSubmitted, setIsSubmitted] = useState(false);
 
+    const articleImageMetaLayers = React.useMemo(() => {
+        if (!quiz || typeof quiz !== 'object') {
+            return [];
+        }
+        const layers = [];
+        if (quiz.imageMeta) layers.push(quiz.imageMeta);
+        if (quiz.imageRef?.imageMeta) layers.push(quiz.imageRef.imageMeta);
+        if (quiz.article?.imageMeta) layers.push(quiz.article.imageMeta);
+        if (quiz.article?.imageRef?.imageMeta) layers.push(quiz.article.imageRef.imageMeta);
+        if (quiz.article?.meta) layers.push(quiz.article.meta);
+        if (quiz.article?.metadata) layers.push(quiz.article.metadata);
+        return layers;
+    }, [quiz]);
+
+    const articleImageSubject = React.useMemo(() => inferExamSubject(
+        quiz?.subject,
+        quiz?.subjectName,
+        quiz?.subject_name,
+        quiz?.subjectArea,
+        quiz?.subject_area,
+        quiz?.exam_subject,
+        quiz?.article?.subject,
+        quiz?.article?.subjectName,
+        quiz?.article?.subject_area,
+        quiz?.article?.subjectArea
+    ), [quiz]);
+
+    const articleImageRef = React.useMemo(() => {
+        if (!quiz || typeof quiz !== 'object') {
+            return null;
+        }
+        if (quiz.article?.imageRef) return quiz.article.imageRef;
+        if (quiz.imageRef) return quiz.imageRef;
+        if (quiz.article?.image) return quiz.article.image;
+        if (quiz.article?.imageUrl) return quiz.article.imageUrl;
+        if (quiz.imageUrl) return quiz.imageUrl;
+        return null;
+    }, [quiz]);
+
+    const shouldRenderArticleImage = React.useMemo(() => (
+        Boolean(articleImageRef)
+        && typeof articleImageSubject === 'string'
+        && EXAM_IMAGE_SUBJECTS.has(articleImageSubject)
+    ), [articleImageRef, articleImageSubject]);
+
     const handleAnswer = (qIndex, answer) => {
         if(isSubmitted) return;
         setAnswers(prev => ({ ...prev, [qIndex]: answer }));
@@ -7243,7 +7333,17 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                     dangerouslySetInnerHTML={{ __html: renderStem(lintAndRepairMath(quiz.article.title)) }}
                 />
                 <p className="text-sm italic text-slate-500">{quiz.article.genre}</p>
-                {quiz.imageUrl && <img src={quiz.imageUrl} alt="Article supplemental image" className="my-4 mx-auto rounded-md border" />}
+                {shouldRenderArticleImage && (
+                    <ExamImageFigure
+                        imageRef={articleImageRef}
+                        subject={articleImageSubject}
+                        metaLayers={articleImageMetaLayers}
+                        className="mt-4"
+                        testId="article-exam-image"
+                        tabIndex={0}
+                        fallbackAlt="Article supplemental image"
+                    />
+                )}
                 {quiz.article.text.map((p, i) => (
                     <p
                         key={i}
