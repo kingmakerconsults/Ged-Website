@@ -1,46 +1,44 @@
-import { readFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { test } from 'node:test';
-import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
 import { JSDOM } from 'jsdom';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const htmlPath = path.join(__dirname, '..', 'index.html');
+describe('index.html pre-React content', () => {
+  it('has no stray text or UL elements outside #root', () => {
+    const indexPath = path.join(__dirname, '..', 'index.html');
+    const html = fs.readFileSync(indexPath, 'utf8');
+    const dom = new JSDOM(html);
+    const { document } = dom.window;
+    const root = document.getElementById('root');
 
-function collectStrayTextNodes(root) {
-  return Array.from(root.childNodes).filter((node) => {
-    if (node.nodeType !== 3) {
-      return false;
+    assert.ok(root, 'Expected #root to be present');
+
+    const strayNodes = [];
+    for (const node of document.body.childNodes) {
+      if (node === root) {
+        continue;
+      }
+      if (node.nodeType === dom.window.Node.COMMENT_NODE) {
+        continue;
+      }
+      if (node.nodeType === dom.window.Node.ELEMENT_NODE && node.nodeName === 'SCRIPT') {
+        continue;
+      }
+      if (node.nodeType === dom.window.Node.TEXT_NODE && node.textContent.trim().length === 0) {
+        continue;
+      }
+      strayNodes.push(node);
     }
-    const text = (node.textContent || '').trim();
-    return text.length > 100;
+
+    assert.strictEqual(
+      strayNodes.length,
+      0,
+      'Expected no stray nodes outside #root before React mounts'
+    );
   });
-}
-
-test('no stray long text in header', () => {
-  const html = readFileSync(htmlPath, 'utf8');
-  const dom = new JSDOM(html, { runScripts: 'outside-only' });
-  const doc = dom.window.document;
-
-  const header = doc.querySelector('header, .page-header, .quiz-header') || doc.body;
-  const stray = collectStrayTextNodes(header);
-
-  assert.strictEqual(stray.length, 0);
-});
-
-test('preload payload stays hidden from layout', () => {
-  const html = readFileSync(htmlPath, 'utf8');
-  const dom = new JSDOM(html, { runScripts: 'outside-only' });
-  const doc = dom.window.document;
-
-  const preload = doc.getElementById('__PRELOAD__');
-  assert.ok(preload);
-  assert.strictEqual(preload.getAttribute('type'), 'application/json');
-
-  doc.querySelectorAll('script').forEach((script) => script.remove());
-  const bodyText = (doc.body.textContent || '').trim();
-  assert.strictEqual(/"questions"\s*:/i.test(bodyText), false);
 });

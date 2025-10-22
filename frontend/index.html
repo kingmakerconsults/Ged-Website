@@ -261,36 +261,44 @@
     </style>
 </head>
 <body class="bg-slate-100">
-    <div id="app">
-        <div id="root"></div>
-        <div id="section-root" class="mx-auto my-6 max-w-4xl px-4"></div>
+    <div id="root"></div>
 
-        <div
-            id="student-scores-modal"
-            class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="student-scores-modal-title"
-        >
-            <div class="modal-panel w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
-                <div class="flex items-start justify-between gap-4">
-                    <div>
-                        <h3 id="student-scores-modal-title" class="text-xl font-semibold text-slate-800">
-                            Student Test Scores
-                        </h3>
-                        <p id="student-scores-modal-subtitle" class="mt-1 text-sm text-slate-500"></p>
-                    </div>
-                    <button
-                        type="button"
-                        id="close-scores-modal"
-                        class="rounded-md border border-slate-200 px-3 py-1 text-sm font-medium text-slate-600 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400/70"
-                    >
-                        Close
-                    </button>
-                </div>
-                <ul id="scores-list-container" class="mt-4 space-y-3 text-slate-700"></ul>
-            </div>
-        </div>
+    <script>
+      (function cleanPreRender() {
+        if (typeof document === 'undefined') {
+          return;
+        }
+        const { body } = document;
+        if (!body) {
+          return;
+        }
+        const root = document.getElementById('root');
+        if (!root) {
+          return;
+        }
+        const NodeCtor = document.defaultView && document.defaultView.Node ? document.defaultView.Node : window.Node;
+        for (const node of Array.from(body.childNodes)) {
+          if (node === root) {
+            continue;
+          }
+          const nodeType = node && typeof node.nodeType === 'number' ? node.nodeType : null;
+          if (nodeType === (NodeCtor ? NodeCtor.COMMENT_NODE : 8)) {
+            continue;
+          }
+          if (nodeType === (NodeCtor ? NodeCtor.ELEMENT_NODE : 1) && node.nodeName === 'SCRIPT') {
+            continue;
+          }
+          if (nodeType === (NodeCtor ? NodeCtor.TEXT_NODE : 3) && !(node.textContent || '').trim()) {
+            node.remove();
+            continue;
+          }
+          if (nodeType === (NodeCtor ? NodeCtor.TEXT_NODE : 3) || node.nodeName === 'UL') {
+            node.remove();
+            continue;
+          }
+        }
+      })();
+    </script>
 
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
@@ -796,36 +804,105 @@ const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath,
 
 const API_BASE_URL = 'https://ged-website.onrender.com';
 
-function hideStudentScoresModal() {
-    const modal = document.getElementById('student-scores-modal');
-    if (modal) {
-        modal.style.display = 'none';
+function getStudentScoresElements(createIfMissing = false) {
+    if (typeof document === 'undefined') {
+        return null;
+    }
+
+    let modal = document.getElementById('student-scores-modal');
+    if (!modal && !createIfMissing) {
+        return null;
+    }
+
+    if (!modal) {
+        const doc = document;
+        modal = doc.createElement('div');
+        modal.id = 'student-scores-modal';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
         modal.setAttribute('aria-hidden', 'true');
+        modal.style.display = 'none';
+
+        const panel = doc.createElement('div');
+        panel.className = 'modal-panel w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl';
+        modal.appendChild(panel);
+
+        const header = doc.createElement('div');
+        header.className = 'flex items-start justify-between gap-4';
+        panel.appendChild(header);
+
+        const titleWrapper = doc.createElement('div');
+        header.appendChild(titleWrapper);
+
+        const title = doc.createElement('h3');
+        title.id = 'student-scores-modal-title';
+        title.className = 'text-xl font-semibold text-slate-800';
+        setSafeText(title, 'Student Test Scores');
+        titleWrapper.appendChild(title);
+
+        const subtitle = doc.createElement('p');
+        subtitle.id = 'student-scores-modal-subtitle';
+        subtitle.className = 'mt-1 text-sm text-slate-500';
+        titleWrapper.appendChild(subtitle);
+
+        const closeButton = doc.createElement('button');
+        closeButton.type = 'button';
+        closeButton.id = 'close-scores-modal';
+        closeButton.className = 'rounded-md border border-slate-200 px-3 py-1 text-sm font-medium text-slate-600 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400/70';
+        setSafeText(closeButton, 'Close');
+        header.appendChild(closeButton);
+
+        const list = doc.createElement('ul');
+        list.id = 'scores-list-container';
+        list.className = 'mt-4 space-y-3 text-slate-700';
+        panel.appendChild(list);
+
+        closeButton.addEventListener('click', hideStudentScoresModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                hideStudentScoresModal();
+            }
+        });
+
+        doc.body?.appendChild(modal);
     }
+
     const list = document.getElementById('scores-list-container');
-    if (list) {
-        list.replaceChildren();
-    }
     const subtitle = document.getElementById('student-scores-modal-subtitle');
-    if (subtitle) {
-        setSafeText(subtitle, '');
+    const closeButton = document.getElementById('close-scores-modal');
+
+    if (!list || !subtitle || !closeButton) {
+        return null;
     }
+
+    return { modal, list, subtitle, closeButton };
 }
 
-async function showStudentScores(userId, displayName = '') {
-    const modal = document.getElementById('student-scores-modal');
-    const list = document.getElementById('scores-list-container');
-    const subtitle = document.getElementById('student-scores-modal-subtitle');
-
-    if (!modal || !list) {
-        console.warn('Student scores modal is not available in the DOM.');
+function hideStudentScoresModal() {
+    const elements = getStudentScoresElements(false);
+    if (!elements) {
         return;
     }
 
-    const resolvedName = typeof displayName === 'string' ? displayName.trim() : '';
-    if (subtitle) {
-        setSafeText(subtitle, resolvedName);
+    const { modal, list, subtitle } = elements;
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    list.replaceChildren();
+    setSafeText(subtitle, '');
+}
+
+async function showStudentScores(userId, displayName = '') {
+    const elements = getStudentScoresElements(true);
+    if (!elements) {
+        console.warn('Student scores modal could not be created.');
+        return;
     }
+
+    const { modal, list, subtitle } = elements;
+
+    const resolvedName = typeof displayName === 'string' ? displayName.trim() : '';
+    setSafeText(subtitle, resolvedName);
 
     list.replaceChildren();
 
@@ -937,23 +1014,6 @@ async function showStudentScores(userId, displayName = '') {
 
 window.showStudentScores = showStudentScores;
 window.hideStudentScoresModal = hideStudentScoresModal;
-
-window.addEventListener('DOMContentLoaded', () => {
-    const closeButton = document.getElementById('close-scores-modal');
-    if (closeButton) {
-        closeButton.addEventListener('click', hideStudentScoresModal);
-    }
-
-    const modal = document.getElementById('student-scores-modal');
-    if (modal) {
-        modal.setAttribute('aria-hidden', 'true');
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                hideStudentScoresModal();
-            }
-        });
-    }
-});
 
 window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -2378,35 +2438,33 @@ function renderImageSection(container, imageData, items) {
     });
 }
 
+const LAST_IMAGE_BANK_PAYLOAD_KEY = '__LAST_IMAGE_BANK_PAYLOAD__';
+let lastImageBankPayload = null;
+
 function handleImageBankPayload(payload) {
-    if (typeof document === 'undefined') {
-        return;
+    if (!payload || typeof payload !== 'object') {
+        lastImageBankPayload = null;
+    } else {
+        try {
+            lastImageBankPayload = JSON.parse(JSON.stringify(payload));
+        } catch (error) {
+            console.warn('Unable to clone image bank payload:', error);
+            lastImageBankPayload = payload;
+        }
     }
 
-    const container = document.getElementById('section-root');
-    if (!container) {
-        return;
+    if (typeof window !== 'undefined') {
+        window[LAST_IMAGE_BANK_PAYLOAD_KEY] = lastImageBankPayload;
     }
 
-    container.replaceChildren();
-
-    if (!payload) {
-        return;
-    }
-
-    const image = payload.image || payload.image_data || null;
-    const questions = Array.isArray(payload.questions) ? payload.questions : null;
-    if (!image || !questions || !questions.length) {
-        return;
-    }
-
-    renderImageSection(container, image, questions);
+    return lastImageBankPayload;
 }
 
 window.renderExamImage = renderExamImage;
 window.resolveExamImageDescriptor = resolveExamImageDescriptor;
 window.renderImageSection = renderImageSection;
 window.handleImageBankPayload = handleImageBankPayload;
+window.getLastImageBankPayload = () => lastImageBankPayload;
 
 function escapeCurrencyDollarsMathSafe(input) {
     if (typeof input !== 'string') return input;
@@ -9005,7 +9063,6 @@ if (container && container.hasChildNodes()) {
 }
 
 </script>
-    </div>
 
 </body>
 </html>
