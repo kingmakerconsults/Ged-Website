@@ -9,6 +9,9 @@
     "img:stats": "node tools/gov-image-harvester/inspect.mjs --stats",
     "img:keywords:sci": "node tools/gov-image-harvester/inspect.mjs --keywords Science",
     "img:verify": "node tools/gov-image-harvester/inspect.mjs --verify-paths",
+    "img:check": "node scripts/check-metadata.js",
+    "img:probe": "node scripts/probe-random.js",
+    "img:smoke": "node scripts/smoke-generate.js",
     "build-images": "node tools/build-image-index.mjs",
     "validate-images": "node tools/validate-image-index.mjs",
     "probe-images": "node tools/probe-images.mjs"
