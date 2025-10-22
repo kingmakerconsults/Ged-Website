@@ -1925,6 +1925,234 @@ function normalizeStimulusAndSource(item) {
     return out;
 }
 
+const IMAGING_SUBJECTS = new Set([
+    'science',
+    'social studies',
+    'math',
+    'mathematics',
+    'reasoning through language arts',
+    'reasoning through language arts rla',
+    'rla'
+]);
+
+function normalizeImagingSubject(value) {
+    if (!value) return '';
+    return String(value)
+        .toLowerCase()
+        .replace(/[()]/g, ' ')
+        .replace(/[^a-z0-9]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function isImagingEnabledForSubject(subject) {
+    const normalized = normalizeImagingSubject(subject);
+    if (!normalized) return false;
+    return Array.from(IMAGING_SUBJECTS).some((entry) => normalizeImagingSubject(entry) === normalized);
+}
+
+function collectImageAvoidIds(questions = []) {
+    const avoid = new Set();
+    questions.forEach((question, index) => {
+        if (!question || typeof question !== 'object') return;
+        const refs = [
+            question?.stimulusImage?.src,
+            question?.stimulusImage?.imageUrl,
+            question?.imageUrl,
+            question?.imageRef?.imageUrl,
+            question?.asset?.imagePath
+        ];
+        for (const ref of refs) {
+            if (typeof ref !== 'string' || !ref.trim()) continue;
+            const meta = resolveImageMeta(ref);
+            if (meta?.id) {
+                avoid.add(meta.id);
+            }
+            if (!meta?.src || /placeholder/i.test(String(meta.src))) {
+                const label = question?.id || question?.questionNumber || index;
+                console.warn(`[IMAGING] Placeholder or missing image metadata for item ${label}.`);
+            }
+            if (meta?.id) {
+                break;
+            }
+        }
+    });
+    return avoid;
+}
+
+function stripQuestionImages(question, idx, subject) {
+    if (!question || typeof question !== 'object') return question;
+    const out = { ...question };
+    let changed = false;
+
+    if (out.stimulusImage) {
+        delete out.stimulusImage;
+        changed = true;
+    }
+    if (out.imageRef) {
+        delete out.imageRef;
+        changed = true;
+    }
+    if (out.imageUrl) {
+        delete out.imageUrl;
+        changed = true;
+    }
+    if (out.asset && typeof out.asset === 'object') {
+        const assetCopy = { ...out.asset };
+        if ('imagePath' in assetCopy) {
+            delete assetCopy.imagePath;
+            changed = true;
+        }
+        if (Object.keys(assetCopy).length) {
+            out.asset = assetCopy;
+        } else {
+            delete out.asset;
+        }
+    }
+
+    if (changed) {
+        const label = out.id || out.questionNumber || idx;
+        console.log(`[IMAGING] Removed image payload for ${subject || 'unknown'} item ${label}; imaging disabled.`);
+    }
+
+    return out;
+}
+
+function heroCandidatesForSubject(subject, { topic, limit = 10, extra = [] } = {}) {
+    const normalizedSubject = normalizeImagingSubject(subject);
+    const seen = new Set();
+    const out = [];
+
+    const addCandidate = (candidate) => {
+        if (!candidate || typeof candidate !== 'object') return;
+        const key = candidate.id || candidate.file || candidate.fileName || candidate.url || candidate.filePath || candidate.src;
+        if (!key || seen.has(key)) return;
+        seen.add(key);
+        out.push(candidate);
+    };
+
+    extra.forEach(addCandidate);
+
+    if (normalizedSubject) {
+        curatedImages
+            .filter((img) => {
+                const subjectToken = normalizeImagingSubject(img?.subject || img?.domain);
+                if (subjectToken && subjectToken === normalizedSubject) return true;
+                if (Array.isArray(img?.tags)) {
+                    return img.tags.some((tag) => normalizeImagingSubject(tag) === normalizedSubject);
+                }
+                return false;
+            })
+            .forEach(addCandidate);
+    }
+
+    if (topic) {
+        const topicToken = normalizeImagingSubject(topic);
+        if (topicToken) {
+            curatedImages
+                .filter((img) => normalizeImagingSubject(img?.category) === topicToken)
+                .forEach(addCandidate);
+        }
+    }
+
+    if (!out.length && normalizedSubject) {
+        findImagesForSubjectTopic(subject, topic || '', limit).forEach(addCandidate);
+    }
+
+    if (!out.length) {
+        curatedImages.slice(0, limit).forEach(addCandidate);
+    }
+
+    return out.slice(0, limit);
+}
+
+function resolveHeroImageForSubject(subject, { candidates = [], avoidIds } = {}) {
+    if (!Array.isArray(candidates) || !candidates.length) {
+        return null;
+    }
+
+    const avoid = avoidIds || new Set();
+
+    for (const candidate of candidates) {
+        const ref = typeof candidate === 'string'
+            ? candidate
+            : candidate?.id
+                || candidate?.file
+                || candidate?.fileName
+                || candidate?.filePath
+                || candidate?.src
+                || candidate?.url;
+        if (!ref || (typeof ref === 'string' && !ref.trim())) continue;
+
+        const meta = resolveImageMeta(ref);
+        if (!meta?.src) {
+            console.warn(`[IMAGING] Failed to resolve hero candidate ${ref} for ${subject || 'unknown'}.`);
+            continue;
+        }
+
+        const normalizedSrc = normalizeImagePath(meta.src);
+        const heroId = meta?.id || meta?.record?.id || (typeof candidate === 'object' ? candidate.id : null) || normalizedSrc;
+        if (heroId && avoid.has(heroId)) {
+            continue;
+        }
+
+        if (heroId) {
+            avoid.add(heroId);
+        }
+
+        return {
+            id: heroId || null,
+            subject: subject || null,
+            src: encodeURI(normalizedSrc),
+            alt: meta?.altText || meta?.alt || (typeof candidate === 'object' ? candidate.altText || candidate.title : null) || `Illustration for ${subject || 'exam'}`,
+            credit: meta?.credit || meta?.displaySource || (typeof candidate === 'object' ? candidate.credit : '') || '',
+            caption: meta?.caption || (typeof candidate === 'object' ? candidate.caption : '') || ''
+        };
+    }
+
+    return null;
+}
+
+function finalizeQuizResponse(quiz, { subject, topic, heroCandidates = [] } = {}) {
+    if (!quiz || typeof quiz !== 'object') {
+        return quiz;
+    }
+
+    const questions = Array.isArray(quiz.questions) ? quiz.questions : [];
+    const allowImages = isImagingEnabledForSubject(subject);
+    const avoidIds = collectImageAvoidIds(questions);
+    const payload = {
+        ...quiz,
+        questions: allowImages
+            ? questions
+            : questions.map((question, idx) => stripQuestionImages(question, idx, subject)),
+        imagesAllowed: allowImages
+    };
+
+    if (!allowImages) {
+        if (payload.heroImage) {
+            console.log(`[IMAGING] Removing pre-existing heroImage for subject ${subject || 'unknown'} because imaging is disabled.`);
+        }
+        delete payload.heroImage;
+        console.log(`[IMAGING] Subject ${subject || 'unknown'} not eligible for hero imagery; payload stripped.`);
+        return payload;
+    }
+
+    const candidates = heroCandidates.length
+        ? heroCandidates
+        : heroCandidatesForSubject(subject, { topic });
+
+    const heroImage = resolveHeroImageForSubject(subject, { candidates, avoidIds });
+    if (heroImage) {
+        payload.heroImage = heroImage;
+    } else {
+        console.warn(`[IMAGING] No hero image resolved for subject ${subject || 'unknown'}; clients should use placeholders.`);
+        delete payload.heroImage;
+    }
+
+    return payload;
+}
+
 const QuestionSchema = {
     type: 'object',
     required: ['id', 'questionType', 'questionText'],
@@ -6710,7 +6938,7 @@ app.post('/generate-quiz', async (req, res) => {
                 console.log("Social Studies draft complete. Sending for second pass review...");
                 const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
                 logGenerationDuration(examType, subject, generationStart);
-                res.json(finalQuiz);
+                res.json(finalizeQuizResponse(finalQuiz, { subject }));
 
             } catch (error) {
                 console.error('Error generating Social Studies exam:', error);
@@ -6750,7 +6978,7 @@ app.post('/generate-quiz', async (req, res) => {
                 console.log("Science draft complete. Sending for second pass review...");
                 const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
                 logGenerationDuration(examType, subject, generationStart);
-                res.json(finalQuiz);
+                res.json(finalizeQuizResponse(finalQuiz, { subject }));
 
             } catch (error) {
                 console.error('Error generating Science exam:', error);
@@ -6810,7 +7038,7 @@ app.post('/generate-quiz', async (req, res) => {
 
         // RLA does not need a second review pass due to its complex, multi-part nature
         logGenerationDuration(examType, subject, generationStart);
-        res.json(finalQuiz);
+        res.json(finalizeQuizResponse(finalQuiz, { subject }));
 
     } catch (error) {
         console.error('Error generating comprehensive RLA exam:', error);
@@ -6926,7 +7154,7 @@ app.post('/generate-quiz', async (req, res) => {
         const finalQuiz = draftQuiz;
 
         logGenerationDuration(examType, subject, generationStart);
-        res.json(finalQuiz);
+        res.json(finalizeQuizResponse(finalQuiz, { subject }));
 
     } catch (error) {
         console.error('Error generating comprehensive Math exam:', error);
@@ -6988,7 +7216,7 @@ app.post('/generate-quiz', async (req, res) => {
                 };
 
                 logGenerationDuration(examType, subject, generationStart);
-                res.json(finalQuiz);
+                res.json(finalizeQuizResponse(finalQuiz, { subject, topic }));
                 return;
             }
 
@@ -7045,7 +7273,7 @@ app.post('/generate-quiz', async (req, res) => {
                 };
 
                 logGenerationDuration(examType, subject, generationStart);
-                res.json(finalQuiz);
+                res.json(finalizeQuizResponse(finalQuiz, { subject, topic }));
 
                 if (generatedClonesForBank.length) {
                     scheduleGeneratedQuestionSave({
@@ -7095,7 +7323,7 @@ app.post('/generate-quiz', async (req, res) => {
             };
 
             logGenerationDuration(examType, subject, generationStart);
-            res.json(finalQuiz);
+            res.json(finalizeQuizResponse(finalQuiz, { subject, topic }));
 
         } catch (error) {
             const errorMessage = req.body.topic ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating topic-specific quiz';
