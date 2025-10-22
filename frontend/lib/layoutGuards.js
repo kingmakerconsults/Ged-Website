@@ -2,7 +2,7 @@ const HEADER_SELECTOR = '.page-header, header, .quiz-header';
 export const STRAY_TEXT_THRESHOLD = 100;
 const MAX_QUIZ_TITLE_LENGTH = 140;
 export const PRELOAD_ELEMENT_ID = '__PRELOAD__';
-export const APP_ROOT_ID = 'app';
+export const APP_ROOT_ID = 'root';
 
 const DEFAULT_NODE_TYPES = {
   TEXT: 3,
