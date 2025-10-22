@@ -1,10 +1,8 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
+const { jsonrepair } = require('jsonrepair');
 
-const META_CANDIDATES = [
-  path.join(__dirname, '..', 'data', 'image_metadata_final.json'),
-  path.join(__dirname, '..', 'data', 'image_metadata.json'),
-];
+const META_PATH = path.join(__dirname, '..', 'data', 'image_metadata_final.json');
 
 // CHANGE THIS if your public image path is different:
 const IMAGE_BASE = '/images/social/';
@@ -27,22 +25,28 @@ function normalizeRecord(rec = {}) {
 }
 
 function loadImageMeta() {
-  for (const p of META_CANDIDATES) {
-    try {
-      if (!fs.existsSync(p)) continue;
-      const raw = fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, '');
-      const parsed = JSON.parse(raw);
-      const arr = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.images) ? parsed.images : []);
-      const normalized = arr.map(normalizeRecord).filter(Boolean);
-
-      const seen = new Set();
-      const deduped = normalized.filter(r => (seen.has(r.id) ? false : (seen.add(r.id), true)));
-
-      console.log('[images] loaded ' + deduped.length + ' from ' + path.basename(p));
-      return deduped; // IMPORTANT
-    } catch (e) {
-      console.warn('[images] failed to load ' + p + ': ' + (e && e.message ? e.message : e));
+  try {
+    if (!fs.existsSync(META_PATH)) {
+      console.warn('[images] metadata file not found:', META_PATH);
+      return [];
     }
+    const raw = fs.readFileSync(META_PATH, 'utf8').replace(/^\uFEFF/, '');
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch (err) {
+      parsed = JSON.parse(jsonrepair(raw));
+    }
+    const arr = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.images) ? parsed.images : []);
+    const normalized = arr.map(normalizeRecord).filter(Boolean);
+
+    const seen = new Set();
+    const deduped = normalized.filter(r => (seen.has(r.id) ? false : (seen.add(r.id), true)));
+
+    console.log('[images] loaded ' + deduped.length + ' from ' + META_PATH);
+    return deduped; // IMPORTANT
+  } catch (e) {
+    console.warn('[images] failed to load ' + META_PATH + ': ' + (e && e.message ? e.message : e));
   }
   console.warn('[images] no metadata file found; returning empty list');
   return []; // IMPORTANT

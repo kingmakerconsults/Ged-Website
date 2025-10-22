@@ -3,7 +3,7 @@ const path = require('path');
 const { jsonrepair } = require('jsonrepair');
 const { recordProbeFailure } = require('./imageDiagnostics');
 
-const META_FILENAMES = ['image_metadata_final.json', 'image_metadata.json'];
+const META_FILENAMES = ['image_metadata_final.json'];
 const DEFAULT_ALT = 'Social studies image';
 const DEFAULT_SUBJECT = 'social_studies';
 const HEAD_TIMEOUT_MS = 5000;

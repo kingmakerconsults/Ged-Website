@@ -29,7 +29,6 @@ const axios = require('axios');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const { jsonrepair } = require('jsonrepair');
-const { loadImageMeta, resolveImageRef } = require('./src/images/metaLoader');
 const { assertValidImageRef } = require('./src/images/validateImageRef');
 const imageDiagnostics = require('./src/images/imageDiagnostics');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
@@ -1115,16 +1114,72 @@ function safeJson(raw) {
     }
 }
 
-function emptyMeta() {
-    return { list: [], byFile: new Map(), byId: new Map(), byUrl: new Map(), path: null };
-}
-
-let IMAGE_META = emptyMeta();
 let IMAGE_DB = [];
 const IMAGE_BY_FILE = new Map();
 const IMAGE_BY_ID = new Map();
 const IMAGE_BY_URL = new Map();
 const MISSING_IMAGE_LOG = new Set();
+const IMAGE_METADATA_PATH = path.join(__dirname, 'data', 'image_metadata_final.json');
+
+function stripBOM(s) {
+    return s && s.charCodeAt(0) === 0xFEFF ? s.slice(1) : s;
+}
+
+function coerceToArray(raw) {
+    const s = stripBOM(String(raw || '')).trim();
+    if (!s) return [];
+    try {
+        const parsed = JSON.parse(s);
+        return Array.isArray(parsed) ? parsed : (Array.isArray(parsed?.list) ? parsed.list : []);
+    } catch (err) {
+        // ignore and try repair
+    }
+    try {
+        const repaired = JSON.parse(jsonrepair(s));
+        return Array.isArray(repaired) ? repaired : (Array.isArray(repaired?.list) ? repaired.list : []);
+    } catch (err) {
+        // ignore and continue with other heuristics
+    }
+
+    if (s.startsWith('{')) {
+        const glued = `[${s.replace(/}\s*{/g, '},{')}]`;
+        try {
+            const gluedParsed = JSON.parse(glued);
+            if (Array.isArray(gluedParsed)) return gluedParsed;
+        } catch (err) {
+            // ignore and continue
+        }
+    }
+
+    const lines = s.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    if (lines.length > 1) {
+        const arr = [];
+        for (const line of lines) {
+            try {
+                arr.push(JSON.parse(jsonrepair(line)));
+            } catch (err) {
+                // ignore line level failures
+            }
+        }
+        if (arr.length) return arr;
+    }
+
+    throw new Error('Unparseable metadata');
+}
+
+function normalizeImageRecord(rec) {
+    if (!rec || typeof rec !== 'object') return null;
+    const file = rec.file || rec.fileName || rec.path || rec.src || rec.url;
+    if (!file) return null;
+    const imageUrl = rec.imageUrl || rec.url || rec.src || rec.path || null;
+    return {
+        ...rec,
+        original: rec.original || rec,
+        file,
+        fileName: rec.fileName || rec.file || rec.path || rec.src || rec.url,
+        imageUrl
+    };
+}
 
 function normalizeImagePath(input) {
     if (!input || typeof input !== 'string') return '';
@@ -1209,7 +1264,7 @@ function enrichImageRecord(record = {}) {
         || category
         || 'photo';
 
-    const normalizedPath = normalizeImagePath(record.url || record.filePath || record.src || record.file || '');
+    const normalizedPath = normalizeImagePath(record.imageUrl || record.url || record.filePath || record.src || record.file || '');
     const altText = typeof record.alt === 'string' && record.alt.trim() ? record.alt : 'Social studies image';
     const caption = typeof record.caption === 'string' ? record.caption : '';
     const credit = typeof record.credit === 'string' ? record.credit : '';
@@ -1236,6 +1291,7 @@ function enrichImageRecord(record = {}) {
         filePath: normalizedPath || record.file || '',
         src: normalizedPath || record.url || '',
         url: normalizedPath || record.url || '',
+        imageUrl: normalizedPath,
         altText,
         caption,
         credit,
@@ -1243,24 +1299,34 @@ function enrichImageRecord(record = {}) {
     };
 }
 
-function installImageMetadata(meta) {
-    IMAGE_META = meta;
-    IMAGE_DB = meta.list.map(enrichImageRecord).filter(Boolean);
+function installImageMetadata(list) {
+    IMAGE_DB = list
+        .map(normalizeImageRecord)
+        .filter(Boolean)
+        .map(enrichImageRecord)
+        .filter(Boolean);
+
     IMAGE_BY_FILE.clear();
     IMAGE_BY_ID.clear();
     IMAGE_BY_URL.clear();
     for (const entry of IMAGE_DB) {
         if (!entry || typeof entry !== 'object') continue;
-        const { file, fileName, id, filePath, src, url } = entry;
-        const fileKeys = [file, fileName].filter(Boolean);
+        const { file, fileName, id, filePath, src, url, imageUrl } = entry;
+        const fileKeys = [file, fileName]
+            .map((value) => (typeof value === 'string' ? value.trim() : ''))
+            .filter(Boolean);
         for (const key of fileKeys) {
             IMAGE_BY_FILE.set(key, entry);
-            IMAGE_BY_FILE.set(String(key).toLowerCase(), entry);
+            IMAGE_BY_FILE.set(key.toLowerCase(), entry);
         }
-        if (id) {
-            IMAGE_BY_ID.set(id, entry);
+        if (id != null) {
+            const idKey = String(id).trim();
+            if (idKey) {
+                IMAGE_BY_ID.set(idKey, entry);
+                IMAGE_BY_ID.set(idKey.toLowerCase(), entry);
+            }
         }
-        const urlCandidates = [filePath, src, url]
+        const urlCandidates = [imageUrl, filePath, src, url]
             .map((value) => (typeof value === 'string' ? value.trim() : ''))
             .filter(Boolean);
         for (const candidate of urlCandidates) {
@@ -1268,6 +1334,13 @@ function installImageMetadata(meta) {
             IMAGE_BY_URL.set(lower, entry);
             IMAGE_BY_URL.set(lower.replace(/^\//, ''), entry);
             IMAGE_BY_URL.set(candidate, entry);
+        }
+    }
+    console.log(`[images] loaded ${IMAGE_DB.length} metadata records`);
+    for (const sample of IMAGE_DB.slice(0, 3)) {
+        const label = sample.file || sample.imageUrl || sample.fileName;
+        if (label) {
+            console.log('[images] ✅', label);
         }
     }
 }
@@ -1290,6 +1363,7 @@ function findImageRecord(ref) {
             || IMAGE_BY_URL.get(lowered.replace(/^\//, ''))
             || (base ? IMAGE_BY_FILE.get(base) : null)
             || (base ? IMAGE_BY_FILE.get(base.toLowerCase()) : null)
+            || IMAGE_BY_ID.get(lowered)
             || IMAGE_BY_ID.get(key)
             || null;
     }
@@ -1301,9 +1375,7 @@ function findImageRecord(ref) {
 
 function resolveImageMeta(input) {
     const record = findImageRecord(input);
-    const lookup = record ? (record.fileName || record.file || record.url) : input;
-    const resolved = resolveImageRef(lookup, IMAGE_META);
-    if (!resolved) {
+    if (!record) {
         const key = typeof input === 'string' ? input : input?.file || input?.id || '';
         if (key && !MISSING_IMAGE_LOG.has(key)) {
             MISSING_IMAGE_LOG.add(key);
@@ -1311,63 +1383,33 @@ function resolveImageMeta(input) {
         }
         return { src: null, altText: 'Image unavailable' };
     }
-    const baseCandidate = (() => {
-        if (!lookup || typeof lookup !== 'string') return null;
-        const trimmed = lookup.trim();
-        const direct = IMAGE_META.byFile.get(trimmed)
-            || IMAGE_META.byFile.get(trimmed.toLowerCase())
-            || IMAGE_META.byUrl?.get(trimmed)
-            || IMAGE_META.byUrl?.get(trimmed.toLowerCase());
-        if (direct) return direct;
-        const base = trimmed.split('/').pop();
-        if (!base) return null;
-        return IMAGE_META.byFile.get(base)
-            || IMAGE_META.byFile.get(base.toLowerCase())
-            || IMAGE_META.byUrl?.get(base)
-            || IMAGE_META.byUrl?.get(base.toLowerCase());
-    })();
-    const enriched = record || findImageRecord(resolved.imageUrl) || (baseCandidate ? enrichImageRecord(baseCandidate) : null);
-    const out = enriched ? { ...enriched } : {};
-    out.src = resolved.imageUrl;
-    out.filePath = resolved.imageUrl;
-    out.altText = resolved.imageMeta?.alt || enriched?.altText || 'Social studies image';
-    out.caption = resolved.imageMeta?.caption || enriched?.caption || '';
-    out.credit = resolved.imageMeta?.credit || enriched?.credit || '';
-    out.detailedDescription = enriched?.detailedDescription || '';
+
+    const imageUrl = record.imageUrl || record.src || record.filePath || normalizeImagePath(record.file || record.fileName || '');
+    const out = { ...record };
+    out.src = imageUrl;
+    out.filePath = imageUrl;
+    out.imageUrl = imageUrl;
+    out.altText = record.altText || record.alt || 'Social studies image';
+    out.caption = record.caption || '';
+    out.credit = record.credit || '';
+    out.detailedDescription = record.detailedDescription || '';
     return out;
 }
 
 function loadImageMetadata() {
-    const candidates = [
-        path.join(__dirname, 'data', 'image_metadata_final.json'),
-        path.join(__dirname, 'image_metadata_final.json')
-    ];
-
-    for (const candidate of candidates) {
-        try {
-            if (!fs.existsSync(candidate)) continue;
-            const meta = loadImageMeta(candidate);
-            if (!Array.isArray(meta.list) || !meta.list.length) {
-                console.warn(`[IMG-WARN] Metadata at ${candidate} did not contain usable entries.`);
-                continue;
-            }
-            installImageMetadata(meta);
-            for (const item of IMAGE_META.list.slice(0, 5)) {
-                const pointer = item.file || item.fileName || item.url;
-                const check = resolveImageRef(pointer, IMAGE_META);
-                if (!check?.imageUrl) {
-                    throw new Error(`Image resolve failed for ${pointer || 'unknown'}`);
-                }
-            }
-            console.log(`[IMG-LOAD] Loaded ${IMAGE_META.list.length} images from ${candidate}.`);
+    try {
+        if (!fs.existsSync(IMAGE_METADATA_PATH)) {
+            console.warn('[images] metadata file not found:', IMAGE_METADATA_PATH);
+            installImageMetadata([]);
             return;
-        } catch (err) {
-            console.warn(`[IMG-WARN] Failed to load metadata from ${candidate}: ${err?.message || err}`);
         }
+        const raw = fs.readFileSync(IMAGE_METADATA_PATH, 'utf8');
+        const list = coerceToArray(raw);
+        installImageMetadata(list);
+    } catch (err) {
+        console.warn('[images] unable to parse image_metadata_final.json:', err.message);
+        installImageMetadata([]);
     }
-
-    installImageMetadata(emptyMeta());
-    console.warn('[IMG-WARN] No image metadata could be loaded.');
 }
 
 loadImageMetadata();
@@ -1878,81 +1920,116 @@ async function filterValidImageItems(items = []) {
     return filtered;
 }
 
+function pickImageForQuestion(subject, { preferTags = [] } = {}) {
+    if (!Array.isArray(IMAGE_DB) || !IMAGE_DB.length) return null;
+    const norm = (value) => String(value || '').trim().toLowerCase();
+    const want = new Set([
+        subject,
+        'social studies',
+        'science',
+        'history',
+        'civics',
+        'geography',
+        'biology',
+        'chemistry',
+        ...preferTags
+    ].map(norm).filter(Boolean));
+    const scored = IMAGE_DB.map((rec) => {
+        const tags = (rec.tags || []).map(norm);
+        const topics = (rec.topics || []).map(norm);
+        const bag = new Set([...tags, ...topics]);
+        let score = 0;
+        for (const w of want) {
+            if (bag.has(w)) score += 2;
+        }
+        if (/map|chart|graph|table/.test(String(rec.title || rec.alt || rec.altText || '').toLowerCase())) {
+            score += 1;
+        }
+        return { rec, score };
+    }).sort((a, b) => b.score - a.score);
+
+    for (const { rec } of scored) {
+        const file = rec.file || rec.fileName || rec.url;
+        if (!file) continue;
+        return {
+            imageUrl: rec.imageUrl || normalizeImagePath(file),
+            alt: rec.altText || rec.alt || rec.title || 'Exam image',
+            caption: rec.caption || '',
+            subject
+        };
+    }
+
+    return null;
+}
+
 async function ensureQuestionImageCompliance(question, { subject, index, source }) {
     if (!question || typeof question !== 'object') {
         return question;
     }
 
+    const wantsImage = subject === 'Social Studies' || subject === 'Science';
     const withImage = { ...question };
-    const baseRef = withImage.imageRef && typeof withImage.imageRef === 'object'
-        ? { ...withImage.imageRef }
-        : (withImage.stimulusImage && typeof withImage.stimulusImage === 'object'
-            ? { ...withImage.stimulusImage }
-            : null);
 
-    if (!baseRef) {
-        return withImage;
-    }
-
-    const ref = { ...baseRef };
-    if (!ref.subject && typeof subject === 'string' && subject.trim()) {
-        ref.subject = subject.trim();
-    }
-
-    if (!ref.imageUrl) {
-        const fallbackUrl = [ref.url, ref.src, ref.path, ref.image_url, ref.imagePath]
-            .find((candidate) => typeof candidate === 'string' && candidate.trim());
-        if (fallbackUrl) {
-            ref.imageUrl = fallbackUrl.trim();
+    if (wantsImage && !withImage.imageRef) {
+        const stem = String(withImage.stem || withImage.questionText || withImage.prompt || '').toLowerCase();
+        const preferTags = [];
+        if (/map/.test(stem)) preferTags.push('map');
+        if (/chart|graph/.test(stem)) preferTags.push('chart');
+        const pick = pickImageForQuestion(subject, { preferTags });
+        if (pick) {
+            withImage.imageRef = pick;
         }
     }
 
-    const normalizedRef = {
-        imageUrl: typeof ref.imageUrl === 'string' ? ref.imageUrl : '',
-        alt: typeof ref.alt === 'string' && ref.alt.trim()
-            ? ref.alt.trim()
-            : (typeof ref.altText === 'string' && ref.altText.trim() ? ref.altText.trim() : 'Exam image'),
-        caption: typeof ref.caption === 'string' ? ref.caption : '',
-        subject: typeof ref.subject === 'string' ? ref.subject : undefined
-    };
+    if (withImage.imageRef && typeof withImage.imageRef === 'object') {
+        const ref = { ...withImage.imageRef };
+        if (!ref.imageUrl) {
+            const fallbackUrl = [ref.url, ref.src, ref.path, ref.image_url, ref.imagePath]
+                .find((candidate) => typeof candidate === 'string' && candidate.trim());
+            if (fallbackUrl) {
+                ref.imageUrl = fallbackUrl.trim();
+            }
+        }
+        if (!ref.subject && typeof subject === 'string' && subject.trim()) {
+            ref.subject = subject.trim();
+        }
 
-    withImage.imageRef = normalizedRef;
+        const validation = await assertValidImageRef(ref, {
+            subject,
+            context: {
+                id: withImage?.id || withImage?.questionNumber || index,
+                index,
+                source
+            }
+        });
 
-    const validation = await assertValidImageRef(withImage.imageRef, {
-        subject,
-        context: {
-            id: withImage?.id || withImage?.questionNumber || index,
+        if (validation?.ok && validation.imageRef) {
+            withImage.imageRef = validation.imageRef;
+            return withImage;
+        }
+
+        imageDiagnostics.recordValidationFailure({
             index,
-            source
-        }
-    });
+            source,
+            error: validation?.error?.message || validation?.error || 'invalid imageRef',
+            imageRef: ref
+        });
 
-    if (validation?.ok && validation.imageRef) {
-        withImage.imageRef = validation.imageRef;
-        return withImage;
-    }
-
-    imageDiagnostics.recordValidationFailure({
-        index,
-        source,
-        error: validation?.error?.message || validation?.error || 'invalid imageRef',
-        imageRef: withImage.imageRef
-    });
-
-    delete withImage.imageRef;
-    if (withImage.imageMeta) delete withImage.imageMeta;
-    if (withImage.imageUrl) delete withImage.imageUrl;
-    if (withImage.image_url) delete withImage.image_url;
-    if (withImage.stimulusImage) delete withImage.stimulusImage;
-    if (withImage.asset && typeof withImage.asset === 'object') {
-        const assetCopy = { ...withImage.asset };
-        if ('imagePath' in assetCopy) {
-            delete assetCopy.imagePath;
-        }
-        if (Object.keys(assetCopy).length) {
-            withImage.asset = assetCopy;
-        } else {
-            delete withImage.asset;
+        delete withImage.imageRef;
+        if (withImage.imageMeta) delete withImage.imageMeta;
+        if (withImage.imageUrl) delete withImage.imageUrl;
+        if (withImage.image_url) delete withImage.image_url;
+        if (withImage.stimulusImage) delete withImage.stimulusImage;
+        if (withImage.asset && typeof withImage.asset === 'object') {
+            const assetCopy = { ...withImage.asset };
+            if ('imagePath' in assetCopy) {
+                delete assetCopy.imagePath;
+            }
+            if (Object.keys(assetCopy).length) {
+                withImage.asset = assetCopy;
+            } else {
+                delete withImage.asset;
+            }
         }
     }
 
@@ -3722,21 +3799,13 @@ const STATIC_IMAGE_DIRS = [
     path.join(__dirname, '../frontend/Images/Math'),
     path.join(__dirname, '../frontend/Images/RLA')
 ];
-const imageStaticOptions = {
-    fallthrough: true,
-    setHeaders(res, filePath) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        if (/\.(png|jpe?g|gif|webp|svg)$/i.test(filePath)) {
-            res.setHeader('Cache-Control', 'public,max-age=31536000,immutable');
-            res.type(path.extname(filePath));
-        }
-    }
-};
-STATIC_IMAGE_DIRS.forEach((dir) => {
+
+for (const dir of STATIC_IMAGE_DIRS) {
     if (fs.existsSync(dir)) {
-        app.use('/img', cors(), express.static(dir, imageStaticOptions));
+        app.use('/img', cors(), express.static(dir, { fallthrough: true, maxAge: '7d', etag: true }));
+        console.log('[static] mounted /img from', dir);
     }
-});
+}
 
 // Serve static image folders from the 'frontend' directory
 app.use('/images/rla', express.static(path.join(__dirname, '../frontend/Images/RLA')));
@@ -4641,7 +4710,6 @@ app.get('/client-config.js', (req, res) => {
 });
 
 let curatedImages = [];
-const imageRepositoryPath = path.join(__dirname, 'data', 'image_metadata_final.json');
 
 function loadCuratedImages() {
     if (Array.isArray(IMAGE_DB) && IMAGE_DB.length) {
@@ -4651,18 +4719,16 @@ function loadCuratedImages() {
     }
 
     try {
-        const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
-        const parsed = JSON.parse(imageData);
-        if (Array.isArray(parsed)) {
-            curatedImages = parsed.map((img) => ({
-                ...img,
-                filePath: normalizeImagePath(img?.filePath || img?.src || img?.path),
-                src: normalizeImagePath(img?.src || img?.filePath || img?.path)
-            }));
-            console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
-        }
+        const imageData = fs.readFileSync(IMAGE_METADATA_PATH, 'utf8');
+        const parsed = coerceToArray(imageData);
+        curatedImages = parsed.map((img) => ({
+            ...img,
+            filePath: normalizeImagePath(img?.filePath || img?.src || img?.path || img?.file),
+            src: normalizeImagePath(img?.src || img?.filePath || img?.path || img?.file)
+        }));
+        console.log(`[IMG-LOAD] Loaded ${curatedImages.length} fallback images from ${IMAGE_METADATA_PATH}.`);
     } catch (error) {
-        console.error('Failed to load or parse image_metadata.json:', error);
+        console.error('Failed to load or parse image_metadata_final.json:', error?.message || error);
     }
 }
 
@@ -6899,6 +6965,19 @@ app.post('/api/validate-bank', async (_req, res) => {
     }
 });
 
+app.get('/admin/image-meta/debug', (_req, res) => {
+    res.json({
+        count: Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0,
+        sample: IMAGE_DB.slice(0, 5).map(({ id, file, imageUrl, title, tags }) => ({
+            id: id || null,
+            file: file || null,
+            imageUrl: imageUrl || null,
+            title: title || null,
+            tags: Array.isArray(tags) ? tags.slice(0, 5) : []
+        }))
+    });
+});
+
 app.get('/metrics/ai', (_req, res) => {
     const stats = AI_LATENCY.stats();
     const toSec = (value) => Math.round((value || 0) / 1000);
@@ -6914,14 +6993,14 @@ app.get('/metrics/ai', (_req, res) => {
 
 app.get('/admin/image-diagnostics', authenticateBearerToken, async (_req, res) => {
     try {
-        const metaListCount = Array.isArray(IMAGE_META?.list) ? IMAGE_META.list.length : 0;
-        const metaByIdCount = IMAGE_META?.byId instanceof Map ? IMAGE_META.byId.size : 0;
-        const metaByUrlCount = IMAGE_META?.byUrl instanceof Map ? IMAGE_META.byUrl.size : 0;
+        const metaListCount = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
+        const metaByIdCount = IMAGE_BY_ID instanceof Map ? IMAGE_BY_ID.size : 0;
+        const metaByUrlCount = IMAGE_BY_URL instanceof Map ? IMAGE_BY_URL.size : 0;
         const snapshot = imageDiagnostics.getSnapshot({
             metadataEntries: metaListCount,
             metadataById: metaByIdCount,
             metadataByUrl: metaByUrlCount,
-            metadataFile: IMAGE_META?.path || null,
+            metadataFile: fs.existsSync(IMAGE_METADATA_PATH) ? IMAGE_METADATA_PATH : null,
             curatedImages: Array.isArray(curatedImages) ? curatedImages.length : 0
         });
         res.json(snapshot);
