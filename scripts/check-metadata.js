@@ -2,6 +2,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { pathToFileURL } from 'node:url';
 
 const ROOT = process.cwd();
 const PRIMARY_PATH = path.join(ROOT, 'image_metadata_final.json');
@@ -120,7 +121,7 @@ async function loadMetadata() {
   return { primary, backend, backendError };
 }
 
-async function main() {
+export async function main() {
   try {
     const { primary, backend, backendError } = await loadMetadata();
     const errors = collectErrors(primary);
@@ -158,4 +159,8 @@ async function main() {
   }
 }
 
-main();
+const entryPointUrl = process.argv[1] ? pathToFileURL(process.argv[1]).href : null;
+
+if (entryPointUrl && import.meta.url === entryPointUrl) {
+  main();
+}
