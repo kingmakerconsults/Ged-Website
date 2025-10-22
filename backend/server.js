@@ -1113,351 +1113,22 @@ function safeJson(raw) {
     }
 }
 
-let IMAGE_DB = [];
-let curatedImages = [];
-const IMAGE_BY_PATH = new Map();
-const IMAGE_BY_ID = new Map();
-const IMAGE_BY_NAME = new Map();
+const imageRegistry = require('./imageResolver');
+const {
+    resolveImageMeta: resolveCuratedImageMeta,
+    resolveImage: resolveCuratedImage,
+    normalizeImagePath,
+    isImageEligible
+} = imageRegistry;
+const { IMAGE_BY_PATH, IMAGE_BY_BASENAME, IMAGE_BY_ID } = imageRegistry.indexes;
+const IMAGE_DB = imageRegistry.IMAGE_DB;
+let curatedImages = IMAGE_DB;
 const MISSING_IMAGE_LOG = new Set();
-const METADATA_PATHS = [
-    path.join(__dirname, 'image_metadata_final.json'),
-    path.join(__dirname, 'data', 'image_metadata_final.json')
-];
-
-function stripBOM(s) {
-    return s && s.charCodeAt(0) === 0xFEFF ? s.slice(1) : s;
-}
-
-function coerceToArray(raw) {
-    const s = stripBOM(String(raw || '')).trim();
-    if (!s) return [];
-    try {
-        const parsed = JSON.parse(s);
-        return Array.isArray(parsed) ? parsed : (Array.isArray(parsed?.list) ? parsed.list : []);
-    } catch (err) {
-        // ignore and try repair
-    }
-    try {
-        const repaired = JSON.parse(jsonrepair(s));
-        return Array.isArray(repaired) ? repaired : (Array.isArray(repaired?.list) ? repaired.list : []);
-    } catch (err) {
-        // ignore and continue with other heuristics
-    }
-
-    if (s.startsWith('{')) {
-        const glued = `[${s.replace(/}\s*{/g, '},{')}]`;
-        try {
-            const gluedParsed = JSON.parse(glued);
-            if (Array.isArray(gluedParsed)) return gluedParsed;
-        } catch (err) {
-            // ignore and continue
-        }
-    }
-
-    const lines = s.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-    if (lines.length > 1) {
-        const arr = [];
-        for (const line of lines) {
-            try {
-                arr.push(JSON.parse(jsonrepair(line)));
-            } catch (err) {
-                // ignore line level failures
-            }
-        }
-        if (arr.length) return arr;
-    }
-
-    throw new Error('Unparseable metadata');
-}
-
-function normalizeImageRecord(rec) {
-    if (!rec || typeof rec !== 'object') return null;
-    const file = rec.file || rec.fileName || rec.path || rec.src || rec.url;
-    if (!file) return null;
-    const imageUrl = rec.imageUrl || rec.url || rec.src || rec.path || null;
-    return {
-        ...rec,
-        original: rec.original || rec,
-        file,
-        fileName: rec.fileName || rec.file || rec.path || rec.src || rec.url,
-        imageUrl
-    };
-}
-
-function normalizeImagePath(input) {
-    if (!input || typeof input !== 'string') return '';
-    let working = input.trim();
-    if (!working) return '';
-
-    try {
-        working = decodeURI(working);
-    } catch (err) {
-        // ignore decode failures
-    }
-
-    if (/^https?:\/\//i.test(working) || working.startsWith('data:')) {
-        return working;
-    }
-
-    const posix = path.posix;
-    working = working.replace(/\\+/g, '/');
-    working = working.replace(/\/{2,}/g, '/');
-    working = working.replace(/^(\.\/)+/g, '');
-    working = working.replace(/^\/+/, '');
-
-    const lower = working.toLowerCase();
-    if (lower.startsWith('frontend/')) {
-        working = working.slice('frontend/'.length);
-    }
-    if (lower.startsWith('public/')) {
-        working = working.slice('public/'.length);
-    }
-    if (lower.startsWith('assets/')) {
-        working = working.slice('assets/'.length);
-    }
-    if (lower.startsWith('images/')) {
-        working = working.slice('images/'.length);
-    }
-    if (lower.startsWith('/images/')) {
-        working = working.slice('/images/'.length);
-    }
-    if (lower.startsWith('img/')) {
-        working = working.slice('img/'.length);
-    }
-    if (lower.startsWith('/img/')) {
-        working = working.slice('/img/'.length);
-    }
-
-    const cleaned = working.split('/').filter(Boolean).join('/');
-    if (!cleaned) {
-        return '';
-    }
-
-    const safePath = cleaned.toLowerCase().startsWith('images/')
-        ? cleaned
-        : posix.join('Images', cleaned);
-    const prefixed = safePath.startsWith('/') ? safePath : `/${safePath}`;
-    return encodeURI(prefixed.replace(/\/{2,}/g, '/'));
-}
-
-function enrichImageRecord(record = {}) {
-    if (!record || typeof record !== 'object') return null;
-
-    const rawTags = Array.isArray(record.tags) ? record.tags : [];
-    const rawTopics = Array.isArray(record.topics) ? record.topics : [];
-    const tags = rawTags.map((tag) => String(tag).trim()).filter(Boolean);
-    const topics = rawTopics.map((topic) => String(topic).trim()).filter(Boolean);
-    const lowerTags = tags.map((tag) => tag.toLowerCase());
-    const lowerTopics = topics.map((topic) => topic.toLowerCase());
-
-    const subjectMap = new Map([
-        ['social-studies', 'Social Studies'],
-        ['social studies', 'Social Studies'],
-        ['social_studies', 'Social Studies'],
-        ['science', 'Science'],
-        ['math', 'Math'],
-        ['mathematics', 'Math'],
-        ['rla', 'RLA'],
-        ['language arts', 'RLA']
-    ]);
-
-    const subjectCandidate = typeof record.subject === 'string' ? record.subject.trim() : '';
-    const normalizedSubject = subjectCandidate.replace(/[_-]+/g, ' ').toLowerCase();
-    const subject = subjectMap.get(normalizedSubject)
-        || subjectMap.get(subjectCandidate.toLowerCase())
-        || (normalizedSubject ? normalizedSubject.replace(/\b\w/g, (m) => m.toUpperCase()) : 'General');
-
-    const category = (() => {
-        if (record.original?.category) return record.original.category;
-        if (record.original?.type) return record.original.type;
-        if (topics.length) return topics[0];
-        for (let i = 0; i < lowerTags.length; i += 1) {
-            if (!subjectMap.has(lowerTags[i])) {
-                return tags[i];
-            }
-        }
-        return subject;
-    })();
-
-    const dominantType = record.original?.type
-        || record.original?.dominantType
-        || record.dominantType
-        || category
-        || 'photo';
-
-    const normalizedPath = normalizeImagePath(record.imageUrl || record.url || record.filePath || record.src || record.file || '');
-    const altText = typeof record.alt === 'string' && record.alt.trim() ? record.alt : 'Social studies image';
-    const caption = typeof record.caption === 'string' ? record.caption : '';
-    const credit = typeof record.credit === 'string' ? record.credit : '';
-    const detailedDescription = typeof record.original?.detailedDescription === 'string'
-        ? record.original.detailedDescription
-        : typeof record.original?.description === 'string'
-            ? record.original.description
-            : typeof record.original?.ocrText === 'string'
-                ? record.original.ocrText
-                : '';
-
-    const keywords = Array.from(new Set([...lowerTags, ...lowerTopics].filter(Boolean)));
-    const fileName = record.fileName
-        || record.file
-        || (normalizedPath.toLowerCase().startsWith('/images/') ? normalizedPath.split('/').pop() : '');
-
-    return {
-        ...record,
-        tags,
-        topics,
-        keywords,
-        dominantType,
-        subject,
-        category,
-        fileName,
-        filePath: normalizedPath || record.file || '',
-        src: normalizedPath || record.url || '',
-        url: normalizedPath || record.url || '',
-        imageUrl: normalizedPath,
-        altText,
-        caption,
-        credit,
-        detailedDescription
-    };
-}
-
-function rebuildImagePathIndex() {
-    IMAGE_BY_PATH.clear();
-    IMAGE_BY_ID.clear();
-    IMAGE_BY_NAME.clear();
-
-    for (const entry of IMAGE_DB) {
-        if (!entry || typeof entry !== 'object') continue;
-
-        const idCandidates = [entry.id, entry.fileId, entry.uuid]
-            .map((value) => (value != null ? String(value).trim() : ''))
-            .filter(Boolean);
-        for (const id of idCandidates) {
-            IMAGE_BY_ID.set(id, entry);
-            IMAGE_BY_ID.set(id.toLowerCase(), entry);
-        }
-
-        const nameCandidates = [entry.file, entry.fileName, entry.filename, entry.path]
-            .map((value) => (typeof value === 'string' ? value.trim() : ''))
-            .filter(Boolean);
-        for (const name of nameCandidates) {
-            IMAGE_BY_NAME.set(name, entry);
-            IMAGE_BY_NAME.set(name.toLowerCase(), entry);
-        }
-
-        const pathCandidates = [
-            entry.filePath,
-            entry.src,
-            entry.url,
-            entry.imageUrl,
-            entry.path,
-            entry.file
-        ]
-            .map((value) => (typeof value === 'string' ? value.trim() : ''))
-            .filter(Boolean);
-
-        for (const candidate of pathCandidates) {
-            const normalized = normalizeImagePath(candidate);
-            const clean = candidate
-                .replace(/^\/frontend/i, '')
-                .replace(/^\.?\/*/, '/');
-
-            const variants = new Set([
-                candidate,
-                candidate.toLowerCase(),
-                clean,
-                clean.toLowerCase(),
-                clean.startsWith('/') ? clean.slice(1) : clean,
-                clean.toLowerCase().startsWith('/') ? clean.toLowerCase().slice(1) : clean.toLowerCase(),
-                normalized,
-                normalized.toLowerCase(),
-                normalized.startsWith('/') ? normalized.slice(1) : normalized,
-                normalized.toLowerCase().startsWith('/') ? normalized.toLowerCase().slice(1) : normalized.toLowerCase()
-            ]);
-
-            for (const key of variants) {
-                if (typeof key === 'string' && key) {
-                    IMAGE_BY_PATH.set(key, entry);
-                }
-            }
-
-            const base = candidate.split('/').pop();
-            if (base) {
-                IMAGE_BY_NAME.set(base, entry);
-                IMAGE_BY_NAME.set(base.toLowerCase(), entry);
-            }
-        }
-    }
-}
-
-function installImageMetadata(list) {
-    IMAGE_DB = list
-        .map(normalizeImageRecord)
-        .filter(Boolean)
-        .map(enrichImageRecord)
-        .filter(Boolean)
-        .map((record) => ({
-            ...record,
-            filePath: normalizeImagePath(record.filePath || record.src || record.path || record.file),
-            src: normalizeImagePath(record.src || record.filePath || record.path || record.file)
-        }));
-
-    rebuildImagePathIndex();
-    curatedImages = IMAGE_DB;
-    global.curatedImages = IMAGE_DB;
-    console.log(`[IMG-LOAD] loaded ${IMAGE_DB.length} images`);
-    console.log(`[IMG-LOAD] Curated image pool ready with ${IMAGE_DB.length} records`);
-}
-
-function findImageRecord(ref) {
-    if (!ref) return null;
-
-    if (typeof ref === 'string') {
-        let key = ref.trim();
-        if (!key) return null;
-        try {
-            key = decodeURI(key);
-        } catch (err) {
-            // ignore decode issues
-        }
-
-        const normalized = normalizeImagePath(key);
-        const clean = key.replace(/^\/frontend/i, '').replace(/^\.?\/*/, '/');
-        const base = key.split('/').pop();
-
-        const candidates = [
-            key,
-            key.toLowerCase(),
-            normalized,
-            normalized.toLowerCase(),
-            normalized.startsWith('/') ? normalized.slice(1) : normalized,
-            normalized.toLowerCase().startsWith('/') ? normalized.toLowerCase().slice(1) : normalized.toLowerCase(),
-            clean,
-            clean.toLowerCase(),
-            clean.startsWith('/') ? clean.slice(1) : clean,
-            clean.toLowerCase().startsWith('/') ? clean.toLowerCase().slice(1) : clean.toLowerCase(),
-            base,
-            base ? base.toLowerCase() : ''
-        ].filter((value) => typeof value === 'string' && value);
-
-        for (const candidate of candidates) {
-            if (IMAGE_BY_PATH.has(candidate)) return IMAGE_BY_PATH.get(candidate);
-            if (IMAGE_BY_ID.has(candidate)) return IMAGE_BY_ID.get(candidate);
-            if (IMAGE_BY_NAME.has(candidate)) return IMAGE_BY_NAME.get(candidate);
-        }
-        return null;
-    }
-
-    if (typeof ref === 'object') {
-        return findImageRecord(ref.filePath || ref.src || ref.path || ref.file || ref.id || '');
-    }
-
-    return null;
-}
+const IMAGE_METADATA_PATH = imageRegistry.metadataPath || path.join(__dirname, 'data', 'image_metadata_final.json');
+global.curatedImages = curatedImages;
 
 function resolveImageMeta(input) {
-    const record = findImageRecord(input);
+    const record = resolveCuratedImageMeta(input);
     if (!record) {
         const key = typeof input === 'string' ? input : input?.file || input?.id || '';
         if (key && !MISSING_IMAGE_LOG.has(key)) {
@@ -1467,50 +1138,26 @@ function resolveImageMeta(input) {
         return { src: null };
     }
 
-    const rawSrc = record.src || record.filePath || record.imageUrl || record.path || record.file || '';
-    const normalized = normalizeImagePath(rawSrc);
-    const src = normalized ? encodeURI(normalized) : '';
-
+    const src = record.src || record.filePath || '';
     if (!src) {
         return { src: null };
     }
 
-    const altText = record.altText || record.alt || record.title || '';
-    const caption = record.caption || record.imageMeta?.caption || '';
-    const credit = record.credit || record.imageMeta?.credit || '';
-    const detailedDescription = record.detailedDescription || record.imageMeta?.detailedDescription || '';
-    const id = record.id || record.file || record.fileName || record.filename || src;
+    const alt = record.alt || record.altText || record.title || '';
+    const caption = record.caption || '';
+    const credit = record.credit || '';
+    const detailedDescription = record.detailedDescription || record.ocrText || '';
 
     return {
-        id: id || null,
+        id: record.id || null,
         src,
-        altText: altText || '',
-        credit: credit || '',
-        caption: caption || '',
-        detailedDescription: detailedDescription || ''
+        altText: alt,
+        alt,
+        credit,
+        caption,
+        detailedDescription
     };
 }
-
-(function loadCuratedImageMetadata() {
-    let loaded = false;
-    for (const metadataPath of METADATA_PATHS) {
-        try {
-            const raw = fs.readFileSync(metadataPath, 'utf8');
-            const list = coerceToArray(raw);
-            installImageMetadata(list);
-            console.log(`[IMG-LOAD] using metadata from ${metadataPath}`);
-            loaded = true;
-            break;
-        } catch (err) {
-            // try next path
-        }
-    }
-
-    if (!loaded) {
-        console.warn('[IMG-LOAD] No image metadata file found. Using empty pool.');
-        installImageMetadata([]);
-    }
-})();
 
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
@@ -3890,14 +3537,20 @@ app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
 // --- Static assets (images) with CORS + long cache ---
-const IMAGES_ROOT = path.join(__dirname, '../frontend/Images');
-if (fs.existsSync(IMAGES_ROOT)) {
+const IMAGES_PRIMARY = path.join(__dirname, 'Images');
+const LEGACY_IMAGES_ROOT = path.join(__dirname, '../frontend/Images');
+if (fs.existsSync(IMAGES_PRIMARY)) {
     const sharedOptions = { maxAge: '7d', etag: true };
-    app.use('/Images', express.static(IMAGES_ROOT, { ...sharedOptions, fallthrough: false }));
-    app.use('/img', cors(), express.static(IMAGES_ROOT, { ...sharedOptions, fallthrough: true }));
-    console.log('[static] mounted /Images from', IMAGES_ROOT);
+    app.use('/Images', express.static(IMAGES_PRIMARY, { ...sharedOptions, fallthrough: false }));
+    app.use('/img', cors(), express.static(IMAGES_PRIMARY, { ...sharedOptions, fallthrough: true }));
+    console.log('[static] mounted /Images from', IMAGES_PRIMARY);
+} else if (fs.existsSync(LEGACY_IMAGES_ROOT)) {
+    const sharedOptions = { maxAge: '7d', etag: true };
+    app.use('/Images', express.static(LEGACY_IMAGES_ROOT, { ...sharedOptions, fallthrough: false }));
+    app.use('/img', cors(), express.static(LEGACY_IMAGES_ROOT, { ...sharedOptions, fallthrough: true }));
+    console.warn('[static][warn] Primary Images directory missing; using legacy path', LEGACY_IMAGES_ROOT);
 } else {
-    console.warn('[static][warn] Images directory not found at', IMAGES_ROOT);
+    console.warn('[static][warn] Images directory not found at', IMAGES_PRIMARY, 'or', LEGACY_IMAGES_ROOT);
 }
 
 app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
@@ -4798,6 +4451,7 @@ app.get('/client-config.js', (req, res) => {
 });
 
 curatedImages = IMAGE_DB;
+global.curatedImages = curatedImages;
 
 function pickCandidateUrls(subject, topic) {
     const encodedTopic = encodeURIComponent(topic);
@@ -5022,29 +4676,13 @@ function existingTopicPrompt(subject, topic, count = 15) {
 }
 
 app.get('/health/images', (_req, res) => {
-    const pool = Array.isArray(IMAGE_DB) ? IMAGE_DB : [];
-    const missing = [];
-
-    pool.forEach((record, index) => {
-        if (!record) {
-            missing.push(`null:${index}`);
-            return;
-        }
-        const hasSource = Boolean(record.file || record.src || record.filePath || record.imageUrl);
-        if (!hasSource) {
-            const label = record.id || record.file || record.fileName || `index:${index}`;
-            missing.push(label);
-        }
-    });
-
+    const pool = Array.isArray(global.curatedImages) ? global.curatedImages : [];
     const count = pool.length;
-    const ok = count > 0 && missing.length === 0;
-    const payload = { ok, count };
-    if (missing.length) {
-        payload.missing = missing.slice(0, 50);
-    }
-
-    res.status(ok ? 200 : 500).json(payload);
+    const uniqueIds = new Set(pool.map((img) => img && img.id).filter(Boolean));
+    const duplicateIds = count - uniqueIds.size;
+    const missing = pool.filter((img) => !img || (!img.file && !img.src && !img.filePath));
+    const ok = count > 0 && duplicateIds === 0 && missing.length === 0;
+    res.json({ ok, count, duplicateIds, missing: missing.length });
 });
 
 // NEW FEATURE: Endpoint to define a word, as used in your index.html
@@ -5940,20 +5578,37 @@ const generateImageQuestion = async (topic, subject, imagePool, numQuestions, op
                     }));
 
                     const rawImagePath = row?.image_url_cached || data?.image_url || bankImageUrl;
+                    const curatedRecord = resolveCuratedImageMeta(rawImagePath);
+                    const curatedEligible = curatedRecord ? isImageEligible(curatedRecord) : false;
+                    if (curatedRecord && !curatedEligible) {
+                        const ref = curatedRecord.id || rawImagePath || row?.question_id || 'bank-image';
+                        console.warn(`[IMG-GUARD] Skipped weak metadata for ${ref}`);
+                    }
                     const imageMeta = resolveImageMeta(rawImagePath);
-                    const normalizedImagePath = imageMeta?.src
-                        ? normalizeImagePath(imageMeta.src)
-                        : normalizeImagePath(rawImagePath || '');
+                    const normalizedImagePath = curatedEligible
+                        ? normalizeImagePath(curatedRecord.src)
+                        : imageMeta?.src
+                            ? normalizeImagePath(imageMeta.src)
+                            : normalizeImagePath(rawImagePath || '');
                     const encodedImagePath = normalizedImagePath ? encodeURI(normalizedImagePath) : null;
-                    const mergedAlt = imageMeta?.altText || row?.image_alt || data?.alt_text || bankAlt || '';
+                    const resolvedPath = curatedEligible
+                        ? (encodedImagePath || curatedRecord.src || null)
+                        : curatedRecord
+                            ? null
+                            : (encodedImagePath || (typeof rawImagePath === 'string' && rawImagePath.trim() ? rawImagePath.trim() : null));
+                    const mergedAlt = curatedEligible
+                        ? (curatedRecord.alt || curatedRecord.altText || imageMeta?.altText || row?.image_alt || data?.alt_text || bankAlt || '')
+                        : imageMeta?.altText || row?.image_alt || data?.alt_text || bankAlt || '';
 
-                    const resolvedPath = encodedImagePath || rawImagePath || null;
+                    if (!resolvedPath) {
+                        return null;
+                    }
                     const questionBase = {
                         questionText: norm?.stem || data?.stem_raw || '',
                         answerOptions,
                         imageUrl: resolvedPath,
                         imageAlt: mergedAlt,
-                        imageRef: resolvedPath ? { path: resolvedPath, altText: mergedAlt } : undefined,
+                        imageRef: { path: resolvedPath, altText: mergedAlt, id: curatedEligible ? curatedRecord.id : undefined },
                         type: 'image'
                     };
 
@@ -5977,18 +5632,23 @@ const generateImageQuestion = async (topic, subject, imagePool, numQuestions, op
     }
 
     // Fallback to curated image pool generation
-    const filteredByTopic = Array.isArray(imagePool)
-        ? imagePool.filter((img) => img.subject === subject && img.category === topic)
+    const eligiblePool = Array.isArray(imagePool)
+        ? imagePool.filter((img) => img && isImageEligible(img))
         : [];
+    const filteredByTopic = eligiblePool.filter((img) => img.subject === subject && img.category === topic);
     let selectedImage = filteredByTopic.length
         ? filteredByTopic[Math.floor(Math.random() * filteredByTopic.length)]
         : null;
 
-    if (!selectedImage && Array.isArray(imagePool)) {
-        const subjectImages = imagePool.filter((img) => img.subject === subject);
+    if (!selectedImage && eligiblePool.length) {
+        const subjectImages = eligiblePool.filter((img) => img.subject === subject);
         if (subjectImages.length > 0) {
             selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
         }
+    }
+
+    if (!selectedImage && eligiblePool.length) {
+        selectedImage = eligiblePool[Math.floor(Math.random() * eligiblePool.length)];
     }
 
     if (!selectedImage) {
@@ -6059,7 +5719,12 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
         requireNamedEntity = true
     } = options;
 
-    const byCategory = imagePool.filter((img) => {
+    const eligiblePool = imagePool.filter((img) => img && isImageEligible(img));
+    if (!eligiblePool.length) {
+        return [];
+    }
+
+    const byCategory = eligiblePool.filter((img) => {
         const matchesSubject = !subject || img.subject === subject;
         const matchesCategory = !topic || img.category === topic;
         return matchesSubject && matchesCategory;
@@ -6070,11 +5735,11 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
         : null;
 
     if (!selectedImage) {
-        const subjectImages = imagePool.filter((img) => img.subject === subject);
+        const subjectImages = eligiblePool.filter((img) => img.subject === subject);
         if (subjectImages.length) {
             selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
         } else {
-            selectedImage = imagePool[Math.floor(Math.random() * imagePool.length)];
+            selectedImage = eligiblePool[Math.floor(Math.random() * eligiblePool.length)];
         }
     }
 
@@ -6082,13 +5747,20 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
         return [];
     }
 
+    const curatedRecord = resolveCuratedImageMeta(selectedImage.id || selectedImage.filePath || selectedImage.src || selectedImage.path);
+    if (curatedRecord && !isImageEligible(curatedRecord)) {
+        console.warn(`[IMG-GUARD] Skipped weak metadata for ${curatedRecord.id || selectedImage.filePath || selectedImage.src || 'integrated-image'}`);
+        return [];
+    }
     const resolvedMeta = resolveImageMeta(selectedImage.filePath || selectedImage.src || selectedImage.path || '');
-    const normalizedPathRaw = resolvedMeta?.src
-        ? normalizeImagePath(resolvedMeta.src)
-        : normalizeImagePath(selectedImage.filePath || selectedImage.src || selectedImage.path || '');
+    const normalizedPathRaw = curatedRecord?.src
+        ? normalizeImagePath(curatedRecord.src)
+        : resolvedMeta?.src
+            ? normalizeImagePath(resolvedMeta.src)
+            : normalizeImagePath(selectedImage.filePath || selectedImage.src || selectedImage.path || '');
     const normalizedPath = normalizedPathRaw || null;
     const encodedPath = normalizedPath ? encodeURI(normalizedPath) : null;
-    const mergedAlt = resolvedMeta?.altText || selectedImage.altText || '';
+    const mergedAlt = curatedRecord?.alt || curatedRecord?.altText || resolvedMeta?.altText || selectedImage.altText || '';
     const description = resolvedMeta?.detailedDescription || selectedImage.detailedDescription || '';
     const usage = resolvedMeta?.usageDirectives || selectedImage.usageDirectives || '';
     const keywords = Array.isArray(selectedImage.keywords) && selectedImage.keywords.length
@@ -6175,9 +5847,9 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
     return questions.map((question) => enforceWordCapsOnItem({
         ...question,
         passage: passageText,
-        imageUrl: encodedPath || normalizedPath || null,
+        imageUrl: encodedPath || curatedRecord?.src || normalizedPath || null,
         imageAlt: mergedAlt,
-        imageRef: encodedPath ? { path: encodedPath, altText: mergedAlt } : undefined,
+        imageRef: encodedPath ? { path: encodedPath, altText: mergedAlt, id: curatedRecord?.id } : undefined,
         type: 'integrated'
     }, subject));
 };
@@ -6721,41 +6393,96 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
         }
 
         if (normalizedRefPath) {
-            const resolvedMeta = resolveImageMeta(normalizedRefPath) || {};
-            const encodedPath = encodeURI(normalizedRefPath);
-            correctedRef.imageUrl = encodedPath;
-            correctedRef.path = encodedPath;
-            if (!correctedRef.altText && (resolvedMeta.altText || originalAlt)) {
-                correctedRef.altText = (resolvedMeta.altText || originalAlt || '').trim();
+            const curatedRecord = resolveCuratedImageMeta(normalizedRefPath) || resolveCuratedImageMeta(finalImageUrl);
+            const curatedEligible = curatedRecord ? isImageEligible(curatedRecord) : false;
+            if (curatedRecord && !curatedEligible) {
+                console.warn(`[IMG-GUARD] Skipped weak metadata for question ${key} (${curatedRecord.id || normalizedRefPath})`);
             }
-            if (!correctedRef.caption && resolvedMeta.caption) {
-                correctedRef.caption = resolvedMeta.caption;
-            }
-            if (!correctedRef.credit && resolvedMeta.credit) {
-                correctedRef.credit = resolvedMeta.credit;
-            }
-            if (!correctedRef.src) {
-                correctedRef.src = encodedPath;
-            }
-            const mergedMeta = { ...(correctedRef.imageMeta || {}) };
-            if (resolvedMeta && resolvedMeta.src) {
+            if (curatedEligible) {
+                const encodedPath = encodeURI(normalizedRefPath);
+                correctedRef.imageUrl = encodedPath;
+                correctedRef.path = encodedPath;
+                correctedRef.src = correctedRef.src || encodedPath;
+                const resolvedMeta = {
+                    id: curatedRecord.id,
+                    src: curatedRecord.src,
+                    altText: curatedRecord.alt || curatedRecord.altText || '',
+                    caption: curatedRecord.caption || '',
+                    credit: curatedRecord.credit || '',
+                    detailedDescription: curatedRecord.detailedDescription || curatedRecord.ocrText || ''
+                };
+                if (!correctedRef.altText && (resolvedMeta.altText || originalAlt)) {
+                    correctedRef.altText = (resolvedMeta.altText || originalAlt || '').trim();
+                }
+                if (!correctedRef.caption && resolvedMeta.caption) {
+                    correctedRef.caption = resolvedMeta.caption;
+                }
+                if (!correctedRef.credit && resolvedMeta.credit) {
+                    correctedRef.credit = resolvedMeta.credit;
+                }
+                const mergedMeta = { ...(correctedRef.imageMeta || {}) };
+                if (!mergedMeta.id && resolvedMeta.id) mergedMeta.id = resolvedMeta.id;
                 mergedMeta.src = resolvedMeta.src;
-                if (resolvedMeta.id && !mergedMeta.id) mergedMeta.id = resolvedMeta.id;
                 if (resolvedMeta.altText && !mergedMeta.altText) mergedMeta.altText = resolvedMeta.altText;
                 if (resolvedMeta.caption && !mergedMeta.caption) mergedMeta.caption = resolvedMeta.caption;
                 if (resolvedMeta.credit && !mergedMeta.credit) mergedMeta.credit = resolvedMeta.credit;
                 if (resolvedMeta.detailedDescription && !mergedMeta.detailedDescription) {
                     mergedMeta.detailedDescription = resolvedMeta.detailedDescription;
                 }
-            }
-            if (Object.keys(mergedMeta).length) {
-                correctedRef.imageMeta = mergedMeta;
-            }
-            if (!resolvedMeta.src) {
-                console.warn(`[IMG-RESTORE] Unable to resolve metadata for question ${key} (${normalizedRefPath})`);
+                if (Array.isArray(curatedRecord.subtopics) && !mergedMeta.subtopics) {
+                    mergedMeta.subtopics = [...curatedRecord.subtopics];
+                }
+                if (Array.isArray(curatedRecord.questionHooks) && !mergedMeta.questionHooks) {
+                    mergedMeta.questionHooks = [...curatedRecord.questionHooks];
+                }
+                correctedRef.imageMeta = Object.keys(mergedMeta).length ? mergedMeta : undefined;
+                merged.imageUrl = merged.imageUrl || encodedPath;
+                if (!merged.imageAlt && (resolvedMeta.altText || originalAlt)) {
+                    merged.imageAlt = (resolvedMeta.altText || originalAlt || '').trim();
+                }
+            } else if (!curatedRecord) {
+                const resolvedMeta = resolveImageMeta(normalizedRefPath) || {};
+                const encodedPath = encodeURI(normalizedRefPath);
+                correctedRef.imageUrl = encodedPath;
+                correctedRef.path = encodedPath;
+                if (!correctedRef.altText && (resolvedMeta.altText || originalAlt)) {
+                    correctedRef.altText = (resolvedMeta.altText || originalAlt || '').trim();
+                }
+                if (!correctedRef.caption && resolvedMeta.caption) {
+                    correctedRef.caption = resolvedMeta.caption;
+                }
+                if (!correctedRef.credit && resolvedMeta.credit) {
+                    correctedRef.credit = resolvedMeta.credit;
+                }
+                if (!correctedRef.src) {
+                    correctedRef.src = encodedPath;
+                }
+                const mergedMeta = { ...(correctedRef.imageMeta || {}) };
+                if (resolvedMeta && resolvedMeta.src) {
+                    mergedMeta.src = resolvedMeta.src;
+                    if (resolvedMeta.id && !mergedMeta.id) mergedMeta.id = resolvedMeta.id;
+                    if (resolvedMeta.altText && !mergedMeta.altText) mergedMeta.altText = resolvedMeta.altText;
+                    if (resolvedMeta.caption && !mergedMeta.caption) mergedMeta.caption = resolvedMeta.caption;
+                    if (resolvedMeta.credit && !mergedMeta.credit) mergedMeta.credit = resolvedMeta.credit;
+                    if (resolvedMeta.detailedDescription && !mergedMeta.detailedDescription) {
+                        mergedMeta.detailedDescription = resolvedMeta.detailedDescription;
+                    }
+                }
+                if (Object.keys(mergedMeta).length) {
+                    correctedRef.imageMeta = mergedMeta;
+                }
+                merged.imageUrl = merged.imageUrl || encodedPath;
+            } else {
+                delete correctedRef.imageMeta;
+                delete correctedRef.imageUrl;
+                delete correctedRef.path;
+                delete correctedRef.src;
+                merged.imageUrl = null;
+                merged.imageAlt = undefined;
             }
         } else if (finalImageUrl) {
-            const encodedPath = encodeURI(normalizeImagePath(finalImageUrl) || finalImageUrl);
+            const normalizedFallback = normalizeImagePath(finalImageUrl) || finalImageUrl;
+            const encodedPath = encodeURI(normalizedFallback);
             correctedRef.imageUrl = correctedRef.imageUrl || encodedPath;
             correctedRef.path = correctedRef.path || encodedPath;
         }
@@ -6764,13 +6491,15 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
             correctedRef.altText = originalAlt.trim();
         }
 
-        if (Object.keys(correctedRef).length) {
+        if (correctedRef.imageUrl) {
             try {
                 validateImageRef(correctedRef);
+                merged.imageRef = correctedRef;
             } catch (validationError) {
                 console.warn(`[IMG-RESTORE] Image ref validation failed for question ${key}: ${validationError?.message || validationError}`);
             }
-            merged.imageRef = correctedRef;
+        } else {
+            delete merged.imageRef;
         }
 
         return merged;
