@@ -16,8 +16,20 @@ If you are deploying this service on Render, follow these steps:
 4.  Create a new variable with the following key and value:
     *   **Key**: `GOOGLE_AI_API_KEY`
     *   **Value**: `YOUR_SECRET_API_KEY_HERE`
+5.  In the **Settings** tab, update the build and start commands so the frontend bundle is created before the backend boots:
+    *   **Build Command**:
 
-Render will automatically use this variable to power the application. Ensure you do not expose this key in your frontend code.
+        ```bash
+        cd frontend && npm ci && npm run build && cd ../backend && npm ci
+        ```
+
+    *   **Start Command**:
+
+        ```bash
+        cd backend && node server.js
+        ```
+
+Render will automatically use this variable to power the application and will now find the built SPA in `frontend/dist` when `server.js` starts. Ensure you do not expose this key in your frontend code.
 
 ### Local Development
 
