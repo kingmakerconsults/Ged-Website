@@ -2,6 +2,7 @@
 import path from 'node:path';
 import process from 'node:process';
 import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const Module = require('module');
@@ -140,7 +141,7 @@ async function stubGenerate(subject, prompt) {
   return { items: [item], model: 'stub' };
 }
 
-async function main() {
+export async function main() {
   const options = parseArgs(process.argv);
   try {
     resetImageState?.();
@@ -164,4 +165,8 @@ async function main() {
   }
 }
 
-main();
+const entryPointUrl = process.argv[1] ? pathToFileURL(process.argv[1]).href : null;
+
+if (entryPointUrl && import.meta.url === entryPointUrl) {
+  main();
+}
