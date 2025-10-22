@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ged-website
+    env: node
+    plan: starter
+    buildCommand: |
+      npm ci
+      npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: IMAGES_DIR
+        value: ./frontend/Images
+    autoDeploy: true

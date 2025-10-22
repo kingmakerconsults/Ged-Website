@@ -3537,44 +3537,41 @@ app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
 // --- Static assets (images) with CORS + long cache ---
-const IMAGES_PRIMARY = path.join(__dirname, 'Images');
-const LEGACY_IMAGES_ROOT = path.join(__dirname, '../frontend/Images');
-if (fs.existsSync(IMAGES_PRIMARY)) {
+const resolveImagesDirectory = () => {
+    const configured = process.env.IMAGES_DIR;
+    if (configured) {
+        return path.isAbsolute(configured) ? configured : path.resolve(process.cwd(), configured);
+    }
+    return path.join(__dirname, '../frontend/Images');
+};
+
+const IMAGES_DIR = resolveImagesDirectory();
+const FALLBACK_IMAGES_DIR = path.join(__dirname, 'Images');
+const candidateImageDirs = [IMAGES_DIR, FALLBACK_IMAGES_DIR].filter((dir, index, arr) => dir && arr.indexOf(dir) === index);
+const locatedImagesDir = candidateImageDirs.find((dir) => {
+    try {
+        return fs.existsSync(dir);
+    } catch (err) {
+        console.warn('[static][warn] Unable to stat Images directory', dir, err?.message || err);
+        return false;
+    }
+});
+
+if (locatedImagesDir) {
     const sharedOptions = { maxAge: '7d', etag: true };
-    app.use('/Images', express.static(IMAGES_PRIMARY, { ...sharedOptions, fallthrough: false }));
-    app.use('/img', cors(), express.static(IMAGES_PRIMARY, { ...sharedOptions, fallthrough: true }));
-    console.log('[static] mounted /Images from', IMAGES_PRIMARY);
-} else if (fs.existsSync(LEGACY_IMAGES_ROOT)) {
-    const sharedOptions = { maxAge: '7d', etag: true };
-    app.use('/Images', express.static(LEGACY_IMAGES_ROOT, { ...sharedOptions, fallthrough: false }));
-    app.use('/img', cors(), express.static(LEGACY_IMAGES_ROOT, { ...sharedOptions, fallthrough: true }));
-    console.warn('[static][warn] Primary Images directory missing; using legacy path', LEGACY_IMAGES_ROOT);
+    app.use('/Images', express.static(locatedImagesDir, { ...sharedOptions, fallthrough: false }));
+    app.use('/img', cors(), express.static(locatedImagesDir, { ...sharedOptions, fallthrough: true }));
+    console.log('[static] Serving Images from', locatedImagesDir);
+    if (process.env.IMAGES_DIR && path.resolve(process.cwd(), process.env.IMAGES_DIR) !== locatedImagesDir) {
+        console.warn('[static][warn] Falling back to Images directory at', locatedImagesDir);
+    }
 } else {
-    console.warn('[static][warn] Images directory not found at', IMAGES_PRIMARY, 'or', LEGACY_IMAGES_ROOT);
+    console.warn('[static][warn] Images directory not found at', IMAGES_DIR);
 }
 
-app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
-
-const distPath = path.join(__dirname, '../frontend/dist');
-
-if (CLIENT_BUILD_EXISTS) {
-    app.use(express.static(distPath, { maxAge: '1h', etag: true }));
-
-    app.get(['/', '/app', '/app/*'], (req, res, next) => {
-        if (req.method !== 'GET') return next();
-        const indexFilePath = path.join(distPath, 'index.html');
-        // only fall back if the file actually exists
-        if (!fs.existsSync(indexFilePath)) {
-            return next();
-        }
-        res.sendFile(indexFilePath);
-    });
-} else {
-    console.warn('[SPA][WARN] No built frontend found at frontend/dist. Serving backend status message instead.');
-    app.get(['/', '/app', '/app/*'], (_req, res) => {
-        res.send('Learning Canvas Backend is running! Build the frontend to enable the UI.');
-    });
-}
+const FRONTEND_DIST = path.join(__dirname, '../frontend/dist');
+app.use(express.static(FRONTEND_DIST, { maxAge: '1h', etag: true }));
+let warnedMissingFrontend = false;
 
 app.post('/question-bank/save', async (req, res) => {
     const client = await pool.connect();
@@ -7735,6 +7732,22 @@ const generateAIContent = async (prompt, schema) => {
     const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
     return JSON.parse(jsonText);
 };
+
+app.get('*', (req, res, next) => {
+    if (req.method !== 'GET') return next();
+    if (req.path.startsWith('/api')) return next();
+
+    const indexFilePath = path.join(FRONTEND_DIST, 'index.html');
+    if (!fs.existsSync(indexFilePath)) {
+        if (!warnedMissingFrontend) {
+            console.warn('[SPA][WARN] No built frontend found at frontend/dist. Serving backend status message instead.');
+            warnedMissingFrontend = true;
+        }
+        return res.status(503).send('Learning Canvas Backend is running! Build the frontend to enable the UI.');
+    }
+
+    res.sendFile(indexFilePath);
+});
 
 app.use((err, req, res, next) => {
     console.error(err?.stack || err);

@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "npm --prefix backend ci && (npm --prefix frontend ci || true)",
+    "build": "npm --prefix frontend run build",
+    "start": "node backend/server.js",
     "harvest:science": "node tools/gov-image-harvester/index.mjs --subject Science",
     "harvest:socstud": "node tools/gov-image-harvester/index.mjs --subject \"Social Studies\"",
     "img:stats": "node tools/gov-image-harvester/inspect.mjs --stats",
