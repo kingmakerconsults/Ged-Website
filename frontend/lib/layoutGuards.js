@@ -2,6 +2,23 @@ const HEADER_SELECTOR = '.page-header, header, .quiz-header';
 export const STRAY_TEXT_THRESHOLD = 100;
 const MAX_QUIZ_TITLE_LENGTH = 140;
 export const PRELOAD_ELEMENT_ID = '__PRELOAD__';
+export const APP_ROOT_ID = 'app';
+
+const DEFAULT_NODE_TYPES = {
+  TEXT: 3,
+  COMMENT: 8,
+};
+
+const DEV_MODE = (() => {
+  if (typeof process !== 'undefined' && process?.env?.NODE_ENV) {
+    return process.env.NODE_ENV !== 'production';
+  }
+  if (typeof window !== 'undefined') {
+    const host = window.location?.hostname || '';
+    return host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0';
+  }
+  return false;
+})();
 
 function toFallbackString(fallback) {
   if (typeof fallback === 'string' && fallback.trim()) {
@@ -12,6 +29,17 @@ function toFallbackString(fallback) {
 
 function collapseWhitespace(value) {
   return value.replace(/\s+/g, ' ').trim();
+}
+
+function getNodeConstants(doc) {
+  const NodeCtor = doc?.defaultView?.Node || globalThis.Node;
+  if (!NodeCtor) {
+    return DEFAULT_NODE_TYPES;
+  }
+  return {
+    TEXT: NodeCtor.TEXT_NODE,
+    COMMENT: NodeCtor.COMMENT_NODE,
+  };
 }
 
 function looksLikeSerializedJson(text) {
@@ -54,7 +82,7 @@ export function ensurePreloadElement(doc = (typeof document !== 'undefined' ? do
     el.id = PRELOAD_ELEMENT_ID;
     el.type = 'application/json';
     el.textContent = '{}';
-    const target = doc.body || doc.head || doc.documentElement;
+    const target = doc.head || doc.body || doc.documentElement;
     target?.appendChild(el);
   } else {
     el.type = 'application/json';
@@ -91,17 +119,13 @@ export function getPreloadState(doc = (typeof document !== 'undefined' ? documen
   }
 }
 
-export function cleanHeaderLeak(doc = (typeof document !== 'undefined' ? document : null)) {
-  if (!doc) return [];
-  const header = doc.querySelector(HEADER_SELECTOR);
-  if (!header) return [];
-
-  const NodeCtor = doc.defaultView?.Node || globalThis.Node;
-  const textNodeType = NodeCtor ? NodeCtor.TEXT_NODE : 3;
+function pruneLongTextNodes(root, doc) {
+  if (!root || !doc) return [];
+  const { TEXT } = getNodeConstants(doc);
   const removed = [];
 
-  for (const node of Array.from(header.childNodes)) {
-    if (node.nodeType !== textNodeType) {
+  for (const node of Array.from(root.childNodes)) {
+    if (node.nodeType !== TEXT) {
       continue;
     }
     const text = collapseWhitespace(node.textContent || '');
@@ -114,9 +138,19 @@ export function cleanHeaderLeak(doc = (typeof document !== 'undefined' ? documen
   return removed;
 }
 
+export function cleanHeaderLeak(doc = (typeof document !== 'undefined' ? document : null)) {
+  if (!doc) return [];
+  const header = doc.querySelector(HEADER_SELECTOR);
+  if (!header) return [];
+  return pruneLongTextNodes(header, doc);
+}
+
 export function scheduleHeaderLeakCleanup(doc = (typeof document !== 'undefined' ? document : null)) {
   if (!doc) return;
-  const runCleanup = () => cleanHeaderLeak(doc);
+  const runCleanup = () => {
+    lockdownDom(doc);
+    cleanHeaderLeak(doc);
+  };
 
   if (doc.readyState === 'loading') {
     doc.addEventListener('DOMContentLoaded', runCleanup, { once: true });
@@ -144,6 +178,82 @@ export function scheduleHeaderLeakCleanup(doc = (typeof document !== 'undefined'
   timeout?.(() => observer.disconnect(), 4000);
 }
 
+export function appendSafeText(parent, text) {
+  if (!parent) return;
+  const doc = parent.ownerDocument || (typeof document !== 'undefined' ? document : null);
+  if (!doc) return;
+  const node = doc.createTextNode(String(text ?? ''));
+  parent.appendChild(node);
+}
+
+export function setSafeText(target, text) {
+  if (!target) return;
+  while (target.firstChild) {
+    target.removeChild(target.firstChild);
+  }
+  if (text == null || text === '') {
+    return;
+  }
+  appendSafeText(target, text);
+}
+
+export const logToPage = (...args) => {
+  if (!DEV_MODE) return;
+  const doc = typeof document !== 'undefined' ? document : null;
+  if (!doc) {
+    console.debug('[logToPage]', ...args);
+    return;
+  }
+
+  let details = doc.getElementById('__DEV_LOG__');
+  if (!details) {
+    details = doc.createElement('details');
+    details.id = '__DEV_LOG__';
+    details.style.display = 'none';
+    const summary = doc.createElement('summary');
+    setSafeText(summary, 'Debug Log');
+    details.appendChild(summary);
+    doc.body?.appendChild(details);
+  }
+
+  const entry = doc.createElement('pre');
+  entry.style.margin = '0';
+  appendSafeText(entry, args.map((arg) => {
+    if (typeof arg === 'string') {
+      return arg;
+    }
+    try {
+      return JSON.stringify(arg, null, 2);
+    } catch (error) {
+      return String(arg);
+    }
+  }).join(' '));
+  details.appendChild(entry);
+};
+
+export function lockdownDom(doc = (typeof document !== 'undefined' ? document : null)) {
+  if (!doc) return;
+  const appRoot = doc.getElementById(APP_ROOT_ID);
+  const { COMMENT } = getNodeConstants(doc);
+
+  if (appRoot) {
+    for (const node of Array.from(doc.body.childNodes)) {
+      if (node === appRoot || node.nodeType === COMMENT) {
+        continue;
+      }
+      if (node.nodeType === 1 && node.nodeName === 'SCRIPT') {
+        continue;
+      }
+      doc.body.removeChild(node);
+    }
+  }
+
+  pruneLongTextNodes(appRoot, doc);
+
+  const header = doc.querySelector(HEADER_SELECTOR) || appRoot?.parentElement || appRoot;
+  pruneLongTextNodes(header, doc);
+}
+
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   if (typeof window.sanitizeQuizTitle !== 'function') {
     window.sanitizeQuizTitle = (rawTitle, fallbackTitle) => sanitizeQuizTitle(rawTitle, fallbackTitle);
@@ -151,6 +261,12 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   window.getPreloadState = () => getPreloadState(document);
   window.setPreloadState = (state) => setPreloadState(state, document);
   window.cleanHeaderLeak = () => cleanHeaderLeak(document);
+  window.SafeDOM = Object.assign({}, window.SafeDOM, {
+    appendSafeText: (parent, text) => appendSafeText(parent, text),
+    setSafeText: (target, text) => setSafeText(target, text),
+    logToPage: (...args) => logToPage(...args),
+  });
+  lockdownDom(document);
   ensurePreloadElement(document);
   scheduleHeaderLeakCleanup(document);
 }
@@ -162,4 +278,8 @@ export default {
   ensurePreloadElement,
   setPreloadState,
   getPreloadState,
+  appendSafeText,
+  setSafeText,
+  logToPage,
+  lockdownDom,
 };
