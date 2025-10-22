@@ -358,6 +358,20 @@ function VocabularySection({ subject }) {
 
 function VocabularyOverview({ onSelectSubject }) {
     const [subjectEntries, setSubjectEntries] = React.useState([]);
+    const [highlightPositions, setHighlightPositions] = React.useState({});
+
+    const getVisibleTerms = React.useCallback((terms = [], startIndex = 0, limit = 4) => {
+        if (!Array.isArray(terms) || !terms.length) {
+            return [];
+        }
+        const maxItems = Math.min(limit, terms.length);
+        const results = [];
+        for (let i = 0; i < maxItems; i += 1) {
+            const nextIndex = (startIndex + i) % terms.length;
+            results.push(terms[nextIndex]);
+        }
+        return results;
+    }, []);
 
     React.useEffect(() => {
         let isMounted = true;
@@ -410,6 +424,78 @@ function VocabularyOverview({ onSelectSubject }) {
         };
     }, []);
 
+    React.useEffect(() => {
+        if (!subjectEntries.length) {
+            setHighlightPositions({});
+            return;
+        }
+
+        setHighlightPositions((prev) => {
+            const next = {};
+
+            subjectEntries.forEach(([subjectName, vocabList]) => {
+                const termsLength = Array.isArray(vocabList) ? vocabList.length : 0;
+                if (!termsLength) {
+                    return;
+                }
+                const prevIndex = Number.isInteger(prev[subjectName]) ? prev[subjectName] : 0;
+                next[subjectName] = ((prevIndex % termsLength) + termsLength) % termsLength;
+            });
+
+            return next;
+        });
+    }, [subjectEntries]);
+
+    React.useEffect(() => {
+        if (!subjectEntries.length) {
+            return () => {};
+        }
+
+        const intervalId = window.setInterval(() => {
+            setHighlightPositions((prev) => {
+                const next = {};
+                let hasChange = false;
+
+                subjectEntries.forEach(([subjectName, vocabList]) => {
+                    const termsLength = Array.isArray(vocabList) ? vocabList.length : 0;
+                    if (!termsLength) {
+                        return;
+                    }
+
+                    const currentIndex = Number.isInteger(prev[subjectName]) ? prev[subjectName] : 0;
+                    const nextIndex = termsLength > 1 ? (currentIndex + 1) % termsLength : 0;
+
+                    next[subjectName] = nextIndex;
+
+                    if (nextIndex !== currentIndex) {
+                        hasChange = true;
+                    }
+                });
+
+                const prevKeys = Object.keys(prev);
+                const nextKeys = Object.keys(next);
+
+                if (prevKeys.length !== nextKeys.length) {
+                    hasChange = true;
+                } else {
+                    for (let i = 0; i < prevKeys.length; i += 1) {
+                        const key = prevKeys[i];
+                        if (!Object.prototype.hasOwnProperty.call(next, key)) {
+                            hasChange = true;
+                            break;
+                        }
+                    }
+                }
+
+                return hasChange ? next : prev;
+            });
+        }, 4000);
+
+        return () => {
+            window.clearInterval(intervalId);
+        };
+    }, [subjectEntries]);
+
     if (!subjectEntries.length) {
         return null;
     }
@@ -425,7 +511,10 @@ function VocabularyOverview({ onSelectSubject }) {
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                 {subjectEntries.map(([subjectName, vocabList]) => {
                     const terms = Array.isArray(vocabList) ? vocabList : [];
-                    const previewTerms = terms.slice(0, 4);
+                    const highlightStart = Number.isInteger(highlightPositions[subjectName])
+                        ? highlightPositions[subjectName]
+                        : 0;
+                    const previewTerms = getVisibleTerms(terms, highlightStart, 4);
                     const colorScheme = SUBJECT_COLORS[subjectName] || {};
 
                     return (
