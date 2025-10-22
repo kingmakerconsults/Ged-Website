@@ -15,6 +15,7 @@ try {
     sanitizeHtmlLib = null;
 }
 
+const diagnostics = require('./imageDiagnostics');
 const schema = require('../../schemas/imageRef.schema.json');
 
 let validate;
@@ -239,6 +240,85 @@ function validateImageRef(imageRef) {
     return payload;
 }
 
+function buildContextLabel(subject, context = {}) {
+    const parts = [];
+    if (subject) {
+        parts.push(`subject=${subject}`);
+    }
+    if (context.source) {
+        parts.push(`source=${context.source}`);
+    }
+    if (context.id != null) {
+        parts.push(`id=${context.id}`);
+    }
+    if (context.index != null) {
+        parts.push(`index=${context.index}`);
+    }
+    return parts.length ? parts.join(' ') : 'unknown-context';
+}
+
+function extractTags(imageRef) {
+    if (!imageRef || typeof imageRef !== 'object') {
+        return undefined;
+    }
+    if (Array.isArray(imageRef.tags) && imageRef.tags.length) {
+        return imageRef.tags;
+    }
+    if (Array.isArray(imageRef?.imageMeta?.keywords) && imageRef.imageMeta.keywords.length) {
+        return imageRef.imageMeta.keywords;
+    }
+    return undefined;
+}
+
+async function assertValidImageRef(imageRef, options = {}) {
+    const { subject, context = {}, attemptPlaceholder = true } = options;
+    diagnostics.recordValidationCheck();
+    const label = buildContextLabel(subject, context);
+
+    try {
+        const payload = validateImageRef(imageRef);
+        diagnostics.recordValidationSuccess();
+        const sanitized = { ...payload };
+        if (imageRef && typeof imageRef.imageMeta === 'object' && imageRef.imageMeta) {
+            sanitized.imageMeta = { ...imageRef.imageMeta };
+        }
+        return { ok: true, imageRef: sanitized, placeholder: false };
+    } catch (err) {
+        diagnostics.recordValidationFailure();
+        const errorMessage = err?.message || String(err);
+
+        if (attemptPlaceholder) {
+            diagnostics.recordPlaceholderAttempt();
+            try {
+                // Lazily require to avoid circular dependency issues during module initialization.
+                const { resolveImageRef } = require('./resolveImageRef');
+                const fallbackSubject = subject || imageRef?.subject || null;
+                const resolved = await resolveImageRef(imageRef || {}, {
+                    subject: fallbackSubject || undefined,
+                    tags: extractTags(imageRef)
+                });
+                diagnostics.recordPlaceholderSuccess();
+                console.warn(`[IMAGING] Validation failed for ${label}; substituting placeholder image.`);
+                return { ok: true, imageRef: resolved, placeholder: true };
+            } catch (placeholderErr) {
+                diagnostics.recordPlaceholderFailure();
+                const placeholderMessage = placeholderErr?.message || String(placeholderErr);
+                console.warn(`[IMAGING] Placeholder resolution failed for ${label}: ${placeholderMessage}`);
+            }
+        }
+
+        diagnostics.recordImageStripped(subject, {
+            reason: 'validation_failed',
+            id: context.id,
+            index: context.index,
+            source: context.source
+        });
+        console.warn(`[IMAGING] Stripping image for ${label}: ${errorMessage}`);
+        return { ok: false, error: err instanceof Error ? err : new Error(errorMessage) };
+    }
+}
+
 module.exports = {
-    validateImageRef
+    validateImageRef,
+    assertValidImageRef
 };

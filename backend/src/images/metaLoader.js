@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { jsonrepair } = require('jsonrepair');
+const { recordProbeFailure } = require('./imageDiagnostics');
 
 const META_FILENAMES = ['image_metadata_final.json', 'image_metadata.json'];
 const DEFAULT_ALT = 'Social studies image';
@@ -384,6 +385,7 @@ async function probeImageHead(url, { timeoutMs = HEAD_TIMEOUT_MS } = {}) {
         return { ok: true, contentType };
     } catch (err) {
         const message = err?.message || String(err);
+        recordProbeFailure({ url, error: message, source: 'images.metaLoader.probeImageHead' });
         return { ok: false, error: message };
     } finally {
         clearTimeout(timer);

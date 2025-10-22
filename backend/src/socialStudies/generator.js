@@ -11,6 +11,7 @@ const { planDifficulty, expandDifficultyCounts } = require('./difficulty');
 const { deriveVisualFeatures } = require('../utils/visualFeatures');
 const { deriveIsScreenshot, probeImageHead, DEFAULT_ALT } = require('../utils/metaLoader');
 const { validateImageRef } = require('../images/validateImageRef');
+const { recordProbeFailure, recordImageStripped } = require('../images/imageDiagnostics');
 const { validateSS } = require('./validators');
 const { clampPassage } = require('./passage');
 const { resolveImage } = require('../../imageResolver');
@@ -248,6 +249,19 @@ async function ensureImageAvailability(item, stats) {
             stats.failedUrls.add(imageUrl);
         }
     }
+
+    recordProbeFailure({
+        url: imageUrl,
+        error: result?.error || 'head_probe_failed',
+        subject: 'Social Studies',
+        source: 'socialStudies.ensureImageAvailability'
+    });
+
+    recordImageStripped('Social Studies', {
+        reason: 'head_probe_failed',
+        id: item?.id || item?.questionNumber || null,
+        source: 'socialStudies.ensureImageAvailability'
+    });
 
     delete item.imageRef;
     delete item.imageMeta;
