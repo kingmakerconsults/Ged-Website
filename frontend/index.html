@@ -10,6 +10,7 @@
     <script src="lib/normalizeProse.js"></script>
     <script src="lib/mathSanitizer.js"></script>
     <script src="lib/sanitizeExamText.js"></script>
+    <script type="module" src="lib/layoutGuards.js"></script>
     <script>
       // Safe, cross-browser math fixer that ONLY edits text inside math delimiters.
       // Supports $...$, $$...$$, \(...\), \[...\]
@@ -261,6 +262,7 @@
 <body class="bg-slate-100">
     <div id="root"></div>
     <div id="section-root" class="mx-auto my-6 max-w-4xl px-4"></div>
+    <script id="__PRELOAD__" type="application/json">{}</script>
 
     <div
         id="student-scores-modal"
@@ -291,6 +293,40 @@
 
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
+
+const sanitizeQuizTitle = (typeof window !== 'undefined' && typeof window.sanitizeQuizTitle === 'function')
+    ? window.sanitizeQuizTitle
+    : (rawTitle, fallbackTitle = 'Practice Quiz') => {
+        const fallback = typeof fallbackTitle === 'string' && fallbackTitle.trim()
+            ? fallbackTitle.trim()
+            : 'Practice Quiz';
+        if (typeof rawTitle !== 'string') {
+            return fallback;
+        }
+        const collapsed = rawTitle.replace(/\s+/g, ' ').trim();
+        if (!collapsed) {
+            return fallback;
+        }
+        if (/^[\[{]/.test(collapsed) && /"questions"|"items"|"subject"/i.test(collapsed)) {
+            return fallback;
+        }
+        if (/<[^>]+>/.test(collapsed)) {
+            return fallback;
+        }
+        const MAX_LENGTH = 140;
+        if (collapsed.length > MAX_LENGTH) {
+            return `${collapsed.slice(0, MAX_LENGTH).trimEnd()}…`;
+        }
+        return collapsed;
+    };
+
+const getPreloadState = (typeof window !== 'undefined' && typeof window.getPreloadState === 'function')
+    ? window.getPreloadState
+    : () => ({ });
+
+const setPreloadState = (typeof window !== 'undefined' && typeof window.setPreloadState === 'function')
+    ? window.setPreloadState
+    : () => {};
 
 const APP_MATH_MODE = (window.__APP_CONFIG__ && window.__APP_CONFIG__.mathMode === 'katex')
     ? 'katex'
@@ -3852,9 +3888,10 @@ const shuffleArray = (array) => {
 // --- App Structure Components ---
 function AppHeader({ currentUser, onLogout }) {
     const displayName = currentUser?.name || currentUser?.email || 'Learner';
-    const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'U';
+    const safeDisplayName = sanitizeQuizTitle(displayName, 'Learner');
+    const initial = safeDisplayName ? safeDisplayName.trim().charAt(0).toUpperCase() : 'U';
     return (
-        <header className="bg-white shadow-sm sticky top-0 z-50">
+        <header className="page-header bg-white shadow-sm sticky top-0 z-50">
             <div className="w-full max-w-4xl mx-auto p-4 flex justify-between items-center">
                 <h1 className="text-xl font-bold text-sky-700">Mr. Smith's Learning Canvas</h1>
                 {currentUser && (
@@ -3866,7 +3903,7 @@ function AppHeader({ currentUser, onLogout }) {
                                 {initial}
                             </div>
                         )}
-                        <span className="font-semibold text-slate-600">Welcome, {currentUser.name}!</span>
+                        <span className="font-semibold text-slate-600">Welcome, {safeDisplayName}!</span>
                         <button
                             onClick={onLogout}
                             className="text-sm font-semibold text-sky-600 hover:text-sky-800"
@@ -4641,6 +4678,17 @@ function App() {
         }
 
         const preparedQuiz = { ...quizPayload, subject };
+        const titleFallback = subject ? `${subject} Practice Quiz` : 'Practice Quiz';
+        const titleCandidates = [
+            quizPayload.title,
+            quizPayload.quizTitle,
+            quizPayload.quiz_title,
+            quizPayload.name,
+            quizPayload.displayName,
+        ];
+        const resolvedTitle = titleCandidates.find((value) => typeof value === 'string' && value.trim()) || '';
+        preparedQuiz.title = sanitizeQuizTitle(resolvedTitle, titleFallback);
+
         let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
 
         if (quizPayload.type === 'multi-part-math') {
@@ -4689,6 +4737,15 @@ function App() {
         }
 
         preparedQuiz.questions = normalizedQuestions;
+
+        setPreloadState({
+            lastQuizMeta: {
+                id: preparedQuiz.id || null,
+                title: preparedQuiz.title,
+                subject: preparedQuiz.subject || subject || null,
+                type: preparedQuiz.type || 'quiz',
+            }
+        });
 
         setActiveQuiz(preparedQuiz);
         // For any multi-part quiz, the view should be 'quiz' so the main QuizRunner can handle routing.
@@ -6578,6 +6635,10 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
         || '';
     const isScienceQuiz = subject === 'Science' || subjectForRender === 'Science';
     const colorScheme = SUBJECT_COLORS[subjectForRender] || DEFAULT_COLOR_SCHEME;
+    const displayTitle = React.useMemo(
+        () => sanitizeQuizTitle(quizTitle, subject ? `${subject} Practice Quiz` : 'Practice Quiz'),
+        [quizTitle, subject]
+    );
 
     return (
         <div className="fade-in">
@@ -6590,7 +6651,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                             </button>
                         )}
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-2 flex-1">
-                            <h2 className={`text-xl font-bold text-center sm:text-left flex-1 ${colorScheme.text || 'text-slate-800'}`}>{quizTitle}</h2>
+                            <h2 className={`text-xl font-bold text-center sm:text-left flex-1 ${colorScheme.text || 'text-slate-800'}`}>{displayTitle}</h2>
                             {activeProfileLabel && (
                                 <span className="ml-0 sm:ml-2 inline-flex items-center text-xs bg-gray-200 px-2 py-0.5 rounded uppercase tracking-wide text-gray-700">
                                     {activeProfileLabel}
@@ -7147,11 +7208,16 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         }
     };
 
+    const safeQuizTitle = React.useMemo(
+        () => sanitizeQuizTitle(quiz?.title || '', quiz?.subject ? `${quiz.subject} Practice Quiz` : 'Practice Quiz'),
+        [quiz?.title, quiz?.subject]
+    );
+
     return (
         <div className="fade-in">
              <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b">
                  <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800 flex-1">{quiz.title}</h2>
+                 <h2 className="text-xl font-bold text-center text-slate-800 flex-1">{safeQuizTitle}</h2>
                  <div className="flex flex-col sm:items-end gap-2">
                     <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-700'}`}>
                         <span role="img" aria-label="timer">⏱️</span>
@@ -7193,6 +7259,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
     const performance = getPerf(results.scaledScore);
     const markedQuestions = quiz.questions.filter((_, index) => results.marked[index]);
+    const safeQuizTitle = sanitizeQuizTitle(quiz?.title || '', quiz?.subject ? `${quiz.subject} Practice Quiz` : 'Practice Quiz');
 
     const performanceByCategory = quiz.questions.reduce((acc, question, index) => {
         const type = question.type || 'knowledge'; // Default type if not specified
@@ -7220,7 +7287,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
     return (
         <div className="text-center fade-in">
-            <h2 className="text-3xl font-bold text-slate-800">Results: {quiz.title}</h2>
+            <h2 className="text-3xl font-bold text-slate-800">Results: {safeQuizTitle}</h2>
             <div className="my-6">
                 <p className="text-lg text-slate-600">Your estimated GED® Score is:</p>
                 <p className={`text-6xl font-bold my-2 ${performance.color}`}>{results.scaledScore}</p>
@@ -7368,6 +7435,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 function ReadingPractice({ quiz, onComplete, onExit }) {
      const [answers, setAnswers] = useState({});
      const [isSubmitted, setIsSubmitted] = useState(false);
+     const safeQuizTitle = sanitizeQuizTitle(quiz?.title || '', quiz?.subject ? `${quiz.subject} Practice Quiz` : 'Reading Practice');
 
     const articleImageMetaLayers = React.useMemo(() => {
         if (!quiz || typeof quiz !== 'object') {
@@ -7442,7 +7510,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
         <div className="fade-in">
              <header className="flex justify-between items-center pb-4 mb-4 border-b">
                  <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
+                 <h2 className="text-xl font-bold text-center text-slate-800">{safeQuizTitle}</h2>
                  <div></div>
             </header>
             <article className="prose max-w-none">
