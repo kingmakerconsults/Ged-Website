@@ -2362,17 +2362,13 @@ function renderImageSection(container, imageData, items) {
     );
 
     const metaLayers = [];
-    if (firstItem && typeof firstItem === 'object') {
-        if (firstItem.imageMeta) metaLayers.push(firstItem.imageMeta);
-        if (firstItem.imageRef?.imageMeta) metaLayers.push(firstItem.imageRef.imageMeta);
-    }
-    if (imageData && typeof imageData === 'object') {
-        if (imageData.imageMeta) metaLayers.push(imageData.imageMeta);
-        if (imageData.meta) metaLayers.push(imageData.meta);
-        if (imageData.metadata) metaLayers.push(imageData.metadata);
-    }
+    if (firstItem?.imageMeta) metaLayers.push(firstItem.imageMeta);
+    if (firstItem?.imageRef?.imageMeta) metaLayers.push(firstItem.imageRef.imageMeta);
+    if (imageData?.imageMeta) metaLayers.push(imageData.imageMeta);
+    if (imageData?.meta) metaLayers.push(imageData.meta);
+    if (imageData?.metadata) metaLayers.push(imageData.metadata);
 
-    const canonicalImageRef = (firstItem && typeof firstItem === 'object' && firstItem.imageRef)
+    const canonicalImageRef = (firstItem && firstItem.imageRef)
         || imageData
         || (typeof imageData === 'string' ? { imageUrl: imageData } : null);
 
@@ -2383,59 +2379,7 @@ function renderImageSection(container, imageData, items) {
         tabIndex: 0
     });
 
-    if (!Array.isArray(items) || !items.length) {
-        return;
-    }
-
-    items.forEach((q) => {
-        const card = document.createElement('div');
-        card.className = 'mb-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm';
-
-        const stem = document.createElement('div');
-        stem.className = 'question-stem text-slate-800';
-        const cachedStem = SHOULD_USE_KATEX && (q?.katex_html_cache?.stem_html || q?.katex_html_cache?.stem);
-        if (cachedStem) {
-            stem.innerHTML = cachedStem;
-        } else {
-            const rawStem = q?.question_norm?.stem || q?.question_data?.stem_raw || q?.stem || q?.questionText || '';
-            const cleanedStem = stripFileSource(rawStem);
-            setSafeText(stem, SHOULD_USE_KATEX ? cleanedStem : toPlainFractions(cleanedStem));
-        }
-        card.appendChild(stem);
-
-        const list = document.createElement('ul');
-        list.className = 'mt-3 list-disc space-y-2 pl-6 text-slate-700';
-        const choiceHtml = SHOULD_USE_KATEX && (q?.katex_html_cache?.choices_html || q?.katex_html_cache?.choices);
-        const choiceTexts = Array.isArray(choiceHtml) && choiceHtml.length
-            ? choiceHtml
-            : (Array.isArray(q?.question_norm?.choices) && q.question_norm.choices.length
-                ? q.question_norm.choices
-                : Array.isArray(q?.question_data?.choices)
-                    ? q.question_data.choices
-                    : Array.isArray(q?.answerOptions)
-                        ? q.answerOptions.map((opt) => (typeof opt?.text === 'string' ? opt.text : ''))
-                        : []);
-
-        choiceTexts.forEach((choice) => {
-            const li = document.createElement('li');
-            if (choice && choice.replace) {
-                const trimmed = stripFileSource(choice.replace(/^\s+|\s+$/g, ''));
-                const isHtml = /^\s*</.test(trimmed);
-                if (isHtml) {
-                    li.innerHTML = SHOULD_USE_KATEX ? trimmed : escapeHtml(toPlainFractions(trimmed));
-                } else {
-                    setSafeText(li, SHOULD_USE_KATEX ? trimmed : toPlainFractions(trimmed));
-                }
-            } else if (typeof choice === 'string') {
-                const cleanedChoice = stripFileSource(choice);
-                setSafeText(li, SHOULD_USE_KATEX ? cleanedChoice : toPlainFractions(cleanedChoice));
-            }
-            list.appendChild(li);
-        });
-
-        card.appendChild(list);
-        container.appendChild(card);
-    });
+    return;
 }
 
 const LAST_IMAGE_BANK_PAYLOAD_KEY = '__LAST_IMAGE_BANK_PAYLOAD__';
