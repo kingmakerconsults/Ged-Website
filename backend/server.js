@@ -30,6 +30,8 @@ const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const { jsonrepair } = require('jsonrepair');
 const { loadImageMeta, resolveImageRef } = require('./src/images/metaLoader');
+const { assertValidImageRef } = require('./src/images/validateImageRef');
+const imageDiagnostics = require('./src/images/imageDiagnostics');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const vocabularyData = require('../data/vocabulary_index.json');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
@@ -430,6 +432,11 @@ async function probeImageHead(url) {
         return { ok: true, contentType: ctype };
     } catch (err) {
         const message = err?.message || String(err);
+        imageDiagnostics.recordProbeFailure({
+            url,
+            error: message,
+            source: 'server.probeImageHead'
+        });
         return { ok: false, error: message };
     } finally {
         clearTimeout(timer);
@@ -1816,16 +1823,95 @@ function validateImageQuestion(q) {
     return true;
 }
 
-function filterValidImageItems(items = []) {
+async function filterValidImageItems(items = []) {
     if (!Array.isArray(items)) return [];
-    return items.filter((item, index) => {
+
+    const filtered = [];
+    for (let index = 0; index < items.length; index += 1) {
+        const item = items[index];
         const ok = validateImageQuestion(item);
         if (!ok) {
             const id = item?.id || index;
             console.warn(`[IMG-VALIDATE] Dropping invalid social studies item (${id}).`);
+            continue;
         }
-        return ok;
+
+        const next = { ...item };
+        if (next.imageRef && typeof next.imageRef === 'object') {
+            const { ok: refOk, imageRef } = await assertValidImageRef(next.imageRef, {
+                subject: 'Social Studies',
+                context: {
+                    id: next?.id || next?.questionNumber || index,
+                    index,
+                    source: 'social-studies.items'
+                }
+            });
+            if (refOk) {
+                next.imageRef = imageRef;
+            } else {
+                delete next.imageRef;
+                if (next.imageMeta) delete next.imageMeta;
+                if (next.imageUrl) delete next.imageUrl;
+                if (next.image_url) delete next.image_url;
+                if (next.stimulusImage) delete next.stimulusImage;
+                if (next.asset && typeof next.asset === 'object') {
+                    const assetCopy = { ...next.asset };
+                    if ('imagePath' in assetCopy) {
+                        delete assetCopy.imagePath;
+                    }
+                    if (Object.keys(assetCopy).length) {
+                        next.asset = assetCopy;
+                    } else {
+                        delete next.asset;
+                    }
+                }
+            }
+        }
+
+        filtered.push(next);
+    }
+
+    return filtered;
+}
+
+async function ensureQuestionImageCompliance(question, { subject, index, source }) {
+    if (!question || typeof question !== 'object' || !question.imageRef) {
+        return question;
+    }
+
+    const next = { ...question };
+    const { ok, imageRef } = await assertValidImageRef(next.imageRef, {
+        subject,
+        context: {
+            id: next?.id || next?.questionNumber || index,
+            index,
+            source
+        }
     });
+
+    if (ok) {
+        next.imageRef = imageRef;
+        return next;
+    }
+
+    delete next.imageRef;
+    if (next.imageMeta) delete next.imageMeta;
+    if (next.imageUrl) delete next.imageUrl;
+    if (next.image_url) delete next.image_url;
+    if (next.stimulusImage) delete next.stimulusImage;
+    if (next.asset && typeof next.asset === 'object') {
+        const assetCopy = { ...next.asset };
+        if ('imagePath' in assetCopy) {
+            delete assetCopy.imagePath;
+        }
+        if (Object.keys(assetCopy).length) {
+            next.asset = assetCopy;
+        } else {
+            delete next.asset;
+        }
+    }
+
+    return next;
 }
 
 function imageDisplayCredit(filePathOrKey) {
@@ -2113,19 +2199,34 @@ function resolveHeroImageForSubject(subject, { candidates = [], avoidIds } = {})
     return null;
 }
 
-function finalizeQuizResponse(quiz, { subject, topic, heroCandidates = [] } = {}) {
+async function finalizeQuizResponse(quiz, { subject, topic, heroCandidates = [] } = {}) {
     if (!quiz || typeof quiz !== 'object') {
         return quiz;
     }
 
     const questions = Array.isArray(quiz.questions) ? quiz.questions : [];
     const allowImages = isImagingEnabledForSubject(subject);
-    const avoidIds = collectImageAvoidIds(questions);
+
+    let processedQuestions = questions;
+    if (allowImages && (subject === 'Social Studies' || subject === 'Science')) {
+        processedQuestions = [];
+        for (let idx = 0; idx < questions.length; idx += 1) {
+            processedQuestions.push(await ensureQuestionImageCompliance(questions[idx], {
+                subject,
+                index: idx,
+                source: 'finalizeQuizResponse'
+            }));
+        }
+    }
+
+    const questionsForPayload = allowImages
+        ? processedQuestions
+        : questions.map((question, idx) => stripQuestionImages(question, idx, subject));
+
+    const avoidIds = collectImageAvoidIds(questionsForPayload);
     const payload = {
         ...quiz,
-        questions: allowImages
-            ? questions
-            : questions.map((question, idx) => stripQuestionImages(question, idx, subject)),
+        questions: questionsForPayload,
         imagesAllowed: allowImages
     };
 
@@ -6771,6 +6872,25 @@ app.get('/metrics/ai', (_req, res) => {
     });
 });
 
+app.get('/admin/image-diagnostics', authenticateBearerToken, async (_req, res) => {
+    try {
+        const metaListCount = Array.isArray(IMAGE_META?.list) ? IMAGE_META.list.length : 0;
+        const metaByIdCount = IMAGE_META?.byId instanceof Map ? IMAGE_META.byId.size : 0;
+        const metaByUrlCount = IMAGE_META?.byUrl instanceof Map ? IMAGE_META.byUrl.size : 0;
+        const snapshot = imageDiagnostics.getSnapshot({
+            metadataEntries: metaListCount,
+            metadataById: metaByIdCount,
+            metadataByUrl: metaByUrlCount,
+            metadataFile: IMAGE_META?.path || null,
+            curatedImages: Array.isArray(curatedImages) ? curatedImages.length : 0
+        });
+        res.json(snapshot);
+    } catch (err) {
+        console.error('Failed to produce image diagnostics:', err?.message || err);
+        res.status(500).json({ error: 'image_diagnostics_unavailable' });
+    }
+});
+
 app.post('/generate/social-studies-items', express.json(), async (req, res) => {
     const { count, allowExternalBlurbs = true } = req.body || {};
     try {
@@ -6780,7 +6900,8 @@ app.post('/generate/social-studies-items', express.json(), async (req, res) => {
             generateWithFallback: (subject, prompt, geminiOptions, fallbackOptions) =>
                 generateQuizItemsWithFallback(subject, prompt, geminiOptions, fallbackOptions)
         });
-        res.json({ items: filterValidImageItems(items) });
+        const filteredItems = await filterValidImageItems(items);
+        res.json({ items: filteredItems });
     } catch (error) {
         console.error('Failed to generate social studies items:', error?.message || error);
         res.status(500).json({ error: 'Failed to generate social studies items.' });
@@ -6938,7 +7059,8 @@ app.post('/generate-quiz', async (req, res) => {
                 console.log("Social Studies draft complete. Sending for second pass review...");
                 const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
                 logGenerationDuration(examType, subject, generationStart);
-                res.json(finalizeQuizResponse(finalQuiz, { subject }));
+                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject });
+                res.json(responsePayload);
 
             } catch (error) {
                 console.error('Error generating Social Studies exam:', error);
@@ -6978,7 +7100,8 @@ app.post('/generate-quiz', async (req, res) => {
                 console.log("Science draft complete. Sending for second pass review...");
                 const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
                 logGenerationDuration(examType, subject, generationStart);
-                res.json(finalizeQuizResponse(finalQuiz, { subject }));
+                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject });
+                res.json(responsePayload);
 
             } catch (error) {
                 console.error('Error generating Science exam:', error);
@@ -7038,7 +7161,8 @@ app.post('/generate-quiz', async (req, res) => {
 
         // RLA does not need a second review pass due to its complex, multi-part nature
         logGenerationDuration(examType, subject, generationStart);
-        res.json(finalizeQuizResponse(finalQuiz, { subject }));
+        const responsePayload = await finalizeQuizResponse(finalQuiz, { subject });
+        res.json(responsePayload);
 
     } catch (error) {
         console.error('Error generating comprehensive RLA exam:', error);
@@ -7154,7 +7278,8 @@ app.post('/generate-quiz', async (req, res) => {
         const finalQuiz = draftQuiz;
 
         logGenerationDuration(examType, subject, generationStart);
-        res.json(finalizeQuizResponse(finalQuiz, { subject }));
+        const responsePayload = await finalizeQuizResponse(finalQuiz, { subject });
+        res.json(responsePayload);
 
     } catch (error) {
         console.error('Error generating comprehensive Math exam:', error);
@@ -7216,7 +7341,8 @@ app.post('/generate-quiz', async (req, res) => {
                 };
 
                 logGenerationDuration(examType, subject, generationStart);
-                res.json(finalizeQuizResponse(finalQuiz, { subject, topic }));
+                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject, topic });
+                res.json(responsePayload);
                 return;
             }
 
@@ -7273,7 +7399,8 @@ app.post('/generate-quiz', async (req, res) => {
                 };
 
                 logGenerationDuration(examType, subject, generationStart);
-                res.json(finalizeQuizResponse(finalQuiz, { subject, topic }));
+                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject, topic });
+                res.json(responsePayload);
 
                 if (generatedClonesForBank.length) {
                     scheduleGeneratedQuestionSave({
@@ -7323,7 +7450,8 @@ app.post('/generate-quiz', async (req, res) => {
             };
 
             logGenerationDuration(examType, subject, generationStart);
-            res.json(finalizeQuizResponse(finalQuiz, { subject, topic }));
+            const responsePayload = await finalizeQuizResponse(finalQuiz, { subject, topic });
+            res.json(responsePayload);
 
         } catch (error) {
             const errorMessage = req.body.topic ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating topic-specific quiz';
