@@ -29,7 +29,7 @@ const axios = require('axios');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const { jsonrepair } = require('jsonrepair');
-const { assertValidImageRef } = require('./src/images/validateImageRef');
+const { assertValidImageRef, validateImageRef } = require('./src/images/validateImageRef');
 const imageDiagnostics = require('./src/images/imageDiagnostics');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const vocabularyData = require('../data/vocabulary_index.json');
@@ -1114,11 +1114,15 @@ function safeJson(raw) {
 }
 
 let IMAGE_DB = [];
-const IMAGE_BY_FILE = new Map();
+let curatedImages = [];
+const IMAGE_BY_PATH = new Map();
 const IMAGE_BY_ID = new Map();
-const IMAGE_BY_URL = new Map();
+const IMAGE_BY_NAME = new Map();
 const MISSING_IMAGE_LOG = new Set();
-const IMAGE_METADATA_PATH = path.join(__dirname, 'data', 'image_metadata_final.json');
+const METADATA_PATHS = [
+    path.join(__dirname, 'image_metadata_final.json'),
+    path.join(__dirname, 'data', 'image_metadata_final.json')
+];
 
 function stripBOM(s) {
     return s && s.charCodeAt(0) === 0xFEFF ? s.slice(1) : s;
@@ -1191,31 +1195,49 @@ function normalizeImagePath(input) {
         // ignore decode failures
     }
 
-    if (/^https?:\/\//i.test(working)) {
+    if (/^https?:\/\//i.test(working) || working.startsWith('data:')) {
         return working;
     }
 
+    const posix = path.posix;
     working = working.replace(/\\+/g, '/');
     working = working.replace(/\/{2,}/g, '/');
     working = working.replace(/^(\.\/)+/g, '');
     working = working.replace(/^\/+/, '');
 
     const lower = working.toLowerCase();
+    if (lower.startsWith('frontend/')) {
+        working = working.slice('frontend/'.length);
+    }
+    if (lower.startsWith('public/')) {
+        working = working.slice('public/'.length);
+    }
+    if (lower.startsWith('assets/')) {
+        working = working.slice('assets/'.length);
+    }
+    if (lower.startsWith('images/')) {
+        working = working.slice('images/'.length);
+    }
+    if (lower.startsWith('/images/')) {
+        working = working.slice('/images/'.length);
+    }
     if (lower.startsWith('img/')) {
-        working = working.slice(4);
-    } else if (lower.startsWith('/img/')) {
-        working = working.slice(5);
+        working = working.slice('img/'.length);
+    }
+    if (lower.startsWith('/img/')) {
+        working = working.slice('/img/'.length);
     }
 
-    const base = working.split('/').pop() || '';
-    if (!base) return '';
-    let decoded = base;
-    try {
-        decoded = decodeURIComponent(base);
-    } catch (err) {
-        // ignore decode issues
+    const cleaned = working.split('/').filter(Boolean).join('/');
+    if (!cleaned) {
+        return '';
     }
-    return `/img/${encodeURIComponent(decoded)}`;
+
+    const safePath = cleaned.toLowerCase().startsWith('images/')
+        ? cleaned
+        : posix.join('Images', cleaned);
+    const prefixed = safePath.startsWith('/') ? safePath : `/${safePath}`;
+    return encodeURI(prefixed.replace(/\/{2,}/g, '/'));
 }
 
 function enrichImageRecord(record = {}) {
@@ -1276,7 +1298,9 @@ function enrichImageRecord(record = {}) {
                 : '';
 
     const keywords = Array.from(new Set([...lowerTags, ...lowerTopics].filter(Boolean)));
-    const fileName = record.fileName || record.file || (normalizedPath.startsWith('/img/') ? normalizedPath.split('/').pop() : '');
+    const fileName = record.fileName
+        || record.file
+        || (normalizedPath.toLowerCase().startsWith('/images/') ? normalizedPath.split('/').pop() : '');
 
     return {
         ...record,
@@ -1298,54 +1322,97 @@ function enrichImageRecord(record = {}) {
     };
 }
 
+function rebuildImagePathIndex() {
+    IMAGE_BY_PATH.clear();
+    IMAGE_BY_ID.clear();
+    IMAGE_BY_NAME.clear();
+
+    for (const entry of IMAGE_DB) {
+        if (!entry || typeof entry !== 'object') continue;
+
+        const idCandidates = [entry.id, entry.fileId, entry.uuid]
+            .map((value) => (value != null ? String(value).trim() : ''))
+            .filter(Boolean);
+        for (const id of idCandidates) {
+            IMAGE_BY_ID.set(id, entry);
+            IMAGE_BY_ID.set(id.toLowerCase(), entry);
+        }
+
+        const nameCandidates = [entry.file, entry.fileName, entry.filename, entry.path]
+            .map((value) => (typeof value === 'string' ? value.trim() : ''))
+            .filter(Boolean);
+        for (const name of nameCandidates) {
+            IMAGE_BY_NAME.set(name, entry);
+            IMAGE_BY_NAME.set(name.toLowerCase(), entry);
+        }
+
+        const pathCandidates = [
+            entry.filePath,
+            entry.src,
+            entry.url,
+            entry.imageUrl,
+            entry.path,
+            entry.file
+        ]
+            .map((value) => (typeof value === 'string' ? value.trim() : ''))
+            .filter(Boolean);
+
+        for (const candidate of pathCandidates) {
+            const normalized = normalizeImagePath(candidate);
+            const clean = candidate
+                .replace(/^\/frontend/i, '')
+                .replace(/^\.?\/*/, '/');
+
+            const variants = new Set([
+                candidate,
+                candidate.toLowerCase(),
+                clean,
+                clean.toLowerCase(),
+                clean.startsWith('/') ? clean.slice(1) : clean,
+                clean.toLowerCase().startsWith('/') ? clean.toLowerCase().slice(1) : clean.toLowerCase(),
+                normalized,
+                normalized.toLowerCase(),
+                normalized.startsWith('/') ? normalized.slice(1) : normalized,
+                normalized.toLowerCase().startsWith('/') ? normalized.toLowerCase().slice(1) : normalized.toLowerCase()
+            ]);
+
+            for (const key of variants) {
+                if (typeof key === 'string' && key) {
+                    IMAGE_BY_PATH.set(key, entry);
+                }
+            }
+
+            const base = candidate.split('/').pop();
+            if (base) {
+                IMAGE_BY_NAME.set(base, entry);
+                IMAGE_BY_NAME.set(base.toLowerCase(), entry);
+            }
+        }
+    }
+}
+
 function installImageMetadata(list) {
     IMAGE_DB = list
         .map(normalizeImageRecord)
         .filter(Boolean)
         .map(enrichImageRecord)
-        .filter(Boolean);
+        .filter(Boolean)
+        .map((record) => ({
+            ...record,
+            filePath: normalizeImagePath(record.filePath || record.src || record.path || record.file),
+            src: normalizeImagePath(record.src || record.filePath || record.path || record.file)
+        }));
 
-    IMAGE_BY_FILE.clear();
-    IMAGE_BY_ID.clear();
-    IMAGE_BY_URL.clear();
-    for (const entry of IMAGE_DB) {
-        if (!entry || typeof entry !== 'object') continue;
-        const { file, fileName, id, filePath, src, url, imageUrl } = entry;
-        const fileKeys = [file, fileName]
-            .map((value) => (typeof value === 'string' ? value.trim() : ''))
-            .filter(Boolean);
-        for (const key of fileKeys) {
-            IMAGE_BY_FILE.set(key, entry);
-            IMAGE_BY_FILE.set(key.toLowerCase(), entry);
-        }
-        if (id != null) {
-            const idKey = String(id).trim();
-            if (idKey) {
-                IMAGE_BY_ID.set(idKey, entry);
-                IMAGE_BY_ID.set(idKey.toLowerCase(), entry);
-            }
-        }
-        const urlCandidates = [imageUrl, filePath, src, url]
-            .map((value) => (typeof value === 'string' ? value.trim() : ''))
-            .filter(Boolean);
-        for (const candidate of urlCandidates) {
-            const lower = candidate.toLowerCase();
-            IMAGE_BY_URL.set(lower, entry);
-            IMAGE_BY_URL.set(lower.replace(/^\//, ''), entry);
-            IMAGE_BY_URL.set(candidate, entry);
-        }
-    }
-    console.log(`[images] loaded ${IMAGE_DB.length} metadata records`);
-    for (const sample of IMAGE_DB.slice(0, 3)) {
-        const label = sample.file || sample.imageUrl || sample.fileName;
-        if (label) {
-            console.log('[images] ✅', label);
-        }
-    }
+    rebuildImagePathIndex();
+    curatedImages = IMAGE_DB;
+    global.curatedImages = IMAGE_DB;
+    console.log(`[IMG-LOAD] loaded ${IMAGE_DB.length} images`);
+    console.log(`[IMG-LOAD] Curated image pool ready with ${IMAGE_DB.length} records`);
 }
 
 function findImageRecord(ref) {
     if (!ref) return null;
+
     if (typeof ref === 'string') {
         let key = ref.trim();
         if (!key) return null;
@@ -1354,21 +1421,38 @@ function findImageRecord(ref) {
         } catch (err) {
             // ignore decode issues
         }
-        const lowered = key.toLowerCase();
-        const base = lowered.split('/').pop();
-        return IMAGE_BY_FILE.get(key)
-            || IMAGE_BY_FILE.get(lowered)
-            || IMAGE_BY_URL.get(lowered)
-            || IMAGE_BY_URL.get(lowered.replace(/^\//, ''))
-            || (base ? IMAGE_BY_FILE.get(base) : null)
-            || (base ? IMAGE_BY_FILE.get(base.toLowerCase()) : null)
-            || IMAGE_BY_ID.get(lowered)
-            || IMAGE_BY_ID.get(key)
-            || null;
+
+        const normalized = normalizeImagePath(key);
+        const clean = key.replace(/^\/frontend/i, '').replace(/^\.?\/*/, '/');
+        const base = key.split('/').pop();
+
+        const candidates = [
+            key,
+            key.toLowerCase(),
+            normalized,
+            normalized.toLowerCase(),
+            normalized.startsWith('/') ? normalized.slice(1) : normalized,
+            normalized.toLowerCase().startsWith('/') ? normalized.toLowerCase().slice(1) : normalized.toLowerCase(),
+            clean,
+            clean.toLowerCase(),
+            clean.startsWith('/') ? clean.slice(1) : clean,
+            clean.toLowerCase().startsWith('/') ? clean.toLowerCase().slice(1) : clean.toLowerCase(),
+            base,
+            base ? base.toLowerCase() : ''
+        ].filter((value) => typeof value === 'string' && value);
+
+        for (const candidate of candidates) {
+            if (IMAGE_BY_PATH.has(candidate)) return IMAGE_BY_PATH.get(candidate);
+            if (IMAGE_BY_ID.has(candidate)) return IMAGE_BY_ID.get(candidate);
+            if (IMAGE_BY_NAME.has(candidate)) return IMAGE_BY_NAME.get(candidate);
+        }
+        return null;
     }
+
     if (typeof ref === 'object') {
-        return findImageRecord(ref.file || ref.path || ref.imagePath || ref.src || ref.id || '');
+        return findImageRecord(ref.filePath || ref.src || ref.path || ref.file || ref.id || '');
     }
+
     return null;
 }
 
@@ -1380,38 +1464,53 @@ function resolveImageMeta(input) {
             MISSING_IMAGE_LOG.add(key);
             console.warn(`[IMG-META] Missing metadata for ${key}`);
         }
-        return { src: null, altText: 'Image unavailable' };
+        return { src: null };
     }
 
-    const imageUrl = record.imageUrl || record.src || record.filePath || normalizeImagePath(record.file || record.fileName || '');
-    const out = { ...record };
-    out.src = imageUrl;
-    out.filePath = imageUrl;
-    out.imageUrl = imageUrl;
-    out.altText = record.altText || record.alt || 'Social studies image';
-    out.caption = record.caption || '';
-    out.credit = record.credit || '';
-    out.detailedDescription = record.detailedDescription || '';
-    return out;
+    const rawSrc = record.src || record.filePath || record.imageUrl || record.path || record.file || '';
+    const normalized = normalizeImagePath(rawSrc);
+    const src = normalized ? encodeURI(normalized) : '';
+
+    if (!src) {
+        return { src: null };
+    }
+
+    const altText = record.altText || record.alt || record.title || '';
+    const caption = record.caption || record.imageMeta?.caption || '';
+    const credit = record.credit || record.imageMeta?.credit || '';
+    const detailedDescription = record.detailedDescription || record.imageMeta?.detailedDescription || '';
+    const id = record.id || record.file || record.fileName || record.filename || src;
+
+    return {
+        id: id || null,
+        src,
+        altText: altText || '',
+        credit: credit || '',
+        caption: caption || '',
+        detailedDescription: detailedDescription || ''
+    };
 }
 
-function loadImageMetadata() {
-    try {
-        if (!fs.existsSync(IMAGE_METADATA_PATH)) {
-            console.warn('[images] metadata file not found:', IMAGE_METADATA_PATH);
-            installImageMetadata([]);
-            return;
+(function loadCuratedImageMetadata() {
+    let loaded = false;
+    for (const metadataPath of METADATA_PATHS) {
+        try {
+            const raw = fs.readFileSync(metadataPath, 'utf8');
+            const list = coerceToArray(raw);
+            installImageMetadata(list);
+            console.log(`[IMG-LOAD] using metadata from ${metadataPath}`);
+            loaded = true;
+            break;
+        } catch (err) {
+            // try next path
         }
-        const raw = fs.readFileSync(IMAGE_METADATA_PATH, 'utf8');
-        const list = coerceToArray(raw);
-        installImageMetadata(list);
-    } catch (err) {
-        console.warn('[images] unable to parse image_metadata_final.json:', err.message);
+    }
+
+    if (!loaded) {
+        console.warn('[IMG-LOAD] No image metadata file found. Using empty pool.');
         installImageMetadata([]);
     }
-}
-
-loadImageMetadata();
+})();
 
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
@@ -3791,26 +3890,16 @@ app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
 // --- Static assets (images) with CORS + long cache ---
-const STATIC_IMAGE_DIRS = [
-    path.join(__dirname, 'public/img'),
-    path.join(__dirname, '../frontend/Images/Social Studies'),
-    path.join(__dirname, '../frontend/Images/Science'),
-    path.join(__dirname, '../frontend/Images/Math'),
-    path.join(__dirname, '../frontend/Images/RLA')
-];
-
-for (const dir of STATIC_IMAGE_DIRS) {
-    if (fs.existsSync(dir)) {
-        app.use('/img', cors(), express.static(dir, { fallthrough: true, maxAge: '7d', etag: true }));
-        console.log('[static] mounted /img from', dir);
-    }
+const IMAGES_ROOT = path.join(__dirname, '../frontend/Images');
+if (fs.existsSync(IMAGES_ROOT)) {
+    const sharedOptions = { maxAge: '7d', etag: true };
+    app.use('/Images', express.static(IMAGES_ROOT, { ...sharedOptions, fallthrough: false }));
+    app.use('/img', cors(), express.static(IMAGES_ROOT, { ...sharedOptions, fallthrough: true }));
+    console.log('[static] mounted /Images from', IMAGES_ROOT);
+} else {
+    console.warn('[static][warn] Images directory not found at', IMAGES_ROOT);
 }
 
-// Serve static image folders from the 'frontend' directory
-app.use('/images/rla', express.static(path.join(__dirname, '../frontend/Images/RLA')));
-app.use('/images/science', express.static(path.join(__dirname, '../frontend/Images/Science')));
-app.use('/images/social-studies', express.static(path.join(__dirname, '../frontend/Images/Social Studies')));
-app.use('/images/math', express.static(path.join(__dirname, '../frontend/Images/Math')));
 app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
 
 const distPath = path.join(__dirname, '../frontend/dist');
@@ -4708,30 +4797,7 @@ app.get('/client-config.js', (req, res) => {
     res.type('application/javascript').send(payload);
 });
 
-let curatedImages = [];
-
-function loadCuratedImages() {
-    if (Array.isArray(IMAGE_DB) && IMAGE_DB.length) {
-        curatedImages = IMAGE_DB;
-        console.log(`[IMG-LOAD] Curated image pool ready with ${curatedImages.length} shared records.`);
-        return;
-    }
-
-    try {
-        const imageData = fs.readFileSync(IMAGE_METADATA_PATH, 'utf8');
-        const parsed = coerceToArray(imageData);
-        curatedImages = parsed.map((img) => ({
-            ...img,
-            filePath: normalizeImagePath(img?.filePath || img?.src || img?.path || img?.file),
-            src: normalizeImagePath(img?.src || img?.filePath || img?.path || img?.file)
-        }));
-        console.log(`[IMG-LOAD] Loaded ${curatedImages.length} fallback images from ${IMAGE_METADATA_PATH}.`);
-    } catch (error) {
-        console.error('Failed to load or parse image_metadata_final.json:', error?.message || error);
-    }
-}
-
-loadCuratedImages();
+curatedImages = IMAGE_DB;
 
 function pickCandidateUrls(subject, topic) {
     const encodedTopic = encodeURIComponent(topic);
@@ -4956,13 +5022,29 @@ function existingTopicPrompt(subject, topic, count = 15) {
 }
 
 app.get('/health/images', (_req, res) => {
-    try {
-        const meta = JSON.parse(fs.readFileSync('image_metadata_final.json', 'utf8'));
-        const ok = Array.isArray(meta) && meta.every((m) => m && m.file);
-        res.json({ ok, count: Array.isArray(meta) ? meta.length : 0 });
-    } catch (e) {
-        res.status(500).json({ ok: false, error: e.message });
+    const pool = Array.isArray(IMAGE_DB) ? IMAGE_DB : [];
+    const missing = [];
+
+    pool.forEach((record, index) => {
+        if (!record) {
+            missing.push(`null:${index}`);
+            return;
+        }
+        const hasSource = Boolean(record.file || record.src || record.filePath || record.imageUrl);
+        if (!hasSource) {
+            const label = record.id || record.file || record.fileName || `index:${index}`;
+            missing.push(label);
+        }
+    });
+
+    const count = pool.length;
+    const ok = count > 0 && missing.length === 0;
+    const payload = { ok, count };
+    if (missing.length) {
+        payload.missing = missing.slice(0, 50);
     }
+
+    res.status(ok ? 200 : 500).json(payload);
 });
 
 // NEW FEATURE: Endpoint to define a word, as used in your index.html
@@ -6620,14 +6702,74 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
             }
         }
 
-        if (!correctedRef.imageUrl && finalImageUrl) {
-            correctedRef.imageUrl = finalImageUrl;
+        const candidatePaths = [
+            correctedRef.imageUrl,
+            correctedRef.path,
+            finalImageUrl,
+            originalRef?.imageUrl,
+            originalRef?.path,
+            originalImageUrl
+        ];
+
+        let normalizedRefPath = '';
+        for (const candidate of candidatePaths) {
+            const normalizedCandidate = normalizeImagePath(candidate || '');
+            if (normalizedCandidate) {
+                normalizedRefPath = normalizedCandidate;
+                break;
+            }
         }
+
+        if (normalizedRefPath) {
+            const resolvedMeta = resolveImageMeta(normalizedRefPath) || {};
+            const encodedPath = encodeURI(normalizedRefPath);
+            correctedRef.imageUrl = encodedPath;
+            correctedRef.path = encodedPath;
+            if (!correctedRef.altText && (resolvedMeta.altText || originalAlt)) {
+                correctedRef.altText = (resolvedMeta.altText || originalAlt || '').trim();
+            }
+            if (!correctedRef.caption && resolvedMeta.caption) {
+                correctedRef.caption = resolvedMeta.caption;
+            }
+            if (!correctedRef.credit && resolvedMeta.credit) {
+                correctedRef.credit = resolvedMeta.credit;
+            }
+            if (!correctedRef.src) {
+                correctedRef.src = encodedPath;
+            }
+            const mergedMeta = { ...(correctedRef.imageMeta || {}) };
+            if (resolvedMeta && resolvedMeta.src) {
+                mergedMeta.src = resolvedMeta.src;
+                if (resolvedMeta.id && !mergedMeta.id) mergedMeta.id = resolvedMeta.id;
+                if (resolvedMeta.altText && !mergedMeta.altText) mergedMeta.altText = resolvedMeta.altText;
+                if (resolvedMeta.caption && !mergedMeta.caption) mergedMeta.caption = resolvedMeta.caption;
+                if (resolvedMeta.credit && !mergedMeta.credit) mergedMeta.credit = resolvedMeta.credit;
+                if (resolvedMeta.detailedDescription && !mergedMeta.detailedDescription) {
+                    mergedMeta.detailedDescription = resolvedMeta.detailedDescription;
+                }
+            }
+            if (Object.keys(mergedMeta).length) {
+                correctedRef.imageMeta = mergedMeta;
+            }
+            if (!resolvedMeta.src) {
+                console.warn(`[IMG-RESTORE] Unable to resolve metadata for question ${key} (${normalizedRefPath})`);
+            }
+        } else if (finalImageUrl) {
+            const encodedPath = encodeURI(normalizeImagePath(finalImageUrl) || finalImageUrl);
+            correctedRef.imageUrl = correctedRef.imageUrl || encodedPath;
+            correctedRef.path = correctedRef.path || encodedPath;
+        }
+
         if (!correctedRef.altText && originalAlt) {
             correctedRef.altText = originalAlt.trim();
         }
 
         if (Object.keys(correctedRef).length) {
+            try {
+                validateImageRef(correctedRef);
+            } catch (validationError) {
+                console.warn(`[IMG-RESTORE] Image ref validation failed for question ${key}: ${validationError?.message || validationError}`);
+            }
             merged.imageRef = correctedRef;
         }
 
@@ -6649,15 +6791,25 @@ Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQui
     ${JSON.stringify(draftQuiz, null, 2)}
     ---
     Return the corrected and improved quiz as a single, valid JSON object.`;
-        const isSocialStudies = draftQuiz.subject === 'Social Studies';
-        const schema = isSocialStudies ? SS_RESPONSE_SCHEMA : quizSchema;
-        const callOptions = isSocialStudies ? { ...options, callSite: 'ss-review' } : options;
-        const correctedQuiz = await callAI(prompt, schema, callOptions);
-        if (isSocialStudies) {
-            return restoreImageAttachments(correctedQuiz, draftQuiz);
+
+    const isSocialStudies = draftQuiz.subject === 'Social Studies';
+    const schema = isSocialStudies ? SS_RESPONSE_SCHEMA : quizSchema;
+    const callOptions = isSocialStudies ? { ...options, callSite: 'ss-review' } : options;
+    const correctedQuiz = await callAI(prompt, schema, callOptions);
+
+    if (isSocialStudies) {
+        if (correctedQuiz && typeof correctedQuiz === 'object' && typeof draftQuiz?.title === 'string') {
+            correctedQuiz.title = draftQuiz.title;
         }
-        return correctedQuiz;
+        const restored = restoreImageAttachments(correctedQuiz, draftQuiz);
+        if (restored && typeof restored === 'object' && typeof draftQuiz?.title === 'string') {
+            restored.title = draftQuiz.title;
+        }
+        return restored;
     }
+
+    return correctedQuiz;
+}
 
 async function reviewAndCorrectMathQuestion(questionObject, options = {}) {
     const prompt = `You are an expert GED math editor. Your ONLY job is to fix formatting in the following JSON object. **Aggressively correct all syntax errors.**
