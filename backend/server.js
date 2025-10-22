@@ -224,7 +224,6 @@ const AbortController = globalThis.AbortController || fetch.AbortController;
 const CLIENT_DIST_DIR = path.join(__dirname, '../frontend/dist');
 const CLIENT_INDEX_FILE = path.join(CLIENT_DIST_DIR, 'index.html');
 const HASHED_ASSET_REGEX = /\.[a-f0-9]{8,}\./i;
-const SPA_ROUTE_PREFIX_BLOCKLIST = ['/api', '/health', '/admin', '/question-bank', '/img', '/images'];
 
 function detectContentHashedAssets(rootDir) {
     const stack = [rootDir];
@@ -3814,25 +3813,25 @@ app.use('/images/social-studies', express.static(path.join(__dirname, '../fronte
 app.use('/images/math', express.static(path.join(__dirname, '../frontend/Images/Math')));
 app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
 
-if (CLIENT_BUILD_EXISTS) {
-    const ONE_HOUR_IN_SECONDS = 60 * 60;
-    const clientStaticOptions = {
-        index: false,
-        setHeaders(res, filePath) {
-            const basename = path.basename(filePath);
-            if (basename === 'index.html') {
-                res.setHeader('Cache-Control', 'no-store, max-age=0');
-            } else if (HASHED_ASSET_REGEX.test(basename)) {
-                res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-            } else {
-                res.setHeader('Cache-Control', `public, max-age=${ONE_HOUR_IN_SECONDS}`);
-            }
-        }
-    };
+const distPath = path.join(__dirname, '../frontend/dist');
 
-    app.use(express.static(CLIENT_DIST_DIR, clientStaticOptions));
+if (CLIENT_BUILD_EXISTS) {
+    app.use(express.static(distPath, { maxAge: '1h', etag: true }));
+
+    app.get(['/', '/app', '/app/*'], (req, res, next) => {
+        if (req.method !== 'GET') return next();
+        const indexFilePath = path.join(distPath, 'index.html');
+        // only fall back if the file actually exists
+        if (!fs.existsSync(indexFilePath)) {
+            return next();
+        }
+        res.sendFile(indexFilePath);
+    });
 } else {
     console.warn('[SPA][WARN] No built frontend found at frontend/dist. Serving backend status message instead.');
+    app.get(['/', '/app', '/app/*'], (_req, res) => {
+        res.send('Learning Canvas Backend is running! Build the frontend to enable the UI.');
+    });
 }
 
 app.post('/question-bank/save', async (req, res) => {
@@ -7855,27 +7854,6 @@ const generateAIContent = async (prompt, schema) => {
     const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
     return JSON.parse(jsonText);
 };
-
-
-
-if (CLIENT_BUILD_EXISTS) {
-    app.get('*', (req, res, next) => {
-        if (req.method !== 'GET') return next();
-        if (SPA_ROUTE_PREFIX_BLOCKLIST.some((prefix) => req.path.startsWith(prefix))) return next();
-
-        const acceptHeader = String(req.headers.accept || '');
-        if (!acceptHeader.includes('text/html')) {
-            return next();
-        }
-
-        res.setHeader('Cache-Control', 'no-store, max-age=0');
-        res.sendFile(CLIENT_INDEX_FILE);
-    });
-} else {
-    app.get('/', (_req, res) => {
-        res.send('Learning Canvas Backend is running! Build the frontend to enable the UI.');
-    });
-}
 
 app.use((err, req, res, next) => {
     console.error(err?.stack || err);
