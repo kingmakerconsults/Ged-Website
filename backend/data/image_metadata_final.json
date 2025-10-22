@@ -1,3 +1,5 @@
+[
+  {
     "id": "a5441254408c4663",
     "file": "035fa172-2083-4c13-9485-a5f4bfa28340.png",
     "type": "photo",
@@ -832,6 +834,8 @@
     "credit": "Public domain / educational use",
     "sourceUrl": "",
     "tags": [
+      "science"
+    ],
     "year": null,
     "ocrText": ""
   },
@@ -875,6 +879,8 @@
     "credit": "Public domain / educational use",
     "sourceUrl": "",
     "tags": [
+      "science"
+    ],
     "year": null,
     "ocrText": ""
   },
@@ -888,6 +894,8 @@
     "credit": "Public domain / educational use",
     "sourceUrl": "",
     "tags": [
+      "science"
+    ],
     "year": null,
     "ocrText": ""
   },
@@ -901,6 +909,8 @@
     "credit": "Public domain / educational use",
     "sourceUrl": "",
     "tags": [
+      "science"
+    ],
     "year": null,
     "ocrText": ""
   },
@@ -914,6 +924,8 @@
     "credit": "Public domain / educational use",
     "sourceUrl": "",
     "tags": [
+      "science"
+    ],
     "year": null,
     "ocrText": ""
   },
@@ -927,6 +939,8 @@
     "credit": "Public domain / educational use",
     "sourceUrl": "",
     "tags": [
+      "science"
+    ],
     "year": null,
     "ocrText": ""
   },
@@ -940,6 +954,8 @@
     "credit": "Public domain / educational use",
     "sourceUrl": "",
     "tags": [
+      "science"
+    ],
     "year": null,
     "ocrText": ""
   },
@@ -951,6 +967,7 @@
     "alt": "Ged Scince Fig 7",
     "caption": "",
     "credit": "Public domain / educational use",
+    "sourceUrl": "",
     "tags": [
       "science"
     ],
@@ -8381,4 +8398,5 @@
     ],
     "year": null,
     "ocrText": ""
+  }
 ]
