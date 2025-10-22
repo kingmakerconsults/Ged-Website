@@ -6315,6 +6315,8 @@ const ExamImageFigure = React.memo(function ExamImageFigure({
         return metaLayers.filter((layer) => layer && typeof layer === 'object');
     }, [metaLayers]);
 
+    const [hidden, setHidden] = React.useState(false);
+
     const descriptor = React.useMemo(() => resolveExamImageDescriptor(imageRef, {
         subject,
         metaLayers: normalizedMetaLayers,
@@ -6325,13 +6327,14 @@ const ExamImageFigure = React.memo(function ExamImageFigure({
     }), [imageRef, subject, normalizedMetaLayers, tabIndex, testId, fallbackAlt, fallbackCaption]);
 
     const handleError = React.useCallback((event) => {
-        const figure = event?.currentTarget?.closest('[data-testid="exam-image"]');
-        if (figure) {
-            figure.remove();
+        const target = event?.currentTarget;
+        if (!target?.isConnected) {
+            return;
         }
+        setHidden(true);
     }, []);
 
-    if (!descriptor) {
+    if (!descriptor || hidden) {
         return null;
     }
 
