@@ -1026,10 +1026,36 @@ async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
 
     if (normalizedProfile) {
         const qaProfileLabel = QA_PROFILE_LABELS[normalizedProfile] || normalizedProfile;
+        const QUESTION_COUNT = 12;
+        const subjectKey = typeof subjectParam === 'string'
+            ? subjectParam.trim().toLowerCase().replace(/\s+/g, '-')
+            : '';
+        const isImageCapable = ['science', 'social-studies', 'math'].includes(subjectKey);
+        const desiredVisualTypes = subjectKey === 'social-studies'
+            ? ['map', 'chart', 'graph', 'political-cartoon', 'document', 'photo']
+            : subjectKey === 'science'
+                ? ['chart', 'graph', 'diagram', 'photo']
+                : ['chart', 'graph', 'photo'];
+        const requestBody = {
+            subject: subjectParam,
+            topic,
+            count: QUESTION_COUNT,
+            questionCount: QUESTION_COUNT,
+            profile: normalizedProfile,
+            imagePlan: isImageCapable ? {
+                mode: 'image-first',
+                desired: {
+                    count: QUESTION_COUNT,
+                    visualTypes: desiredVisualTypes,
+                    subtopics: topic ? [topic] : [],
+                    concepts: []
+                }
+            } : { mode: 'text-only' }
+        };
         const response = await fetch(`${API_BASE_URL}/api/generate-exam`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ subject: subjectParam, topic, count: 12, profile: normalizedProfile })
+            body: JSON.stringify(requestBody)
         });
 
         let payload = null;
@@ -1048,7 +1074,13 @@ async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
             throw new Error(message);
         }
 
-        if (!Array.isArray(payload?.items)) {
+        const responseItems = Array.isArray(payload?.items)
+            ? payload.items
+            : Array.isArray(payload?.questions)
+                ? payload.questions
+                : null;
+
+        if (!Array.isArray(responseItems) || responseItems.length === 0) {
             throw new Error('The exam generator did not return any items.');
         }
 
@@ -1057,34 +1089,100 @@ async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
         }
 
         const timestamp = Date.now();
-        return payload.items.map((item, idx) => {
-            const stem = typeof item?.stem === 'string' ? item.stem.trim() : '';
-            const solution = typeof item?.solution === 'string' ? item.solution.trim() : '';
-            const rawChoices = Array.isArray(item?.choices) ? item.choices : [];
-            const safeCorrectIndex = typeof item?.correctIndex === 'number' && item.correctIndex >= 0 && item.correctIndex < rawChoices.length
+        return responseItems.map((item, idx) => {
+            const stem = typeof item?.stem === 'string'
+                ? item.stem.trim()
+                : typeof item?.questionText === 'string'
+                    ? item.questionText.trim()
+                    : '';
+            const rawSolution = typeof item?.solution === 'string'
+                ? item.solution.trim()
+                : typeof item?.rationale === 'string'
+                    ? item.rationale.trim()
+                    : '';
+            const legacyChoices = Array.isArray(item?.choices) ? item.choices : [];
+            const structuredChoices = Array.isArray(item?.answerOptions) ? item.answerOptions : [];
+
+            const normalizedChoices = (legacyChoices.length ? legacyChoices : structuredChoices).map((choice, choiceIdx) => {
+                if (typeof choice === 'string') {
+                    return {
+                        id: `choice-${choiceIdx}`,
+                        text: choice,
+                        isCorrect: false,
+                        rationale: rawSolution
+                    };
+                }
+
+                if (choice && typeof choice === 'object') {
+                    const text = typeof choice.text === 'string' ? choice.text : String(choice.text ?? '');
+                    const rationale = typeof choice.rationale === 'string' && choice.rationale.trim().length
+                        ? choice.rationale
+                        : rawSolution;
+                    return {
+                        id: `choice-${choiceIdx}`,
+                        text,
+                        isCorrect: Boolean(choice.isCorrect),
+                        rationale
+                    };
+                }
+
+                return {
+                    id: `choice-${choiceIdx}`,
+                    text: String(choice ?? ''),
+                    isCorrect: false,
+                    rationale: rawSolution
+                };
+            }).filter((choice) => choice.text.trim().length);
+
+            let safeCorrectIndex = typeof item?.correctIndex === 'number' && item.correctIndex >= 0 && item.correctIndex < normalizedChoices.length
                 ? item.correctIndex
-                : 0;
-            const answerOptions = rawChoices.map((choice, choiceIdx) => ({
-                id: `choice-${choiceIdx}`,
-                text: String(choice),
-                isCorrect: choiceIdx === safeCorrectIndex,
-                rationale: solution
+                : typeof item?.answerIndex === 'number' && item.answerIndex >= 0 && item.answerIndex < normalizedChoices.length
+                    ? item.answerIndex
+                    : -1;
+
+            if (safeCorrectIndex === -1) {
+                safeCorrectIndex = normalizedChoices.findIndex((choice) => choice.isCorrect);
+            }
+
+            if (safeCorrectIndex === -1 && normalizedChoices.length) {
+                normalizedChoices[0].isCorrect = true;
+                safeCorrectIndex = 0;
+            }
+
+            const answerOptions = normalizedChoices.map((choice, choiceIdx) => ({
+                ...choice,
+                isCorrect: choiceIdx === safeCorrectIndex
             }));
+
+            const imageUrl = typeof item?.imageUrl === 'string' && item.imageUrl.trim().length
+                ? item.imageUrl
+                : typeof item?.imageRef?.imageUrl === 'string' && item.imageRef.imageUrl.trim().length
+                    ? item.imageRef.imageUrl
+                    : null;
+
+            const imageAlt = typeof item?.imageAlt === 'string' && item.imageAlt.trim().length
+                ? item.imageAlt
+                : typeof item?.imageRef?.altText === 'string' && item.imageRef.altText.trim().length
+                    ? item.imageRef.altText
+                    : '';
 
             return {
                 id: `profile-${normalizedProfile}-${timestamp}-${idx}`,
-                questionNumber: idx + 1,
+                questionNumber: Number.isInteger(item?.questionNumber) ? item.questionNumber : idx + 1,
                 questionText: stem,
                 question: stem,
                 answerOptions,
-                rationale: solution,
-                solution,
+                rationale: rawSolution,
+                solution: rawSolution,
                 difficulty: item?.difficulty || null,
                 topic: item?.topic || topic,
                 subject: subjectParam,
                 qaProfileKey: normalizedProfile,
                 qaProfileLabel,
-                type: 'standard'
+                type: typeof item?.type === 'string' ? item.type : 'standard',
+                imageUrl,
+                imageAlt,
+                imageRef: item?.imageRef || null
             };
         });
     }
