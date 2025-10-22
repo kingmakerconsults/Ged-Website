@@ -1883,80 +1883,62 @@ async function ensureQuestionImageCompliance(question, { subject, index, source 
         return question;
     }
 
-    const withImage = { ...question };
-    const baseRef = withImage.imageRef && typeof withImage.imageRef === 'object'
-        ? { ...withImage.imageRef }
-        : (withImage.stimulusImage && typeof withImage.stimulusImage === 'object'
-            ? { ...withImage.stimulusImage }
-            : null);
+    let next = { ...question };
 
-    if (!baseRef) {
-        return withImage;
-    }
+    // If no imageRef yet (common), attach one for Social Studies / Science
+    const wantsImage = subject === 'Social Studies' || subject === 'Science';
+    if (!next.imageRef && wantsImage) {
+        // Prefer tags inferred from the stem/passage to bias the pick
+        const preferTags = [];
+        const stem = String(next.stem || next.questionText || next.prompt || '').toLowerCase();
+        if (/map/.test(stem)) preferTags.push('map');
+        if (/chart|graph/.test(stem)) preferTags.push('chart');
+        if (/civil war|constitution|congress|president|revolution|election/.test(stem)) preferTags.push('history', 'civics', 'government');
+        if (/cell|ecosystem|chemical|atom|molecule|energy|physics|biology|chemistry/.test(stem)) preferTags.push('science');
 
-    const ref = { ...baseRef };
-    if (!ref.subject && typeof subject === 'string' && subject.trim()) {
-        ref.subject = subject.trim();
-    }
-
-    if (!ref.imageUrl) {
-        const fallbackUrl = [ref.url, ref.src, ref.path, ref.image_url, ref.imagePath]
-            .find((candidate) => typeof candidate === 'string' && candidate.trim());
-        if (fallbackUrl) {
-            ref.imageUrl = fallbackUrl.trim();
+        const pick = pickImageForQuestion(subject, { preferTags });
+        if (pick) {
+            next.imageRef = pick;
         }
     }
 
-    const normalizedRef = {
-        imageUrl: typeof ref.imageUrl === 'string' ? ref.imageUrl : '',
-        alt: typeof ref.alt === 'string' && ref.alt.trim()
-            ? ref.alt.trim()
-            : (typeof ref.altText === 'string' && ref.altText.trim() ? ref.altText.trim() : 'Exam image'),
-        caption: typeof ref.caption === 'string' ? ref.caption : '',
-        subject: typeof ref.subject === 'string' ? ref.subject : undefined
-    };
-
-    withImage.imageRef = normalizedRef;
-
-    const validation = await assertValidImageRef(withImage.imageRef, {
-        subject,
-        context: {
-            id: withImage?.id || withImage?.questionNumber || index,
-            index,
-            source
+    // If we have an imageRef, normalize/repair it so your validator will pass
+    if (next.imageRef && typeof next.imageRef === 'object') {
+        const ref = { ...next.imageRef };
+        if (!ref.imageUrl) {
+            // Accept several common aliases
+            ref.imageUrl = ref.url || ref.src || ref.path || ref.filePath || '';
         }
-    });
-
-    if (validation?.ok && validation.imageRef) {
-        withImage.imageRef = validation.imageRef;
-        return withImage;
-    }
-
-    imageDiagnostics.recordValidationFailure({
-        index,
-        source,
-        error: validation?.error?.message || validation?.error || 'invalid imageRef',
-        imageRef: withImage.imageRef
-    });
-
-    delete withImage.imageRef;
-    if (withImage.imageMeta) delete withImage.imageMeta;
-    if (withImage.imageUrl) delete withImage.imageUrl;
-    if (withImage.image_url) delete withImage.image_url;
-    if (withImage.stimulusImage) delete withImage.stimulusImage;
-    if (withImage.asset && typeof withImage.asset === 'object') {
-        const assetCopy = { ...withImage.asset };
-        if ('imagePath' in assetCopy) {
-            delete assetCopy.imagePath;
+        // REQUIRED FIELD per your AJV schema:
+        if (!ref.subject && subject) {
+            ref.subject = subject;
         }
-        if (Object.keys(assetCopy).length) {
-            withImage.asset = assetCopy;
-        } else {
-            delete withImage.asset;
+        // Replace obvious placeholders with a local pick
+        if (/example\.com\/sample\.png/i.test(ref.imageUrl)) {
+            const fallback = pickImageForQuestion(subject) || null;
+            if (fallback) Object.assign(ref, fallback);
+        }
+
+        // Validate & finalize
+        try {
+            const { ok, imageRef } = await assertValidImageRef(ref, {
+                subject,
+                context: { id: next?.id || next?.questionNumber || index, index, source }
+            });
+            if (ok) {
+                next.imageRef = imageRef;
+            } else {
+                delete next.imageRef;
+                if (next.imageMeta) delete next.imageMeta;
+            }
+        } catch (err) {
+            // On validator exceptions, drop the image so we don't block the exam
+            delete next.imageRef;
+            if (next.imageMeta) delete next.imageMeta;
         }
     }
 
-    return withImage;
+    return next;
 }
 
 function imageDisplayCredit(filePathOrKey) {
@@ -2233,6 +2215,54 @@ function resolveHeroImageForSubject(subject, { candidates = [], avoidIds } = {})
             alt: meta?.altText || meta?.alt || (typeof candidate === 'object' ? candidate.altText || candidate.title : null) || `Illustration for ${subject || 'exam'}`,
             credit: meta?.credit || meta?.displaySource || (typeof candidate === 'object' ? candidate.credit : '') || '',
             caption: meta?.caption || (typeof candidate === 'object' ? candidate.caption : '') || ''
+        };
+    }
+
+    return null;
+}
+
+function pickImageForQuestion(subject, { preferTags = [], avoidIds } = {}) {
+    // Use your in-memory IMAGE_DB that came from image_metadata_final.json
+    if (!Array.isArray(IMAGE_DB) || !IMAGE_DB.length) return null;
+
+    const avoid = avoidIds || new Set();
+    const norm = (s) => String(s || '').trim().toLowerCase();
+
+    // Simple scoring: match on subject-ish tags/topics first, then fallback
+    const want = new Set(
+        [subject, 'social studies', 'science', 'history', 'civics', 'geography', 'biology', 'chemistry']
+            .concat(preferTags || [])
+            .map(norm)
+            .filter(Boolean)
+    );
+
+    // Score entries
+    const scored = IMAGE_DB.map((rec) => {
+        const tags = (rec.tags || []).map(norm);
+        const topics = (rec.topics || []).map(norm);
+        const bag = new Set([...tags, ...topics]);
+        let score = 0;
+        for (const w of want) if (bag.has(w)) score += 2;
+        if (/map|chart|graph|table/.test((rec.title || rec.alt || '').toLowerCase())) score += 1;
+        return { rec, score };
+    }).sort((a, b) => b.score - a.score);
+
+    for (const { rec } of scored) {
+        const id = rec.id || rec.file || rec.fileName || rec.url;
+        if (id && avoid.has(id)) continue;
+
+        const file = rec.file || rec.fileName || rec.url;
+        if (!file) continue;
+
+        // Normalize to a served URL (your app serves /img from STATIC_IMAGE_DIRS)
+        const imageUrl = normalizeImagePath(file);
+        return {
+            imageUrl,
+            alt: rec.alt || rec.altText || rec.title || 'Exam image',
+            caption: rec.caption || '',
+            // REQUIRED by your validator:
+            subject: subject || null,
+            imageMeta: { id: rec.id || null, file: file }
         };
     }
 
