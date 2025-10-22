@@ -45,6 +45,10 @@ const DEFAULT_MATH_MODE = (() => {
 })();
 const SHOULD_RENDER_KATEX = DEFAULT_MATH_MODE === 'katex';
 
+// ==== BANK TOGGLES ====
+// Keep storing to the bank, but don't reuse until it's warmed up.
+const BANK_PULL_ENABLED = String(process.env.BANK_PULL_ENABLED || 'false').toLowerCase() === 'true';
+
 // ==== IMAGE BANK / REUSE CONFIG ====
 const BANK_IMAGE_FIRST_ENABLED = true;
 const BANK_IMAGE_PULL_RATIO = 0.60; // ~60% pulled from bank (if available)
@@ -1875,43 +1879,84 @@ async function filterValidImageItems(items = []) {
 }
 
 async function ensureQuestionImageCompliance(question, { subject, index, source }) {
-    if (!question || typeof question !== 'object' || !question.imageRef) {
+    if (!question || typeof question !== 'object') {
         return question;
     }
 
-    const next = { ...question };
-    const { ok, imageRef } = await assertValidImageRef(next.imageRef, {
+    const withImage = { ...question };
+    const baseRef = withImage.imageRef && typeof withImage.imageRef === 'object'
+        ? { ...withImage.imageRef }
+        : (withImage.stimulusImage && typeof withImage.stimulusImage === 'object'
+            ? { ...withImage.stimulusImage }
+            : null);
+
+    if (!baseRef) {
+        return withImage;
+    }
+
+    const ref = { ...baseRef };
+    if (!ref.subject && typeof subject === 'string' && subject.trim()) {
+        ref.subject = subject.trim();
+    }
+
+    if (!ref.imageUrl) {
+        const fallbackUrl = [ref.url, ref.src, ref.path, ref.image_url, ref.imagePath]
+            .find((candidate) => typeof candidate === 'string' && candidate.trim());
+        if (fallbackUrl) {
+            ref.imageUrl = fallbackUrl.trim();
+        }
+    }
+
+    const normalizedRef = {
+        imageUrl: typeof ref.imageUrl === 'string' ? ref.imageUrl : '',
+        alt: typeof ref.alt === 'string' && ref.alt.trim()
+            ? ref.alt.trim()
+            : (typeof ref.altText === 'string' && ref.altText.trim() ? ref.altText.trim() : 'Exam image'),
+        caption: typeof ref.caption === 'string' ? ref.caption : '',
+        subject: typeof ref.subject === 'string' ? ref.subject : undefined
+    };
+
+    withImage.imageRef = normalizedRef;
+
+    const validation = await assertValidImageRef(withImage.imageRef, {
         subject,
         context: {
-            id: next?.id || next?.questionNumber || index,
+            id: withImage?.id || withImage?.questionNumber || index,
             index,
             source
         }
     });
 
-    if (ok) {
-        next.imageRef = imageRef;
-        return next;
+    if (validation?.ok && validation.imageRef) {
+        withImage.imageRef = validation.imageRef;
+        return withImage;
     }
 
-    delete next.imageRef;
-    if (next.imageMeta) delete next.imageMeta;
-    if (next.imageUrl) delete next.imageUrl;
-    if (next.image_url) delete next.image_url;
-    if (next.stimulusImage) delete next.stimulusImage;
-    if (next.asset && typeof next.asset === 'object') {
-        const assetCopy = { ...next.asset };
+    imageDiagnostics.recordValidationFailure({
+        index,
+        source,
+        error: validation?.error?.message || validation?.error || 'invalid imageRef',
+        imageRef: withImage.imageRef
+    });
+
+    delete withImage.imageRef;
+    if (withImage.imageMeta) delete withImage.imageMeta;
+    if (withImage.imageUrl) delete withImage.imageUrl;
+    if (withImage.image_url) delete withImage.image_url;
+    if (withImage.stimulusImage) delete withImage.stimulusImage;
+    if (withImage.asset && typeof withImage.asset === 'object') {
+        const assetCopy = { ...withImage.asset };
         if ('imagePath' in assetCopy) {
             delete assetCopy.imagePath;
         }
         if (Object.keys(assetCopy).length) {
-            next.asset = assetCopy;
+            withImage.asset = assetCopy;
         } else {
-            delete next.asset;
+            delete withImage.asset;
         }
     }
 
-    return next;
+    return withImage;
 }
 
 function imageDisplayCredit(filePathOrKey) {
@@ -2013,12 +2058,7 @@ function normalizeStimulusAndSource(item) {
 
 const IMAGING_SUBJECTS = new Set([
     'science',
-    'social studies',
-    'math',
-    'mathematics',
-    'reasoning through language arts',
-    'reasoning through language arts rla',
-    'rla'
+    'social studies'
 ]);
 
 function normalizeImagingSubject(value) {
@@ -6717,7 +6757,7 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
         const clampedCount = Math.max(1, Math.min(20, Number.isFinite(requestedCount) ? Math.floor(requestedCount) : 1));
 
         let reusedItems = [];
-        if (profileKey) {
+        if (profileKey && BANK_PULL_ENABLED) {
             const reuseResult = takeFromBank(profileKey, clampedCount);
             reusedItems = reuseResult.reused || [];
         }

@@ -4759,6 +4759,27 @@ function App() {
         startQuiz(reviewQuiz, 'Review');
     };
 
+    useEffect(() => {
+        const rail = document.getElementById('exam-image-rail');
+        if (!rail) {
+            return;
+        }
+
+        rail.innerHTML = '';
+
+        if (!activeQuiz || view !== 'quiz' || activeQuiz.imagesAllowed === false) {
+            return;
+        }
+
+        if (typeof window !== 'undefined' && typeof window.renderImageSection === 'function') {
+            try {
+                window.renderImageSection(rail, activeQuiz.heroImage, activeQuiz.questions || []);
+            } catch (error) {
+                console.warn('Failed to render exam image rail:', error);
+            }
+        }
+    }, [activeQuiz, view]);
+
     const renderView = () => {
         if (!currentUser) {
             return <AuthScreen onLogin={handleLogin} />;
@@ -4790,7 +4811,12 @@ function App() {
                     </div>
                 );
             case 'quiz':
-                return <QuizRunner quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />;
+                return (
+                    <>
+                        <div id="exam-image-rail" className="ss-figure-container mb-4"></div>
+                        <QuizRunner quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />
+                    </>
+                );
             case 'reading':
                  return <ReadingPractice quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />;
             case 'essay':
