@@ -1811,7 +1811,7 @@ async function ensureQuestionImageCompliance(question, { subject, index, source 
         }
     }
 
-    return withImage;
+    return next;
 }
 
 function imageDisplayCredit(filePathOrKey) {
@@ -2088,6 +2088,54 @@ function resolveHeroImageForSubject(subject, { candidates = [], avoidIds } = {})
             alt: meta?.altText || meta?.alt || (typeof candidate === 'object' ? candidate.altText || candidate.title : null) || `Illustration for ${subject || 'exam'}`,
             credit: meta?.credit || meta?.displaySource || (typeof candidate === 'object' ? candidate.credit : '') || '',
             caption: meta?.caption || (typeof candidate === 'object' ? candidate.caption : '') || ''
+        };
+    }
+
+    return null;
+}
+
+function pickImageForQuestion(subject, { preferTags = [], avoidIds } = {}) {
+    // Use your in-memory IMAGE_DB that came from image_metadata_final.json
+    if (!Array.isArray(IMAGE_DB) || !IMAGE_DB.length) return null;
+
+    const avoid = avoidIds || new Set();
+    const norm = (s) => String(s || '').trim().toLowerCase();
+
+    // Simple scoring: match on subject-ish tags/topics first, then fallback
+    const want = new Set(
+        [subject, 'social studies', 'science', 'history', 'civics', 'geography', 'biology', 'chemistry']
+            .concat(preferTags || [])
+            .map(norm)
+            .filter(Boolean)
+    );
+
+    // Score entries
+    const scored = IMAGE_DB.map((rec) => {
+        const tags = (rec.tags || []).map(norm);
+        const topics = (rec.topics || []).map(norm);
+        const bag = new Set([...tags, ...topics]);
+        let score = 0;
+        for (const w of want) if (bag.has(w)) score += 2;
+        if (/map|chart|graph|table/.test((rec.title || rec.alt || '').toLowerCase())) score += 1;
+        return { rec, score };
+    }).sort((a, b) => b.score - a.score);
+
+    for (const { rec } of scored) {
+        const id = rec.id || rec.file || rec.fileName || rec.url;
+        if (id && avoid.has(id)) continue;
+
+        const file = rec.file || rec.fileName || rec.url;
+        if (!file) continue;
+
+        // Normalize to a served URL (your app serves /img from STATIC_IMAGE_DIRS)
+        const imageUrl = normalizeImagePath(file);
+        return {
+            imageUrl,
+            alt: rec.alt || rec.altText || rec.title || 'Exam image',
+            caption: rec.caption || '',
+            // REQUIRED by your validator:
+            subject: subject || null,
+            imageMeta: { id: rec.id || null, file: file }
         };
     }
 

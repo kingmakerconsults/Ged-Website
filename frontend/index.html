@@ -6675,6 +6675,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const [pausesRemaining, setPausesRemaining] = useState(2);
     const [showFormulas, setShowFormulas] = useState(false);
     const handleSubmitRef = useRef(() => {});
+    const questionImageRef = useRef(null);
 
     useEffect(() => {
         setTimeLeft(timeLimit || questions.length * 90);
@@ -6740,6 +6741,27 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
         return `${Math.floor(safeSeconds / 60)}:${(safeSeconds % 60).toString().padStart(2, '0')}`;
     };
     const currentQ = questions[currentIndex];
+
+    useEffect(() => {
+        const holder = questionImageRef.current;
+        if (!holder) {
+            return;
+        }
+
+        if (typeof holder.replaceChildren === 'function') {
+            holder.replaceChildren();
+        } else {
+            holder.innerHTML = '';
+        }
+
+        if (currentQ && typeof currentQ === 'object' && currentQ.imageRef) {
+            try {
+                renderExamImage(currentQ.imageRef, { container: holder, testId: `q-${currentIndex}-image` });
+            } catch (error) {
+                console.warn('Failed to render question image:', error);
+            }
+        }
+    }, [currentQ, currentIndex]);
     if (!currentQ) return <div>Loading question...</div>;
 
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
@@ -6760,6 +6782,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     return (
         <div className="fade-in">
             <div className={`rounded-2xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surface || 'bg-slate-50'} p-4 sm:p-6 shadow-lg`}>
+                <div ref={questionImageRef} className="mb-4 ss-figure-container"></div>
                 {showTimer && (
                     <header className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b ${colorScheme.divider || 'border-slate-200'}`}>
                         {onExit && (
