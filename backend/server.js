@@ -1119,8 +1119,7 @@ const {
     resolveImageMeta: resolveCuratedImageMeta,
     resolveImage: resolveCuratedImage,
     normalizeImagePath,
-    isImageEligible: isCuratedImageEligible,
-    toImageRef
+    isImageEligible: isCuratedImageEligible
 } = imageRegistry;
 const { IMAGE_BY_PATH, IMAGE_BY_BASENAME, IMAGE_BY_ID } = imageRegistry.indexes;
 const IMAGE_DB = imageRegistry.IMAGE_DB;
@@ -6383,21 +6382,14 @@ async function generateQuestionsFromImages({ subject, images }) {
 
     resolvedImages.forEach((image, index) => {
         queue.add(async () => {
-            const normalizedRef = toImageRef(image);
-            const refAlt = typeof normalizedRef.alt === 'string' && normalizedRef.alt.trim().length
-                ? normalizedRef.alt.trim()
-                : null;
             const directAlt = typeof image.alt === 'string' && image.alt.trim().length ? image.alt.trim() : '';
-            const resolvedAlt = refAlt || directAlt || 'Image';
             const imageTitle = typeof image.title === 'string' && image.title.trim().length ? image.title.trim() : 'Untitled';
             const imageType = typeof image.type === 'string' && image.type.trim().length ? image.type.trim() : 'photo';
             const tagsArray = Array.isArray(image.tags)
                 ? image.tags.filter((tag) => typeof tag === 'string' && tag.trim().length)
-                : (Array.isArray(normalizedRef?.meta?.tags)
-                    ? normalizedRef.meta.tags.filter((tag) => typeof tag === 'string' && tag.trim().length)
-                    : []);
+                : [];
             const tags = tagsArray.length ? tagsArray.join(', ') : null;
-            const altText = resolvedAlt || 'No description available.';
+            const altText = directAlt || 'No description available.';
             const associatedTopics = tags && tags.length ? tags : 'N/A';
 
             const prompt = `You are an expert GED curriculum developer. Based on the following image metadata, please generate a single, multiple-choice GED-style question that directly relates to the image.
@@ -6416,47 +6408,41 @@ async function generateQuestionsFromImages({ subject, images }) {
                     return;
                 }
 
-                const localSrc = typeof image.src === 'string' && image.src.trim().length
+                const imageUrl = typeof image.src === 'string' && image.src.trim().length
                     ? image.src.trim()
-                    : null;
-                const refUrl = typeof normalizedRef.imageUrl === 'string' && normalizedRef.imageUrl.trim().length
-                    ? normalizedRef.imageUrl.trim()
-                    : null;
-                const imageUrl = localSrc || refUrl;
+                    : (typeof image.imageUrl === 'string' && image.imageUrl.trim().length
+                        ? image.imageUrl.trim()
+                        : null);
                 if (!imageUrl) {
                     console.warn('[IMG-FIRST] Skipping question attachment due to missing image src', image?.id || index);
                     return;
                 }
 
-                const normalizedTags = tagsArray.length ? tagsArray : (Array.isArray(image.tags) ? image.tags : []);
-                const refMeta = {
-                    id: image.id || normalizedRef?.id || null,
-                    type: image.type || normalizedRef?.meta?.type || null,
-                    tags: normalizedTags
-                };
-
+                const caption = typeof image.caption === 'string' && image.caption.trim().length
+                    ? image.caption.trim()
+                    : (typeof image.title === 'string' && image.title.trim().length ? image.title.trim() : '');
+                const baseMeta = typeof image.meta === 'object' && image.meta !== null ? { ...image.meta } : {};
                 const finalRef = {
-                    ...normalizedRef,
-                    id: refMeta.id,
+                    id: image.id || baseMeta.id || null,
                     imageUrl,
-                    path: imageUrl,
+                    path: typeof image.path === 'string' && image.path.trim().length ? image.path.trim() : imageUrl,
                     src: imageUrl,
-                    alt: resolvedAlt,
-                    altText: resolvedAlt,
-                    caption: normalizedRef.caption || image.caption || image.title || '',
+                    alt: directAlt,
+                    altText: directAlt,
+                    caption,
                     meta: {
-                        ...normalizedRef.meta,
-                        ...refMeta,
-                        caption: normalizedRef.caption || image.caption || image.title || '',
-                        sourceUrl: normalizedRef.meta?.sourceUrl || image.sourceUrl || null,
-                        ocrText: normalizedRef.meta?.ocrText || image.ocrText || null
+                        ...baseMeta,
+                        tags: tagsArray,
+                        type: image.type || baseMeta.type || null,
+                        sourceUrl: baseMeta.sourceUrl || image.sourceUrl || null,
+                        ocrText: baseMeta.ocrText || image.ocrText || null
                     }
                 };
 
                 // --- BRUTE-FORCE CORRECTION ---
                 // Immediately discard the AI's response image data and use our trusted data.
                 question.imageUrl = imageUrl;
-                question.imageAlt = resolvedAlt;
+                question.imageAlt = directAlt;
                 question.imageRef = finalRef;
                 question.subject = normalizedSubject;
                 generatedItems[index] = question;
