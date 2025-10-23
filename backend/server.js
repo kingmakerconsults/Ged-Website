@@ -134,6 +134,57 @@ const AI_EXAM_TEMPLATES = {
     }
 };
 
+const SMITH_A_SKILL_MAP = Object.freeze({
+    RLA: {
+        "Main Idea & Details": "Identify central idea, supporting evidence.",
+        "Point of View & Purpose": "Author's intent, tone, bias.",
+        "Analyzing Arguments": "Claims, evidence, reasoning.",
+        "Interpreting Graphics": "Text + chart comprehension in words (no images).",
+        "Plot & Character": "Character motivation, conflict, resolution.",
+        "Theme & Figurative Language": "Theme, metaphor, symbolism.",
+        "Poetry Analysis": "Structure, imagery, meaning.",
+        "Sentence Structure": "Combining clauses, fragments, run-ons.",
+        "Punctuation & Mechanics": "Comma, apostrophe, capitalization.",
+        "Grammar & Usage": "Verb tense, agreement, pronoun case."
+    },
+    Math: {
+        "Whole Numbers, Fractions & Decimals": "4-operation fluency, order of operations, fraction/decimal conversions.",
+        "Ratios, Proportions & Percents": "Unit rate, percent change, scale problems.",
+        "Statistics & Probability": "Mean, median, probability with small sets.",
+        "Expressions & Polynomials": "Simplify expressions, combine like terms.",
+        "Equations & Inequalities": "Solve 1- & 2-step equations, interpret inequality meaning.",
+        "Graphing & Functions": "Slope/intercept, evaluate from small (x,y) tables.",
+        "Geometry Basics": "Area, perimeter, volume, Pythagorean theorem."
+    },
+    Science: {
+        "Scientific Numeracy": "Unit conversions, rate/density, interpret simple tables.",
+        "Life Science Basics": "Cells, genetics, body systems.",
+        "Ecosystems & Environment": "Food webs, energy flow, sustainability.",
+        "Chemistry Fundamentals": "Matter, physical vs. chemical change, simple formulas.",
+        "Physics in Motion": "Force, motion, energy, speed = distance/time.",
+        "Earth & Space Systems": "Rock cycle, climate, solar patterns."
+    },
+    'Social Studies': {
+        "Foundations (1491–1763)": "Early colonies, Enlightenment ideas.",
+        "American Revolution (1763–1783)": "Causes, major events, consequences.",
+        "A New Nation (1783–1824)": "Constitution, early government.",
+        "A Nation Divided (1824–1877)": "Slavery, Civil War, Reconstruction.",
+        "Industrial America (1877–1914)": "Growth, immigration, reform.",
+        "Global Conflicts (1914–1945)": "WW I/II, social/economic impact.",
+        "Modern Era (1945–Present)": "Civil Rights, globalization.",
+        "The Constitution": "Principles, amendments, rule of law.",
+        "Legislative Branch": "Congress structure, lawmaking.",
+        "Executive Branch": "President's powers, agencies.",
+        "Judicial Branch": "Supreme Court, judicial review.",
+        "Federalism & Elections": "Division of powers, voting systems.",
+        "Foundational Concepts": "Democracy, limited government, rights.",
+        "The U.S. Economy": "Supply/demand, inflation, policy.",
+        "Map & Data Skills": "Reading verbal map info, interpreting data tables."
+    }
+});
+
+const SMITH_A_ALLOWED_SUBJECTS = new Set(Object.keys(SMITH_A_SKILL_MAP));
+
 function selectModelTimeoutMs({ examType } = {}) {
     return examType === 'comprehensive' ? COMPREHENSIVE_TIMEOUT_MS : MODEL_HTTP_TIMEOUT_MS;
 }
@@ -2658,6 +2709,38 @@ ${structure}
 ${SHARED_IMAGE_RULES}`;
 }
 
+const SMITH_A_JSON_SCHEMA_TEXT = `{
+  "id": "uuid",
+  "subject": "Math | Science | Social Studies | RLA",
+  "subtopic": "dropdown name",
+  "skill": "short tag",
+  "stem": "question text",
+  "choices": ["A) ...","B) ...","C) ...","D) ..."],
+  "answer": "A",
+  "rationale": "1–2 sentence reason",
+  "difficulty": "Easy|Medium|Hard"
+}`;
+
+function buildSmithAPrompt({ subject, subtopic, skill }) {
+    return `${STRICT_JSON_HEADER_SHARED}
+Generate 12 GED-level multiple-choice questions for the subject ${subject}, subtopic ${subtopic}.
+Cover these skills: ${skill}
+Each item must follow the JSON schema provided.
+JSON schema:
+${SMITH_A_JSON_SCHEMA_TEXT}
+Guidelines:
+- Use clear, plain text only (no markdown, LaTeX, or images) and write any visuals as words.
+- If you include a passage, keep it under 130 words.
+- Provide four answer choices formatted exactly as "A) ...", "B) ...", "C) ...", "D) ...".
+- Set "answer" to the correct letter (A, B, C, or D).
+- Keep "skill" as a short tag (2-5 words) summarizing the focus.
+- Use UUID v4 strings for "id".
+- Set "difficulty" to Easy, Medium, or Hard.
+- Use plain fractions like 3/4, simple currency like $5.00, and standard units.
+- Provide concise 1–2 sentence rationales explaining why the correct choice is right.
+Return only a valid JSON array of 12 items.`;
+}
+
 const SUBJECT_PARAM_ALIASES = new Map([
     ['math', 'Math'],
     ['science', 'Science'],
@@ -2687,6 +2770,46 @@ function normalizeSubjectParam(rawSubject) {
     }
 
     return SUBJECT_PARAM_ALIASES.get(lower) || null;
+}
+
+function getSmithSubjectKey(subject) {
+    if (!subject) {
+        return null;
+    }
+
+    if (SMITH_A_ALLOWED_SUBJECTS.has(subject)) {
+        return subject;
+    }
+
+    const normalized = normalizeSubjectParam(subject);
+    if (normalized && SMITH_A_ALLOWED_SUBJECTS.has(normalized)) {
+        return normalized;
+    }
+
+    return null;
+}
+
+function getSmithSubtopicDefinition(subjectKey, rawSubtopic) {
+    if (!subjectKey || !rawSubtopic) {
+        return null;
+    }
+
+    const catalog = SMITH_A_SKILL_MAP[subjectKey];
+    if (!catalog) {
+        return null;
+    }
+
+    const target = String(rawSubtopic).trim().toLowerCase();
+    if (!target) {
+        return null;
+    }
+
+    const entry = Object.entries(catalog).find(([name]) => name.toLowerCase() === target);
+    if (!entry) {
+        return null;
+    }
+
+    return { name: entry[0], skill: entry[1] };
 }
 
 const GEMINI_API_KEY = process.env.GOOGLE_API_KEY || process.env.GOOGLE_AI_API_KEY || process.env.GEMINI_API_KEY;
@@ -2974,6 +3097,246 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
     AI_LATENCY.push(roundedLatency);
 
     return { items, model: winner.model, latencyMs: roundedLatency };
+}
+
+const SMITH_A_DIFFICULTY_MAP = new Map([
+    ['easy', 'Easy'],
+    ['medium', 'Medium'],
+    ['hard', 'Hard']
+]);
+
+const SMITH_A_ANSWER_LETTERS = ['A', 'B', 'C', 'D'];
+
+function sanitizePlainText(value) {
+    if (value == null) {
+        return '';
+    }
+    const text = String(value).replace(/[\r\n]+/g, ' ');
+    return text.replace(/\s+/g, ' ').trim();
+}
+
+function stripChoiceLabel(text) {
+    const sanitized = sanitizePlainText(text);
+    return sanitized.replace(/^[A-D]\)\s*/i, '').trim();
+}
+
+function formatChoice(text, index) {
+    const core = stripChoiceLabel(text);
+    if (!core) {
+        return '';
+    }
+    return `${SMITH_A_ANSWER_LETTERS[index]}) ${core}`;
+}
+
+function coerceDifficulty(value) {
+    if (!value) {
+        return 'Medium';
+    }
+    const normalized = sanitizePlainText(value).toLowerCase();
+    return SMITH_A_DIFFICULTY_MAP.get(normalized) || 'Medium';
+}
+
+function resolveAnswerLetter(rawAnswer, strippedChoices, raw) {
+    if (typeof rawAnswer === 'string') {
+        const cleaned = sanitizePlainText(rawAnswer).toUpperCase();
+        if (SMITH_A_ANSWER_LETTERS.includes(cleaned)) {
+            return cleaned;
+        }
+
+        const leading = cleaned.match(/^[A-D]/);
+        if (leading) {
+            return leading[0];
+        }
+
+        const idxFromText = strippedChoices.findIndex((choice) => choice.toUpperCase() === cleaned);
+        if (idxFromText >= 0) {
+            return SMITH_A_ANSWER_LETTERS[idxFromText];
+        }
+    }
+
+    if (Number.isInteger(rawAnswer) && rawAnswer >= 0 && rawAnswer < strippedChoices.length) {
+        return SMITH_A_ANSWER_LETTERS[rawAnswer];
+    }
+
+    if (Number.isInteger(raw?.correctIndex) && raw.correctIndex >= 0 && raw.correctIndex < strippedChoices.length) {
+        return SMITH_A_ANSWER_LETTERS[raw.correctIndex];
+    }
+
+    if (typeof raw?.correctAnswer === 'string') {
+        return resolveAnswerLetter(raw.correctAnswer, strippedChoices, raw);
+    }
+
+    return null;
+}
+
+function normalizeSmithAItem(raw, index, { subject, subtopic }) {
+    const issues = [];
+
+    if (!raw || typeof raw !== 'object') {
+        return { errors: [`Item ${index + 1}: payload was not an object.`] };
+    }
+
+    const id = typeof raw.id === 'string' && raw.id.trim().length
+        ? raw.id.trim()
+        : crypto.randomUUID?.() || `smith-${Date.now()}-${index}`;
+
+    const stem = sanitizePlainText(raw.stem || raw.questionText || raw.prompt || '');
+    if (!stem) {
+        return { errors: [`Item ${index + 1}: missing stem/question text.`] };
+    }
+
+    let choices = Array.isArray(raw.choices)
+        ? raw.choices.slice()
+        : Array.isArray(raw.answerOptions)
+            ? raw.answerOptions.map((opt) => (typeof opt === 'object' ? opt.text : opt))
+            : [];
+
+    choices = choices.filter((choice) => sanitizePlainText(choice).length > 0);
+
+    if (choices.length < 4) {
+        return { errors: [`Item ${index + 1}: expected 4 answer choices, received ${choices.length}.`] };
+    }
+
+    choices = choices.slice(0, 4);
+    const strippedChoices = choices.map(stripChoiceLabel);
+    if (strippedChoices.some((choice) => !choice)) {
+        return { errors: [`Item ${index + 1}: one or more answer choices were blank.`] };
+    }
+
+    const formattedChoices = choices.map((choice, idx) => formatChoice(choice, idx));
+
+    const answerLetter = resolveAnswerLetter(raw.answer, strippedChoices, raw);
+    if (!answerLetter) {
+        return { errors: [`Item ${index + 1}: missing or invalid correct answer letter.`] };
+    }
+
+    const rationale = sanitizePlainText(raw.rationale || raw.explanation || raw.solution || '');
+    if (!rationale) {
+        issues.push(`Item ${index + 1}: rationale missing; inserted placeholder.`);
+    }
+
+    const skill = sanitizePlainText(raw.skill) || subtopic;
+    if (!sanitizePlainText(raw.skill)) {
+        issues.push(`Item ${index + 1}: skill missing; defaulted to subtopic.`);
+    }
+
+    const difficulty = coerceDifficulty(raw.difficulty);
+
+    const item = {
+        id,
+        subject,
+        subtopic,
+        skill,
+        stem,
+        choices: formattedChoices,
+        answer: answerLetter,
+        rationale: rationale || 'See explanation.',
+        difficulty
+    };
+
+    return { item, errors: issues };
+}
+
+function dedupeSmithItems(items) {
+    const seen = new Set();
+    const deduped = [];
+    const removed = [];
+
+    items.forEach((item, idx) => {
+        const key = sanitizePlainText(item?.stem).toLowerCase();
+        if (!key) {
+            return;
+        }
+        if (seen.has(key)) {
+            removed.push(idx);
+        } else {
+            seen.add(key);
+            deduped.push(item);
+        }
+    });
+
+    return { items: deduped, removedCount: removed.length };
+}
+
+function normalizeSmithAItems(rawItems, { subject, subtopic }) {
+    const list = Array.isArray(rawItems) ? rawItems : [];
+    const normalized = [];
+    const issues = [];
+
+    list.forEach((raw, idx) => {
+        const { item, errors } = normalizeSmithAItem(raw, idx, { subject, subtopic });
+        if (errors && errors.length) {
+            issues.push(...errors);
+        }
+        if (item) {
+            normalized.push(item);
+        }
+    });
+
+    const { items, removedCount } = dedupeSmithItems(normalized);
+    if (removedCount > 0) {
+        issues.push(`Removed ${removedCount} duplicate question${removedCount === 1 ? '' : 's'} after normalization.`);
+    }
+
+    return { items, errors: issues };
+}
+
+function shuffleArray(items) {
+    const arr = Array.isArray(items) ? [...items] : [];
+    for (let i = arr.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+async function generateSmithAQuiz({ subject, subtopic, skill }) {
+    const prompt = buildSmithAPrompt({ subject, subtopic, skill });
+    const attempts = [];
+    const notes = [];
+
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+        try {
+            const { items: rawItems } = await generateQuizItemsWithFallback(subject, prompt, {
+                retries: 2,
+                minTimeout: 800,
+                onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Smith A Gemini attempt failed: ${err?.message || err}`)
+            }, {
+                retries: 1,
+                minTimeout: 600,
+                onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Smith A ChatGPT fallback failed: ${err?.message || err}`)
+            });
+
+            const normalized = normalizeSmithAItems(rawItems, { subject, subtopic });
+            if (normalized.errors.length) {
+                normalized.errors.forEach((msg) => notes.push(`attempt ${attempt + 1}: ${msg}`));
+            }
+            attempts.push(...normalized.items);
+
+            if (normalized.items.length >= 12) {
+                const finalItems = shuffleArray(normalized.items).slice(0, 12);
+                return { items: finalItems, errors: notes };
+            }
+        } catch (error) {
+            notes.push(`attempt ${attempt + 1}: ${error?.message || error}`);
+        }
+    }
+
+    const combined = normalizeSmithAItems(attempts, { subject, subtopic });
+    if (combined.errors.length) {
+        combined.errors.forEach((msg) => notes.push(`combined: ${msg}`));
+    }
+
+    if (combined.items.length < 12) {
+        const detail = combined.items.length ? `${combined.items.length} valid items` : 'no valid items';
+        const error = new Error(`Smith A generator produced ${detail} after two attempts.`);
+        error.statusCode = 502;
+        error.notes = notes;
+        throw error;
+    }
+
+    const finalItems = shuffleArray(combined.items).slice(0, 12);
+    return { items: finalItems, errors: notes };
 }
 
 function hasSchemaIssues(item) {
@@ -6787,6 +7150,56 @@ app.post('/generate-quiz', (_req, res) => {
 
 app.post('/api/generate-exam', (_req, res) => {
     res.status(410).json({ error: 'legacy_endpoint_removed', message: 'Use /api/exams/generate.' });
+});
+
+app.post('/generate-smith-quiz', express.json(), async (req, res) => {
+    try {
+        const { subject, subtopic } = req.body || {};
+        const subjectKey = getSmithSubjectKey(subject);
+        if (!subjectKey) {
+            return res.status(400).json({
+                error: 'invalid_subject',
+                message: 'Subject must be one of Math, Science, Social Studies, or RLA.'
+            });
+        }
+
+        const subtopicDef = getSmithSubtopicDefinition(subjectKey, subtopic);
+        if (!subtopicDef) {
+            const available = Object.keys(SMITH_A_SKILL_MAP[subjectKey] || {});
+            return res.status(400).json({
+                error: 'invalid_subtopic',
+                message: `Subtopic must be one of: ${available.join(', ')}.`
+            });
+        }
+
+        const { items, errors } = await generateSmithAQuiz({
+            subject: subjectKey,
+            subtopic: subtopicDef.name,
+            skill: subtopicDef.skill
+        });
+
+        const uniqueErrors = Array.from(new Set((errors || []).filter(Boolean)));
+
+        res.json({
+            quizType: 'Smith A',
+            subject: subjectKey,
+            subtopic: subtopicDef.name,
+            totalQuestions: items.length,
+            items,
+            errors: uniqueErrors
+        });
+    } catch (error) {
+        console.error('Smith A quiz generation failed:', error);
+        const statusCode = Number.isInteger(error?.statusCode) ? error.statusCode : 500;
+        const responseBody = {
+            error: 'smith_generation_failed',
+            message: typeof error?.message === 'string' ? error.message : 'Failed to generate Smith A quiz.'
+        };
+        if (Array.isArray(error?.notes) && error.notes.length) {
+            responseBody.notes = error.notes;
+        }
+        res.status(statusCode).json(responseBody);
+    }
 });
 
 app.post('/api/exams/generate', express.json(), async (req, res) => {

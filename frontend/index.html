@@ -712,7 +712,57 @@ const DEFAULT_COLOR_SCHEME = {
     scoreBorder: 'border-slate-200',
 };
 
-const SMITH_QUIZ_EXCLUDED_TOPIC_TYPES = new Set(['essay', 'simulation', 'graphing_tool', 'geometry_practice_tool']);
+const SMITH_A_SUBTOPICS = Object.freeze({
+    RLA: [
+        { value: 'Main Idea & Details', skill: 'Identify central idea, supporting evidence.' },
+        { value: 'Point of View & Purpose', skill: "Author's intent, tone, bias." },
+        { value: 'Analyzing Arguments', skill: 'Claims, evidence, reasoning.' },
+        { value: 'Interpreting Graphics', skill: 'Text + chart comprehension in words (no images).' },
+        { value: 'Plot & Character', skill: 'Character motivation, conflict, resolution.' },
+        { value: 'Theme & Figurative Language', skill: 'Theme, metaphor, symbolism.' },
+        { value: 'Poetry Analysis', skill: 'Structure, imagery, meaning.' },
+        { value: 'Sentence Structure', skill: 'Combining clauses, fragments, run-ons.' },
+        { value: 'Punctuation & Mechanics', skill: 'Comma, apostrophe, capitalization.' },
+        { value: 'Grammar & Usage', skill: 'Verb tense, agreement, pronoun case.' }
+    ],
+    Math: [
+        { value: 'Whole Numbers, Fractions & Decimals', skill: '4-operation fluency, order of operations, fraction/decimal conversions.' },
+        { value: 'Ratios, Proportions & Percents', skill: 'Unit rate, percent change, scale problems.' },
+        { value: 'Statistics & Probability', skill: 'Mean, median, probability with small sets.' },
+        { value: 'Expressions & Polynomials', skill: 'Simplify expressions, combine like terms.' },
+        { value: 'Equations & Inequalities', skill: 'Solve 1- & 2-step equations, interpret inequality meaning.' },
+        { value: 'Graphing & Functions', skill: 'Slope/intercept, evaluate from small (x,y) tables.' },
+        { value: 'Geometry Basics', skill: 'Area, perimeter, volume, Pythagorean theorem.' }
+    ],
+    Science: [
+        { value: 'Scientific Numeracy', skill: 'Unit conversions, rate/density, interpret simple tables.' },
+        { value: 'Life Science Basics', skill: 'Cells, genetics, body systems.' },
+        { value: 'Ecosystems & Environment', skill: 'Food webs, energy flow, sustainability.' },
+        { value: 'Chemistry Fundamentals', skill: 'Matter, physical vs. chemical change, simple formulas.' },
+        { value: 'Physics in Motion', skill: 'Force, motion, energy, speed = distance/time.' },
+        { value: 'Earth & Space Systems', skill: 'Rock cycle, climate, solar patterns.' }
+    ],
+    'Social Studies': [
+        { value: 'Foundations (1491–1763)', skill: 'Early colonies, Enlightenment ideas.' },
+        { value: 'American Revolution (1763–1783)', skill: 'Causes, major events, consequences.' },
+        { value: 'A New Nation (1783–1824)', skill: 'Constitution, early government.' },
+        { value: 'A Nation Divided (1824–1877)', skill: 'Slavery, Civil War, Reconstruction.' },
+        { value: 'Industrial America (1877–1914)', skill: 'Growth, immigration, reform.' },
+        { value: 'Global Conflicts (1914–1945)', skill: 'WW I/II, social/economic impact.' },
+        { value: 'Modern Era (1945–Present)', skill: 'Civil Rights, globalization.' },
+        { value: 'The Constitution', skill: 'Principles, amendments, rule of law.' },
+        { value: 'Legislative Branch', skill: 'Congress structure, lawmaking.' },
+        { value: 'Executive Branch', skill: "President's powers, agencies." },
+        { value: 'Judicial Branch', skill: 'Supreme Court, judicial review.' },
+        { value: 'Federalism & Elections', skill: 'Division of powers, voting systems.' },
+        { value: 'Foundational Concepts', skill: 'Democracy, limited government, rights.' },
+        { value: 'The U.S. Economy', skill: 'Supply/demand, inflation, policy.' },
+        { value: 'Map & Data Skills', skill: 'Reading verbal map info, interpreting data tables.' }
+    ]
+});
+
+const SMITH_A_ALLOWED_SUBJECTS = new Set(['Math', 'Science', 'Social Studies', 'RLA']);
+const SMITH_CHOICE_LETTERS = ['A', 'B', 'C', 'D'];
 
 const SUBJECT_COLORS = {
     Science: {
@@ -1108,51 +1158,121 @@ function transformAiExamItems(items, { subject, topic, qaProfileKey } = {}) {
     });
 }
 
-async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
+async function generateTopicQuiz(subjectParam, topic) {
     const resolvedSubject = resolveSubjectParam(subjectParam) || subjectParam;
-    const normalizedProfile = typeof profileKey === 'string' && profileKey.trim().length ? profileKey.trim() : '';
-    const QUESTION_COUNT = 12;
-    const subjectKey = typeof resolvedSubject === 'string' ? resolvedSubject.trim().toLowerCase().replace(/\s+/g, '-') : '';
-    const isImageCapable = ['science', 'social-studies', 'math'].includes(subjectKey);
-
-    const requestBody = {
-        subject: resolvedSubject,
-        examType: subjectKey === 'social-studies' ? 'smitha' : 'default',
-        totalQuestions: QUESTION_COUNT,
-        useImages: isImageCapable
-    };
-
-    if (normalizedProfile) {
-        requestBody.examType = 'default';
+    if (!SMITH_A_ALLOWED_SUBJECTS.has(resolvedSubject)) {
+        throw new Error('Subject is not supported for Smith A quizzes.');
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/exams/generate`, {
+    const normalizedTopic = typeof topic === 'string' ? topic.trim() : '';
+    if (!normalizedTopic) {
+        throw new Error('Please choose a subtopic.');
+    }
+
+    const subtopicOptions = SMITH_A_SUBTOPICS[resolvedSubject] || [];
+    const subtopicMatch = subtopicOptions.find((option) => option.value === normalizedTopic)
+        || subtopicOptions.find((option) => option.value.toLowerCase() === normalizedTopic.toLowerCase());
+
+    if (!subtopicMatch) {
+        throw new Error('Please choose a valid subtopic.');
+    }
+
+    const response = await fetch(`${API_BASE_URL}/generate-smith-quiz`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify({
+            subject: resolvedSubject,
+            subtopic: subtopicMatch.value
+        })
     });
 
     let payload = null;
     try {
         payload = await response.json();
     } catch (err) {
-        throw new Error('The exam generator returned invalid JSON.');
+        throw new Error('The quiz generator returned invalid JSON.');
     }
 
     if (!response.ok) {
-        const message = payload?.error || `Request failed with status ${response.status}`;
+        const message = payload?.message || payload?.error || `Request failed with status ${response.status}`;
         throw new Error(message);
     }
 
-    const items = Array.isArray(payload?.items) ? payload.items : [];
-    if (!items.length) {
-        throw new Error('The exam generator did not return any items.');
+    if (Array.isArray(payload?.errors) && payload.errors.length) {
+        console.warn('[Smith A] Generation warnings:', payload.errors);
     }
 
-    return transformAiExamItems(items, {
+    const items = Array.isArray(payload?.items) ? payload.items : [];
+    if (items.length !== 12) {
+        throw new Error(`Expected 12 questions but received ${items.length}.`);
+    }
+
+    const smithItems = items.map((item, idx) => {
+        const stem = typeof item?.stem === 'string' ? item.stem.trim() : '';
+        const rawChoices = Array.isArray(item?.choices) ? item.choices : [];
+        const normalizedChoices = rawChoices.map((choice, choiceIdx) => {
+            const text = typeof choice === 'string' ? choice : String(choice ?? '');
+            return text.replace(/^[A-D]\)\s*/i, '').trim() || text.trim();
+        });
+        let answerLetter = typeof item?.answer === 'string' ? item.answer.trim().toUpperCase() : '';
+        let answerIndex = SMITH_CHOICE_LETTERS.indexOf(answerLetter);
+        if (answerIndex === -1 && answerLetter) {
+            const leading = answerLetter.match(/^[A-D]/);
+            if (leading) {
+                answerIndex = SMITH_CHOICE_LETTERS.indexOf(leading[0]);
+                answerLetter = leading[0];
+            }
+        }
+        if (answerIndex === -1 && normalizedChoices.length) {
+            const normalizedAnswerText = typeof item?.answer === 'string' ? item.answer.trim().toLowerCase() : '';
+            answerIndex = normalizedChoices.findIndex((choice) => choice.toLowerCase() === normalizedAnswerText);
+        }
+        if (answerIndex === -1 && typeof item?.answerIndex === 'number') {
+            const idxValue = Math.max(0, Math.min(SMITH_CHOICE_LETTERS.length - 1, item.answerIndex));
+            answerIndex = idxValue;
+            answerLetter = SMITH_CHOICE_LETTERS[idxValue];
+        }
+        if (answerIndex === -1) {
+            answerIndex = 0;
+            answerLetter = SMITH_CHOICE_LETTERS[0];
+        }
+
+        const answerOptions = normalizedChoices.map((choiceText, choiceIdx) => ({
+            id: `choice-${choiceIdx}`,
+            text: choiceText,
+            isCorrect: choiceIdx === answerIndex,
+            rationale: typeof item?.rationale === 'string' ? item.rationale : ''
+        }));
+
+        if (answerOptions.length !== 4) {
+            throw new Error('The quiz generator returned an item without four answer choices.');
+        }
+
+        const fallbackChoices = normalizedChoices.length
+            ? normalizedChoices.map((choiceText, choiceIdx) => `${SMITH_CHOICE_LETTERS[choiceIdx]}) ${choiceText}`)
+            : rawChoices;
+
+        return {
+            id: typeof item?.id === 'string' ? item.id : `smith-item-${Date.now()}-${idx}`,
+            questionNumber: idx + 1,
+            stem,
+            questionText: stem,
+            answerOptions,
+            rationale: typeof item?.rationale === 'string' ? item.rationale : '',
+            solution: typeof item?.rationale === 'string' ? item.rationale : '',
+            difficulty: item?.difficulty || null,
+            subject: item?.subject || resolvedSubject,
+            subtopic: item?.subtopic || subtopicMatch.value,
+            skill: item?.skill || subtopicMatch.skill,
+            choices: rawChoices.length ? rawChoices : fallbackChoices,
+            answer: answerLetter
+        };
+    });
+
+    return transformAiExamItems(smithItems, {
         subject: resolvedSubject,
-        topic,
-        qaProfileKey: normalizedProfile || null
+        topic: subtopicMatch.value,
+        qaProfileKey: null
     });
 }
 
@@ -5873,12 +5993,9 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 
     // --- NEW: Logic to get topics for the dropdown (moved from AIQuizGenerator) ---
     // This includes the fix for the white screen error using optional chaining (`?.`)
-    const availableTopics = selectedSubject && AppData[selectedSubject]?.categories
-        ? Object.values(AppData[selectedSubject].categories).flatMap(category =>
-            (category.topics || [])
-                .filter(topic => !SMITH_QUIZ_EXCLUDED_TOPIC_TYPES.has(topic.type))
-                .map(topic => topic.title)
-        )
+    const smithSubjectKey = selectedSubject ? resolveSubjectParam(selectedSubject) : '';
+    const availableTopics = smithSubjectKey && SMITH_A_ALLOWED_SUBJECTS.has(smithSubjectKey)
+        ? (SMITH_A_SUBTOPICS[smithSubjectKey] || []).map(option => option.value)
         : [];
 
     const Breadcrumb = ({ variant = 'default' } = {}) => {
@@ -8150,21 +8267,13 @@ const passagesData = [
 function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLoadingMessage }) {
     const [selectedTopic, setSelectedTopic] = useState('');
     const [error, setError] = useState(null);
-    const [questionProfile, setQuestionProfile] = useState('');
 
-    const availableTopics = AppData[subject]
-        ? Object.values(AppData[subject].categories).flatMap(category =>
-            (category.topics || [])
-                .filter(topic => !SMITH_QUIZ_EXCLUDED_TOPIC_TYPES.has(topic.type))
-                .map(topic => topic.title)
-        )
+    const subjectKey = resolveSubjectParam(subject);
+    const subtopicOptions = subjectKey && SMITH_A_ALLOWED_SUBJECTS.has(subjectKey)
+        ? SMITH_A_SUBTOPICS[subjectKey] || []
         : [];
-
-    const profileOptions = [
-        { value: '', label: 'Default' },
-        { value: 'numeracy', label: QA_PROFILE_LABELS.numeracy },
-        { value: 'physical_sciences_mathy', label: QA_PROFILE_LABELS.physical_sciences_mathy }
-    ];
+    const availableTopics = subtopicOptions.map((option) => option.value);
+    const selectedSubtopic = subtopicOptions.find((option) => option.value === selectedTopic) || null;
 
     const handleGenerate = async () => {
         if (!selectedTopic) {
@@ -8181,22 +8290,18 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
         setError(null);
 
         try {
-            const questions = await generateTopicQuiz(subjectParam, selectedTopic, undefined, questionProfile);
+            const questions = await generateTopicQuiz(subjectParam, selectedTopic);
 
             if (!questions.length) {
                 throw new Error('The quiz service returned an empty quiz.');
             }
-
-            const qaProfileLabel = questionProfile ? (QA_PROFILE_LABELS[questionProfile] || questionProfile) : null;
 
             const generatedQuiz = {
                 subject,
                 topic: selectedTopic,
                 id: `ai_${Date.now()}`,
                 title: `${subject} Quiz: ${selectedTopic}`,
-                questions,
-                qaProfileKey: questionProfile || null,
-                qaProfileLabel
+                questions
             };
 
             onQuizGenerated(generatedQuiz);
@@ -8218,28 +8323,23 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
             </header>
             <div className="max-w-md mx-auto">
                 <h3 className="text-2xl font-bold text-slate-800">Create a New Quiz</h3>
-                <p className="text-slate-500 mt-2 mb-6">Select a topic from {subject} to generate a unique 15-question practice exam.</p>
-                
-                <select
-                    value={selectedTopic}
-                    onChange={(e) => setSelectedTopic(e.target.value)}
-                    className="w-full p-3 border border-sky-300 rounded-md mb-4 text-lg"
-                >
-                    <option value="">-- Select a Topic --</option>
-                    {availableTopics.map(topic => <option key={topic} value={topic}>{topic}</option>)}
-                </select>
+                <p className="text-slate-500 mt-2 mb-6">Select a topic from {subject} to generate a fresh 12-question practice set.</p>
 
                 <div className="text-left mb-4">
-                    <label className="block text-sm font-medium mb-1">Question Profile</label>
+                    <label className="block text-sm font-medium mb-1">Topic</label>
                     <select
-                        value={questionProfile}
-                        onChange={(e) => setQuestionProfile(e.target.value)}
+                        value={selectedTopic}
+                        onChange={(e) => setSelectedTopic(e.target.value)}
                         className="w-full border border-sky-300 rounded-md px-2 py-2 text-base"
                     >
-                        {profileOptions.map((option) => (
-                            <option key={option.value} value={option.value}>{option.label}</option>
+                        <option value="">-- Select a Topic --</option>
+                        {availableTopics.map((topic) => (
+                            <option key={topic} value={topic}>{topic}</option>
                         ))}
                     </select>
+                    {selectedSubtopic && (
+                        <p className="mt-2 text-sm text-slate-500"><strong>Skill focus:</strong> {selectedSubtopic.skill}</p>
+                    )}
                 </div>
 
                 <button
