@@ -20,6 +20,8 @@ const {
     buildFeatureSignature
 } = require('../src/utils/visualFeatures');
 const { validateSS } = require('../src/socialStudies/validators');
+const { isImageEligible: isCuratedImageEligible } = require('../imageResolver');
+const { filterEligibleImages, selectCuratedImages } = require('../server');
 
 const IMAGE_META_SAMPLE = {
     id: 'sample-image',
@@ -330,5 +332,54 @@ test('selectVisualCombo rotates question types to avoid triple repeats', () => {
         const b = types[i - 1];
         const c = types[i - 2];
         assert(!(a === b && b === c), `Found three consecutive ${a} types in history: ${types.join(', ')}`);
+    }
+});
+
+test('relaxed image eligibility keeps image-first pool usable', () => {
+    const sampleImages = [
+        {
+            id: 'map-1',
+            type: 'map',
+            visualType: 'map',
+            tags: ['social-studies', 'geography'],
+            file: 'map-1.png',
+            title: 'Regional map overview',
+            caption: 'Map showing regional boundaries.',
+            subject: 'social-studies'
+        },
+        {
+            id: 'photo-1',
+            type: 'photo',
+            visualType: 'photo',
+            tags: ['history'],
+            file: 'photo-1.png',
+            caption: 'Historic photo without alt text.',
+            subject: 'social-studies'
+        },
+        {
+            id: 'invalid',
+            type: '',
+            visualType: 'photo',
+            tags: [],
+            file: 'invalid.png'
+        }
+    ];
+
+    assert.equal(isCuratedImageEligible(sampleImages[0]), true);
+    assert.equal(isCuratedImageEligible(sampleImages[1]), true);
+    assert.equal(isCuratedImageEligible(sampleImages[2]), false);
+
+    const filtered = filterEligibleImages(sampleImages);
+    assert.equal(filtered.length, 2);
+
+    const previousPool = global.curatedImages;
+    global.curatedImages = sampleImages;
+    try {
+        const selected = selectCuratedImages({ subject: 'Social Studies', count: 1 });
+        assert.ok(Array.isArray(selected));
+        assert.ok(selected.length >= 1);
+        assert.ok(selected.every((img) => img && img.id !== 'invalid'));
+    } finally {
+        global.curatedImages = previousPool;
     }
 });

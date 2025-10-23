@@ -186,16 +186,104 @@ function resolveImageMeta(ref) {
   return null;
 }
 
-function isImageEligible(img) {
-  if (!img) return false;
-  const required = ['visualType', 'subtopics', 'questionHooks'];
-  for (const key of required) {
-    const value = img[key];
-    if (!value || (Array.isArray(value) && value.length === 0)) {
-      return false;
-    }
+const ELIGIBILITY_SKIP_LOG = new Set();
+const ELIGIBILITY_SOFT_LOG = new Set();
+
+function oncePerReason(set, message) {
+  if (!set.has(message)) {
+    set.add(message);
+    console.warn(message);
   }
-  return Array.isArray(img.questionHooks) && img.questionHooks.length >= 2;
+}
+
+function softCheck(message) {
+  oncePerReason(ELIGIBILITY_SOFT_LOG, message);
+}
+
+function hardCheck(message) {
+  oncePerReason(ELIGIBILITY_SKIP_LOG, message);
+}
+
+function isImageEligible(img) {
+  if (!img || typeof img !== 'object') {
+    hardCheck('[images] skipping image: invalid record.');
+    return false;
+  }
+
+  const type = typeof img.type === 'string' ? img.type.trim() : '';
+  if (!type) {
+    hardCheck('[images] skipping image: missing type.');
+    return false;
+  }
+
+  const tags = Array.isArray(img.tags) ? img.tags.filter((tag) => typeof tag === 'string' && tag.trim().length) : [];
+  if (!tags.length) {
+    hardCheck('[images] skipping image: missing tags.');
+    return false;
+  }
+
+  if (!img.alt && !img.title) {
+    softCheck('[images] soft check: image missing alt/title.');
+  }
+
+  const hasFile = typeof img.file === 'string' && img.file.trim().length;
+  const hasSrc = typeof img.src === 'string' && img.src.trim().length;
+  const hasFilePath = typeof img.filePath === 'string' && img.filePath.trim().length;
+  if (!hasFile && !hasSrc && !hasFilePath) {
+    softCheck('[images] soft check: image missing file reference.');
+  }
+
+  return true;
+}
+
+function toImageRef(img = {}) {
+  if (!img || typeof img !== 'object') {
+    return { imageUrl: null, caption: '', alt: 'Image', altText: 'Image', meta: { id: null, type: null, tags: [] } };
+  }
+
+  const rawFile = typeof img.file === 'string' && img.file.trim().length
+    ? img.file.trim()
+    : (typeof img.fileName === 'string' && img.fileName.trim().length ? img.fileName.trim() : '');
+
+  const normalizedFile = rawFile.replace(/^\/+/, '');
+
+  const rawSrc = typeof img.src === 'string' && img.src.trim().length
+    ? img.src.trim()
+    : (typeof img.filePath === 'string' && img.filePath.trim().length ? img.filePath.trim() : '');
+
+  const resolvedSrc = normalizedFile
+    ? `/img/${normalizedFile}`
+    : rawSrc || '';
+
+  const caption = typeof img.caption === 'string' && img.caption.trim().length
+    ? img.caption.trim()
+    : (typeof img.title === 'string' && img.title.trim().length ? img.title.trim() : '');
+
+  const title = typeof img.title === 'string' && img.title.trim().length ? img.title.trim() : '';
+  const alt = typeof img.alt === 'string' && img.alt.trim().length
+    ? img.alt.trim()
+    : (title || 'Image');
+
+  const meta = {
+    id: img.id || null,
+    type: img.type || null,
+    tags: Array.isArray(img.tags) ? img.tags : [],
+    year: img.year ?? null,
+    sourceUrl: img.sourceUrl || img.source || null,
+    ocrText: img.ocrText || null
+  };
+
+  return {
+    id: img.id || null,
+    imageUrl: resolvedSrc || null,
+    path: resolvedSrc || null,
+    src: resolvedSrc || null,
+    file: normalizedFile || rawSrc || null,
+    caption,
+    alt,
+    altText: alt,
+    meta
+  };
 }
 
 function resolveImage(ref) {
@@ -237,6 +325,7 @@ const api = {
   resolveImageMeta,
   isImageEligible,
   resolveImage,
+  toImageRef,
   getImageDb: () => IMAGE_DB,
   getMetadataPath: () => metadataPathUsed,
   indexes: { IMAGE_BY_PATH, IMAGE_BY_BASENAME, IMAGE_BY_ID }

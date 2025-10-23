@@ -1119,7 +1119,8 @@ const {
     resolveImageMeta: resolveCuratedImageMeta,
     resolveImage: resolveCuratedImage,
     normalizeImagePath,
-    isImageEligible: isImageEligibleStrict
+    isImageEligible: isCuratedImageEligible,
+    toImageRef
 } = imageRegistry;
 const { IMAGE_BY_PATH, IMAGE_BY_BASENAME, IMAGE_BY_ID } = imageRegistry.indexes;
 const IMAGE_DB = imageRegistry.IMAGE_DB;
@@ -1129,7 +1130,22 @@ const IMAGE_METADATA_PATH = imageRegistry.metadataPath || path.join(__dirname, '
 global.curatedImages = curatedImages;
 
 function isImageEligible(img) {
-    return !!(img && (img.src || img.filePath || img.file) && (img.alt || img.title));
+    return isCuratedImageEligible(img);
+}
+
+function basicTypeCheck(img) {
+    return !!(img && typeof img.type === 'string' && img.type.trim());
+}
+
+function filterEligibleImages(allImages = []) {
+    const source = Array.isArray(allImages) ? allImages.filter(Boolean) : [];
+    let pool = source.filter((img) => isImageEligible(img));
+    if (!pool.length && source.length) {
+        console.warn('[images] No images passed strict eligibility; falling back to type-only check.');
+        pool = source.filter(basicTypeCheck);
+    }
+    console.log(`[images] pool: total=${source.length}, eligible=${pool.length}`);
+    return pool;
 }
 
 function resolveImageMeta(input) {
@@ -2504,8 +2520,8 @@ function buildImageCandidatePool({ subject, requestedCount = 1, usedKeys = new S
         return { pool: [], subjectPool: [], chosen: [] };
     }
 
-    const eligiblePool = pool.filter((img) => isImageEligible(img));
-    const workingPool = eligiblePool.length ? eligiblePool : pool;
+    const eligiblePool = filterEligibleImages(pool);
+    const workingPool = eligiblePool.length ? eligiblePool : [];
     const subjectKey = typeof subject === 'string' ? subject.trim().toLowerCase() : '';
 
     let subjectPool = workingPool;
@@ -5699,9 +5715,7 @@ const generateImageQuestion = async (topic, subject, imagePool, numQuestions, op
     }
 
     // Fallback to curated image pool generation
-    const eligiblePool = Array.isArray(imagePool)
-        ? imagePool.filter((img) => img && isImageEligible(img))
-        : [];
+    const eligiblePool = filterEligibleImages(Array.isArray(imagePool) ? imagePool : []);
     const filteredByTopic = eligiblePool.filter((img) => img.subject === subject && img.category === topic);
     let selectedImage = filteredByTopic.length
         ? filteredByTopic[Math.floor(Math.random() * filteredByTopic.length)]
@@ -5786,7 +5800,7 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
         requireNamedEntity = true
     } = options;
 
-    const eligiblePool = imagePool.filter((img) => img && isImageEligible(img));
+    const eligiblePool = filterEligibleImages(Array.isArray(imagePool) ? imagePool : []);
     if (!eligiblePool.length) {
         return [];
     }
@@ -5985,13 +5999,27 @@ function scoreImageForPlan(img, desired) {
     return score;
 }
 
+const PLAN_WARNINGS = new Set();
+
+function warnPlanOnce(message) {
+    if (!PLAN_WARNINGS.has(message)) {
+        PLAN_WARNINGS.add(message);
+        console.warn(message);
+    }
+}
+
 function isImageEligibleForPlan(img) {
     if (!img) return false;
     if (!isImageEligible(img)) return false;
-    if (typeof isImageEligibleStrict === 'function' && !isImageEligibleStrict(img)) return false;
-    if (!img.visualType) return false;
-    if (!Array.isArray(img.subtopics) || img.subtopics.length === 0) return false;
-    if (!Array.isArray(img.questionHooks) || img.questionHooks.length < 2) return false;
+    if (!img.visualType) {
+        warnPlanOnce('[images][plan] soft check: missing visualType.');
+    }
+    if (!Array.isArray(img.subtopics) || img.subtopics.length === 0) {
+        warnPlanOnce('[images][plan] soft check: missing subtopics.');
+    }
+    if (!Array.isArray(img.questionHooks) || img.questionHooks.length === 0) {
+        warnPlanOnce('[images][plan] soft check: missing questionHooks.');
+    }
     return true;
 }
 
@@ -6149,10 +6177,11 @@ function assertValidImageRef({ imageRef, imageUrl, subject }) {
 }
 
 function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics = [], concepts = [] }) {
-    const pool = Array.isArray(global.curatedImages)
-        ? global.curatedImages.filter(isImageEligibleForPlan)
-        : [];
-    if (!pool.length) {
+    const all = Array.isArray(global.curatedImages) ? global.curatedImages : [];
+    const eligible = filterEligibleImages(all);
+    const pool = eligible.filter(isImageEligibleForPlan);
+    const workingPool = pool.length ? pool : eligible;
+    if (!workingPool.length) {
         return [];
     }
 
@@ -6163,7 +6192,7 @@ function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics 
     };
 
     const subjectKey = normalizeSubjectKey(subject);
-    const scored = pool
+    const scored = workingPool
         .map((img) => {
             let score = scoreImageForPlan(img, desired);
             const imgSubject = normalizeSubjectKey(img?.subject || img?.domain || '');
@@ -6183,7 +6212,7 @@ function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics 
         chosen.push(img);
     }
 
-    return chosen;
+    return chosen.map((img) => ({ ...img }));
 }
 
 function buildImageQuestionPrompt(subject, meta, original = {}) {
@@ -6354,13 +6383,21 @@ async function generateQuestionsFromImages({ subject, images }) {
 
     resolvedImages.forEach((image, index) => {
         queue.add(async () => {
+            const normalizedRef = toImageRef(image);
+            const refAlt = typeof normalizedRef.alt === 'string' && normalizedRef.alt.trim().length
+                ? normalizedRef.alt.trim()
+                : null;
+            const directAlt = typeof image.alt === 'string' && image.alt.trim().length ? image.alt.trim() : '';
+            const resolvedAlt = refAlt || directAlt || 'Image';
             const imageTitle = typeof image.title === 'string' && image.title.trim().length ? image.title.trim() : 'Untitled';
             const imageType = typeof image.type === 'string' && image.type.trim().length ? image.type.trim() : 'photo';
-            const imageAltValue = typeof image.alt === 'string' && image.alt.trim().length ? image.alt.trim() : '';
-            const altText = imageAltValue || 'No description available.';
-            const tags = Array.isArray(image.tags)
-                ? image.tags.filter((tag) => typeof tag === 'string' && tag.trim().length).join(', ')
-                : null;
+            const tagsArray = Array.isArray(image.tags)
+                ? image.tags.filter((tag) => typeof tag === 'string' && tag.trim().length)
+                : (Array.isArray(normalizedRef?.meta?.tags)
+                    ? normalizedRef.meta.tags.filter((tag) => typeof tag === 'string' && tag.trim().length)
+                    : []);
+            const tags = tagsArray.length ? tagsArray.join(', ') : null;
+            const altText = resolvedAlt || 'No description available.';
             const associatedTopics = tags && tags.length ? tags : 'N/A';
 
             const prompt = `You are an expert GED curriculum developer. Based on the following image metadata, please generate a single, multiple-choice GED-style question that directly relates to the image.
@@ -6379,15 +6416,44 @@ async function generateQuestionsFromImages({ subject, images }) {
                     return;
                 }
 
-                const imageUrl = typeof image.src === 'string' && image.src.trim().length ? image.src : null;
+                const refUrl = typeof normalizedRef.imageUrl === 'string' && normalizedRef.imageUrl.trim().length
+                    ? normalizedRef.imageUrl.trim()
+                    : null;
+                const rawSrc = typeof image.src === 'string' && image.src.trim().length ? image.src.trim() : null;
+                const imageUrl = refUrl || rawSrc;
                 if (!imageUrl) {
                     console.warn('[IMG-FIRST] Skipping question attachment due to missing image src', image?.id || index);
                     return;
                 }
 
+                const normalizedTags = tagsArray.length ? tagsArray : (Array.isArray(image.tags) ? image.tags : []);
+                const refMeta = {
+                    id: image.id || normalizedRef?.id || null,
+                    type: image.type || normalizedRef?.meta?.type || null,
+                    tags: normalizedTags
+                };
+
+                const finalRef = {
+                    ...normalizedRef,
+                    id: refMeta.id,
+                    imageUrl,
+                    path: imageUrl,
+                    src: imageUrl,
+                    alt: resolvedAlt,
+                    altText: resolvedAlt,
+                    caption: normalizedRef.caption || image.caption || image.title || '',
+                    meta: {
+                        ...normalizedRef.meta,
+                        ...refMeta,
+                        caption: normalizedRef.caption || image.caption || image.title || '',
+                        sourceUrl: normalizedRef.meta?.sourceUrl || image.sourceUrl || null,
+                        ocrText: normalizedRef.meta?.ocrText || image.ocrText || null
+                    }
+                };
+
                 question.imageUrl = imageUrl;
-                question.imageAlt = imageAltValue;
-                question.imageRef = image.id || imageUrl;
+                question.imageAlt = resolvedAlt;
+                question.imageRef = finalRef;
                 question.subject = normalizedSubject;
                 generatedItems[index] = question;
             } catch (error) {
@@ -8291,5 +8357,8 @@ if (require.main === module) {
 }
 
 module.exports = {
-    normalizeLatexText
+    normalizeLatexText,
+    selectCuratedImages,
+    filterEligibleImages,
+    isImageEligible
 };
