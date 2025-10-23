@@ -49,9 +49,6 @@ const SHOULD_RENDER_KATEX = DEFAULT_MATH_MODE === 'katex';
 const BANK_PULL_ENABLED = String(process.env.BANK_PULL_ENABLED || 'false').toLowerCase() === 'true';
 
 // ==== IMAGE BANK / REUSE CONFIG ====
-const BANK_IMAGE_FIRST_ENABLED = true;
-const BANK_IMAGE_PULL_RATIO = 0.60; // ~60% pulled from bank (if available)
-const BANK_IMAGE_GROWTH_RATIO = 0.30; // ~30% forced new generation (grow bank)
 const BANK_MAX_FETCH = 100;
 const IMAGE_TIMEOUT_MS = 7000;
 const ACCEPT_IMAGE = /^image\//i;
@@ -5594,218 +5591,14 @@ ${contextLines.join('\n')}`;
     });
 }
 
-async function assembleImageSection({ subject, category, domain, difficulty, totalNeeded }) {
-    const needed = Math.max(1, Number(totalNeeded) || 1);
-    let images = await fetchImagesFromBank({ domain, limit: 5 });
-    if (!images.length && domain) {
-        images = await fetchImagesFromBank({ limit: 5 });
-    }
-    if (!images.length) {
-        throw new Error('no_images_in_bank');
-    }
-
-    const image = images[0];
-    const reuseTarget = Math.floor(needed * BANK_IMAGE_PULL_RATIO);
-    const growthTarget = Math.ceil(needed * BANK_IMAGE_GROWTH_RATIO);
-
-    const reused = await fetchBankQuestionsForImage(image.image_id, reuseTarget || needed);
-    const needNew = Math.max(growthTarget, needed - reused.length);
-
-    if (needNew > 0) {
-        const generated = await generateImageItemsWithAI({
-            image_url: image.image_url,
-            alt_text: image.alt_text,
-            subject,
-            category,
-            domain: domain || image.domain,
-            difficulty,
-            count: needNew
-        });
-
-        for (const g of generated) {
-            try {
-                // await saveImageQuestionToBank({
-                //     image,
-                //     subject,
-                //     category,
-                //     item_type: g.item_type || 'image_mcq',
-                //     domain: domain || image.domain,
-                //     difficulty: g.difficulty || difficulty || null,
-                //     tags: g.tags || [],
-                //     question_data: g.question_data
-                // });
-            } catch (err) {
-                console.error('saveImageQuestionToBank failed:', err?.message || err);
-            }
-        }
-    }
-
-    const finalBatch = await fetchBankQuestionsForImage(image.image_id, needed);
-    return { image, questions: finalBatch.slice(0, needed) };
-}
-
-const generateImageQuestion = async (topic, subject, imagePool, numQuestions, options = {}) => {
-    const totalRequested = Math.max(1, Number(numQuestions) || 1);
-
-    if (BANK_IMAGE_FIRST_ENABLED && isDatabaseConfigured()) {
-        try {
-            const { image, questions } = await assembleImageSection({
-                subject,
-                category: topic,
-                domain: topic,
-                difficulty: options?.difficulty,
-                totalNeeded: totalRequested
-            });
-
-            if (questions && questions.length) {
-                const bankImageUrl = image?.image_url || null;
-                const bankAlt = image?.alt_text || null;
-
-                const converted = questions.slice(0, totalRequested).map((row) => {
-                    const norm = row?.question_norm || {};
-                    const data = row?.question_data || {};
-                    const rawChoices = Array.isArray(norm?.choices) && norm.choices.length
-                        ? norm.choices
-                        : Array.isArray(data?.choices)
-                            ? data.choices
-                            : [];
-                    const choices = rawChoices.map((choice) => (typeof choice === 'string' ? choice : String(choice || '')));
-                    const answerIndex = Number.isInteger(norm?.answer_index)
-                        ? norm.answer_index
-                        : Number.isInteger(data?.answer_index)
-                            ? data.answer_index
-                            : 0;
-                    const answerOptions = choices.map((choiceText, choiceIdx) => ({
-                        text: choiceText,
-                        isCorrect: choiceIdx === answerIndex,
-                        rationale: ''
-                    }));
-
-                    const rawImagePath = row?.image_url_cached || data?.image_url || bankImageUrl;
-                    const curatedRecord = resolveCuratedImageMeta(rawImagePath);
-                    const curatedEligible = curatedRecord ? isImageEligible(curatedRecord) : false;
-                    if (curatedRecord && !curatedEligible) {
-                        const ref = curatedRecord.id || rawImagePath || row?.question_id || 'bank-image';
-                        console.warn(`[IMG-GUARD] Skipped weak metadata for ${ref}`);
-                    }
-                    const imageMeta = resolveImageMeta(rawImagePath);
-                    const normalizedImagePath = curatedEligible
-                        ? normalizeImagePath(curatedRecord.src)
-                        : imageMeta?.src
-                            ? normalizeImagePath(imageMeta.src)
-                            : normalizeImagePath(rawImagePath || '');
-                    const encodedImagePath = normalizedImagePath ? normalizedImagePath : null;
-                    const resolvedPath = curatedEligible
-                        ? (encodedImagePath || curatedRecord.src || null)
-                        : curatedRecord
-                            ? null
-                            : (encodedImagePath || (typeof rawImagePath === 'string' && rawImagePath.trim() ? rawImagePath.trim() : null));
-                    const mergedAlt = curatedEligible
-                        ? (curatedRecord.alt || curatedRecord.altText || imageMeta?.altText || row?.image_alt || data?.alt_text || bankAlt || '')
-                        : imageMeta?.altText || row?.image_alt || data?.alt_text || bankAlt || '';
-
-                    if (!resolvedPath) {
-                        return null;
-                    }
-                    const questionBase = {
-                        questionText: norm?.stem || data?.stem_raw || '',
-                        answerOptions,
-                        imageUrl: resolvedPath,
-                        imageAlt: mergedAlt,
-                        imageRef: { path: resolvedPath, altText: mergedAlt, id: curatedEligible ? curatedRecord.id : undefined },
-                        type: 'image'
-                    };
-
-                    const enforced = enforceWordCapsOnItem(questionBase, subject);
-                    return {
-                        ...enforced,
-                        question_norm: norm,
-                        question_data: data,
-                        katex_html_cache: row?.katex_html_cache || null,
-                        bankQuestionId: row?.question_id || null
-                    };
-                }).filter(Boolean);
-
-                if (converted.length) {
-                    return converted;
-                }
-            }
-        } catch (err) {
-            console.warn('assembleImageSection failed:', err?.message || err);
-        }
-    }
-
-    // Fallback to curated image pool generation
-    const eligiblePool = filterEligibleImages(Array.isArray(imagePool) ? imagePool : []);
-    const filteredByTopic = eligiblePool.filter((img) => img.subject === subject && img.category === topic);
-    let selectedImage = filteredByTopic.length
-        ? filteredByTopic[Math.floor(Math.random() * filteredByTopic.length)]
-        : null;
-
-    if (!selectedImage && eligiblePool.length) {
-        const subjectImages = eligiblePool.filter((img) => img.subject === subject);
-        if (subjectImages.length > 0) {
-            selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
-        }
-    }
-
-    if (!selectedImage && eligiblePool.length) {
-        selectedImage = eligiblePool[Math.floor(Math.random() * eligiblePool.length)];
-    }
-
-    if (!selectedImage) {
-        return null;
-    }
-
-    const imagePrompt = `You are a GED exam creator. This stimulus is for an IMAGE from the topic '${topic}'.
-Based on the following image context, generate a set of ${numQuestions} unique questions that require direct interpretation of the visual evidence. Do not include strategy advice or references to "students" or "readers".
-
-**Image Context:**
-- **Description:** ${selectedImage.detailedDescription}
-- **Usage Directives:** ${selectedImage.usageDirectives || 'N/A'}
-
-Each question must:
-- Reference at least two concrete visual anchors (legend entries, axis titles, dates, symbols, geographic labels, etc.).
-- Use comparative or quantitative language whenever the visual presents numerical data (e.g., greater than, decreased, highest).
-- Provide exactly four answer options with rationales and identify the correct option.
-
-Output a JSON array of the question objects, each including an 'imagePath' key with the value '${selectedImage.filePath}'.`;
-
-    const imageQuestionSchema = {
-        type: "ARRAY",
-        items: {
-            type: "OBJECT",
-            properties: {
-                questionText: { type: "STRING" },
-                answerOptions: {
-                    type: "ARRAY",
-                    items: {
-                        type: "OBJECT",
-                        properties: {
-                            text: { type: "STRING" },
-                            isCorrect: { type: "BOOLEAN" },
-                            rationale: { type: "STRING" }
-                        },
-                        required: ["text", "isCorrect", "rationale"]
-                    }
-                },
-                imagePath: { type: "STRING" }
-            },
-            required: ["questionText", "answerOptions", "imagePath"]
-        }
-    };
-
-    try {
-        const questions = await callAI(imagePrompt, imageQuestionSchema, options);
-        return questions.map((q) => enforceWordCapsOnItem({
-            ...q,
-            imageUrl: q.imagePath.replace(/^\/frontend/, ''),
-            type: 'image'
-        }, subject));
-    } catch (error) {
-        console.error(`Error generating image question for topic ${topic}:`, error);
-        return null;
-    }
+const generateImageQuestion = async (topic, subject, _imagePool, numQuestions, options = {}) => {
+    const count = Math.max(1, Number(numQuestions) || 1);
+    const selectedImages = selectMetadataRecords({ subject, category: topic, topic, count });
+    return generateSimpleImageQuestions({
+        subject,
+        images: selectedImages,
+        timeoutMs: options?.timeoutMs
+    });
 };
 
 const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, options = {}) => {
@@ -6155,90 +5948,235 @@ function sanitizeDraftImages(draft) {
     return draft;
 }
 
-function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics = [], concepts = [] }) {
-    const all = Array.isArray(global.curatedImages) ? global.curatedImages : [];
-    const eligible = filterEligibleImages(all);
-    const pool = eligible.filter(isImageEligibleForPlan);
-    const workingPool = pool.length ? pool : eligible;
-    if (!workingPool.length) {
+let cachedImageMetadata = null;
+
+function loadImageMetadataRecords() {
+    if (Array.isArray(cachedImageMetadata)) {
+        return cachedImageMetadata;
+    }
+
+    try {
+        const raw = fs.readFileSync(IMAGE_METADATA_PATH, 'utf8');
+        const parsed = JSON.parse(raw);
+        cachedImageMetadata = Array.isArray(parsed) ? parsed : [];
+    } catch (err) {
+        console.error('[images] Failed to load curated image metadata:', err?.message || err);
+        cachedImageMetadata = [];
+    }
+
+    return cachedImageMetadata;
+}
+
+function toNormalizedArray(values) {
+    if (!Array.isArray(values)) {
+        return [];
+    }
+    return values
+        .map((value) => String(value || '').trim().toLowerCase())
+        .filter(Boolean);
+}
+
+function matchesTerm(value, term) {
+    if (!value || !term) {
+        return false;
+    }
+    return String(value).toLowerCase().includes(term);
+}
+
+function imageMatchesSearchTerm(image, term) {
+    if (!term) {
+        return true;
+    }
+
+    return matchesTerm(image?.category, term)
+        || matchesTerm(image?.topic, term)
+        || matchesTerm(image?.title, term)
+        || matchesTerm(image?.caption, term)
+        || matchesTerm(image?.description, term)
+        || matchesTerm(image?.detailedDescription, term)
+        || matchesTerm(image?.context, term)
+        || toNormalizedArray(image?.tags).some((entry) => entry.includes(term))
+        || toNormalizedArray(image?.subtopics).some((entry) => entry.includes(term))
+        || toNormalizedArray(image?.concepts).some((entry) => entry.includes(term));
+}
+
+function pickRandomSubset(list, count) {
+    const limit = Math.max(0, Math.min(list.length, Math.floor(count)));
+    if (!limit) {
+        return [];
+    }
+    const copy = [...list];
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy.slice(0, limit);
+}
+
+function selectMetadataRecords({ subject, category, topic, count = 1, visualTypes = [], subtopics = [], concepts = [] }) {
+    const metadata = loadImageMetadataRecords();
+    if (!metadata.length) {
         return [];
     }
 
-    const desired = {
-        visualTypes: (visualTypes || []).map((value) => String(value).toLowerCase()),
-        subtopics: (subtopics || []).map((value) => String(value).toLowerCase()),
-        concepts: (concepts || []).map((value) => String(value).toLowerCase())
-    };
-
     const subjectKey = normalizeSubjectKey(subject);
-    const scored = workingPool
-        .map((img) => {
-            let score = scoreImageForPlan(img, desired);
-            const imgSubject = normalizeSubjectKey(img?.subject || img?.domain || '');
-            if (subjectKey && imgSubject === subjectKey) {
-                score += 2;
-            }
-            return { img, score };
-        })
-        .sort((a, b) => b.score - a.score);
+    let pool = metadata;
 
-    const chosen = [];
-    const used = new Set();
-    for (const { img } of scored) {
-        if (chosen.length >= count) break;
-        if (!img?.id || used.has(img.id)) continue;
-        used.add(img.id);
-        chosen.push(img);
+    if (subjectKey) {
+        const subjectMatches = metadata.filter((image) => normalizeSubjectKey(image?.subject || image?.domain || '') === subjectKey);
+        if (subjectMatches.length) {
+            pool = subjectMatches;
+        }
     }
 
-    return chosen.map((img) => ({ ...img }));
+    const searchTerm = (category || topic || '').trim().toLowerCase();
+    if (searchTerm) {
+        const filteredByTerm = pool.filter((image) => imageMatchesSearchTerm(image, searchTerm));
+        if (filteredByTerm.length) {
+            pool = filteredByTerm;
+        }
+    }
+
+    const normalizedVisualTypes = toNormalizedArray(visualTypes);
+    if (normalizedVisualTypes.length) {
+        const visualSet = new Set(normalizedVisualTypes);
+        const filteredByVisual = pool.filter((image) => visualSet.has(String(image?.visualType || '').trim().toLowerCase()));
+        if (filteredByVisual.length) {
+            pool = filteredByVisual;
+        }
+    }
+
+    const normalizedSubtopics = toNormalizedArray(subtopics);
+    if (normalizedSubtopics.length) {
+        const subtopicSet = new Set(normalizedSubtopics);
+        const filteredBySubtopic = pool.filter((image) => {
+            const imageSubtopics = toNormalizedArray(image?.subtopics);
+            return imageSubtopics.some((entry) => subtopicSet.has(entry));
+        });
+        if (filteredBySubtopic.length) {
+            pool = filteredBySubtopic;
+        }
+    }
+
+    const normalizedConcepts = toNormalizedArray(concepts);
+    if (normalizedConcepts.length) {
+        const conceptSet = new Set(normalizedConcepts);
+        const filteredByConcept = pool.filter((image) => {
+            const imageConcepts = toNormalizedArray(image?.concepts);
+            return imageConcepts.some((entry) => conceptSet.has(entry));
+        });
+        if (filteredByConcept.length) {
+            pool = filteredByConcept;
+        }
+    }
+
+    if (!pool.length) {
+        pool = metadata;
+    }
+
+    return pickRandomSubset(pool, Math.max(1, count));
 }
 
-function buildImageQuestionPrompt(subject, meta, original = {}) {
-    const subjectLabel = typeof subject === 'string' && subject.trim().length ? subject.trim() : 'GED';
-    const visualType = (original.visualType || meta.visualType || '').toLowerCase();
-    const hooks = Array.isArray(original.questionHooks)
-        ? original.questionHooks.filter((hook) => typeof hook === 'string' && hook.trim().length)
-        : [];
-    const subtopics = Array.isArray(original.subtopics)
-        ? original.subtopics.filter((value) => typeof value === 'string' && value.trim().length)
-        : [];
-    const concepts = Array.isArray(original.concepts)
-        ? original.concepts.filter((value) => typeof value === 'string' && value.trim().length)
-        : [];
-    const descriptionParts = [
-        meta.alt || meta.altText || '',
-        meta.caption || '',
-        meta.detailedDescription || '',
-        meta.credit ? `Credit: ${meta.credit}` : '',
-        original.description || ''
-    ].map((part) => String(part || '').trim()).filter(Boolean);
-    const ocrText = typeof original.ocrText === 'string' && original.ocrText.trim().length
-        ? original.ocrText.trim()
-        : '';
+function buildSimpleImagePrompt(subject, image) {
+    const safeSubject = typeof subject === 'string' && subject.trim().length ? subject.trim() : 'General Studies';
+    const title = typeof image?.title === 'string' && image.title.trim().length ? image.title.trim() : 'N/A';
+    const description = typeof image?.description === 'string' && image.description.trim().length
+        ? image.description.trim()
+        : typeof image?.detailedDescription === 'string' && image.detailedDescription.trim().length
+            ? image.detailedDescription.trim()
+            : typeof image?.caption === 'string' && image.caption.trim().length
+                ? image.caption.trim()
+                : '';
+    const context = typeof image?.context === 'string' && image.context.trim().length
+        ? image.context.trim()
+        : typeof image?.region === 'string' && image.region.trim().length
+            ? image.region.trim()
+            : typeof image?.timePeriod === 'string' && image.timePeriod.trim().length
+                ? image.timePeriod.trim()
+                : 'N/A';
 
-    const metadataLines = [
-        visualType ? `Visual type: ${visualType}` : null,
-        descriptionParts.length ? `Description: ${descriptionParts.join(' ')}` : null,
-        hooks.length ? 'Question hooks:\n' + hooks.map((hook) => `- ${hook}`).join('\n') : null,
-        subtopics.length ? `Subtopics: ${subtopics.join(', ')}` : null,
-        concepts.length ? `Concepts: ${concepts.join(', ')}` : null,
-        ocrText ? `Visible text: ${ocrText}` : null
-    ].filter(Boolean).join('\n');
+    return `You are a GED exam creator. Based on this image metadata, write one high-quality GED-style question.\nSubject: ${safeSubject}\nTitle: ${title}\nDescription: ${description}\nContext: ${context}`;
+}
 
-    const directive = [
-        `You are a GED ${subjectLabel} exam writer.`,
-        'Write one GED-style multiple-choice question that requires interpreting the described visual.',
-        'Reference specific evidence from the image. Avoid mentioning “students” or “test-takers.”',
-        'Do not use phrases like “in the image above.”',
-        'Provide exactly four answer options and mark the single correct option using "isCorrect": true.',
-        'Each answer option must include a short rationale.',
-        'Treat any OCR text as content shown inside the image.'
-    ].join(' ');
+function resolveMetadataImagePath(image) {
+    if (!image || typeof image !== 'object') {
+        return null;
+    }
 
-    const schemaInstruction = `Return a JSON object with:\n{\n  "questionText": string,\n  "answerOptions": [\n    { "text": string, "isCorrect": boolean, "rationale": string }\n  ],\n  "rationale": string (optional),\n  "difficulty": string (optional)\n}\nEnsure there are exactly four answer options and only one has "isCorrect": true.`;
+    const candidates = [
+        image.filePath,
+        image.file,
+        image.filename,
+        image.src,
+        image.path
+    ];
 
-    return `${directive}\n\nMetadata:\n${metadataLines}\n\n${schemaInstruction}`;
+    for (const candidate of candidates) {
+        if (typeof candidate !== 'string') {
+            continue;
+        }
+        const trimmed = candidate.trim();
+        if (!trimmed || /^https?:\/\//i.test(trimmed)) {
+            continue;
+        }
+        const normalized = normalizeImagePath(trimmed);
+        if (normalized) {
+            return normalized;
+        }
+    }
+
+    return null;
+}
+
+async function generateSimpleImageQuestions({ subject, images, timeoutMs }) {
+    const resolvedImages = Array.isArray(images) ? images : [];
+    const questions = [];
+    const callOptions = {
+        timeoutMs: Math.min(MODEL_HTTP_TIMEOUT_MS, timeoutMs || MODEL_HTTP_TIMEOUT_MS),
+        callSite: 'image-metadata-simple'
+    };
+
+    for (const image of resolvedImages) {
+        const prompt = buildSimpleImagePrompt(subject, image);
+        try {
+            const rawQuestion = await callAI(prompt, SINGLE_IMAGE_QUESTION_SCHEMA, callOptions);
+            const normalized = buildNormalizedImageQuestion(rawQuestion, { subject, index: questions.length });
+            if (!normalized) {
+                continue;
+            }
+
+            const imageUrl = resolveMetadataImagePath(image);
+            if (!imageUrl) {
+                console.warn('[IMG-FIRST] Skipping image with missing local path', image?.id || image?.file || 'unknown');
+                continue;
+            }
+
+            const altText = [image?.alt, image?.altText, image?.title, image?.caption]
+                .map((value) => (typeof value === 'string' ? value.trim() : ''))
+                .find((value) => value.length) || '';
+
+            normalized.imageUrl = imageUrl;
+            normalized.imageAlt = altText;
+            normalized.imageId = image?.id || null;
+            normalized.imageRef = {
+                id: image?.id || null,
+                imageUrl,
+                altText
+            };
+            normalized.subject = subject;
+            normalized.questionNumber = questions.length + 1;
+
+            questions.push(normalized);
+        } catch (error) {
+            console.warn('[IMG-FIRST] Failed to generate question from metadata', image?.id || image?.file || 'unknown', error?.message || error);
+        }
+    }
+
+    return questions;
+}
+
+function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics = [], concepts = [] }) {
+    return selectMetadataRecords({ subject, count, visualTypes, subtopics, concepts });
 }
 
 const SINGLE_IMAGE_QUESTION_SCHEMA = {
@@ -6264,13 +6202,6 @@ const SINGLE_IMAGE_QUESTION_SCHEMA = {
     },
     required: ["questionText", "answerOptions"]
 };
-
-async function llmGenerateSingleImageQuestion(prompt, options = {}) {
-    return callAI(prompt, SINGLE_IMAGE_QUESTION_SCHEMA, {
-        timeoutMs: Math.min(MODEL_HTTP_TIMEOUT_MS, options.timeoutMs || 60000),
-        callSite: options.callSite || 'image-first-single'
-    });
-}
 
 function buildNormalizedImageQuestion(rawQuestion, { subject, index }) {
     if (!rawQuestion || typeof rawQuestion !== 'object') {
@@ -6339,112 +6270,20 @@ function buildNormalizedImageQuestion(rawQuestion, { subject, index }) {
     return enforceWordCapsOnItem(baseQuestion, subject);
 }
 
-async function generateQuestionsFromImages({ subject, images }) {
-    const normalizedSubject = typeof subject === 'string' && subject.trim().length
-        ? subject.trim()
-        : 'General Studies';
-    const capitalizedSubject = `${normalizedSubject.charAt(0).toUpperCase()}${normalizedSubject.slice(1)}`;
-    const resolvedImages = Array.isArray(images)
-        ? images.filter((image) => image && typeof image === 'object')
-        : [];
+async function generateQuestionsFromImages({ subject, images, questionCount, timeoutMs }) {
+    const desiredCount = Math.max(1, Math.floor(questionCount || (Array.isArray(images) ? images.length : 0) || 1));
+    const resolvedImages = Array.isArray(images) && images.length
+        ? images
+        : selectMetadataRecords({ subject, count: desiredCount });
+    const safeSubject = typeof subject === 'string' && subject.trim().length ? subject.trim() : 'General Studies';
 
-    if (!resolvedImages.length) {
-        return {
-            title: `Comprehensive ${capitalizedSubject} Exam`,
-            subject: normalizedSubject,
-            items: []
-        };
-    }
-
-    const generatedItems = new Array(resolvedImages.length);
-    const { default: PQueue } = await import('p-queue');
-    const queue = new PQueue({ concurrency: 4 });
-
-    resolvedImages.forEach((image, index) => {
-        queue.add(async () => {
-            const directAlt = typeof image.alt === 'string' && image.alt.trim().length ? image.alt.trim() : '';
-            const imageTitle = typeof image.title === 'string' && image.title.trim().length ? image.title.trim() : 'Untitled';
-            const imageType = typeof image.type === 'string' && image.type.trim().length ? image.type.trim() : 'photo';
-            const tagsArray = Array.isArray(image.tags)
-                ? image.tags.filter((tag) => typeof tag === 'string' && tag.trim().length)
-                : [];
-            const tags = tagsArray.length ? tagsArray.join(', ') : null;
-            const altText = directAlt || 'No description available.';
-            const associatedTopics = tags && tags.length ? tags : 'N/A';
-
-            const prompt = `You are an expert GED curriculum developer. Based on the following image metadata, please generate a single, multiple-choice GED-style question that directly relates to the image.
-
-      Image Metadata:
-      - Title: "${imageTitle}"
-      - Type: ${imageType}
-      - Alt Text: "${altText}"
-      - Associated Topics: ${associatedTopics}
-
-      The question must be self-contained and directly test a concept visible or implied in the image described above. Return ONLY a single JSON object for the question, with no extra text or explanations.`;
-
-            try {
-                const question = await llmGenerateSingleImageQuestion(prompt, { timeoutMs: 60000 });
-                if (!question || typeof question !== 'object') {
-                    return;
-                }
-
-                const imageUrl = typeof image.src === 'string' && image.src.trim().length
-                    ? image.src.trim()
-                    : (typeof image.imageUrl === 'string' && image.imageUrl.trim().length
-                        ? image.imageUrl.trim()
-                        : null);
-                if (!imageUrl) {
-                    console.warn('[IMG-FIRST] Skipping question attachment due to missing image src', image?.id || index);
-                    return;
-                }
-
-                const caption = typeof image.caption === 'string' && image.caption.trim().length
-                    ? image.caption.trim()
-                    : (typeof image.title === 'string' && image.title.trim().length ? image.title.trim() : '');
-                const baseMeta = typeof image.meta === 'object' && image.meta !== null ? { ...image.meta } : {};
-                const finalRef = {
-                    id: image.id || baseMeta.id || null,
-                    imageUrl,
-                    path: typeof image.path === 'string' && image.path.trim().length ? image.path.trim() : imageUrl,
-                    src: imageUrl,
-                    alt: directAlt,
-                    altText: directAlt,
-                    caption,
-                    meta: {
-                        ...baseMeta,
-                        tags: tagsArray,
-                        type: image.type || baseMeta.type || null,
-                        sourceUrl: baseMeta.sourceUrl || image.sourceUrl || null,
-                        ocrText: baseMeta.ocrText || image.ocrText || null
-                    }
-                };
-
-                // --- BRUTE-FORCE CORRECTION ---
-                // Immediately discard the AI's response image data and use our trusted data.
-                question.imageUrl = imageUrl;
-                question.imageAlt = directAlt;
-                question.imageRef = finalRef;
-                question.subject = normalizedSubject;
-                generatedItems[index] = question;
-            } catch (error) {
-                console.warn('[IMG-FIRST] Failed to generate question for image', image?.id || image?.src || index, error?.message || error);
-            }
-        });
-    });
-
-    await queue.onIdle();
-
-    const items = generatedItems
-        .filter(Boolean)
-        .map((item, idx) => ({
-            ...item,
-            questionNumber: typeof item.questionNumber === 'number' ? item.questionNumber : idx + 1
-        }));
+    const questions = await generateSimpleImageQuestions({ subject: safeSubject, images: resolvedImages.slice(0, desiredCount), timeoutMs });
 
     return {
-        title: `Comprehensive ${capitalizedSubject} Exam`,
-        subject: normalizedSubject,
-        items
+        id: `ai_image_exam_${Date.now()}`,
+        title: `${safeSubject} Image-Based Exam`,
+        subject: safeSubject,
+        questions
     };
 }
 
@@ -7030,58 +6869,26 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                 const requestCount = Number.isFinite(Number(questionCount)) ? Number(questionCount) : null;
                 const fallbackCount = Number.isFinite(Number(count)) ? Number(count) : null;
                 const imageQuestionCount = Math.max(1, Math.floor(plannedCount || requestCount || fallbackCount || 10));
+                const timeoutMs = selectModelTimeoutMs({ examType: 'standard' });
 
-                const selectedImages = selectCuratedImages({
+                const selectedImages = selectMetadataRecords({
                     subject,
+                    category: desired.category || topic,
+                    topic: topic || desired.topic,
                     count: imageQuestionCount,
                     visualTypes: desired.visualTypes || [],
                     subtopics: desired.subtopics || [],
                     concepts: desired.concepts || []
                 });
 
-                if (selectedImages.length) {
-                    const draft = await generateQuestionsFromImages({ subject, images: selectedImages });
-                    const timeoutMs = selectModelTimeoutMs({ examType: 'standard' });
-                    const corrected = await reviewAndCorrectQuiz(draft, { timeoutMs });
+                const quiz = await generateQuestionsFromImages({
+                    subject,
+                    images: selectedImages,
+                    questionCount: imageQuestionCount,
+                    timeoutMs
+                });
 
-                    if (draft.title) {
-                        corrected.title = draft.title;
-                    }
-
-                    if (!corrected.subject && draft.subject) {
-                        corrected.subject = draft.subject;
-                    }
-
-                    const baseItems = Array.isArray(draft.items) ? draft.items : [];
-                    const reviewedItems = Array.isArray(corrected.items)
-                        ? corrected.items
-                        : Array.isArray(corrected.questions)
-                            ? corrected.questions
-                            : [];
-
-                    const mergedItems = reviewedItems.map((item, index) => {
-                        const base = baseItems[index];
-                        if (!base) {
-                            return item;
-                        }
-                        return {
-                            ...item,
-                            imageUrl: base.imageUrl,
-                            imageAlt: base.imageAlt,
-                            imageRef: base.imageRef,
-                            subject: item.subject || base.subject || draft.subject
-                        };
-                    });
-
-                    if (mergedItems.length) {
-                        corrected.items = mergedItems;
-                        corrected.questions = mergedItems;
-                    }
-
-                    return res.json(corrected);
-                } else {
-                    console.warn('[IMG-FIRST] No eligible curated images found; falling back to text-first generation.');
-                }
+                return res.json(quiz);
             } catch (error) {
                 console.warn('[IMG-FIRST] Image-first generation failed; falling back to text-first mode:', error?.message || error);
             }
