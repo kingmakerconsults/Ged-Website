@@ -6018,6 +6018,94 @@ function safePath(p) {
     return '/' + encodeURI(s);
 }
 
+function isLenientEligible(img) {
+    // Minimal requirements to be attachable.
+    return !!(img && (img.src || img.filePath || img.file) && (img.alt || img.title));
+}
+
+function pickCuratedFallback(subject, usedIds = new Set()) {
+    const pool = (global.curatedImages || []);
+    // prefer same-subject by tags, else global
+    const subj = subject ? String(subject).toLowerCase() : null;
+    const bySubj = subj
+        ? pool.filter((im) => (im.tags || []).map((t) => String(t).toLowerCase()).includes(subj))
+        : [];
+    const candidates = (bySubj.length ? bySubj : pool).filter(isLenientEligible);
+    for (const im of candidates) {
+        if (!usedIds.has(im.id)) return im;
+    }
+    return null;
+}
+
+/**
+ * Clean the AI draft *before* restore:
+ * - Drop externals (example.com, any http/https)
+ * - Fix double-encoding, normalize to /Images/...
+ * - Resolve to curated meta (id/src/alt)
+ * - If no hit, swap in a curated fallback so we never end with 0 images.
+ */
+function sanitizeDraftImages(draft) {
+    if (!draft || !Array.isArray(draft.items)) return draft;
+    const used = new Set();
+    const subj = (draft.subject || '').toLowerCase();
+    let attached = 0;
+    let swapped = 0;
+    let nulled = 0;
+
+    for (const q of draft.items) {
+        // ensure each item carries a subject if possible
+        if (!q.subject && draft.subject) q.subject = draft.subject;
+
+        const raw = q.imageUrl || q.imageRef || q.imagePath;
+        const localRef = sanitizeImageRef(raw); // null if external
+        if (!localRef) {
+            // try an immediate curated swap
+            const swap = pickCuratedFallback(q.subject || subj, used);
+            if (swap) {
+                q.imageRef = swap.id;
+                q.imageUrl = swap.src || safePath(swap.filePath || swap.file);
+                if (!q.imageAlt) q.imageAlt = swap.alt || '';
+                used.add(swap.id);
+                swapped++;
+                attached++;
+            } else {
+                q.imageUrl = null;
+                nulled++;
+            }
+            continue;
+        }
+
+        // normalize and try to resolve curated meta
+        const fixed = safePath(localRef);
+        const meta = resolveImageMeta(fixed) || resolveImageMeta(localRef);
+        if (meta && (meta.src || meta.filePath || meta.file)) {
+            q.imageRef = meta.id || q.imageRef || q.imageUrl;
+            q.imageUrl = meta.src || safePath(meta.filePath || meta.file);
+            if (!q.imageAlt) q.imageAlt = meta.alt || '';
+            used.add(q.imageRef);
+            attached++;
+            continue;
+        }
+
+        // still no luck → curated swap
+        const swap = pickCuratedFallback(q.subject || subj, used);
+        if (swap) {
+            q.imageRef = swap.id;
+            q.imageUrl = swap.src || safePath(swap.filePath || swap.file);
+            if (!q.imageAlt) q.imageAlt = swap.alt || '';
+            used.add(swap.id);
+            swapped++;
+            attached++;
+        } else {
+            q.imageUrl = null;
+            nulled++;
+        }
+    }
+
+    console.log(`[DRAFT-IMG] sanitized=${draft.items.length} attached=${attached} swapped=${swapped} nulled=${nulled}`);
+    return draft;
+}
+
 function assertValidImageRef({ imageRef, imageUrl, subject }) {
     const ref = sanitizeImageRef(imageRef || imageUrl);
     if (!ref) throw new Error('Image reference not local/curated.');
@@ -7161,6 +7249,8 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                     if (stableSubject && draft.subject !== stableSubject) {
                         draft.subject = stableSubject;
                     }
+
+                    sanitizeDraftImages(draft);
 
                     const subjectForQuestions = typeof canonicalSubject === 'string' && canonicalSubject.trim().length
                         ? canonicalSubject.trim()
