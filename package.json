@@ -17,12 +17,13 @@
     "probe-images": "node tools/probe-images.mjs"
   },
   "dependencies": {
-    "undici": "^6",
-    "p-queue": "^7",
+    "express-rate-limit": "^6.11.2",
+    "fast-xml-parser": "^4",
+    "file-type": "^19",
     "jsdom": "^24",
+    "p-queue": "^7",
     "robots-parser": "^3",
     "sharp": "^0.33",
-    "file-type": "^19",
-    "fast-xml-parser": "^4"
+    "undici": "^6"
   }
 }
