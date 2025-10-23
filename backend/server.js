@@ -3606,7 +3606,11 @@ function normalizeSmithASocialItem(raw, index, { subject, subtopic, skill, topic
     const warnings = [];
 
     if (!raw || typeof raw !== 'object') {
-        return { item: null, errors: [`Item ${index + 1}: model response was not an object.`], warnings };
+        return {
+            item: null,
+            errors: [`Item ${index + 1}: model response was not an object.`],
+            warnings
+        };
     }
 
     const id = typeof raw.id === 'string' && raw.id.trim().length
