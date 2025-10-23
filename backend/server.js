@@ -6133,48 +6133,6 @@ function sanitizeDraftImages(draft) {
     return draft;
 }
 
-function assertValidImageRef({ imageRef, imageUrl, subject }) {
-    const ref = sanitizeImageRef(imageRef || imageUrl);
-    if (!ref) throw new Error('Image reference not local/curated.');
-
-    const want = safePath(ref);
-    if (!want) throw new Error('Image reference not local/curated.');
-
-    const pool = Array.isArray(global.curatedImages) ? global.curatedImages : [];
-
-    let candidates = pool;
-    if (subject) {
-        const subj = String(subject).toLowerCase();
-        candidates = pool.filter((im) => {
-            const tags = Array.isArray(im?.tags) ? im.tags.map((t) => String(t).toLowerCase()) : [];
-            return tags.includes(subj)
-                || (subj === 'social-studies' && (tags.includes('social studies') || tags.includes('social')))
-                || (subj === 'math' && (tags.includes('mathematics') || tags.includes('numeracy')));
-        });
-        if (!candidates.length) {
-            candidates = pool;
-        }
-    }
-
-    const base = want.split('/').pop();
-    const baseLower = (base || '').toLowerCase();
-    const hit = candidates.find((im) => {
-        const rawPath = im?.filePath || im?.src || im?.file || '';
-        const normalized = String(rawPath).replace(/^\.?\/+/, '');
-        const lower = normalized.toLowerCase();
-        return lower.endsWith('/' + baseLower) || lower === `images/${baseLower}`;
-    });
-
-    if (!hit) throw new Error('Curated image not found.');
-
-    return {
-        id: hit.id,
-        src: hit.src || safePath(hit.filePath || hit.file || base),
-        alt: hit.alt || '',
-        meta: hit
-    };
-}
-
 function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics = [], concepts = [] }) {
     const all = Array.isArray(global.curatedImages) ? global.curatedImages : [];
     const eligible = filterEligibleImages(all);
@@ -6847,173 +6805,6 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
     return groupedQuestions;
 }
 
-function reconcileImages(corrected, draft) {
-    if (!corrected || typeof corrected !== 'object') {
-        return corrected;
-    }
-
-    const resolveRawRef = (question) => {
-        if (!question || typeof question !== 'object') return null;
-        if (typeof question.imageRef === 'string') return question.imageRef;
-        if (question.imageRef && typeof question.imageRef === 'object') {
-            const candidates = [
-                question.imageRef.imageUrl,
-                question.imageRef.path,
-                question.imageRef.src,
-                question.imageRef.file,
-                question.imageRef.id
-            ];
-            for (const candidate of candidates) {
-                if (candidate) return candidate;
-            }
-        }
-        if (question.imageUrl) return question.imageUrl;
-        if (question.imagePath) return question.imagePath;
-        return null;
-    };
-
-    const curatedPool = getCuratedImagePool();
-    const usedKeys = new Set();
-
-    const seedUsedKeys = (list) => {
-        if (!Array.isArray(list)) return;
-        for (const item of list) {
-            if (!item || typeof item !== 'object') continue;
-            const candidates = [
-                item?.imageRef?.id,
-                item?.imageRef?.imageUrl,
-                item?.imageRef?.src,
-                item?.imageUrl,
-                item?.imageMeta?.src
-            ];
-            for (const key of candidates) {
-                if (key) {
-                    usedKeys.add(key);
-                }
-            }
-        }
-    };
-
-    seedUsedKeys(corrected.items);
-    seedUsedKeys(corrected.questions);
-    if (draft && typeof draft === 'object') {
-        seedUsedKeys(draft.items);
-        seedUsedKeys(draft.questions);
-    }
-
-    const attachFromRecord = (question, record, subjectHint) => {
-        if (!question || typeof question !== 'object' || !record) return false;
-        const src = normalizeImagePath(record.src || record.filePath || record.file || record.path);
-        if (!src) return false;
-        const subjectValue = subjectHint || question.subject || record.subject || record.domain || undefined;
-        const alt = record.alt || record.altText || record.title || question.imageAlt || '';
-
-        question.imageRef = {
-            id: record.id,
-            imageUrl: src,
-            path: src,
-            src,
-            altText: alt,
-            subject: subjectValue
-        };
-        question.imageUrl = src;
-        if (!question.imageAlt && alt) {
-            question.imageAlt = alt;
-        }
-        if (!question.imageMeta || typeof question.imageMeta !== 'object') {
-            question.imageMeta = { id: record.id, src, altText: alt };
-        } else {
-            if (!question.imageMeta.id && record.id) question.imageMeta.id = record.id;
-            if (!question.imageMeta.src) question.imageMeta.src = src;
-            if (!question.imageMeta.altText && alt) question.imageMeta.altText = alt;
-        }
-        if (record.id) {
-            usedKeys.add(record.id);
-        }
-        if (src) {
-            usedKeys.add(src);
-        }
-        return true;
-    };
-
-    const apply = (list) => {
-        if (!Array.isArray(list)) return;
-        for (let i = 0; i < list.length; i++) {
-            const q = list[i];
-            if (!q || typeof q !== 'object') continue;
-
-            const rawRef = resolveRawRef(q);
-            const subjectHint = q.subject || corrected?.subject || draft?.subject || null;
-
-            try {
-                const { id, src, alt, meta } = assertValidImageRef({
-                    imageRef: rawRef,
-                    imageUrl: q.imageUrl,
-                    subject: subjectHint
-                });
-
-                const altText = q.imageAlt || alt || '';
-                q.imageRef = {
-                    id,
-                    imageUrl: src,
-                    path: src,
-                    src,
-                    altText,
-                    subject: subjectHint || undefined
-                };
-                q.imageUrl = src;
-                if (!q.imageAlt && alt) {
-                    q.imageAlt = alt;
-                }
-                if (meta) {
-                    if (!q.imageMeta || typeof q.imageMeta !== 'object') {
-                        q.imageMeta = { id: meta.id, src, altText };
-                    } else {
-                        q.imageMeta.id = q.imageMeta.id || meta.id;
-                        q.imageMeta.src = q.imageMeta.src || src;
-                        if (!q.imageMeta.altText && altText) {
-                            q.imageMeta.altText = altText;
-                        }
-                    }
-                }
-                if (id) {
-                    usedKeys.add(id);
-                }
-                if (src) {
-                    usedKeys.add(src);
-                }
-            } catch (e) {
-                console.warn(`[IMG-RESTORE] item ${i} invalid (${e.message}); attempting swap.`);
-                const swap = selectSwapImage(subjectHint, usedKeys);
-                if (swap && attachFromRecord(q, swap, subjectHint)) {
-                    continue;
-                }
-                const fallback = curatedPool.find((img) => {
-                    if (!img) return false;
-                    const keys = [img.id, img.src];
-                    return keys.some((key) => key && !usedKeys.has(key));
-                });
-                if (fallback && attachFromRecord(q, fallback, subjectHint)) {
-                    continue;
-                }
-                q.imageUrl = null;
-                delete q.imageRef;
-            }
-        }
-    };
-
-    apply(corrected.items);
-    apply(corrected.questions);
-
-    const combined = [];
-    if (Array.isArray(corrected.items)) combined.push(...corrected.items);
-    if (Array.isArray(corrected.questions)) combined.push(...corrected.questions);
-    const attached = combined.filter((q) => q && q.imageUrl).length;
-    console.log(`[IMAGES] pool=${(global.curatedImages || []).length} attached=${attached}/${combined.length}`);
-
-    return corrected;
-}
-
 async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
     const prompt = `You are a meticulous GED exam editor. Output only valid JSON. No markdown, no code fences, no trailing commas, no comments.
 Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam. Your task is to review and improve it based on these rules:
@@ -7040,17 +6831,15 @@ Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQui
     }
 
     if (isSocialStudies) {
-        if (correctedQuiz && typeof correctedQuiz === 'object' && typeof draftQuiz?.title === 'string') {
-            correctedQuiz.title = draftQuiz.title;
+        if (correctedQuiz && typeof correctedQuiz === 'object') {
+            if (typeof draftQuiz?.title === 'string') {
+                correctedQuiz.title = draftQuiz.title;
+            }
+            if (draftQuiz?.subject && !correctedQuiz.subject) {
+                correctedQuiz.subject = draftQuiz.subject;
+            }
         }
-        const restored = reconcileImages(correctedQuiz, draftQuiz);
-        if (restored && typeof restored === 'object' && typeof draftQuiz?.title === 'string') {
-            restored.title = draftQuiz.title;
-        }
-        if (draftQuiz?.subject && restored && typeof restored === 'object' && !restored.subject) {
-            restored.subject = draftQuiz.subject;
-        }
-        return restored;
+        return correctedQuiz;
     }
 
     return correctedQuiz;
