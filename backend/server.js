@@ -46,8 +46,6 @@ const SHOULD_RENDER_KATEX = DEFAULT_MATH_MODE === 'katex';
 
 // ==== BANK TOGGLES ====
 // Keep storing to the bank, but don't reuse until it's warmed up.
-const BANK_PULL_ENABLED = String(process.env.BANK_PULL_ENABLED || 'false').toLowerCase() === 'true';
-
 // ==== IMAGE BANK / REUSE CONFIG ====
 const BANK_MAX_FETCH = 100;
 const IMAGE_TIMEOUT_MS = 7000;
@@ -56,8 +54,196 @@ const ACCEPT_IMAGE = /^image\//i;
 const DEBUG_LOG_SCHEMAS = String(process.env.DEBUG_LOG_SCHEMAS || '').toLowerCase() === 'true';
 const LOGGED_SCHEMA_ERRORS = new Set();
 
+const AI_EXAM_TEMPLATES = {
+    default: {
+        default: {
+            totalQuestions: 12,
+            sectionMix: { image: 3, reading: 3, standalone: 6 },
+            topics: {
+                image: ['Data Analysis'],
+                reading: ['Core Concepts'],
+                standalone: ['Reasoning Skills']
+            }
+        }
+    },
+    'Social Studies': {
+        default: {
+            totalQuestions: 12,
+            sectionMix: { image: 3, reading: 3, standalone: 6 },
+            topics: {
+                image: ['Civics & Government', 'U.S. History', 'Geography'],
+                reading: ['Civics & Government', 'Economics'],
+                standalone: ['Geography & the World', 'Contemporary Issues']
+            }
+        },
+        smitha: {
+            totalQuestions: 12,
+            sectionMix: { image: 4, reading: 4, standalone: 4 },
+            topics: {
+                image: ['Civics & Government', 'Economics'],
+                reading: ['U.S. History', 'Civics & Government'],
+                standalone: ['Geography & the World', 'Economics']
+            }
+        },
+        comprehensive: {
+            totalQuestions: 46,
+            sectionMix: { image: 12, reading: 16, standalone: 18 },
+            topics: {
+                image: ['Civics & Government', 'Economics', 'Geography & the World'],
+                reading: ['U.S. History', 'Civics & Government', 'Economics'],
+                standalone: ['Contemporary Issues', 'Geography & the World']
+            }
+        }
+    },
+    Science: {
+        default: {
+            totalQuestions: 12,
+            sectionMix: { image: 4, reading: 4, standalone: 4 },
+            topics: {
+                image: ['Data Representation', 'Experiments'],
+                reading: ['Life Science', 'Physical Science'],
+                standalone: ['Earth & Space', 'Scientific Reasoning']
+            }
+        }
+    },
+    Math: {
+        default: {
+            totalQuestions: 12,
+            sectionMix: { image: 2, reading: 2, standalone: 8 },
+            topics: {
+                image: ['Data & Graphs'],
+                reading: ['Word Problems'],
+                standalone: ['Algebra', 'Geometry', 'Quantitative Reasoning']
+            }
+        }
+    },
+    RLA: {
+        default: {
+            totalQuestions: 12,
+            sectionMix: { image: 0, reading: 6, standalone: 6 },
+            topics: {
+                image: [],
+                reading: ['Informational Texts', 'Literature'],
+                standalone: ['Language Skills', 'Argumentative Writing']
+            }
+        }
+    }
+};
+
 function selectModelTimeoutMs({ examType } = {}) {
     return examType === 'comprehensive' ? COMPREHENSIVE_TIMEOUT_MS : MODEL_HTTP_TIMEOUT_MS;
+}
+
+function normalizeExamType(value) {
+    if (!value || typeof value !== 'string') {
+        return 'default';
+    }
+    return value.trim().toLowerCase() || 'default';
+}
+
+function resolveExamTemplate(subject, examType) {
+    const subjectKey = typeof subject === 'string' ? subject.trim() : '';
+    const group = AI_EXAM_TEMPLATES[subjectKey] || AI_EXAM_TEMPLATES.default;
+    const normalizedType = normalizeExamType(examType);
+    return group[normalizedType] || group.default || AI_EXAM_TEMPLATES.default.default;
+}
+
+function ensurePositiveInt(value, fallback) {
+    const numeric = Number(value);
+    if (Number.isFinite(numeric) && numeric > 0) {
+        return Math.floor(numeric);
+    }
+    return fallback;
+}
+
+function computeSectionPlan({ template, totalQuestions, sectionMix, useImages }) {
+    const allowed = ['image', 'reading', 'standalone'];
+    const desiredTotal = ensurePositiveInt(totalQuestions, template.totalQuestions || 12);
+    const mix = { ...template.sectionMix };
+
+    if (sectionMix && typeof sectionMix === 'object') {
+        for (const key of allowed) {
+            if (sectionMix[key] != null) {
+                mix[key] = Math.max(0, Number(sectionMix[key]));
+            }
+        }
+    }
+
+    if (useImages === false) {
+        mix.image = 0;
+    }
+
+    let sum = 0;
+    for (const key of allowed) {
+        const value = Number.isFinite(mix[key]) ? mix[key] : 0;
+        mix[key] = value > 0 ? value : 0;
+        sum += mix[key];
+    }
+
+    if (sum === 0) {
+        mix.image = 0;
+        mix.reading = Math.min(4, Math.floor(desiredTotal / 2));
+        mix.standalone = desiredTotal - mix.reading;
+        sum = mix.image + mix.reading + mix.standalone;
+    }
+
+    const plan = { image: 0, reading: 0, standalone: 0 };
+    const ratios = allowed.map((key) => ({ key, value: mix[key] }));
+    const notes = [];
+
+    if (sum > 0) {
+        let assigned = 0;
+        ratios.forEach(({ key, value }) => {
+            if (!value) return;
+            const portion = Math.floor((value / sum) * desiredTotal);
+            plan[key] = portion;
+            assigned += portion;
+        });
+
+        let remainder = desiredTotal - assigned;
+        const priorityOrder = ['reading', 'image', 'standalone'];
+        for (const key of priorityOrder) {
+            if (remainder <= 0) break;
+            const available = mix[key];
+            if (available > 0 || key === 'standalone') {
+                plan[key] += 1;
+                remainder -= 1;
+            }
+        }
+
+        if (remainder > 0) {
+            plan.standalone += remainder;
+        }
+    } else {
+        plan.standalone = desiredTotal;
+    }
+
+    if (useImages === false && plan.image > 0) {
+        notes.push('Images disabled by request; reallocating to standalone items.');
+        plan.standalone += plan.image;
+        plan.image = 0;
+    }
+
+    const normalizedPlan = {
+        image: Math.max(0, Math.min(desiredTotal, plan.image)),
+        reading: Math.max(0, Math.min(desiredTotal, plan.reading)),
+        standalone: Math.max(0, Math.min(desiredTotal, plan.standalone))
+    };
+
+    const totalPlanned = normalizedPlan.image + normalizedPlan.reading + normalizedPlan.standalone;
+    if (totalPlanned !== desiredTotal) {
+        const delta = desiredTotal - totalPlanned;
+        normalizedPlan.standalone += delta;
+    }
+
+    return { plan: normalizedPlan, totalQuestions: desiredTotal, notes };
+}
+
+function pickTopic(topics = [], index = 0, fallback = 'Core Concepts') {
+    if (Array.isArray(topics) && topics.length > 0) {
+        return topics[index % topics.length];
+    }
+    return fallback;
 }
 
 function nowNs() { return process.hrtime.bigint(); }
@@ -282,8 +468,6 @@ if (CLIENT_BUILD_EXISTS) {
 
 const LOG_DIR = path.join(__dirname, 'logs');
 const VALIDATION_LOG = path.join(LOG_DIR, 'question_validations.jsonl');
-const QUESTION_BANK_DIR = path.join(__dirname, 'data');
-const QUESTION_BANK_PATH = path.join(QUESTION_BANK_DIR, 'questions.json');
 
 function ensureLogFiles() {
     try {
@@ -459,61 +643,6 @@ async function probeImageHead(url) {
     }
 }
 
-function ensureQuestionBankFile() {
-    try {
-        if (!fs.existsSync(QUESTION_BANK_DIR)) {
-            fs.mkdirSync(QUESTION_BANK_DIR, { recursive: true });
-        }
-        if (!fs.existsSync(QUESTION_BANK_PATH)) {
-            fs.writeFileSync(QUESTION_BANK_PATH, '[]', 'utf8');
-        }
-    } catch (err) {
-        console.warn('Unable to prepare question bank storage:', err?.message || err);
-    }
-}
-
-ensureQuestionBankFile();
-
-function loadQuestionBankFromDisk() {
-    try {
-        const raw = fs.readFileSync(QUESTION_BANK_PATH, 'utf8');
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) {
-            return parsed;
-        }
-    } catch (err) {
-        console.warn('Unable to load question bank:', err?.message || err);
-    }
-    return [];
-}
-
-let QUESTION_BANK = loadQuestionBankFromDisk();
-let QUESTION_HASHES = new Map();
-
-function computeQuestionHash(stemNorm, choicesNorm = []) {
-    return sha1(`${stemNorm || ''}||${choicesNorm.join('||')}`);
-}
-
-function rebuildQuestionHashes() {
-    QUESTION_HASHES = new Map();
-    QUESTION_BANK.forEach((entry) => {
-        if (!entry) return;
-        const hash = entry.hash || computeQuestionHash(entry.stem_norm, (entry.choices || []).map((c) => c?.norm || ''));
-        entry.hash = hash;
-        QUESTION_HASHES.set(hash, entry.id);
-    });
-}
-
-rebuildQuestionHashes();
-
-function persistQuestionBank() {
-    try {
-        fs.writeFileSync(QUESTION_BANK_PATH, JSON.stringify(QUESTION_BANK, null, 2), 'utf8');
-    } catch (err) {
-        console.warn('Unable to persist question bank:', err?.message || err);
-    }
-}
-
 function difficultyToCanonical(value) {
     const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
     if (normalized === 'easy') return 'easy';
@@ -555,10 +684,8 @@ function finalizeQuestionForCache(question, { domain, difficulty }) {
     if (!SHOULD_RENDER_KATEX) {
         stemNorm = toPlainFractions(stemNorm);
     }
-    const stemHtml = renderInlineKatexToHtml(stemNorm);
     const choiceEntries = Array.isArray(question.choices) ? question.choices.map(finalizeChoice) : [];
     const choicesNorm = choiceEntries.map((c) => c.norm);
-    const choiceHtml = choiceEntries.map((c) => c.html);
     const answerIndex = Number.isInteger(question.correctIndex) ? question.correctIndex : 0;
     const canonicalDifficulty = difficultyToCanonical(question.difficulty);
     const tags = Array.isArray(question.tags)
@@ -569,51 +696,8 @@ function finalizeQuestionForCache(question, { domain, difficulty }) {
     if (!SHOULD_RENDER_KATEX) {
         solutionNorm = toPlainFractions(solutionNorm);
     }
-    const solutionHtml = renderInlineKatexToHtml(solutionNorm);
-    const katexOk = Boolean(stemHtml) && choiceHtml.every((html) => typeof html === 'string' && html.length);
 
-    const hash = computeQuestionHash(stemNorm, choicesNorm);
-    const existingId = QUESTION_HASHES.get(hash);
-    const id = existingId || crypto.randomUUID?.() || `cached-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-
-    const cacheEntry = {
-        id,
-        domain: normalizeDomain(domain),
-        difficulty: canonicalDifficulty,
-        stem_raw: stemRaw,
-        stem_norm: stemNorm,
-        choices: choiceEntries.map((c) => ({ raw: c.raw, norm: c.norm })),
-        answer_index: answerIndex,
-        solution_raw: solutionRaw,
-        solution_norm: solutionNorm,
-        katex_html_cache: {
-            stem: stemHtml,
-            choices: choiceHtml,
-            solution: solutionHtml
-        },
-        katex_ok: katexOk,
-        tags,
-        createdAt: new Date().toISOString(),
-        hash
-    };
-
-    if (!existingId) {
-        QUESTION_BANK.push(cacheEntry);
-        QUESTION_HASHES.set(hash, id);
-        persistQuestionBank();
-    } else {
-        const idx = QUESTION_BANK.findIndex((entry) => entry && entry.id === existingId);
-        if (idx >= 0) {
-            const original = QUESTION_BANK[idx];
-            const updatedEntry = {
-                ...original,
-                ...cacheEntry,
-                createdAt: original?.createdAt || cacheEntry.createdAt
-            };
-            QUESTION_BANK[idx] = updatedEntry;
-            persistQuestionBank();
-        }
-    }
+    const id = question.id || crypto.randomUUID?.() || `ai-item-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
     return {
         ...question,
@@ -627,151 +711,8 @@ function finalizeQuestionForCache(question, { domain, difficulty }) {
         stem_norm: stemNorm,
         solution_raw: solutionRaw,
         solution_norm: solutionNorm,
-        katex_html_cache: {
-            stem: stemHtml,
-            choices: choiceHtml,
-            solution: solutionHtml
-        },
-        katex_ok: katexOk,
         tags
     };
-}
-
-function convertBankEntryToItem(entry) {
-    if (!entry) return null;
-    const choices = Array.isArray(entry.choices) ? entry.choices.map((c) => c?.norm || '') : [];
-    return {
-        id: entry.id,
-        stem: entry.stem_norm || entry.stem_raw || '',
-        choices,
-        correctIndex: Number.isInteger(entry.answer_index) ? entry.answer_index : 0,
-        difficulty: entry.difficulty || 'medium',
-        solution: entry.solution_norm || entry.solution_raw || '',
-        tags: Array.isArray(entry.tags) ? entry.tags : [],
-        katex_html_cache: entry.katex_html_cache || { stem: null, choices: [] },
-        stem_raw: entry.stem_raw,
-        stem_norm: entry.stem_norm,
-        solution_raw: entry.solution_raw,
-        solution_norm: entry.solution_norm,
-        katex_ok: Boolean(entry.katex_ok)
-    };
-}
-
-function computeDifficultyPlan(count) {
-    const total = Math.max(0, Number(count) || 0);
-    if (!total) return { easy: 0, medium: 0, hard: 0 };
-    let easy = Math.round(total * 0.33);
-    let medium = Math.round(total * 0.42);
-    let hard = total - easy - medium;
-    if (hard < 0) {
-        medium += hard;
-        hard = 0;
-    }
-    if (medium < 0) {
-        easy += medium;
-        medium = 0;
-    }
-    const adjust = total - (easy + medium + hard);
-    if (adjust > 0) {
-        medium += adjust;
-    } else if (adjust < 0) {
-        medium = Math.max(0, medium + adjust);
-    }
-    return { easy, medium, hard };
-}
-
-function takeFromBank(domain, count) {
-    const normalizedDomain = normalizeDomain(domain);
-    const plan = computeDifficultyPlan(count);
-    const eligible = QUESTION_BANK.filter((entry) => entry.domain === normalizedDomain && entry.katex_ok);
-    if (!eligible.length) {
-        return { reused: [], remaining: plan };
-    }
-
-    const pool = shuffleArray ? shuffleArray([...eligible]) : [...eligible];
-    const reused = [];
-    const remaining = { ...plan };
-
-    const takeForDifficulty = (diff, quota) => {
-        if (quota <= 0) return;
-        for (let i = 0; i < pool.length && quota > 0; i += 1) {
-            const candidate = pool[i];
-            if (!candidate) continue;
-            const candidateDiff = difficultyToCanonical(candidate.difficulty);
-            if (candidateDiff !== diff) continue;
-            reused.push(candidate);
-            pool.splice(i, 1);
-            quota -= 1;
-            i -= 1;
-        }
-        remaining[diff] = quota;
-    };
-
-    takeForDifficulty('easy', remaining.easy);
-    takeForDifficulty('medium', remaining.medium);
-    takeForDifficulty('hard', remaining.hard);
-
-    while (reused.length < count && pool.length) {
-        reused.push(pool.shift());
-    }
-
-    return {
-        reused: reused.map(convertBankEntryToItem).filter(Boolean),
-        remaining: {
-            easy: Math.max(0, remaining.easy),
-            medium: Math.max(0, remaining.medium),
-            hard: Math.max(0, remaining.hard)
-        }
-    };
-}
-
-function validateQuestionBankEntries() {
-    let updated = 0;
-    let okCount = 0;
-
-    QUESTION_BANK = QUESTION_BANK.map((entry) => {
-        if (!entry) return entry;
-        const stemNorm = entry.stem_norm || normalizeLatexText(entry.stem_raw || '');
-        const stemHtml = renderInlineKatexToHtml(stemNorm);
-        const choiceEntries = Array.isArray(entry.choices) ? entry.choices : [];
-        const choiceHtml = choiceEntries.map((choice) => {
-            const norm = normalizeLatexText(choice?.norm ?? choice?.raw ?? '');
-            return renderInlineKatexToHtml(norm);
-        });
-        const solutionNorm = entry.solution_norm || normalizeLatexText(entry.solution_raw || '');
-        const solutionHtml = renderInlineKatexToHtml(solutionNorm);
-        const katexOk = Boolean(stemHtml) && choiceHtml.every((html) => typeof html === 'string' && html.length);
-
-        const cacheChanged =
-            stemHtml !== (entry.katex_html_cache?.stem || null)
-            || choiceHtml.some((html, idx) => html !== (entry.katex_html_cache?.choices?.[idx] || null))
-            || solutionHtml !== (entry.katex_html_cache?.solution || null)
-            || katexOk !== Boolean(entry.katex_ok);
-
-        if (cacheChanged) {
-            updated += 1;
-            entry.katex_html_cache = {
-                stem: stemHtml,
-                choices: choiceHtml,
-                solution: solutionHtml
-            };
-            entry.katex_ok = katexOk;
-            entry.stem_norm = stemNorm;
-            entry.solution_norm = solutionNorm;
-        }
-
-        if (entry.katex_ok) {
-            okCount += 1;
-        }
-
-        return entry;
-    });
-
-    if (updated) {
-        persistQuestionBank();
-    }
-
-    return { total: QUESTION_BANK.length, updated, ok: okCount };
 }
 
 function sha1(str) {
@@ -2741,15 +2682,31 @@ function normalizeSubjectParam(rawSubject) {
     return SUBJECT_PARAM_ALIASES.get(lower) || null;
 }
 
-const GEMINI_API_KEY = process.env.GOOGLE_API_KEY || process.env.GOOGLE_AI_API_KEY;
+const GEMINI_API_KEY = process.env.GOOGLE_API_KEY || process.env.GOOGLE_AI_API_KEY || process.env.GEMINI_API_KEY;
 const GEMINI_URL = GEMINI_API_KEY
     ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`
     : null;
 const OPENAI_URL = 'https://api.openai.com/v1/responses';
 
+const ACTIVE_GEMINI_KEY_NAME = GEMINI_API_KEY
+    ? (process.env.GOOGLE_API_KEY ? 'GOOGLE_API_KEY'
+        : process.env.GOOGLE_AI_API_KEY ? 'GOOGLE_AI_API_KEY'
+        : process.env.GEMINI_API_KEY ? 'GEMINI_API_KEY'
+        : null)
+    : null;
+
+if (ACTIVE_GEMINI_KEY_NAME) {
+    const raw = process.env[ACTIVE_GEMINI_KEY_NAME] || '';
+    const suffix = raw.slice(-4);
+    const masked = suffix ? `****${suffix}` : '****';
+    console.log(`[BOOT] Gemini key source: ${ACTIVE_GEMINI_KEY_NAME} (${masked})`);
+} else {
+    console.error('[BOOT][ERROR] No Gemini-compatible API key configured (GOOGLE_API_KEY, GOOGLE_AI_API_KEY, or GEMINI_API_KEY).');
+}
+
 async function callLLM({ system, user }) {
     if (!GEMINI_API_KEY || !GEMINI_URL) {
-        throw new Error('GOOGLE_API_KEY is not configured.');
+        throw new Error('Gemini API key is not configured.');
     }
     if (!user || typeof user !== 'string') {
         throw new Error('LLM call requires a user prompt.');
@@ -2783,7 +2740,7 @@ async function callLLM({ system, user }) {
 
 async function callGemini(payload, { signal, timeoutMs, callSite } = {}) {
     if (!GEMINI_API_KEY || !GEMINI_URL) {
-        throw new Error('GOOGLE_API_KEY is not configured.');
+        throw new Error('Gemini API key is not configured.');
     }
 
     const config = { signal };
@@ -3244,299 +3201,8 @@ async function fetchImagesFromBank({ domain, tag, limit = 10 } = {}) {
     return rows;
 }
 
-async function fetchBankQuestionsForImage(image_id, limit = 10) {
-    if (!image_id) return [];
-    const sql = `
-        SELECT question_id, subject, category, item_type, domain, difficulty, tags,
-               question_data, question_norm, katex_html_cache, image_url_cached, image_alt
-        FROM public.questions
-        WHERE katex_ok IS TRUE AND image_id = $1
-        ORDER BY random()
-        LIMIT $2;
-    `;
-    const { rows } = await pool.query(sql, [image_id, Math.max(1, Math.min(limit, BANK_MAX_FETCH))]);
-    return rows;
-}
-
-async function saveImageQuestionToBank({ image, subject, category, item_type, domain, difficulty, tags = [], question_data }) {
-    if (!question_data || typeof question_data !== 'object') {
-        throw new Error('question_data required');
-    }
-
-    const payload = { ...question_data };
-    if (image?.image_url && !payload.image_url) {
-        payload.image_url = image.image_url;
-    }
-    if (image?.alt_text && !payload.alt_text) {
-        payload.alt_text = image.alt_text;
-    }
-
-    const norm = normalizeQuestion(payload, DEFAULT_MATH_MODE);
-    const html = renderQuestionToHtml(norm);
-    const katex_ok = !!html;
-    const fingerprint = fingerprintOf(norm);
-
-    const query = `
-        INSERT INTO public.questions
-          (subject, category, item_type, domain, difficulty, tags,
-           image_id, image_alt, image_url_cached,
-           question_data, question_norm, katex_html_cache, katex_ok, fingerprint, created_at)
-        VALUES ($1,$2,$3,$4,$5,$6,
-                $7,$8,$9,
-                $10::jsonb,$11::jsonb,$12::jsonb,$13,$14,NOW())
-        ON CONFLICT (fingerprint) DO NOTHING
-        RETURNING question_id, katex_ok;
-    `;
-    const values = [
-        subject || null,
-        category || null,
-        item_type || 'image_mcq',
-        domain || image?.domain || null,
-        difficulty || null,
-        Array.isArray(tags) ? tags : [],
-        image?.image_id || null,
-        image?.alt_text || null,
-        image?.image_url || payload.image_url || null,
-        payload,
-        norm,
-        html,
-        katex_ok,
-        fingerprint
-    ];
-
-    const { rows } = await pool.query(query, values);
-    return rows[0] || null;
-}
-
-const QUESTION_BANK_SUBJECTS = new Set(['Science', 'Social Studies', 'RLA']);
-const HYBRID_ELIGIBLE_SUBJECTS = new Set([
-    'Science',
-    'Social Studies',
-    'RLA',
-    'Reasoning Through Language Arts (RLA)'
-]);
-const QUESTION_BANK_TARGET_COUNT = 8;
-const HYBRID_TOTAL_QUESTIONS = 12;
-
 function isDatabaseConfigured() {
     return Boolean(process.env.DATABASE_URL);
-}
-
-function normalizeQuestionBankSubject(subject) {
-    if (!subject) return null;
-    const trimmed = subject.trim();
-    if (trimmed === 'Reasoning Through Language Arts (RLA)' || trimmed === 'RLA') {
-        return 'RLA';
-    }
-    return QUESTION_BANK_SUBJECTS.has(trimmed) ? trimmed : null;
-}
-
-function extractPassageFromQuestion(question) {
-    if (!question || typeof question !== 'object') return null;
-    const direct = typeof question.passage === 'string' ? question.passage.trim() : '';
-    if (direct) return direct;
-    const fromContent = question.content && typeof question.content.passage === 'string'
-        ? question.content.passage.trim()
-        : '';
-    if (fromContent) return fromContent;
-    const fromStimulus = question.stimulus && typeof question.stimulus.content === 'string'
-        ? question.stimulus.content.trim()
-        : '';
-    if (fromStimulus) return fromStimulus;
-    if (question.stimulus && typeof question.stimulus.text === 'string') {
-        const text = question.stimulus.text.trim();
-        if (text) return text;
-    }
-    return null;
-}
-
-function parseQuestionData(row) {
-    if (!row) return null;
-    const raw = row.question_data;
-    if (!raw) return null;
-    if (typeof raw === 'object') return raw;
-    try {
-        return JSON.parse(raw);
-    } catch (error) {
-        console.warn('Failed to parse question_data JSON from bank:', error?.message || error);
-        return null;
-    }
-}
-
-async function fetchQuestionsFromBank({ subject, category, userId, limit }) {
-    if (!isDatabaseConfigured()) return [];
-    if (!subject || !category || limit <= 0) return [];
-
-    try {
-        const { rows } = await pool.query(
-            `SELECT q.id, q.question_data
-             FROM questions q
-             LEFT JOIN user_seen_questions usq
-               ON usq.question_id = q.id AND usq.user_id = $3
-             WHERE q.subject = $1
-               AND q.category = $2
-               AND usq.question_id IS NULL
-             ORDER BY random()
-             LIMIT $4;`,
-            [subject, category, userId || null, limit]
-        );
-
-        return rows
-            .map((row) => ({ id: row.id, question: parseQuestionData(row) }))
-            .filter((entry) => entry.question && typeof entry.question === 'object');
-    } catch (error) {
-        console.error('Failed to fetch questions from bank:', error);
-        return [];
-    }
-}
-
-function buildUserSeenInsertQuery(count) {
-    const placeholders = [];
-    for (let i = 0; i < count; i++) {
-        placeholders.push(`($1, $${i + 2})`);
-    }
-    return `INSERT INTO user_seen_questions (user_id, question_id)
-            VALUES ${placeholders.join(', ')}
-            ON CONFLICT (user_id, question_id) DO NOTHING;`;
-}
-
-async function markQuestionsAsSeen(userId, questionIds) {
-    if (!isDatabaseConfigured()) return;
-    if (!userId) return;
-    if (!Array.isArray(questionIds) || !questionIds.length) return;
-
-    try {
-        const params = [userId, ...questionIds];
-        const query = buildUserSeenInsertQuery(questionIds.length);
-        await pool.query(query, params);
-    } catch (error) {
-        console.error('Failed to mark questions as seen:', error);
-    }
-}
-
-async function saveGeneratedQuestionsToBank({ subject, category, questions, userId }) {
-    const normalizedSubject = normalizeQuestionBankSubject(subject);
-    if (!normalizedSubject) return;
-    if (!Array.isArray(questions) || !questions.length) return;
-    if (!isDatabaseConfigured()) return;
-
-    const passageIdMap = new Map();
-    const insertedQuestionIds = [];
-
-    const client = await pool.connect();
-    try {
-        await client.query('BEGIN');
-
-        for (const question of questions) {
-            if (!question || typeof question !== 'object') continue;
-
-            let passageId = null;
-            const passageContent = extractPassageFromQuestion(question);
-            if (passageContent) {
-                if (passageIdMap.has(passageContent)) {
-                    passageId = passageIdMap.get(passageContent);
-                } else {
-                    const passageResult = await client.query(
-                        `INSERT INTO passages (subject, category, content)
-                         VALUES ($1, $2, $3)
-                         RETURNING id;`,
-                        [normalizedSubject, category || null, passageContent]
-                    );
-                    passageId = passageResult.rows[0]?.id ?? null;
-                    passageIdMap.set(passageContent, passageId);
-                }
-            }
-
-            const itemType = question.type || question.item_type || question.questionType || null;
-            const serialized = JSON.stringify(question);
-            const questionResult = await client.query(
-                `INSERT INTO questions (subject, category, item_type, question_data, passage_id)
-                 VALUES ($1, $2, $3, $4::jsonb, $5)
-                 RETURNING id;`,
-                [normalizedSubject, category || null, itemType, serialized, passageId]
-            );
-
-            const insertedId = questionResult.rows[0]?.id;
-            if (insertedId) {
-                insertedQuestionIds.push(insertedId);
-            }
-        }
-
-        await client.query('COMMIT');
-    } catch (error) {
-        await client.query('ROLLBACK');
-        throw error;
-    } finally {
-        client.release();
-    }
-
-    if (insertedQuestionIds.length && userId) {
-        await markQuestionsAsSeen(userId, insertedQuestionIds);
-    }
-}
-
-function scheduleGeneratedQuestionSave(payload) {
-    if (!payload || !Array.isArray(payload.questions) || !payload.questions.length) {
-        return;
-    }
-
-    setImmediate(async () => {
-        try {
-            await saveGeneratedQuestionsToBank(payload);
-        } catch (error) {
-            console.error('Failed to save AI-generated questions to bank:', error);
-        }
-    });
-}
-
-async function generateHybridQuestionsForSubject(subject, topic, count) {
-    if (!count || count <= 0) {
-        return [];
-    }
-
-    const generated = [];
-    const plan = [
-        () => generatePassageSet(topic, subject, 2),
-        () => generatePassageSet(topic, subject, 2),
-        () => generatePassageSet(topic, subject, 2),
-        () => generateImageQuestion(topic, subject, curatedImages, 2),
-        () => generateImageQuestion(topic, subject, curatedImages, 2)
-    ];
-
-    for (let i = 0; i < 6; i++) {
-        plan.push(() => generateStandaloneQuestion(subject, topic));
-    }
-
-    for (const factory of plan) {
-        if (generated.length >= count) break;
-        try {
-            const result = await factory();
-            const items = Array.isArray(result) ? result : [result];
-            for (const item of items) {
-                if (item && typeof item === 'object') {
-                    generated.push(item);
-                    if (generated.length >= count) break;
-                }
-            }
-        } catch (error) {
-            console.error(`Hybrid generation task failed for ${subject}:`, error);
-        }
-    }
-
-    let attempts = 0;
-    while (generated.length < count && attempts < 6) {
-        attempts += 1;
-        try {
-            const fallback = await generateStandaloneQuestion(subject, topic);
-            if (fallback && typeof fallback === 'object') {
-                generated.push(fallback);
-            }
-        } catch (error) {
-            console.error(`Fallback standalone generation failed for ${subject}:`, error);
-        }
-    }
-
-    return generated.slice(0, count);
 }
 
 const SALT_ROUNDS = 10;
@@ -3794,196 +3460,28 @@ app.post('/admin/rerender-bad-math', async (_req, res) => {
     }
 });
 
-app.post('/image-bank/save', async (req, res) => {
-    if (!isDatabaseConfigured()) {
-        return res.status(503).json({ error: 'database_unavailable' });
-    }
-
-    const { image_url, alt_text, domain, tags = [] } = req.body || {};
-    if (!image_url) {
-        return res.status(400).json({ error: 'image_url required' });
-    }
-
-    const probe = await probeImageHead(image_url);
-    if (!probe.ok) {
-        return res.status(400).json({ error: 'invalid_image', detail: probe.error });
-    }
-
-    const fingerprint = sha256Hex(image_url);
-    const meta = { content_type: probe.contentType };
-
-    try {
-        const query = `
-            INSERT INTO public.images (image_url, alt_text, domain, tags, meta, image_fingerprint)
-            VALUES ($1,$2,$3,$4,$5::jsonb,$6)
-            ON CONFLICT (image_url) DO UPDATE
-                SET alt_text = COALESCE(EXCLUDED.alt_text, public.images.alt_text),
-                    domain   = COALESCE(EXCLUDED.domain, public.images.domain),
-                    tags     = CASE WHEN array_length(EXCLUDED.tags,1) IS NULL THEN public.images.tags ELSE EXCLUDED.tags END
-            RETURNING image_id, image_url, alt_text, domain, tags;
-        `;
-        const values = [
-            image_url,
-            alt_text || null,
-            domain || null,
-            Array.isArray(tags) ? tags : [],
-            meta,
-            fingerprint
-        ];
-        const { rows } = await pool.query(query, values);
-        res.json({ status: 'ok', image: rows[0] });
-    } catch (err) {
-        console.error('Failed to save image metadata:', err?.message || err);
-        res.status(500).json({ error: 'failed_to_save_image' });
-    }
+app.post('/image-bank/save', (_req, res) => {
+    res.status(410).json({ error: 'image_bank_disabled' });
 });
 
-app.get('/image-bank/fetch', async (req, res) => {
-    if (!isDatabaseConfigured()) {
-        return res.status(503).json({ error: 'database_unavailable' });
-    }
-
-    try {
-        const { domain, tag } = req.query || {};
-        const limit = Math.max(1, Math.min(parseInt(req.query?.limit ?? '10', 10) || 10, BANK_MAX_FETCH));
-        const items = await fetchImagesFromBank({ domain, tag, limit });
-        res.json({ items });
-    } catch (err) {
-        console.error('Failed to fetch images from bank:', err?.message || err);
-        res.status(500).json({ error: 'failed_to_fetch_images' });
-    }
+app.get('/image-bank/fetch', (_req, res) => {
+    res.status(410).json({ error: 'image_bank_disabled' });
 });
 
-app.post('/image-bank/generate-questions', async (req, res) => {
-    if (!isDatabaseConfigured()) {
-        return res.status(503).json({ error: 'database_unavailable' });
-    }
-
-    const { image_id, subject, category, domain, difficulty, count = 4 } = req.body || {};
-    if (!image_id) {
-        return res.status(400).json({ error: 'image_id required' });
-    }
-
-    try {
-        const { rows } = await pool.query(
-            `SELECT image_id, image_url, alt_text, domain, tags FROM public.images WHERE image_id = $1`,
-            [image_id]
-        );
-        if (!rows.length) {
-            return res.status(404).json({ error: 'image_not_found' });
-        }
-
-        const image = rows[0];
-        const generated = await generateImageItemsWithAI({
-            image_url: image.image_url,
-            alt_text: image.alt_text,
-            subject,
-            category,
-            domain,
-            difficulty,
-            count
-        });
-
-        let saved = 0;
-        for (const g of generated) {
-            try {
-                // const row = await saveImageQuestionToBank({
-                //     image,
-                //     subject,
-                //     category,
-                //     item_type: g.item_type || 'image_mcq',
-                //     domain,
-                //     difficulty: g.difficulty || difficulty || null,
-                //     tags: g.tags || [],
-                //     question_data: g.question_data
-                // });
-                // if (row) {
-                //     saved += 1;
-                // }
-            } catch (err) {
-                console.error('saveImageQuestionToBank failed:', err?.message || err);
-            }
-        }
-
-        res.json({ status: 'ok', saved_count: saved });
-    } catch (err) {
-        console.error('Failed to generate image questions:', err?.message || err);
-        res.status(500).json({ error: 'failed_to_generate_questions' });
-    }
+app.post('/image-bank/generate-questions', (_req, res) => {
+    res.status(410).json({ error: 'image_bank_disabled' });
 });
 
-app.get('/image-bank/debug/summary', async (_req, res) => {
-    if (!isDatabaseConfigured()) {
-        return res.status(503).json({ error: 'database_unavailable' });
-    }
-
-    try {
-        const query = `
-            SELECT i.image_id, i.image_url, COUNT(q.question_id) AS q_count
-            FROM public.images i
-            LEFT JOIN public.questions q ON q.image_id = i.image_id
-            GROUP BY 1,2
-            ORDER BY q_count DESC, i.created_at DESC
-            LIMIT 50;
-        `;
-        const { rows } = await pool.query(query);
-        res.json(rows);
-    } catch (err) {
-        console.error('Failed to fetch image bank summary:', err?.message || err);
-        res.status(500).json({ error: 'failed_to_fetch_summary' });
-    }
+app.get('/image-bank/debug/summary', (_req, res) => {
+    res.status(410).json({ error: 'image_bank_disabled' });
 });
 
-app.get('/image-bank/questions', async (req, res) => {
-    if (!isDatabaseConfigured()) {
-        return res.status(503).json({ error: 'database_unavailable' });
-    }
-
-    const { image_id } = req.query || {};
-    if (!image_id) {
-        return res.status(400).json({ error: 'image_id required' });
-    }
-
-    try {
-        const limit = Math.max(1, Math.min(parseInt(req.query?.limit ?? '10', 10) || 10, BANK_MAX_FETCH));
-        const rows = await fetchBankQuestionsForImage(image_id, limit);
-        res.json(rows);
-    } catch (err) {
-        console.error('Failed to fetch questions for image:', err?.message || err);
-        res.status(500).json({ error: 'failed_to_fetch_questions' });
-    }
+app.get('/image-bank/questions', (_req, res) => {
+    res.status(410).json({ error: 'image_bank_disabled' });
 });
 
-app.get('/question-bank/fetch', async (req, res) => {
-    const { domain, difficulty, subject, category } = req.query;
-    const limit = Math.max(1, Math.min(parseInt(req.query.limit || '10', 10), 50));
-
-    const where = ['katex_ok IS TRUE'];
-    const vals = [];
-    function add(field, value) {
-        if (value) { vals.push(value); where.push(`${field} = $${vals.length}`); }
-    }
-    add('domain', domain);
-    add('difficulty', difficulty);
-    add('subject', subject);
-    add('category', category);
-
-    const sql = `
-    SELECT id AS question_id, subject, category, item_type, domain, difficulty, tags,
-           question_norm, katex_html_cache
-    FROM public.questions
-    ${where.length ? 'WHERE ' + where.join(' AND ') : ''}
-    ORDER BY random()
-    LIMIT ${limit};
-  `;
-
-    try {
-        const { rows } = await pool.query(sql, vals);
-        return res.json({ items: rows });
-    } catch (e) {
-        console.error('fetch bank error', e);
-        return res.status(500).json({ error: 'fetch_failed', detail: String(e) });
-    }
+app.get('/question-bank/fetch', (_req, res) => {
+    res.status(410).json({ error: 'question_bank_disabled' });
 });
 
 app.post('/api/register', async (req, res) => {
@@ -6043,6 +5541,175 @@ function scoreImageForPlan(img, desired) {
 
 const PLAN_WARNINGS = new Set();
 
+async function generateAiExamPayload({ subject, examType, totalQuestions, sectionMix, useImages }) {
+    const normalizedSubject = typeof subject === 'string' && subject.trim().length ? subject.trim() : 'General Studies';
+    const normalizedExamType = normalizeExamType(examType);
+    const template = resolveExamTemplate(normalizedSubject, normalizedExamType);
+    const { plan, totalQuestions: desiredTotal, notes: planNotes } = computeSectionPlan({
+        template,
+        totalQuestions,
+        sectionMix,
+        useImages
+    });
+
+    const errors = [];
+    const notes = [...planNotes];
+    const sectionCounts = { image: 0, reading: 0, standalone: 0 };
+    const generationStart = Date.now();
+
+    const imageTopics = template.topics?.image || [];
+    const readingTopics = template.topics?.reading || [];
+    const standaloneTopics = template.topics?.standalone || [];
+
+    const timeoutMs = selectModelTimeoutMs({ examType: normalizedExamType });
+
+    const imageItems = [];
+    let imageShortage = 0;
+    if (plan.image > 0) {
+        const metadata = selectMetadataRecords({
+            subject: normalizedSubject,
+            topic: pickTopic(imageTopics, 0, normalizedSubject),
+            count: plan.image
+        });
+
+        if (metadata.length < plan.image) {
+            imageShortage = plan.image - metadata.length;
+            notes.push(`Only ${metadata.length} eligible images found for ${normalizedSubject}; will backfill ${imageShortage} items.`);
+        }
+
+        try {
+            const questions = await generateSimpleImageQuestions({
+                subject: normalizedSubject,
+                images: metadata,
+                timeoutMs
+            });
+            const trimmed = questions.slice(0, plan.image);
+            sectionCounts.image = trimmed.length;
+            imageItems.push(...trimmed.map((item) => ({ ...item, type: 'image' })));
+            if (trimmed.length < plan.image) {
+                imageShortage = plan.image - trimmed.length;
+                notes.push(`Generated ${trimmed.length} image questions out of ${plan.image}; shifting ${imageShortage} to standalone.`);
+            }
+        } catch (error) {
+            imageShortage = plan.image;
+            const message = typeof error?.message === 'string' ? error.message : 'Image generation failed';
+            errors.push(`Image generation failed: ${message}`);
+            notes.push('Unable to generate image-based questions; reallocating to standalone.');
+        }
+    }
+
+    const readingItems = [];
+    let readingShortage = 0;
+    if (plan.reading > 0) {
+        let remaining = plan.reading;
+        let batchIndex = 0;
+        while (remaining > 0) {
+            const batchSize = Math.min(remaining, remaining > 4 ? 4 : remaining);
+            const topic = pickTopic(readingTopics, batchIndex, normalizedSubject);
+            try {
+                const set = await generatePassageSet(topic, normalizedSubject, batchSize, {
+                    minWords: 120,
+                    maxWords: 180,
+                    requireNamedEntity: true
+                });
+                const trimmed = Array.isArray(set) ? set.slice(0, batchSize) : [];
+                readingItems.push(...trimmed.map((item) => ({ ...item, type: 'reading' })));
+                sectionCounts.reading += trimmed.length;
+                if (trimmed.length < batchSize) {
+                    const gap = batchSize - trimmed.length;
+                    readingShortage += gap;
+                    errors.push(`Reading passage generation returned ${trimmed.length} items instead of ${batchSize} for topic "${topic}".`);
+                }
+            } catch (error) {
+                readingShortage += batchSize;
+                const message = typeof error?.message === 'string' ? error.message : 'Unknown error';
+                errors.push(`Reading generation failed for topic "${topic}": ${message}`);
+            }
+            remaining -= batchSize;
+            batchIndex += 1;
+        }
+    }
+
+    const standaloneItems = [];
+    const totalStandaloneNeeded = plan.standalone + imageShortage + readingShortage;
+    for (let i = 0; i < totalStandaloneNeeded; i += 1) {
+        const topic = pickTopic(standaloneTopics, i, normalizedSubject);
+        try {
+            const question = await generateStandaloneQuestion(normalizedSubject, topic, { timeoutMs });
+            if (question) {
+                standaloneItems.push({ ...question, type: 'standalone' });
+                sectionCounts.standalone += 1;
+            }
+        } catch (error) {
+            const message = typeof error?.message === 'string' ? error.message : 'Unknown error';
+            errors.push(`Standalone generation failed for topic "${topic}": ${message}`);
+        }
+    }
+
+    let combined = [...imageItems, ...readingItems, ...standaloneItems];
+    let validationIssues = validateItems(combined);
+    if (validationIssues.length) {
+        const invalidIndices = new Set(validationIssues.map((issue) => issue.index));
+        combined = combined.filter((_, idx) => !invalidIndices.has(idx));
+        validationIssues.forEach((issue) => {
+            errors.push(`Dropped invalid item at index ${issue.index}: ${issue.reason}`);
+        });
+    }
+
+    let safeguardAttempts = 0;
+    while (combined.length < desiredTotal && safeguardAttempts < 4) {
+        safeguardAttempts += 1;
+        const topic = pickTopic(standaloneTopics, combined.length + safeguardAttempts, normalizedSubject);
+        try {
+            const fallback = await generateStandaloneQuestion(normalizedSubject, topic, { timeoutMs });
+            if (fallback) {
+                combined.push({ ...fallback, type: 'standalone' });
+                sectionCounts.standalone += 1;
+            }
+        } catch (error) {
+            const message = typeof error?.message === 'string' ? error.message : 'Unknown error';
+            errors.push(`Fallback standalone generation failed: ${message}`);
+        }
+    }
+
+    if (combined.length > desiredTotal) {
+        combined = combined.slice(0, desiredTotal);
+    }
+
+    if (combined.length < desiredTotal) {
+        throw new Error(`AI generation produced only ${combined.length} items (expected ${desiredTotal}).`);
+    }
+
+    const normalizedItems = combined.map((item, idx) => {
+        const normalized = normalizeQuestionSkeleton(item, normalizedSubject) || {};
+        return {
+            ...normalized,
+            questionNumber: idx + 1
+        };
+    });
+
+    const generationTimeMs = Date.now() - generationStart;
+    const meta = {
+        subject: normalizedSubject,
+        examType: normalizedExamType,
+        totalQuestions: desiredTotal,
+        sections: {
+            image: plan.image,
+            reading: plan.reading,
+            standalone: plan.standalone
+        },
+        generatedCounts: {
+            image: sectionCounts.image,
+            reading: sectionCounts.reading,
+            standalone: sectionCounts.standalone
+        },
+        generationTimeMs,
+        notes
+    };
+
+    return { meta, items: normalizedItems, errors };
+}
+
 function warnPlanOnce(message) {
     if (!PLAN_WARNINGS.has(message)) {
         PLAN_WARNINGS.add(message);
@@ -7085,811 +6752,34 @@ All 12 items must share the same 'passage' field. Assign the same 'groupId' to a
     }
 });
 
-app.post('/api/generate-exam', express.json(), async (req, res) => {
+app.post('/generate-quiz', (_req, res) => {
+    res.status(410).json({ error: 'legacy_endpoint_removed', message: 'Use /api/exams/generate.' });
+});
+
+app.post('/api/generate-exam', (_req, res) => {
+    res.status(410).json({ error: 'legacy_endpoint_removed', message: 'Use /api/exams/generate.' });
+});
+
+app.post('/api/exams/generate', express.json(), async (req, res) => {
     try {
-        const { profile: rawProfileKey, count = 10, subject, topic, imagePlan, questionCount } = req.body || {};
-        const profileKey = typeof rawProfileKey === 'string' && rawProfileKey.trim().length
-            ? rawProfileKey.trim()
-            : null;
+        const { subject, examType, totalQuestions, sectionMix, useImages } = req.body || {};
+        if (!subject || typeof subject !== 'string' || !subject.trim().length) {
+            return res.status(400).json({ error: 'subject_required' });
+        }
 
-        const wantsImages = imagePlan && imagePlan.mode === 'image-first' && !profileKey;
-
-        if (wantsImages) {
-            try {
-                const desired = imagePlan.desired || {};
-                const plannedCount = Number.isFinite(Number(desired.count)) ? Number(desired.count) : null;
-                const requestCount = Number.isFinite(Number(questionCount)) ? Number(questionCount) : null;
-                const fallbackCount = Number.isFinite(Number(count)) ? Number(count) : null;
-                const imageQuestionCount = Math.max(1, Math.floor(plannedCount || requestCount || fallbackCount || 10));
-                const timeoutMs = selectModelTimeoutMs({ examType: 'standard' });
-
-                const selectedImages = selectMetadataRecords({
-                    subject,
-                    category: desired.category || topic,
-                    topic: topic || desired.topic,
-                    count: imageQuestionCount,
-                    visualTypes: desired.visualTypes || [],
-                    subtopics: desired.subtopics || [],
-                    concepts: desired.concepts || []
-                });
-
-                const quiz = await generateQuestionsFromImages({
-                    subject,
-                    images: selectedImages,
-                    questionCount: imageQuestionCount,
-                    timeoutMs
-                });
-
-                return res.json(quiz);
-            } catch (error) {
-                console.warn('[IMG-FIRST] Image-first generation failed; falling back to text-first mode:', error?.message || error);
+        if (totalQuestions != null) {
+            const parsed = Number(totalQuestions);
+            if (!Number.isFinite(parsed) || parsed <= 0) {
+                return res.status(400).json({ error: 'total_questions_invalid' });
             }
         }
 
-        if (profileKey && !CONTENT_PROFILES[profileKey]) {
-            return res.status(400).json({ error: 'Unknown profile' });
-        }
-
-        const profile = profileKey ? CONTENT_PROFILES[profileKey] : null;
-        const requestedCount = Number(count);
-        const clampedCount = Math.max(1, Math.min(20, Number.isFinite(requestedCount) ? Math.floor(requestedCount) : 1));
-
-        let reusedItems = [];
-        if (profileKey && BANK_PULL_ENABLED) {
-            const reuseResult = takeFromBank(profileKey, clampedCount);
-            reusedItems = reuseResult.reused || [];
-        }
-
-        let remainingCount = Math.max(0, clampedCount - reusedItems.length);
-        let items = [];
-        let invalidIdx = [];
-
-        if (remainingCount > 0) {
-            let blueprintPrompt = profile
-                ? buildBlueprintPrompt(profile, remainingCount)
-                : "Return ONLY valid JSON with { items: [ { stem: string, choices: string[], correctIndex: number, solution: string } ] }.";
-
-            const contextLines = [];
-            if (subject) contextLines.push(`Subject focus: ${subject}`);
-            if (topic) contextLines.push(`Topic focus: ${topic}`);
-            if (contextLines.length) {
-                blueprintPrompt = `${blueprintPrompt}\n${contextLines.join('\n')}`;
-            }
-
-            const systemMsg = profile ? profile.generationSystemMsg : 'You create exam questions.';
-            const first = await callLLM({ system: systemMsg, user: blueprintPrompt });
-
-            items = safeJson(first)?.items || [];
-            if (!Array.isArray(items)) items = [];
-
-            items.forEach((it, idx) => {
-                const err = profileKey ? validateByProfile(profileKey, it) : null;
-                if (err) {
-                    invalidIdx.push({ idx, err });
-                    logValidationEvent({
-                        ts: Date.now(),
-                        profileKey,
-                        attempt: 0,
-                        index: idx,
-                        status: 'fail',
-                        error: err,
-                        itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
-                    });
-                } else {
-                    logValidationEvent({
-                        ts: Date.now(),
-                        profileKey,
-                        attempt: 0,
-                        index: idx,
-                        status: 'ok-final',
-                        itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
-                    });
-                }
-            });
-
-            let retries = 2;
-            while (invalidIdx.length && retries-- > 0) {
-                const toFix = invalidIdx.map((o) => o.idx);
-                const fixPrompt = [
-                    'Some items failed validation. Regenerate ONLY these indexes with corrected content:',
-                    JSON.stringify(toFix),
-                    'Keep the exact JSON schema and constraints.',
-                    'Return ONLY { items: [ ... ] } with the same order as requested indexes.'
-                ].join('\n');
-
-                const fixResp = await callLLM({ system: systemMsg, user: fixPrompt });
-                const fixed = safeJson(fixResp)?.items || [];
-
-                fixed.forEach((it, k) => {
-                    const target = toFix[k];
-                    if (typeof target === 'number') {
-                        items[target] = it;
-                    }
-                });
-
-                invalidIdx = [];
-                items.forEach((it, idx) => {
-                    const err = profileKey ? validateByProfile(profileKey, it) : null;
-                    if (err) {
-                        invalidIdx.push({ idx, err });
-                        logValidationEvent({
-                            ts: Date.now(),
-                            profileKey,
-                            attempt: (2 - retries),
-                            index: idx,
-                            status: 'fail',
-                            error: err,
-                            itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
-                        });
-                    } else {
-                        logValidationEvent({
-                            ts: Date.now(),
-                            profileKey,
-                            attempt: (2 - retries),
-                            index: idx,
-                            status: 'fixed',
-                            itemHash: sha1((it?.stem || '') + JSON.stringify(it?.choices || []))
-                        });
-                    }
-                });
-            }
-
-            items = items
-                .map((item) => finalizeQuestionForCache(item, { domain: profileKey, difficulty: item?.difficulty }))
-                .filter(Boolean);
-            remainingCount = Math.max(0, clampedCount - reusedItems.length - items.length);
-        }
-
-        const combined = [...reusedItems, ...items];
-        const truncated = combined.slice(0, clampedCount);
-        let finalItems = shuffleArray ? shuffleArray(truncated) : truncated;
-        const validationIssues = validateItems(finalItems);
-        if (validationIssues.length) {
-            console.warn('[validate-items] Dropping invalid items from /api/generate-exam', validationIssues);
-            const invalidIndices = new Set(validationIssues.map((issue) => issue.index));
-            finalItems = finalItems.filter((_, idx) => !invalidIndices.has(idx));
-        }
-
-        res.json({ items: finalItems, invalid: invalidIdx, dropped: validationIssues });
-    } catch (err) {
-        console.error('Error generating profile exam items:', err);
-        res.status(500).json({ error: 'Failed to generate exam items.' });
-    }
-});
-
-app.post('/api/validate-items', express.json(), (req, res) => {
-    const { profile: profileKey, items = [] } = req.body || {};
-    const normalizedItems = Array.isArray(items) ? items : [];
-    const errors = normalizedItems.map((it, idx) => ({
-        idx,
-        error: profileKey ? validateByProfile(profileKey, it) : null
-    }));
-    res.json({ errors });
-});
-
-app.post('/api/validate-bank', async (_req, res) => {
-    try {
-        const result = validateQuestionBankEntries();
-        res.json({ success: true, ...result });
-    } catch (err) {
-        console.error('Question bank validation failed:', err);
-        res.status(500).json({ success: false, error: 'Unable to validate question bank.' });
-    }
-});
-
-app.get('/admin/image-meta/debug', (_req, res) => {
-    res.json({
-        count: Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0,
-        sample: IMAGE_DB.slice(0, 5).map(({ id, file, imageUrl, title, tags }) => ({
-            id: id || null,
-            file: file || null,
-            imageUrl: imageUrl || null,
-            title: title || null,
-            tags: Array.isArray(tags) ? tags.slice(0, 5) : []
-        }))
-    });
-});
-
-app.get('/metrics/ai', (_req, res) => {
-    const stats = AI_LATENCY.stats();
-    const toSec = (value) => Math.round((value || 0) / 1000);
-    res.json({
-        model: 'gemini+chatgpt-fallback',
-        count: stats.count,
-        p50s: toSec(stats.p50),
-        p95s: toSec(stats.p95),
-        p99s: toSec(stats.p99),
-        avgs: toSec(stats.avg)
-    });
-});
-
-app.get('/admin/image-diagnostics', authenticateBearerToken, async (_req, res) => {
-    try {
-        const metaListCount = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
-        const metaByIdCount = IMAGE_BY_ID instanceof Map ? IMAGE_BY_ID.size : 0;
-        const metaByUrlCount = IMAGE_BY_URL instanceof Map ? IMAGE_BY_URL.size : 0;
-        const snapshot = imageDiagnostics.getSnapshot({
-            metadataEntries: metaListCount,
-            metadataById: metaByIdCount,
-            metadataByUrl: metaByUrlCount,
-            metadataFile: fs.existsSync(IMAGE_METADATA_PATH) ? IMAGE_METADATA_PATH : null,
-            curatedImages: Array.isArray(curatedImages) ? curatedImages.length : 0
-        });
-        res.json(snapshot);
-    } catch (err) {
-        console.error('Failed to produce image diagnostics:', err?.message || err);
-        res.status(500).json({ error: 'image_diagnostics_unavailable' });
-    }
-});
-
-app.post('/generate/social-studies-items', express.json(), async (req, res) => {
-    const { count, allowExternalBlurbs = true } = req.body || {};
-    try {
-        const items = await generateSocialStudiesItems({
-            count,
-            allowExternalBlurbs,
-            generateWithFallback: (subject, prompt, geminiOptions, fallbackOptions) =>
-                generateQuizItemsWithFallback(subject, prompt, geminiOptions, fallbackOptions)
-        });
-        const filteredItems = await filterValidImageItems(items);
-        res.json({ items: filteredItems });
+        const payload = await generateAiExamPayload({ subject, examType, totalQuestions, sectionMix, useImages });
+        res.json(payload);
     } catch (error) {
-        console.error('Failed to generate social studies items:', error?.message || error);
-        res.status(500).json({ error: 'Failed to generate social studies items.' });
-    }
-});
-
-
-app.post('/generate-quiz', async (req, res) => {
-    const { subject, topic, comprehensive } = req.body;
-
-    if (subject === undefined || comprehensive === undefined) {
-        return res.status(400).json({ error: 'Subject and comprehensive flag are required.' });
-    }
-
-    const examType = comprehensive ? 'comprehensive' : 'standard';
-    const generationStart = Date.now();
-
-    if (comprehensive) {
-        // --- COMPREHENSIVE EXAM LOGIC ---
-        if (subject === 'Social Studies') {
-            try {
-                const timeoutMs = selectModelTimeoutMs({ examType });
-                const aiOptions = { timeoutMs };
-                const blueprintPlan = [
-                    { category: 'Civics & Government', type: 'passage', questionCount: 2, adapted: true },
-                    { category: 'Civics & Government', type: 'passage', questionCount: 2 },
-                    { category: 'Civics & Government', type: 'passage', questionCount: 2 },
-                    { category: 'Civics & Government', type: 'image', questionCount: 2 },
-                    { category: 'Civics & Government', type: 'image', questionCount: 2 },
-                    { category: 'Civics & Government', type: 'image', questionCount: 1 },
-                    { category: 'Civics & Government', type: 'integrated', questionCount: 2 },
-
-                    { category: 'U.S. History', type: 'passage', questionCount: 2, adapted: true },
-                    { category: 'U.S. History', type: 'passage', questionCount: 1 },
-                    { category: 'U.S. History', type: 'image', questionCount: 2 },
-                    { category: 'U.S. History', type: 'image', questionCount: 1 },
-                    { category: 'U.S. History', type: 'integrated', questionCount: 2 },
-
-                    { category: 'Economics', type: 'passage', questionCount: 2, adapted: true },
-                    { category: 'Economics', type: 'passage', questionCount: 2 },
-                    { category: 'Economics', type: 'image', questionCount: 2 },
-                    { category: 'Economics', type: 'image', questionCount: 2 },
-                    { category: 'Economics', type: 'integrated', questionCount: 2 },
-
-                    { category: 'Geography & the World', type: 'passage', questionCount: 2, adapted: true },
-                    { category: 'Geography & the World', type: 'passage', questionCount: 1 },
-                    { category: 'Geography & the World', type: 'image', questionCount: 2 },
-                    { category: 'Geography & the World', type: 'image', questionCount: 1 },
-                    { category: 'Geography & the World', type: 'integrated', questionCount: 1 },
-
-                    { category: 'Contemporary Issues', type: 'passage', questionCount: 2, adapted: true },
-                    { category: 'Contemporary Issues', type: 'passage', questionCount: 1 },
-                    { category: 'Contemporary Issues', type: 'passage', questionCount: 1 },
-                    { category: 'Contemporary Issues', type: 'image', questionCount: 2 },
-                    { category: 'Contemporary Issues', type: 'image', questionCount: 1 },
-                    { category: 'Contemporary Issues', type: 'integrated', questionCount: 1 }
-                ];
-
-                const TOTAL_QUESTIONS = 46;
-
-                const generationTasks = blueprintPlan.map((task) => {
-                    if (task.type === 'passage') {
-                        return generatePassageSet(task.category, subject, task.questionCount, {
-                            ...aiOptions,
-                            minWords: 80,
-                            maxWords: 130,
-                            requireAttribution: !!task.adapted,
-                            requireAdapted: !!task.adapted,
-                            requireNamedEntity: true
-                        });
-                    }
-                    if (task.type === 'image') {
-                        return generateImageQuestion(task.category, subject, curatedImages, task.questionCount, aiOptions);
-                    }
-                    if (task.type === 'integrated') {
-                        return generateIntegratedSet(task.category, subject, curatedImages, task.questionCount, {
-                            ...aiOptions,
-                            minWords: 80,
-                            maxWords: 120,
-                            requireAttribution: true,
-                            requireNamedEntity: true
-                        });
-                    }
-                    return Promise.resolve([]);
-                });
-
-                const results = await Promise.all(generationTasks);
-                let allQuestions = [];
-                results.forEach((items, idx) => {
-                    const task = blueprintPlan[idx];
-                    const batch = Array.isArray(items) ? items : [items];
-                    batch.forEach((question) => {
-                        if (!question) return;
-                        const enriched = { ...question };
-                        if (!enriched.category) {
-                            enriched.category = task.category;
-                        }
-                        if (!enriched.domain) {
-                            enriched.domain = task.category;
-                        }
-                        allQuestions.push(enriched);
-                    });
-                });
-
-                const seenStimuli = new Set();
-                allQuestions = allQuestions.filter((question) => {
-                    const passageKey = typeof question?.passage === 'string' ? question.passage.trim() : '';
-                    const imageKey = question?.imageUrl
-                        || question?.imageRef?.imageUrl
-                        || question?.imageRef?.path
-                        || '';
-                    const comboKey = passageKey && imageKey ? `${imageKey}::${passageKey}` : null;
-                    if (comboKey) {
-                        if (seenStimuli.has(comboKey)) {
-                            return false;
-                        }
-                        seenStimuli.add(comboKey);
-                    }
-                    return true;
-                });
-
-                if (allQuestions.length < TOTAL_QUESTIONS) {
-                    const fillerCategories = [
-                        'Civics & Government',
-                        'U.S. History',
-                        'Economics',
-                        'Geography & the World',
-                        'Contemporary Issues'
-                    ];
-                    let fillerIndex = 0;
-                    while (allQuestions.length < TOTAL_QUESTIONS && fillerIndex < fillerCategories.length * 2) {
-                        const category = fillerCategories[fillerIndex % fillerCategories.length];
-                        fillerIndex += 1;
-                        try {
-                            const filler = await generateStandaloneQuestion(subject, category, aiOptions);
-                            if (filler) {
-                                allQuestions.push({ ...filler, category });
-                            }
-                        } catch (err) {
-                            console.warn('Fallback standalone generation failed for Social Studies comprehensive:', err?.message || err);
-                        }
-                    }
-                }
-                // The user wants to remove the shuffle to keep question sets grouped.
-                const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
-                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
-
-                const draftQuiz = {
-                    id: `ai_comp_ss_draft_${new Date().getTime()}`,
-                    title: `Comprehensive Social Studies Exam`,
-                    subject: subject,
-                    questions: draftQuestionSet,
-                };
-
-                console.log("Social Studies draft complete. Sending for second pass review...");
-                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
-                logGenerationDuration(examType, subject, generationStart);
-                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject });
-                res.json(responsePayload);
-
-            } catch (error) {
-                console.error('Error generating Social Studies exam:', error);
-                logGenerationDuration(examType, subject, generationStart, 'failed');
-                res.status(500).json({ error: 'Failed to generate Social Studies exam.' });
-            }
-        } else if (subject === 'Science') {
-            try {
-                const timeoutMs = selectModelTimeoutMs({ examType });
-                const aiOptions = { timeoutMs };
-                const blueprint = {
-                    'Life Science': { passages: 3, images: 3, standalone: 6 },
-                    'Physical Science': { passages: 3, images: 2, standalone: 6 },
-                    'Earth & Space Science': { passages: 2, images: 1, standalone: 2 }
-                };
-                const TOTAL_QUESTIONS = 38;
-                let promises = [];
-
-                for (const [category, counts] of Object.entries(blueprint)) {
-                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
-                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions));
-                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category, aiOptions));
-                }
-
-                const results = await Promise.all(promises);
-                let allQuestions = results.flat().filter(q => q);
-                const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
-                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
-
-                const draftQuiz = {
-                    id: `ai_comp_sci_draft_${new Date().getTime()}`,
-                    title: `Comprehensive Science Exam`,
-                    subject: subject,
-                    questions: draftQuestionSet,
-                };
-
-                console.log("Science draft complete. Sending for second pass review...");
-                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
-                logGenerationDuration(examType, subject, generationStart);
-                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject });
-                res.json(responsePayload);
-
-            } catch (error) {
-                console.error('Error generating Science exam:', error);
-                logGenerationDuration(examType, subject, generationStart, 'failed');
-                res.status(500).json({ error: 'Failed to generate Science exam.' });
-            }
-        } else if (subject === 'Reasoning Through Language Arts (RLA)') {
-    try {
-        console.log("Generating comprehensive RLA exam...");
-
-        const timeoutMs = selectModelTimeoutMs({ examType });
-        const aiOptions = { timeoutMs };
-
-        const [part1Questions, part2Essay, part3Questions] = await Promise.all([
-            generateRlaPart1(aiOptions),
-            generateRlaPart2(aiOptions),
-            generateRlaPart3(aiOptions)
-        ]);
-
-        const isNonEmptyArray = (value) => Array.isArray(value) && value.length > 0;
-        const hasContent = (text) => typeof text === 'string' && text.trim().length > 0;
-        const isValidEssay = (essay) => {
-            if (!essay || typeof essay !== 'object') return false;
-            if (!hasContent(essay.prompt)) return false;
-            if (!Array.isArray(essay.passages) || essay.passages.length === 0) return false;
-            return essay.passages.every((passage) => {
-                if (!passage || typeof passage !== 'object') return false;
-                if ('content' in passage) {
-                    return hasContent(passage.content);
-                }
-                // Support potential legacy formats where the passage text is under a generic key
-                const values = Object.values(passage).filter((v) => typeof v === 'string');
-                return values.some((v) => hasContent(v));
-            });
-        };
-
-        if (!isNonEmptyArray(part1Questions) || !isNonEmptyArray(part3Questions) || !isValidEssay(part2Essay)) {
-            throw new Error('AI failed to generate a valid RLA exam part.');
-        }
-
-        const allQuestions = [...part1Questions, ...part3Questions];
-        allQuestions.forEach((q, index) => {
-            q.questionNumber = index + 1;
-        });
-
-        const finalQuiz = {
-            id: `ai_comp_rla_${new Date().getTime()}`,
-            title: `Comprehensive RLA Exam`,
-            subject: subject,
-            type: 'multi-part-rla', // Special type for the frontend
-            totalTime: 150 * 60, // 150 minutes
-            part1_reading: part1Questions,
-            part2_essay: part2Essay,
-            part3_language: part3Questions,
-            questions: allQuestions // Keep this for compatibility with results screen
-        };
-
-        // RLA does not need a second review pass due to its complex, multi-part nature
-        logGenerationDuration(examType, subject, generationStart);
-        const responsePayload = await finalizeQuizResponse(finalQuiz, { subject });
-        res.json(responsePayload);
-
-    } catch (error) {
-        console.error('Error generating comprehensive RLA exam:', error);
-        logGenerationDuration(examType, subject, generationStart, 'failed');
-        res.status(500).json({ error: 'Failed to generate RLA exam.' });
-    }
-} else if (subject === 'Math' && comprehensive) {
-    try {
-        console.log("Generating comprehensive Math exam with two-part structure...");
-        console.log("Request received for comprehensive Math exam."); // Added for debugging
-
-        const timeoutMs = selectModelTimeoutMs({ examType });
-        const aiOptions = { timeoutMs };
-
-        // Part 1: Non-Calculator (5 questions)
-        const part1Promises = Array(5).fill().map(() => generateNonCalculatorQuestion(aiOptions));
-        const part1Questions = await Promise.all(part1Promises.map(p => p.catch(e => {
-            console.error("A promise in the non-calculator math section failed:", e);
-            return null;
-        })));
-
-        // Part 2: Calculator-Permitted (41 questions)
-        const part2Promises = [];
-        // Add 8 Geometry questions
-        for (let i = 0; i < 8; i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math', 1, aiOptions));
-        // Add 4 Fill-in-the-Blank questions
-        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
-        // Add 10 Data/Graphing questions
-        for (let i = 0; i < 5; i++) part2Promises.push(generateDataQuestion(aiOptions));
-        for (let i = 0; i < 5; i++) part2Promises.push(generateGraphingQuestion(aiOptions));
-        // Add 15 Standalone Algebra/Quantitative questions
-        for (let i = 0; i < 10; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities', aiOptions));
-        for (let i = 0; i < 5; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents', aiOptions));
-        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
-
-        const part2Results = await Promise.all(part2Promises.map(p => p.catch(e => {
-            console.error("A promise in the calculator math section failed:", e);
-            return null;
-        })));
-
-        let part2Questions = part2Results.flat().filter(q => q);
-        // Ensure we have exactly 41 questions for Part 2, even if some promises failed
-        while (part2Questions.length < 41) {
-            console.log("A question generation failed, adding a fallback question.");
-            part2Questions.push(await generateStandaloneQuestion('Math', 'General Problem Solving', aiOptions));
-        }
-        part2Questions = part2Questions.slice(0, 41);
-
-
-        const allQuestions = [...part1Questions, ...part2Questions].filter(q => q);
-        allQuestions.forEach((q, index) => {
-            q.questionNumber = index + 1;
-        });
-
-        // --- NEW: Second Pass Correction for Math ---
-        let correctedPart1;
-        let correctedPart2;
-        let correctedAllQuestions;
-
-        if (MATH_TWO_PASS_ENABLED) {
-            console.log("Applying math two-pass linting pipeline...");
-            correctedPart1 = part1Questions.filter(q => q);
-            correctedPart2 = part2Questions.filter(q => q);
-            correctedAllQuestions = [...correctedPart1, ...correctedPart2];
-            await runMathTwoPassOnQuestions(correctedAllQuestions, subject);
-        } else {
-            console.log("Applying legacy math correction pipeline...");
-            correctedPart1 = await Promise.all(part1Questions.filter(q => q).map(q => reviewAndCorrectMathQuestion(q, aiOptions)));
-            correctedPart2 = await Promise.all(part2Questions.map(q => reviewAndCorrectMathQuestion(q, aiOptions)));
-            correctedAllQuestions = [...correctedPart1, ...correctedPart2];
-        }
-
-        correctedAllQuestions = await applyMathCorrectnessPass(correctedAllQuestions, aiOptions);
-        if (Array.isArray(correctedAllQuestions)) {
-            const part1Count = correctedPart1.length;
-            correctedPart1 = correctedAllQuestions.slice(0, part1Count);
-            correctedPart2 = correctedAllQuestions.slice(part1Count);
-        }
-
-        // --- NEW: Final Server-Side Sanitization ---
-        correctedAllQuestions.forEach(q => {
-            if (q.questionText) {
-                // Fix the most common LaTeX error
-                q.questionText = q.questionText.replace(/\\rac/g, '\\frac');
-                // Remove any inline CSS from tables to help the frontend
-                q.questionText = q.questionText.replace(/style="[^"]*"/g, '');
-            }
-            if (q.answerOptions) {
-                q.answerOptions.forEach(opt => {
-                    if (opt.text) {
-                        opt.text = opt.text.replace(/\\rac/g, '\\frac');
-                    }
-                });
-            }
-        });
-        // --- End of Sanitization ---
-
-        correctedAllQuestions.forEach((q, index) => {
-            q.questionNumber = index + 1;
-        });
-        // --- End of Second Pass Correction ---
-
-        const draftQuiz = {
-            id: `ai_comp_math_${new Date().getTime()}`,
-            title: `Comprehensive Mathematical Reasoning Exam`,
-            subject: subject,
-            type: 'multi-part-math',
-            part1_non_calculator: correctedPart1,
-            part2_calculator: correctedPart2,
-            questions: correctedAllQuestions
-        };
-
-        const finalQuiz = draftQuiz;
-
-        logGenerationDuration(examType, subject, generationStart);
-        const responsePayload = await finalizeQuizResponse(finalQuiz, { subject });
-        res.json(responsePayload);
-
-    } catch (error) {
-        console.error('Error generating comprehensive Math exam:', error);
-        logGenerationDuration(examType, subject, generationStart, 'failed');
-        res.status(500).json({ error: 'Failed to generate Math exam.' });
-    }
-} else {
-            // This handles comprehensive requests for subjects without that logic yet.
-            logGenerationDuration(examType, subject, generationStart, 'failed');
-            res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
-        }
-} else {
-        // --- CORRECTED TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
-        try {
-            if (!topic || typeof topic !== 'string') {
-                return res.status(400).json({ error: 'Topic is required for non-comprehensive quizzes.' });
-            }
-            console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
-
-            const userId = req.user?.userId || req.user?.sub || req.body?.userId || req.body?.user_id || null;
-
-            if (subject === 'Math') {
-                const TOTAL_QUESTIONS = 12;
-                console.log("Generating Math quiz without passages.");
-                let promises = [];
-                let visualQuestionCount = 0;
-                if (topic.toLowerCase().includes('geometry')) {
-                    console.log('Geometry topic detected. Generating 5 visual questions.');
-                    visualQuestionCount = 5;
-                }
-                for (let i = 0; i < visualQuestionCount; i++) {
-                    promises.push(generateGeometryQuestion(topic, subject));
-                }
-                const remainingQuestions = TOTAL_QUESTIONS - visualQuestionCount;
-                for (let i = 0; i < remainingQuestions; i++) {
-                    promises.push(generateStandaloneQuestion(subject, topic));
-                }
-
-                const results = await Promise.all(promises);
-                let allQuestions = results.flat().filter(q => q);
-                const shuffledQuestions = shuffleArray(allQuestions);
-                let finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
-
-                finalQuestions.forEach((q, index) => {
-                    q.questionNumber = index + 1;
-                });
-
-                if (MATH_TWO_PASS_ENABLED) {
-                    console.log('Applying math two-pass linting pipeline to topic quiz...');
-                    await runMathTwoPassOnQuestions(finalQuestions, subject);
-                    finalQuestions = await applyMathCorrectnessPass(finalQuestions);
-                }
-
-                const finalQuiz = {
-                    id: `ai_topic_${new Date().getTime()}`,
-                    title: `${subject}: ${topic}`,
-                    subject,
-                    questions: finalQuestions,
-                };
-
-                logGenerationDuration(examType, subject, generationStart);
-                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject, topic });
-                res.json(responsePayload);
-                return;
-            }
-
-            const normalizedSubjectForBank = normalizeQuestionBankSubject(subject);
-            const isHybridSubject = HYBRID_ELIGIBLE_SUBJECTS.has(subject) || Boolean(normalizedSubjectForBank);
-
-            if (isHybridSubject) {
-                const bankSubject = normalizedSubjectForBank || normalizeQuestionBankSubject(subject);
-                let bankQuestionIds = [];
-                let bankQuestions = [];
-
-                if (bankSubject) {
-                    const bankEntries = await fetchQuestionsFromBank({
-                        subject: bankSubject,
-                        category: topic,
-                        userId,
-                        limit: QUESTION_BANK_TARGET_COUNT
-                    });
-                    bankQuestionIds = bankEntries.map((entry) => entry.id);
-                    bankQuestions = bankEntries.map((entry) => cloneQuestion(entry.question));
-                }
-
-                const questionsNeededFromAI = Math.max(HYBRID_TOTAL_QUESTIONS - bankQuestions.length, 0);
-                let generatedQuestions = [];
-                if (questionsNeededFromAI > 0) {
-                    generatedQuestions = await generateHybridQuestionsForSubject(subject, topic, questionsNeededFromAI);
-                }
-
-                let combinedQuestions = [...bankQuestions, ...generatedQuestions];
-                if (combinedQuestions.length < HYBRID_TOTAL_QUESTIONS) {
-                    const deficit = HYBRID_TOTAL_QUESTIONS - combinedQuestions.length;
-                    if (deficit > 0) {
-                        const filler = await generateHybridQuestionsForSubject(subject, topic, deficit);
-                        generatedQuestions.push(...filler);
-                        combinedQuestions = [...combinedQuestions, ...filler];
-                    }
-                }
-
-                const generatedClonesForBank = generatedQuestions.map((question) => cloneQuestion(question));
-                const shuffledQuestions = shuffleArray(combinedQuestions.map((question) => cloneQuestion(question)));
-                const finalQuestions = shuffledQuestions.slice(0, HYBRID_TOTAL_QUESTIONS);
-
-                finalQuestions.forEach((q, index) => {
-                    q.questionNumber = index + 1;
-                });
-
-                await markQuestionsAsSeen(userId, bankQuestionIds);
-
-                const finalQuiz = {
-                    id: `ai_topic_${new Date().getTime()}`,
-                    title: `${subject}: ${topic}`,
-                    subject,
-                    questions: finalQuestions,
-                };
-
-                logGenerationDuration(examType, subject, generationStart);
-                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject, topic });
-                res.json(responsePayload);
-
-                if (generatedClonesForBank.length) {
-                    scheduleGeneratedQuestionSave({
-                        subject,
-                        category: topic,
-                        questions: generatedClonesForBank,
-                        userId
-                    });
-                }
-
-                return;
-            }
-
-            const TOTAL_QUESTIONS = 15;
-            let promises = [];
-            console.log(`Generating ${subject} quiz with passages and other stimuli (legacy path).`);
-            const numPassageSets = 3;
-            const numImageSets = 2;
-
-            for (let i = 0; i < numPassageSets; i++) {
-                promises.push(generatePassageSet(topic, subject, 2));
-            }
-            for (let i = 0; i < numImageSets; i++) {
-                promises.push(generateImageQuestion(topic, subject, curatedImages, 2));
-            }
-
-            const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
-            const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
-            for (let i = 0; i < remainingQuestions; i++) {
-                promises.push(generateStandaloneQuestion(subject, topic));
-            }
-
-            const results = await Promise.all(promises);
-            let allQuestions = results.flat().filter(q => q);
-            const shuffledQuestions = shuffleArray(allQuestions);
-            const finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
-
-            finalQuestions.forEach((q, index) => {
-                q.questionNumber = index + 1;
-            });
-
-            const finalQuiz = {
-                id: `ai_topic_${new Date().getTime()}`,
-                title: `${subject}: ${topic}`,
-                subject,
-                questions: finalQuestions,
-            };
-
-            logGenerationDuration(examType, subject, generationStart);
-            const responsePayload = await finalizeQuizResponse(finalQuiz, { subject, topic });
-            res.json(responsePayload);
-
-        } catch (error) {
-            const errorMessage = req.body.topic ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating topic-specific quiz';
-            console.error(errorMessage, error);
-            logGenerationDuration(examType, subject, generationStart, 'failed');
-            res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
-        }
+        console.error('AI exam generation failed:', error);
+        const message = typeof error?.message === 'string' ? error.message : 'Failed to generate exam.';
+        res.status(500).json({ error: 'failed_to_generate_exam', message });
     }
 });
 
@@ -8131,42 +7021,6 @@ app.get('/api/quiz-attempts', requireAuth, async (req, res) => {
     }
 });
 
-
-const { ALL_QUIZZES } = require('./data/premade-questions.js');
-
-// Helper function to get random questions from the premade data
-const getPremadeQuestions = (subject, count) => {
-    const allQuestions = [];
-    if (ALL_QUIZZES[subject] && ALL_QUIZZES[subject].categories) {
-        Object.values(ALL_QUIZZES[subject].categories).forEach(category => {
-            if (category.topics) {
-                category.topics.forEach(topic => {
-                    if (topic.questions) {
-                        allQuestions.push(...topic.questions);
-                    }
-                });
-            }
-        });
-    }
-    const shuffled = allQuestions.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-};
-
-// Helper function to generate AI questions
-const generateAIContent = async (prompt, schema) => {
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-            responseMimeType: "application/json",
-            responseSchema: schema,
-        },
-    };
-    const response = await http.post(apiUrl, payload);
-    const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
-    return JSON.parse(jsonText);
-};
 
 app.use((err, req, res, next) => {
     console.error(err?.stack || err);
