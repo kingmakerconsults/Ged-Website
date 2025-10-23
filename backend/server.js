@@ -33,6 +33,8 @@ const { assertValidImageRef: assertImageRefPayload } = require('./src/images/val
 const imageDiagnostics = require('./src/images/imageDiagnostics');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const vocabularyData = require('../data/vocabulary_index.json');
+
+const USE_IMAGES = String(process.env.USE_IMAGES || 'false').trim().toLowerCase() === 'true';
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -43,6 +45,8 @@ const DEFAULT_MATH_MODE = (() => {
     return VALID_MATH_MODES.has(mode) ? mode : 'plain_fractions';
 })();
 const SHOULD_RENDER_KATEX = DEFAULT_MATH_MODE === 'katex';
+
+console.log(`Images enabled? ${USE_IMAGES}`);
 
 // ==== BANK TOGGLES ====
 // Keep storing to the bank, but don't reuse until it's warmed up.
@@ -2532,6 +2536,9 @@ function selectSwapImage(subject, usedKeys = new Set(), requestedCount = 6) {
 }
 
 function findImagesForSubjectTopic(subject, topic, limit = 5) {
+    if (!USE_IMAGES) {
+        return [];
+    }
     const requestedCount = Math.max(Number(limit) || 1, 1);
     const norm = (value) => String(value || '').trim().toLowerCase();
     const subjectKey = norm(subject);
@@ -5318,6 +5325,9 @@ ${contextLines.join('\n')}`;
 }
 
 const generateImageQuestion = async (topic, subject, _imagePool, numQuestions, options = {}) => {
+    if (!USE_IMAGES) {
+        return [];
+    }
     const count = Math.max(1, Number(numQuestions) || 1);
     const selectedImages = selectMetadataRecords({ subject, category: topic, topic, count });
     return generateSimpleImageQuestions({
@@ -5328,6 +5338,9 @@ const generateImageQuestion = async (topic, subject, _imagePool, numQuestions, o
 };
 
 const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, options = {}) => {
+    if (!USE_IMAGES) {
+        return [];
+    }
     const totalRequested = Math.max(1, Number(numQuestions) || 1);
     if (!Array.isArray(imagePool) || !imagePool.length) {
         return [];
@@ -5542,6 +5555,10 @@ function scoreImageForPlan(img, desired) {
 const PLAN_WARNINGS = new Set();
 
 async function generateAiExamPayload({ subject, examType, totalQuestions, sectionMix, useImages }) {
+    const requestedUseImages = typeof useImages === 'string'
+        ? useImages.trim().toLowerCase() === 'true'
+        : useImages === true;
+    const effectiveUseImages = USE_IMAGES && requestedUseImages;
     const normalizedSubject = typeof subject === 'string' && subject.trim().length ? subject.trim() : 'General Studies';
     const normalizedExamType = normalizeExamType(examType);
     const template = resolveExamTemplate(normalizedSubject, normalizedExamType);
@@ -5549,11 +5566,14 @@ async function generateAiExamPayload({ subject, examType, totalQuestions, sectio
         template,
         totalQuestions,
         sectionMix,
-        useImages
+        useImages: effectiveUseImages
     });
 
     const errors = [];
     const notes = [...planNotes];
+    if (!USE_IMAGES && requestedUseImages) {
+        errors.push('Image generation disabled by configuration (USE_IMAGES=false); returning text-only items.');
+    }
     const sectionCounts = { image: 0, reading: 0, standalone: 0 };
     const generationStart = Date.now();
 
@@ -5909,6 +5929,9 @@ function pickRandomSubset(list, count) {
 }
 
 function selectMetadataRecords({ subject, category, topic, count = 1, visualTypes = [], subtopics = [], concepts = [] }) {
+    if (!USE_IMAGES) {
+        return [];
+    }
     const metadata = loadImageMetadataRecords();
     if (!metadata.length) {
         return [];
@@ -6024,6 +6047,9 @@ function resolveMetadataImagePath(image) {
 }
 
 async function generateSimpleImageQuestions({ subject, images, timeoutMs }) {
+    if (!USE_IMAGES) {
+        return [];
+    }
     const resolvedImages = Array.isArray(images) ? images : [];
     const questions = [];
     const callOptions = {
@@ -6071,6 +6097,9 @@ async function generateSimpleImageQuestions({ subject, images, timeoutMs }) {
 }
 
 function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics = [], concepts = [] }) {
+    if (!USE_IMAGES) {
+        return [];
+    }
     return selectMetadataRecords({ subject, count, visualTypes, subtopics, concepts });
 }
 
@@ -6670,7 +6699,7 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
     const QUIZ_COUNT = 12;
     try {
         const subjectNeedsRetrieval = TOPIC_STIMULUS_SUBJECTS.has(subject);
-        const subjectNeedsImages = TOPIC_STIMULUS_SUBJECTS.has(subject);
+        const subjectNeedsImages = USE_IMAGES && TOPIC_STIMULUS_SUBJECTS.has(subject);
 
         let prompt;
         if (subject === 'RLA' && topic === 'Poetry Analysis') {
