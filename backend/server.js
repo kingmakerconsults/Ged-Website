@@ -221,7 +221,23 @@ const fs = require('fs');
 const crypto = require('crypto');
 const AbortController = globalThis.AbortController || fetch.AbortController;
 
-const FRONTEND_DIST = path.join(__dirname, 'frontend', 'dist');
+function resolvePathFromEnv(envValue, ...fallbackSegments) {
+    if (envValue && typeof envValue === 'string') {
+        return path.isAbsolute(envValue)
+            ? envValue
+            : path.resolve(__dirname, envValue);
+    }
+    return path.resolve(__dirname, ...fallbackSegments);
+}
+
+const FRONTEND_ROOT = resolvePathFromEnv(process.env.FRONTEND_ROOT, '..', 'frontend');
+const FRONTEND_DIST = (() => {
+    const explicit = process.env.FRONTEND_DIST;
+    if (explicit && typeof explicit === 'string') {
+        return resolvePathFromEnv(explicit);
+    }
+    return path.join(FRONTEND_ROOT, 'dist');
+})();
 const CLIENT_DIST_DIR = FRONTEND_DIST;
 const CLIENT_INDEX_FILE = path.join(FRONTEND_DIST, 'index.html');
 const HASHED_ASSET_REGEX = /\.[a-f0-9]{8,}\./i;
@@ -3638,7 +3654,13 @@ app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all rou
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
-const IMAGES_DIR = process.env.IMAGES_DIR || path.join(__dirname, 'frontend', 'Images');
+const IMAGES_DIR = (() => {
+    const explicit = process.env.IMAGES_DIR;
+    if (explicit && typeof explicit === 'string') {
+        return resolvePathFromEnv(explicit);
+    }
+    return path.join(FRONTEND_ROOT, 'Images');
+})();
 if (!fs.existsSync(IMAGES_DIR)) {
     console.warn('[static][warn] Images directory not found at', IMAGES_DIR);
 }
