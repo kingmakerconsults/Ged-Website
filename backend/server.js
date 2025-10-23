@@ -29,8 +29,7 @@ const axios = require('axios');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const { jsonrepair } = require('jsonrepair');
-const { loadImageMeta, resolveImageRef } = require('./src/images/metaLoader');
-const { assertValidImageRef } = require('./src/images/validateImageRef');
+const { assertValidImageRef, validateImageRef } = require('./src/images/validateImageRef');
 const imageDiagnostics = require('./src/images/imageDiagnostics');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const vocabularyData = require('../data/vocabulary_index.json');
@@ -225,7 +224,6 @@ const AbortController = globalThis.AbortController || fetch.AbortController;
 const CLIENT_DIST_DIR = path.join(__dirname, '../frontend/dist');
 const CLIENT_INDEX_FILE = path.join(CLIENT_DIST_DIR, 'index.html');
 const HASHED_ASSET_REGEX = /\.[a-f0-9]{8,}\./i;
-const SPA_ROUTE_PREFIX_BLOCKLIST = ['/api', '/health', '/admin', '/question-bank', '/img', '/images'];
 
 function detectContentHashedAssets(rootDir) {
     const stack = [rootDir];
@@ -1115,262 +1113,51 @@ function safeJson(raw) {
     }
 }
 
-function emptyMeta() {
-    return { list: [], byFile: new Map(), byId: new Map(), byUrl: new Map(), path: null };
-}
-
-let IMAGE_META = emptyMeta();
-let IMAGE_DB = [];
-const IMAGE_BY_FILE = new Map();
-const IMAGE_BY_ID = new Map();
-const IMAGE_BY_URL = new Map();
+const imageRegistry = require('./imageResolver');
+const {
+    resolveImageMeta: resolveCuratedImageMeta,
+    resolveImage: resolveCuratedImage,
+    normalizeImagePath,
+    isImageEligible
+} = imageRegistry;
+const { IMAGE_BY_PATH, IMAGE_BY_BASENAME, IMAGE_BY_ID } = imageRegistry.indexes;
+const IMAGE_DB = imageRegistry.IMAGE_DB;
+let curatedImages = IMAGE_DB;
 const MISSING_IMAGE_LOG = new Set();
-
-function normalizeImagePath(input) {
-    if (!input || typeof input !== 'string') return '';
-    let working = input.trim();
-    if (!working) return '';
-
-    try {
-        working = decodeURI(working);
-    } catch (err) {
-        // ignore decode failures
-    }
-
-    if (/^https?:\/\//i.test(working)) {
-        return working;
-    }
-
-    working = working.replace(/\\+/g, '/');
-    working = working.replace(/\/{2,}/g, '/');
-    working = working.replace(/^(\.\/)+/g, '');
-    working = working.replace(/^\/+/, '');
-
-    const lower = working.toLowerCase();
-    if (lower.startsWith('img/')) {
-        working = working.slice(4);
-    } else if (lower.startsWith('/img/')) {
-        working = working.slice(5);
-    }
-
-    const base = working.split('/').pop() || '';
-    if (!base) return '';
-    let decoded = base;
-    try {
-        decoded = decodeURIComponent(base);
-    } catch (err) {
-        // ignore decode issues
-    }
-    return `/img/${encodeURIComponent(decoded)}`;
-}
-
-function enrichImageRecord(record = {}) {
-    if (!record || typeof record !== 'object') return null;
-
-    const rawTags = Array.isArray(record.tags) ? record.tags : [];
-    const rawTopics = Array.isArray(record.topics) ? record.topics : [];
-    const tags = rawTags.map((tag) => String(tag).trim()).filter(Boolean);
-    const topics = rawTopics.map((topic) => String(topic).trim()).filter(Boolean);
-    const lowerTags = tags.map((tag) => tag.toLowerCase());
-    const lowerTopics = topics.map((topic) => topic.toLowerCase());
-
-    const subjectMap = new Map([
-        ['social-studies', 'Social Studies'],
-        ['social studies', 'Social Studies'],
-        ['social_studies', 'Social Studies'],
-        ['science', 'Science'],
-        ['math', 'Math'],
-        ['mathematics', 'Math'],
-        ['rla', 'RLA'],
-        ['language arts', 'RLA']
-    ]);
-
-    const subjectCandidate = typeof record.subject === 'string' ? record.subject.trim() : '';
-    const normalizedSubject = subjectCandidate.replace(/[_-]+/g, ' ').toLowerCase();
-    const subject = subjectMap.get(normalizedSubject)
-        || subjectMap.get(subjectCandidate.toLowerCase())
-        || (normalizedSubject ? normalizedSubject.replace(/\b\w/g, (m) => m.toUpperCase()) : 'General');
-
-    const category = (() => {
-        if (record.original?.category) return record.original.category;
-        if (record.original?.type) return record.original.type;
-        if (topics.length) return topics[0];
-        for (let i = 0; i < lowerTags.length; i += 1) {
-            if (!subjectMap.has(lowerTags[i])) {
-                return tags[i];
-            }
-        }
-        return subject;
-    })();
-
-    const dominantType = record.original?.type
-        || record.original?.dominantType
-        || record.dominantType
-        || category
-        || 'photo';
-
-    const normalizedPath = normalizeImagePath(record.url || record.filePath || record.src || record.file || '');
-    const altText = typeof record.alt === 'string' && record.alt.trim() ? record.alt : 'Social studies image';
-    const caption = typeof record.caption === 'string' ? record.caption : '';
-    const credit = typeof record.credit === 'string' ? record.credit : '';
-    const detailedDescription = typeof record.original?.detailedDescription === 'string'
-        ? record.original.detailedDescription
-        : typeof record.original?.description === 'string'
-            ? record.original.description
-            : typeof record.original?.ocrText === 'string'
-                ? record.original.ocrText
-                : '';
-
-    const keywords = Array.from(new Set([...lowerTags, ...lowerTopics].filter(Boolean)));
-    const fileName = record.fileName || record.file || (normalizedPath.startsWith('/img/') ? normalizedPath.split('/').pop() : '');
-
-    return {
-        ...record,
-        tags,
-        topics,
-        keywords,
-        dominantType,
-        subject,
-        category,
-        fileName,
-        filePath: normalizedPath || record.file || '',
-        src: normalizedPath || record.url || '',
-        url: normalizedPath || record.url || '',
-        altText,
-        caption,
-        credit,
-        detailedDescription
-    };
-}
-
-function installImageMetadata(meta) {
-    IMAGE_META = meta;
-    IMAGE_DB = meta.list.map(enrichImageRecord).filter(Boolean);
-    IMAGE_BY_FILE.clear();
-    IMAGE_BY_ID.clear();
-    IMAGE_BY_URL.clear();
-    for (const entry of IMAGE_DB) {
-        if (!entry || typeof entry !== 'object') continue;
-        const { file, fileName, id, filePath, src, url } = entry;
-        const fileKeys = [file, fileName].filter(Boolean);
-        for (const key of fileKeys) {
-            IMAGE_BY_FILE.set(key, entry);
-            IMAGE_BY_FILE.set(String(key).toLowerCase(), entry);
-        }
-        if (id) {
-            IMAGE_BY_ID.set(id, entry);
-        }
-        const urlCandidates = [filePath, src, url]
-            .map((value) => (typeof value === 'string' ? value.trim() : ''))
-            .filter(Boolean);
-        for (const candidate of urlCandidates) {
-            const lower = candidate.toLowerCase();
-            IMAGE_BY_URL.set(lower, entry);
-            IMAGE_BY_URL.set(lower.replace(/^\//, ''), entry);
-            IMAGE_BY_URL.set(candidate, entry);
-        }
-    }
-}
-
-function findImageRecord(ref) {
-    if (!ref) return null;
-    if (typeof ref === 'string') {
-        let key = ref.trim();
-        if (!key) return null;
-        try {
-            key = decodeURI(key);
-        } catch (err) {
-            // ignore decode issues
-        }
-        const lowered = key.toLowerCase();
-        const base = lowered.split('/').pop();
-        return IMAGE_BY_FILE.get(key)
-            || IMAGE_BY_FILE.get(lowered)
-            || IMAGE_BY_URL.get(lowered)
-            || IMAGE_BY_URL.get(lowered.replace(/^\//, ''))
-            || (base ? IMAGE_BY_FILE.get(base) : null)
-            || (base ? IMAGE_BY_FILE.get(base.toLowerCase()) : null)
-            || IMAGE_BY_ID.get(key)
-            || null;
-    }
-    if (typeof ref === 'object') {
-        return findImageRecord(ref.file || ref.path || ref.imagePath || ref.src || ref.id || '');
-    }
-    return null;
-}
+const IMAGE_METADATA_PATH = imageRegistry.metadataPath || path.join(__dirname, 'data', 'image_metadata_final.json');
+global.curatedImages = curatedImages;
 
 function resolveImageMeta(input) {
-    const record = findImageRecord(input);
-    const lookup = record ? (record.fileName || record.file || record.url) : input;
-    const resolved = resolveImageRef(lookup, IMAGE_META);
-    if (!resolved) {
+    const record = resolveCuratedImageMeta(input);
+    if (!record) {
         const key = typeof input === 'string' ? input : input?.file || input?.id || '';
         if (key && !MISSING_IMAGE_LOG.has(key)) {
             MISSING_IMAGE_LOG.add(key);
             console.warn(`[IMG-META] Missing metadata for ${key}`);
         }
-        return { src: null, altText: 'Image unavailable' };
-    }
-    const baseCandidate = (() => {
-        if (!lookup || typeof lookup !== 'string') return null;
-        const trimmed = lookup.trim();
-        const direct = IMAGE_META.byFile.get(trimmed)
-            || IMAGE_META.byFile.get(trimmed.toLowerCase())
-            || IMAGE_META.byUrl?.get(trimmed)
-            || IMAGE_META.byUrl?.get(trimmed.toLowerCase());
-        if (direct) return direct;
-        const base = trimmed.split('/').pop();
-        if (!base) return null;
-        return IMAGE_META.byFile.get(base)
-            || IMAGE_META.byFile.get(base.toLowerCase())
-            || IMAGE_META.byUrl?.get(base)
-            || IMAGE_META.byUrl?.get(base.toLowerCase());
-    })();
-    const enriched = record || findImageRecord(resolved.imageUrl) || (baseCandidate ? enrichImageRecord(baseCandidate) : null);
-    const out = enriched ? { ...enriched } : {};
-    out.src = resolved.imageUrl;
-    out.filePath = resolved.imageUrl;
-    out.altText = resolved.imageMeta?.alt || enriched?.altText || 'Social studies image';
-    out.caption = resolved.imageMeta?.caption || enriched?.caption || '';
-    out.credit = resolved.imageMeta?.credit || enriched?.credit || '';
-    out.detailedDescription = enriched?.detailedDescription || '';
-    return out;
-}
-
-function loadImageMetadata() {
-    const candidates = [
-        path.join(__dirname, 'data', 'image_metadata_final.json'),
-        path.join(__dirname, 'image_metadata_final.json')
-    ];
-
-    for (const candidate of candidates) {
-        try {
-            if (!fs.existsSync(candidate)) continue;
-            const meta = loadImageMeta(candidate);
-            if (!Array.isArray(meta.list) || !meta.list.length) {
-                console.warn(`[IMG-WARN] Metadata at ${candidate} did not contain usable entries.`);
-                continue;
-            }
-            installImageMetadata(meta);
-            for (const item of IMAGE_META.list.slice(0, 5)) {
-                const pointer = item.file || item.fileName || item.url;
-                const check = resolveImageRef(pointer, IMAGE_META);
-                if (!check?.imageUrl) {
-                    throw new Error(`Image resolve failed for ${pointer || 'unknown'}`);
-                }
-            }
-            console.log(`[IMG-LOAD] Loaded ${IMAGE_META.list.length} images from ${candidate}.`);
-            return;
-        } catch (err) {
-            console.warn(`[IMG-WARN] Failed to load metadata from ${candidate}: ${err?.message || err}`);
-        }
+        return { src: null };
     }
 
-    installImageMetadata(emptyMeta());
-    console.warn('[IMG-WARN] No image metadata could be loaded.');
-}
+    const src = record.src || record.filePath || '';
+    if (!src) {
+        return { src: null };
+    }
 
-loadImageMetadata();
+    const alt = record.alt || record.altText || record.title || '';
+    const caption = record.caption || '';
+    const credit = record.credit || '';
+    const detailedDescription = record.detailedDescription || record.ocrText || '';
+
+    return {
+        id: record.id || null,
+        src,
+        altText: alt,
+        alt,
+        credit,
+        caption,
+        detailedDescription
+    };
+}
 
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
@@ -1878,63 +1665,116 @@ async function filterValidImageItems(items = []) {
     return filtered;
 }
 
+function pickImageForQuestion(subject, { preferTags = [] } = {}) {
+    if (!Array.isArray(IMAGE_DB) || !IMAGE_DB.length) return null;
+    const norm = (value) => String(value || '').trim().toLowerCase();
+    const want = new Set([
+        subject,
+        'social studies',
+        'science',
+        'history',
+        'civics',
+        'geography',
+        'biology',
+        'chemistry',
+        ...preferTags
+    ].map(norm).filter(Boolean));
+    const scored = IMAGE_DB.map((rec) => {
+        const tags = (rec.tags || []).map(norm);
+        const topics = (rec.topics || []).map(norm);
+        const bag = new Set([...tags, ...topics]);
+        let score = 0;
+        for (const w of want) {
+            if (bag.has(w)) score += 2;
+        }
+        if (/map|chart|graph|table/.test(String(rec.title || rec.alt || rec.altText || '').toLowerCase())) {
+            score += 1;
+        }
+        return { rec, score };
+    }).sort((a, b) => b.score - a.score);
+
+    for (const { rec } of scored) {
+        const file = rec.file || rec.fileName || rec.url;
+        if (!file) continue;
+        return {
+            imageUrl: rec.imageUrl || normalizeImagePath(file),
+            alt: rec.altText || rec.alt || rec.title || 'Exam image',
+            caption: rec.caption || '',
+            subject
+        };
+    }
+
+    return null;
+}
+
 async function ensureQuestionImageCompliance(question, { subject, index, source }) {
     if (!question || typeof question !== 'object') {
         return question;
     }
 
-    let next = { ...question };
-
-    // If no imageRef yet (common), attach one for Social Studies / Science
     const wantsImage = subject === 'Social Studies' || subject === 'Science';
-    if (!next.imageRef && wantsImage) {
-        // Prefer tags inferred from the stem/passage to bias the pick
+    const withImage = { ...question };
+
+    if (wantsImage && !withImage.imageRef) {
+        const stem = String(withImage.stem || withImage.questionText || withImage.prompt || '').toLowerCase();
         const preferTags = [];
-        const stem = String(next.stem || next.questionText || next.prompt || '').toLowerCase();
         if (/map/.test(stem)) preferTags.push('map');
         if (/chart|graph/.test(stem)) preferTags.push('chart');
-        if (/civil war|constitution|congress|president|revolution|election/.test(stem)) preferTags.push('history', 'civics', 'government');
-        if (/cell|ecosystem|chemical|atom|molecule|energy|physics|biology|chemistry/.test(stem)) preferTags.push('science');
-
         const pick = pickImageForQuestion(subject, { preferTags });
         if (pick) {
-            next.imageRef = pick;
+            withImage.imageRef = pick;
         }
     }
 
-    // If we have an imageRef, normalize/repair it so your validator will pass
-    if (next.imageRef && typeof next.imageRef === 'object') {
-        const ref = { ...next.imageRef };
+    if (withImage.imageRef && typeof withImage.imageRef === 'object') {
+        const ref = { ...withImage.imageRef };
         if (!ref.imageUrl) {
-            // Accept several common aliases
-            ref.imageUrl = ref.url || ref.src || ref.path || ref.filePath || '';
+            const fallbackUrl = [ref.url, ref.src, ref.path, ref.image_url, ref.imagePath]
+                .find((candidate) => typeof candidate === 'string' && candidate.trim());
+            if (fallbackUrl) {
+                ref.imageUrl = fallbackUrl.trim();
+            }
         }
-        // REQUIRED FIELD per your AJV schema:
-        if (!ref.subject && subject) {
-            ref.subject = subject;
-        }
-        // Replace obvious placeholders with a local pick
-        if (/example\.com\/sample\.png/i.test(ref.imageUrl)) {
-            const fallback = pickImageForQuestion(subject) || null;
-            if (fallback) Object.assign(ref, fallback);
+        if (!ref.subject && typeof subject === 'string' && subject.trim()) {
+            ref.subject = subject.trim();
         }
 
-        // Validate & finalize
-        try {
-            const { ok, imageRef } = await assertValidImageRef(ref, {
-                subject,
-                context: { id: next?.id || next?.questionNumber || index, index, source }
-            });
-            if (ok) {
-                next.imageRef = imageRef;
-            } else {
-                delete next.imageRef;
-                if (next.imageMeta) delete next.imageMeta;
+        const validation = await assertValidImageRef(ref, {
+            subject,
+            context: {
+                id: withImage?.id || withImage?.questionNumber || index,
+                index,
+                source
             }
-        } catch (err) {
-            // On validator exceptions, drop the image so we don't block the exam
-            delete next.imageRef;
-            if (next.imageMeta) delete next.imageMeta;
+        });
+
+        if (validation?.ok && validation.imageRef) {
+            withImage.imageRef = validation.imageRef;
+            return withImage;
+        }
+
+        imageDiagnostics.recordValidationFailure({
+            index,
+            source,
+            error: validation?.error?.message || validation?.error || 'invalid imageRef',
+            imageRef: ref
+        });
+
+        delete withImage.imageRef;
+        if (withImage.imageMeta) delete withImage.imageMeta;
+        if (withImage.imageUrl) delete withImage.imageUrl;
+        if (withImage.image_url) delete withImage.image_url;
+        if (withImage.stimulusImage) delete withImage.stimulusImage;
+        if (withImage.asset && typeof withImage.asset === 'object') {
+            const assetCopy = { ...withImage.asset };
+            if ('imagePath' in assetCopy) {
+                delete assetCopy.imagePath;
+            }
+            if (Object.keys(assetCopy).length) {
+                withImage.asset = assetCopy;
+            } else {
+                delete withImage.asset;
+            }
         }
     }
 
@@ -3745,55 +3585,43 @@ app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
 // --- Static assets (images) with CORS + long cache ---
-const STATIC_IMAGE_DIRS = [
-    path.join(__dirname, 'public/img'),
-    path.join(__dirname, '../frontend/Images/Social Studies'),
-    path.join(__dirname, '../frontend/Images/Science'),
-    path.join(__dirname, '../frontend/Images/Math'),
-    path.join(__dirname, '../frontend/Images/RLA')
-];
-const imageStaticOptions = {
-    fallthrough: true,
-    setHeaders(res, filePath) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        if (/\.(png|jpe?g|gif|webp|svg)$/i.test(filePath)) {
-            res.setHeader('Cache-Control', 'public,max-age=31536000,immutable');
-            res.type(path.extname(filePath));
-        }
-    }
-};
-STATIC_IMAGE_DIRS.forEach((dir) => {
-    if (fs.existsSync(dir)) {
-        app.use('/img', cors(), express.static(dir, imageStaticOptions));
-    }
-});
+const IMAGES_PRIMARY = path.join(__dirname, 'Images');
+const LEGACY_IMAGES_ROOT = path.join(__dirname, '../frontend/Images');
+if (fs.existsSync(IMAGES_PRIMARY)) {
+    const sharedOptions = { maxAge: '7d', etag: true };
+    app.use('/Images', express.static(IMAGES_PRIMARY, { ...sharedOptions, fallthrough: false }));
+    app.use('/img', cors(), express.static(IMAGES_PRIMARY, { ...sharedOptions, fallthrough: true }));
+    console.log('[static] mounted /Images from', IMAGES_PRIMARY);
+} else if (fs.existsSync(LEGACY_IMAGES_ROOT)) {
+    const sharedOptions = { maxAge: '7d', etag: true };
+    app.use('/Images', express.static(LEGACY_IMAGES_ROOT, { ...sharedOptions, fallthrough: false }));
+    app.use('/img', cors(), express.static(LEGACY_IMAGES_ROOT, { ...sharedOptions, fallthrough: true }));
+    console.warn('[static][warn] Primary Images directory missing; using legacy path', LEGACY_IMAGES_ROOT);
+} else {
+    console.warn('[static][warn] Images directory not found at', IMAGES_PRIMARY, 'or', LEGACY_IMAGES_ROOT);
+}
 
-// Serve static image folders from the 'frontend' directory
-app.use('/images/rla', express.static(path.join(__dirname, '../frontend/Images/RLA')));
-app.use('/images/science', express.static(path.join(__dirname, '../frontend/Images/Science')));
-app.use('/images/social-studies', express.static(path.join(__dirname, '../frontend/Images/Social Studies')));
-app.use('/images/math', express.static(path.join(__dirname, '../frontend/Images/Math')));
 app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
 
-if (CLIENT_BUILD_EXISTS) {
-    const ONE_HOUR_IN_SECONDS = 60 * 60;
-    const clientStaticOptions = {
-        index: false,
-        setHeaders(res, filePath) {
-            const basename = path.basename(filePath);
-            if (basename === 'index.html') {
-                res.setHeader('Cache-Control', 'no-store, max-age=0');
-            } else if (HASHED_ASSET_REGEX.test(basename)) {
-                res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-            } else {
-                res.setHeader('Cache-Control', `public, max-age=${ONE_HOUR_IN_SECONDS}`);
-            }
-        }
-    };
+const distPath = path.join(__dirname, '../frontend/dist');
 
-    app.use(express.static(CLIENT_DIST_DIR, clientStaticOptions));
+if (CLIENT_BUILD_EXISTS) {
+    app.use(express.static(distPath, { maxAge: '1h', etag: true }));
+
+    app.get(['/', '/app', '/app/*'], (req, res, next) => {
+        if (req.method !== 'GET') return next();
+        const indexFilePath = path.join(distPath, 'index.html');
+        // only fall back if the file actually exists
+        if (!fs.existsSync(indexFilePath)) {
+            return next();
+        }
+        res.sendFile(indexFilePath);
+    });
 } else {
     console.warn('[SPA][WARN] No built frontend found at frontend/dist. Serving backend status message instead.');
+    app.get(['/', '/app', '/app/*'], (_req, res) => {
+        res.send('Learning Canvas Backend is running! Build the frontend to enable the UI.');
+    });
 }
 
 app.post('/question-bank/save', async (req, res) => {
@@ -4670,33 +4498,8 @@ app.get('/client-config.js', (req, res) => {
     res.type('application/javascript').send(payload);
 });
 
-let curatedImages = [];
-const imageRepositoryPath = path.join(__dirname, 'data', 'image_metadata_final.json');
-
-function loadCuratedImages() {
-    if (Array.isArray(IMAGE_DB) && IMAGE_DB.length) {
-        curatedImages = IMAGE_DB;
-        console.log(`[IMG-LOAD] Curated image pool ready with ${curatedImages.length} shared records.`);
-        return;
-    }
-
-    try {
-        const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
-        const parsed = JSON.parse(imageData);
-        if (Array.isArray(parsed)) {
-            curatedImages = parsed.map((img) => ({
-                ...img,
-                filePath: normalizeImagePath(img?.filePath || img?.src || img?.path),
-                src: normalizeImagePath(img?.src || img?.filePath || img?.path)
-            }));
-            console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
-        }
-    } catch (error) {
-        console.error('Failed to load or parse image_metadata.json:', error);
-    }
-}
-
-loadCuratedImages();
+curatedImages = IMAGE_DB;
+global.curatedImages = curatedImages;
 
 function pickCandidateUrls(subject, topic) {
     const encodedTopic = encodeURIComponent(topic);
@@ -4921,13 +4724,13 @@ function existingTopicPrompt(subject, topic, count = 15) {
 }
 
 app.get('/health/images', (_req, res) => {
-    try {
-        const meta = JSON.parse(fs.readFileSync('image_metadata_final.json', 'utf8'));
-        const ok = Array.isArray(meta) && meta.every((m) => m && m.file);
-        res.json({ ok, count: Array.isArray(meta) ? meta.length : 0 });
-    } catch (e) {
-        res.status(500).json({ ok: false, error: e.message });
-    }
+    const pool = Array.isArray(global.curatedImages) ? global.curatedImages : [];
+    const count = pool.length;
+    const uniqueIds = new Set(pool.map((img) => img && img.id).filter(Boolean));
+    const duplicateIds = count - uniqueIds.size;
+    const missing = pool.filter((img) => !img || (!img.file && !img.src && !img.filePath));
+    const ok = count > 0 && duplicateIds === 0 && missing.length === 0;
+    res.json({ ok, count, duplicateIds, missing: missing.length });
 });
 
 // NEW FEATURE: Endpoint to define a word, as used in your index.html
@@ -5823,20 +5626,37 @@ const generateImageQuestion = async (topic, subject, imagePool, numQuestions, op
                     }));
 
                     const rawImagePath = row?.image_url_cached || data?.image_url || bankImageUrl;
+                    const curatedRecord = resolveCuratedImageMeta(rawImagePath);
+                    const curatedEligible = curatedRecord ? isImageEligible(curatedRecord) : false;
+                    if (curatedRecord && !curatedEligible) {
+                        const ref = curatedRecord.id || rawImagePath || row?.question_id || 'bank-image';
+                        console.warn(`[IMG-GUARD] Skipped weak metadata for ${ref}`);
+                    }
                     const imageMeta = resolveImageMeta(rawImagePath);
-                    const normalizedImagePath = imageMeta?.src
-                        ? normalizeImagePath(imageMeta.src)
-                        : normalizeImagePath(rawImagePath || '');
+                    const normalizedImagePath = curatedEligible
+                        ? normalizeImagePath(curatedRecord.src)
+                        : imageMeta?.src
+                            ? normalizeImagePath(imageMeta.src)
+                            : normalizeImagePath(rawImagePath || '');
                     const encodedImagePath = normalizedImagePath ? encodeURI(normalizedImagePath) : null;
-                    const mergedAlt = imageMeta?.altText || row?.image_alt || data?.alt_text || bankAlt || '';
+                    const resolvedPath = curatedEligible
+                        ? (encodedImagePath || curatedRecord.src || null)
+                        : curatedRecord
+                            ? null
+                            : (encodedImagePath || (typeof rawImagePath === 'string' && rawImagePath.trim() ? rawImagePath.trim() : null));
+                    const mergedAlt = curatedEligible
+                        ? (curatedRecord.alt || curatedRecord.altText || imageMeta?.altText || row?.image_alt || data?.alt_text || bankAlt || '')
+                        : imageMeta?.altText || row?.image_alt || data?.alt_text || bankAlt || '';
 
-                    const resolvedPath = encodedImagePath || rawImagePath || null;
+                    if (!resolvedPath) {
+                        return null;
+                    }
                     const questionBase = {
                         questionText: norm?.stem || data?.stem_raw || '',
                         answerOptions,
                         imageUrl: resolvedPath,
                         imageAlt: mergedAlt,
-                        imageRef: resolvedPath ? { path: resolvedPath, altText: mergedAlt } : undefined,
+                        imageRef: { path: resolvedPath, altText: mergedAlt, id: curatedEligible ? curatedRecord.id : undefined },
                         type: 'image'
                     };
 
@@ -5860,18 +5680,23 @@ const generateImageQuestion = async (topic, subject, imagePool, numQuestions, op
     }
 
     // Fallback to curated image pool generation
-    const filteredByTopic = Array.isArray(imagePool)
-        ? imagePool.filter((img) => img.subject === subject && img.category === topic)
+    const eligiblePool = Array.isArray(imagePool)
+        ? imagePool.filter((img) => img && isImageEligible(img))
         : [];
+    const filteredByTopic = eligiblePool.filter((img) => img.subject === subject && img.category === topic);
     let selectedImage = filteredByTopic.length
         ? filteredByTopic[Math.floor(Math.random() * filteredByTopic.length)]
         : null;
 
-    if (!selectedImage && Array.isArray(imagePool)) {
-        const subjectImages = imagePool.filter((img) => img.subject === subject);
+    if (!selectedImage && eligiblePool.length) {
+        const subjectImages = eligiblePool.filter((img) => img.subject === subject);
         if (subjectImages.length > 0) {
             selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
         }
+    }
+
+    if (!selectedImage && eligiblePool.length) {
+        selectedImage = eligiblePool[Math.floor(Math.random() * eligiblePool.length)];
     }
 
     if (!selectedImage) {
@@ -5942,7 +5767,12 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
         requireNamedEntity = true
     } = options;
 
-    const byCategory = imagePool.filter((img) => {
+    const eligiblePool = imagePool.filter((img) => img && isImageEligible(img));
+    if (!eligiblePool.length) {
+        return [];
+    }
+
+    const byCategory = eligiblePool.filter((img) => {
         const matchesSubject = !subject || img.subject === subject;
         const matchesCategory = !topic || img.category === topic;
         return matchesSubject && matchesCategory;
@@ -5953,11 +5783,11 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
         : null;
 
     if (!selectedImage) {
-        const subjectImages = imagePool.filter((img) => img.subject === subject);
+        const subjectImages = eligiblePool.filter((img) => img.subject === subject);
         if (subjectImages.length) {
             selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
         } else {
-            selectedImage = imagePool[Math.floor(Math.random() * imagePool.length)];
+            selectedImage = eligiblePool[Math.floor(Math.random() * eligiblePool.length)];
         }
     }
 
@@ -5965,13 +5795,20 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
         return [];
     }
 
+    const curatedRecord = resolveCuratedImageMeta(selectedImage.id || selectedImage.filePath || selectedImage.src || selectedImage.path);
+    if (curatedRecord && !isImageEligible(curatedRecord)) {
+        console.warn(`[IMG-GUARD] Skipped weak metadata for ${curatedRecord.id || selectedImage.filePath || selectedImage.src || 'integrated-image'}`);
+        return [];
+    }
     const resolvedMeta = resolveImageMeta(selectedImage.filePath || selectedImage.src || selectedImage.path || '');
-    const normalizedPathRaw = resolvedMeta?.src
-        ? normalizeImagePath(resolvedMeta.src)
-        : normalizeImagePath(selectedImage.filePath || selectedImage.src || selectedImage.path || '');
+    const normalizedPathRaw = curatedRecord?.src
+        ? normalizeImagePath(curatedRecord.src)
+        : resolvedMeta?.src
+            ? normalizeImagePath(resolvedMeta.src)
+            : normalizeImagePath(selectedImage.filePath || selectedImage.src || selectedImage.path || '');
     const normalizedPath = normalizedPathRaw || null;
     const encodedPath = normalizedPath ? encodeURI(normalizedPath) : null;
-    const mergedAlt = resolvedMeta?.altText || selectedImage.altText || '';
+    const mergedAlt = curatedRecord?.alt || curatedRecord?.altText || resolvedMeta?.altText || selectedImage.altText || '';
     const description = resolvedMeta?.detailedDescription || selectedImage.detailedDescription || '';
     const usage = resolvedMeta?.usageDirectives || selectedImage.usageDirectives || '';
     const keywords = Array.isArray(selectedImage.keywords) && selectedImage.keywords.length
@@ -6058,9 +5895,9 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
     return questions.map((question) => enforceWordCapsOnItem({
         ...question,
         passage: passageText,
-        imageUrl: encodedPath || normalizedPath || null,
+        imageUrl: encodedPath || curatedRecord?.src || normalizedPath || null,
         imageAlt: mergedAlt,
-        imageRef: encodedPath ? { path: encodedPath, altText: mergedAlt } : undefined,
+        imageRef: encodedPath ? { path: encodedPath, altText: mergedAlt, id: curatedRecord?.id } : undefined,
         type: 'integrated'
     }, subject));
 };
@@ -6095,6 +5932,362 @@ const generateStandaloneQuestion = async (subject, topic, options = {}) => {
     question.type = 'standalone';
     return enforceWordCapsOnItem(question, subject);
 };
+
+function normalizeSubjectKey(subject) {
+    if (!subject || typeof subject !== 'string') {
+        return '';
+    }
+    return subject.trim().toLowerCase().replace(/\s+/g, '-');
+}
+
+function scoreImageForPlan(img, desired) {
+    let score = 0;
+    const vt = (img?.visualType || '').toLowerCase();
+    if (desired.visualTypes.length && desired.visualTypes.includes(vt)) {
+        score += 3;
+    }
+
+    const subtopics = new Set((Array.isArray(img?.subtopics) ? img.subtopics : []).map((value) => String(value).toLowerCase()));
+    desired.subtopics.forEach((subtopic) => {
+        if (subtopics.has(subtopic)) {
+            score += 2;
+        }
+    });
+
+    const concepts = new Set((Array.isArray(img?.concepts) ? img.concepts : []).map((value) => String(value).toLowerCase()));
+    let hits = 0;
+    desired.concepts.forEach((concept) => {
+        if (concepts.has(concept)) {
+            hits += 1;
+        }
+    });
+    score += Math.min(hits, 3);
+
+    return score;
+}
+
+function isImageEligibleForPlan(img) {
+    if (!img) return false;
+    if (!isImageEligible(img)) return false;
+    if (!img.visualType) return false;
+    if (!Array.isArray(img.subtopics) || img.subtopics.length === 0) return false;
+    if (!Array.isArray(img.questionHooks) || img.questionHooks.length < 2) return false;
+    return true;
+}
+
+function sanitizeImageRef(ref) {
+    if (!ref) return null;
+    const value = String(ref).trim();
+    if (!value) return null;
+    if (/^https?:\/\//i.test(value)) return null;
+    return normalizeImagePath(value);
+}
+
+function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics = [], concepts = [] }) {
+    const pool = Array.isArray(global.curatedImages)
+        ? global.curatedImages.filter(isImageEligibleForPlan)
+        : [];
+    if (!pool.length) {
+        return [];
+    }
+
+    const desired = {
+        visualTypes: (visualTypes || []).map((value) => String(value).toLowerCase()),
+        subtopics: (subtopics || []).map((value) => String(value).toLowerCase()),
+        concepts: (concepts || []).map((value) => String(value).toLowerCase())
+    };
+
+    const subjectKey = normalizeSubjectKey(subject);
+    const scored = pool
+        .map((img) => {
+            let score = scoreImageForPlan(img, desired);
+            const imgSubject = normalizeSubjectKey(img?.subject || img?.domain || '');
+            if (subjectKey && imgSubject === subjectKey) {
+                score += 2;
+            }
+            return { img, score };
+        })
+        .sort((a, b) => b.score - a.score);
+
+    const chosen = [];
+    const used = new Set();
+    for (const { img } of scored) {
+        if (chosen.length >= count) break;
+        if (!img?.id || used.has(img.id)) continue;
+        used.add(img.id);
+        chosen.push(img);
+    }
+
+    return chosen;
+}
+
+function buildImageQuestionPrompt(subject, meta, original = {}) {
+    const subjectLabel = typeof subject === 'string' && subject.trim().length ? subject.trim() : 'GED';
+    const visualType = (original.visualType || meta.visualType || '').toLowerCase();
+    const hooks = Array.isArray(original.questionHooks)
+        ? original.questionHooks.filter((hook) => typeof hook === 'string' && hook.trim().length)
+        : [];
+    const subtopics = Array.isArray(original.subtopics)
+        ? original.subtopics.filter((value) => typeof value === 'string' && value.trim().length)
+        : [];
+    const concepts = Array.isArray(original.concepts)
+        ? original.concepts.filter((value) => typeof value === 'string' && value.trim().length)
+        : [];
+    const descriptionParts = [
+        meta.alt || meta.altText || '',
+        meta.caption || '',
+        meta.detailedDescription || '',
+        meta.credit ? `Credit: ${meta.credit}` : '',
+        original.description || ''
+    ].map((part) => String(part || '').trim()).filter(Boolean);
+    const ocrText = typeof original.ocrText === 'string' && original.ocrText.trim().length
+        ? original.ocrText.trim()
+        : '';
+
+    const metadataLines = [
+        visualType ? `Visual type: ${visualType}` : null,
+        descriptionParts.length ? `Description: ${descriptionParts.join(' ')}` : null,
+        hooks.length ? 'Question hooks:\n' + hooks.map((hook) => `- ${hook}`).join('\n') : null,
+        subtopics.length ? `Subtopics: ${subtopics.join(', ')}` : null,
+        concepts.length ? `Concepts: ${concepts.join(', ')}` : null,
+        ocrText ? `Visible text: ${ocrText}` : null
+    ].filter(Boolean).join('\n');
+
+    const directive = [
+        `You are a GED ${subjectLabel} exam writer.`,
+        'Write one GED-style multiple-choice question that requires interpreting the described visual.',
+        'Reference specific evidence from the image. Avoid mentioning “students” or “test-takers.”',
+        'Do not use phrases like “in the image above.”',
+        'Provide exactly four answer options and mark the single correct option using "isCorrect": true.',
+        'Each answer option must include a short rationale.',
+        'Treat any OCR text as content shown inside the image.'
+    ].join(' ');
+
+    const schemaInstruction = `Return a JSON object with:\n{\n  "questionText": string,\n  "answerOptions": [\n    { "text": string, "isCorrect": boolean, "rationale": string }\n  ],\n  "rationale": string (optional),\n  "difficulty": string (optional)\n}\nEnsure there are exactly four answer options and only one has "isCorrect": true.`;
+
+    return `${directive}\n\nMetadata:\n${metadataLines}\n\n${schemaInstruction}`;
+}
+
+const SINGLE_IMAGE_QUESTION_SCHEMA = {
+    type: "OBJECT",
+    properties: {
+        questionText: { type: "STRING" },
+        answerOptions: {
+            type: "ARRAY",
+            items: {
+                type: "OBJECT",
+                properties: {
+                    text: { type: "STRING" },
+                    isCorrect: { type: "BOOLEAN" },
+                    rationale: { type: "STRING" }
+                },
+                required: ["text", "isCorrect", "rationale"]
+            },
+            minItems: 3,
+            maxItems: 6
+        },
+        rationale: { type: "STRING" },
+        difficulty: { type: "STRING" }
+    },
+    required: ["questionText", "answerOptions"]
+};
+
+async function llmGenerateSingleImageQuestion(prompt, options = {}) {
+    return callAI(prompt, SINGLE_IMAGE_QUESTION_SCHEMA, {
+        timeoutMs: Math.min(MODEL_HTTP_TIMEOUT_MS, options.timeoutMs || 60000),
+        callSite: options.callSite || 'image-first-single'
+    });
+}
+
+function buildNormalizedImageQuestion(rawQuestion, { subject, index }) {
+    if (!rawQuestion || typeof rawQuestion !== 'object') {
+        return null;
+    }
+
+    const text = typeof rawQuestion.questionText === 'string' ? rawQuestion.questionText.trim() : '';
+    if (!text) {
+        return null;
+    }
+
+    let answerOptions = Array.isArray(rawQuestion.answerOptions)
+        ? rawQuestion.answerOptions.map((opt) => {
+            if (!opt || typeof opt !== 'object') {
+                const textValue = String(opt ?? '').trim();
+                return { text: textValue, isCorrect: false, rationale: '' };
+            }
+            const textValue = typeof opt.text === 'string' ? opt.text.trim() : String(opt.text ?? '').trim();
+            const rationaleValue = typeof opt.rationale === 'string' ? opt.rationale.trim() : '';
+            return { text: textValue, isCorrect: Boolean(opt.isCorrect), rationale: rationaleValue };
+        }).filter((opt) => opt.text.length)
+        : [];
+
+    if (answerOptions.length < 4) {
+        return null;
+    }
+
+    let correctIndex = answerOptions.findIndex((opt) => opt.isCorrect);
+    if (correctIndex === -1) {
+        answerOptions = answerOptions.map((opt, idx) => ({ ...opt, isCorrect: idx === 0 }));
+        correctIndex = 0;
+    }
+
+    if (answerOptions.length > 4) {
+        if (correctIndex < 4) {
+            answerOptions = answerOptions.slice(0, 4);
+        } else {
+            const correct = answerOptions[correctIndex];
+            const others = answerOptions.filter((_, idx) => idx !== correctIndex).slice(0, 3);
+            answerOptions = [correct, ...others];
+            correctIndex = 0;
+        }
+    }
+
+    const explanation = typeof rawQuestion.rationale === 'string' ? rawQuestion.rationale.trim() : '';
+    const normalized = answerOptions.map((opt, idx) => ({
+        text: opt.text,
+        isCorrect: idx === correctIndex,
+        rationale: opt.rationale || explanation
+    }));
+
+    const baseQuestion = {
+        id: rawQuestion.id || `img-${Date.now()}-${index}`,
+        questionNumber: index + 1,
+        type: 'image',
+        questionText: text,
+        stem: text,
+        answerOptions: normalized,
+        choices: normalized.map((opt) => opt.text),
+        correctIndex,
+        solution: explanation,
+        rationale: explanation,
+        difficulty: typeof rawQuestion.difficulty === 'string' ? rawQuestion.difficulty : undefined
+    };
+
+    return enforceWordCapsOnItem(baseQuestion, subject);
+}
+
+async function generateQuestionsFromImages({ subject, images, questionCount }) {
+    const subjectKey = normalizeSubjectKey(subject);
+    const subjectLabel = subjectKey === 'social-studies'
+        ? 'Social Studies'
+        : subjectKey === 'science'
+            ? 'Science'
+            : subjectKey === 'math'
+                ? 'Math'
+                : (typeof subject === 'string' && subject.trim().length ? subject.trim() : 'General Studies');
+
+    const desiredCount = Math.max(1, Math.floor(Number(questionCount) || (Array.isArray(images) ? images.length : 1)));
+    const results = [];
+
+    for (const image of Array.isArray(images) ? images : []) {
+        if (results.length >= desiredCount) break;
+
+        try {
+            const ref = sanitizeImageRef(image?.filePath || image?.src || image?.file || image?.path);
+            const curatedRecord = resolveCuratedImageMeta(image?.id || ref || image);
+            const meta = resolveImageMeta(curatedRecord || image);
+
+            if (!meta || !meta.src || /^https?:\/\//i.test(meta.src)) {
+                console.warn('[IMG-FIRST] Skipping image with unresolved metadata', image?.id || ref || 'unknown');
+                continue;
+            }
+
+            const prompt = buildImageQuestionPrompt(subjectLabel, {
+                alt: meta.alt || meta.altText || '',
+                altText: meta.altText || meta.alt || '',
+                caption: meta.caption || '',
+                credit: meta.credit || '',
+                detailedDescription: meta.detailedDescription || '',
+                visualType: curatedRecord?.visualType || image?.visualType || ''
+            }, {
+                ...image,
+                visualType: image?.visualType || curatedRecord?.visualType
+            });
+
+            const rawQuestion = await llmGenerateSingleImageQuestion(prompt, { timeoutMs: 60000 });
+            const prepared = buildNormalizedImageQuestion(rawQuestion, { subject: subjectLabel, index: results.length });
+            if (!prepared) {
+                console.warn('[IMG-FIRST] Model returned unusable question for image', image?.id || 'unknown');
+                continue;
+            }
+
+            const normalizedSrc = normalizeImagePath(meta.src);
+            if (!normalizedSrc || /^https?:\/\//i.test(normalizedSrc)) {
+                console.warn('[IMG-FIRST] Invalid normalized path for image', image?.id || 'unknown');
+                continue;
+            }
+
+            const imageAlt = meta.alt || meta.altText || image?.alt || '';
+            const questionHooks = Array.isArray(image?.questionHooks) && image.questionHooks.length
+                ? image.questionHooks
+                : Array.isArray(curatedRecord?.questionHooks)
+                    ? curatedRecord.questionHooks
+                    : [];
+            const subtopics = Array.isArray(image?.subtopics) && image.subtopics.length
+                ? image.subtopics
+                : Array.isArray(curatedRecord?.subtopics)
+                    ? curatedRecord.subtopics
+                    : [];
+            const concepts = Array.isArray(image?.concepts) && image.concepts.length
+                ? image.concepts
+                : Array.isArray(curatedRecord?.concepts)
+                    ? curatedRecord.concepts
+                    : [];
+
+            prepared.imageUrl = normalizedSrc;
+            prepared.imageAlt = imageAlt;
+            prepared.imageRef = {
+                id: curatedRecord?.id || image?.id || null,
+                imageUrl: normalizedSrc,
+                altText: imageAlt,
+                visualType: image?.visualType || curatedRecord?.visualType || null,
+                subtopics,
+                concepts,
+                questionHooks
+            };
+            prepared.imageMeta = {
+                id: curatedRecord?.id || image?.id || null,
+                altText: imageAlt,
+                caption: meta.caption || '',
+                credit: meta.credit || '',
+                detailedDescription: meta.detailedDescription || '',
+                visualType: image?.visualType || curatedRecord?.visualType || null,
+                subtopics,
+                concepts,
+                questionHooks
+            };
+
+            results.push(prepared);
+        } catch (error) {
+            console.warn('[IMG-FIRST] Failed to generate question from curated image:', error?.message || error);
+        }
+    }
+
+    if (!results.length) {
+        throw new Error('image_first_generation_failed');
+    }
+
+    const title = subjectKey === 'social-studies'
+        ? 'Comprehensive Social Studies Exam'
+        : subjectKey === 'science'
+            ? 'Comprehensive Science Exam'
+            : subjectKey === 'math'
+                ? 'Comprehensive Math Exam'
+                : 'Comprehensive Practice Exam';
+
+    const limited = results.slice(0, desiredCount).map((question, idx) => ({
+        ...question,
+        questionNumber: idx + 1
+    }));
+
+    return {
+        id: `image-first-${Date.now()}`,
+        title,
+        subject: subjectLabel,
+        questions: limited,
+        items: limited
+    };
+}
 
 const buildGeometryPrompt = (topic, attempt) => {
     const decimalLimit = DEFAULT_MAX_DECIMALS;
@@ -6585,15 +6778,132 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
             }
         }
 
-        if (!correctedRef.imageUrl && finalImageUrl) {
-            correctedRef.imageUrl = finalImageUrl;
+        const candidatePaths = [
+            correctedRef.imageUrl,
+            correctedRef.path,
+            finalImageUrl,
+            originalRef?.imageUrl,
+            originalRef?.path,
+            originalImageUrl
+        ];
+
+        let normalizedRefPath = '';
+        for (const candidate of candidatePaths) {
+            const normalizedCandidate = normalizeImagePath(candidate || '');
+            if (normalizedCandidate) {
+                normalizedRefPath = normalizedCandidate;
+                break;
+            }
         }
+
+        if (normalizedRefPath) {
+            const curatedRecord = resolveCuratedImageMeta(normalizedRefPath) || resolveCuratedImageMeta(finalImageUrl);
+            const curatedEligible = curatedRecord ? isImageEligible(curatedRecord) : false;
+            if (curatedRecord && !curatedEligible) {
+                console.warn(`[IMG-GUARD] Skipped weak metadata for question ${key} (${curatedRecord.id || normalizedRefPath})`);
+            }
+            if (curatedEligible) {
+                const encodedPath = encodeURI(normalizedRefPath);
+                correctedRef.imageUrl = encodedPath;
+                correctedRef.path = encodedPath;
+                correctedRef.src = correctedRef.src || encodedPath;
+                const resolvedMeta = {
+                    id: curatedRecord.id,
+                    src: curatedRecord.src,
+                    altText: curatedRecord.alt || curatedRecord.altText || '',
+                    caption: curatedRecord.caption || '',
+                    credit: curatedRecord.credit || '',
+                    detailedDescription: curatedRecord.detailedDescription || curatedRecord.ocrText || ''
+                };
+                if (!correctedRef.altText && (resolvedMeta.altText || originalAlt)) {
+                    correctedRef.altText = (resolvedMeta.altText || originalAlt || '').trim();
+                }
+                if (!correctedRef.caption && resolvedMeta.caption) {
+                    correctedRef.caption = resolvedMeta.caption;
+                }
+                if (!correctedRef.credit && resolvedMeta.credit) {
+                    correctedRef.credit = resolvedMeta.credit;
+                }
+                const mergedMeta = { ...(correctedRef.imageMeta || {}) };
+                if (!mergedMeta.id && resolvedMeta.id) mergedMeta.id = resolvedMeta.id;
+                mergedMeta.src = resolvedMeta.src;
+                if (resolvedMeta.altText && !mergedMeta.altText) mergedMeta.altText = resolvedMeta.altText;
+                if (resolvedMeta.caption && !mergedMeta.caption) mergedMeta.caption = resolvedMeta.caption;
+                if (resolvedMeta.credit && !mergedMeta.credit) mergedMeta.credit = resolvedMeta.credit;
+                if (resolvedMeta.detailedDescription && !mergedMeta.detailedDescription) {
+                    mergedMeta.detailedDescription = resolvedMeta.detailedDescription;
+                }
+                if (Array.isArray(curatedRecord.subtopics) && !mergedMeta.subtopics) {
+                    mergedMeta.subtopics = [...curatedRecord.subtopics];
+                }
+                if (Array.isArray(curatedRecord.questionHooks) && !mergedMeta.questionHooks) {
+                    mergedMeta.questionHooks = [...curatedRecord.questionHooks];
+                }
+                correctedRef.imageMeta = Object.keys(mergedMeta).length ? mergedMeta : undefined;
+                merged.imageUrl = merged.imageUrl || encodedPath;
+                if (!merged.imageAlt && (resolvedMeta.altText || originalAlt)) {
+                    merged.imageAlt = (resolvedMeta.altText || originalAlt || '').trim();
+                }
+            } else if (!curatedRecord) {
+                const resolvedMeta = resolveImageMeta(normalizedRefPath) || {};
+                const encodedPath = encodeURI(normalizedRefPath);
+                correctedRef.imageUrl = encodedPath;
+                correctedRef.path = encodedPath;
+                if (!correctedRef.altText && (resolvedMeta.altText || originalAlt)) {
+                    correctedRef.altText = (resolvedMeta.altText || originalAlt || '').trim();
+                }
+                if (!correctedRef.caption && resolvedMeta.caption) {
+                    correctedRef.caption = resolvedMeta.caption;
+                }
+                if (!correctedRef.credit && resolvedMeta.credit) {
+                    correctedRef.credit = resolvedMeta.credit;
+                }
+                if (!correctedRef.src) {
+                    correctedRef.src = encodedPath;
+                }
+                const mergedMeta = { ...(correctedRef.imageMeta || {}) };
+                if (resolvedMeta && resolvedMeta.src) {
+                    mergedMeta.src = resolvedMeta.src;
+                    if (resolvedMeta.id && !mergedMeta.id) mergedMeta.id = resolvedMeta.id;
+                    if (resolvedMeta.altText && !mergedMeta.altText) mergedMeta.altText = resolvedMeta.altText;
+                    if (resolvedMeta.caption && !mergedMeta.caption) mergedMeta.caption = resolvedMeta.caption;
+                    if (resolvedMeta.credit && !mergedMeta.credit) mergedMeta.credit = resolvedMeta.credit;
+                    if (resolvedMeta.detailedDescription && !mergedMeta.detailedDescription) {
+                        mergedMeta.detailedDescription = resolvedMeta.detailedDescription;
+                    }
+                }
+                if (Object.keys(mergedMeta).length) {
+                    correctedRef.imageMeta = mergedMeta;
+                }
+                merged.imageUrl = merged.imageUrl || encodedPath;
+            } else {
+                delete correctedRef.imageMeta;
+                delete correctedRef.imageUrl;
+                delete correctedRef.path;
+                delete correctedRef.src;
+                merged.imageUrl = null;
+                merged.imageAlt = undefined;
+            }
+        } else if (finalImageUrl) {
+            const normalizedFallback = normalizeImagePath(finalImageUrl) || finalImageUrl;
+            const encodedPath = encodeURI(normalizedFallback);
+            correctedRef.imageUrl = correctedRef.imageUrl || encodedPath;
+            correctedRef.path = correctedRef.path || encodedPath;
+        }
+
         if (!correctedRef.altText && originalAlt) {
             correctedRef.altText = originalAlt.trim();
         }
 
-        if (Object.keys(correctedRef).length) {
-            merged.imageRef = correctedRef;
+        if (correctedRef.imageUrl) {
+            try {
+                validateImageRef(correctedRef);
+                merged.imageRef = correctedRef;
+            } catch (validationError) {
+                console.warn(`[IMG-RESTORE] Image ref validation failed for question ${key}: ${validationError?.message || validationError}`);
+            }
+        } else {
+            delete merged.imageRef;
         }
 
         return merged;
@@ -6614,15 +6924,25 @@ Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQui
     ${JSON.stringify(draftQuiz, null, 2)}
     ---
     Return the corrected and improved quiz as a single, valid JSON object.`;
-        const isSocialStudies = draftQuiz.subject === 'Social Studies';
-        const schema = isSocialStudies ? SS_RESPONSE_SCHEMA : quizSchema;
-        const callOptions = isSocialStudies ? { ...options, callSite: 'ss-review' } : options;
-        const correctedQuiz = await callAI(prompt, schema, callOptions);
-        if (isSocialStudies) {
-            return restoreImageAttachments(correctedQuiz, draftQuiz);
+
+    const isSocialStudies = draftQuiz.subject === 'Social Studies';
+    const schema = isSocialStudies ? SS_RESPONSE_SCHEMA : quizSchema;
+    const callOptions = isSocialStudies ? { ...options, callSite: 'ss-review' } : options;
+    const correctedQuiz = await callAI(prompt, schema, callOptions);
+
+    if (isSocialStudies) {
+        if (correctedQuiz && typeof correctedQuiz === 'object' && typeof draftQuiz?.title === 'string') {
+            correctedQuiz.title = draftQuiz.title;
         }
-        return correctedQuiz;
+        const restored = restoreImageAttachments(correctedQuiz, draftQuiz);
+        if (restored && typeof restored === 'object' && typeof draftQuiz?.title === 'string') {
+            restored.title = draftQuiz.title;
+        }
+        return restored;
     }
+
+    return correctedQuiz;
+}
 
 async function reviewAndCorrectMathQuestion(questionObject, options = {}) {
     const prompt = `You are an expert GED math editor. Your ONLY job is to fix formatting in the following JSON object. **Aggressively correct all syntax errors.**
@@ -6773,10 +7093,50 @@ All 12 items must share the same 'passage' field. Assign the same 'groupId' to a
 
 app.post('/api/generate-exam', express.json(), async (req, res) => {
     try {
-        const { profile: rawProfileKey, count = 10, subject, topic } = req.body || {};
+        const { profile: rawProfileKey, count = 10, subject, topic, imagePlan, questionCount } = req.body || {};
         const profileKey = typeof rawProfileKey === 'string' && rawProfileKey.trim().length
             ? rawProfileKey.trim()
             : null;
+
+        const wantsImages = imagePlan && imagePlan.mode === 'image-first' && !profileKey;
+
+        if (wantsImages) {
+            try {
+                const desired = imagePlan.desired || {};
+                const plannedCount = Number.isFinite(Number(desired.count)) ? Number(desired.count) : null;
+                const requestCount = Number.isFinite(Number(questionCount)) ? Number(questionCount) : null;
+                const fallbackCount = Number.isFinite(Number(count)) ? Number(count) : null;
+                const imageQuestionCount = Math.max(1, Math.floor(plannedCount || requestCount || fallbackCount || 10));
+
+                const selectedImages = selectCuratedImages({
+                    subject,
+                    count: imageQuestionCount,
+                    visualTypes: desired.visualTypes || [],
+                    subtopics: desired.subtopics || [],
+                    concepts: desired.concepts || []
+                });
+
+                if (selectedImages.length) {
+                    const draft = await generateQuestionsFromImages({
+                        subject,
+                        images: selectedImages,
+                        questionCount: imageQuestionCount
+                    });
+                    const timeoutMs = selectModelTimeoutMs({ examType: 'standard' });
+                    const corrected = await reviewAndCorrectQuiz(draft, { timeoutMs });
+                    corrected.title = draft.title;
+                    const restored = restoreImageAttachments(corrected, draft) || corrected;
+                    if (!Array.isArray(restored.items) && Array.isArray(restored.questions)) {
+                        restored.items = restored.questions.map((question) => ({ ...question }));
+                    }
+                    return res.json(restored);
+                } else {
+                    console.warn('[IMG-FIRST] No eligible curated images found; falling back to text-first generation.');
+                }
+            } catch (error) {
+                console.warn('[IMG-FIRST] Image-first generation failed; falling back to text-first mode:', error?.message || error);
+            }
+        }
 
         if (profileKey && !CONTENT_PROFILES[profileKey]) {
             return res.status(400).json({ error: 'Unknown profile' });
@@ -6929,6 +7289,19 @@ app.post('/api/validate-bank', async (_req, res) => {
     }
 });
 
+app.get('/admin/image-meta/debug', (_req, res) => {
+    res.json({
+        count: Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0,
+        sample: IMAGE_DB.slice(0, 5).map(({ id, file, imageUrl, title, tags }) => ({
+            id: id || null,
+            file: file || null,
+            imageUrl: imageUrl || null,
+            title: title || null,
+            tags: Array.isArray(tags) ? tags.slice(0, 5) : []
+        }))
+    });
+});
+
 app.get('/metrics/ai', (_req, res) => {
     const stats = AI_LATENCY.stats();
     const toSec = (value) => Math.round((value || 0) / 1000);
@@ -6944,14 +7317,14 @@ app.get('/metrics/ai', (_req, res) => {
 
 app.get('/admin/image-diagnostics', authenticateBearerToken, async (_req, res) => {
     try {
-        const metaListCount = Array.isArray(IMAGE_META?.list) ? IMAGE_META.list.length : 0;
-        const metaByIdCount = IMAGE_META?.byId instanceof Map ? IMAGE_META.byId.size : 0;
-        const metaByUrlCount = IMAGE_META?.byUrl instanceof Map ? IMAGE_META.byUrl.size : 0;
+        const metaListCount = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
+        const metaByIdCount = IMAGE_BY_ID instanceof Map ? IMAGE_BY_ID.size : 0;
+        const metaByUrlCount = IMAGE_BY_URL instanceof Map ? IMAGE_BY_URL.size : 0;
         const snapshot = imageDiagnostics.getSnapshot({
             metadataEntries: metaListCount,
             metadataById: metaByIdCount,
             metadataByUrl: metaByUrlCount,
-            metadataFile: IMAGE_META?.path || null,
+            metadataFile: fs.existsSync(IMAGE_METADATA_PATH) ? IMAGE_METADATA_PATH : null,
             curatedImages: Array.isArray(curatedImages) ? curatedImages.length : 0
         });
         res.json(snapshot);
@@ -7806,27 +8179,6 @@ const generateAIContent = async (prompt, schema) => {
     const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
     return JSON.parse(jsonText);
 };
-
-
-
-if (CLIENT_BUILD_EXISTS) {
-    app.get('*', (req, res, next) => {
-        if (req.method !== 'GET') return next();
-        if (SPA_ROUTE_PREFIX_BLOCKLIST.some((prefix) => req.path.startsWith(prefix))) return next();
-
-        const acceptHeader = String(req.headers.accept || '');
-        if (!acceptHeader.includes('text/html')) {
-            return next();
-        }
-
-        res.setHeader('Cache-Control', 'no-store, max-age=0');
-        res.sendFile(CLIENT_INDEX_FILE);
-    });
-} else {
-    app.get('/', (_req, res) => {
-        res.send('Learning Canvas Backend is running! Build the frontend to enable the UI.');
-    });
-}
 
 app.use((err, req, res, next) => {
     console.error(err?.stack || err);

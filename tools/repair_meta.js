@@ -49,7 +49,7 @@ function repairFile(p) {
 
 const targets = process.argv.slice(2);
 if (!targets.length) {
-  console.error('Usage: node tools/repair_meta.js backend/data/image_metadata_final.json [backend/data/image_metadata.json]');
+  console.error('Usage: node tools/repair_meta.js backend/data/image_metadata_final.json');
   process.exit(1);
 }
 targets.forEach(repairFile);
