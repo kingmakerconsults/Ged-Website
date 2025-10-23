@@ -29,7 +29,7 @@ const axios = require('axios');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const { jsonrepair } = require('jsonrepair');
-const { assertValidImageRef, validateImageRef } = require('./src/images/validateImageRef');
+const { assertValidImageRef: assertImageRefPayload, validateImageRef } = require('./src/images/validateImageRef');
 const imageDiagnostics = require('./src/images/imageDiagnostics');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const vocabularyData = require('../data/vocabulary_index.json');
@@ -1629,7 +1629,7 @@ async function filterValidImageItems(items = []) {
 
         const next = { ...item };
         if (next.imageRef && typeof next.imageRef === 'object') {
-            const { ok: refOk, imageRef } = await assertValidImageRef(next.imageRef, {
+            const { ok: refOk, imageRef } = await assertImageRefPayload(next.imageRef, {
                 subject: 'Social Studies',
                 context: {
                     id: next?.id || next?.questionNumber || index,
@@ -1739,7 +1739,7 @@ async function ensureQuestionImageCompliance(question, { subject, index, source 
             ref.subject = subject.trim();
         }
 
-        const validation = await assertValidImageRef(ref, {
+        const validation = await assertImageRefPayload(ref, {
             subject,
             context: {
                 id: withImage?.id || withImage?.questionNumber || index,
@@ -5938,38 +5938,58 @@ function sanitizeImageRef(ref) {
 function safePath(p) {
     if (!p) return null;
     let s = String(p);
-    try {
-        s = decodeURIComponent(s);
-    } catch (_) {
-        // ignore decode errors
+    for (let i = 0; i < 3 && /%[0-9A-Fa-f]{2}/.test(s); i++) {
+        try {
+            s = decodeURIComponent(s);
+        } catch {
+            break;
+        }
     }
     s = s.replace(/^\.?\/+/, '');
-    if (!s.toLowerCase().startsWith('images/')) {
-        s = 'Images/' + s;
-    }
+    if (!s.toLowerCase().startsWith('images/')) s = 'Images/' + s;
     return '/' + encodeURI(s);
 }
 
-function inferSubjectFromMeta(meta, fallback) {
-    const normalizedFallback = typeof fallback === 'string' && fallback.trim().length
-        ? fallback.trim()
-        : null;
-    const explicit = typeof meta?.subject === 'string' && meta.subject.trim().length
-        ? meta.subject.trim()
-        : null;
-    if (explicit) {
-        return explicit;
+function assertValidImageRef({ imageRef, imageUrl, subject }) {
+    const ref = sanitizeImageRef(imageRef || imageUrl);
+    if (!ref) throw new Error('Image reference not local/curated.');
+
+    const want = safePath(ref);
+    if (!want) throw new Error('Image reference not local/curated.');
+
+    const pool = Array.isArray(global.curatedImages) ? global.curatedImages : [];
+
+    let candidates = pool;
+    if (subject) {
+        const subj = String(subject).toLowerCase();
+        candidates = pool.filter((im) => {
+            const tags = Array.isArray(im?.tags) ? im.tags.map((t) => String(t).toLowerCase()) : [];
+            return tags.includes(subj)
+                || (subj === 'social-studies' && (tags.includes('social studies') || tags.includes('social')))
+                || (subj === 'math' && (tags.includes('mathematics') || tags.includes('numeracy')));
+        });
+        if (!candidates.length) {
+            candidates = pool;
+        }
     }
 
-    const tagList = Array.isArray(meta?.tags)
-        ? meta.tags.map((tag) => String(tag || '').toLowerCase())
-        : [];
-    if (tagList.includes('social-studies')) return 'social-studies';
-    if (tagList.includes('science')) return 'science';
-    if (tagList.includes('math') || tagList.includes('mathematics')) return 'math';
-    if (tagList.includes('rla') || tagList.includes('reading')) return 'rla';
+    const base = want.split('/').pop();
+    const baseLower = (base || '').toLowerCase();
+    const hit = candidates.find((im) => {
+        const rawPath = im?.filePath || im?.src || im?.file || '';
+        const normalized = String(rawPath).replace(/^\.?\/+/, '');
+        const lower = normalized.toLowerCase();
+        return lower.endsWith('/' + baseLower) || lower === `images/${baseLower}`;
+    });
 
-    return normalizedFallback;
+    if (!hit) throw new Error('Curated image not found.');
+
+    return {
+        id: hit.id,
+        src: hit.src || safePath(hit.filePath || hit.file || base),
+        alt: hit.alt || '',
+        meta: hit
+    };
 }
 
 function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics = [], concepts = [] }) {
@@ -6667,294 +6687,84 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
     return groupedQuestions;
 }
 
-function extractPrimaryImageUrl(question) {
-    if (!question || typeof question !== 'object') {
-        return null;
+function restoreImageAttachments(corrected, draft) {
+    if (!corrected || typeof corrected !== 'object') {
+        return corrected;
     }
 
-    const candidates = [
-        question.imageUrl,
-        question?.imageRef?.imageUrl,
-        question?.imageRef?.path,
-        question?.stimulusImage?.imageUrl,
-        question?.image?.imageUrl
-    ];
-
-    for (const candidate of candidates) {
-        if (typeof candidate === 'string' && candidate.trim()) {
-            return candidate.trim();
-        }
-    }
-
-    return null;
-}
-
-function restoreImageAttachments(correctedQuiz, draftQuiz) {
-    if (!correctedQuiz || typeof correctedQuiz !== 'object') {
-        return correctedQuiz;
-    }
-    if (!draftQuiz || typeof draftQuiz !== 'object') {
-        return correctedQuiz;
-    }
-
-    const fallbackSubject = correctedQuiz.subject || draftQuiz.subject || null;
-    const applySubjectFallback = (question) => {
-        if (!question || typeof question !== 'object' || question.subject) {
-            return;
-        }
-
-        const candidates = [];
-        if (typeof question.imageRef === 'string') {
-            candidates.push(question.imageRef);
-        } else if (question.imageRef && typeof question.imageRef === 'object') {
-            candidates.push(
+    const resolveRawRef = (question) => {
+        if (!question || typeof question !== 'object') return null;
+        if (typeof question.imageRef === 'string') return question.imageRef;
+        if (question.imageRef && typeof question.imageRef === 'object') {
+            const candidates = [
                 question.imageRef.imageUrl,
                 question.imageRef.path,
                 question.imageRef.src,
+                question.imageRef.file,
                 question.imageRef.id
-            );
+            ];
+            for (const candidate of candidates) {
+                if (candidate) return candidate;
+            }
         }
-        candidates.push(question.imageUrl, question.imagePath, question.image);
+        if (question.imageUrl) return question.imageUrl;
+        if (question.imagePath) return question.imagePath;
+        return null;
+    };
 
-        let resolvedMeta = null;
-        for (const candidate of candidates) {
-            const sanitized = sanitizeImageRef(candidate);
-            if (!sanitized) continue;
-            const normalized = safePath(sanitized);
-            resolvedMeta = resolveImageMeta(normalized) || resolveImageMeta(sanitized);
-            if (resolvedMeta) break;
-        }
+    const apply = (list) => {
+        if (!Array.isArray(list)) return;
+        for (let i = 0; i < list.length; i++) {
+            const q = list[i];
+            if (!q || typeof q !== 'object') continue;
 
-        const inferred = inferSubjectFromMeta(resolvedMeta, fallbackSubject);
-        if (inferred) {
-            question.subject = inferred;
-        } else if (fallbackSubject) {
-            question.subject = fallbackSubject;
-        }
+            const rawRef = resolveRawRef(q);
 
-        if (question.imageRef && typeof question.imageRef === 'object' && question.subject && !question.imageRef.subject) {
-            question.imageRef.subject = question.subject;
+            try {
+                const { id, src, alt, meta } = assertValidImageRef({
+                    imageRef: rawRef,
+                    imageUrl: q.imageUrl,
+                    subject: q.subject || corrected?.subject || draft?.subject
+                });
+
+                const altText = q.imageAlt || alt || '';
+                q.imageRef = {
+                    id,
+                    imageUrl: src,
+                    path: src,
+                    src,
+                    altText,
+                    subject: q.subject || corrected?.subject || draft?.subject || undefined
+                };
+                q.imageUrl = src;
+                if (!q.imageAlt && alt) {
+                    q.imageAlt = alt;
+                }
+                if (meta && !q.imageMeta) {
+                    q.imageMeta = {
+                        id: meta.id,
+                        src: src,
+                        altText: altText
+                    };
+                }
+            } catch (e) {
+                console.warn(`[IMG-RESTORE] Skip item ${i}: ${e.message}`);
+                q.imageUrl = null;
+                delete q.imageRef;
+            }
         }
     };
 
-    if (Array.isArray(correctedQuiz.items)) {
-        correctedQuiz.items.forEach(applySubjectFallback);
-    }
-    if (Array.isArray(correctedQuiz.questions)) {
-        correctedQuiz.questions.forEach(applySubjectFallback);
-    }
+    apply(corrected.items);
+    apply(corrected.questions);
 
-    const originalQuestions = Array.isArray(draftQuiz.questions) ? draftQuiz.questions : [];
-    const correctedQuestions = Array.isArray(correctedQuiz.questions) ? correctedQuiz.questions : [];
+    const combined = [];
+    if (Array.isArray(corrected.items)) combined.push(...corrected.items);
+    if (Array.isArray(corrected.questions)) combined.push(...corrected.questions);
+    const withImages = combined.filter((q) => q && q.imageUrl);
+    console.log(`[IMAGES] Attached ${withImages.length}/${combined.length} curated images.`);
 
-    if (!originalQuestions.length || !correctedQuestions.length) {
-        return correctedQuiz;
-    }
-
-    const originalMap = new Map();
-    originalQuestions.forEach((question, index) => {
-        const key = Number.isInteger(question?.questionNumber) ? question.questionNumber : index + 1;
-        originalMap.set(key, question);
-    });
-
-    const mergedQuestions = correctedQuestions.map((question, index) => {
-        const key = Number.isInteger(question?.questionNumber) ? question.questionNumber : index + 1;
-        const original = originalMap.get(key);
-        if (!original) {
-            return question;
-        }
-
-        const originalImageUrl = extractPrimaryImageUrl(original);
-        const correctedImageUrl = extractPrimaryImageUrl(question);
-        const originalType = typeof original?.type === 'string' ? original.type.toLowerCase() : '';
-        const correctedType = typeof question?.type === 'string' ? question.type.toLowerCase() : '';
-        const imageRequired = Boolean(originalImageUrl)
-            || ['image', 'integrated'].includes(originalType)
-            || ['image', 'integrated'].includes(correctedType);
-
-        if (!imageRequired) {
-            return question;
-        }
-
-        const merged = { ...question };
-        const finalImageUrl = correctedImageUrl || originalImageUrl;
-
-        if (finalImageUrl && (!merged.imageUrl || !merged.imageUrl.trim())) {
-            merged.imageUrl = finalImageUrl;
-        }
-
-        const originalAltCandidates = [
-            original.imageAlt,
-            original?.imageRef?.altText,
-            original?.imageRef?.imageMeta?.alt,
-            original?.imageRef?.imageMeta?.altText,
-            original?.imageRef?.imageMeta?.title
-        ];
-        const originalAlt = originalAltCandidates.find((value) => typeof value === 'string' && value.trim());
-
-        if (originalAlt && (!merged.imageAlt || !merged.imageAlt.trim())) {
-            merged.imageAlt = originalAlt.trim();
-        }
-
-        if (original?.imageMeta && !merged.imageMeta) {
-            merged.imageMeta = { ...original.imageMeta };
-        }
-
-        const correctedRef = merged.imageRef && typeof merged.imageRef === 'object' ? { ...merged.imageRef } : {};
-        const originalRef = original?.imageRef && typeof original.imageRef === 'object' ? original.imageRef : null;
-
-        if (originalRef) {
-            if (!correctedRef.imageUrl && typeof originalRef.imageUrl === 'string' && originalRef.imageUrl.trim()) {
-                correctedRef.imageUrl = originalRef.imageUrl.trim();
-            }
-            if (!correctedRef.imageUrl && typeof originalRef.path === 'string' && originalRef.path.trim()) {
-                correctedRef.imageUrl = originalRef.path.trim();
-            }
-            if (!correctedRef.path && typeof originalRef.path === 'string' && originalRef.path.trim()) {
-                correctedRef.path = originalRef.path.trim();
-            }
-            if (!correctedRef.altText && typeof originalRef.altText === 'string' && originalRef.altText.trim()) {
-                correctedRef.altText = originalRef.altText.trim();
-            }
-            if (!correctedRef.caption && typeof originalRef.caption === 'string' && originalRef.caption.trim()) {
-                correctedRef.caption = originalRef.caption.trim();
-            }
-            if (!correctedRef.imageMeta && originalRef.imageMeta && typeof originalRef.imageMeta === 'object') {
-                correctedRef.imageMeta = { ...originalRef.imageMeta };
-            }
-        }
-
-        const candidatePaths = [
-            correctedRef.imageUrl,
-            correctedRef.path,
-            finalImageUrl,
-            originalRef?.imageUrl,
-            originalRef?.path,
-            originalImageUrl
-        ];
-
-        let normalizedRefPath = '';
-        for (const candidate of candidatePaths) {
-            const normalizedCandidate = normalizeImagePath(candidate || '');
-            if (normalizedCandidate) {
-                normalizedRefPath = normalizedCandidate;
-                break;
-            }
-        }
-
-        if (normalizedRefPath) {
-            const curatedRecord = resolveCuratedImageMeta(normalizedRefPath) || resolveCuratedImageMeta(finalImageUrl);
-            const curatedEligible = curatedRecord ? isImageEligible(curatedRecord) : false;
-            if (curatedRecord && !curatedEligible) {
-                console.warn(`[IMG-GUARD] Skipped weak metadata for question ${key} (${curatedRecord.id || normalizedRefPath})`);
-            }
-            if (curatedEligible) {
-                const resolvedPath = normalizedRefPath;
-                correctedRef.imageUrl = resolvedPath;
-                correctedRef.path = resolvedPath;
-                correctedRef.src = correctedRef.src || resolvedPath;
-                const resolvedMeta = {
-                    id: curatedRecord.id,
-                    src: curatedRecord.src,
-                    altText: curatedRecord.alt || curatedRecord.altText || '',
-                    caption: curatedRecord.caption || '',
-                    credit: curatedRecord.credit || '',
-                    detailedDescription: curatedRecord.detailedDescription || curatedRecord.ocrText || ''
-                };
-                if (!correctedRef.altText && (resolvedMeta.altText || originalAlt)) {
-                    correctedRef.altText = (resolvedMeta.altText || originalAlt || '').trim();
-                }
-                if (!correctedRef.caption && resolvedMeta.caption) {
-                    correctedRef.caption = resolvedMeta.caption;
-                }
-                if (!correctedRef.credit && resolvedMeta.credit) {
-                    correctedRef.credit = resolvedMeta.credit;
-                }
-                const mergedMeta = { ...(correctedRef.imageMeta || {}) };
-                if (!mergedMeta.id && resolvedMeta.id) mergedMeta.id = resolvedMeta.id;
-                mergedMeta.src = resolvedMeta.src;
-                if (resolvedMeta.altText && !mergedMeta.altText) mergedMeta.altText = resolvedMeta.altText;
-                if (resolvedMeta.caption && !mergedMeta.caption) mergedMeta.caption = resolvedMeta.caption;
-                if (resolvedMeta.credit && !mergedMeta.credit) mergedMeta.credit = resolvedMeta.credit;
-                if (resolvedMeta.detailedDescription && !mergedMeta.detailedDescription) {
-                    mergedMeta.detailedDescription = resolvedMeta.detailedDescription;
-                }
-                if (Array.isArray(curatedRecord.subtopics) && !mergedMeta.subtopics) {
-                    mergedMeta.subtopics = [...curatedRecord.subtopics];
-                }
-                if (Array.isArray(curatedRecord.questionHooks) && !mergedMeta.questionHooks) {
-                    mergedMeta.questionHooks = [...curatedRecord.questionHooks];
-                }
-                correctedRef.imageMeta = Object.keys(mergedMeta).length ? mergedMeta : undefined;
-                merged.imageUrl = merged.imageUrl || resolvedPath;
-                if (!merged.imageAlt && (resolvedMeta.altText || originalAlt)) {
-                    merged.imageAlt = (resolvedMeta.altText || originalAlt || '').trim();
-                }
-            } else if (!curatedRecord) {
-                const resolvedMeta = resolveImageMeta(normalizedRefPath) || {};
-                const resolvedPath = normalizedRefPath;
-                correctedRef.imageUrl = resolvedPath;
-                correctedRef.path = resolvedPath;
-                if (!correctedRef.altText && (resolvedMeta.altText || originalAlt)) {
-                    correctedRef.altText = (resolvedMeta.altText || originalAlt || '').trim();
-                }
-                if (!correctedRef.caption && resolvedMeta.caption) {
-                    correctedRef.caption = resolvedMeta.caption;
-                }
-                if (!correctedRef.credit && resolvedMeta.credit) {
-                    correctedRef.credit = resolvedMeta.credit;
-                }
-                if (!correctedRef.src) {
-                    correctedRef.src = resolvedPath;
-                }
-                const mergedMeta = { ...(correctedRef.imageMeta || {}) };
-                if (resolvedMeta && resolvedMeta.src) {
-                    mergedMeta.src = resolvedMeta.src;
-                    if (resolvedMeta.id && !mergedMeta.id) mergedMeta.id = resolvedMeta.id;
-                    if (resolvedMeta.altText && !mergedMeta.altText) mergedMeta.altText = resolvedMeta.altText;
-                    if (resolvedMeta.caption && !mergedMeta.caption) mergedMeta.caption = resolvedMeta.caption;
-                    if (resolvedMeta.credit && !mergedMeta.credit) mergedMeta.credit = resolvedMeta.credit;
-                    if (resolvedMeta.detailedDescription && !mergedMeta.detailedDescription) {
-                        mergedMeta.detailedDescription = resolvedMeta.detailedDescription;
-                    }
-                }
-                if (Object.keys(mergedMeta).length) {
-                    correctedRef.imageMeta = mergedMeta;
-                }
-                merged.imageUrl = merged.imageUrl || resolvedPath;
-            } else {
-                delete correctedRef.imageMeta;
-                delete correctedRef.imageUrl;
-                delete correctedRef.path;
-                delete correctedRef.src;
-                merged.imageUrl = null;
-                merged.imageAlt = undefined;
-            }
-        } else if (finalImageUrl) {
-            const normalizedFallback = normalizeImagePath(finalImageUrl) || finalImageUrl;
-            correctedRef.imageUrl = correctedRef.imageUrl || normalizedFallback;
-            correctedRef.path = correctedRef.path || normalizedFallback;
-        }
-
-        if (!correctedRef.altText && originalAlt) {
-            correctedRef.altText = originalAlt.trim();
-        }
-
-        if (correctedRef.imageUrl) {
-            try {
-                validateImageRef(correctedRef);
-                merged.imageRef = correctedRef;
-            } catch (validationError) {
-                console.warn(`[IMG-RESTORE] Image ref validation failed for question ${key}: ${validationError?.message || validationError}`);
-            }
-        } else {
-            delete merged.imageRef;
-        }
-
-        return merged;
-    });
-
-    return { ...correctedQuiz, questions: mergedQuestions };
+    return corrected;
 }
 
 async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
