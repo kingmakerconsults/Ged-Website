@@ -136,6 +136,7 @@ const AI_EXAM_TEMPLATES = {
 
 const SMITH_A_SKILL_MAP = Object.freeze({
     RLA: {
+        "Blended Review": "Mixed comprehension: passages, language mechanics, argument analysis.",
         "Main Idea & Details": "Identify central idea, supporting evidence.",
         "Point of View & Purpose": "Author's intent, tone, bias.",
         "Analyzing Arguments": "Claims, evidence, reasoning.",
@@ -148,6 +149,7 @@ const SMITH_A_SKILL_MAP = Object.freeze({
         "Grammar & Usage": "Verb tense, agreement, pronoun case."
     },
     Math: {
+        "Blended Review": "Number sense, algebra, geometry, statistics, and ratio applications.",
         "Whole Numbers, Fractions & Decimals": "4-operation fluency, order of operations, fraction/decimal conversions.",
         "Ratios, Proportions & Percents": "Unit rate, percent change, scale problems.",
         "Statistics & Probability": "Mean, median, probability with small sets.",
@@ -157,6 +159,7 @@ const SMITH_A_SKILL_MAP = Object.freeze({
         "Geometry Basics": "Area, perimeter, volume, Pythagorean theorem."
     },
     Science: {
+        "Blended Review": "Life, physical, and Earth science with experiments and data skills.",
         "Scientific Numeracy": "Unit conversions, rate/density, interpret simple tables.",
         "Life Science Basics": "Cells, genetics, body systems.",
         "Ecosystems & Environment": "Food webs, energy flow, sustainability.",
@@ -165,6 +168,7 @@ const SMITH_A_SKILL_MAP = Object.freeze({
         "Earth & Space Systems": "Rock cycle, climate, solar patterns."
     },
     'Social Studies': {
+        "Blended Review": "U.S. history, civics, economics, geography, map/data interpretation.",
         "Foundations (1491–1763)": "Early colonies, Enlightenment ideas.",
         "American Revolution (1763–1783)": "Causes, major events, consequences.",
         "A New Nation (1783–1824)": "Constitution, early government.",
