@@ -3869,19 +3869,19 @@ app.post('/image-bank/generate-questions', async (req, res) => {
         let saved = 0;
         for (const g of generated) {
             try {
-                const row = await saveImageQuestionToBank({
-                    image,
-                    subject,
-                    category,
-                    item_type: g.item_type || 'image_mcq',
-                    domain,
-                    difficulty: g.difficulty || difficulty || null,
-                    tags: g.tags || [],
-                    question_data: g.question_data
-                });
-                if (row) {
-                    saved += 1;
-                }
+                // const row = await saveImageQuestionToBank({
+                //     image,
+                //     subject,
+                //     category,
+                //     item_type: g.item_type || 'image_mcq',
+                //     domain,
+                //     difficulty: g.difficulty || difficulty || null,
+                //     tags: g.tags || [],
+                //     question_data: g.question_data
+                // });
+                // if (row) {
+                //     saved += 1;
+                // }
             } catch (err) {
                 console.error('saveImageQuestionToBank failed:', err?.message || err);
             }
@@ -5624,16 +5624,16 @@ async function assembleImageSection({ subject, category, domain, difficulty, tot
 
         for (const g of generated) {
             try {
-                await saveImageQuestionToBank({
-                    image,
-                    subject,
-                    category,
-                    item_type: g.item_type || 'image_mcq',
-                    domain: domain || image.domain,
-                    difficulty: g.difficulty || difficulty || null,
-                    tags: g.tags || [],
-                    question_data: g.question_data
-                });
+                // await saveImageQuestionToBank({
+                //     image,
+                //     subject,
+                //     category,
+                //     item_type: g.item_type || 'image_mcq',
+                //     domain: domain || image.domain,
+                //     difficulty: g.difficulty || difficulty || null,
+                //     tags: g.tags || [],
+                //     question_data: g.question_data
+                // });
             } catch (err) {
                 console.error('saveImageQuestionToBank failed:', err?.message || err);
             }
