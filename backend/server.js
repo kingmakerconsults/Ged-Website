@@ -3013,9 +3013,28 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
 }
 
 function hasSchemaIssues(item) {
-    const hasOptions = Array.isArray(item?.answerOptions) && item.answerOptions.length >= 3;
-    const oneCorrect = hasOptions && item.answerOptions.filter((o) => o && o.isCorrect === true).length === 1;
-    return !(item && item.questionText && hasOptions && oneCorrect);
+    if (!item || typeof item !== 'object') {
+        return true;
+    }
+
+    if (typeof item.questionText !== 'string' || !item.questionText.trim()) {
+        return true;
+    }
+
+    const options = Array.isArray(item.answerOptions)
+        ? item.answerOptions.filter((opt) => opt && typeof opt.text === 'string' && opt.text.trim().length > 0)
+        : [];
+
+    if (options.length < 4) {
+        return true;
+    }
+
+    const correctCount = options.filter((opt) => opt.isCorrect === true).length;
+    if (correctCount !== 1) {
+        return true;
+    }
+
+    return false;
 }
 
 function needsRepair(item, subject) {
@@ -3151,7 +3170,7 @@ async function generateExam(subject, promptBuilder, counts) {
             onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini exam generation failed: ${err?.message || err}`)
         }
     );
-    let items = generatedItems.map((i) => enforceWordCapsOnItem(i, subject));
+    let items = generatedItems.map((i) => normalizeQuestionSkeleton(i, subject));
 
     const badIdxs = [];
     items.forEach((it, idx) => {
@@ -3170,14 +3189,14 @@ async function generateExam(subject, promptBuilder, counts) {
                 }
             );
             fixedSubset.forEach((fixed, j) => {
-                items[badIdxs[j]] = enforceWordCapsOnItem(fixed, subject);
+                items[badIdxs[j]] = normalizeQuestionSkeleton(fixed, subject);
             });
         } catch (err) {
             console.warn('Repair batch failed; continuing with original items.', err?.message || err);
         }
     }
 
-    return items.map((it) => enforceWordCapsOnItem(it, subject));
+    return items.map((it) => normalizeQuestionSkeleton(it, subject));
 }
 
 async function runExam() {
@@ -3186,7 +3205,9 @@ async function runExam() {
 
     const cleaned = [];
     for (const q of generated) {
-        const sanitized = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(q)), 'Math');
+        const sanitized = normalizeAnswerOptionsStructure(
+            enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(q)), 'Math')
+        );
         if (validateQuestion(sanitized)) {
             cleaned.push(sanitized);
         }
@@ -4860,7 +4881,7 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         console.log(`[Variety Pack] Received ${generatedItems.length} items from AI model: ${winnerModel}.`);
         
         // 5. Post-processing and validation
-        let items = generatedItems.map((it) => enforceWordCapsOnItem(it, subject));
+        let items = generatedItems.map((it) => normalizeQuestionSkeleton(it, subject));
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
 
         const bad = [];
@@ -4873,7 +4894,7 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             if (Array.isArray(fixedSubset)) {
                 fixedSubset.forEach((f, j) => {
                     const originalIndex = bad[j];
-                    items[originalIndex] = enforceWordCapsOnItem(f, subject);
+                    items[originalIndex] = normalizeQuestionSkeleton(f, subject);
                 });
                 items = items.map(tagMissingItemType).map(tagMissingDifficulty); // Re-tag after repair
             }
@@ -5050,6 +5071,213 @@ function tagMissingDifficulty(x){
         it.difficulty = 'medium';
     }
     return it;
+}
+
+const FALLBACK_DISTRACTOR_BANK = [
+    'An interpretation that is not supported by the information.',
+    'A detail that does not match the prompt.',
+    'A conclusion that misreads the evidence.',
+    'A statement that is unrelated to the topic.'
+];
+
+function coerceAnswerOption(option) {
+    if (option == null) {
+        return null;
+    }
+
+    if (typeof option === 'string') {
+        const text = option.trim();
+        if (!text) {
+            return null;
+        }
+        return { text, isCorrect: false, rationale: '' };
+    }
+
+    if (typeof option !== 'object') {
+        return null;
+    }
+
+    const text = typeof option.text === 'string'
+        ? option.text.trim()
+        : typeof option.choice === 'string'
+            ? option.choice.trim()
+            : typeof option.label === 'string'
+                ? option.label.trim()
+                : '';
+
+    if (!text) {
+        return null;
+    }
+
+    const rationale = typeof option.rationale === 'string'
+        ? option.rationale.trim()
+        : typeof option.explanation === 'string'
+            ? option.explanation.trim()
+            : typeof option.reason === 'string'
+                ? option.reason.trim()
+                : '';
+
+    const isCorrect = option.isCorrect === true
+        || option.correct === true
+        || option.is_correct === true
+        || option.answer === true;
+
+    return {
+        text,
+        isCorrect,
+        rationale
+    };
+}
+
+function normalizeAnswerOptionsStructure(item) {
+    if (!item || typeof item !== 'object') {
+        return item;
+    }
+
+    const candidateOptions = Array.isArray(item.answerOptions)
+        ? item.answerOptions
+        : Array.isArray(item.choices)
+            ? item.choices
+            : [];
+
+    let options = candidateOptions
+        .map((option) => {
+            const coerced = coerceAnswerOption(option);
+            return coerced ? { ...coerced } : null;
+        })
+        .filter(Boolean)
+        .map((option) => ({
+            text: option.text,
+            isCorrect: option.isCorrect === true,
+            rationale: typeof option.rationale === 'string' ? option.rationale : ''
+        }));
+
+    const textualAnswerHints = [
+        item.correctAnswer,
+        item.correctResponse,
+        item.correctOption,
+        item.answer,
+        item.correctText
+    ]
+        .map((value) => (typeof value === 'string' ? value.trim() : ''))
+        .filter((value) => value.length > 0 && !/^[A-D]$/i.test(value));
+
+    const indexHintsRaw = [
+        item.correctIndex,
+        item.answerIndex,
+        item.correctChoice,
+        item.correctOption,
+        item.correctLetter,
+        item.answerLetter,
+        item.correctAnswer
+    ];
+
+    const parseIndexHint = (hint) => {
+        if (Number.isInteger(hint)) {
+            return hint;
+        }
+        if (typeof hint === 'string') {
+            const trimmed = hint.trim();
+            if (!trimmed) {
+                return null;
+            }
+            const letterIndex = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(trimmed.toUpperCase());
+            if (letterIndex !== -1) {
+                return letterIndex;
+            }
+            const numeric = Number.parseInt(trimmed, 10);
+            if (!Number.isNaN(numeric)) {
+                return numeric;
+            }
+        }
+        return null;
+    };
+
+    const indexHints = indexHintsRaw
+        .map(parseIndexHint)
+        .filter((value) => Number.isInteger(value) && value >= 0);
+
+    const markCorrectAtIndex = (idx) => {
+        if (!Number.isInteger(idx) || idx < 0 || idx >= options.length) {
+            return false;
+        }
+        options = options.map((opt, optIdx) => ({
+            ...opt,
+            isCorrect: optIdx === idx
+        }));
+        return true;
+    };
+
+    if (options.length) {
+        const explicitIndex = indexHints.find((idx) => idx < options.length);
+        if (!markCorrectAtIndex(explicitIndex) && textualAnswerHints.length) {
+            const lowerCaseOptions = options.map((opt) => opt.text.toLowerCase());
+            const matchingIndex = textualAnswerHints
+                .map((hint) => lowerCaseOptions.indexOf(hint.toLowerCase()))
+                .find((idx) => idx >= 0);
+            markCorrectAtIndex(matchingIndex);
+        }
+    }
+
+    const ensureSingleCorrect = () => {
+        let currentCorrect = options.findIndex((opt) => opt.isCorrect === true);
+        if (currentCorrect === -1 && options.length) {
+            currentCorrect = 0;
+        }
+        options = options.map((opt, idx) => ({
+            ...opt,
+            isCorrect: idx === currentCorrect
+        }));
+        return currentCorrect;
+    };
+
+    let correctIndex = ensureSingleCorrect();
+
+    const usedTexts = new Set(options.map((opt) => opt.text.toLowerCase()));
+    let fillerCursor = 0;
+    const fillerGuardLimit = FALLBACK_DISTRACTOR_BANK.length + 4;
+
+    while (options.length < 4 && fillerCursor < fillerGuardLimit) {
+        const template = FALLBACK_DISTRACTOR_BANK[fillerCursor % FALLBACK_DISTRACTOR_BANK.length];
+        fillerCursor += 1;
+        let candidate = template;
+        let attempt = 1;
+        while (usedTexts.has(candidate.toLowerCase()) && attempt < 4) {
+            candidate = `${template} (option ${attempt + 1})`;
+            attempt += 1;
+        }
+        if (usedTexts.has(candidate.toLowerCase())) {
+            continue;
+        }
+        usedTexts.add(candidate.toLowerCase());
+        options.push({
+            text: candidate,
+            isCorrect: false,
+            rationale: 'This choice does not align with the supporting information.'
+        });
+    }
+
+    if (options.length > 4) {
+        const correctOption = correctIndex >= 0 ? options[correctIndex] : null;
+        const distractors = options.filter((_, idx) => idx !== correctIndex);
+        options = correctOption ? [correctOption, ...distractors.slice(0, 3)] : distractors.slice(0, 4);
+    }
+
+    correctIndex = ensureSingleCorrect();
+
+    return {
+        ...item,
+        answerOptions: options.map((opt) => ({
+            text: opt.text,
+            isCorrect: opt.isCorrect === true,
+            rationale: typeof opt.rationale === 'string' ? opt.rationale : ''
+        })),
+        correctIndex
+    };
+}
+
+function normalizeQuestionSkeleton(item, subject) {
+    return normalizeAnswerOptionsStructure(enforceWordCapsOnItem(item, subject));
 }
 
 function enforceVarietyMix(items, wanted){
@@ -5491,7 +5719,7 @@ const generatePassageSet = async (topic, subject, numQuestions, options = {}) =>
         }
     }
 
-    return result.questions.map((q) => enforceWordCapsOnItem({
+    return result.questions.map((q) => normalizeQuestionSkeleton({
         ...q,
         passage: passageText,
         type: 'passage'
@@ -5739,7 +5967,7 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
     }
 
     const questions = Array.isArray(result?.questions) ? result.questions.slice(0, totalRequested) : [];
-    return questions.map((question) => enforceWordCapsOnItem({
+    return questions.map((question) => normalizeQuestionSkeleton({
         ...question,
         passage: passageText,
         imageUrl: encodedPath || curatedRecord?.src || normalizedPath || null,
@@ -5777,7 +6005,7 @@ const generateStandaloneQuestion = async (subject, topic, options = {}) => {
 
     const question = await callAI(prompt, schema, options);
     question.type = 'standalone';
-    return enforceWordCapsOnItem(question, subject);
+    return normalizeQuestionSkeleton(question, subject);
 };
 
 function normalizeSubjectKey(subject) {
@@ -6267,7 +6495,7 @@ function buildNormalizedImageQuestion(rawQuestion, { subject, index }) {
         difficulty: typeof rawQuestion.difficulty === 'string' ? rawQuestion.difficulty : undefined
     };
 
-    return enforceWordCapsOnItem(baseQuestion, subject);
+    return normalizeQuestionSkeleton(baseQuestion, subject);
 }
 
 async function generateQuestionsFromImages({ subject, images, questionCount, timeoutMs }) {
@@ -6478,7 +6706,7 @@ async function generateNonCalculatorQuestion(options = {}) {
     const question = await callAI(prompt, schema, options);
     question.type = 'standalone';
     question.calculator = false; // Explicitly mark as non-calculator
-    return enforceWordCapsOnItem(question, 'Math');
+    return normalizeQuestionSkeleton(question, 'Math');
 }
 
 async function generateDataQuestion(options = {}) {
@@ -6502,7 +6730,7 @@ async function generateDataQuestion(options = {}) {
     const question = await callAI(prompt, schema, options);
     question.type = 'standalone'; // The table is part of the question text
     question.calculator = true;
-    return enforceWordCapsOnItem(question, 'Math');
+    return normalizeQuestionSkeleton(question, 'Math');
 }
 
 async function generateGraphingQuestion(options = {}) {
@@ -6527,7 +6755,7 @@ async function generateGraphingQuestion(options = {}) {
     const question = await callAI(prompt, schema, options);
     question.type = 'standalone';
     question.calculator = true;
-    return enforceWordCapsOnItem(question, 'Math');
+    return normalizeQuestionSkeleton(question, 'Math');
 }
 
 async function generateMath_FillInTheBlank(options = {}) {
@@ -6554,7 +6782,7 @@ Output a single valid JSON object with three keys:
     };
     const question = await callAI(prompt, schema, options);
     question.calculator = true; // Most fill-in-the-blank will be calculator-permitted
-    return enforceWordCapsOnItem(question, 'Math');
+    return normalizeQuestionSkeleton(question, 'Math');
 }
 
 async function generateRlaPart1(options = {}) {
@@ -6563,7 +6791,7 @@ Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 pa
     const schema = { type: "ARRAY", items: singleQuestionSchema };
     const questions = await callAI(prompt, schema, options);
     const cappedQuestions = Array.isArray(questions)
-        ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
+        ? questions.map((q) => normalizeQuestionSkeleton(q, 'RLA'))
         : [];
     // Group questions by passage
     const passages = {};
@@ -6581,7 +6809,7 @@ Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 pa
 
     let groupedQuestions = [];
     Object.values(passages).forEach(p => {
-        p.questions.forEach(q => groupedQuestions.push(enforceWordCapsOnItem({ ...q, passage: p.passage, type: 'passage' }, 'RLA')));
+        p.questions.forEach(q => groupedQuestions.push(normalizeQuestionSkeleton({ ...q, passage: p.passage, type: 'passage' }, 'RLA')));
     });
     return groupedQuestions;
 }
@@ -6644,7 +6872,7 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
     const schema = { type: "ARRAY", items: singleQuestionSchema };
     const questions = await callAI(prompt, schema, options);
     const cappedQuestions = Array.isArray(questions)
-        ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
+        ? questions.map((q) => normalizeQuestionSkeleton(q, 'RLA'))
         : [];
     // Group questions by passage
     const passages = {};
@@ -6661,7 +6889,7 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
     });
      let groupedQuestions = [];
     Object.values(passages).forEach(p => {
-        p.questions.forEach(q => groupedQuestions.push(enforceWordCapsOnItem({ ...q, passage: p.passage, type: 'passage' }, 'RLA')));
+        p.questions.forEach(q => groupedQuestions.push(normalizeQuestionSkeleton({ ...q, passage: p.passage, type: 'passage' }, 'RLA')));
     });
     return groupedQuestions;
 }
@@ -6808,7 +7036,9 @@ All 12 items must share the same 'passage' field. Assign the same 'groupId' to a
             }
         );
 
-        let items = generatedItems.map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
+        let items = generatedItems.map((it) => normalizeAnswerOptionsStructure(
+            enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject)
+        ));
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
 
         const bad = [];
@@ -6824,7 +7054,9 @@ All 12 items must share the same 'passage' field. Assign the same 'groupId' to a
                 }
             );
             fixed.forEach((f, j) => {
-                items[bad[j]] = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(f)), subject);
+                items[bad[j]] = normalizeAnswerOptionsStructure(
+                    enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(f)), subject)
+                );
             });
             items = items.map(tagMissingItemType).map(tagMissingDifficulty);
         }
