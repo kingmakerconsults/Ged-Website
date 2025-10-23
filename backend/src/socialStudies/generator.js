@@ -14,7 +14,11 @@ const { validateImageRef } = require('../images/validateImageRef');
 const { recordProbeFailure, recordImageStripped } = require('../images/imageDiagnostics');
 const { validateSS } = require('./validators');
 const { clampPassage } = require('./passage');
-const { resolveImage } = require('../../imageResolver');
+const {
+    resolveImage,
+    resolveImageMeta: resolveCuratedImage,
+    isImageEligible
+} = require('../../imageResolver');
 
 const TYPE_RATIOS = {
     map: 0.3,
@@ -35,7 +39,7 @@ function stripSourceLines(text = '') {
         .trim();
 }
 
-function sanitizeImageMeta(meta = {}) {
+function sanitizeImageMeta(meta = {}, resolvedMeta = {}, record = {}) {
     if (!meta || typeof meta !== 'object') return undefined;
     const cleaned = {};
     const title = stripSourceLines(meta.title || meta.sourceTitle || '');
@@ -62,6 +66,48 @@ function sanitizeImageMeta(meta = {}) {
                 cleaned[key] = Array.isArray(meta[key]) ? [...meta[key]] : meta[key];
             }
         });
+    const recordFields = record && typeof record === 'object' ? record : {};
+    const resolvedFields = resolvedMeta && typeof resolvedMeta === 'object' ? resolvedMeta : {};
+    const pickArray = (value) => {
+        if (Array.isArray(value)) {
+            return value.filter((entry) => typeof entry === 'string' ? entry.trim() : entry).map((entry) => {
+                return typeof entry === 'string' ? entry.trim() : entry;
+            }).filter(Boolean);
+        }
+        return [];
+    };
+
+    const subject = recordFields.subject || resolvedFields.subject || meta.subject;
+    if (subject) cleaned.subject = subject;
+    const visualType = recordFields.visualType || resolvedFields.visualType || meta.visualType;
+    if (visualType) cleaned.visualType = visualType;
+    const timePeriod = recordFields.timePeriod || resolvedFields.timePeriod || meta.timePeriod;
+    if (timePeriod) cleaned.timePeriod = timePeriod;
+    const region = recordFields.region || resolvedFields.region || meta.region;
+    if (region) cleaned.region = region;
+    const concepts = pickArray(recordFields.concepts).length
+        ? pickArray(recordFields.concepts)
+        : pickArray(resolvedFields.concepts).length
+            ? pickArray(resolvedFields.concepts)
+            : pickArray(meta.concepts);
+    if (concepts.length) cleaned.concepts = concepts;
+    const subtopics = pickArray(recordFields.subtopics).length
+        ? pickArray(recordFields.subtopics)
+        : pickArray(resolvedFields.subtopics).length
+            ? pickArray(resolvedFields.subtopics)
+            : pickArray(meta.subtopics);
+    if (subtopics.length) cleaned.subtopics = subtopics;
+    const questionHooks = pickArray(recordFields.questionHooks).length
+        ? pickArray(recordFields.questionHooks)
+        : pickArray(resolvedFields.questionHooks).length
+            ? pickArray(resolvedFields.questionHooks)
+            : pickArray(meta.questionHooks);
+    if (questionHooks.length) cleaned.questionHooks = questionHooks;
+    if (typeof recordFields.answerableFromImage === 'boolean') {
+        cleaned.answerableFromImage = recordFields.answerableFromImage;
+    } else if (typeof meta.answerableFromImage === 'boolean') {
+        cleaned.answerableFromImage = meta.answerableFromImage;
+    }
     return Object.keys(cleaned).length ? cleaned : undefined;
 }
 
@@ -72,8 +118,27 @@ function attachImageIfPresent(item = {}) {
             ...(item.imageMeta || {}),
             ...(item.imageRef.imageMeta || {})
         };
-        const cleanedMeta = sanitizeImageMeta(mergedMeta);
+        const record = resolveCuratedImage(item.imageRef.id || existingUrl);
+        if (record && !isImageEligible(record)) {
+            console.warn(`[IMG-GUARD] Skipped weak metadata for ${record.id || existingUrl}`);
+            delete item.imageRef;
+            delete item.imageUrl;
+            delete item.imageAlt;
+            if (item.imageMeta) {
+                const cleaned = sanitizeImageMeta(item.imageMeta);
+                if (cleaned) {
+                    item.imageMeta = cleaned;
+                } else {
+                    delete item.imageMeta;
+                }
+            }
+            return item;
+        }
+        const cleanedMeta = sanitizeImageMeta(mergedMeta, item.imageRef.imageMeta || {}, record || {});
         const imageRef = { imageUrl: existingUrl };
+        if (record?.id) imageRef.id = record.id;
+        if (record?.caption) imageRef.caption = record.caption;
+        if (record?.credit) imageRef.credit = record.credit;
         if (cleanedMeta) {
             const inlineMeta = {};
             if (cleanedMeta.title) inlineMeta.title = cleanedMeta.title;
@@ -90,13 +155,25 @@ function attachImageIfPresent(item = {}) {
             delete item.imageMeta;
         }
         item.imageRef = imageRef;
+        item.imageUrl = existingUrl;
+        item.imageAlt = cleanedMeta?.altText || record?.alt || record?.altText || item.imageRef.altText || DEFAULT_ALT;
         return item;
     }
 
     const ref = item.imageRef || item.image || item.figure || item.asset;
     const resolved = resolveImage(ref || item.imageMeta || null);
-    if (!resolved || !resolved.imageUrl) {
+    const record = resolved?.record || resolveCuratedImage(ref || item.imageMeta || null);
+    const refLabel = typeof ref === 'string'
+        ? ref
+        : record?.id || ref?.id || ref?.file || ref?.filePath || '';
+
+    if (!record || !record.src || !isImageEligible(record)) {
+        if (refLabel) {
+            console.warn(`[IMG-GUARD] Skipped weak metadata for ${refLabel}`);
+        }
         delete item.imageRef;
+        delete item.imageUrl;
+        delete item.imageAlt;
         if (item.imageMeta) {
             const cleaned = sanitizeImageMeta(item.imageMeta);
             if (cleaned) {
@@ -110,10 +187,37 @@ function attachImageIfPresent(item = {}) {
 
     const mergedMeta = {
         ...(item.imageMeta || {}),
-        ...(resolved.imageMeta || {})
+        ...(resolved?.imageMeta || {}),
+        id: record.id,
+        alt: record.alt || record.altText,
+        caption: record.caption,
+        credit: record.credit,
+        subject: record.subject,
+        subtopics: record.subtopics,
+        concepts: record.concepts,
+        visualType: record.visualType,
+        timePeriod: record.timePeriod,
+        region: record.region,
+        questionHooks: record.questionHooks,
+        answerableFromImage: record.answerableFromImage
     };
-    const cleanedMeta = sanitizeImageMeta(mergedMeta);
-    const imageRef = { imageUrl: resolved.imageUrl };
+    const cleanedMeta = sanitizeImageMeta(mergedMeta, resolved?.imageMeta || {}, record);
+    const imageUrl = record.src || resolved?.imageUrl || null;
+    const altText = (cleanedMeta && cleanedMeta.altText)
+        || record.alt
+        || record.altText
+        || resolved?.imageMeta?.alt
+        || DEFAULT_ALT;
+    const imageRef = imageUrl
+        ? {
+            imageUrl,
+            altText,
+            id: record.id,
+            caption: cleanedMeta?.caption || record.caption || undefined,
+            imageMeta: undefined
+        }
+        : {};
+
     if (cleanedMeta) {
         const inlineMeta = {};
         if (cleanedMeta.title) inlineMeta.title = cleanedMeta.title;
@@ -130,7 +234,15 @@ function attachImageIfPresent(item = {}) {
         delete item.imageMeta;
     }
 
-    item.imageRef = imageRef;
+    if (imageUrl) {
+        item.imageRef = imageRef;
+        item.imageUrl = imageUrl;
+        item.imageAlt = altText;
+    } else {
+        delete item.imageRef;
+        delete item.imageUrl;
+        delete item.imageAlt;
+    }
     return item;
 }
 
@@ -556,17 +668,23 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
             tags: tagsCandidate
         });
 
-        cleaned.imageRef = canonicalRef;
-        cleaned.image_url = canonicalRef.imageUrl;
-        cleaned.alt_text = canonicalRef.alt;
-        if (cleaned.imageMeta && canonicalRef.alt && !cleaned.imageMeta.altText) {
-            cleaned.imageMeta.altText = canonicalRef.alt;
-        }
-        if (cleaned.imageMeta && canonicalRef.caption && !cleaned.imageMeta.caption) {
-            cleaned.imageMeta.caption = canonicalRef.caption;
-        }
-        if (cleaned.imageMeta && canonicalRef.credit && !cleaned.imageMeta.credit) {
-            cleaned.imageMeta.credit = canonicalRef.credit;
+        if (canonicalRef && !canonicalRef.error) {
+            cleaned.imageRef = canonicalRef;
+            cleaned.image_url = canonicalRef.imageUrl;
+            cleaned.alt_text = canonicalRef.alt;
+            if (cleaned.imageMeta && canonicalRef.alt && !cleaned.imageMeta.altText) {
+                cleaned.imageMeta.altText = canonicalRef.alt;
+            }
+            if (cleaned.imageMeta && canonicalRef.caption && !cleaned.imageMeta.caption) {
+                cleaned.imageMeta.caption = canonicalRef.caption;
+            }
+            if (cleaned.imageMeta && canonicalRef.credit && !cleaned.imageMeta.credit) {
+                cleaned.imageMeta.credit = canonicalRef.credit;
+            }
+        } else {
+            delete cleaned.imageRef;
+            delete cleaned.image_url;
+            delete cleaned.alt_text;
         }
     } else {
         delete cleaned.imageRef;

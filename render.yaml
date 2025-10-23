@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ged-website
+    env: node
+    buildCommand: |
+      npm ci --prefix backend
+      node scripts/build-frontend.cjs
+    startCommand: |
+      cd backend && node server.js

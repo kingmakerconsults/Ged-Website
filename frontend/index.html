@@ -10,6 +10,7 @@
     <script src="lib/normalizeProse.js"></script>
     <script src="lib/mathSanitizer.js"></script>
     <script src="lib/sanitizeExamText.js"></script>
+    <script type="module" src="lib/layoutGuards.js"></script>
     <script>
       // Safe, cross-browser math fixer that ONLY edits text inside math delimiters.
       // Supports $...$, $$...$$, \(...\), \[...\]
@@ -70,6 +71,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <script id="__PRELOAD__" type="application/json">{}</script>
 
     <script>
         window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
@@ -260,37 +262,96 @@
 </head>
 <body class="bg-slate-100">
     <div id="root"></div>
-    <div id="section-root" class="mx-auto my-6 max-w-4xl px-4"></div>
 
-    <div
-        id="student-scores-modal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="student-scores-modal-title"
-    >
-        <div class="modal-panel w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
-            <div class="flex items-start justify-between gap-4">
-                <div>
-                    <h3 id="student-scores-modal-title" class="text-xl font-semibold text-slate-800">
-                        Student Test Scores
-                    </h3>
-                    <p id="student-scores-modal-subtitle" class="mt-1 text-sm text-slate-500"></p>
-                </div>
-                <button
-                    type="button"
-                    id="close-scores-modal"
-                    class="rounded-md border border-slate-200 px-3 py-1 text-sm font-medium text-slate-600 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400/70"
-                >
-                    Close
-                </button>
-            </div>
-            <ul id="scores-list-container" class="mt-4 space-y-3 text-slate-700"></ul>
-        </div>
-    </div>
+    <script>
+      (function cleanPreRender() {
+        if (typeof document === 'undefined') {
+          return;
+        }
+        const { body } = document;
+        if (!body) {
+          return;
+        }
+        const root = document.getElementById('root');
+        if (!root) {
+          return;
+        }
+        const NodeCtor = document.defaultView && document.defaultView.Node ? document.defaultView.Node : window.Node;
+        for (const node of Array.from(body.childNodes)) {
+          if (node === root) {
+            continue;
+          }
+          const nodeType = node && typeof node.nodeType === 'number' ? node.nodeType : null;
+          if (nodeType === (NodeCtor ? NodeCtor.COMMENT_NODE : 8)) {
+            continue;
+          }
+          if (nodeType === (NodeCtor ? NodeCtor.ELEMENT_NODE : 1) && node.nodeName === 'SCRIPT') {
+            continue;
+          }
+          if (nodeType === (NodeCtor ? NodeCtor.TEXT_NODE : 3) && !(node.textContent || '').trim()) {
+            node.remove();
+            continue;
+          }
+          if (nodeType === (NodeCtor ? NodeCtor.TEXT_NODE : 3) || node.nodeName === 'UL') {
+            node.remove();
+            continue;
+          }
+        }
+      })();
+    </script>
 
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
+
+const SafeDOM = window.SafeDOM || {};
+const appendSafeText = SafeDOM.appendSafeText || ((parent, text) => {
+    if (!parent) return;
+    const doc = parent.ownerDocument || document;
+    parent.appendChild(doc.createTextNode(String(text ?? '')));
+});
+const setSafeText = SafeDOM.setSafeText || ((target, text) => {
+    if (!target) return;
+    target.textContent = text == null ? '' : String(text);
+});
+const logToPage = SafeDOM.logToPage || ((...args) => {
+    if (typeof console !== 'undefined' && console.debug) {
+        console.debug('[logToPage:fallback]', ...args);
+    }
+});
+
+const sanitizeQuizTitle = (typeof window !== 'undefined' && typeof window.sanitizeQuizTitle === 'function')
+    ? window.sanitizeQuizTitle
+    : (rawTitle, fallbackTitle = 'Practice Quiz') => {
+        const fallback = typeof fallbackTitle === 'string' && fallbackTitle.trim()
+            ? fallbackTitle.trim()
+            : 'Practice Quiz';
+        if (typeof rawTitle !== 'string') {
+            return fallback;
+        }
+        const collapsed = rawTitle.replace(/\s+/g, ' ').trim();
+        if (!collapsed) {
+            return fallback;
+        }
+        if (/^[\[{]/.test(collapsed) && /"questions"|"items"|"subject"/i.test(collapsed)) {
+            return fallback;
+        }
+        if (/<[^>]+>/.test(collapsed)) {
+            return fallback;
+        }
+        const MAX_LENGTH = 140;
+        if (collapsed.length > MAX_LENGTH) {
+            return `${collapsed.slice(0, MAX_LENGTH).trimEnd()}…`;
+        }
+        return collapsed;
+    };
+
+const getPreloadState = (typeof window !== 'undefined' && typeof window.getPreloadState === 'function')
+    ? window.getPreloadState
+    : () => ({ });
+
+const setPreloadState = (typeof window !== 'undefined' && typeof window.setPreloadState === 'function')
+    ? window.setPreloadState
+    : () => {};
 
 const APP_MATH_MODE = (window.__APP_CONFIG__ && window.__APP_CONFIG__.mathMode === 'katex')
     ? 'katex'
@@ -743,36 +804,105 @@ const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath,
 
 const API_BASE_URL = 'https://ged-website.onrender.com';
 
-function hideStudentScoresModal() {
-    const modal = document.getElementById('student-scores-modal');
-    if (modal) {
-        modal.style.display = 'none';
+function getStudentScoresElements(createIfMissing = false) {
+    if (typeof document === 'undefined') {
+        return null;
+    }
+
+    let modal = document.getElementById('student-scores-modal');
+    if (!modal && !createIfMissing) {
+        return null;
+    }
+
+    if (!modal) {
+        const doc = document;
+        modal = doc.createElement('div');
+        modal.id = 'student-scores-modal';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
         modal.setAttribute('aria-hidden', 'true');
+        modal.style.display = 'none';
+
+        const panel = doc.createElement('div');
+        panel.className = 'modal-panel w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl';
+        modal.appendChild(panel);
+
+        const header = doc.createElement('div');
+        header.className = 'flex items-start justify-between gap-4';
+        panel.appendChild(header);
+
+        const titleWrapper = doc.createElement('div');
+        header.appendChild(titleWrapper);
+
+        const title = doc.createElement('h3');
+        title.id = 'student-scores-modal-title';
+        title.className = 'text-xl font-semibold text-slate-800';
+        setSafeText(title, 'Student Test Scores');
+        titleWrapper.appendChild(title);
+
+        const subtitle = doc.createElement('p');
+        subtitle.id = 'student-scores-modal-subtitle';
+        subtitle.className = 'mt-1 text-sm text-slate-500';
+        titleWrapper.appendChild(subtitle);
+
+        const closeButton = doc.createElement('button');
+        closeButton.type = 'button';
+        closeButton.id = 'close-scores-modal';
+        closeButton.className = 'rounded-md border border-slate-200 px-3 py-1 text-sm font-medium text-slate-600 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400/70';
+        setSafeText(closeButton, 'Close');
+        header.appendChild(closeButton);
+
+        const list = doc.createElement('ul');
+        list.id = 'scores-list-container';
+        list.className = 'mt-4 space-y-3 text-slate-700';
+        panel.appendChild(list);
+
+        closeButton.addEventListener('click', hideStudentScoresModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                hideStudentScoresModal();
+            }
+        });
+
+        doc.body?.appendChild(modal);
     }
+
     const list = document.getElementById('scores-list-container');
-    if (list) {
-        list.replaceChildren();
-    }
     const subtitle = document.getElementById('student-scores-modal-subtitle');
-    if (subtitle) {
-        subtitle.textContent = '';
+    const closeButton = document.getElementById('close-scores-modal');
+
+    if (!list || !subtitle || !closeButton) {
+        return null;
     }
+
+    return { modal, list, subtitle, closeButton };
 }
 
-async function showStudentScores(userId, displayName = '') {
-    const modal = document.getElementById('student-scores-modal');
-    const list = document.getElementById('scores-list-container');
-    const subtitle = document.getElementById('student-scores-modal-subtitle');
-
-    if (!modal || !list) {
-        console.warn('Student scores modal is not available in the DOM.');
+function hideStudentScoresModal() {
+    const elements = getStudentScoresElements(false);
+    if (!elements) {
         return;
     }
 
-    const resolvedName = typeof displayName === 'string' ? displayName.trim() : '';
-    if (subtitle) {
-        subtitle.textContent = resolvedName;
+    const { modal, list, subtitle } = elements;
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    list.replaceChildren();
+    setSafeText(subtitle, '');
+}
+
+async function showStudentScores(userId, displayName = '') {
+    const elements = getStudentScoresElements(true);
+    if (!elements) {
+        console.warn('Student scores modal could not be created.');
+        return;
     }
+
+    const { modal, list, subtitle } = elements;
+
+    const resolvedName = typeof displayName === 'string' ? displayName.trim() : '';
+    setSafeText(subtitle, resolvedName);
 
     list.replaceChildren();
 
@@ -780,7 +910,7 @@ async function showStudentScores(userId, displayName = '') {
     if (!Number.isInteger(numericId) || numericId <= 0) {
         const invalidItem = document.createElement('li');
         invalidItem.className = 'rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600';
-        invalidItem.textContent = 'Invalid student identifier.';
+        setSafeText(invalidItem, 'Invalid student identifier.');
         list.appendChild(invalidItem);
         modal.style.display = 'flex';
         modal.setAttribute('aria-hidden', 'false');
@@ -791,7 +921,7 @@ async function showStudentScores(userId, displayName = '') {
     if (!token) {
         const authItem = document.createElement('li');
         authItem.className = 'rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700';
-        authItem.textContent = 'You must be logged in as an admin to view scores.';
+        setSafeText(authItem, 'You must be logged in as an admin to view scores.');
         list.appendChild(authItem);
         modal.style.display = 'flex';
         modal.setAttribute('aria-hidden', 'false');
@@ -800,7 +930,7 @@ async function showStudentScores(userId, displayName = '') {
 
     const loadingItem = document.createElement('li');
     loadingItem.className = 'rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500';
-    loadingItem.textContent = 'Loading scores…';
+    setSafeText(loadingItem, 'Loading scores…');
     list.appendChild(loadingItem);
 
     try {
@@ -828,7 +958,7 @@ async function showStudentScores(userId, displayName = '') {
         if (scores.length === 0) {
             const emptyItem = document.createElement('li');
             emptyItem.className = 'rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600';
-            emptyItem.textContent = 'No test scores found for this student.';
+            setSafeText(emptyItem, 'No test scores found for this student.');
             list.appendChild(emptyItem);
         } else {
             scores.forEach((score) => {
@@ -857,13 +987,13 @@ async function showStudentScores(userId, displayName = '') {
 
                 const subjectLine = document.createElement('p');
                 subjectLine.className = 'text-sm font-semibold text-slate-800';
-                subjectLine.textContent = `${subject}: ${value}`;
+                setSafeText(subjectLine, `${subject}: ${value}`);
                 item.appendChild(subjectLine);
 
                 if (takenText) {
                     const takenLine = document.createElement('p');
                     takenLine.className = 'mt-1 text-xs text-slate-500';
-                    takenLine.textContent = `Taken: ${takenText}`;
+                    setSafeText(takenLine, `Taken: ${takenText}`);
                     item.appendChild(takenLine);
                 }
 
@@ -874,7 +1004,7 @@ async function showStudentScores(userId, displayName = '') {
         list.replaceChildren();
         const errorItem = document.createElement('li');
         errorItem.className = 'rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600';
-        errorItem.textContent = error instanceof Error ? error.message : 'Unable to load student scores.';
+        setSafeText(errorItem, error instanceof Error ? error.message : 'Unable to load student scores.');
         list.appendChild(errorItem);
     }
 
@@ -884,23 +1014,6 @@ async function showStudentScores(userId, displayName = '') {
 
 window.showStudentScores = showStudentScores;
 window.hideStudentScoresModal = hideStudentScoresModal;
-
-window.addEventListener('DOMContentLoaded', () => {
-    const closeButton = document.getElementById('close-scores-modal');
-    if (closeButton) {
-        closeButton.addEventListener('click', hideStudentScoresModal);
-    }
-
-    const modal = document.getElementById('student-scores-modal');
-    if (modal) {
-        modal.setAttribute('aria-hidden', 'true');
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                hideStudentScoresModal();
-            }
-        });
-    }
-});
 
 window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -913,10 +1026,36 @@ async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
 
     if (normalizedProfile) {
         const qaProfileLabel = QA_PROFILE_LABELS[normalizedProfile] || normalizedProfile;
+        const QUESTION_COUNT = 12;
+        const subjectKey = typeof subjectParam === 'string'
+            ? subjectParam.trim().toLowerCase().replace(/\s+/g, '-')
+            : '';
+        const isImageCapable = ['science', 'social-studies', 'math'].includes(subjectKey);
+        const desiredVisualTypes = subjectKey === 'social-studies'
+            ? ['map', 'chart', 'graph', 'political-cartoon', 'document', 'photo']
+            : subjectKey === 'science'
+                ? ['chart', 'graph', 'diagram', 'photo']
+                : ['chart', 'graph', 'photo'];
+        const requestBody = {
+            subject: subjectParam,
+            topic,
+            count: QUESTION_COUNT,
+            questionCount: QUESTION_COUNT,
+            profile: normalizedProfile,
+            imagePlan: isImageCapable ? {
+                mode: 'image-first',
+                desired: {
+                    count: QUESTION_COUNT,
+                    visualTypes: desiredVisualTypes,
+                    subtopics: topic ? [topic] : [],
+                    concepts: []
+                }
+            } : { mode: 'text-only' }
+        };
         const response = await fetch(`${API_BASE_URL}/api/generate-exam`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ subject: subjectParam, topic, count: 12, profile: normalizedProfile })
+            body: JSON.stringify(requestBody)
         });
 
         let payload = null;
@@ -935,7 +1074,13 @@ async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
             throw new Error(message);
         }
 
-        if (!Array.isArray(payload?.items)) {
+        const responseItems = Array.isArray(payload?.items)
+            ? payload.items
+            : Array.isArray(payload?.questions)
+                ? payload.questions
+                : null;
+
+        if (!Array.isArray(responseItems) || responseItems.length === 0) {
             throw new Error('The exam generator did not return any items.');
         }
 
@@ -944,34 +1089,100 @@ async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
         }
 
         const timestamp = Date.now();
-        return payload.items.map((item, idx) => {
-            const stem = typeof item?.stem === 'string' ? item.stem.trim() : '';
-            const solution = typeof item?.solution === 'string' ? item.solution.trim() : '';
-            const rawChoices = Array.isArray(item?.choices) ? item.choices : [];
-            const safeCorrectIndex = typeof item?.correctIndex === 'number' && item.correctIndex >= 0 && item.correctIndex < rawChoices.length
+        return responseItems.map((item, idx) => {
+            const stem = typeof item?.stem === 'string'
+                ? item.stem.trim()
+                : typeof item?.questionText === 'string'
+                    ? item.questionText.trim()
+                    : '';
+            const rawSolution = typeof item?.solution === 'string'
+                ? item.solution.trim()
+                : typeof item?.rationale === 'string'
+                    ? item.rationale.trim()
+                    : '';
+            const legacyChoices = Array.isArray(item?.choices) ? item.choices : [];
+            const structuredChoices = Array.isArray(item?.answerOptions) ? item.answerOptions : [];
+
+            const normalizedChoices = (legacyChoices.length ? legacyChoices : structuredChoices).map((choice, choiceIdx) => {
+                if (typeof choice === 'string') {
+                    return {
+                        id: `choice-${choiceIdx}`,
+                        text: choice,
+                        isCorrect: false,
+                        rationale: rawSolution
+                    };
+                }
+
+                if (choice && typeof choice === 'object') {
+                    const text = typeof choice.text === 'string' ? choice.text : String(choice.text ?? '');
+                    const rationale = typeof choice.rationale === 'string' && choice.rationale.trim().length
+                        ? choice.rationale
+                        : rawSolution;
+                    return {
+                        id: `choice-${choiceIdx}`,
+                        text,
+                        isCorrect: Boolean(choice.isCorrect),
+                        rationale
+                    };
+                }
+
+                return {
+                    id: `choice-${choiceIdx}`,
+                    text: String(choice ?? ''),
+                    isCorrect: false,
+                    rationale: rawSolution
+                };
+            }).filter((choice) => choice.text.trim().length);
+
+            let safeCorrectIndex = typeof item?.correctIndex === 'number' && item.correctIndex >= 0 && item.correctIndex < normalizedChoices.length
                 ? item.correctIndex
-                : 0;
-            const answerOptions = rawChoices.map((choice, choiceIdx) => ({
-                id: `choice-${choiceIdx}`,
-                text: String(choice),
-                isCorrect: choiceIdx === safeCorrectIndex,
-                rationale: solution
+                : typeof item?.answerIndex === 'number' && item.answerIndex >= 0 && item.answerIndex < normalizedChoices.length
+                    ? item.answerIndex
+                    : -1;
+
+            if (safeCorrectIndex === -1) {
+                safeCorrectIndex = normalizedChoices.findIndex((choice) => choice.isCorrect);
+            }
+
+            if (safeCorrectIndex === -1 && normalizedChoices.length) {
+                normalizedChoices[0].isCorrect = true;
+                safeCorrectIndex = 0;
+            }
+
+            const answerOptions = normalizedChoices.map((choice, choiceIdx) => ({
+                ...choice,
+                isCorrect: choiceIdx === safeCorrectIndex
             }));
+
+            const imageUrl = typeof item?.imageUrl === 'string' && item.imageUrl.trim().length
+                ? item.imageUrl
+                : typeof item?.imageRef?.imageUrl === 'string' && item.imageRef.imageUrl.trim().length
+                    ? item.imageRef.imageUrl
+                    : null;
+
+            const imageAlt = typeof item?.imageAlt === 'string' && item.imageAlt.trim().length
+                ? item.imageAlt
+                : typeof item?.imageRef?.altText === 'string' && item.imageRef.altText.trim().length
+                    ? item.imageRef.altText
+                    : '';
 
             return {
                 id: `profile-${normalizedProfile}-${timestamp}-${idx}`,
-                questionNumber: idx + 1,
+                questionNumber: Number.isInteger(item?.questionNumber) ? item.questionNumber : idx + 1,
                 questionText: stem,
                 question: stem,
                 answerOptions,
-                rationale: solution,
-                solution,
+                rationale: rawSolution,
+                solution: rawSolution,
                 difficulty: item?.difficulty || null,
                 topic: item?.topic || topic,
                 subject: subjectParam,
                 qaProfileKey: normalizedProfile,
                 qaProfileLabel,
-                type: 'standard'
+                type: typeof item?.type === 'string' ? item.type : 'standard',
+                imageUrl,
+                imageAlt,
+                imageRef: item?.imageRef || null
             };
         });
     }
@@ -2217,7 +2428,7 @@ function renderExamImage(imageRef, options = {}) {
     if (descriptor.caption) {
         const figcaption = document.createElement('figcaption');
         figcaption.className = 'ss-figcap';
-        figcaption.textContent = descriptor.caption;
+        setSafeText(figcaption, descriptor.caption);
         figure.appendChild(figcaption);
     }
 
@@ -2249,17 +2460,13 @@ function renderImageSection(container, imageData, items) {
     );
 
     const metaLayers = [];
-    if (firstItem && typeof firstItem === 'object') {
-        if (firstItem.imageMeta) metaLayers.push(firstItem.imageMeta);
-        if (firstItem.imageRef?.imageMeta) metaLayers.push(firstItem.imageRef.imageMeta);
-    }
-    if (imageData && typeof imageData === 'object') {
-        if (imageData.imageMeta) metaLayers.push(imageData.imageMeta);
-        if (imageData.meta) metaLayers.push(imageData.meta);
-        if (imageData.metadata) metaLayers.push(imageData.metadata);
-    }
+    if (firstItem?.imageMeta) metaLayers.push(firstItem.imageMeta);
+    if (firstItem?.imageRef?.imageMeta) metaLayers.push(firstItem.imageRef.imageMeta);
+    if (imageData?.imageMeta) metaLayers.push(imageData.imageMeta);
+    if (imageData?.meta) metaLayers.push(imageData.meta);
+    if (imageData?.metadata) metaLayers.push(imageData.metadata);
 
-    const canonicalImageRef = (firstItem && typeof firstItem === 'object' && firstItem.imageRef)
+    const canonicalImageRef = (firstItem && firstItem.imageRef)
         || imageData
         || (typeof imageData === 'string' ? { imageUrl: imageData } : null);
 
@@ -2270,90 +2477,36 @@ function renderImageSection(container, imageData, items) {
         tabIndex: 0
     });
 
-    if (!Array.isArray(items) || !items.length) {
-        return;
-    }
-
-    items.forEach((q) => {
-        const card = document.createElement('div');
-        card.className = 'mb-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm';
-
-        const stem = document.createElement('div');
-        stem.className = 'question-stem text-slate-800';
-        const cachedStem = SHOULD_USE_KATEX && (q?.katex_html_cache?.stem_html || q?.katex_html_cache?.stem);
-        if (cachedStem) {
-            stem.innerHTML = cachedStem;
-        } else {
-            const rawStem = q?.question_norm?.stem || q?.question_data?.stem_raw || q?.stem || q?.questionText || '';
-            const cleanedStem = stripFileSource(rawStem);
-            stem.textContent = SHOULD_USE_KATEX ? cleanedStem : toPlainFractions(cleanedStem);
-        }
-        card.appendChild(stem);
-
-        const list = document.createElement('ul');
-        list.className = 'mt-3 list-disc space-y-2 pl-6 text-slate-700';
-        const choiceHtml = SHOULD_USE_KATEX && (q?.katex_html_cache?.choices_html || q?.katex_html_cache?.choices);
-        const choiceTexts = Array.isArray(choiceHtml) && choiceHtml.length
-            ? choiceHtml
-            : (Array.isArray(q?.question_norm?.choices) && q.question_norm.choices.length
-                ? q.question_norm.choices
-                : Array.isArray(q?.question_data?.choices)
-                    ? q.question_data.choices
-                    : Array.isArray(q?.answerOptions)
-                        ? q.answerOptions.map((opt) => (typeof opt?.text === 'string' ? opt.text : ''))
-                        : []);
-
-        choiceTexts.forEach((choice) => {
-            const li = document.createElement('li');
-            if (choice && choice.replace) {
-                const trimmed = stripFileSource(choice.replace(/^\s+|\s+$/g, ''));
-                const isHtml = /^\s*</.test(trimmed);
-                if (isHtml) {
-                    li.innerHTML = SHOULD_USE_KATEX ? trimmed : escapeHtml(toPlainFractions(trimmed));
-                } else {
-                    li.textContent = SHOULD_USE_KATEX ? trimmed : toPlainFractions(trimmed);
-                }
-            } else if (typeof choice === 'string') {
-                const cleanedChoice = stripFileSource(choice);
-                li.textContent = SHOULD_USE_KATEX ? cleanedChoice : toPlainFractions(cleanedChoice);
-            }
-            list.appendChild(li);
-        });
-
-        card.appendChild(list);
-        container.appendChild(card);
-    });
+    return;
 }
 
+const LAST_IMAGE_BANK_PAYLOAD_KEY = '__LAST_IMAGE_BANK_PAYLOAD__';
+let lastImageBankPayload = null;
+
 function handleImageBankPayload(payload) {
-    if (typeof document === 'undefined') {
-        return;
+    if (!payload || typeof payload !== 'object') {
+        lastImageBankPayload = null;
+    } else {
+        try {
+            lastImageBankPayload = JSON.parse(JSON.stringify(payload));
+        } catch (error) {
+            console.warn('Unable to clone image bank payload:', error);
+            lastImageBankPayload = payload;
+        }
     }
 
-    const container = document.getElementById('section-root');
-    if (!container) {
-        return;
+    if (typeof window !== 'undefined') {
+        window[LAST_IMAGE_BANK_PAYLOAD_KEY] = lastImageBankPayload;
     }
 
-    container.replaceChildren();
-
-    if (!payload) {
-        return;
-    }
-
-    const image = payload.image || payload.image_data || null;
-    const questions = Array.isArray(payload.questions) ? payload.questions : null;
-    if (!image || !questions || !questions.length) {
-        return;
-    }
-
-    renderImageSection(container, image, questions);
+    return lastImageBankPayload;
 }
 
 window.renderExamImage = renderExamImage;
 window.resolveExamImageDescriptor = resolveExamImageDescriptor;
 window.renderImageSection = renderImageSection;
 window.handleImageBankPayload = handleImageBankPayload;
+window.getLastImageBankPayload = () => lastImageBankPayload;
 
 function escapeCurrencyDollarsMathSafe(input) {
     if (typeof input !== 'string') return input;
@@ -3852,9 +4005,10 @@ const shuffleArray = (array) => {
 // --- App Structure Components ---
 function AppHeader({ currentUser, onLogout }) {
     const displayName = currentUser?.name || currentUser?.email || 'Learner';
-    const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'U';
+    const safeDisplayName = sanitizeQuizTitle(displayName, 'Learner');
+    const initial = safeDisplayName ? safeDisplayName.trim().charAt(0).toUpperCase() : 'U';
     return (
-        <header className="bg-white shadow-sm sticky top-0 z-50">
+        <header className="page-header bg-white shadow-sm sticky top-0 z-50">
             <div className="w-full max-w-4xl mx-auto p-4 flex justify-between items-center">
                 <h1 className="text-xl font-bold text-sky-700">Mr. Smith's Learning Canvas</h1>
                 {currentUser && (
@@ -3866,7 +4020,7 @@ function AppHeader({ currentUser, onLogout }) {
                                 {initial}
                             </div>
                         )}
-                        <span className="font-semibold text-slate-600">Welcome, {currentUser.name}!</span>
+                        <span className="font-semibold text-slate-600">Welcome, {safeDisplayName}!</span>
                         <button
                             onClick={onLogout}
                             className="text-sm font-semibold text-sky-600 hover:text-sky-800"
@@ -4641,6 +4795,17 @@ function App() {
         }
 
         const preparedQuiz = { ...quizPayload, subject };
+        const titleFallback = subject ? `${subject} Practice Quiz` : 'Practice Quiz';
+        const titleCandidates = [
+            quizPayload.title,
+            quizPayload.quizTitle,
+            quizPayload.quiz_title,
+            quizPayload.name,
+            quizPayload.displayName,
+        ];
+        const resolvedTitle = titleCandidates.find((value) => typeof value === 'string' && value.trim()) || '';
+        preparedQuiz.title = sanitizeQuizTitle(resolvedTitle, titleFallback);
+
         let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
 
         if (quizPayload.type === 'multi-part-math') {
@@ -4689,6 +4854,15 @@ function App() {
         }
 
         preparedQuiz.questions = normalizedQuestions;
+
+        setPreloadState({
+            lastQuizMeta: {
+                id: preparedQuiz.id || null,
+                title: preparedQuiz.title,
+                subject: preparedQuiz.subject || subject || null,
+                type: preparedQuiz.type || 'quiz',
+            }
+        });
 
         setActiveQuiz(preparedQuiz);
         // For any multi-part quiz, the view should be 'quiz' so the main QuizRunner can handle routing.
@@ -6578,6 +6752,10 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
         || '';
     const isScienceQuiz = subject === 'Science' || subjectForRender === 'Science';
     const colorScheme = SUBJECT_COLORS[subjectForRender] || DEFAULT_COLOR_SCHEME;
+    const displayTitle = React.useMemo(
+        () => sanitizeQuizTitle(quizTitle, subject ? `${subject} Practice Quiz` : 'Practice Quiz'),
+        [quizTitle, subject]
+    );
 
     return (
         <div className="fade-in">
@@ -6590,7 +6768,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                             </button>
                         )}
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-2 flex-1">
-                            <h2 className={`text-xl font-bold text-center sm:text-left flex-1 ${colorScheme.text || 'text-slate-800'}`}>{quizTitle}</h2>
+                            <h2 className={`text-xl font-bold text-center sm:text-left flex-1 ${colorScheme.text || 'text-slate-800'}`}>{displayTitle}</h2>
                             {activeProfileLabel && (
                                 <span className="ml-0 sm:ml-2 inline-flex items-center text-xs bg-gray-200 px-2 py-0.5 rounded uppercase tracking-wide text-gray-700">
                                     {activeProfileLabel}
@@ -7147,11 +7325,16 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         }
     };
 
+    const safeQuizTitle = React.useMemo(
+        () => sanitizeQuizTitle(quiz?.title || '', quiz?.subject ? `${quiz.subject} Practice Quiz` : 'Practice Quiz'),
+        [quiz?.title, quiz?.subject]
+    );
+
     return (
         <div className="fade-in">
              <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b">
                  <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800 flex-1">{quiz.title}</h2>
+                 <h2 className="text-xl font-bold text-center text-slate-800 flex-1">{safeQuizTitle}</h2>
                  <div className="flex flex-col sm:items-end gap-2">
                     <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-700'}`}>
                         <span role="img" aria-label="timer">⏱️</span>
@@ -7193,6 +7376,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
     const performance = getPerf(results.scaledScore);
     const markedQuestions = quiz.questions.filter((_, index) => results.marked[index]);
+    const safeQuizTitle = sanitizeQuizTitle(quiz?.title || '', quiz?.subject ? `${quiz.subject} Practice Quiz` : 'Practice Quiz');
 
     const performanceByCategory = quiz.questions.reduce((acc, question, index) => {
         const type = question.type || 'knowledge'; // Default type if not specified
@@ -7220,7 +7404,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
     return (
         <div className="text-center fade-in">
-            <h2 className="text-3xl font-bold text-slate-800">Results: {quiz.title}</h2>
+            <h2 className="text-3xl font-bold text-slate-800">Results: {safeQuizTitle}</h2>
             <div className="my-6">
                 <p className="text-lg text-slate-600">Your estimated GED® Score is:</p>
                 <p className={`text-6xl font-bold my-2 ${performance.color}`}>{results.scaledScore}</p>
@@ -7368,6 +7552,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 function ReadingPractice({ quiz, onComplete, onExit }) {
      const [answers, setAnswers] = useState({});
      const [isSubmitted, setIsSubmitted] = useState(false);
+     const safeQuizTitle = sanitizeQuizTitle(quiz?.title || '', quiz?.subject ? `${quiz.subject} Practice Quiz` : 'Reading Practice');
 
     const articleImageMetaLayers = React.useMemo(() => {
         if (!quiz || typeof quiz !== 'object') {
@@ -7442,7 +7627,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
         <div className="fade-in">
              <header className="flex justify-between items-center pb-4 mb-4 border-b">
                  <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
+                 <h2 className="text-xl font-bold text-center text-slate-800">{safeQuizTitle}</h2>
                  <div></div>
             </header>
             <article className="prose max-w-none">

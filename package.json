@@ -14,7 +14,9 @@
     "img:smoke": "node scripts/smoke-generate.js",
     "build-images": "node tools/build-image-index.mjs",
     "validate-images": "node tools/validate-image-index.mjs",
-    "probe-images": "node tools/probe-images.mjs"
+    "probe-images": "node tools/probe-images.mjs",
+    "check:images": "node scripts/check-images.js",
+    "test": "node --test frontend/__tests__/headerLeak.test.js"
   },
   "dependencies": {
     "express-rate-limit": "^6.11.2",

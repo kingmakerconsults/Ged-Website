@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { loadImageMeta, deriveIsScreenshot } = require('../utils/metaLoader');
 const { deriveVisualFeatures, buildFeatureSignature } = require('../utils/visualFeatures');
+const { isImageEligible } = require('../../imageResolver');
 
 const METADATA_PATH = path.join(__dirname, '../../data/image_metadata_final.json');
 const IMAGE_ROOTS = [
@@ -69,6 +70,7 @@ function loadMetadata() {
             subject,
             category,
             dominantType,
+            type: entry.type || entry.visualType || dominantType || 'photo',
             fileName,
             filePath: encodedPath,
             src: encodedPath,
@@ -89,9 +91,17 @@ function loadMetadata() {
             features,
             featureSignature: buildFeatureSignature(features)
         };
-    });
+    }).filter(Boolean);
 
-    METADATA_CACHE = candidates.filter((entry) => {
+    const strictEligible = candidates.filter((entry) => isImageEligible(entry));
+    let workingCandidates = strictEligible;
+    if (!workingCandidates.length && candidates.length) {
+        console.warn('[images][socialStudies] No images passed strict eligibility; falling back to type-only check.');
+        workingCandidates = candidates.filter((entry) => entry && typeof entry.type === 'string' && entry.type.trim());
+    }
+    console.log(`[images][socialStudies] pool: total=${candidates.length}, eligible=${workingCandidates.length}`);
+
+    METADATA_CACHE = workingCandidates.filter((entry) => {
         const subject = (entry.subject || '').toLowerCase();
         const tags = Array.isArray(entry.tags) ? entry.tags.map((tag) => tag.toLowerCase()) : [];
         return subject.includes('social') || tags.includes('social-studies') || tags.includes('social studies');
