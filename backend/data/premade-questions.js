@@ -222,4 +222,54 @@ const ALL_QUIZZES = {
     }
 };
 
-module.exports = { ALL_QUIZZES };
+const SOCIAL_STUDIES_PREMADE_EXAMS = {
+    "social_studies_smith_a": {
+        id: "social_studies_smith_a",
+        title: "Social Studies Smith A",
+        description: "A comprehensive mixed-format quiz covering passages, images, and key concepts in Social Studies.",
+        config: {
+            totalTime: 15 * 60, // 15 minutes for 12 questions
+            calculator: false,
+            formulaSheet: false,
+            parts: [
+                {
+                    name: "Reading Comprehension",
+                    type: "reading",
+                    questionCount: 5,
+                    passageCount: 2,
+                    difficultyMix: {
+                        easy: 2,
+                        medium: 2,
+                        hard: 1
+                    }
+                },
+                {
+                    name: "Image Analysis",
+                    type: "image-first",
+                    questionCount: 4,
+                    imageCount: 2,
+                    difficultyMix: {
+                        easy: 1,
+                        medium: 2,
+                        hard: 1
+                    },
+                    imagePlan: {
+                        visualTypes: ['map', 'chart', 'graph', 'political-cartoon', 'document', 'photo']
+                    }
+                },
+                {
+                    name: "Standalone Questions",
+                    type: "text-only",
+                    questionCount: 3,
+                    difficultyMix: {
+                        easy: 1,
+                        medium: 1,
+                        hard: 1
+                    }
+                }
+            ]
+        }
+    }
+};
+
+module.exports = { ALL_QUIZZES, SOCIAL_STUDIES_PREMADE_EXAMS };
