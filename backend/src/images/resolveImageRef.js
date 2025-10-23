@@ -381,8 +381,18 @@ function buildPlaceholder(subjectHint, tagHint = []) {
     );
 }
 
-function finalizeResult(meta, record = null) {
+function finalizeResult(meta, record = null, fallback = {}) {
     const payload = validateImageRef(meta);
+    if (!payload || payload.error) {
+        const subjectHint = fallback.subject ?? fallback.subjectHint;
+        const tags = fallback.tags || [];
+        const placeholder = buildPlaceholder(subjectHint, tags);
+        const safe = validateImageRef(placeholder);
+        if (safe && !safe.error) {
+            return safe;
+        }
+        return payload;
+    }
     if (record?.id) {
         return { ...payload, recordId: record.id };
     }
@@ -414,10 +424,14 @@ async function resolveImageRef(ref, options = {}) {
             if (probeHead) {
                 const ok = await headOk(verified.imageUrl);
                 if (!ok) {
-                    return finalizeResult(buildPlaceholder(subjectHint, combinedTags));
+                    return finalizeResult(
+                        buildPlaceholder(subjectHint, combinedTags),
+                        null,
+                        { subject: subjectHint, tags: combinedTags }
+                    );
                 }
             }
-            return finalizeResult(verified);
+            return finalizeResult(verified, null, { subject: directMeta.subject ?? subjectHint, tags: combinedTags });
         }
     }
 
@@ -442,13 +456,22 @@ async function resolveImageRef(ref, options = {}) {
         if (probeHead) {
             const ok = await headOk(finalMeta.imageUrl);
             if (!ok) {
-                return finalizeResult(buildPlaceholder(subjectHint ?? record.subject, mergedTags));
+                return finalizeResult(
+                    buildPlaceholder(subjectHint ?? record.subject, mergedTags),
+                    null,
+                    { subject: subjectHint ?? record.subject, tags: mergedTags }
+                );
             }
         }
-        return finalizeResult(finalMeta, record);
+        const resolvedSubject = directMeta.subject ?? subjectHint ?? record.subject;
+        return finalizeResult(finalMeta, record, { subject: resolvedSubject, tags: mergedTags });
     }
 
-    return finalizeResult(buildPlaceholder(subjectHint, combinedTags));
+    return finalizeResult(
+        buildPlaceholder(subjectHint, combinedTags),
+        null,
+        { subject: subjectHint, tags: combinedTags }
+    );
 }
 
 function __setBank(bank) {

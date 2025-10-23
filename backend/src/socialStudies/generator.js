@@ -668,17 +668,23 @@ function normalizeItem(raw = {}, { imageMeta, questionType, difficulty, blurb })
             tags: tagsCandidate
         });
 
-        cleaned.imageRef = canonicalRef;
-        cleaned.image_url = canonicalRef.imageUrl;
-        cleaned.alt_text = canonicalRef.alt;
-        if (cleaned.imageMeta && canonicalRef.alt && !cleaned.imageMeta.altText) {
-            cleaned.imageMeta.altText = canonicalRef.alt;
-        }
-        if (cleaned.imageMeta && canonicalRef.caption && !cleaned.imageMeta.caption) {
-            cleaned.imageMeta.caption = canonicalRef.caption;
-        }
-        if (cleaned.imageMeta && canonicalRef.credit && !cleaned.imageMeta.credit) {
-            cleaned.imageMeta.credit = canonicalRef.credit;
+        if (canonicalRef && !canonicalRef.error) {
+            cleaned.imageRef = canonicalRef;
+            cleaned.image_url = canonicalRef.imageUrl;
+            cleaned.alt_text = canonicalRef.alt;
+            if (cleaned.imageMeta && canonicalRef.alt && !cleaned.imageMeta.altText) {
+                cleaned.imageMeta.altText = canonicalRef.alt;
+            }
+            if (cleaned.imageMeta && canonicalRef.caption && !cleaned.imageMeta.caption) {
+                cleaned.imageMeta.caption = canonicalRef.caption;
+            }
+            if (cleaned.imageMeta && canonicalRef.credit && !cleaned.imageMeta.credit) {
+                cleaned.imageMeta.credit = canonicalRef.credit;
+            }
+        } else {
+            delete cleaned.imageRef;
+            delete cleaned.image_url;
+            delete cleaned.alt_text;
         }
     } else {
         delete cleaned.imageRef;

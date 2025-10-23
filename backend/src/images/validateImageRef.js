@@ -218,8 +218,37 @@ function buildPayload(imageRef = {}) {
 function validateImageRef(imageRef) {
     const payload = buildPayload(imageRef);
     if (!payload) {
-        throw new Error('Invalid imageRef payload: expected an object.');
+        console.error('[images] imageRef validation failed: invalid payload.');
+        return { error: 'invalid-payload' };
     }
+
+    let cleanedUrl = payload.imageUrl || '';
+    if (!cleanedUrl) {
+        console.error('[images] imageRef validation failed: missing imageUrl.');
+        return { error: 'unresolvable', imageUrl: null, subject: payload.subject };
+    }
+
+    for (let i = 0; i < 3; i += 1) {
+        try {
+            const decoded = decodeURIComponent(cleanedUrl);
+            if (decoded === cleanedUrl) break;
+            cleanedUrl = decoded;
+        } catch (err) {
+            break;
+        }
+    }
+
+    cleanedUrl = cleanedUrl.replace(/^\.?\/+/, '/');
+    if (!cleanedUrl.startsWith('/')) {
+        cleanedUrl = '/' + cleanedUrl.replace(/^\.?\/+/, '');
+    }
+
+    if (/^https?:\/\//i.test(cleanedUrl)) {
+        console.warn('[images] rejecting external image URL:', cleanedUrl);
+        return { error: 'external', imageUrl: cleanedUrl, subject: payload.subject };
+    }
+
+    payload.imageUrl = encodeURI(cleanedUrl);
 
     const valid = validate(payload);
     if (!valid) {
@@ -234,7 +263,7 @@ function validateImageRef(imageRef) {
             imageUrl: payload.imageUrl,
             subject: payload.subject
         });
-        throw new Error('Image reference failed validation.');
+        return { error: 'unresolvable', errors, imageUrl: payload.imageUrl, subject: payload.subject };
     }
 
     return payload;
@@ -277,6 +306,9 @@ async function assertValidImageRef(imageRef, options = {}) {
 
     try {
         const payload = validateImageRef(imageRef);
+        if (payload?.error) {
+            throw new Error(payload.error === 'external' ? 'External image URL blocked.' : 'Image reference failed validation.');
+        }
         diagnostics.recordValidationSuccess();
         const sanitized = { ...payload };
         if (imageRef && typeof imageRef.imageMeta === 'object' && imageRef.imageMeta) {

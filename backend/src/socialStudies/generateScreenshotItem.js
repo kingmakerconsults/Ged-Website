@@ -112,7 +112,7 @@ function generateItemForMeta(meta = {}, imageUrl) {
     }
     const fallbackUrl = typeof imageUrl === 'string' && imageUrl.trim() ? imageUrl.trim() : null;
     const resolvedUrl = record.src || resolved?.imageUrl || fallbackUrl;
-    const imageRef = resolvedUrl
+    const validated = resolvedUrl
         ? validateImageRef({
             imageUrl: resolvedUrl,
             alt: record.alt || record.altText || resolved?.imageMeta?.altText || resolved?.imageMeta?.alt || meta?.altText || DEFAULT_ALT,
@@ -126,11 +126,17 @@ function generateItemForMeta(meta = {}, imageUrl) {
         })
         : null;
 
+    if (validated?.error) {
+        console.warn(`[images] screenshot reference invalid for ${record.id || fileName}: ${validated.error}`);
+    }
+
+    const imageRef = validated && !validated.error ? validated : undefined;
+
     const item = {
         domain: 'social_studies',
         difficulty: 'medium',
         skill: 'identify',
-        imageRef: imageRef || undefined,
+        imageRef,
         imageMeta: sanitizeMeta(meta, resolved?.imageMeta || {}, record),
         questionType: features.hasTable ? 'table' : features.hasChart ? 'chart' : features.hasMap ? 'map' : 'photo',
         ...draft
