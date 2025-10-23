@@ -1021,187 +1021,122 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
-async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
-    const normalizedProfile = typeof profileKey === 'string' && profileKey.trim().length ? profileKey.trim() : '';
-
-    if (normalizedProfile) {
-        const qaProfileLabel = QA_PROFILE_LABELS[normalizedProfile] || normalizedProfile;
-        const QUESTION_COUNT = 12;
-        const subjectKey = typeof subjectParam === 'string'
-            ? subjectParam.trim().toLowerCase().replace(/\s+/g, '-')
-            : '';
-        const isImageCapable = ['science', 'social-studies', 'math'].includes(subjectKey);
-        const desiredVisualTypes = subjectKey === 'social-studies'
-            ? ['map', 'chart', 'graph', 'political-cartoon', 'document', 'photo']
-            : subjectKey === 'science'
-                ? ['chart', 'graph', 'diagram', 'photo']
-                : ['chart', 'graph', 'photo'];
-        const requestBody = {
-            subject: subjectParam,
-            topic,
-            count: QUESTION_COUNT,
-            questionCount: QUESTION_COUNT,
-            profile: normalizedProfile,
-            imagePlan: isImageCapable ? {
-                mode: 'image-first',
-                desired: {
-                    count: QUESTION_COUNT,
-                    visualTypes: desiredVisualTypes,
-                    subtopics: topic ? [topic] : [],
-                    concepts: []
-                }
-            } : { mode: 'text-only' }
-        };
-        const response = await fetch(`${API_BASE_URL}/api/generate-exam`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
-        });
-
-        let payload = null;
-        try {
-            payload = await response.json();
-        } catch (err) {
-            throw new Error('The exam generator returned invalid JSON.');
-        }
-
-        if (payload && typeof handleImageBankPayload === 'function') {
-            handleImageBankPayload(payload);
-        }
-
-        if (!response.ok) {
-            const message = payload?.error || `Request failed with status ${response.status}`;
-            throw new Error(message);
-        }
-
-        const responseItems = Array.isArray(payload?.items)
-            ? payload.items
-            : Array.isArray(payload?.questions)
-                ? payload.questions
-                : null;
-
-        if (!Array.isArray(responseItems) || responseItems.length === 0) {
-            throw new Error('The exam generator did not return any items.');
-        }
-
-        if (Array.isArray(payload.invalid) && payload.invalid.length) {
-            console.warn('Validator reported issues for some generated items:', payload.invalid);
-        }
-
-        const timestamp = Date.now();
-        return responseItems.map((item, idx) => {
-            const stem = typeof item?.stem === 'string'
-                ? item.stem.trim()
-                : typeof item?.questionText === 'string'
-                    ? item.questionText.trim()
-                    : '';
-            const rawSolution = typeof item?.solution === 'string'
-                ? item.solution.trim()
-                : typeof item?.rationale === 'string'
-                    ? item.rationale.trim()
-                    : '';
-            const legacyChoices = Array.isArray(item?.choices) ? item.choices : [];
-            const structuredChoices = Array.isArray(item?.answerOptions) ? item.answerOptions : [];
-
-            const normalizedChoices = (legacyChoices.length ? legacyChoices : structuredChoices).map((choice, choiceIdx) => {
-                if (typeof choice === 'string') {
-                    return {
-                        id: `choice-${choiceIdx}`,
-                        text: choice,
-                        isCorrect: false,
-                        rationale: rawSolution
-                    };
-                }
-
-                if (choice && typeof choice === 'object') {
-                    const text = typeof choice.text === 'string' ? choice.text : String(choice.text ?? '');
-                    const rationale = typeof choice.rationale === 'string' && choice.rationale.trim().length
-                        ? choice.rationale
-                        : rawSolution;
-                    return {
-                        id: `choice-${choiceIdx}`,
-                        text,
-                        isCorrect: Boolean(choice.isCorrect),
-                        rationale
-                    };
-                }
-
-                return {
-                    id: `choice-${choiceIdx}`,
-                    text: String(choice ?? ''),
-                    isCorrect: false,
-                    rationale: rawSolution
-                };
-            }).filter((choice) => choice.text.trim().length);
-
-            let safeCorrectIndex = typeof item?.correctIndex === 'number' && item.correctIndex >= 0 && item.correctIndex < normalizedChoices.length
-                ? item.correctIndex
-                : typeof item?.answerIndex === 'number' && item.answerIndex >= 0 && item.answerIndex < normalizedChoices.length
-                    ? item.answerIndex
-                    : -1;
-
-            if (safeCorrectIndex === -1) {
-                safeCorrectIndex = normalizedChoices.findIndex((choice) => choice.isCorrect);
-            }
-
-            if (safeCorrectIndex === -1 && normalizedChoices.length) {
-                normalizedChoices[0].isCorrect = true;
-                safeCorrectIndex = 0;
-            }
-
-            const answerOptions = normalizedChoices.map((choice, choiceIdx) => ({
-                ...choice,
-                isCorrect: choiceIdx === safeCorrectIndex
-            }));
-
-            const imageUrl = typeof item?.imageUrl === 'string' && item.imageUrl.trim().length
-                ? item.imageUrl
-                : typeof item?.imageRef?.imageUrl === 'string' && item.imageRef.imageUrl.trim().length
-                    ? item.imageRef.imageUrl
-                    : null;
-
-            const imageAlt = typeof item?.imageAlt === 'string' && item.imageAlt.trim().length
-                ? item.imageAlt
-                : typeof item?.imageRef?.altText === 'string' && item.imageRef.altText.trim().length
-                    ? item.imageRef.altText
-                    : '';
-
-            return {
-                id: `profile-${normalizedProfile}-${timestamp}-${idx}`,
-                questionNumber: Number.isInteger(item?.questionNumber) ? item.questionNumber : idx + 1,
-                questionText: stem,
-                question: stem,
-                answerOptions,
-                rationale: rawSolution,
-                solution: rawSolution,
-                difficulty: item?.difficulty || null,
-                topic: item?.topic || topic,
-                subject: subjectParam,
-                qaProfileKey: normalizedProfile,
-                qaProfileLabel,
-                type: typeof item?.type === 'string' ? item.type : 'standard',
-                imageUrl,
-                imageAlt,
-                imageRef: item?.imageRef || null
-            };
-        });
+function transformAiExamItems(items, { subject, topic, qaProfileKey } = {}) {
+    const resolvedItems = Array.isArray(items) ? items : [];
+    if (!resolvedItems.length) {
+        return [];
     }
 
-    const response = await fetch(`${API_BASE_URL}/api/topic-based/${encodeURIComponent(subjectParam)}`, {
+    const normalizedSubject = typeof subject === 'string' && subject.trim().length ? subject : null;
+    const normalizedTopic = typeof topic === 'string' && topic.trim().length ? topic.trim() : null;
+    const normalizedProfile = typeof qaProfileKey === 'string' && qaProfileKey.trim().length ? qaProfileKey.trim() : '';
+    const qaProfileLabel = normalizedProfile ? (QA_PROFILE_LABELS[normalizedProfile] || normalizedProfile) : null;
+    const baseTimestamp = Date.now();
+
+    return resolvedItems.map((item, idx) => {
+        const questionNumber = Number.isInteger(item?.questionNumber) ? item.questionNumber : idx + 1;
+        const stem = typeof item?.stem === 'string' && item.stem.trim().length
+            ? item.stem.trim()
+            : typeof item?.questionText === 'string'
+                ? item.questionText.trim()
+                : '';
+        const solution = typeof item?.solution === 'string' && item.solution.trim().length
+            ? item.solution.trim()
+            : typeof item?.rationale === 'string' && item.rationale.trim().length
+                ? item.rationale.trim()
+                : '';
+
+        const mappedOptions = Array.isArray(item?.answerOptions)
+            ? item.answerOptions.map((option, choiceIdx) => ({
+                id: `choice-${choiceIdx}`,
+                text: typeof option?.text === 'string' ? option.text : String(option?.text ?? ''),
+                isCorrect: Boolean(option?.isCorrect),
+                rationale: typeof option?.rationale === 'string' && option.rationale.trim().length ? option.rationale : solution
+            }))
+            : [];
+
+        const answerOptions = mappedOptions.length ? mappedOptions : Array.isArray(item?.choices)
+            ? item.choices.map((choice, choiceIdx) => ({
+                id: `choice-${choiceIdx}`,
+                text: typeof choice === 'string' ? choice : String(choice ?? ''),
+                isCorrect: choiceIdx === 0,
+                rationale: solution
+            }))
+            : [];
+
+        let correctIndex = typeof item?.correctIndex === 'number' ? item.correctIndex : -1;
+        if (correctIndex < 0) {
+            correctIndex = answerOptions.findIndex((option) => option.isCorrect);
+        }
+        if (correctIndex < 0 && answerOptions.length) {
+            answerOptions[0].isCorrect = true;
+            correctIndex = 0;
+        }
+
+        const imageUrl = typeof item?.imageUrl === 'string' && item.imageUrl.trim().length
+            ? item.imageUrl
+            : typeof item?.imageRef?.imageUrl === 'string' && item.imageRef.imageUrl.trim().length
+                ? item.imageRef.imageUrl
+                : null;
+        const imageAlt = typeof item?.imageAlt === 'string' && item.imageAlt.trim().length
+            ? item.imageAlt
+            : typeof item?.imageRef?.altText === 'string' && item.imageRef.altText.trim().length
+                ? item.imageRef.altText
+                : '';
+
+        return {
+            id: `ai-${baseTimestamp}-${idx}`,
+            questionNumber,
+            questionText: stem,
+            question: stem,
+            answerOptions: answerOptions.map((option, choiceIdx) => ({
+                ...option,
+                isCorrect: choiceIdx === correctIndex
+            })),
+            rationale: solution,
+            solution,
+            difficulty: item?.difficulty || null,
+            topic: normalizedTopic || item?.topic || null,
+            subject: normalizedSubject,
+            qaProfileKey: normalizedProfile || null,
+            qaProfileLabel,
+            type: typeof item?.type === 'string' ? item.type : 'standard',
+            imageUrl,
+            imageAlt,
+            imageRef: item?.imageRef || (imageUrl ? { imageUrl, altText: imageAlt } : null)
+        };
+    });
+}
+
+async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
+    const resolvedSubject = resolveSubjectParam(subjectParam) || subjectParam;
+    const normalizedProfile = typeof profileKey === 'string' && profileKey.trim().length ? profileKey.trim() : '';
+    const QUESTION_COUNT = 12;
+    const subjectKey = typeof resolvedSubject === 'string' ? resolvedSubject.trim().toLowerCase().replace(/\s+/g, '-') : '';
+    const isImageCapable = ['science', 'social-studies', 'math'].includes(subjectKey);
+
+    const requestBody = {
+        subject: resolvedSubject,
+        examType: subjectKey === 'social-studies' ? 'smitha' : 'default',
+        totalQuestions: QUESTION_COUNT,
+        useImages: isImageCapable
+    };
+
+    if (normalizedProfile) {
+        requestBody.examType = 'default';
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/exams/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, difficulty })
+        body: JSON.stringify(requestBody)
     });
 
     let payload = null;
     try {
         payload = await response.json();
     } catch (err) {
-        throw new Error('The quiz service returned invalid JSON.');
-    }
-
-    if (payload && typeof handleImageBankPayload === 'function') {
-        handleImageBankPayload(payload);
+        throw new Error('The exam generator returned invalid JSON.');
     }
 
     if (!response.ok) {
@@ -1209,20 +1144,18 @@ async function generateTopicQuiz(subjectParam, topic, difficulty, profileKey) {
         throw new Error(message);
     }
 
-    if (!payload?.success || !Array.isArray(payload.items)) {
-        throw new Error('The quiz service returned an unexpected payload.');
+    const items = Array.isArray(payload?.items) ? payload.items : [];
+    if (!items.length) {
+        throw new Error('The exam generator did not return any items.');
     }
 
-    const qaProfileLabel = normalizedProfile ? (QA_PROFILE_LABELS[normalizedProfile] || normalizedProfile) : null;
-    const qaProfileKey = normalizedProfile || null;
-
-    return payload.items.map((item, idx) => ({
-        ...item,
-        questionNumber: item.questionNumber ?? idx + 1,
-        qaProfileKey,
-        qaProfileLabel
-    }));
+    return transformAiExamItems(items, {
+        subject: resolvedSubject,
+        topic,
+        qaProfileKey: normalizedProfile || null
+    });
 }
+
 const SUBJECT_PARAM_MAP = {
     'Science': 'Science',
     'Social Studies': 'Social Studies',
@@ -2483,29 +2416,6 @@ function renderImageSection(container, imageData, items) {
 const LAST_IMAGE_BANK_PAYLOAD_KEY = '__LAST_IMAGE_BANK_PAYLOAD__';
 let lastImageBankPayload = null;
 
-function handleImageBankPayload(payload) {
-    if (!payload || typeof payload !== 'object') {
-        lastImageBankPayload = null;
-    } else {
-        try {
-            lastImageBankPayload = JSON.parse(JSON.stringify(payload));
-        } catch (error) {
-            console.warn('Unable to clone image bank payload:', error);
-            lastImageBankPayload = payload;
-        }
-    }
-
-    if (typeof window !== 'undefined') {
-        window[LAST_IMAGE_BANK_PAYLOAD_KEY] = lastImageBankPayload;
-    }
-
-    return lastImageBankPayload;
-}
-
-window.renderExamImage = renderExamImage;
-window.resolveExamImageDescriptor = resolveExamImageDescriptor;
-window.renderImageSection = renderImageSection;
-window.handleImageBankPayload = handleImageBankPayload;
 window.getLastImageBankPayload = () => lastImageBankPayload;
 
 function escapeCurrencyDollarsMathSafe(input) {
@@ -4692,32 +4602,74 @@ function App() {
     }, [currentUser, userRole]);
 
     const handleGenerateComprehensiveExam = async (subject) => {
+        const resolvedSubject = resolveSubjectParam(subject);
+        if (!resolvedSubject) {
+            alert('Sorry, this subject is not supported yet.');
+            return;
+        }
+
         setIsLoading(true);
         setLoadingMessage(`Generating your comprehensive ${subject} exam...`);
         setActiveQuiz(null);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/generate-quiz`, {
+            const subjectKey = resolvedSubject.trim().toLowerCase().replace(/\s+/g, '-');
+            const useImages = subjectKey !== 'rla';
+
+            const response = await fetch(`${API_BASE_URL}/api/exams/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    subject: subject,
-                    topic: "Comprehensive Exam",
-                    comprehensive: true
+                    subject: resolvedSubject,
+                    examType: 'comprehensive',
+                    useImages
                 })
             });
 
-            if (!response.ok) {
-              const err = await response.json();
-              throw new Error(err.error || `Request failed with status ${response.status}`);
+            let payload = null;
+            try {
+                payload = await response.json();
+            } catch (parseError) {
+                throw new Error('The exam generator returned invalid JSON.');
             }
 
-            const examData = await response.json();
-            startQuiz(examData, subject);
+            if (!response.ok) {
+                const message = payload?.error || `Request failed with status ${response.status}`;
+                throw new Error(message);
+            }
 
+            const items = Array.isArray(payload?.items) ? payload.items : [];
+            if (!items.length) {
+                throw new Error('The exam generator did not return any items.');
+            }
+
+            const questions = transformAiExamItems(items, { subject: resolvedSubject });
+            if (!questions.length) {
+                throw new Error('The exam generator returned unrecognized content.');
+            }
+
+            const meta = payload?.meta && typeof payload.meta === 'object' ? payload.meta : {};
+            const totalQuestions = questions.length;
+            const examTitle = typeof meta?.examType === 'string' && meta.examType
+                ? `${subject} ${meta.examType.charAt(0).toUpperCase()}${meta.examType.slice(1)} Exam`
+                : `${subject} Comprehensive Exam`;
+
+            const generatedQuiz = {
+                id: `ai-comprehensive-${Date.now()}`,
+                subject,
+                topic: 'Comprehensive Exam',
+                title: examTitle,
+                questions,
+                meta: {
+                    ...meta,
+                    totalQuestions
+                }
+            };
+
+            startQuiz(generatedQuiz, subject);
         } catch (err) {
             console.error('Failed to generate exam:', err);
-            alert('Failed to generate exam: ' + err.message);
+            alert('Failed to generate exam: ' + (err instanceof Error ? err.message : String(err)));
         } finally {
             setIsLoading(false);
         }
