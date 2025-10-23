@@ -5950,6 +5950,28 @@ function safePath(p) {
     return '/' + encodeURI(s);
 }
 
+function inferSubjectFromMeta(meta, fallback) {
+    const normalizedFallback = typeof fallback === 'string' && fallback.trim().length
+        ? fallback.trim()
+        : null;
+    const explicit = typeof meta?.subject === 'string' && meta.subject.trim().length
+        ? meta.subject.trim()
+        : null;
+    if (explicit) {
+        return explicit;
+    }
+
+    const tagList = Array.isArray(meta?.tags)
+        ? meta.tags.map((tag) => String(tag || '').toLowerCase())
+        : [];
+    if (tagList.includes('social-studies')) return 'social-studies';
+    if (tagList.includes('science')) return 'science';
+    if (tagList.includes('math') || tagList.includes('mathematics')) return 'math';
+    if (tagList.includes('rla') || tagList.includes('reading')) return 'rla';
+
+    return normalizedFallback;
+}
+
 function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics = [], concepts = [] }) {
     const pool = Array.isArray(global.curatedImages)
         ? global.curatedImages.filter(isImageEligibleForPlan)
@@ -6204,7 +6226,7 @@ async function generateQuestionsFromImages({ subject, images, questionCount }) {
                     : [];
 
             prepared.imageUrl = normalizedSrc;
-            prepared.imageAlt = imageAlt;
+            prepared.imageAlt = typeof imageAlt === 'string' ? imageAlt : '';
             prepared.imageRef = {
                 id: curatedRecord?.id || image?.id || null,
                 imageUrl: normalizedSrc,
@@ -6212,7 +6234,8 @@ async function generateQuestionsFromImages({ subject, images, questionCount }) {
                 visualType: image?.visualType || curatedRecord?.visualType || null,
                 subtopics,
                 concepts,
-                questionHooks
+                questionHooks,
+                subject: subjectKey || normalizeSubjectKey(subjectLabel) || normalizeSubjectKey(subject) || subject || null
             };
             prepared.imageMeta = {
                 id: curatedRecord?.id || image?.id || null,
@@ -6229,6 +6252,8 @@ async function generateQuestionsFromImages({ subject, images, questionCount }) {
             const canonicalSubject = subjectKey || normalizeSubjectKey(subjectLabel) || normalizeSubjectKey(subject) || subject;
             if (canonicalSubject) {
                 prepared.subject = canonicalSubject;
+            } else if (!prepared.subject && typeof subjectLabel === 'string') {
+                prepared.subject = subjectLabel.trim();
             }
 
             results.push(prepared);
@@ -6672,6 +6697,53 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
         return correctedQuiz;
     }
 
+    const fallbackSubject = correctedQuiz.subject || draftQuiz.subject || null;
+    const applySubjectFallback = (question) => {
+        if (!question || typeof question !== 'object' || question.subject) {
+            return;
+        }
+
+        const candidates = [];
+        if (typeof question.imageRef === 'string') {
+            candidates.push(question.imageRef);
+        } else if (question.imageRef && typeof question.imageRef === 'object') {
+            candidates.push(
+                question.imageRef.imageUrl,
+                question.imageRef.path,
+                question.imageRef.src,
+                question.imageRef.id
+            );
+        }
+        candidates.push(question.imageUrl, question.imagePath, question.image);
+
+        let resolvedMeta = null;
+        for (const candidate of candidates) {
+            const sanitized = sanitizeImageRef(candidate);
+            if (!sanitized) continue;
+            const normalized = safePath(sanitized);
+            resolvedMeta = resolveImageMeta(normalized) || resolveImageMeta(sanitized);
+            if (resolvedMeta) break;
+        }
+
+        const inferred = inferSubjectFromMeta(resolvedMeta, fallbackSubject);
+        if (inferred) {
+            question.subject = inferred;
+        } else if (fallbackSubject) {
+            question.subject = fallbackSubject;
+        }
+
+        if (question.imageRef && typeof question.imageRef === 'object' && question.subject && !question.imageRef.subject) {
+            question.imageRef.subject = question.subject;
+        }
+    };
+
+    if (Array.isArray(correctedQuiz.items)) {
+        correctedQuiz.items.forEach(applySubjectFallback);
+    }
+    if (Array.isArray(correctedQuiz.questions)) {
+        correctedQuiz.questions.forEach(applySubjectFallback);
+    }
+
     const originalQuestions = Array.isArray(draftQuiz.questions) ? draftQuiz.questions : [];
     const correctedQuestions = Array.isArray(correctedQuiz.questions) ? correctedQuiz.questions : [];
 
@@ -7105,14 +7177,29 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                         images: selectedImages,
                         questionCount: imageQuestionCount
                     });
-                    if (!draft.subject && subject) {
-                        draft.subject = subject;
+                    const requestSubject = typeof subject === 'string' && subject.trim().length ? subject.trim() : null;
+                    if (!draft.subject && requestSubject) {
+                        draft.subject = requestSubject;
                     }
 
                     const canonicalSubject = normalizeSubjectKey(subject)
                         || normalizeSubjectKey(draft.subject)
                         || (typeof draft.subject === 'string' ? draft.subject.trim() : '')
+                        || requestSubject
                         || subject;
+
+                    const stableSubject = (typeof draft.subject === 'string' && draft.subject.trim().length ? draft.subject.trim() : null)
+                        || requestSubject
+                        || (typeof canonicalSubject === 'string' && canonicalSubject.trim().length ? canonicalSubject.trim() : null)
+                        || null;
+
+                    if (stableSubject && draft.subject !== stableSubject) {
+                        draft.subject = stableSubject;
+                    }
+
+                    const subjectForQuestions = typeof canonicalSubject === 'string' && canonicalSubject.trim().length
+                        ? canonicalSubject.trim()
+                        : stableSubject;
 
                     const processed = new Set();
                     const applyToQuestion = (question) => {
@@ -7121,8 +7208,8 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                         }
                         processed.add(question);
 
-                        if (canonicalSubject && !question.subject) {
-                            question.subject = canonicalSubject;
+                        if (subjectForQuestions && !question.subject) {
+                            question.subject = subjectForQuestions;
                         }
 
                         const candidateRefs = [];
@@ -7148,18 +7235,30 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                             }
                         }
 
-                        if (sanitizedRef && !/^https?:\/\//i.test(sanitizedRef)) {
+                        if (sanitizedRef) {
                             const fixedPath = safePath(sanitizedRef);
                             const meta = resolveImageMeta(fixedPath) || resolveImageMeta(sanitizedRef);
                             if (meta && meta.src) {
                                 question.imageUrl = meta.src;
+                                if (!question.imageAlt) {
+                                    question.imageAlt = meta.alt || meta.altText || '';
+                                }
                                 if (question.imageRef && typeof question.imageRef === 'object') {
                                     question.imageRef.imageUrl = meta.src;
                                     question.imageRef.path = meta.src;
                                     question.imageRef.src = meta.src;
+                                    if (question.subject && !question.imageRef.subject) {
+                                        question.imageRef.subject = question.subject;
+                                    }
+                                    if (!question.imageRef.altText && (meta.alt || meta.altText)) {
+                                        question.imageRef.altText = meta.alt || meta.altText;
+                                    }
                                 }
                             } else {
                                 question.imageUrl = null;
+                                if (!question.imageAlt) {
+                                    question.imageAlt = '';
+                                }
                                 if (question.imageRef && typeof question.imageRef === 'object') {
                                     delete question.imageRef.imageUrl;
                                     delete question.imageRef.path;
@@ -7168,6 +7267,9 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                             }
                         } else {
                             question.imageUrl = null;
+                            if (!question.imageAlt) {
+                                question.imageAlt = '';
+                            }
                             if (question.imageRef && typeof question.imageRef === 'object') {
                                 delete question.imageRef.imageUrl;
                                 delete question.imageRef.path;
@@ -7185,17 +7287,46 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
 
                     const timeoutMs = selectModelTimeoutMs({ examType: 'standard' });
                     const corrected = await reviewAndCorrectQuiz(draft, { timeoutMs });
-                    if (canonicalSubject && !corrected.subject) {
-                        corrected.subject = canonicalSubject;
+                    if (stableSubject) {
+                        corrected.subject = stableSubject;
+                    } else if (!corrected.subject && subjectForQuestions) {
+                        corrected.subject = subjectForQuestions;
                     }
-                    if (draft.title && !corrected.title) {
+                    if (draft.title) {
                         corrected.title = draft.title;
                     }
-                    const restored = restoreImageAttachments(corrected, draft) || corrected;
-                    if (canonicalSubject && !restored.subject) {
-                        restored.subject = canonicalSubject;
+
+                    processed.clear();
+                    if (Array.isArray(corrected.items)) {
+                        corrected.items.forEach(applyToQuestion);
                     }
-                    if (draft.title && !restored.title) {
+                    if (Array.isArray(corrected.questions)) {
+                        corrected.questions.forEach(applyToQuestion);
+                    }
+
+                    const poolForLogging = Array.isArray(corrected.items)
+                        ? corrected.items
+                        : Array.isArray(corrected.questions)
+                            ? corrected.questions
+                            : [];
+                    const missingSubjects = poolForLogging.reduce((count, item, index) => {
+                        if (item && typeof item === 'object' && !item.subject) {
+                            console.warn(`[IMAGES] item ${index} missing subject BEFORE validation`);
+                            return count + 1;
+                        }
+                        return count;
+                    }, 0);
+                    if (missingSubjects) {
+                        console.warn(`[IMAGES] ${missingSubjects} items missing subject BEFORE validation`);
+                    }
+
+                    const restored = restoreImageAttachments(corrected, draft) || corrected;
+                    if (stableSubject) {
+                        restored.subject = stableSubject;
+                    } else if (!restored.subject && subjectForQuestions) {
+                        restored.subject = subjectForQuestions;
+                    }
+                    if (draft.title) {
                         restored.title = draft.title;
                     }
                     if (!Array.isArray(restored.items) && Array.isArray(restored.questions)) {
