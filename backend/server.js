@@ -6331,136 +6331,84 @@ function buildNormalizedImageQuestion(rawQuestion, { subject, index }) {
     return enforceWordCapsOnItem(baseQuestion, subject);
 }
 
-async function generateQuestionsFromImages({ subject, images, questionCount }) {
-    const subjectKey = normalizeSubjectKey(subject);
-    const subjectLabel = subjectKey === 'social-studies'
-        ? 'Social Studies'
-        : subjectKey === 'science'
-            ? 'Science'
-            : subjectKey === 'math'
-                ? 'Math'
-                : (typeof subject === 'string' && subject.trim().length ? subject.trim() : 'General Studies');
+async function generateQuestionsFromImages({ subject, images }) {
+    const normalizedSubject = typeof subject === 'string' && subject.trim().length
+        ? subject.trim()
+        : 'General Studies';
+    const capitalizedSubject = `${normalizedSubject.charAt(0).toUpperCase()}${normalizedSubject.slice(1)}`;
+    const resolvedImages = Array.isArray(images)
+        ? images.filter((image) => image && typeof image === 'object')
+        : [];
 
-    const desiredCount = Math.max(1, Math.floor(Number(questionCount) || (Array.isArray(images) ? images.length : 1)));
-    const results = [];
-
-    for (const image of Array.isArray(images) ? images : []) {
-        if (results.length >= desiredCount) break;
-
-        try {
-            const ref = sanitizeImageRef(image?.filePath || image?.src || image?.file || image?.path);
-            const safeRef = ref ? safePath(ref) : null;
-            const lookupTarget = image?.id || safeRef || ref || image;
-            const curatedRecord = resolveCuratedImageMeta(lookupTarget);
-            const meta = resolveImageMeta(curatedRecord || safeRef || ref || image);
-
-            if (!meta || !meta.src || /^https?:\/\//i.test(meta.src)) {
-                console.warn('[IMG-FIRST] Skipping image with unresolved metadata', image?.id || ref || 'unknown');
-                continue;
-            }
-
-            const prompt = buildImageQuestionPrompt(subjectLabel, {
-                alt: meta.alt || meta.altText || '',
-                altText: meta.altText || meta.alt || '',
-                caption: meta.caption || '',
-                credit: meta.credit || '',
-                detailedDescription: meta.detailedDescription || '',
-                visualType: curatedRecord?.visualType || image?.visualType || ''
-            }, {
-                ...image,
-                visualType: image?.visualType || curatedRecord?.visualType
-            });
-
-            const rawQuestion = await llmGenerateSingleImageQuestion(prompt, { timeoutMs: 60000 });
-            const prepared = buildNormalizedImageQuestion(rawQuestion, { subject: subjectLabel, index: results.length });
-            if (!prepared) {
-                console.warn('[IMG-FIRST] Model returned unusable question for image', image?.id || 'unknown');
-                continue;
-            }
-
-            const normalizedSrc = normalizeImagePath(meta.src);
-            if (!normalizedSrc || /^https?:\/\//i.test(normalizedSrc)) {
-                console.warn('[IMG-FIRST] Invalid normalized path for image', image?.id || 'unknown');
-                continue;
-            }
-
-            const imageAlt = meta.alt || meta.altText || image?.alt || '';
-            const questionHooks = Array.isArray(image?.questionHooks) && image.questionHooks.length
-                ? image.questionHooks
-                : Array.isArray(curatedRecord?.questionHooks)
-                    ? curatedRecord.questionHooks
-                    : [];
-            const subtopics = Array.isArray(image?.subtopics) && image.subtopics.length
-                ? image.subtopics
-                : Array.isArray(curatedRecord?.subtopics)
-                    ? curatedRecord.subtopics
-                    : [];
-            const concepts = Array.isArray(image?.concepts) && image.concepts.length
-                ? image.concepts
-                : Array.isArray(curatedRecord?.concepts)
-                    ? curatedRecord.concepts
-                    : [];
-
-            prepared.imageUrl = normalizedSrc;
-            prepared.imageAlt = typeof imageAlt === 'string' ? imageAlt : '';
-            prepared.imageRef = {
-                id: curatedRecord?.id || image?.id || null,
-                imageUrl: normalizedSrc,
-                altText: imageAlt,
-                visualType: image?.visualType || curatedRecord?.visualType || null,
-                subtopics,
-                concepts,
-                questionHooks,
-                subject: subjectKey || normalizeSubjectKey(subjectLabel) || normalizeSubjectKey(subject) || subject || null
-            };
-            prepared.imageMeta = {
-                id: curatedRecord?.id || image?.id || null,
-                altText: imageAlt,
-                caption: meta.caption || '',
-                credit: meta.credit || '',
-                detailedDescription: meta.detailedDescription || '',
-                visualType: image?.visualType || curatedRecord?.visualType || null,
-                subtopics,
-                concepts,
-                questionHooks
-            };
-
-            const canonicalSubject = subjectKey || normalizeSubjectKey(subjectLabel) || normalizeSubjectKey(subject) || subject;
-            if (canonicalSubject) {
-                prepared.subject = canonicalSubject;
-            } else if (!prepared.subject && typeof subjectLabel === 'string') {
-                prepared.subject = subjectLabel.trim();
-            }
-
-            results.push(prepared);
-        } catch (error) {
-            console.warn('[IMG-FIRST] Failed to generate question from curated image:', error?.message || error);
-        }
+    if (!resolvedImages.length) {
+        return {
+            title: `Comprehensive ${capitalizedSubject} Exam`,
+            subject: normalizedSubject,
+            items: []
+        };
     }
 
-    if (!results.length) {
-        throw new Error('image_first_generation_failed');
-    }
+    const generatedItems = new Array(resolvedImages.length);
+    const { default: PQueue } = await import('p-queue');
+    const queue = new PQueue({ concurrency: 4 });
 
-    const title = subjectKey === 'social-studies'
-        ? 'Comprehensive Social Studies Exam'
-        : subjectKey === 'science'
-            ? 'Comprehensive Science Exam'
-            : subjectKey === 'math'
-                ? 'Comprehensive Math Exam'
-                : 'Comprehensive Practice Exam';
+    resolvedImages.forEach((image, index) => {
+        queue.add(async () => {
+            const imageTitle = typeof image.title === 'string' && image.title.trim().length ? image.title.trim() : 'Untitled';
+            const imageType = typeof image.type === 'string' && image.type.trim().length ? image.type.trim() : 'photo';
+            const imageAltValue = typeof image.alt === 'string' && image.alt.trim().length ? image.alt.trim() : '';
+            const altText = imageAltValue || 'No description available.';
+            const tags = Array.isArray(image.tags)
+                ? image.tags.filter((tag) => typeof tag === 'string' && tag.trim().length).join(', ')
+                : null;
+            const associatedTopics = tags && tags.length ? tags : 'N/A';
 
-    const limited = results.slice(0, desiredCount).map((question, idx) => ({
-        ...question,
-        questionNumber: idx + 1
-    }));
+            const prompt = `You are an expert GED curriculum developer. Based on the following image metadata, please generate a single, multiple-choice GED-style question that directly relates to the image.
+
+      Image Metadata:
+      - Title: "${imageTitle}"
+      - Type: ${imageType}
+      - Alt Text: "${altText}"
+      - Associated Topics: ${associatedTopics}
+
+      The question must be self-contained and directly test a concept visible or implied in the image described above. Return ONLY a single JSON object for the question, with no extra text or explanations.`;
+
+            try {
+                const question = await llmGenerateSingleImageQuestion(prompt, { timeoutMs: 60000 });
+                if (!question || typeof question !== 'object') {
+                    return;
+                }
+
+                const imageUrl = typeof image.src === 'string' && image.src.trim().length ? image.src : null;
+                if (!imageUrl) {
+                    console.warn('[IMG-FIRST] Skipping question attachment due to missing image src', image?.id || index);
+                    return;
+                }
+
+                question.imageUrl = imageUrl;
+                question.imageAlt = imageAltValue;
+                question.imageRef = image.id || imageUrl;
+                question.subject = normalizedSubject;
+                generatedItems[index] = question;
+            } catch (error) {
+                console.warn('[IMG-FIRST] Failed to generate question for image', image?.id || image?.src || index, error?.message || error);
+            }
+        });
+    });
+
+    await queue.onIdle();
+
+    const items = generatedItems
+        .filter(Boolean)
+        .map((item, idx) => ({
+            ...item,
+            questionNumber: typeof item.questionNumber === 'number' ? item.questionNumber : idx + 1
+        }));
 
     return {
-        id: `image-first-${Date.now()}`,
-        title,
-        subject: subjectLabel,
-        questions: limited,
-        items: limited
+        title: `Comprehensive ${capitalizedSubject} Exam`,
+        subject: normalizedSubject,
+        items
     };
 }
 
@@ -7225,169 +7173,45 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                 });
 
                 if (selectedImages.length) {
-                    const draft = await generateQuestionsFromImages({
-                        subject,
-                        images: selectedImages,
-                        questionCount: imageQuestionCount
-                    });
-                    const requestSubject = typeof subject === 'string' && subject.trim().length ? subject.trim() : null;
-                    if (!draft.subject && requestSubject) {
-                        draft.subject = requestSubject;
-                    }
-
-                    const canonicalSubject = normalizeSubjectKey(subject)
-                        || normalizeSubjectKey(draft.subject)
-                        || (typeof draft.subject === 'string' ? draft.subject.trim() : '')
-                        || requestSubject
-                        || subject;
-
-                    const stableSubject = (typeof draft.subject === 'string' && draft.subject.trim().length ? draft.subject.trim() : null)
-                        || requestSubject
-                        || (typeof canonicalSubject === 'string' && canonicalSubject.trim().length ? canonicalSubject.trim() : null)
-                        || null;
-
-                    if (stableSubject && draft.subject !== stableSubject) {
-                        draft.subject = stableSubject;
-                    }
-
-                    sanitizeDraftImages(draft);
-
-                    const subjectForQuestions = typeof canonicalSubject === 'string' && canonicalSubject.trim().length
-                        ? canonicalSubject.trim()
-                        : stableSubject;
-
-                    const processed = new Set();
-                    const applyToQuestion = (question) => {
-                        if (!question || typeof question !== 'object' || processed.has(question)) {
-                            return;
-                        }
-                        processed.add(question);
-
-                        if (subjectForQuestions && !question.subject) {
-                            question.subject = subjectForQuestions;
-                        }
-
-                        const candidateRefs = [];
-                        if (typeof question.imageUrl === 'string') candidateRefs.push(question.imageUrl);
-                        if (typeof question.imagePath === 'string') candidateRefs.push(question.imagePath);
-                        if (typeof question.image === 'string') candidateRefs.push(question.image);
-                        if (question.imageRef && typeof question.imageRef === 'string') {
-                            candidateRefs.push(question.imageRef);
-                        } else if (question.imageRef && typeof question.imageRef === 'object') {
-                            candidateRefs.push(
-                                question.imageRef.imageUrl,
-                                question.imageRef.path,
-                                question.imageRef.src
-                            );
-                        }
-
-                        let sanitizedRef = null;
-                        for (const candidate of candidateRefs) {
-                            const ref = sanitizeImageRef(candidate);
-                            if (ref) {
-                                sanitizedRef = ref;
-                                break;
-                            }
-                        }
-
-                        if (sanitizedRef) {
-                            const fixedPath = safePath(sanitizedRef);
-                            const meta = resolveImageMeta(fixedPath) || resolveImageMeta(sanitizedRef);
-                            if (meta && meta.src) {
-                                question.imageUrl = meta.src;
-                                if (!question.imageAlt) {
-                                    question.imageAlt = meta.alt || meta.altText || '';
-                                }
-                                if (question.imageRef && typeof question.imageRef === 'object') {
-                                    question.imageRef.imageUrl = meta.src;
-                                    question.imageRef.path = meta.src;
-                                    question.imageRef.src = meta.src;
-                                    if (question.subject && !question.imageRef.subject) {
-                                        question.imageRef.subject = question.subject;
-                                    }
-                                    if (!question.imageRef.altText && (meta.alt || meta.altText)) {
-                                        question.imageRef.altText = meta.alt || meta.altText;
-                                    }
-                                }
-                            } else {
-                                question.imageUrl = null;
-                                if (!question.imageAlt) {
-                                    question.imageAlt = '';
-                                }
-                                if (question.imageRef && typeof question.imageRef === 'object') {
-                                    delete question.imageRef.imageUrl;
-                                    delete question.imageRef.path;
-                                    delete question.imageRef.src;
-                                }
-                            }
-                        } else {
-                            question.imageUrl = null;
-                            if (!question.imageAlt) {
-                                question.imageAlt = '';
-                            }
-                            if (question.imageRef && typeof question.imageRef === 'object') {
-                                delete question.imageRef.imageUrl;
-                                delete question.imageRef.path;
-                                delete question.imageRef.src;
-                            }
-                        }
-                    };
-
-                    if (Array.isArray(draft.items)) {
-                        draft.items.forEach(applyToQuestion);
-                    }
-                    if (Array.isArray(draft.questions)) {
-                        draft.questions.forEach(applyToQuestion);
-                    }
-
+                    const draft = await generateQuestionsFromImages({ subject, images: selectedImages });
                     const timeoutMs = selectModelTimeoutMs({ examType: 'standard' });
                     const corrected = await reviewAndCorrectQuiz(draft, { timeoutMs });
-                    if (stableSubject) {
-                        corrected.subject = stableSubject;
-                    } else if (!corrected.subject && subjectForQuestions) {
-                        corrected.subject = subjectForQuestions;
-                    }
+
                     if (draft.title) {
                         corrected.title = draft.title;
                     }
 
-                    processed.clear();
-                    if (Array.isArray(corrected.items)) {
-                        corrected.items.forEach(applyToQuestion);
-                    }
-                    if (Array.isArray(corrected.questions)) {
-                        corrected.questions.forEach(applyToQuestion);
+                    if (!corrected.subject && draft.subject) {
+                        corrected.subject = draft.subject;
                     }
 
-                    const poolForLogging = Array.isArray(corrected.items)
+                    const baseItems = Array.isArray(draft.items) ? draft.items : [];
+                    const reviewedItems = Array.isArray(corrected.items)
                         ? corrected.items
                         : Array.isArray(corrected.questions)
                             ? corrected.questions
                             : [];
-                    const missingSubjects = poolForLogging.reduce((count, item, index) => {
-                        if (item && typeof item === 'object' && !item.subject) {
-                            console.warn(`[IMAGES] item ${index} missing subject BEFORE validation`);
-                            return count + 1;
+
+                    const mergedItems = reviewedItems.map((item, index) => {
+                        const base = baseItems[index];
+                        if (!base) {
+                            return item;
                         }
-                        return count;
-                    }, 0);
-                    if (missingSubjects) {
-                        console.warn(`[IMAGES] ${missingSubjects} items missing subject BEFORE validation`);
+                        return {
+                            ...item,
+                            imageUrl: base.imageUrl,
+                            imageAlt: base.imageAlt,
+                            imageRef: base.imageRef,
+                            subject: item.subject || base.subject || draft.subject
+                        };
+                    });
+
+                    if (mergedItems.length) {
+                        corrected.items = mergedItems;
+                        corrected.questions = mergedItems;
                     }
 
-                    const restored = reconcileImages(corrected, draft) || corrected;
-                    if (stableSubject) {
-                        restored.subject = stableSubject;
-                    } else if (!restored.subject && subjectForQuestions) {
-                        restored.subject = subjectForQuestions;
-                    }
-                    if (draft.title) {
-                        restored.title = draft.title;
-                    }
-                    if (!Array.isArray(restored.items) && Array.isArray(restored.questions)) {
-                        restored.items = restored.questions.map((question) => ({ ...question }));
-                    }
-                    return res.json(restored);
+                    return res.json(corrected);
                 } else {
                     console.warn('[IMG-FIRST] No eligible curated images found; falling back to text-first generation.');
                 }
