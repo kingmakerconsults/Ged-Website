@@ -1816,7 +1816,7 @@ function normalizeStimulusAndSource(item) {
     const normalizedSrc = resolvedSrc ? normalizeImagePath(resolvedSrc) : '';
 
     if (normalizedSrc) {
-        const encodedSrc = encodeURI(normalizedSrc);
+        const encodedSrc = normalizedSrc;
         out.imageUrl = encodedSrc;
         out.stimulusImage = {
             ...(out.stimulusImage || {}),
@@ -2051,7 +2051,7 @@ function resolveHeroImageForSubject(subject, { candidates = [], avoidIds } = {})
         return {
             id: heroId || null,
             subject: subject || null,
-            src: encodeURI(normalizedSrc),
+            src: normalizedSrc,
             alt: meta?.altText || meta?.alt || (typeof candidate === 'object' ? candidate.altText || candidate.title : null) || `Illustration for ${subject || 'exam'}`,
             credit: meta?.credit || meta?.displaySource || (typeof candidate === 'object' ? candidate.credit : '') || '',
             caption: meta?.caption || (typeof candidate === 'object' ? candidate.caption : '') || ''
@@ -5590,7 +5590,7 @@ const generateImageQuestion = async (topic, subject, imagePool, numQuestions, op
                         : imageMeta?.src
                             ? normalizeImagePath(imageMeta.src)
                             : normalizeImagePath(rawImagePath || '');
-                    const encodedImagePath = normalizedImagePath ? encodeURI(normalizedImagePath) : null;
+                    const encodedImagePath = normalizedImagePath ? normalizedImagePath : null;
                     const resolvedPath = curatedEligible
                         ? (encodedImagePath || curatedRecord.src || null)
                         : curatedRecord
@@ -5759,7 +5759,7 @@ const generateIntegratedSet = async (topic, subject, imagePool, numQuestions, op
             ? normalizeImagePath(resolvedMeta.src)
             : normalizeImagePath(selectedImage.filePath || selectedImage.src || selectedImage.path || '');
     const normalizedPath = normalizedPathRaw || null;
-    const encodedPath = normalizedPath ? encodeURI(normalizedPath) : null;
+    const encodedPath = normalizedPath ? normalizedPath : null;
     const mergedAlt = curatedRecord?.alt || curatedRecord?.altText || resolvedMeta?.altText || selectedImage.altText || '';
     const description = resolvedMeta?.detailedDescription || selectedImage.detailedDescription || '';
     const usage = resolvedMeta?.usageDirectives || selectedImage.usageDirectives || '';
@@ -5932,7 +5932,22 @@ function sanitizeImageRef(ref) {
     const value = String(ref).trim();
     if (!value) return null;
     if (/^https?:\/\//i.test(value)) return null;
-    return normalizeImagePath(value);
+    return value;
+}
+
+function safePath(p) {
+    if (!p) return null;
+    let s = String(p);
+    try {
+        s = decodeURIComponent(s);
+    } catch (_) {
+        // ignore decode errors
+    }
+    s = s.replace(/^\.?\/+/, '');
+    if (!s.toLowerCase().startsWith('images/')) {
+        s = 'Images/' + s;
+    }
+    return '/' + encodeURI(s);
 }
 
 function selectCuratedImages({ subject, count = 10, visualTypes = [], subtopics = [], concepts = [] }) {
@@ -6136,8 +6151,10 @@ async function generateQuestionsFromImages({ subject, images, questionCount }) {
 
         try {
             const ref = sanitizeImageRef(image?.filePath || image?.src || image?.file || image?.path);
-            const curatedRecord = resolveCuratedImageMeta(image?.id || ref || image);
-            const meta = resolveImageMeta(curatedRecord || image);
+            const safeRef = ref ? safePath(ref) : null;
+            const lookupTarget = image?.id || safeRef || ref || image;
+            const curatedRecord = resolveCuratedImageMeta(lookupTarget);
+            const meta = resolveImageMeta(curatedRecord || safeRef || ref || image);
 
             if (!meta || !meta.src || /^https?:\/\//i.test(meta.src)) {
                 console.warn('[IMG-FIRST] Skipping image with unresolved metadata', image?.id || ref || 'unknown');
@@ -6208,6 +6225,11 @@ async function generateQuestionsFromImages({ subject, images, questionCount }) {
                 concepts,
                 questionHooks
             };
+
+            const canonicalSubject = subjectKey || normalizeSubjectKey(subjectLabel) || normalizeSubjectKey(subject) || subject;
+            if (canonicalSubject) {
+                prepared.subject = canonicalSubject;
+            }
 
             results.push(prepared);
         } catch (error) {
@@ -6755,10 +6777,10 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
                 console.warn(`[IMG-GUARD] Skipped weak metadata for question ${key} (${curatedRecord.id || normalizedRefPath})`);
             }
             if (curatedEligible) {
-                const encodedPath = encodeURI(normalizedRefPath);
-                correctedRef.imageUrl = encodedPath;
-                correctedRef.path = encodedPath;
-                correctedRef.src = correctedRef.src || encodedPath;
+                const resolvedPath = normalizedRefPath;
+                correctedRef.imageUrl = resolvedPath;
+                correctedRef.path = resolvedPath;
+                correctedRef.src = correctedRef.src || resolvedPath;
                 const resolvedMeta = {
                     id: curatedRecord.id,
                     src: curatedRecord.src,
@@ -6792,15 +6814,15 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
                     mergedMeta.questionHooks = [...curatedRecord.questionHooks];
                 }
                 correctedRef.imageMeta = Object.keys(mergedMeta).length ? mergedMeta : undefined;
-                merged.imageUrl = merged.imageUrl || encodedPath;
+                merged.imageUrl = merged.imageUrl || resolvedPath;
                 if (!merged.imageAlt && (resolvedMeta.altText || originalAlt)) {
                     merged.imageAlt = (resolvedMeta.altText || originalAlt || '').trim();
                 }
             } else if (!curatedRecord) {
                 const resolvedMeta = resolveImageMeta(normalizedRefPath) || {};
-                const encodedPath = encodeURI(normalizedRefPath);
-                correctedRef.imageUrl = encodedPath;
-                correctedRef.path = encodedPath;
+                const resolvedPath = normalizedRefPath;
+                correctedRef.imageUrl = resolvedPath;
+                correctedRef.path = resolvedPath;
                 if (!correctedRef.altText && (resolvedMeta.altText || originalAlt)) {
                     correctedRef.altText = (resolvedMeta.altText || originalAlt || '').trim();
                 }
@@ -6811,7 +6833,7 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
                     correctedRef.credit = resolvedMeta.credit;
                 }
                 if (!correctedRef.src) {
-                    correctedRef.src = encodedPath;
+                    correctedRef.src = resolvedPath;
                 }
                 const mergedMeta = { ...(correctedRef.imageMeta || {}) };
                 if (resolvedMeta && resolvedMeta.src) {
@@ -6827,7 +6849,7 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
                 if (Object.keys(mergedMeta).length) {
                     correctedRef.imageMeta = mergedMeta;
                 }
-                merged.imageUrl = merged.imageUrl || encodedPath;
+                merged.imageUrl = merged.imageUrl || resolvedPath;
             } else {
                 delete correctedRef.imageMeta;
                 delete correctedRef.imageUrl;
@@ -6838,9 +6860,8 @@ function restoreImageAttachments(correctedQuiz, draftQuiz) {
             }
         } else if (finalImageUrl) {
             const normalizedFallback = normalizeImagePath(finalImageUrl) || finalImageUrl;
-            const encodedPath = encodeURI(normalizedFallback);
-            correctedRef.imageUrl = correctedRef.imageUrl || encodedPath;
-            correctedRef.path = correctedRef.path || encodedPath;
+            correctedRef.imageUrl = correctedRef.imageUrl || normalizedFallback;
+            correctedRef.path = correctedRef.path || normalizedFallback;
         }
 
         if (!correctedRef.altText && originalAlt) {
@@ -6882,6 +6903,13 @@ Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQui
     const callOptions = isSocialStudies ? { ...options, callSite: 'ss-review' } : options;
     const correctedQuiz = await callAI(prompt, schema, callOptions);
 
+    if (draftQuiz?.subject && correctedQuiz && typeof correctedQuiz === 'object' && !correctedQuiz.subject) {
+        correctedQuiz.subject = draftQuiz.subject;
+    }
+    if (draftQuiz?.title && correctedQuiz && typeof correctedQuiz === 'object' && !correctedQuiz.title) {
+        correctedQuiz.title = draftQuiz.title;
+    }
+
     if (isSocialStudies) {
         if (correctedQuiz && typeof correctedQuiz === 'object' && typeof draftQuiz?.title === 'string') {
             correctedQuiz.title = draftQuiz.title;
@@ -6889,6 +6917,9 @@ Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQui
         const restored = restoreImageAttachments(correctedQuiz, draftQuiz);
         if (restored && typeof restored === 'object' && typeof draftQuiz?.title === 'string') {
             restored.title = draftQuiz.title;
+        }
+        if (draftQuiz?.subject && restored && typeof restored === 'object' && !restored.subject) {
+            restored.subject = draftQuiz.subject;
         }
         return restored;
     }
@@ -7074,10 +7105,99 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                         images: selectedImages,
                         questionCount: imageQuestionCount
                     });
+                    if (!draft.subject && subject) {
+                        draft.subject = subject;
+                    }
+
+                    const canonicalSubject = normalizeSubjectKey(subject)
+                        || normalizeSubjectKey(draft.subject)
+                        || (typeof draft.subject === 'string' ? draft.subject.trim() : '')
+                        || subject;
+
+                    const processed = new Set();
+                    const applyToQuestion = (question) => {
+                        if (!question || typeof question !== 'object' || processed.has(question)) {
+                            return;
+                        }
+                        processed.add(question);
+
+                        if (canonicalSubject && !question.subject) {
+                            question.subject = canonicalSubject;
+                        }
+
+                        const candidateRefs = [];
+                        if (typeof question.imageUrl === 'string') candidateRefs.push(question.imageUrl);
+                        if (typeof question.imagePath === 'string') candidateRefs.push(question.imagePath);
+                        if (typeof question.image === 'string') candidateRefs.push(question.image);
+                        if (question.imageRef && typeof question.imageRef === 'string') {
+                            candidateRefs.push(question.imageRef);
+                        } else if (question.imageRef && typeof question.imageRef === 'object') {
+                            candidateRefs.push(
+                                question.imageRef.imageUrl,
+                                question.imageRef.path,
+                                question.imageRef.src
+                            );
+                        }
+
+                        let sanitizedRef = null;
+                        for (const candidate of candidateRefs) {
+                            const ref = sanitizeImageRef(candidate);
+                            if (ref) {
+                                sanitizedRef = ref;
+                                break;
+                            }
+                        }
+
+                        if (sanitizedRef && !/^https?:\/\//i.test(sanitizedRef)) {
+                            const fixedPath = safePath(sanitizedRef);
+                            const meta = resolveImageMeta(fixedPath) || resolveImageMeta(sanitizedRef);
+                            if (meta && meta.src) {
+                                question.imageUrl = meta.src;
+                                if (question.imageRef && typeof question.imageRef === 'object') {
+                                    question.imageRef.imageUrl = meta.src;
+                                    question.imageRef.path = meta.src;
+                                    question.imageRef.src = meta.src;
+                                }
+                            } else {
+                                question.imageUrl = null;
+                                if (question.imageRef && typeof question.imageRef === 'object') {
+                                    delete question.imageRef.imageUrl;
+                                    delete question.imageRef.path;
+                                    delete question.imageRef.src;
+                                }
+                            }
+                        } else {
+                            question.imageUrl = null;
+                            if (question.imageRef && typeof question.imageRef === 'object') {
+                                delete question.imageRef.imageUrl;
+                                delete question.imageRef.path;
+                                delete question.imageRef.src;
+                            }
+                        }
+                    };
+
+                    if (Array.isArray(draft.items)) {
+                        draft.items.forEach(applyToQuestion);
+                    }
+                    if (Array.isArray(draft.questions)) {
+                        draft.questions.forEach(applyToQuestion);
+                    }
+
                     const timeoutMs = selectModelTimeoutMs({ examType: 'standard' });
                     const corrected = await reviewAndCorrectQuiz(draft, { timeoutMs });
-                    corrected.title = draft.title;
+                    if (canonicalSubject && !corrected.subject) {
+                        corrected.subject = canonicalSubject;
+                    }
+                    if (draft.title && !corrected.title) {
+                        corrected.title = draft.title;
+                    }
                     const restored = restoreImageAttachments(corrected, draft) || corrected;
+                    if (canonicalSubject && !restored.subject) {
+                        restored.subject = canonicalSubject;
+                    }
+                    if (draft.title && !restored.title) {
+                        restored.title = draft.title;
+                    }
                     if (!Array.isArray(restored.items) && Array.isArray(restored.questions)) {
                         restored.items = restored.questions.map((question) => ({ ...question }));
                     }

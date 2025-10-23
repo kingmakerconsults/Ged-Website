@@ -27,21 +27,18 @@ function normalizeImagePath(raw) {
   }
 
   try {
-    value = decodeURI(value);
+    value = decodeURIComponent(value);
   } catch (_) {
     // ignore decode errors
   }
 
-  value = value.replace(/\\+/g, '/').replace(/^\.\/+/, '').replace(/^\/+/, '');
+  value = value.replace(/\\+/g, '/').replace(/^\.?\/+/, '');
   if (!value) return null;
   if (!value.toLowerCase().startsWith('images/')) {
     value = `Images/${value}`;
   }
-  const encoded = value
-    .split('/')
-    .map((segment) => encodeURIComponent(segment))
-    .join('/');
-  return `/${encoded}`;
+
+  return `/${encodeURI(value)}`;
 }
 
 function resetIndexes() {
