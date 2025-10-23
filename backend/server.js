@@ -3600,6 +3600,8 @@ Write exactly ONE multiple-choice question.
   "answer": "A|B|C|D",
   "rationale": "…"
 }
+`.trim();
+}
 
 function normalizeSmithASocialItem(raw, index, { subject, subtopic, skill, topicLabel, passage, imageRef }) {
     const errors = [];
