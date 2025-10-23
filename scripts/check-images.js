@@ -38,13 +38,35 @@ function normalizeImagePath(raw) {
   return '/' + encodeURI(p);
 }
 
-function isImageEligible(img) {
-  if (!img) return false;
-  const required = ['visualType', 'subtopics', 'questionHooks'];
-  for (const k of required) {
-    if (!img[k] || (Array.isArray(img[k]) && img[k].length === 0)) return false;
+const SKIP_REASONS = new Set();
+
+function logOnce(message) {
+  if (!SKIP_REASONS.has(message)) {
+    SKIP_REASONS.add(message);
+    console.warn(message);
   }
-  return Array.isArray(img.questionHooks) && img.questionHooks.length >= 2;
+}
+
+function isImageEligible(img) {
+  if (!img || typeof img !== 'object') {
+    logOnce('[images][check] skip: invalid record.');
+    return false;
+  }
+  if (!img.type || typeof img.type !== 'string' || !img.type.trim()) {
+    logOnce('[images][check] skip: missing type.');
+    return false;
+  }
+  if (!Array.isArray(img.tags) || !img.tags.filter((tag) => typeof tag === 'string' && tag.trim().length).length) {
+    logOnce('[images][check] skip: missing tags.');
+    return false;
+  }
+  if (!img.alt && !img.title) {
+    logOnce('[images][check] soft: missing alt/title.');
+  }
+  if (!img.file && !img.src && !img.filePath) {
+    logOnce('[images][check] soft: missing file reference.');
+  }
+  return true;
 }
 
 function loadMeta() {
