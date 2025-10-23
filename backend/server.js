@@ -29,7 +29,7 @@ const axios = require('axios');
 const katex = require('katex');
 const sanitizeHtml = require('sanitize-html');
 const { jsonrepair } = require('jsonrepair');
-const { assertValidImageRef: assertImageRefPayload, validateImageRef } = require('./src/images/validateImageRef');
+const { assertValidImageRef: assertImageRefPayload } = require('./src/images/validateImageRef');
 const imageDiagnostics = require('./src/images/imageDiagnostics');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
 const vocabularyData = require('../data/vocabulary_index.json');
@@ -221,8 +221,9 @@ const fs = require('fs');
 const crypto = require('crypto');
 const AbortController = globalThis.AbortController || fetch.AbortController;
 
-const CLIENT_DIST_DIR = path.join(__dirname, '../frontend/dist');
-const CLIENT_INDEX_FILE = path.join(CLIENT_DIST_DIR, 'index.html');
+const FRONTEND_DIST = path.join(__dirname, 'frontend', 'dist');
+const CLIENT_DIST_DIR = FRONTEND_DIST;
+const CLIENT_INDEX_FILE = path.join(FRONTEND_DIST, 'index.html');
 const HASHED_ASSET_REGEX = /\.[a-f0-9]{8,}\./i;
 
 function detectContentHashedAssets(rootDir) {
@@ -1118,7 +1119,7 @@ const {
     resolveImageMeta: resolveCuratedImageMeta,
     resolveImage: resolveCuratedImage,
     normalizeImagePath,
-    isImageEligible
+    isImageEligible: isImageEligibleStrict
 } = imageRegistry;
 const { IMAGE_BY_PATH, IMAGE_BY_BASENAME, IMAGE_BY_ID } = imageRegistry.indexes;
 const IMAGE_DB = imageRegistry.IMAGE_DB;
@@ -1126,6 +1127,10 @@ let curatedImages = IMAGE_DB;
 const MISSING_IMAGE_LOG = new Set();
 const IMAGE_METADATA_PATH = imageRegistry.metadataPath || path.join(__dirname, 'data', 'image_metadata_final.json');
 global.curatedImages = curatedImages;
+
+function isImageEligible(img) {
+    return !!(img && (img.src || img.filePath || img.file) && (img.alt || img.title));
+}
 
 function resolveImageMeta(input) {
     const record = resolveCuratedImageMeta(input);
@@ -2471,72 +2476,154 @@ Rules:
 - Keep questionText concise and targeted; avoid fluff.
 - Exactly N items; top-level is JSON array only.`;
 
-function findImagesForSubjectTopic(subject, topic, limit = 5) {
-    const normStr = (s) => (s || '').toLowerCase();
-    const s = normStr(subject);
-    const t = normStr(topic);
+function getCuratedImagePool() {
+    const source = Array.isArray(global.curatedImages) && global.curatedImages.length
+        ? global.curatedImages
+        : Array.isArray(IMAGE_DB)
+            ? IMAGE_DB
+            : [];
 
-    if (!s) {
+    return source
+        .map((img) => {
+            if (!img) return null;
+            const src = normalizeImagePath(img.filePath || img.src || img.file || img.path);
+            if (!src) return null;
+            return {
+                ...img,
+                src,
+                filePath: src
+            };
+        })
+        .filter(Boolean);
+}
+
+function buildImageCandidatePool({ subject, requestedCount = 1, usedKeys = new Set() } = {}) {
+    const pool = getCuratedImagePool();
+    if (!pool.length) {
+        console.warn('[IMG-SWAP] Curated image pool is empty.');
+        return { pool: [], subjectPool: [], chosen: [] };
+    }
+
+    const eligiblePool = pool.filter((img) => isImageEligible(img));
+    const workingPool = eligiblePool.length ? eligiblePool : pool;
+    const subjectKey = typeof subject === 'string' ? subject.trim().toLowerCase() : '';
+
+    let subjectPool = workingPool;
+    if (subjectKey) {
+        subjectPool = workingPool.filter((img) => {
+            const tags = Array.isArray(img.tags) ? img.tags.map((tag) => String(tag).toLowerCase()) : [];
+            const domain = String(img.subject || img.domain || '').toLowerCase();
+            if (domain.includes(subjectKey)) return true;
+            return tags.some((tag) => tag.includes(subjectKey));
+        });
+        if (!subjectPool.length) {
+            subjectPool = workingPool;
+        }
+    }
+
+    const target = Math.min(
+        Math.max(Number(requestedCount) || 1, 1),
+        Math.min(workingPool.length, 12)
+    );
+
+    const seen = new Set();
+    const blocked = usedKeys || new Set();
+    const chosen = [];
+
+    const pushFrom = (list) => {
+        for (const img of list) {
+            if (!img) continue;
+            if ((img.id && blocked.has(img.id)) || (img.src && blocked.has(img.src))) continue;
+            const key = img.id || img.src;
+            if (!key || seen.has(key)) continue;
+            seen.add(key);
+            chosen.push(img);
+            if (chosen.length >= target) break;
+        }
+    };
+
+    pushFrom(subjectPool);
+    if (chosen.length < target) {
+        pushFrom(workingPool);
+    }
+    if (chosen.length < target) {
+        pushFrom(pool);
+    }
+
+    console.log(`[IMG-SWAP] subject=${subjectKey || 'any'} pool=${pool.length} subjectPool=${subjectPool.length} chosen=${chosen.length}`);
+    return { pool, subjectPool, chosen };
+}
+
+function selectSwapImage(subject, usedKeys = new Set(), requestedCount = 6) {
+    const { chosen } = buildImageCandidatePool({ subject, requestedCount, usedKeys });
+    if (!chosen.length) {
+        return null;
+    }
+    return chosen[Math.floor(Math.random() * chosen.length)];
+}
+
+function findImagesForSubjectTopic(subject, topic, limit = 5) {
+    const requestedCount = Math.max(Number(limit) || 1, 1);
+    const norm = (value) => String(value || '').trim().toLowerCase();
+    const subjectKey = norm(subject);
+    const topicKey = norm(topic);
+
+    if (!subjectKey) {
         console.warn(`[IMG-WARN] Missing subject in image lookup (topic=${topic})`);
         return [];
     }
 
-    let pool = IMAGE_DB.filter((img) => normStr(img.subject).includes(s) && normStr(img.category).includes(t));
+    const { pool, subjectPool } = buildImageCandidatePool({ subject: subjectKey, requestedCount });
+    if (!pool.length) {
+        return [];
+    }
 
-    if (pool.length < limit) {
-        const subjectPool = IMAGE_DB.filter((img) => normStr(img.subject).includes(s));
-        const keywordMatches = subjectPool.filter((img) => {
+    const basePool = subjectPool.length ? subjectPool : pool;
+    const topicTokens = topicKey.split(/[\s,&/|]+/g).filter(Boolean);
+
+    const topicMatches = topicTokens.length
+        ? basePool.filter((img) => {
             const bag = [
-                normStr(img.altText),
-                normStr((img.keywords || []).join(' ')),
-                normStr(img.detailedDescription),
-                normStr(img.category)
+                norm(img.alt || img.altText),
+                norm((img.keywords || []).join(' ')),
+                norm((img.tags || []).join(' ')),
+                norm(img.detailedDescription),
+                norm(img.caption),
+                norm(img.category)
             ].join(' ');
-            return t.split(/[\s,&/|]+/g).some((tok) => tok && bag.includes(tok));
-        });
-        const existing = new Set(pool.map((p) => p.filePath || p.src || p.path));
-        for (const m of keywordMatches) {
-            const dedupeKey = m.filePath || m.src || m.path;
-            if (!dedupeKey || existing.has(dedupeKey)) continue;
-            existing.add(dedupeKey);
-            pool.push(m);
-            if (pool.length >= limit) break;
-        }
-    }
+            return topicTokens.some((token) => bag.includes(token));
+        })
+        : basePool;
 
-    if (pool.length === 0) {
-        console.warn(`[IMG-WARN] No image matches for Subject="${subject}", Topic="${topic}".`);
-    }
-
-    if (pool.length === 0) {
-        pool = IMAGE_DB.filter((img) => normStr(img.subject).includes(s)).slice(0, limit);
-        if (pool.length) {
-            console.warn(`[IMG-FALLBACK] Using subject-only images for "${subject}" (${topic}).`);
-        }
-    }
-
+    const desired = Math.min(requestedCount, Math.min(pool.length, 12));
     const seen = new Set();
     const out = [];
-    for (const img of pool) {
-        const key = img.filePath || img.src || img.path;
-        if (!key || seen.has(key)) continue;
-        seen.add(key);
-        const normalizedSrc = normalizeImagePath(key);
-        out.push({
-            ...img,
-            filePath: normalizedSrc,
-            src: normalizedSrc
-        });
-        if (out.length >= limit) break;
+
+    const pushFrom = (list) => {
+        for (const img of list) {
+            if (!img) continue;
+            const key = img.id || img.src;
+            if (!key || seen.has(key)) continue;
+            seen.add(key);
+            out.push(img);
+            if (out.length >= desired) break;
+        }
+    };
+
+    pushFrom(topicMatches);
+    if (out.length < desired) {
+        pushFrom(basePool);
+    }
+    if (out.length < desired) {
+        pushFrom(pool);
     }
 
-    const sample = out[0]?.src || 'none';
-    if (out.length === 0) {
-        console.warn(`[IMG-SELECT] Subject: ${subject}, Topic: ${topic}, Found: 0, Using: none`);
-    } else {
-        console.log(`[IMG-SELECT] Subject: ${subject}, Topic: ${topic}, Found: ${out.length}, Using: ${sample}`);
+    if (!out.length) {
+        console.warn(`[IMG-SELECT] subject=${subject} topic=${topic} pool=0 chosen=0`);
+        return [];
     }
 
+    console.log(`[IMG-SELECT] subject=${subject} topic=${topic} pool=${pool.length} subjectPool=${basePool.length} topicPool=${topicMatches.length} chosen=${out.length}`);
     return out;
 }
 
@@ -3536,45 +3623,25 @@ app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all rou
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
-// --- Static assets (images) with CORS + long cache ---
-const IMAGES_PRIMARY = path.join(__dirname, 'Images');
-const LEGACY_IMAGES_ROOT = path.join(__dirname, '../frontend/Images');
-if (fs.existsSync(IMAGES_PRIMARY)) {
-    const sharedOptions = { maxAge: '7d', etag: true };
-    app.use('/Images', express.static(IMAGES_PRIMARY, { ...sharedOptions, fallthrough: false }));
-    app.use('/img', cors(), express.static(IMAGES_PRIMARY, { ...sharedOptions, fallthrough: true }));
-    console.log('[static] mounted /Images from', IMAGES_PRIMARY);
-} else if (fs.existsSync(LEGACY_IMAGES_ROOT)) {
-    const sharedOptions = { maxAge: '7d', etag: true };
-    app.use('/Images', express.static(LEGACY_IMAGES_ROOT, { ...sharedOptions, fallthrough: false }));
-    app.use('/img', cors(), express.static(LEGACY_IMAGES_ROOT, { ...sharedOptions, fallthrough: true }));
-    console.warn('[static][warn] Primary Images directory missing; using legacy path', LEGACY_IMAGES_ROOT);
-} else {
-    console.warn('[static][warn] Images directory not found at', IMAGES_PRIMARY, 'or', LEGACY_IMAGES_ROOT);
+const IMAGES_DIR = process.env.IMAGES_DIR || path.join(__dirname, 'frontend', 'Images');
+if (!fs.existsSync(IMAGES_DIR)) {
+    console.warn('[static][warn] Images directory not found at', IMAGES_DIR);
 }
+app.use('/Images', express.static(IMAGES_DIR, { fallthrough: false }));
+console.log('[static] Images from', IMAGES_DIR);
 
-app.use('/assets', express.static(path.join(__dirname, '../frontend/assets')));
-
-const distPath = path.join(__dirname, '../frontend/dist');
-
-if (CLIENT_BUILD_EXISTS) {
-    app.use(express.static(distPath, { maxAge: '1h', etag: true }));
-
-    app.get(['/', '/app', '/app/*'], (req, res, next) => {
-        if (req.method !== 'GET') return next();
-        const indexFilePath = path.join(distPath, 'index.html');
-        // only fall back if the file actually exists
-        if (!fs.existsSync(indexFilePath)) {
-            return next();
-        }
-        res.sendFile(indexFilePath);
-    });
-} else {
-    console.warn('[SPA][WARN] No built frontend found at frontend/dist. Serving backend status message instead.');
-    app.get(['/', '/app', '/app/*'], (_req, res) => {
-        res.send('Learning Canvas Backend is running! Build the frontend to enable the UI.');
-    });
+if (!fs.existsSync(FRONTEND_DIST)) {
+    console.warn('[SPA][WARN] No built frontend found at', FRONTEND_DIST);
 }
+app.use(express.static(FRONTEND_DIST));
+app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    const indexPath = path.join(FRONTEND_DIST, 'index.html');
+    if (!fs.existsSync(indexPath)) {
+        return res.status(503).send('Frontend build missing.');
+    }
+    res.sendFile(indexPath);
+});
 
 app.post('/question-bank/save', async (req, res) => {
     const client = await pool.connect();
@@ -5921,6 +5988,7 @@ function scoreImageForPlan(img, desired) {
 function isImageEligibleForPlan(img) {
     if (!img) return false;
     if (!isImageEligible(img)) return false;
+    if (typeof isImageEligibleStrict === 'function' && !isImageEligibleStrict(img)) return false;
     if (!img.visualType) return false;
     if (!Array.isArray(img.subtopics) || img.subtopics.length === 0) return false;
     if (!Array.isArray(img.questionHooks) || img.questionHooks.length < 2) return false;
@@ -6687,7 +6755,7 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
     return groupedQuestions;
 }
 
-function restoreImageAttachments(corrected, draft) {
+function reconcileImages(corrected, draft) {
     if (!corrected || typeof corrected !== 'object') {
         return corrected;
     }
@@ -6712,6 +6780,70 @@ function restoreImageAttachments(corrected, draft) {
         return null;
     };
 
+    const curatedPool = getCuratedImagePool();
+    const usedKeys = new Set();
+
+    const seedUsedKeys = (list) => {
+        if (!Array.isArray(list)) return;
+        for (const item of list) {
+            if (!item || typeof item !== 'object') continue;
+            const candidates = [
+                item?.imageRef?.id,
+                item?.imageRef?.imageUrl,
+                item?.imageRef?.src,
+                item?.imageUrl,
+                item?.imageMeta?.src
+            ];
+            for (const key of candidates) {
+                if (key) {
+                    usedKeys.add(key);
+                }
+            }
+        }
+    };
+
+    seedUsedKeys(corrected.items);
+    seedUsedKeys(corrected.questions);
+    if (draft && typeof draft === 'object') {
+        seedUsedKeys(draft.items);
+        seedUsedKeys(draft.questions);
+    }
+
+    const attachFromRecord = (question, record, subjectHint) => {
+        if (!question || typeof question !== 'object' || !record) return false;
+        const src = normalizeImagePath(record.src || record.filePath || record.file || record.path);
+        if (!src) return false;
+        const subjectValue = subjectHint || question.subject || record.subject || record.domain || undefined;
+        const alt = record.alt || record.altText || record.title || question.imageAlt || '';
+
+        question.imageRef = {
+            id: record.id,
+            imageUrl: src,
+            path: src,
+            src,
+            altText: alt,
+            subject: subjectValue
+        };
+        question.imageUrl = src;
+        if (!question.imageAlt && alt) {
+            question.imageAlt = alt;
+        }
+        if (!question.imageMeta || typeof question.imageMeta !== 'object') {
+            question.imageMeta = { id: record.id, src, altText: alt };
+        } else {
+            if (!question.imageMeta.id && record.id) question.imageMeta.id = record.id;
+            if (!question.imageMeta.src) question.imageMeta.src = src;
+            if (!question.imageMeta.altText && alt) question.imageMeta.altText = alt;
+        }
+        if (record.id) {
+            usedKeys.add(record.id);
+        }
+        if (src) {
+            usedKeys.add(src);
+        }
+        return true;
+    };
+
     const apply = (list) => {
         if (!Array.isArray(list)) return;
         for (let i = 0; i < list.length; i++) {
@@ -6719,12 +6851,13 @@ function restoreImageAttachments(corrected, draft) {
             if (!q || typeof q !== 'object') continue;
 
             const rawRef = resolveRawRef(q);
+            const subjectHint = q.subject || corrected?.subject || draft?.subject || null;
 
             try {
                 const { id, src, alt, meta } = assertValidImageRef({
                     imageRef: rawRef,
                     imageUrl: q.imageUrl,
-                    subject: q.subject || corrected?.subject || draft?.subject
+                    subject: subjectHint
                 });
 
                 const altText = q.imageAlt || alt || '';
@@ -6734,21 +6867,43 @@ function restoreImageAttachments(corrected, draft) {
                     path: src,
                     src,
                     altText,
-                    subject: q.subject || corrected?.subject || draft?.subject || undefined
+                    subject: subjectHint || undefined
                 };
                 q.imageUrl = src;
                 if (!q.imageAlt && alt) {
                     q.imageAlt = alt;
                 }
-                if (meta && !q.imageMeta) {
-                    q.imageMeta = {
-                        id: meta.id,
-                        src: src,
-                        altText: altText
-                    };
+                if (meta) {
+                    if (!q.imageMeta || typeof q.imageMeta !== 'object') {
+                        q.imageMeta = { id: meta.id, src, altText };
+                    } else {
+                        q.imageMeta.id = q.imageMeta.id || meta.id;
+                        q.imageMeta.src = q.imageMeta.src || src;
+                        if (!q.imageMeta.altText && altText) {
+                            q.imageMeta.altText = altText;
+                        }
+                    }
+                }
+                if (id) {
+                    usedKeys.add(id);
+                }
+                if (src) {
+                    usedKeys.add(src);
                 }
             } catch (e) {
-                console.warn(`[IMG-RESTORE] Skip item ${i}: ${e.message}`);
+                console.warn(`[IMG-RESTORE] item ${i} invalid (${e.message}); attempting swap.`);
+                const swap = selectSwapImage(subjectHint, usedKeys);
+                if (swap && attachFromRecord(q, swap, subjectHint)) {
+                    continue;
+                }
+                const fallback = curatedPool.find((img) => {
+                    if (!img) return false;
+                    const keys = [img.id, img.src];
+                    return keys.some((key) => key && !usedKeys.has(key));
+                });
+                if (fallback && attachFromRecord(q, fallback, subjectHint)) {
+                    continue;
+                }
                 q.imageUrl = null;
                 delete q.imageRef;
             }
@@ -6761,8 +6916,8 @@ function restoreImageAttachments(corrected, draft) {
     const combined = [];
     if (Array.isArray(corrected.items)) combined.push(...corrected.items);
     if (Array.isArray(corrected.questions)) combined.push(...corrected.questions);
-    const withImages = combined.filter((q) => q && q.imageUrl);
-    console.log(`[IMAGES] Attached ${withImages.length}/${combined.length} curated images.`);
+    const attached = combined.filter((q) => q && q.imageUrl).length;
+    console.log(`[IMAGES] pool=${(global.curatedImages || []).length} attached=${attached}/${combined.length}`);
 
     return corrected;
 }
@@ -6796,7 +6951,7 @@ Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQui
         if (correctedQuiz && typeof correctedQuiz === 'object' && typeof draftQuiz?.title === 'string') {
             correctedQuiz.title = draftQuiz.title;
         }
-        const restored = restoreImageAttachments(correctedQuiz, draftQuiz);
+        const restored = reconcileImages(correctedQuiz, draftQuiz);
         if (restored && typeof restored === 'object' && typeof draftQuiz?.title === 'string') {
             restored.title = draftQuiz.title;
         }
@@ -7130,7 +7285,7 @@ app.post('/api/generate-exam', express.json(), async (req, res) => {
                         console.warn(`[IMAGES] ${missingSubjects} items missing subject BEFORE validation`);
                     }
 
-                    const restored = restoreImageAttachments(corrected, draft) || corrected;
+                    const restored = reconcileImages(corrected, draft) || corrected;
                     if (stableSubject) {
                         restored.subject = stableSubject;
                     } else if (!restored.subject && subjectForQuestions) {
