@@ -4697,13 +4697,15 @@ function App() {
         setActiveQuiz(null);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/generate-quiz`, {
+            const response = await fetch(`${API_BASE_URL}/api/generate-exam`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     subject: subject,
                     topic: "Comprehensive Exam",
-                    comprehensive: true
+                    comprehensive: true,
+                    count: 12,
+                    questionCount: 12
                 })
             });
 

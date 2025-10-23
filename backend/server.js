@@ -2741,7 +2741,7 @@ function normalizeSubjectParam(rawSubject) {
     return SUBJECT_PARAM_ALIASES.get(lower) || null;
 }
 
-const GEMINI_API_KEY = process.env.GOOGLE_API_KEY || process.env.GOOGLE_AI_API_KEY;
+const GEMINI_API_KEY = process.env.GOOGLE_AI_API_KEY || process.env.GOOGLE_API_KEY;
 const GEMINI_URL = GEMINI_API_KEY
     ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`
     : null;
@@ -7729,160 +7729,49 @@ app.post('/generate-quiz', async (req, res) => {
                 return res.status(400).json({ error: 'Topic is required for non-comprehensive quizzes.' });
             }
             console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
+            const { ALL_QUIZZES } = require('./data/premade-questions.js');
+            const quizData = ALL_QUIZZES[subject]?.categories?.[topic];
 
-            const userId = req.user?.userId || req.user?.sub || req.body?.userId || req.body?.user_id || null;
-
-            if (subject === 'Math') {
-                const TOTAL_QUESTIONS = 12;
-                console.log("Generating Math quiz without passages.");
-                let promises = [];
-                let visualQuestionCount = 0;
-                if (topic.toLowerCase().includes('geometry')) {
-                    console.log('Geometry topic detected. Generating 5 visual questions.');
-                    visualQuestionCount = 5;
-                }
-                for (let i = 0; i < visualQuestionCount; i++) {
-                    promises.push(generateGeometryQuestion(topic, subject));
-                }
-                const remainingQuestions = TOTAL_QUESTIONS - visualQuestionCount;
-                for (let i = 0; i < remainingQuestions; i++) {
-                    promises.push(generateStandaloneQuestion(subject, topic));
-                }
-
-                const results = await Promise.all(promises);
-                let allQuestions = results.flat().filter(q => q);
-                const shuffledQuestions = shuffleArray(allQuestions);
-                let finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
-
-                finalQuestions.forEach((q, index) => {
-                    q.questionNumber = index + 1;
-                });
-
-                if (MATH_TWO_PASS_ENABLED) {
-                    console.log('Applying math two-pass linting pipeline to topic quiz...');
-                    await runMathTwoPassOnQuestions(finalQuestions, subject);
-                    finalQuestions = await applyMathCorrectnessPass(finalQuestions);
-                }
-
-                const finalQuiz = {
-                    id: `ai_topic_${new Date().getTime()}`,
-                    title: `${subject}: ${topic}`,
-                    subject,
-                    questions: finalQuestions,
-                };
-
-                logGenerationDuration(examType, subject, generationStart);
-                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject, topic });
-                res.json(responsePayload);
-                return;
+            if (!quizData) {
+                return res.status(404).json({ error: 'Topic not found in premade questions.' });
             }
 
-            const normalizedSubjectForBank = normalizeQuestionBankSubject(subject);
-            const isHybridSubject = HYBRID_ELIGIBLE_SUBJECTS.has(subject) || Boolean(normalizedSubjectForBank);
-
-            if (isHybridSubject) {
-                const bankSubject = normalizedSubjectForBank || normalizeQuestionBankSubject(subject);
-                let bankQuestionIds = [];
-                let bankQuestions = [];
-
-                if (bankSubject) {
-                    const bankEntries = await fetchQuestionsFromBank({
-                        subject: bankSubject,
-                        category: topic,
-                        userId,
-                        limit: QUESTION_BANK_TARGET_COUNT
-                    });
-                    bankQuestionIds = bankEntries.map((entry) => entry.id);
-                    bankQuestions = bankEntries.map((entry) => cloneQuestion(entry.question));
-                }
-
-                const questionsNeededFromAI = Math.max(HYBRID_TOTAL_QUESTIONS - bankQuestions.length, 0);
-                let generatedQuestions = [];
-                if (questionsNeededFromAI > 0) {
-                    generatedQuestions = await generateHybridQuestionsForSubject(subject, topic, questionsNeededFromAI);
-                }
-
-                let combinedQuestions = [...bankQuestions, ...generatedQuestions];
-                if (combinedQuestions.length < HYBRID_TOTAL_QUESTIONS) {
-                    const deficit = HYBRID_TOTAL_QUESTIONS - combinedQuestions.length;
-                    if (deficit > 0) {
-                        const filler = await generateHybridQuestionsForSubject(subject, topic, deficit);
-                        generatedQuestions.push(...filler);
-                        combinedQuestions = [...combinedQuestions, ...filler];
+            let allQuestions = [];
+            // Check if the quiz has a multi-part structure
+            if (quizData.parts && Array.isArray(quizData.parts)) {
+                 quizData.parts.forEach(part => {
+                    if (part.type === 'passage-based' && part.passages) {
+                        part.passages.forEach(passage => {
+                             passage.questions.forEach(q => {
+                                allQuestions.push({ ...q, passage: passage.text, passageTitle: passage.title });
+                            });
+                        });
+                    } else if (part.type === 'image-based' && part.images) {
+                        part.images.forEach(image => {
+                             image.questions.forEach(q => {
+                                allQuestions.push({ ...q, imageUrl: image.url, imageAlt: image.alt });
+                            });
+                        });
+                    } else if (part.type === 'standalone' && part.questions) {
+                        allQuestions.push(...part.questions);
                     }
-                }
-
-                const generatedClonesForBank = generatedQuestions.map((question) => cloneQuestion(question));
-                const shuffledQuestions = shuffleArray(combinedQuestions.map((question) => cloneQuestion(question)));
-                const finalQuestions = shuffledQuestions.slice(0, HYBRID_TOTAL_QUESTIONS);
-
-                finalQuestions.forEach((q, index) => {
-                    q.questionNumber = index + 1;
                 });
-
-                await markQuestionsAsSeen(userId, bankQuestionIds);
-
-                const finalQuiz = {
-                    id: `ai_topic_${new Date().getTime()}`,
-                    title: `${subject}: ${topic}`,
-                    subject,
-                    questions: finalQuestions,
-                };
-
-                logGenerationDuration(examType, subject, generationStart);
-                const responsePayload = await finalizeQuizResponse(finalQuiz, { subject, topic });
-                res.json(responsePayload);
-
-                if (generatedClonesForBank.length) {
-                    scheduleGeneratedQuestionSave({
-                        subject,
-                        category: topic,
-                        questions: generatedClonesForBank,
-                        userId
-                    });
-                }
-
-                return;
+            } else if (quizData.questions) {
+                // Handle as a simple, single-part quiz
+                allQuestions = quizData.questions;
             }
 
-            const TOTAL_QUESTIONS = 15;
-            let promises = [];
-            console.log(`Generating ${subject} quiz with passages and other stimuli (legacy path).`);
-            const numPassageSets = 3;
-            const numImageSets = 2;
-
-            for (let i = 0; i < numPassageSets; i++) {
-                promises.push(generatePassageSet(topic, subject, 2));
-            }
-            for (let i = 0; i < numImageSets; i++) {
-                promises.push(generateImageQuestion(topic, subject, curatedImages, 2));
-            }
-
-            const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
-            const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
-            for (let i = 0; i < remainingQuestions; i++) {
-                promises.push(generateStandaloneQuestion(subject, topic));
-            }
-
-            const results = await Promise.all(promises);
-            let allQuestions = results.flat().filter(q => q);
-            const shuffledQuestions = shuffleArray(allQuestions);
-            const finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
-
-            finalQuestions.forEach((q, index) => {
-                q.questionNumber = index + 1;
-            });
-
-            const finalQuiz = {
-                id: `ai_topic_${new Date().getTime()}`,
+             const finalQuiz = {
+                id: `premade_${subject}_${topic}`,
                 title: `${subject}: ${topic}`,
                 subject,
-                questions: finalQuestions,
+                questions: allQuestions,
             };
 
             logGenerationDuration(examType, subject, generationStart);
             const responsePayload = await finalizeQuizResponse(finalQuiz, { subject, topic });
             res.json(responsePayload);
+
 
         } catch (error) {
             const errorMessage = req.body.topic ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating topic-specific quiz';

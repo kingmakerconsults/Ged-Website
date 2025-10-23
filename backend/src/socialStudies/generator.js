@@ -111,6 +111,27 @@ function sanitizeImageMeta(meta = {}, resolvedMeta = {}, record = {}) {
     return Object.keys(cleaned).length ? cleaned : undefined;
 }
 
+function _normalizeImagePathForTest(raw) {
+    if (!raw) return null;
+    let value = String(raw).trim();
+    if (!value) return null;
+    if (/^https?:\/\//i.test(value) || value.startsWith('data:')) {
+        return value;
+    }
+    try {
+        value = decodeURIComponent(value);
+    } catch (_) {
+        // ignore decode errors
+    }
+    value = value.replace(/\\+/g, '/').replace(/^\.?\/+/, '');
+    if (!value) return null;
+    if (value.toLowerCase().startsWith('frontend/images/')) {
+        value = value.substring('frontend/images/'.length);
+    } else if (value.toLowerCase().startsWith('images/')) {
+        value = value.substring('images/'.length);
+    }
+    return `/img/${encodeURI(value)}`;
+}
 function attachImageIfPresent(item = {}) {
     const existingUrl = typeof item?.imageRef?.imageUrl === 'string' ? item.imageRef.imageUrl : null;
     if (existingUrl) {
@@ -162,6 +183,21 @@ function attachImageIfPresent(item = {}) {
 
     const ref = item.imageRef || item.image || item.figure || item.asset;
     const resolved = resolveImage(ref || item.imageMeta || null);
+    if (!resolved && item.imageMeta && (item.imageMeta.filePath || item.imageMeta.imageUrl)) {
+        const imageUrl = item.imageMeta.imageUrl || _normalizeImagePathForTest(item.imageMeta.filePath);
+        if (imageUrl) {
+            item.imageUrl = imageUrl;
+            item.imageAlt = item.imageMeta.altText || item.imageMeta.alt || DEFAULT_ALT;
+            item.imageRef = {
+                imageUrl,
+                altText: item.imageAlt,
+                id: item.imageMeta.id,
+                caption: item.imageMeta.caption || item.imageMeta.title,
+                credit: item.imageMeta.credit
+            };
+            return item;
+        }
+    }
     const record = resolved?.record || resolveCuratedImage(ref || item.imageMeta || null);
     const refLabel = typeof ref === 'string'
         ? ref
