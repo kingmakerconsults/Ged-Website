@@ -32,6 +32,7 @@ const { jsonrepair } = require('jsonrepair');
 const { assertValidImageRef: assertImageRefPayload } = require('./src/images/validateImageRef');
 const imageDiagnostics = require('./src/images/imageDiagnostics');
 const { generateSocialStudiesItems } = require('./src/socialStudies/generator');
+const { getRandomPassage } = require('./src/socialStudies/passageService');
 const vocabularyData = require('../data/vocabulary_index.json');
 
 const USE_IMAGES = String(process.env.USE_IMAGES || 'false').trim().toLowerCase() === 'true';
@@ -3111,6 +3112,53 @@ const SMITH_A_DIFFICULTY_MAP = new Map([
 
 const SMITH_A_ANSWER_LETTERS = ['A', 'B', 'C', 'D'];
 
+const SMITH_A_SOCIAL_ITEM_SCHEMA = {
+    type: 'object',
+    properties: {
+        subject: { type: 'string' },
+        subtopic: { type: 'string' },
+        topic: { type: 'string' },
+        difficulty: { type: 'string' },
+        stem: { type: 'string' },
+        choices: {
+            type: 'array',
+            items: { type: 'string' },
+            minItems: 4,
+            maxItems: 4
+        },
+        answer: { type: 'string' },
+        rationale: { type: 'string' },
+        source: {
+            type: 'object',
+            properties: {
+                title: { type: 'string' },
+                citation: { type: 'string' },
+                url: { type: 'string' },
+                domain: { type: 'string' }
+            }
+        },
+        imageRef: {
+            type: 'object',
+            properties: {
+                imageUrl: { type: 'string' },
+                altText: { type: 'string' },
+                title: { type: 'string' },
+                type: { type: 'string' },
+                caption: { type: 'string' },
+                credit: { type: 'string' }
+            },
+            required: ['imageUrl']
+        }
+    },
+    required: ['subject', 'subtopic', 'topic', 'difficulty', 'stem', 'choices', 'answer', 'rationale']
+};
+
+const SMITH_SOCIAL_TOPIC_LABELS = Object.freeze({
+    reading: 'Reading (Passage-based)',
+    image: 'Image/Graphic',
+    standalone: 'Standalone'
+});
+
 function sanitizePlainText(value) {
     if (value == null) {
         return '';
@@ -3171,6 +3219,619 @@ function resolveAnswerLetter(rawAnswer, strippedChoices, raw) {
     }
 
     return null;
+}
+
+function escapeForPrompt(value) {
+    if (value == null) return '';
+    return String(value).replace(/`/g, "'").replace(/\r/g, '').trim();
+}
+
+function quoteForPrompt(value) {
+    return escapeForPrompt(value).replace(/"/g, '\\"');
+}
+
+function wordCount(text) {
+    if (typeof text !== 'string') return 0;
+    return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function normalizeSourceBlock(rawSource, passage) {
+    const out = {};
+
+    if (rawSource && typeof rawSource === 'object') {
+        if (rawSource.title) out.title = sanitizePlainText(rawSource.title);
+        if (rawSource.citation) out.citation = sanitizePlainText(rawSource.citation);
+        if (rawSource.url) out.url = sanitizePlainText(rawSource.url);
+        if (rawSource.domain) out.domain = sanitizePlainText(rawSource.domain);
+    } else if (typeof rawSource === 'string') {
+        out.citation = sanitizePlainText(rawSource);
+    }
+
+    if (passage) {
+        if (passage.title && !out.title) out.title = sanitizePlainText(passage.title);
+        if (passage.citation && !out.citation) out.citation = sanitizePlainText(passage.citation);
+        if (passage.url && !out.url) out.url = sanitizePlainText(passage.url);
+        if (passage.domain && !out.domain) out.domain = sanitizePlainText(passage.domain);
+    }
+
+    const filtered = Object.entries(out)
+        .map(([key, value]) => [key, sanitizePlainText(value)])
+        .filter(([, value]) => Boolean(value));
+
+    if (!filtered.length) {
+        return undefined;
+    }
+
+    return filtered.reduce((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+    }, {});
+}
+
+function buildImageMeta(meta = {}) {
+    const cleaned = {};
+    if (meta.caption) cleaned.caption = sanitizePlainText(meta.caption);
+    if (meta.credit) cleaned.credit = sanitizePlainText(meta.credit);
+    if (meta.detailedDescription) cleaned.detailedDescription = sanitizePlainText(meta.detailedDescription);
+    if (meta.license) cleaned.license = sanitizePlainText(meta.license);
+    if (meta.width != null) cleaned.width = Number(meta.width);
+    if (meta.height != null) cleaned.height = Number(meta.height);
+    return Object.keys(cleaned).length ? cleaned : undefined;
+}
+
+function sanitizeImageRefForOutput(candidate, fallback) {
+    const base = (fallback && typeof fallback === 'object') ? { ...fallback } : (candidate && typeof candidate === 'object' ? { ...candidate } : null);
+    if (!base) {
+        return undefined;
+    }
+
+    const imageUrl = sanitizePlainText(base.imageUrl || base.src || '');
+    if (!imageUrl) {
+        return undefined;
+    }
+
+    const imageMeta = buildImageMeta(base.imageMeta || {});
+    const tags = Array.isArray(base.tags)
+        ? base.tags.map((tag) => sanitizePlainText(tag)).filter(Boolean).slice(0, 12)
+        : undefined;
+
+    const out = {
+        imageUrl,
+        altText: sanitizePlainText(base.altText || base.alt || '') || 'Social studies image',
+        subject: sanitizePlainText(base.subject || 'Social Studies') || 'Social Studies'
+    };
+
+    if (base.title) out.title = sanitizePlainText(base.title);
+    if (base.type) out.type = sanitizePlainText(base.type);
+    if (base.caption) out.caption = sanitizePlainText(base.caption);
+    if (base.credit) out.credit = sanitizePlainText(base.credit);
+    if (base.license) out.license = sanitizePlainText(base.license);
+    if (tags && tags.length) out.tags = tags;
+    if (imageMeta) out.imageMeta = imageMeta;
+
+    try {
+        assertImageRefPayload(out);
+    } catch (error) {
+        return undefined;
+    }
+
+    return out;
+}
+
+function hasOutsideInfo(stem, passageText) {
+    if (!stem || !passageText) {
+        return false;
+    }
+    const lowerPassage = passageText.toLowerCase();
+    const yearMatches = stem.match(/\b(1[6-9]\d{2}|20\d{2})\b/g) || [];
+    if (yearMatches.some((year) => !lowerPassage.includes(year))) {
+        return true;
+    }
+
+    const nameMatches = stem.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b/g) || [];
+    if (nameMatches.some((name) => !lowerPassage.includes(name.toLowerCase()))) {
+        return true;
+    }
+    return false;
+}
+
+function validateSmithASocialItem(item, context) {
+    if (!item || typeof item !== 'object') {
+        return { ok: false, reason: 'Item missing after normalization.', warnings: [] };
+    }
+
+    if (!Array.isArray(item.choices) || item.choices.length !== 4) {
+        return { ok: false, reason: 'Item did not include four answer choices.', warnings: [] };
+    }
+
+    if (!SMITH_A_ANSWER_LETTERS.includes(item.answer)) {
+        return { ok: false, reason: 'Answer was not a valid choice letter.', warnings: [] };
+    }
+
+    if (!sanitizePlainText(item.rationale)) {
+        return { ok: false, reason: 'Rationale missing or empty.', warnings: [] };
+    }
+
+    if (context.type === 'image') {
+        if (!item.imageRef || !item.imageRef.imageUrl) {
+            return { ok: false, reason: 'Image question missing imageRef.imageUrl.', warnings: [] };
+        }
+    }
+
+    if (context.type === 'reading') {
+        if (!item.source || !Object.keys(item.source).length) {
+            return { ok: false, reason: 'Reading question missing source metadata.', warnings: [] };
+        }
+        if (hasOutsideInfo(item.stem, context?.passage?.text || '')) {
+            return { ok: false, reason: 'Reading stem referenced details not present in passage.', warnings: [] };
+        }
+    }
+
+    return { ok: true, warnings: [] };
+}
+
+async function preloadSmithPassages(count, notes = []) {
+    const desired = Math.max(0, Number(count) || 0);
+    if (!desired) {
+        return { passages: [], shortage: 0, reusedCount: 0 };
+    }
+
+    const unique = [];
+    const seen = new Set();
+    const maxAttempts = desired * 6;
+    let attempts = 0;
+
+    while (unique.length < desired && attempts < maxAttempts) {
+        attempts += 1;
+        try {
+            const candidate = await getRandomPassage();
+            if (!candidate || !candidate.text) {
+                continue;
+            }
+            const trimmedText = String(candidate.text).trim();
+            if (!trimmedText) {
+                continue;
+            }
+            if (wordCount(trimmedText) < 60) {
+                continue;
+            }
+            const key = (candidate.title || candidate.url || trimmedText.slice(0, 80)).toLowerCase();
+            if (seen.has(key)) {
+                continue;
+            }
+            seen.add(key);
+            unique.push({
+                ...candidate,
+                text: trimmedText
+            });
+        } catch (error) {
+            notes.push(`Passage fetch failed: ${error?.message || error}`);
+        }
+    }
+
+    if (!unique.length) {
+        return { passages: [], shortage: desired, reusedCount: 0 };
+    }
+
+    const passages = unique.slice(0, desired);
+    let reusedCount = 0;
+    while (passages.length < desired) {
+        passages.push({ ...unique[reusedCount % unique.length] });
+        reusedCount += 1;
+    }
+
+    return { passages, shortage: 0, reusedCount };
+}
+
+function buildSmithImageRef(meta) {
+    if (!meta) return null;
+    const imageUrl = resolveMetadataImagePath(meta);
+    if (!imageUrl) return null;
+
+    const tags = Array.isArray(meta.tags)
+        ? meta.tags.map((tag) => sanitizePlainText(tag)).filter(Boolean).slice(0, 12)
+        : undefined;
+
+    const candidate = {
+        imageUrl,
+        altText: sanitizePlainText(meta.altText || meta.alt || meta.title || meta.caption || '') || 'Social studies image',
+        title: sanitizePlainText(meta.title || ''),
+        type: sanitizePlainText(meta.visualType || meta.dominantType || meta.type || ''),
+        caption: sanitizePlainText(meta.caption || meta.detailedDescription || ''),
+        credit: sanitizePlainText(meta.credit || ''),
+        subject: 'Social Studies',
+        tags,
+        license: sanitizePlainText(meta.license || ''),
+        imageMeta: buildImageMeta({
+            caption: meta.caption,
+            credit: meta.credit,
+            detailedDescription: meta.detailedDescription,
+            license: meta.license,
+            width: meta.width,
+            height: meta.height
+        })
+    };
+
+    try {
+        assertImageRefPayload(candidate);
+    } catch (error) {
+        return null;
+    }
+
+    return candidate;
+}
+
+function selectSmithImageRefs(count) {
+    const desired = Math.max(0, Number(count) || 0);
+    if (!desired) {
+        return { imageRefs: [], shortage: 0 };
+    }
+
+    if (!USE_IMAGES) {
+        return { imageRefs: [], shortage: desired };
+    }
+
+    const pool = selectMetadataRecords({ subject: 'Social Studies', count: desired * 3 });
+    const seen = new Set();
+    const refs = [];
+
+    for (const meta of pool) {
+        const ref = buildSmithImageRef(meta);
+        if (!ref) {
+            continue;
+        }
+        if (seen.has(ref.imageUrl)) {
+            continue;
+        }
+        seen.add(ref.imageUrl);
+        refs.push(ref);
+        if (refs.length >= desired) {
+            break;
+        }
+    }
+
+    return { imageRefs: refs, shortage: Math.max(0, desired - refs.length) };
+}
+
+function buildReadingPrompt({ subtopic, passage }) {
+    const safeSubtopic = escapeForPrompt(subtopic);
+    const safeTitle = escapeForPrompt(passage?.title || 'Passage');
+    const safeCitation = escapeForPrompt(passage?.citation || '');
+    const safeUrl = escapeForPrompt(passage?.url || '');
+    const safeText = quoteForPrompt(passage?.text || '');
+
+    return `
+You are an expert GED Social Studies item writer.
+
+Write exactly ONE multiple-choice question based **only** on the passage below.
+- Subtopic focus: ${safeSubtopic}
+- 4 options (A–D). Exactly one correct.
+- Keep the stem ≤ 30 words.
+- Avoid trivia; test reasoning from the text (main idea, inference, cause/effect, claim/evidence, corroboration).
+- Do **NOT** reference any image.
+- Include a 1–2 sentence explanation of the correct answer (no extra fluff).
+- Use plain text (no markdown, no LaTeX).
+- Output strict JSON matching this schema:
+
+{
+  "subject": "Social Studies",
+  "subtopic": "${safeSubtopic}",
+  "topic": "${SMITH_SOCIAL_TOPIC_LABELS.reading}",
+  "difficulty": "easy|medium|hard",
+  "stem": "…",
+  "choices": ["A …","B …","C …","D …"],
+  "answer": "A|B|C|D",
+  "rationale": "Why the correct answer is supported by the passage.",
+  "source": {
+    "title": "${safeTitle}",
+    "citation": "${safeCitation}",
+    "url": "${safeUrl}"
+  }
+}
+
+PASSAGE:
+"${safeText}"
+    `.trim();
+}
+
+function buildImagePrompt({ subtopic, imageRef }) {
+    const safeSubtopic = escapeForPrompt(subtopic);
+    const safeTitle = escapeForPrompt(imageRef?.title || '');
+    const safeType = escapeForPrompt(imageRef?.type || '');
+    const safeCaption = escapeForPrompt(imageRef?.caption || '');
+    const safeTags = Array.isArray(imageRef?.tags) ? imageRef.tags.map((tag) => escapeForPrompt(tag)).join(', ') : '';
+    const imageUrl = escapeForPrompt(imageRef?.imageUrl || '');
+    const altText = escapeForPrompt(imageRef?.altText || '');
+
+    return `
+You are an expert GED Social Studies item writer.
+
+Write exactly ONE multiple-choice question based on the provided figure.
+- Subtopic focus: ${safeSubtopic}
+- The question must be answerable from the figure alone (trend, comparison, inference about what the figure shows).
+- 4 options (A–D). Exactly one correct.
+- Stem ≤ 28 words. No outside facts.
+- Include a brief rationale explaining why the correct option best matches the figure.
+- Output strict JSON:
+
+{
+  "subject": "Social Studies",
+  "subtopic": "${safeSubtopic}",
+  "topic": "${SMITH_SOCIAL_TOPIC_LABELS.image}",
+  "difficulty": "easy|medium|hard",
+  "stem": "…",
+  "choices": ["A …","B …","C …","D …"],
+  "answer": "A|B|C|D",
+  "rationale": "…",
+  "imageRef": {
+    "imageUrl": "${imageUrl}",
+    "altText": "${altText}"
+  }
+}
+
+FIGURE CONTEXT (metadata):
+title: ${safeTitle}
+type: ${safeType}
+caption: ${safeCaption}
+tags: ${safeTags}
+    `.trim();
+}
+
+function buildStandalonePrompt({ subtopic }) {
+    const safeSubtopic = escapeForPrompt(subtopic);
+    return `
+You are an expert GED Social Studies item writer.
+
+Write exactly ONE multiple-choice question.
+- Subtopic focus: ${safeSubtopic}
+- No external reading or figure.
+- Prefer short civic/economic scenarios, definitions in context, or cause/effect.
+- Stem ≤ 25 words. 4 options (A–D). One correct.
+- Provide a 1–2 sentence rationale.
+- Output strict JSON:
+
+{
+  "subject": "Social Studies",
+  "subtopic": "${safeSubtopic}",
+  "topic": "${SMITH_SOCIAL_TOPIC_LABELS.standalone}",
+  "difficulty": "easy|medium|hard",
+  "stem": "…",
+  "choices": ["A …","B …","C …","D …"],
+  "answer": "A|B|C|D",
+  "rationale": "…"
+}
+
+function normalizeSmithASocialItem(raw, index, { subject, subtopic, skill, topicLabel, passage, imageRef }) {
+    const errors = [];
+    const warnings = [];
+
+    if (!raw || typeof raw !== 'object') {
+        return { item: null, errors: [`Item ${index + 1}: model response was not an object.`], warnings };
+    }
+
+    const id = typeof raw.id === 'string' && raw.id.trim().length
+        ? raw.id.trim()
+        : crypto.randomUUID?.() || `smith-social-${Date.now()}-${index}`;
+
+    const stem = sanitizePlainText(raw.stem || raw.questionText || '');
+    if (!stem) {
+        return { item: null, errors: [`Item ${index + 1}: missing stem.`], warnings };
+    }
+
+    let rawChoices = Array.isArray(raw.choices) ? raw.choices.slice(0, 4) : [];
+    if (rawChoices.length !== 4) {
+        return { item: null, errors: [`Item ${index + 1}: expected 4 choices, received ${rawChoices.length}.`], warnings };
+    }
+
+    rawChoices = rawChoices.map((choice) => sanitizePlainText(choice));
+    if (rawChoices.some((choice) => !choice)) {
+        return { item: null, errors: [`Item ${index + 1}: one or more answer choices were blank.`], warnings };
+    }
+
+    const formattedChoices = rawChoices.map((choice, idx) => formatChoice(choice, idx));
+    const answerLetter = resolveAnswerLetter(raw.answer, rawChoices, raw);
+    if (!answerLetter) {
+        return { item: null, errors: [`Item ${index + 1}: missing or invalid correct answer letter.`], warnings };
+    }
+
+    let rationale = sanitizePlainText(raw.rationale || raw.explanation || '');
+    if (!rationale) {
+        warnings.push(`Item ${index + 1}: rationale missing; inserted placeholder.`);
+        rationale = 'See explanation.';
+    }
+
+    const normalizedSkill = sanitizePlainText(raw.skill) || skill || subtopic;
+    if (!sanitizePlainText(raw.skill)) {
+        warnings.push(`Item ${index + 1}: skill missing; defaulted to subtopic.`);
+    }
+
+    const reportedTopic = sanitizePlainText(raw.topic);
+    if (reportedTopic && reportedTopic.toLowerCase() !== topicLabel.toLowerCase()) {
+        warnings.push(`Item ${index + 1}: adjusted topic to ${topicLabel}.`);
+    }
+
+    const difficulty = coerceDifficulty(raw.difficulty);
+
+    const item = {
+        id,
+        subject,
+        subtopic,
+        skill: normalizedSkill,
+        topic: topicLabel,
+        stem,
+        choices: formattedChoices,
+        answer: answerLetter,
+        rationale,
+        difficulty
+    };
+
+    if (passage?.text) {
+        item.passage = passage.text;
+    }
+
+    const source = normalizeSourceBlock(raw.source, passage);
+    if (source) {
+        item.source = source;
+    }
+
+    const resolvedImageRef = sanitizeImageRefForOutput(raw.imageRef, imageRef);
+    if (resolvedImageRef) {
+        item.imageRef = resolvedImageRef;
+    }
+
+    return { item, errors, warnings };
+}
+
+async function generateSmithASocialItemWithRetry(context) {
+    let lastError = null;
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+        try {
+            const raw = await callAI(context.prompt, SMITH_A_SOCIAL_ITEM_SCHEMA, {
+                timeoutMs: MODEL_HTTP_TIMEOUT_MS,
+                callSite: `smith-social-${context.type}`
+            });
+            const normalized = normalizeSmithASocialItem(raw, context.index, {
+                subject: 'Social Studies',
+                subtopic: context.subtopic,
+                skill: context.skill,
+                topicLabel: context.topic,
+                passage: context.passage,
+                imageRef: context.imageRef
+            });
+            if (normalized.errors.length) {
+                lastError = normalized.errors.join('; ');
+                continue;
+            }
+            const validation = validateSmithASocialItem(normalized.item, context);
+            if (!validation.ok) {
+                lastError = validation.reason;
+                continue;
+            }
+            const notes = [...normalized.warnings, ...validation.warnings];
+            return { item: normalized.item, notes };
+        } catch (error) {
+            lastError = error?.message || String(error);
+        }
+    }
+    return { item: null, error: lastError || 'Failed to generate item.' };
+}
+
+async function generateSmithASocialQuiz({ subtopic, skill }) {
+    const template = AI_EXAM_TEMPLATES['Social Studies']?.smitha || {
+        totalQuestions: 12,
+        sectionMix: { image: 4, reading: 4, standalone: 4 }
+    };
+    const { plan, totalQuestions: desiredTotal, notes: planNotes } = computeSectionPlan({
+        template,
+        totalQuestions: template.totalQuestions,
+        sectionMix: template.sectionMix,
+        useImages: USE_IMAGES
+    });
+
+    const notes = [...planNotes];
+
+    const { passages, shortage: passageShortage, reusedCount } = await preloadSmithPassages(plan.reading, notes);
+    if (passageShortage > 0) {
+        notes.push(`Unable to load passages for ${passageShortage} reading items; reallocating to standalone.`);
+    }
+    if (reusedCount > 0) {
+        notes.push(`Reused ${reusedCount} passage${reusedCount === 1 ? '' : 's'} due to limited cache diversity.`);
+    }
+
+    const { imageRefs, shortage: imageShortage } = selectSmithImageRefs(plan.image);
+    if (imageShortage > 0) {
+        notes.push(`Only ${imageRefs.length} curated images available; ${imageShortage} slot${imageShortage === 1 ? '' : 's'} moved to standalone.`);
+    }
+
+    const readingContexts = passages.slice(0, plan.reading).map((passage, idx) => ({
+        type: 'reading',
+        topic: SMITH_SOCIAL_TOPIC_LABELS.reading,
+        passage,
+        subtopic,
+        skill,
+        index: idx,
+        prompt: buildReadingPrompt({ subtopic, passage })
+    }));
+
+    const imageContexts = imageRefs.slice(0, plan.image).map((imageRef, idx) => ({
+        type: 'image',
+        topic: SMITH_SOCIAL_TOPIC_LABELS.image,
+        imageRef,
+        subtopic,
+        skill,
+        index: idx,
+        prompt: buildImagePrompt({ subtopic, imageRef })
+    }));
+
+    const readingDeficit = Math.max(0, plan.reading - readingContexts.length);
+    const imageDeficit = Math.max(0, plan.image - imageContexts.length);
+    const standaloneTarget = plan.standalone + readingDeficit + imageDeficit;
+
+    const standaloneContexts = Array.from({ length: standaloneTarget }, (_, idx) => ({
+        type: 'standalone',
+        topic: SMITH_SOCIAL_TOPIC_LABELS.standalone,
+        subtopic,
+        skill,
+        index: idx,
+        prompt: buildStandalonePrompt({ subtopic })
+    }));
+
+    const contexts = [];
+    const maxLen = Math.max(imageContexts.length, readingContexts.length, standaloneContexts.length);
+    for (let i = 0; i < maxLen; i += 1) {
+        if (imageContexts[i]) contexts.push(imageContexts[i]);
+        if (readingContexts[i]) contexts.push(readingContexts[i]);
+        if (standaloneContexts[i]) contexts.push(standaloneContexts[i]);
+    }
+
+    const items = [];
+    let generatedIndex = 0;
+
+    for (const context of contexts) {
+        if (items.length >= desiredTotal) break;
+        const workingContext = { ...context, index: generatedIndex };
+        const { item, notes: itemNotes, error } = await generateSmithASocialItemWithRetry(workingContext);
+        if (item) {
+            items.push(item);
+            if (itemNotes?.length) {
+                notes.push(...itemNotes.filter(Boolean));
+            }
+        } else if (error) {
+            notes.push(`[${context.type}] ${error}`);
+        }
+        generatedIndex += 1;
+    }
+
+    let fallbackIdx = 0;
+    while (items.length < desiredTotal && fallbackIdx < 6) {
+        const context = {
+            type: 'standalone',
+            topic: SMITH_SOCIAL_TOPIC_LABELS.standalone,
+            subtopic,
+            skill,
+            index: generatedIndex + fallbackIdx,
+            prompt: buildStandalonePrompt({ subtopic })
+        };
+        const { item, notes: itemNotes, error } = await generateSmithASocialItemWithRetry(context);
+        if (item) {
+            items.push(item);
+            if (itemNotes?.length) {
+                notes.push(...itemNotes.filter(Boolean));
+            }
+        } else if (error) {
+            notes.push(`[standalone-fallback] ${error}`);
+        }
+        fallbackIdx += 1;
+    }
+
+    if (items.length < desiredTotal) {
+        const error = new Error(`Smith A Social Studies generator produced ${items.length} items (expected ${desiredTotal}).`);
+        error.statusCode = 502;
+        error.notes = notes;
+        throw error;
+    }
+
+    return { items: shuffleArray(items).slice(0, desiredTotal), errors: notes };
 }
 
 function normalizeSmithAItem(raw, index, { subject, subtopic }) {
@@ -3295,6 +3956,9 @@ function shuffleArray(items) {
 }
 
 async function generateSmithAQuiz({ subject, subtopic, skill }) {
+    if (subject === 'Social Studies') {
+        return await generateSmithASocialQuiz({ subtopic, skill });
+    }
     const prompt = buildSmithAPrompt({ subject, subtopic, skill });
     const attempts = [];
     const notes = [];
