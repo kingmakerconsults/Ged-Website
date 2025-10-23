@@ -6416,11 +6416,13 @@ async function generateQuestionsFromImages({ subject, images }) {
                     return;
                 }
 
+                const localSrc = typeof image.src === 'string' && image.src.trim().length
+                    ? image.src.trim()
+                    : null;
                 const refUrl = typeof normalizedRef.imageUrl === 'string' && normalizedRef.imageUrl.trim().length
                     ? normalizedRef.imageUrl.trim()
                     : null;
-                const rawSrc = typeof image.src === 'string' && image.src.trim().length ? image.src.trim() : null;
-                const imageUrl = refUrl || rawSrc;
+                const imageUrl = localSrc || refUrl;
                 if (!imageUrl) {
                     console.warn('[IMG-FIRST] Skipping question attachment due to missing image src', image?.id || index);
                     return;
@@ -6451,6 +6453,8 @@ async function generateQuestionsFromImages({ subject, images }) {
                     }
                 };
 
+                // --- BRUTE-FORCE CORRECTION ---
+                // Immediately discard the AI's response image data and use our trusted data.
                 question.imageUrl = imageUrl;
                 question.imageAlt = resolvedAlt;
                 question.imageRef = finalRef;
