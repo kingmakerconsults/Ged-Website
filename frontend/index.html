@@ -173,7 +173,7 @@
             gap: 1rem;
             width: max-content;
             padding: 0.75rem 1rem;
-            animation: vocabularyTickerScroll 40s linear infinite;
+            animation: vocabularyTickerScroll 70s linear infinite;
         }
         .vocabulary-ticker:hover .vocabulary-ticker-track {
             animation-play-state: paused;
@@ -4151,48 +4151,6 @@ function ProgressDashboard({ progress, onSubjectClick }) {
     );
 }
 
-function VocabularyModal({ subject, words, onClose }) {
-    if (!subject || !Array.isArray(words) || words.length === 0) {
-        return null;
-    }
-    const colorScheme = SUBJECT_COLORS[subject] || DEFAULT_COLOR_SCHEME;
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4">
-            <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden">
-                <div className={`flex items-center justify-between px-6 py-4 border-b ${colorScheme.scoreBorder || 'border-slate-200'} bg-slate-50`}>
-                    <h2 className="text-xl font-bold text-slate-800">{subject} Vocabulary</h2>
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="text-2xl leading-none text-slate-500 hover:text-slate-700"
-                        aria-label="Close vocabulary list"
-                    >
-                        &times;
-                    </button>
-                </div>
-                <div className="px-6 py-4 max-h-[70vh] overflow-y-auto space-y-4">
-                    {words.map((word) => (
-                        <div key={word.term} className="border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
-                            <h3 className="text-lg font-semibold text-slate-900">{word.term}</h3>
-                            {word.definition && <p className="text-sm text-slate-600 mt-2 leading-relaxed">{word.definition}</p>}
-                            {word.example && <p className="text-sm text-slate-500 italic mt-2">Example: {word.example}</p>}
-                        </div>
-                    ))}
-                </div>
-                <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end">
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className={`px-4 py-2 rounded-lg font-semibold text-white ${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover}`}
-                    >
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-}
-
 function VocabularyTicker({ vocabulary, onWordClick }) {
     const entries = useMemo(() => {
         if (!vocabulary) return [];
@@ -4243,37 +4201,27 @@ function VocabularyTicker({ vocabulary, onWordClick }) {
     );
 }
 
-function SubjectVocabularyPreview({ subject, words, onViewAll }) {
+function SubjectVocabularySection({ subject, words }) {
     if (!Array.isArray(words) || !words.length) {
         return null;
     }
-    const previewWords = words.slice(0, 6);
     return (
-        <div className="bg-white/10 border border-white/40 rounded-xl p-5 mb-6 shadow-inner backdrop-blur-sm">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div id="subject-vocabulary-section" className="bg-white/10 border border-white/40 rounded-xl p-5 mb-6 shadow-inner backdrop-blur-sm">
+            <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <h3 className="text-xl font-bold text-white">Key Vocabulary</h3>
-                    <p className="text-sm text-white/80">Preview important terms for {subject}.</p>
+                    <h3 className="text-xl font-bold text-white">Subject Vocabulary</h3>
+                    <p className="text-sm text-white/80">Scroll through the complete list of key terms for {subject}.</p>
                 </div>
-                <button
-                    type="button"
-                    onClick={onViewAll}
-                    className="self-start px-4 py-2 bg-white/90 text-slate-900 font-semibold rounded-lg shadow-sm hover:bg-white"
-                >
-                    View Full Vocabulary List
-                </button>
             </div>
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
-                {previewWords.map((word) => (
+            <div className="mt-4 max-h-96 overflow-y-auto pr-1 space-y-3">
+                {words.map((word) => (
                     <div key={word.term} className="bg-white/95 text-slate-900 rounded-lg p-4 shadow-sm">
                         <p className="text-lg font-semibold">{word.term}</p>
                         {word.definition && <p className="text-sm text-slate-600 mt-2 leading-relaxed">{word.definition}</p>}
+                        {word.example && <p className="text-xs text-slate-500 italic mt-2">Example: {word.example}</p>}
                     </div>
                 ))}
             </div>
-            {words.length > previewWords.length && (
-                <p className="mt-3 text-sm text-white/80">+ {words.length - previewWords.length} more terms waiting in the full list.</p>
-            )}
         </div>
     );
 }
@@ -4358,7 +4306,6 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
-    const [vocabModalSubject, setVocabModalSubject] = useState(null);
     const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
     const userDisplayName = currentUser?.name || currentUser?.email || 'Learner';
     const userInitial = userDisplayName ? userDisplayName.trim().charAt(0).toUpperCase() : 'U';
@@ -4378,7 +4325,15 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
         if (!subject) return;
         const words = vocabularyData[subject];
         if (Array.isArray(words) && words.length > 0) {
-            setVocabModalSubject(subject);
+            setSelectedSubject(subject);
+            setSelectedCategory(null);
+            setAiQuizTopic('');
+            setTimeout(() => {
+                const section = document.getElementById('subject-vocabulary-section');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 200);
         }
     };
 
@@ -4393,14 +4348,11 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
     // --- NEW: If detailed view is active, render it instead of the main dashboard ---
     if (detailedViewSubject) {
         return (
-            <>
-                <DetailedProgressView
-                    subject={detailedViewSubject}
-                    progressData={progress[detailedViewSubject]}
-                    onBack={() => setDetailedViewSubject(null)}
-                />
-                {vocabularyModal}
-            </>
+            <DetailedProgressView
+                subject={detailedViewSubject}
+                progressData={progress[detailedViewSubject]}
+                onBack={() => setDetailedViewSubject(null)}
+            />
         );
     }
 
@@ -4409,16 +4361,6 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
     const availableTopics = selectedSubject && AppData[selectedSubject]?.categories
         ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
         : [];
-
-    const vocabularyModal = (vocabModalSubject && Array.isArray(vocabularyData[vocabModalSubject]) && vocabularyData[vocabModalSubject].length > 0)
-        ? (
-            <VocabularyModal
-                subject={vocabModalSubject}
-                words={vocabularyData[vocabModalSubject]}
-                onClose={() => setVocabModalSubject(null)}
-            />
-        )
-        : null;
 
     const Breadcrumb = ({ variant = 'default' } = {}) => {
         const isOnColor = variant === 'onColor';
@@ -4476,7 +4418,6 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
                         ))}
                     </div>
                 </div>
-                {vocabularyModal}
             </>
         );
     }
@@ -4507,10 +4448,9 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
                         )}
                     </div>
                     {subjectVocabulary.length > 0 && (
-                        <SubjectVocabularyPreview
+                        <SubjectVocabularySection
                             subject={selectedSubject}
                             words={subjectVocabulary}
-                            onViewAll={() => handleViewVocabulary(selectedSubject)}
                         />
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -4526,6 +4466,23 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
                         ))}
                         {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                             <>
+                                {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
+                                    <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
+                                        <div>
+                                            <div className="flex items-center justify-center gap-2">
+                                                <BookOpenIcon className="h-8 w-8 text-white" />
+                                                <h3 className="text-xl font-bold text-white">Essay Practice Tool</h3>
+                                            </div>
+                                            <p className="text-white/80 text-sm my-2 text-center">Build your extended response with guided support.</p>
+                                        </div>
+                                        <button
+                                            onClick={() => onSelectQuiz({ id: 'essay_practice_tool', type: 'essay', title: 'GED® Essay Practice Toolkit' }, selectedSubject)}
+                                            className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
+                                        >
+                                            Launch Essay Practice
+                                        </button>
+                                    </div>
+                                )}
                                 {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
                                 <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
                                     <div>
@@ -4569,7 +4526,6 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
                         )}
                     </div>
                 </div>
-                {vocabularyModal}
             </>
         );
     }
@@ -4630,7 +4586,6 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
                     })}
                 </div>
             </div>
-            {vocabularyModal}
         </>
     );
 }
