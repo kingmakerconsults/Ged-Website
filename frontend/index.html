@@ -3206,7 +3206,7 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
     );
 }
 
-function NamePromptModal({ user, onSave }) {
+function NamePromptModal({ user, onSave, onDismiss }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
@@ -3232,8 +3232,24 @@ function NamePromptModal({ user, onSave }) {
     };
 
     return (
-        <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
-            <div className="bg-white rounded-lg shadow-2xl w-11/12 max-w-md p-8">
+        <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50" role="dialog" aria-modal="true">
+            <div className="relative bg-white rounded-lg shadow-2xl w-11/12 max-w-md p-8">
+                {onDismiss && (
+                    <button
+                        type="button"
+                        onClick={onDismiss}
+                        className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 rounded-full"
+                        aria-label="Close name prompt"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                            <path
+                                fillRule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                )}
                 <h2 className="text-2xl font-bold text-slate-800 mb-4">Welcome! Let's set up your name.</h2>
                 <p className="text-slate-600 mb-6">Please confirm your name below. This will be used to personalize your experience.</p>
                 <div className="space-y-4">
@@ -3258,13 +3274,22 @@ function NamePromptModal({ user, onSave }) {
                         />
                     </div>
                 </div>
-                <div className="mt-8">
+                <div className="mt-8 space-y-3">
                     <button
                         onClick={handleSave}
                         className="w-full px-6 py-3 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700 transition"
                     >
                         Save Name
                     </button>
+                    {onDismiss && (
+                        <button
+                            type="button"
+                            onClick={onDismiss}
+                            className="w-full px-6 py-3 bg-white text-slate-700 font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition"
+                        >
+                            Skip for now
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
@@ -3866,6 +3891,10 @@ function App() {
         }
     };
 
+    const handleDismissNamePrompt = () => {
+        setShowNamePrompt(false);
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('appUser');
         localStorage.removeItem('appToken');
@@ -4319,7 +4348,7 @@ function App() {
                     </div>
                 )}
                 {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
-                {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} />}
+                {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} onDismiss={handleDismissNamePrompt} />}
                 <MathPracticeToolsModal
                     isOpen={isMathToolsOpen}
                     onClose={closeMathTools}
