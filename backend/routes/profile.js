@@ -23,16 +23,10 @@ function isValidDate(input) {
 
 router.get('/me', async (req, res) => {
   try {
-    const userId = req.userId;
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthenticated' });
-    }
-
-    await ensureProfile(userId);
-    const bundle = await ProfileData.loadProfileBundle(userId);
+    const bundle = await ProfileData.loadProfileBundle(req.userId);
     return res.json(bundle);
-  } catch (error) {
-    console.error('GET /api/profile/me error', error);
+  } catch (err) {
+    console.error('GET /api/profile/me error', err);
     return res.status(500).json({ error: 'Failed to load profile' });
   }
 });
@@ -123,7 +117,8 @@ router.patch('/challenges/tags', async (req, res) => {
       );
     }
 
-    return res.json({ ok: true });
+    const bundle = await ProfileData.loadProfileBundle(userId);
+    return res.json(bundle);
   } catch (error) {
     console.error('PATCH /api/profile/challenges/tags error', error);
     return res.status(500).json({ error: 'Failed to update challenge tags' });
