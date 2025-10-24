@@ -3113,6 +3113,65 @@ const normalizePreferences = (prefs = {}) => ({
     theme: VALID_THEMES.has(prefs.theme) ? prefs.theme : DEFAULT_PREFERENCES.theme,
 });
 
+const SUBJECT_NAMES = ['Math', 'RLA', 'Science', 'Social Studies'];
+
+function createEmptySubjectEdits() {
+    return {
+        Math: { testDate: '', testLocation: '', passed: false },
+        RLA: { testDate: '', testLocation: '', passed: false },
+        Science: { testDate: '', testLocation: '', passed: false },
+        'Social Studies': { testDate: '', testLocation: '', passed: false },
+    };
+}
+
+function buildSubjectEditsFromPlan(plan) {
+    const planFromServer = {};
+    if (Array.isArray(plan)) {
+        for (const row of plan) {
+            if (!row || !row.subject) {
+                continue;
+            }
+            planFromServer[row.subject] = {
+                testDate: row.testDate || '',
+                testLocation: row.testLocation || '',
+                passed: !!row.passed,
+            };
+        }
+    }
+    const base = createEmptySubjectEdits();
+    const merged = {
+        ...base,
+        Math: {
+            ...base.Math,
+            ...planFromServer.Math,
+        },
+        RLA: {
+            ...base.RLA,
+            ...planFromServer.RLA,
+        },
+        Science: {
+            ...base.Science,
+            ...planFromServer.Science,
+        },
+        'Social Studies': {
+            ...base['Social Studies'],
+            ...planFromServer['Social Studies'],
+        },
+    };
+
+    for (const subject of Object.keys(planFromServer)) {
+        if (!SUBJECT_NAMES.includes(subject)) {
+            merged[subject] = {
+                testDate: planFromServer[subject].testDate || '',
+                testLocation: planFromServer[subject].testLocation || '',
+                passed: !!planFromServer[subject].passed,
+            };
+        }
+    }
+
+    return merged;
+}
+
 async function fetchJSON(url, options = {}) {
     const { headers, ...rest } = options || {};
     const finalHeaders = headers ? { ...headers } : undefined;
@@ -3387,6 +3446,7 @@ function App() {
     const [profileData, setProfileData] = useState(null);
     const [profileLoading, setProfileLoading] = useState(false);
     const [profileError, setProfileError] = useState(null);
+    const [subjectEdits, setSubjectEdits] = useState(() => createEmptySubjectEdits());
     const [nameDraft, setNameDraft] = useState('');
     const [nameStatus, setNameStatus] = useState('');
     const [nameSaving, setNameSaving] = useState(false);
@@ -3396,6 +3456,10 @@ function App() {
     const [testSaving, setTestSaving] = useState(null);
     const [challengesSaving, setChallengesSaving] = useState(false);
     const [finishingOnboarding, setFinishingOnboarding] = useState(false);
+
+    const syncSubjectEditsFromBundle = useCallback((bundle) => {
+        setSubjectEdits(buildSubjectEditsFromPlan(bundle?.testPlan));
+    }, []);
 
     useEffect(() => {
         if (typeof document === 'undefined') {
@@ -3548,6 +3612,7 @@ function App() {
 
             const data = await response.json();
             setProfileData(data);
+            syncSubjectEditsFromBundle(data);
 
             const serverName = data?.profile?.name;
             if (serverName) {
@@ -3637,12 +3702,30 @@ function App() {
         loadProfileOnce();
     }, [loadProfileOnce]);
 
-    const handleSaveTestInfo = useCallback(async ({ subject, testDate, testLocation, passed }) => {
+    const handleSubjectFieldChange = useCallback((subject, field, value) => {
+        if (!subject) {
+            return;
+        }
+        setSubjectEdits((prev) => {
+            const existing = prev?.[subject] || { testDate: '', testLocation: '', passed: false };
+            return {
+                ...prev,
+                [subject]: {
+                    ...existing,
+                    [field]: field === 'passed' ? !!value : value,
+                },
+            };
+        });
+    }, []);
+
+    const handleSaveSubject = useCallback(async (subject) => {
         const trimmedSubject = subject ? String(subject).trim() : '';
         if (!trimmedSubject) {
             window.alert('Missing subject.');
             return;
         }
+
+        const edits = subjectEdits[trimmedSubject] || { testDate: '', testLocation: '', passed: false };
         setTestSaving(trimmedSubject);
         try {
             const response = await fetch('/api/profile/test', {
@@ -3651,9 +3734,9 @@ function App() {
                 credentials: 'include',
                 body: JSON.stringify({
                     subject: trimmedSubject,
-                    testDate: testDate || null,
-                    testLocation: testLocation || null,
-                    passed: !!passed,
+                    testDate: edits.testDate || null,
+                    testLocation: edits.testLocation || null,
+                    passed: !!edits.passed,
                 }),
             });
             if (!response.ok) {
@@ -3661,6 +3744,7 @@ function App() {
             }
             const data = await response.json();
             setProfileData(data);
+            syncSubjectEditsFromBundle(data);
             const onboardingFlag = !!data?.profile?.onboardingComplete;
             setOnboardingComplete(onboardingFlag);
             if (typeof window !== 'undefined') {
@@ -3673,7 +3757,7 @@ function App() {
         } finally {
             setTestSaving(null);
         }
-    }, []);
+    }, [subjectEdits, syncSubjectEditsFromBundle]);
 
     const handleSaveChallenges = useCallback(async (selectedIds) => {
         setChallengesSaving(true);
@@ -3689,6 +3773,7 @@ function App() {
             }
             const data = await response.json();
             setProfileData(data);
+            syncSubjectEditsFromBundle(data);
             const onboardingFlag = !!data?.profile?.onboardingComplete;
             setOnboardingComplete(onboardingFlag);
             if (typeof window !== 'undefined') {
@@ -3701,7 +3786,7 @@ function App() {
         } finally {
             setChallengesSaving(false);
         }
-    }, []);
+    }, [syncSubjectEditsFromBundle]);
 
     const handleFinishOnboarding = useCallback(async () => {
         setFinishingOnboarding(true);
@@ -3903,6 +3988,7 @@ function App() {
         currentUserRef.current = profile;
         setCurrentUser(profile);
         setProfileData(null);
+        setSubjectEdits(createEmptySubjectEdits());
         setProfileError(null);
         setUserScores([]);
         recalcProgress([]);
@@ -3946,6 +4032,7 @@ function App() {
         recalcProgress([]);
         setShowNamePrompt(false);
         setProfileData(null);
+        setSubjectEdits(createEmptySubjectEdits());
         setProfileError(null);
         setProfileLoading(false);
         setOnboardingComplete(true);
@@ -4268,7 +4355,9 @@ function App() {
                         nameStatus={nameStatus}
                         onRefresh={handleProfileRefresh}
                         onBack={navigateHome}
-                        onSaveTestInfo={handleSaveTestInfo}
+                        subjectEdits={subjectEdits}
+                        onSubjectFieldChange={handleSubjectFieldChange}
+                        onSubjectSave={handleSaveSubject}
                         testSaving={testSaving}
                         onSaveChallenges={handleSaveChallenges}
                         challengesSaving={challengesSaving}
@@ -4430,7 +4519,9 @@ function ProfileView({
     nameStatus,
     onRefresh,
     onBack,
-    onSaveTestInfo,
+    subjectEdits,
+    onSubjectFieldChange,
+    onSubjectSave,
     testSaving,
     onSaveChallenges,
     challengesSaving,
@@ -4442,7 +4533,7 @@ function ProfileView({
     const challengeOptions = Array.isArray(data?.challengeOptions) ? data.challengeOptions : [];
     const recentSummary = data?.recentScoresDashboard || {};
     const legacyScores = data?.scores || {};
-    const SUBJECT_ORDER = useMemo(() => ['Math', 'RLA', 'Science', 'Social Studies'], []);
+    const SUBJECT_ORDER = useMemo(() => [...SUBJECT_NAMES], []);
     const rawTestPlan = Array.isArray(data?.testPlan) ? data.testPlan : [];
     const normalizedTestPlan = useMemo(() => {
         const map = new Map();
@@ -4489,51 +4580,6 @@ function ProfileView({
         });
         return result;
     }, [rawTestPlan, SUBJECT_ORDER]);
-
-    const initialTestDrafts = useMemo(() => {
-        const drafts = {};
-        normalizedTestPlan.forEach((entry) => {
-            drafts[entry.subject] = {
-                subject: entry.subject,
-                testDate: entry.testDate || '',
-                testLocation: entry.testLocation || '',
-                passed: !!entry.passed,
-            };
-        });
-        return drafts;
-    }, [normalizedTestPlan]);
-
-    const [testDrafts, setTestDrafts] = useState(initialTestDrafts);
-
-    useEffect(() => {
-        setTestDrafts(initialTestDrafts);
-    }, [initialTestDrafts]);
-
-    const handleSubjectFieldChange = useCallback((subject, field, value) => {
-        setTestDrafts((prev) => {
-            const existing = prev[subject] || { subject, testDate: '', testLocation: '', passed: false };
-            return {
-                ...prev,
-                [subject]: {
-                    ...existing,
-                    [field]: field === 'passed' ? !!value : value,
-                },
-            };
-        });
-    }, []);
-
-    const handleSubjectSave = useCallback(
-        (subject) => {
-            const draft = testDrafts[subject] || { subject, testDate: '', testLocation: '', passed: false };
-            onSaveTestInfo?.({
-                subject,
-                testDate: draft.testDate ? draft.testDate : null,
-                testLocation: draft.testLocation ? draft.testLocation : null,
-                passed: !!draft.passed,
-            });
-        },
-        [onSaveTestInfo, testDrafts]
-    );
 
     const nextUpcoming = data?.nextUpcomingTest || null;
     const formatDayCount = (value) => {
@@ -4713,15 +4759,14 @@ function ProfileView({
                         {normalizedTestPlan.length === 0 ? (
                             <p className="col-span-full text-sm text-slate-500">No subjects available yet.</p>
                         ) : normalizedTestPlan.map((entry) => {
-                            const draft = testDrafts[entry.subject] || {
-                                subject: entry.subject,
+                            const edits = (subjectEdits && subjectEdits[entry.subject]) || {
                                 testDate: '',
                                 testLocation: '',
                                 passed: false,
                             };
                             const savingThisSubject = testSaving === entry.subject;
                             const countdownLabel = (() => {
-                                if (!entry.testDate || draft.passed) {
+                                if (!entry.testDate || edits.passed) {
                                     return null;
                                 }
                                 if (entry.daysUntil != null) {
@@ -4743,8 +4788,8 @@ function ProfileView({
                                             type="date"
                                             className="tp-date rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                                             data-subject={entry.subject}
-                                            value={draft.testDate || ''}
-                                            onChange={(event) => handleSubjectFieldChange(entry.subject, 'testDate', event.target.value)}
+                                            value={edits.testDate || ''}
+                                            onChange={(event) => onSubjectFieldChange?.(entry.subject, 'testDate', event.target.value)}
                                             disabled={savingThisSubject}
                                         />
                                     </label>
@@ -4755,8 +4800,8 @@ function ProfileView({
                                             className="tp-location rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                                             placeholder="Test center (optional)"
                                             data-subject={entry.subject}
-                                            value={draft.testLocation || ''}
-                                            onChange={(event) => handleSubjectFieldChange(entry.subject, 'testLocation', event.target.value)}
+                                            value={edits.testLocation || ''}
+                                            onChange={(event) => onSubjectFieldChange?.(entry.subject, 'testLocation', event.target.value)}
                                             disabled={savingThisSubject}
                                         />
                                     </label>
@@ -4765,8 +4810,8 @@ function ProfileView({
                                             type="checkbox"
                                             className="tp-passed h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
                                             data-subject={entry.subject}
-                                            checked={!!draft.passed}
-                                            onChange={(event) => handleSubjectFieldChange(entry.subject, 'passed', event.target.checked)}
+                                            checked={!!edits.passed}
+                                            onChange={(event) => onSubjectFieldChange?.(entry.subject, 'passed', event.target.checked)}
                                             disabled={savingThisSubject}
                                         />
                                         I already passed this subject
@@ -4775,12 +4820,12 @@ function ProfileView({
                                         type="button"
                                         className="btn tp-save inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
                                         data-subject={entry.subject}
-                                        onClick={() => handleSubjectSave(entry.subject)}
+                                        onClick={() => onSubjectSave?.(entry.subject)}
                                         disabled={savingThisSubject}
                                     >
                                         {savingThisSubject ? 'Saving…' : `Save ${entry.subject}`}
                                     </button>
-                                    {draft.passed ? (
+                                    {edits.passed ? (
                                         <p className="text-xs text-emerald-600">Great job! We marked this subject as passed.</p>
                                     ) : countdownLabel ? (
                                         <p className="text-xs text-slate-500">{countdownLabel}</p>
