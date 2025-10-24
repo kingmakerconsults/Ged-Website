@@ -1122,6 +1122,28 @@ function renderLatexToHtml(latexInput) {
     throw new Error('KaTeX render helpers missing');
 }
 
+function normalizeFormulaLatex(latex) {
+    if (typeof latex !== 'string') {
+        return '';
+    }
+
+    let working = latex;
+
+    try {
+        working = applySafeMathFix(working);
+    } catch (error) {
+        console.warn('Failed to sanitize formula latex:', error?.message || error);
+    }
+
+    try {
+        working = normalizeLatex(working);
+    } catch (error) {
+        console.warn('Failed to normalize formula latex:', error?.message || error);
+    }
+
+    return working;
+}
+
 function smartWrapLatex(input) {
     if (typeof input !== 'string' || input.length === 0) {
         return input;
@@ -2079,6 +2101,207 @@ function ChartDisplay({ chartData }) {
 
 // --- DATA SOURCE ---
 // New hierarchical data structure for all application content.
+const ScienceFormulas = [
+    {
+        name: "Density",
+        formula: "d = \\frac{m}{V}",
+        variables: "d = density (mass per unit volume), m = mass, V = volume"
+    },
+    {
+        name: "Average Speed",
+        formula: "v = \\frac{d}{t}",
+        variables: "v = average speed, d = distance traveled, t = elapsed time"
+    },
+    {
+        name: "Force",
+        formula: "F = ma",
+        variables: "F = net force, m = mass, a = acceleration"
+    },
+    {
+        name: "Work",
+        formula: "W = F \\times d",
+        variables: "W = work, F = applied force, d = displacement in the direction of the force"
+    },
+    {
+        name: "Mean (Average)",
+        formula: "\\bar{x} = \\frac{\\text{Total of all data values}}{\\text{How many values there are}}",
+        variables: "\\bar{x} = mean (average) of the data set: add all values together and divide by how many values there are"
+    },
+    {
+        name: "Range",
+        formula: "\\text{Range} = \\text{Maximum value} - \\text{Minimum value}",
+        variables: "Describes the spread between the largest and smallest values in a data set."
+    }
+];
+
+const SCI_NUMERACY_QUESTIONS = [
+    {
+        questionNumber: 1,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>A botanist measures the height (in cm) of five plants: 15, 18, 15, 22, and 20.</p>",
+        question: "What is the <strong>mean (average)</strong> height of the plants?",
+        answerOptions: [
+            { text: "15 cm", rationale: "15 is the mode (most common), not the mean.", isCorrect: false },
+            { text: "18 cm", rationale: "Correct. (15+18+15+22+20)=90; 90÷5=18.", isCorrect: true },
+            { text: "18.5 cm", rationale: "Close, but not the exact average.", isCorrect: false },
+            { text: "22 cm", rationale: "22 is just the tallest plant.", isCorrect: false }
+        ]
+    },
+    {
+        questionNumber: 2,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp × Pp) are crossed.</p>",
+        question: "What percent of offspring are expected to have <strong>white</strong> flowers?",
+        answerOptions: [
+            { text: "0%", rationale: "Incorrect. White can appear if the plant gets pp.", isCorrect: false },
+            { text: "25%", rationale: "Correct. The Punnett square gives PP, Pp, Pp, pp → 1 of 4 is pp (white).", isCorrect: true },
+            { text: "50%", rationale: "50% would be too high; only 1 of 4 is pp.", isCorrect: false },
+            { text: "75%", rationale: "75% would be purple, not white.", isCorrect: false }
+        ]
+    },
+    {
+        questionNumber: 3,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>A rock has a mass of 60 g and displaces 20 cm³ of water.</p>",
+        question: "What is the rock’s density?",
+        answerOptions: [
+            { text: "1 g/cm³", rationale: "That would be 20 g ÷ 20 cm³.", isCorrect: false },
+            { text: "3 g/cm³", rationale: "Correct. Density = mass ÷ volume = 60 ÷ 20 = 3 g/cm³.", isCorrect: true },
+            { text: "20 g/cm³", rationale: "That’s just the volume, not density.", isCorrect: false },
+            { text: "40 g/cm³", rationale: "Not based on 60 ÷ 20.", isCorrect: false }
+        ]
+    },
+    {
+        questionNumber: 4,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>A car travels 150 km in 3 hours at a constant speed.</p>",
+        question: "What is the car’s average speed?",
+        answerOptions: [
+            { text: "50 km/h", rationale: "Correct. 150 km ÷ 3 h = 50 km/h.", isCorrect: true },
+            { text: "30 km/h", rationale: "Too low. That would be 90 km over 3 h.", isCorrect: false },
+            { text: "100 km/h", rationale: "Too high. That would be 300 km in 3 h.", isCorrect: false },
+            { text: "450 km/h", rationale: "Impossible for the data given.", isCorrect: false }
+        ]
+    },
+    {
+        questionNumber: 5,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>A student pushes a box with a force of 50 N across the floor for 4 m.</p>",
+        question: "How much work was done on the box?",
+        answerOptions: [
+            { text: "12.5 J", rationale: "This divides instead of multiplying.", isCorrect: false },
+            { text: "46 N", rationale: "Newtons measure force, not work (energy).", isCorrect: false },
+            { text: "200 J", rationale: "Correct. Work W = F × d = 50 N × 4 m = 200 J.", isCorrect: true },
+            { text: "200 N", rationale: "Units are wrong — work is in joules.", isCorrect: false }
+        ]
+    },
+    {
+        questionNumber: 6,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>A 2 kg cart accelerates at 3 m/s².</p>",
+        question: "What net force is acting on the cart?",
+        answerOptions: [
+            { text: "0.67 N", rationale: "That divides instead of multiplies.", isCorrect: false },
+            { text: "1.5 N", rationale: "Still dividing, not multiplying.", isCorrect: false },
+            { text: "5 N", rationale: "Close, but 2 × 3 is 6, not 5.", isCorrect: false },
+            { text: "6 N", rationale: "Correct. F = m × a = 2 kg × 3 m/s² = 6 N.", isCorrect: true }
+        ]
+    },
+    {
+        questionNumber: 7,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: `<p>A student heats four samples of the same liquid:</p>
+          <table class="min-w-full text-sm text-left">
+            <thead><tr><th>Trial</th><th>Start Temp (°C)</th><th>End Temp (°C)</th></tr></thead>
+            <tbody>
+              <tr><td>A</td><td>22</td><td>30</td></tr>
+              <tr><td>B</td><td>22</td><td>29</td></tr>
+              <tr><td>C</td><td>22</td><td>35</td></tr>
+              <tr><td>D</td><td>22</td><td>28</td></tr>
+            </tbody>
+          </table>`,
+        question: "Which trial had the greatest temperature increase?",
+        answerOptions: [
+            { text: "Trial A", rationale: "Increase was 30−22 = 8°C.", isCorrect: false },
+            { text: "Trial B", rationale: "Increase was 7°C.", isCorrect: false },
+            { text: "Trial C", rationale: "Correct. Increase was 35−22 = 13°C, the largest.", isCorrect: true },
+            { text: "Trial D", rationale: "Increase was 6°C.", isCorrect: false }
+        ]
+    },
+    {
+        questionNumber: 8,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>Colony counts of bacteria on 5 plates were 12, 15, 15, 18, and 30 (in thousands).</p>",
+        question: "What is the <strong>range</strong> of the data?",
+        answerOptions: [
+            { text: "12", rationale: "12 is just the smallest value.", isCorrect: false },
+            { text: "18", rationale: "18 is not max − min.", isCorrect: false },
+            { text: "30", rationale: "30 is just the largest value.", isCorrect: false },
+            { text: "18 (thousand)", rationale: "Correct. Range = 30 − 12 = 18.", isCorrect: true }
+        ]
+    },
+    {
+        questionNumber: 9,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>In the first 20 minutes of a run, a runner goes 10 km. After 10 minutes the runner had 5 km. Assume constant speed.</p>",
+        question: "What is the runner’s speed during this period (in km/min)?",
+        answerOptions: [
+            { text: "0.25 km/min", rationale: "Too low (that would be 5 km in 20 min).", isCorrect: false },
+            { text: "0.5 km/min", rationale: "Correct. 10 km ÷ 20 min = 0.5 km/min.", isCorrect: true },
+            { text: "2 km/min", rationale: "Too high. That would be 40 km in 20 min.", isCorrect: false },
+            { text: "20 km/min", rationale: "Way too high for a human runner.", isCorrect: false }
+        ]
+    },
+    {
+        questionNumber: 10,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>A sealed container (nothing can enter or escape) has a total mass of 120 g before a chemical reaction and 120 g after.</p>",
+        question: "Which statement is best supported by this data?",
+        answerOptions: [
+            { text: "Mass is created during the reaction.", rationale: "No; mass didn't increase.", isCorrect: false },
+            { text: "Mass is destroyed during the reaction.", rationale: "No; mass didn't decrease.", isCorrect: false },
+            { text: "Mass is conserved during the reaction.", rationale: "Correct. The total stayed 120 g.", isCorrect: true },
+            { text: "The container leaked gas.", rationale: "If it leaked, mass would drop.", isCorrect: false }
+        ]
+    },
+    {
+        questionNumber: 11,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>A pump moves 12 liters of water in 4 minutes at a constant rate.</p>",
+        question: "How many liters will it move in 10 minutes?",
+        answerOptions: [
+            { text: "20 L", rationale: "That assumes 2 L/min. Actual rate is 3 L/min.", isCorrect: false },
+            { text: "24 L", rationale: "That’s 12 L in 4 min scaled to 8 min, not 10.", isCorrect: false },
+            { text: "30 L", rationale: "Correct. 12 ÷ 4 = 3 L/min. 3 × 10 = 30 L.", isCorrect: true },
+            { text: "120 L", rationale: "Way too high for this rate.", isCorrect: false }
+        ]
+    },
+    {
+        questionNumber: 12,
+        qaProfileKey: "numeracy",
+        type: "knowledge",
+        passage: "<p>A household budget is $3,000 per month. Housing is 35% of the budget.</p>",
+        question: "How much money goes to housing each month?",
+        answerOptions: [
+            { text: "$700", rationale: "That’s 700 / 3000 ≈ 23%. Too low.", isCorrect: false },
+            { text: "$900", rationale: "That’s 30% of $3,000.", isCorrect: false },
+            { text: "$1,050", rationale: "Correct. 35% of $3,000 = 0.35 × 3000 = $1,050.", isCorrect: true },
+            { text: "$1,500", rationale: "That would be 50%, not 35%.", isCorrect: false }
+        ]
+    }
+];
+
 const AppData = {
     "Science": {
         icon: "BeakerIcon",
@@ -2178,6 +2401,23 @@ const AppData = {
                             { "questionNumber": 14, "type": "text", "passage": "Magnetism is a force produced by moving electric charges. All magnets have two poles, a north pole and a south pole. Like poles repel each other, while opposite poles attract each other.", "question": "If you bring the north pole of one magnet close to the north pole of another magnet, what will happen?", "answerOptions": [ { "text": "The magnets will attract each other.", "rationale": "Opposite poles attract.", "isCorrect": false }, { "text": "The magnets will repel each other.", "rationale": "Correct. The passage states that like poles repel.", "isCorrect": true }, { "text": "Nothing will happen.", "rationale": "A magnetic force will be exerted.", "isCorrect": false }, { "text": "The magnets will lose their magnetism.", "rationale": "This will not cause them to lose their magnetism.", "isCorrect": false } ] },
                             { "questionNumber": 15, "type": "knowledge", "question": "Which of the following is a unit of force?", "answerOptions": [ { "text": "Meter", "rationale": "A meter is a unit of distance.", "isCorrect": false }, { "text": "Kilogram", "rationale": "A kilogram is a unit of mass.", "isCorrect": false }, { "text": "Second", "rationale": "A second is a unit of time.", "isCorrect": false }, { "text": "Newton", "rationale": "Correct. The Newton (N) is the standard unit of force in the International System of Units (SI).", "isCorrect": true } ] }
                         ]
+                    }
+                ]
+            },
+            "Scientific Numeracy": {
+                description: "Practice applying mathematical skills to interpret scientific data, charts, and formulas.",
+                image: "./images/scientific_numeracy_icon.png",
+                topics: [
+                    {
+                        id: "sci_scientific_numeracy_core",
+                        title: "Scientific Numeracy",
+                        description: "Core Skills Practice Set",
+                        config: {
+                            calculator: true,
+                            formulaSheet: true,
+                            totalTime: 20 * 60
+                        },
+                        questions: SCI_NUMERACY_QUESTIONS
                     }
                 ]
             },
@@ -5728,6 +5968,54 @@ function SubjectVocabularySection({ subject, words }) {
 
 const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon, ChartBarIcon, VariableIcon, ShapesIcon };
 
+function FormulaDisplay({ latex, className = '' }) {
+    const safeLatex = normalizeFormulaLatex(latex);
+    let html = '';
+
+    try {
+        html = renderLatexToHtml(safeLatex);
+    } catch (error) {
+        console.warn('Formula render failed:', error?.message || error);
+        html = escapeHtml(typeof safeLatex === 'string' ? safeLatex : '');
+    }
+
+    return (
+        <span className={className} dangerouslySetInnerHTML={{ __html: html }} />
+    );
+}
+
+function ScienceFormulaSheet({ onClose }) {
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+            <div className="bg-white rounded-xl shadow-2xl max-w-lg w-11/12 p-6 relative">
+                <button
+                    className="absolute top-3 right-3 text-slate-500 font-bold hover:text-slate-800"
+                    onClick={onClose}
+                    type="button"
+                    aria-label="Close science formula sheet"
+                >
+                    ✕
+                </button>
+
+                <h2 className="text-xl font-bold text-slate-800 mb-4">Science Formula Sheet</h2>
+
+                <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                    {ScienceFormulas.map((item, idx) => (
+                        <div key={idx} className="border border-slate-200 rounded-lg p-3 bg-slate-50">
+                            <h3 className="font-semibold text-slate-800">{item.name}</h3>
+                            <FormulaDisplay
+                                latex={item.formula}
+                                className="p-2 bg-white rounded text-center my-2 text-lg font-mono block border border-slate-300"
+                            />
+                            <p className="text-xs text-slate-600 leading-snug">{item.variables}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function FormulaSheetModal({ onClose }) {
     const Formula = ({ title, formula, description }) => {
         const sanitizedFormula = typeof formula === 'string'
@@ -5806,6 +6094,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
+    const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
     const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
     const profile = profileData?.profile || {};
     const challengeOptions = Array.isArray(profileData?.challengeOptions) ? profileData.challengeOptions : [];
@@ -5846,6 +6135,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         setSelectedSubject(subject);
         setSelectedCategory(null);
         setAiQuizTopic('');
+        setViewScienceFormulas(false);
     };
 
     const handleSelectCategory = (category) => {
@@ -5880,6 +6170,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             setSelectedCategory(null);
             setAiQuizTopic('');
             setShowFormulaSheet?.(false);
+            setViewScienceFormulas(false);
         }
     };
 
@@ -5983,21 +6274,37 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         return (
             <>
+                {viewScienceFormulas && (
+                    <ScienceFormulaSheet onClose={() => setViewScienceFormulas(false)} />
+                )}
                 <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || 'bg-slate-800'} text-white`}>
                     <Breadcrumb variant="onColor" />
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
                         <h2 className="text-3xl font-extrabold text-white">{selectedSubject}</h2>
-                        {selectedSubject === 'Math' && (
+                        {(selectedSubject === 'Math' || selectedSubject === 'Science') && (
                             <div className="flex flex-wrap gap-2">
-                                <button
-                                    onClick={() => onOpenMathTools?.()}
-                                    className="px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg shadow-sm hover:bg-sky-600 transition"
-                                >
-                                    Math Practice Tools
-                                </button>
-                                <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
-                                    Formula Sheet
-                                </button>
+                                {selectedSubject === 'Math' && (
+                                    <>
+                                        <button
+                                            onClick={() => onOpenMathTools?.()}
+                                            className="px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg shadow-sm hover:bg-sky-600 transition"
+                                        >
+                                            Math Practice Tools
+                                        </button>
+                                        <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
+                                            Formula Sheet
+                                        </button>
+                                    </>
+                                )}
+                                {selectedSubject === 'Science' && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setViewScienceFormulas(true)}
+                                        className="px-4 py-2 border-2 border-rose-200 text-white font-semibold rounded-lg bg-transparent hover:bg-rose-500/20 transition"
+                                    >
+                                        View Science Formula Sheet
+                                    </button>
+                                )}
                             </div>
                         )}
                     </div>
@@ -6280,7 +6587,7 @@ function Stem({ item }) {
     );
 }
 
-function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit, subject, showTimer = true }) {
+function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit, subject, showTimer = true, quizConfig }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [marked, setMarked] = useState(Array(questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
@@ -6288,6 +6595,8 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const [isPaused, setIsPaused] = useState(false);
     const [pausesRemaining, setPausesRemaining] = useState(2);
     const handleSubmitRef = useRef(() => {});
+    const [showMathFormulas, setShowMathFormulas] = useState(false);
+    const [showScienceFormulas, setShowScienceFormulas] = useState(false);
 
     useEffect(() => {
         setTimeLeft(timeLimit || questions.length * 90);
@@ -6357,11 +6666,21 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
 
     const subjectForRender = currentQ.subject || subject || 'Default';
+    const quizSubject = subject || 'Default';
+    const formulaSheetEnabled = Boolean(quizConfig?.formulaSheet);
+    const canShowMathFormulas = formulaSheetEnabled && quizSubject === 'Math';
+    const canShowScienceFormulas = formulaSheetEnabled && quizSubject === 'Science';
     const colorScheme = SUBJECT_COLORS[subjectForRender] || DEFAULT_COLOR_SCHEME;
 
     return (
         <div className="fade-in">
-            <div className={`rounded-2xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surface || 'bg-slate-50'} p-4 sm:p-6 shadow-lg`}> 
+            {canShowMathFormulas && showMathFormulas && (
+                <FormulaSheetModal onClose={() => setShowMathFormulas(false)} />
+            )}
+            {canShowScienceFormulas && showScienceFormulas && (
+                <ScienceFormulaSheet onClose={() => setShowScienceFormulas(false)} />
+            )}
+            <div className={`rounded-2xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surface || 'bg-slate-50'} p-4 sm:p-6 shadow-lg`}>
                 {showTimer && (
                     <header className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b ${colorScheme.divider || 'border-slate-200'}`}>
                         {onExit && (
@@ -6389,6 +6708,28 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                     {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
                                 </span>
                             </div>
+                            {formulaSheetEnabled && (
+                                <div className="flex flex-wrap justify-end gap-2">
+                                    {canShowMathFormulas && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowMathFormulas(true)}
+                                            className="px-3 py-1.5 bg-white/90 text-sky-700 font-semibold rounded-md text-sm shadow-sm hover:bg-white transition"
+                                        >
+                                            View Formula Sheet
+                                        </button>
+                                    )}
+                                    {canShowScienceFormulas && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowScienceFormulas(true)}
+                                            className="px-3 py-1.5 border-2 border-rose-200 text-rose-700 bg-white font-semibold rounded-md text-sm shadow-sm hover:bg-rose-50 transition"
+                                        >
+                                            View Science Formula Sheet
+                                        </button>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </header>
                 )}
@@ -6527,6 +6868,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         onExit={onExit}
         timeLimit={quiz.timeLimit}
         subject={quiz.subject}
+        quizConfig={quiz.config}
     />;
 }
 
@@ -6581,6 +6923,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             buttonText="Continue to Part 2"
             onExit={onExit}
             subject={quiz.subject}
+            quizConfig={quiz.config}
         />;
     }
 
@@ -6606,6 +6949,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             buttonText="Finish Exam"
             onExit={onExit}
             subject={quiz.subject}
+            quizConfig={quiz.config}
         />;
     }
 
@@ -6798,6 +7142,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                             buttonText="Continue to Essay"
                             subject={quiz.subject}
                             showTimer={false}
+                            quizConfig={quiz.config}
                         />
                     </div>
                 );
@@ -6846,6 +7191,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                             buttonText="Finish Exam"
                             subject={quiz.subject}
                             showTimer={false}
+                            quizConfig={quiz.config}
                         />
                     </div>
                 );

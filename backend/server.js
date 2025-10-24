@@ -933,6 +933,34 @@ function normalizeSubjectParam(rawSubject) {
     return SUBJECT_PARAM_ALIASES.get(lower) || null;
 }
 
+const SMITH_A_SKILL_MAP = {
+    Math: {
+        "Quantitative Problem Solving": "Fractions, decimals, percentages, ratios, and data analysis."
+    },
+    Science: {
+        "Life Science": "Cell structure, genetics, ecosystems, and human body systems.",
+        "Physical Science": "Matter, energy, motion, chemistry, and basic physics principles.",
+        "Earth & Space Science": "Earth systems, weather, geology, astronomy, and the solar system.",
+        "Scientific Numeracy": "Unit conversions, rate/density calculations, interpreting tables and lab data."
+    },
+    "Social Studies": {
+        "U.S. History": "Foundations of the United States, government, civics, and historical analysis."
+    },
+    "Reasoning Through Language Arts (RLA)": {
+        "Language & Grammar": "Standard English conventions, grammar, punctuation, and usage.",
+        "Reading Comprehension: Informational Texts": "Determine main ideas, evaluate arguments, interpret charts, and understand structure."
+    }
+};
+
+const SMITH_A_SUBTOPICS = Object.fromEntries(
+    Object.entries(SMITH_A_SKILL_MAP).map(([subject, skills]) => [
+        subject,
+        Object.keys(skills || {})
+    ])
+);
+
+const SMITH_A_ALLOWED_SUBJECTS = new Set(Object.keys(SMITH_A_SKILL_MAP));
+
 const GEMINI_API_KEY = process.env.GOOGLE_API_KEY || process.env.GOOGLE_AI_API_KEY;
 const GEMINI_URL = GEMINI_API_KEY
     ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`
@@ -1604,10 +1632,30 @@ function buildTopicPrompt_VarietyPack(subject, topic, n = 12, ctx = [], imgs = [
         id: im.id || `img${i+1}`, src: im.filePath, alt: im.altText || '', description: im.detailedDescription || ''
     })));
 
+    const skillDescription = SMITH_A_SKILL_MAP[subject]?.[topic];
+    const skillFocusLine = skillDescription ? `Skill focus: ${skillDescription}\n` : '';
+    const isScientificNumeracy = subject === 'Science' && /scientific\s+numeracy/i.test(topic);
+
     let MIX_RULES;
-    if (subject === 'Math') {
+    if (isScientificNumeracy) {
         MIX_RULES = `
-Mix (exactly ${n} items):
+${skillFocusLine}Mix (exactly ${n} items):
+- Generate exactly ${n} standalone GED Science numeracy questions grounded in short lab-style setups, tables, or simple graphs.
+- Keep each context concise (no more than 2–3 sentences) or provide a small HTML <table>. Avoid long reading passages or argumentative analysis.
+- Focus on calculations like density = mass ÷ volume, average speed = distance ÷ time, unit rate/proportion, force = mass × acceleration, work = force × distance, or interpreting conservation of mass data.
+- Every item MUST include "qaProfileKey": "numeracy", provide exactly four answer choices, and clearly mark the correct option.
+- Encourage use of the Science Formula Sheet when relevant.
+- Absolutely do NOT request or rely on external images beyond the data you embed.
+
+Difficulty distribution (approximate): 4 easy, 5 medium, 3 hard. Include a "difficulty" field for each item.
+
+Variety rules:
+- Rotate scenarios (rates, density, lab measurements, household budgets, etc.).
+- When using tables, keep them small (≤4 rows) and directly tied to the required computation.
+`;
+    } else if (subject === 'Math') {
+        MIX_RULES = `
+${skillFocusLine}Mix (exactly ${n} items):
 - Generate exactly 12 standalone GED Math problems. Each item MUST be fully standalone and must not rely on any shared passages or images.
 - Absolutely DO NOT create passages or request/use any images for these questions.
 - Every item MUST include "itemType": "standalone".
@@ -1626,7 +1674,7 @@ Word caps:
 `;
     } else {
         MIX_RULES = `
-Mix (exactly ${n} items):
+${skillFocusLine}Mix (exactly ${n} items):
 - Create 2 passages. Generate 2 questions for each passage (total 4 passage questions).
 - Use 2 images. Generate 2 questions for the first image and 1 question for the second image (total 3 image questions).
 - Create 5 standalone questions.
@@ -1799,23 +1847,31 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
     const { topic, difficulty } = req.body || {};
     const QUIZ_COUNT = 12;
 
-    if (!subject) {
+    if (!subject || !SMITH_A_ALLOWED_SUBJECTS.has(subject)) {
         return res.status(400).json({ success: false, error: 'Invalid subject' });
     }
     if (!topic || typeof topic !== 'string') {
         return res.status(400).json({ success: false, error: 'Missing or invalid topic' });
     }
 
+    const isScientificNumeracy = subject === 'Science' && /scientific\s+numeracy/i.test(topic);
+
     try {
         console.log(`[Variety Pack] Starting generation for Subject: ${subject}, Topic: ${topic}`);
 
         // 1. Retrieve web context for relevant subjects
-        const subjectNeedsRetrieval = ['Science', 'Social Studies', 'RLA', 'Reasoning Through Language Arts (RLA)'].includes(subject);
+        let subjectNeedsRetrieval = ['Science', 'Social Studies', 'RLA', 'Reasoning Through Language Arts (RLA)'].includes(subject);
+        if (isScientificNumeracy) {
+            subjectNeedsRetrieval = false;
+        }
         const ctx = subjectNeedsRetrieval ? await retrieveSnippets(subject, topic) : [];
         console.log(`[Variety Pack] Retrieved ${ctx.length} context snippets.`);
 
         // 2. Find relevant images for Science and Social Studies only
-        const subjectNeedsImages = ['Science', 'Social Studies'].includes(subject);
+        let subjectNeedsImages = ['Science', 'Social Studies'].includes(subject);
+        if (isScientificNumeracy) {
+            subjectNeedsImages = false;
+        }
         const imgs = subjectNeedsImages ? findImagesForSubjectTopic(subject, topic, 6) : [];
         console.log(`[Variety Pack] Found ${imgs.length} candidate images.`);
 
@@ -1854,7 +1910,16 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         }
 
         // 6. Enforce mix, dedupe, and shuffle
-        if (subject === 'Math') {
+        if (isScientificNumeracy) {
+            items = items.map((item) => ({
+                ...item,
+                itemType: 'standalone',
+                qaProfileKey: item.qaProfileKey || 'numeracy'
+            }));
+            items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
+            items = dedupeNearDuplicates(items, 0.85);
+            items = shuffleArray(items);
+        } else if (subject === 'Math') {
             items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
             items = dedupeNearDuplicates(items, 0.85);
             items = shuffleArray(items);
