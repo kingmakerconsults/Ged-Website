@@ -34,4 +34,4 @@ For local development:
 
 > **Tip:** A starter configuration is available at `backend/.env.example`. Copy it to `backend/.env` and update the values for your environment.
 
-The `server.js` file is configured to load this variable automatically using `dotenv`.
+The `server.js` file is configured to load this variable automatically using `dotenv`..
