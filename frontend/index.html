@@ -955,6 +955,7 @@ class ErrorBoundary extends React.Component {
 const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath, fixAllMathInText, collapseUnderscoredLatexMacros } = window.TextSanitizer || {};
 
 const API_BASE_URL = 'https://ged-website.onrender.com';
+const SCORE_FETCH_INTERVAL_MS = 45000;
 
 async function generateTopicQuiz(subjectParam, topic, difficulty) {
     const response = await fetch(`${API_BASE_URL}/api/topic-based/${encodeURIComponent(subjectParam)}`, {
@@ -3301,6 +3302,8 @@ function App() {
     const [welcomeFading, setWelcomeFading] = useState(false);
     const welcomeTimeoutRef = useRef(null);
     const welcomeFadeTimeoutRef = useRef(null);
+    const lastScoresFetchRef = useRef(0);
+    const pendingScoresFetchRef = useRef(null);
 
     useEffect(() => {
         let isMounted = true;
@@ -3684,31 +3687,53 @@ function App() {
         }
     }, [loadProfileUI]);
 
-    const loadScores = useCallback(async (token) => {
+    const loadScores = useCallback(async (token, options = {}) => {
         if (!token) {
             return;
         }
 
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/scores`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+        const { force = false } = options;
+        const now = Date.now();
+        const timeSinceLastFetch = now - lastScoresFetchRef.current;
 
-            if (!response.ok) {
-                throw new Error(`Failed to fetch scores: ${response.status}`);
+        if (!force) {
+            if (pendingScoresFetchRef.current) {
+                return pendingScoresFetchRef.current;
             }
-
-            const data = await response.json();
-            const normalized = Array.isArray(data) ? data : [];
-            setUserScores(normalized);
-            recalcProgress(normalized);
-        } catch (error) {
-            console.error('Failed to load scores:', error);
-            setUserScores([]);
-            recalcProgress([]);
+            if (timeSinceLastFetch < SCORE_FETCH_INTERVAL_MS) {
+                return;
+            }
         }
+
+        lastScoresFetchRef.current = now;
+
+        const fetchPromise = (async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/scores`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch scores: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const normalized = Array.isArray(data) ? data : [];
+                setUserScores(normalized);
+                recalcProgress(normalized);
+            } catch (error) {
+                console.error('Failed to load scores:', error);
+                setUserScores([]);
+                recalcProgress([]);
+            } finally {
+                pendingScoresFetchRef.current = null;
+            }
+        })();
+
+        pendingScoresFetchRef.current = fetchPromise;
+        return fetchPromise;
     }, [recalcProgress]);
 
     const persistScore = useCallback(async (subject, scaledScore) => {
