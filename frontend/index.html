@@ -108,6 +108,50 @@
     </script>
 
     <script>
+        (function initializeThemeManager() {
+            if (typeof window === 'undefined' || typeof document === 'undefined') {
+                return;
+            }
+            const root = document.documentElement;
+            const mediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+            function resolveEffectiveTheme(theme) {
+                if (theme === 'system' && mediaQuery) {
+                    return mediaQuery.matches ? 'dark' : 'light';
+                }
+                return theme === 'dark' ? 'dark' : 'light';
+            }
+
+            function applyTheme(theme) {
+                const effective = resolveEffectiveTheme(theme);
+                root.dataset.theme = theme;
+                root.classList.toggle('dark', effective === 'dark');
+                return effective;
+            }
+
+            function handleSystemChange() {
+                if (root.dataset.theme === 'system') {
+                    applyTheme('system');
+                }
+            }
+
+            if (mediaQuery) {
+                if (typeof mediaQuery.addEventListener === 'function') {
+                    mediaQuery.addEventListener('change', handleSystemChange);
+                } else if (typeof mediaQuery.addListener === 'function') {
+                    mediaQuery.addListener(handleSystemChange);
+                }
+            }
+
+            window.ThemeManager = {
+                applyTheme,
+                resolveEffectiveTheme,
+                mediaQuery
+            };
+        })();
+    </script>
+
+    <script>
         (function preloadPreferences() {
             if (typeof window === 'undefined' || typeof document === 'undefined') {
                 return;
@@ -127,7 +171,14 @@
                     const fontSize = sizes.has(parsed.fontSize) ? parsed.fontSize : 'md';
                     const theme = themes.has(parsed.theme) ? parsed.theme : 'system';
                     root.classList.add(`fs-${fontSize}`);
-                    root.dataset.theme = theme;
+                    if (window.ThemeManager) {
+                        window.ThemeManager.applyTheme(theme);
+                    } else {
+                        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                        const effective = theme === 'system' ? (prefersDark ? 'dark' : 'light') : theme;
+                        root.dataset.theme = theme;
+                        root.classList.toggle('dark', effective === 'dark');
+                    }
                 }
             } catch (error) {
                 console.warn('Failed to preload saved preferences:', error);
@@ -192,10 +243,10 @@
             font-family: 'Inter', system-ui, sans-serif;
             font-size: 1rem;
             line-height: 1.7;
-            color: #475569;
+            color: #334155;
         }
         .dark p,
-        .dark li { color: #cbd5e1; }
+        .dark li { color: #e2e8f0; }
         body::before {
             content: "";
             position: fixed;
@@ -219,6 +270,12 @@
             0%, 100% { transform: translateY(0); opacity: 0.12; }
             50% { transform: translateY(-10px); opacity: 0.15; }
         }
+        @media (prefers-color-scheme: dark) {
+            :root[data-theme='dark'] body::before,
+            .dark body::before {
+                opacity: 0.06;
+            }
+        }
         .glass {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
@@ -228,9 +285,9 @@
             box-shadow: 0 18px 32px -24px rgba(15, 23, 42, 0.3);
         }
         .dark .glass {
-            background: rgba(30, 41, 59, 0.5);
-            border-color: rgba(255,255,255,0.08);
-            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8);
+            background: rgba(30, 41, 59, 0.72);
+            border-color: rgba(255,255,255,0.14);
+            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.9);
         }
         .subject-card {
             transition: all 0.3s ease;
@@ -278,46 +335,53 @@
         }
         #pong-canvas { background-color: #1a202c; border-radius: 0.5rem; border: 2px solid #4a5568; }
         .option {
-            border: 2px solid transparent;
+            border: 2px solid rgba(0,0,0,0.03);
             border-radius: 0.75rem;
             background-color: #ffffff;
             padding: 0.75rem 1rem;
-            box-shadow: 0 4px 10px -2px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px -2px rgba(0,0,0,0.08);
             cursor: pointer;
             transition: all 0.15s ease-in-out;
         }
         .dark .option {
-            background-color: rgba(30, 41, 59, 0.9);
-            color: #e2e8f0;
-            box-shadow: 0 6px 14px -4px rgba(0,0,0,0.45);
+            background-color: rgba(15, 23, 42, 0.9);
+            border: 2px solid rgba(226,232,240,0.08);
+            color: #f8fafc;
+            box-shadow: 0 8px 20px -4px rgba(0,0,0,0.9);
         }
         .option:hover:not(.selected):not(.correct):not(.incorrect) {
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
             transform: scale(1.01);
             box-shadow: 0 8px 16px -4px rgba(0,0,0,0.12);
         }
         .dark .option:hover:not(.selected):not(.correct):not(.incorrect) {
-            background-color: rgba(148, 163, 184, 0.2);
+            background-color: rgba(51,65,85,0.6);
             box-shadow: 0 12px 22px -6px rgba(0,0,0,0.6);
         }
         .option.selected {
             background-color: #e0f2fe;
             border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
+            box-shadow: 0 0 0 3px rgba(56,189,248,0.4);
+            color: #0c4a6e;
+            font-weight: 600;
         }
         .dark .option.selected {
-            background-color: rgba(56,189,248,0.18);
-            border-color: rgba(56,189,248,0.6);
-            box-shadow: 0 0 0 3px rgba(56,189,248,0.35);
+            background-color: rgba(56,189,248,0.22);
+            border-color: rgba(56,189,248,0.8);
+            box-shadow: 0 0 0 3px rgba(56,189,248,0.5);
+            color: #eafeff;
+            font-weight: 600;
         }
         .option.correct {
             background-color: #dcfce7;
             border-color: #22c55e;
+            color: #065f46;
             animation: correctPop 0.28s ease-out;
         }
         .dark .option.correct {
-            background-color: rgba(34, 197, 94, 0.35);
-            border-color: rgba(34,197,94,0.8);
+            background-color: rgba(34,197,94,0.28);
+            border-color: rgba(34,197,94,0.9);
+            color: #ecfdf5;
         }
         @keyframes correctPop {
             0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
@@ -329,10 +393,12 @@
             border-color: #ef4444;
             position: relative;
             animation: shakeWrong 0.22s linear;
+            color: #7f1d1d;
         }
         .dark .option.incorrect {
-            background-color: rgba(239, 68, 68, 0.35);
-            border-color: rgba(239,68,68,0.75);
+            background-color: rgba(239,68,68,0.28);
+            border-color: rgba(239,68,68,0.85);
+            color: #fff1f2;
         }
         @keyframes shakeWrong {
             0% { transform: translateX(0); }
@@ -349,13 +415,22 @@
             margin-top: 0.75rem;
             font-size: 0.9rem;
             line-height: 1.4;
-            color: #334155;
+            color: #1e293b;
             animation: explainReveal 0.25s ease-out;
         }
         .dark .explanation {
-            background-color: rgba(15, 23, 42, 0.8);
-            border-left-color: rgba(56,189,248,0.7);
-            color: #e2e8f0;
+            background-color: rgba(2,6,23,0.9);
+            border-left-color: rgba(56,189,248,0.9);
+            color: #f8fafc;
+            box-shadow: 0 16px 32px -8px rgba(0,0,0,0.9);
+        }
+        .option:focus-visible {
+            outline: 2px solid #38bdf8;
+            outline-offset: 2px;
+        }
+        .dark .option:focus-visible {
+            outline: 2px solid rgba(56,189,248,0.8);
+            outline-offset: 2px;
         }
         @keyframes explainReveal {
             0% { opacity: 0; transform: translateY(4px); }
@@ -399,6 +474,7 @@
             border-radius: 9999px;
             border: 1px solid rgba(100, 116, 139, 0.2);
             background-color: #f8fafc;
+            background-image: linear-gradient(to bottom right, rgba(255,255,255,0.9), rgba(248,250,252,0.6));
             color: #0f172a;
             font-weight: 600;
             box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
@@ -406,10 +482,10 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .dark .vocabulary-chip {
-            border-color: rgba(148, 163, 184, 0.4);
-            background-color: rgba(30, 41, 59, 0.7);
-            color: #e2e8f0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+            border-color: rgba(226,232,240,0.18);
+            background-color: rgba(15,23,42,0.8);
+            color: #f8fafc;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.9);
         }
         .vocabulary-chip:hover {
             transform: translateY(-2px);
@@ -429,7 +505,7 @@
             text-transform: uppercase;
             color: #64748b;
         }
-        .dark .vocabulary-chip-label { color: #cbd5e1; }
+        .dark .vocabulary-chip-label { color: #f8fafc; }
         @keyframes vocabularyTickerScroll {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
@@ -458,18 +534,31 @@
             background: #f3f4f6;
             font-weight: 600;
         }
+        .dark .question-stem th,
+        .dark .question-stem td {
+            border: 1px solid rgba(226,232,240,0.18);
+            padding: 0.4rem 0.6rem;
+            text-align: left;
+            color: #f8fafc;
+            background-color: rgba(15,23,42,0.6);
+        }
+        .dark .question-stem thead th {
+            background-color: rgba(30,41,59,0.8);
+            color: #ffffff;
+            font-weight: 600;
+        }
         h3 {
             overflow-wrap: break-word;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-100 via-sky-50 to-slate-200 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+<body class="bg-gradient-to-br from-slate-100 via-sky-50 to-slate-200 dark:from-slate-900 dark:via-slate-700 dark:to-slate-900">
     <button
      id="theme-toggle"
-     class="fixed top-4 right-4 z-50 p-2 rounded-full bg-white/70 dark:bg-slate-800/70 border border-slate-300 dark:border-slate-600 shadow hover:bg-white hover:dark:bg-slate-700 transition"
+     class="fixed top-4 right-4 z-50 p-2 rounded-full bg-white/80 dark:bg-slate-800/80 border border-slate-400/70 dark:border-slate-300/30 shadow-[0_12px_24px_rgba(0,0,0,0.18)] hover:bg-white/90 hover:dark:bg-slate-700/80 transition"
      aria-label="Toggle dark mode"
    >
-     <span class="text-slate-700 dark:text-slate-200 text-xs font-semibold">☾/☀</span>
+     <span class="text-slate-800 dark:text-slate-100 text-[0.7rem] font-semibold tracking-wide">☾ / ☀</span>
    </button>
     <div id="root"></div>
 
@@ -3908,7 +3997,14 @@ function App() {
         const sizeClasses = ['fs-sm', 'fs-md', 'fs-lg', 'fs-xl'];
         sizeClasses.forEach((cls) => root.classList.remove(cls));
         root.classList.add(`fs-${preferences.fontSize}`);
-        root.dataset.theme = preferences.theme;
+        if (window.ThemeManager) {
+            window.ThemeManager.applyTheme(preferences.theme);
+        } else {
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const effective = preferences.theme === 'system' ? (prefersDark ? 'dark' : 'light') : preferences.theme;
+            root.dataset.theme = preferences.theme;
+            root.classList.toggle('dark', effective === 'dark');
+        }
         try {
             window.localStorage.setItem('prefs', JSON.stringify(preferences));
         } catch (error) {
@@ -9082,26 +9178,34 @@ root.render(
         const storageKey = 'theme-preference';
         const prefsKey = 'prefs';
         const root = document.documentElement;
+        const validThemes = new Set(['light', 'dark', 'system']);
         const applyTheme = (theme) => {
-            const resolved = theme === 'dark' ? 'dark' : 'light';
-            root.classList.toggle('dark', resolved === 'dark');
-            root.dataset.theme = resolved;
+            let effectiveTheme = theme;
+            if (window.ThemeManager && typeof window.ThemeManager.applyTheme === 'function') {
+                effectiveTheme = window.ThemeManager.applyTheme(theme);
+            } else {
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const resolved = theme === 'system' ? (prefersDark ? 'dark' : 'light') : theme;
+                const finalTheme = resolved === 'dark' ? 'dark' : 'light';
+                root.dataset.theme = theme;
+                root.classList.toggle('dark', finalTheme === 'dark');
+                effectiveTheme = finalTheme;
+            }
             try {
                 const storedPrefs = JSON.parse(localStorage.getItem(prefsKey) || '{}');
-                storedPrefs.theme = resolved;
+                storedPrefs.theme = theme;
                 localStorage.setItem(prefsKey, JSON.stringify(storedPrefs));
             } catch (error) {
                 console.warn('Unable to persist theme preference:', error);
             }
             try {
-                localStorage.setItem(storageKey, resolved);
+                localStorage.setItem(storageKey, theme);
             } catch (error) {
                 console.warn('Unable to persist theme toggle state:', error);
             }
             const toggle = document.getElementById('theme-toggle');
             if (toggle) {
-                toggle.setAttribute('aria-label', resolved === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-                toggle.innerHTML = `<span class="text-slate-700 dark:text-slate-200 text-xs font-semibold">${resolved === 'dark' ? '☀' : '☾'}</span>`;
+                toggle.setAttribute('aria-label', effectiveTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
             }
         };
 
@@ -9113,11 +9217,11 @@ root.render(
             let currentTheme = 'light';
             try {
                 const storedPrefs = JSON.parse(localStorage.getItem(prefsKey) || '{}');
-                if (storedPrefs && typeof storedPrefs.theme === 'string') {
+                if (storedPrefs && typeof storedPrefs.theme === 'string' && validThemes.has(storedPrefs.theme)) {
                     currentTheme = storedPrefs.theme;
                 } else {
                     const storedTheme = localStorage.getItem(storageKey);
-                    if (storedTheme === 'dark' || storedTheme === 'light') {
+                    if (typeof storedTheme === 'string' && validThemes.has(storedTheme)) {
                         currentTheme = storedTheme;
                     } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                         currentTheme = 'dark';
@@ -9130,8 +9234,9 @@ root.render(
             applyTheme(currentTheme);
 
             toggle.addEventListener('click', () => {
-                currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                applyTheme(currentTheme);
+                const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                currentTheme = nextTheme;
+                applyTheme(nextTheme);
             });
         };
 
