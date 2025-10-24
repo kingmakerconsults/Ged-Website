@@ -4520,6 +4520,7 @@ function ProfileView({
     const handleBackClick = () => {
         if (!onboardingComplete) {
             window.alert('Please finish onboarding before heading to the dashboard.');
+            return;
         }
         onBack?.();
     };
