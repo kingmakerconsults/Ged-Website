@@ -3,6 +3,9 @@ const db = require('../db');
 
 const router = express.Router();
 
+const VALID_SIZES = new Set(['sm', 'md', 'lg', 'xl']);
+const VALID_THEMES = new Set(['light', 'dark', 'system']);
+
 function daysUntil(dateStr) {
   if (!dateStr) return null;
   try {
@@ -28,9 +31,14 @@ async function loadProfile(userId) {
   await ensureProfile(userId);
 
   const profileRow = await db.oneOrNone(
-    `SELECT user_id, test_date, test_location, reminder_enabled, timezone, updated_at
+    `SELECT user_id, test_date, test_location, reminder_enabled, timezone, updated_at, font_size, theme
        FROM profiles
       WHERE user_id = $1`,
+    [userId]
+  );
+
+  const userRow = await db.oneOrNone(
+    `SELECT id, name, email FROM users WHERE id = $1`,
     [userId]
   );
 
@@ -80,12 +88,21 @@ async function loadProfile(userId) {
   );
 
   return {
+    user: userRow
+      ? {
+          id: userRow.id,
+          name: userRow.name || null,
+          email: userRow.email || null,
+        }
+      : null,
     profile: {
       testDate: profileRow?.test_date || null,
       testLocation: profileRow?.test_location || null,
       reminderEnabled: profileRow?.reminder_enabled ?? true,
       timezone: profileRow?.timezone || 'America/New_York',
       daysUntilTest: daysUntil(profileRow?.test_date),
+      fontSize: profileRow?.font_size || 'md',
+      theme: profileRow?.theme || 'system',
     },
     challenges: challengeRows.map((row) => ({
       id: row.id,
@@ -159,6 +176,72 @@ router.patch('/me', async (req, res) => {
   } catch (e) {
     console.error('PATCH /api/profile/me error:', e);
     return res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+router.patch('/name', async (req, res) => {
+  try {
+    const userId = req.userId;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthenticated' });
+    }
+
+    const { name } = req.body || {};
+    const clean = String(name || '').trim();
+    if (!clean) {
+      return res.status(400).json({ error: 'Name is required' });
+    }
+    if (clean.length > 80) {
+      return res.status(400).json({ error: 'Name too long (max 80)' });
+    }
+
+    await db.query(`UPDATE users SET name = $2 WHERE id = $1`, [userId, clean]);
+    return res.json({ ok: true, name: clean });
+  } catch (e) {
+    console.error('PATCH /api/profile/name', e);
+    return res.status(500).json({ error: 'Failed to update name' });
+  }
+});
+
+router.patch('/preferences', async (req, res) => {
+  try {
+    const userId = req.userId;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthenticated' });
+    }
+
+    await ensureProfile(userId);
+
+    let { fontSize, theme } = req.body || {};
+    if (fontSize && !VALID_SIZES.has(fontSize)) {
+      return res.status(400).json({ error: 'Invalid fontSize' });
+    }
+    if (theme && !VALID_THEMES.has(theme)) {
+      return res.status(400).json({ error: 'Invalid theme' });
+    }
+
+    await db.query(
+      `UPDATE profiles
+          SET font_size = COALESCE($2, font_size),
+              theme = COALESCE($3, theme),
+              updated_at = now()
+        WHERE user_id = $1`,
+      [userId, fontSize || null, theme || null]
+    );
+
+    const row = await db.oneOrNone(
+      `SELECT font_size, theme FROM profiles WHERE user_id = $1`,
+      [userId]
+    );
+
+    return res.json({
+      ok: true,
+      fontSize: row?.font_size || 'md',
+      theme: row?.theme || 'system',
+    });
+  } catch (e) {
+    console.error('PATCH /api/profile/preferences', e);
+    return res.status(500).json({ error: 'Failed to update preferences' });
   }
 });
 
