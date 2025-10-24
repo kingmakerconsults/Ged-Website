@@ -32,8 +32,14 @@ export function AdminBypass() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto p-4 border rounded-lg shadow-sm bg-white">
-      <label className="text-sm font-medium text-slate-700" htmlFor="admin-bypass-password">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-3 max-w-sm mx-auto p-4 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm bg-white dark:bg-slate-900"
+    >
+      <label
+        className="text-sm font-medium text-slate-700 dark:text-slate-100"
+        htmlFor="admin-bypass-password"
+      >
         Preview Password
       </label>
       <input
@@ -42,7 +48,7 @@ export function AdminBypass() {
         autoComplete="current-password"
         value={password}
         onChange={(event) => setPassword(event.target.value)}
-        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+        className="border border-slate-200 dark:border-slate-700 rounded px-3 py-2 bg-white dark:bg-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
         placeholder="Enter password"
         disabled={loading}
       />
