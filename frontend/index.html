@@ -3335,7 +3335,7 @@ function App() {
         }
         return { ...DEFAULT_PREFERENCES };
     });
-    const [profileData, setProfileData] = useState(null);
+    const [profileBundle, setProfileBundle] = useState(null);
     const [profileLoading, setProfileLoading] = useState(false);
     const [profileError, setProfileError] = useState(null);
     const [nameDraft, setNameDraft] = useState('');
@@ -3343,6 +3343,10 @@ function App() {
     const [nameSaving, setNameSaving] = useState(false);
     const [settingsStatus, setSettingsStatus] = useState('');
     const [settingsSaving, setSettingsSaving] = useState(false);
+    const [onboardingComplete, setOnboardingComplete] = useState(true);
+    const [testSaving, setTestSaving] = useState(false);
+    const [challengesSaving, setChallengesSaving] = useState(false);
+    const [finishingOnboarding, setFinishingOnboarding] = useState(false);
 
     useEffect(() => {
         if (typeof document === 'undefined') {
@@ -3433,13 +3437,16 @@ function App() {
             }
             return updated;
         });
-        setProfileData((prev) => {
+        setProfileBundle((prev) => {
             if (!prev) {
                 return prev;
             }
             return {
                 ...prev,
-                user: prev.user ? { ...prev.user, name } : { name },
+                profile: {
+                    ...prev.profile,
+                    name,
+                },
             };
         });
     }, []);
@@ -3469,16 +3476,15 @@ function App() {
         return { name: savedName, persistedToServer };
     }, [updateLocalUserName]);
 
-    const loadProfileData = useCallback(async () => {
-        if (!currentUser) {
-            return null;
+    const loadProfileUI = useCallback(async ({ quiet = false } = {}) => {
+        if (!quiet) {
+            setProfileLoading(true);
         }
-        setProfileLoading(true);
         setProfileError(null);
         try {
             const data = await fetchJSON('/api/profile/me');
-            setProfileData(data);
-            const serverName = data?.user?.name;
+            setProfileBundle(data);
+            const serverName = data?.profile?.name;
             if (serverName) {
                 setNameDraft(serverName);
                 updateLocalUserName(serverName);
@@ -3495,15 +3501,22 @@ function App() {
                 }
                 return serverPrefs;
             });
+            const onboardingFlag = !!data?.profile?.onboardingComplete;
+            setOnboardingComplete(onboardingFlag);
+            if (typeof window !== 'undefined') {
+                window._onboardingComplete = onboardingFlag;
+            }
             return data;
         } catch (error) {
             console.error('Failed to load profile:', error);
             setProfileError('We could not load your profile. Please try again soon.');
             return null;
         } finally {
-            setProfileLoading(false);
+            if (!quiet) {
+                setProfileLoading(false);
+            }
         }
-    }, [currentUser, updateLocalUserName]);
+    }, [currentUser, hasLocalPrefsRef, updateLocalUserName]);
 
     useEffect(() => {
         if (currentUser?.name) {
@@ -3515,10 +3528,19 @@ function App() {
         if (!currentUser) {
             return;
         }
-        if (view === 'profile' || view === 'settings') {
-            loadProfileData();
+        if (!onboardingComplete) {
+            setView('profile');
         }
-    }, [view, currentUser, loadProfileData]);
+    }, [currentUser, onboardingComplete]);
+
+    useEffect(() => {
+        if (!currentUser) {
+            return;
+        }
+        if (view === 'profile' || view === 'settings') {
+            loadProfileUI({ quiet: false });
+        }
+    }, [view, currentUser, loadProfileUI]);
 
     const handleNameDraftChange = useCallback((value) => {
         setNameDraft(value);
@@ -3546,8 +3568,94 @@ function App() {
     }, [nameDraft, persistDisplayName]);
 
     const handleProfileRefresh = useCallback(() => {
-        loadProfileData();
-    }, [loadProfileData]);
+        loadProfileUI({ quiet: false });
+    }, [loadProfileUI]);
+
+    const handleSaveTestInfo = useCallback(async ({ testDate, testLocation, passed }) => {
+        setTestSaving(true);
+        try {
+            const response = await fetch('/api/profile/test', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                    testDate: testDate || null,
+                    testLocation: testLocation || null,
+                    passed: !!passed,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`Failed with status ${response.status}`);
+            }
+            const data = await response.json();
+            setProfileBundle(data);
+            const onboardingFlag = !!data?.profile?.onboardingComplete;
+            setOnboardingComplete(onboardingFlag);
+            if (typeof window !== 'undefined') {
+                window._onboardingComplete = onboardingFlag;
+            }
+            window.alert('Saved!');
+        } catch (error) {
+            console.error('Failed to save test info:', error);
+            window.alert('Could not save test info.');
+        } finally {
+            setTestSaving(false);
+        }
+    }, []);
+
+    const handleSaveChallenges = useCallback(async (selectedIds) => {
+        setChallengesSaving(true);
+        try {
+            const response = await fetch('/api/profile/challenges/tags', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ selectedIds }),
+            });
+            if (!response.ok) {
+                throw new Error(`Failed with status ${response.status}`);
+            }
+            await response.json().catch(() => null);
+            await loadProfileUI({ quiet: true });
+            window.alert('Saved!');
+        } catch (error) {
+            console.error('Failed to save challenges:', error);
+            window.alert('Could not save challenges.');
+        } finally {
+            setChallengesSaving(false);
+        }
+    }, [loadProfileUI]);
+
+    const handleFinishOnboarding = useCallback(async () => {
+        setFinishingOnboarding(true);
+        try {
+            const response = await fetch('/api/profile/complete-onboarding', {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                throw new Error(`Failed with status ${response.status}`);
+            }
+            const data = await response.json();
+            if (data?.ok) {
+                setOnboardingComplete(true);
+                if (typeof window !== 'undefined') {
+                    window._onboardingComplete = true;
+                }
+                await loadProfileUI({ quiet: true });
+                window.alert('Great! You’re all set.');
+                setView('start');
+            } else {
+                await loadProfileUI({ quiet: true });
+                window.alert('Almost there! Please finish the highlighted sections.');
+            }
+        } catch (error) {
+            console.error('Failed to complete onboarding:', error);
+            window.alert('Unable to complete onboarding right now.');
+        } finally {
+            setFinishingOnboarding(false);
+        }
+    }, [loadProfileUI]);
 
     const loadScores = useCallback(async (token) => {
         if (!token) {
@@ -3630,13 +3738,14 @@ function App() {
                     setShowNamePrompt(true);
                 }
                 loadScores(storedToken);
+                loadProfileUI({ quiet: true });
             }
         } catch (error) {
             console.error('Failed to restore stored user:', error);
             localStorage.removeItem('appUser');
             localStorage.removeItem('appToken');
         }
-    }, [loadScores]);
+    }, [loadProfileUI, loadScores]);
 
     const handleLogin = (user, token) => {
         if (!token) {
@@ -3667,6 +3776,14 @@ function App() {
         }
 
         loadScores(token);
+        loadProfileUI({ quiet: false }).then((bundle) => {
+            const onboardingFlag = !!bundle?.profile?.onboardingComplete;
+            if (!onboardingFlag) {
+                setView('profile');
+            } else {
+                setView('start');
+            }
+        });
     };
 
     const handleSaveName = async (firstName, lastName) => {
@@ -3694,9 +3811,10 @@ function App() {
         setUserScores([]);
         recalcProgress([]);
         setShowNamePrompt(false);
-        setProfileData(null);
+        setProfileBundle(null);
         setProfileError(null);
         setProfileLoading(false);
+        setOnboardingComplete(true);
         setNameDraft('');
         setNameStatus('');
         setNameSaving(false);
@@ -3910,20 +4028,30 @@ function App() {
         startQuiz(popQuiz, 'Pop Quiz');
     };
 
-    const navigateHome = () => {
-        setView('start');
+    const navigateHome = useCallback(() => {
         setActiveQuiz(null);
         setQuizResults(null);
         setActiveGenerator(null);
-    };
+        if (!onboardingComplete) {
+            setView('profile');
+            return;
+        }
+        setView('start');
+    }, [onboardingComplete]);
 
     const handleShowProfileView = useCallback(() => {
         setView('profile');
-    }, []);
+        loadProfileUI({ quiet: false });
+    }, [loadProfileUI]);
 
     const handleShowSettingsView = useCallback(() => {
+        if (!onboardingComplete) {
+            setView('profile');
+            return;
+        }
         setView('settings');
-    }, []);
+        loadProfileUI({ quiet: true });
+    }, [loadProfileUI, onboardingComplete]);
 
     const handleReviewMarked = (markedQuestions) => {
         const reviewQuiz = {
@@ -3987,7 +4115,7 @@ function App() {
                     <ProfileView
                         loading={profileLoading}
                         error={profileError}
-                        data={profileData}
+                        data={profileBundle}
                         nameDraft={nameDraft}
                         onNameDraftChange={handleNameDraftChange}
                         onSubmitName={handleProfileNameSubmit}
@@ -3995,6 +4123,13 @@ function App() {
                         nameStatus={nameStatus}
                         onRefresh={handleProfileRefresh}
                         onBack={navigateHome}
+                        onSaveTestInfo={handleSaveTestInfo}
+                        testSaving={testSaving}
+                        onSaveChallenges={handleSaveChallenges}
+                        challengesSaving={challengesSaving}
+                        onFinishOnboarding={handleFinishOnboarding}
+                        finishingOnboarding={finishingOnboarding}
+                        onboardingComplete={onboardingComplete}
                     />
                 );
             case 'settings':
@@ -4016,6 +4151,9 @@ function App() {
                         currentUser={currentUser}
                         onLogout={handleLogout}
                         progress={progress}
+                        profileBundle={profileBundle}
+                        onboardingComplete={onboardingComplete}
+                        onShowProfile={handleShowProfileView}
                         onSelectQuiz={startQuiz}
                         vocabulary={vocabulary}
                         onStartPopQuiz={handleStartPopQuiz}
@@ -4121,6 +4259,7 @@ function App() {
 
 // --- VIEWS & COMPONENTS ---
 
+
 function ProfileView({
     loading,
     error,
@@ -4132,21 +4271,90 @@ function ProfileView({
     nameStatus,
     onRefresh,
     onBack,
+    onSaveTestInfo,
+    testSaving,
+    onSaveChallenges,
+    challengesSaving,
+    onFinishOnboarding,
+    finishingOnboarding,
+    onboardingComplete,
 }) {
     const profile = data?.profile || {};
-    const user = data?.user || {};
-    const challenges = Array.isArray(data?.challenges) ? data.challenges : [];
-    const scoresBySubject = Array.isArray(data?.scores?.bySubject) ? data.scores.bySubject : [];
-    const scoresBySubtopic = Array.isArray(data?.scores?.bySubtopic) ? data.scores.bySubtopic : [];
+    const challengeOptions = Array.isArray(data?.challengeOptions) ? data.challengeOptions : [];
+    const recentSummary = data?.recentScoresDashboard || {};
+    const legacyScores = data?.scores || {};
 
-    const formatChallengeDate = (value) => {
-        if (!value) return '';
-        const date = new Date(value);
-        if (Number.isNaN(date.getTime())) {
-            return '';
-        }
-        return date.toLocaleString();
+    const [testDate, setTestDate] = useState(profile.testDate || '');
+    const [testLocation, setTestLocation] = useState(profile.testLocation || '');
+    const [passed, setPassed] = useState(!!profile.passed);
+
+    useEffect(() => {
+        setTestDate(profile.testDate || '');
+        setTestLocation(profile.testLocation || '');
+        setPassed(!!profile.passed);
+    }, [profile.testDate, profile.testLocation, profile.passed]);
+
+    const selectedFromServer = useMemo(
+        () => challengeOptions.filter((opt) => opt.selected).map((opt) => opt.id),
+        [challengeOptions]
+    );
+    const [selectedIds, setSelectedIds] = useState(selectedFromServer);
+    useEffect(() => {
+        setSelectedIds(selectedFromServer);
+    }, [selectedFromServer]);
+
+    const groupedChallenges = useMemo(() => {
+        const grouped = {};
+        challengeOptions.forEach((opt) => {
+            const subjectKey = opt.subject || 'Other';
+            const subtopicKey = opt.subtopic || 'General';
+            if (!grouped[subjectKey]) {
+                grouped[subjectKey] = {};
+            }
+            if (!grouped[subjectKey][subtopicKey]) {
+                grouped[subjectKey][subtopicKey] = [];
+            }
+            grouped[subjectKey][subtopicKey].push(opt);
+        });
+        return grouped;
+    }, [challengeOptions]);
+
+    const selectedCount = selectedIds.length;
+    const highlightName = !onboardingComplete && !profile.name;
+    const highlightTest = !onboardingComplete && !profile.passed && !profile.testDate;
+    const highlightChallenges = !onboardingComplete && selectedCount === 0;
+
+    const handleChallengeToggle = (id) => {
+        setSelectedIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
+            } else {
+                next.add(id);
+            }
+            return Array.from(next);
+        });
     };
+
+    const handleTestFormSubmit = (event) => {
+        event.preventDefault();
+        onSaveTestInfo?.({ testDate, testLocation, passed });
+    };
+
+    const handleChallengesSubmit = (event) => {
+        event.preventDefault();
+        onSaveChallenges?.(selectedIds);
+    };
+
+    const handleBackClick = () => {
+        if (!onboardingComplete) {
+            window.alert('Please finish onboarding before heading to the dashboard.');
+        }
+        onBack?.();
+    };
+
+    const timezoneLabel = profile.timezone || 'America/New_York';
+    const reminderLabel = profile.reminderEnabled === false ? 'Off' : 'On';
 
     return (
         <section id="profileView" data-view="profile" tabIndex={-1} className="outline-none">
@@ -4154,7 +4362,7 @@ function ProfileView({
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-3xl font-bold text-slate-800">Profile</h1>
-                        <p className="text-sm text-slate-500">Manage your account details and review recent progress.</p>
+                        <p className="text-sm text-slate-500">Update your learning plan and keep your information in sync.</p>
                     </div>
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                         <button
@@ -4167,7 +4375,7 @@ function ProfileView({
                         </button>
                         <button
                             type="button"
-                            onClick={onBack}
+                            onClick={handleBackClick}
                             className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
                         >
                             Back to Dashboard
@@ -4181,7 +4389,34 @@ function ProfileView({
                     </div>
                 )}
 
-                <form onSubmit={onSubmitName} className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4" aria-labelledby="profile-name-heading">
+                {!onboardingComplete && (
+                    <div
+                        className="onboarding-banner"
+                        style={{ border: '1px solid #f6c', background: '#fff0f6', padding: '1rem', borderRadius: '0.5rem' }}
+                    >
+                        <strong>Welcome!</strong> Before we start, fill this out so we can build you a plan:
+                        <ol className="list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2">
+                            <li>Pick the areas you struggle with</li>
+                            <li>Set your test date (or mark "I passed")</li>
+                            <li>Choose a display name</li>
+                        </ol>
+                        <button
+                            id="finishOnboardingBtn"
+                            type="button"
+                            onClick={onFinishOnboarding}
+                            className="mt-3 inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={finishingOnboarding}
+                        >
+                            {finishingOnboarding ? 'Checking…' : "I'm Done"}
+                        </button>
+                    </div>
+                )}
+
+                <form
+                    onSubmit={onSubmitName}
+                    className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightName ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                    aria-labelledby="profile-name-heading"
+                >
                     <div>
                         <h2 id="profile-name-heading" className="text-xl font-semibold text-slate-800">Display Name</h2>
                         <p className="text-sm text-slate-500">This name appears across the app.</p>
@@ -4215,138 +4450,303 @@ function ProfileView({
                 </form>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                    <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                    <form
+                        onSubmit={handleTestFormSubmit}
+                        className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-3 ${highlightTest ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                    >
                         <h2 className="text-lg font-semibold text-slate-800">Upcoming Test</h2>
-                        {profile.testDate ? (
-                            <>
-                                <p className="text-sm text-slate-600">
-                                    <span className="font-semibold text-slate-800">{profile.testDate}</span>
-                                    {profile.daysUntilTest != null && (
-                                        <> · {profile.daysUntilTest} day{profile.daysUntilTest === 1 ? '' : 's'} remaining</>
-                                    )}
-                                </p>
-                                {profile.testLocation && (
-                                    <p className="text-sm text-slate-600">Location: {profile.testLocation}</p>
-                                )}
-                                <p className="text-xs text-slate-500">Timezone: {profile.timezone}</p>
-                            </>
-                        ) : (
-                            <p className="text-sm text-slate-600">No test date set yet.</p>
+                        <label className="flex flex-col gap-1 text-sm text-slate-600">
+                            Date
+                            <input
+                                id="testDate"
+                                type="date"
+                                value={testDate}
+                                onChange={(event) => setTestDate(event.target.value)}
+                                className="rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                            />
+                        </label>
+                        <label className="flex flex-col gap-1 text-sm text-slate-600">
+                            Location
+                            <input
+                                id="testLocation"
+                                type="text"
+                                placeholder="Test center (optional)"
+                                value={testLocation}
+                                onChange={(event) => setTestLocation(event.target.value)}
+                                className="rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                            />
+                        </label>
+                        <label className="flex items-center gap-2 text-sm text-slate-600">
+                            <input
+                                id="passedCheck"
+                                type="checkbox"
+                                checked={passed}
+                                onChange={(event) => setPassed(event.target.checked)}
+                                className="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                            />
+                            I already passed
+                        </label>
+                        <button
+                            id="saveTestBtn"
+                            type="submit"
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={testSaving}
+                        >
+                            {testSaving ? 'Saving…' : 'Save Test Info'}
+                        </button>
+                        <p className="text-xs text-slate-500">This date will also appear on your dashboard.</p>
+                        {profile.testDate && !passed && (
+                            <p className="text-xs text-slate-500">
+                                {profile.daysUntilTest != null
+                                    ? `${profile.daysUntilTest} day${profile.daysUntilTest === 1 ? '' : 's'} remaining`
+                                    : 'Countdown not available'}
+                            </p>
                         )}
-                        <p className="text-xs text-slate-500">Reminders {profile.reminderEnabled ? 'enabled' : 'disabled'}.</p>
-                    </article>
-                    <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                        {passed && (
+                            <p className="text-xs text-emerald-600">Great job! We marked you as passed.</p>
+                        )}
+                    </form>
+
+                    <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
                         <h2 className="text-lg font-semibold text-slate-800">Preferences Snapshot</h2>
-                        <dl className="grid grid-cols-1 gap-2 text-sm text-slate-600">
+                        <dl className="space-y-2 text-sm text-slate-600">
                             <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
-                                <dt className="font-medium text-slate-700">Font size</dt>
+                                <dt className="font-medium text-slate-700">Font Size</dt>
                                 <dd className="capitalize">{profile.fontSize || 'md'}</dd>
                             </div>
                             <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
                                 <dt className="font-medium text-slate-700">Theme</dt>
                                 <dd className="capitalize">{profile.theme || 'system'}</dd>
                             </div>
-                            {user?.email && (
-                                <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
-                                    <dt className="font-medium text-slate-700">Email</dt>
-                                    <dd className="truncate text-slate-600" title={user.email}>{user.email}</dd>
-                                </div>
-                            )}
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                                <dt className="font-medium text-slate-700">Timezone</dt>
+                                <dd>{timezoneLabel}</dd>
+                            </div>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                                <dt className="font-medium text-slate-700">Test Reminders</dt>
+                                <dd>{reminderLabel}</dd>
+                            </div>
                         </dl>
-                        <p className="text-xs text-slate-500">Update preferences anytime from the Settings panel.</p>
+                        <p className="text-xs text-slate-500">Adjust these settings anytime from the Settings panel.</p>
                     </article>
                 </div>
 
-                <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-slate-800">Learning Challenges</h2>
+                <form
+                    onSubmit={handleChallengesSubmit}
+                    className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightChallenges ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                >
+                    <h2 className="text-lg font-semibold text-slate-800">Learning Challenges</h2>
+                    <p className="text-sm text-slate-600">Select the areas you find tough. We’ll use this later to build a study plan for you.</p>
+                    <div id="challengeList" className="max-h-64 overflow-y-auto rounded-lg border border-slate-200 p-2">
+                        {Object.keys(groupedChallenges).length === 0 ? (
+                            <p className="text-sm text-slate-500">No challenge options available yet.</p>
+                        ) : (
+                            Object.keys(groupedChallenges)
+                                .sort()
+                                .map((subject) => (
+                                    <div key={subject} className="mb-3">
+                                        <div className="challenge-subject font-semibold text-slate-700">{subject}</div>
+                                        {Object.keys(groupedChallenges[subject])
+                                            .sort()
+                                            .map((subtopic) => (
+                                                <div key={`${subject}-${subtopic}`} className="mt-1">
+                                                    <div className="challenge-subtopic ml-4 text-sm italic text-slate-500">{subtopic}</div>
+                                                    {groupedChallenges[subject][subtopic].map((opt) => {
+                                                        const isChecked = selectedIds.includes(opt.id);
+                                                        return (
+                                                            <label
+                                                                key={opt.id}
+                                                                className="ml-8 mt-2 flex items-start gap-2 text-sm text-slate-600"
+                                                            >
+                                                                <input
+                                                                    type="checkbox"
+                                                                    className="challengeBox mt-1 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                                                                    data-id={opt.id}
+                                                                    checked={isChecked}
+                                                                    onChange={() => handleChallengeToggle(opt.id)}
+                                                                />
+                                                                <span>{opt.label || opt.subtopic || opt.subject}</span>
+                                                            </label>
+                                                        );
+                                                    })}
+                                                </div>
+                                            ))}
+                                    </div>
+                                ))
+                        )}
                     </div>
-                    {loading ? (
-                        <p className="text-sm text-slate-600">Loading…</p>
-                    ) : error ? (
-                        <p className="text-sm text-rose-600">{error}</p>
-                    ) : challenges.length ? (
-                        <ul className="space-y-2 text-sm text-slate-700">
-                            {challenges.map((challenge) => (
-                                <li key={challenge.id} className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
-                                    <p>{challenge.text}</p>
-                                    {challenge.createdAt && (
-                                        <p className="text-xs text-slate-500">Added {formatChallengeDate(challenge.createdAt)}</p>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p className="text-sm text-slate-600">No challenges recorded yet.</p>
-                    )}
-                </section>
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-xs text-slate-500">Selected: {selectedCount}</p>
+                        <button
+                            id="saveChallengesBtn"
+                            type="submit"
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={challengesSaving}
+                        >
+                            {challengesSaving ? 'Saving…' : 'Save Challenges'}
+                        </button>
+                    </div>
+                </form>
 
-                <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
-                    <h2 className="text-lg font-semibold text-slate-800">Recent Scores</h2>
-                    {loading ? (
-                        <p className="text-sm text-slate-600">Loading…</p>
-                    ) : (
-                        <>
-                            <div>
-                                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">By Subject</h3>
-                                {scoresBySubject.length ? (
-                                    <div className="mt-2 overflow-x-auto">
-                                        <table className="min-w-full divide-y divide-slate-200 text-sm">
-                                            <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-                                                <tr>
-                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subject</th>
-                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Latest</th>
-                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Average</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-slate-200 text-slate-600">
-                                                {scoresBySubject.map((row, index) => (
-                                                    <tr key={`${row.subject}-${index}`}>
-                                                        <td className="px-3 py-2 font-medium text-slate-700">{row.subject}</td>
-                                                        <td className="px-3 py-2">{row.latest != null ? `${row.latest}%` : '—'}</td>
-                                                        <td className="px-3 py-2">{row.avg != null ? `${row.avg}%` : '—'}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                ) : (
-                                    <p className="text-sm text-slate-600">No subject scores yet.</p>
-                                )}
-                            </div>
-                            <div>
-                                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">By Subtopic</h3>
-                                {scoresBySubtopic.length ? (
-                                    <div className="mt-2 overflow-x-auto">
-                                        <table className="min-w-full divide-y divide-slate-200 text-sm">
-                                            <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-                                                <tr>
-                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subject</th>
-                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subtopic</th>
-                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Latest</th>
-                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Average</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-slate-200 text-slate-600">
-                                                {scoresBySubtopic.map((row, index) => (
-                                                    <tr key={`${row.subject}-${row.subtopic}-${index}`}>
-                                                        <td className="px-3 py-2 font-medium text-slate-700">{row.subject}</td>
-                                                        <td className="px-3 py-2">{row.subtopic}</td>
-                                                        <td className="px-3 py-2">{row.latest != null ? `${row.latest}%` : '—'}</td>
-                                                        <td className="px-3 py-2">{row.avg != null ? `${row.avg}%` : '—'}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                ) : (
-                                    <p className="text-sm text-slate-600">No subtopic scores yet.</p>
-                                )}
-                            </div>
-                        </>
-                    )}
-                </section>
+                <RecentScoresPanel
+                    title="Recent Scores"
+                    summary={recentSummary}
+                    legacyScores={legacyScores}
+                    loading={loading}
+                />
             </div>
+        </section>
+    );
+}
+
+function RecentScoresPanel({ summary, legacyScores, loading, title = 'Recent Scores' }) {
+    if (loading) {
+        return (
+            <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
+                <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+                <p className="text-sm text-slate-600">Loading…</p>
+            </section>
+        );
+    }
+
+    const hasSummary = summary && Object.keys(summary).length > 0;
+    const subjectScores = Array.isArray(summary?.subjects) ? summary.subjects : [];
+    const cardScores = Array.isArray(summary?.cards) ? summary.cards : [];
+    const highlightScores = Array.isArray(summary?.highlights) ? summary.highlights : [];
+    const overallValue = summary?.overall ?? summary?.total ?? null;
+
+    const formatScoreValue = (value) => {
+        if (value == null) {
+            return '—';
+        }
+        if (typeof value === 'number' && Number.isFinite(value)) {
+            return `${Math.round(value)}%`;
+        }
+        if (typeof value === 'object') {
+            if (typeof value.score === 'number') {
+                return `${Math.round(value.score)}%`;
+            }
+            if (typeof value.value === 'number') {
+                return `${Math.round(value.value)}%`;
+            }
+            if (typeof value.display === 'string') {
+                return value.display;
+            }
+        }
+        return String(value);
+    };
+
+    const renderCard = (item, index, fallbackLabel) => {
+        const label = item?.subject || item?.name || item?.label || fallbackLabel || `Item ${index + 1}`;
+        const primary = item?.latest ?? item?.score ?? item?.value ?? item?.percent ?? item?.percentage ?? item?.current ?? null;
+        const secondary = item?.average ?? item?.avg ?? item?.trend ?? item?.previous ?? null;
+        const note = item?.description || item?.note;
+        return (
+            <div key={item?.id || `${label}-${index}`} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
+                {primary != null && <p className="mt-1 text-2xl font-bold text-slate-800">{formatScoreValue(primary)}</p>}
+                {secondary != null && <p className="text-xs text-slate-500">Average: {formatScoreValue(secondary)}</p>}
+                {note && <p className="mt-1 text-xs text-slate-500">{note}</p>}
+            </div>
+        );
+    };
+
+    if (hasSummary) {
+        return (
+            <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
+                <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+                <div className="space-y-4">
+                    {overallValue != null && (
+                        <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Overall</p>
+                            <p className="text-2xl font-bold text-slate-800">{formatScoreValue(overallValue)}</p>
+                        </div>
+                    )}
+                    {(subjectScores.length || cardScores.length || highlightScores.length) ? (
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            {subjectScores.map((item, index) => renderCard(item, index, 'Subject'))}
+                            {cardScores.map((item, index) => renderCard(item, index + subjectScores.length, 'Summary'))}
+                            {highlightScores.map((item, index) => renderCard(item, index + subjectScores.length + cardScores.length, 'Highlight'))}
+                        </div>
+                    ) : null}
+                    {summary?.lastUpdated && (
+                        <p className="text-xs text-slate-500">Last updated {summary.lastUpdated}</p>
+                    )}
+                    {overallValue == null && !subjectScores.length && !cardScores.length && !highlightScores.length && (
+                        <pre className="whitespace-pre-wrap rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs text-slate-500">{JSON.stringify(summary, null, 2)}</pre>
+                    )}
+                </div>
+            </section>
+        );
+    }
+
+    const subjectRows = Array.isArray(legacyScores?.bySubject) ? legacyScores.bySubject : [];
+    const subtopicRows = Array.isArray(legacyScores?.bySubtopic) ? legacyScores.bySubtopic : [];
+
+    if (!subjectRows.length && !subtopicRows.length) {
+        return (
+            <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
+                <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+                <p className="text-sm text-slate-600">No scores yet.</p>
+            </section>
+        );
+    }
+
+    return (
+        <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
+            <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+            {subjectRows.length ? (
+                <div>
+                    <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">By Subject</h3>
+                    <div className="mt-2 overflow-x-auto">
+                        <table className="min-w-full divide-y divide-slate-200 text-sm">
+                            <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                                <tr>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subject</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Latest</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Average</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-200 text-slate-600">
+                                {subjectRows.map((row, index) => (
+                                    <tr key={`${row.subject}-${index}`}>
+                                        <td className="px-3 py-2 font-medium text-slate-700">{row.subject}</td>
+                                        <td className="px-3 py-2">{row.latest != null ? `${row.latest}%` : '—'}</td>
+                                        <td className="px-3 py-2">{row.avg != null ? `${row.avg}%` : '—'}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            ) : null}
+            {subtopicRows.length ? (
+                <div>
+                    <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">By Subtopic</h3>
+                    <div className="mt-2 overflow-x-auto">
+                        <table className="min-w-full divide-y divide-slate-200 text-sm">
+                            <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                                <tr>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subject</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subtopic</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Latest</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Average</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-200 text-slate-600">
+                                {subtopicRows.map((row, index) => (
+                                    <tr key={`${row.subject}-${row.subtopic}-${index}`}>
+                                        <td className="px-3 py-2 font-medium text-slate-700">{row.subject}</td>
+                                        <td className="px-3 py-2">{row.subtopic}</td>
+                                        <td className="px-3 py-2">{row.latest != null ? `${row.latest}%` : '—'}</td>
+                                        <td className="px-3 py-2">{row.avg != null ? `${row.avg}%` : '—'}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            ) : null}
         </section>
     );
 }
@@ -5071,15 +5471,24 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
+function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
+    const profile = profileBundle?.profile || {};
+    const challengeOptions = Array.isArray(profileBundle?.challengeOptions) ? profileBundle.challengeOptions : [];
+    const selectedChallenges = challengeOptions.filter((opt) => opt.selected);
+    const displayedChallenges = selectedChallenges.slice(0, 4);
+    const hiddenChallengeCount = Math.max(0, selectedChallenges.length - displayedChallenges.length);
+    const recentDashboardSummary = profileBundle?.recentScoresDashboard || {};
     const userDisplayName = currentUser?.name || currentUser?.email || 'Learner';
     const userInitial = userDisplayName ? userDisplayName.trim().charAt(0).toUpperCase() : 'U';
     const hasVocabulary = Object.values(vocabularyData).some(words => Array.isArray(words) && words.length > 0);
+    const goToProfile = () => {
+        onShowProfile?.();
+    };
 
     const handleSelectSubject = (subject) => {
         setSelectedSubject(subject);
@@ -5305,11 +5714,11 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
         <>
             <div className="fade-in">
                 <header className="text-center pb-4 mb-4">
-                    {currentUser ? (
-                        <div className="flex flex-col items-center gap-2">
-                            {currentUser.picture ? (
-                                <img src={currentUser.picture} alt="User" className="w-16 h-16 rounded-full shadow-lg" />
-                            ) : (
+                {currentUser ? (
+                    <div className="flex flex-col items-center gap-2">
+                        {currentUser.picture ? (
+                            <img src={currentUser.picture} alt="User" className="w-16 h-16 rounded-full shadow-lg" />
+                        ) : (
                                 <div className="w-16 h-16 rounded-full bg-sky-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg">
                                     {userInitial}
                                 </div>
@@ -5325,7 +5734,78 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
                         </>
                     )}
                 </header>
+                {currentUser && (
+                    <div className="grid gap-4 md:grid-cols-2 mb-6">
+                        <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-lg font-semibold text-slate-800">Upcoming Test</h2>
+                                <button
+                                    type="button"
+                                    onClick={goToProfile}
+                                    className="text-sm font-semibold text-sky-600 hover:text-sky-800"
+                                >
+                                    Edit
+                                </button>
+                            </div>
+                            {profile.passed ? (
+                                <p className="text-sm text-emerald-600">You marked the GED as passed. Great work!</p>
+                            ) : profile.testDate ? (
+                                <>
+                                    <p className="text-sm text-slate-600">
+                                        <span className="font-semibold text-slate-800">{profile.testDate}</span>
+                                        {profile.daysUntilTest != null && (
+                                            <> · {profile.daysUntilTest} day{profile.daysUntilTest === 1 ? '' : 's'} remaining</>
+                                        )}
+                                    </p>
+                                    {profile.testLocation && (
+                                        <p className="text-sm text-slate-600">Location: {profile.testLocation}</p>
+                                    )}
+                                </>
+                            ) : (
+                                <p className="text-sm text-slate-600">Set your test date to start the countdown.</p>
+                            )}
+                            <p className="text-xs text-slate-500">Need changes? Update them from your profile.</p>
+                        </article>
+                        <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-lg font-semibold text-slate-800">Learning Challenges</h2>
+                                <button
+                                    type="button"
+                                    onClick={goToProfile}
+                                    className="text-sm font-semibold text-sky-600 hover:text-sky-800"
+                                >
+                                    Update
+                                </button>
+                            </div>
+                            {selectedChallenges.length ? (
+                                <ul className="space-y-1 text-sm text-slate-600">
+                                    {displayedChallenges.map((challenge) => (
+                                        <li key={challenge.id}>• {challenge.label || `${challenge.subject} — ${challenge.subtopic}`}</li>
+                                    ))}
+                                    {hiddenChallengeCount > 0 && (
+                                        <li className="text-xs text-slate-500">and {hiddenChallengeCount} more…</li>
+                                    )}
+                                </ul>
+                            ) : (
+                                <p className="text-sm text-slate-600">Tell us what topics to focus on to unlock a tailored plan.</p>
+                            )}
+                            {!onboardingComplete && (
+                                <p className="text-xs text-rose-600">Finish selecting challenges to complete onboarding.</p>
+                            )}
+                        </article>
+                    </div>
+                )}
                 {currentUser && <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />}
+                {profileBundle && (
+                    <div className="mb-6">
+                        <RecentScoresPanel
+                            title="Latest Scores"
+                            summary={recentDashboardSummary}
+                            legacyScores={profileBundle?.scores}
+                            loading={false}
+                        />
+                    </div>
+                )}
                 {hasVocabulary && (
                     <div className="mb-6">
                         <VocabularyTicker vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
