@@ -4390,6 +4390,16 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
         }
     };
 
+    const vocabularyModal = (vocabModalSubject && Array.isArray(vocabularyData[vocabModalSubject]) && vocabularyData[vocabModalSubject].length > 0)
+        ? (
+            <VocabularyModal
+                subject={vocabModalSubject}
+                words={vocabularyData[vocabModalSubject]}
+                onClose={() => setVocabModalSubject(null)}
+            />
+        )
+        : null;
+
     // --- NEW: If detailed view is active, render it instead of the main dashboard ---
     if (detailedViewSubject) {
         return (
@@ -4409,16 +4419,6 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary
     const availableTopics = selectedSubject && AppData[selectedSubject]?.categories
         ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
         : [];
-
-    const vocabularyModal = (vocabModalSubject && Array.isArray(vocabularyData[vocabModalSubject]) && vocabularyData[vocabModalSubject].length > 0)
-        ? (
-            <VocabularyModal
-                subject={vocabModalSubject}
-                words={vocabularyData[vocabModalSubject]}
-                onClose={() => setVocabModalSubject(null)}
-            />
-        )
-        : null;
 
     const Breadcrumb = ({ variant = 'default' } = {}) => {
         const isOnColor = variant === 'onColor';
