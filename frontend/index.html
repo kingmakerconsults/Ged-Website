@@ -4519,7 +4519,47 @@ function ProfileView({
 
     const handleBackClick = () => {
         if (!onboardingComplete) {
-            window.alert('Please finish onboarding before heading to the dashboard.');
+            const missingSections = [];
+            let scrollTargetId = null;
+
+            if (highlightName) {
+                missingSections.push('your display name');
+                scrollTargetId = scrollTargetId || 'profile-name-heading';
+            }
+            if (highlightTest) {
+                missingSections.push('your subject test plan');
+                scrollTargetId = scrollTargetId || 'testPlanCard';
+            }
+            if (highlightChallenges) {
+                missingSections.push('your learning challenges');
+                scrollTargetId = scrollTargetId || 'learningChallengesCard';
+            }
+
+            if (missingSections.length > 0) {
+                const formatList = (items) => {
+                    if (items.length === 1) {
+                        return items[0];
+                    }
+                    if (items.length === 2) {
+                        return `${items[0]} and ${items[1]}`;
+                    }
+                    const head = items.slice(0, -1).join(', ');
+                    const tail = items[items.length - 1];
+                    return `${head}, and ${tail}`;
+                };
+
+                window.alert(`Before heading back, please finish ${formatList(missingSections)} so we can tailor the dashboard for you.`);
+
+                if (scrollTargetId) {
+                    window.requestAnimationFrame(() => {
+                        const target = document.getElementById(scrollTargetId);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    });
+                }
+                return;
+            }
         }
         onBack?.();
     };
@@ -4737,6 +4777,7 @@ function ProfileView({
                 </div>
 
                 <form
+                    id="learningChallengesCard"
                     onSubmit={handleChallengesSubmit}
                     className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightChallenges ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
                 >
