@@ -6,6 +6,7 @@ const router = express.Router();
 
 const VALID_SIZES = new Set(['sm', 'md', 'lg', 'xl']);
 const VALID_THEMES = new Set(['light', 'dark', 'system']);
+const VALID_SUBJECTS = new Set(ProfileData.TEST_SUBJECTS || ['Math', 'RLA', 'Science', 'Social Studies']);
 
 async function ensureProfile(userId) {
   if (!userId) {
@@ -73,7 +74,11 @@ router.patch('/test', async (req, res) => {
     }
 
     await ensureProfile(userId);
-    const { testDate, testLocation, passed } = req.body || {};
+    const { subject, testDate, testLocation, passed } = req.body || {};
+
+    if (!subject || !VALID_SUBJECTS.has(subject)) {
+      return res.status(400).json({ error: 'Invalid subject' });
+    }
 
     if (testDate && !isValidDate(testDate)) {
       return res.status(400).json({ error: 'Invalid testDate (YYYY-MM-DD)' });
@@ -83,8 +88,9 @@ router.patch('/test', async (req, res) => {
     const normalizedLocation = testLocation ? String(testLocation).trim() : null;
     const passedValue = !!passed;
 
-    // TODO: UPDATE profiles SET test_date = $2, test_location = $3, passed = $4, updated_at = now() WHERE user_id = $1
-    ProfileData.updateProfileFields(userId, {
+    // TODO: UPSERT INTO test_plans (user_id, subject, test_date, test_location, passed)
+    ProfileData.upsertTestPlanEntry(userId, {
+      subject,
       testDate: normalizedDate || null,
       testLocation: normalizedLocation || null,
       passed: passedValue,
@@ -133,7 +139,9 @@ router.post('/complete-onboarding', async (req, res) => {
     // TODO: SELECT COUNT(*) FROM user_challenge_tags WHERE user_id = $1
     const bundle = await ProfileData.loadProfileBundle(userId);
     const hasName = !!(bundle.profile?.name && bundle.profile.name.trim());
-    const hasTestInfo = !!(bundle.profile?.passed || bundle.profile?.testDate);
+    const hasTestInfo = Array.isArray(bundle.testPlan)
+      ? bundle.testPlan.some((entry) => entry.passed || entry.testDate)
+      : !!(bundle.profile?.passed || bundle.profile?.testDate);
     const challengeCount = ProfileData.selectedChallengeCount(userId);
     const hasChallenges = challengeCount > 0;
 
