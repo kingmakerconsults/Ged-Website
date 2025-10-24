@@ -5784,12 +5784,18 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardin
         const buttonClass = isOnColor
             ? 'text-white hover:text-slate-200'
             : 'text-sky-600 hover:underline';
+        const backLabel = selectedCategory ? `Back to ${selectedSubject}` : 'Back to Main Menu';
 
         return (
             <div className={`mb-4 text-lg font-semibold flex items-center gap-2 ${containerClass}`}>
-                <button type="button" onClick={handleBack} className={`flex items-center gap-1 ${buttonClass}`}>
+                <button
+                    type="button"
+                    onClick={handleBack}
+                    className={`flex items-center gap-2 ${buttonClass}`}
+                    aria-label={backLabel}
+                >
                     <ArrowLeftIcon />
-                    Back
+                    <span>{backLabel}</span>
                 </button>
                 <span>/</span>
                 <span>{selectedSubject}</span>
@@ -5830,6 +5836,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardin
                                 </button>
                             </div>
                         ))}
+                    </div>
+                    <div className="mt-6">
+                        <button
+                            type="button"
+                            onClick={handleBack}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-white/20 hover:bg-white/30 text-white transition"
+                        >
+                            <ArrowLeftIcon />
+                            <span>Back to {selectedSubject}</span>
+                        </button>
                     </div>
                 </div>
             </>
@@ -5938,6 +5954,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardin
                                 </div>
                             </>
                         )}
+                    </div>
+                    <div className="mt-6">
+                        <button
+                            type="button"
+                            onClick={handleBack}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-white/20 hover:bg-white/30 text-white transition"
+                        >
+                            <ArrowLeftIcon />
+                            <span>Back to Main Menu</span>
+                        </button>
                     </div>
                 </div>
             </>
