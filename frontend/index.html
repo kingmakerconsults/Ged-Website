@@ -3315,6 +3315,7 @@ function App() {
     const [loadingMessage, setLoadingMessage] = useState('');
     const [revolvingPrompt, setRevolvingPrompt] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
+    const currentUserRef = useRef(null);
     const [progress, setProgress] = useState(() => createEmptyProgress());
     const [userScores, setUserScores] = useState([]);
     const [showFormulaSheet, setShowFormulaSheet] = useState(false);
@@ -3329,6 +3330,10 @@ function App() {
     const welcomeFadeTimeoutRef = useRef(null);
     const lastScoresFetchRef = useRef(0);
     const pendingScoresFetchRef = useRef(null);
+
+    useEffect(() => {
+        currentUserRef.current = currentUser;
+    }, [currentUser]);
 
     useEffect(() => {
         let isMounted = true;
@@ -3379,7 +3384,7 @@ function App() {
         }
         return { ...DEFAULT_PREFERENCES };
     });
-    const [profileBundle, setProfileBundle] = useState(null);
+    const [profileData, setProfileData] = useState(null);
     const [profileLoading, setProfileLoading] = useState(false);
     const [profileError, setProfileError] = useState(null);
     const [nameDraft, setNameDraft] = useState('');
@@ -3481,7 +3486,7 @@ function App() {
             }
             return updated;
         });
-        setProfileBundle((prev) => {
+        setProfileData((prev) => {
             if (!prev) {
                 return prev;
             }
@@ -3520,21 +3525,38 @@ function App() {
         return { name: savedName, persistedToServer };
     }, [updateLocalUserName]);
 
-    const loadProfileUI = useCallback(async ({ quiet = false } = {}) => {
-        if (!quiet) {
-            setProfileLoading(true);
+    const loadProfileOnce = useCallback(async () => {
+        const user = currentUserRef.current;
+        if (!user) {
+            return null;
         }
+
+        setProfileLoading(true);
         setProfileError(null);
+
         try {
-            const data = await fetchJSON('/api/profile/me');
-            setProfileBundle(data);
+            const response = await fetch('/api/profile/me', {
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                console.error('Failed to load profile: status', response.status);
+                setProfileError('We could not load your profile. Please try again soon.');
+                setProfileLoading(false);
+                return null;
+            }
+
+            const data = await response.json();
+            setProfileData(data);
+
             const serverName = data?.profile?.name;
             if (serverName) {
                 setNameDraft(serverName);
                 updateLocalUserName(serverName);
-            } else if (currentUser?.name) {
-                setNameDraft(currentUser.name);
+            } else if (user?.name) {
+                setNameDraft(user.name);
             }
+
             setPreferences((prev) => {
                 const serverPrefs = normalizePreferences({
                     fontSize: data?.profile?.fontSize,
@@ -3545,22 +3567,22 @@ function App() {
                 }
                 return serverPrefs;
             });
+
             const onboardingFlag = !!data?.profile?.onboardingComplete;
             setOnboardingComplete(onboardingFlag);
             if (typeof window !== 'undefined') {
                 window._onboardingComplete = onboardingFlag;
             }
+
+            setProfileLoading(false);
             return data;
         } catch (error) {
             console.error('Failed to load profile:', error);
             setProfileError('We could not load your profile. Please try again soon.');
+            setProfileLoading(false);
             return null;
-        } finally {
-            if (!quiet) {
-                setProfileLoading(false);
-            }
         }
-    }, [currentUser, hasLocalPrefsRef, updateLocalUserName]);
+    }, []);
 
     useEffect(() => {
         if (currentUser?.name) {
@@ -3577,14 +3599,14 @@ function App() {
         }
     }, [currentUser, onboardingComplete]);
 
+    const currentUserId = currentUser?.id ?? null;
+
     useEffect(() => {
-        if (!currentUser) {
+        if (!currentUserId) {
             return;
         }
-        if (view === 'profile' || view === 'settings') {
-            loadProfileUI({ quiet: false });
-        }
-    }, [view, currentUser, loadProfileUI]);
+        loadProfileOnce();
+    }, [currentUserId, loadProfileOnce]);
 
     const handleNameDraftChange = useCallback((value) => {
         setNameDraft(value);
@@ -3612,8 +3634,8 @@ function App() {
     }, [nameDraft, persistDisplayName]);
 
     const handleProfileRefresh = useCallback(() => {
-        loadProfileUI({ quiet: false });
-    }, [loadProfileUI]);
+        loadProfileOnce();
+    }, [loadProfileOnce]);
 
     const handleSaveTestInfo = useCallback(async ({ subject, testDate, testLocation, passed }) => {
         const trimmedSubject = subject ? String(subject).trim() : '';
@@ -3638,7 +3660,7 @@ function App() {
                 throw new Error(`Failed with status ${response.status}`);
             }
             const data = await response.json();
-            setProfileBundle(data);
+            setProfileData(data);
             const onboardingFlag = !!data?.profile?.onboardingComplete;
             setOnboardingComplete(onboardingFlag);
             if (typeof window !== 'undefined') {
@@ -3666,7 +3688,7 @@ function App() {
                 throw new Error(`Failed with status ${response.status}`);
             }
             const data = await response.json();
-            setProfileBundle(data);
+            setProfileData(data);
             const onboardingFlag = !!data?.profile?.onboardingComplete;
             setOnboardingComplete(onboardingFlag);
             if (typeof window !== 'undefined') {
@@ -3679,7 +3701,7 @@ function App() {
         } finally {
             setChallengesSaving(false);
         }
-    }, [setOnboardingComplete, setProfileBundle]);
+    }, []);
 
     const handleFinishOnboarding = useCallback(async () => {
         setFinishingOnboarding(true);
@@ -3697,11 +3719,11 @@ function App() {
                 if (typeof window !== 'undefined') {
                     window._onboardingComplete = true;
                 }
-                await loadProfileUI({ quiet: true });
+                await loadProfileOnce();
                 window.alert('Great! You’re all set.');
                 setView('start');
             } else {
-                await loadProfileUI({ quiet: true });
+                await loadProfileOnce();
                 window.alert('Almost there! Please finish the highlighted sections.');
             }
         } catch (error) {
@@ -3710,7 +3732,7 @@ function App() {
         } finally {
             setFinishingOnboarding(false);
         }
-    }, [loadProfileUI]);
+    }, [loadProfileOnce]);
 
     const loadScores = useCallback(async (token, options = {}) => {
         if (!token) {
@@ -3809,20 +3831,20 @@ function App() {
             const parsedUser = JSON.parse(storedUser);
             const profile = ensureUserProfile(parsedUser);
             if (profile) {
+                currentUserRef.current = profile;
                 setCurrentUser(profile);
                 const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
                 if (!customNameSet) {
                     setShowNamePrompt(true);
                 }
                 loadScores(storedToken);
-                loadProfileUI({ quiet: true });
             }
         } catch (error) {
             console.error('Failed to restore stored user:', error);
             localStorage.removeItem('appUser');
             localStorage.removeItem('appToken');
         }
-    }, [loadProfileUI, loadScores]);
+    }, [loadScores]);
 
     const handleLogin = (user, token) => {
         if (!token) {
@@ -3878,7 +3900,10 @@ function App() {
             }, 3000);
         }
 
+        currentUserRef.current = profile;
         setCurrentUser(profile);
+        setProfileData(null);
+        setProfileError(null);
         setUserScores([]);
         recalcProgress([]);
 
@@ -3888,14 +3913,7 @@ function App() {
         }
 
         loadScores(token);
-        loadProfileUI({ quiet: false }).then((bundle) => {
-            const onboardingFlag = !!bundle?.profile?.onboardingComplete;
-            if (!onboardingFlag) {
-                setView('profile');
-            } else {
-                setView('start');
-            }
-        });
+        setView('start');
     };
 
     const handleSaveName = async (firstName, lastName) => {
@@ -3927,13 +3945,14 @@ function App() {
         setUserScores([]);
         recalcProgress([]);
         setShowNamePrompt(false);
-        setProfileBundle(null);
+        setProfileData(null);
         setProfileError(null);
         setProfileLoading(false);
         setOnboardingComplete(true);
         setNameDraft('');
         setNameStatus('');
         setNameSaving(false);
+        currentUserRef.current = null;
         if (welcomeTimeoutRef.current) {
             clearTimeout(welcomeTimeoutRef.current);
         }
@@ -4166,8 +4185,7 @@ function App() {
 
     const handleShowProfileView = useCallback(() => {
         setView('profile');
-        loadProfileUI({ quiet: false });
-    }, [loadProfileUI]);
+    }, []);
 
     const handleShowSettingsView = useCallback(() => {
         if (!onboardingComplete) {
@@ -4175,8 +4193,10 @@ function App() {
             return;
         }
         setView('settings');
-        loadProfileUI({ quiet: true });
-    }, [loadProfileUI, onboardingComplete]);
+        if (!profileData) {
+            loadProfileOnce();
+        }
+    }, [loadProfileOnce, onboardingComplete, profileData]);
 
     const handleReviewMarked = (markedQuestions) => {
         const reviewQuiz = {
@@ -4240,7 +4260,7 @@ function App() {
                     <ProfileView
                         loading={profileLoading}
                         error={profileError}
-                        data={profileBundle}
+                        data={profileData}
                         nameDraft={nameDraft}
                         onNameDraftChange={handleNameDraftChange}
                         onSubmitName={handleProfileNameSubmit}
@@ -4276,7 +4296,7 @@ function App() {
                         currentUser={currentUser}
                         onLogout={handleLogout}
                         progress={progress}
-                        profileBundle={profileBundle}
+                        profileBundle={profileData}
                         onboardingComplete={onboardingComplete}
                         onShowProfile={handleShowProfileView}
                         onSelectQuiz={startQuiz}
@@ -5736,20 +5756,20 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
+function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
-    const profile = profileBundle?.profile || {};
-    const challengeOptions = Array.isArray(profileBundle?.challengeOptions) ? profileBundle.challengeOptions : [];
+    const profile = profileData?.profile || {};
+    const challengeOptions = Array.isArray(profileData?.challengeOptions) ? profileData.challengeOptions : [];
     const selectedChallenges = challengeOptions.filter((opt) => opt.selected);
     const displayedChallenges = selectedChallenges.slice(0, 4);
     const hiddenChallengeCount = Math.max(0, selectedChallenges.length - displayedChallenges.length);
-    const recentDashboardSummary = profileBundle?.recentScoresDashboard || {};
-    const testPlan = Array.isArray(profileBundle?.testPlan) ? profileBundle.testPlan : [];
-    const nextUpcomingTest = profileBundle?.nextUpcomingTest || null;
+    const recentDashboardSummary = profileData?.recentScoresDashboard || {};
+    const testPlan = Array.isArray(profileData?.testPlan) ? profileData.testPlan : [];
+    const nextUpcomingTest = profileData?.nextUpcomingTest || null;
     const hasSavedTest = testPlan.some((entry) => entry && (entry.passed || entry.testDate));
     const allSubjectsPassed = testPlan.length > 0 && testPlan.every((entry) => entry.passed);
     const formatDayCount = (value) => {
@@ -6119,12 +6139,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardin
                     </div>
                 )}
                 {currentUser && <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />}
-                {profileBundle && (
+                {profileData && (
                     <div className="mb-6">
                         <RecentScoresPanel
                             title="Latest Scores"
                             summary={recentDashboardSummary}
-                            legacyScores={profileBundle?.scores}
+                            legacyScores={profileData?.scores}
                             loading={false}
                         />
                     </div>
