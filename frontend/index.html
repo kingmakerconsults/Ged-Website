@@ -5465,7 +5465,7 @@ function DetailedProgressView({ subject, progressData, onBack }) {
     return (
         <div className="fade-in">
             <header className="flex items-center pb-4 mb-4 border-b">
-                <button onClick={onBack} className="flex items-center gap-1 text-sm text-sky-600 hover:text-sky-800 font-semibold"><ArrowLeftIcon /> Back to Dashboard</button>
+                <button type="button" onClick={onBack} className="flex items-center gap-1 text-sm text-sky-600 hover:text-sky-800 font-semibold"><ArrowLeftIcon /> Back to Dashboard</button>
             </header>
             <h2 className="text-3xl font-extrabold text-slate-800 mb-4">{subject} Progress Details</h2>
             <div className="space-y-4">
@@ -5747,8 +5747,15 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardin
     const handleBack = () => {
         if (selectedCategory) {
             setSelectedCategory(null);
-        } else if (selectedSubject) {
+            setAiQuizTopic('');
+            return;
+        }
+
+        if (selectedSubject) {
             setSelectedSubject(null);
+            setSelectedCategory(null);
+            setAiQuizTopic('');
+            setShowFormulaSheet?.(false);
         }
     };
 
@@ -5780,7 +5787,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardin
 
         return (
             <div className={`mb-4 text-lg font-semibold flex items-center gap-2 ${containerClass}`}>
-                <button onClick={handleBack} className={`flex items-center gap-1 ${buttonClass}`}>
+                <button type="button" onClick={handleBack} className={`flex items-center gap-1 ${buttonClass}`}>
                     <ArrowLeftIcon />
                     Back
                 </button>
