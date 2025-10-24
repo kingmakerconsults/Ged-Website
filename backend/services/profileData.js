@@ -1,5 +1,19 @@
 const db = require('../db');
 
+async function ensureProfileExists(userId) {
+  if (!userId) {
+    return;
+  }
+  try {
+    await db.query(
+      'INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING',
+      [userId]
+    );
+  } catch (err) {
+    console.error('ensureProfileExists error', err);
+  }
+}
+
 // Utility: days until a YYYY-MM-DD date string
 function daysUntil(dateStr) {
   if (!dateStr) return null;
@@ -177,6 +191,12 @@ async function loadScoresSafe(userId) {
  * The main data shape returned by GET /api/profile/me.
  */
 async function loadProfileBundle(userId) {
+  if (!userId) {
+    throw new Error('loadProfileBundle requires a userId');
+  }
+
+  await ensureProfileExists(userId);
+
   // 1. basic profile info (users + profiles)
   const row = await db.oneOrNone(
     `
@@ -191,7 +211,7 @@ async function loadProfileBundle(userId) {
       p.font_size,
       p.theme
     FROM users u
-    JOIN profiles p ON p.user_id = u.id
+    LEFT JOIN profiles p ON p.user_id = u.id
     WHERE u.id = $1
     `,
     [userId]
@@ -222,15 +242,25 @@ async function loadProfileBundle(userId) {
 
   // 4. scores (safe wrapper so we never crash)
   const scoreData = await loadScoresSafe(userId);
+  const safeBySubject = Array.isArray(scoreData?.bySubject)
+    ? scoreData.bySubject
+    : [];
+  const safeBySubtopic = Array.isArray(scoreData?.bySubtopic)
+    ? scoreData.bySubtopic
+    : [];
+  const safeDashboard =
+    scoreData && typeof scoreData.recentScoresDashboard === 'object' && scoreData.recentScoresDashboard !== null
+      ? scoreData.recentScoresDashboard
+      : {};
 
   return {
     profile,
     challengeOptions,
     scores: {
-      bySubject: scoreData.bySubject,
-      bySubtopic: scoreData.bySubtopic
+      bySubject: safeBySubject,
+      bySubtopic: safeBySubtopic
     },
-    recentScoresDashboard: scoreData.recentScoresDashboard,
+    recentScoresDashboard: safeDashboard,
     testPlan,
     nextUpcomingTest
   };
