@@ -53,7 +53,7 @@
     <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
 
@@ -146,18 +146,56 @@
         :root[data-theme='system'] { color-scheme: light; }
 
         :root[data-theme='light'] body,
-        :root[data-theme='system'] body { background-color: #f8fafc; color: #0f172a; }
-        :root[data-theme='dark'] body { background-color: #0f172a; color: #e2e8f0; }
+        :root[data-theme='system'] body { color: #0f172a; }
+        :root[data-theme='dark'] body { color: #e2e8f0; }
         @media (prefers-color-scheme: dark) {
             :root[data-theme='system'] { color-scheme: dark; }
-            :root[data-theme='system'] body { background-color: #0f172a; color: #e2e8f0; }
+            :root[data-theme='system'] body { color: #e2e8f0; }
         }
         @media (prefers-color-scheme: light) {
             :root[data-theme='system'] { color-scheme: light; }
-            :root[data-theme='system'] body { background-color: #f8fafc; color: #0f172a; }
+            :root[data-theme='system'] body { color: #0f172a; }
         }
 
         body { font-family: 'Inter', sans-serif; }
+        h1 {
+            font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .dark h1 {
+            color: #f8fafc;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+        h2 {
+            font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.3;
+        }
+        .dark h2 { color: #f1f5f9; }
+        h3 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #334155;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .dark h3 { color: #e2e8f0; }
+        p,
+        li {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #475569;
+        }
+        .dark p,
+        .dark li { color: #cbd5e1; }
         body::before {
             content: "";
             position: fixed;
@@ -166,6 +204,44 @@
             opacity: 0.12;
             z-index: -1;
             pointer-events: none;
+            animation: floatLogo 12s ease-in-out infinite alternate;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 25% 25%, rgba(14,165,233,0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 75% 75%, rgba(236,72,153,0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -2;
+        }
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0); opacity: 0.12; }
+            50% { transform: translateY(-10px); opacity: 0.15; }
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 1rem;
+            box-shadow: 0 18px 32px -24px rgba(15, 23, 42, 0.3);
+        }
+        .dark .glass {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(255,255,255,0.08);
+            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8);
+        }
+        .subject-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .subject-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -6px rgba(0,0,0,0.1);
+        }
+        .dark .subject-card:hover {
+            box-shadow: 0 20px 32px -8px rgba(0,0,0,0.8);
         }
         .quiz-nav::-webkit-scrollbar { height: 4px; }
         .quiz-nav::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -173,6 +249,12 @@
         .quiz-nav::-webkit-scrollbar-thumb:hover { background: #555; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes floatIn {
+            0%   { opacity: 0; transform: translateY(10px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.6s ease-in-out; }
+        .animate-floatIn { animation: floatIn 0.5s ease; }
         .prose ::selection { background-color: #fef9c3; }
         .prose { max-width: 65ch; margin: auto; }
         .prose p { margin-bottom: 1em; }
@@ -195,8 +277,90 @@
             overflow-wrap: anywhere;
         }
         #pong-canvas { background-color: #1a202c; border-radius: 0.5rem; border: 2px solid #4a5568; }
-        .option.correct { background-color: #dcfce7; border-color: #22c55e; }
-        .option.incorrect { background-color: #fee2e2; border-color: #ef4444; position: relative; }
+        .option {
+            border: 2px solid transparent;
+            border-radius: 0.75rem;
+            background-color: #ffffff;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 4px 10px -2px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+        }
+        .dark .option {
+            background-color: rgba(30, 41, 59, 0.9);
+            color: #e2e8f0;
+            box-shadow: 0 6px 14px -4px rgba(0,0,0,0.45);
+        }
+        .option:hover:not(.selected):not(.correct):not(.incorrect) {
+            background-color: #f1f5f9;
+            transform: scale(1.01);
+            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.12);
+        }
+        .dark .option:hover:not(.selected):not(.correct):not(.incorrect) {
+            background-color: rgba(148, 163, 184, 0.2);
+            box-shadow: 0 12px 22px -6px rgba(0,0,0,0.6);
+        }
+        .option.selected {
+            background-color: #e0f2fe;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
+        }
+        .dark .option.selected {
+            background-color: rgba(56,189,248,0.18);
+            border-color: rgba(56,189,248,0.6);
+            box-shadow: 0 0 0 3px rgba(56,189,248,0.35);
+        }
+        .option.correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+            animation: correctPop 0.28s ease-out;
+        }
+        .dark .option.correct {
+            background-color: rgba(34, 197, 94, 0.35);
+            border-color: rgba(34,197,94,0.8);
+        }
+        @keyframes correctPop {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
+            40% { transform: scale(1.03); box-shadow: 0 10px 20px rgba(16,185,129,0.25); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
+        }
+        .option.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+            position: relative;
+            animation: shakeWrong 0.22s linear;
+        }
+        .dark .option.incorrect {
+            background-color: rgba(239, 68, 68, 0.35);
+            border-color: rgba(239,68,68,0.75);
+        }
+        @keyframes shakeWrong {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            50% { transform: translateX(3px); }
+            75% { transform: translateX(-2px); }
+            100% { transform: translateX(0); }
+        }
+        .explanation {
+            background-color: #f8fafc;
+            border-left: 4px solid #38bdf8;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #334155;
+            animation: explainReveal 0.25s ease-out;
+        }
+        .dark .explanation {
+            background-color: rgba(15, 23, 42, 0.8);
+            border-left-color: rgba(56,189,248,0.7);
+            color: #e2e8f0;
+        }
+        @keyframes explainReveal {
+            0% { opacity: 0; transform: translateY(4px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
         .good-evidence {
             background-color: #dcfce7; /* Tailwind green-100 */
             color: #166534; /* Tailwind green-800 */
@@ -241,9 +405,18 @@
             white-space: nowrap;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+        .dark .vocabulary-chip {
+            border-color: rgba(148, 163, 184, 0.4);
+            background-color: rgba(30, 41, 59, 0.7);
+            color: #e2e8f0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+        }
         .vocabulary-chip:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 14px rgba(15, 23, 42, 0.15);
+        }
+        .dark .vocabulary-chip:hover {
+            box-shadow: 0 14px 24px rgba(0,0,0,0.6);
         }
         .vocabulary-chip-dot {
             width: 0.6rem;
@@ -256,6 +429,7 @@
             text-transform: uppercase;
             color: #64748b;
         }
+        .dark .vocabulary-chip-label { color: #cbd5e1; }
         @keyframes vocabularyTickerScroll {
             from { transform: translateX(0); }
             to { transform: translateX(-50%); }
@@ -289,7 +463,14 @@
         }
     </style>
 </head>
-<body class="bg-slate-100">
+<body class="bg-gradient-to-br from-slate-100 via-sky-50 to-slate-200 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <button
+     id="theme-toggle"
+     class="fixed top-4 right-4 z-50 p-2 rounded-full bg-white/70 dark:bg-slate-800/70 border border-slate-300 dark:border-slate-600 shadow hover:bg-white hover:dark:bg-slate-700 transition"
+     aria-label="Toggle dark mode"
+   >
+     <span class="text-slate-700 dark:text-slate-200 text-xs font-semibold">☾/☀</span>
+   </button>
     <div id="root"></div>
 
 <script type="text/babel" data-presets="env,react">
@@ -418,6 +599,14 @@ const SUBJECT_COLORS = {
         scoreText: 'text-orange-700',
         scoreBorder: 'border-orange-200',
     },
+};
+
+const SUBJECT_BG_GRADIENTS = {
+    Math: 'bg-gradient-to-br from-sky-500 to-cyan-400',
+    Science: 'bg-gradient-to-br from-rose-500 to-amber-400',
+    'Social Studies': 'bg-gradient-to-br from-emerald-600 to-lime-500',
+    'Reasoning Through Language Arts (RLA)': 'bg-gradient-to-br from-purple-600 to-pink-500',
+    Simulations: 'bg-gradient-to-br from-orange-500 to-yellow-400',
 };
 
 const SUBJECT_SHORT_LABELS = {
@@ -3447,35 +3636,45 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
     const isSettingsActive = activePanel === 'settings';
 
     return (
-        <header className="bg-white shadow-sm sticky top-0 z-50">
-            <div className="w-full max-w-5xl mx-auto p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <button
-                    type="button"
-                    onClick={onShowHome}
-                    className="text-left text-xl font-bold text-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 rounded-md"
-                >
-                    Mr. Smith's Learning Canvas
-                </button>
+        <header className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm">
+            <div className="max-w-6xl mx-auto flex items-center gap-4 justify-between px-4 sm:px-6 py-3">
+                <div className="flex items-center gap-3">
+                    <button
+                        type="button"
+                        onClick={onShowHome}
+                        className="text-left text-base sm:text-lg font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 rounded-lg px-2"
+                    >
+                        Mr. Smith's Learning Canvas
+                    </button>
+                    <nav className="hidden md:flex items-center gap-4 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
+                        <button onClick={onShowHome} className="hover:text-sky-600 dark:hover:text-sky-400 transition" type="button">Dashboard</button>
+                        <a className="hover:text-sky-600 dark:hover:text-sky-400 transition" href="#quizzes">Quizzes</a>
+                        <a className="hover:text-sky-600 dark:hover:text-sky-400 transition" href="#progress">Progress</a>
+                    </nav>
+                </div>
                 {currentUser && (
-                    <div className="w-full sm:w-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-                        <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
                             {currentUser.picture ? (
-                                <img src={currentUser.picture} alt="User avatar" className="w-9 h-9 rounded-full object-cover" />
+                                <img src={currentUser.picture} alt="User avatar" className="w-9 h-9 rounded-full object-cover shadow" />
                             ) : (
-                                <div className="w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold">
+                                <div className="w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold shadow">
                                     {initial}
                                 </div>
                             )}
-                            <span className="font-semibold text-slate-600 text-sm sm:text-base">
-                                Welcome, {currentUser.name || 'Learner'}!
-                            </span>
+                            <div className="flex flex-col leading-tight">
+                                <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Welcome</span>
+                                <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate max-w-[10rem]">
+                                    {currentUser.name || 'Learner'}
+                                </span>
+                            </div>
                         </div>
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex items-center gap-2">
                             <button
                                 type="button"
                                 id="btnProfile"
                                 onClick={onShowProfile}
-                                className="px-3 py-2 text-sm font-semibold text-sky-700 border border-sky-200 rounded-lg hover:bg-sky-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                                className={`px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border transition ${isProfileActive ? 'bg-sky-500 text-white border-transparent' : 'text-sky-700 dark:text-sky-300 border-sky-200/70 dark:border-slate-600 hover:bg-sky-50 dark:hover:bg-slate-800/70'}`}
                                 aria-controls="profileView"
                                 aria-expanded={isProfileActive}
                             >
@@ -3485,7 +3684,7 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
                                 type="button"
                                 id="btnSettings"
                                 onClick={onShowSettings}
-                                className="px-3 py-2 text-sm font-semibold text-sky-700 border border-sky-200 rounded-lg hover:bg-sky-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                                className={`px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border transition ${isSettingsActive ? 'bg-sky-500 text-white border-transparent' : 'text-sky-700 dark:text-sky-300 border-sky-200/70 dark:border-slate-600 hover:bg-sky-50 dark:hover:bg-slate-800/70'}`}
                                 aria-controls="settingsView"
                                 aria-expanded={isSettingsActive}
                             >
@@ -3494,7 +3693,7 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
                             <button
                                 type="button"
                                 onClick={onLogout}
-                                className="px-3 py-2 text-sm font-semibold text-rose-600 hover:text-rose-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:ring-offset-2"
+                                className="px-3 py-2 text-xs sm:text-sm font-semibold text-rose-600 hover:text-rose-500 dark:text-rose-300 dark:hover:text-rose-200 transition"
                             >
                                 Log Out
                             </button>
@@ -4731,7 +4930,7 @@ function App() {
                     graphingNode={mathToolsNodes ? mathToolsNodes.graphing : null}
                     geometryNode={mathToolsNodes ? mathToolsNodes.geometry : null}
                 />
-                <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
+                <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8 pt-[4.5rem] space-y-8">
                     <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                         {renderView()}
                     </div>
@@ -5077,7 +5276,7 @@ function ProfileView({
                     <p className="text-xs text-slate-500">Dates saved here will also appear on your dashboard.</p>
                 </section>
 
-                    <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
+                    <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-3">
                         <h2 className="text-lg font-semibold text-slate-800">Preferences Snapshot</h2>
                         <dl className="space-y-2 text-sm text-slate-600">
                             <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
@@ -5911,8 +6110,8 @@ function VocabularyTicker({ vocabulary, onWordClick }) {
     const repeatedEntries = [...entries, ...entries];
 
     return (
-        <div className="vocabulary-spotlight border border-slate-200 rounded-2xl overflow-hidden shadow-md">
-            <div className="flex items-center justify-between px-4 py-2 bg-slate-900 text-white">
+        <div className="vocabulary-spotlight glass border border-slate-200/60 dark:border-slate-700/60 rounded-2xl overflow-hidden shadow-lg animate-floatIn">
+            <div className="flex items-center justify-between px-4 py-3 bg-slate-900/90 text-white">
                 <span className="text-sm font-semibold uppercase tracking-wide">Vocabulary Spotlight</span>
                 <span className="text-xs text-white/70 hidden sm:inline">Click any word to view the full list.</span>
             </div>
@@ -5941,24 +6140,84 @@ function VocabularyTicker({ vocabulary, onWordClick }) {
     );
 }
 
+function VocabularyOverview({ vocabulary, onWordClick }) {
+    const subjects = Object.entries(vocabulary || {}).filter(([, words]) => Array.isArray(words) && words.length > 0);
+
+    if (!subjects.length) {
+        return null;
+    }
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {subjects.map(([subjectName, words]) => {
+                const colorScheme = SUBJECT_COLORS[subjectName] || {};
+                const headerGradient = SUBJECT_BG_GRADIENTS[subjectName];
+                const headerClass = headerGradient
+                    ? `${headerGradient} px-4 py-3 rounded-t-2xl`
+                    : `${colorScheme.background || 'bg-slate-800'} bg-gradient-to-r from-white/10 to-white/0 px-4 py-3 rounded-t-2xl`;
+                const previewWords = words.slice(0, 3);
+
+                return (
+                    <div
+                        key={subjectName}
+                        className="subject-card glass animate-floatIn flex flex-col h-full rounded-2xl border border-slate-200/70 bg-white/70 shadow-lg overflow-hidden dark:bg-slate-800/80 dark:border-slate-700/70"
+                    >
+                        <div className={`${headerClass} shadow-inner flex items-center justify-between`}> 
+                            <h3 className="text-lg font-semibold text-white drop-shadow-sm">{subjectName}</h3>
+                            <span className="text-xs uppercase tracking-wide text-white/80">Key Terms</span>
+                        </div>
+                        <div className="flex flex-col flex-1 gap-4 p-5">
+                            <ul className="space-y-2">
+                                {previewWords.map((word) => (
+                                    <li key={word.term} className="rounded-lg bg-white/80 px-3 py-2 text-sm font-medium text-slate-700 shadow-sm dark:bg-slate-900/60 dark:text-slate-100">
+                                        {word.term}
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="mt-auto">
+                                <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+                                    Study Progress
+                                </div>
+                                <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                                    <div
+                                        className="h-full bg-sky-400 dark:bg-sky-500 rounded-full transition-all duration-500"
+                                        style={{ width: '40%' }}
+                                    />
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => onWordClick?.(subjectName)}
+                                className="mt-2 inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-sky-500 hover:text-white dark:bg-slate-900/60 dark:text-slate-200 dark:hover:bg-sky-500"
+                            >
+                                View full list
+                            </button>
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+}
+
 function SubjectVocabularySection({ subject, words }) {
     if (!Array.isArray(words) || !words.length) {
         return null;
     }
     return (
-        <div id="subject-vocabulary-section" className="bg-white/10 border border-white/40 rounded-xl p-5 mb-6 shadow-inner backdrop-blur-sm">
+        <div id="subject-vocabulary-section" className="glass animate-floatIn rounded-2xl p-6 mb-6 border border-slate-200/70 dark:border-slate-700/60">
             <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <h3 className="text-xl font-bold text-white">Subject Vocabulary</h3>
-                    <p className="text-sm text-white/80">Scroll through the complete list of key terms for {subject}.</p>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">Subject Vocabulary</h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-300">Scroll through the complete list of key terms for {subject}.</p>
                 </div>
             </div>
             <div className="mt-4 max-h-96 overflow-y-auto pr-1 space-y-3">
                 {words.map((word) => (
-                    <div key={word.term} className="bg-white/95 text-slate-900 rounded-lg p-4 shadow-sm">
-                        <p className="text-lg font-semibold">{word.term}</p>
-                        {word.definition && <p className="text-sm text-slate-600 mt-2 leading-relaxed">{word.definition}</p>}
-                        {word.example && <p className="text-xs text-slate-500 italic mt-2">Example: {word.example}</p>}
+                    <div key={word.term} className="rounded-lg bg-white/85 dark:bg-slate-900/60 p-4 shadow-sm border border-slate-200/60 dark:border-slate-700/60 transition-all">
+                        <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">{word.term}</p>
+                        {word.definition && <p className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">{word.definition}</p>}
+                        {word.example && <p className="text-xs text-slate-500 dark:text-slate-400 italic mt-2">Example: {word.example}</p>}
                     </div>
                 ))}
             </div>
@@ -6228,9 +6487,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     if (selectedSubject && selectedCategory) {
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
         const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
+        const gradientBackground = SUBJECT_BG_GRADIENTS[selectedSubject];
         return (
             <>
-                <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'}`}>
+                <div className={`animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${gradientBackground || subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'} shadow-2xl`}>
                     <Breadcrumb variant="onColor" />
                     <h2 className="text-3xl font-extrabold text-white mb-4">{selectedCategory}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -6271,13 +6531,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     if (selectedSubject) {
         const subject = AppData[selectedSubject];
         const subjectColors = SUBJECT_COLORS[selectedSubject] || {};
+        const gradientBackground = SUBJECT_BG_GRADIENTS[selectedSubject];
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         return (
             <>
                 {viewScienceFormulas && (
                     <ScienceFormulaSheet onClose={() => setViewScienceFormulas(false)} />
                 )}
-                <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || 'bg-slate-800'} text-white`}>
+                <div className={`animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${gradientBackground || subjectColors.background || 'bg-slate-800'} text-white shadow-2xl`}>
                     <Breadcrumb variant="onColor" />
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
                         <h2 className="text-3xl font-extrabold text-white">{selectedSubject}</h2>
@@ -6428,7 +6689,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 </header>
                 {currentUser && (
                     <div className="grid gap-4 md:grid-cols-2 mb-6">
-                        <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-2">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-lg font-semibold text-slate-800">Upcoming Tests</h2>
                                 <button
@@ -6461,7 +6722,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             )}
                             <p className="text-xs text-slate-500">Need changes? Update them from your profile.</p>
                         </article>
-                        <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-2">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-lg font-semibold text-slate-800">Learning Challenges</h2>
                                 <button
@@ -6490,7 +6751,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         </article>
                     </div>
                 )}
-                {currentUser && <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />}
+                {currentUser && (
+                    <div id="progress" className="animate-floatIn">
+                        <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />
+                    </div>
+                )}
                 {profileData && (
                     <div className="mb-6">
                         <RecentScoresPanel
@@ -6502,8 +6767,9 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     </div>
                 )}
                 {hasVocabulary && (
-                    <div className="mb-6">
+                    <div className="mb-6 space-y-6">
                         <VocabularyTicker vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
+                        <VocabularyOverview vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
                     </div>
                 )}
                 <div className="my-6 text-center">
@@ -6514,18 +6780,23 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         Start a 5-Minute Pop Quiz ⏱️
                     </button>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div id="quizzes" className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {Object.entries(AppData).map(([subjectName, subject]) => {
                         const IconComponent = ICONS[subject.icon];
                         const colorScheme = SUBJECT_COLORS[subjectName] || {};
+                        const gradientClass = SUBJECT_BG_GRADIENTS[subjectName];
                         return (
                             <button
                                 key={subjectName}
                                 onClick={() => handleSelectSubject(subjectName)}
-                                className={`group text-center p-6 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 ${colorScheme.background || 'bg-sky-600'} ${colorScheme.hoverBackground || 'hover:bg-sky-700'} ${colorScheme.border || 'border-sky-600'}`}
+                                className="subject-card glass group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-lg transition-all duration-300"
                             >
-                                <IconComponent className="h-16 w-16 mx-auto text-white" />
-                                <h2 className="text-2xl font-bold text-white mt-4">{subjectName}</h2>
+                                <div className={`${gradientClass || colorScheme.background || 'bg-slate-800'} w-full rounded-xl py-6 flex items-center justify-center shadow-inner`}
+                                >
+                                    <IconComponent className="h-12 w-12 text-white drop-shadow" />
+                                </div>
+                                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">{subjectName}</h2>
+                                <span className="text-sm text-slate-500 dark:text-slate-300">Explore lessons &amp; quizzes</span>
                             </button>
                         );
                     })}
@@ -6792,16 +7063,25 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                             {(currentQ.answerOptions || []).map((opt, i) => {
                                 const cleanedOptionText = opt.text.trim().replace(/^\$\$/, '$');
                                 const isSelected = answers[currentIndex] === opt.text;
-                                const optionStateClass = isSelected
-                                    ? `${colorScheme.optionSelectedBg || DEFAULT_COLOR_SCHEME.optionSelectedBg} ${colorScheme.optionSelectedBorder || DEFAULT_COLOR_SCHEME.optionSelectedBorder}`
-                                    : `bg-white ${colorScheme.optionHover || DEFAULT_COLOR_SCHEME.optionHover} border-white`;
+                                const optionClasses = ['option', 'w-full', 'text-left', 'transition'];
+                                if (isSelected) {
+                                    optionClasses.push('selected');
+                                    if (colorScheme.optionSelectedBg) {
+                                        optionClasses.push(colorScheme.optionSelectedBg);
+                                    }
+                                    if (colorScheme.optionSelectedBorder) {
+                                        optionClasses.push(colorScheme.optionSelectedBorder);
+                                    }
+                                } else {
+                                    optionClasses.push(colorScheme.optionHover || DEFAULT_COLOR_SCHEME.optionHover);
+                                }
                                 return (
                                     <button
                                         key={i}
                                         onClick={() => handleSelect(opt.text)}
-                                        className={`w-full text-left p-3 rounded-lg border-2 transition shadow-sm text-slate-800 ${optionStateClass}`}
+                                        className={optionClasses.join(' ')}
                                     >
-                                        <span className="flex-grow text-left">
+                                        <span className="flex-grow text-left text-slate-800 dark:text-slate-100">
                                             <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
                                             <MathText text={cleanedOptionText} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={subjectForRender} />
                                         </span>
@@ -7346,7 +7626,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                     </p>
                                 )}
                                 {correctAnswer && correctAnswer.rationale && (
-                                    <div className="mt-2 text-sm text-slate-600 explanation-text">
+                                    <div className="explanation">
                                         <span className="font-semibold">Rationale:</span>{' '}
                                         <MathText text={correctAnswer.rationale} className="question-stem" itemIndex={`${question.questionNumber ?? (index + 1)}-rationale`} subject={question.subject || quiz.subject || 'Math'} />
                                     </div>
@@ -8795,6 +9075,72 @@ root.render(
     </ErrorBoundary>
 );
 
+</script>
+
+<script>
+    (function () {
+        const storageKey = 'theme-preference';
+        const prefsKey = 'prefs';
+        const root = document.documentElement;
+        const applyTheme = (theme) => {
+            const resolved = theme === 'dark' ? 'dark' : 'light';
+            root.classList.toggle('dark', resolved === 'dark');
+            root.dataset.theme = resolved;
+            try {
+                const storedPrefs = JSON.parse(localStorage.getItem(prefsKey) || '{}');
+                storedPrefs.theme = resolved;
+                localStorage.setItem(prefsKey, JSON.stringify(storedPrefs));
+            } catch (error) {
+                console.warn('Unable to persist theme preference:', error);
+            }
+            try {
+                localStorage.setItem(storageKey, resolved);
+            } catch (error) {
+                console.warn('Unable to persist theme toggle state:', error);
+            }
+            const toggle = document.getElementById('theme-toggle');
+            if (toggle) {
+                toggle.setAttribute('aria-label', resolved === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+                toggle.innerHTML = `<span class="text-slate-700 dark:text-slate-200 text-xs font-semibold">${resolved === 'dark' ? '☀' : '☾'}</span>`;
+            }
+        };
+
+        const init = () => {
+            const toggle = document.getElementById('theme-toggle');
+            if (!toggle) {
+                return;
+            }
+            let currentTheme = 'light';
+            try {
+                const storedPrefs = JSON.parse(localStorage.getItem(prefsKey) || '{}');
+                if (storedPrefs && typeof storedPrefs.theme === 'string') {
+                    currentTheme = storedPrefs.theme;
+                } else {
+                    const storedTheme = localStorage.getItem(storageKey);
+                    if (storedTheme === 'dark' || storedTheme === 'light') {
+                        currentTheme = storedTheme;
+                    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        currentTheme = 'dark';
+                    }
+                }
+            } catch (error) {
+                console.warn('Unable to read stored theme preference:', error);
+            }
+
+            applyTheme(currentTheme);
+
+            toggle.addEventListener('click', () => {
+                currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                applyTheme(currentTheme);
+            });
+        };
+
+        if (document.readyState !== 'loading') {
+            init();
+        } else {
+            document.addEventListener('DOMContentLoaded', init);
+        }
+    })();
 </script>
 
 </body>
