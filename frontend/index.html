@@ -162,6 +162,55 @@
             border-radius: 4px;
             font-weight: 500;
         }
+        .vocabulary-ticker {
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+        .vocabulary-ticker-track {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            width: max-content;
+            padding: 0.75rem 1rem;
+            animation: vocabularyTickerScroll 40s linear infinite;
+        }
+        .vocabulary-ticker:hover .vocabulary-ticker-track {
+            animation-play-state: paused;
+        }
+        .vocabulary-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+            white-space: nowrap;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .vocabulary-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 14px rgba(15, 23, 42, 0.15);
+        }
+        .vocabulary-chip-dot {
+            width: 0.6rem;
+            height: 0.6rem;
+            border-radius: 9999px;
+        }
+        .vocabulary-chip-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+        @keyframes vocabularyTickerScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
         .question-stem,
         .question-stem * {
             font-style: normal !important;
@@ -321,6 +370,510 @@ const SUBJECT_COLORS = {
         scoreBorder: 'border-orange-200',
     },
 };
+
+const SUBJECT_SHORT_LABELS = {
+    Science: 'Science',
+    Math: 'Math',
+    'Social Studies': 'Social Studies',
+    'Reasoning Through Language Arts (RLA)': 'RLA',
+};
+
+const VOCABULARY_SUBJECT_COLORS = {
+    Science: '#dc2626',
+    Math: '#0284c7',
+    'Social Studies': '#16a34a',
+    'Reasoning Through Language Arts (RLA)': '#7c3aed',
+};
+
+const MAX_TICKER_WORDS_PER_SUBJECT = 10;
+
+const FALLBACK_VOCABULARY = {
+    Science: [
+        {
+            term: "Hypothesis",
+            definition: "A testable explanation for an observation that can be supported or refuted through experimentation.",
+        },
+        {
+            term: "Variable",
+            definition: "A factor in an experiment that can change or be controlled.",
+        },
+        {
+            term: "Control Group",
+            definition: "The group in an experiment that does not receive the independent variable and is used for comparison.",
+        },
+        {
+            term: "Ecosystem",
+            definition: "A community of living organisms interacting with each other and with their physical environment.",
+        },
+        {
+            term: "Photosynthesis",
+            definition: "The process by which plants use light energy to convert carbon dioxide and water into glucose and oxygen.",
+        },
+        {
+            term: "Cellular Respiration",
+            definition: "The process in which cells break down glucose and oxygen to release energy, carbon dioxide, and water.",
+        },
+        {
+            term: "Mitosis",
+            definition: "A type of cell division that results in two identical daughter cells.",
+        },
+        {
+            term: "DNA",
+            definition: "The molecule that carries genetic information in living organisms.",
+        },
+        {
+            term: "Atom",
+            definition: "The smallest unit of an element that retains the properties of that element.",
+        },
+        {
+            term: "Molecule",
+            definition: "Two or more atoms that are chemically bonded together.",
+        },
+        {
+            term: "Gravity",
+            definition: "The force of attraction between objects with mass.",
+        },
+        {
+            term: "Qualitative Observation",
+            definition: "An observation that describes qualities or characteristics without using numbers.",
+        },
+        {
+            term: "Quantitative Observation",
+            definition: "An observation that uses numbers or measurements to describe what is observed.",
+        },
+        {
+            term: "Homeostasis",
+            definition: "The process by which organisms maintain stable internal conditions despite external changes.",
+        },
+        {
+            term: "Independent Variable",
+            definition: "The factor that is purposely changed in an experiment to test its effect.",
+        },
+        {
+            term: "Dependent Variable",
+            definition: "The factor that is measured in an experiment and changes in response to the independent variable.",
+        },
+        {
+            term: "Scientific Method",
+            definition: "A systematic process of asking questions, forming hypotheses, conducting experiments, and drawing conclusions.",
+        },
+        {
+            term: "Plate Tectonics",
+            definition: "The theory explaining the movement of Earth's lithospheric plates and the activity at their boundaries.",
+        },
+        {
+            term: "Fossil",
+            definition: "The preserved remains, impression, or trace of an organism from the past.",
+        },
+        {
+            term: "Energy Transfer",
+            definition: "The movement of energy from one object or system to another.",
+        },
+    ],
+    Math: [
+        {
+            term: "Integer",
+            definition: "A whole number that can be positive, negative, or zero.",
+        },
+        {
+            term: "Fraction",
+            definition: "A number that represents a part of a whole or a part of a set.",
+        },
+        {
+            term: "Decimal",
+            definition: "A number that uses a decimal point to show a value smaller than one.",
+        },
+        {
+            term: "Percent",
+            definition: "A ratio that compares a number to 100.",
+        },
+        {
+            term: "Ratio",
+            definition: "A comparison of two quantities by division.",
+        },
+        {
+            term: "Proportion",
+            definition: "An equation stating that two ratios are equivalent.",
+        },
+        {
+            term: "Equation",
+            definition: "A mathematical statement that shows two expressions are equal.",
+        },
+        {
+            term: "Variable",
+            definition: "A symbol, usually a letter, that represents an unknown value.",
+        },
+        {
+            term: "Coefficient",
+            definition: "The number that is multiplied by a variable in an algebraic expression.",
+        },
+        {
+            term: "Expression",
+            definition: "A mathematical phrase that can contain numbers, variables, and operations.",
+        },
+        {
+            term: "Inequality",
+            definition: "A mathematical statement that compares two expressions using greater than, less than, or equal to symbols.",
+        },
+        {
+            term: "Slope",
+            definition: "A measure of the steepness of a line, found by the ratio of rise over run.",
+        },
+        {
+            term: "Quadratic Equation",
+            definition: "An equation in the form ax² + bx + c = 0, where a, b, and c are constants and a ≠ 0.",
+        },
+        {
+            term: "Linear Function",
+            definition: "A function whose graph is a straight line.",
+        },
+        {
+            term: "Pythagorean Theorem",
+            definition: "A formula that relates the side lengths of a right triangle: a² + b² = c².",
+        },
+        {
+            term: "Mean",
+            definition: "The average of a set of numbers, found by adding the numbers and dividing by how many there are.",
+        },
+        {
+            term: "Median",
+            definition: "The middle value in an ordered set of numbers.",
+        },
+        {
+            term: "Mode",
+            definition: "The number that appears most often in a set of data.",
+        },
+        {
+            term: "Range",
+            definition: "The difference between the highest and lowest values in a data set.",
+        },
+        {
+            term: "Probability",
+            definition: "The likelihood that an event will occur, expressed as a ratio, fraction, or percent.",
+        },
+        {
+            term: "Factor",
+            definition: "A number that divides another number evenly.",
+        },
+        {
+            term: "Multiple",
+            definition: "The product of a number and any whole number.",
+        },
+        {
+            term: "Prime Number",
+            definition: "A whole number greater than 1 that has exactly two factors: 1 and itself.",
+        },
+        {
+            term: "Composite Number",
+            definition: "A whole number greater than 1 that has more than two factors.",
+        },
+        {
+            term: "Perimeter",
+            definition: "The total distance around the outside of a shape.",
+        },
+        {
+            term: "Area",
+            definition: "The amount of surface covered by a shape.",
+        },
+        {
+            term: "Volume",
+            definition: "The amount of space a three-dimensional object occupies.",
+        },
+        {
+            term: "Circumference",
+            definition: "The distance around a circle.",
+        },
+        {
+            term: "Exponent",
+            definition: "A small number written above and to the right of a base number that shows how many times the base is multiplied by itself.",
+        },
+        {
+            term: "Order of Operations",
+            definition: "The rules that tell you the correct sequence to evaluate a mathematical expression (PEMDAS).",
+        },
+    ],
+    'Reasoning Through Language Arts (RLA)': [
+        {
+            term: "Main Idea",
+            definition: "The central point or most important concept that an author wants the reader to understand.",
+        },
+        {
+            term: "Supporting Detail",
+            definition: "Information that explains, proves, or enhances the main idea.",
+        },
+        {
+            term: "Inference",
+            definition: "A conclusion reached by using evidence from the text and your own reasoning.",
+        },
+        {
+            term: "Tone",
+            definition: "The author's attitude toward the subject or audience.",
+        },
+        {
+            term: "Theme",
+            definition: "The underlying message or lesson the author wants to convey.",
+        },
+        {
+            term: "Thesis Statement",
+            definition: "A sentence that states the main point or argument of an essay.",
+        },
+        {
+            term: "Topic Sentence",
+            definition: "The sentence that expresses the main idea of a paragraph.",
+        },
+        {
+            term: "Transition",
+            definition: "A word or phrase that connects ideas and helps writing flow smoothly.",
+        },
+        {
+            term: "Evidence",
+            definition: "Facts, examples, or details used to support a claim.",
+        },
+        {
+            term: "Claim",
+            definition: "A statement or position that requires support.",
+        },
+        {
+            term: "Counterclaim",
+            definition: "An opposing viewpoint that challenges the writer's claim.",
+        },
+        {
+            term: "Audience",
+            definition: "The specific group of readers or listeners a text is written for.",
+        },
+        {
+            term: "Purpose",
+            definition: "The reason why an author writes a text: to inform, persuade, entertain, or explain.",
+        },
+        {
+            term: "Figurative Language",
+            definition: "Words or expressions that go beyond literal meaning, such as metaphors and similes.",
+        },
+        {
+            term: "Metaphor",
+            definition: "A comparison between two unlike things without using like or as.",
+        },
+        {
+            term: "Simile",
+            definition: "A comparison between two unlike things using the words like or as.",
+        },
+        {
+            term: "Connotation",
+            definition: "The emotional or cultural meaning attached to a word.",
+        },
+        {
+            term: "Denotation",
+            definition: "The literal, dictionary definition of a word.",
+        },
+        {
+            term: "Context Clues",
+            definition: "Hints within a sentence or paragraph that help the reader determine the meaning of an unfamiliar word.",
+        },
+        {
+            term: "Revising",
+            definition: "Improving a draft by adding, removing, or rearranging ideas for clarity and effectiveness.",
+        },
+        {
+            term: "Editing",
+            definition: "Correcting grammar, spelling, and punctuation errors in a draft.",
+        },
+        {
+            term: "Proofreading",
+            definition: "Reviewing a final draft carefully to catch small errors before publishing.",
+        },
+        {
+            term: "Persuasive Writing",
+            definition: "Writing that aims to convince the reader to accept a viewpoint or take a specific action.",
+        },
+        {
+            term: "Narrative Writing",
+            definition: "Writing that tells a story with characters, setting, and plot.",
+        },
+        {
+            term: "Informational Text",
+            definition: "Nonfiction writing that provides facts about a topic.",
+        },
+        {
+            term: "Point of View",
+            definition: "The perspective from which a story is told.",
+        },
+        {
+            term: "First-Person Point of View",
+            definition: "A storytelling perspective in which the narrator is a character in the story and uses words like I and we.",
+        },
+        {
+            term: "Third-Person Point of View",
+            definition: "A storytelling perspective where the narrator is outside the story and uses words like he, she, or they.",
+        },
+        {
+            term: "Chronological Order",
+            definition: "A text structure that presents events in the order they happened.",
+        },
+        {
+            term: "Cause and Effect",
+            definition: "A text structure that explains why something happens and the result of it.",
+        },
+    ],
+    'Social Studies': [
+        {
+            term: "Democracy",
+            definition: "A system of government in which citizens hold the power to make decisions through voting.",
+        },
+        {
+            term: "Republic",
+            definition: "A form of government in which citizens elect representatives to make decisions on their behalf.",
+        },
+        {
+            term: "Constitution",
+            definition: "A written plan that outlines the structure, powers, and limits of a government.",
+        },
+        {
+            term: "Amendment",
+            definition: "A change or addition to a legal or governmental document, such as the U.S. Constitution.",
+        },
+        {
+            term: "Federalism",
+            definition: "A system of government in which power is divided between a national government and state governments.",
+        },
+        {
+            term: "Separation of Powers",
+            definition: "The division of government responsibilities into distinct branches to prevent any one branch from becoming too powerful.",
+        },
+        {
+            term: "Checks and Balances",
+            definition: "A system that allows each branch of government to limit the powers of the other branches.",
+        },
+        {
+            term: "Suffrage",
+            definition: "The right to vote in political elections.",
+        },
+        {
+            term: "Civil Rights",
+            definition: "The rights of citizens to political and social freedom and equality.",
+        },
+        {
+            term: "Industrialization",
+            definition: "The development of industries in a country or region on a wide scale.",
+        },
+        {
+            term: "Urbanization",
+            definition: "The growth of cities and the movement of people from rural areas to urban centers.",
+        },
+        {
+            term: "Immigration",
+            definition: "The movement of people into a country from another country.",
+        },
+        {
+            term: "Cultural Diffusion",
+            definition: "The spread of cultural beliefs and practices from one group to another.",
+        },
+        {
+            term: "Economy",
+            definition: "The system by which goods and services are produced, distributed, and consumed.",
+        },
+        {
+            term: "Inflation",
+            definition: "A general increase in prices and a decrease in the purchasing value of money.",
+        },
+        {
+            term: "Gross Domestic Product",
+            definition: "The total value of all goods and services produced in a country during a specific time period.",
+        },
+        {
+            term: "Supply and Demand",
+            definition: "The relationship between the amount of a product available and the desire of buyers for it, which affects price.",
+        },
+        {
+            term: "Primary Source",
+            definition: "An original document or firsthand account created at the time of an event.",
+        },
+        {
+            term: "Secondary Source",
+            definition: "A document or account that interprets or analyzes primary sources.",
+        },
+        {
+            term: "Manifest Destiny",
+            definition: "The 19th-century belief that the United States was destined to expand across the North American continent.",
+        },
+        {
+            term: "Reconstruction",
+            definition: "The period after the U.S. Civil War when southern states were reorganized and reintegrated into the Union.",
+        },
+        {
+            term: "Great Depression",
+            definition: "A severe worldwide economic downturn that took place during the 1930s.",
+        },
+        {
+            term: "Cold War",
+            definition: "The period of political tension and military rivalry between the United States and the Soviet Union after World War II.",
+        },
+        {
+            term: "Bill of Rights",
+            definition: "The first ten amendments to the U.S. Constitution that protect individual liberties.",
+        },
+        {
+            term: "Legislature",
+            definition: "The branch of government responsible for making laws.",
+        },
+        {
+            term: "Executive Branch",
+            definition: "The branch of government responsible for enforcing laws.",
+        },
+        {
+            term: "Judicial Branch",
+            definition: "The branch of government responsible for interpreting laws and administering justice.",
+        },
+        {
+            term: "Monarchy",
+            definition: "A form of government in which a single person, such as a king or queen, rules for life.",
+        },
+        {
+            term: "Tariff",
+            definition: "A tax imposed on imported goods.",
+        },
+        {
+            term: "Treaty",
+            definition: "A formal agreement between two or more countries.",
+        },
+    ],
+};
+
+function normalizeVocabularyEntry(entry) {
+    if (!entry) return null;
+    if (typeof entry === 'string') {
+        const trimmed = entry.trim();
+        return trimmed ? { term: trimmed, definition: '' } : null;
+    }
+    if (typeof entry !== 'object') return null;
+    const term = typeof entry.term === 'string' ? entry.term.trim() : '';
+    if (!term) return null;
+    const definition = typeof entry.definition === 'string' ? entry.definition.trim() : '';
+    const example = typeof entry.example === 'string' ? entry.example.trim() : '';
+    const normalized = { term, definition };
+    if (example) {
+        normalized.example = example;
+    }
+    return normalized;
+}
+
+function mergeVocabularyData(base, override) {
+    const result = { ...base };
+    if (!override || typeof override !== 'object') {
+        return result;
+    }
+    Object.entries(override).forEach(([subject, entries]) => {
+        if (!Array.isArray(entries)) {
+            return;
+        }
+        const normalizedEntries = entries
+            .map(normalizeVocabularyEntry)
+            .filter(Boolean);
+        if (normalizedEntries.length) {
+            result[subject] = normalizedEntries;
+        }
+    });
+    return result;
+}
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -2616,6 +3169,27 @@ function App() {
     const [showNamePrompt, setShowNamePrompt] = useState(false);
     const [isMathToolsOpen, setIsMathToolsOpen] = useState(false);
     const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
+    const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
+
+    useEffect(() => {
+        let isMounted = true;
+        (async () => {
+            try {
+                const response = await fetch('data/vocabulary.json', { cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${response.status}`);
+                }
+                const data = await response.json();
+                if (!isMounted) return;
+                setVocabulary(mergeVocabularyData(FALLBACK_VOCABULARY, data));
+            } catch (err) {
+                console.warn('Unable to load vocabulary data:', err);
+            }
+        })();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
     const [mathToolsInitialized, setMathToolsInitialized] = useState(false);
 
     const openMathTools = useCallback((tab = 'graphing') => {
@@ -3044,11 +3618,12 @@ function App() {
             case 'start':
             default:
                 return (
-                    <StartScreen 
+                    <StartScreen
                         currentUser={currentUser}
                         onLogout={handleLogout}
                         progress={progress}
-                        onSelectQuiz={startQuiz} 
+                        onSelectQuiz={startQuiz}
+                        vocabulary={vocabulary}
                         onStartPopQuiz={handleStartPopQuiz}
                         onStartComprehensiveExam={handleGenerateComprehensiveExam}
                         setIsLoading={setIsLoading}
@@ -3576,6 +4151,133 @@ function ProgressDashboard({ progress, onSubjectClick }) {
     );
 }
 
+function VocabularyModal({ subject, words, onClose }) {
+    if (!subject || !Array.isArray(words) || words.length === 0) {
+        return null;
+    }
+    const colorScheme = SUBJECT_COLORS[subject] || DEFAULT_COLOR_SCHEME;
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4">
+            <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div className={`flex items-center justify-between px-6 py-4 border-b ${colorScheme.scoreBorder || 'border-slate-200'} bg-slate-50`}>
+                    <h2 className="text-xl font-bold text-slate-800">{subject} Vocabulary</h2>
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="text-2xl leading-none text-slate-500 hover:text-slate-700"
+                        aria-label="Close vocabulary list"
+                    >
+                        &times;
+                    </button>
+                </div>
+                <div className="px-6 py-4 max-h-[70vh] overflow-y-auto space-y-4">
+                    {words.map((word) => (
+                        <div key={word.term} className="border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                            <h3 className="text-lg font-semibold text-slate-900">{word.term}</h3>
+                            {word.definition && <p className="text-sm text-slate-600 mt-2 leading-relaxed">{word.definition}</p>}
+                            {word.example && <p className="text-sm text-slate-500 italic mt-2">Example: {word.example}</p>}
+                        </div>
+                    ))}
+                </div>
+                <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end">
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className={`px-4 py-2 rounded-lg font-semibold text-white ${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover}`}
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function VocabularyTicker({ vocabulary, onWordClick }) {
+    const entries = useMemo(() => {
+        if (!vocabulary) return [];
+        return Object.entries(vocabulary)
+            .flatMap(([subject, words]) => {
+                if (!Array.isArray(words) || !words.length) return [];
+                return words
+                    .slice(0, MAX_TICKER_WORDS_PER_SUBJECT)
+                    .map((word) => ({ subject, term: word.term }))
+                    .filter((item) => item.term);
+            });
+    }, [vocabulary]);
+
+    if (!entries.length) {
+        return null;
+    }
+
+    const repeatedEntries = [...entries, ...entries];
+
+    return (
+        <div className="vocabulary-spotlight border border-slate-200 rounded-2xl overflow-hidden shadow-md">
+            <div className="flex items-center justify-between px-4 py-2 bg-slate-900 text-white">
+                <span className="text-sm font-semibold uppercase tracking-wide">Vocabulary Spotlight</span>
+                <span className="text-xs text-white/70 hidden sm:inline">Click any word to view the full list.</span>
+            </div>
+            <div className="vocabulary-ticker">
+                <div className="vocabulary-ticker-track">
+                    {repeatedEntries.map((item, index) => {
+                        const color = VOCABULARY_SUBJECT_COLORS[item.subject] || '#0f172a';
+                        const shortLabel = SUBJECT_SHORT_LABELS[item.subject] || item.subject;
+                        return (
+                            <button
+                                key={`${item.subject}-${item.term}-${index}`}
+                                type="button"
+                                onClick={() => onWordClick?.(item.subject)}
+                                className="vocabulary-chip"
+                                title={`View ${item.subject} vocabulary`}
+                            >
+                                <span className="vocabulary-chip-dot" style={{ backgroundColor: color }}></span>
+                                <span>{item.term}</span>
+                                <span className="vocabulary-chip-label">{shortLabel}</span>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function SubjectVocabularyPreview({ subject, words, onViewAll }) {
+    if (!Array.isArray(words) || !words.length) {
+        return null;
+    }
+    const previewWords = words.slice(0, 6);
+    return (
+        <div className="bg-white/10 border border-white/40 rounded-xl p-5 mb-6 shadow-inner backdrop-blur-sm">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div>
+                    <h3 className="text-xl font-bold text-white">Key Vocabulary</h3>
+                    <p className="text-sm text-white/80">Preview important terms for {subject}.</p>
+                </div>
+                <button
+                    type="button"
+                    onClick={onViewAll}
+                    className="self-start px-4 py-2 bg-white/90 text-slate-900 font-semibold rounded-lg shadow-sm hover:bg-white"
+                >
+                    View Full Vocabulary List
+                </button>
+            </div>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                {previewWords.map((word) => (
+                    <div key={word.term} className="bg-white/95 text-slate-900 rounded-lg p-4 shadow-sm">
+                        <p className="text-lg font-semibold">{word.term}</p>
+                        {word.definition && <p className="text-sm text-slate-600 mt-2 leading-relaxed">{word.definition}</p>}
+                    </div>
+                ))}
+            </div>
+            {words.length > previewWords.length && (
+                <p className="mt-3 text-sm text-white/80">+ {words.length - previewWords.length} more terms waiting in the full list.</p>
+            )}
+        </div>
+    );
+}
+
 const ICONS = { GlobeIcon, BookOpenIcon, BeakerIcon, CalculatorIcon, ChartBarIcon, VariableIcon, ShapesIcon };
 
 function FormulaSheetModal({ onClose }) {
@@ -3651,13 +4353,16 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
+function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
+    const [vocabModalSubject, setVocabModalSubject] = useState(null);
+    const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
     const userDisplayName = currentUser?.name || currentUser?.email || 'Learner';
     const userInitial = userDisplayName ? userDisplayName.trim().charAt(0).toUpperCase() : 'U';
+    const hasVocabulary = Object.values(vocabularyData).some(words => Array.isArray(words) && words.length > 0);
 
     const handleSelectSubject = (subject) => {
         setSelectedSubject(subject);
@@ -3667,6 +4372,14 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 
     const handleSelectCategory = (category) => {
         setSelectedCategory(category);
+    };
+
+    const handleViewVocabulary = (subject) => {
+        if (!subject) return;
+        const words = vocabularyData[subject];
+        if (Array.isArray(words) && words.length > 0) {
+            setVocabModalSubject(subject);
+        }
     };
 
     const handleBack = () => {
@@ -3679,11 +4392,16 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
 
     // --- NEW: If detailed view is active, render it instead of the main dashboard ---
     if (detailedViewSubject) {
-        return <DetailedProgressView
+        return (
+            <>
+                <DetailedProgressView
                     subject={detailedViewSubject}
                     progressData={progress[detailedViewSubject]}
                     onBack={() => setDetailedViewSubject(null)}
-                />;
+                />
+                {vocabularyModal}
+            </>
+        );
     }
 
     // --- NEW: Logic to get topics for the dropdown (moved from AIQuizGenerator) ---
@@ -3691,6 +4409,16 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
     const availableTopics = selectedSubject && AppData[selectedSubject]?.categories
         ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
         : [];
+
+    const vocabularyModal = (vocabModalSubject && Array.isArray(vocabularyData[vocabModalSubject]) && vocabularyData[vocabModalSubject].length > 0)
+        ? (
+            <VocabularyModal
+                subject={vocabModalSubject}
+                words={vocabularyData[vocabModalSubject]}
+                onClose={() => setVocabModalSubject(null)}
+            />
+        )
+        : null;
 
     const Breadcrumb = ({ variant = 'default' } = {}) => {
         const isOnColor = variant === 'onColor';
@@ -3724,29 +4452,32 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
         const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
         return (
-            <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'}`}>
-                <Breadcrumb variant="onColor" />
-                <h2 className="text-3xl font-extrabold text-white mb-4">{selectedCategory}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {topics.map(topic => (
-                        <div
-                            key={topic.id}
-                            className={`rounded-xl border ${subjectColors.surfaceBorder || 'border-white/40'} bg-white/95 text-slate-900 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl`}
-                        >
-                            <div>
-                                <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
-                                <p className="text-slate-600 text-sm my-3 flex-grow">{topic.description}</p>
-                            </div>
-                            <button
-                                onClick={() => onSelectQuiz(topic, selectedSubject)}
-                                className={`w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition ${subjectColors.accent || DEFAULT_COLOR_SCHEME.accent} ${subjectColors.accentHover || DEFAULT_COLOR_SCHEME.accentHover} ${subjectColors.accentText || 'text-white'}`}
+            <>
+                <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'}`}>
+                    <Breadcrumb variant="onColor" />
+                    <h2 className="text-3xl font-extrabold text-white mb-4">{selectedCategory}</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {topics.map(topic => (
+                            <div
+                                key={topic.id}
+                                className={`rounded-xl border ${subjectColors.surfaceBorder || 'border-white/40'} bg-white/95 text-slate-900 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl`}
                             >
-                                {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}
-                            </button>
-                        </div>
-                    ))}
+                                <div>
+                                    <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
+                                    <p className="text-slate-600 text-sm my-3 flex-grow">{topic.description}</p>
+                                </div>
+                                <button
+                                    onClick={() => onSelectQuiz(topic, selectedSubject)}
+                                    className={`w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition ${subjectColors.accent || DEFAULT_COLOR_SCHEME.accent} ${subjectColors.accentHover || DEFAULT_COLOR_SCHEME.accentHover} ${subjectColors.accentText || 'text-white'}`}
+                                >
+                                    {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+                {vocabularyModal}
+            </>
         );
     }
 
@@ -3754,134 +4485,153 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
     if (selectedSubject) {
         const subject = AppData[selectedSubject];
         const subjectColors = SUBJECT_COLORS[selectedSubject] || {};
+        const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         return (
-            <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || 'bg-slate-800'} text-white`}>
-                <Breadcrumb variant="onColor" />
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-                    <h2 className="text-3xl font-extrabold text-white">{selectedSubject}</h2>
-                    {selectedSubject === 'Math' && (
-                        <div className="flex flex-wrap gap-2">
-                            <button
-                                onClick={() => onOpenMathTools?.()}
-                                className="px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg shadow-sm hover:bg-sky-600 transition"
-                            >
-                                Math Practice Tools
-                            </button>
-                            <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
-                                Formula Sheet
-                            </button>
-                        </div>
-                    )}
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {Object.entries(subject.categories).map(([categoryName, category]) => (
-                        <button
-                            key={categoryName}
-                            onClick={() => handleSelectCategory(categoryName)}
-                            className={`text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 ${subjectColors.hoverBorder || ''}`}
-                        >
-                            <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-800'}`}>{categoryName}</h3>
-                            <p className="text-slate-500 text-sm my-2 flex-grow">{category.description}</p>
-                        </button>
-                    ))}
-                    {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
-                        <>
-                            {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
-                            <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
-                                <div>
-                                    <div className="flex items-center justify-center gap-2">
-                                        <SparklesIcon className="h-8 w-8 text-white" />
-                                        <h3 className="text-xl font-bold text-white">Smith a Quiz</h3>
-                                    </div>
-                                    <p className="text-white/80 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
-                                    <div className="mt-2">
-                                        <label className="block text-white font-semibold mb-1" htmlFor="ai-quiz-topic">Choose a topic</label>
-                                        <select
-                                            id="ai-quiz-topic"
-                                            value={aiQuizTopic}
-                                            onChange={(e) => setAiQuizTopic(e.target.value)}
-                                            className="w-full px-3 py-2 border border-white/70 bg-white/90 text-slate-800 rounded-md focus:outline-none focus:ring-2 focus:ring-white/70"
-                                        >
-                                            <option value="">Select a topic</option>
-                                            {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
-                                        </select>
-                                    </div>
-                                </div>
+            <>
+                <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || 'bg-slate-800'} text-white`}>
+                    <Breadcrumb variant="onColor" />
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
+                        <h2 className="text-3xl font-extrabold text-white">{selectedSubject}</h2>
+                        {selectedSubject === 'Math' && (
+                            <div className="flex flex-wrap gap-2">
                                 <button
-                                    onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
-                                    disabled={!aiQuizTopic}
-                                    className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/50 disabled:text-white/70 disabled:cursor-not-allowed"
+                                    onClick={() => onOpenMathTools?.()}
+                                    className="px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg shadow-sm hover:bg-sky-600 transition"
                                 >
-                                    Generate Quiz
+                                    Math Practice Tools
+                                </button>
+                                <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
+                                    Formula Sheet
                                 </button>
                             </div>
-                            {/* --- END OF UPDATED BOX --- */}
-
-                            <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-center items-center bg-white/10 hover:shadow-lg hover:border-white transition-all md:col-span-2 lg:col-span-1">
-                                <SparklesIcon className="h-8 w-8 text-white" />
-                                <h3 className="text-xl font-bold text-white mt-2">Comprehensive Exam</h3>
-                                <p className="text-white/80 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
-                                <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition">
-                                    Start Comprehensive Exam
-                                </button>
-                            </div>
-                        </>
+                        )}
+                    </div>
+                    {subjectVocabulary.length > 0 && (
+                        <SubjectVocabularyPreview
+                            subject={selectedSubject}
+                            words={subjectVocabulary}
+                            onViewAll={() => handleViewVocabulary(selectedSubject)}
+                        />
                     )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {Object.entries(subject.categories).map(([categoryName, category]) => (
+                            <button
+                                key={categoryName}
+                                onClick={() => handleSelectCategory(categoryName)}
+                                className={`text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 ${subjectColors.hoverBorder || ''}`}
+                            >
+                                <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-800'}`}>{categoryName}</h3>
+                                <p className="text-slate-500 text-sm my-2 flex-grow">{category.description}</p>
+                            </button>
+                        ))}
+                        {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
+                            <>
+                                {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
+                                <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
+                                    <div>
+                                        <div className="flex items-center justify-center gap-2">
+                                            <SparklesIcon className="h-8 w-8 text-white" />
+                                            <h3 className="text-xl font-bold text-white">Smith a Quiz</h3>
+                                        </div>
+                                        <p className="text-white/80 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
+                                        <div className="mt-2">
+                                            <label className="block text-white font-semibold mb-1" htmlFor="ai-quiz-topic">Choose a topic</label>
+                                            <select
+                                                id="ai-quiz-topic"
+                                                value={aiQuizTopic}
+                                                onChange={(e) => setAiQuizTopic(e.target.value)}
+                                                className="w-full px-3 py-2 border border-white/70 bg-white/90 text-slate-800 rounded-md focus:outline-none focus:ring-2 focus:ring-white/70"
+                                            >
+                                                <option value="">Select a topic</option>
+                                                {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
+                                        disabled={!aiQuizTopic}
+                                        className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/50 disabled:text-white/70 disabled:cursor-not-allowed"
+                                    >
+                                        Generate Quiz
+                                    </button>
+                                </div>
+                                {/* --- END OF UPDATED BOX --- */}
+
+                                <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-center items-center bg-white/10 hover:shadow-lg hover:border-white transition-all md:col-span-2 lg:col-span-1">
+                                    <SparklesIcon className="h-8 w-8 text-white" />
+                                    <h3 className="text-xl font-bold text-white mt-2">Comprehensive Exam</h3>
+                                    <p className="text-white/80 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
+                                    <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition">
+                                        Start Comprehensive Exam
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
+                {vocabularyModal}
+            </>
         );
     }
 
     // View 1: Subject Selection (Default)
     return (
-        <div className="fade-in">
-            <header className="text-center pb-4 mb-4">
-                {currentUser ? (
-                    <div className="flex flex-col items-center gap-2">
-                        {currentUser.picture ? (
-                            <img src={currentUser.picture} alt="User" className="w-16 h-16 rounded-full shadow-lg" />
-                        ) : (
-                            <div className="w-16 h-16 rounded-full bg-sky-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg">
-                                {userInitial}
-                            </div>
-                        )}
-                        <h1 className="text-4xl font-extrabold text-slate-800">Welcome, {userDisplayName}!</h1>
-                        <p className="text-slate-500">Please select a subject to begin.</p>
-                        <button onClick={onLogout} className="text-sm font-semibold text-sky-600 hover:text-sky-800">[ Log Out ]</button>
+        <>
+            <div className="fade-in">
+                <header className="text-center pb-4 mb-4">
+                    {currentUser ? (
+                        <div className="flex flex-col items-center gap-2">
+                            {currentUser.picture ? (
+                                <img src={currentUser.picture} alt="User" className="w-16 h-16 rounded-full shadow-lg" />
+                            ) : (
+                                <div className="w-16 h-16 rounded-full bg-sky-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg">
+                                    {userInitial}
+                                </div>
+                            )}
+                            <h1 className="text-4xl font-extrabold text-slate-800">Welcome, {userDisplayName}!</h1>
+                            <p className="text-slate-500">Please select a subject to begin.</p>
+                            <button onClick={onLogout} className="text-sm font-semibold text-sky-600 hover:text-sky-800">[ Log Out ]</button>
+                        </div>
+                    ) : (
+                        <>
+                            <h1 className="text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
+                            <p className="text-slate-500 mt-2">An interactive learning experience.</p>
+                        </>
+                    )}
+                </header>
+                {currentUser && <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />}
+                {hasVocabulary && (
+                    <div className="mb-6">
+                        <VocabularyTicker vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
                     </div>
-                ) : (
-                    <>
-                        <h1 className="text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
-                        <p className="text-slate-500 mt-2">An interactive learning experience.</p>
-                    </>
                 )}
-            </header>
-            {currentUser && <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />}
-            <div className="my-6 text-center">
-                <button
-                    onClick={onStartPopQuiz}
-                    className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105"
-                >
-                    Start a 5-Minute Pop Quiz ⏱️
-                </button>
+                <div className="my-6 text-center">
+                    <button
+                        onClick={onStartPopQuiz}
+                        className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105"
+                    >
+                        Start a 5-Minute Pop Quiz ⏱️
+                    </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {Object.entries(AppData).map(([subjectName, subject]) => {
+                        const IconComponent = ICONS[subject.icon];
+                        const colorScheme = SUBJECT_COLORS[subjectName] || {};
+                        return (
+                            <button
+                                key={subjectName}
+                                onClick={() => handleSelectSubject(subjectName)}
+                                className={`group text-center p-6 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 ${colorScheme.background || 'bg-sky-600'} ${colorScheme.hoverBackground || 'hover:bg-sky-700'} ${colorScheme.border || 'border-sky-600'}`}
+                            >
+                                <IconComponent className="h-16 w-16 mx-auto text-white" />
+                                <h2 className="text-2xl font-bold text-white mt-4">{subjectName}</h2>
+                            </button>
+                        );
+                    })}
+                </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {Object.entries(AppData).map(([subjectName, subject]) => {
-                    const IconComponent = ICONS[subject.icon];
-                    const colorScheme = SUBJECT_COLORS[subjectName] || {};
-                    return (
-                        <button
-                            key={subjectName}
-                            onClick={() => handleSelectSubject(subjectName)}
-                            className={`group text-center p-6 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 ${colorScheme.background || 'bg-sky-600'} ${colorScheme.hoverBackground || 'hover:bg-sky-700'} ${colorScheme.border || 'border-sky-600'}`}
-                        >
-                            <IconComponent className="h-16 w-16 mx-auto text-white" />
-                            <h2 className="text-2xl font-bold text-white mt-4">{subjectName}</h2>
-                        </button>
-                    );
-                })}
-            </div>
-        </div>
+            {vocabularyModal}
+        </>
     );
 }
 
