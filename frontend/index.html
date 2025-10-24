@@ -107,7 +107,56 @@
         window.previewBypass = previewBypass;
     </script>
 
+    <script>
+        (function preloadPreferences() {
+            if (typeof window === 'undefined' || typeof document === 'undefined') {
+                return;
+            }
+            const root = document.documentElement;
+            const sizeClasses = ['fs-sm', 'fs-md', 'fs-lg', 'fs-xl'];
+            try {
+                const stored = localStorage.getItem('prefs');
+                if (!stored) {
+                    return;
+                }
+                const parsed = JSON.parse(stored);
+                if (parsed && typeof parsed === 'object') {
+                    sizeClasses.forEach((cls) => root.classList.remove(cls));
+                    const sizes = new Set(['sm', 'md', 'lg', 'xl']);
+                    const themes = new Set(['light', 'dark', 'system']);
+                    const fontSize = sizes.has(parsed.fontSize) ? parsed.fontSize : 'md';
+                    const theme = themes.has(parsed.theme) ? parsed.theme : 'system';
+                    root.classList.add(`fs-${fontSize}`);
+                    root.dataset.theme = theme;
+                }
+            } catch (error) {
+                console.warn('Failed to preload saved preferences:', error);
+            }
+        })();
+    </script>
+
     <style>
+        :root.fs-sm { font-size: 14px; }
+        :root.fs-md { font-size: 16px; }
+        :root.fs-lg { font-size: 18px; }
+        :root.fs-xl { font-size: 20px; }
+
+        :root[data-theme='light'] { color-scheme: light; }
+        :root[data-theme='dark'] { color-scheme: dark; }
+        :root[data-theme='system'] { color-scheme: light; }
+
+        :root[data-theme='light'] body,
+        :root[data-theme='system'] body { background-color: #f8fafc; color: #0f172a; }
+        :root[data-theme='dark'] body { background-color: #0f172a; color: #e2e8f0; }
+        @media (prefers-color-scheme: dark) {
+            :root[data-theme='system'] { color-scheme: dark; }
+            :root[data-theme='system'] body { background-color: #0f172a; color: #e2e8f0; }
+        }
+        @media (prefers-color-scheme: light) {
+            :root[data-theme='system'] { color-scheme: light; }
+            :root[data-theme='system'] body { background-color: #f8fafc; color: #0f172a; }
+        }
+
         body { font-family: 'Inter', sans-serif; }
         body::before {
             content: "";
@@ -3054,30 +3103,102 @@ const shuffleArray = (array) => {
     return newArray;
 };
 
+const VALID_FONT_SIZES = new Set(['sm', 'md', 'lg', 'xl']);
+const VALID_THEMES = new Set(['light', 'dark', 'system']);
+const DEFAULT_PREFERENCES = Object.freeze({ fontSize: 'md', theme: 'system' });
+
+const normalizePreferences = (prefs = {}) => ({
+    fontSize: VALID_FONT_SIZES.has(prefs.fontSize) ? prefs.fontSize : DEFAULT_PREFERENCES.fontSize,
+    theme: VALID_THEMES.has(prefs.theme) ? prefs.theme : DEFAULT_PREFERENCES.theme,
+});
+
+async function fetchJSON(url, options = {}) {
+    const { headers, ...rest } = options || {};
+    const finalHeaders = headers ? { ...headers } : undefined;
+    const response = await fetch(url, {
+        credentials: 'include',
+        ...rest,
+        headers: finalHeaders,
+    });
+
+    if (!response.ok) {
+        let message = `Request failed (${response.status})`;
+        try {
+            const text = await response.text();
+            message = text || message;
+        } catch (error) {
+            // ignore parse failure
+        }
+        throw new Error(message);
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+        return response.json();
+    }
+    return null;
+}
+
 // --- App Structure Components ---
-function AppHeader({ currentUser, onLogout }) {
+function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSettings, activePanel }) {
     const displayName = currentUser?.name || currentUser?.email || 'Learner';
     const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'U';
+    const isProfileActive = activePanel === 'profile';
+    const isSettingsActive = activePanel === 'settings';
+
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
-            <div className="w-full max-w-4xl mx-auto p-4 flex justify-between items-center">
-                <h1 className="text-xl font-bold text-sky-700">Mr. Smith's Learning Canvas</h1>
+            <div className="w-full max-w-5xl mx-auto p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                    type="button"
+                    onClick={onShowHome}
+                    className="text-left text-xl font-bold text-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 rounded-md"
+                >
+                    Mr. Smith's Learning Canvas
+                </button>
                 {currentUser && (
-                    <div className="flex items-center gap-4">
-                        {currentUser.picture ? (
-                            <img src={currentUser.picture} alt="User" className="w-8 h-8 rounded-full" />
-                        ) : (
-                            <div className="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold">
-                                {initial}
-                            </div>
-                        )}
-                        <span className="font-semibold text-slate-600">Welcome, {currentUser.name}!</span>
-                        <button
-                            onClick={onLogout}
-                            className="text-sm font-semibold text-sky-600 hover:text-sky-800"
-                        >
-                            Log Out
-                        </button>
+                    <div className="w-full sm:w-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                        <div className="flex items-center gap-3">
+                            {currentUser.picture ? (
+                                <img src={currentUser.picture} alt="User avatar" className="w-9 h-9 rounded-full object-cover" />
+                            ) : (
+                                <div className="w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold">
+                                    {initial}
+                                </div>
+                            )}
+                            <span className="font-semibold text-slate-600 text-sm sm:text-base">
+                                Welcome, {currentUser.name || 'Learner'}!
+                            </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <button
+                                type="button"
+                                id="btnProfile"
+                                onClick={onShowProfile}
+                                className="px-3 py-2 text-sm font-semibold text-sky-700 border border-sky-200 rounded-lg hover:bg-sky-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                                aria-controls="profileView"
+                                aria-expanded={isProfileActive}
+                            >
+                                Profile
+                            </button>
+                            <button
+                                type="button"
+                                id="btnSettings"
+                                onClick={onShowSettings}
+                                className="px-3 py-2 text-sm font-semibold text-sky-700 border border-sky-200 rounded-lg hover:bg-sky-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                                aria-controls="settingsView"
+                                aria-expanded={isSettingsActive}
+                            >
+                                Settings
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onLogout}
+                                className="px-3 py-2 text-sm font-semibold text-rose-600 hover:text-rose-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:ring-offset-2"
+                            >
+                                Log Out
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
@@ -3097,9 +3218,14 @@ function NamePromptModal({ user, onSave }) {
         }
     }, [user]);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (firstName.trim() && lastName.trim()) {
-            onSave(firstName.trim(), lastName.trim());
+            try {
+                await onSave(firstName.trim(), lastName.trim());
+            } catch (error) {
+                console.error('Failed to save name from modal:', error);
+                alert('Unable to save your name right now. Please try again.');
+            }
         } else {
             alert('Please enter both a first and last name.');
         }
@@ -3192,6 +3318,48 @@ function App() {
     }, []);
     const [mathToolsInitialized, setMathToolsInitialized] = useState(false);
 
+    const hasLocalPrefsRef = useRef(false);
+    const [preferences, setPreferences] = useState(() => {
+        if (typeof window === 'undefined') {
+            return { ...DEFAULT_PREFERENCES };
+        }
+        try {
+            const stored = window.localStorage.getItem('prefs');
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                hasLocalPrefsRef.current = true;
+                return normalizePreferences(parsed);
+            }
+        } catch (error) {
+            console.warn('Failed to restore saved preferences:', error);
+        }
+        return { ...DEFAULT_PREFERENCES };
+    });
+    const [profileData, setProfileData] = useState(null);
+    const [profileLoading, setProfileLoading] = useState(false);
+    const [profileError, setProfileError] = useState(null);
+    const [nameDraft, setNameDraft] = useState('');
+    const [nameStatus, setNameStatus] = useState('');
+    const [nameSaving, setNameSaving] = useState(false);
+    const [settingsStatus, setSettingsStatus] = useState('');
+    const [settingsSaving, setSettingsSaving] = useState(false);
+
+    useEffect(() => {
+        if (typeof document === 'undefined') {
+            return;
+        }
+        const root = document.documentElement;
+        const sizeClasses = ['fs-sm', 'fs-md', 'fs-lg', 'fs-xl'];
+        sizeClasses.forEach((cls) => root.classList.remove(cls));
+        root.classList.add(`fs-${preferences.fontSize}`);
+        root.dataset.theme = preferences.theme;
+        try {
+            window.localStorage.setItem('prefs', JSON.stringify(preferences));
+        } catch (error) {
+            console.warn('Unable to persist preferences locally:', error);
+        }
+    }, [preferences]);
+
     const openMathTools = useCallback((tab = 'graphing') => {
         setMathToolsActiveTab(tab);
         setIsMathToolsOpen(true);
@@ -3205,6 +3373,181 @@ function App() {
     const recalcProgress = useCallback((scoresList) => {
         setProgress(buildProgressFromScores(scoresList));
     }, []);
+
+    const applyPreferenceUpdate = useCallback((partialPrefs, options = {}) => {
+        setPreferences((prev) => {
+            const merged = normalizePreferences({ ...prev, ...partialPrefs });
+            return merged;
+        });
+        if (options.markLocal) {
+            hasLocalPrefsRef.current = true;
+        }
+    }, []);
+
+    const handleSettingsInstantChange = useCallback((partialPrefs) => {
+        setSettingsStatus('');
+        applyPreferenceUpdate(partialPrefs, { markLocal: true });
+    }, [applyPreferenceUpdate]);
+
+    const handlePersistPreferences = useCallback(async ({ fontSize, theme }) => {
+        const nextPrefs = normalizePreferences({ fontSize, theme });
+        applyPreferenceUpdate(nextPrefs, { markLocal: true });
+        setSettingsSaving(true);
+        setSettingsStatus('');
+        try {
+            const response = await fetchJSON('/api/profile/preferences', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(nextPrefs),
+            });
+            if (response) {
+                applyPreferenceUpdate({
+                    fontSize: response.fontSize,
+                    theme: response.theme,
+                });
+            }
+            setSettingsStatus('Settings saved.');
+        } catch (error) {
+            console.warn('Failed to persist preferences:', error);
+            setSettingsStatus('Settings saved locally. We will sync when the server is available.');
+        } finally {
+            setSettingsSaving(false);
+        }
+    }, [applyPreferenceUpdate]);
+
+    const updateLocalUserName = useCallback((name, { markCustomized = false } = {}) => {
+        setCurrentUser((prev) => {
+            if (!prev) {
+                return prev;
+            }
+            const updated = { ...prev, name };
+            try {
+                if (typeof window !== 'undefined' && window.localStorage) {
+                    window.localStorage.setItem('appUser', JSON.stringify(updated));
+                    if (markCustomized && prev.id) {
+                        window.localStorage.setItem(`customNameSet_${prev.id}`, 'true');
+                    }
+                }
+            } catch (error) {
+                console.warn('Unable to persist updated name locally:', error);
+            }
+            return updated;
+        });
+        setProfileData((prev) => {
+            if (!prev) {
+                return prev;
+            }
+            return {
+                ...prev,
+                user: prev.user ? { ...prev.user, name } : { name },
+            };
+        });
+    }, []);
+
+    const persistDisplayName = useCallback(async (fullName) => {
+        const trimmed = String(fullName || '').trim();
+        if (!trimmed) {
+            throw new Error('Name is required');
+        }
+        let savedName = trimmed;
+        let persistedToServer = false;
+        try {
+            const response = await fetchJSON('/api/profile/name', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: trimmed }),
+            });
+            if (response && response.name) {
+                savedName = response.name;
+            }
+            persistedToServer = true;
+        } catch (error) {
+            console.warn('Failed to persist name to server:', error);
+        }
+        updateLocalUserName(savedName, { markCustomized: true });
+        setNameDraft(savedName);
+        return { name: savedName, persistedToServer };
+    }, [updateLocalUserName]);
+
+    const loadProfileData = useCallback(async () => {
+        if (!currentUser) {
+            return null;
+        }
+        setProfileLoading(true);
+        setProfileError(null);
+        try {
+            const data = await fetchJSON('/api/profile/me');
+            setProfileData(data);
+            const serverName = data?.user?.name;
+            if (serverName) {
+                setNameDraft(serverName);
+                updateLocalUserName(serverName);
+            } else if (currentUser?.name) {
+                setNameDraft(currentUser.name);
+            }
+            setPreferences((prev) => {
+                const serverPrefs = normalizePreferences({
+                    fontSize: data?.profile?.fontSize,
+                    theme: data?.profile?.theme,
+                });
+                if (hasLocalPrefsRef.current) {
+                    return normalizePreferences({ ...serverPrefs, ...prev });
+                }
+                return serverPrefs;
+            });
+            return data;
+        } catch (error) {
+            console.error('Failed to load profile:', error);
+            setProfileError('We could not load your profile. Please try again soon.');
+            return null;
+        } finally {
+            setProfileLoading(false);
+        }
+    }, [currentUser, updateLocalUserName]);
+
+    useEffect(() => {
+        if (currentUser?.name) {
+            setNameDraft(currentUser.name);
+        }
+    }, [currentUser?.name]);
+
+    useEffect(() => {
+        if (!currentUser) {
+            return;
+        }
+        if (view === 'profile' || view === 'settings') {
+            loadProfileData();
+        }
+    }, [view, currentUser, loadProfileData]);
+
+    const handleNameDraftChange = useCallback((value) => {
+        setNameDraft(value);
+        setNameStatus('');
+    }, []);
+
+    const handleProfileNameSubmit = useCallback(async (event) => {
+        event.preventDefault();
+        const trimmed = nameDraft.trim();
+        if (!trimmed) {
+            setNameStatus('Please enter a display name.');
+            return;
+        }
+        setNameSaving(true);
+        setNameStatus('');
+        try {
+            const result = await persistDisplayName(trimmed);
+            setNameStatus(result.persistedToServer ? 'Name saved.' : 'Name saved locally. We will sync when the server is available.');
+        } catch (error) {
+            console.error('Failed to save profile name:', error);
+            setNameStatus(error?.message || 'Unable to save your name right now.');
+        } finally {
+            setNameSaving(false);
+        }
+    }, [nameDraft, persistDisplayName]);
+
+    const handleProfileRefresh = useCallback(() => {
+        loadProfileData();
+    }, [loadProfileData]);
 
     const loadScores = useCallback(async (token) => {
         if (!token) {
@@ -3326,14 +3669,22 @@ function App() {
         loadScores(token);
     };
 
-    const handleSaveName = (firstName, lastName) => {
-        const newName = `${firstName} ${lastName}`;
-        const updatedUser = { ...currentUser, name: newName };
-
-        setCurrentUser(updatedUser);
-        localStorage.setItem('appUser', JSON.stringify(updatedUser));
-        localStorage.setItem(`customNameSet_${currentUser.id}`, 'true');
-        setShowNamePrompt(false);
+    const handleSaveName = async (firstName, lastName) => {
+        const newName = `${firstName} ${lastName}`.trim();
+        if (!newName) {
+            alert('Please enter both a first and last name.');
+            return;
+        }
+        try {
+            const result = await persistDisplayName(newName);
+            if (!result.persistedToServer) {
+                console.warn('Display name saved locally; server update pending.');
+            }
+            setShowNamePrompt(false);
+        } catch (error) {
+            console.error('Failed to save name:', error);
+            alert(error?.message || 'Unable to save your name right now. Please try again.');
+        }
     };
 
     const handleLogout = () => {
@@ -3343,6 +3694,14 @@ function App() {
         setUserScores([]);
         recalcProgress([]);
         setShowNamePrompt(false);
+        setProfileData(null);
+        setProfileError(null);
+        setProfileLoading(false);
+        setNameDraft('');
+        setNameStatus('');
+        setNameSaving(false);
+        setSettingsStatus('');
+        setSettingsSaving(false);
         if (window.google && google.accounts.id) {
             google.accounts.id.disableAutoSelect();
         }
@@ -3558,6 +3917,14 @@ function App() {
         setActiveGenerator(null);
     };
 
+    const handleShowProfileView = useCallback(() => {
+        setView('profile');
+    }, []);
+
+    const handleShowSettingsView = useCallback(() => {
+        setView('settings');
+    }, []);
+
     const handleReviewMarked = (markedQuestions) => {
         const reviewQuiz = {
             id: 'review_quiz_' + new Date().getTime(),
@@ -3615,6 +3982,33 @@ function App() {
                 return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} onReviewMarked={handleReviewMarked} />;
             case 'generator':
                 return <AIQuizGenerator {...activeGenerator} onQuizGenerated={(quiz) => startQuiz(quiz, activeGenerator.subject)} onExit={navigateHome} />;
+            case 'profile':
+                return (
+                    <ProfileView
+                        loading={profileLoading}
+                        error={profileError}
+                        data={profileData}
+                        nameDraft={nameDraft}
+                        onNameDraftChange={handleNameDraftChange}
+                        onSubmitName={handleProfileNameSubmit}
+                        nameSaving={nameSaving}
+                        nameStatus={nameStatus}
+                        onRefresh={handleProfileRefresh}
+                        onBack={navigateHome}
+                    />
+                );
+            case 'settings':
+                return (
+                    <SettingsView
+                        preferences={preferences}
+                        onApply={handleSettingsInstantChange}
+                        onSave={handlePersistPreferences}
+                        saving={settingsSaving}
+                        status={settingsStatus}
+                        onBack={navigateHome}
+                        loading={profileLoading}
+                    />
+                );
             case 'start':
             default:
                 return (
@@ -3685,7 +4079,14 @@ function App() {
     return (
         <>
             <div className="min-h-screen flex flex-col">
-                <AppHeader currentUser={currentUser} onLogout={handleLogout} />
+                <AppHeader
+                    currentUser={currentUser}
+                    onLogout={handleLogout}
+                    onShowHome={navigateHome}
+                    onShowProfile={handleShowProfileView}
+                    onShowSettings={handleShowSettingsView}
+                    activePanel={view === 'profile' ? 'profile' : view === 'settings' ? 'settings' : null}
+                />
                 {isLoading && (
                     <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50 text-center px-4">
                         <h2 className="text-3xl font-bold text-white mb-4">Loading...</h2>
@@ -3719,6 +4120,375 @@ function App() {
 }
 
 // --- VIEWS & COMPONENTS ---
+
+function ProfileView({
+    loading,
+    error,
+    data,
+    nameDraft,
+    onNameDraftChange,
+    onSubmitName,
+    nameSaving,
+    nameStatus,
+    onRefresh,
+    onBack,
+}) {
+    const profile = data?.profile || {};
+    const user = data?.user || {};
+    const challenges = Array.isArray(data?.challenges) ? data.challenges : [];
+    const scoresBySubject = Array.isArray(data?.scores?.bySubject) ? data.scores.bySubject : [];
+    const scoresBySubtopic = Array.isArray(data?.scores?.bySubtopic) ? data.scores.bySubtopic : [];
+
+    const formatChallengeDate = (value) => {
+        if (!value) return '';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) {
+            return '';
+        }
+        return date.toLocaleString();
+    };
+
+    return (
+        <section id="profileView" data-view="profile" tabIndex={-1} className="outline-none">
+            <div className="max-w-4xl mx-auto space-y-6">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-800">Profile</h1>
+                        <p className="text-sm text-slate-500">Manage your account details and review recent progress.</p>
+                    </div>
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                        <button
+                            type="button"
+                            onClick={onRefresh}
+                            className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={loading}
+                        >
+                            {loading ? 'Refreshing…' : 'Refresh'}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={onBack}
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                        >
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+
+                {error && !loading && (
+                    <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700" role="alert">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={onSubmitName} className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4" aria-labelledby="profile-name-heading">
+                    <div>
+                        <h2 id="profile-name-heading" className="text-xl font-semibold text-slate-800">Display Name</h2>
+                        <p className="text-sm text-slate-500">This name appears across the app.</p>
+                    </div>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                        <label className="w-full sm:flex-1">
+                            <span className="sr-only">Display name</span>
+                            <input
+                                type="text"
+                                value={nameDraft}
+                                onChange={(event) => onNameDraftChange(event.target.value)}
+                                maxLength={80}
+                                placeholder="Your name"
+                                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                            />
+                        </label>
+                        <button
+                            type="submit"
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={nameSaving}
+                        >
+                            {nameSaving ? 'Saving…' : 'Save Name'}
+                        </button>
+                    </div>
+                    <p className="text-xs text-slate-500">Maximum 80 characters.</p>
+                    {nameStatus && (
+                        <p className="text-sm text-slate-600" role="status" aria-live="polite">
+                            {nameStatus}
+                        </p>
+                    )}
+                </form>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                    <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                        <h2 className="text-lg font-semibold text-slate-800">Upcoming Test</h2>
+                        {profile.testDate ? (
+                            <>
+                                <p className="text-sm text-slate-600">
+                                    <span className="font-semibold text-slate-800">{profile.testDate}</span>
+                                    {profile.daysUntilTest != null && (
+                                        <> · {profile.daysUntilTest} day{profile.daysUntilTest === 1 ? '' : 's'} remaining</>
+                                    )}
+                                </p>
+                                {profile.testLocation && (
+                                    <p className="text-sm text-slate-600">Location: {profile.testLocation}</p>
+                                )}
+                                <p className="text-xs text-slate-500">Timezone: {profile.timezone}</p>
+                            </>
+                        ) : (
+                            <p className="text-sm text-slate-600">No test date set yet.</p>
+                        )}
+                        <p className="text-xs text-slate-500">Reminders {profile.reminderEnabled ? 'enabled' : 'disabled'}.</p>
+                    </article>
+                    <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                        <h2 className="text-lg font-semibold text-slate-800">Preferences Snapshot</h2>
+                        <dl className="grid grid-cols-1 gap-2 text-sm text-slate-600">
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                                <dt className="font-medium text-slate-700">Font size</dt>
+                                <dd className="capitalize">{profile.fontSize || 'md'}</dd>
+                            </div>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                                <dt className="font-medium text-slate-700">Theme</dt>
+                                <dd className="capitalize">{profile.theme || 'system'}</dd>
+                            </div>
+                            {user?.email && (
+                                <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                                    <dt className="font-medium text-slate-700">Email</dt>
+                                    <dd className="truncate text-slate-600" title={user.email}>{user.email}</dd>
+                                </div>
+                            )}
+                        </dl>
+                        <p className="text-xs text-slate-500">Update preferences anytime from the Settings panel.</p>
+                    </article>
+                </div>
+
+                <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-lg font-semibold text-slate-800">Learning Challenges</h2>
+                    </div>
+                    {loading ? (
+                        <p className="text-sm text-slate-600">Loading…</p>
+                    ) : error ? (
+                        <p className="text-sm text-rose-600">{error}</p>
+                    ) : challenges.length ? (
+                        <ul className="space-y-2 text-sm text-slate-700">
+                            {challenges.map((challenge) => (
+                                <li key={challenge.id} className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                                    <p>{challenge.text}</p>
+                                    {challenge.createdAt && (
+                                        <p className="text-xs text-slate-500">Added {formatChallengeDate(challenge.createdAt)}</p>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="text-sm text-slate-600">No challenges recorded yet.</p>
+                    )}
+                </section>
+
+                <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
+                    <h2 className="text-lg font-semibold text-slate-800">Recent Scores</h2>
+                    {loading ? (
+                        <p className="text-sm text-slate-600">Loading…</p>
+                    ) : (
+                        <>
+                            <div>
+                                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">By Subject</h3>
+                                {scoresBySubject.length ? (
+                                    <div className="mt-2 overflow-x-auto">
+                                        <table className="min-w-full divide-y divide-slate-200 text-sm">
+                                            <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                                                <tr>
+                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subject</th>
+                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Latest</th>
+                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Average</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-200 text-slate-600">
+                                                {scoresBySubject.map((row, index) => (
+                                                    <tr key={`${row.subject}-${index}`}>
+                                                        <td className="px-3 py-2 font-medium text-slate-700">{row.subject}</td>
+                                                        <td className="px-3 py-2">{row.latest != null ? `${row.latest}%` : '—'}</td>
+                                                        <td className="px-3 py-2">{row.avg != null ? `${row.avg}%` : '—'}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <p className="text-sm text-slate-600">No subject scores yet.</p>
+                                )}
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">By Subtopic</h3>
+                                {scoresBySubtopic.length ? (
+                                    <div className="mt-2 overflow-x-auto">
+                                        <table className="min-w-full divide-y divide-slate-200 text-sm">
+                                            <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                                                <tr>
+                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subject</th>
+                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subtopic</th>
+                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Latest</th>
+                                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Average</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-200 text-slate-600">
+                                                {scoresBySubtopic.map((row, index) => (
+                                                    <tr key={`${row.subject}-${row.subtopic}-${index}`}>
+                                                        <td className="px-3 py-2 font-medium text-slate-700">{row.subject}</td>
+                                                        <td className="px-3 py-2">{row.subtopic}</td>
+                                                        <td className="px-3 py-2">{row.latest != null ? `${row.latest}%` : '—'}</td>
+                                                        <td className="px-3 py-2">{row.avg != null ? `${row.avg}%` : '—'}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <p className="text-sm text-slate-600">No subtopic scores yet.</p>
+                                )}
+                            </div>
+                        </>
+                    )}
+                </section>
+            </div>
+        </section>
+    );
+}
+
+function SettingsView({ preferences, onApply, onSave, saving, status, onBack, loading }) {
+    const [fontSize, setFontSize] = useState(preferences.fontSize);
+    const [theme, setTheme] = useState(preferences.theme);
+
+    useEffect(() => {
+        setFontSize(preferences.fontSize);
+    }, [preferences.fontSize]);
+
+    useEffect(() => {
+        setTheme(preferences.theme);
+    }, [preferences.theme]);
+
+    const fontSizeOptions = [
+        { value: 'sm', label: 'Small', description: 'Compact text for dense layouts.' },
+        { value: 'md', label: 'Medium', description: 'Balanced for most learners.' },
+        { value: 'lg', label: 'Large', description: 'Larger text for improved legibility.' },
+        { value: 'xl', label: 'Extra Large', description: 'Maximum size for easy reading.' },
+    ];
+
+    const themeOptions = [
+        { value: 'light', label: 'Light', description: 'Bright background with dark text.' },
+        { value: 'dark', label: 'Dark', description: 'Dark background that is easy on the eyes.' },
+        { value: 'system', label: 'System', description: 'Match your device preference automatically.' },
+    ];
+
+    const handleFontSizeChange = (event) => {
+        const value = event.target.value;
+        setFontSize(value);
+        onApply({ fontSize: value });
+    };
+
+    const handleThemeChange = (event) => {
+        const value = event.target.value;
+        setTheme(value);
+        onApply({ theme: value });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        await onSave({ fontSize, theme });
+    };
+
+    return (
+        <section id="settingsView" data-view="settings" tabIndex={-1} className="outline-none">
+            <div className="max-w-4xl mx-auto space-y-6">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-800">Settings</h1>
+                        <p className="text-sm text-slate-500">Choose the font size and theme that suit you best. Changes apply instantly.</p>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={onBack}
+                        className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                    >
+                        Back to Dashboard
+                    </button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-6">
+                    <fieldset className="space-y-3">
+                        <legend className="text-lg font-semibold text-slate-800">Font Size</legend>
+                        <p className="text-sm text-slate-500">Pick the text size that feels comfortable on your device.</p>
+                        <div className="grid gap-2 sm:grid-cols-2">
+                            {fontSizeOptions.map((option) => (
+                                <label
+                                    key={option.value}
+                                    className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 hover:border-sky-300 focus-within:ring-2 focus-within:ring-sky-500"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="fontSize"
+                                        value={option.value}
+                                        checked={fontSize === option.value}
+                                        onChange={handleFontSizeChange}
+                                        className="h-4 w-4 text-sky-600 focus:ring-sky-500"
+                                    />
+                                    <span className="flex flex-col">
+                                        <span className="font-semibold text-slate-700">{option.label}</span>
+                                        <span className="text-xs text-slate-500">{option.description}</span>
+                                    </span>
+                                </label>
+                            ))}
+                        </div>
+                    </fieldset>
+
+                    <fieldset className="space-y-3">
+                        <legend className="text-lg font-semibold text-slate-800">Theme</legend>
+                        <p className="text-sm text-slate-500">Switch between light, dark, or follow your system preference.</p>
+                        <div className="grid gap-2 sm:grid-cols-2">
+                            {themeOptions.map((option) => (
+                                <label
+                                    key={option.value}
+                                    className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 hover:border-sky-300 focus-within:ring-2 focus-within:ring-sky-500"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="theme"
+                                        value={option.value}
+                                        checked={theme === option.value}
+                                        onChange={handleThemeChange}
+                                        className="h-4 w-4 text-sky-600 focus:ring-sky-500"
+                                    />
+                                    <span className="flex flex-col">
+                                        <span className="font-semibold text-slate-700">{option.label}</span>
+                                        <span className="text-xs text-slate-500">{option.description}</span>
+                                    </span>
+                                </label>
+                            ))}
+                        </div>
+                    </fieldset>
+
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-xs text-slate-500" role="status" aria-live="polite">
+                            {status}
+                        </p>
+                        <button
+                            type="submit"
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={saving || loading}
+                        >
+                            {saving ? 'Saving…' : 'Save Settings'}
+                        </button>
+                    </div>
+                </form>
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+                    <h2 className="text-base font-semibold text-slate-700">How settings work</h2>
+                    <ul className="mt-2 list-disc space-y-1 pl-5">
+                        <li>Changes apply instantly so you can preview them before saving.</li>
+                        <li>We try to sync your preferences to the server. If that fails, they stay on this device.</li>
+                        <li>Use the <strong>System</strong> theme to match your device&apos;s dark or light mode automatically.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    );
+}
 
 function AdminBypassForm() {
     const [password, setPassword] = useState('');
