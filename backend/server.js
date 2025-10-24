@@ -7,6 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const db = require('./db');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -158,7 +159,6 @@ const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { Pool } = require('pg');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const OpenAI = require('openai');
@@ -1265,10 +1265,7 @@ async function runExam() {
     return cleaned;
 }
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
-});
+const pool = db;
 
 const SALT_ROUNDS = 10;
 const USER_TOKEN_TTL = '12h';
@@ -1330,10 +1327,19 @@ function createUserToken(userId) {
     return jwt.sign({ userId }, secret, { expiresIn: USER_TOKEN_TTL });
 }
 
+function requireAuthInProd(req, res, next) {
+    if (process.env.NODE_ENV === 'production') {
+        return requireAuth(req, res, next);
+    }
+    return next();
+}
+
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
 const port = process.env.PORT || 3001;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const devAuth = require('./middleware/devAuth');
+const profileRouter = require('./routes/profile');
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -1360,6 +1366,8 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
 app.use(express.json());
 app.use(cookieParser());
+
+app.use('/api/profile', requireAuthInProd, devAuth, profileRouter);
 
 app.post('/api/register', async (req, res) => {
     const { email, password } = req.body || {};
