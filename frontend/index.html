@@ -3296,6 +3296,11 @@ function App() {
     const [isMathToolsOpen, setIsMathToolsOpen] = useState(false);
     const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
     const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
+    const [showWelcomeSplash, setShowWelcomeSplash] = useState(false);
+    const [welcomeName, setWelcomeName] = useState('');
+    const [welcomeFading, setWelcomeFading] = useState(false);
+    const welcomeTimeoutRef = useRef(null);
+    const welcomeFadeTimeoutRef = useRef(null);
 
     useEffect(() => {
         let isMounted = true;
@@ -3317,6 +3322,17 @@ function App() {
         };
     }, []);
     const [mathToolsInitialized, setMathToolsInitialized] = useState(false);
+
+    useEffect(() => {
+        return () => {
+            if (welcomeTimeoutRef.current) {
+                clearTimeout(welcomeTimeoutRef.current);
+            }
+            if (welcomeFadeTimeoutRef.current) {
+                clearTimeout(welcomeFadeTimeoutRef.current);
+            }
+        };
+    }, []);
 
     const hasLocalPrefsRef = useRef(false);
     const [preferences, setPreferences] = useState(() => {
@@ -3766,6 +3782,41 @@ function App() {
             console.warn('Unable to persist login locally:', error);
         }
 
+        if (welcomeTimeoutRef.current) {
+            clearTimeout(welcomeTimeoutRef.current);
+        }
+        if (welcomeFadeTimeoutRef.current) {
+            clearTimeout(welcomeFadeTimeoutRef.current);
+        }
+
+        const firstName = (() => {
+            if (profile?.name) {
+                const trimmed = profile.name.trim();
+                if (trimmed) {
+                    return trimmed.split(/\s+/)[0];
+                }
+            }
+            if (profile?.email) {
+                const [emailName] = profile.email.split('@');
+                return emailName || '';
+            }
+            return '';
+        })();
+
+        setWelcomeName(firstName);
+        setWelcomeFading(false);
+        setShowWelcomeSplash(true);
+
+        if (typeof window !== 'undefined') {
+            welcomeFadeTimeoutRef.current = window.setTimeout(() => {
+                setWelcomeFading(true);
+            }, 2200);
+            welcomeTimeoutRef.current = window.setTimeout(() => {
+                setShowWelcomeSplash(false);
+                setWelcomeFading(false);
+            }, 3000);
+        }
+
         setCurrentUser(profile);
         setUserScores([]);
         recalcProgress([]);
@@ -3818,6 +3869,15 @@ function App() {
         setNameDraft('');
         setNameStatus('');
         setNameSaving(false);
+        if (welcomeTimeoutRef.current) {
+            clearTimeout(welcomeTimeoutRef.current);
+        }
+        if (welcomeFadeTimeoutRef.current) {
+            clearTimeout(welcomeFadeTimeoutRef.current);
+        }
+        setShowWelcomeSplash(false);
+        setWelcomeFading(false);
+        setWelcomeName('');
         setSettingsStatus('');
         setSettingsSaving(false);
         if (window.google && google.accounts.id) {
@@ -4216,6 +4276,20 @@ function App() {
 
     return (
         <>
+            {showWelcomeSplash && (
+                <div
+                    className={`fixed inset-0 z-[60] flex flex-col items-center justify-center bg-slate-900 text-white transition-opacity duration-700 ${welcomeFading ? 'opacity-0' : 'opacity-100'}`}
+                >
+                    <img
+                        src="Logo.svg"
+                        alt="Kingmakerconsults logo"
+                        className="w-4/5 max-w-4xl h-auto object-contain drop-shadow-2xl"
+                    />
+                    <p className="mt-8 text-3xl sm:text-4xl font-semibold tracking-wide">
+                        Welcome{welcomeName ? `, ${welcomeName}!` : '!'}
+                    </p>
+                </div>
+            )}
             <div className="min-h-screen flex flex-col">
                 <AppHeader
                     currentUser={currentUser}
