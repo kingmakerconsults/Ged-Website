@@ -6,13 +6,11 @@ const router = express.Router();
 
 const VALID_SIZES = new Set(['sm', 'md', 'lg', 'xl']);
 const VALID_THEMES = new Set(['light', 'dark', 'system']);
-const VALID_SUBJECTS = new Set(ProfileData.TEST_SUBJECTS || ['Math', 'RLA', 'Science', 'Social Studies']);
 
 async function ensureProfile(userId) {
   if (!userId) {
     return;
   }
-  // TODO: INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING
   await db.query(
     'INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING',
     [userId]
@@ -34,7 +32,7 @@ router.get('/me', async (req, res) => {
     const bundle = await ProfileData.loadProfileBundle(userId);
     return res.json(bundle);
   } catch (error) {
-    console.error('GET /api/profile/me error:', error);
+    console.error('GET /api/profile/me error', error);
     return res.status(500).json({ error: 'Failed to load profile' });
   }
 });
@@ -55,10 +53,7 @@ router.patch('/name', async (req, res) => {
       return res.status(400).json({ error: 'Name too long (max 80)' });
     }
 
-    // TODO: UPDATE users SET name = $2 WHERE id = $1
     await db.query('UPDATE users SET name = $2 WHERE id = $1', [userId, clean]);
-    ProfileData.updateProfileFields(userId, { name: clean });
-
     return res.json({ ok: true, name: clean });
   } catch (error) {
     console.error('PATCH /api/profile/name', error);
@@ -76,31 +71,34 @@ router.patch('/test', async (req, res) => {
     await ensureProfile(userId);
     const { subject, testDate, testLocation, passed } = req.body || {};
 
-    if (!subject || !VALID_SUBJECTS.has(subject)) {
-      return res.status(400).json({ error: 'Invalid subject' });
+    const validSubjects = ['Math', 'RLA', 'Science', 'Social Studies'];
+    if (!validSubjects.includes(subject)) {
+      return res.status(400).json({ error: 'Invalid or missing subject' });
     }
 
     if (testDate && !isValidDate(testDate)) {
-      return res.status(400).json({ error: 'Invalid testDate (YYYY-MM-DD)' });
+      return res.status(400).json({ error: 'Invalid testDate, use YYYY-MM-DD' });
     }
 
-    const normalizedDate = testDate ? String(testDate).trim() : null;
-    const normalizedLocation = testLocation ? String(testLocation).trim() : null;
-    const passedValue = !!passed;
-
-    // TODO: UPSERT INTO test_plans (user_id, subject, test_date, test_location, passed)
-    ProfileData.upsertTestPlanEntry(userId, {
-      subject,
-      testDate: normalizedDate || null,
-      testLocation: normalizedLocation || null,
-      passed: passedValue,
-    });
+    await db.query(
+      `
+      INSERT INTO test_plans (user_id, subject, test_date, test_location, passed, updated_at)
+      VALUES ($1, $2, $3, $4, $5, now())
+      ON CONFLICT (user_id, subject)
+      DO UPDATE
+        SET test_date = EXCLUDED.test_date,
+            test_location = EXCLUDED.test_location,
+            passed = EXCLUDED.passed,
+            updated_at = now()
+      `,
+      [userId, subject, testDate || null, testLocation || null, !!passed]
+    );
 
     const bundle = await ProfileData.loadProfileBundle(userId);
     return res.json(bundle);
   } catch (error) {
-    console.error('PATCH /api/profile/test error:', error);
-    return res.status(500).json({ error: 'Failed to update test info' });
+    console.error('PATCH /api/profile/test error', error);
+    return res.status(500).json({ error: 'Failed to save test info' });
   }
 });
 
@@ -112,15 +110,22 @@ router.patch('/challenges/tags', async (req, res) => {
     }
 
     const { selectedIds = [] } = req.body || {};
+    const ids = Array.isArray(selectedIds) ? selectedIds : [];
 
-    // TODO:
-    // 1. DELETE FROM user_challenge_tags WHERE user_id = $1
-    // 2. INSERT INTO user_challenge_tags (user_id, challenge_id) VALUES ($1, eachSelectedId)
-    ProfileData.replaceChallengeSelections(userId, Array.isArray(selectedIds) ? selectedIds : []);
+    await db.query('DELETE FROM user_challenge_tags WHERE user_id = $1', [userId]);
+
+    for (const challengeId of ids) {
+      await db.query(
+        `INSERT INTO user_challenge_tags (user_id, challenge_id)
+         VALUES ($1, $2)
+         ON CONFLICT (user_id, challenge_id) DO NOTHING`,
+        [userId, challengeId]
+      );
+    }
 
     return res.json({ ok: true });
   } catch (error) {
-    console.error('PATCH /api/profile/challenges/tags error:', error);
+    console.error('PATCH /api/profile/challenges/tags error', error);
     return res.status(500).json({ error: 'Failed to update challenge tags' });
   }
 });
@@ -134,16 +139,14 @@ router.post('/complete-onboarding', async (req, res) => {
 
     await ensureProfile(userId);
 
-    // TODO: SELECT name FROM users WHERE id = $1
-    // TODO: SELECT passed, test_date FROM profiles WHERE user_id = $1
-    // TODO: SELECT COUNT(*) FROM user_challenge_tags WHERE user_id = $1
     const bundle = await ProfileData.loadProfileBundle(userId);
     const hasName = !!(bundle.profile?.name && bundle.profile.name.trim());
     const hasTestInfo = Array.isArray(bundle.testPlan)
       ? bundle.testPlan.some((entry) => entry.passed || entry.testDate)
-      : !!(bundle.profile?.passed || bundle.profile?.testDate);
-    const challengeCount = ProfileData.selectedChallengeCount(userId);
-    const hasChallenges = challengeCount > 0;
+      : false;
+    const hasChallenges = Array.isArray(bundle.challengeOptions)
+      ? bundle.challengeOptions.some((opt) => opt.selected)
+      : false;
 
     const missing = {
       name: !hasName,
@@ -152,8 +155,13 @@ router.post('/complete-onboarding', async (req, res) => {
     };
 
     if (!missing.name && !missing.testInfo && !missing.challenges) {
-      // TODO: UPDATE profiles SET onboarding_complete = TRUE WHERE user_id = $1
-      ProfileData.markOnboardingComplete(userId, true);
+      await db.query(
+        `UPDATE profiles
+            SET onboarding_complete = TRUE,
+                updated_at = now()
+          WHERE user_id = $1`,
+        [userId]
+      );
       return res.json({ ok: true });
     }
 
@@ -181,9 +189,6 @@ router.patch('/preferences', async (req, res) => {
       return res.status(400).json({ error: 'Invalid theme' });
     }
 
-    // TODO: UPDATE profiles SET font_size = $2, theme = $3, updated_at = now() WHERE user_id = $1
-    const currentBundle = await ProfileData.loadProfileBundle(userId);
-
     await db.query(
       `UPDATE profiles
           SET font_size = COALESCE($2, font_size),
@@ -192,13 +197,6 @@ router.patch('/preferences', async (req, res) => {
         WHERE user_id = $1`,
       [userId, fontSize || null, theme || null]
     );
-
-    const updatedFontSize = fontSize || currentBundle.profile.fontSize;
-    const updatedTheme = theme || currentBundle.profile.theme;
-    ProfileData.updateProfileFields(userId, {
-      fontSize: updatedFontSize,
-      theme: updatedTheme,
-    });
 
     const row = await db.oneOrNone(
       `SELECT font_size, theme FROM profiles WHERE user_id = $1`,
