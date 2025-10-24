@@ -107,7 +107,56 @@
         window.previewBypass = previewBypass;
     </script>
 
+    <script>
+        (function preloadPreferences() {
+            if (typeof window === 'undefined' || typeof document === 'undefined') {
+                return;
+            }
+            const root = document.documentElement;
+            const sizeClasses = ['fs-sm', 'fs-md', 'fs-lg', 'fs-xl'];
+            try {
+                const stored = localStorage.getItem('prefs');
+                if (!stored) {
+                    return;
+                }
+                const parsed = JSON.parse(stored);
+                if (parsed && typeof parsed === 'object') {
+                    sizeClasses.forEach((cls) => root.classList.remove(cls));
+                    const sizes = new Set(['sm', 'md', 'lg', 'xl']);
+                    const themes = new Set(['light', 'dark', 'system']);
+                    const fontSize = sizes.has(parsed.fontSize) ? parsed.fontSize : 'md';
+                    const theme = themes.has(parsed.theme) ? parsed.theme : 'system';
+                    root.classList.add(`fs-${fontSize}`);
+                    root.dataset.theme = theme;
+                }
+            } catch (error) {
+                console.warn('Failed to preload saved preferences:', error);
+            }
+        })();
+    </script>
+
     <style>
+        :root.fs-sm { font-size: 14px; }
+        :root.fs-md { font-size: 16px; }
+        :root.fs-lg { font-size: 18px; }
+        :root.fs-xl { font-size: 20px; }
+
+        :root[data-theme='light'] { color-scheme: light; }
+        :root[data-theme='dark'] { color-scheme: dark; }
+        :root[data-theme='system'] { color-scheme: light; }
+
+        :root[data-theme='light'] body,
+        :root[data-theme='system'] body { background-color: #f8fafc; color: #0f172a; }
+        :root[data-theme='dark'] body { background-color: #0f172a; color: #e2e8f0; }
+        @media (prefers-color-scheme: dark) {
+            :root[data-theme='system'] { color-scheme: dark; }
+            :root[data-theme='system'] body { background-color: #0f172a; color: #e2e8f0; }
+        }
+        @media (prefers-color-scheme: light) {
+            :root[data-theme='system'] { color-scheme: light; }
+            :root[data-theme='system'] body { background-color: #f8fafc; color: #0f172a; }
+        }
+
         body { font-family: 'Inter', sans-serif; }
         body::before {
             content: "";
@@ -161,6 +210,55 @@
             padding: 2px 4px;
             border-radius: 4px;
             font-weight: 500;
+        }
+        .vocabulary-ticker {
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+        .vocabulary-ticker-track {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            width: max-content;
+            padding: 0.75rem 1rem;
+            animation: vocabularyTickerScroll 70s linear infinite;
+        }
+        .vocabulary-ticker:hover .vocabulary-ticker-track {
+            animation-play-state: paused;
+        }
+        .vocabulary-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+            white-space: nowrap;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .vocabulary-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 14px rgba(15, 23, 42, 0.15);
+        }
+        .vocabulary-chip-dot {
+            width: 0.6rem;
+            height: 0.6rem;
+            border-radius: 9999px;
+        }
+        .vocabulary-chip-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+        @keyframes vocabularyTickerScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
         }
         .question-stem,
         .question-stem * {
@@ -322,6 +420,510 @@ const SUBJECT_COLORS = {
     },
 };
 
+const SUBJECT_SHORT_LABELS = {
+    Science: 'Science',
+    Math: 'Math',
+    'Social Studies': 'Social Studies',
+    'Reasoning Through Language Arts (RLA)': 'RLA',
+};
+
+const VOCABULARY_SUBJECT_COLORS = {
+    Science: '#dc2626',
+    Math: '#0284c7',
+    'Social Studies': '#16a34a',
+    'Reasoning Through Language Arts (RLA)': '#7c3aed',
+};
+
+const MAX_TICKER_WORDS_PER_SUBJECT = 10;
+
+const FALLBACK_VOCABULARY = {
+    Science: [
+        {
+            term: "Hypothesis",
+            definition: "A testable explanation for an observation that can be supported or refuted through experimentation.",
+        },
+        {
+            term: "Variable",
+            definition: "A factor in an experiment that can change or be controlled.",
+        },
+        {
+            term: "Control Group",
+            definition: "The group in an experiment that does not receive the independent variable and is used for comparison.",
+        },
+        {
+            term: "Ecosystem",
+            definition: "A community of living organisms interacting with each other and with their physical environment.",
+        },
+        {
+            term: "Photosynthesis",
+            definition: "The process by which plants use light energy to convert carbon dioxide and water into glucose and oxygen.",
+        },
+        {
+            term: "Cellular Respiration",
+            definition: "The process in which cells break down glucose and oxygen to release energy, carbon dioxide, and water.",
+        },
+        {
+            term: "Mitosis",
+            definition: "A type of cell division that results in two identical daughter cells.",
+        },
+        {
+            term: "DNA",
+            definition: "The molecule that carries genetic information in living organisms.",
+        },
+        {
+            term: "Atom",
+            definition: "The smallest unit of an element that retains the properties of that element.",
+        },
+        {
+            term: "Molecule",
+            definition: "Two or more atoms that are chemically bonded together.",
+        },
+        {
+            term: "Gravity",
+            definition: "The force of attraction between objects with mass.",
+        },
+        {
+            term: "Qualitative Observation",
+            definition: "An observation that describes qualities or characteristics without using numbers.",
+        },
+        {
+            term: "Quantitative Observation",
+            definition: "An observation that uses numbers or measurements to describe what is observed.",
+        },
+        {
+            term: "Homeostasis",
+            definition: "The process by which organisms maintain stable internal conditions despite external changes.",
+        },
+        {
+            term: "Independent Variable",
+            definition: "The factor that is purposely changed in an experiment to test its effect.",
+        },
+        {
+            term: "Dependent Variable",
+            definition: "The factor that is measured in an experiment and changes in response to the independent variable.",
+        },
+        {
+            term: "Scientific Method",
+            definition: "A systematic process of asking questions, forming hypotheses, conducting experiments, and drawing conclusions.",
+        },
+        {
+            term: "Plate Tectonics",
+            definition: "The theory explaining the movement of Earth's lithospheric plates and the activity at their boundaries.",
+        },
+        {
+            term: "Fossil",
+            definition: "The preserved remains, impression, or trace of an organism from the past.",
+        },
+        {
+            term: "Energy Transfer",
+            definition: "The movement of energy from one object or system to another.",
+        },
+    ],
+    Math: [
+        {
+            term: "Integer",
+            definition: "A whole number that can be positive, negative, or zero.",
+        },
+        {
+            term: "Fraction",
+            definition: "A number that represents a part of a whole or a part of a set.",
+        },
+        {
+            term: "Decimal",
+            definition: "A number that uses a decimal point to show a value smaller than one.",
+        },
+        {
+            term: "Percent",
+            definition: "A ratio that compares a number to 100.",
+        },
+        {
+            term: "Ratio",
+            definition: "A comparison of two quantities by division.",
+        },
+        {
+            term: "Proportion",
+            definition: "An equation stating that two ratios are equivalent.",
+        },
+        {
+            term: "Equation",
+            definition: "A mathematical statement that shows two expressions are equal.",
+        },
+        {
+            term: "Variable",
+            definition: "A symbol, usually a letter, that represents an unknown value.",
+        },
+        {
+            term: "Coefficient",
+            definition: "The number that is multiplied by a variable in an algebraic expression.",
+        },
+        {
+            term: "Expression",
+            definition: "A mathematical phrase that can contain numbers, variables, and operations.",
+        },
+        {
+            term: "Inequality",
+            definition: "A mathematical statement that compares two expressions using greater than, less than, or equal to symbols.",
+        },
+        {
+            term: "Slope",
+            definition: "A measure of the steepness of a line, found by the ratio of rise over run.",
+        },
+        {
+            term: "Quadratic Equation",
+            definition: "An equation in the form ax² + bx + c = 0, where a, b, and c are constants and a ≠ 0.",
+        },
+        {
+            term: "Linear Function",
+            definition: "A function whose graph is a straight line.",
+        },
+        {
+            term: "Pythagorean Theorem",
+            definition: "A formula that relates the side lengths of a right triangle: a² + b² = c².",
+        },
+        {
+            term: "Mean",
+            definition: "The average of a set of numbers, found by adding the numbers and dividing by how many there are.",
+        },
+        {
+            term: "Median",
+            definition: "The middle value in an ordered set of numbers.",
+        },
+        {
+            term: "Mode",
+            definition: "The number that appears most often in a set of data.",
+        },
+        {
+            term: "Range",
+            definition: "The difference between the highest and lowest values in a data set.",
+        },
+        {
+            term: "Probability",
+            definition: "The likelihood that an event will occur, expressed as a ratio, fraction, or percent.",
+        },
+        {
+            term: "Factor",
+            definition: "A number that divides another number evenly.",
+        },
+        {
+            term: "Multiple",
+            definition: "The product of a number and any whole number.",
+        },
+        {
+            term: "Prime Number",
+            definition: "A whole number greater than 1 that has exactly two factors: 1 and itself.",
+        },
+        {
+            term: "Composite Number",
+            definition: "A whole number greater than 1 that has more than two factors.",
+        },
+        {
+            term: "Perimeter",
+            definition: "The total distance around the outside of a shape.",
+        },
+        {
+            term: "Area",
+            definition: "The amount of surface covered by a shape.",
+        },
+        {
+            term: "Volume",
+            definition: "The amount of space a three-dimensional object occupies.",
+        },
+        {
+            term: "Circumference",
+            definition: "The distance around a circle.",
+        },
+        {
+            term: "Exponent",
+            definition: "A small number written above and to the right of a base number that shows how many times the base is multiplied by itself.",
+        },
+        {
+            term: "Order of Operations",
+            definition: "The rules that tell you the correct sequence to evaluate a mathematical expression (PEMDAS).",
+        },
+    ],
+    'Reasoning Through Language Arts (RLA)': [
+        {
+            term: "Main Idea",
+            definition: "The central point or most important concept that an author wants the reader to understand.",
+        },
+        {
+            term: "Supporting Detail",
+            definition: "Information that explains, proves, or enhances the main idea.",
+        },
+        {
+            term: "Inference",
+            definition: "A conclusion reached by using evidence from the text and your own reasoning.",
+        },
+        {
+            term: "Tone",
+            definition: "The author's attitude toward the subject or audience.",
+        },
+        {
+            term: "Theme",
+            definition: "The underlying message or lesson the author wants to convey.",
+        },
+        {
+            term: "Thesis Statement",
+            definition: "A sentence that states the main point or argument of an essay.",
+        },
+        {
+            term: "Topic Sentence",
+            definition: "The sentence that expresses the main idea of a paragraph.",
+        },
+        {
+            term: "Transition",
+            definition: "A word or phrase that connects ideas and helps writing flow smoothly.",
+        },
+        {
+            term: "Evidence",
+            definition: "Facts, examples, or details used to support a claim.",
+        },
+        {
+            term: "Claim",
+            definition: "A statement or position that requires support.",
+        },
+        {
+            term: "Counterclaim",
+            definition: "An opposing viewpoint that challenges the writer's claim.",
+        },
+        {
+            term: "Audience",
+            definition: "The specific group of readers or listeners a text is written for.",
+        },
+        {
+            term: "Purpose",
+            definition: "The reason why an author writes a text: to inform, persuade, entertain, or explain.",
+        },
+        {
+            term: "Figurative Language",
+            definition: "Words or expressions that go beyond literal meaning, such as metaphors and similes.",
+        },
+        {
+            term: "Metaphor",
+            definition: "A comparison between two unlike things without using like or as.",
+        },
+        {
+            term: "Simile",
+            definition: "A comparison between two unlike things using the words like or as.",
+        },
+        {
+            term: "Connotation",
+            definition: "The emotional or cultural meaning attached to a word.",
+        },
+        {
+            term: "Denotation",
+            definition: "The literal, dictionary definition of a word.",
+        },
+        {
+            term: "Context Clues",
+            definition: "Hints within a sentence or paragraph that help the reader determine the meaning of an unfamiliar word.",
+        },
+        {
+            term: "Revising",
+            definition: "Improving a draft by adding, removing, or rearranging ideas for clarity and effectiveness.",
+        },
+        {
+            term: "Editing",
+            definition: "Correcting grammar, spelling, and punctuation errors in a draft.",
+        },
+        {
+            term: "Proofreading",
+            definition: "Reviewing a final draft carefully to catch small errors before publishing.",
+        },
+        {
+            term: "Persuasive Writing",
+            definition: "Writing that aims to convince the reader to accept a viewpoint or take a specific action.",
+        },
+        {
+            term: "Narrative Writing",
+            definition: "Writing that tells a story with characters, setting, and plot.",
+        },
+        {
+            term: "Informational Text",
+            definition: "Nonfiction writing that provides facts about a topic.",
+        },
+        {
+            term: "Point of View",
+            definition: "The perspective from which a story is told.",
+        },
+        {
+            term: "First-Person Point of View",
+            definition: "A storytelling perspective in which the narrator is a character in the story and uses words like I and we.",
+        },
+        {
+            term: "Third-Person Point of View",
+            definition: "A storytelling perspective where the narrator is outside the story and uses words like he, she, or they.",
+        },
+        {
+            term: "Chronological Order",
+            definition: "A text structure that presents events in the order they happened.",
+        },
+        {
+            term: "Cause and Effect",
+            definition: "A text structure that explains why something happens and the result of it.",
+        },
+    ],
+    'Social Studies': [
+        {
+            term: "Democracy",
+            definition: "A system of government in which citizens hold the power to make decisions through voting.",
+        },
+        {
+            term: "Republic",
+            definition: "A form of government in which citizens elect representatives to make decisions on their behalf.",
+        },
+        {
+            term: "Constitution",
+            definition: "A written plan that outlines the structure, powers, and limits of a government.",
+        },
+        {
+            term: "Amendment",
+            definition: "A change or addition to a legal or governmental document, such as the U.S. Constitution.",
+        },
+        {
+            term: "Federalism",
+            definition: "A system of government in which power is divided between a national government and state governments.",
+        },
+        {
+            term: "Separation of Powers",
+            definition: "The division of government responsibilities into distinct branches to prevent any one branch from becoming too powerful.",
+        },
+        {
+            term: "Checks and Balances",
+            definition: "A system that allows each branch of government to limit the powers of the other branches.",
+        },
+        {
+            term: "Suffrage",
+            definition: "The right to vote in political elections.",
+        },
+        {
+            term: "Civil Rights",
+            definition: "The rights of citizens to political and social freedom and equality.",
+        },
+        {
+            term: "Industrialization",
+            definition: "The development of industries in a country or region on a wide scale.",
+        },
+        {
+            term: "Urbanization",
+            definition: "The growth of cities and the movement of people from rural areas to urban centers.",
+        },
+        {
+            term: "Immigration",
+            definition: "The movement of people into a country from another country.",
+        },
+        {
+            term: "Cultural Diffusion",
+            definition: "The spread of cultural beliefs and practices from one group to another.",
+        },
+        {
+            term: "Economy",
+            definition: "The system by which goods and services are produced, distributed, and consumed.",
+        },
+        {
+            term: "Inflation",
+            definition: "A general increase in prices and a decrease in the purchasing value of money.",
+        },
+        {
+            term: "Gross Domestic Product",
+            definition: "The total value of all goods and services produced in a country during a specific time period.",
+        },
+        {
+            term: "Supply and Demand",
+            definition: "The relationship between the amount of a product available and the desire of buyers for it, which affects price.",
+        },
+        {
+            term: "Primary Source",
+            definition: "An original document or firsthand account created at the time of an event.",
+        },
+        {
+            term: "Secondary Source",
+            definition: "A document or account that interprets or analyzes primary sources.",
+        },
+        {
+            term: "Manifest Destiny",
+            definition: "The 19th-century belief that the United States was destined to expand across the North American continent.",
+        },
+        {
+            term: "Reconstruction",
+            definition: "The period after the U.S. Civil War when southern states were reorganized and reintegrated into the Union.",
+        },
+        {
+            term: "Great Depression",
+            definition: "A severe worldwide economic downturn that took place during the 1930s.",
+        },
+        {
+            term: "Cold War",
+            definition: "The period of political tension and military rivalry between the United States and the Soviet Union after World War II.",
+        },
+        {
+            term: "Bill of Rights",
+            definition: "The first ten amendments to the U.S. Constitution that protect individual liberties.",
+        },
+        {
+            term: "Legislature",
+            definition: "The branch of government responsible for making laws.",
+        },
+        {
+            term: "Executive Branch",
+            definition: "The branch of government responsible for enforcing laws.",
+        },
+        {
+            term: "Judicial Branch",
+            definition: "The branch of government responsible for interpreting laws and administering justice.",
+        },
+        {
+            term: "Monarchy",
+            definition: "A form of government in which a single person, such as a king or queen, rules for life.",
+        },
+        {
+            term: "Tariff",
+            definition: "A tax imposed on imported goods.",
+        },
+        {
+            term: "Treaty",
+            definition: "A formal agreement between two or more countries.",
+        },
+    ],
+};
+
+function normalizeVocabularyEntry(entry) {
+    if (!entry) return null;
+    if (typeof entry === 'string') {
+        const trimmed = entry.trim();
+        return trimmed ? { term: trimmed, definition: '' } : null;
+    }
+    if (typeof entry !== 'object') return null;
+    const term = typeof entry.term === 'string' ? entry.term.trim() : '';
+    if (!term) return null;
+    const definition = typeof entry.definition === 'string' ? entry.definition.trim() : '';
+    const example = typeof entry.example === 'string' ? entry.example.trim() : '';
+    const normalized = { term, definition };
+    if (example) {
+        normalized.example = example;
+    }
+    return normalized;
+}
+
+function mergeVocabularyData(base, override) {
+    const result = { ...base };
+    if (!override || typeof override !== 'object') {
+        return result;
+    }
+    Object.entries(override).forEach(([subject, entries]) => {
+        if (!Array.isArray(entries)) {
+            return;
+        }
+        const normalizedEntries = entries
+            .map(normalizeVocabularyEntry)
+            .filter(Boolean);
+        if (normalizedEntries.length) {
+            result[subject] = normalizedEntries;
+        }
+    });
+    return result;
+}
+
 class ErrorBoundary extends React.Component {
     constructor(props) {
         super(props);
@@ -353,6 +955,7 @@ class ErrorBoundary extends React.Component {
 const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath, fixAllMathInText, collapseUnderscoredLatexMacros } = window.TextSanitizer || {};
 
 const API_BASE_URL = 'https://ged-website.onrender.com';
+const SCORE_FETCH_INTERVAL_MS = 45000;
 
 async function generateTopicQuiz(subjectParam, topic, difficulty) {
     const response = await fetch(`${API_BASE_URL}/api/topic-based/${encodeURIComponent(subjectParam)}`, {
@@ -2501,30 +3104,102 @@ const shuffleArray = (array) => {
     return newArray;
 };
 
+const VALID_FONT_SIZES = new Set(['sm', 'md', 'lg', 'xl']);
+const VALID_THEMES = new Set(['light', 'dark', 'system']);
+const DEFAULT_PREFERENCES = Object.freeze({ fontSize: 'md', theme: 'system' });
+
+const normalizePreferences = (prefs = {}) => ({
+    fontSize: VALID_FONT_SIZES.has(prefs.fontSize) ? prefs.fontSize : DEFAULT_PREFERENCES.fontSize,
+    theme: VALID_THEMES.has(prefs.theme) ? prefs.theme : DEFAULT_PREFERENCES.theme,
+});
+
+async function fetchJSON(url, options = {}) {
+    const { headers, ...rest } = options || {};
+    const finalHeaders = headers ? { ...headers } : undefined;
+    const response = await fetch(url, {
+        credentials: 'include',
+        ...rest,
+        headers: finalHeaders,
+    });
+
+    if (!response.ok) {
+        let message = `Request failed (${response.status})`;
+        try {
+            const text = await response.text();
+            message = text || message;
+        } catch (error) {
+            // ignore parse failure
+        }
+        throw new Error(message);
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+        return response.json();
+    }
+    return null;
+}
+
 // --- App Structure Components ---
-function AppHeader({ currentUser, onLogout }) {
+function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSettings, activePanel }) {
     const displayName = currentUser?.name || currentUser?.email || 'Learner';
     const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'U';
+    const isProfileActive = activePanel === 'profile';
+    const isSettingsActive = activePanel === 'settings';
+
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
-            <div className="w-full max-w-4xl mx-auto p-4 flex justify-between items-center">
-                <h1 className="text-xl font-bold text-sky-700">Mr. Smith's Learning Canvas</h1>
+            <div className="w-full max-w-5xl mx-auto p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                    type="button"
+                    onClick={onShowHome}
+                    className="text-left text-xl font-bold text-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 rounded-md"
+                >
+                    Mr. Smith's Learning Canvas
+                </button>
                 {currentUser && (
-                    <div className="flex items-center gap-4">
-                        {currentUser.picture ? (
-                            <img src={currentUser.picture} alt="User" className="w-8 h-8 rounded-full" />
-                        ) : (
-                            <div className="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold">
-                                {initial}
-                            </div>
-                        )}
-                        <span className="font-semibold text-slate-600">Welcome, {currentUser.name}!</span>
-                        <button
-                            onClick={onLogout}
-                            className="text-sm font-semibold text-sky-600 hover:text-sky-800"
-                        >
-                            Log Out
-                        </button>
+                    <div className="w-full sm:w-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                        <div className="flex items-center gap-3">
+                            {currentUser.picture ? (
+                                <img src={currentUser.picture} alt="User avatar" className="w-9 h-9 rounded-full object-cover" />
+                            ) : (
+                                <div className="w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold">
+                                    {initial}
+                                </div>
+                            )}
+                            <span className="font-semibold text-slate-600 text-sm sm:text-base">
+                                Welcome, {currentUser.name || 'Learner'}!
+                            </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <button
+                                type="button"
+                                id="btnProfile"
+                                onClick={onShowProfile}
+                                className="px-3 py-2 text-sm font-semibold text-sky-700 border border-sky-200 rounded-lg hover:bg-sky-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                                aria-controls="profileView"
+                                aria-expanded={isProfileActive}
+                            >
+                                Profile
+                            </button>
+                            <button
+                                type="button"
+                                id="btnSettings"
+                                onClick={onShowSettings}
+                                className="px-3 py-2 text-sm font-semibold text-sky-700 border border-sky-200 rounded-lg hover:bg-sky-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                                aria-controls="settingsView"
+                                aria-expanded={isSettingsActive}
+                            >
+                                Settings
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onLogout}
+                                className="px-3 py-2 text-sm font-semibold text-rose-600 hover:text-rose-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:ring-offset-2"
+                            >
+                                Log Out
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
@@ -2532,7 +3207,7 @@ function AppHeader({ currentUser, onLogout }) {
     );
 }
 
-function NamePromptModal({ user, onSave }) {
+function NamePromptModal({ user, onSave, onDismiss }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
@@ -2544,17 +3219,38 @@ function NamePromptModal({ user, onSave }) {
         }
     }, [user]);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (firstName.trim() && lastName.trim()) {
-            onSave(firstName.trim(), lastName.trim());
+            try {
+                await onSave(firstName.trim(), lastName.trim());
+            } catch (error) {
+                console.error('Failed to save name from modal:', error);
+                alert('Unable to save your name right now. Please try again.');
+            }
         } else {
             alert('Please enter both a first and last name.');
         }
     };
 
     return (
-        <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
-            <div className="bg-white rounded-lg shadow-2xl w-11/12 max-w-md p-8">
+        <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50" role="dialog" aria-modal="true">
+            <div className="relative bg-white rounded-lg shadow-2xl w-11/12 max-w-md p-8">
+                {onDismiss && (
+                    <button
+                        type="button"
+                        onClick={onDismiss}
+                        className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 rounded-full"
+                        aria-label="Close name prompt"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                            <path
+                                fillRule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                )}
                 <h2 className="text-2xl font-bold text-slate-800 mb-4">Welcome! Let's set up your name.</h2>
                 <p className="text-slate-600 mb-6">Please confirm your name below. This will be used to personalize your experience.</p>
                 <div className="space-y-4">
@@ -2579,13 +3275,22 @@ function NamePromptModal({ user, onSave }) {
                         />
                     </div>
                 </div>
-                <div className="mt-8">
+                <div className="mt-8 space-y-3">
                     <button
                         onClick={handleSave}
                         className="w-full px-6 py-3 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700 transition"
                     >
                         Save Name
                     </button>
+                    {onDismiss && (
+                        <button
+                            type="button"
+                            onClick={onDismiss}
+                            className="w-full px-6 py-3 bg-white text-slate-700 font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition"
+                        >
+                            Skip for now
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
@@ -2610,13 +3315,103 @@ function App() {
     const [loadingMessage, setLoadingMessage] = useState('');
     const [revolvingPrompt, setRevolvingPrompt] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
+    const currentUserRef = useRef(null);
     const [progress, setProgress] = useState(() => createEmptyProgress());
     const [userScores, setUserScores] = useState([]);
     const [showFormulaSheet, setShowFormulaSheet] = useState(false);
     const [showNamePrompt, setShowNamePrompt] = useState(false);
     const [isMathToolsOpen, setIsMathToolsOpen] = useState(false);
     const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
+    const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
+    const [showWelcomeSplash, setShowWelcomeSplash] = useState(false);
+    const [welcomeName, setWelcomeName] = useState('');
+    const [welcomeFading, setWelcomeFading] = useState(false);
+    const welcomeTimeoutRef = useRef(null);
+    const welcomeFadeTimeoutRef = useRef(null);
+    const lastScoresFetchRef = useRef(0);
+    const pendingScoresFetchRef = useRef(null);
+
+    useEffect(() => {
+        currentUserRef.current = currentUser;
+    }, [currentUser]);
+
+    useEffect(() => {
+        let isMounted = true;
+        (async () => {
+            try {
+                const response = await fetch('data/vocabulary.json', { cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${response.status}`);
+                }
+                const data = await response.json();
+                if (!isMounted) return;
+                setVocabulary(mergeVocabularyData(FALLBACK_VOCABULARY, data));
+            } catch (err) {
+                console.warn('Unable to load vocabulary data:', err);
+            }
+        })();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
     const [mathToolsInitialized, setMathToolsInitialized] = useState(false);
+
+    useEffect(() => {
+        return () => {
+            if (welcomeTimeoutRef.current) {
+                clearTimeout(welcomeTimeoutRef.current);
+            }
+            if (welcomeFadeTimeoutRef.current) {
+                clearTimeout(welcomeFadeTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    const hasLocalPrefsRef = useRef(false);
+    const [preferences, setPreferences] = useState(() => {
+        if (typeof window === 'undefined') {
+            return { ...DEFAULT_PREFERENCES };
+        }
+        try {
+            const stored = window.localStorage.getItem('prefs');
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                hasLocalPrefsRef.current = true;
+                return normalizePreferences(parsed);
+            }
+        } catch (error) {
+            console.warn('Failed to restore saved preferences:', error);
+        }
+        return { ...DEFAULT_PREFERENCES };
+    });
+    const [profileData, setProfileData] = useState(null);
+    const [profileLoading, setProfileLoading] = useState(false);
+    const [profileError, setProfileError] = useState(null);
+    const [nameDraft, setNameDraft] = useState('');
+    const [nameStatus, setNameStatus] = useState('');
+    const [nameSaving, setNameSaving] = useState(false);
+    const [settingsStatus, setSettingsStatus] = useState('');
+    const [settingsSaving, setSettingsSaving] = useState(false);
+    const [onboardingComplete, setOnboardingComplete] = useState(true);
+    const [testSaving, setTestSaving] = useState(null);
+    const [challengesSaving, setChallengesSaving] = useState(false);
+    const [finishingOnboarding, setFinishingOnboarding] = useState(false);
+
+    useEffect(() => {
+        if (typeof document === 'undefined') {
+            return;
+        }
+        const root = document.documentElement;
+        const sizeClasses = ['fs-sm', 'fs-md', 'fs-lg', 'fs-xl'];
+        sizeClasses.forEach((cls) => root.classList.remove(cls));
+        root.classList.add(`fs-${preferences.fontSize}`);
+        root.dataset.theme = preferences.theme;
+        try {
+            window.localStorage.setItem('prefs', JSON.stringify(preferences));
+        } catch (error) {
+            console.warn('Unable to persist preferences locally:', error);
+        }
+    }, [preferences]);
 
     const openMathTools = useCallback((tab = 'graphing') => {
         setMathToolsActiveTab(tab);
@@ -2632,31 +3427,360 @@ function App() {
         setProgress(buildProgressFromScores(scoresList));
     }, []);
 
-    const loadScores = useCallback(async (token) => {
+    const applyPreferenceUpdate = useCallback((partialPrefs, options = {}) => {
+        setPreferences((prev) => {
+            const merged = normalizePreferences({ ...prev, ...partialPrefs });
+            return merged;
+        });
+        if (options.markLocal) {
+            hasLocalPrefsRef.current = true;
+        }
+    }, []);
+
+    const handleSettingsInstantChange = useCallback((partialPrefs) => {
+        setSettingsStatus('');
+        applyPreferenceUpdate(partialPrefs, { markLocal: true });
+    }, [applyPreferenceUpdate]);
+
+    const handlePersistPreferences = useCallback(async ({ fontSize, theme }) => {
+        const nextPrefs = normalizePreferences({ fontSize, theme });
+        applyPreferenceUpdate(nextPrefs, { markLocal: true });
+        setSettingsSaving(true);
+        setSettingsStatus('');
+        try {
+            const response = await fetchJSON('/api/profile/preferences', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(nextPrefs),
+            });
+            if (response) {
+                applyPreferenceUpdate({
+                    fontSize: response.fontSize,
+                    theme: response.theme,
+                });
+            }
+            setSettingsStatus('Settings saved.');
+        } catch (error) {
+            console.warn('Failed to persist preferences:', error);
+            setSettingsStatus('Settings saved locally. We will sync when the server is available.');
+        } finally {
+            setSettingsSaving(false);
+        }
+    }, [applyPreferenceUpdate]);
+
+    const updateLocalUserName = useCallback((name, { markCustomized = false } = {}) => {
+        setCurrentUser((prev) => {
+            if (!prev) {
+                return prev;
+            }
+            const updated = { ...prev, name };
+            try {
+                if (typeof window !== 'undefined' && window.localStorage) {
+                    window.localStorage.setItem('appUser', JSON.stringify(updated));
+                    if (markCustomized && prev.id) {
+                        window.localStorage.setItem(`customNameSet_${prev.id}`, 'true');
+                    }
+                }
+            } catch (error) {
+                console.warn('Unable to persist updated name locally:', error);
+            }
+            return updated;
+        });
+        setProfileData((prev) => {
+            if (!prev) {
+                return prev;
+            }
+            return {
+                ...prev,
+                profile: {
+                    ...prev.profile,
+                    name,
+                },
+            };
+        });
+    }, []);
+
+    const persistDisplayName = useCallback(async (fullName) => {
+        const trimmed = String(fullName || '').trim();
+        if (!trimmed) {
+            throw new Error('Name is required');
+        }
+        let savedName = trimmed;
+        let persistedToServer = false;
+        try {
+            const response = await fetchJSON('/api/profile/name', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: trimmed }),
+            });
+            if (response && response.name) {
+                savedName = response.name;
+            }
+            persistedToServer = true;
+        } catch (error) {
+            console.warn('Failed to persist name to server:', error);
+        }
+        updateLocalUserName(savedName, { markCustomized: true });
+        setNameDraft(savedName);
+        return { name: savedName, persistedToServer };
+    }, [updateLocalUserName]);
+
+    const loadProfileOnce = useCallback(async () => {
+        const user = currentUserRef.current;
+        if (!user) {
+            return null;
+        }
+
+        setProfileLoading(true);
+        setProfileError(null);
+
+        try {
+            const response = await fetch('/api/profile/me', {
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                console.error('Failed to load profile: status', response.status);
+                setProfileError('We could not load your profile. Please try again soon.');
+                setProfileLoading(false);
+                return null;
+            }
+
+            const data = await response.json();
+            setProfileData(data);
+
+            const serverName = data?.profile?.name;
+            if (serverName) {
+                setNameDraft(serverName);
+                updateLocalUserName(serverName);
+            } else if (user?.name) {
+                setNameDraft(user.name);
+            }
+
+            setPreferences((prev) => {
+                const serverPrefs = normalizePreferences({
+                    fontSize: data?.profile?.fontSize,
+                    theme: data?.profile?.theme,
+                });
+                if (hasLocalPrefsRef.current) {
+                    return normalizePreferences({ ...serverPrefs, ...prev });
+                }
+                return serverPrefs;
+            });
+
+            const onboardingFlag = !!data?.profile?.onboardingComplete;
+            setOnboardingComplete(onboardingFlag);
+            if (typeof window !== 'undefined') {
+                window._onboardingComplete = onboardingFlag;
+            }
+
+            setProfileLoading(false);
+            return data;
+        } catch (error) {
+            console.error('Failed to load profile:', error);
+            setProfileError('We could not load your profile. Please try again soon.');
+            setProfileLoading(false);
+            return null;
+        }
+    }, []);
+
+    useEffect(() => {
+        if (currentUser?.name) {
+            setNameDraft(currentUser.name);
+        }
+    }, [currentUser?.name]);
+
+    useEffect(() => {
+        if (!currentUser) {
+            return;
+        }
+        if (!onboardingComplete) {
+            setView('profile');
+        }
+    }, [currentUser, onboardingComplete]);
+
+    const currentUserId = currentUser?.id ?? null;
+
+    useEffect(() => {
+        if (!currentUserId) {
+            return;
+        }
+        loadProfileOnce();
+    }, [currentUserId, loadProfileOnce]);
+
+    const handleNameDraftChange = useCallback((value) => {
+        setNameDraft(value);
+        setNameStatus('');
+    }, []);
+
+    const handleProfileNameSubmit = useCallback(async (event) => {
+        event.preventDefault();
+        const trimmed = nameDraft.trim();
+        if (!trimmed) {
+            setNameStatus('Please enter a display name.');
+            return;
+        }
+        setNameSaving(true);
+        setNameStatus('');
+        try {
+            const result = await persistDisplayName(trimmed);
+            setNameStatus(result.persistedToServer ? 'Name saved.' : 'Name saved locally. We will sync when the server is available.');
+        } catch (error) {
+            console.error('Failed to save profile name:', error);
+            setNameStatus(error?.message || 'Unable to save your name right now.');
+        } finally {
+            setNameSaving(false);
+        }
+    }, [nameDraft, persistDisplayName]);
+
+    const handleProfileRefresh = useCallback(() => {
+        loadProfileOnce();
+    }, [loadProfileOnce]);
+
+    const handleSaveTestInfo = useCallback(async ({ subject, testDate, testLocation, passed }) => {
+        const trimmedSubject = subject ? String(subject).trim() : '';
+        if (!trimmedSubject) {
+            window.alert('Missing subject.');
+            return;
+        }
+        setTestSaving(trimmedSubject);
+        try {
+            const response = await fetch('/api/profile/test', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                    subject: trimmedSubject,
+                    testDate: testDate || null,
+                    testLocation: testLocation || null,
+                    passed: !!passed,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`Failed with status ${response.status}`);
+            }
+            const data = await response.json();
+            setProfileData(data);
+            const onboardingFlag = !!data?.profile?.onboardingComplete;
+            setOnboardingComplete(onboardingFlag);
+            if (typeof window !== 'undefined') {
+                window._onboardingComplete = onboardingFlag;
+            }
+            window.alert('Saved!');
+        } catch (error) {
+            console.error('Failed to save test info:', error);
+            window.alert('Could not save test info.');
+        } finally {
+            setTestSaving(null);
+        }
+    }, []);
+
+    const handleSaveChallenges = useCallback(async (selectedIds) => {
+        setChallengesSaving(true);
+        try {
+            const response = await fetch('/api/profile/challenges/tags', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ selectedIds }),
+            });
+            if (!response.ok) {
+                throw new Error(`Failed with status ${response.status}`);
+            }
+            const data = await response.json();
+            setProfileData(data);
+            const onboardingFlag = !!data?.profile?.onboardingComplete;
+            setOnboardingComplete(onboardingFlag);
+            if (typeof window !== 'undefined') {
+                window._onboardingComplete = onboardingFlag;
+            }
+            window.alert('Saved!');
+        } catch (error) {
+            console.error('Failed to save challenges:', error);
+            window.alert('Could not save challenges.');
+        } finally {
+            setChallengesSaving(false);
+        }
+    }, []);
+
+    const handleFinishOnboarding = useCallback(async () => {
+        setFinishingOnboarding(true);
+        try {
+            const response = await fetch('/api/profile/complete-onboarding', {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                throw new Error(`Failed with status ${response.status}`);
+            }
+            const data = await response.json();
+            if (data?.ok) {
+                setOnboardingComplete(true);
+                if (typeof window !== 'undefined') {
+                    window._onboardingComplete = true;
+                }
+                await loadProfileOnce();
+                window.alert('Great! You’re all set.');
+                setView('start');
+            } else {
+                await loadProfileOnce();
+                window.alert('Almost there! Please finish the highlighted sections.');
+            }
+        } catch (error) {
+            console.error('Failed to complete onboarding:', error);
+            window.alert('Unable to complete onboarding right now.');
+        } finally {
+            setFinishingOnboarding(false);
+        }
+    }, [loadProfileOnce]);
+
+    const loadScores = useCallback(async (token, options = {}) => {
         if (!token) {
             return;
         }
 
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/scores`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+        const { force = false } = options;
+        const now = Date.now();
+        const timeSinceLastFetch = now - lastScoresFetchRef.current;
 
-            if (!response.ok) {
-                throw new Error(`Failed to fetch scores: ${response.status}`);
+        if (!force) {
+            if (pendingScoresFetchRef.current) {
+                return pendingScoresFetchRef.current;
             }
-
-            const data = await response.json();
-            const normalized = Array.isArray(data) ? data : [];
-            setUserScores(normalized);
-            recalcProgress(normalized);
-        } catch (error) {
-            console.error('Failed to load scores:', error);
-            setUserScores([]);
-            recalcProgress([]);
+            if (timeSinceLastFetch < SCORE_FETCH_INTERVAL_MS) {
+                return;
+            }
         }
+
+        lastScoresFetchRef.current = now;
+
+        const fetchPromise = (async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/scores`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch scores: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const normalized = Array.isArray(data) ? data : [];
+                setUserScores(normalized);
+                recalcProgress(normalized);
+            } catch (error) {
+                console.error('Failed to load scores:', error);
+                setUserScores([]);
+                recalcProgress([]);
+            } finally {
+                pendingScoresFetchRef.current = null;
+            }
+        })();
+
+        pendingScoresFetchRef.current = fetchPromise;
+        return fetchPromise;
     }, [recalcProgress]);
 
     const persistScore = useCallback(async (subject, scaledScore) => {
@@ -2707,6 +3831,7 @@ function App() {
             const parsedUser = JSON.parse(storedUser);
             const profile = ensureUserProfile(parsedUser);
             if (profile) {
+                currentUserRef.current = profile;
                 setCurrentUser(profile);
                 const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
                 if (!customNameSet) {
@@ -2740,7 +3865,45 @@ function App() {
             console.warn('Unable to persist login locally:', error);
         }
 
+        if (welcomeTimeoutRef.current) {
+            clearTimeout(welcomeTimeoutRef.current);
+        }
+        if (welcomeFadeTimeoutRef.current) {
+            clearTimeout(welcomeFadeTimeoutRef.current);
+        }
+
+        const firstName = (() => {
+            if (profile?.name) {
+                const trimmed = profile.name.trim();
+                if (trimmed) {
+                    return trimmed.split(/\s+/)[0];
+                }
+            }
+            if (profile?.email) {
+                const [emailName] = profile.email.split('@');
+                return emailName || '';
+            }
+            return '';
+        })();
+
+        setWelcomeName(firstName);
+        setWelcomeFading(false);
+        setShowWelcomeSplash(true);
+
+        if (typeof window !== 'undefined') {
+            welcomeFadeTimeoutRef.current = window.setTimeout(() => {
+                setWelcomeFading(true);
+            }, 2200);
+            welcomeTimeoutRef.current = window.setTimeout(() => {
+                setShowWelcomeSplash(false);
+                setWelcomeFading(false);
+            }, 3000);
+        }
+
+        currentUserRef.current = profile;
         setCurrentUser(profile);
+        setProfileData(null);
+        setProfileError(null);
         setUserScores([]);
         recalcProgress([]);
 
@@ -2750,15 +3913,28 @@ function App() {
         }
 
         loadScores(token);
+        setView('start');
     };
 
-    const handleSaveName = (firstName, lastName) => {
-        const newName = `${firstName} ${lastName}`;
-        const updatedUser = { ...currentUser, name: newName };
+    const handleSaveName = async (firstName, lastName) => {
+        const newName = `${firstName} ${lastName}`.trim();
+        if (!newName) {
+            alert('Please enter both a first and last name.');
+            return;
+        }
+        try {
+            const result = await persistDisplayName(newName);
+            if (!result.persistedToServer) {
+                console.warn('Display name saved locally; server update pending.');
+            }
+            setShowNamePrompt(false);
+        } catch (error) {
+            console.error('Failed to save name:', error);
+            alert(error?.message || 'Unable to save your name right now. Please try again.');
+        }
+    };
 
-        setCurrentUser(updatedUser);
-        localStorage.setItem('appUser', JSON.stringify(updatedUser));
-        localStorage.setItem(`customNameSet_${currentUser.id}`, 'true');
+    const handleDismissNamePrompt = () => {
         setShowNamePrompt(false);
     };
 
@@ -2769,6 +3945,25 @@ function App() {
         setUserScores([]);
         recalcProgress([]);
         setShowNamePrompt(false);
+        setProfileData(null);
+        setProfileError(null);
+        setProfileLoading(false);
+        setOnboardingComplete(true);
+        setNameDraft('');
+        setNameStatus('');
+        setNameSaving(false);
+        currentUserRef.current = null;
+        if (welcomeTimeoutRef.current) {
+            clearTimeout(welcomeTimeoutRef.current);
+        }
+        if (welcomeFadeTimeoutRef.current) {
+            clearTimeout(welcomeFadeTimeoutRef.current);
+        }
+        setShowWelcomeSplash(false);
+        setWelcomeFading(false);
+        setWelcomeName('');
+        setSettingsStatus('');
+        setSettingsSaving(false);
         if (window.google && google.accounts.id) {
             google.accounts.id.disableAutoSelect();
         }
@@ -2977,12 +4172,31 @@ function App() {
         startQuiz(popQuiz, 'Pop Quiz');
     };
 
-    const navigateHome = () => {
-        setView('start');
+    const navigateHome = useCallback(() => {
         setActiveQuiz(null);
         setQuizResults(null);
         setActiveGenerator(null);
-    };
+        if (!onboardingComplete) {
+            setView('profile');
+            return;
+        }
+        setView('start');
+    }, [onboardingComplete]);
+
+    const handleShowProfileView = useCallback(() => {
+        setView('profile');
+    }, []);
+
+    const handleShowSettingsView = useCallback(() => {
+        if (!onboardingComplete) {
+            setView('profile');
+            return;
+        }
+        setView('settings');
+        if (!profileData) {
+            loadProfileOnce();
+        }
+    }, [loadProfileOnce, onboardingComplete, profileData]);
 
     const handleReviewMarked = (markedQuestions) => {
         const reviewQuiz = {
@@ -3041,14 +4255,52 @@ function App() {
                 return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} onReviewMarked={handleReviewMarked} />;
             case 'generator':
                 return <AIQuizGenerator {...activeGenerator} onQuizGenerated={(quiz) => startQuiz(quiz, activeGenerator.subject)} onExit={navigateHome} />;
+            case 'profile':
+                return (
+                    <ProfileView
+                        loading={profileLoading}
+                        error={profileError}
+                        data={profileData}
+                        nameDraft={nameDraft}
+                        onNameDraftChange={handleNameDraftChange}
+                        onSubmitName={handleProfileNameSubmit}
+                        nameSaving={nameSaving}
+                        nameStatus={nameStatus}
+                        onRefresh={handleProfileRefresh}
+                        onBack={navigateHome}
+                        onSaveTestInfo={handleSaveTestInfo}
+                        testSaving={testSaving}
+                        onSaveChallenges={handleSaveChallenges}
+                        challengesSaving={challengesSaving}
+                        onFinishOnboarding={handleFinishOnboarding}
+                        finishingOnboarding={finishingOnboarding}
+                        onboardingComplete={onboardingComplete}
+                    />
+                );
+            case 'settings':
+                return (
+                    <SettingsView
+                        preferences={preferences}
+                        onApply={handleSettingsInstantChange}
+                        onSave={handlePersistPreferences}
+                        saving={settingsSaving}
+                        status={settingsStatus}
+                        onBack={navigateHome}
+                        loading={profileLoading}
+                    />
+                );
             case 'start':
             default:
                 return (
-                    <StartScreen 
+                    <StartScreen
                         currentUser={currentUser}
                         onLogout={handleLogout}
                         progress={progress}
-                        onSelectQuiz={startQuiz} 
+                        profileBundle={profileData}
+                        onboardingComplete={onboardingComplete}
+                        onShowProfile={handleShowProfileView}
+                        onSelectQuiz={startQuiz}
+                        vocabulary={vocabulary}
                         onStartPopQuiz={handleStartPopQuiz}
                         onStartComprehensiveExam={handleGenerateComprehensiveExam}
                         setIsLoading={setIsLoading}
@@ -3109,8 +4361,29 @@ function App() {
 
     return (
         <>
+            {showWelcomeSplash && (
+                <div
+                    className={`fixed inset-0 z-[60] flex flex-col items-center justify-center bg-slate-900 text-white transition-opacity duration-700 ${welcomeFading ? 'opacity-0' : 'opacity-100'}`}
+                >
+                    <img
+                        src="Logo.svg"
+                        alt="Kingmakerconsults logo"
+                        className="w-4/5 max-w-4xl h-auto object-contain drop-shadow-2xl"
+                    />
+                    <p className="mt-8 text-3xl sm:text-4xl font-semibold tracking-wide">
+                        Welcome{welcomeName ? `, ${welcomeName}!` : '!'}
+                    </p>
+                </div>
+            )}
             <div className="min-h-screen flex flex-col">
-                <AppHeader currentUser={currentUser} onLogout={handleLogout} />
+                <AppHeader
+                    currentUser={currentUser}
+                    onLogout={handleLogout}
+                    onShowHome={navigateHome}
+                    onShowProfile={handleShowProfileView}
+                    onShowSettings={handleShowSettingsView}
+                    activePanel={view === 'profile' ? 'profile' : view === 'settings' ? 'settings' : null}
+                />
                 {isLoading && (
                     <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50 text-center px-4">
                         <h2 className="text-3xl font-bold text-white mb-4">Loading...</h2>
@@ -3120,7 +4393,7 @@ function App() {
                     </div>
                 )}
                 {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
-                {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} />}
+                {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} onDismiss={handleDismissNamePrompt} />}
                 <MathPracticeToolsModal
                     isOpen={isMathToolsOpen}
                     onClose={closeMathTools}
@@ -3144,6 +4417,763 @@ function App() {
 }
 
 // --- VIEWS & COMPONENTS ---
+
+
+function ProfileView({
+    loading,
+    error,
+    data,
+    nameDraft,
+    onNameDraftChange,
+    onSubmitName,
+    nameSaving,
+    nameStatus,
+    onRefresh,
+    onBack,
+    onSaveTestInfo,
+    testSaving,
+    onSaveChallenges,
+    challengesSaving,
+    onFinishOnboarding,
+    finishingOnboarding,
+    onboardingComplete,
+}) {
+    const profile = data?.profile || {};
+    const challengeOptions = Array.isArray(data?.challengeOptions) ? data.challengeOptions : [];
+    const recentSummary = data?.recentScoresDashboard || {};
+    const legacyScores = data?.scores || {};
+    const SUBJECT_ORDER = useMemo(() => ['Math', 'RLA', 'Science', 'Social Studies'], []);
+    const rawTestPlan = Array.isArray(data?.testPlan) ? data.testPlan : [];
+    const normalizedTestPlan = useMemo(() => {
+        const map = new Map();
+        rawTestPlan.forEach((entry) => {
+            if (!entry || !entry.subject) {
+                return;
+            }
+            const subject = String(entry.subject);
+            map.set(subject, {
+                subject,
+                testDate: entry.testDate || '',
+                testLocation: entry.testLocation || '',
+                passed: !!entry.passed,
+                daysUntil: entry.daysUntil ?? null,
+            });
+        });
+        SUBJECT_ORDER.forEach((subject) => {
+            if (!map.has(subject)) {
+                map.set(subject, {
+                    subject,
+                    testDate: '',
+                    testLocation: '',
+                    passed: false,
+                    daysUntil: null,
+                });
+            }
+        });
+        const orderedSubjects = [
+            ...SUBJECT_ORDER,
+            ...Array.from(map.keys()).filter((subject) => !SUBJECT_ORDER.includes(subject)),
+        ];
+        const seen = new Set();
+        const result = [];
+        orderedSubjects.forEach((subject) => {
+            if (!seen.has(subject) && map.has(subject)) {
+                result.push(map.get(subject));
+                seen.add(subject);
+            }
+        });
+        map.forEach((value, subject) => {
+            if (!seen.has(subject)) {
+                result.push(value);
+            }
+        });
+        return result;
+    }, [rawTestPlan, SUBJECT_ORDER]);
+
+    const initialTestDrafts = useMemo(() => {
+        const drafts = {};
+        normalizedTestPlan.forEach((entry) => {
+            drafts[entry.subject] = {
+                subject: entry.subject,
+                testDate: entry.testDate || '',
+                testLocation: entry.testLocation || '',
+                passed: !!entry.passed,
+            };
+        });
+        return drafts;
+    }, [normalizedTestPlan]);
+
+    const [testDrafts, setTestDrafts] = useState(initialTestDrafts);
+
+    useEffect(() => {
+        setTestDrafts(initialTestDrafts);
+    }, [initialTestDrafts]);
+
+    const handleSubjectFieldChange = useCallback((subject, field, value) => {
+        setTestDrafts((prev) => {
+            const existing = prev[subject] || { subject, testDate: '', testLocation: '', passed: false };
+            return {
+                ...prev,
+                [subject]: {
+                    ...existing,
+                    [field]: field === 'passed' ? !!value : value,
+                },
+            };
+        });
+    }, []);
+
+    const handleSubjectSave = useCallback(
+        (subject) => {
+            const draft = testDrafts[subject] || { subject, testDate: '', testLocation: '', passed: false };
+            onSaveTestInfo?.({
+                subject,
+                testDate: draft.testDate ? draft.testDate : null,
+                testLocation: draft.testLocation ? draft.testLocation : null,
+                passed: !!draft.passed,
+            });
+        },
+        [onSaveTestInfo, testDrafts]
+    );
+
+    const nextUpcoming = data?.nextUpcomingTest || null;
+    const formatDayCount = (value) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) {
+            return null;
+        }
+        const rounded = Math.max(0, Math.floor(value));
+        return `${rounded} day${rounded === 1 ? '' : 's'}`;
+    };
+    const nextUpcomingDaysText = formatDayCount(nextUpcoming?.daysUntil);
+    const nextUpcomingSummary = nextUpcoming && nextUpcoming.testDate
+        ? `Next test: ${nextUpcoming.subject} on ${nextUpcoming.testDate}${nextUpcomingDaysText ? ` (${nextUpcomingDaysText})` : ''}`
+        : 'No test scheduled yet.';
+
+    const selectedFromServer = useMemo(
+        () => challengeOptions.filter((opt) => opt.selected).map((opt) => opt.id),
+        [challengeOptions]
+    );
+    const [selectedIds, setSelectedIds] = useState(selectedFromServer);
+    useEffect(() => {
+        setSelectedIds(selectedFromServer);
+    }, [selectedFromServer]);
+
+    const groupedChallenges = useMemo(() => {
+        const grouped = {};
+        challengeOptions.forEach((opt) => {
+            const subjectKey = opt.subject || 'Other';
+            const subtopicKey = opt.subtopic || 'General';
+            if (!grouped[subjectKey]) {
+                grouped[subjectKey] = {};
+            }
+            if (!grouped[subjectKey][subtopicKey]) {
+                grouped[subjectKey][subtopicKey] = [];
+            }
+            grouped[subjectKey][subtopicKey].push(opt);
+        });
+        return grouped;
+    }, [challengeOptions]);
+
+    const selectedCount = selectedIds.length;
+    const highlightName = !onboardingComplete && !profile.name;
+    const hasAnyTestProgress = normalizedTestPlan.some((entry) => entry.passed || entry.testDate);
+    const highlightTest = !onboardingComplete && !hasAnyTestProgress;
+    const highlightChallenges = !onboardingComplete && selectedCount === 0;
+
+    const handleChallengeToggle = (id) => {
+        setSelectedIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
+            } else {
+                next.add(id);
+            }
+            return Array.from(next);
+        });
+    };
+
+    const handleChallengesSubmit = (event) => {
+        event.preventDefault();
+        onSaveChallenges?.(selectedIds);
+    };
+
+    const handleBackClick = () => {
+        if (!onboardingComplete) {
+            window.alert('Please finish onboarding before heading to the dashboard.');
+            return;
+        }
+        onBack?.();
+    };
+
+    const timezoneLabel = profile.timezone || 'America/New_York';
+    const reminderLabel = profile.reminderEnabled === false ? 'Off' : 'On';
+
+    return (
+        <section id="profileView" data-view="profile" tabIndex={-1} className="outline-none">
+            <div className="max-w-4xl mx-auto space-y-6">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-800">Profile</h1>
+                        <p className="text-sm text-slate-500">Update your learning plan and keep your information in sync.</p>
+                    </div>
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                        <button
+                            type="button"
+                            onClick={onRefresh}
+                            className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={loading}
+                        >
+                            {loading ? 'Refreshing…' : 'Refresh'}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleBackClick}
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                        >
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+
+                {error && !loading && (
+                    <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700" role="alert">
+                        {error}
+                    </div>
+                )}
+
+                {!onboardingComplete && (
+                    <div
+                        className="onboarding-banner"
+                        style={{ border: '1px solid #f6c', background: '#fff0f6', padding: '1rem', borderRadius: '0.5rem' }}
+                    >
+                        <strong>Welcome!</strong> Before we start, fill this out so we can build you a plan:
+                        <ol className="list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2">
+                            <li>Pick the areas you struggle with</li>
+                            <li>Set your test date (or mark "I passed")</li>
+                            <li>Choose a display name</li>
+                        </ol>
+                        <button
+                            id="finishOnboardingBtn"
+                            type="button"
+                            onClick={onFinishOnboarding}
+                            className="mt-3 inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={finishingOnboarding}
+                        >
+                            {finishingOnboarding ? 'Checking…' : "I'm Done"}
+                        </button>
+                    </div>
+                )}
+
+                <form
+                    onSubmit={onSubmitName}
+                    className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightName ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                    aria-labelledby="profile-name-heading"
+                >
+                    <div>
+                        <h2 id="profile-name-heading" className="text-xl font-semibold text-slate-800">Display Name</h2>
+                        <p className="text-sm text-slate-500">This name appears across the app.</p>
+                    </div>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                        <label className="w-full sm:flex-1">
+                            <span className="sr-only">Display name</span>
+                            <input
+                                type="text"
+                                value={nameDraft}
+                                onChange={(event) => onNameDraftChange(event.target.value)}
+                                maxLength={80}
+                                placeholder="Your name"
+                                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                            />
+                        </label>
+                        <button
+                            type="submit"
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={nameSaving}
+                        >
+                            {nameSaving ? 'Saving…' : 'Save Name'}
+                        </button>
+                    </div>
+                    <p className="text-xs text-slate-500">Maximum 80 characters.</p>
+                    {nameStatus && (
+                        <p className="text-sm text-slate-600" role="status" aria-live="polite">
+                            {nameStatus}
+                        </p>
+                    )}
+                </form>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                <section
+                    id="testPlanCard"
+                    className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightTest ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                >
+                    <h2 className="text-lg font-semibold text-slate-800">Upcoming Tests</h2>
+                    <div id="nextUpcomingSummary" className="note text-sm text-slate-600">
+                        {nextUpcomingSummary}
+                    </div>
+                    <div id="testPlanList" className="grid gap-4 md:grid-cols-2">
+                        {normalizedTestPlan.length === 0 ? (
+                            <p className="col-span-full text-sm text-slate-500">No subjects available yet.</p>
+                        ) : normalizedTestPlan.map((entry) => {
+                            const draft = testDrafts[entry.subject] || {
+                                subject: entry.subject,
+                                testDate: '',
+                                testLocation: '',
+                                passed: false,
+                            };
+                            const savingThisSubject = testSaving === entry.subject;
+                            const countdownLabel = (() => {
+                                if (!entry.testDate || draft.passed) {
+                                    return null;
+                                }
+                                if (entry.daysUntil != null) {
+                                    const value = entry.daysUntil;
+                                    return `${value} day${value === 1 ? '' : 's'} remaining`;
+                                }
+                                return 'Countdown not available';
+                            })();
+
+                            return (
+                                <div
+                                    key={entry.subject}
+                                    className="subject-test-block rounded-xl border border-slate-200 bg-white/80 p-4 space-y-3 shadow-sm"
+                                >
+                                    <h3 className="text-base font-semibold text-slate-700">{entry.subject}</h3>
+                                    <label className="flex flex-col gap-1 text-sm text-slate-600">
+                                        Date
+                                        <input
+                                            type="date"
+                                            className="tp-date rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                                            data-subject={entry.subject}
+                                            value={draft.testDate || ''}
+                                            onChange={(event) => handleSubjectFieldChange(entry.subject, 'testDate', event.target.value)}
+                                            disabled={savingThisSubject}
+                                        />
+                                    </label>
+                                    <label className="flex flex-col gap-1 text-sm text-slate-600">
+                                        Location
+                                        <input
+                                            type="text"
+                                            className="tp-location rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                                            placeholder="Test center (optional)"
+                                            data-subject={entry.subject}
+                                            value={draft.testLocation || ''}
+                                            onChange={(event) => handleSubjectFieldChange(entry.subject, 'testLocation', event.target.value)}
+                                            disabled={savingThisSubject}
+                                        />
+                                    </label>
+                                    <label className="inline-row flex items-center gap-2 text-sm text-slate-600">
+                                        <input
+                                            type="checkbox"
+                                            className="tp-passed h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                                            data-subject={entry.subject}
+                                            checked={!!draft.passed}
+                                            onChange={(event) => handleSubjectFieldChange(entry.subject, 'passed', event.target.checked)}
+                                            disabled={savingThisSubject}
+                                        />
+                                        I already passed this subject
+                                    </label>
+                                    <button
+                                        type="button"
+                                        className="btn tp-save inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                                        data-subject={entry.subject}
+                                        onClick={() => handleSubjectSave(entry.subject)}
+                                        disabled={savingThisSubject}
+                                    >
+                                        {savingThisSubject ? 'Saving…' : `Save ${entry.subject}`}
+                                    </button>
+                                    {draft.passed ? (
+                                        <p className="text-xs text-emerald-600">Great job! We marked this subject as passed.</p>
+                                    ) : countdownLabel ? (
+                                        <p className="text-xs text-slate-500">{countdownLabel}</p>
+                                    ) : null}
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <p className="text-xs text-slate-500">Dates saved here will also appear on your dashboard.</p>
+                </section>
+
+                    <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
+                        <h2 className="text-lg font-semibold text-slate-800">Preferences Snapshot</h2>
+                        <dl className="space-y-2 text-sm text-slate-600">
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                                <dt className="font-medium text-slate-700">Font Size</dt>
+                                <dd className="capitalize">{profile.fontSize || 'md'}</dd>
+                            </div>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                                <dt className="font-medium text-slate-700">Theme</dt>
+                                <dd className="capitalize">{profile.theme || 'system'}</dd>
+                            </div>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                                <dt className="font-medium text-slate-700">Timezone</dt>
+                                <dd>{timezoneLabel}</dd>
+                            </div>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                                <dt className="font-medium text-slate-700">Test Reminders</dt>
+                                <dd>{reminderLabel}</dd>
+                            </div>
+                        </dl>
+                        <p className="text-xs text-slate-500">Adjust these settings anytime from the Settings panel.</p>
+                    </article>
+                </div>
+
+                <form
+                    onSubmit={handleChallengesSubmit}
+                    className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightChallenges ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                >
+                    <h2 className="text-lg font-semibold text-slate-800">Learning Challenges</h2>
+                    <p className="text-sm text-slate-600">Select the areas you find tough. We’ll use this later to build a study plan for you.</p>
+                    <div id="challengeList" className="max-h-64 overflow-y-auto rounded-lg border border-slate-200 p-2">
+                        {Object.keys(groupedChallenges).length === 0 ? (
+                            <p className="text-sm text-slate-500">No challenge options available yet.</p>
+                        ) : (
+                            Object.keys(groupedChallenges)
+                                .sort()
+                                .map((subject) => (
+                                    <div key={subject} className="mb-3">
+                                        <div className="challenge-subject font-semibold text-slate-700">{subject}</div>
+                                        {Object.keys(groupedChallenges[subject])
+                                            .sort()
+                                            .map((subtopic) => (
+                                                <div key={`${subject}-${subtopic}`} className="mt-1">
+                                                    <div className="challenge-subtopic ml-4 text-sm italic text-slate-500">{subtopic}</div>
+                                                    {groupedChallenges[subject][subtopic].map((opt) => {
+                                                        const isChecked = selectedIds.includes(opt.id);
+                                                        return (
+                                                            <label
+                                                                key={opt.id}
+                                                                className="ml-8 mt-2 flex items-start gap-2 text-sm text-slate-600"
+                                                            >
+                                                                <input
+                                                                    type="checkbox"
+                                                                    className="challengeBox mt-1 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                                                                    data-id={opt.id}
+                                                                    checked={isChecked}
+                                                                    onChange={() => handleChallengeToggle(opt.id)}
+                                                                />
+                                                                <span>{opt.label || opt.subtopic || opt.subject}</span>
+                                                            </label>
+                                                        );
+                                                    })}
+                                                </div>
+                                            ))}
+                                    </div>
+                                ))
+                        )}
+                    </div>
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-xs text-slate-500">Selected: {selectedCount}</p>
+                        <button
+                            id="saveChallengesBtn"
+                            type="submit"
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={challengesSaving}
+                        >
+                            {challengesSaving ? 'Saving…' : 'Save Challenges'}
+                        </button>
+                    </div>
+                </form>
+
+                <RecentScoresPanel
+                    title="Recent Scores"
+                    summary={recentSummary}
+                    legacyScores={legacyScores}
+                    loading={loading}
+                />
+            </div>
+        </section>
+    );
+}
+
+function RecentScoresPanel({ summary, legacyScores, loading, title = 'Recent Scores' }) {
+    if (loading) {
+        return (
+            <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
+                <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+                <p className="text-sm text-slate-600">Loading…</p>
+            </section>
+        );
+    }
+
+    const hasSummary = summary && Object.keys(summary).length > 0;
+    const subjectScores = Array.isArray(summary?.subjects) ? summary.subjects : [];
+    const cardScores = Array.isArray(summary?.cards) ? summary.cards : [];
+    const highlightScores = Array.isArray(summary?.highlights) ? summary.highlights : [];
+    const overallValue = summary?.overall ?? summary?.total ?? null;
+
+    const formatScoreValue = (value) => {
+        if (value == null) {
+            return '—';
+        }
+        if (typeof value === 'number' && Number.isFinite(value)) {
+            return `${Math.round(value)}%`;
+        }
+        if (typeof value === 'object') {
+            if (typeof value.score === 'number') {
+                return `${Math.round(value.score)}%`;
+            }
+            if (typeof value.value === 'number') {
+                return `${Math.round(value.value)}%`;
+            }
+            if (typeof value.display === 'string') {
+                return value.display;
+            }
+        }
+        return String(value);
+    };
+
+    const renderCard = (item, index, fallbackLabel) => {
+        const label = item?.subject || item?.name || item?.label || fallbackLabel || `Item ${index + 1}`;
+        const primary = item?.latest ?? item?.score ?? item?.value ?? item?.percent ?? item?.percentage ?? item?.current ?? null;
+        const secondary = item?.average ?? item?.avg ?? item?.trend ?? item?.previous ?? null;
+        const note = item?.description || item?.note;
+        return (
+            <div key={item?.id || `${label}-${index}`} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
+                {primary != null && <p className="mt-1 text-2xl font-bold text-slate-800">{formatScoreValue(primary)}</p>}
+                {secondary != null && <p className="text-xs text-slate-500">Average: {formatScoreValue(secondary)}</p>}
+                {note && <p className="mt-1 text-xs text-slate-500">{note}</p>}
+            </div>
+        );
+    };
+
+    if (hasSummary) {
+        return (
+            <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
+                <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+                <div className="space-y-4">
+                    {overallValue != null && (
+                        <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Overall</p>
+                            <p className="text-2xl font-bold text-slate-800">{formatScoreValue(overallValue)}</p>
+                        </div>
+                    )}
+                    {(subjectScores.length || cardScores.length || highlightScores.length) ? (
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            {subjectScores.map((item, index) => renderCard(item, index, 'Subject'))}
+                            {cardScores.map((item, index) => renderCard(item, index + subjectScores.length, 'Summary'))}
+                            {highlightScores.map((item, index) => renderCard(item, index + subjectScores.length + cardScores.length, 'Highlight'))}
+                        </div>
+                    ) : null}
+                    {summary?.lastUpdated && (
+                        <p className="text-xs text-slate-500">Last updated {summary.lastUpdated}</p>
+                    )}
+                    {overallValue == null && !subjectScores.length && !cardScores.length && !highlightScores.length && (
+                        <pre className="whitespace-pre-wrap rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs text-slate-500">{JSON.stringify(summary, null, 2)}</pre>
+                    )}
+                </div>
+            </section>
+        );
+    }
+
+    const subjectRows = Array.isArray(legacyScores?.bySubject) ? legacyScores.bySubject : [];
+    const subtopicRows = Array.isArray(legacyScores?.bySubtopic) ? legacyScores.bySubtopic : [];
+
+    if (!subjectRows.length && !subtopicRows.length) {
+        return (
+            <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
+                <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+                <p className="text-sm text-slate-600">No scores yet.</p>
+            </section>
+        );
+    }
+
+    return (
+        <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
+            <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+            {subjectRows.length ? (
+                <div>
+                    <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">By Subject</h3>
+                    <div className="mt-2 overflow-x-auto">
+                        <table className="min-w-full divide-y divide-slate-200 text-sm">
+                            <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                                <tr>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subject</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Latest</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Average</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-200 text-slate-600">
+                                {subjectRows.map((row, index) => (
+                                    <tr key={`${row.subject}-${index}`}>
+                                        <td className="px-3 py-2 font-medium text-slate-700">{row.subject}</td>
+                                        <td className="px-3 py-2">{row.latest != null ? `${row.latest}%` : '—'}</td>
+                                        <td className="px-3 py-2">{row.avg != null ? `${row.avg}%` : '—'}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            ) : null}
+            {subtopicRows.length ? (
+                <div>
+                    <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">By Subtopic</h3>
+                    <div className="mt-2 overflow-x-auto">
+                        <table className="min-w-full divide-y divide-slate-200 text-sm">
+                            <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                                <tr>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subject</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Subtopic</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Latest</th>
+                                    <th scope="col" className="px-3 py-2 text-left font-semibold">Average</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-200 text-slate-600">
+                                {subtopicRows.map((row, index) => (
+                                    <tr key={`${row.subject}-${row.subtopic}-${index}`}>
+                                        <td className="px-3 py-2 font-medium text-slate-700">{row.subject}</td>
+                                        <td className="px-3 py-2">{row.subtopic}</td>
+                                        <td className="px-3 py-2">{row.latest != null ? `${row.latest}%` : '—'}</td>
+                                        <td className="px-3 py-2">{row.avg != null ? `${row.avg}%` : '—'}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            ) : null}
+        </section>
+    );
+}
+
+function SettingsView({ preferences, onApply, onSave, saving, status, onBack, loading }) {
+    const [fontSize, setFontSize] = useState(preferences.fontSize);
+    const [theme, setTheme] = useState(preferences.theme);
+
+    useEffect(() => {
+        setFontSize(preferences.fontSize);
+    }, [preferences.fontSize]);
+
+    useEffect(() => {
+        setTheme(preferences.theme);
+    }, [preferences.theme]);
+
+    const fontSizeOptions = [
+        { value: 'sm', label: 'Small', description: 'Compact text for dense layouts.' },
+        { value: 'md', label: 'Medium', description: 'Balanced for most learners.' },
+        { value: 'lg', label: 'Large', description: 'Larger text for improved legibility.' },
+        { value: 'xl', label: 'Extra Large', description: 'Maximum size for easy reading.' },
+    ];
+
+    const themeOptions = [
+        { value: 'light', label: 'Light', description: 'Bright background with dark text.' },
+        { value: 'dark', label: 'Dark', description: 'Dark background that is easy on the eyes.' },
+        { value: 'system', label: 'System', description: 'Match your device preference automatically.' },
+    ];
+
+    const handleFontSizeChange = (event) => {
+        const value = event.target.value;
+        setFontSize(value);
+        onApply({ fontSize: value });
+    };
+
+    const handleThemeChange = (event) => {
+        const value = event.target.value;
+        setTheme(value);
+        onApply({ theme: value });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        await onSave({ fontSize, theme });
+    };
+
+    return (
+        <section id="settingsView" data-view="settings" tabIndex={-1} className="outline-none">
+            <div className="max-w-4xl mx-auto space-y-6">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-800">Settings</h1>
+                        <p className="text-sm text-slate-500">Choose the font size and theme that suit you best. Changes apply instantly.</p>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={onBack}
+                        className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                    >
+                        Back to Dashboard
+                    </button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-6">
+                    <fieldset className="space-y-3">
+                        <legend className="text-lg font-semibold text-slate-800">Font Size</legend>
+                        <p className="text-sm text-slate-500">Pick the text size that feels comfortable on your device.</p>
+                        <div className="grid gap-2 sm:grid-cols-2">
+                            {fontSizeOptions.map((option) => (
+                                <label
+                                    key={option.value}
+                                    className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 hover:border-sky-300 focus-within:ring-2 focus-within:ring-sky-500"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="fontSize"
+                                        value={option.value}
+                                        checked={fontSize === option.value}
+                                        onChange={handleFontSizeChange}
+                                        className="h-4 w-4 text-sky-600 focus:ring-sky-500"
+                                    />
+                                    <span className="flex flex-col">
+                                        <span className="font-semibold text-slate-700">{option.label}</span>
+                                        <span className="text-xs text-slate-500">{option.description}</span>
+                                    </span>
+                                </label>
+                            ))}
+                        </div>
+                    </fieldset>
+
+                    <fieldset className="space-y-3">
+                        <legend className="text-lg font-semibold text-slate-800">Theme</legend>
+                        <p className="text-sm text-slate-500">Switch between light, dark, or follow your system preference.</p>
+                        <div className="grid gap-2 sm:grid-cols-2">
+                            {themeOptions.map((option) => (
+                                <label
+                                    key={option.value}
+                                    className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 hover:border-sky-300 focus-within:ring-2 focus-within:ring-sky-500"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="theme"
+                                        value={option.value}
+                                        checked={theme === option.value}
+                                        onChange={handleThemeChange}
+                                        className="h-4 w-4 text-sky-600 focus:ring-sky-500"
+                                    />
+                                    <span className="flex flex-col">
+                                        <span className="font-semibold text-slate-700">{option.label}</span>
+                                        <span className="text-xs text-slate-500">{option.description}</span>
+                                    </span>
+                                </label>
+                            ))}
+                        </div>
+                    </fieldset>
+
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-xs text-slate-500" role="status" aria-live="polite">
+                            {status}
+                        </p>
+                        <button
+                            type="submit"
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={saving || loading}
+                        >
+                            {saving ? 'Saving…' : 'Save Settings'}
+                        </button>
+                    </div>
+                </form>
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+                    <h2 className="text-base font-semibold text-slate-700">How settings work</h2>
+                    <ul className="mt-2 list-disc space-y-1 pl-5">
+                        <li>Changes apply instantly so you can preview them before saving.</li>
+                        <li>We try to sync your preferences to the server. If that fails, they stay on this device.</li>
+                        <li>Use the <strong>System</strong> theme to match your device&apos;s dark or light mode automatically.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    );
+}
 
 function AdminBypassForm() {
     const [password, setPassword] = useState('');
@@ -3514,7 +5544,7 @@ function DetailedProgressView({ subject, progressData, onBack }) {
     return (
         <div className="fade-in">
             <header className="flex items-center pb-4 mb-4 border-b">
-                <button onClick={onBack} className="flex items-center gap-1 text-sm text-sky-600 hover:text-sky-800 font-semibold"><ArrowLeftIcon /> Back to Dashboard</button>
+                <button type="button" onClick={onBack} className="flex items-center gap-1 text-sm text-sky-600 hover:text-sky-800 font-semibold"><ArrowLeftIcon /> Back to Dashboard</button>
             </header>
             <h2 className="text-3xl font-extrabold text-slate-800 mb-4">{subject} Progress Details</h2>
             <div className="space-y-4">
@@ -3572,6 +5602,81 @@ function ProgressDashboard({ progress, onSubjectClick }) {
                     <p className={`text-4xl font-bold ${getScoreTextClass(subject)}`}>{calculateAverage(progress[subject]?.scores)}</p>
                 </button>
             ))}
+        </div>
+    );
+}
+
+function VocabularyTicker({ vocabulary, onWordClick }) {
+    const entries = useMemo(() => {
+        if (!vocabulary) return [];
+        return Object.entries(vocabulary)
+            .flatMap(([subject, words]) => {
+                if (!Array.isArray(words) || !words.length) return [];
+                return words
+                    .slice(0, MAX_TICKER_WORDS_PER_SUBJECT)
+                    .map((word) => ({ subject, term: word.term }))
+                    .filter((item) => item.term);
+            });
+    }, [vocabulary]);
+
+    if (!entries.length) {
+        return null;
+    }
+
+    const repeatedEntries = [...entries, ...entries];
+
+    return (
+        <div className="vocabulary-spotlight border border-slate-200 rounded-2xl overflow-hidden shadow-md">
+            <div className="flex items-center justify-between px-4 py-2 bg-slate-900 text-white">
+                <span className="text-sm font-semibold uppercase tracking-wide">Vocabulary Spotlight</span>
+                <span className="text-xs text-white/70 hidden sm:inline">Click any word to view the full list.</span>
+            </div>
+            <div className="vocabulary-ticker">
+                <div className="vocabulary-ticker-track">
+                    {repeatedEntries.map((item, index) => {
+                        const color = VOCABULARY_SUBJECT_COLORS[item.subject] || '#0f172a';
+                        const shortLabel = SUBJECT_SHORT_LABELS[item.subject] || item.subject;
+                        return (
+                            <button
+                                key={`${item.subject}-${item.term}-${index}`}
+                                type="button"
+                                onClick={() => onWordClick?.(item.subject)}
+                                className="vocabulary-chip"
+                                title={`View ${item.subject} vocabulary`}
+                            >
+                                <span className="vocabulary-chip-dot" style={{ backgroundColor: color }}></span>
+                                <span>{item.term}</span>
+                                <span className="vocabulary-chip-label">{shortLabel}</span>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function SubjectVocabularySection({ subject, words }) {
+    if (!Array.isArray(words) || !words.length) {
+        return null;
+    }
+    return (
+        <div id="subject-vocabulary-section" className="bg-white/10 border border-white/40 rounded-xl p-5 mb-6 shadow-inner backdrop-blur-sm">
+            <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h3 className="text-xl font-bold text-white">Subject Vocabulary</h3>
+                    <p className="text-sm text-white/80">Scroll through the complete list of key terms for {subject}.</p>
+                </div>
+            </div>
+            <div className="mt-4 max-h-96 overflow-y-auto pr-1 space-y-3">
+                {words.map((word) => (
+                    <div key={word.term} className="bg-white/95 text-slate-900 rounded-lg p-4 shadow-sm">
+                        <p className="text-lg font-semibold">{word.term}</p>
+                        {word.definition && <p className="text-sm text-slate-600 mt-2 leading-relaxed">{word.definition}</p>}
+                        {word.example && <p className="text-xs text-slate-500 italic mt-2">Example: {word.example}</p>}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
@@ -3651,13 +5756,46 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
+function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
+    const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
+    const profile = profileData?.profile || {};
+    const challengeOptions = Array.isArray(profileData?.challengeOptions) ? profileData.challengeOptions : [];
+    const selectedChallenges = challengeOptions.filter((opt) => opt.selected);
+    const displayedChallenges = selectedChallenges.slice(0, 4);
+    const hiddenChallengeCount = Math.max(0, selectedChallenges.length - displayedChallenges.length);
+    const recentDashboardSummary = profileData?.recentScoresDashboard || {};
+    const testPlan = Array.isArray(profileData?.testPlan) ? profileData.testPlan : [];
+    const nextUpcomingTest = profileData?.nextUpcomingTest || null;
+    const hasSavedTest = testPlan.some((entry) => entry && (entry.passed || entry.testDate));
+    const allSubjectsPassed = testPlan.length > 0 && testPlan.every((entry) => entry.passed);
+    const formatDayCount = (value) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) {
+            return null;
+        }
+        const rounded = Math.max(0, Math.floor(value));
+        return `${rounded} day${rounded === 1 ? '' : 's'}`;
+    };
+    const upcomingMatch = nextUpcomingTest
+        ? testPlan.find((entry) => entry.subject === nextUpcomingTest.subject && entry.testDate === nextUpcomingTest.testDate)
+        : null;
+    const nextUpcomingSummary = nextUpcomingTest && nextUpcomingTest.testDate
+        ? {
+            subject: nextUpcomingTest.subject,
+            testDate: nextUpcomingTest.testDate,
+            daysUntilText: formatDayCount(nextUpcomingTest.daysUntil),
+            location: upcomingMatch?.testLocation || null,
+        }
+        : null;
     const userDisplayName = currentUser?.name || currentUser?.email || 'Learner';
     const userInitial = userDisplayName ? userDisplayName.trim().charAt(0).toUpperCase() : 'U';
+    const hasVocabulary = Object.values(vocabularyData).some(words => Array.isArray(words) && words.length > 0);
+    const goToProfile = () => {
+        onShowProfile?.();
+    };
 
     const handleSelectSubject = (subject) => {
         setSelectedSubject(subject);
@@ -3669,21 +5807,46 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
         setSelectedCategory(category);
     };
 
+    const handleViewVocabulary = (subject) => {
+        if (!subject) return;
+        const words = vocabularyData[subject];
+        if (Array.isArray(words) && words.length > 0) {
+            setSelectedSubject(subject);
+            setSelectedCategory(null);
+            setAiQuizTopic('');
+            setTimeout(() => {
+                const section = document.getElementById('subject-vocabulary-section');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 200);
+        }
+    };
+
     const handleBack = () => {
         if (selectedCategory) {
             setSelectedCategory(null);
-        } else if (selectedSubject) {
+            setAiQuizTopic('');
+            return;
+        }
+
+        if (selectedSubject) {
             setSelectedSubject(null);
+            setSelectedCategory(null);
+            setAiQuizTopic('');
+            setShowFormulaSheet?.(false);
         }
     };
 
     // --- NEW: If detailed view is active, render it instead of the main dashboard ---
     if (detailedViewSubject) {
-        return <DetailedProgressView
-                    subject={detailedViewSubject}
-                    progressData={progress[detailedViewSubject]}
-                    onBack={() => setDetailedViewSubject(null)}
-                />;
+        return (
+            <DetailedProgressView
+                subject={detailedViewSubject}
+                progressData={progress[detailedViewSubject]}
+                onBack={() => setDetailedViewSubject(null)}
+            />
+        );
     }
 
     // --- NEW: Logic to get topics for the dropdown (moved from AIQuizGenerator) ---
@@ -3700,12 +5863,18 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
         const buttonClass = isOnColor
             ? 'text-white hover:text-slate-200'
             : 'text-sky-600 hover:underline';
+        const backLabel = selectedCategory ? `Back to ${selectedSubject}` : 'Back to Main Menu';
 
         return (
             <div className={`mb-4 text-lg font-semibold flex items-center gap-2 ${containerClass}`}>
-                <button onClick={handleBack} className={`flex items-center gap-1 ${buttonClass}`}>
+                <button
+                    type="button"
+                    onClick={handleBack}
+                    className={`flex items-center gap-2 ${buttonClass}`}
+                    aria-label={backLabel}
+                >
                     <ArrowLeftIcon />
-                    Back
+                    <span>{backLabel}</span>
                 </button>
                 <span>/</span>
                 <span>{selectedSubject}</span>
@@ -3724,29 +5893,41 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
         const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
         return (
-            <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'}`}>
-                <Breadcrumb variant="onColor" />
-                <h2 className="text-3xl font-extrabold text-white mb-4">{selectedCategory}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {topics.map(topic => (
-                        <div
-                            key={topic.id}
-                            className={`rounded-xl border ${subjectColors.surfaceBorder || 'border-white/40'} bg-white/95 text-slate-900 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl`}
-                        >
-                            <div>
-                                <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
-                                <p className="text-slate-600 text-sm my-3 flex-grow">{topic.description}</p>
-                            </div>
-                            <button
-                                onClick={() => onSelectQuiz(topic, selectedSubject)}
-                                className={`w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition ${subjectColors.accent || DEFAULT_COLOR_SCHEME.accent} ${subjectColors.accentHover || DEFAULT_COLOR_SCHEME.accentHover} ${subjectColors.accentText || 'text-white'}`}
+            <>
+                <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'}`}>
+                    <Breadcrumb variant="onColor" />
+                    <h2 className="text-3xl font-extrabold text-white mb-4">{selectedCategory}</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {topics.map(topic => (
+                            <div
+                                key={topic.id}
+                                className={`rounded-xl border ${subjectColors.surfaceBorder || 'border-white/40'} bg-white/95 text-slate-900 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl`}
                             >
-                                {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}
-                            </button>
-                        </div>
-                    ))}
+                                <div>
+                                    <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
+                                    <p className="text-slate-600 text-sm my-3 flex-grow">{topic.description}</p>
+                                </div>
+                                <button
+                                    onClick={() => onSelectQuiz(topic, selectedSubject)}
+                                    className={`w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition ${subjectColors.accent || DEFAULT_COLOR_SCHEME.accent} ${subjectColors.accentHover || DEFAULT_COLOR_SCHEME.accentHover} ${subjectColors.accentText || 'text-white'}`}
+                                >
+                                    {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-6">
+                        <button
+                            type="button"
+                            onClick={handleBack}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-white/20 hover:bg-white/30 text-white transition"
+                        >
+                            <ArrowLeftIcon />
+                            <span>Back to {selectedSubject}</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </>
         );
     }
 
@@ -3754,134 +5935,251 @@ function StartScreen({ currentUser, onLogout, progress, onSelectQuiz, onSelectGe
     if (selectedSubject) {
         const subject = AppData[selectedSubject];
         const subjectColors = SUBJECT_COLORS[selectedSubject] || {};
+        const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         return (
-            <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || 'bg-slate-800'} text-white`}>
-                <Breadcrumb variant="onColor" />
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-                    <h2 className="text-3xl font-extrabold text-white">{selectedSubject}</h2>
-                    {selectedSubject === 'Math' && (
-                        <div className="flex flex-wrap gap-2">
-                            <button
-                                onClick={() => onOpenMathTools?.()}
-                                className="px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg shadow-sm hover:bg-sky-600 transition"
-                            >
-                                Math Practice Tools
-                            </button>
-                            <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
-                                Formula Sheet
-                            </button>
-                        </div>
-                    )}
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {Object.entries(subject.categories).map(([categoryName, category]) => (
-                        <button
-                            key={categoryName}
-                            onClick={() => handleSelectCategory(categoryName)}
-                            className={`text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 ${subjectColors.hoverBorder || ''}`}
-                        >
-                            <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-800'}`}>{categoryName}</h3>
-                            <p className="text-slate-500 text-sm my-2 flex-grow">{category.description}</p>
-                        </button>
-                    ))}
-                    {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
-                        <>
-                            {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
-                            <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
-                                <div>
-                                    <div className="flex items-center justify-center gap-2">
-                                        <SparklesIcon className="h-8 w-8 text-white" />
-                                        <h3 className="text-xl font-bold text-white">Smith a Quiz</h3>
-                                    </div>
-                                    <p className="text-white/80 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
-                                    <div className="mt-2">
-                                        <label className="block text-white font-semibold mb-1" htmlFor="ai-quiz-topic">Choose a topic</label>
-                                        <select
-                                            id="ai-quiz-topic"
-                                            value={aiQuizTopic}
-                                            onChange={(e) => setAiQuizTopic(e.target.value)}
-                                            className="w-full px-3 py-2 border border-white/70 bg-white/90 text-slate-800 rounded-md focus:outline-none focus:ring-2 focus:ring-white/70"
-                                        >
-                                            <option value="">Select a topic</option>
-                                            {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
-                                        </select>
-                                    </div>
-                                </div>
+            <>
+                <div className={`fade-in rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${subjectColors.background || 'bg-slate-800'} text-white`}>
+                    <Breadcrumb variant="onColor" />
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
+                        <h2 className="text-3xl font-extrabold text-white">{selectedSubject}</h2>
+                        {selectedSubject === 'Math' && (
+                            <div className="flex flex-wrap gap-2">
                                 <button
-                                    onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
-                                    disabled={!aiQuizTopic}
-                                    className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/50 disabled:text-white/70 disabled:cursor-not-allowed"
+                                    onClick={() => onOpenMathTools?.()}
+                                    className="px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg shadow-sm hover:bg-sky-600 transition"
                                 >
-                                    Generate Quiz
+                                    Math Practice Tools
+                                </button>
+                                <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
+                                    Formula Sheet
                                 </button>
                             </div>
-                            {/* --- END OF UPDATED BOX --- */}
-
-                            <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-center items-center bg-white/10 hover:shadow-lg hover:border-white transition-all md:col-span-2 lg:col-span-1">
-                                <SparklesIcon className="h-8 w-8 text-white" />
-                                <h3 className="text-xl font-bold text-white mt-2">Comprehensive Exam</h3>
-                                <p className="text-white/80 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
-                                <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition">
-                                    Start Comprehensive Exam
-                                </button>
-                            </div>
-                        </>
+                        )}
+                    </div>
+                    {subjectVocabulary.length > 0 && (
+                        <SubjectVocabularySection
+                            subject={selectedSubject}
+                            words={subjectVocabulary}
+                        />
                     )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {Object.entries(subject.categories).map(([categoryName, category]) => (
+                            <button
+                                key={categoryName}
+                                onClick={() => handleSelectCategory(categoryName)}
+                                className={`text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 ${subjectColors.hoverBorder || ''}`}
+                            >
+                                <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-800'}`}>{categoryName}</h3>
+                                <p className="text-slate-500 text-sm my-2 flex-grow">{category.description}</p>
+                            </button>
+                        ))}
+                        {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
+                            <>
+                                {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
+                                    <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
+                                        <div>
+                                            <div className="flex items-center justify-center gap-2">
+                                                <BookOpenIcon className="h-8 w-8 text-white" />
+                                                <h3 className="text-xl font-bold text-white">Essay Practice Tool</h3>
+                                            </div>
+                                            <p className="text-white/80 text-sm my-2 text-center">Build your extended response with guided support.</p>
+                                        </div>
+                                        <button
+                                            onClick={() => onSelectQuiz({ id: 'essay_practice_tool', type: 'essay', title: 'GED® Essay Practice Toolkit' }, selectedSubject)}
+                                            className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
+                                        >
+                                            Launch Essay Practice
+                                        </button>
+                                    </div>
+                                )}
+                                {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
+                                <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
+                                    <div>
+                                        <div className="flex items-center justify-center gap-2">
+                                            <SparklesIcon className="h-8 w-8 text-white" />
+                                            <h3 className="text-xl font-bold text-white">Smith a Quiz</h3>
+                                        </div>
+                                        <p className="text-white/80 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
+                                        <div className="mt-2">
+                                            <label className="block text-white font-semibold mb-1" htmlFor="ai-quiz-topic">Choose a topic</label>
+                                            <select
+                                                id="ai-quiz-topic"
+                                                value={aiQuizTopic}
+                                                onChange={(e) => setAiQuizTopic(e.target.value)}
+                                                className="w-full px-3 py-2 border border-white/70 bg-white/90 text-slate-800 rounded-md focus:outline-none focus:ring-2 focus:ring-white/70"
+                                            >
+                                                <option value="">Select a topic</option>
+                                                {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
+                                        disabled={!aiQuizTopic}
+                                        className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/50 disabled:text-white/70 disabled:cursor-not-allowed"
+                                    >
+                                        Generate Quiz
+                                    </button>
+                                </div>
+                                {/* --- END OF UPDATED BOX --- */}
+
+                                <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-center items-center bg-white/10 hover:shadow-lg hover:border-white transition-all md:col-span-2 lg:col-span-1">
+                                    <SparklesIcon className="h-8 w-8 text-white" />
+                                    <h3 className="text-xl font-bold text-white mt-2">Comprehensive Exam</h3>
+                                    <p className="text-white/80 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
+                                    <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition">
+                                        Start Comprehensive Exam
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                    <div className="mt-6">
+                        <button
+                            type="button"
+                            onClick={handleBack}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-white/20 hover:bg-white/30 text-white transition"
+                        >
+                            <ArrowLeftIcon />
+                            <span>Back to Main Menu</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </>
         );
     }
 
     // View 1: Subject Selection (Default)
     return (
-        <div className="fade-in">
-            <header className="text-center pb-4 mb-4">
+        <>
+            <div className="fade-in">
+                <header className="text-center pb-4 mb-4">
                 {currentUser ? (
                     <div className="flex flex-col items-center gap-2">
                         {currentUser.picture ? (
                             <img src={currentUser.picture} alt="User" className="w-16 h-16 rounded-full shadow-lg" />
                         ) : (
-                            <div className="w-16 h-16 rounded-full bg-sky-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg">
-                                {userInitial}
+                                <div className="w-16 h-16 rounded-full bg-sky-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg">
+                                    {userInitial}
+                                </div>
+                            )}
+                            <h1 className="text-4xl font-extrabold text-slate-800">Welcome, {userDisplayName}!</h1>
+                            <p className="text-slate-500">Please select a subject to begin.</p>
+                            <button onClick={onLogout} className="text-sm font-semibold text-sky-600 hover:text-sky-800">[ Log Out ]</button>
+                        </div>
+                    ) : (
+                        <>
+                            <h1 className="text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
+                            <p className="text-slate-500 mt-2">An interactive learning experience.</p>
+                        </>
+                    )}
+                </header>
+                {currentUser && (
+                    <div className="grid gap-4 md:grid-cols-2 mb-6">
+                        <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-lg font-semibold text-slate-800">Upcoming Tests</h2>
+                                <button
+                                    type="button"
+                                    onClick={goToProfile}
+                                    className="text-sm font-semibold text-sky-600 hover:text-sky-800"
+                                >
+                                    Edit
+                                </button>
                             </div>
-                        )}
-                        <h1 className="text-4xl font-extrabold text-slate-800">Welcome, {userDisplayName}!</h1>
-                        <p className="text-slate-500">Please select a subject to begin.</p>
-                        <button onClick={onLogout} className="text-sm font-semibold text-sky-600 hover:text-sky-800">[ Log Out ]</button>
+                            {allSubjectsPassed ? (
+                                <p className="text-sm text-emerald-600">You marked every GED subject as passed. Amazing work!</p>
+                            ) : nextUpcomingSummary ? (
+                                <>
+                                    <p className="text-sm text-slate-600">
+                                        Next: <span className="font-semibold text-slate-800">{nextUpcomingSummary.subject}</span> on{' '}
+                                        <span className="font-semibold text-slate-800">{nextUpcomingSummary.testDate}</span>
+                                        {nextUpcomingSummary.daysUntilText && (
+                                            <> · {nextUpcomingSummary.daysUntilText} remaining</>
+                                        )}
+                                    </p>
+                                    {nextUpcomingSummary.location && (
+                                        <p className="text-sm text-slate-600">Location: {nextUpcomingSummary.location}</p>
+                                    )}
+                                </>
+                            ) : hasSavedTest ? (
+                                <p className="text-sm text-slate-600">Keep adding your remaining test dates to stay organized.</p>
+                            ) : (
+                                <p className="text-sm text-slate-600">Set your test dates to start the countdown.</p>
+                            )}
+                            <p className="text-xs text-slate-500">Need changes? Update them from your profile.</p>
+                        </article>
+                        <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-lg font-semibold text-slate-800">Learning Challenges</h2>
+                                <button
+                                    type="button"
+                                    onClick={goToProfile}
+                                    className="text-sm font-semibold text-sky-600 hover:text-sky-800"
+                                >
+                                    Update
+                                </button>
+                            </div>
+                            {selectedChallenges.length ? (
+                                <ul className="space-y-1 text-sm text-slate-600">
+                                    {displayedChallenges.map((challenge) => (
+                                        <li key={challenge.id}>• {challenge.label || `${challenge.subject} — ${challenge.subtopic}`}</li>
+                                    ))}
+                                    {hiddenChallengeCount > 0 && (
+                                        <li className="text-xs text-slate-500">and {hiddenChallengeCount} more…</li>
+                                    )}
+                                </ul>
+                            ) : (
+                                <p className="text-sm text-slate-600">Tell us what topics to focus on to unlock a tailored plan.</p>
+                            )}
+                            {!onboardingComplete && (
+                                <p className="text-xs text-rose-600">Finish selecting challenges to complete onboarding.</p>
+                            )}
+                        </article>
                     </div>
-                ) : (
-                    <>
-                        <h1 className="text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
-                        <p className="text-slate-500 mt-2">An interactive learning experience.</p>
-                    </>
                 )}
-            </header>
-            {currentUser && <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />}
-            <div className="my-6 text-center">
-                <button
-                    onClick={onStartPopQuiz}
-                    className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105"
-                >
-                    Start a 5-Minute Pop Quiz ⏱️
-                </button>
+                {currentUser && <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />}
+                {profileData && (
+                    <div className="mb-6">
+                        <RecentScoresPanel
+                            title="Latest Scores"
+                            summary={recentDashboardSummary}
+                            legacyScores={profileData?.scores}
+                            loading={false}
+                        />
+                    </div>
+                )}
+                {hasVocabulary && (
+                    <div className="mb-6">
+                        <VocabularyTicker vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
+                    </div>
+                )}
+                <div className="my-6 text-center">
+                    <button
+                        onClick={onStartPopQuiz}
+                        className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105"
+                    >
+                        Start a 5-Minute Pop Quiz ⏱️
+                    </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {Object.entries(AppData).map(([subjectName, subject]) => {
+                        const IconComponent = ICONS[subject.icon];
+                        const colorScheme = SUBJECT_COLORS[subjectName] || {};
+                        return (
+                            <button
+                                key={subjectName}
+                                onClick={() => handleSelectSubject(subjectName)}
+                                className={`group text-center p-6 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 ${colorScheme.background || 'bg-sky-600'} ${colorScheme.hoverBackground || 'hover:bg-sky-700'} ${colorScheme.border || 'border-sky-600'}`}
+                            >
+                                <IconComponent className="h-16 w-16 mx-auto text-white" />
+                                <h2 className="text-2xl font-bold text-white mt-4">{subjectName}</h2>
+                            </button>
+                        );
+                    })}
+                </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {Object.entries(AppData).map(([subjectName, subject]) => {
-                    const IconComponent = ICONS[subject.icon];
-                    const colorScheme = SUBJECT_COLORS[subjectName] || {};
-                    return (
-                        <button
-                            key={subjectName}
-                            onClick={() => handleSelectSubject(subjectName)}
-                            className={`group text-center p-6 rounded-xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 ${colorScheme.background || 'bg-sky-600'} ${colorScheme.hoverBackground || 'hover:bg-sky-700'} ${colorScheme.border || 'border-sky-600'}`}
-                        >
-                            <IconComponent className="h-16 w-16 mx-auto text-white" />
-                            <h2 className="text-2xl font-bold text-white mt-4">{subjectName}</h2>
-                        </button>
-                    );
-                })}
-            </div>
-        </div>
+        </>
     );
 }
 

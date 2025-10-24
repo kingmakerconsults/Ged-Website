@@ -7,9 +7,41 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const db = require('./db');
+const ensureProfilePreferenceColumns = require('./db/initProfilePrefs');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
+
+async function findUserIdByGoogleSub(sub) {
+    return db.oneOrNone(
+        `SELECT u.id AS user_id
+           FROM auth_identities ai
+           JOIN users u ON u.id = ai.user_id
+          WHERE ai.provider = $1 AND ai.provider_user_id = $2`,
+        ['google', sub]
+    );
+}
+
+async function findUserByEmail(email) {
+    return db.oneOrNone(`SELECT id, email, name FROM users WHERE email = $1`, [email]);
+}
+
+async function createUser(email, name) {
+    return db.oneOrNone(
+        `INSERT INTO users (email, name) VALUES ($1, $2) RETURNING id, email, name`,
+        [email, name]
+    );
+}
+
+async function bindGoogleIdentity(userId, sub) {
+    await db.query(
+        `INSERT INTO auth_identities (user_id, provider, provider_user_id)
+         VALUES ($1, $2, $3)
+         ON CONFLICT (provider, provider_user_id) DO NOTHING`,
+        [userId, 'google', sub]
+    );
+}
 
 function selectModelTimeoutMs({ examType } = {}) {
     return examType === 'comprehensive' ? COMPREHENSIVE_TIMEOUT_MS : MODEL_HTTP_TIMEOUT_MS;
@@ -158,7 +190,6 @@ const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { Pool } = require('pg');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const OpenAI = require('openai');
@@ -1265,10 +1296,7 @@ async function runExam() {
     return cleaned;
 }
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
-});
+const pool = db;
 
 const SALT_ROUNDS = 10;
 const USER_TOKEN_TTL = '12h';
@@ -1330,10 +1358,21 @@ function createUserToken(userId) {
     return jwt.sign({ userId }, secret, { expiresIn: USER_TOKEN_TTL });
 }
 
+function requireAuthInProd(req, res, next) {
+    if (process.env.NODE_ENV === 'production') {
+        return requireAuth(req, res, next);
+    }
+    return next();
+}
+
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
 const port = process.env.PORT || 3001;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const devAuth = require('./middleware/devAuth');
+const profileRouter = require('./routes/profile');
+
+ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -1360,6 +1399,8 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
 app.use(express.json());
 app.use(cookieParser());
+
+app.use('/api/profile', requireAuthInProd, devAuth, profileRouter);
 
 app.post('/api/register', async (req, res) => {
     const { email, password } = req.body || {};
@@ -3337,24 +3378,49 @@ app.post('/api/auth/google', async (req, res) => {
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
-        const { sub, name, email, picture } = payload;
-        const userId = sub;
+        if (!payload || !payload.sub) {
+            console.error('Google payload missing subject identifier.');
+            return res.status(400).json({ error: 'Invalid Google credential.' });
+        }
 
-        // --- DATABASE INTERACTION ---
+        const sub = String(payload.sub);
+        const email = String(payload.email || '').toLowerCase();
+        if (!email) {
+            console.error('Google payload missing email.');
+            return res.status(400).json({ error: 'Unable to determine Google account email.' });
+        }
+
+        const name = payload.name || null;
+        const picture = payload.picture || null;
+
+        let userId;
+        const identityRow = await findUserIdByGoogleSub(sub);
+        if (identityRow && identityRow.user_id) {
+            userId = identityRow.user_id;
+        } else {
+            let user = await findUserByEmail(email);
+            if (!user) {
+                user = await createUser(email, name);
+            }
+            if (!user || !user.id) {
+                console.error('Failed to create or locate user for Google login.');
+                return res.status(500).json({ error: 'Authentication or database error.' });
+            }
+            userId = user.id;
+            await bindGoogleIdentity(userId, sub);
+        }
+
         const now = new Date();
-        const userQuery = `
-            INSERT INTO users (id, name, email, picture_url, last_login)
-            VALUES ($1, $2, $3, $4, $5)
-            ON CONFLICT (id) DO UPDATE
-            SET name = $2, email = $3, picture_url = $4, last_login = $5;
-        `;
-        // Use the 'pool' object to run the query
-        await pool.query(userQuery, [userId, name, email, picture, now]);
+        await pool.query(
+            `UPDATE users
+                SET name = $2, email = $3, picture_url = $4, last_login = $5
+              WHERE id = $1`,
+            [userId, name, email, picture, now]
+        );
         console.log(`User ${name} (${email}) logged in and data was saved to the database.`);
-        // --- END DATABASE INTERACTION ---
 
-        // Create a session token
-        const token = jwt.sign({ sub: userId, name }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const tokenPayload = { sub: userId, userId, name };
+        const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1d' });
         setAuthCookie(res, token, 24 * 60 * 60 * 1000);
 
         res.status(200).json({
