@@ -8,6 +8,7 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const db = require('./db');
+const ensureProfilePreferenceColumns = require('./db/initProfilePrefs');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -1370,6 +1371,8 @@ const port = process.env.PORT || 3001;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const devAuth = require('./middleware/devAuth');
 const profileRouter = require('./routes/profile');
+
+ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
