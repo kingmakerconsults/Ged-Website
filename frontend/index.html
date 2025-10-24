@@ -3360,7 +3360,7 @@ function App() {
     const [settingsStatus, setSettingsStatus] = useState('');
     const [settingsSaving, setSettingsSaving] = useState(false);
     const [onboardingComplete, setOnboardingComplete] = useState(true);
-    const [testSaving, setTestSaving] = useState(false);
+    const [testSaving, setTestSaving] = useState(null);
     const [challengesSaving, setChallengesSaving] = useState(false);
     const [finishingOnboarding, setFinishingOnboarding] = useState(false);
 
@@ -3587,14 +3587,20 @@ function App() {
         loadProfileUI({ quiet: false });
     }, [loadProfileUI]);
 
-    const handleSaveTestInfo = useCallback(async ({ testDate, testLocation, passed }) => {
-        setTestSaving(true);
+    const handleSaveTestInfo = useCallback(async ({ subject, testDate, testLocation, passed }) => {
+        const trimmedSubject = subject ? String(subject).trim() : '';
+        if (!trimmedSubject) {
+            window.alert('Missing subject.');
+            return;
+        }
+        setTestSaving(trimmedSubject);
         try {
             const response = await fetch('/api/profile/test', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify({
+                    subject: trimmedSubject,
                     testDate: testDate || null,
                     testLocation: testLocation || null,
                     passed: !!passed,
@@ -3615,7 +3621,7 @@ function App() {
             console.error('Failed to save test info:', error);
             window.alert('Could not save test info.');
         } finally {
-            setTestSaving(false);
+            setTestSaving(null);
         }
     }, []);
 
@@ -4357,16 +4363,111 @@ function ProfileView({
     const challengeOptions = Array.isArray(data?.challengeOptions) ? data.challengeOptions : [];
     const recentSummary = data?.recentScoresDashboard || {};
     const legacyScores = data?.scores || {};
+    const SUBJECT_ORDER = useMemo(() => ['Math', 'RLA', 'Science', 'Social Studies'], []);
+    const rawTestPlan = Array.isArray(data?.testPlan) ? data.testPlan : [];
+    const normalizedTestPlan = useMemo(() => {
+        const map = new Map();
+        rawTestPlan.forEach((entry) => {
+            if (!entry || !entry.subject) {
+                return;
+            }
+            const subject = String(entry.subject);
+            map.set(subject, {
+                subject,
+                testDate: entry.testDate || '',
+                testLocation: entry.testLocation || '',
+                passed: !!entry.passed,
+                daysUntil: entry.daysUntil ?? null,
+            });
+        });
+        SUBJECT_ORDER.forEach((subject) => {
+            if (!map.has(subject)) {
+                map.set(subject, {
+                    subject,
+                    testDate: '',
+                    testLocation: '',
+                    passed: false,
+                    daysUntil: null,
+                });
+            }
+        });
+        const orderedSubjects = [
+            ...SUBJECT_ORDER,
+            ...Array.from(map.keys()).filter((subject) => !SUBJECT_ORDER.includes(subject)),
+        ];
+        const seen = new Set();
+        const result = [];
+        orderedSubjects.forEach((subject) => {
+            if (!seen.has(subject) && map.has(subject)) {
+                result.push(map.get(subject));
+                seen.add(subject);
+            }
+        });
+        map.forEach((value, subject) => {
+            if (!seen.has(subject)) {
+                result.push(value);
+            }
+        });
+        return result;
+    }, [rawTestPlan, SUBJECT_ORDER]);
 
-    const [testDate, setTestDate] = useState(profile.testDate || '');
-    const [testLocation, setTestLocation] = useState(profile.testLocation || '');
-    const [passed, setPassed] = useState(!!profile.passed);
+    const initialTestDrafts = useMemo(() => {
+        const drafts = {};
+        normalizedTestPlan.forEach((entry) => {
+            drafts[entry.subject] = {
+                subject: entry.subject,
+                testDate: entry.testDate || '',
+                testLocation: entry.testLocation || '',
+                passed: !!entry.passed,
+            };
+        });
+        return drafts;
+    }, [normalizedTestPlan]);
+
+    const [testDrafts, setTestDrafts] = useState(initialTestDrafts);
 
     useEffect(() => {
-        setTestDate(profile.testDate || '');
-        setTestLocation(profile.testLocation || '');
-        setPassed(!!profile.passed);
-    }, [profile.testDate, profile.testLocation, profile.passed]);
+        setTestDrafts(initialTestDrafts);
+    }, [initialTestDrafts]);
+
+    const handleSubjectFieldChange = useCallback((subject, field, value) => {
+        setTestDrafts((prev) => {
+            const existing = prev[subject] || { subject, testDate: '', testLocation: '', passed: false };
+            return {
+                ...prev,
+                [subject]: {
+                    ...existing,
+                    [field]: field === 'passed' ? !!value : value,
+                },
+            };
+        });
+    }, []);
+
+    const handleSubjectSave = useCallback(
+        (subject) => {
+            const draft = testDrafts[subject] || { subject, testDate: '', testLocation: '', passed: false };
+            onSaveTestInfo?.({
+                subject,
+                testDate: draft.testDate ? draft.testDate : null,
+                testLocation: draft.testLocation ? draft.testLocation : null,
+                passed: !!draft.passed,
+            });
+        },
+        [onSaveTestInfo, testDrafts]
+    );
+
+    const nextUpcoming = data?.nextUpcomingTest || null;
+    const formatDayCount = (value) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) {
+            return null;
+        }
+        const rounded = Math.max(0, Math.floor(value));
+        return `${rounded} day${rounded === 1 ? '' : 's'}`;
+    };
+    const nextUpcomingDaysText = formatDayCount(nextUpcoming?.daysUntil);
+    const nextUpcomingSummary = nextUpcoming && nextUpcoming.testDate
+        ? `Next test: ${nextUpcoming.subject} on ${nextUpcoming.testDate}${nextUpcomingDaysText ? ` (${nextUpcomingDaysText})` : ''}`
+        : 'No test scheduled yet.';
 
     const selectedFromServer = useMemo(
         () => challengeOptions.filter((opt) => opt.selected).map((opt) => opt.id),
@@ -4395,7 +4496,8 @@ function ProfileView({
 
     const selectedCount = selectedIds.length;
     const highlightName = !onboardingComplete && !profile.name;
-    const highlightTest = !onboardingComplete && !profile.passed && !profile.testDate;
+    const hasAnyTestProgress = normalizedTestPlan.some((entry) => entry.passed || entry.testDate);
+    const highlightTest = !onboardingComplete && !hasAnyTestProgress;
     const highlightChallenges = !onboardingComplete && selectedCount === 0;
 
     const handleChallengeToggle = (id) => {
@@ -4408,11 +4510,6 @@ function ProfileView({
             }
             return Array.from(next);
         });
-    };
-
-    const handleTestFormSubmit = (event) => {
-        event.preventDefault();
-        onSaveTestInfo?.({ testDate, testLocation, passed });
     };
 
     const handleChallengesSubmit = (event) => {
@@ -4524,62 +4621,96 @@ function ProfileView({
                 </form>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                    <form
-                        onSubmit={handleTestFormSubmit}
-                        className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-3 ${highlightTest ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
-                    >
-                        <h2 className="text-lg font-semibold text-slate-800">Upcoming Test</h2>
-                        <label className="flex flex-col gap-1 text-sm text-slate-600">
-                            Date
-                            <input
-                                id="testDate"
-                                type="date"
-                                value={testDate}
-                                onChange={(event) => setTestDate(event.target.value)}
-                                className="rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-                            />
-                        </label>
-                        <label className="flex flex-col gap-1 text-sm text-slate-600">
-                            Location
-                            <input
-                                id="testLocation"
-                                type="text"
-                                placeholder="Test center (optional)"
-                                value={testLocation}
-                                onChange={(event) => setTestLocation(event.target.value)}
-                                className="rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-                            />
-                        </label>
-                        <label className="flex items-center gap-2 text-sm text-slate-600">
-                            <input
-                                id="passedCheck"
-                                type="checkbox"
-                                checked={passed}
-                                onChange={(event) => setPassed(event.target.checked)}
-                                className="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
-                            />
-                            I already passed
-                        </label>
-                        <button
-                            id="saveTestBtn"
-                            type="submit"
-                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
-                            disabled={testSaving}
-                        >
-                            {testSaving ? 'Saving…' : 'Save Test Info'}
-                        </button>
-                        <p className="text-xs text-slate-500">This date will also appear on your dashboard.</p>
-                        {profile.testDate && !passed && (
-                            <p className="text-xs text-slate-500">
-                                {profile.daysUntilTest != null
-                                    ? `${profile.daysUntilTest} day${profile.daysUntilTest === 1 ? '' : 's'} remaining`
-                                    : 'Countdown not available'}
-                            </p>
-                        )}
-                        {passed && (
-                            <p className="text-xs text-emerald-600">Great job! We marked you as passed.</p>
-                        )}
-                    </form>
+                <section
+                    id="testPlanCard"
+                    className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightTest ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                >
+                    <h2 className="text-lg font-semibold text-slate-800">Upcoming Tests</h2>
+                    <div id="nextUpcomingSummary" className="note text-sm text-slate-600">
+                        {nextUpcomingSummary}
+                    </div>
+                    <div id="testPlanList" className="grid gap-4 md:grid-cols-2">
+                        {normalizedTestPlan.length === 0 ? (
+                            <p className="col-span-full text-sm text-slate-500">No subjects available yet.</p>
+                        ) : normalizedTestPlan.map((entry) => {
+                            const draft = testDrafts[entry.subject] || {
+                                subject: entry.subject,
+                                testDate: '',
+                                testLocation: '',
+                                passed: false,
+                            };
+                            const savingThisSubject = testSaving === entry.subject;
+                            const countdownLabel = (() => {
+                                if (!entry.testDate || draft.passed) {
+                                    return null;
+                                }
+                                if (entry.daysUntil != null) {
+                                    const value = entry.daysUntil;
+                                    return `${value} day${value === 1 ? '' : 's'} remaining`;
+                                }
+                                return 'Countdown not available';
+                            })();
+
+                            return (
+                                <div
+                                    key={entry.subject}
+                                    className="subject-test-block rounded-xl border border-slate-200 bg-white/80 p-4 space-y-3 shadow-sm"
+                                >
+                                    <h3 className="text-base font-semibold text-slate-700">{entry.subject}</h3>
+                                    <label className="flex flex-col gap-1 text-sm text-slate-600">
+                                        Date
+                                        <input
+                                            type="date"
+                                            className="tp-date rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                                            data-subject={entry.subject}
+                                            value={draft.testDate || ''}
+                                            onChange={(event) => handleSubjectFieldChange(entry.subject, 'testDate', event.target.value)}
+                                            disabled={savingThisSubject}
+                                        />
+                                    </label>
+                                    <label className="flex flex-col gap-1 text-sm text-slate-600">
+                                        Location
+                                        <input
+                                            type="text"
+                                            className="tp-location rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                                            placeholder="Test center (optional)"
+                                            data-subject={entry.subject}
+                                            value={draft.testLocation || ''}
+                                            onChange={(event) => handleSubjectFieldChange(entry.subject, 'testLocation', event.target.value)}
+                                            disabled={savingThisSubject}
+                                        />
+                                    </label>
+                                    <label className="inline-row flex items-center gap-2 text-sm text-slate-600">
+                                        <input
+                                            type="checkbox"
+                                            className="tp-passed h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                                            data-subject={entry.subject}
+                                            checked={!!draft.passed}
+                                            onChange={(event) => handleSubjectFieldChange(entry.subject, 'passed', event.target.checked)}
+                                            disabled={savingThisSubject}
+                                        />
+                                        I already passed this subject
+                                    </label>
+                                    <button
+                                        type="button"
+                                        className="btn tp-save inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                                        data-subject={entry.subject}
+                                        onClick={() => handleSubjectSave(entry.subject)}
+                                        disabled={savingThisSubject}
+                                    >
+                                        {savingThisSubject ? 'Saving…' : `Save ${entry.subject}`}
+                                    </button>
+                                    {draft.passed ? (
+                                        <p className="text-xs text-emerald-600">Great job! We marked this subject as passed.</p>
+                                    ) : countdownLabel ? (
+                                        <p className="text-xs text-slate-500">{countdownLabel}</p>
+                                    ) : null}
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <p className="text-xs text-slate-500">Dates saved here will also appear on your dashboard.</p>
+                </section>
 
                     <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
                         <h2 className="text-lg font-semibold text-slate-800">Preferences Snapshot</h2>
@@ -5557,6 +5688,28 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardin
     const displayedChallenges = selectedChallenges.slice(0, 4);
     const hiddenChallengeCount = Math.max(0, selectedChallenges.length - displayedChallenges.length);
     const recentDashboardSummary = profileBundle?.recentScoresDashboard || {};
+    const testPlan = Array.isArray(profileBundle?.testPlan) ? profileBundle.testPlan : [];
+    const nextUpcomingTest = profileBundle?.nextUpcomingTest || null;
+    const hasSavedTest = testPlan.some((entry) => entry && (entry.passed || entry.testDate));
+    const allSubjectsPassed = testPlan.length > 0 && testPlan.every((entry) => entry.passed);
+    const formatDayCount = (value) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) {
+            return null;
+        }
+        const rounded = Math.max(0, Math.floor(value));
+        return `${rounded} day${rounded === 1 ? '' : 's'}`;
+    };
+    const upcomingMatch = nextUpcomingTest
+        ? testPlan.find((entry) => entry.subject === nextUpcomingTest.subject && entry.testDate === nextUpcomingTest.testDate)
+        : null;
+    const nextUpcomingSummary = nextUpcomingTest && nextUpcomingTest.testDate
+        ? {
+            subject: nextUpcomingTest.subject,
+            testDate: nextUpcomingTest.testDate,
+            daysUntilText: formatDayCount(nextUpcomingTest.daysUntil),
+            location: upcomingMatch?.testLocation || null,
+        }
+        : null;
     const userDisplayName = currentUser?.name || currentUser?.email || 'Learner';
     const userInitial = userDisplayName ? userDisplayName.trim().charAt(0).toUpperCase() : 'U';
     const hasVocabulary = Object.values(vocabularyData).some(words => Array.isArray(words) && words.length > 0);
@@ -5812,7 +5965,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardin
                     <div className="grid gap-4 md:grid-cols-2 mb-6">
                         <article className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-2">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-slate-800">Upcoming Test</h2>
+                                <h2 className="text-lg font-semibold text-slate-800">Upcoming Tests</h2>
                                 <button
                                     type="button"
                                     onClick={goToProfile}
@@ -5821,22 +5974,25 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle, onboardin
                                     Edit
                                 </button>
                             </div>
-                            {profile.passed ? (
-                                <p className="text-sm text-emerald-600">You marked the GED as passed. Great work!</p>
-                            ) : profile.testDate ? (
+                            {allSubjectsPassed ? (
+                                <p className="text-sm text-emerald-600">You marked every GED subject as passed. Amazing work!</p>
+                            ) : nextUpcomingSummary ? (
                                 <>
                                     <p className="text-sm text-slate-600">
-                                        <span className="font-semibold text-slate-800">{profile.testDate}</span>
-                                        {profile.daysUntilTest != null && (
-                                            <> · {profile.daysUntilTest} day{profile.daysUntilTest === 1 ? '' : 's'} remaining</>
+                                        Next: <span className="font-semibold text-slate-800">{nextUpcomingSummary.subject}</span> on{' '}
+                                        <span className="font-semibold text-slate-800">{nextUpcomingSummary.testDate}</span>
+                                        {nextUpcomingSummary.daysUntilText && (
+                                            <> · {nextUpcomingSummary.daysUntilText} remaining</>
                                         )}
                                     </p>
-                                    {profile.testLocation && (
-                                        <p className="text-sm text-slate-600">Location: {profile.testLocation}</p>
+                                    {nextUpcomingSummary.location && (
+                                        <p className="text-sm text-slate-600">Location: {nextUpcomingSummary.location}</p>
                                     )}
                                 </>
+                            ) : hasSavedTest ? (
+                                <p className="text-sm text-slate-600">Keep adding your remaining test dates to stay organized.</p>
                             ) : (
-                                <p className="text-sm text-slate-600">Set your test date to start the countdown.</p>
+                                <p className="text-sm text-slate-600">Set your test dates to start the countdown.</p>
                             )}
                             <p className="text-xs text-slate-500">Need changes? Update them from your profile.</p>
                         </article>
