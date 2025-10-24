@@ -1370,6 +1370,7 @@ const port = process.env.PORT || 3001;
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const devAuth = require('./middleware/devAuth');
 const profileRouter = require('./routes/profile');
+const adminMaintenanceRouter = require('./routes/adminMaintenance');
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -1398,6 +1399,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/profile', requireAuthInProd, devAuth, profileRouter);
+app.use('/api/admin', adminMaintenanceRouter);
 
 app.post('/api/register', async (req, res) => {
     const { email, password } = req.body || {};
