@@ -134,11 +134,14 @@
 
     <script>
         (function preloadTheme() {
+            if (typeof window === 'undefined' || typeof document === 'undefined') {
+                return;
+            }
+
             let theme = 'light';
             try {
-                const saved = typeof localStorage !== 'undefined' ? localStorage.getItem('appTheme') : null;
-                const prefersDark = typeof window !== 'undefined'
-                    && window.matchMedia
+                const saved = window.localStorage ? window.localStorage.getItem('appTheme') : null;
+                const prefersDark = window.matchMedia
                     && typeof window.matchMedia === 'function'
                     && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 theme = (saved === 'light' || saved === 'dark') ? saved : (prefersDark ? 'dark' : 'light');
@@ -146,30 +149,31 @@
                 console.warn('theme preload failed', error);
             }
 
-            window.__START_THEME__ = theme;
-
-            const applyBodyClass = () => {
-                if (!document.body) {
-                    return false;
+            const applyThemeClass = () => {
+                const root = document.documentElement;
+                if (root) {
+                    root.classList.toggle('dark', theme === 'dark');
                 }
-                if (theme === 'dark') {
-                    document.body.classList.add('dark');
-                } else {
-                    document.body.classList.remove('dark');
+                const body = document.body;
+                if (body) {
+                    body.classList.toggle('dark', theme === 'dark');
                 }
-                return true;
             };
 
-            if (!applyBodyClass() && typeof MutationObserver === 'function') {
-                const observer = new MutationObserver(() => {
-                    if (applyBodyClass()) {
-                        observer.disconnect();
-                    }
-                });
-                observer.observe(document.documentElement, { childList: true, subtree: true });
+            applyThemeClass();
+            if (!document.body) {
+                document.addEventListener('DOMContentLoaded', applyThemeClass, { once: true });
             }
 
-            window.addEventListener('DOMContentLoaded', applyBodyClass);
+            try {
+                Object.defineProperty(window, '__START_THEME__', {
+                    value: theme,
+                    writable: false,
+                    configurable: false,
+                });
+            } catch (error) {
+                window.__START_THEME__ = theme;
+            }
         })();
     </script>
 
@@ -4306,13 +4310,6 @@ function App({ externalTheme, onThemeChange }) {
         const sizeClasses = ['fs-sm', 'fs-md', 'fs-lg', 'fs-xl'];
         sizeClasses.forEach((cls) => root.classList.remove(cls));
         root.classList.add(`fs-${preferences.fontSize}`);
-        if (document.body) {
-            if (preferences.theme === 'dark') {
-                document.body.classList.add('dark');
-            } else {
-                document.body.classList.remove('dark');
-            }
-        }
         try {
             window.localStorage.setItem('prefs', JSON.stringify({
                 fontSize: preferences.fontSize,
@@ -4357,10 +4354,17 @@ function App({ externalTheme, onThemeChange }) {
     }, [externalTheme, preferences.theme, applyPreferenceUpdate]);
 
     useEffect(() => {
-        if (typeof onThemeChange === 'function') {
-            onThemeChange(preferences.theme);
+        if (typeof onThemeChange !== 'function') {
+            return;
         }
-    }, [onThemeChange, preferences.theme]);
+        if (!VALID_THEMES.has(preferences.theme)) {
+            return;
+        }
+        if (preferences.theme === externalTheme) {
+            return;
+        }
+        onThemeChange(preferences.theme);
+    }, [onThemeChange, preferences.theme, externalTheme]);
 
     const handleSettingsInstantChange = useCallback((partialPrefs) => {
         setSettingsStatus('');
@@ -9759,70 +9763,48 @@ if (typeof window !== 'undefined' && window.location && window.location.search.i
     setTimeout(runMathPipelineDiagnostics, 0);
 }
 
-function RootApp() {
+function useThemeController() {
     const [theme, setTheme] = useState(() => {
         if (typeof window === 'undefined') {
             return 'light';
         }
-        const startingTheme = window.__START_THEME__;
-        if (startingTheme === 'dark' || startingTheme === 'light') {
-            return startingTheme;
-        }
-        try {
-            if (window.localStorage) {
-                const stored = window.localStorage.getItem('appTheme');
-                if (stored === 'dark' || stored === 'light') {
-                    return stored;
-                }
-            }
-        } catch (error) {
-            console.warn('Unable to read persisted theme preference:', error);
-        }
-        return 'light';
+        return window.__START_THEME__ === 'dark' ? 'dark' : 'light';
     });
 
-    const applyTheme = useCallback((themeValue) => {
-        const normalized = themeValue === 'dark' ? 'dark' : 'light';
-        if (typeof document !== 'undefined' && document.body) {
-            if (normalized === 'dark') {
-                document.body.classList.add('dark');
-            } else {
-                document.body.classList.remove('dark');
+    const applyTheme = useCallback((nextTheme) => {
+        const normalized = nextTheme === 'dark' ? 'dark' : 'light';
+        if (typeof document !== 'undefined') {
+            const body = document.body;
+            if (body) {
+                body.classList.toggle('dark', normalized === 'dark');
+            }
+            const root = document.documentElement;
+            if (root) {
+                root.classList.toggle('dark', normalized === 'dark');
             }
         }
         try {
             if (typeof window !== 'undefined' && window.localStorage) {
                 window.localStorage.setItem('appTheme', normalized);
             }
-            if (typeof window !== 'undefined') {
-                window.__START_THEME__ = normalized;
-            }
         } catch (error) {
             console.warn('Unable to persist theme preference:', error);
         }
-        return normalized;
+        setTheme((current) => (current === normalized ? current : normalized));
     }, []);
 
-    useEffect(() => {
-        applyTheme(theme);
+    const toggleTheme = useCallback(() => {
+        applyTheme(theme === 'dark' ? 'light' : 'dark');
     }, [theme, applyTheme]);
 
-    const handleThemeChange = useCallback((nextTheme) => {
-        setTheme((prev) => {
-            const normalized = applyTheme(nextTheme);
-            if (prev === normalized) {
-                return prev;
-            }
-            return normalized;
-        });
-    }, [applyTheme]);
+    return { theme, toggleTheme, applyTheme };
+}
 
-    const handleToggleTheme = useCallback(() => {
-        setTheme((prev) => {
-            const next = prev === 'dark' ? 'light' : 'dark';
-            applyTheme(next);
-            return next;
-        });
+function RootApp() {
+    const { theme, toggleTheme, applyTheme } = useThemeController();
+
+    const handleThemeChange = useCallback((nextTheme) => {
+        applyTheme(nextTheme);
     }, [applyTheme]);
 
     return (
@@ -9830,7 +9812,7 @@ function RootApp() {
             <div className="fixed top-4 right-4 z-50">
                 <button
                     type="button"
-                    onClick={handleToggleTheme}
+                    onClick={toggleTheme}
                     className="rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 shadow transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
                 >
                     {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
