@@ -242,22 +242,32 @@
             --button-secondary-text: #1e293b;
             --subject-science-accent: #dc2626;
             --subject-science-text: #ffffff;
+            --subject-science-surface-text: #7f1d1d;
+            --subject-science-accent-text: #7f1d1d;
             --subject-science-border: rgba(248,113,113,0.8);
             --subject-science-gradient: linear-gradient(135deg, #f87171, #facc15);
             --subject-social-accent: #16a34a;
             --subject-social-text: #f0fdf4;
+            --subject-social-surface-text: #14532d;
+            --subject-social-accent-text: #14532d;
             --subject-social-border: rgba(74,222,128,0.7);
             --subject-social-gradient: linear-gradient(135deg, #16a34a, #a3e635);
             --subject-rla-accent: #7c3aed;
             --subject-rla-text: #f5f3ff;
+            --subject-rla-surface-text: #4c1d95;
+            --subject-rla-accent-text: #4c1d95;
             --subject-rla-border: rgba(167,139,250,0.7);
             --subject-rla-gradient: linear-gradient(135deg, #7c3aed, #ec4899);
             --subject-math-accent: #0284c7;
             --subject-math-text: #e0f2fe;
+            --subject-math-surface-text: #0c4a6e;
+            --subject-math-accent-text: #0c4a6e;
             --subject-math-border: rgba(56,189,248,0.7);
             --subject-math-gradient: linear-gradient(135deg, #0ea5e9, #22d3ee);
             --subject-simulations-accent: #f97316;
             --subject-simulations-text: #fff7ed;
+            --subject-simulations-surface-text: #7c2d12;
+            --subject-simulations-accent-text: #7c2d12;
             --subject-simulations-border: rgba(251,146,60,0.75);
             --subject-simulations-gradient: linear-gradient(135deg, #f97316, #facc15);
         }
@@ -321,22 +331,32 @@
             --button-secondary-text: #e2e8f0;
             --subject-science-accent: #f87171;
             --subject-science-text: #fff5f5;
+            --subject-science-surface-text: #fff5f5;
+            --subject-science-accent-text: #fff5f5;
             --subject-science-border: rgba(252,165,165,0.8);
             --subject-science-gradient: linear-gradient(135deg, rgba(248,113,113,0.85), rgba(250,204,21,0.7));
             --subject-social-accent: #22c55e;
             --subject-social-text: #ecfdf5;
+            --subject-social-surface-text: #ecfdf5;
+            --subject-social-accent-text: #ecfdf5;
             --subject-social-border: rgba(74,222,128,0.75);
             --subject-social-gradient: linear-gradient(135deg, rgba(16,185,129,0.9), rgba(163,230,53,0.7));
             --subject-rla-accent: #8b5cf6;
             --subject-rla-text: #ede9fe;
+            --subject-rla-surface-text: #ede9fe;
+            --subject-rla-accent-text: #ede9fe;
             --subject-rla-border: rgba(167,139,250,0.7);
             --subject-rla-gradient: linear-gradient(135deg, rgba(139,92,246,0.9), rgba(236,72,153,0.65));
             --subject-math-accent: #0ea5e9;
             --subject-math-text: #e0f2fe;
+            --subject-math-surface-text: #e0f2fe;
+            --subject-math-accent-text: #e0f2fe;
             --subject-math-border: rgba(56,189,248,0.7);
             --subject-math-gradient: linear-gradient(135deg, rgba(14,165,233,0.9), rgba(34,211,238,0.7));
             --subject-simulations-accent: #fb923c;
             --subject-simulations-text: #fff7ed;
+            --subject-simulations-surface-text: #fff7ed;
+            --subject-simulations-accent-text: #fff7ed;
             --subject-simulations-border: rgba(251,191,36,0.75);
             --subject-simulations-gradient: linear-gradient(135deg, rgba(249,115,22,0.9), rgba(250,204,21,0.7));
         }
@@ -439,6 +459,22 @@
             line-height: 1.5;
             text-align: left;
             max-width: 75ch;
+        }
+
+        .passage-text {
+            color: #000000;
+        }
+
+        .dark .passage-text {
+            color: var(--text-primary);
+        }
+
+        .dark .question-stem {
+            color: #ffffff;
+        }
+
+        .dark .question-stem * {
+            color: inherit;
         }
 
         .break-all, [data-break="all"] {
@@ -842,53 +878,58 @@ const DEFAULT_COLOR_SCHEME = {
 const SUBJECT_COLORS = {
     Science: {
         background: 'var(--subject-science-accent)',
-        text: 'var(--subject-science-text)',
+        text: 'var(--subject-science-surface-text)',
+        heroText: 'var(--subject-science-text)',
         border: 'var(--subject-science-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-science-text)',
         scoreBorder: 'var(--subject-science-border)',
         accent: 'var(--subject-science-accent)',
-        accentText: 'var(--subject-science-text)',
+        accentText: 'var(--subject-science-accent-text)',
     },
     'Social Studies': {
         background: 'var(--subject-social-accent)',
-        text: 'var(--subject-social-text)',
+        text: 'var(--subject-social-surface-text)',
+        heroText: 'var(--subject-social-text)',
         border: 'var(--subject-social-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-social-text)',
         scoreBorder: 'var(--subject-social-border)',
         accent: 'var(--subject-social-accent)',
-        accentText: 'var(--subject-social-text)',
+        accentText: 'var(--subject-social-accent-text)',
     },
     'Reasoning Through Language Arts (RLA)': {
         background: 'var(--subject-rla-accent)',
-        text: 'var(--subject-rla-text)',
+        text: 'var(--subject-rla-surface-text)',
+        heroText: 'var(--subject-rla-text)',
         border: 'var(--subject-rla-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-rla-text)',
         scoreBorder: 'var(--subject-rla-border)',
         accent: 'var(--subject-rla-accent)',
-        accentText: 'var(--subject-rla-text)',
+        accentText: 'var(--subject-rla-accent-text)',
     },
     Math: {
         background: 'var(--subject-math-accent)',
-        text: 'var(--subject-math-text)',
+        text: 'var(--subject-math-surface-text)',
+        heroText: 'var(--subject-math-text)',
         border: 'var(--subject-math-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-math-text)',
         scoreBorder: 'var(--subject-math-border)',
         accent: 'var(--subject-math-accent)',
-        accentText: 'var(--subject-math-text)',
+        accentText: 'var(--subject-math-accent-text)',
     },
     Simulations: {
         background: 'var(--subject-simulations-accent)',
-        text: 'var(--subject-simulations-text)',
+        text: 'var(--subject-simulations-surface-text)',
+        heroText: 'var(--subject-simulations-text)',
         border: 'var(--subject-simulations-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-simulations-text)',
         scoreBorder: 'var(--subject-simulations-border)',
         accent: 'var(--subject-simulations-accent)',
-        accentText: 'var(--subject-simulations-text)',
+        accentText: 'var(--subject-simulations-accent-text)',
     },
 };
 
@@ -898,6 +939,22 @@ const SUBJECT_BG_GRADIENTS = {
     'Social Studies': 'var(--subject-social-gradient)',
     'Reasoning Through Language Arts (RLA)': 'var(--subject-rla-gradient)',
     Simulations: 'var(--subject-simulations-gradient)',
+};
+
+const SUBJECT_LIGHT_SURFACE_GRADIENTS = {
+    Math: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(2,132,199,0.12))',
+    Science: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(220,38,38,0.12))',
+    'Social Studies': 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(22,163,74,0.12))',
+    'Reasoning Through Language Arts (RLA)': 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(124,58,237,0.12))',
+    Simulations: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(249,115,22,0.12))',
+};
+
+const SUBJECT_LIGHT_TINTS = {
+    Math: 'rgba(2,132,199,0.2)',
+    Science: 'rgba(220,38,38,0.2)',
+    'Social Studies': 'rgba(22,163,74,0.2)',
+    'Reasoning Through Language Arts (RLA)': 'rgba(124,58,237,0.2)',
+    Simulations: 'rgba(249,115,22,0.2)',
 };
 
 const SUBJECT_SHORT_LABELS = {
@@ -4784,34 +4841,55 @@ function App({ externalTheme, onThemeChange }) {
         }
 
         const edits = subjectEdits[trimmedSubject] || { testDate: '', testLocation: '', passed: false };
+        const payload = {
+            subject: trimmedSubject,
+            testDate: edits.testDate || null,
+            testLocation: edits.testLocation || null,
+            passed: !!edits.passed,
+        };
+
+        console.log('[saveTestInfo] about to POST', payload);
+
         setTestSaving(trimmedSubject);
         try {
-            const response = await fetch('/api/profile/test', {
+            const response = await fetch(`${API_BASE_URL}/api/profile/test`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({
-                    subject: trimmedSubject,
-                    testDate: edits.testDate || null,
-                    testLocation: edits.testLocation || null,
-                    passed: !!edits.passed,
-                }),
+                body: JSON.stringify(payload),
             });
-            if (!response.ok) {
-                throw new Error(`Failed with status ${response.status}`);
+
+            console.log('[saveTestInfo] resp.status =', response.status);
+
+            let data;
+            try {
+                data = await response.json();
+            } catch (parseError) {
+                console.error('[saveTestInfo] could not parse JSON from server:', parseError);
             }
-            const data = await response.json();
-            setProfileData(data);
-            syncSubjectEditsFromBundle(data);
-            const onboardingFlag = !!data?.profile?.onboardingComplete;
-            setOnboardingComplete(onboardingFlag);
-            if (typeof window !== 'undefined') {
-                window._onboardingComplete = onboardingFlag;
+
+            console.log('[saveTestInfo] resp body =', data);
+
+            if (!response.ok || !data || data.ok !== true) {
+                window.alert('Could not save test info.');
+                return;
             }
+
+            const bundle = data.bundle || data;
+            if (bundle) {
+                setProfileData(bundle);
+                syncSubjectEditsFromBundle(bundle);
+                const onboardingFlag = !!bundle?.profile?.onboardingComplete;
+                setOnboardingComplete(onboardingFlag);
+                if (typeof window !== 'undefined') {
+                    window._onboardingComplete = onboardingFlag;
+                }
+            }
+
             window.alert('Saved!');
         } catch (error) {
-            console.error('Failed to save test info:', error);
-            window.alert('Could not save test info.');
+            console.error('[saveTestInfo] FETCH ERROR:', error);
+            window.alert('Could not save test info (network).');
         } finally {
             setTestSaving(null);
         }
@@ -5511,6 +5589,7 @@ function App({ externalTheme, onThemeChange }) {
                         setLoadingMessage={setLoadingMessage}
                         setShowFormulaSheet={setShowFormulaSheet}
                         onOpenMathTools={openMathTools}
+                        theme={preferences.theme}
                         onSelectGenerator={async (subject, topic, setIsLoading, setLoadingMessage) => {
                             if (!topic) {
                                 alert("Please select a topic first.");
@@ -7187,12 +7266,13 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
+function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools, theme = 'light' }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
+    const isDarkMode = theme === 'dark';
     const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
     const profile = profileData?.profile || {};
     const challengeOptions = Array.isArray(profileData?.challengeOptions) ? profileData.challengeOptions : [];
@@ -7289,33 +7369,38 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
         : [];
 
-    const Breadcrumb = ({ variant = 'default' } = {}) => {
+    const Breadcrumb = ({ variant = 'default', color, accentColor } = {}) => {
         const isOnColor = variant === 'onColor';
-        const containerClass = isOnColor
-            ? 'text-white'
-            : 'text-slate-600';
-        const buttonClass = isOnColor
-            ? 'text-white hover:text-slate-200'
-            : 'text-sky-600 hover:underline';
+        const resolvedColor = color || (isOnColor ? '#ffffff' : '#475569');
+        const resolvedAccent = accentColor || resolvedColor;
         const backLabel = selectedCategory ? `Back to ${selectedSubject}` : 'Back to Main Menu';
 
         return (
-            <div className={`mb-4 text-lg font-semibold flex items-center gap-2 ${containerClass}`}>
+            <div
+                className={`mb-4 text-lg font-semibold flex items-center gap-2 ${isOnColor ? '' : 'text-slate-600'}`}
+                style={isOnColor ? { color: resolvedColor } : undefined}
+            >
                 <button
                     type="button"
                     onClick={handleBack}
-                    className={`flex items-center gap-2 ${buttonClass}`}
+                    className={`flex items-center gap-2 ${isOnColor ? 'transition-colors' : 'text-sky-600 hover:underline'}`}
+                    style={isOnColor ? { color: resolvedAccent } : undefined}
                     aria-label={backLabel}
                 >
                     <ArrowLeftIcon />
                     <span>{backLabel}</span>
                 </button>
                 <span>/</span>
-                <span>{selectedSubject}</span>
+                <span style={isOnColor ? { color: resolvedColor } : undefined}>{selectedSubject}</span>
                 {selectedCategory && (
                     <>
                         <span>/</span>
-                        <span className={isOnColor ? 'text-white' : 'text-slate-800'}>{selectedCategory}</span>
+                        <span
+                            className={isOnColor ? '' : 'text-slate-800'}
+                            style={isOnColor ? { color: resolvedAccent } : undefined}
+                        >
+                            {selectedCategory}
+                        </span>
                     </>
                 )}
             </div>
@@ -7326,13 +7411,35 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     if (selectedSubject && selectedCategory) {
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
         const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
-        const gradientBackground = SUBJECT_BG_GRADIENTS[selectedSubject];
-        const heroStyles = gradientBackground
-            ? { backgroundImage: gradientBackground }
-            : subjectColors.background
-                ? { backgroundColor: subjectColors.background }
-                : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
-        const heroTextColor = subjectColors.text || subjectColors.onBackgroundText || '#ffffff';
+        const gradientBackground = isDarkMode
+            ? SUBJECT_BG_GRADIENTS[selectedSubject]
+            : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject] || SUBJECT_BG_GRADIENTS[selectedSubject];
+        const heroStyles = isDarkMode
+            ? (gradientBackground
+                ? { backgroundImage: gradientBackground }
+                : subjectColors.background
+                    ? { backgroundColor: subjectColors.background }
+                    : { backgroundColor: DEFAULT_COLOR_SCHEME.background })
+            : {
+                backgroundColor: '#ffffff',
+                backgroundImage: gradientBackground || 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))',
+                border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
+            };
+        const heroTextColor = isDarkMode
+            ? subjectColors.heroText || subjectColors.onBackgroundText || '#ffffff'
+            : subjectColors.text || subjectColors.accent || '#0f172a';
+        const heroAccentColor = subjectColors.accent || subjectColors.text || '#0f172a';
+        const backButtonStyle = isDarkMode
+            ? {
+                backgroundColor: 'rgba(255,255,255,0.18)',
+                color: heroTextColor,
+                border: `1px solid ${subjectColors.border || 'rgba(255,255,255,0.25)'}`,
+            }
+            : {
+                backgroundColor: '#ffffff',
+                color: heroAccentColor,
+                border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
+            };
         return (
             <>
                 <div
@@ -7342,7 +7449,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         color: heroTextColor,
                     }}
                 >
-                    <Breadcrumb variant="onColor" />
+                    <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
                     <h2 className="text-3xl font-extrabold mb-4" style={{ color: heroTextColor }}>
                         {selectedCategory}
                     </h2>
@@ -7406,7 +7513,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             return (
                                 <div
                                     key={topic.id || `topic_${topicIndex}`}
-                                    className="rounded-xl border bg-white/95 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl"
+                                    className="rounded-xl border bg-white/95 dark:bg-slate-900/80 dark:border-slate-700 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl"
                                     style={{
                                         borderColor: subjectColors.border || 'rgba(255,255,255,0.4)',
                                         color: subjectColors.text || '#0f172a',
@@ -7473,7 +7580,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         <button
                             type="button"
                             onClick={handleBack}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-white/20 hover:bg-white/30 text-white transition"
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition"
+                            style={backButtonStyle}
                         >
                             <ArrowLeftIcon />
                             <span>Back to {selectedSubject}</span>
@@ -7488,13 +7596,61 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     if (selectedSubject) {
         const subject = AppData[selectedSubject];
         const subjectColors = SUBJECT_COLORS[selectedSubject] || {};
-        const gradientBackground = SUBJECT_BG_GRADIENTS[selectedSubject];
-        const heroStyles = gradientBackground
-            ? { backgroundImage: gradientBackground }
-            : subjectColors.background
-                ? { backgroundColor: subjectColors.background }
-                : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
-        const heroTextColor = subjectColors.text || subjectColors.onBackgroundText || '#ffffff';
+        const gradientBackground = isDarkMode
+            ? SUBJECT_BG_GRADIENTS[selectedSubject]
+            : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject] || SUBJECT_BG_GRADIENTS[selectedSubject];
+        const heroStyles = isDarkMode
+            ? (gradientBackground
+                ? { backgroundImage: gradientBackground }
+                : subjectColors.background
+                    ? { backgroundColor: subjectColors.background }
+                    : { backgroundColor: DEFAULT_COLOR_SCHEME.background })
+            : {
+                backgroundColor: '#ffffff',
+                backgroundImage: gradientBackground || 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))',
+                border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
+            };
+        const heroTextColor = isDarkMode
+            ? subjectColors.heroText || subjectColors.onBackgroundText || '#ffffff'
+            : subjectColors.text || subjectColors.accent || '#0f172a';
+        const heroAccentColor = subjectColors.accent || subjectColors.text || '#0f172a';
+        const heroMutedTextStyle = isDarkMode
+            ? { color: 'rgba(255,255,255,0.85)' }
+            : { color: heroTextColor, opacity: 0.75 };
+        const panelBorderColor = isDarkMode
+            ? subjectColors.border || 'rgba(255,255,255,0.55)'
+            : SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)';
+        const panelBaseStyle = {
+            borderColor: panelBorderColor,
+            backgroundColor: isDarkMode ? 'rgba(255,255,255,0.08)' : '#ffffff',
+            color: heroTextColor,
+        };
+        const panelBackground = !isDarkMode && SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
+        if (panelBackground) {
+            panelBaseStyle.backgroundImage = panelBackground;
+        }
+        const selectStyle = isDarkMode
+            ? {
+                border: `1px solid ${subjectColors.border || 'rgba(255,255,255,0.35)'}`,
+                backgroundColor: 'rgba(15,23,42,0.85)',
+                color: '#f8fafc',
+            }
+            : {
+                border: `1px solid ${panelBorderColor}`,
+                backgroundColor: '#ffffff',
+                color: '#0f172a',
+            };
+        const backButtonStyle = isDarkMode
+            ? {
+                backgroundColor: 'rgba(255,255,255,0.18)',
+                color: heroTextColor,
+                border: `1px solid ${subjectColors.border || 'rgba(255,255,255,0.25)'}`,
+            }
+            : {
+                backgroundColor: '#ffffff',
+                color: heroAccentColor,
+                border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
+            };
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         return (
             <>
@@ -7508,7 +7664,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         color: heroTextColor,
                     }}
                 >
-                    <Breadcrumb variant="onColor" />
+                    <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
                         <h2 className="text-3xl font-extrabold" style={{ color: heroTextColor }}>
                             {selectedSubject}
@@ -7523,7 +7679,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                         >
                                             Math Practice Tools
                                         </button>
-                                        <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
+                                        <button
+                                            onClick={() => setShowFormulaSheet(true)}
+                                            className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white transition"
+                                        >
                                             Formula Sheet
                                         </button>
                                     </>
@@ -7532,7 +7691,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     <button
                                         type="button"
                                         onClick={() => setViewScienceFormulas(true)}
-                                        className="px-4 py-2 border-2 border-rose-200 text-white font-semibold rounded-lg bg-transparent hover:bg-rose-500/20 transition"
+                                        className="px-4 py-2 font-semibold rounded-lg border-2 transition hover:opacity-90"
+                                        style={{
+                                            borderColor: isDarkMode ? subjectColors.border || 'rgba(255,255,255,0.5)' : panelBorderColor,
+                                            color: heroAccentColor,
+                                            backgroundColor: isDarkMode ? 'transparent' : '#ffffff',
+                                        }}
                                     >
                                         View Science Formula Sheet
                                     </button>
@@ -7549,17 +7713,17 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {Object.entries(subject.categories).map(([categoryName, category]) => {
                             const cardStyle = {
-                                borderColor: subjectColors.border || 'rgba(255,255,255,0.35)',
-                                color: subjectColors.text || '#0f172a',
+                                borderColor: subjectColors.border || panelBorderColor,
+                                color: subjectColors.text || heroTextColor,
                             };
                             return (
                                 <button
                                     key={categoryName}
                                     onClick={() => handleSelectCategory(categoryName)}
-                                    className="text-left border rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
+                                    className="text-left border rounded-lg p-4 flex flex-col justify-between bg-white dark:bg-slate-900/75 dark:border-slate-700 transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
                                     style={cardStyle}
                                 >
-                                    <h3 className="text-xl font-bold" style={{ color: subjectColors.text || '#0f172a' }}>
+                                    <h3 className="text-xl font-bold" style={{ color: subjectColors.text || heroTextColor }}>
                                         {categoryName}
                                     </h3>
                                     <p className="text-slate-500 dark:text-slate-300 text-sm my-2 flex-grow">
@@ -7571,13 +7735,18 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                             <>
                                 {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
-                                    <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
+                                    <div
+                                        className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
+                                        style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                                    >
                                         <div>
-                                            <div className="flex items-center justify-center gap-2">
-                                                <BookOpenIcon className="h-8 w-8 text-white" />
-                                                <h3 className="text-xl font-bold text-white">Essay Practice Tool</h3>
+                                            <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
+                                                <BookOpenIcon className="h-8 w-8" />
+                                                <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Essay Practice Tool</h3>
                                             </div>
-                                            <p className="text-white/80 text-sm my-2 text-center">Build your extended response with guided support.</p>
+                                            <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
+                                                Build your extended response with guided support.
+                                            </p>
                                         </div>
                                         <button
                                             onClick={() => onSelectQuiz({ id: 'essay_practice_tool', type: 'essay', title: 'GED® Essay Practice Toolkit' }, selectedSubject)}
@@ -7587,21 +7756,32 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                         </button>
                                     </div>
                                 )}
-                                {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
-                                <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
+                                <div
+                                    className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
+                                    style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                                >
                                     <div>
-                                        <div className="flex items-center justify-center gap-2">
-                                            <SparklesIcon className="h-8 w-8 text-white" />
-                                            <h3 className="text-xl font-bold text-white">Smith a Quiz</h3>
+                                        <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
+                                            <SparklesIcon className="h-8 w-8" />
+                                            <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Smith a Quiz</h3>
                                         </div>
-                                        <p className="text-white/80 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
+                                        <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
+                                            Generate a new quiz for any topic in {selectedSubject}.
+                                        </p>
                                         <div className="mt-2">
-                                            <label className="block text-white font-semibold mb-1" htmlFor="ai-quiz-topic">Choose a topic</label>
+                                            <label
+                                                className="block font-semibold mb-1"
+                                                htmlFor="ai-quiz-topic"
+                                                style={{ color: heroTextColor }}
+                                            >
+                                                Choose a topic
+                                            </label>
                                             <select
                                                 id="ai-quiz-topic"
                                                 value={aiQuizTopic}
                                                 onChange={(e) => setAiQuizTopic(e.target.value)}
-                                                className="w-full px-3 py-2 border border-white/70 bg-white/90 text-slate-800 rounded-md focus:outline-none focus:ring-2 focus:ring-white/70"
+                                                className="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-0"
+                                                style={selectStyle}
                                             >
                                                 <option value="">Select a topic</option>
                                                 {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
@@ -7611,17 +7791,20 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     <button
                                         onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
                                         disabled={!aiQuizTopic}
-                                        className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/50 disabled:text-white/70 disabled:cursor-not-allowed"
+                                        className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md transition hover:bg-white/90 disabled:bg-white/60 disabled:text-slate-400 disabled:cursor-not-allowed"
                                     >
                                         Generate Quiz
                                     </button>
                                 </div>
-                                {/* --- END OF UPDATED BOX --- */}
-
-                                <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-center items-center bg-white/10 hover:shadow-lg hover:border-white transition-all md:col-span-2 lg:col-span-1">
-                                    <SparklesIcon className="h-8 w-8 text-white" />
-                                    <h3 className="text-xl font-bold text-white mt-2">Comprehensive Exam</h3>
-                                    <p className="text-white/80 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
+                                <div
+                                    className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-center items-center hover:shadow-lg transition-all md:col-span-2 lg:col-span-1"
+                                    style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                                >
+                                    <SparklesIcon className="h-8 w-8" style={{ color: heroAccentColor }} />
+                                    <h3 className="text-xl font-bold mt-2" style={{ color: heroTextColor }}>Comprehensive Exam</h3>
+                                    <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
+                                        Take a full-length practice exam for {selectedSubject}.
+                                    </p>
                                     <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition">
                                         Start Comprehensive Exam
                                     </button>
@@ -7633,7 +7816,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         <button
                             type="button"
                             onClick={handleBack}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-white/20 hover:bg-white/30 text-white transition"
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition"
+                            style={backButtonStyle}
                         >
                             <ArrowLeftIcon />
                             <span>Back to Main Menu</span>
