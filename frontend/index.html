@@ -6535,34 +6535,53 @@ function ProgressDashboard({ progress, onSubjectClick }) {
     const totalQuizzes = Object.values(progress).reduce((acc, subject) => acc + (subject.total || 0), 0);
     const subjects = ["Social Studies", "Reasoning Through Language Arts (RLA)", "Science", "Math"];
     const getScoreTheme = (subject) => SUBJECT_COLORS[subject] || {};
-    const getCardClasses = (subject) => {
+    const getCardStyles = (subject) => {
         const theme = getScoreTheme(subject);
-        const hoverClass = theme.scoreHoverBackground || DEFAULT_COLOR_SCHEME.scoreHoverBackground;
-        const borderClass = theme.scoreBorder || DEFAULT_COLOR_SCHEME.scoreBorder;
-        return `p-4 rounded-lg text-center shadow-inner border transition-colors duration-200 bg-slate-900/90 ${hoverClass} ${borderClass} text-slate-100`;
+        const gradient = SUBJECT_BG_GRADIENTS[subject];
+        const style = {
+            borderColor: theme.scoreBorder || 'var(--border-subtle)',
+            color: theme.scoreText || theme.text || '#ffffff',
+            backgroundColor: theme.scoreBackground || 'var(--bg-overlay)',
+        };
+        if (gradient) {
+            style.backgroundImage = gradient;
+        } else if (theme.background) {
+            style.backgroundColor = theme.background;
+        }
+        return style;
     };
-    const getScoreTextClass = (subject) => {
-        const theme = getScoreTheme(subject);
-        return theme.scoreText || theme.text || DEFAULT_COLOR_SCHEME.scoreText;
+    const totalCardStyle = {
+        borderColor: DEFAULT_COLOR_SCHEME.scoreBorder || 'var(--border-subtle)',
+        backgroundColor: 'rgba(15,23,42,0.9)',
+        color: '#f8fafc',
     };
-    const totalCardClasses = `p-4 rounded-lg text-center shadow-inner border ${DEFAULT_COLOR_SCHEME.scoreBorder} bg-slate-900/90 text-slate-100 sm:col-span-3 lg:col-span-1`;
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-            <div className={totalCardClasses}>
-                <p className="text-slate-300 text-sm font-semibold uppercase tracking-wider">Total Quizzes</p>
-                <p className="text-4xl font-bold text-white">{totalQuizzes}</p>
+            <div className="p-4 rounded-lg text-center shadow-inner border sm:col-span-3 lg:col-span-1" style={totalCardStyle}>
+                <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'rgba(248,250,252,0.75)' }}>
+                    Total Quizzes
+                </p>
+                <p className="text-4xl font-bold" style={{ color: '#ffffff' }}>{totalQuizzes}</p>
             </div>
-            {subjects.map(subject => (
-                <button
-                    key={subject}
-                    onClick={() => onSubjectClick(subject)}
-                    className={getCardClasses(subject)}
-                >
-                    <p className="text-slate-300 text-sm font-semibold uppercase tracking-wider">{subject}</p>
-                    <p className={`text-4xl font-bold ${getScoreTextClass(subject)}`}>{calculateAverage(progress[subject]?.scores)}</p>
-                </button>
-            ))}
+            {subjects.map(subject => {
+                const cardStyle = getCardStyles(subject);
+                return (
+                    <button
+                        key={subject}
+                        onClick={() => onSubjectClick(subject)}
+                        className="p-4 rounded-lg text-center shadow-inner border transition-transform duration-200 hover:-translate-y-1"
+                        style={cardStyle}
+                    >
+                        <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                            {subject}
+                        </p>
+                        <p className="text-4xl font-bold" style={{ color: cardStyle.color }}>
+                            {calculateAverage(progress[subject]?.scores)}
+                        </p>
+                    </button>
+                );
+            })}
         </div>
     );
 }
@@ -7002,11 +7021,25 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
         const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
         const gradientBackground = SUBJECT_BG_GRADIENTS[selectedSubject];
+        const heroStyles = gradientBackground
+            ? { backgroundImage: gradientBackground }
+            : subjectColors.background
+                ? { backgroundColor: subjectColors.background }
+                : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
+        const heroTextColor = subjectColors.text || subjectColors.onBackgroundText || '#ffffff';
         return (
             <>
-                <div className={`animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${gradientBackground || subjectColors.background || DEFAULT_COLOR_SCHEME.background} ${subjectColors.onBackgroundText || 'text-white'} shadow-2xl`}>
+                <div
+                    className="animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
+                    style={{
+                        ...heroStyles,
+                        color: heroTextColor,
+                    }}
+                >
                     <Breadcrumb variant="onColor" />
-                    <h2 className="text-3xl font-extrabold text-white mb-4">{selectedCategory}</h2>
+                    <h2 className="text-3xl font-extrabold mb-4" style={{ color: heroTextColor }}>
+                        {selectedCategory}
+                    </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {topics.map((topic, topicIndex) => {
                             const quizSets = Array.isArray(topic.quizzes)
@@ -7016,12 +7049,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 ? `${quizSets.length} quiz ${quizSets.length === 1 ? 'set' : 'sets'}`
                                 : '';
                             const supportsMultipleQuizzes = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
-                            const buttonClasses = [
-                                'w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition',
-                                subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
-                                subjectColors.accentHover || DEFAULT_COLOR_SCHEME.accentHover,
-                                subjectColors.accentText || 'text-white'
-                            ].join(' ');
+                            const buttonStyle = {
+                                backgroundColor: subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
+                                color: subjectColors.accentText || '#ffffff',
+                                borderColor: subjectColors.border || subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
+                            };
                             const defaultButtonLabel = (topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool')
                                 ? 'Open'
                                 : 'Start Quiz';
@@ -7066,10 +7098,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             return (
                                 <div
                                     key={topic.id || `topic_${topicIndex}`}
-                                    className={`rounded-xl border ${subjectColors.surfaceBorder || 'border-white/40'} bg-white/95 text-slate-900 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl`}
+                                    className="rounded-xl border bg-white/95 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl"
+                                    style={{
+                                        borderColor: subjectColors.border || 'rgba(255,255,255,0.4)',
+                                        color: subjectColors.text || '#0f172a',
+                                    }}
                                 >
                                     <div>
-                                        <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
+                                        <h3 className="text-xl font-bold" style={{ color: subjectColors.text || '#0f172a' }}>
+                                            {topic.title}
+                                        </h3>
                                         <p className="text-slate-600 dark:text-slate-300 text-sm my-3 flex-grow">{topic.description}</p>
                                     </div>
                                     {supportsMultipleQuizzes ? (
@@ -7094,7 +7132,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                                         <button
                                                             key={quiz.quizId || `${topic.id || `topic_${topicIndex}`}_quiz_${index}`}
                                                             onClick={() => launchQuizSet(quiz, index)}
-                                                            className={buttonClasses}
+                                                            className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                                                            style={buttonStyle}
                                                         >
                                                             Start {label}
                                                         </button>
@@ -7105,7 +7144,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     ) : (
                                         <button
                                             onClick={() => onSelectQuiz(topic, selectedSubject)}
-                                            className={buttonClasses}
+                                            className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                                            style={buttonStyle}
                                         >
                                             {defaultButtonLabel}
                                         </button>
@@ -7134,16 +7174,30 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         const subject = AppData[selectedSubject];
         const subjectColors = SUBJECT_COLORS[selectedSubject] || {};
         const gradientBackground = SUBJECT_BG_GRADIENTS[selectedSubject];
+        const heroStyles = gradientBackground
+            ? { backgroundImage: gradientBackground }
+            : subjectColors.background
+                ? { backgroundColor: subjectColors.background }
+                : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
+        const heroTextColor = subjectColors.text || subjectColors.onBackgroundText || '#ffffff';
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         return (
             <>
                 {viewScienceFormulas && (
                     <ScienceFormulaSheet onClose={() => setViewScienceFormulas(false)} />
                 )}
-                <div className={`animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 ${gradientBackground || subjectColors.background || 'bg-slate-800'} text-white shadow-2xl`}>
+                <div
+                    className="animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
+                    style={{
+                        ...heroStyles,
+                        color: heroTextColor,
+                    }}
+                >
                     <Breadcrumb variant="onColor" />
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-                        <h2 className="text-3xl font-extrabold text-white">{selectedSubject}</h2>
+                        <h2 className="text-3xl font-extrabold" style={{ color: heroTextColor }}>
+                            {selectedSubject}
+                        </h2>
                         {(selectedSubject === 'Math' || selectedSubject === 'Science') && (
                             <div className="flex flex-wrap gap-2">
                                 {selectedSubject === 'Math' && (
@@ -7178,16 +7232,27 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         />
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {Object.entries(subject.categories).map(([categoryName, category]) => (
-                            <button
-                                key={categoryName}
-                                onClick={() => handleSelectCategory(categoryName)}
-                                className={`text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 ${subjectColors.hoverBorder || ''}`}
-                            >
-                                <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-800'}`}>{categoryName}</h3>
-                                <p className="text-slate-500 dark:text-slate-300 text-sm my-2 flex-grow">{category.description}</p>
-                            </button>
-                        ))}
+                        {Object.entries(subject.categories).map(([categoryName, category]) => {
+                            const cardStyle = {
+                                borderColor: subjectColors.border || 'rgba(255,255,255,0.35)',
+                                color: subjectColors.text || '#0f172a',
+                            };
+                            return (
+                                <button
+                                    key={categoryName}
+                                    onClick={() => handleSelectCategory(categoryName)}
+                                    className="text-left border rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
+                                    style={cardStyle}
+                                >
+                                    <h3 className="text-xl font-bold" style={{ color: subjectColors.text || '#0f172a' }}>
+                                        {categoryName}
+                                    </h3>
+                                    <p className="text-slate-500 dark:text-slate-300 text-sm my-2 flex-grow">
+                                        {category.description}
+                                    </p>
+                                </button>
+                            );
+                        })}
                         {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                             <>
                                 {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
@@ -7386,18 +7451,31 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     {Object.entries(AppData).map(([subjectName, subject]) => {
                         const IconComponent = ICONS[subject.icon];
                         const colorScheme = SUBJECT_COLORS[subjectName] || {};
-                        const gradientClass = SUBJECT_BG_GRADIENTS[subjectName];
+                        const gradientBackground = SUBJECT_BG_GRADIENTS[subjectName];
+                        const iconWrapperStyle = gradientBackground
+                            ? { backgroundImage: gradientBackground }
+                            : colorScheme.background
+                                ? { backgroundColor: colorScheme.background }
+                                : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
+                        const subjectTextColor = colorScheme.text || '#ffffff';
                         return (
                             <button
                                 key={subjectName}
                                 onClick={() => handleSelectSubject(subjectName)}
                                 className="subject-card glass group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-lg transition-all duration-300"
                             >
-                                <div className={`${gradientClass || colorScheme.background || 'bg-slate-800'} w-full rounded-xl py-6 flex items-center justify-center shadow-inner`}
+                                <div
+                                    className="w-full rounded-xl py-6 flex items-center justify-center shadow-inner"
+                                    style={{
+                                        ...iconWrapperStyle,
+                                        color: subjectTextColor,
+                                    }}
                                 >
                                     <IconComponent className="h-12 w-12 text-white drop-shadow" />
                                 </div>
-                                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">{subjectName}</h2>
+                                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100" style={{ color: colorScheme.text || undefined }}>
+                                    {subjectName}
+                                </h2>
                                 <span className="text-sm text-slate-500 dark:text-slate-300">Explore lessons &amp; quizzes</span>
                             </button>
                         );
