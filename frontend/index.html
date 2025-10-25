@@ -3963,7 +3963,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
 }
 
 // --- Main App Component ---
-function App() {
+function App({ externalTheme, onThemeChange }) {
     const SMITHING_PROMPTS = [
         "Heating the forge...",
         "The smith is at the anvil...",
@@ -4034,15 +4034,22 @@ function App() {
 
     const hasLocalPrefsRef = useRef(false);
     const [preferences, setPreferences] = useState(() => {
+        const resolveInitialTheme = (baseTheme) => {
+            if (VALID_THEMES.has(externalTheme)) {
+                return externalTheme;
+            }
+            return baseTheme;
+        };
         if (typeof window === 'undefined') {
-            return { ...DEFAULT_PREFERENCES };
+            return { ...DEFAULT_PREFERENCES, theme: resolveInitialTheme(DEFAULT_PREFERENCES.theme) };
         }
         try {
             const stored = window.localStorage.getItem('prefs');
             if (stored) {
                 const parsed = JSON.parse(stored);
                 hasLocalPrefsRef.current = true;
-                return normalizePreferences(parsed);
+                const normalized = normalizePreferences(parsed);
+                return { ...normalized, theme: resolveInitialTheme(normalized.theme) };
             }
         } catch (error) {
             console.warn('Failed to restore saved preferences:', error);
@@ -4051,9 +4058,10 @@ function App() {
             ? window.matchMedia('(prefers-color-scheme: dark)').matches
             : false;
         if (prefersDark) {
-            return normalizePreferences({ ...DEFAULT_PREFERENCES, theme: 'dark' });
+            const normalized = normalizePreferences({ ...DEFAULT_PREFERENCES, theme: 'dark' });
+            return { ...normalized, theme: resolveInitialTheme(normalized.theme) };
         }
-        return { ...DEFAULT_PREFERENCES };
+        return { ...DEFAULT_PREFERENCES, theme: resolveInitialTheme(DEFAULT_PREFERENCES.theme) };
     });
     const [profileData, setProfileData] = useState(null);
     const [profileLoading, setProfileLoading] = useState(false);
@@ -4118,6 +4126,21 @@ function App() {
             hasLocalPrefsRef.current = true;
         }
     }, []);
+
+    useEffect(() => {
+        if (!VALID_THEMES.has(externalTheme)) {
+            return;
+        }
+        if (preferences.theme !== externalTheme) {
+            applyPreferenceUpdate({ theme: externalTheme });
+        }
+    }, [externalTheme, preferences.theme, applyPreferenceUpdate]);
+
+    useEffect(() => {
+        if (typeof onThemeChange === 'function') {
+            onThemeChange(preferences.theme);
+        }
+    }, [onThemeChange, preferences.theme]);
 
     const handleSettingsInstantChange = useCallback((partialPrefs) => {
         setSettingsStatus('');
@@ -9358,14 +9381,74 @@ if (typeof window !== 'undefined' && window.location && window.location.search.i
     setTimeout(runMathPipelineDiagnostics, 0);
 }
 
+function RootApp() {
+    const [theme, setTheme] = useState(() => {
+        if (typeof window === 'undefined' || !window.localStorage) {
+            return 'light';
+        }
+        const stored = window.localStorage.getItem('appTheme');
+        return stored === 'dark' ? 'dark' : 'light';
+    });
+
+    const applyTheme = useCallback((themeValue) => {
+        const normalized = themeValue === 'dark' ? 'dark' : 'light';
+        if (typeof document !== 'undefined' && document.body) {
+            document.body.setAttribute('data-theme', normalized);
+        }
+        try {
+            if (typeof window !== 'undefined' && window.localStorage) {
+                window.localStorage.setItem('appTheme', normalized);
+            }
+        } catch (error) {
+            console.warn('Unable to persist theme preference:', error);
+        }
+        return normalized;
+    }, []);
+
+    useEffect(() => {
+        applyTheme(theme);
+    }, [theme, applyTheme]);
+
+    const handleThemeChange = useCallback((nextTheme) => {
+        setTheme((prev) => {
+            const normalized = applyTheme(nextTheme);
+            if (prev === normalized) {
+                return prev;
+            }
+            return normalized;
+        });
+    }, [applyTheme]);
+
+    const handleToggleTheme = useCallback(() => {
+        setTheme((prev) => {
+            const next = prev === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            return next;
+        });
+    }, [applyTheme]);
+
+    return (
+        <>
+            <div className="fixed top-4 right-4 z-50">
+                <button
+                    type="button"
+                    onClick={handleToggleTheme}
+                    className="rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 shadow transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+                >
+                    {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                </button>
+            </div>
+            <ErrorBoundary>
+                <App externalTheme={theme} onThemeChange={handleThemeChange} />
+            </ErrorBoundary>
+        </>
+    );
+}
+
 // --- RENDER APP ---
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
-root.render(
-    <ErrorBoundary>
-        <App />
-    </ErrorBoundary>
-);
+root.render(<RootApp />);
 
 </script>
 
