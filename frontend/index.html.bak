@@ -5400,7 +5400,7 @@ function App({ externalTheme, onThemeChange }) {
         const viewType = (preparedQuiz.type === 'multi-part-rla' || preparedQuiz.type === 'multi-part-math') ? 'quiz' : (preparedQuiz.type || 'quiz');
         setView(viewType);
     };
-    
+
     const onQuizComplete = (results) => {
         setQuizResults(results);
         setView('results');
@@ -9574,8 +9574,8 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
             <div className="max-w-md mx-auto">
                 <h3 className="text-2xl font-bold text-slate-800">Create a New Quiz</h3>
                 <p className="text-slate-500 mt-2 mb-6">Select a topic from {subject} to generate a unique 15-question practice exam.</p>
-                
-                <select 
+
+                <select
                     value={selectedTopic}
                     onChange={(e) => setSelectedTopic(e.target.value)}
                     className="w-full p-3 border border-sky-300 rounded-md mb-4 text-lg"
@@ -9584,8 +9584,8 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
                     {availableTopics.map(topic => <option key={topic} value={topic}>{topic}</option>)}
                 </select>
 
-                <button 
-                    onClick={handleGenerate} 
+                <button
+                    onClick={handleGenerate}
                     disabled={isLoading}
                     className="w-full px-8 py-4 bg-sky-600 text-white font-bold rounded-lg shadow-md hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
                 >
