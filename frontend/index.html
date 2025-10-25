@@ -4841,34 +4841,55 @@ function App({ externalTheme, onThemeChange }) {
         }
 
         const edits = subjectEdits[trimmedSubject] || { testDate: '', testLocation: '', passed: false };
+        const payload = {
+            subject: trimmedSubject,
+            testDate: edits.testDate || null,
+            testLocation: edits.testLocation || null,
+            passed: !!edits.passed,
+        };
+
+        console.log('[saveTestInfo] about to POST', payload);
+
         setTestSaving(trimmedSubject);
         try {
-            const response = await fetch('/api/profile/test', {
+            const response = await fetch(`${API_BASE_URL}/api/profile/test`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({
-                    subject: trimmedSubject,
-                    testDate: edits.testDate || null,
-                    testLocation: edits.testLocation || null,
-                    passed: !!edits.passed,
-                }),
+                body: JSON.stringify(payload),
             });
-            if (!response.ok) {
-                throw new Error(`Failed with status ${response.status}`);
+
+            console.log('[saveTestInfo] resp.status =', response.status);
+
+            let data;
+            try {
+                data = await response.json();
+            } catch (parseError) {
+                console.error('[saveTestInfo] could not parse JSON from server:', parseError);
             }
-            const data = await response.json();
-            setProfileData(data);
-            syncSubjectEditsFromBundle(data);
-            const onboardingFlag = !!data?.profile?.onboardingComplete;
-            setOnboardingComplete(onboardingFlag);
-            if (typeof window !== 'undefined') {
-                window._onboardingComplete = onboardingFlag;
+
+            console.log('[saveTestInfo] resp body =', data);
+
+            if (!response.ok || !data || data.ok !== true) {
+                window.alert('Could not save test info.');
+                return;
             }
+
+            const bundle = data.bundle || data;
+            if (bundle) {
+                setProfileData(bundle);
+                syncSubjectEditsFromBundle(bundle);
+                const onboardingFlag = !!bundle?.profile?.onboardingComplete;
+                setOnboardingComplete(onboardingFlag);
+                if (typeof window !== 'undefined') {
+                    window._onboardingComplete = onboardingFlag;
+                }
+            }
+
             window.alert('Saved!');
         } catch (error) {
-            console.error('Failed to save test info:', error);
-            window.alert('Could not save test info.');
+            console.error('[saveTestInfo] FETCH ERROR:', error);
+            window.alert('Could not save test info (network).');
         } finally {
             setTestSaving(null);
         }
