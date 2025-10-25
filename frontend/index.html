@@ -562,6 +562,8 @@
    </button>
     <div id="root"></div>
 
+    <script src="data/quiz_data.js"></script>
+
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
@@ -3594,6 +3596,92 @@ const AppData = {
     }
 };
 
+const integrateExpandedQuizData = (baseData, expandedData) => {
+    if (!expandedData || typeof expandedData !== 'object') {
+        return baseData;
+    }
+
+    Object.entries(expandedData).forEach(([subjectName, expandedSubject]) => {
+        if (!expandedSubject || typeof expandedSubject !== 'object') {
+            return;
+        }
+
+        if (!baseData[subjectName]) {
+            baseData[subjectName] = JSON.parse(JSON.stringify(expandedSubject));
+            return;
+        }
+
+        const baseSubject = baseData[subjectName];
+        if (!baseSubject.categories) {
+            baseSubject.categories = {};
+        }
+        if (expandedSubject.icon && !baseSubject.icon) {
+            baseSubject.icon = expandedSubject.icon;
+        }
+
+        Object.entries(expandedSubject.categories || {}).forEach(([categoryName, expandedCategory]) => {
+            if (!expandedCategory || typeof expandedCategory !== 'object') {
+                return;
+            }
+
+            if (!baseSubject.categories[categoryName]) {
+                baseSubject.categories[categoryName] = JSON.parse(JSON.stringify(expandedCategory));
+                return;
+            }
+
+            const baseCategory = baseSubject.categories[categoryName];
+            if (expandedCategory.description && !baseCategory.description) {
+                baseCategory.description = expandedCategory.description;
+            }
+
+            if (!Array.isArray(baseCategory.topics)) {
+                baseCategory.topics = [];
+            }
+            const topicList = baseCategory.topics;
+
+            (expandedCategory.topics || []).forEach((expandedTopic) => {
+                if (!expandedTopic || typeof expandedTopic !== 'object') {
+                    return;
+                }
+
+                let existingTopic = topicList.find((topic) => topic.id === expandedTopic.id || topic.title === expandedTopic.title);
+                if (!existingTopic) {
+                    existingTopic = JSON.parse(JSON.stringify(expandedTopic));
+                    topicList.push(existingTopic);
+                } else {
+                    if (expandedTopic.description && !existingTopic.description) {
+                        existingTopic.description = expandedTopic.description;
+                    }
+                }
+
+                if (Array.isArray(expandedTopic.quizzes) && expandedTopic.quizzes.length) {
+                    existingTopic.quizzes = expandedTopic.quizzes.map((quiz) => ({
+                        ...quiz,
+                        questions: Array.isArray(quiz.questions) ? quiz.questions : []
+                    }));
+
+                    if (!Array.isArray(existingTopic.questions) || !existingTopic.questions.length) {
+                        const firstQuiz = existingTopic.quizzes[0];
+                        if (firstQuiz && Array.isArray(firstQuiz.questions)) {
+                            existingTopic.questions = [...firstQuiz.questions];
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    return baseData;
+};
+
+const expandedQuizData = (typeof window !== 'undefined' && window.ExpandedQuizData)
+    ? window.ExpandedQuizData
+    : (typeof globalThis !== 'undefined' ? globalThis.ExpandedQuizData : null);
+if (expandedQuizData) {
+    integrateExpandedQuizData(AppData, expandedQuizData);
+}
+
+
 
 // --- ICON COMPONENTS ---
 const BookOpenIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>;
@@ -4765,11 +4853,20 @@ function App() {
     const handleStartPopQuiz = () => {
         const allQuestions = [];
         Object.values(AppData).forEach(subject => {
-            if (subject.categories) {
+            if (subject?.categories) {
                 Object.values(subject.categories).forEach(category => {
-                    if (category.topics) {
+                    if (Array.isArray(category?.topics)) {
                         category.topics.forEach(topic => {
-                            if (topic.questions) {
+                            if (!topic || typeof topic !== 'object') {
+                                return;
+                            }
+                            if (Array.isArray(topic.quizzes) && topic.quizzes.length) {
+                                topic.quizzes.forEach(quiz => {
+                                    if (quiz && Array.isArray(quiz.questions)) {
+                                        allQuestions.push(...quiz.questions);
+                                    }
+                                });
+                            } else if (Array.isArray(topic.questions) && topic.questions.length) {
                                 allQuestions.push(...topic.questions);
                             }
                         });
@@ -6589,23 +6686,93 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <Breadcrumb variant="onColor" />
                     <h2 className="text-3xl font-extrabold text-white mb-4">{selectedCategory}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {topics.map(topic => (
-                            <div
-                                key={topic.id}
-                                className={`rounded-xl border ${subjectColors.surfaceBorder || 'border-white/40'} bg-white/95 text-slate-900 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl`}
-                            >
-                                <div>
-                                    <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
-                                    <p className="text-slate-600 text-sm my-3 flex-grow">{topic.description}</p>
-                                </div>
-                                <button
-                                    onClick={() => onSelectQuiz(topic, selectedSubject)}
-                                    className={`w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition ${subjectColors.accent || DEFAULT_COLOR_SCHEME.accent} ${subjectColors.accentHover || DEFAULT_COLOR_SCHEME.accentHover} ${subjectColors.accentText || 'text-white'}`}
+                        {topics.map((topic, topicIndex) => {
+                            const quizSets = Array.isArray(topic.quizzes)
+                                ? topic.quizzes.filter(quiz => quiz && Array.isArray(quiz.questions) && quiz.questions.length)
+                                : [];
+                            const supportsMultipleQuizzes = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
+                            const buttonClasses = [
+                                'w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition',
+                                subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
+                                subjectColors.accentHover || DEFAULT_COLOR_SCHEME.accentHover,
+                                subjectColors.accentText || 'text-white'
+                            ].join(' ');
+                            const defaultButtonLabel = (topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool')
+                                ? 'Open'
+                                : 'Start Quiz';
+
+                            const launchQuizSet = (quiz, index) => {
+                                if (typeof onSelectQuiz !== 'function' || !quiz) {
+                                    return;
+                                }
+                                const quizLabel = quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
+                                const baseTitle = topic.title || 'Quiz';
+                                const derivedTitle = quiz.title || `${baseTitle} — ${quizLabel}`;
+                                const quizIdBase = topic.id || `topic_${topicIndex}`;
+                                onSelectQuiz(
+                                    {
+                                        ...quiz,
+                                        id: quiz.quizId || `${quizIdBase}_set_${index}`,
+                                        title: derivedTitle,
+                                        topicId: topic.id,
+                                        topicTitle: topic.title || baseTitle,
+                                        description: quiz.description || topic.description,
+                                        type: quiz.type || topic.type || 'quiz',
+                                    },
+                                    selectedSubject
+                                );
+                            };
+
+                            return (
+                                <div
+                                    key={topic.id || `topic_${topicIndex}`}
+                                    className={`rounded-xl border ${subjectColors.surfaceBorder || 'border-white/40'} bg-white/95 text-slate-900 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl`}
                                 >
-                                    {topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' ? 'Open' : 'Start Quiz'}
-                                </button>
-                            </div>
-                        ))}
+                                    <div>
+                                        <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
+                                        <p className="text-slate-600 text-sm my-3 flex-grow">{topic.description}</p>
+                                    </div>
+                                    {supportsMultipleQuizzes ? (
+                                        <div className="mt-2 space-y-3 w-full">
+                                            <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                                {quizSets.map((quiz, index) => {
+                                                    const label = quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
+                                                    return (
+                                                        <span
+                                                            key={`label-${topic.id || `topic_${topicIndex}`}-${index}`}
+                                                            className="px-2 py-1 rounded-full bg-slate-100 text-slate-700"
+                                                        >
+                                                            {label}
+                                                        </span>
+                                                    );
+                                                })}
+                                            </div>
+                                            <div className="grid gap-2">
+                                                {quizSets.map((quiz, index) => {
+                                                    const label = quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
+                                                    return (
+                                                        <button
+                                                            key={quiz.quizId || `${topic.id || `topic_${topicIndex}`}_quiz_${index}`}
+                                                            onClick={() => launchQuizSet(quiz, index)}
+                                                            className={buttonClasses}
+                                                        >
+                                                            Start {label}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            onClick={() => onSelectQuiz(topic, selectedSubject)}
+                                            className={buttonClasses}
+                                        >
+                                            {defaultButtonLabel}
+                                        </button>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                     <div className="mt-6">
                         <button

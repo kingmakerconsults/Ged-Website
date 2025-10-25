@@ -1,4 +1,4 @@
-const AppData = {
+const expandedQuizData = {
     "Science": {
         icon: "BeakerIcon",
         categories: {
@@ -295,3 +295,15 @@ const AppData = {
         }
     }
 };
+
+
+(function(global) {
+    if (!global) {
+        return;
+    }
+    global.ExpandedQuizData = expandedQuizData;
+})(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : null));
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = expandedQuizData;
+}
