@@ -510,7 +510,7 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-100 via-sky-50 to-slate-200 text-slate-900">
+<body style="background-color: var(--bg-page); color: var(--text-primary);">
     <div id="root"></div>
 
     <script src="data/quiz_data.js"></script>
@@ -5158,7 +5158,10 @@ function App({ externalTheme, onThemeChange }) {
                     </p>
                 </div>
             )}
-            <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors">
+            <div
+                className="min-h-screen flex flex-col transition-colors"
+                style={{ backgroundColor: 'var(--bg-page)', color: 'var(--text-primary)' }}
+            >
                 <AppHeader
                     currentUser={currentUser}
                     onLogout={handleLogout}
