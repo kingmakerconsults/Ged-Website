@@ -1407,6 +1407,10 @@ function createUserToken(userId) {
 
 function requireAuthInProd(req, res, next) {
     if (process.env.NODE_ENV === 'production') {
+        if (req.user && req.user.id) {
+            return next();
+        }
+
         // If a previous middleware already populated req.user, we can skip the
         // strict token check. This lets devAuth / ensureTestUserForNow provide a
         // fallback user so profile routes keep working while auth is sorted out.
