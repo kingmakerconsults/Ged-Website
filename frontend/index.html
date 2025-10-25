@@ -461,6 +461,22 @@
             max-width: 75ch;
         }
 
+        .passage-text {
+            color: #000000;
+        }
+
+        .dark .passage-text {
+            color: var(--text-primary);
+        }
+
+        .dark .question-stem {
+            color: #ffffff;
+        }
+
+        .dark .question-stem * {
+            color: inherit;
+        }
+
         .break-all, [data-break="all"] {
             word-break: normal !important;
             overflow-wrap: break-word !important;
@@ -923,6 +939,22 @@ const SUBJECT_BG_GRADIENTS = {
     'Social Studies': 'var(--subject-social-gradient)',
     'Reasoning Through Language Arts (RLA)': 'var(--subject-rla-gradient)',
     Simulations: 'var(--subject-simulations-gradient)',
+};
+
+const SUBJECT_LIGHT_SURFACE_GRADIENTS = {
+    Math: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(2,132,199,0.12))',
+    Science: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(220,38,38,0.12))',
+    'Social Studies': 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(22,163,74,0.12))',
+    'Reasoning Through Language Arts (RLA)': 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(124,58,237,0.12))',
+    Simulations: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(249,115,22,0.12))',
+};
+
+const SUBJECT_LIGHT_TINTS = {
+    Math: 'rgba(2,132,199,0.2)',
+    Science: 'rgba(220,38,38,0.2)',
+    'Social Studies': 'rgba(22,163,74,0.2)',
+    'Reasoning Through Language Arts (RLA)': 'rgba(124,58,237,0.2)',
+    Simulations: 'rgba(249,115,22,0.2)',
 };
 
 const SUBJECT_SHORT_LABELS = {
@@ -5536,6 +5568,7 @@ function App({ externalTheme, onThemeChange }) {
                         setLoadingMessage={setLoadingMessage}
                         setShowFormulaSheet={setShowFormulaSheet}
                         onOpenMathTools={openMathTools}
+                        theme={preferences.theme}
                         onSelectGenerator={async (subject, topic, setIsLoading, setLoadingMessage) => {
                             if (!topic) {
                                 alert("Please select a topic first.");
@@ -7212,12 +7245,13 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools }) {
+function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools, theme = 'light' }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
+    const isDarkMode = theme === 'dark';
     const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
     const profile = profileData?.profile || {};
     const challengeOptions = Array.isArray(profileData?.challengeOptions) ? profileData.challengeOptions : [];
@@ -7314,33 +7348,38 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
         : [];
 
-    const Breadcrumb = ({ variant = 'default' } = {}) => {
+    const Breadcrumb = ({ variant = 'default', color, accentColor } = {}) => {
         const isOnColor = variant === 'onColor';
-        const containerClass = isOnColor
-            ? 'text-white'
-            : 'text-slate-600';
-        const buttonClass = isOnColor
-            ? 'text-white hover:text-slate-200'
-            : 'text-sky-600 hover:underline';
+        const resolvedColor = color || (isOnColor ? '#ffffff' : '#475569');
+        const resolvedAccent = accentColor || resolvedColor;
         const backLabel = selectedCategory ? `Back to ${selectedSubject}` : 'Back to Main Menu';
 
         return (
-            <div className={`mb-4 text-lg font-semibold flex items-center gap-2 ${containerClass}`}>
+            <div
+                className={`mb-4 text-lg font-semibold flex items-center gap-2 ${isOnColor ? '' : 'text-slate-600'}`}
+                style={isOnColor ? { color: resolvedColor } : undefined}
+            >
                 <button
                     type="button"
                     onClick={handleBack}
-                    className={`flex items-center gap-2 ${buttonClass}`}
+                    className={`flex items-center gap-2 ${isOnColor ? 'transition-colors' : 'text-sky-600 hover:underline'}`}
+                    style={isOnColor ? { color: resolvedAccent } : undefined}
                     aria-label={backLabel}
                 >
                     <ArrowLeftIcon />
                     <span>{backLabel}</span>
                 </button>
                 <span>/</span>
-                <span>{selectedSubject}</span>
+                <span style={isOnColor ? { color: resolvedColor } : undefined}>{selectedSubject}</span>
                 {selectedCategory && (
                     <>
                         <span>/</span>
-                        <span className={isOnColor ? 'text-white' : 'text-slate-800'}>{selectedCategory}</span>
+                        <span
+                            className={isOnColor ? '' : 'text-slate-800'}
+                            style={isOnColor ? { color: resolvedAccent } : undefined}
+                        >
+                            {selectedCategory}
+                        </span>
                     </>
                 )}
             </div>
@@ -7351,13 +7390,35 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     if (selectedSubject && selectedCategory) {
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
         const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
-        const gradientBackground = SUBJECT_BG_GRADIENTS[selectedSubject];
-        const heroStyles = gradientBackground
-            ? { backgroundImage: gradientBackground }
-            : subjectColors.background
-                ? { backgroundColor: subjectColors.background }
-                : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
-        const heroTextColor = subjectColors.heroText || subjectColors.onBackgroundText || '#ffffff';
+        const gradientBackground = isDarkMode
+            ? SUBJECT_BG_GRADIENTS[selectedSubject]
+            : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject] || SUBJECT_BG_GRADIENTS[selectedSubject];
+        const heroStyles = isDarkMode
+            ? (gradientBackground
+                ? { backgroundImage: gradientBackground }
+                : subjectColors.background
+                    ? { backgroundColor: subjectColors.background }
+                    : { backgroundColor: DEFAULT_COLOR_SCHEME.background })
+            : {
+                backgroundColor: '#ffffff',
+                backgroundImage: gradientBackground || 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))',
+                border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
+            };
+        const heroTextColor = isDarkMode
+            ? subjectColors.heroText || subjectColors.onBackgroundText || '#ffffff'
+            : subjectColors.text || subjectColors.accent || '#0f172a';
+        const heroAccentColor = subjectColors.accent || subjectColors.text || '#0f172a';
+        const backButtonStyle = isDarkMode
+            ? {
+                backgroundColor: 'rgba(255,255,255,0.18)',
+                color: heroTextColor,
+                border: `1px solid ${subjectColors.border || 'rgba(255,255,255,0.25)'}`,
+            }
+            : {
+                backgroundColor: '#ffffff',
+                color: heroAccentColor,
+                border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
+            };
         return (
             <>
                 <div
@@ -7367,7 +7428,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         color: heroTextColor,
                     }}
                 >
-                    <Breadcrumb variant="onColor" />
+                    <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
                     <h2 className="text-3xl font-extrabold mb-4" style={{ color: heroTextColor }}>
                         {selectedCategory}
                     </h2>
@@ -7498,7 +7559,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         <button
                             type="button"
                             onClick={handleBack}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-white/20 hover:bg-white/30 text-white transition"
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition"
+                            style={backButtonStyle}
                         >
                             <ArrowLeftIcon />
                             <span>Back to {selectedSubject}</span>
@@ -7513,13 +7575,61 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     if (selectedSubject) {
         const subject = AppData[selectedSubject];
         const subjectColors = SUBJECT_COLORS[selectedSubject] || {};
-        const gradientBackground = SUBJECT_BG_GRADIENTS[selectedSubject];
-        const heroStyles = gradientBackground
-            ? { backgroundImage: gradientBackground }
-            : subjectColors.background
-                ? { backgroundColor: subjectColors.background }
-                : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
-        const heroTextColor = subjectColors.heroText || subjectColors.onBackgroundText || '#ffffff';
+        const gradientBackground = isDarkMode
+            ? SUBJECT_BG_GRADIENTS[selectedSubject]
+            : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject] || SUBJECT_BG_GRADIENTS[selectedSubject];
+        const heroStyles = isDarkMode
+            ? (gradientBackground
+                ? { backgroundImage: gradientBackground }
+                : subjectColors.background
+                    ? { backgroundColor: subjectColors.background }
+                    : { backgroundColor: DEFAULT_COLOR_SCHEME.background })
+            : {
+                backgroundColor: '#ffffff',
+                backgroundImage: gradientBackground || 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))',
+                border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
+            };
+        const heroTextColor = isDarkMode
+            ? subjectColors.heroText || subjectColors.onBackgroundText || '#ffffff'
+            : subjectColors.text || subjectColors.accent || '#0f172a';
+        const heroAccentColor = subjectColors.accent || subjectColors.text || '#0f172a';
+        const heroMutedTextStyle = isDarkMode
+            ? { color: 'rgba(255,255,255,0.85)' }
+            : { color: heroTextColor, opacity: 0.75 };
+        const panelBorderColor = isDarkMode
+            ? subjectColors.border || 'rgba(255,255,255,0.55)'
+            : SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)';
+        const panelBaseStyle = {
+            borderColor: panelBorderColor,
+            backgroundColor: isDarkMode ? 'rgba(255,255,255,0.08)' : '#ffffff',
+            color: heroTextColor,
+        };
+        const panelBackground = !isDarkMode && SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
+        if (panelBackground) {
+            panelBaseStyle.backgroundImage = panelBackground;
+        }
+        const selectStyle = isDarkMode
+            ? {
+                border: `1px solid ${subjectColors.border || 'rgba(255,255,255,0.35)'}`,
+                backgroundColor: 'rgba(15,23,42,0.85)',
+                color: '#f8fafc',
+            }
+            : {
+                border: `1px solid ${panelBorderColor}`,
+                backgroundColor: '#ffffff',
+                color: '#0f172a',
+            };
+        const backButtonStyle = isDarkMode
+            ? {
+                backgroundColor: 'rgba(255,255,255,0.18)',
+                color: heroTextColor,
+                border: `1px solid ${subjectColors.border || 'rgba(255,255,255,0.25)'}`,
+            }
+            : {
+                backgroundColor: '#ffffff',
+                color: heroAccentColor,
+                border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
+            };
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         return (
             <>
@@ -7533,7 +7643,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         color: heroTextColor,
                     }}
                 >
-                    <Breadcrumb variant="onColor" />
+                    <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
                         <h2 className="text-3xl font-extrabold" style={{ color: heroTextColor }}>
                             {selectedSubject}
@@ -7548,7 +7658,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                         >
                                             Math Practice Tools
                                         </button>
-                                        <button onClick={() => setShowFormulaSheet(true)} className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white">
+                                        <button
+                                            onClick={() => setShowFormulaSheet(true)}
+                                            className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white transition"
+                                        >
                                             Formula Sheet
                                         </button>
                                     </>
@@ -7557,7 +7670,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     <button
                                         type="button"
                                         onClick={() => setViewScienceFormulas(true)}
-                                        className="px-4 py-2 border-2 border-rose-200 text-white font-semibold rounded-lg bg-transparent hover:bg-rose-500/20 transition"
+                                        className="px-4 py-2 font-semibold rounded-lg border-2 transition hover:opacity-90"
+                                        style={{
+                                            borderColor: isDarkMode ? subjectColors.border || 'rgba(255,255,255,0.5)' : panelBorderColor,
+                                            color: heroAccentColor,
+                                            backgroundColor: isDarkMode ? 'transparent' : '#ffffff',
+                                        }}
                                     >
                                         View Science Formula Sheet
                                     </button>
@@ -7574,8 +7692,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {Object.entries(subject.categories).map(([categoryName, category]) => {
                             const cardStyle = {
-                                borderColor: subjectColors.border || 'rgba(255,255,255,0.35)',
-                                color: subjectColors.text || '#0f172a',
+                                borderColor: subjectColors.border || panelBorderColor,
+                                color: subjectColors.text || heroTextColor,
                             };
                             return (
                                 <button
@@ -7584,7 +7702,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     className="text-left border rounded-lg p-4 flex flex-col justify-between bg-white dark:bg-slate-900/75 dark:border-slate-700 transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
                                     style={cardStyle}
                                 >
-                                    <h3 className="text-xl font-bold" style={{ color: subjectColors.text || '#0f172a' }}>
+                                    <h3 className="text-xl font-bold" style={{ color: subjectColors.text || heroTextColor }}>
                                         {categoryName}
                                     </h3>
                                     <p className="text-slate-500 dark:text-slate-300 text-sm my-2 flex-grow">
@@ -7596,13 +7714,18 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                             <>
                                 {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
-                                    <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
+                                    <div
+                                        className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
+                                        style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                                    >
                                         <div>
-                                            <div className="flex items-center justify-center gap-2">
-                                                <BookOpenIcon className="h-8 w-8 text-white" />
-                                                <h3 className="text-xl font-bold text-white">Essay Practice Tool</h3>
+                                            <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
+                                                <BookOpenIcon className="h-8 w-8" />
+                                                <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Essay Practice Tool</h3>
                                             </div>
-                                            <p className="text-white/80 text-sm my-2 text-center">Build your extended response with guided support.</p>
+                                            <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
+                                                Build your extended response with guided support.
+                                            </p>
                                         </div>
                                         <button
                                             onClick={() => onSelectQuiz({ id: 'essay_practice_tool', type: 'essay', title: 'GED® Essay Practice Toolkit' }, selectedSubject)}
@@ -7612,21 +7735,32 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                         </button>
                                     </div>
                                 )}
-                                {/* --- THIS IS THE UPDATED "SMITH A QUIZ" BOX --- */}
-                                <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-between bg-white/10 hover:shadow-lg hover:border-white transition-all">
+                                <div
+                                    className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
+                                    style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                                >
                                     <div>
-                                        <div className="flex items-center justify-center gap-2">
-                                            <SparklesIcon className="h-8 w-8 text-white" />
-                                            <h3 className="text-xl font-bold text-white">Smith a Quiz</h3>
+                                        <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
+                                            <SparklesIcon className="h-8 w-8" />
+                                            <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Smith a Quiz</h3>
                                         </div>
-                                        <p className="text-white/80 text-sm my-2 text-center">Generate a new quiz for any topic in {selectedSubject}.</p>
+                                        <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
+                                            Generate a new quiz for any topic in {selectedSubject}.
+                                        </p>
                                         <div className="mt-2">
-                                            <label className="block text-white font-semibold mb-1" htmlFor="ai-quiz-topic">Choose a topic</label>
+                                            <label
+                                                className="block font-semibold mb-1"
+                                                htmlFor="ai-quiz-topic"
+                                                style={{ color: heroTextColor }}
+                                            >
+                                                Choose a topic
+                                            </label>
                                             <select
                                                 id="ai-quiz-topic"
                                                 value={aiQuizTopic}
                                                 onChange={(e) => setAiQuizTopic(e.target.value)}
-                                                className="w-full px-3 py-2 border border-white/70 bg-white/90 text-slate-800 rounded-md focus:outline-none focus:ring-2 focus:ring-white/70"
+                                                className="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-0"
+                                                style={selectStyle}
                                             >
                                                 <option value="">Select a topic</option>
                                                 {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
@@ -7636,17 +7770,20 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     <button
                                         onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
                                         disabled={!aiQuizTopic}
-                                        className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/50 disabled:text-white/70 disabled:cursor-not-allowed"
+                                        className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md transition hover:bg-white/90 disabled:bg-white/60 disabled:text-slate-400 disabled:cursor-not-allowed"
                                     >
                                         Generate Quiz
                                     </button>
                                 </div>
-                                {/* --- END OF UPDATED BOX --- */}
-
-                                <div className="border-2 border-dashed border-white/70 rounded-lg p-4 flex flex-col justify-center items-center bg-white/10 hover:shadow-lg hover:border-white transition-all md:col-span-2 lg:col-span-1">
-                                    <SparklesIcon className="h-8 w-8 text-white" />
-                                    <h3 className="text-xl font-bold text-white mt-2">Comprehensive Exam</h3>
-                                    <p className="text-white/80 text-sm my-2 text-center">Take a full-length practice exam for {selectedSubject}.</p>
+                                <div
+                                    className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-center items-center hover:shadow-lg transition-all md:col-span-2 lg:col-span-1"
+                                    style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                                >
+                                    <SparklesIcon className="h-8 w-8" style={{ color: heroAccentColor }} />
+                                    <h3 className="text-xl font-bold mt-2" style={{ color: heroTextColor }}>Comprehensive Exam</h3>
+                                    <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
+                                        Take a full-length practice exam for {selectedSubject}.
+                                    </p>
                                     <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition">
                                         Start Comprehensive Exam
                                     </button>
@@ -7658,7 +7795,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         <button
                             type="button"
                             onClick={handleBack}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold bg-white/20 hover:bg-white/30 text-white transition"
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition"
+                            style={backButtonStyle}
                         >
                             <ArrowLeftIcon />
                             <span>Back to Main Menu</span>
