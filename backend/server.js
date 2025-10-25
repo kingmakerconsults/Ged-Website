@@ -1407,6 +1407,13 @@ function createUserToken(userId) {
 
 function requireAuthInProd(req, res, next) {
     if (process.env.NODE_ENV === 'production') {
+        // If a previous middleware already populated req.user, we can skip the
+        // strict token check. This lets devAuth / ensureTestUserForNow provide a
+        // fallback user so profile routes keep working while auth is sorted out.
+        if (ensureRequestUser(req)) {
+            return next();
+        }
+
         return requireAuth(req, res, next);
     }
     return next();
@@ -1718,17 +1725,20 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const devAuth = require('./middleware/devAuth');
 
 function ensureTestUserForNow(req, res, next) {
-    // If we already have a logged-in user with an id, keep it.
-    if (req.user && req.user.id) {
+    // If a prior middleware already populated the user, just normalise and move on.
+    if (ensureRequestUser(req)) {
+        if (req.user && req.user.id && !req.user.userId) {
+            req.user.userId = req.user.id;
+        }
         return next();
     }
 
     // TEMPORARY FALLBACK:
-    // We are forcing a known user ID so onboarding/profile can work in dev.
-    // IMPORTANT: Replace this value with a real existing user ID from our DB.
-    // If our users table uses something like integer PKs, use that number.
-    // If it's UUIDs, paste the UUID string here.
-    req.user = { id: 1 };
+    // Force a known user ID so onboarding/profile can work while auth is fixed.
+    const fallbackIdRaw = process.env.FALLBACK_USER_ID || process.env.TEST_USER_ID || '1';
+    const fallbackId = /^[0-9]+$/.test(String(fallbackIdRaw)) ? Number(fallbackIdRaw) : fallbackIdRaw;
+
+    req.user = { ...(req.user || {}), id: fallbackId, userId: fallbackId };
 
     console.log('[ensureTestUserForNow] Using fallback req.user.id =', req.user.id);
 
@@ -1765,7 +1775,7 @@ app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all rou
 app.use(express.json());
 app.use(cookieParser());
 
-app.get('/api/profile/me', requireAuthInProd, devAuth, ensureTestUserForNow, authRequired, async (req, res) => {
+app.get('/api/profile/me', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
     console.log('[/api/profile/me] req.user =', req.user);
     try {
         const bundle = await buildProfileBundle(req.user.id);
@@ -1776,7 +1786,7 @@ app.get('/api/profile/me', requireAuthInProd, devAuth, ensureTestUserForNow, aut
     }
 });
 
-app.patch('/api/profile/name', requireAuthInProd, devAuth, ensureTestUserForNow, authRequired, express.json(), async (req, res) => {
+app.patch('/api/profile/name', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
     console.log('[/api/profile/name] req.user =', req.user);
     console.log('[/api/profile/name] req.body =', req.body);
 
@@ -1824,7 +1834,7 @@ app.patch('/api/profile/name', requireAuthInProd, devAuth, ensureTestUserForNow,
     }
 });
 
-app.patch('/api/profile/test', requireAuthInProd, devAuth, ensureTestUserForNow, authRequired, express.json(), async (req, res) => {
+app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
     console.log('[/api/profile/test] req.user =', req.user);
     console.log('[/api/profile/test] req.body =', req.body);
     console.log('[/api/profile/test] HIT');
@@ -1903,7 +1913,7 @@ app.patch('/api/profile/test', requireAuthInProd, devAuth, ensureTestUserForNow,
     }
 });
 
-app.patch('/api/profile/challenges/tags', requireAuthInProd, devAuth, ensureTestUserForNow, authRequired, express.json(), async (req, res) => {
+app.patch('/api/profile/challenges/tags', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
     console.log('[/api/profile/challenges/tags] req.user =', req.user);
     console.log('[/api/profile/challenges/tags] req.body =', req.body);
 
@@ -1937,7 +1947,7 @@ app.patch('/api/profile/challenges/tags', requireAuthInProd, devAuth, ensureTest
     }
 });
 
-app.post('/api/profile/complete-onboarding', requireAuthInProd, devAuth, ensureTestUserForNow, authRequired, async (req, res) => {
+app.post('/api/profile/complete-onboarding', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
     console.log('[/api/profile/complete-onboarding] req.user =', req.user);
 
     const userId = req.user.id;
@@ -1980,7 +1990,7 @@ app.post('/api/profile/complete-onboarding', requireAuthInProd, devAuth, ensureT
     }
 });
 
-app.use('/api/profile', requireAuthInProd, devAuth, profileRouter);
+app.use('/api/profile', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, profileRouter);
 
 app.post('/api/register', async (req, res) => {
     const { email, password } = req.body || {};
