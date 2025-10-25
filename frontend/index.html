@@ -5290,7 +5290,8 @@ function App({ externalTheme, onThemeChange }) {
         <>
             {showWelcomeSplash && (
                 <div
-                    className={`fixed inset-0 z-[60] flex flex-col items-center justify-center bg-slate-900 text-white transition-opacity duration-700 ${welcomeFading ? 'opacity-0' : 'opacity-100'}`}
+                    className={`fixed inset-0 z-[60] flex flex-col items-center justify-center text-white transition-opacity duration-700 ${welcomeFading ? 'opacity-0' : 'opacity-100'}`}
+                    style={{ backgroundColor: 'var(--modal-overlay)' }}
                 >
                     <img
                         src="Logo.svg"
@@ -5317,7 +5318,10 @@ function App({ externalTheme, onThemeChange }) {
                     onToggleTheme={toggleThemePreference}
                 />
                 {isLoading && (
-                    <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50 text-center px-4">
+                    <div
+                        className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center z-50 text-center px-4"
+                        style={{ backgroundColor: 'var(--modal-overlay)' }}
+                    >
                         <h2 className="text-3xl font-bold text-white mb-4">Loading...</h2>
                         <p className="text-xl text-sky-300 mb-2">{loadingMessage}</p>
                         <p className="text-lg text-slate-300 italic h-8 transition-opacity duration-500">{revolvingPrompt}</p>
@@ -6191,7 +6195,10 @@ function AdminPasswordLogin({ onAdminLogin }) {
             </button>
 
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70">
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center"
+                    style={{ backgroundColor: 'var(--modal-overlay)' }}
+                >
                     <div className="relative w-11/12 max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
                         <button
                             type="button"
@@ -6682,7 +6689,10 @@ function FormulaDisplay({ latex, className = '' }) {
 
 function ScienceFormulaSheet({ onClose }) {
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            style={{ backgroundColor: 'var(--modal-overlay)' }}
+        >
             <div className="bg-white rounded-xl shadow-2xl max-w-lg w-11/12 p-6 relative">
                 <button
                     className="absolute top-3 right-3 text-slate-500 font-bold hover:text-slate-800"
@@ -6744,7 +6754,10 @@ function FormulaSheetModal({ onClose }) {
     };
 
     return (
-        <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+        <div
+            className="fixed inset-0 w-full h-full flex items-center justify-center z-50"
+            style={{ backgroundColor: 'var(--modal-overlay)' }}
+        >
             <div className="bg-white rounded-lg shadow-2xl w-11/12 max-w-2xl max-h-[90vh]">
                 <div className="p-4 border-b flex justify-between items-center sticky top-0 bg-white">
                     <h2 className="text-xl font-bold">GED® Mathematical Reasoning Formula Sheet</h2>
@@ -8822,7 +8835,10 @@ const passagesData = [
             )}
 
             {showModal && (
-                <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div
+                    className="fixed inset-0 w-full h-full flex items-center justify-center"
+                    style={{ backgroundColor: 'var(--modal-overlay)' }}
+                >
                     <div className="bg-white rounded-lg shadow-2xl w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto">
                         <div className="p-6 border-b flex justify-between items-center sticky top-0 bg-white">
                             <h2 className="text-2xl font-bold">Your Completed Essay</h2>
@@ -9583,8 +9599,8 @@ function MathPracticeToolsModal({ isOpen, onClose, activeTab, onTabChange, graph
     return (
         <div
             ref={overlayRef}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 px-4 py-6"
-            style={{ display: isOpen ? 'flex' : 'none' }}
+            className="fixed inset-0 z-[60] flex items-center justify-center px-4 py-6"
+            style={{ display: isOpen ? 'flex' : 'none', backgroundColor: 'var(--modal-overlay)' }}
             onClick={handleOverlayClick}
             role="dialog"
             aria-modal="true"
