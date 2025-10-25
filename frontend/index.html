@@ -3515,6 +3515,56 @@ const AppData = {
     }
 };
 
+const getTopicById = (subjectName, topicId) => {
+    if (!subjectName || !topicId) {
+        return null;
+    }
+    const subject = AppData?.[subjectName];
+    if (!subject || !subject.categories) {
+        return null;
+    }
+    for (const category of Object.values(subject.categories)) {
+        const topics = Array.isArray(category?.topics) ? category.topics : [];
+        const match = topics.find((candidate) => candidate && candidate.id === topicId);
+        if (match) {
+            return match;
+        }
+    }
+    return null;
+};
+
+const resolveQuizQuestions = (subjectName, topic, quiz) => {
+    if (quiz && Array.isArray(quiz.questions) && quiz.questions.length) {
+        return quiz.questions;
+    }
+    if (quiz?.questionSourceTopicId) {
+        const sourceTopic = getTopicById(subjectName, quiz.questionSourceTopicId);
+        if (sourceTopic && Array.isArray(sourceTopic.questions) && sourceTopic.questions.length) {
+            return sourceTopic.questions;
+        }
+    }
+    if (topic && Array.isArray(topic.questions) && topic.questions.length) {
+        return topic.questions;
+    }
+    return [];
+};
+
+const quizHasAvailableQuestions = (subjectName, topic, quiz) => {
+    if (!quiz) {
+        return false;
+    }
+    if (Array.isArray(quiz.questions) && quiz.questions.length) {
+        return true;
+    }
+    if (quiz.questionSourceTopicId) {
+        const sourceTopic = getTopicById(subjectName, quiz.questionSourceTopicId);
+        if (sourceTopic && Array.isArray(sourceTopic.questions) && sourceTopic.questions.length) {
+            return true;
+        }
+    }
+    return Array.isArray(topic?.questions) && topic.questions.length > 0;
+};
+
 const integrateExpandedQuizData = (baseData, expandedData) => {
     if (!expandedData || typeof expandedData !== 'object') {
         return baseData;
@@ -6650,8 +6700,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {topics.map((topic, topicIndex) => {
                             const quizSets = Array.isArray(topic.quizzes)
-                                ? topic.quizzes.filter(quiz => quiz && Array.isArray(quiz.questions) && quiz.questions.length)
+                                ? topic.quizzes.filter((quiz) => quizHasAvailableQuestions(selectedSubject, topic, quiz))
                                 : [];
+                            const quizCountLabel = quizSets.length
+                                ? `${quizSets.length} quiz ${quizSets.length === 1 ? 'set' : 'sets'}`
+                                : '';
                             const supportsMultipleQuizzes = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
                             const buttonClasses = [
                                 'w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition',
@@ -6671,6 +6724,20 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 const baseTitle = topic.title || 'Quiz';
                                 const derivedTitle = quiz.title || `${baseTitle} — ${quizLabel}`;
                                 const quizIdBase = topic.id || `topic_${topicIndex}`;
+                                const resolvedQuestions = resolveQuizQuestions(selectedSubject, topic, quiz)
+                                    .map((question, questionIndex) => {
+                                        if (question && typeof question === 'object') {
+                                            const nextNumber = question.questionNumber ?? (questionIndex + 1);
+                                            return { ...question, questionNumber: nextNumber };
+                                        }
+                                        return question;
+                                    });
+
+                                if (!resolvedQuestions.length) {
+                                    alert('This quiz does not have any questions yet. Please try another set.');
+                                    return;
+                                }
+
                                 onSelectQuiz(
                                     {
                                         ...quiz,
@@ -6680,6 +6747,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                         topicTitle: topic.title || baseTitle,
                                         description: quiz.description || topic.description,
                                         type: quiz.type || topic.type || 'quiz',
+                                        questions: resolvedQuestions,
                                     },
                                     selectedSubject
                                 );
