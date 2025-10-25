@@ -1803,12 +1803,22 @@ app.patch('/api/profile/name', requireAuthInProd, devAuth, authRequired, express
 });
 
 app.patch('/api/profile/test', requireAuthInProd, devAuth, authRequired, express.json(), async (req, res) => {
+    console.log('[/api/profile/test] HIT');
+    console.log('[/api/profile/test] req.body =', req.body);
+
     const userId = req.user.id;
     const { subject, testDate, testLocation, passed } = req.body || {};
     const subj = typeof subject === 'string' ? subject.trim() : '';
 
+    console.log('[/api/profile/test] parsed payload:', {
+        subject: subj,
+        testDate,
+        testLocation,
+        passed,
+    });
+
     if (!subj) {
-        return res.status(400).json({ error: 'Subject is required' });
+        return res.status(400).json({ ok: false, error: 'Subject is required' });
     }
 
     let normalizedDate = null;
@@ -1852,10 +1862,21 @@ app.patch('/api/profile/test', requireAuthInProd, devAuth, authRequired, express
         );
 
         const bundle = await buildProfileBundle(userId);
-        res.json(bundle);
+        console.log('[/api/profile/test] SUCCESS for subject:', subj);
+
+        return res.json({
+            ok: true,
+            message: 'Saved test info.',
+            bundle,
+        });
     } catch (err) {
-        console.error('PATCH /api/profile/test failed', err);
-        res.status(500).json({ error: 'Unable to save test info' });
+        console.error('[/api/profile/test] ERROR:', err);
+
+        return res.status(500).json({
+            ok: false,
+            error: 'Server failed to save test info.',
+            details: err?.message || String(err),
+        });
     }
 });
 
