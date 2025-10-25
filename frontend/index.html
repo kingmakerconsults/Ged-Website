@@ -149,6 +149,7 @@
             --text-tertiary: #334155;
             --option-text: #334155;
             --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
             --accent-border: #38bdf8;
             --accent-soft: #e0f2fe;
             --accent-ring: rgba(56,189,248,0.4);
@@ -176,6 +177,44 @@
             --quiz-scrollbar-track: #f1f1f1;
             --quiz-scrollbar-thumb: #888;
             --quiz-scrollbar-thumb-hover: #555;
+            --nav-active-bg: #1e293b;
+            --nav-active-text: #f8fafc;
+            --nav-answered-bg: #10b981;
+            --nav-answered-text: #ecfdf5;
+            --nav-default-bg: #e2e8f0;
+            --nav-default-text: #1e293b;
+            --nav-marked-ring: rgba(250,204,21,0.75);
+            --timer-low-bg: #fee2e2;
+            --timer-low-text: #b91c1c;
+            --timer-default-bg: #e2e8f0;
+            --timer-default-text: #1e293b;
+            --modal-overlay: rgba(15,23,42,0.55);
+            --modal-surface: #ffffff;
+            --modal-border: rgba(148,163,184,0.35);
+            --modal-text: #0f172a;
+            --button-secondary-bg: #ffffff;
+            --button-secondary-border: rgba(148,163,184,0.45);
+            --button-secondary-text: #1e293b;
+            --subject-science-accent: #dc2626;
+            --subject-science-text: #ffffff;
+            --subject-science-border: rgba(248,113,113,0.8);
+            --subject-science-gradient: linear-gradient(135deg, #f87171, #facc15);
+            --subject-social-accent: #16a34a;
+            --subject-social-text: #f0fdf4;
+            --subject-social-border: rgba(74,222,128,0.7);
+            --subject-social-gradient: linear-gradient(135deg, #16a34a, #a3e635);
+            --subject-rla-accent: #7c3aed;
+            --subject-rla-text: #f5f3ff;
+            --subject-rla-border: rgba(167,139,250,0.7);
+            --subject-rla-gradient: linear-gradient(135deg, #7c3aed, #ec4899);
+            --subject-math-accent: #0284c7;
+            --subject-math-text: #e0f2fe;
+            --subject-math-border: rgba(56,189,248,0.7);
+            --subject-math-gradient: linear-gradient(135deg, #0ea5e9, #22d3ee);
+            --subject-simulations-accent: #f97316;
+            --subject-simulations-text: #fff7ed;
+            --subject-simulations-border: rgba(251,146,60,0.75);
+            --subject-simulations-gradient: linear-gradient(135deg, #f97316, #facc15);
         }
 
         .dark {
@@ -189,6 +228,7 @@
             --text-tertiary: #cbd5f5;
             --option-text: #f8fafc;
             --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
             --accent-border: rgba(56,189,248,0.8);
             --accent-soft: rgba(56,189,248,0.22);
             --accent-ring: rgba(56,189,248,0.5);
@@ -216,6 +256,44 @@
             --quiz-scrollbar-track: rgba(15,23,42,0.4);
             --quiz-scrollbar-thumb: rgba(148,163,184,0.5);
             --quiz-scrollbar-thumb-hover: rgba(226,232,240,0.65);
+            --nav-active-bg: rgba(51,65,85,0.85);
+            --nav-active-text: #f8fafc;
+            --nav-answered-bg: rgba(34,197,94,0.65);
+            --nav-answered-text: #ecfdf5;
+            --nav-default-bg: rgba(15,23,42,0.8);
+            --nav-default-text: #e2e8f0;
+            --nav-marked-ring: rgba(253,224,71,0.65);
+            --timer-low-bg: rgba(239,68,68,0.25);
+            --timer-low-text: #fecdd3;
+            --timer-default-bg: rgba(30,41,59,0.65);
+            --timer-default-text: #e2e8f0;
+            --modal-overlay: rgba(2,6,23,0.82);
+            --modal-surface: rgba(15,23,42,0.96);
+            --modal-border: rgba(148,163,184,0.35);
+            --modal-text: #e2e8f0;
+            --button-secondary-bg: rgba(15,23,42,0.85);
+            --button-secondary-border: rgba(148,163,184,0.35);
+            --button-secondary-text: #e2e8f0;
+            --subject-science-accent: #f87171;
+            --subject-science-text: #fff5f5;
+            --subject-science-border: rgba(252,165,165,0.8);
+            --subject-science-gradient: linear-gradient(135deg, rgba(248,113,113,0.85), rgba(250,204,21,0.7));
+            --subject-social-accent: #22c55e;
+            --subject-social-text: #ecfdf5;
+            --subject-social-border: rgba(74,222,128,0.75);
+            --subject-social-gradient: linear-gradient(135deg, rgba(16,185,129,0.9), rgba(163,230,53,0.7));
+            --subject-rla-accent: #8b5cf6;
+            --subject-rla-text: #ede9fe;
+            --subject-rla-border: rgba(167,139,250,0.7);
+            --subject-rla-gradient: linear-gradient(135deg, rgba(139,92,246,0.9), rgba(236,72,153,0.65));
+            --subject-math-accent: #0ea5e9;
+            --subject-math-text: #e0f2fe;
+            --subject-math-border: rgba(56,189,248,0.7);
+            --subject-math-gradient: linear-gradient(135deg, rgba(14,165,233,0.9), rgba(34,211,238,0.7));
+            --subject-simulations-accent: #fb923c;
+            --subject-simulations-text: #fff7ed;
+            --subject-simulations-border: rgba(251,191,36,0.75);
+            --subject-simulations-gradient: linear-gradient(135deg, rgba(249,115,22,0.9), rgba(250,204,21,0.7));
         }
 
         body {
@@ -354,6 +432,7 @@
             border-color: var(--success-border);
             color: var(--success-text);
             animation: correctPop 0.28s ease-out;
+            box-shadow: 0 0 0 1px rgba(34,197,94,0.15);
         }
         @keyframes correctPop {
             0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
@@ -366,6 +445,13 @@
             position: relative;
             animation: shakeWrong 0.22s linear;
             color: var(--danger-text);
+            box-shadow: 0 0 0 1px rgba(239,68,68,0.1);
+        }
+        .dark .option.correct {
+            box-shadow: 0 0 0 1px var(--success-border);
+        }
+        .dark .option.incorrect {
+            box-shadow: 0 0 0 1px var(--danger-border);
         }
         @keyframes shakeWrong {
             0% { transform: translateX(0); }
@@ -389,6 +475,35 @@
         .option:focus-visible {
             outline: 2px solid var(--border-focus);
             outline-offset: 2px;
+        }
+        button[data-role="primary"] {
+            background-color: var(--accent);
+            border: 1px solid var(--accent-border);
+            color: var(--accent-text);
+            font-weight: 600;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 10px 20px -12px rgba(14,116,144,0.6);
+        }
+        button[data-role="primary"]:hover:not(:disabled) {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 22px -10px rgba(14,116,144,0.65);
+        }
+        button[data-role="primary"]:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        button[data-role="secondary"] {
+            background-color: var(--button-secondary-bg);
+            border: 1px solid var(--button-secondary-border);
+            color: var(--button-secondary-text);
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        button[data-role="secondary"]:hover:not(:disabled) {
+            background-color: var(--bg-muted);
+            border-color: var(--border-strong);
         }
         @keyframes explainReveal {
             0% { opacity: 0; transform: translateY(4px); }
@@ -567,88 +682,94 @@ const ensureUserProfile = (user) => {
 };
 
 const DEFAULT_COLOR_SCHEME = {
-    background: 'bg-slate-800',
-    onBackgroundText: 'text-white',
-    accent: 'bg-sky-600',
-    accentHover: 'hover:bg-sky-700',
-    accentText: 'text-white',
-    navAnsweredBg: 'bg-emerald-500',
-    navAnsweredText: 'text-white',
-    navDefaultBg: 'bg-slate-200',
-    navDefaultText: 'text-slate-700',
-    optionSelectedBg: 'bg-sky-100',
-    optionSelectedBorder: 'border-sky-300',
-    optionHover: 'hover:bg-slate-100',
-    scoreBackground: 'bg-slate-900/90',
-    scoreHoverBackground: 'hover:bg-slate-800/80',
-    scoreText: 'text-sky-200',
-    scoreBorder: 'border-slate-700/70',
+    background: 'var(--nav-active-bg)',
+    onBackgroundText: 'var(--nav-active-text)',
+    accent: 'var(--accent)',
+    accentText: 'var(--accent-text)',
+    navAnsweredBg: 'var(--nav-answered-bg)',
+    navAnsweredText: 'var(--nav-answered-text)',
+    navDefaultBg: 'var(--nav-default-bg)',
+    navDefaultText: 'var(--nav-default-text)',
+    navMarkedRing: 'var(--nav-marked-ring)',
+    optionSelectedBg: 'var(--accent-soft)',
+    optionSelectedBorder: 'var(--accent-border)',
+    optionHover: 'var(--option-hover-bg)',
+    scoreBackground: 'var(--bg-overlay)',
+    scoreText: 'var(--accent-text)',
+    scoreBorder: 'var(--border-subtle)',
+    surface: 'var(--bg-surface)',
+    surfaceStrong: 'var(--bg-overlay)',
+    surfaceBorder: 'var(--border-subtle)',
+    divider: 'var(--border-subtle)',
+    text: 'var(--text-primary)',
+    mutedText: 'var(--text-secondary)',
+    inputBorder: 'var(--border-subtle)',
+    ring: 'var(--accent-ring)',
+    timerLowBg: 'var(--timer-low-bg)',
+    timerLowText: 'var(--timer-low-text)',
+    timerDefaultBg: 'var(--timer-default-bg)',
+    timerDefaultText: 'var(--timer-default-text)',
 };
 
 const SUBJECT_COLORS = {
     Science: {
-        background: 'bg-red-600',
-        hoverBackground: 'hover:bg-red-700',
-        text: 'text-red-800',
-        border: 'border-red-600',
-        hoverBorder: 'hover:border-red-500',
-        scoreBackground: 'bg-slate-900/90',
-        scoreHoverBackground: 'hover:bg-slate-800/80',
-        scoreText: 'text-red-300',
-        scoreBorder: 'border-red-500/60',
+        background: 'var(--subject-science-accent)',
+        text: 'var(--subject-science-text)',
+        border: 'var(--subject-science-border)',
+        scoreBackground: 'var(--bg-overlay)',
+        scoreText: 'var(--subject-science-text)',
+        scoreBorder: 'var(--subject-science-border)',
+        accent: 'var(--subject-science-accent)',
+        accentText: 'var(--subject-science-text)',
     },
     'Social Studies': {
-        background: 'bg-green-600',
-        hoverBackground: 'hover:bg-green-700',
-        text: 'text-green-800',
-        border: 'border-green-600',
-        hoverBorder: 'hover:border-green-500',
-        scoreBackground: 'bg-slate-900/90',
-        scoreHoverBackground: 'hover:bg-slate-800/80',
-        scoreText: 'text-green-300',
-        scoreBorder: 'border-green-500/60',
+        background: 'var(--subject-social-accent)',
+        text: 'var(--subject-social-text)',
+        border: 'var(--subject-social-border)',
+        scoreBackground: 'var(--bg-overlay)',
+        scoreText: 'var(--subject-social-text)',
+        scoreBorder: 'var(--subject-social-border)',
+        accent: 'var(--subject-social-accent)',
+        accentText: 'var(--subject-social-text)',
     },
     'Reasoning Through Language Arts (RLA)': {
-        background: 'bg-purple-600',
-        hoverBackground: 'hover:bg-purple-700',
-        text: 'text-purple-800',
-        border: 'border-purple-600',
-        hoverBorder: 'hover:border-purple-500',
-        scoreBackground: 'bg-slate-900/90',
-        scoreHoverBackground: 'hover:bg-slate-800/80',
-        scoreText: 'text-purple-300',
-        scoreBorder: 'border-purple-500/60',
+        background: 'var(--subject-rla-accent)',
+        text: 'var(--subject-rla-text)',
+        border: 'var(--subject-rla-border)',
+        scoreBackground: 'var(--bg-overlay)',
+        scoreText: 'var(--subject-rla-text)',
+        scoreBorder: 'var(--subject-rla-border)',
+        accent: 'var(--subject-rla-accent)',
+        accentText: 'var(--subject-rla-text)',
     },
     Math: {
-        background: 'bg-sky-600',
-        hoverBackground: 'hover:bg-sky-700',
-        text: 'text-sky-800',
-        border: 'border-sky-600',
-        hoverBorder: 'hover:border-sky-500',
-        scoreBackground: 'bg-slate-900/90',
-        scoreHoverBackground: 'hover:bg-slate-800/80',
-        scoreText: 'text-sky-300',
-        scoreBorder: 'border-sky-500/60',
+        background: 'var(--subject-math-accent)',
+        text: 'var(--subject-math-text)',
+        border: 'var(--subject-math-border)',
+        scoreBackground: 'var(--bg-overlay)',
+        scoreText: 'var(--subject-math-text)',
+        scoreBorder: 'var(--subject-math-border)',
+        accent: 'var(--subject-math-accent)',
+        accentText: 'var(--subject-math-text)',
     },
-    'Simulations': {
-        background: 'bg-orange-500',
-        hoverBackground: 'hover:bg-orange-600',
-        text: 'text-orange-800',
-        border: 'border-orange-500',
-        hoverBorder: 'hover:border-orange-400',
-        scoreBackground: 'bg-slate-900/90',
-        scoreHoverBackground: 'hover:bg-slate-800/80',
-        scoreText: 'text-orange-300',
-        scoreBorder: 'border-orange-500/60',
+    Simulations: {
+        background: 'var(--subject-simulations-accent)',
+        text: 'var(--subject-simulations-text)',
+        border: 'var(--subject-simulations-border)',
+        scoreBackground: 'var(--bg-overlay)',
+        scoreText: 'var(--subject-simulations-text)',
+        scoreBorder: 'var(--subject-simulations-border)',
+        accent: 'var(--subject-simulations-accent)',
+        accentText: 'var(--subject-simulations-text)',
     },
 };
 
 const SUBJECT_BG_GRADIENTS = {
-    Math: 'bg-gradient-to-br from-sky-500 to-cyan-400',
-    Science: 'bg-gradient-to-br from-rose-500 to-amber-400',
-    'Social Studies': 'bg-gradient-to-br from-emerald-600 to-lime-500',
-    'Reasoning Through Language Arts (RLA)': 'bg-gradient-to-br from-purple-600 to-pink-500',
-    Simulations: 'bg-gradient-to-br from-orange-500 to-yellow-400',
+    Math: 'var(--subject-math-gradient)',
+    Science: 'var(--subject-science-gradient)',
+    'Social Studies': 'var(--subject-social-gradient)',
+    'Reasoning Through Language Arts (RLA)': 'var(--subject-rla-gradient)',
+    Simulations: 'var(--subject-simulations-gradient)',
 };
 
 const SUBJECT_SHORT_LABELS = {
@@ -3930,13 +4051,22 @@ function NamePromptModal({ user, onSave, onDismiss }) {
     };
 
     return (
-        <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50" role="dialog" aria-modal="true">
-            <div className="relative bg-white rounded-lg shadow-2xl w-11/12 max-w-md p-8">
+        <div
+            className="fixed inset-0 z-50 flex h-full w-full items-center justify-center"
+            role="dialog"
+            aria-modal="true"
+            style={{ backgroundColor: 'var(--modal-overlay)' }}
+        >
+            <div
+                className="relative w-11/12 max-w-md rounded-lg p-8 shadow-2xl"
+                style={{ backgroundColor: 'var(--modal-surface)', color: 'var(--modal-text)', border: `1px solid var(--modal-border)` }}
+            >
                 {onDismiss && (
                     <button
                         type="button"
                         onClick={onDismiss}
-                        className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 rounded-full"
+                        className="absolute right-4 top-4 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                        style={{ color: 'var(--text-secondary)' }}
                         aria-label="Close name prompt"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
@@ -3948,34 +4078,46 @@ function NamePromptModal({ user, onSave, onDismiss }) {
                         </svg>
                     </button>
                 )}
-                <h2 className="text-2xl font-bold text-slate-800 mb-4">Welcome! Let's set up your name.</h2>
-                <p className="text-slate-600 mb-6">Please confirm your name below. This will be used to personalize your experience.</p>
+                <h2 className="mb-4 text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Welcome! Let's set up your name.</h2>
+                <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>Please confirm your name below. This will be used to personalize your experience.</p>
                 <div className="space-y-4">
                     <div>
-                        <label htmlFor="firstName" className="block text-sm font-medium text-slate-700">First Name</label>
+                        <label htmlFor="firstName" className="block text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>First Name</label>
                         <input
                             type="text"
                             id="firstName"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none"
+                            style={{
+                                backgroundColor: 'var(--bg-surface)',
+                                border: `1px solid var(--border-subtle)`,
+                                color: 'var(--text-primary)',
+                            }}
                         />
                     </div>
                     <div>
-                        <label htmlFor="lastName" className="block text-sm font-medium text-slate-700">Last Name</label>
+                        <label htmlFor="lastName" className="block text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Last Name</label>
                         <input
                             type="text"
                             id="lastName"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none"
+                            style={{
+                                backgroundColor: 'var(--bg-surface)',
+                                border: `1px solid var(--border-subtle)`,
+                                color: 'var(--text-primary)',
+                            }}
                         />
                     </div>
                 </div>
                 <div className="mt-8 space-y-3">
                     <button
                         onClick={handleSave}
-                        className="w-full px-6 py-3 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700 transition"
+                        className="w-full rounded-lg px-6 py-3 font-bold transition"
+                        data-role="primary"
+                        style={{ backgroundColor: 'var(--accent)', color: 'var(--accent-text)', borderColor: 'var(--accent)' }}
                     >
                         Save Name
                     </button>
@@ -3983,7 +4125,9 @@ function NamePromptModal({ user, onSave, onDismiss }) {
                         <button
                             type="button"
                             onClick={onDismiss}
-                            className="w-full px-6 py-3 bg-white text-slate-700 font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition"
+                            className="w-full rounded-lg px-6 py-3 font-semibold transition"
+                            data-role="secondary"
+                            style={{ color: 'var(--text-secondary)', borderColor: 'var(--border-subtle)' }}
                         >
                             Skip for now
                         </button>
@@ -6372,10 +6516,21 @@ function VocabularyTicker({ vocabulary, onWordClick }) {
     const repeatedEntries = [...entries, ...entries];
 
     return (
-        <div className="vocabulary-spotlight glass border border-slate-200/60 dark:border-slate-700/60 rounded-2xl overflow-hidden shadow-lg animate-floatIn">
-            <div className="flex items-center justify-between px-4 py-3 bg-slate-900/90 text-white">
+        <div
+            className="vocabulary-spotlight glass rounded-2xl overflow-hidden shadow-lg animate-floatIn"
+            style={{ borderColor: 'var(--border-strong)', backgroundColor: 'var(--bg-overlay)' }}
+        >
+            <div
+                className="flex items-center justify-between px-4 py-3"
+                style={{ backgroundColor: 'var(--nav-active-bg)', color: 'var(--nav-active-text)' }}
+            >
                 <span className="text-sm font-semibold uppercase tracking-wide">Vocabulary Spotlight</span>
-                <span className="text-xs text-white/70 hidden sm:inline">Click any word to view the full list.</span>
+                <span
+                    className="hidden text-xs sm:inline"
+                    style={{ color: 'var(--text-secondary)', opacity: 0.75 }}
+                >
+                    Click any word to view the full list.
+                </span>
             </div>
             <div className="vocabulary-ticker">
                 <div className="vocabulary-ticker-track">
@@ -6391,8 +6546,8 @@ function VocabularyTicker({ vocabulary, onWordClick }) {
                                 title={`View ${item.subject} vocabulary`}
                             >
                                 <span className="vocabulary-chip-dot" style={{ backgroundColor: color }}></span>
-                                <span>{item.term}</span>
-                                <span className="vocabulary-chip-label">{shortLabel}</span>
+                                <span style={{ color: 'var(--text-primary)' }}>{item.term}</span>
+                                <span className="vocabulary-chip-label" style={{ color: 'var(--text-secondary)' }}>{shortLabel}</span>
                             </button>
                         );
                     })}
@@ -6410,47 +6565,67 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             {subjects.map(([subjectName, words]) => {
                 const colorScheme = SUBJECT_COLORS[subjectName] || {};
                 const headerGradient = SUBJECT_BG_GRADIENTS[subjectName];
-                const headerClass = headerGradient
-                    ? `${headerGradient} px-4 py-3 rounded-t-2xl`
-                    : `${colorScheme.background || 'bg-slate-800'} bg-gradient-to-r from-white/10 to-white/0 px-4 py-3 rounded-t-2xl`;
+                const headerStyle = headerGradient
+                    ? { backgroundImage: headerGradient }
+                    : { backgroundColor: colorScheme.background || 'var(--nav-active-bg)' };
                 const previewWords = words.slice(0, 3);
 
                 return (
                     <div
                         key={subjectName}
-                        className="subject-card glass animate-floatIn flex flex-col h-full rounded-2xl border border-slate-200/70 bg-white/70 shadow-lg overflow-hidden dark:bg-slate-800/80 dark:border-slate-700/70"
+                        className="subject-card glass animate-floatIn flex h-full flex-col overflow-hidden rounded-2xl shadow-lg"
+                        style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-strong)' }}
                     >
-                        <div className={`${headerClass} shadow-inner flex items-center justify-between`}> 
-                            <h3 className="text-lg font-semibold text-white drop-shadow-sm">{subjectName}</h3>
-                            <span className="text-xs uppercase tracking-wide text-white/80">Key Terms</span>
+                        <div
+                            className="flex items-center justify-between px-4 py-3 shadow-inner rounded-t-2xl"
+                            style={{
+                                ...(headerStyle || {}),
+                                backgroundColor: headerStyle?.backgroundColor || undefined,
+                                backgroundImage: headerStyle?.backgroundImage || undefined,
+                                color: colorScheme.text || 'var(--nav-active-text)',
+                            }}
+                        >
+                            <h3 className="text-lg font-semibold drop-shadow-sm">{subjectName}</h3>
+                            <span className="text-xs uppercase tracking-wide" style={{ color: colorScheme.text || 'var(--nav-active-text)', opacity: 0.85 }}>
+                                Key Terms
+                            </span>
                         </div>
-                        <div className="flex flex-col flex-1 gap-4 p-5">
+                        <div className="flex flex-1 flex-col gap-4 p-5">
                             <ul className="space-y-2">
                                 {previewWords.map((word) => (
-                                    <li key={word.term} className="rounded-lg bg-white/80 px-3 py-2 text-sm font-medium text-slate-700 shadow-sm dark:bg-slate-900/60 dark:text-slate-100">
+                                    <li
+                                        key={word.term}
+                                        className="rounded-lg px-3 py-2 text-sm font-medium shadow-sm"
+                                        style={{ backgroundColor: 'var(--bg-muted)', color: 'var(--text-secondary)' }}
+                                    >
                                         {word.term}
                                     </li>
                                 ))}
                             </ul>
                             <div className="mt-auto">
-                                <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+                                <div className="mb-1 text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
                                     Study Progress
                                 </div>
-                                <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                                <div className="h-2 w-full overflow-hidden rounded-full" style={{ backgroundColor: 'var(--border-subtle)' }}>
                                     <div
-                                        className="h-full bg-sky-400 dark:bg-sky-500 rounded-full transition-all duration-500"
-                                        style={{ width: '40%' }}
+                                        className="h-full rounded-full transition-all duration-500"
+                                        style={{ width: '40%', backgroundColor: colorScheme.accent || 'var(--accent)' }}
                                     />
                                 </div>
                             </div>
                             <button
                                 type="button"
                                 onClick={() => onWordClick?.(subjectName)}
-                                className="mt-2 inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-sky-500 hover:text-white dark:bg-slate-900/60 dark:text-slate-200 dark:hover:bg-sky-500"
+                                className="mt-2 inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold shadow-sm transition"
+                                data-role="secondary"
+                                style={{
+                                    color: colorScheme.accentText || 'var(--accent-text)',
+                                    borderColor: colorScheme.accent || 'var(--accent)',
+                                }}
                             >
                                 View full list
                             </button>
@@ -7291,7 +7466,11 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const formulaSheetEnabled = Boolean(quizConfig?.formulaSheet);
     const canShowMathFormulas = formulaSheetEnabled && quizSubject === 'Math';
     const canShowScienceFormulas = formulaSheetEnabled && quizSubject === 'Science';
-    const colorScheme = SUBJECT_COLORS[subjectForRender] || DEFAULT_COLOR_SCHEME;
+    const subjectColors = SUBJECT_COLORS[subjectForRender] || {};
+    const scheme = { ...DEFAULT_COLOR_SCHEME, ...subjectColors };
+    const timerStyle = timeLeft <= 60
+        ? { backgroundColor: scheme.timerLowBg, color: scheme.timerLowText }
+        : { backgroundColor: scheme.timerDefaultBg, color: scheme.timerDefaultText };
 
     return (
         <div className="fade-in">
@@ -7301,31 +7480,65 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
             {canShowScienceFormulas && showScienceFormulas && (
                 <ScienceFormulaSheet onClose={() => setShowScienceFormulas(false)} />
             )}
-            <div className={`rounded-2xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surface || 'bg-slate-50'} p-4 sm:p-6 shadow-lg`}>
+            <div
+                className="rounded-2xl p-4 sm:p-6 shadow-lg"
+                style={{ backgroundColor: scheme.surface, border: `1px solid ${scheme.surfaceBorder}` }}
+            >
                 {showTimer && (
-                    <header className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b ${colorScheme.divider || 'border-slate-200'}`}>
+                    <header
+                        className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4"
+                        style={{ borderBottom: `1px solid ${scheme.divider}` }}
+                    >
                         {onExit && (
-                            <button onClick={onExit} className={`flex items-center gap-1 text-sm font-semibold ${colorScheme.text || 'text-slate-600'} hover:underline`}>
+                            <button
+                                onClick={onExit}
+                                className="flex items-center gap-1 text-sm font-semibold hover:underline"
+                                style={{ color: scheme.mutedText }}
+                            >
                                 <ArrowLeftIcon /> Back
                             </button>
                         )}
-                        <h2 className={`text-xl font-bold text-center flex-1 ${colorScheme.text || 'text-slate-800'}`}>{quizTitle}</h2>
+                        <h2
+                            className="flex-1 text-center text-xl font-bold"
+                            style={{ color: scheme.text }}
+                        >
+                            {quizTitle}
+                        </h2>
                         <div className="flex flex-col sm:items-end gap-2">
-                            <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? 'bg-red-100 text-red-700' : `${colorScheme.navDefaultBg || 'bg-slate-100'} ${colorScheme.navDefaultText || 'text-slate-700'}`}`}>
+                            <div
+                                className="flex items-center gap-2 rounded-full px-3 py-1 font-mono text-lg font-semibold"
+                                style={timerStyle}
+                            >
                                 <span role="img" aria-label="timer">⏱️</span>
                                 <span>{formatTime(timeLeft)}</span>
-                                {isPaused && <span className="text-xs uppercase tracking-wide">Paused</span>}
+                                {isPaused && (
+                                    <span className="text-xs uppercase tracking-wide" style={{ color: scheme.mutedText }}>
+                                        Paused
+                                    </span>
+                                )}
                             </div>
                             <div className="flex items-center gap-2">
                                 <button
                                     type="button"
                                     onClick={handlePauseToggle}
                                     disabled={!isPaused && pausesRemaining === 0}
-                                    className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${isPaused ? 'bg-green-600 text-white hover:bg-green-700' : `${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} text-white ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover} disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed`}`}
+                                    className="rounded-md px-3 py-1 text-sm font-semibold transition-colors"
+                                    style={isPaused
+                                        ? {
+                                            backgroundColor: 'var(--success-bg)',
+                                            color: 'var(--success-text)',
+                                            border: '1px solid var(--success-border)',
+                                        }
+                                        : {
+                                            backgroundColor: scheme.accent,
+                                            color: scheme.accentText,
+                                            border: `1px solid ${scheme.accent}`,
+                                        }
+                                    }
                                 >
                                     {isPaused ? 'Resume Timer' : 'Pause Timer'}
                                 </button>
-                                <span className="text-xs text-slate-500">
+                                <span className="text-xs" style={{ color: scheme.mutedText }}>
                                     {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
                                 </span>
                             </div>
@@ -7335,7 +7548,12 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                         <button
                                             type="button"
                                             onClick={() => setShowMathFormulas(true)}
-                                            className="px-3 py-1.5 bg-white/90 text-sky-700 font-semibold rounded-md text-sm shadow-sm hover:bg-white transition"
+                                            className="rounded-md px-3 py-1.5 text-sm font-semibold shadow-sm transition"
+                                            data-role="secondary"
+                                            style={{
+                                                color: scheme.accentText,
+                                                borderColor: scheme.accent,
+                                            }}
                                         >
                                             View Formula Sheet
                                         </button>
@@ -7344,7 +7562,12 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                         <button
                                             type="button"
                                             onClick={() => setShowScienceFormulas(true)}
-                                            className="px-3 py-1.5 border-2 border-rose-200 text-rose-700 bg-white font-semibold rounded-md text-sm shadow-sm hover:bg-rose-50 transition"
+                                            className="rounded-md px-3 py-1.5 text-sm font-semibold shadow-sm transition"
+                                            data-role="secondary"
+                                            style={{
+                                                color: 'var(--danger-text)',
+                                                borderColor: 'var(--danger-border)',
+                                            }}
                                         >
                                             View Science Formula Sheet
                                         </button>
@@ -7359,16 +7582,20 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     {questions.map((_, i) => {
                         const isActive = i === currentIndex;
                         const isAnswered = Boolean(answers[i]);
-                        const navStateClass = isActive
-                            ? `${colorScheme.background || DEFAULT_COLOR_SCHEME.background} text-white`
+                        const navStyle = isActive
+                            ? { backgroundColor: scheme.background, color: scheme.onBackgroundText }
                             : isAnswered
-                                ? `${colorScheme.navAnsweredBg || DEFAULT_COLOR_SCHEME.navAnsweredBg} ${colorScheme.navAnsweredText || DEFAULT_COLOR_SCHEME.navAnsweredText}`
-                                : `${colorScheme.navDefaultBg || DEFAULT_COLOR_SCHEME.navDefaultBg} ${colorScheme.navDefaultText || DEFAULT_COLOR_SCHEME.navDefaultText}`;
+                                ? { backgroundColor: scheme.navAnsweredBg, color: scheme.navAnsweredText }
+                                : { backgroundColor: scheme.navDefaultBg, color: scheme.navDefaultText };
+                        if (marked[i]) {
+                            navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
+                        }
                         return (
                             <button
                                 key={i}
                                 onClick={() => setCurrentIndex(i)}
-                                className={`w-8 h-8 rounded-full font-bold text-sm transition ${navStateClass} ${marked[i] ? 'ring-2 ring-yellow-400' : ''}`}
+                                className="h-8 w-8 rounded-full text-sm font-bold transition"
+                                style={navStyle}
                             >
                                 {i + 1}
                             </button>
@@ -7376,10 +7603,21 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     })}
                 </div>
 
-                <div className={`p-4 sm:p-6 rounded-xl border ${colorScheme.surfaceBorder || 'border-slate-200'} ${colorScheme.surfaceStrong || colorScheme.surface || 'bg-slate-50'} shadow-inner`}> 
+                <div
+                    className="rounded-xl p-4 sm:p-6 shadow-inner"
+                    style={{
+                        border: `1px solid ${scheme.surfaceBorder}`,
+                        backgroundColor: scheme.surfaceStrong || scheme.surface,
+                    }}
+                >
                     <div className="mb-4">
                         <div className="flex items-start gap-3">
-                            <span className={`text-xl font-semibold leading-relaxed ${colorScheme.text || 'text-slate-800'}`}>{currentQ.questionNumber}.</span>
+                            <span
+                                className="text-xl font-semibold leading-relaxed"
+                                style={{ color: scheme.text }}
+                            >
+                                {currentQ.questionNumber}.
+                            </span>
                             <Stem item={currentQ} />
                         </div>
                     </div>
@@ -7387,25 +7625,39 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         <img
                             src={currentQ.imageUrl}
                             alt={`Visual for question ${currentQ.questionNumber}`}
-                            className="my-4 mx-auto rounded-md border max-w-full h-auto"
+                            className="my-4 h-auto max-w-full rounded-md"
+                            style={{ border: `1px solid ${scheme.surfaceBorder}` }}
                         />
                     )}
                     {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
-                        <div className="my-4 mx-auto max-w-md bg-white border rounded-md p-4 shadow-sm">
+                        <div
+                            className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm"
+                            style={{ backgroundColor: 'var(--bg-surface)', border: `1px solid ${scheme.surfaceBorder}` }}
+                        >
                             <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
                         </div>
                     )}
 
                     {isFillInTheBlank ? (
                         <div>
-                            <label htmlFor="fill-in-blank-answer" className={`block text-sm font-medium mb-1 ${colorScheme.text || 'text-slate-700'}`}>Enter your answer:</label>
+                            <label
+                                htmlFor="fill-in-blank-answer"
+                                className="mb-1 block text-sm font-medium"
+                                style={{ color: scheme.mutedText }}
+                            >
+                                Enter your answer:
+                            </label>
                             <input
                                 id="fill-in-blank-answer"
                                 type="text"
                                 value={answers[currentIndex] || ''}
                                 onChange={handleInputChange}
                                 placeholder="Type your answer here"
-                                className={`w-full max-w-sm p-3 border rounded-lg focus:outline-none ${colorScheme.inputBorder || 'border-slate-300'} ${colorScheme.ring || 'focus:ring-sky-300 focus:border-sky-400'}`}
+                                className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
+                                style={{
+                                    border: `1px solid ${scheme.inputBorder}`,
+                                    color: 'var(--text-primary)',
+                                }}
                             />
                         </div>
                     ) : (
@@ -7413,26 +7665,21 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                             {(currentQ.answerOptions || []).map((opt, i) => {
                                 const cleanedOptionText = opt.text.trim().replace(/^\$\$/, '$');
                                 const isSelected = answers[currentIndex] === opt.text;
-                                const optionClasses = ['option', 'w-full', 'text-left', 'transition'];
+                                const optionStyles = {};
                                 if (isSelected) {
-                                    optionClasses.push('selected');
-                                    if (colorScheme.optionSelectedBg) {
-                                        optionClasses.push(colorScheme.optionSelectedBg);
-                                    }
-                                    if (colorScheme.optionSelectedBorder) {
-                                        optionClasses.push(colorScheme.optionSelectedBorder);
-                                    }
-                                } else {
-                                    optionClasses.push(colorScheme.optionHover || DEFAULT_COLOR_SCHEME.optionHover);
+                                    optionStyles.backgroundColor = scheme.optionSelectedBg;
+                                    optionStyles.borderColor = scheme.optionSelectedBorder;
+                                    optionStyles.color = scheme.accentText;
                                 }
                                 return (
                                     <button
                                         key={i}
                                         onClick={() => handleSelect(opt.text)}
-                                        className={optionClasses.join(' ')}
+                                        className="option w-full text-left transition"
+                                        style={optionStyles}
                                     >
-                                        <span className="flex-grow text-left text-slate-800 dark:text-slate-100">
-                                            <span className="font-bold mr-2">{String.fromCharCode(65 + i)}.</span>
+                                        <span className="flex-grow text-left" style={{ color: 'var(--text-primary)' }}>
+                                            <span className="mr-2 font-bold">{String.fromCharCode(65 + i)}.</span>
                                             <MathText text={cleanedOptionText} className="question-stem" itemIndex={`${currentQ.questionNumber ?? (currentIndex + 1)}-opt-${i}`} subject={subjectForRender} />
                                         </span>
                                     </button>
@@ -7442,26 +7689,62 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     )}
                 </div>
 
-                <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <button
                         onClick={() => setCurrentIndex(p => Math.max(0, p - 1))}
                         disabled={currentIndex === 0}
-                        className={`px-4 py-2 rounded-md font-semibold border bg-white ${colorScheme.surfaceBorder || 'border-slate-300'} text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition`}
+                        className="rounded-md px-4 py-2 font-semibold transition"
+                        data-role="secondary"
+                        style={{
+                            borderColor: scheme.surfaceBorder,
+                            color: scheme.mutedText,
+                            opacity: currentIndex === 0 ? 0.6 : 1,
+                        }}
                     >
                         Previous
                     </button>
                     <button
                         onClick={() => setMarked(m => { const newM = [...m]; newM[currentIndex] = !newM[currentIndex]; return newM; })}
-                        className={`px-4 py-2 rounded-md font-semibold transition ${marked[currentIndex] ? 'bg-yellow-300 text-slate-900' : `${colorScheme.navDefaultBg || 'bg-slate-200'} ${colorScheme.navDefaultText || 'text-slate-700'}`}`}
+                        className="rounded-md px-4 py-2 font-semibold transition"
+                        style={marked[currentIndex]
+                            ? {
+                                backgroundColor: scheme.navMarkedRing,
+                                color: scheme.onBackgroundText,
+                                border: `1px solid ${scheme.navMarkedRing}`,
+                            }
+                            : {
+                                backgroundColor: scheme.navDefaultBg,
+                                color: scheme.navDefaultText,
+                                border: `1px solid ${scheme.navDefaultBg}`,
+                            }
+                        }
                     >
                         {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
                     </button>
                     {currentIndex === questions.length - 1 ? (
-                        <button onClick={handleSubmit} className={`px-4 py-2 rounded-md font-semibold text-white transition ${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover}`}>
+                        <button
+                            onClick={handleSubmit}
+                            className="rounded-md px-4 py-2 font-semibold"
+                            data-role="primary"
+                            style={{
+                                backgroundColor: scheme.accent,
+                                color: scheme.accentText,
+                                borderColor: scheme.accent,
+                            }}
+                        >
                             {buttonText || 'Finish'}
                         </button>
                     ) : (
-                        <button onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))} className={`px-4 py-2 rounded-md font-semibold text-white transition ${colorScheme.accent || DEFAULT_COLOR_SCHEME.accent} ${colorScheme.accentHover || DEFAULT_COLOR_SCHEME.accentHover}`}>
+                        <button
+                            onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))}
+                            className="rounded-md px-4 py-2 font-semibold"
+                            data-role="primary"
+                            style={{
+                                backgroundColor: scheme.accent,
+                                color: scheme.accentText,
+                                borderColor: scheme.accent,
+                            }}
+                        >
                             Next
                         </button>
                     )}
