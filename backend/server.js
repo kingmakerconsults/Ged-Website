@@ -1393,6 +1393,305 @@ function requireAuthInProd(req, res, next) {
     return next();
 }
 
+let cachedTestPlanTableName = null;
+let cachedChallengeTables = null;
+let cachedProfileNameColumn = null;
+
+async function getTestPlanTableName() {
+    if (cachedTestPlanTableName) {
+        return cachedTestPlanTableName;
+    }
+
+    const candidates = ['test_plan', 'test_plans'];
+    for (const tableName of candidates) {
+        try {
+            await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
+            cachedTestPlanTableName = tableName;
+            return cachedTestPlanTableName;
+        } catch (err) {
+            if (err && err.code === '42P01') {
+                continue;
+            }
+            console.warn(`Failed to probe table ${tableName}`, err?.message || err);
+        }
+    }
+
+    cachedTestPlanTableName = candidates[candidates.length - 1];
+    return cachedTestPlanTableName;
+}
+
+async function getChallengeTables() {
+    if (cachedChallengeTables) {
+        return cachedChallengeTables;
+    }
+
+    const optionCandidates = ['challenge_options', 'challenge_catalog'];
+    const selectionCandidates = ['profile_challenges', 'user_challenge_tags'];
+
+    let optionTable = null;
+    for (const tableName of optionCandidates) {
+        try {
+            await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
+            optionTable = tableName;
+            break;
+        } catch (err) {
+            if (err && err.code === '42P01') {
+                continue;
+            }
+            console.warn(`Failed to probe table ${tableName}`, err?.message || err);
+        }
+    }
+    if (!optionTable) {
+        optionTable = optionCandidates[optionCandidates.length - 1];
+    }
+
+    let selectionTable = null;
+    for (const tableName of selectionCandidates) {
+        try {
+            await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
+            selectionTable = tableName;
+            break;
+        } catch (err) {
+            if (err && err.code === '42P01') {
+                continue;
+            }
+            console.warn(`Failed to probe table ${tableName}`, err?.message || err);
+        }
+    }
+    if (!selectionTable) {
+        selectionTable = selectionCandidates[selectionCandidates.length - 1];
+    }
+
+    cachedChallengeTables = { optionTable, selectionTable };
+    return cachedChallengeTables;
+}
+
+async function profilesHasNameColumn() {
+    if (cachedProfileNameColumn !== null) {
+        return cachedProfileNameColumn;
+    }
+
+    try {
+        const result = await db.query(
+            `SELECT 1 FROM information_schema.columns WHERE table_name = $1 AND column_name = $2 LIMIT 1`,
+            ['profiles', 'name']
+        );
+        cachedProfileNameColumn = result.rowCount > 0;
+    } catch (err) {
+        console.warn('Unable to determine if profiles.name exists', err?.message || err);
+        cachedProfileNameColumn = false;
+    }
+
+    return cachedProfileNameColumn;
+}
+
+function ensureRequestUser(req) {
+    if (!req.user) {
+        req.user = {};
+    }
+
+    if (req.user.id) {
+        return true;
+    }
+
+    const candidates = [
+        req.user.userId,
+        req.user.sub,
+        req.user.user_id,
+        req.userId,
+        req.user.id
+    ];
+
+    for (const candidate of candidates) {
+        if (candidate === undefined || candidate === null) continue;
+        const normalized = typeof candidate === 'string' && /^[0-9]+$/.test(candidate)
+            ? Number(candidate)
+            : candidate;
+        if (normalized !== undefined && normalized !== null && normalized !== '') {
+            req.user.id = normalized;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function authRequired(req, res, next) {
+    if (!ensureRequestUser(req)) {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
+    return next();
+}
+
+async function buildScoreSummary(userId) {
+    try {
+        const { loadScoresSafe } = require('./services/profileData');
+        if (typeof loadScoresSafe === 'function') {
+            const scoreData = await loadScoresSafe(userId);
+            const recentScoresDashboard =
+                scoreData && typeof scoreData.recentScoresDashboard === 'object' && scoreData.recentScoresDashboard !== null
+                    ? scoreData.recentScoresDashboard
+                    : {};
+
+            const legacyScores = {};
+            if (Array.isArray(scoreData?.bySubject)) {
+                legacyScores.bySubject = scoreData.bySubject;
+            }
+            if (Array.isArray(scoreData?.bySubtopic)) {
+                legacyScores.bySubtopic = scoreData.bySubtopic;
+            }
+
+            return {
+                recentScoresDashboard,
+                legacyScores
+            };
+        }
+    } catch (err) {
+        console.warn('buildScoreSummary fallback', err?.message || err);
+    }
+
+    return {
+        recentScoresDashboard: {},
+        legacyScores: {}
+    };
+}
+
+function normalizeTestDate(value) {
+    if (!value) {
+        return '';
+    }
+    if (value instanceof Date) {
+        return value.toISOString().slice(0, 10);
+    }
+    if (typeof value === 'string') {
+        return value;
+    }
+    try {
+        const asDate = new Date(value);
+        if (!Number.isNaN(asDate.getTime())) {
+            return asDate.toISOString().slice(0, 10);
+        }
+    } catch (err) {
+        // ignore
+    }
+    return String(value);
+}
+
+async function buildProfileBundle(userId) {
+    if (!userId) {
+        throw new Error('buildProfileBundle requires a userId');
+    }
+
+    const hasNameColumn = await profilesHasNameColumn();
+
+    let profileRow = null;
+    try {
+        const columnList = hasNameColumn
+            ? 'user_id, name, timezone, reminder_enabled, font_size, onboarding_complete'
+            : 'user_id, timezone, reminder_enabled, font_size, onboarding_complete';
+        const result = await db.query(
+            `SELECT ${columnList} FROM profiles WHERE user_id = $1`,
+            [userId]
+        );
+        profileRow = result.rows[0] || null;
+    } catch (err) {
+        console.error('Failed to load profile row', err?.message || err);
+    }
+
+    let displayName = null;
+    if (hasNameColumn) {
+        displayName = profileRow?.name ?? null;
+    }
+
+    if (!displayName) {
+        try {
+            const userRow = await db.oneOrNone(`SELECT name FROM users WHERE id = $1`, [userId]);
+            displayName = userRow?.name ?? null;
+        } catch (err) {
+            console.warn('Failed to load user name', err?.message || err);
+        }
+    }
+
+    const profileData = profileRow || {
+        user_id: userId,
+        timezone: 'America/New_York',
+        reminder_enabled: true,
+        font_size: null,
+        onboarding_complete: false
+    };
+
+    const testPlanTable = await getTestPlanTableName();
+    let planRows = [];
+    try {
+        const result = await db.query(
+            `SELECT subject, test_date, test_location, passed FROM ${testPlanTable} WHERE user_id = $1 ORDER BY subject`,
+            [userId]
+        );
+        planRows = result.rows;
+    } catch (err) {
+        console.error('Failed to load test plan rows', err?.message || err);
+    }
+
+    const testPlan = planRows.map((r) => ({
+        subject: r.subject,
+        testDate: normalizeTestDate(r.test_date),
+        testLocation: r.test_location || '',
+        passed: !!r.passed
+    }));
+
+    const { optionTable, selectionTable } = await getChallengeTables();
+
+    let allChallenges = [];
+    try {
+        const result = await db.query(
+            `SELECT id, subject, subtopic, label FROM ${optionTable} ORDER BY subject, subtopic, id`
+        );
+        allChallenges = result.rows;
+    } catch (err) {
+        console.error('Failed to load challenge options', err?.message || err);
+    }
+
+    let chosen = [];
+    try {
+        const result = await db.query(
+            `SELECT challenge_id FROM ${selectionTable} WHERE user_id = $1`,
+            [userId]
+        );
+        chosen = result.rows;
+    } catch (err) {
+        console.error('Failed to load selected challenges', err?.message || err);
+    }
+
+    const chosenSet = new Set(chosen.map((r) => String(r.challenge_id)));
+
+    const challengeOptions = allChallenges.map((opt) => ({
+        id: String(opt.id),
+        subject: opt.subject,
+        subtopic: opt.subtopic,
+        label: opt.label,
+        selected: chosenSet.has(String(opt.id))
+    }));
+
+    const { recentScoresDashboard, legacyScores } = await buildScoreSummary(userId);
+
+    return {
+        profile: {
+            id: userId,
+            name: displayName,
+            timezone: profileData.timezone || 'America/New_York',
+            reminderEnabled: profileData.reminder_enabled !== undefined && profileData.reminder_enabled !== null
+                ? !!profileData.reminder_enabled
+                : true,
+            fontSize: profileData.font_size,
+            onboardingComplete: !!profileData.onboarding_complete
+        },
+        testPlan,
+        challengeOptions,
+        recentScoresDashboard: recentScoresDashboard || {},
+        scores: legacyScores || {}
+    };
+}
+
 const app = express();
 // IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
 const port = process.env.PORT || 3001;
@@ -1427,6 +1726,181 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
 app.use(express.json());
 app.use(cookieParser());
+
+app.get('/api/profile/me', requireAuthInProd, devAuth, authRequired, async (req, res) => {
+    try {
+        const bundle = await buildProfileBundle(req.user.id);
+        res.json(bundle);
+    } catch (err) {
+        console.error('GET /api/profile/me failed', err);
+        res.status(500).json({ error: 'Unable to load profile' });
+    }
+});
+
+app.patch('/api/profile/name', requireAuthInProd, devAuth, authRequired, express.json(), async (req, res) => {
+    const userId = req.user.id;
+    const { name } = req.body || {};
+    const trimmed = typeof name === 'string' ? name.trim() : String(name || '').trim();
+
+    if (!trimmed) {
+        return res.status(400).json({ error: 'Name is required' });
+    }
+
+    try {
+        await db.query(
+            'INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING',
+            [userId]
+        );
+
+        const hasNameColumn = await profilesHasNameColumn();
+        if (hasNameColumn) {
+            try {
+                await db.query(
+                    `INSERT INTO profiles (user_id, name)
+                     VALUES ($1, $2)
+                     ON CONFLICT (user_id)
+                     DO UPDATE SET name = EXCLUDED.name`,
+                    [userId, trimmed]
+                );
+            } catch (err) {
+                if (err?.code !== '42703' && err?.code !== '42P01') {
+                    throw err;
+                }
+            }
+        }
+
+        try {
+            await db.query('UPDATE users SET name = $2 WHERE id = $1', [userId, trimmed]);
+        } catch (err) {
+            console.warn('Unable to sync name into users table', err?.message || err);
+        }
+
+        res.json({ name: trimmed });
+    } catch (err) {
+        console.error('PATCH /api/profile/name failed', err);
+        res.status(500).json({ error: 'Unable to save name' });
+    }
+});
+
+app.patch('/api/profile/test', requireAuthInProd, devAuth, authRequired, express.json(), async (req, res) => {
+    const userId = req.user.id;
+    const { subject, testDate, testLocation, passed } = req.body || {};
+    const subj = typeof subject === 'string' ? subject.trim() : '';
+
+    if (!subj) {
+        return res.status(400).json({ error: 'Subject is required' });
+    }
+
+    let normalizedDate = null;
+    if (typeof testDate === 'string') {
+        const trimmedDate = testDate.trim();
+        normalizedDate = trimmedDate ? trimmedDate : null;
+    } else if (testDate instanceof Date) {
+        normalizedDate = testDate.toISOString();
+    } else if (testDate !== undefined && testDate !== null) {
+        const coerced = String(testDate).trim();
+        normalizedDate = coerced ? coerced : null;
+    }
+
+    let normalizedLocation = null;
+    if (typeof testLocation === 'string') {
+        const trimmedLocation = testLocation.trim();
+        normalizedLocation = trimmedLocation ? trimmedLocation : null;
+    } else if (testLocation !== undefined && testLocation !== null) {
+        const coerced = String(testLocation).trim();
+        normalizedLocation = coerced ? coerced : null;
+    }
+
+    try {
+        const tableName = await getTestPlanTableName();
+        await db.query(
+            `INSERT INTO ${tableName} (user_id, subject, test_date, test_location, passed)
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (user_id, subject)
+             DO UPDATE SET
+               test_date = EXCLUDED.test_date,
+               test_location = EXCLUDED.test_location,
+               passed = EXCLUDED.passed`,
+            [
+                userId,
+                subj,
+                normalizedDate,
+                normalizedLocation,
+                !!passed
+            ]
+        );
+
+        const bundle = await buildProfileBundle(userId);
+        res.json(bundle);
+    } catch (err) {
+        console.error('PATCH /api/profile/test failed', err);
+        res.status(500).json({ error: 'Unable to save test info' });
+    }
+});
+
+app.patch('/api/profile/challenges/tags', requireAuthInProd, devAuth, authRequired, express.json(), async (req, res) => {
+    const userId = req.user.id;
+    const { selectedIds } = req.body || {};
+    const ids = Array.isArray(selectedIds) ? selectedIds.map((id) => String(id)) : [];
+
+    try {
+        const { selectionTable } = await getChallengeTables();
+
+        await db.query(`DELETE FROM ${selectionTable} WHERE user_id = $1`, [userId]);
+
+        for (const id of ids) {
+            await db.query(
+                `INSERT INTO ${selectionTable} (user_id, challenge_id)
+                 VALUES ($1, $2)
+                 ON CONFLICT DO NOTHING`,
+                [userId, id]
+            );
+        }
+
+        const bundle = await buildProfileBundle(userId);
+        res.json(bundle);
+    } catch (err) {
+        console.error('PATCH /api/profile/challenges/tags failed', err);
+        res.status(500).json({ error: 'Unable to save challenges' });
+    }
+});
+
+app.post('/api/profile/complete-onboarding', requireAuthInProd, devAuth, authRequired, async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const bundle = await buildProfileBundle(userId);
+
+        const hasName = typeof bundle?.profile?.name === 'string'
+            ? bundle.profile.name.trim() !== ''
+            : false;
+
+        const hasAnyTestProgress = Array.isArray(bundle?.testPlan)
+            ? bundle.testPlan.some((row) => row && (row.passed || (row.testDate && String(row.testDate).trim() !== '')))
+            : false;
+
+        const hasChallenges = Array.isArray(bundle?.challengeOptions)
+            ? bundle.challengeOptions.some((opt) => opt && opt.selected)
+            : false;
+
+        const ok = hasName && hasAnyTestProgress && hasChallenges;
+
+        if (ok) {
+            await db.query(
+                `INSERT INTO profiles (user_id, onboarding_complete)
+                 VALUES ($1, TRUE)
+                 ON CONFLICT (user_id)
+                 DO UPDATE SET onboarding_complete = TRUE`,
+                [userId]
+            );
+        }
+
+        res.json({ ok });
+    } catch (err) {
+        console.error('POST /api/profile/complete-onboarding failed', err);
+        res.status(500).json({ ok: false, error: 'Unable to complete onboarding' });
+    }
+});
 
 app.use('/api/profile', requireAuthInProd, devAuth, profileRouter);
 
