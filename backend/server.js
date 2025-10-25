@@ -1834,13 +1834,14 @@ app.patch('/api/profile/test', requireAuthInProd, devAuth, authRequired, express
     try {
         const tableName = await getTestPlanTableName();
         await db.query(
-            `INSERT INTO ${tableName} (user_id, subject, test_date, test_location, passed)
-             VALUES ($1, $2, $3, $4, $5)
+            `INSERT INTO ${tableName} (user_id, subject, test_date, test_location, passed, updated_at)
+             VALUES ($1, $2, $3, $4, $5, NOW())
              ON CONFLICT (user_id, subject)
              DO UPDATE SET
                test_date = EXCLUDED.test_date,
                test_location = EXCLUDED.test_location,
-               passed = EXCLUDED.passed`,
+               passed = EXCLUDED.passed,
+               updated_at = NOW()`,
             [
                 userId,
                 subj,
