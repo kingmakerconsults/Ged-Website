@@ -9,6 +9,7 @@ const cors = require('cors');
 const axios = require('axios');
 const db = require('./db');
 const ensureProfilePreferenceColumns = require('./db/initProfilePrefs');
+const ensureQuizAttemptsTable = require('./db/initQuizAttempts');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -1353,6 +1354,24 @@ function formatScoreRow(row) {
     };
 }
 
+function formatQuizAttemptRow(row) {
+    if (!row) return null;
+    const scaledScore = row.scaled_score != null ? Number(row.scaled_score) : null;
+    return {
+        id: row.id,
+        userId: row.user_id,
+        subject: row.subject,
+        quizCode: row.quiz_code,
+        quizTitle: row.quiz_title,
+        quizType: row.quiz_type,
+        score: row.score != null ? Number(row.score) : null,
+        totalQuestions: row.total_questions != null ? Number(row.total_questions) : null,
+        scaledScore,
+        passed: typeof row.passed === 'boolean' ? row.passed : (scaledScore != null ? scaledScore >= 145 : null),
+        attemptedAt: row.attempted_at,
+    };
+}
+
 function authenticateBearerToken(req, res, next) {
     const secret = process.env.JWT_SECRET;
     if (!secret) {
@@ -1401,6 +1420,7 @@ const devAuth = require('./middleware/devAuth');
 const profileRouter = require('./routes/profile');
 
 ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
+ensureQuizAttemptsTable().catch((e) => console.error('Quiz attempt table init error:', e));
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -3508,21 +3528,72 @@ app.post('/admin/bypass-login', adminPreviewBypass);
 app.post('/api/admin/login', adminBypassLogin);
 
 // --- API ENDPOINT TO SAVE A QUIZ ATTEMPT ---
-app.post('/api/quiz-attempts', requireAuth, async (req, res) => {
+app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
     try {
-        const userId = req.user.sub; // Get user ID from the verified token
-        const { subject, quizType, score, totalQuestions, scaledScore } = req.body;
+        const userId = req.user?.userId || req.user?.sub;
+        if (!userId) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const {
+            subject,
+            quizCode,
+            quizTitle,
+            quizType = null,
+            score,
+            totalQuestions,
+            scaledScore,
+            passed,
+        } = req.body || {};
+
+        const normalizedSubject = typeof subject === 'string' ? subject.trim() : '';
+        const normalizedQuizCode = typeof quizCode === 'string' ? quizCode.trim() : '';
+        const normalizedQuizTitle = typeof quizTitle === 'string' ? quizTitle.trim() : '';
+
+        if (!normalizedSubject) {
+            return res.status(400).json({ error: 'Subject is required' });
+        }
+        if (!normalizedQuizCode) {
+            return res.status(400).json({ error: 'quizCode is required' });
+        }
+        if (!normalizedQuizTitle) {
+            return res.status(400).json({ error: 'quizTitle is required' });
+        }
+
+        const toRoundedNumber = (value) => {
+            const num = Number(value);
+            return Number.isFinite(num) ? Math.round(num) : null;
+        };
+
+        const numericScore = toRoundedNumber(score);
+        const numericTotal = toRoundedNumber(totalQuestions);
+        const numericScaled = toRoundedNumber(scaledScore);
+        const normalizedPassed = typeof passed === 'boolean'
+            ? passed
+            : (numericScaled != null ? numericScaled >= 145 : null);
 
         const insertQuery = `
-            INSERT INTO quiz_attempts (user_id, subject, quiz_type, score, total_questions, scaled_score)
-            VALUES ($1, $2, $3, $4, $5, $6)
-            RETURNING *;
+            INSERT INTO quiz_attempts (user_id, subject, quiz_code, quiz_title, quiz_type, score, total_questions, scaled_score, passed)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            RETURNING id, user_id, subject, quiz_code, quiz_title, quiz_type, score, total_questions, scaled_score, passed, attempted_at;
         `;
-        
-        const result = await pool.query(insertQuery, [userId, subject, quizType, score, totalQuestions, scaledScore]);
-        
-        console.log(`Saved quiz attempt for user ${userId} in subject ${subject}`);
-        res.status(201).json(result.rows[0]);
+
+        const params = [
+            userId,
+            normalizedSubject,
+            normalizedQuizCode,
+            normalizedQuizTitle,
+            quizType || null,
+            numericScore,
+            numericTotal,
+            numericScaled,
+            normalizedPassed,
+        ];
+
+        const result = await pool.query(insertQuery, params);
+
+        console.log(`Saved quiz attempt ${normalizedQuizCode} for user ${userId} in subject ${normalizedSubject}`);
+        res.status(201).json(formatQuizAttemptRow(result.rows[0]));
 
     } catch (error) {
         console.error('Error saving quiz attempt:', error);
@@ -3532,20 +3603,23 @@ app.post('/api/quiz-attempts', requireAuth, async (req, res) => {
 
 
 // --- API ENDPOINT TO GET ALL QUIZ ATTEMPTS FOR A USER ---
-app.get('/api/quiz-attempts', requireAuth, async (req, res) => {
+app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
     try {
-        const userId = req.user.sub; // Get user ID from the verified token
+        const userId = req.user?.userId || req.user?.sub;
+        if (!userId) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
 
         const selectQuery = `
-            SELECT subject, quiz_type, score, total_questions, scaled_score, attempted_at 
-            FROM quiz_attempts 
-            WHERE user_id = $1 
-            ORDER BY attempted_at DESC;
+            SELECT id, user_id, subject, quiz_code, quiz_title, quiz_type, score, total_questions, scaled_score, passed, attempted_at
+            FROM quiz_attempts
+            WHERE user_id = $1
+            ORDER BY attempted_at DESC, id DESC;
         `;
 
         const { rows } = await pool.query(selectQuery, [userId]);
-        
-        res.status(200).json(rows);
+
+        res.status(200).json(rows.map(formatQuizAttemptRow));
 
     } catch (error) {
         console.error('Error fetching quiz attempts:', error);

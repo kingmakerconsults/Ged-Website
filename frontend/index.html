@@ -685,25 +685,108 @@ const SUBJECT_PROGRESS_KEYS = [
     "Math"
 ];
 
+const GED_PASSING_SCORE = 145;
+
+let PREMADE_QUIZ_CATALOG = {};
+
+const getPremadeQuizTotal = (subject) => {
+    return Array.isArray(PREMADE_QUIZ_CATALOG[subject]) ? PREMADE_QUIZ_CATALOG[subject].length : 0;
+};
+
 const createEmptyProgress = () => SUBJECT_PROGRESS_KEYS.reduce((acc, subject) => {
-    acc[subject] = { scores: [], total: 0 };
+    acc[subject] = {
+        attempts: [],
+        attemptCount: 0,
+        averageScaledScore: null,
+        completedCount: 0,
+        completionPercentage: 0,
+        passedExamCodes: [],
+        totalPremadeExams: getPremadeQuizTotal(subject),
+        lastAttempt: null,
+    };
     return acc;
 }, {});
 
-const buildProgressFromScores = (scores = []) => {
+const buildProgressFromAttempts = (attempts = []) => {
     const progress = createEmptyProgress();
-    (Array.isArray(scores) ? scores : []).forEach((entry) => {
+    const subjectStats = SUBJECT_PROGRESS_KEYS.reduce((acc, subject) => {
+        acc[subject] = { scoreSum: 0, count: 0, passed: new Set() };
+        return acc;
+    }, {});
+
+    const normalizedAttempts = Array.isArray(attempts) ? attempts : [];
+
+    normalizedAttempts.forEach((entry) => {
         const subjectKey = entry?.subject;
         if (!subjectKey || !progress[subjectKey]) {
             return;
         }
-        const numericScore = Number(entry.score);
-        if (!Number.isFinite(numericScore)) {
-            return;
+
+        const normalized = {
+            id: entry?.id ?? null,
+            quizCode: entry?.quizCode || entry?.quiz_code || entry?.quizId || entry?.quiz_id || null,
+            quizTitle: entry?.quizTitle || entry?.quiz_title || entry?.quizName || null,
+            quizType: entry?.quizType || entry?.quiz_type || null,
+            score: typeof entry?.score === 'number' ? entry.score : Number.isFinite(Number(entry?.score)) ? Math.round(Number(entry.score)) : null,
+            totalQuestions: typeof entry?.totalQuestions === 'number' ? entry.totalQuestions : Number.isFinite(Number(entry?.total_questions)) ? Math.round(Number(entry.total_questions)) : Number.isFinite(Number(entry?.totalQuestions)) ? Math.round(Number(entry.totalQuestions)) : null,
+            scaledScore: typeof entry?.scaledScore === 'number' ? Math.round(entry.scaledScore) : Number.isFinite(Number(entry?.scaled_score)) ? Math.round(Number(entry.scaled_score)) : null,
+            attemptedAt: entry?.attemptedAt || entry?.attempted_at || entry?.takenAt || null,
+        };
+
+        const derivedPassed = (() => {
+            if (typeof entry?.passed === 'boolean') {
+                return entry.passed;
+            }
+            if (typeof entry?.passed === 'string') {
+                const lowered = entry.passed.trim().toLowerCase();
+                if (lowered === 'true' || lowered === '1') return true;
+                if (lowered === 'false' || lowered === '0') return false;
+            }
+            if (normalized.scaledScore != null) {
+                return normalized.scaledScore >= GED_PASSING_SCORE;
+            }
+            return null;
+        })();
+
+        normalized.passed = derivedPassed;
+
+        progress[subjectKey].attempts.push(normalized);
+
+        if (normalized.scaledScore != null) {
+            subjectStats[subjectKey].scoreSum += normalized.scaledScore;
+            subjectStats[subjectKey].count += 1;
         }
-        progress[subjectKey].scores.push(Math.round(numericScore));
-        progress[subjectKey].total += 1;
+
+        if (normalized.passed && normalized.quizCode) {
+            subjectStats[subjectKey].passed.add(normalized.quizCode);
+        }
     });
+
+    SUBJECT_PROGRESS_KEYS.forEach((subject) => {
+        const stats = subjectStats[subject];
+        const subjectProgress = progress[subject];
+        const totalPremade = getPremadeQuizTotal(subject);
+
+        subjectProgress.attempts.sort((a, b) => {
+            const aDate = a.attemptedAt ? new Date(a.attemptedAt).getTime() : 0;
+            const bDate = b.attemptedAt ? new Date(b.attemptedAt).getTime() : 0;
+            if (bDate === aDate) {
+                return (b.id ?? 0) - (a.id ?? 0);
+            }
+            return bDate - aDate;
+        });
+
+        subjectProgress.attemptCount = subjectProgress.attempts.length;
+        subjectProgress.averageScaledScore = stats.count ? Math.round(stats.scoreSum / stats.count) : null;
+        subjectProgress.completedCount = stats.passed.size;
+        subjectProgress.passedExamCodes = Array.from(stats.passed);
+        subjectProgress.totalPremadeExams = totalPremade;
+        subjectProgress.completionPercentage = totalPremade > 0
+            ? Math.min(100, Math.round((stats.passed.size / totalPremade) * 100))
+            : 0;
+        subjectProgress.lastAttempt = subjectProgress.attempts[0] || null;
+    });
+
     return progress;
 };
 
@@ -3848,7 +3931,89 @@ if (expandedQuizDataSource) {
     integrateExpandedQuizData(AppData, expandedQuizDataSource);
 }
 
+function sanitizeCodeSegment(value, fallback = '') {
+    if (typeof value !== 'string') {
+        return fallback;
+    }
+    const trimmed = value.trim();
+    if (!trimmed) {
+        return fallback;
+    }
+    const normalized = trimmed.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return normalized || fallback;
+}
 
+function assignPremadeQuizCodes(data) {
+    const catalog = {};
+    if (!data || typeof data !== 'object') {
+        return catalog;
+    }
+
+    Object.entries(data).forEach(([subjectName, subject]) => {
+        if (!subject || typeof subject !== 'object') {
+            return;
+        }
+
+        const subjectSlug = sanitizeCodeSegment(subjectName, 'subject');
+        if (!catalog[subjectName]) {
+            catalog[subjectName] = [];
+        }
+
+        Object.entries(subject.categories || {}).forEach(([categoryName, category], categoryIndex) => {
+            if (!category || typeof category !== 'object') {
+                return;
+            }
+
+            const categorySlug = sanitizeCodeSegment(categoryName, `cat-${categoryIndex + 1}`);
+            const topics = Array.isArray(category.topics) ? category.topics : [];
+
+            topics.forEach((topic, topicIndex) => {
+                if (!topic || typeof topic !== 'object') {
+                    return;
+                }
+
+                const topicSlugFromId = topic.id ? sanitizeCodeSegment(topic.id) : '';
+                const topicSlug = sanitizeCodeSegment(topic.title, topicSlugFromId || `topic-${topicIndex + 1}`);
+                const baseSegment = topicSlugFromId || `${categorySlug}-${topicSlug}`;
+
+                const registerQuiz = (target, code, title) => {
+                    if (!code) {
+                        return;
+                    }
+                    if (!catalog[subjectName].some((entry) => entry.code === code)) {
+                        catalog[subjectName].push({ code, title });
+                    }
+                    if (target && typeof target === 'object') {
+                        target.quizCode = code;
+                    }
+                };
+
+                if (Array.isArray(topic.quizzes) && topic.quizzes.length) {
+                    topic.quizzes.forEach((quiz, quizIndex) => {
+                        if (!quiz || typeof quiz !== 'object') {
+                            return;
+                        }
+
+                        const quizIdSegment = sanitizeCodeSegment(quiz.quizId || '', '');
+                        const labelSegment = sanitizeCodeSegment(quiz.label || '', '');
+                        const setSegment = quizIdSegment || labelSegment || `set-${quizIndex + 1}`;
+                        const code = [subjectSlug, baseSegment || topicSlug, setSegment].filter(Boolean).join('__');
+                        const quizTitle = quiz.title || `${topic.title || 'Quiz'} — ${quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`}`;
+                        registerQuiz(quiz, code, quizTitle);
+                    });
+                } else if (Array.isArray(topic.questions) && topic.questions.length) {
+                    const code = [subjectSlug, baseSegment || topicSlug || `topic-${topicIndex + 1}`].filter(Boolean).join('__');
+                    const quizTitle = topic.title || `Topic ${topicIndex + 1}`;
+                    registerQuiz(topic, code, quizTitle);
+                }
+            });
+        });
+    });
+
+    return catalog;
+}
+
+PREMADE_QUIZ_CATALOG = assignPremadeQuizCodes(AppData);
 
 // --- ICON COMPONENTS ---
 const BookOpenIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>;
@@ -4203,7 +4368,7 @@ function App({ externalTheme, onThemeChange }) {
     const [currentUser, setCurrentUser] = useState(null);
     const currentUserRef = useRef(null);
     const [progress, setProgress] = useState(() => createEmptyProgress());
-    const [userScores, setUserScores] = useState([]);
+    const [quizAttempts, setQuizAttempts] = useState([]);
     const [showFormulaSheet, setShowFormulaSheet] = useState(false);
     const [showNamePrompt, setShowNamePrompt] = useState(false);
     const [isMathToolsOpen, setIsMathToolsOpen] = useState(false);
@@ -4214,8 +4379,8 @@ function App({ externalTheme, onThemeChange }) {
     const [welcomeFading, setWelcomeFading] = useState(false);
     const welcomeTimeoutRef = useRef(null);
     const welcomeFadeTimeoutRef = useRef(null);
-    const lastScoresFetchRef = useRef(0);
-    const pendingScoresFetchRef = useRef(null);
+    const lastAttemptsFetchRef = useRef(0);
+    const pendingAttemptsFetchRef = useRef(null);
 
     useEffect(() => {
         currentUserRef.current = currentUser;
@@ -4331,8 +4496,8 @@ function App({ externalTheme, onThemeChange }) {
         setIsMathToolsOpen(false);
     }, []);
 
-    const recalcProgress = useCallback((scoresList) => {
-        setProgress(buildProgressFromScores(scoresList));
+    const recalcProgress = useCallback((attemptList) => {
+        setProgress(buildProgressFromAttempts(attemptList));
     }, []);
 
     const applyPreferenceUpdate = useCallback((partialPrefs, options = {}) => {
@@ -4712,88 +4877,115 @@ function App({ externalTheme, onThemeChange }) {
         }
     }, [loadProfileOnce]);
 
-    const loadScores = useCallback(async (token, options = {}) => {
+    const loadQuizAttempts = useCallback(async (token, options = {}) => {
         if (!token) {
             return;
         }
 
         const { force = false } = options;
         const now = Date.now();
-        const timeSinceLastFetch = now - lastScoresFetchRef.current;
+        const timeSinceLastFetch = now - lastAttemptsFetchRef.current;
 
         if (!force) {
-            if (pendingScoresFetchRef.current) {
-                return pendingScoresFetchRef.current;
+            if (pendingAttemptsFetchRef.current) {
+                return pendingAttemptsFetchRef.current;
             }
             if (timeSinceLastFetch < SCORE_FETCH_INTERVAL_MS) {
                 return;
             }
         }
 
-        lastScoresFetchRef.current = now;
+        lastAttemptsFetchRef.current = now;
 
         const fetchPromise = (async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/scores`, {
+                const response = await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch scores: ${response.status}`);
+                    throw new Error(`Failed to fetch quiz attempts: ${response.status}`);
                 }
 
                 const data = await response.json();
                 const normalized = Array.isArray(data) ? data : [];
-                setUserScores(normalized);
+                setQuizAttempts(normalized);
                 recalcProgress(normalized);
             } catch (error) {
-                console.error('Failed to load scores:', error);
-                setUserScores([]);
+                console.error('Failed to load quiz attempts:', error);
+                setQuizAttempts([]);
                 recalcProgress([]);
             } finally {
-                pendingScoresFetchRef.current = null;
+                pendingAttemptsFetchRef.current = null;
             }
         })();
 
-        pendingScoresFetchRef.current = fetchPromise;
+        pendingAttemptsFetchRef.current = fetchPromise;
         return fetchPromise;
     }, [recalcProgress]);
 
-    const persistScore = useCallback(async (subject, scaledScore) => {
+    const persistQuizAttempt = useCallback(async ({ subject, quizCode, quizTitle, quizType = null, score, totalQuestions, scaledScore, passed }) => {
         if (!currentUser) {
             return;
         }
 
         const token = localStorage.getItem('appToken');
-        const numericScore = Number(scaledScore);
-        if (!token || !subject || !Number.isFinite(numericScore)) {
+        if (!token) {
             return;
         }
 
+        const normalizedSubject = typeof subject === 'string' ? subject.trim() : '';
+        const normalizedQuizCode = typeof quizCode === 'string' ? quizCode.trim() : '';
+        const normalizedQuizTitle = typeof quizTitle === 'string' ? quizTitle.trim() : '';
+
+        if (!normalizedSubject || !normalizedQuizCode || !normalizedQuizTitle) {
+            return;
+        }
+
+        const toRoundedNumber = (value) => {
+            const num = Number(value);
+            return Number.isFinite(num) ? Math.round(num) : null;
+        };
+
+        const payload = {
+            subject: normalizedSubject,
+            quizCode: normalizedQuizCode,
+            quizTitle: normalizedQuizTitle,
+            quizType: quizType || null,
+            score: toRoundedNumber(score),
+            totalQuestions: toRoundedNumber(totalQuestions),
+            scaledScore: toRoundedNumber(scaledScore),
+            passed: typeof passed === 'boolean' ? passed : undefined,
+        };
+
+        if (payload.passed === undefined && payload.scaledScore != null) {
+            payload.passed = payload.scaledScore >= GED_PASSING_SCORE;
+        }
+
         try {
-            const response = await fetch(`${API_BASE_URL}/api/scores`, {
+            const response = await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify({ subject, score: Math.round(numericScore) })
+                body: JSON.stringify(payload)
             });
 
             if (!response.ok) {
-                throw new Error(`Failed to save score: ${response.status}`);
+                throw new Error(`Failed to save quiz attempt: ${response.status}`);
             }
 
-            const savedScore = await response.json();
-            setUserScores((prevScores) => {
-                const nextScores = Array.isArray(prevScores) ? [...prevScores, savedScore] : [savedScore];
-                recalcProgress(nextScores);
-                return nextScores;
+            const savedAttempt = await response.json();
+            setQuizAttempts((prevAttempts) => {
+                const nextAttempts = Array.isArray(prevAttempts) ? [savedAttempt, ...prevAttempts] : [savedAttempt];
+                recalcProgress(nextAttempts);
+                return nextAttempts;
             });
         } catch (error) {
-            console.error('Failed to save score:', error);
+            console.error('Failed to save quiz attempt:', error);
         }
     }, [currentUser, recalcProgress]);
 
@@ -4815,14 +5007,14 @@ function App({ externalTheme, onThemeChange }) {
                 if (!customNameSet) {
                     setShowNamePrompt(true);
                 }
-                loadScores(storedToken);
+                loadQuizAttempts(storedToken);
             }
         } catch (error) {
             console.error('Failed to restore stored user:', error);
             localStorage.removeItem('appUser');
             localStorage.removeItem('appToken');
         }
-    }, [loadScores]);
+    }, [loadQuizAttempts]);
 
     const handleLogin = (user, token) => {
         if (!token) {
@@ -4883,7 +5075,7 @@ function App({ externalTheme, onThemeChange }) {
         setProfileData(null);
         setSubjectEdits(createEmptySubjectEdits());
         setProfileError(null);
-        setUserScores([]);
+        setQuizAttempts([]);
         recalcProgress([]);
 
         const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
@@ -4891,7 +5083,7 @@ function App({ externalTheme, onThemeChange }) {
             setShowNamePrompt(true);
         }
 
-        loadScores(token);
+        loadQuizAttempts(token);
         setView('start');
     };
 
@@ -4921,7 +5113,7 @@ function App({ externalTheme, onThemeChange }) {
         localStorage.removeItem('appUser');
         localStorage.removeItem('appToken');
         setCurrentUser(null);
-        setUserScores([]);
+        setQuizAttempts([]);
         recalcProgress([]);
         setShowNamePrompt(false);
         setProfileData(null);
@@ -5050,6 +5242,8 @@ function App({ externalTheme, onThemeChange }) {
         }
 
         const preparedQuiz = { ...quizPayload, subject };
+        preparedQuiz.quizCode = quizPayload.quizCode || quizPayload.code || quizPayload.id || preparedQuiz.quizCode || null;
+        preparedQuiz.isPremade = Boolean(preparedQuiz.quizCode);
         let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
 
         if (quizPayload.type === 'multi-part-math') {
@@ -5117,7 +5311,26 @@ function App({ externalTheme, onThemeChange }) {
 
         if (subject === 'Pop Quiz') return; // Do not track progress for pop quizzes
 
-        persistScore(subject, results.scaledScore);
+        const quizDetails = results.quiz || activeQuiz;
+        if (!quizDetails) {
+            return;
+        }
+
+        const quizCode = quizDetails.quizCode || quizDetails.code || quizDetails.id || null;
+        if (!quizCode) {
+            return;
+        }
+
+        persistQuizAttempt({
+            subject,
+            quizCode,
+            quizTitle: quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
+            quizType: quizDetails.type,
+            score: results.score,
+            totalQuestions: results.totalQuestions,
+            scaledScore: results.scaledScore,
+            passed: typeof results.scaledScore === 'number' ? results.scaledScore >= GED_PASSING_SCORE : undefined,
+        });
     };
 
     const handleStartPopQuiz = () => {
@@ -6497,11 +6710,30 @@ function AuthScreen({ onLogin }) {
 }
 
 function DetailedProgressView({ subject, progressData, onBack }) {
-    const calculateAverage = (scores) => {
-        if (!scores || scores.length === 0) return "N/A";
-        const total = scores.reduce((acc, score) => acc + score, 0);
-        return Math.round(total / scores.length);
+    const attempts = Array.isArray(progressData?.attempts) ? progressData.attempts : [];
+    const lastAttempt = progressData?.lastAttempt || (attempts.length ? attempts[0] : null);
+    const totalPremade = typeof progressData?.totalPremadeExams === 'number' ? progressData.totalPremadeExams : 0;
+    const completedCount = typeof progressData?.completedCount === 'number' ? progressData.completedCount : 0;
+    const completionPercentage = typeof progressData?.completionPercentage === 'number' ? progressData.completionPercentage : 0;
+    const averageScaledScore = typeof progressData?.averageScaledScore === 'number' ? progressData.averageScaledScore : null;
+
+    const formatDate = (value) => {
+        if (!value) return '—';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) {
+            return '—';
+        }
+        return date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
     };
+
+    const formatScore = (value) => (value == null ? 'N/A' : Math.round(value));
+    const formatPassStatus = (passed) => {
+        if (passed === true) return { label: 'Passed', className: 'text-emerald-600' };
+        if (passed === false) return { label: 'Keep Practicing', className: 'text-amber-600' };
+        return { label: '—', className: 'text-slate-500' };
+    };
+
+    const recentAttempts = attempts.slice(0, 10);
 
     return (
         <div className="fade-in">
@@ -6509,31 +6741,85 @@ function DetailedProgressView({ subject, progressData, onBack }) {
                 <button type="button" onClick={onBack} className="flex items-center gap-1 text-sm text-sky-600 hover:text-sky-800 font-semibold"><ArrowLeftIcon /> Back to Dashboard</button>
             </header>
             <h2 className="text-3xl font-extrabold text-slate-800 mb-4">{subject} Progress Details</h2>
-            <div className="space-y-4">
-                <div className="bg-slate-100 p-4 rounded-lg shadow-inner">
-                    <p className="text-slate-500 font-semibold">Overall Average</p>
-                    <p className="text-3xl font-bold text-slate-800">{calculateAverage(progressData.scores)}</p>
-                </div>
-                <h3 className="text-xl font-bold pt-4">Recent Scores:</h3>
-                <ul className="list-disc pl-5">
-                    {progressData.scores.slice(-10).reverse().map((score, index) => (
-                        <li key={index} className="text-lg">Score: <span className="font-bold">{score}</span></li>
-                    ))}
-                </ul>
+            <div className="space-y-6">
+                <section className="rounded-lg border border-slate-200 bg-slate-50 p-5 shadow-inner">
+                    <h3 className="text-lg font-semibold text-slate-700">Premade Exam Progress</h3>
+                    <div className="mt-3 h-3 w-full rounded-full bg-white/70">
+                        <div className="h-3 rounded-full bg-sky-500 transition-all duration-300" style={{ width: `${Math.min(100, Math.max(0, completionPercentage))}%` }}></div>
+                    </div>
+                    <div className="mt-2 flex flex-wrap justify-between text-sm text-slate-600">
+                        <span>{completedCount} of {totalPremade} exams passed</span>
+                        <span>{completionPercentage}% complete</span>
+                    </div>
+                    {averageScaledScore != null && (
+                        <p className="mt-2 text-sm text-slate-600">
+                            Average scaled score: <span className="font-semibold text-slate-800">{averageScaledScore}</span>
+                        </p>
+                    )}
+                </section>
+
+                <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <h3 className="text-lg font-semibold text-slate-700 mb-2">Last Exam</h3>
+                    {lastAttempt ? (
+                        <div className="space-y-2">
+                            <p className="text-xl font-bold text-slate-900">{lastAttempt.quizTitle || 'Exam'}</p>
+                            <p className="text-sm text-slate-600 break-words">Code: <span className="font-mono text-slate-700">{lastAttempt.quizCode || '—'}</span></p>
+                            <p className="text-lg font-semibold text-slate-800">
+                                Scaled Score: <span className="text-sky-700">{formatScore(lastAttempt.scaledScore)}</span>
+                                <span className={`ml-3 text-sm font-semibold ${formatPassStatus(lastAttempt.passed).className}`}>
+                                    {formatPassStatus(lastAttempt.passed).label}
+                                </span>
+                            </p>
+                            {typeof lastAttempt.score === 'number' && typeof lastAttempt.totalQuestions === 'number' && (
+                                <p className="text-sm text-slate-600">Correct: {lastAttempt.score} / {lastAttempt.totalQuestions}</p>
+                            )}
+                            <p className="text-sm text-slate-500">Completed {formatDate(lastAttempt.attemptedAt)}</p>
+                        </div>
+                    ) : (
+                        <p className="text-sm text-slate-600">No completed exams recorded yet. Start a premade exam to see your progress here.</p>
+                    )}
+                </section>
+
+                <section>
+                    <h3 className="text-lg font-semibold text-slate-700 mb-3">Recent Attempts</h3>
+                    {recentAttempts.length ? (
+                        <ul className="space-y-3">
+                            {recentAttempts.map((attempt, index) => {
+                                const { label, className } = formatPassStatus(attempt.passed);
+                                return (
+                                    <li key={`${attempt.quizCode || 'attempt'}-${index}`} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                                        <div className="flex items-start justify-between gap-3">
+                                            <div>
+                                                <p className="font-semibold text-slate-800">{attempt.quizTitle || attempt.quizCode || `Exam ${index + 1}`}</p>
+                                                <p className="text-xs text-slate-500">Code: {attempt.quizCode || '—'}</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-lg font-bold text-slate-900">{formatScore(attempt.scaledScore)}</p>
+                                                <p className={`text-xs font-semibold ${className}`}>{label}</p>
+                                            </div>
+                                        </div>
+                                        <div className="mt-2 flex flex-wrap justify-between text-xs text-slate-500">
+                                            <span>{formatDate(attempt.attemptedAt)}</span>
+                                            {typeof attempt.score === 'number' && typeof attempt.totalQuestions === 'number' && (
+                                                <span>{attempt.score} / {attempt.totalQuestions} correct</span>
+                                            )}
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    ) : (
+                        <p className="text-sm text-slate-600">No attempts logged yet. Complete a premade exam to see detailed history.</p>
+                    )}
+                </section>
             </div>
         </div>
     );
 }
 
 function ProgressDashboard({ progress, onSubjectClick }) {
-    const calculateAverage = (scores) => {
-        if (!scores || scores.length === 0) return "N/A";
-        const total = scores.reduce((acc, score) => acc + score, 0);
-        return Math.round(total / scores.length);
-    };
-
-    const totalQuizzes = Object.values(progress).reduce((acc, subject) => acc + (subject.total || 0), 0);
-    const subjects = ["Social Studies", "Reasoning Through Language Arts (RLA)", "Science", "Math"];
+    const totalAttempts = Object.values(progress).reduce((acc, subjectData) => acc + (subjectData?.attemptCount || 0), 0);
+    const subjects = SUBJECT_PROGRESS_KEYS;
     const getScoreTheme = (subject) => SUBJECT_COLORS[subject] || {};
     const getCardStyles = (subject) => {
         const theme = getScoreTheme(subject);
@@ -6541,12 +6827,10 @@ function ProgressDashboard({ progress, onSubjectClick }) {
         const style = {
             borderColor: theme.scoreBorder || 'var(--border-subtle)',
             color: theme.scoreText || theme.text || '#ffffff',
-            backgroundColor: theme.scoreBackground || 'var(--bg-overlay)',
+            backgroundColor: theme.scoreBackground || theme.background || 'var(--bg-overlay)',
         };
         if (gradient) {
             style.backgroundImage = gradient;
-        } else if (theme.background) {
-            style.backgroundColor = theme.background;
         }
         return style;
     };
@@ -6556,29 +6840,51 @@ function ProgressDashboard({ progress, onSubjectClick }) {
         color: '#f8fafc',
     };
 
+    const formatAverage = (value) => (value == null ? 'N/A' : Math.round(value));
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
             <div className="p-4 rounded-lg text-center shadow-inner border sm:col-span-3 lg:col-span-1" style={totalCardStyle}>
                 <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'rgba(248,250,252,0.75)' }}>
-                    Total Quizzes
+                    Total Attempts
                 </p>
-                <p className="text-4xl font-bold" style={{ color: '#ffffff' }}>{totalQuizzes}</p>
+                <p className="text-4xl font-bold" style={{ color: '#ffffff' }}>{totalAttempts}</p>
             </div>
             {subjects.map(subject => {
+                const data = progress[subject] || {};
                 const cardStyle = getCardStyles(subject);
+                const completionPercent = Math.min(100, Math.max(0, data.completionPercentage || 0));
+                const completedCount = data.completedCount || 0;
+                const totalPremade = data.totalPremadeExams || 0;
+                const averageScore = formatAverage(data.averageScaledScore);
+                const lastTitle = data.lastAttempt?.quizTitle;
+                const lastScore = data.lastAttempt?.scaledScore;
+                const truncatedTitle = lastTitle && lastTitle.length > 52 ? `${lastTitle.slice(0, 49)}…` : lastTitle;
                 return (
                     <button
                         key={subject}
                         onClick={() => onSubjectClick(subject)}
-                        className="p-4 rounded-lg text-center shadow-inner border transition-transform duration-200 hover:-translate-y-1"
+                        className="p-4 rounded-lg text-left shadow-inner border transition-transform duration-200 hover:-translate-y-1"
                         style={cardStyle}
                     >
-                        <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                        <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.85)' }}>
                             {subject}
                         </p>
-                        <p className="text-4xl font-bold" style={{ color: cardStyle.color }}>
-                            {calculateAverage(progress[subject]?.scores)}
+                        <div className="mt-3 h-2 w-full rounded-full bg-white/30">
+                            <div className="h-2 rounded-full bg-white shadow-sm" style={{ width: `${completionPercent}%`, opacity: 0.9 }}></div>
+                        </div>
+                        <p className="mt-2 text-sm" style={{ color: cardStyle.color }}>
+                            {completedCount} of {totalPremade} exams passed
                         </p>
+                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                            Avg scaled score: <span className="font-semibold">{averageScore}</span>
+                        </p>
+                        {truncatedTitle && (
+                            <p className="mt-2 text-xs" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                                Last exam: <span className="font-semibold">{truncatedTitle}</span>
+                                {lastScore != null && ` (${Math.round(lastScore)})`}
+                            </p>
+                        )}
                     </button>
                 );
             })}
@@ -7080,10 +7386,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     return;
                                 }
 
+                                const quizCode = quiz.quizCode || `${quizIdBase}_set_${index}`;
                                 onSelectQuiz(
                                     {
                                         ...quiz,
-                                        id: quiz.quizId || `${quizIdBase}_set_${index}`,
+                                        id: quiz.quizId || quizCode,
+                                        quizCode,
                                         title: derivedTitle,
                                         topicId: topic.id,
                                         topicTitle: topic.title || baseTitle,
@@ -7142,13 +7450,20 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                             </div>
                                         </div>
                                     ) : (
-                                        <button
-                                            onClick={() => onSelectQuiz(topic, selectedSubject)}
-                                            className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
-                                            style={buttonStyle}
-                                        >
-                                            {defaultButtonLabel}
-                                        </button>
+                                        (() => {
+                                            const fallbackTopicSlug = sanitizeCodeSegment(topic.title || `topic-${topicIndex + 1}`, `topic-${topicIndex + 1}`);
+                                            const subjectSlug = sanitizeCodeSegment(selectedSubject, 'subject');
+                                            const topicQuizCode = topic.quizCode || topic.id || `${subjectSlug}__${fallbackTopicSlug}`;
+                                            return (
+                                                <button
+                                                    onClick={() => onSelectQuiz({ ...topic, id: topic.quizCode || topicQuizCode, quizCode: topicQuizCode }, selectedSubject)}
+                                                    className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                                                    style={buttonStyle}
+                                                >
+                                                    {defaultButtonLabel}
+                                                </button>
+                                            );
+                                        })()
                                     )}
                                 </div>
                             );
@@ -7924,7 +8239,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         const percentage = (score / questions.length) * 100;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
 
-        onComplete({ score, totalQuestions: questions.length, scaledScore, answers: result.answers, subject: quiz.subject, marked: result.marked, confidence: result.confidence });
+        onComplete({ score, totalQuestions: questions.length, scaledScore, answers: result.answers, subject: quiz.subject, marked: result.marked, confidence: result.confidence, quiz });
     };
 
     return <QuizInterface
@@ -7978,7 +8293,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         const percentage = (score / quiz.questions.length) * 100;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
 
-        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers: finalAnswers, subject: quiz.subject, marked: finalMarked, confidence: finalConfidence });
+        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers: finalAnswers, subject: quiz.subject, marked: finalMarked, confidence: finalConfidence, quiz });
     };
 
     if (part === 1) {
@@ -8461,7 +8776,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
         });
         const percentage = (score / quiz.questions.length) * 100;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
-        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, subject: quiz.subject });
+        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, subject: quiz.subject, quiz });
     };
 
     return (
