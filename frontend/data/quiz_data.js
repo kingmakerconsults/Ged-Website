@@ -293,6 +293,156 @@ const expandedQuizData = {
                 ]
             }
         }
+    },
+    "Math": {
+        icon: "CalculatorIcon",
+        categories: {
+            "Quantitative Problem Solving": {
+                topics: [
+                    {
+                        id: "math_quant_basics",
+                        quizzes: [
+                            {
+                                quizId: "math_quant_basics_set1",
+                                label: "Quiz A",
+                                description: "Master operations with whole numbers, fractions, and decimals in real-world contexts.",
+                                questionSourceTopicId: "math_quant_basics"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Algebraic Reasoning": {
+                topics: [
+                    {
+                        id: "math_alg_expressions",
+                        quizzes: [
+                            {
+                                quizId: "math_alg_expressions_set1",
+                                label: "Quiz A",
+                                description: "Practice simplifying expressions and working with polynomials.",
+                                questionSourceTopicId: "math_alg_expressions"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Geometry": {
+                topics: [
+                    {
+                        id: "math_geom_basics",
+                        quizzes: [
+                            {
+                                quizId: "math_geom_basics_set1",
+                                label: "Quiz A",
+                                description: "Review perimeter, area, volume, and surface area applications.",
+                                questionSourceTopicId: "math_geom_basics"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "Reasoning Through Language Arts (RLA)": {
+        icon: "BookOpenIcon",
+        categories: {
+            "Reading Comprehension: Informational Texts": {
+                topics: [
+                    {
+                        id: "rla_info_main_idea",
+                        quizzes: [
+                            {
+                                quizId: "rla_info_main_idea_set1",
+                                label: "Quiz A",
+                                description: "Analyze informational texts for central ideas, evidence, and author's claims.",
+                                questionSourceTopicId: "rla_info_main_idea"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Language & Grammar": {
+                topics: [
+                    {
+                        id: "rla_grammar_usage",
+                        quizzes: [
+                            {
+                                quizId: "rla_grammar_usage_set1",
+                                label: "Quiz A",
+                                description: "Strengthen grammar, usage, and mechanics skills for the RLA test.",
+                                questionSourceTopicId: "rla_grammar_usage"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "Social Studies": {
+        icon: "GlobeIcon",
+        categories: {
+            "U.S. History": {
+                topics: [
+                    {
+                        id: "ss_us_hist_foundations",
+                        quizzes: [
+                            {
+                                quizId: "ss_us_hist_foundations_set1",
+                                label: "Quiz A",
+                                description: "Foundational events leading to the American Revolution.",
+                                questionSourceTopicId: "ss_us_hist_foundations"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Civics & Government": {
+                topics: [
+                    {
+                        id: "ss_civics_constitution",
+                        quizzes: [
+                            {
+                                quizId: "ss_civics_constitution_set1",
+                                label: "Quiz A",
+                                description: "Explore the structure of the U.S. government and key constitutional principles.",
+                                questionSourceTopicId: "ss_civics_constitution"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Economics": {
+                topics: [
+                    {
+                        id: "ss_econ_foundations",
+                        quizzes: [
+                            {
+                                quizId: "ss_econ_foundations_set1",
+                                label: "Quiz A",
+                                description: "Understand core economic concepts, fiscal policy, and the role of government.",
+                                questionSourceTopicId: "ss_econ_foundations"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Geography and the World": {
+                topics: [
+                    {
+                        id: "ss_geo_map_skills",
+                        quizzes: [
+                            {
+                                quizId: "ss_geo_map_skills_set1",
+                                label: "Quiz A",
+                                description: "Apply map, chart, and data analysis skills to geographic scenarios.",
+                                questionSourceTopicId: "ss_geo_map_skills"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
     }
 };
 
