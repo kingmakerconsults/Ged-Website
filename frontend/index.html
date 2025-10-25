@@ -4254,6 +4254,7 @@ function App({ externalTheme, onThemeChange }) {
     }, []);
 
     const hasLocalPrefsRef = useRef(false);
+    const pendingThemeSyncRef = useRef(null);
     const [preferences, setPreferences] = useState(() => {
         const resolveInitialTheme = (baseTheme) => {
             if (VALID_THEMES.has(externalTheme)) {
@@ -4337,6 +4338,14 @@ function App({ externalTheme, onThemeChange }) {
     const applyPreferenceUpdate = useCallback((partialPrefs, options = {}) => {
         setPreferences((prev) => {
             const merged = normalizePreferences({ ...prev, ...partialPrefs });
+            if (
+                options.markLocal
+                && partialPrefs
+                && Object.prototype.hasOwnProperty.call(partialPrefs, 'theme')
+                && merged.theme !== prev.theme
+            ) {
+                pendingThemeSyncRef.current = merged.theme;
+            }
             return merged;
         });
         if (options.markLocal) {
@@ -4354,16 +4363,23 @@ function App({ externalTheme, onThemeChange }) {
     }, [externalTheme, preferences.theme, applyPreferenceUpdate]);
 
     useEffect(() => {
+        if (preferences.theme === externalTheme) {
+            pendingThemeSyncRef.current = null;
+            return;
+        }
         if (typeof onThemeChange !== 'function') {
+            pendingThemeSyncRef.current = null;
             return;
         }
         if (!VALID_THEMES.has(preferences.theme)) {
+            pendingThemeSyncRef.current = null;
             return;
         }
-        if (preferences.theme === externalTheme) {
+        if (pendingThemeSyncRef.current !== preferences.theme) {
             return;
         }
         onThemeChange(preferences.theme);
+        pendingThemeSyncRef.current = null;
     }, [onThemeChange, preferences.theme, externalTheme]);
 
     const handleSettingsInstantChange = useCallback((partialPrefs) => {
