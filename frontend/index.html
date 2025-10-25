@@ -3674,11 +3674,11 @@ const integrateExpandedQuizData = (baseData, expandedData) => {
     return baseData;
 };
 
-const expandedQuizData = (typeof window !== 'undefined' && window.ExpandedQuizData)
+const expandedQuizDataSource = (typeof window !== 'undefined' && window.ExpandedQuizData)
     ? window.ExpandedQuizData
     : (typeof globalThis !== 'undefined' ? globalThis.ExpandedQuizData : null);
-if (expandedQuizData) {
-    integrateExpandedQuizData(AppData, expandedQuizData);
+if (expandedQuizDataSource) {
+    integrateExpandedQuizData(AppData, expandedQuizDataSource);
 }
 
 
