@@ -205,6 +205,7 @@ const normalizeLatex = (text) => text;
 const { fetchApproved } = require('./src/fetch/fetcher');
 const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
 const { adminPreviewBypass } = require('./src/middleware/adminBypass');
+const { assertUserIsActive } = require('./utils/userPresence');
 const { sanitizeExamObject, sanitizeField } = require('./src/lib/sanitizeExamText');
 const {
     generateMathExamTwoPass,
@@ -1553,6 +1554,13 @@ function authRequired(req, res, next) {
     return next();
 }
 
+function requireAdminRole(req, res, next) {
+    if (!req.user || req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Admin access required' });
+    }
+    return next();
+}
+
 async function buildScoreSummary(userId) {
     try {
         const { loadScoresSafe } = require('./services/profileData');
@@ -1779,6 +1787,28 @@ app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all rou
 app.use(express.json());
 app.use(cookieParser());
 
+app.post('/presence/ping', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+
+        if (!userId) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        await db.query(
+            `UPDATE users
+                SET last_seen_at = NOW()
+              WHERE id = $1`,
+            [userId]
+        );
+
+        return res.json({ ok: true });
+    } catch (err) {
+        console.error('presence/ping failed:', err?.message || err);
+        return res.status(500).json({ error: 'presence_update_failed' });
+    }
+});
+
 app.get('/api/profile/me', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
     console.log('[/api/profile/me] req.user =', req.user);
     try {
@@ -1794,7 +1824,15 @@ app.patch('/api/profile/name', devAuth, ensureTestUserForNow, requireAuthInProd,
     console.log('[/api/profile/name] req.user =', req.user);
     console.log('[/api/profile/name] req.body =', req.body);
 
-    const userId = req.user.id;
+    const userId = req.user?.id || req.user?.userId;
+
+    if (!userId) {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+        return res.status(403).json({ error: 'user_not_active' });
+    }
     const { name } = req.body || {};
     const trimmed = typeof name === 'string' ? name.trim() : String(name || '').trim();
 
@@ -1843,7 +1881,15 @@ app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd,
     console.log('[/api/profile/test] req.body =', req.body);
     console.log('[/api/profile/test] HIT');
 
-    const userId = req.user.id;
+    const userId = req.user?.id || req.user?.userId;
+
+    if (!userId) {
+        return res.status(401).json({ ok: false, error: 'Not authenticated' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+        return res.status(403).json({ ok: false, error: 'user_not_active' });
+    }
     const { subject, testDate, testLocation, passed } = req.body || {};
     const subj = typeof subject === 'string' ? subject.trim() : '';
 
@@ -1921,7 +1967,15 @@ app.patch('/api/profile/challenges/tags', devAuth, ensureTestUserForNow, require
     console.log('[/api/profile/challenges/tags] req.user =', req.user);
     console.log('[/api/profile/challenges/tags] req.body =', req.body);
 
-    const userId = req.user.id;
+    const userId = req.user?.id || req.user?.userId;
+
+    if (!userId) {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+        return res.status(403).json({ error: 'user_not_active' });
+    }
     const { selectedIds } = req.body || {};
     const ids = Array.isArray(selectedIds) ? selectedIds.map((id) => String(id)) : [];
 
@@ -1954,7 +2008,15 @@ app.patch('/api/profile/challenges/tags', devAuth, ensureTestUserForNow, require
 app.post('/api/profile/complete-onboarding', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
     console.log('[/api/profile/complete-onboarding] req.user =', req.user);
 
-    const userId = req.user.id;
+    const userId = req.user?.id || req.user?.userId;
+
+    if (!userId) {
+        return res.status(401).json({ ok: false, error: 'Not authenticated' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+        return res.status(403).json({ ok: false, error: 'user_not_active' });
+    }
 
     try {
         const bundle = await buildProfileBundle(userId);
@@ -4066,6 +4128,28 @@ app.post('/api/auth/google', async (req, res) => {
     } catch (error) {
         console.error('Google Auth or DB Error:', error);
         res.status(500).json({ error: 'Authentication or database error.' });
+    }
+});
+
+app.get('/admin/active-users', requireAuth, requireAdminRole, async (req, res) => {
+    try {
+        const result = await db.query(
+            `SELECT
+                id,
+                name,
+                email,
+                last_seen_at,
+                (NOW() - last_seen_at) < INTERVAL '2 minutes' AS is_active
+             FROM users
+             WHERE last_seen_at IS NOT NULL
+             ORDER BY last_seen_at DESC
+             LIMIT 200`
+        );
+
+        return res.json(result.rows);
+    } catch (err) {
+        console.error('active-users failed:', err?.message || err);
+        return res.status(500).json({ error: 'active_users_failed' });
     }
 });
 
