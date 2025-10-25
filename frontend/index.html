@@ -242,22 +242,32 @@
             --button-secondary-text: #1e293b;
             --subject-science-accent: #dc2626;
             --subject-science-text: #ffffff;
+            --subject-science-surface-text: #7f1d1d;
+            --subject-science-accent-text: #7f1d1d;
             --subject-science-border: rgba(248,113,113,0.8);
             --subject-science-gradient: linear-gradient(135deg, #f87171, #facc15);
             --subject-social-accent: #16a34a;
             --subject-social-text: #f0fdf4;
+            --subject-social-surface-text: #14532d;
+            --subject-social-accent-text: #14532d;
             --subject-social-border: rgba(74,222,128,0.7);
             --subject-social-gradient: linear-gradient(135deg, #16a34a, #a3e635);
             --subject-rla-accent: #7c3aed;
             --subject-rla-text: #f5f3ff;
+            --subject-rla-surface-text: #4c1d95;
+            --subject-rla-accent-text: #4c1d95;
             --subject-rla-border: rgba(167,139,250,0.7);
             --subject-rla-gradient: linear-gradient(135deg, #7c3aed, #ec4899);
             --subject-math-accent: #0284c7;
             --subject-math-text: #e0f2fe;
+            --subject-math-surface-text: #0c4a6e;
+            --subject-math-accent-text: #0c4a6e;
             --subject-math-border: rgba(56,189,248,0.7);
             --subject-math-gradient: linear-gradient(135deg, #0ea5e9, #22d3ee);
             --subject-simulations-accent: #f97316;
             --subject-simulations-text: #fff7ed;
+            --subject-simulations-surface-text: #7c2d12;
+            --subject-simulations-accent-text: #7c2d12;
             --subject-simulations-border: rgba(251,146,60,0.75);
             --subject-simulations-gradient: linear-gradient(135deg, #f97316, #facc15);
         }
@@ -321,22 +331,32 @@
             --button-secondary-text: #e2e8f0;
             --subject-science-accent: #f87171;
             --subject-science-text: #fff5f5;
+            --subject-science-surface-text: #fff5f5;
+            --subject-science-accent-text: #fff5f5;
             --subject-science-border: rgba(252,165,165,0.8);
             --subject-science-gradient: linear-gradient(135deg, rgba(248,113,113,0.85), rgba(250,204,21,0.7));
             --subject-social-accent: #22c55e;
             --subject-social-text: #ecfdf5;
+            --subject-social-surface-text: #ecfdf5;
+            --subject-social-accent-text: #ecfdf5;
             --subject-social-border: rgba(74,222,128,0.75);
             --subject-social-gradient: linear-gradient(135deg, rgba(16,185,129,0.9), rgba(163,230,53,0.7));
             --subject-rla-accent: #8b5cf6;
             --subject-rla-text: #ede9fe;
+            --subject-rla-surface-text: #ede9fe;
+            --subject-rla-accent-text: #ede9fe;
             --subject-rla-border: rgba(167,139,250,0.7);
             --subject-rla-gradient: linear-gradient(135deg, rgba(139,92,246,0.9), rgba(236,72,153,0.65));
             --subject-math-accent: #0ea5e9;
             --subject-math-text: #e0f2fe;
+            --subject-math-surface-text: #e0f2fe;
+            --subject-math-accent-text: #e0f2fe;
             --subject-math-border: rgba(56,189,248,0.7);
             --subject-math-gradient: linear-gradient(135deg, rgba(14,165,233,0.9), rgba(34,211,238,0.7));
             --subject-simulations-accent: #fb923c;
             --subject-simulations-text: #fff7ed;
+            --subject-simulations-surface-text: #fff7ed;
+            --subject-simulations-accent-text: #fff7ed;
             --subject-simulations-border: rgba(251,191,36,0.75);
             --subject-simulations-gradient: linear-gradient(135deg, rgba(249,115,22,0.9), rgba(250,204,21,0.7));
         }
@@ -842,53 +862,58 @@ const DEFAULT_COLOR_SCHEME = {
 const SUBJECT_COLORS = {
     Science: {
         background: 'var(--subject-science-accent)',
-        text: 'var(--subject-science-text)',
+        text: 'var(--subject-science-surface-text)',
+        heroText: 'var(--subject-science-text)',
         border: 'var(--subject-science-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-science-text)',
         scoreBorder: 'var(--subject-science-border)',
         accent: 'var(--subject-science-accent)',
-        accentText: 'var(--subject-science-text)',
+        accentText: 'var(--subject-science-accent-text)',
     },
     'Social Studies': {
         background: 'var(--subject-social-accent)',
-        text: 'var(--subject-social-text)',
+        text: 'var(--subject-social-surface-text)',
+        heroText: 'var(--subject-social-text)',
         border: 'var(--subject-social-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-social-text)',
         scoreBorder: 'var(--subject-social-border)',
         accent: 'var(--subject-social-accent)',
-        accentText: 'var(--subject-social-text)',
+        accentText: 'var(--subject-social-accent-text)',
     },
     'Reasoning Through Language Arts (RLA)': {
         background: 'var(--subject-rla-accent)',
-        text: 'var(--subject-rla-text)',
+        text: 'var(--subject-rla-surface-text)',
+        heroText: 'var(--subject-rla-text)',
         border: 'var(--subject-rla-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-rla-text)',
         scoreBorder: 'var(--subject-rla-border)',
         accent: 'var(--subject-rla-accent)',
-        accentText: 'var(--subject-rla-text)',
+        accentText: 'var(--subject-rla-accent-text)',
     },
     Math: {
         background: 'var(--subject-math-accent)',
-        text: 'var(--subject-math-text)',
+        text: 'var(--subject-math-surface-text)',
+        heroText: 'var(--subject-math-text)',
         border: 'var(--subject-math-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-math-text)',
         scoreBorder: 'var(--subject-math-border)',
         accent: 'var(--subject-math-accent)',
-        accentText: 'var(--subject-math-text)',
+        accentText: 'var(--subject-math-accent-text)',
     },
     Simulations: {
         background: 'var(--subject-simulations-accent)',
-        text: 'var(--subject-simulations-text)',
+        text: 'var(--subject-simulations-surface-text)',
+        heroText: 'var(--subject-simulations-text)',
         border: 'var(--subject-simulations-border)',
         scoreBackground: 'var(--bg-overlay)',
         scoreText: 'var(--subject-simulations-text)',
         scoreBorder: 'var(--subject-simulations-border)',
         accent: 'var(--subject-simulations-accent)',
-        accentText: 'var(--subject-simulations-text)',
+        accentText: 'var(--subject-simulations-accent-text)',
     },
 };
 
@@ -7332,7 +7357,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             : subjectColors.background
                 ? { backgroundColor: subjectColors.background }
                 : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
-        const heroTextColor = subjectColors.text || subjectColors.onBackgroundText || '#ffffff';
+        const heroTextColor = subjectColors.heroText || subjectColors.onBackgroundText || '#ffffff';
         return (
             <>
                 <div
@@ -7406,7 +7431,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             return (
                                 <div
                                     key={topic.id || `topic_${topicIndex}`}
-                                    className="rounded-xl border bg-white/95 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl"
+                                    className="rounded-xl border bg-white/95 dark:bg-slate-900/80 dark:border-slate-700 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl"
                                     style={{
                                         borderColor: subjectColors.border || 'rgba(255,255,255,0.4)',
                                         color: subjectColors.text || '#0f172a',
@@ -7494,7 +7519,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             : subjectColors.background
                 ? { backgroundColor: subjectColors.background }
                 : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
-        const heroTextColor = subjectColors.text || subjectColors.onBackgroundText || '#ffffff';
+        const heroTextColor = subjectColors.heroText || subjectColors.onBackgroundText || '#ffffff';
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         return (
             <>
@@ -7556,7 +7581,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 <button
                                     key={categoryName}
                                     onClick={() => handleSelectCategory(categoryName)}
-                                    className="text-left border rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
+                                    className="text-left border rounded-lg p-4 flex flex-col justify-between bg-white dark:bg-slate-900/75 dark:border-slate-700 transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
                                     style={cardStyle}
                                 >
                                     <h3 className="text-xl font-bold" style={{ color: subjectColors.text || '#0f172a' }}>
