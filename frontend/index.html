@@ -138,7 +138,15 @@
         :root.fs-lg { font-size: 18px; }
         :root.fs-xl { font-size: 20px; }
 
-        body { font-family: 'Inter', sans-serif; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .dark body {
+            background-color: #020617;
+            color: #e2e8f0;
+        }
         h1 {
             font-family: 'Poppins', 'Inter', system-ui, sans-serif;
             font-size: 2.25rem;
@@ -199,11 +207,13 @@
             border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 1rem;
             box-shadow: 0 18px 32px -24px rgba(15, 23, 42, 0.3);
+            color: #0f172a;
         }
         .dark .glass {
             background: rgba(30, 41, 59, 0.72);
             border-color: rgba(255,255,255,0.14);
             box-shadow: 0 30px 60px -15px rgba(0,0,0,0.9);
+            color: #e2e8f0;
         }
         .subject-card {
             transition: all 0.3s ease;
@@ -3620,10 +3630,12 @@ const shuffleArray = (array) => {
 };
 
 const VALID_FONT_SIZES = new Set(['sm', 'md', 'lg', 'xl']);
-const DEFAULT_PREFERENCES = Object.freeze({ fontSize: 'md' });
+const VALID_THEMES = new Set(['light', 'dark']);
+const DEFAULT_PREFERENCES = Object.freeze({ fontSize: 'md', theme: 'light' });
 
 const normalizePreferences = (prefs = {}) => ({
     fontSize: VALID_FONT_SIZES.has(prefs.fontSize) ? prefs.fontSize : DEFAULT_PREFERENCES.fontSize,
+    theme: VALID_THEMES.has(prefs.theme) ? prefs.theme : DEFAULT_PREFERENCES.theme,
 });
 
 const SUBJECT_NAMES = ['Math', 'RLA', 'Science', 'Social Studies'];
@@ -3713,11 +3725,12 @@ async function fetchJSON(url, options = {}) {
 }
 
 // --- App Structure Components ---
-function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSettings, activePanel }) {
+function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSettings, activePanel, theme, onToggleTheme }) {
     const displayName = currentUser?.name || currentUser?.email || 'Learner';
     const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'U';
     const isProfileActive = activePanel === 'profile';
     const isSettingsActive = activePanel === 'settings';
+    const isDark = theme === 'dark';
 
     return (
         <header className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm">
@@ -3736,13 +3749,32 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
                         <a className="hover:text-sky-600 dark:hover:text-sky-400 transition" href="#progress">Progress</a>
                     </nav>
                 </div>
-                {currentUser && (
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2">
-                            {currentUser.picture ? (
-                                <img src={currentUser.picture} alt="User avatar" className="w-9 h-9 rounded-full object-cover shadow" />
-                            ) : (
-                                <div className="w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold shadow">
+                <div className="flex items-center gap-4">
+                    <button
+                        type="button"
+                        onClick={onToggleTheme}
+                        aria-label="Toggle color mode"
+                        aria-pressed={isDark}
+                        className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-700 shadow-sm transition hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:border-slate-600 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-700/80"
+                    >
+                        {isDark ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" role="img" aria-hidden="true">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707 6 6 0 1017.293 13.293z" />
+                            </svg>
+                        ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" role="img" aria-hidden="true">
+                                <path d="M10 3a1 1 0 011 1v1a1 1 0 11-2 0V4a1 1 0 011-1zm4.22 1.78a1 1 0 011.415 1.414l-.708.708a1 1 0 11-1.414-1.414l.707-.708zM17 9a1 1 0 110 2h-1a1 1 0 110-2h1zm-2.072 5.657a1 1 0 011.414 1.414l-.707.707a1 1 0 11-1.415-1.414l.708-.707zM11 16a1 1 0 11-2 0v-1a1 1 0 112 0v1zm-5.657-.343a1 1 0 10-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM4 9a1 1 0 100 2H3a1 1 0 100-2h1zm2.343-3.657a1 1 0 10-1.414-1.414l-.707.707A1 1 0 105.636 6.05l.707-.707z" />
+                                <path d="M10 5a5 5 0 100 10A5 5 0 0010 5z" />
+                            </svg>
+                        )}
+                    </button>
+                    {currentUser && (
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
+                                {currentUser.picture ? (
+                                    <img src={currentUser.picture} alt="User avatar" className="w-9 h-9 rounded-full object-cover shadow" />
+                                ) : (
+                                    <div className="w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold shadow">
                                     {initial}
                                 </div>
                             )}
@@ -3782,8 +3814,9 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
                                 Log Out
                             </button>
                         </div>
-                    </div>
-                )}
+                        </div>
+                    )}
+                </div>
             </div>
         </header>
     );
@@ -3964,6 +3997,12 @@ function App() {
         } catch (error) {
             console.warn('Failed to restore saved preferences:', error);
         }
+        const prefersDark = typeof window.matchMedia === 'function'
+            ? window.matchMedia('(prefers-color-scheme: dark)').matches
+            : false;
+        if (prefersDark) {
+            return normalizePreferences({ ...DEFAULT_PREFERENCES, theme: 'dark' });
+        }
         return { ...DEFAULT_PREFERENCES };
     });
     const [profileData, setProfileData] = useState(null);
@@ -3992,12 +4031,19 @@ function App() {
         const sizeClasses = ['fs-sm', 'fs-md', 'fs-lg', 'fs-xl'];
         sizeClasses.forEach((cls) => root.classList.remove(cls));
         root.classList.add(`fs-${preferences.fontSize}`);
+        root.classList.toggle('dark', preferences.theme === 'dark');
+        if (document.body) {
+            document.body.dataset.theme = preferences.theme;
+        }
         try {
-            window.localStorage.setItem('prefs', JSON.stringify({ fontSize: preferences.fontSize }));
+            window.localStorage.setItem('prefs', JSON.stringify({
+                fontSize: preferences.fontSize,
+                theme: preferences.theme,
+            }));
         } catch (error) {
             console.warn('Unable to persist preferences locally:', error);
         }
-    }, [preferences.fontSize]);
+    }, [preferences.fontSize, preferences.theme]);
 
     const openMathTools = useCallback((tab = 'graphing') => {
         setMathToolsActiveTab(tab);
@@ -4028,8 +4074,13 @@ function App() {
         applyPreferenceUpdate(partialPrefs, { markLocal: true });
     }, [applyPreferenceUpdate]);
 
-    const handlePersistPreferences = useCallback(async ({ fontSize }) => {
-        const nextPrefs = normalizePreferences({ fontSize });
+    const toggleThemePreference = useCallback(() => {
+        const nextTheme = preferences.theme === 'dark' ? 'light' : 'dark';
+        applyPreferenceUpdate({ theme: nextTheme }, { markLocal: true });
+    }, [applyPreferenceUpdate, preferences.theme]);
+
+    const handlePersistPreferences = useCallback(async ({ fontSize = preferences.fontSize, theme = preferences.theme }) => {
+        const nextPrefs = normalizePreferences({ fontSize, theme });
         applyPreferenceUpdate(nextPrefs, { markLocal: true });
         setSettingsSaving(true);
         setSettingsStatus('');
@@ -4040,9 +4091,17 @@ function App() {
                 body: JSON.stringify(nextPrefs),
             });
             if (response) {
-                const updated = typeof response === 'object' && response !== null ? response.fontSize : undefined;
-                if (updated && VALID_FONT_SIZES.has(updated)) {
-                    applyPreferenceUpdate({ fontSize: updated });
+                const updatedFontSize = typeof response === 'object' && response !== null ? response.fontSize : undefined;
+                const updatedTheme = typeof response === 'object' && response !== null ? response.theme : undefined;
+                const persistedUpdates = {};
+                if (updatedFontSize && VALID_FONT_SIZES.has(updatedFontSize)) {
+                    persistedUpdates.fontSize = updatedFontSize;
+                }
+                if (updatedTheme && VALID_THEMES.has(updatedTheme)) {
+                    persistedUpdates.theme = updatedTheme;
+                }
+                if (Object.keys(persistedUpdates).length > 0) {
+                    applyPreferenceUpdate(persistedUpdates);
                 }
             }
             setSettingsStatus('Settings saved.');
@@ -4052,7 +4111,7 @@ function App() {
         } finally {
             setSettingsSaving(false);
         }
-    }, [applyPreferenceUpdate]);
+    }, [applyPreferenceUpdate, preferences.fontSize, preferences.theme]);
 
     const updateLocalUserName = useCallback((name, { markCustomized = false } = {}) => {
         setCurrentUser((prev) => {
@@ -4994,7 +5053,7 @@ function App() {
                     </p>
                 </div>
             )}
-            <div className="min-h-screen flex flex-col">
+            <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors">
                 <AppHeader
                     currentUser={currentUser}
                     onLogout={handleLogout}
@@ -5002,6 +5061,8 @@ function App() {
                     onShowProfile={handleShowProfileView}
                     onShowSettings={handleShowSettingsView}
                     activePanel={view === 'profile' ? 'profile' : view === 'settings' ? 'settings' : null}
+                    theme={preferences.theme}
+                    onToggleTheme={toggleThemePreference}
                 />
                 {isLoading && (
                     <div className="fade-in fixed inset-0 w-full h-full flex flex-col items-center justify-center bg-gray-800 bg-opacity-75 z-50 text-center px-4">
@@ -5613,16 +5674,26 @@ function RecentScoresPanel({ summary, legacyScores, loading, title = 'Recent Sco
 
 function SettingsView({ preferences, onApply, onSave, saving, status, onBack, loading }) {
     const [fontSize, setFontSize] = useState(preferences.fontSize);
+    const [theme, setTheme] = useState(preferences.theme);
 
     useEffect(() => {
         setFontSize(preferences.fontSize);
     }, [preferences.fontSize]);
+
+    useEffect(() => {
+        setTheme(preferences.theme);
+    }, [preferences.theme]);
 
     const fontSizeOptions = [
         { value: 'sm', label: 'Small', description: 'Compact text for dense layouts.' },
         { value: 'md', label: 'Medium', description: 'Balanced for most learners.' },
         { value: 'lg', label: 'Large', description: 'Larger text for improved legibility.' },
         { value: 'xl', label: 'Extra Large', description: 'Maximum size for easy reading.' },
+    ];
+
+    const themeOptions = [
+        { value: 'light', label: 'Light', description: 'Bright background with dark text.' },
+        { value: 'dark', label: 'Dark', description: 'Dim background with light text.' },
     ];
 
     const handleFontSizeChange = (event) => {
@@ -5633,9 +5704,17 @@ function SettingsView({ preferences, onApply, onSave, saving, status, onBack, lo
         }
     };
 
+    const handleThemeChange = (event) => {
+        const value = event.target.value;
+        setTheme(value);
+        if (onApply) {
+            onApply({ theme: value });
+        }
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await onSave({ fontSize });
+        await onSave({ fontSize, theme });
     };
 
     return (
@@ -5643,27 +5722,27 @@ function SettingsView({ preferences, onApply, onSave, saving, status, onBack, lo
             <div className="max-w-4xl mx-auto space-y-6">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-800">Settings</h1>
-                        <p className="text-sm text-slate-500">Choose the font size that feels right for your reading style. Changes apply instantly.</p>
+                        <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">Settings</h1>
+                        <p className="text-sm text-slate-500 dark:text-slate-300">Choose the font size and color mode that feel right for your reading style. Changes apply instantly.</p>
                     </div>
                     <button
                         type="button"
                         onClick={onBack}
-                        className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                        className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:bg-sky-500 dark:hover:bg-sky-400"
                     >
                         Back to Dashboard
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-6">
+                <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 dark:border-slate-700/70 bg-white/95 dark:bg-slate-900/80 p-5 shadow-sm space-y-6">
                     <fieldset className="space-y-3">
-                        <legend className="text-lg font-semibold text-slate-800">Font Size</legend>
-                        <p className="text-sm text-slate-500">Pick the text size that feels comfortable on your device.</p>
+                        <legend className="text-lg font-semibold text-slate-800 dark:text-slate-100">Font Size</legend>
+                        <p className="text-sm text-slate-500 dark:text-slate-300">Pick the text size that feels comfortable on your device.</p>
                         <div className="grid gap-2 sm:grid-cols-2">
                             {fontSizeOptions.map((option) => (
                                 <label
                                     key={option.value}
-                                    className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 hover:border-sky-300 focus-within:ring-2 focus-within:ring-sky-500"
+                                    className="flex items-center gap-3 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-3 py-2 hover:border-sky-300 dark:hover:border-sky-400 focus-within:ring-2 focus-within:ring-sky-500"
                                 >
                                     <input
                                         type="radio"
@@ -5671,11 +5750,37 @@ function SettingsView({ preferences, onApply, onSave, saving, status, onBack, lo
                                         value={option.value}
                                         checked={fontSize === option.value}
                                         onChange={handleFontSizeChange}
-                                        className="h-4 w-4 text-sky-600 focus:ring-sky-500"
+                                        className="h-4 w-4 text-sky-600 focus:ring-sky-500 dark:bg-slate-900 dark:border-slate-600"
                                     />
                                     <span className="flex flex-col">
-                                        <span className="font-semibold text-slate-700">{option.label}</span>
-                                        <span className="text-xs text-slate-500">{option.description}</span>
+                                        <span className="font-semibold text-slate-700 dark:text-slate-200">{option.label}</span>
+                                        <span className="text-xs text-slate-500 dark:text-slate-400">{option.description}</span>
+                                    </span>
+                                </label>
+                            ))}
+                        </div>
+                    </fieldset>
+
+                    <fieldset className="space-y-3">
+                        <legend className="text-lg font-semibold text-slate-800 dark:text-slate-100">Color Mode</legend>
+                        <p className="text-sm text-slate-500 dark:text-slate-300">Choose between light and dark themes. We’ll remember your pick.</p>
+                        <div className="grid gap-2 sm:grid-cols-2">
+                            {themeOptions.map((option) => (
+                                <label
+                                    key={option.value}
+                                    className={`flex items-center gap-3 rounded-lg border px-3 py-2 transition ${theme === option.value ? 'border-sky-400 ring-2 ring-sky-200 dark:ring-sky-500/40' : 'border-slate-200 dark:border-slate-600'} bg-white dark:bg-slate-900/60 hover:border-sky-300 dark:hover:border-sky-400`}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="theme"
+                                        value={option.value}
+                                        checked={theme === option.value}
+                                        onChange={handleThemeChange}
+                                        className="h-4 w-4 text-sky-600 focus:ring-sky-500 dark:bg-slate-900 dark:border-slate-600"
+                                    />
+                                    <span className="flex flex-col">
+                                        <span className="font-semibold text-slate-700 dark:text-slate-200">{option.label}</span>
+                                        <span className="text-xs text-slate-500 dark:text-slate-400">{option.description}</span>
                                     </span>
                                 </label>
                             ))}
@@ -5683,12 +5788,12 @@ function SettingsView({ preferences, onApply, onSave, saving, status, onBack, lo
                     </fieldset>
 
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                        <p className="text-xs text-slate-500" role="status" aria-live="polite">
+                        <p className="text-xs text-slate-500 dark:text-slate-400" role="status" aria-live="polite">
                             {status}
                         </p>
                         <button
                             type="submit"
-                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60 dark:bg-sky-500 dark:hover:bg-sky-400"
                             disabled={saving || loading}
                         >
                             {saving ? 'Saving…' : 'Save Settings'}
@@ -5696,8 +5801,8 @@ function SettingsView({ preferences, onApply, onSave, saving, status, onBack, lo
                     </div>
                 </form>
 
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
-                    <h2 className="text-base font-semibold text-slate-700">How settings work</h2>
+                <div className="rounded-2xl border border-slate-200 dark:border-slate-700/70 bg-slate-50 dark:bg-slate-900/60 p-5 text-sm text-slate-600 dark:text-slate-300">
+                    <h2 className="text-base font-semibold text-slate-700 dark:text-slate-100">How settings work</h2>
                     <ul className="mt-2 list-disc space-y-1 pl-5">
                         <li>Changes apply instantly so you can preview them before saving.</li>
                         <li>We try to sync your preferences to the server. If that fails, they stay on this device.</li>
@@ -6002,30 +6107,30 @@ function AuthScreen({ onLogin }) {
     return (
         <>
             <div className="text-center max-w-md mx-auto">
-                <h2 className="text-3xl font-extrabold text-slate-800 mb-2">Welcome!</h2>
-                <p className="text-slate-500 mb-6">Sign in to save your progress across devices.</p>
-                <form onSubmit={handleFormSubmit} className="bg-white rounded-2xl shadow-md p-6 text-left space-y-4">
+                <h2 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">Welcome!</h2>
+                <p className="text-slate-500 dark:text-slate-300 mb-6">Sign in to save your progress across devices.</p>
+                <form onSubmit={handleFormSubmit} className="bg-white dark:bg-slate-900/80 rounded-2xl shadow-md p-6 text-left space-y-4 border border-transparent dark:border-slate-700/60">
                     <div>
-                        <label htmlFor="auth-email" className="block text-sm font-medium text-slate-600">Email</label>
+                        <label htmlFor="auth-email" className="block text-sm font-medium text-slate-600 dark:text-slate-300">Email</label>
                         <input
                             id="auth-email"
                             type="email"
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
-                            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500"
                             autoComplete="email"
                             placeholder="you@example.com"
                             required
                         />
                     </div>
                     <div>
-                        <label htmlFor="auth-password" className="block text-sm font-medium text-slate-600">Password</label>
+                        <label htmlFor="auth-password" className="block text-sm font-medium text-slate-600 dark:text-slate-300">Password</label>
                         <input
                             id="auth-password"
                             type="password"
                             value={password}
                             onChange={(event) => setPassword(event.target.value)}
-                            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500"
                             autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
                             placeholder="Enter your password"
                             required
@@ -6041,17 +6146,17 @@ function AuthScreen({ onLogin }) {
                         {submitting ? 'Please wait…' : modeLabel}
                     </button>
                 </form>
-                <p className="mt-3 text-sm text-slate-600">
+                <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
                     {mode === 'login' ? 'Need an account?' : 'Already have an account?'}{' '}
                     <button
                         type="button"
                         onClick={toggleMode}
-                        className="font-semibold text-sky-600 hover:text-sky-800"
+                        className="font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200"
                     >
                         {mode === 'login' ? 'Register' : 'Log in'}
                     </button>
                 </p>
-                <div className="my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-slate-400">
+                <div className="my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
                     <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
                     <span>Or continue with</span>
                     <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
@@ -6587,7 +6692,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 >
                                     <div>
                                         <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-900'}`}>{topic.title}</h3>
-                                        <p className="text-slate-600 text-sm my-3 flex-grow">{topic.description}</p>
+                                        <p className="text-slate-600 dark:text-slate-300 text-sm my-3 flex-grow">{topic.description}</p>
                                     </div>
                                     {supportsMultipleQuizzes ? (
                                         <div className="mt-2 space-y-3 w-full">
@@ -6702,7 +6807,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 className={`text-left border border-slate-200 rounded-lg p-4 flex flex-col justify-between bg-white transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 ${subjectColors.hoverBorder || ''}`}
                             >
                                 <h3 className={`text-xl font-bold ${subjectColors.text || 'text-slate-800'}`}>{categoryName}</h3>
-                                <p className="text-slate-500 text-sm my-2 flex-grow">{category.description}</p>
+                                <p className="text-slate-500 dark:text-slate-300 text-sm my-2 flex-grow">{category.description}</p>
                             </button>
                         ))}
                         {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
@@ -6795,14 +6900,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     {userInitial}
                                 </div>
                             )}
-                            <h1 className="text-4xl font-extrabold text-slate-800">Welcome, {userDisplayName}!</h1>
-                            <p className="text-slate-500">Please select a subject to begin.</p>
-                            <button onClick={onLogout} className="text-sm font-semibold text-sky-600 hover:text-sky-800">[ Log Out ]</button>
+                            <h1 className="text-4xl font-extrabold text-slate-800 dark:text-slate-100">Welcome, {userDisplayName}!</h1>
+                            <p className="text-slate-500 dark:text-slate-300">Please select a subject to begin.</p>
+                            <button onClick={onLogout} className="text-sm font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200">[ Log Out ]</button>
                         </div>
                     ) : (
                         <>
-                            <h1 className="text-4xl font-extrabold text-slate-800">Mr. Smith's Learning Canvas</h1>
-                            <p className="text-slate-500 mt-2">An interactive learning experience.</p>
+                            <h1 className="text-4xl font-extrabold text-slate-800 dark:text-slate-100">Mr. Smith's Learning Canvas</h1>
+                            <p className="text-slate-500 dark:text-slate-300 mt-2">An interactive learning experience.</p>
                         </>
                     )}
                 </header>
@@ -6810,11 +6915,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <div className="grid gap-4 md:grid-cols-2 mb-6">
                         <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-2">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-slate-800">Upcoming Tests</h2>
+                                <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Upcoming Tests</h2>
                                 <button
                                     type="button"
                                     onClick={goToProfile}
-                                    className="text-sm font-semibold text-sky-600 hover:text-sky-800"
+                                    className="text-sm font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200"
                                 >
                                     Edit
                                 </button>
@@ -6823,49 +6928,49 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 <p className="text-sm text-emerald-600">You marked every GED subject as passed. Amazing work!</p>
                             ) : nextUpcomingSummary ? (
                                 <>
-                                    <p className="text-sm text-slate-600">
-                                        Next: <span className="font-semibold text-slate-800">{nextUpcomingSummary.subject}</span> on{' '}
-                                        <span className="font-semibold text-slate-800">{nextUpcomingSummary.testDate}</span>
+                                    <p className="text-sm text-slate-600 dark:text-slate-300">
+                                        Next: <span className="font-semibold text-slate-800 dark:text-slate-100">{nextUpcomingSummary.subject}</span> on{' '}
+                                        <span className="font-semibold text-slate-800 dark:text-slate-100">{nextUpcomingSummary.testDate}</span>
                                         {nextUpcomingSummary.daysUntilText && (
                                             <> · {nextUpcomingSummary.daysUntilText} remaining</>
                                         )}
                                     </p>
                                     {nextUpcomingSummary.location && (
-                                        <p className="text-sm text-slate-600">Location: {nextUpcomingSummary.location}</p>
+                                        <p className="text-sm text-slate-600 dark:text-slate-300">Location: {nextUpcomingSummary.location}</p>
                                     )}
                                 </>
                             ) : hasSavedTest ? (
-                                <p className="text-sm text-slate-600">Keep adding your remaining test dates to stay organized.</p>
+                                <p className="text-sm text-slate-600 dark:text-slate-300">Keep adding your remaining test dates to stay organized.</p>
                             ) : (
-                                <p className="text-sm text-slate-600">Set your test dates to start the countdown.</p>
+                                <p className="text-sm text-slate-600 dark:text-slate-300">Set your test dates to start the countdown.</p>
                             )}
-                            <p className="text-xs text-slate-500">Need changes? Update them from your profile.</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">Need changes? Update them from your profile.</p>
                         </article>
                         <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-2">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-slate-800">Learning Challenges</h2>
+                                <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Learning Challenges</h2>
                                 <button
                                     type="button"
                                     onClick={goToProfile}
-                                    className="text-sm font-semibold text-sky-600 hover:text-sky-800"
+                                    className="text-sm font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200"
                                 >
                                     Update
                                 </button>
                             </div>
                             {selectedChallenges.length ? (
-                                <ul className="space-y-1 text-sm text-slate-600">
+                                <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-300">
                                     {displayedChallenges.map((challenge) => (
                                         <li key={challenge.id}>• {challenge.label || `${challenge.subject} — ${challenge.subtopic}`}</li>
                                     ))}
                                     {hiddenChallengeCount > 0 && (
-                                        <li className="text-xs text-slate-500">and {hiddenChallengeCount} more…</li>
+                                        <li className="text-xs text-slate-500 dark:text-slate-400">and {hiddenChallengeCount} more…</li>
                                     )}
                                 </ul>
                             ) : (
-                                <p className="text-sm text-slate-600">Tell us what topics to focus on to unlock a tailored plan.</p>
+                                <p className="text-sm text-slate-600 dark:text-slate-300">Tell us what topics to focus on to unlock a tailored plan.</p>
                             )}
                             {!onboardingComplete && (
-                                <p className="text-xs text-rose-600">Finish selecting challenges to complete onboarding.</p>
+                                <p className="text-xs text-rose-500">Finish selecting challenges to complete onboarding.</p>
                             )}
                         </article>
                     </div>
