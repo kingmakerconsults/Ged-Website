@@ -8039,7 +8039,7 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
     }
 
     return (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {subjects.map(([subjectName, words]) => {
                 const colorScheme = SUBJECT_COLORS[subjectName] || {};
                 const headerGradient = SUBJECT_BG_GRADIENTS[subjectName];
@@ -8068,7 +8068,7 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
                                 Key Terms
                             </span>
                         </div>
-                        <div className="flex flex-1 flex-col gap-4 p-5">
+                        <div className="flex flex-1 flex-col gap-4 p-4">
                             <ul className="space-y-2">
                                 {previewWords.map((word) => (
                                     <li
