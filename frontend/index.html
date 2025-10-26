@@ -11110,14 +11110,14 @@ function GeometryPracticeTool({ onExit }) {
     const showExitButton = typeof onExit === 'function';
 
     return (
-        <div className="fade-in space-y-6">
+        <div className="fade-in space-y-6 bg-white text-black dark:bg-slate-900 dark:text-slate-100">
             <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-2 border-b border-slate-200 dark:border-slate-700">
                 <div className="flex-none min-w-[140px]">
                     {showExitButton && (
-                        <button onClick={onExit} className="flex items-center gap-1 text-sm font-semibold text-slate-700 hover:text-sky-600 dark:text-slate-200 dark:hover:text-sky-300"><ArrowLeftIcon /> Back</button>
+                        <button onClick={onExit} className="flex items-center gap-1 text-sm font-semibold text-black hover:text-sky-600 dark:text-slate-200 dark:hover:text-sky-300"><ArrowLeftIcon /> Back</button>
                     )}
                 </div>
-                <h2 className="text-2xl font-bold text-center text-slate-900 dark:text-slate-100 flex-1">Geometry Practice Tool</h2>
+                <h2 className="text-2xl font-bold text-center text-black dark:text-slate-100 flex-1">Geometry Practice Tool</h2>
                 <div className="flex-none min-w-[140px]" aria-hidden="true"></div>
             </header>
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
@@ -11131,17 +11131,17 @@ function GeometryPracticeTool({ onExit }) {
                             >
                                 {currentProblem.renderer(currentProblem.dims, currentProblem.context)}
                             </svg>
-                            <p className="text-lg font-semibold mt-6 text-center text-slate-900 dark:text-slate-100 max-w-2xl">
+                            <p className="text-lg font-semibold mt-6 text-center text-black dark:text-slate-100 max-w-2xl">
                                 {currentProblem.prompt}
                             </p>
                         </>
                     ) : (
-                        <p className="text-base text-slate-700 dark:text-slate-200">Select a shape to begin.</p>
+                        <p className="text-base text-black dark:text-slate-200">Select a shape to begin.</p>
                     )}
                 </div>
                 <div className="space-y-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                     <div>
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">Shapes</h3>
+                        <h3 className="text-lg font-semibold text-black dark:text-slate-100 mb-3">Shapes</h3>
                         <div className="grid grid-cols-2 gap-2">
                             {Object.keys(SHAPE_LIBRARY).map(shape => (
                                 <button
@@ -11149,7 +11149,7 @@ function GeometryPracticeTool({ onExit }) {
                                     onClick={() => generateProblem(shape)}
                                     className={`p-2 font-semibold rounded-md transition capitalize ${currentProblem?.shape === shape
                                         ? 'bg-sky-600 text-white shadow'
-                                        : 'bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'}`}
+                                        : 'bg-white text-black border border-slate-300 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 dark:border-slate-600'}`}
                                 >
                                     {shape.replace('_', ' ')}
                                 </button>
@@ -11158,13 +11158,13 @@ function GeometryPracticeTool({ onExit }) {
                     </div>
                     {currentProblem && (
                         <div className="space-y-3">
-                            <label htmlFor="answer" className="font-semibold text-slate-900 dark:text-slate-100">Your Answer:</label>
+                            <label htmlFor="answer" className="font-semibold text-black dark:text-slate-100">Your Answer:</label>
                             <input
                                 type="number"
                                 id="answer"
                                 value={userAnswer}
                                 onChange={(e) => setUserAnswer(e.target.value)}
-                                className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-950 text-black dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
                             />
                             <button onClick={checkAnswer} className="w-full p-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition">Check Answer</button>
                             {feedback && (
