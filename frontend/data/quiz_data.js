@@ -307,6 +307,24 @@ const expandedQuizData = {
                                 label: "Quiz A",
                                 description: "Master operations with whole numbers, fractions, and decimals in real-world contexts.",
                                 questionSourceTopicId: "math_quant_basics"
+                            },
+                            {
+                                quizId: "math_quant_basics_set2",
+                                label: "Quiz B",
+                                description: "Practice with ratios, proportions, and percentages.",
+                                questionSourceTopicId: "math_quant_basics"
+                            },
+                            {
+                                quizId: "math_quant_basics_set3",
+                                label: "Quiz C",
+                                description: "Apply number sense and problem-solving strategies.",
+                                questionSourceTopicId: "math_quant_basics"
+                            },
+                            {
+                                quizId: "math_quant_basics_set4",
+                                label: "Quiz D",
+                                description: "Challenge your skills with multi-step quantitative problems.",
+                                questionSourceTopicId: "math_quant_basics"
                             }
                         ]
                     }
@@ -322,6 +340,24 @@ const expandedQuizData = {
                                 label: "Quiz A",
                                 description: "Practice simplifying expressions and working with polynomials.",
                                 questionSourceTopicId: "math_alg_expressions"
+                            },
+                            {
+                                quizId: "math_alg_expressions_set2",
+                                label: "Quiz B",
+                                description: "Solve linear equations and inequalities.",
+                                questionSourceTopicId: "math_alg_expressions"
+                            },
+                            {
+                                quizId: "math_alg_expressions_set3",
+                                label: "Quiz C",
+                                description: "Work with quadratic equations and functions.",
+                                questionSourceTopicId: "math_alg_expressions"
+                            },
+                            {
+                                quizId: "math_alg_expressions_set4",
+                                label: "Quiz D",
+                                description: "Explore functions and their graphs.",
+                                questionSourceTopicId: "math_alg_expressions"
                             }
                         ]
                     }
@@ -336,6 +372,24 @@ const expandedQuizData = {
                                 quizId: "math_geom_basics_set1",
                                 label: "Quiz A",
                                 description: "Review perimeter, area, volume, and surface area applications.",
+                                questionSourceTopicId: "math_geom_basics"
+                            },
+                            {
+                                quizId: "math_geom_basics_set2",
+                                label: "Quiz B",
+                                description: "Analyze geometric shapes and their properties.",
+                                questionSourceTopicId: "math_geom_basics"
+                            },
+                            {
+                                quizId: "math_geom_basics_set3",
+                                label: "Quiz C",
+                                description: "Apply the Pythagorean theorem and other geometric theorems.",
+                                questionSourceTopicId: "math_geom_basics"
+                            },
+                            {
+                                quizId: "math_geom_basics_set4",
+                                label: "Quiz D",
+                                description: "Solve problems involving angles, lines, and coordinate geometry.",
                                 questionSourceTopicId: "math_geom_basics"
                             }
                         ]

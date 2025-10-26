@@ -1,6 +1,7 @@
 // routes/profile.js
 const express = require('express');
 const { Pool } = require('pg');
+const { assertUserIsActive } = require('../utils/userPresence');
 
 const router = express.Router();
 
@@ -245,9 +246,13 @@ router.get('/me', async (req, res) => {
 // Updates users.name, returns { name }
 router.patch('/name', express.json(), async (req, res) => {
   try {
-    const userId = req.user && req.user.userId;
+    const userId = req.user?.userId ?? req.user?.id;
     if (!userId) {
       return res.status(401).json({ error: 'Not signed in' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+      return res.status(403).json({ error: 'user_not_active' });
     }
 
     const rawName = req.body?.name;
@@ -270,9 +275,13 @@ router.patch('/name', express.json(), async (req, res) => {
 // Upserts into test_plans, then returns the full profile bundle again.
 router.patch('/test', express.json(), async (req, res) => {
   try {
-    const userId = req.user && req.user.userId;
+    const userId = req.user?.userId ?? req.user?.id;
     if (!userId) {
       return res.status(401).json({ error: 'Not signed in' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+      return res.status(403).json({ error: 'user_not_active' });
     }
 
     const { subject, testDate, testLocation, passed } = req.body || {};
@@ -323,10 +332,15 @@ router.patch('/test', express.json(), async (req, res) => {
 router.patch('/challenges/tags', express.json(), async (req, res) => {
   const client = await pool.connect();
   try {
-    const userId = req.user && req.user.userId;
+    const userId = req.user?.userId ?? req.user?.id;
     if (!userId) {
       client.release();
       return res.status(401).json({ error: 'Not signed in' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+      client.release();
+      return res.status(403).json({ error: 'user_not_active' });
     }
 
     const selectedIds = Array.isArray(req.body?.selectedIds)
@@ -385,9 +399,13 @@ router.patch('/challenges/tags', express.json(), async (req, res) => {
 // Marks onboarding_complete = TRUE in profiles, then returns the new bundle
 router.patch('/complete-onboarding', express.json(), async (req, res) => {
   try {
-    const userId = req.user && req.user.userId;
+    const userId = req.user?.userId ?? req.user?.id;
     if (!userId) {
       return res.status(401).json({ error: 'Not signed in' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+      return res.status(403).json({ error: 'user_not_active' });
     }
 
     await ensureProfileRow(userId);
