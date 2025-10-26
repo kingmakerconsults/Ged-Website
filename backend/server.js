@@ -870,7 +870,8 @@ Each item schema:
   "questionType": "standalone" | "freeResponse",
 ${questionTextLine}
   "answerOptions": [{"text":"...","isCorrect":true|false,"rationale":"..."}] // omit for freeResponse
-}`${fractionRuleBlock}
+}
+${fractionRuleBlock}
 Hard rules:
 ${hardRuleLines}`;
 }
