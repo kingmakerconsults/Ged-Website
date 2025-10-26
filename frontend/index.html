@@ -277,18 +277,29 @@
         }
 
         .frac {
-            background: rgba(0, 0, 0, 0.05);
-            padding: 0.1em 0.3em;
-            border-radius: 0.3em;
-            font-weight: 500;
+            background: rgba(0,0,0,0.05);
+            padding: 0.15em 0.4em;
+            border-radius: 0.4em;
+
+            /* Make it read clearly in a question stem */
+            font-weight: 600;
+            font-size: 0.95em;
+            line-height: 1.1;
             letter-spacing: 0.02em;
-            font-variant-numeric: diagonal-fractions;
-            font-feature-settings: "frac" 1, "numr" 1, "dnom" 1;
+
+            /* IMPORTANT: force normal digits, not tiny numerator/denominator */
+            font-variant-numeric: normal;
+            font-feature-settings: "frac" 0, "numr" 0, "dnom" 0;
+
             font-family: "Inter", "Roboto", "Segoe UI", "Cambria Math", "Noto Sans Math", system-ui, sans-serif;
+
+            display: inline-flex;
+            align-items: center;
+            vertical-align: baseline;
         }
 
         [data-theme="dark"] .frac {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255,255,255,0.07);
         }
 
         .dark {
