@@ -47,7 +47,7 @@ const THEME_VARIANTS = {
     handleStroke: '#8af3ff',
     overlayStroke: '#8af3ff',
     overlayFill: 'rgba(0,255,255,0.08)',
-    measurementText: '#cafafe',
+    measurementText: '#ffffff',
   },
 };
 
