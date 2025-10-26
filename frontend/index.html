@@ -4994,7 +4994,6 @@ function App({ externalTheme, onThemeChange }) {
     const [quizAttempts, setQuizAttempts] = useState([]);
     const [showFormulaSheet, setShowFormulaSheet] = useState(false);
     const [showNamePrompt, setShowNamePrompt] = useState(false);
-    const [isMathToolsOpen, setIsMathToolsOpen] = useState(false);
     const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
     const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
     const [showWelcomeSplash, setShowWelcomeSplash] = useState(false);
@@ -5233,13 +5232,9 @@ function App({ externalTheme, onThemeChange }) {
 
     const openMathTools = useCallback((tab = 'graphing') => {
         setMathToolsActiveTab(tab);
-        setIsMathToolsOpen(true);
         setMathToolsInitialized(true);
-    }, []);
-
-    const closeMathTools = useCallback(() => {
-        setIsMathToolsOpen(false);
-    }, []);
+        setView('mathTools');
+    }, [setView]);
 
     const recalcProgress = useCallback((attemptList) => {
         setProgress(buildProgressFromAttempts(attemptList));
@@ -6187,6 +6182,16 @@ function App({ externalTheme, onThemeChange }) {
                         loading={profileLoading}
                     />
                 );
+            case 'mathTools':
+                return (
+                    <MathPracticeToolsPage
+                        onExit={navigateHome}
+                        activeTab={mathToolsActiveTab}
+                        onTabChange={setMathToolsActiveTab}
+                        graphingNode={mathToolsNodes ? mathToolsNodes.graphing : null}
+                        geometryNode={mathToolsNodes ? mathToolsNodes.geometry : null}
+                    />
+                );
             case 'start':
             default:
                 return (
@@ -6302,14 +6307,6 @@ function App({ externalTheme, onThemeChange }) {
                 )}
                 {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
                 {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} onDismiss={handleDismissNamePrompt} />}
-                <MathPracticeToolsModal
-                    isOpen={isMathToolsOpen}
-                    onClose={closeMathTools}
-                    activeTab={mathToolsActiveTab}
-                    onTabChange={setMathToolsActiveTab}
-                    graphingNode={mathToolsNodes ? mathToolsNodes.graphing : null}
-                    geometryNode={mathToolsNodes ? mathToolsNodes.geometry : null}
-                />
                 <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8 pt-[4.5rem] space-y-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
                     <div className="content-card bg-white dark:bg-slate-900/90 border border-slate-200/70 dark:border-slate-700/70 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                         {renderView()}
@@ -11203,88 +11200,63 @@ function GraphingTool({ onExit }) {
     );
 }
 
-function MathPracticeToolsModal({ isOpen, onClose, activeTab, onTabChange, graphingNode, geometryNode }) {
-    const overlayRef = React.useRef(null);
-
-    React.useEffect(() => {
-        if (!isOpen) {
-            return;
-        }
-        const handleKeyDown = (event) => {
-            if (event.key === 'Escape') {
-                onClose?.();
-            }
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, onClose]);
-
-    const handleOverlayClick = (event) => {
-        if (event.target === overlayRef.current) {
-            onClose?.();
-        }
-    };
-
+function MathPracticeToolsPage({ onExit, activeTab, onTabChange, graphingNode, geometryNode }) {
     const tabs = [
         { id: 'graphing', label: 'Graphing Tool' },
         { id: 'geometry', label: 'Geometry Tool' },
     ];
 
+    const renderContent = () => {
+        if (activeTab === 'graphing') {
+            return graphingNode || (
+                <div className="py-16 text-center text-slate-500 dark:text-slate-300">
+                    Preparing the graphing workspace...
+                </div>
+            );
+        }
+
+        if (activeTab === 'geometry') {
+            return geometryNode || (
+                <div className="py-16 text-center text-slate-500 dark:text-slate-300">
+                    Preparing the geometry playground...
+                </div>
+            );
+        }
+
+        return null;
+    };
+
     return (
-        <div
-            ref={overlayRef}
-            className="fixed inset-0 z-[60] flex items-center justify-center px-4 py-6"
-            style={{ display: isOpen ? 'flex' : 'none', backgroundColor: 'var(--modal-overlay)' }}
-            onClick={handleOverlayClick}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Math Practice Tools"
-        >
-            <div
-                className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden"
-                onClick={(event) => event.stopPropagation()}
-            >
-                <div className="flex items-center justify-between border-b px-6 py-4 bg-slate-50">
-                    <h2 className="text-2xl font-bold text-slate-800">Math Practice Tools</h2>
-                    <button
-                        onClick={onClose}
-                        className="text-slate-500 hover:text-slate-800 transition"
-                        aria-label="Close math practice tools"
-                    >
-                        ✕
-                    </button>
-                </div>
-                <div className="px-6 pt-4">
-                    <div className="flex flex-wrap gap-2">
-                        {tabs.map((tab) => (
-                            <button
-                                key={tab.id}
-                                onClick={() => onTabChange?.(tab.id)}
-                                className={`px-4 py-2 rounded-lg font-semibold transition ${activeTab === tab.id ? 'bg-sky-600 text-white shadow' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}
-                            >
-                                {tab.label}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-                <div className="p-6 pt-4 space-y-6">
-                    {graphingNode && (
-                        <div style={{ display: activeTab === 'graphing' ? 'block' : 'none' }}>
-                            {graphingNode}
-                        </div>
-                    )}
-                    {geometryNode && (
-                        <div style={{ display: activeTab === 'geometry' ? 'block' : 'none' }}>
-                            {geometryNode}
-                        </div>
-                    )}
-                    {!graphingNode && !geometryNode && (
-                        <div className="py-16 text-center text-slate-500">
-                            Preparing tools...
-                        </div>
-                    )}
-                </div>
+        <div className="fade-in space-y-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 dark:border-slate-700/70 pb-4">
+                <button
+                    onClick={onExit}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-300 dark:hover:text-sky-200"
+                >
+                    <ArrowLeftIcon />
+                    <span>Back to Dashboard</span>
+                </button>
+                <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100 text-center flex-1">
+                    Math Practice Tools
+                </h1>
+                <span className="hidden sm:block sm:w-40"></span>
             </div>
+            <div className="flex flex-wrap gap-3">
+                {tabs.map((tab) => (
+                    <button
+                        key={tab.id}
+                        onClick={() => onTabChange?.(tab.id)}
+                        className={`px-4 py-2 rounded-lg font-semibold transition ${activeTab === tab.id
+                            ? 'bg-sky-600 text-white shadow'
+                            : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600'}`}
+                    >
+                        {tab.label}
+                    </button>
+                ))}
+            </div>
+            <section className="bg-white dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-700/70 rounded-2xl shadow-lg p-4 sm:p-6">
+                {renderContent()}
+            </section>
         </div>
     );
 }
