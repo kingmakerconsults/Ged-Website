@@ -6364,7 +6364,7 @@ function ProfileView({
             <div className="max-w-4xl mx-auto space-y-6">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-800">Profile</h1>
+                        <h1 className="text-3xl font-bold text-white drop-shadow-sm">Profile</h1>
                         <p className="text-sm text-slate-500">Update your learning plan and keep your information in sync.</p>
                     </div>
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -8158,7 +8158,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         const lightTint = SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.28)';
         const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject]
             || 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))';
-        const cardTextColor = subjectColors.heroText || subjectColors.text || '#0f172a';
+        const cardTextColor = subjectColors.text || subjectColors.heroText || '#0f172a';
+        const badgeTextColor = subjectColors.text || subjectColors.accent || '#0f172a';
         const gradientBackground = isDarkMode
             ? SUBJECT_BG_GRADIENTS[selectedSubject]
             : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject] || SUBJECT_BG_GRADIENTS[selectedSubject];
@@ -8304,7 +8305,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                                                 }
                                                                 : {
                                                                     backgroundColor: lightTint,
-                                                                    color: cardTextColor,
+                                                                    color: badgeTextColor,
                                                                     borderColor: lightTint,
                                                                 }}
                                                         >
