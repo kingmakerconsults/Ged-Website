@@ -439,13 +439,127 @@ const expandedQuizData = {
             "U.S. History": {
                 topics: [
                     {
-                        id: "ss_us_hist_foundations",
+                        id: "ss_us_hist_colonial_period",
+                        title: "Colonial Period",
+                        description: "European settlement, development of the 13 colonies.",
                         quizzes: [
                             {
-                                quizId: "ss_us_hist_foundations_set1",
+                                quizId: "ss_us_hist_colonial_period_set1",
                                 label: "Quiz A",
-                                description: "Foundational events leading to the American Revolution.",
-                                questionSourceTopicId: "ss_us_hist_foundations"
+                                description: "Quiz on European settlement and the 13 colonies.",
+                                questionSourceTopicId: "ss_us_hist_colonial_period"
+                            },
+                            {
+                                quizId: "ss_us_hist_colonial_period_set2",
+                                label: "Quiz B",
+                                description: "Quiz on the development of the 13 colonies.",
+                                questionSourceTopicId: "ss_us_hist_colonial_period"
+                            },
+                            {
+                                quizId: "ss_us_hist_colonial_period_set3",
+                                label: "Quiz C",
+                                description: "Quiz on colonial life and economy.",
+                                questionSourceTopicId: "ss_us_hist_colonial_period"
+                            }
+                        ]
+                    },
+                    {
+                        id: "ss_us_hist_american_revolution",
+                        title: "The American Revolution",
+                        description: "Causes, key events, and outcomes.",
+                        quizzes: [
+                            {
+                                quizId: "ss_us_hist_american_revolution_set1",
+                                label: "Quiz A",
+                                description: "Quiz on the causes of the American Revolution.",
+                                questionSourceTopicId: "ss_us_hist_american_revolution"
+                            },
+                            {
+                                quizId: "ss_us_hist_american_revolution_set2",
+                                label: "Quiz B",
+                                description: "Quiz on the key events of the American Revolution.",
+                                questionSourceTopicId: "ss_us_hist_american_revolution"
+                            },
+                            {
+                                quizId: "ss_us_hist_american_revolution_set3",
+                                label: "Quiz C",
+                                description: "Quiz on the outcomes of the American Revolution.",
+                                questionSourceTopicId: "ss_us_hist_american_revolution"
+                            }
+                        ]
+                    },
+                    {
+                        id: "ss_us_hist_early_republic",
+                        title: "The Early Republic",
+                        description: "The Constitution, nation-building, and early challenges.",
+                        quizzes: [
+                            {
+                                quizId: "ss_us_hist_early_republic_set1",
+                                label: "Quiz A",
+                                description: "Quiz on the U.S. Constitution.",
+                                questionSourceTopicId: "ss_us_hist_early_republic"
+                            },
+                            {
+                                quizId: "ss_us_hist_early_republic_set2",
+                                label: "Quiz B",
+                                description: "Quiz on nation-building in the Early Republic.",
+                                questionSourceTopicId: "ss_us_hist_early_republic"
+                            },
+                            {
+                                quizId: "ss_us_hist_early_republic_set3",
+                                label: "Quiz C",
+                                description: "Quiz on the early challenges of the Republic.",
+                                questionSourceTopicId: "ss_us_hist_early_republic"
+                            }
+                        ]
+                    },
+                    {
+                        id: "ss_us_hist_westward_expansion",
+                        title: "Westward Expansion",
+                        description: "Manifest Destiny, territorial acquisitions, and impact on Native Americans.",
+                        quizzes: [
+                            {
+                                quizId: "ss_us_hist_westward_expansion_set1",
+                                label: "Quiz A",
+                                description: "Quiz on Manifest Destiny.",
+                                questionSourceTopicId: "ss_us_hist_westward_expansion"
+                            },
+                            {
+                                quizId: "ss_us_hist_westward_expansion_set2",
+                                label: "Quiz B",
+                                description: "Quiz on territorial acquisitions.",
+                                questionSourceTopicId: "ss_us_hist_westward_expansion"
+                            },
+                            {
+                                quizId: "ss_us_hist_westward_expansion_set3",
+                                label: "Quiz C",
+                                description: "Quiz on the impact on Native Americans.",
+                                questionSourceTopicId: "ss_us_hist_westward_expansion"
+                            }
+                        ]
+                    },
+                    {
+                        id: "ss_us_hist_civil_war",
+                        title: "Civil War and Reconstruction",
+                        description: "Causes, major conflicts, and the rebuilding of the nation.",
+                        quizzes: [
+                            {
+                                quizId: "ss_us_hist_civil_war_set1",
+                                label: "Quiz A",
+                                description: "Quiz on the causes of the Civil War.",
+                                questionSourceTopicId: "ss_us_hist_civil_war"
+                            },
+                            {
+                                quizId: "ss_us_hist_civil_war_set2",
+                                label: "Quiz B",
+                                description: "Quiz on the major conflicts of the Civil War.",
+                                questionSourceTopicId: "ss_us_hist_civil_war"
+                            },
+                            {
+                                quizId: "ss_us_hist_civil_war_set3",
+                                label: "Quiz C",
+                                description: "Quiz on the Reconstruction era.",
+                                questionSourceTopicId: "ss_us_hist_civil_war"
                             }
                         ]
                     }
@@ -454,13 +568,127 @@ const expandedQuizData = {
             "Civics & Government": {
                 topics: [
                     {
-                        id: "ss_civics_constitution",
+                        id: "ss_civics_constitutional_principles",
+                        title: "Key Constitutional Principles",
+                        description: "Popular sovereignty, federalism, separation of powers, checks and balances.",
                         quizzes: [
                             {
-                                quizId: "ss_civics_constitution_set1",
+                                quizId: "ss_civics_constitutional_principles_set1",
                                 label: "Quiz A",
-                                description: "Explore the structure of the U.S. government and key constitutional principles.",
-                                questionSourceTopicId: "ss_civics_constitution"
+                                description: "Quiz on popular sovereignty and federalism.",
+                                questionSourceTopicId: "ss_civics_constitutional_principles"
+                            },
+                            {
+                                quizId: "ss_civics_constitutional_principles_set2",
+                                label: "Quiz B",
+                                description: "Quiz on separation of powers.",
+                                questionSourceTopicId: "ss_civics_constitutional_principles"
+                            },
+                            {
+                                quizId: "ss_civics_constitutional_principles_set3",
+                                label: "Quiz C",
+                                description: "Quiz on checks and balances.",
+                                questionSourceTopicId: "ss_civics_constitutional_principles"
+                            }
+                        ]
+                    },
+                    {
+                        id: "ss_civics_bill_of_rights",
+                        title: "The Bill of Rights",
+                        description: "The first 10 amendments and their significance.",
+                        quizzes: [
+                            {
+                                quizId: "ss_civics_bill_of_rights_set1",
+                                label: "Quiz A",
+                                description: "Quiz on the first 5 amendments.",
+                                questionSourceTopicId: "ss_civics_bill_of_rights"
+                            },
+                            {
+                                quizId: "ss_civics_bill_of_rights_set2",
+                                label: "Quiz B",
+                                description: "Quiz on amendments 6-10.",
+                                questionSourceTopicId: "ss_civics_bill_of_rights"
+                            },
+                            {
+                                quizId: "ss_civics_bill_of_rights_set3",
+                                label: "Quiz C",
+                                description: "Quiz on the significance of the Bill of Rights.",
+                                questionSourceTopicId: "ss_civics_bill_of_rights"
+                            }
+                        ]
+                    },
+                    {
+                        id: "ss_civics_gov_structure",
+                        title: "Structure of the U.S. Government",
+                        description: "The legislative, executive, and judicial branches.",
+                        quizzes: [
+                            {
+                                quizId: "ss_civics_gov_structure_set1",
+                                label: "Quiz A",
+                                description: "Quiz on the legislative branch.",
+                                questionSourceTopicId: "ss_civics_gov_structure"
+                            },
+                            {
+                                quizId: "ss_civics_gov_structure_set2",
+                                label: "Quiz B",
+                                description: "Quiz on the executive branch.",
+                                questionSourceTopicId: "ss_civics_gov_structure"
+                            },
+                            {
+                                quizId: "ss_civics_gov_structure_set3",
+                                label: "Quiz C",
+                                description: "Quiz on the judicial branch.",
+                                questionSourceTopicId: "ss_civics_gov_structure"
+                            }
+                        ]
+                    },
+                    {
+                        id: "ss_civics_elections",
+                        title: "Political Parties and Elections",
+                        description: "The role of parties, the election process, and civic participation.",
+                        quizzes: [
+                            {
+                                quizId: "ss_civics_elections_set1",
+                                label: "Quiz A",
+                                description: "Quiz on political parties.",
+                                questionSourceTopicId: "ss_civics_elections"
+                            },
+                            {
+                                quizId: "ss_civics_elections_set2",
+                                label: "Quiz B",
+                                description: "Quiz on the election process.",
+                                questionSourceTopicId: "ss_civics_elections"
+                            },
+                            {
+                                quizId: "ss_civics_elections_set3",
+                                label: "Quiz C",
+                                description: "Quiz on civic participation.",
+                                questionSourceTopicId: "ss_civics_elections"
+                            }
+                        ]
+                    },
+                    {
+                        id: "ss_civics_supreme_court",
+                        title: "Landmark Supreme Court Cases",
+                        description: "Key decisions and their impact on American society.",
+                        quizzes: [
+                            {
+                                quizId: "ss_civics_supreme_court_set1",
+                                label: "Quiz A",
+                                description: "Quiz on early landmark cases.",
+                                questionSourceTopicId: "ss_civics_supreme_court"
+                            },
+                            {
+                                quizId: "ss_civics_supreme_court_set2",
+                                label: "Quiz B",
+                                description: "Quiz on 20th-century landmark cases.",
+                                questionSourceTopicId: "ss_civics_supreme_court"
+                            },
+                            {
+                                quizId: "ss_civics_supreme_court_set3",
+                                label: "Quiz C",
+                                description: "Quiz on recent landmark cases.",
+                                questionSourceTopicId: "ss_civics_supreme_court"
                             }
                         ]
                     }

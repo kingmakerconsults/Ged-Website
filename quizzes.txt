@@ -1,0 +1,80 @@
+[
+    {
+        "id": "us_history_revolution_quiz_1",
+        "title": "Causes of the Revolution",
+        "questions": [
+            {
+                "question": "What was the primary purpose of the Stamp Act of 1765?",
+                "answerOptions": [
+                    "To restrict colonial trade with France.",
+                    "To raise revenue from the colonies for Britain.",
+                    "To pay for the housing of British soldiers.",
+                    "To establish a colonial postal service."
+                ],
+                "correctAnswer": "To raise revenue from the colonies for Britain."
+            },
+            {
+                "question": "The Boston Tea Party was a protest against which British policy?",
+                "answerOptions": [
+                    "The Townshend Acts",
+                    "The Intolerable Acts",
+                    "The Tea Act",
+                    "The Quartering Act"
+                ],
+                "correctAnswer": "The Tea Act"
+            }
+        ]
+    },
+    {
+        "id": "us_history_revolution_quiz_2",
+        "title": "Key Figures and Battles",
+        "questions": [
+            {
+                "question": "Who was the primary author of the Declaration of Independence?",
+                "answerOptions": [
+                    "George Washington",
+                    "Benjamin Franklin",
+                    "John Adams",
+                    "Thomas Jefferson"
+                ],
+                "correctAnswer": "Thomas Jefferson"
+            },
+            {
+                "question": "The Battle of Saratoga was a significant turning point in the war because it:",
+                "answerOptions": [
+                    "Led to the capture of Philadelphia.",
+                    "Was the first major victory for the Continental Army.",
+                    "Convinced France to form an alliance with the United States.",
+                    "Resulted in the surrender of General Cornwallis."
+                ],
+                "correctAnswer": "Convinced France to form an alliance with the United States."
+            }
+        ]
+    },
+    {
+        "id": "us_history_revolution_quiz_3",
+        "title": "Ideals and Consequences",
+        "questions": [
+            {
+                "question": "Which Enlightenment philosopher's ideas of natural rights heavily influenced the Declaration of Independence?",
+                "answerOptions": [
+                    "Montesquieu",
+                    "Voltaire",
+                    "John Locke",
+                    "Jean-Jacques Rousseau"
+                ],
+                "correctAnswer": "John Locke"
+            },
+            {
+                "question": "What was the name of the treaty that officially ended the American Revolutionary War?",
+                "answerOptions": [
+                    "The Treaty of Ghent",
+                    "The Treaty of Paris",
+                    "The Treaty of Versailles",
+                    "The Jay Treaty"
+                ],
+                "correctAnswer": "The Treaty of Paris"
+            }
+        ]
+    }
+]
