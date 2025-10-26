@@ -8871,25 +8871,32 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                             >
                                 {currentQ.questionNumber}.
                             </span>
-                            <Stem item={currentQ} />
+                            <div className="flex-1 space-y-3">
+                                {currentQ.type === 'geometry' && (
+                                    <span className="inline-block self-start rounded border border-sky-300 bg-sky-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700">
+                                        Geometry Figure
+                                    </span>
+                                )}
+                                {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
+                                    <div
+                                        className="mx-auto max-w-md rounded-md border bg-white p-4 shadow-sm"
+                                        style={{ borderColor: scheme.surfaceBorder }}
+                                    >
+                                        <GeometryFigure spec={currentQ.geometrySpec} className="h-auto w-full" />
+                                    </div>
+                                )}
+                                {!currentQ.geometrySpec && currentQ.imageUrl && !currentQ.stimulusImage?.src && (
+                                    <img
+                                        src={currentQ.imageUrl}
+                                        alt={`Visual for question ${currentQ.questionNumber}`}
+                                        className="my-2 h-auto max-w-full rounded-md"
+                                        style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+                                    />
+                                )}
+                                <Stem item={currentQ} />
+                            </div>
                         </div>
                     </div>
-                    {currentQ.imageUrl && !currentQ.stimulusImage?.src && (
-                        <img
-                            src={currentQ.imageUrl}
-                            alt={`Visual for question ${currentQ.questionNumber}`}
-                            className="my-4 h-auto max-w-full rounded-md"
-                            style={{ border: `1px solid ${scheme.surfaceBorder}` }}
-                        />
-                    )}
-                    {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
-                        <div
-                            className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm"
-                            style={{ backgroundColor: 'var(--bg-surface)', border: `1px solid ${scheme.surfaceBorder}` }}
-                        >
-                            <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
-                        </div>
-                    )}
 
                     {isFillInTheBlank ? (
                         <div>
@@ -9493,16 +9500,23 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                             <div key={index} className={`p-4 rounded-lg border ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
                                 <div className="mb-2 flex items-start gap-3">
                                     <span className="font-semibold question-stem leading-relaxed">{question.questionNumber}.</span>
-                                    <Stem item={question} />
-                                </div>
-                                {question.imageUrl && !question.stimulusImage?.src && (
-                                    <img src={question.imageUrl} alt={`Visual for question ${question.questionNumber}`} className="my-2 rounded-md border max-w-xs h-auto" />
-                                )}
-                                {GEOMETRY_FIGURES_ENABLED && question.geometrySpec && (
-                                    <div className="my-3 max-w-md">
-                                        <GeometryFigure spec={question.geometrySpec} className="w-full h-auto" />
+                                    <div className="flex-1 space-y-3">
+                                        {question.type === 'geometry' && (
+                                            <span className="inline-block self-start rounded border border-sky-300 bg-sky-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700">
+                                                Geometry Figure
+                                            </span>
+                                        )}
+                                        {GEOMETRY_FIGURES_ENABLED && question.geometrySpec && (
+                                            <div className="max-w-md rounded-md border bg-white p-4 shadow-sm">
+                                                <GeometryFigure spec={question.geometrySpec} className="h-auto w-full" />
+                                            </div>
+                                        )}
+                                        {!question.geometrySpec && question.imageUrl && !question.stimulusImage?.src && (
+                                            <img src={question.imageUrl} alt={`Visual for question ${question.questionNumber}`} className="my-2 h-auto max-w-xs rounded-md border" />
+                                        )}
+                                        <Stem item={question} />
                                     </div>
-                                )}
+                                </div>
                                 <p className={`mt-2 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
                                     Your answer: {userAnswer || "No answer"} {isCorrect ? '✔' : '✘'}
                                 </p>
@@ -9580,17 +9594,24 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 <div className="space-y-6">
                     {quiz.questions.map((q, i) => (
                         <div key={i} className={`p-4 rounded-lg transition-colors ${isSubmitted ? (answers[i] === (q.answerOptions || []).find(o=>o.isCorrect)?.text ? 'bg-green-50' : 'bg-red-50') : 'bg-slate-50'}`}>
-                            {q.imageUrl && !(q.stimulusImage && q.stimulusImage.src) && (
-                                <img src={q.imageUrl} alt={`Visual for question ${i + 1}`} className="my-2 rounded-md border max-w-xs h-auto" />
-                            )}
-                            {GEOMETRY_FIGURES_ENABLED && q.geometrySpec && (
-                                <div className="my-3 max-w-md">
-                                    <GeometryFigure spec={q.geometrySpec} className="w-full h-auto" />
-                                </div>
-                            )}
                             <div className="mb-2 flex items-start gap-3">
                                 <span className="font-semibold question-stem leading-relaxed">{i+1}.</span>
-                                <Stem item={{ ...q, questionNumber: q.questionNumber ?? (i + 1) }} />
+                                <div className="flex-1 space-y-3">
+                                    {q.type === 'geometry' && (
+                                        <span className="inline-block self-start rounded border border-sky-300 bg-sky-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700">
+                                            Geometry Figure
+                                        </span>
+                                    )}
+                                    {GEOMETRY_FIGURES_ENABLED && q.geometrySpec && (
+                                        <div className="max-w-md rounded-md border bg-white p-4 shadow-sm">
+                                            <GeometryFigure spec={q.geometrySpec} className="h-auto w-full" />
+                                        </div>
+                                    )}
+                                    {!q.geometrySpec && q.imageUrl && !(q.stimulusImage && q.stimulusImage.src) && (
+                                        <img src={q.imageUrl} alt={`Visual for question ${i + 1}`} className="my-2 h-auto max-w-xs rounded-md border" />
+                                    )}
+                                    <Stem item={{ ...q, questionNumber: q.questionNumber ?? (i + 1) }} />
+                                </div>
                             </div>
                             <div className="mt-2 space-y-1">
                                 {(q.answerOptions || []).map((opt, j) => (
