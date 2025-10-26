@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphing Tool Playground</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      body {
+        margin: 0;
+        padding: 28px;
+        min-height: 100vh;
+        background: linear-gradient(140deg, #0ea5e9 0%, #1e40af 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        color: #0f172a;
+      }
+      h1 {
+        color: #f8fafc;
+        margin: 0;
+        text-shadow: 0 18px 40px rgba(15, 23, 42, 0.4);
+      }
+      .demo-shell {
+        background: rgba(248, 250, 252, 0.92);
+        border-radius: 28px;
+        padding: 24px;
+        display: grid;
+        gap: 20px;
+        box-shadow: 0 40px 80px rgba(15, 23, 42, 0.32);
+        backdrop-filter: blur(18px);
+      }
+      .demo-main {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: minmax(0, 2fr) minmax(280px, 0.9fr);
+      }
+      .canvas-wrapper {
+        position: relative;
+        min-height: 540px;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .hint-wrapper {
+        margin-top: 12px;
+      }
+      @media (max-width: 1024px) {
+        body {
+          padding: 16px;
+        }
+        .demo-main {
+          grid-template-columns: 1fr;
+        }
+        .canvas-wrapper {
+          min-height: 420px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Graphing Tool Playground</h1>
+    <div class="demo-shell">
+      <div id="toolbar"></div>
+      <div class="demo-main">
+        <div>
+          <div class="canvas-wrapper" id="canvas"></div>
+          <div class="hint-wrapper" id="hints"></div>
+        </div>
+        <div id="inspector"></div>
+      </div>
+    </div>
+    <script type="module">
+      import GraphCanvas from './GraphCanvas.js';
+      import GraphToolbar from './GraphToolbar.js';
+      import GraphInspectorPanel from './GraphInspectorPanel.js';
+      import GraphHintPanel from './GraphHintPanel.js';
+      import { getState, subscribe } from './graphStore.js';
+
+      const toolbarMount = document.getElementById('toolbar');
+      const canvasMount = document.getElementById('canvas');
+      const inspectorMount = document.getElementById('inspector');
+      const hintMount = document.getElementById('hints');
+
+      const toolbar = new GraphToolbar(toolbarMount);
+      const canvas = new GraphCanvas(canvasMount);
+      const inspector = new GraphInspectorPanel(inspectorMount);
+      const hints = new GraphHintPanel(hintMount);
+
+      const syncTheme = state => {
+        hints.setProps({ theme: state.theme });
+      };
+
+      const syncHintContent = state => {
+        const selected = state.objects.find(obj => obj.id === state.selectedId);
+        const targetGoal = selected
+          ? `Interpret the ${selected.type}`
+          : 'Explore the graph';
+        hints.setProps({ targetGoal });
+      };
+
+      syncTheme(getState());
+      syncHintContent(getState());
+
+      subscribe(state => {
+        syncTheme(state);
+        syncHintContent(state);
+      });
+
+      window.graphingDemo = { toolbar, canvas, inspector, hints };
+    </script>
+  </body>
+</html>
