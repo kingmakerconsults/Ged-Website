@@ -935,10 +935,14 @@ function buildStrictJsonHeaderMath({ fractionPlainTextMode } = {}) {
     ].join('\\n');
 
     return `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
-${formattingRulesBlock}${fractionRuleBlock}
-Additional guidance:
-${questionTextGuidance}
-${answerOptionsGuidance}
+Each item schema:
+{
+  "id": "<unique string>",
+  "questionType": "standalone" | "freeResponse",
+${questionTextLine}
+  "answerOptions": [{"text":"...","isCorrect":true|false,"rationale":"..."}] // omit for freeResponse
+}
+${fractionRuleBlock}
 Hard rules:
 ${hardRuleLines}`;
 }
