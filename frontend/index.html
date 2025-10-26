@@ -8417,6 +8417,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         const panelBackground = !isDarkMode && SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
         if (panelBackground) {
             panelBaseStyle.backgroundImage = panelBackground;
+            panelBaseStyle.boxShadow = '0 22px 45px -34px rgba(15,23,42,0.35)';
         }
         const selectStyle = isDarkMode
             ? {
@@ -8503,10 +8504,19 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {Object.entries(subject.categories).map(([categoryName, category]) => {
-                            const cardStyle = {
-                                borderColor: subjectColors.border || panelBorderColor,
-                                color: subjectColors.text || heroTextColor,
-                            };
+                            const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
+                            const cardStyle = isDarkMode
+                                ? {
+                                    borderColor: subjectColors.border || panelBorderColor,
+                                    color: subjectColors.text || heroTextColor,
+                                }
+                                : {
+                                    borderColor: subjectColors.border || panelBorderColor,
+                                    backgroundColor: '#ffffff',
+                                    backgroundImage: lightCardBackground,
+                                    color: subjectColors.text || heroTextColor,
+                                    boxShadow: '0 22px 45px -34px rgba(15,23,42,0.35)',
+                                };
                             return (
                                 <button
                                     key={categoryName}
