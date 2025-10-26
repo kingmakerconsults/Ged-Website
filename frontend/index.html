@@ -272,6 +272,34 @@
             --subject-simulations-accent-text: #7c2d12;
             --subject-simulations-border: rgba(251,146,60,0.75);
             --subject-simulations-gradient: linear-gradient(135deg, #f97316, #facc15);
+            --surface-mobile: #ffffff;
+            --text-mobile: #1a1a1a;
+        }
+
+        .frac {
+            background: rgba(0,0,0,0.05);
+            padding: 0.15em 0.4em;
+            border-radius: 0.4em;
+
+            /* Make it read clearly in a question stem */
+            font-weight: 600;
+            font-size: 0.95em;
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+
+            /* IMPORTANT: force normal digits, not tiny numerator/denominator */
+            font-variant-numeric: normal;
+            font-feature-settings: "frac" 0, "numr" 0, "dnom" 0;
+
+            font-family: "Inter", "Roboto", "Segoe UI", "Cambria Math", "Noto Sans Math", system-ui, sans-serif;
+
+            display: inline-flex;
+            align-items: center;
+            vertical-align: baseline;
+        }
+
+        [data-theme="dark"] .frac {
+            background: rgba(255,255,255,0.07);
         }
 
         .dark {
@@ -280,6 +308,8 @@
             --bg-surface: rgba(15, 23, 42, 0.9);
             --bg-overlay: rgba(30, 41, 59, 0.72);
             --bg-muted: rgba(51,65,85,0.6);
+            --surface-mobile: rgba(15, 23, 42, 0.95);
+            --text-mobile: #f8fafc;
             --text-primary: #e2e8f0;
             --text-secondary: #f8fafc;
             --text-tertiary: #cbd5f5;
@@ -790,6 +820,124 @@
         }
         h3 {
             overflow-wrap: break-word;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+
+            h1,
+            .section-title,
+            .panel-title {
+                font-size: 1.125rem;
+                line-height: 1.3;
+            }
+
+            .dashboard-sections {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .block-start-quiz {
+                order: 1;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .block-test-date { order: 2; }
+            .block-challenges { order: 3; }
+            .block-vocab { order: 4; }
+            .block-profile { order: 5; }
+            .block-adminStuff { order: 6; }
+
+            .two-col,
+            .flex-row,
+            .dashboard-row {
+                display: flex !important;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .dashboard-row {
+                order: 2;
+            }
+
+            .card,
+            .panel,
+            .box,
+            .quiz-section,
+            .quiz-block,
+            .profile-block {
+                width: 100%;
+                max-width: 100%;
+                min-width: 0;
+            }
+
+            button,
+            .answerOption,
+            .subject-choice,
+            .mode-toggle,
+            .quiz-start-btn {
+                font-size: 1rem;
+                line-height: 1.4;
+                padding: 0.9rem 1rem;
+                border-radius: 0.6rem;
+            }
+
+            .card,
+            .panel,
+            .quiz-block,
+            .profile-block,
+            .question-area,
+            .passage-block {
+                padding: 1rem 1rem;
+                border-radius: 0.75rem;
+            }
+
+            /* Force high contrast for learning content on mobile */
+            .passage-block,
+            .question-area,
+            .quiz-block,
+            .card,
+            .panel {
+                background-color: var(--surface-mobile, #ffffff);
+                color: var(--text-mobile, #1a1a1a);
+            }
+
+            .passage-block p,
+            .question-area,
+            .quiz-block .questionText,
+            .quiz-block .passageText {
+                color: inherit;
+            }
+
+            .subject-bar {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .subject-bar button,
+            .subject-choice,
+            .mode-toggle {
+                flex: 1 1 calc(50% - 0.5rem);
+                max-width: calc(50% - 0.5rem);
+                text-align: center;
+            }
+
+            .card,
+            .panel,
+            .quiz-block,
+            .passage-block,
+            .question-area {
+                overflow-wrap: break-word;
+                word-break: break-word;
+            }
         }
     </style>
 </head>
@@ -2400,7 +2548,9 @@ function MathText({ text, className, subject }) {
         renderedHtml = DOMPurify.sanitize(text);
     }
 
-    return <span className={className} dangerouslySetInnerHTML={{ __html: renderedHtml }} />;
+    const formattedHtml = formatFractions(renderedHtml);
+
+    return <span className={className} dangerouslySetInnerHTML={{ __html: formattedHtml }} />;
 }
 
 function normalizeLineBreaks(value) {
@@ -2660,16 +2810,41 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
     }
 
     if (typeof DOMPurify !== 'undefined') {
-        return DOMPurify.sanitize(working, {
+        return formatFractions(DOMPurify.sanitize(working, {
             ALLOWED_TAGS: ALLOWED_HTML_TAGS,
             ALLOWED_ATTR: ALLOWED_HTML_ATTR
-        });
+        }));
     }
 
-    return working
+    return formatFractions(working
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+        .replace(/>/g, '&gt;'));
+}
+
+// formatFractions()
+// This finds plain-text math-style fractions and wraps them in <span class="frac">...</span>
+// We ONLY match "number/number" or "(...)/number" or "(...)/(...)"
+function formatFractions(text) {
+    if (!text || typeof text !== 'string') return text;
+
+    // 1. (2x + 1)/3  or  (a+b)/(c+d)
+    const complexPattern = /\(([^\)]+)\)\s*\/\s*\(([^\)]+)\)/g;
+
+    // 2. (2x + 1)/3  (paren over number)
+    const parenOverNumberPattern = /\(([^\)]+)\)\s*\/\s*([0-9]+(\.[0-9]+)?)/g;
+
+    // 3. 3/4 or 12/5 etc. Standalone numeric fractions
+    const simpleNumericPattern = /\b([0-9]+(\.[0-9]+)?)\s*\/\s*([0-9]+(\.[0-9]+)?)\b/g;
+
+    let out = text;
+
+    // Order matters: handle the more complex forms first so we don't double-wrap
+    out = out.replace(complexPattern, (match) => `<span class="frac">${match}</span>`);
+    out = out.replace(parenOverNumberPattern, (match) => `<span class="frac">${match}</span>`);
+    out = out.replace(simpleNumericPattern, (match) => `<span class="frac">${match}</span>`);
+
+    return out;
 }
 
 function cleanRepeatedText(text) {
@@ -4479,6 +4654,17 @@ function sanitizeCodeSegment(value, fallback = '') {
     return normalized || fallback;
 }
 
+function cloneArticle(article) {
+    if (!article || typeof article !== 'object') {
+        return null;
+    }
+    try {
+        return JSON.parse(JSON.stringify(article));
+    } catch (error) {
+        return Array.isArray(article) ? [...article] : { ...article };
+    }
+}
+
 function assignPremadeQuizCodes(data) {
     const catalog = {};
     if (!data || typeof data !== 'object') {
@@ -4994,7 +5180,6 @@ function App({ externalTheme, onThemeChange }) {
     const [quizAttempts, setQuizAttempts] = useState([]);
     const [showFormulaSheet, setShowFormulaSheet] = useState(false);
     const [showNamePrompt, setShowNamePrompt] = useState(false);
-    const [isMathToolsOpen, setIsMathToolsOpen] = useState(false);
     const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
     const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
     const [showWelcomeSplash, setShowWelcomeSplash] = useState(false);
@@ -5233,13 +5418,9 @@ function App({ externalTheme, onThemeChange }) {
 
     const openMathTools = useCallback((tab = 'graphing') => {
         setMathToolsActiveTab(tab);
-        setIsMathToolsOpen(true);
         setMathToolsInitialized(true);
-    }, []);
-
-    const closeMathTools = useCallback(() => {
-        setIsMathToolsOpen(false);
-    }, []);
+        setView('mathTools');
+    }, [setView]);
 
     const recalcProgress = useCallback((attemptList) => {
         setProgress(buildProgressFromAttempts(attemptList));
@@ -6187,6 +6368,16 @@ function App({ externalTheme, onThemeChange }) {
                         loading={profileLoading}
                     />
                 );
+            case 'mathTools':
+                return (
+                    <MathPracticeToolsPage
+                        onExit={navigateHome}
+                        activeTab={mathToolsActiveTab}
+                        onTabChange={setMathToolsActiveTab}
+                        graphingNode={mathToolsNodes ? mathToolsNodes.graphing : null}
+                        geometryNode={mathToolsNodes ? mathToolsNodes.geometry : null}
+                    />
+                );
             case 'start':
             default:
                 return (
@@ -6302,14 +6493,6 @@ function App({ externalTheme, onThemeChange }) {
                 )}
                 {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
                 {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} onDismiss={handleDismissNamePrompt} />}
-                <MathPracticeToolsModal
-                    isOpen={isMathToolsOpen}
-                    onClose={closeMathTools}
-                    activeTab={mathToolsActiveTab}
-                    onTabChange={setMathToolsActiveTab}
-                    graphingNode={mathToolsNodes ? mathToolsNodes.graphing : null}
-                    geometryNode={mathToolsNodes ? mathToolsNodes.geometry : null}
-                />
                 <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8 pt-[4.5rem] space-y-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
                     <div className="content-card bg-white dark:bg-slate-900/90 border border-slate-200/70 dark:border-slate-700/70 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                         {renderView()}
@@ -7856,7 +8039,7 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
     }
 
     return (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {subjects.map(([subjectName, words]) => {
                 const colorScheme = SUBJECT_COLORS[subjectName] || {};
                 const headerGradient = SUBJECT_BG_GRADIENTS[subjectName];
@@ -7885,7 +8068,7 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
                                 Key Terms
                             </span>
                         </div>
-                        <div className="flex flex-1 flex-col gap-4 p-5">
+                        <div className="flex flex-1 flex-col gap-4 p-4">
                             <ul className="space-y-2">
                                 {previewWords.map((word) => (
                                     <li
@@ -8357,20 +8540,37 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 }
 
                                 const quizCode = quiz.quizCode || `${quizIdBase}_set_${index}`;
-                                onSelectQuiz(
-                                    {
-                                        ...quiz,
-                                        id: quiz.quizId || quizCode,
-                                        quizCode,
-                                        title: derivedTitle,
-                                        topicId: topic.id,
-                                        topicTitle: topic.title || baseTitle,
-                                        description: quiz.description || topic.description,
-                                        type: quiz.type || topic.type || 'quiz',
-                                        questions: resolvedQuestions,
-                                    },
-                                    selectedSubject
-                                );
+                                const sourceTopic = quiz.questionSourceTopicId
+                                    ? getTopicById(selectedSubject, quiz.questionSourceTopicId)
+                                    : null;
+                                const articleSource = quiz.article || topic.article || (sourceTopic && sourceTopic.article);
+                                const articleClone = cloneArticle(articleSource);
+                                const resolvedImageUrl = quiz.imageUrl
+                                    || topic.imageUrl
+                                    || (sourceTopic && sourceTopic.imageUrl)
+                                    || (articleClone && articleClone.imageUrl)
+                                    || (articleSource && articleSource.imageUrl);
+
+                                const preparedQuiz = {
+                                    ...quiz,
+                                    id: quiz.quizId || quizCode,
+                                    quizCode,
+                                    title: derivedTitle,
+                                    topicId: topic.id,
+                                    topicTitle: topic.title || baseTitle,
+                                    description: quiz.description || topic.description,
+                                    type: quiz.type || topic.type || (sourceTopic ? sourceTopic.type : 'quiz') || 'quiz',
+                                    questions: resolvedQuestions,
+                                };
+
+                                if (articleClone) {
+                                    preparedQuiz.article = articleClone;
+                                }
+                                if (!preparedQuiz.imageUrl && resolvedImageUrl) {
+                                    preparedQuiz.imageUrl = resolvedImageUrl;
+                                }
+
+                                onSelectQuiz(preparedQuiz, selectedSubject);
                             };
 
                             return (
@@ -8452,7 +8652,36 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                             const topicQuizCode = topic.quizCode || topic.id || `${subjectSlug}__${fallbackTopicSlug}`;
                                             return (
                                                 <button
-                                                    onClick={() => onSelectQuiz({ ...topic, id: topic.quizCode || topicQuizCode, quizCode: topicQuizCode }, selectedSubject)}
+                                                    onClick={() => {
+                                                        if (typeof onSelectQuiz !== 'function') {
+                                                            return;
+                                                        }
+                                                        const articleClone = cloneArticle(topic.article);
+                                                        const preparedQuiz = {
+                                                            ...topic,
+                                                            id: topic.quizCode || topicQuizCode,
+                                                            quizCode: topicQuizCode,
+                                                        };
+                                                        if (articleClone) {
+                                                            preparedQuiz.article = articleClone;
+                                                        }
+                                                        const fallbackImageUrl = topic.imageUrl
+                                                            || (articleClone && articleClone.imageUrl)
+                                                            || (topic.article && topic.article.imageUrl);
+                                                        if (!preparedQuiz.imageUrl && fallbackImageUrl) {
+                                                            preparedQuiz.imageUrl = fallbackImageUrl;
+                                                        }
+                                                        if (Array.isArray(topic.questions)) {
+                                                            preparedQuiz.questions = topic.questions.map((question, questionIndex) => {
+                                                                if (question && typeof question === 'object') {
+                                                                    const nextNumber = question.questionNumber ?? (questionIndex + 1);
+                                                                    return { ...question, questionNumber: nextNumber };
+                                                                }
+                                                                return question;
+                                                            });
+                                                        }
+                                                        onSelectQuiz(preparedQuiz, selectedSubject);
+                                                    }}
                                                     className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                                                     style={buttonStyle}
                                                 >
@@ -8754,9 +8983,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         </>
                     )}
                 </header>
-                {currentUser && (
-                    <div className="grid gap-4 md:grid-cols-2 mb-6">
-                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70" style={homePanelStyle}>
+                <div className="dashboard-sections">
+                    {currentUser && (
+                        <div className="grid gap-4 md:grid-cols-2 mb-6 dashboard-row">
+                            <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70 block-test-date panel card" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
                                 <h2
                                     className="text-lg font-semibold text-slate-900 dark:text-slate-100"
@@ -8794,7 +9024,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         )}
                             <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-800'}`}>Need changes? Update them from your profile.</p>
                         </article>
-                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70" style={homePanelStyle}>
+                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70 block-challenges panel card" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
                                 <h2
                                     className="text-lg font-semibold text-slate-900 dark:text-slate-100"
@@ -8829,12 +9059,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     </div>
                 )}
                 {currentUser && (
-                    <div id="progress" className="animate-floatIn">
+                    <div id="progress" className="animate-floatIn block-profile panel">
                         <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />
                     </div>
                 )}
                 {profileData && (
-                    <div className="mb-6">
+                    <div className="mb-6 block-profile panel">
                         <RecentScoresPanel
                             title="Latest Scores"
                             summary={recentDashboardSummary}
@@ -8844,38 +9074,39 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     </div>
                 )}
                 {hasVocabulary && (
-                    <div className="mb-6 space-y-6">
+                    <div className="mb-6 space-y-6 block-vocab panel">
                         <VocabularyTicker vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
                         <VocabularyOverview vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
                     </div>
                 )}
-                <div className="my-6 text-center">
-                    <button
-                        onClick={onStartPopQuiz}
-                        className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105"
-                    >
-                        Start a 5-Minute Pop Quiz ⏱️
-                    </button>
-                </div>
-                <div id="quizzes" className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {Object.entries(AppData).map(([subjectName, subject]) => {
-                        const IconComponent = ICONS[subject.icon];
-                        const colorScheme = SUBJECT_COLORS[subjectName] || {};
-                        const gradientBackground = SUBJECT_BG_GRADIENTS[subjectName];
-                        const iconWrapperStyle = gradientBackground
-                            ? { backgroundImage: gradientBackground }
-                            : colorScheme.background
-                                ? { backgroundColor: colorScheme.background }
-                                : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
-                        const subjectTextColor = colorScheme.text || '#ffffff';
-                        return (
-                            <button
-                                key={subjectName}
-                                onClick={() => handleSelectSubject(subjectName)}
-                                className="subject-card glass group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-lg transition-all duration-300"
-                                data-testid={`subject-button-${subjectName.toLowerCase().replace(/[\s()]+/g, '-').replace(/-$/, '')}`}
-                            >
-                                <div
+                <section className="block-start-quiz">
+                    <div className="my-6 text-center panel card">
+                        <button
+                            onClick={onStartPopQuiz}
+                            className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 quiz-start-btn"
+                        >
+                            Start a 5-Minute Pop Quiz ⏱️
+                        </button>
+                    </div>
+                    <div id="quizzes" className="grid grid-cols-1 md:grid-cols-3 gap-6 subject-bar">
+                        {Object.entries(AppData).map(([subjectName, subject]) => {
+                            const IconComponent = ICONS[subject.icon];
+                            const colorScheme = SUBJECT_COLORS[subjectName] || {};
+                            const gradientBackground = SUBJECT_BG_GRADIENTS[subjectName];
+                            const iconWrapperStyle = gradientBackground
+                                ? { backgroundImage: gradientBackground }
+                                : colorScheme.background
+                                    ? { backgroundColor: colorScheme.background }
+                                    : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
+                            const subjectTextColor = colorScheme.text || '#ffffff';
+                            return (
+                                <button
+                                    key={subjectName}
+                                    onClick={() => handleSelectSubject(subjectName)}
+                                    className="subject-card glass group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-lg transition-all duration-300 subject-choice"
+                                    data-testid={`subject-button-${subjectName.toLowerCase().replace(/[\s()]+/g, '-').replace(/-$/, '')}`}
+                                >
+                                    <div
                                     className="w-full rounded-xl py-6 flex items-center justify-center shadow-inner"
                                     style={{
                                         ...iconWrapperStyle,
@@ -8889,8 +9120,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 </h2>
                                 <span className="text-sm text-slate-500 dark:text-slate-300">Explore lessons &amp; quizzes</span>
                             </button>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
+                </section>
                 </div>
             </div>
         </>
@@ -10599,9 +10832,9 @@ function GeometryPracticeTool({ onExit }) {
                 const hidden = context.hiddenLabels || [];
                 return (
                     <g>
-                        <rect x="50" y="75" width={w * 8} height={h * 8} stroke="black" fill="none" strokeWidth="2" />
-                        <text x={50 + (w*8)/2} y="65" textAnchor="middle">{hidden.includes('w') ? '?' : w}</text>
-                        <text x={40} y={75 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <rect x="50" y="75" width={w * 8} height={h * 8} stroke="currentColor" fill="none" strokeWidth="2" />
+                        <text x={50 + (w*8)/2} y="65" textAnchor="middle" fill="currentColor">{hidden.includes('w') ? '?' : w}</text>
+                        <text x={40} y={75 + (h*8)/2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
                     </g>
                 );
             }
@@ -10625,9 +10858,9 @@ function GeometryPracticeTool({ onExit }) {
                 const hidden = context.hiddenLabels || [];
                 return (
                     <g>
-                        <polygon points={`50,${50+h*8} ${50+b*8},${50+h*8} ${50+b*8},50`} stroke="black" fill="none" strokeWidth="2" />
-                        <text x={50 + (b*8)/2} y={65+h*8} textAnchor="middle">{hidden.includes('b') ? '?' : b}</text>
-                        <text x={60+b*8} y={50+(h*8)/2} dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <polygon points={`50,${50+h*8} ${50+b*8},${50+h*8} ${50+b*8},50`} stroke="currentColor" fill="none" strokeWidth="2" />
+                        <text x={50 + (b*8)/2} y={65+h*8} textAnchor="middle" fill="currentColor">{hidden.includes('b') ? '?' : b}</text>
+                        <text x={60+b*8} y={50+(h*8)/2} dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
                     </g>
                 );
             }
@@ -10656,9 +10889,9 @@ function GeometryPracticeTool({ onExit }) {
                 const hidden = context.hiddenLabels || [];
                 return (
                     <g>
-                        <circle cx="150" cy="150" r={r * 8} stroke="black" fill="none" strokeWidth="2" />
-                        <line x1="150" y1="150" x2={150 + r * 8} y2="150" stroke="black" strokeDasharray="4" />
-                        <text x={150 + (r*8)/2} y="140">{hidden.includes('r') ? '?' : r}</text>
+                        <circle cx="150" cy="150" r={r * 8} stroke="currentColor" fill="none" strokeWidth="2" />
+                        <line x1="150" y1="150" x2={150 + r * 8} y2="150" stroke="currentColor" strokeDasharray="4" />
+                        <text x={150 + (r*8)/2} y="140" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -10681,16 +10914,16 @@ function GeometryPracticeTool({ onExit }) {
             render: ({ l, w, h }, context = {}) => {
                 const hidden = context.hiddenLabels || [];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <rect x={50} y={50} width={l*8} height={h*8} />
                         <path d={`M ${50},${50} l ${w*3},-${w*3}`} />
                         <path d={`M ${50+l*8},${50} l ${w*3},-${w*3}`} />
                         <path d={`M ${50+l*8},${50+h*8} l ${w*3},-${w*3}`} />
                         <path d={`M ${50+w*3},${50-w*3} H ${50+w*3+l*8}`} />
                         <path d={`M ${50+w*3+l*8},${50-w*3} V ${50-w*3+h*8}`} />
-                        <text x={50 + (l*8)/2} y={60+h*8} textAnchor="middle">{hidden.includes('l') ? '?' : l}</text>
-                        <text x={55+l*8+(w*3)/2} y={40-w*3} textAnchor="middle">{hidden.includes('w') ? '?' : w}</text>
-                        <text x={40} y={50 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={50 + (l*8)/2} y={60+h*8} textAnchor="middle" fill="currentColor">{hidden.includes('l') ? '?' : l}</text>
+                        <text x={55+l*8+(w*3)/2} y={40-w*3} textAnchor="middle" fill="currentColor">{hidden.includes('w') ? '?' : w}</text>
+                        <text x={40} y={50 + (h*8)/2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
                     </g>
                 );
             }
@@ -10718,13 +10951,13 @@ function GeometryPracticeTool({ onExit }) {
             render: ({ r, h }, context = {}) => {
                 const hidden = context.hiddenLabels || [];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <ellipse cx="150" cy="50" rx={r*5} ry={r*2} />
                         <path d={`M ${150 - r*5},50 L ${150 - r*5},${50 + h*5}`} />
                         <path d={`M ${150 + r*5},50 L ${150 + r*5},${50 + h*5}`} />
                         <ellipse cx="150" cy={50 + h*5} rx={r*5} ry={r*2} />
-                        <text x="140" y={50 + (h*5)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
-                        <text x={150} y={65+h*5} textAnchor="middle">{hidden.includes('r') ? '?' : r}</text>
+                        <text x="140" y={50 + (h*5)/2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={150} y={65+h*5} textAnchor="middle" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -10756,12 +10989,12 @@ function GeometryPracticeTool({ onExit }) {
                 const centerX = 150;
                 const baseY = 200;
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <ellipse cx={centerX} cy={baseY} rx={baseRadius} ry={baseRadius / 3} />
                         <line x1={centerX - baseRadius} y1={baseY} x2={centerX} y2={baseY - height} />
                         <line x1={centerX + baseRadius} y1={baseY} x2={centerX} y2={baseY - height} />
-                        <text x={centerX - baseRadius - 10} y={baseY - height / 2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
-                        <text x={centerX + baseRadius / 2} y={baseY + 20} textAnchor="middle">{hidden.includes('r') ? '?' : r}</text>
+                        <text x={centerX - baseRadius - 10} y={baseY - height / 2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={centerX + baseRadius / 2} y={baseY + 20} textAnchor="middle" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -10789,11 +11022,11 @@ function GeometryPracticeTool({ onExit }) {
             render: ({ r }, context = {}) => {
                 const hidden = context.hiddenLabels || [];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <circle cx="150" cy="130" r={r * 8} />
                         <ellipse cx="150" cy="130" rx={r * 8} ry={r * 3} strokeDasharray="6" />
                         <line x1="150" y1="130" x2={150 + r * 8} y2="130" strokeDasharray="4" />
-                        <text x={150 + (r*8)/2} y="115">{hidden.includes('r') ? '?' : r}</text>
+                        <text x={150 + (r*8)/2} y="115" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -10815,12 +11048,12 @@ function GeometryPracticeTool({ onExit }) {
                 const pointB = [startX + a * scale, startY];
                 const pointC = [startX, startY - b * scale];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <polygon points={`${startX},${startY} ${pointB[0]},${pointB[1]} ${pointC[0]},${pointC[1]}`} />
                         <path d={`M ${startX + 20},${startY} L ${startX + 20},${startY - 20} L ${startX},${startY - 20}`} strokeWidth="2" />
-                        <text x={startX + (a * scale) / 2} y={startY + 20} textAnchor="middle">{hidden.includes('a') ? '?' : `a = ${a}`}</text>
-                        <text x={startX - 20} y={startY - (b * scale) / 2} textAnchor="end" dominantBaseline="middle">{hidden.includes('b') ? '?' : `b = ${b}`}</text>
-                        <text x={(startX + pointB[0]) / 2 + 10} y={(startY + pointC[1]) / 2} textAnchor="middle">c</text>
+                        <text x={startX + (a * scale) / 2} y={startY + 20} textAnchor="middle" fill="currentColor">{hidden.includes('a') ? '?' : `a = ${a}`}</text>
+                        <text x={startX - 20} y={startY - (b * scale) / 2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('b') ? '?' : `b = ${b}`}</text>
+                        <text x={(startX + pointB[0]) / 2 + 10} y={(startY + pointC[1]) / 2} textAnchor="middle" fill="currentColor">c</text>
                     </g>
                 );
             }
@@ -10877,57 +11110,73 @@ function GeometryPracticeTool({ onExit }) {
     const showExitButton = typeof onExit === 'function';
 
     return (
-        <div className="fade-in">
-            <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b">
-                <div className="flex-none min-w-[120px]">
+        <div className="fade-in space-y-6 bg-white text-black dark:bg-slate-900 dark:text-slate-100">
+            <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-2 border-b border-slate-200 dark:border-slate-700">
+                <div className="flex-none min-w-[140px]">
                     {showExitButton && (
-                        <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                        <button onClick={onExit} className="flex items-center gap-1 text-sm font-semibold text-black hover:text-sky-600 dark:text-slate-200 dark:hover:text-sky-300"><ArrowLeftIcon /> Back</button>
                     )}
                 </div>
-                <h2 className="text-xl font-bold text-center text-slate-800 flex-1">Geometry Practice Tool</h2>
-                <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
+                <h2 className="text-2xl font-bold text-center text-black dark:text-slate-100 flex-1">Geometry Practice Tool</h2>
+                <div className="flex-none min-w-[140px]" aria-hidden="true"></div>
             </header>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="md:col-span-2 bg-slate-50 rounded-lg p-4 flex flex-col items-center justify-center">
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]">
                     {currentProblem ? (
                         <>
-                            <svg width="100%" height="300" viewBox="0 0 350 250">
+                            <svg
+                                className="w-full max-w-2xl h-[360px] text-slate-900 dark:text-white"
+                                viewBox="0 0 400 320"
+                                preserveAspectRatio="xMidYMid meet"
+                            >
                                 {currentProblem.renderer(currentProblem.dims, currentProblem.context)}
                             </svg>
-                            <p className="text-lg font-semibold mt-4">{currentProblem.prompt}</p>
+                            <p className="text-lg font-semibold mt-6 text-center text-black dark:text-slate-100 max-w-2xl">
+                                {currentProblem.prompt}
+                            </p>
                         </>
                     ) : (
-                        <p>Select a shape to begin.</p>
+                        <p className="text-base text-black dark:text-slate-200">Select a shape to begin.</p>
                     )}
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                     <div>
-                        <h3 className="text-lg font-semibold mb-2">Shapes</h3>
+                        <h3 className="text-lg font-semibold text-black dark:text-slate-100 mb-3">Shapes</h3>
                         <div className="grid grid-cols-2 gap-2">
                             {Object.keys(SHAPE_LIBRARY).map(shape => (
-                                <button key={shape} onClick={() => generateProblem(shape)} className={`p-2 font-semibold rounded-md transition capitalize ${currentProblem?.shape === shape ? 'bg-sky-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}`}>
+                                <button
+                                    key={shape}
+                                    onClick={() => generateProblem(shape)}
+                                    className={`p-2 font-semibold rounded-md transition capitalize ${currentProblem?.shape === shape
+                                        ? 'bg-sky-600 text-white shadow'
+                                        : 'bg-white text-black border border-slate-300 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 dark:border-slate-600'}`}
+                                >
                                     {shape.replace('_', ' ')}
                                 </button>
                             ))}
                         </div>
                     </div>
                     {currentProblem && (
-                        <div className="space-y-2">
-                            <label htmlFor="answer" className="font-semibold text-slate-600">Your Answer:</label>
+                        <div className="space-y-3">
+                            <label htmlFor="answer" className="font-semibold text-black dark:text-slate-100">Your Answer:</label>
                             <input
                                 type="number"
                                 id="answer"
                                 value={userAnswer}
                                 onChange={(e) => setUserAnswer(e.target.value)}
-                                className="w-full p-2 border border-slate-300 rounded-md"
+                                className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-950 text-black dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
                             />
                             <button onClick={checkAnswer} className="w-full p-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition">Check Answer</button>
                             {feedback && (
-                                <p className={`mt-2 p-2 rounded-md text-center font-semibold ${feedback.includes('Correct') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                <p
+                                    className={`mt-2 p-2 rounded-md text-center font-semibold ${feedback.includes('Correct')
+                                        ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200'
+                                        : 'bg-red-100 text-red-800 dark:bg-red-900/60 dark:text-red-200'}`}
+                                >
                                     {feedback}
                                 </p>
                             )}
-                            <button onClick={() => generateProblem(currentProblem.shape)} className="w-full p-2 mt-2 bg-sky-500 text-white font-bold rounded-lg hover:bg-sky-600 transition">Next Problem</button>
+                            <button onClick={() => generateProblem(currentProblem.shape)} className="w-full p-2 bg-sky-500 text-white font-bold rounded-lg hover:bg-sky-600 transition">Next Problem</button>
                         </div>
                     )}
                 </div>
@@ -11105,21 +11354,21 @@ function GraphingTool({ onExit }) {
 
     return (
         <div className="fade-in">
-             <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b">
-                 <div className="flex-none min-w-[120px]">
-                     {showExitButton && (
-                         <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                     )}
-                 </div>
-                 <h2 className="text-xl font-bold text-center text-slate-800 flex-1">Interactive Graphing Tool</h2>
-                 <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
+            <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b">
+                <div className="flex-none min-w-[120px]">
+                    {showExitButton && (
+                        <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                    )}
+                </div>
+                <h2 className="text-xl font-bold text-center text-white flex-1">Interactive Graphing Tool</h2>
+                <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
             </header>
             <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-grow">
-                     <div id="graphing-tool-board" ref={boardRef} className="jxgbox" style={{ width: '100%', height: '400px' }}></div>
+                    <div id="graphing-tool-board" ref={boardRef} className="jxgbox" style={{ width: '100%', height: '400px' }}></div>
                 </div>
-                <div className="md:w-72 flex-shrink-0">
-                    <h3 className="text-lg font-semibold text-slate-700 mb-2">Tools</h3>
+                <div className="md:w-72 flex-shrink-0 text-black dark:text-white">
+                    <h3 className="text-lg font-semibold text-black dark:text-white mb-2">Tools</h3>
                     <div className="flex gap-2 mb-4">
                         <button onClick={() => setToolMode('plotLine')} className={`flex-1 p-2 font-semibold rounded-md transition ${toolMode === 'plotLine' ? 'bg-sky-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}`}>Plot Line</button>
                         <button onClick={() => setToolMode('plotPoint')} className={`flex-1 p-2 font-semibold rounded-md transition ${toolMode === 'plotPoint' ? 'bg-sky-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}`}>Plot Point</button>
@@ -11127,7 +11376,7 @@ function GraphingTool({ onExit }) {
 
                     {toolMode === 'plotLine' ? (
                         <div>
-                            <p className="font-semibold text-slate-600 mb-2">Equations (y = )</p>
+                            <p className="font-semibold text-black dark:text-slate-200 mb-2">Equations (y = )</p>
                             <div className="space-y-3">
                                 {equationInputs.map((value, index) => (
                                     <div key={index} className="flex items-center gap-2">
@@ -11140,7 +11389,7 @@ function GraphingTool({ onExit }) {
                                         />
                                         <button
                                             onClick={() => removeEquationInput(index)}
-                                            className="p-2 text-sm bg-slate-200 rounded-md hover:bg-slate-300"
+                                            className="p-2 text-sm bg-slate-200 text-black rounded-md hover:bg-slate-300"
                                             title="Remove equation"
                                             disabled={equationInputs.length === 1}
                                         >
@@ -11150,7 +11399,7 @@ function GraphingTool({ onExit }) {
                                 ))}
                             </div>
                             <div className="flex gap-2 mt-3">
-                                <button onClick={addEquationInput} className="flex-1 p-2 bg-slate-200 text-slate-700 font-semibold rounded-md hover:bg-slate-300 transition">Add Equation</button>
+                                <button onClick={addEquationInput} className="flex-1 p-2 bg-slate-200 text-black font-semibold rounded-md hover:bg-slate-300 transition">Add Equation</button>
                                 <button onClick={handlePlot} className="flex-1 p-2 bg-sky-600 text-white font-bold rounded-md hover:bg-sky-700 transition">Plot All</button>
                             </div>
                         </div>
@@ -11203,88 +11452,63 @@ function GraphingTool({ onExit }) {
     );
 }
 
-function MathPracticeToolsModal({ isOpen, onClose, activeTab, onTabChange, graphingNode, geometryNode }) {
-    const overlayRef = React.useRef(null);
-
-    React.useEffect(() => {
-        if (!isOpen) {
-            return;
-        }
-        const handleKeyDown = (event) => {
-            if (event.key === 'Escape') {
-                onClose?.();
-            }
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, onClose]);
-
-    const handleOverlayClick = (event) => {
-        if (event.target === overlayRef.current) {
-            onClose?.();
-        }
-    };
-
+function MathPracticeToolsPage({ onExit, activeTab, onTabChange, graphingNode, geometryNode }) {
     const tabs = [
         { id: 'graphing', label: 'Graphing Tool' },
         { id: 'geometry', label: 'Geometry Tool' },
     ];
 
+    const renderContent = () => {
+        if (activeTab === 'graphing') {
+            return graphingNode || (
+                <div className="py-16 text-center text-slate-500 dark:text-slate-300">
+                    Preparing the graphing workspace...
+                </div>
+            );
+        }
+
+        if (activeTab === 'geometry') {
+            return geometryNode || (
+                <div className="py-16 text-center text-slate-500 dark:text-slate-300">
+                    Preparing the geometry playground...
+                </div>
+            );
+        }
+
+        return null;
+    };
+
     return (
-        <div
-            ref={overlayRef}
-            className="fixed inset-0 z-[60] flex items-center justify-center px-4 py-6"
-            style={{ display: isOpen ? 'flex' : 'none', backgroundColor: 'var(--modal-overlay)' }}
-            onClick={handleOverlayClick}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Math Practice Tools"
-        >
-            <div
-                className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden"
-                onClick={(event) => event.stopPropagation()}
-            >
-                <div className="flex items-center justify-between border-b px-6 py-4 bg-slate-50">
-                    <h2 className="text-2xl font-bold text-slate-800">Math Practice Tools</h2>
-                    <button
-                        onClick={onClose}
-                        className="text-slate-500 hover:text-slate-800 transition"
-                        aria-label="Close math practice tools"
-                    >
-                        ✕
-                    </button>
-                </div>
-                <div className="px-6 pt-4">
-                    <div className="flex flex-wrap gap-2">
-                        {tabs.map((tab) => (
-                            <button
-                                key={tab.id}
-                                onClick={() => onTabChange?.(tab.id)}
-                                className={`px-4 py-2 rounded-lg font-semibold transition ${activeTab === tab.id ? 'bg-sky-600 text-white shadow' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}
-                            >
-                                {tab.label}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-                <div className="p-6 pt-4 space-y-6">
-                    {graphingNode && (
-                        <div style={{ display: activeTab === 'graphing' ? 'block' : 'none' }}>
-                            {graphingNode}
-                        </div>
-                    )}
-                    {geometryNode && (
-                        <div style={{ display: activeTab === 'geometry' ? 'block' : 'none' }}>
-                            {geometryNode}
-                        </div>
-                    )}
-                    {!graphingNode && !geometryNode && (
-                        <div className="py-16 text-center text-slate-500">
-                            Preparing tools...
-                        </div>
-                    )}
-                </div>
+        <div className="fade-in space-y-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 dark:border-slate-700/70 pb-4">
+                <button
+                    onClick={onExit}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-300 dark:hover:text-sky-200"
+                >
+                    <ArrowLeftIcon />
+                    <span>Back to Dashboard</span>
+                </button>
+                <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100 text-center flex-1">
+                    Math Practice Tools
+                </h1>
+                <span className="hidden sm:block sm:w-40"></span>
             </div>
+            <div className="flex flex-wrap gap-3">
+                {tabs.map((tab) => (
+                    <button
+                        key={tab.id}
+                        onClick={() => onTabChange?.(tab.id)}
+                        className={`px-4 py-2 rounded-lg font-semibold transition ${activeTab === tab.id
+                            ? 'bg-sky-600 text-white shadow'
+                            : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600'}`}
+                    >
+                        {tab.label}
+                    </button>
+                ))}
+            </div>
+            <section className="bg-white dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-700/70 rounded-2xl shadow-lg p-4 sm:p-6">
+                {renderContent()}
+            </section>
         </div>
     );
 }
