@@ -430,6 +430,11 @@
             box-shadow: var(--shadow-strong);
             color: var(--text-primary);
         }
+        [data-theme="light"] .glass {
+            background: #ffffff;
+            color: #0f172a;
+            border-color: rgba(148, 163, 184, 0.22);
+        }
         .hero-section {
             position: relative;
             overflow: hidden;
@@ -4648,10 +4653,10 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
     const toggleButtonStyle = isDark
         ? undefined
         : {
-            background: 'linear-gradient(135deg, #1f2937, #0f172a)',
-            color: '#f8fafc',
-            borderColor: 'rgba(15,23,42,0.45)',
-            boxShadow: '0 12px 24px -16px rgba(15,23,42,0.45)',
+            background: '#ffffff',
+            color: '#0f172a',
+            borderColor: 'rgba(15,23,42,0.18)',
+            boxShadow: '0 12px 20px -14px rgba(15,23,42,0.25)',
         };
 
     return (
@@ -8643,7 +8648,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <div className="grid gap-4 md:grid-cols-2 mb-6">
                         <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Upcoming Tests</h2>
+                                <h2
+                                    className="text-lg font-semibold text-slate-900 dark:text-slate-100"
+                                    style={isDarkMode ? undefined : { color: '#000000' }}
+                                >
+                                    Upcoming Tests
+                                </h2>
                                 <button
                                     type="button"
                                     onClick={goToProfile}
@@ -8676,7 +8686,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         </article>
                         <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Learning Challenges</h2>
+                                <h2
+                                    className="text-lg font-semibold text-slate-900 dark:text-slate-100"
+                                    style={isDarkMode ? undefined : { color: '#000000' }}
+                                >
+                                    Learning Challenges
+                                </h2>
                                 <button
                                     type="button"
                                     onClick={goToProfile}
