@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,10 +131,12 @@
                 const root = document.documentElement;
                 if (root) {
                     root.classList.toggle('dark', theme === 'dark');
+                    root.setAttribute('data-theme', theme);
                 }
                 const body = document.body;
                 if (body) {
                     body.classList.toggle('dark', theme === 'dark');
+                    body.setAttribute('data-theme', theme);
                 }
             };
 
@@ -160,6 +162,28 @@
         :root.fs-md { font-size: 16px; }
         :root.fs-lg { font-size: 18px; }
         :root.fs-xl { font-size: 20px; }
+
+        :root[data-theme="light"] {
+            --bg-color: #ffffff;
+            --panel-bg: #fafafa;
+            --text-color: #222222;
+            --subtext-color: #444444;
+            --border-color: #cccccc;
+            --button-bg: #f0f0f0;
+            --button-hover-bg: #e5e5e5;
+            --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        :root:not([data-theme]) {
+            --bg-color: #ffffff;
+            --panel-bg: #fafafa;
+            --text-color: #222222;
+            --subtext-color: #444444;
+            --border-color: #cccccc;
+            --button-bg: #f0f0f0;
+            --button-hover-bg: #e5e5e5;
+            --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
 
         :root {
             color-scheme: light;
@@ -341,8 +365,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-page);
-            color: var(--text-primary);
+            background-color: var(--bg-page, var(--bg-color));
+            color: var(--text-color, var(--text-primary));
         }
         h1 {
             font-family: 'Poppins', 'Inter', system-ui, sans-serif;
@@ -372,7 +396,7 @@
             font-family: 'Inter', system-ui, sans-serif;
             font-size: 1rem;
             line-height: 1.7;
-            color: var(--text-tertiary);
+            color: var(--subtext-color, var(--text-tertiary));
         }
         body::before {
             content: "";
@@ -405,6 +429,91 @@
             border-radius: 1rem;
             box-shadow: var(--shadow-strong);
             color: var(--text-primary);
+        }
+        [data-theme="light"] .glass {
+            background: #ffffff;
+            color: #0f172a;
+            border-color: rgba(148, 163, 184, 0.22);
+        }
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+            color: var(--hero-text-color, var(--text-color, var(--text-primary)));
+        }
+        .hero-section > * {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-title {
+            color: var(--hero-text-color, var(--text-color, var(--text-primary)));
+        }
+        [data-theme="light"] .hero-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: brightness(0.9);
+            z-index: 0;
+            pointer-events: none;
+        }
+        [data-theme="light"] .quiz-panel,
+        [data-theme="light"] .question-container,
+        [data-theme="light"] .passage-section {
+            color: var(--text-color);
+            background-color: var(--panel-bg);
+        }
+        [data-theme="light"] .passage-section p,
+        [data-theme="light"] .question-container p,
+        [data-theme="light"] .quiz-panel p {
+            color: var(--text-color);
+        }
+        [data-theme="light"] .quiz-panel,
+        [data-theme="light"] .content-card,
+        [data-theme="light"] .question-container {
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        [data-theme="light"] .quiz-panel button,
+        [data-theme="light"] .quiz-nav button,
+        [data-theme="light"] .start-btn,
+        [data-theme="light"] .action-button {
+            color: var(--text-color);
+            background-color: var(--button-bg);
+            border: 1px solid var(--border-color);
+        }
+        [data-theme="light"] .quiz-panel button:hover,
+        [data-theme="light"] .quiz-nav button:hover,
+        [data-theme="light"] .start-btn:hover,
+        [data-theme="light"] .action-button:hover {
+            background-color: var(--button-hover-bg);
+        }
+        [data-theme="light"] .math-theme button,
+        [data-theme="light"] .science-theme button,
+        [data-theme="light"] .rla-theme button,
+        [data-theme="light"] .social-theme button {
+            color: #111111;
+        }
+        [data-theme="light"] .answer-option {
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            border: 1px solid var(--border-color);
+        }
+        [data-theme="light"] .answer-option:hover {
+            background-color: #eaeaea;
+        }
+        [data-theme="light"] .answer-option.correct {
+            background-color: #d2f8d2;
+            color: #111111;
+        }
+        [data-theme="light"] .answer-option.incorrect {
+            background-color: #fdecec;
+            color: #111111;
+        }
+        [data-theme="light"] svg,
+        [data-theme="light"] .icon {
+            fill: currentColor;
+            stroke: currentColor;
+            color: var(--text-color);
         }
         .subject-card {
             transition: all 0.3s ease;
@@ -684,7 +793,7 @@
         }
     </style>
 </head>
-<body style="background-color: var(--bg-page); color: var(--text-primary);">
+<body data-theme="light" style="background-color: var(--bg-page); color: var(--text-primary);">
     <div id="root"></div>
 
     <script src="data/quiz_data.js"></script>
@@ -3803,6 +3912,135 @@ const AppData = {
                         id: "rla_info_main_idea",
                         title: "Main Idea & Details",
                         description: "Finding the central idea and supporting evidence in non-fiction.",
+                        quizzes: [
+                            { id: "rla_info_main_idea_set1", label: "Set 1", questionSourceTopicId: "rla_info_main_idea" },
+                            { id: "rla_informational_texts_informational_texts_quiz2", "label": "Set 2" },
+                            { id: "rla_informational_texts_informational_texts_quiz3", "label": "Set 3" }
+                        ],
+                        article: {
+                            title: "Community Makerspaces: Shared Workshops for a New Economy",
+                            genre: "Informational Article",
+                            text: [
+                                "Across the country, community makerspaces have become a practical response to the skills gap created by rapid automation. These shared workshops combine digital design labs with traditional tools, giving residents a place to experiment with laser cutters, 3D printers, and sewing machines without having to invest in costly equipment. Coordinators describe the spaces as a bridge between the curiosity people feel when they see new technology online and the confidence they need to use it on the job.",
+                                "Unlike a traditional classroom, a makerspace operates on an open lab model. Members can attend scheduled trainings, but they are also free to work alongside mentors, retirees, and nascent entrepreneurs who are already building prototypes. The mix of self-directed tinkering and guided instruction means that a participant might learn how to repair a bicycle in the same evening that someone else debuts a design for a medical device attachment.",
+                                "The economic ripple effects are becoming measurable. A 2023 survey of six regional makerspaces found that 62% of regular members completed a prototype that later informed a promotion, contract, or small business launch. Local workforce boards cite the statistic frequently when pitching employers on tuition sponsorships, arguing that the spaces accelerate reskilling far faster than a standard semester-long course.",
+                                "Critics contend that membership fees or specialized equipment still keep marginalized residents on the sidelines. In response, most makerspaces have created sliding-scale pricing, partnered with public libraries to cover evening access, and offered weekend open houses specifically for shift workers and families. One robotics instructor noted that these changes have doubled the number of teenage participants in less than a year.",
+                                "As municipalities prepare their next decade of economic development plans, makerspaces are increasingly listed alongside broadband and transit projects. City planners argue that reserving funding for tool libraries, instructor stipends, and small-business incubators will ensure that the spaces remain community assets rather than short-lived trends."
+                            ]
+                        },
+                        questions: [
+                            {
+                                questionNumber: 1,
+                                question: "Which statement best expresses the central idea of the article?",
+                                answerOptions: [
+                                    { text: "Community makerspaces are a temporary fad with little long-term impact.", rationale: "The article presents makerspaces as lasting investments, not fleeting trends.", isCorrect: false },
+                                    { text: "Community makerspaces help residents gain affordable access to modern tools and skills that support career growth.", rationale: "Correct. Every paragraph explains how makerspaces expand access, deliver training, and create economic opportunities.", isCorrect: true },
+                                    { text: "Traditional classrooms are no longer useful for any type of technical training.", rationale: "The author contrasts makerspaces with classrooms but never dismisses classrooms entirely.", isCorrect: false },
+                                    { text: "Municipal budgets should focus exclusively on transit projects instead of technology hubs.", rationale: "Transit is mentioned only as something planners consider alongside makerspaces, not instead of them.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 2,
+                                question: "Which detail best supports the claim that makerspaces widen access to technology?",
+                                answerOptions: [
+                                    { text: "Members can work alongside retirees and entrepreneurs in the open lab.", rationale: "This shows the collaborative setting but not specifically increased access for residents who could not otherwise use technology.", isCorrect: false },
+                                    { text: "A 2023 survey reported that 62% of members completed a prototype that advanced their careers.", rationale: "This statistic focuses on economic outcomes rather than access to technology.", isCorrect: false },
+                                    { text: "Most makerspaces partner with public libraries to cover evening access and offer sliding-scale pricing.", rationale: "Correct. These strategies directly address the barriers that critics say prevent people from using the technology.", isCorrect: true },
+                                    { text: "City planners include makerspaces in long-term development plans.", rationale: "This highlights future investment, not the immediate issue of access.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 3,
+                                question: "According to the third paragraph, what outcome do workforce boards emphasize when promoting makerspaces to employers?",
+                                answerOptions: [
+                                    { text: "The number of weekend open houses held each quarter.", rationale: "Weekend events are mentioned later as a response to critics, not as the main statistic shared with employers.", isCorrect: false },
+                                    { text: "The percentage of members who completed prototypes that led to promotions or business launches.", rationale: "Correct. Workforce boards cite the 62% success rate to convince employers to fund memberships.", isCorrect: true },
+                                    { text: "The amount of grant money city planners allocate for transit projects.", rationale: "Transit funding appears only in the final paragraph, unrelated to employer pitches.", isCorrect: false },
+                                    { text: "The increase in teenage participation during the first year of operation.", rationale: "Teen participation is discussed in paragraph four, not in the context of employer outreach.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 4,
+                                question: "As it is used in paragraph two, the word 'nascent' most nearly means:",
+                                answerOptions: [
+                                    { text: "inexperienced or just beginning.", rationale: "Correct. 'Nascent entrepreneurs' are individuals who are just starting to build their businesses.", isCorrect: true },
+                                    { text: "highly profitable.", rationale: "Nothing in the paragraph suggests that the entrepreneurs are already profitable.", isCorrect: false },
+                                    { text: "reluctant to collaborate.", rationale: "The paragraph emphasizes collaboration, not reluctance.", isCorrect: false },
+                                    { text: "fully certified.", rationale: "Certification is not mentioned in the description of the entrepreneurs.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 5,
+                                question: "Which sentence best captures the author's tone toward makerspaces?",
+                                answerOptions: [
+                                    { text: "They are worthwhile investments that require thoughtful planning to remain accessible.", rationale: "Correct. The author acknowledges challenges but ultimately views makerspaces as beneficial when supported.", isCorrect: true },
+                                    { text: "They are risky experiments that should be paused until more research exists.", rationale: "The author never recommends halting makerspace programs.", isCorrect: false },
+                                    { text: "They benefit hobbyists but offer little value to local economies.", rationale: "The article repeatedly references economic gains and workforce development.", isCorrect: false },
+                                    { text: "They should replace all existing workforce programs immediately.", rationale: "The author presents makerspaces as complementary, not as replacements for every program.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 6,
+                                question: "Why does the author include the robotics instructor's observation in paragraph four?",
+                                answerOptions: [
+                                    { text: "To prove that weekend open houses are unnecessary.", rationale: "The instructor notes that the outreach doubled teenage participation, showing the events are effective, not unnecessary.", isCorrect: false },
+                                    { text: "To illustrate the concrete results of the accessibility changes makerspaces implemented.", rationale: "Correct. The quote demonstrates how policy changes led to measurable growth among teens.", isCorrect: true },
+                                    { text: "To argue that only teenagers benefit from makerspaces.", rationale: "Teens are one example; other groups are discussed throughout the article.", isCorrect: false },
+                                    { text: "To criticize public libraries for charging fees.", rationale: "Libraries are described as partners that expand access, not as obstacles.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 7,
+                                question: "Which concern do critics raise about makerspaces?",
+                                answerOptions: [
+                                    { text: "They lack the advanced tools needed to build prototypes.", rationale: "The article states the opposite: makerspaces offer access to expensive equipment.", isCorrect: false },
+                                    { text: "Membership costs and specialized tools may still exclude marginalized residents.", rationale: "Correct. Paragraph four summarizes this criticism before explaining how spaces responded.", isCorrect: true },
+                                    { text: "They rely entirely on volunteer instructors with no professional experience.", rationale: "Mentors are mentioned, but there is no criticism about expertise.", isCorrect: false },
+                                    { text: "They focus on art projects instead of job training.", rationale: "The article emphasizes workforce and entrepreneurship benefits, not a lack of job focus.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 8,
+                                question: "Based on the article, which group are weekend open houses designed to serve?",
+                                answerOptions: [
+                                    { text: "Shift workers and families who cannot attend evening classes.", rationale: "Correct. The article explicitly says weekend events are meant to include these groups.", isCorrect: true },
+                                    { text: "Retirees looking for advanced certification programs.", rationale: "Retirees are mentioned as mentors, not as the target audience for weekend programming.", isCorrect: false },
+                                    { text: "Out-of-state entrepreneurs scouting locations.", rationale: "No evidence suggests the events are aimed at visiting entrepreneurs.", isCorrect: false },
+                                    { text: "City planners drafting transit budgets.", rationale: "Transit planning appears later and is unrelated to open houses.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 9,
+                                question: "What inference can be made from the final paragraph about the future of makerspaces?",
+                                answerOptions: [
+                                    { text: "They will likely disappear once the current funding cycle ends.", rationale: "City planners are integrating makerspaces into long-term plans, suggesting continuity rather than disappearance.", isCorrect: false },
+                                    { text: "Their success depends on being viewed as part of broader infrastructure investments.", rationale: "Correct. The paragraph notes that planners place makerspaces alongside broadband and transit to secure sustained funding.", isCorrect: true },
+                                    { text: "They will replace the need for broadband or transportation improvements.", rationale: "The author says makerspaces are listed alongside these projects, not as replacements.", isCorrect: false },
+                                    { text: "They will no longer require instructor stipends to operate effectively.", rationale: "The paragraph explicitly recommends funding instructor stipends to keep spaces viable.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 10,
+                                question: "Which sentence from the article best supports the idea that makerspaces boost the local economy?",
+                                answerOptions: [
+                                    { text: "Coordinators describe the spaces as a bridge between curiosity and confidence.", rationale: "This sentence speaks to motivation, not economic impact.", isCorrect: false },
+                                    { text: "Members can attend scheduled trainings but are also free to work alongside mentors.", rationale: "This detail explains the format of the makerspace, not its economic effect.", isCorrect: false },
+                                    { text: "A 2023 survey of six regional makerspaces found that 62% of regular members completed a prototype that later informed a promotion, contract, or small business launch.", rationale: "Correct. The statistic directly links makerspace participation to promotions and new businesses.", isCorrect: true },
+                                    { text: "One robotics instructor noted that outreach changes doubled teenage participation in less than a year.", rationale: "This sentence describes access for teens, not economic growth.", isCorrect: false }
+                                ]
+                            }
+                        ],
+                        type: "reading",
+                    },
+                    {
+                        id: "rla_info_structure_purpose",
+                        title: "Structure & Purpose",
+                        description: "Analyzing text structure and an author's reason for writing.",
+                        quizzes: [
+                           { id: "rla_informational_texts_structure_purpose_quiz1", "label": "Set 1" },
+                           { id: "rla_informational_texts_structure_purpose_quiz2", "label": "Set 2" },
+                           { id: "rla_informational_texts_structure_purpose_quiz3", "label": "Set 3" }
+                        ],
                         type: "reading",
                         article: {
                             title: "The Rise of Renewable Energy: Powering a Sustainable Future",
@@ -3939,6 +4177,11 @@ const AppData = {
                         id: "rla_lit_plot_character",
                         title: "Plot & Character",
                         description: "Analyzing story structure and character development.",
+                        quizzes: [
+                            { id: "rla_lit_plot_character_quiz1", label: "Set 1", questionSourceTopicId: "rla_lit_plot_character" },
+                            { id: "rla_lit_plot_character_quiz2", label: "Set 2" },
+                            { id: "rla_lit_plot_character_quiz3", label: "Set 3" }
+                        ],
                         type: "reading",
                         article: {
                             title: "An Excerpt from 'The Gift of the Magi' by O. Henry",
@@ -3973,6 +4216,11 @@ const AppData = {
                         id: "rla_lit_theme_figurative_language",
                         title: "Theme & Figurative Language",
                         description: "Identifying the underlying message and interpreting metaphors, similes, etc.",
+                        quizzes: [
+                            { id: "rla_lit_theme_figurative_language_quiz1", label: "Set 1", questionSourceTopicId: "rla_lit_theme_figurative_language" },
+                            { id: "rla_lit_theme_figurative_language_quiz2", label: "Set 2" },
+                            { id: "rla_lit_theme_figurative_language_quiz3", label: "Set 3" }
+                        ],
                         type: "reading",
                         article: {
                             title: "The Road Not Taken",
@@ -4027,75 +4275,33 @@ const AppData = {
                 description: "Master the rules of standard English grammar, punctuation, and sentence structure.",
                 topics: [
                     {
-                        id: "rla_grammar_structure",
-                        title: "Sentence Structure",
-                        description: "Correcting fragments, run-on sentences, and comma splices.",
-                        questions: [
-                            { "questionNumber": 1, "question": "Which of the following is a complete sentence?", "answerOptions": [ { "text": "Because she studied hard for the test.", "isCorrect": false, "rationale": "This is a dependent clause (a sentence fragment) and cannot stand on its own." }, { "text": "Studying hard for the test and reviewing her notes.", "isCorrect": false, "rationale": "This is a participial phrase (a sentence fragment) lacking a subject and a main verb." }, { "text": "She studied hard for the test.", "isCorrect": true, "rationale": "This sentence has a subject ('She') and a verb ('studied') and expresses a complete thought." }, { "text": "Although she studied hard for the test.", "isCorrect": false, "rationale": "This is a dependent clause (a sentence fragment) and cannot stand on its own." } ] },
-                            { "questionNumber": 2, "question": "Which option correctly revises the following run-on sentence? 'The park was beautiful the sun was shining brightly.'", "answerOptions": [ { "text": "The park was beautiful, the sun was shining brightly.", "isCorrect": false, "rationale": "This creates a comma splice, which is a grammatical error." }, { "text": "The park was beautiful the sun, was shining brightly.", "isCorrect": false, "rationale": "This punctuation is incorrect and does not fix the run-on." }, { "text": "The park was beautiful; the sun was shining brightly.", "isCorrect": true, "rationale": "A semicolon is a correct way to join two closely related independent clauses." }, { "text": "The park was beautiful and the sun shining brightly.", "isCorrect": false, "rationale": "This creates a fragment because the second clause lacks a verb." } ] },
-                            { "questionNumber": 3, "question": "Identify the sentence fragment.", "answerOptions": [ { "text": "He finished his work and went home.", "isCorrect": false, "rationale": "This is a complete sentence with a compound verb." }, { "text": "After the long and tiring meeting.", "isCorrect": true, "rationale": "This is a prepositional phrase that does not express a complete thought. It is a fragment." }, { "text": "The results were inconclusive.", "isCorrect": false, "rationale": "This is a complete sentence." }, { "text": "Wait for me.", "isCorrect": false, "rationale": "This is a complete sentence (an imperative sentence where the subject 'you' is implied)." } ] },
-                            { "questionNumber": 4, "question": "Which sentence contains a comma splice?", "answerOptions": [ { "text": "She loves to read, however, she rarely has time.", "isCorrect": true, "rationale": "A comma alone cannot separate two independent clauses, especially when a conjunctive adverb like 'however' is used. It should be a semicolon or a period." }, { "text": "She loves to read, but she rarely has time.", "isCorrect": false, "rationale": "This is a correctly punctuated compound sentence using a comma and a coordinating conjunction." }, { "text": "Although she loves to read, she rarely has time.", "isCorrect": false, "rationale": "This is a correctly punctuated complex sentence." }, { "text": "She loves to read; however, she rarely has time.", "isCorrect": false, "rationale": "This is a correctly punctuated sentence using a semicolon." } ] },
-                            { "questionNumber": 5, "question": "How can the following two sentences be best combined? 'The team practiced for weeks. They still lost the championship game.'", "answerOptions": [ { "text": "The team practiced for weeks, they still lost the championship game.", "isCorrect": false, "rationale": "This is a comma splice." }, { "text": "The team practiced for weeks, but they still lost the championship game.", "isCorrect": true, "rationale": "Using a comma and the coordinating conjunction 'but' correctly shows the contrast between the two ideas." }, { "text": "The team practiced for weeks they still lost the championship game.", "isCorrect": false, "rationale": "This is a run-on sentence." }, { "text": "Practicing for weeks, the team still lost the championship game.", "isCorrect": false, "rationale": "While grammatically correct, it is less clear and direct than the option with 'but'." } ] },
-                            { "questionNumber": 6, "question": "Which of the following is a run-on sentence?", "answerOptions": [ { "text": "The concert was amazing, and the band played all their famous songs.", "isCorrect": false, "rationale": "This is a correctly formed compound sentence." }, { "text": "I need to go to the store I am out of milk.", "isCorrect": true, "rationale": "This is a fused sentence, a type of run-on where two independent clauses are joined with no punctuation." }, { "text": "Because the weather was bad, the game was canceled.", "isCorrect": false, "rationale": "This is a correctly formed complex sentence." }, { "text": "The dog barked loudly.", "isCorrect": false, "rationale": "This is a simple, complete sentence." } ] },
-                            { "questionNumber": 7, "question": "Which of the following is NOT a complete sentence?", "answerOptions": [ { "text": "To ensure that all the details were correct.", "isCorrect": true, "rationale": "This is an infinitive phrase acting as a fragment. It doesn't state who is ensuring the details or what happened." }, { "text": "Please check your work carefully.", "isCorrect": false, "rationale": "This is a complete imperative sentence." }, { "text": "The report was finished on time.", "isCorrect": false, "rationale": "This is a complete sentence." }, { "text": "Did you finish the assignment?", "isCorrect": false, "rationale": "This is a complete interrogative sentence." } ] },
-                            { "questionNumber": 8, "question": "Choose the correctly punctuated sentence.", "answerOptions": [ { "text": "He is a talented musician, he plays both the guitar and the piano.", "isCorrect": false, "rationale": "This is a comma splice." }, { "text": "He is a talented musician for he plays both the guitar and the piano.", "isCorrect": false, "rationale": "Using 'for' as a conjunction here is awkward and less common; it also requires a comma before it." }, { "text": "He is a talented musician; he plays both the guitar and the piano.", "isCorrect": true, "rationale": "A semicolon correctly joins the two related independent clauses." }, { "text": "He is a talented musician, and playing both the guitar and the piano.", "isCorrect": false, "rationale": "This creates a fragment in the second part of the sentence." } ] },
-                            { "questionNumber": 9, "question": "Which revision fixes the fragment? 'While the city slept peacefully.'", "answerOptions": [ { "text": "While the city slept peacefully, a lone fox crossed the street.", "isCorrect": true, "rationale": "Adding an independent clause ('a lone fox crossed the street') makes this a complete complex sentence." }, { "text": "The city slept peacefully.", "isCorrect": false, "rationale": "This is a complete sentence, but it does not correctly incorporate the original fragment." }, { "text": "While the city was sleeping peacefully.", "isCorrect": false, "rationale": "This is still a dependent clause and a fragment." }, { "text": "The city slept peacefully and.", "isCorrect": false, "rationale": "This is grammatically incorrect." } ] },
-                            { "questionNumber": 10, "question": "Which sentence is correctly structured?", "answerOptions": [ { "text": "The new manager is very effective, she has increased productivity by 20%.", "isCorrect": false, "rationale": "This is a comma splice." }, { "text": "The new manager is very effective she has increased productivity by 20%.", "isCorrect": false, "rationale": "This is a run-on (fused) sentence." }, { "text": "The new manager is very effective because she has increased productivity by 20%.", "isCorrect": true, "rationale": "The subordinating conjunction 'because' correctly joins the two clauses, creating a complete complex sentence." }, { "text": "The new manager being very effective and increasing productivity by 20%.", "isCorrect": false, "rationale": "This is a sentence fragment." } ] },
-                            { "questionNumber": 11, "question": "Identify the run-on sentence.", "answerOptions": [ { "text": "The storm was intense, but it passed quickly.", "isCorrect": false, "rationale": "This is a correctly formed compound sentence." }, { "text": "Although the storm was intense, it passed quickly.", "isCorrect": false, "rationale": "This is a correctly formed complex sentence." }, { "text": "The storm was intense it passed quickly.", "isCorrect": true, "rationale": "This is a fused sentence, a type of run-on, as it lacks any punctuation or conjunction between the two independent clauses." }, { "text": "The storm, which was intense, passed quickly.", "isCorrect": false, "rationale": "This is a correctly formed sentence with a non-essential clause." } ] },
-                            { "questionNumber": 12, "question": "Which of the following is a sentence fragment?", "answerOptions": [ { "text": "The cat, sleeping in the sunbeam.", "isCorrect": true, "rationale": "This is a noun phrase with a participial phrase modifying it. It lacks a main verb to make it a complete sentence." }, { "text": "The cat slept in the sunbeam.", "isCorrect": false, "rationale": "This is a complete sentence." }, { "text": "Where is the cat sleeping?", "isCorrect": false, "rationale": "This is a complete sentence." }, { "text": "The cat sleeps there all day.", "isCorrect": false, "rationale": "This is a complete sentence." } ] },
-                            { "questionNumber": 13, "question": "How should this comma splice be corrected? 'The project is due tomorrow, we have to work late tonight.'", "answerOptions": [ { "text": "The project is due tomorrow we have to work late tonight.", "isCorrect": false, "rationale": "This creates a run-on sentence." }, { "text": "The project is due tomorrow, so we have to work late tonight.", "isCorrect": true, "rationale": "Adding the coordinating conjunction 'so' after the comma correctly joins the two independent clauses and shows a cause-and-effect relationship." }, { "text": "The project is due tomorrow, and we have to work late tonight.", "isCorrect": false, "rationale": "While grammatically correct, 'so' provides a stronger logical connection than 'and' in this context." }, { "text": "The project is due tomorrow, we, have to work late tonight.", "isCorrect": false, "rationale": "The extra comma is incorrect." } ] },
-                            { "questionNumber": 14, "question": "Which is a complete and correctly structured sentence?", "answerOptions": [ { "text": "Running through the park before the sun came up.", "isCorrect": false, "rationale": "This is a sentence fragment (a participial phrase)." }, { "text": "I enjoy running through the park before the sun comes up.", "isCorrect": true, "rationale": "This sentence has a subject ('I') and a verb ('enjoy') and expresses a complete thought." }, { "text": "Running through the park, the sun coming up.", "isCorrect": false, "rationale": "This contains two fragments joined by a comma." }, { "text": "I enjoy running through the park, the sun comes up.", "isCorrect": false, "rationale": "This is a comma splice." } ] },
-                            { "questionNumber": 15, "question": "Which sentence correctly uses a semicolon?", "answerOptions": [ { "text": "I have a big test tomorrow; I can't go out tonight.", "isCorrect": true, "rationale": "The semicolon correctly joins two closely related independent clauses." }, { "text": "I have a big test tomorrow; so I can't go out tonight.", "isCorrect": false, "rationale": "A semicolon should not be followed by a coordinating conjunction like 'so'. A comma would be used here instead." }, { "text": "Because I have a big test tomorrow; I can't go out tonight.", "isCorrect": false, "rationale": "The first clause is dependent, so it should be followed by a comma, not a semicolon." }, { "text": "I have; a big test tomorrow, I can't go out tonight.", "isCorrect": false, "rationale": "The semicolon is incorrectly placed." } ] }
-                        ]
-                    },
-                    {
-                        id: "rla_grammar_punctuation",
-                        title: "Punctuation & Mechanics",
-                        description: "Proper use of commas, semicolons, apostrophes, and capitalization.",
-                        questions: [
-                            { "questionNumber": 1, "question": "Choose the correctly punctuated sentence.", "answerOptions": [ { "text": "Please bring a pencil, a notebook and a calculator to the test.", "isCorrect": false, "rationale": "This sentence is missing the optional but standard Oxford comma before 'and'." }, { "text": "Please bring a pencil, a notebook, and a calculator to the test.", "isCorrect": true, "rationale": "Use commas to separate three or more items in a series. The comma before 'and' (the Oxford comma) is standard in formal writing." }, { "text": "Please bring: a pencil, a notebook, and a calculator to the test.", "isCorrect": false, "rationale": "A colon is not needed here as the list flows directly from the verb." }, { "text": "Please bring a pencil a notebook and a calculator to the test.", "isCorrect": false, "rationale": "Commas are required to separate the items in the list." } ] },
-                            { "questionNumber": 2, "question": "Which sentence uses an apostrophe correctly to show possession?", "answerOptions": [ { "text": "The dogs leash is hanging on the hook.", "isCorrect": false, "rationale": "This is missing an apostrophe. It should be 'dog's'." }, { "text": "The dogs' leashes are hanging on the hook.", "isCorrect": true, "rationale": "To show possession for a plural noun ending in 's' (dogs), the apostrophe is placed after the 's'." }, { "text": "The dog's are hanging on the hook.", "isCorrect": false, "rationale": "This incorrectly uses an apostrophe; 'dog's' means 'dog is' in this context, which is incorrect." }, { "text": "Its a shame the dog lost its' leash.", "isCorrect": false, "rationale": "'Its'' is not a word. The correct possessive is 'its'." } ] },
-                            { "questionNumber": 3, "question": "Choose the correctly capitalized sentence.", "answerOptions": [ { "text": "My favorite book is 'the catcher in the rye'.", "isCorrect": false, "rationale": "All major words in a title should be capitalized." }, { "text": "I am traveling to Paris, france, this summer.", "isCorrect": false, "rationale": "The country 'France' should be capitalized." }, { "text": "She works for the Federal Bureau of Investigation.", "isCorrect": true, "rationale": "The full names of specific government agencies are proper nouns and should be capitalized." }, { "text": "We live in the south, near the gulf of Mexico.", "isCorrect": false, "rationale": "Directions like 'south' are not capitalized unless part of a proper name. 'Gulf of Mexico' is a proper name and should be capitalized." } ] },
-                            { "questionNumber": 4, "question": "Which sentence correctly uses a semicolon?", "answerOptions": [ { "text": "The meeting was long; but we accomplished a lot.", "isCorrect": false, "rationale": "A semicolon should not be used before a coordinating conjunction like 'but'. A comma would be correct here." }, { "text": "I have three favorite foods; pizza, tacos, and sushi.", "isCorrect": false, "rationale": "A colon, not a semicolon, should be used to introduce a list." }, { "text": "The weather was perfect; consequently, we decided to have a picnic.", "isCorrect": true, "rationale": "A semicolon is used correctly here to join two independent clauses, with the second clause beginning with a conjunctive adverb ('consequently')." }, { "text": "She wanted to leave; because she was tired.", "isCorrect": false, "rationale": "The second clause is dependent and cannot be joined with a semicolon." } ] },
-                            { "questionNumber": 5, "question": "Which sentence uses commas correctly with an introductory phrase?", "answerOptions": [ { "text": "After the movie we went out for ice cream.", "isCorrect": false, "rationale": "A comma is needed after the introductory prepositional phrase." }, { "text": "After the movie, we went out for ice cream.", "isCorrect": true, "rationale": "A comma should be placed after an introductory phrase or clause to separate it from the main clause." }, { "text": "After the movie we, went out for ice cream.", "isCorrect": false, "rationale": "The comma is incorrectly placed." }, { "text": "After, the movie, we went out for ice cream.", "isCorrect": false, "rationale": "The comma is incorrectly placed." } ] },
-                            { "questionNumber": 6, "question": "Choose the sentence with the correct use of an apostrophe.", "answerOptions": [ { "text": "Its going to be a beautiful day.", "isCorrect": false, "rationale": "This should be 'It's', the contraction for 'it is'." }, { "text": "The car lost it's front tire.", "isCorrect": false, "rationale": "This should be 'its', the possessive pronoun." }, { "text": "Who's book is this on the table?", "isCorrect": false, "rationale": "This should be 'Whose', the possessive pronoun. 'Who's' means 'who is'." }, { "text": "You're the person I was looking for.", "isCorrect": true, "rationale": "'You're' is the correct contraction for 'you are'." } ] },
-                            { "questionNumber": 7, "question": "Which sentence is correctly capitalized?", "answerOptions": [ { "text": "My Uncle, Bob, is a Doctor.", "isCorrect": false, "rationale": "The title 'Doctor' should not be capitalized unless it precedes a name." }, { "text": "We drove North on interstate 95.", "isCorrect": false, "rationale": "Directions are not capitalized unless part of a proper name. 'Interstate 95' is a proper name." }, { "text": "She is taking Algebra II and World History.", "isCorrect": true, "rationale": "Specific course titles are capitalized." }, { "text": "I love the Fall season, it's my favorite.", "isCorrect": false, "rationale": "Seasons are not capitalized." } ] },
-                            { "questionNumber": 8, "question": "Which sentence correctly punctuates a non-essential clause?", "answerOptions": [ { "text": "The man who is wearing the red hat is my brother.", "isCorrect": false, "rationale": "The clause 'who is wearing the red hat' is essential to identify the man, so it should not have commas." }, { "text": "My car, which is over ten years old, still runs well.", "isCorrect": true, "rationale": "The clause 'which is over ten years old' is non-essential (extra information), so it is correctly set off by commas." }, { "text": "The book that I am reading is very interesting.", "isCorrect": false, "rationale": "The clause 'that I am reading' is essential and should not have commas." }, { "text": "My brother, who is wearing the red hat is my brother.", "isCorrect": false, "rationale": "This sentence is missing the second comma to close the non-essential clause." } ] },
-                            { "questionNumber": 9, "question": "Choose the correctly punctuated sentence.", "answerOptions": [ { "text": "Her favorite activities are: hiking, biking, and swimming.", "isCorrect": false, "rationale": "A colon should not be used after a verb like 'are' when it directly introduces a list." }, { "text": "She said, 'Let's go to the park.'", "isCorrect": true, "rationale": "The comma is correctly placed before the quotation, and the period is correctly placed inside the quotation mark." }, { "text": "He asked 'What time is it?'.", "isCorrect": false, "rationale": "A comma should precede the quote, and the question mark should be inside the quotation mark." }, { "text": "The sign read, 'Stop'!", "isCorrect": false, "rationale": "The exclamation point should be inside the quotation mark." } ] },
-                            { "questionNumber": 10, "question": "Which sentence correctly uses an apostrophe for a plural possessive?", "answerOptions": [ { "text": "The childrens' toys were all over the floor.", "isCorrect": false, "rationale": "'Children' is an irregular plural, so its possessive is 'children's'." }, { "text": "The two companies's merger was approved.", "isCorrect": false, "rationale": "The possessive of the plural 'companies' is 'companies'." }, { "text": "All of the students' projects were impressive.", "isCorrect": true, "rationale": "For the plural noun 'students', the possessive is correctly formed by adding an apostrophe after the 's'." }, { "text": "The men's room is on the left.", "isCorrect": false, "rationale": "This is a correct singular possessive, but the question asks for a plural possessive example." } ] },
-                            { "questionNumber": 11, "question": "Choose the correctly capitalized title.", "answerOptions": [ { "text": "To Kill A Mockingbird", "isCorrect": false, "rationale": "Articles like 'a' are not capitalized unless they are the first word." }, { "text": "The Catcher In The Rye", "isCorrect": false, "rationale": "Prepositions like 'in' and 'the' are not capitalized unless they are the first or last word." }, { "text": "Of Mice and Men", "isCorrect": true, "rationale": "This follows standard title capitalization rules (capitalize first word, and all major words)." }, { "text": "the great gatsby", "isCorrect": false, "rationale": "All major words should be capitalized." } ] },
-                            { "questionNumber": 12, "question": "Which sentence uses a colon correctly?", "answerOptions": [ { "text": "I need to buy: milk, eggs, and bread.", "isCorrect": false, "rationale": "A colon should not be used after a verb like 'buy' when the list flows naturally from it." }, { "text": "She had one goal in mind: to win.", "isCorrect": true, "rationale": "A colon is used correctly here to introduce an explanation or amplification of the preceding independent clause." }, { "text": "He visited: Paris, Rome, and London.", "isCorrect": false, "rationale": "A colon should not be used after a verb like 'visited'." }, { "text": "The ingredients are: flour, sugar, and butter.", "isCorrect": false, "rationale": "A colon should not be used after a linking verb like 'are'." } ] },
-                            { "questionNumber": 13, "question": "Which sentence correctly punctuates the date?", "answerOptions": [ { "text": "The event took place on December 7 1941.", "isCorrect": false, "rationale": "A comma is needed between the day and the year." }, { "text": "On December 7, 1941, the event took place.", "isCorrect": true, "rationale": "Commas are used to separate the day from the year, and the year from the rest of the sentence when the date is used as an introductory phrase." }, { "text": "The event took place on December, 7, 1941.", "isCorrect": false, "rationale": "A comma is not used between the month and the day." }, { "text": "The event took place on, December 7 1941.", "isCorrect": false, "rationale": "The comma is incorrectly placed." } ] },
-                            { "questionNumber": 14, "question": "Which of the following is correctly capitalized?", "answerOptions": [ { "text": "queen Elizabeth II", "isCorrect": false }, { "text": "The President of the united states", "isCorrect": false }, { "text": "World War II", "isCorrect": true }, { "text": "The industrial revolution", "isCorrect": false } ] },
-                            { "questionNumber": 15, "question": "What is the correct way to write the possessive form of 'Mr. Jones'?", "answerOptions": [ { "text": "Mr. Jone's", "isCorrect": false }, { "text": "Mr. Jones'", "isCorrect": true }, { "text": "Mr. Jones's", "isCorrect": false, "rationale": "While adding 's is sometimes acceptable, the standard and simpler rule for singular nouns ending in 's' is to just add an apostrophe." }, { "text": "Mr. Joneses", "isCorrect": false } ] }
+                        id: "rla_grammar_conventions",
+                        title: "Standard English Conventions",
+                        description: "Standard English conventions including sentence structure, usage, and mechanics.",
+                        quizzes: [
+                            { id: "rla_lang_conventions_quiz1", label: "Set 1" },
+                            { id: "rla_lang_conventions_quiz2", label: "Set 2" },
+                            { id: "rla_lang_conventions_quiz3", label: "Set 3" }
                         ]
                     },
                     {
                         id: "rla_grammar_usage",
                         title: "Grammar & Usage",
                         description: "Subject-verb agreement, pronoun usage, and correct word choice.",
-                        questions: [
-                            { "questionNumber": 1, "question": "Choose the correct verb to complete the sentence: 'Each of the students ___ responsible for their own project.'", "answerOptions": [ { "text": "are", "isCorrect": false, "rationale": "The subject is 'Each,' which is a singular pronoun, so it requires a singular verb." }, { "text": "is", "isCorrect": true, "rationale": "The singular subject 'Each' requires the singular verb 'is'." }, { "text": "were", "isCorrect": false, "rationale": "'Were' is a plural verb." }, { "text": "have been", "isCorrect": false, "rationale": "'Have' is a plural verb." } ] },
-                            { "questionNumber": 2, "question": "Choose the correct pronoun to complete the sentence: 'The manager spoke to my colleague and ___ about the new project.'", "answerOptions": [ { "text": "I", "isCorrect": false, "rationale": "'I' is a subject pronoun. The pronoun here is the object of the preposition 'to,' so the object pronoun 'me' is needed." }, { "text": "myself", "isCorrect": false, "rationale": "'Myself' is a reflexive pronoun and is not appropriate here." }, { "text": "me", "isCorrect": true, "rationale": "As the object of the preposition 'to,' the objective case pronoun 'me' is correct." }, { "text": "mine", "isCorrect": false, "rationale": "'Mine' is a possessive pronoun." } ] },
-                            { "questionNumber": 3, "question": "Which sentence demonstrates correct subject-verb agreement?", "answerOptions": [ { "text": "The team of players are celebrating their victory.", "isCorrect": false, "rationale": "The subject is 'team' (a singular collective noun), so the verb should be 'is celebrating'." }, { "text": "Neither the cat nor the dogs wants to go outside.", "isCorrect": false, "rationale": "When subjects are joined by 'nor,' the verb agrees with the closer subject ('dogs'), so the verb should be 'want'." }, { "text": "The news from the headquarters is encouraging.", "isCorrect": true, "rationale": "'News' is a singular noun and requires the singular verb 'is'." }, { "text": "There is several reasons for the delay.", "isCorrect": false, "rationale": "The subject is 'reasons' (plural), which follows the verb, so the verb should be 'are'." } ] },
-                            { "questionNumber": 4, "question": "Choose the correct word to complete the sentence: 'The ___ of the new policy on employee morale was significant.'", "answerOptions": [ { "text": "affect", "isCorrect": false, "rationale": "'Affect' is usually a verb meaning 'to influence'." }, { "text": "effect", "isCorrect": true, "rationale": "'Effect' is a noun meaning 'a result' or 'consequence'." }, { "text": "affects", "isCorrect": false, "rationale": "This is the third-person singular form of the verb 'affect'." }, { "text": "effects", "isCorrect": false, "rationale": "While 'effects' is the plural noun, the sentence requires the singular 'effect' to match 'was'." } ] },
-                            { "questionNumber": 5, "question": "Which pronoun correctly completes the sentence? 'If a student wants to succeed, ___ must study diligently.'", "answerOptions": [ { "text": "they", "isCorrect": false, "rationale": "While often used in informal speech, 'they' is a plural pronoun. The singular 'he or she' is grammatically correct for the singular subject 'a student'." }, { "text": "you", "isCorrect": false, "rationale": "This incorrectly shifts the point of view to the second person." }, { "text": "he or she", "isCorrect": true, "rationale": "The singular antecedent 'a student' requires a singular pronoun. 'He or she' is the correct gender-neutral singular form." }, { "text": "we", "isCorrect": false, "rationale": "This incorrectly shifts the point of view to the first person." } ] },
-                            { "questionNumber": 6, "question": "Choose the correct verb: 'The committee ___ on the new budget proposal.'", "answerOptions": [ { "text": "disagrees", "isCorrect": true, "rationale": "A collective noun like 'committee' can be treated as singular when it acts as a single unit. 'Disagrees' is the singular verb." }, { "text": "disagree", "isCorrect": false, "rationale": "While 'disagree' could be used if the members are acting individually, 'disagrees' is more common when the committee is seen as a single entity." }, { "text": "are disagreeing", "isCorrect": false, "rationale": "This uses a plural auxiliary verb." }, { "text": "have disagreed", "isCorrect": false, "rationale": "This uses a plural auxiliary verb." } ] },
-                            { "questionNumber": 7, "question": "Which sentence uses the correct word choice?", "answerOptions": [ { "text": "I would like less cookies, please.", "isCorrect": false, "rationale": "'Less' is used for uncountable nouns (like 'water'). 'Fewer' should be used for countable nouns (like 'cookies')." }, { "text": "He ran farther than anyone else in the race.", "isCorrect": true, "rationale": "'Farther' refers to physical distance, while 'further' refers to a metaphorical or figurative distance. This usage is correct." }, { "text": "She feels badder about the mistake than I do.", "isCorrect": false, "rationale": "'Badder' is not a word. The correct comparative is 'worse'." }, { "text": "Can I borrow your pen?", "isCorrect": false, "rationale": "In formal English, 'May I' is used to ask for permission, while 'Can I' asks about ability." } ] },
-                            { "questionNumber": 8, "question": "Choose the correct pronoun: 'The prize was awarded to the person ___ sold the most tickets.'", "answerOptions": [ { "text": "whom", "isCorrect": false, "rationale": "'Whom' is an object pronoun. The pronoun here is the subject of the verb 'sold,' so 'who' is correct." }, { "text": "who", "isCorrect": true, "rationale": "The pronoun is the subject of the verb 'sold' ('who sold the most tickets'), so the subject pronoun 'who' is correct." }, { "text": "whose", "isCorrect": false, "rationale": "'Whose' is a possessive pronoun." }, { "text": "which", "isCorrect": false, "rationale": "'Which' is used for things, not people." } ] },
-                            { "questionNumber": 9, "question": "Which sentence has the correct subject-verb agreement?", "answerOptions": [ { "text": "One of my friends are coming over.", "isCorrect": false, "rationale": "The subject is 'One,' which is singular. The verb should be 'is'." }, { "text": "The data from the study is unreliable.", "isCorrect": false, "rationale": "'Data' is technically a plural noun (the singular is 'datum'), so the verb should be 'are'. However, 'is' is becoming common in informal use." }, { "text": "The man with all the dogs live on my street.", "isCorrect": false, "rationale": "The subject is 'man' (singular), not 'dogs'. The verb should be 'lives'." }, { "text": "A number of employees were absent yesterday.", "isCorrect": true, "rationale": "When 'a number of' is used, it means 'several' and takes a plural verb. 'The number of' takes a singular verb." } ] },
-                            { "questionNumber": 10, "question": "Choose the correct word: 'Please don't ___ with my work.'", "answerOptions": [ { "text": "meddle", "isCorrect": true, "rationale": "'Meddle' means to interfere in something that is not one's concern." }, { "text": "metal", "isCorrect": false, "rationale": "'Metal' is a type of material." }, { "text": "medal", "isCorrect": false, "rationale": "'Medal' is an award." }, { "text": "mettle", "isCorrect": false, "rationale": "'Mettle' refers to a person's spirit or resilience." } ] },
-                            { "questionNumber": 11, "question": "Which sentence uses pronouns correctly?", "answerOptions": [ { "text": "Me and my friends went to the movies.", "isCorrect": false, "rationale": "'Me' is an object pronoun. As part of the subject, it should be 'My friends and I'." }, { "text": "Give the report to either John or I.", "isCorrect": false, "rationale": "The pronoun is the object of the preposition 'to,' so it should be 'me'." }, { "text": "Her and her sister look just alike.", "isCorrect": false, "rationale": "'Her' is an object pronoun. As a subject, it should be 'She'." }, { "text": "Between you and me, I think the plan will work.", "isCorrect": true, "rationale": "'Between' is a preposition, so it requires the object pronouns 'you' and 'me'." } ] },
-                            { "questionNumber": 12, "question": "Choose the correct verb: 'Macaroni and cheese ___ my favorite meal.'", "answerOptions": [ { "text": "is", "isCorrect": true, "rationale": "Although it has two parts, 'macaroni and cheese' is treated as a single dish and therefore takes a singular verb." }, { "text": "are", "isCorrect": false, "rationale": "'Are' is a plural verb." }, { "text": "were", "isCorrect": false, "rationale": "'Were' is a plural verb." }, { "text": "have", "isCorrect": false, "rationale": "'Have' is a plural verb." } ] },
-                            { "questionNumber": 13, "question": "Choose the correct word usage: 'The new law will ___ the entire community.'", "answerOptions": [ { "text": "effect", "isCorrect": false, "rationale": "'Effect' is usually a noun." }, { "text": "affect", "isCorrect": true, "rationale": "'Affect' is a verb meaning 'to influence' or 'to have an impact on'." }, { "text": "except", "isCorrect": false, "rationale": "'Except' means 'not including'." }, { "text": "accept", "isCorrect": false, "rationale": "'Accept' means 'to receive'." } ] },
-                            { "questionNumber": 14, "question": "Which sentence is grammatically correct?", "answerOptions": [ { "text": "Them books belong on the top shelf.", "isCorrect": false, "rationale": "'Them' is an object pronoun and cannot be used as an adjective. It should be 'Those'." }, { "text": "He did good on the test.", "isCorrect": false, "rationale": "'Good' is an adjective. The adverb 'well' should be used to modify the verb 'did'." }, { "text": "She feels well enough to return to work.", "isCorrect": true, "rationale": "'Well' is correctly used here as an adverb describing how she feels in terms of health." }, { "text": "I could of gone with you.", "isCorrect": false, "rationale": "This is a common error. The correct phrasing is 'could have' or 'could've'." } ] },
-                        { "questionNumber": 15, "calculator": false, "question": "Expand the expression: $(x - 5)^2$", "answerOptions": [ { "text": "$x^2 - 10x + 25$", "isCorrect": true, "rationale": "Using the formula $(a-b)^2 = a^2 - 2ab + b^2$, we get $x^2 - 2(x)(5) + 5^2 = x^2 - 10x + 25$." }, { "text": "$x^2 - 25$", "isCorrect": false, "rationale": "This is a common mistake. It forgets the middle term from the expansion." }, { "text": "$x^2 + 10x + 25$", "isCorrect": false, "rationale": "The middle term should be negative." }, { "text": "$x^2 + 25$", "isCorrect": false, "rationale": "This incorrectly squares each term and ignores the middle term." } ] },
-                        { "questionNumber": 16, "calculator": false, "question": "What is the result of $(3x^2 + 2x - 1) + (x^2 - 5x + 7)$?", "answerOptions": [ { "text": "$4x^2 - 3x + 6$", "isCorrect": true, "rationale": "Combine like terms: $(3x^2 + x^2) + (2x - 5x) + (-1 + 7) = 4x^2 - 3x + 6$." }, { "text": "$3x^2 - 3x + 6$", "isCorrect": false, "rationale": "Incorrectly combined the $x^2$ terms." }, { "text": "$4x^2 + 7x + 8$", "isCorrect": false, "rationale": "Incorrectly calculated the sum of the coefficients for x and the constant terms." }, { "text": "$4x^4 - 3x^2 + 6$", "isCorrect": false, "rationale": "Incorrectly added the exponents of the variables." } ] },
-                        { "questionNumber": 17, "calculator": false, "question": "Factor the expression: $x^2 - 9$", "answerOptions": [ { "text": "$(x - 3)(x + 3)$", "isCorrect": true, "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a - b)(a + b)$." }, { "text": "$(x - 3)(x - 3)$", "isCorrect": false, "rationale": "This would expand to $x^2 - 6x + 9$." }, { "text": "$(x + 3)(x + 3)$", "isCorrect": false, "rationale": "This would expand to $x^2 + 6x + 9$." }, { "text": "Cannot be factored", "isCorrect": false, "rationale": "This expression can be factored." } ] },
-                        { "questionNumber": 15, "calculator": false, "question": "Solve the inequality: $2x + 5 > 15$", "answerOptions": [ { "text": "$x > 5$", "isCorrect": true, "rationale": "Subtract 5 from both sides to get $2x > 10$. Then divide by 2 to get $x > 5$." }, { "text": "$x < 5$", "isCorrect": false, "rationale": "The inequality sign does not flip unless you multiply or divide by a negative number." }, { "text": "$x > 10$", "isCorrect": false, "rationale": "This is the result before dividing by 2." }, { "text": "$x = 5$", "isCorrect": false, "rationale": "This is an equation, not an inequality." } ] },
-                        { "questionNumber": 16, "calculator": false, "question": "If $3(y - 2) = 9$, what is the value of y?", "answerOptions": [ { "text": "5", "isCorrect": true, "rationale": "Divide both sides by 3 to get $y - 2 = 3$. Add 2 to both sides to get $y = 5$." }, { "text": "3", "isCorrect": false, "rationale": "This is the result of the first step, not the final answer." }, { "text": "4", "isCorrect": false, "rationale": "Incorrect calculation. $3(4-2) = 6$, not 9." }, { "text": "$\\frac{11}{3}$", "isCorrect": false, "rationale": "This would be the result if the equation was $3y-2=9$." } ] },
-                        { "questionNumber": 17, "calculator": false, "question": "Solve for x: $\\frac{x}{4} + 2 = 5$", "answerOptions": [ { "text": "12", "isCorrect": true, "rationale": "Subtract 2 from both sides to get $\\frac{x}{4} = 3$. Multiply both sides by 4 to get $x = 12$." }, { "text": "3", "isCorrect": false, "rationale": "This is the result before multiplying by 4." }, { "text": "28", "isCorrect": false, "rationale": "Incorrectly added 2 to 5 and then multiplied by 4." }, { "text": "8", "isCorrect": false, "rationale": "Incorrect calculation." } ] },
-                        { "questionNumber": 18, "calculator": true, "question": "Which of the following is a solution to the inequality $5 - 2x \\leq 1$?", "answerOptions": [ { "text": "1", "isCorrect": false, "rationale": "If x=1, $5 - 2(1) = 3$, and $3$ is not less than or equal to 1." }, { "text": "0", "isCorrect": false, "rationale": "If x=0, $5 - 2(0) = 5$, and $5$ is not less than or equal to 1." }, { "text": "2", "isCorrect": true, "rationale": "Subtract 5 from both sides: $-2x \\leq -4$. Divide by -2 and flip the inequality sign: $x \\geq 2$. The number 2 is a solution." }, { "text": "-1", "isCorrect": false, "rationale": "If x=-1, $5 - 2(-1) = 7$, and $7$ is not less than or equal to 1." } ] }
+                        quizzes: [
+                            { id: "rla_lang_usage_quiz1", label: "Set 1" },
+                            { id: "rla_lang_usage_quiz2", label: "Set 2" },
+                            { id: "rla_lang_usage_quiz3", label: "Set 3" }
+                        ]
+                    },
+                    {
+                        id: "rla_extended_response",
+                        title: "Extended Response",
+                        description: "Practice constructing a well-supported argumentative essay.",
+                        quizzes: [
+                            { id: "rla_extended_response_quiz1", label: "Set 1" },
+                            { id: "rla_extended_response_quiz2", label: "Set 2" },
+                            { id: "rla_extended_response_quiz3", label: "Set 3" }
                         ]
                     }
                 ]
@@ -4541,6 +4747,14 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
     const isProfileActive = activePanel === 'profile';
     const isSettingsActive = activePanel === 'settings';
     const isDark = theme === 'dark';
+    const toggleButtonStyle = isDark
+        ? undefined
+        : {
+            background: '#ffffff',
+            color: '#0f172a',
+            borderColor: 'rgba(15,23,42,0.18)',
+            boxShadow: '0 12px 20px -14px rgba(15,23,42,0.25)',
+        };
 
     return (
         <header className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm">
@@ -4565,14 +4779,15 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
                         onClick={onToggleTheme}
                         aria-label="Toggle color mode"
                         aria-pressed={isDark}
-                        className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/70 text-slate-700 shadow-sm transition hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:border-slate-600 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-700/80"
+                        className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-slate-600 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-700/80"
+                        style={toggleButtonStyle}
                     >
                         {isDark ? (
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" role="img" aria-hidden="true">
                                 <path d="M17.293 13.293A8 8 0 016.707 2.707 6 6 0 1017.293 13.293z" />
                             </svg>
                         ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" role="img" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 drop-shadow" viewBox="0 0 20 20" fill="currentColor" role="img" aria-hidden="true">
                                 <path d="M10 3a1 1 0 011 1v1a1 1 0 11-2 0V4a1 1 0 011-1zm4.22 1.78a1 1 0 011.415 1.414l-.708.708a1 1 0 11-1.414-1.414l.707-.708zM17 9a1 1 0 110 2h-1a1 1 0 110-2h1zm-2.072 5.657a1 1 0 011.414 1.414l-.707.707a1 1 0 11-1.415-1.414l.708-.707zM11 16a1 1 0 11-2 0v-1a1 1 0 112 0v1zm-5.657-.343a1 1 0 10-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM4 9a1 1 0 100 2H3a1 1 0 100-2h1zm2.343-3.657a1 1 0 10-1.414-1.414l-.707.707A1 1 0 105.636 6.05l.707-.707z" />
                                 <path d="M10 5a5 5 0 100 10A5 5 0 0010 5z" />
                             </svg>
@@ -5765,7 +5980,9 @@ function App({ externalTheme, onThemeChange }) {
 
         setActiveQuiz(preparedQuiz);
         // For any multi-part quiz, the view should be 'quiz' so the main QuizRunner can handle routing.
-        const viewType = (preparedQuiz.type === 'multi-part-rla' || preparedQuiz.type === 'multi-part-math') ? 'quiz' : (preparedQuiz.type || 'quiz');
+        const requiresStandardView = preparedQuiz.type === 'multi-part-rla' || preparedQuiz.type === 'multi-part-math';
+        const normalizedType = preparedQuiz.type === 'reading' ? 'quiz' : (preparedQuiz.type || 'quiz');
+        const viewType = requiresStandardView ? 'quiz' : normalizedType;
         setView(viewType);
     };
     
@@ -6094,7 +6311,7 @@ function App({ externalTheme, onThemeChange }) {
                     geometryNode={mathToolsNodes ? mathToolsNodes.geometry : null}
                 />
                 <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8 pt-[4.5rem] space-y-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
-                    <div className="bg-white dark:bg-slate-900/90 border border-slate-200/70 dark:border-slate-700/70 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
+                    <div className="content-card bg-white dark:bg-slate-900/90 border border-slate-200/70 dark:border-slate-700/70 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                         {renderView()}
                     </div>
                 </main>
@@ -6262,7 +6479,7 @@ function ProfileView({
             <div className="max-w-4xl mx-auto space-y-6">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-800">Profile</h1>
+                        <h1 className="text-3xl font-bold text-white drop-shadow-sm">Profile</h1>
                         <p className="text-sm text-slate-500">Update your learning plan and keep your information in sync.</p>
                     </div>
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -6355,7 +6572,7 @@ function ProfileView({
                     id="testPlanCard"
                     className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightTest ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
                 >
-                    <h2 className="text-lg font-semibold text-slate-800">Upcoming Tests</h2>
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Upcoming Tests</h2>
                     <div id="nextUpcomingSummary" className="note text-sm text-slate-600">
                         {nextUpcomingSummary}
                     </div>
@@ -6469,7 +6686,7 @@ function ProfileView({
                     onSubmit={handleChallengesSubmit}
                     className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightChallenges ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
                 >
-                    <h2 className="text-lg font-semibold text-slate-800">Learning Challenges</h2>
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Learning Challenges</h2>
                     <p className="text-sm text-slate-600">Select the areas you find tough. We’ll use this later to build a study plan for you.</p>
                     <div id="challengeList" className="max-h-64 overflow-y-auto rounded-lg border border-slate-200 p-2">
                         {Object.keys(groupedChallenges).length === 0 ? (
@@ -7711,24 +7928,59 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
     );
 }
 
-function SubjectVocabularySection({ subject, words }) {
+function SubjectVocabularySection({ subject, words, theme = 'light' }) {
     if (!Array.isArray(words) || !words.length) {
         return null;
     }
+
+    const isDarkMode = theme === 'dark';
+    const colorScheme = SUBJECT_COLORS[subject] || {};
+    const accentColor = colorScheme.accent || colorScheme.text || '#0f172a';
+    const textColor = colorScheme.text || '#0f172a';
+    const lightTint = SUBJECT_LIGHT_TINTS[subject] || 'rgba(148,163,184,0.28)';
+    const lightSurface = SUBJECT_LIGHT_SURFACE_GRADIENTS[subject];
+
+    const containerClasses = `animate-floatIn rounded-2xl p-6 mb-6 border transition-colors duration-300 ${isDarkMode ? 'bg-slate-900/60 border-slate-700/60' : 'bg-white shadow-xl'}`;
+    const containerStyle = isDarkMode
+        ? undefined
+        : {
+            backgroundColor: '#ffffff',
+            backgroundImage: lightSurface || undefined,
+            borderColor: lightTint,
+            boxShadow: '0 22px 45px -32px rgba(15,23,42,0.45)',
+        };
+
+    const headerTextStyle = isDarkMode ? undefined : { color: accentColor };
+    const subtextStyle = isDarkMode ? undefined : { color: textColor, opacity: 0.75 };
+
+    const cardClasses = `rounded-xl p-4 shadow-sm border transition-all ${isDarkMode ? 'bg-slate-900/60 border-slate-700/60' : 'bg-white'}`;
+    const cardStyle = isDarkMode
+        ? undefined
+        : {
+            backgroundColor: '#ffffff',
+            borderColor: lightTint,
+            borderLeft: `4px solid ${accentColor}`,
+            boxShadow: '0 14px 32px -28px rgba(15,23,42,0.35)',
+        };
+
+    const termStyle = isDarkMode ? undefined : { color: textColor };
+    const definitionStyle = isDarkMode ? undefined : { color: textColor, opacity: 0.85 };
+    const exampleStyle = isDarkMode ? undefined : { color: accentColor, opacity: 0.8 };
+
     return (
-        <div id="subject-vocabulary-section" className="glass animate-floatIn rounded-2xl p-6 mb-6 border border-slate-200/70 dark:border-slate-700/60">
+        <div id="subject-vocabulary-section" className={containerClasses} style={containerStyle}>
             <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">Subject Vocabulary</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-300">Scroll through the complete list of key terms for {subject}.</p>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100" style={headerTextStyle}>Subject Vocabulary</h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-300" style={subtextStyle}>Scroll through the complete list of key terms for {subject}.</p>
                 </div>
             </div>
             <div className="mt-4 max-h-96 overflow-y-auto pr-1 space-y-3">
                 {words.map((word) => (
-                    <div key={word.term} className="rounded-lg bg-white/85 dark:bg-slate-900/60 p-4 shadow-sm border border-slate-200/60 dark:border-slate-700/60 transition-all">
-                        <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">{word.term}</p>
-                        {word.definition && <p className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">{word.definition}</p>}
-                        {word.example && <p className="text-xs text-slate-500 dark:text-slate-400 italic mt-2">Example: {word.example}</p>}
+                    <div key={word.term} className={cardClasses} style={cardStyle}>
+                        <p className="text-lg font-semibold text-slate-900 dark:text-slate-100" style={termStyle}>{word.term}</p>
+                        {word.definition && <p className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed" style={definitionStyle}>{word.definition}</p>}
+                        {word.example && <p className="text-xs text-slate-500 dark:text-slate-400 italic mt-2" style={exampleStyle}>Example: {word.example}</p>}
                     </div>
                 ))}
             </div>
@@ -7872,6 +8124,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
     const isDarkMode = theme === 'dark';
+    const homePanelStyle = isDarkMode
+        ? undefined
+        : {
+            backgroundColor: '#ffffff',
+            color: '#0f172a',
+            borderColor: 'rgba(148,163,184,0.32)',
+        };
+    const homePanelPrimaryTextClass = isDarkMode ? 'text-slate-300' : 'text-slate-900';
     const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
     const profile = profileData?.profile || {};
     const challengeOptions = Array.isArray(profileData?.challengeOptions) ? profileData.challengeOptions : [];
@@ -8010,6 +8270,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     if (selectedSubject && selectedCategory) {
         const topics = AppData[selectedSubject].categories[selectedCategory].topics;
         const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
+        const lightTint = SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.28)';
+        const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject]
+            || 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))';
+        const cardTextColor = subjectColors.text || subjectColors.heroText || '#0f172a';
+        const badgeTextColor = subjectColors.text || subjectColors.accent || '#0f172a';
         const gradientBackground = isDarkMode
             ? SUBJECT_BG_GRADIENTS[selectedSubject]
             : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject] || SUBJECT_BG_GRADIENTS[selectedSubject];
@@ -8042,14 +8307,15 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         return (
             <>
                 <div
-                    className="animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
+                    className="hero-section animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
                     style={{
                         ...heroStyles,
-                        color: heroTextColor,
+                        '--hero-text-color': heroTextColor,
+                        '--hero-accent-color': heroAccentColor,
                     }}
                 >
                     <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
-                    <h2 className="text-3xl font-extrabold mb-4" style={{ color: heroTextColor }}>
+                    <h2 className="hero-title text-3xl font-extrabold mb-4">
                         {selectedCategory}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -8057,14 +8323,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             const quizSets = Array.isArray(topic.quizzes)
                                 ? topic.quizzes.filter((quiz) => quizHasAvailableQuestions(selectedSubject, topic, quiz))
                                 : [];
-                            const quizCountLabel = quizSets.length
-                                ? `${quizSets.length} quiz ${quizSets.length === 1 ? 'set' : 'sets'}`
-                                : '';
                             const supportsMultipleQuizzes = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
                             const buttonStyle = {
                                 backgroundColor: subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
                                 color: subjectColors.accentText || '#ffffff',
                                 borderColor: subjectColors.border || subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
+                                boxShadow: !isDarkMode ? '0 12px 24px -18px rgba(15,23,42,0.45)' : undefined,
                             };
                             const defaultButtonLabel = (topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool')
                                 ? 'Open'
@@ -8113,26 +8377,52 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 <div
                                     key={topic.id || `topic_${topicIndex}`}
                                     className="rounded-xl border bg-white/95 dark:bg-slate-900/80 dark:border-slate-700 p-5 flex flex-col justify-between shadow-lg transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl"
-                                    style={{
-                                        borderColor: subjectColors.border || 'rgba(255,255,255,0.4)',
-                                        color: subjectColors.text || '#0f172a',
-                                    }}
+                                    style={isDarkMode
+                                        ? {
+                                            borderColor: subjectColors.border || 'rgba(148,163,184,0.35)',
+                                            color: subjectColors.text || '#f8fafc',
+                                        }
+                                        : {
+                                            borderColor: lightTint,
+                                            backgroundColor: '#ffffff',
+                                            backgroundImage: lightCardBackground,
+                                            color: cardTextColor,
+                                            boxShadow: '0 22px 45px -34px rgba(15,23,42,0.45)',
+                                        }}
                                 >
                                     <div>
-                                        <h3 className="text-xl font-bold" style={{ color: subjectColors.text || '#0f172a' }}>
+                                        <h3 className="text-xl font-bold" style={isDarkMode ? { color: subjectColors.text || '#f8fafc' } : { color: cardTextColor }}>
                                             {topic.title}
                                         </h3>
-                                        <p className="text-slate-600 dark:text-slate-300 text-sm my-3 flex-grow">{topic.description}</p>
+                                        <p
+                                            className="text-sm my-3 flex-grow"
+                                            style={isDarkMode
+                                                ? { color: 'rgba(226,232,240,0.82)' }
+                                                : { color: 'rgba(15,23,42,0.78)' }}
+                                        >
+                                            {topic.description}
+                                        </p>
                                     </div>
                                     {supportsMultipleQuizzes ? (
                                         <div className="mt-2 space-y-3 w-full">
-                                            <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                            <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide">
                                                 {quizSets.map((quiz, index) => {
                                                     const label = quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
                                                     return (
                                                         <span
                                                             key={`label-${topic.id || `topic_${topicIndex}`}-${index}`}
-                                                            className="px-2 py-1 rounded-full bg-slate-100 text-slate-700"
+                                                            className="px-2 py-1 rounded-full border"
+                                                            style={isDarkMode
+                                                                ? {
+                                                                    backgroundColor: 'rgba(148,163,184,0.12)',
+                                                                    color: subjectColors.text || '#e2e8f0',
+                                                                    borderColor: 'rgba(148,163,184,0.25)',
+                                                                }
+                                                                : {
+                                                                    backgroundColor: lightTint,
+                                                                    color: badgeTextColor,
+                                                                    borderColor: lightTint,
+                                                                }}
                                                         >
                                                             {label}
                                                         </span>
@@ -8227,6 +8517,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         const panelBackground = !isDarkMode && SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
         if (panelBackground) {
             panelBaseStyle.backgroundImage = panelBackground;
+            panelBaseStyle.boxShadow = '0 22px 45px -34px rgba(15,23,42,0.35)';
         }
         const selectStyle = isDarkMode
             ? {
@@ -8257,15 +8548,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <ScienceFormulaSheet onClose={() => setViewScienceFormulas(false)} />
                 )}
                 <div
-                    className="animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
+                    className="hero-section animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
                     style={{
                         ...heroStyles,
-                        color: heroTextColor,
+                        '--hero-text-color': heroTextColor,
+                        '--hero-accent-color': heroAccentColor,
                     }}
                 >
                     <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-                        <h2 className="text-3xl font-extrabold" style={{ color: heroTextColor }}>
+                        <h2 className="hero-title text-3xl font-extrabold">
                             {selectedSubject}
                         </h2>
                         {(selectedSubject === 'Math' || selectedSubject === 'Science') && (
@@ -8307,14 +8599,24 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         <SubjectVocabularySection
                             subject={selectedSubject}
                             words={subjectVocabulary}
+                            theme={theme}
                         />
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {Object.entries(subject.categories).map(([categoryName, category]) => {
-                            const cardStyle = {
-                                borderColor: subjectColors.border || panelBorderColor,
-                                color: subjectColors.text || heroTextColor,
-                            };
+                            const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
+                            const cardStyle = isDarkMode
+                                ? {
+                                    borderColor: subjectColors.border || panelBorderColor,
+                                    color: subjectColors.text || heroTextColor,
+                                }
+                                : {
+                                    borderColor: subjectColors.border || panelBorderColor,
+                                    backgroundColor: '#ffffff',
+                                    backgroundImage: lightCardBackground,
+                                    color: subjectColors.text || heroTextColor,
+                                    boxShadow: '0 22px 45px -34px rgba(15,23,42,0.35)',
+                                };
                             return (
                                 <button
                                     key={categoryName}
@@ -8454,9 +8756,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 </header>
                 {currentUser && (
                     <div className="grid gap-4 md:grid-cols-2 mb-6">
-                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-2">
+                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Upcoming Tests</h2>
+                                <h2
+                                    className="text-lg font-semibold text-slate-900 dark:text-slate-100"
+                                    style={isDarkMode ? undefined : { color: '#000000' }}
+                                >
+                                    Upcoming Tests
+                                </h2>
                                 <button
                                     type="button"
                                     onClick={goToProfile}
@@ -8469,27 +8776,32 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 <p className="text-sm text-emerald-600">You marked every GED subject as passed. Amazing work!</p>
                             ) : nextUpcomingSummary ? (
                                 <>
-                                    <p className="text-sm text-slate-600 dark:text-slate-300">
-                                        Next: <span className="font-semibold text-slate-800 dark:text-slate-100">{nextUpcomingSummary.subject}</span> on{' '}
-                                        <span className="font-semibold text-slate-800 dark:text-slate-100">{nextUpcomingSummary.testDate}</span>
-                                        {nextUpcomingSummary.daysUntilText && (
-                                            <> · {nextUpcomingSummary.daysUntilText} remaining</>
-                                        )}
-                                    </p>
-                                    {nextUpcomingSummary.location && (
-                                        <p className="text-sm text-slate-600 dark:text-slate-300">Location: {nextUpcomingSummary.location}</p>
+                                <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+                                    Next: <span className="font-semibold text-slate-900 dark:text-slate-100">{nextUpcomingSummary.subject}</span> on{' '}
+                                    <span className="font-semibold text-slate-900 dark:text-slate-100">{nextUpcomingSummary.testDate}</span>
+                                    {nextUpcomingSummary.daysUntilText && (
+                                        <> · {nextUpcomingSummary.daysUntilText} remaining</>
                                     )}
-                                </>
-                            ) : hasSavedTest ? (
-                                <p className="text-sm text-slate-600 dark:text-slate-300">Keep adding your remaining test dates to stay organized.</p>
-                            ) : (
-                                <p className="text-sm text-slate-600 dark:text-slate-300">Set your test dates to start the countdown.</p>
-                            )}
-                            <p className="text-xs text-slate-500 dark:text-slate-400">Need changes? Update them from your profile.</p>
+                                </p>
+                                {nextUpcomingSummary.location && (
+                                    <p className={`text-sm ${homePanelPrimaryTextClass}`}>Location: {nextUpcomingSummary.location}</p>
+                                )}
+                            </>
+                        ) : hasSavedTest ? (
+                            <p className={`text-sm ${homePanelPrimaryTextClass}`}>Keep adding your remaining test dates to stay organized.</p>
+                        ) : (
+                            <p className={`text-sm ${homePanelPrimaryTextClass}`}>Set your test dates to start the countdown.</p>
+                        )}
+                            <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-800'}`}>Need changes? Update them from your profile.</p>
                         </article>
-                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-2">
+                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Learning Challenges</h2>
+                                <h2
+                                    className="text-lg font-semibold text-slate-900 dark:text-slate-100"
+                                    style={isDarkMode ? undefined : { color: '#000000' }}
+                                >
+                                    Learning Challenges
+                                </h2>
                                 <button
                                     type="button"
                                     onClick={goToProfile}
@@ -8499,16 +8811,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 </button>
                             </div>
                             {selectedChallenges.length ? (
-                                <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-300">
+                                <ul className={`space-y-1 text-sm ${homePanelPrimaryTextClass}`}>
                                     {displayedChallenges.map((challenge) => (
                                         <li key={challenge.id}>• {challenge.label || `${challenge.subject} — ${challenge.subtopic}`}</li>
                                     ))}
                                     {hiddenChallengeCount > 0 && (
-                                        <li className="text-xs text-slate-500 dark:text-slate-400">and {hiddenChallengeCount} more…</li>
+                                        <li className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-800'}`}>and {hiddenChallengeCount} more…</li>
                                     )}
                                 </ul>
                             ) : (
-                                <p className="text-sm text-slate-600 dark:text-slate-300">Tell us what topics to focus on to unlock a tailored plan.</p>
+                                <p className={`text-sm ${homePanelPrimaryTextClass}`}>Tell us what topics to focus on to unlock a tailored plan.</p>
                             )}
                             {!onboardingComplete && (
                                 <p className="text-xs text-rose-500">Finish selecting challenges to complete onboarding.</p>
@@ -8561,6 +8873,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 key={subjectName}
                                 onClick={() => handleSelectSubject(subjectName)}
                                 className="subject-card glass group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-lg transition-all duration-300"
+                                data-testid={`subject-button-${subjectName.toLowerCase().replace(/[\s()]+/g, '-').replace(/-$/, '')}`}
                             >
                                 <div
                                     className="w-full rounded-xl py-6 flex items-center justify-center shadow-inner"
@@ -8636,7 +8949,7 @@ function Stem({ item }) {
     );
 }
 
-function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit, subject, showTimer = true, quizConfig }) {
+function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText, quizTitle, onExit, timeLimit, subject, showTimer = true, quizConfig, article = null, articleImage = null }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [marked, setMarked] = useState(Array(questions.length).fill(false));
     const [confidence, setConfidence] = useState(Array(questions.length).fill(null));
@@ -8646,12 +8959,17 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const handleSubmitRef = useRef(() => {});
     const [showMathFormulas, setShowMathFormulas] = useState(false);
     const [showScienceFormulas, setShowScienceFormulas] = useState(false);
+    const [showArticle, setShowArticle] = useState(Boolean(article));
 
     useEffect(() => {
         setTimeLeft(timeLimit || questions.length * 90);
         setIsPaused(false);
         setPausesRemaining(2);
     }, [questions, timeLimit]);
+
+    useEffect(() => {
+        setShowArticle(Boolean(article));
+    }, [article]);
 
     useEffect(() => {
         if (!onComplete || isPaused) return; // Don't run timer if there's no completion action (e.g., in a part of a larger quiz)
@@ -8734,7 +9052,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                 <ScienceFormulaSheet onClose={() => setShowScienceFormulas(false)} />
             )}
             <div
-                className="rounded-2xl p-4 sm:p-6 shadow-lg"
+                className="quiz-panel rounded-2xl p-4 sm:p-6 shadow-lg"
                 style={{ backgroundColor: scheme.surface, border: `1px solid ${scheme.surfaceBorder}` }}
             >
                 {showTimer && (
@@ -8831,6 +9149,67 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     </header>
                 )}
 
+                {article && (
+                    <section className="mb-6">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <h3 className="text-lg font-semibold" style={{ color: scheme.text }}>Reading Passage</h3>
+                                {article.genre && (
+                                    <p className="text-xs uppercase tracking-wide" style={{ color: scheme.mutedText }}>
+                                        {article.genre}
+                                    </p>
+                                )}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setShowArticle((prev) => !prev)}
+                                className="inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold transition-colors"
+                                style={{
+                                    color: scheme.accentText,
+                                    backgroundColor: scheme.accent,
+                                    border: `1px solid ${scheme.accent}`,
+                                }}
+                            >
+                                {showArticle ? 'Hide Passage' : 'Show Passage'}
+                            </button>
+                        </div>
+                        {showArticle && (
+                            <div
+                                className="mt-3 space-y-3 rounded-xl p-4 text-sm leading-relaxed"
+                                style={{
+                                    backgroundColor: scheme.surfaceStrong,
+                                    border: `1px solid ${scheme.surfaceBorder}`,
+                                    maxHeight: '18rem',
+                                    overflowY: 'auto',
+                                }}
+                            >
+                                {article.title && (
+                                    <h4
+                                        className="text-base font-bold"
+                                        style={{ color: scheme.text }}
+                                        dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(article.title, { normalizeSpacing: true }) }}
+                                    />
+                                )}
+                                {(article.imageUrl || articleImage) && (
+                                    <img
+                                        src={article.imageUrl || articleImage}
+                                        alt={article.imageAlt || article.title || 'Reading passage illustration'}
+                                        className="max-h-40 w-full rounded-lg object-cover"
+                                    />
+                                )}
+                                {(article.text || []).map((paragraph, index) => (
+                                    <p
+                                        key={index}
+                                        className="text-sm"
+                                        style={{ color: scheme.text }}
+                                        dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(paragraph, { normalizeSpacing: true }) }}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </section>
+                )}
+
                 <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
                     {questions.map((_, i) => {
                         const isActive = i === currentIndex;
@@ -8857,7 +9236,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                 </div>
 
                 <div
-                    className="rounded-xl p-4 sm:p-6 shadow-inner"
+                    className="question-container rounded-xl p-4 sm:p-6 shadow-inner"
                     style={{
                         border: `1px solid ${scheme.surfaceBorder}`,
                         backgroundColor: scheme.surfaceStrong || scheme.surface,
@@ -8924,11 +9303,15 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                     optionStyles.borderColor = scheme.optionSelectedBorder;
                                     optionStyles.color = scheme.accentText;
                                 }
+                                const optionClassNames = ['option', 'answer-option', 'w-full', 'text-left', 'transition'];
+                                if (isSelected) {
+                                    optionClassNames.push('selected');
+                                }
                                 return (
                                     <button
                                         key={i}
                                         onClick={() => handleSelect(opt.text)}
-                                        className="option w-full text-left transition"
+                                        className={optionClassNames.join(' ')}
                                         style={optionStyles}
                                     >
                                         <span className="flex-grow text-left" style={{ color: 'var(--text-primary)' }}>
@@ -9035,6 +9418,8 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         timeLimit={quiz.timeLimit}
         subject={quiz.subject}
         quizConfig={quiz.config}
+        article={quiz.article}
+        articleImage={quiz.imageUrl}
     />;
 }
 
@@ -9316,11 +9701,11 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                 return (
                     <div>
                         <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response (Essay)</h3>
-                        <div className="prose max-w-none bg-slate-50 p-4 rounded-lg mb-4">
+                        <div className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg mb-4">
                             <h4 className="question-stem">{quiz.part2_essay.passages[0].title}</h4>
                             <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[0].content, { normalizeSpacing: true }) }} />
                         </div>
-                        <div className="prose max-w-none bg-slate-50 p-4 rounded-lg">
+                        <div className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg">
                             <h4 className="question-stem">{quiz.part2_essay.passages[1].title}</h4>
                             <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[1].content, { normalizeSpacing: true }) }} />
                         </div>
@@ -9569,7 +9954,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                  <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
                  <div></div>
             </header>
-            <article className="prose max-w-none">
+            <article className="prose passage-section max-w-none">
                 <h3 className="text-2xl font-bold question-stem" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.article.title, { normalizeSpacing: true }) }}></h3>
                 <p className="text-sm italic text-slate-500">{quiz.article.genre}</p>
                 {quiz.imageUrl && <img src={quiz.imageUrl} alt="Article supplemental image" className="my-4 mx-auto rounded-md border" />}
@@ -9579,7 +9964,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 <h3 className="text-2xl font-bold mb-4">Questions</h3>
                 <div className="space-y-6">
                     {quiz.questions.map((q, i) => (
-                        <div key={i} className={`p-4 rounded-lg transition-colors ${isSubmitted ? (answers[i] === (q.answerOptions || []).find(o=>o.isCorrect)?.text ? 'bg-green-50' : 'bg-red-50') : 'bg-slate-50'}`}>
+                        <div key={i} className={`question-container p-4 rounded-lg transition-colors ${isSubmitted ? (answers[i] === (q.answerOptions || []).find(o=>o.isCorrect)?.text ? 'bg-green-50' : 'bg-red-50') : 'bg-slate-50'}`}>
                             {q.imageUrl && !(q.stimulusImage && q.stimulusImage.src) && (
                                 <img src={q.imageUrl} alt={`Visual for question ${i + 1}`} className="my-2 rounded-md border max-w-xs h-auto" />
                             )}
@@ -9593,14 +9978,23 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                                 <Stem item={{ ...q, questionNumber: q.questionNumber ?? (i + 1) }} />
                             </div>
                             <div className="mt-2 space-y-1">
-                                {(q.answerOptions || []).map((opt, j) => (
-                                    <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
-                                        <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
-                                        <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
-                                            <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} subject={q.subject || quiz.subject || 'Math'} />
-                                        </span>
-                                    </label>
-                                ))}
+                                {(q.answerOptions || []).map((opt, j) => {
+                                    const isSelectedOption = answers[i] === opt.text;
+                                    const optionClasses = [
+                                        'answer-option flex items-center p-2 rounded cursor-pointer',
+                                        isSelectedOption ? 'bg-slate-200' : 'hover:bg-slate-100',
+                                        isSubmitted && opt.isCorrect ? 'correct' : '',
+                                        isSubmitted && isSelectedOption && !opt.isCorrect ? 'incorrect' : '',
+                                    ].filter(Boolean).join(' ');
+                                    return (
+                                        <label key={j} className={optionClasses}>
+                                            <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
+                                            <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && isSelectedOption && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
+                                                <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} subject={q.subject || quiz.subject || 'Math'} />
+                                            </span>
+                                        </label>
+                                    );
+                                })}
                             </div>
                         </div>
                     ))}
@@ -9832,11 +10226,11 @@ const passagesData = [
         switch (overlayView) {
             case 'passage1':
                 return (
-                    <div className="prose max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage1.content, { normalizeSpacing: true }) }} />
+                    <div className="prose passage-section max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage1.content, { normalizeSpacing: true }) }} />
                 );
             case 'passage2':
                 return (
-                    <div className="prose max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage2.content, { normalizeSpacing: true }) }} />
+                    <div className="prose passage-section max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage2.content, { normalizeSpacing: true }) }} />
                 );
             default:
                 return (
@@ -10969,10 +11363,12 @@ function useThemeController() {
             const body = document.body;
             if (body) {
                 body.classList.toggle('dark', normalized === 'dark');
+                body.setAttribute('data-theme', normalized);
             }
             const root = document.documentElement;
             if (root) {
                 root.classList.toggle('dark', normalized === 'dark');
+                root.setAttribute('data-theme', normalized);
             }
         }
         try {
@@ -10993,7 +11389,7 @@ function useThemeController() {
 }
 
 function RootApp() {
-    const { theme, toggleTheme, applyTheme } = useThemeController();
+    const { theme, applyTheme } = useThemeController();
 
     const handleThemeChange = useCallback((nextTheme) => {
         applyTheme(nextTheme);
@@ -11001,15 +11397,6 @@ function RootApp() {
 
     return (
         <>
-            <div className="fixed top-4 right-4 z-50">
-                <button
-                    type="button"
-                    onClick={toggleTheme}
-                    className="rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 shadow transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
-                >
-                    {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                </button>
-            </div>
             <ErrorBoundary>
                 <App externalTheme={theme} onThemeChange={handleThemeChange} />
             </ErrorBoundary>
