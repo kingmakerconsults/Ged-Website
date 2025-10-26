@@ -726,6 +726,128 @@ function sanitizeQuestionKeepLatex(q) {
     return sanitized;
 }
 
+
+function formatFractionComponent(component) {
+    if (typeof component !== 'string') return component;
+    const trimmed = component.trim();
+    if (!trimmed.length) return trimmed;
+    const alreadyWrapped = (trimmed.startsWith('(') && trimmed.endsWith(')')) || (trimmed.startsWith('[') && trimmed.endsWith(']'));
+    const simpleToken = /^[-+]?\d+(?:\.\d+)?$/.test(trimmed) || /^[A-Za-z]$/.test(trimmed) || /^[A-Za-z][A-Za-z0-9]*$/.test(trimmed);
+    const needsWrap = !alreadyWrapped && !simpleToken && /[\s+\-]/.test(trimmed);
+    return needsWrap ? `(${trimmed})` : trimmed;
+}
+
+function convertFirstLatexFraction(source) {
+    if (typeof source !== 'string') return { changed: false, value: source };
+    const idx = source.indexOf('\frac');
+    if (idx === -1) {
+        return { changed: false, value: source };
+    }
+    let cursor = idx + 5;
+    while (cursor < source.length && /\s/.test(source[cursor])) {
+        cursor += 1;
+    }
+    if (source[cursor] !== '{') {
+        return { changed: false, value: source };
+    }
+
+    const parseGroup = (startIndex) => {
+        if (source[startIndex] !== '{') return null;
+        let depth = 0;
+        let i = startIndex + 1;
+        while (i < source.length) {
+            const ch = source[i];
+            if (ch === '{') {
+                depth += 1;
+            } else if (ch === '}') {
+                if (depth === 0) {
+                    return { content: source.slice(startIndex + 1, i), nextIndex: i + 1 };
+                }
+                depth -= 1;
+            }
+            i += 1;
+        }
+        return null;
+    };
+
+    const numeratorGroup = parseGroup(cursor);
+    if (!numeratorGroup) {
+        return { changed: false, value: source };
+    }
+
+    cursor = numeratorGroup.nextIndex;
+    while (cursor < source.length && /\s/.test(source[cursor])) {
+        cursor += 1;
+    }
+    if (source[cursor] !== '{') {
+        return { changed: false, value: source };
+    }
+    const denominatorGroup = parseGroup(cursor);
+    if (!denominatorGroup) {
+        return { changed: false, value: source };
+    }
+
+    const numerator = formatFractionComponent(numeratorGroup.content);
+    const denominator = formatFractionComponent(denominatorGroup.content);
+    const replacement = `${numerator}/${denominator}`;
+    const updated = source.slice(0, idx) + replacement + source.slice(denominatorGroup.nextIndex);
+    return { changed: true, value: updated };
+}
+
+function replaceLatexFractionsWithSlash(value) {
+    if (typeof value !== 'string' || value.indexOf('\frac') === -1) {
+        return value;
+    }
+
+    let result = value.replace(/\[td]?frac/g, '\frac');
+    let guard = 0;
+    while (result.indexOf('\frac') !== -1 && guard < 50) {
+        const { changed, value: updated } = convertFirstLatexFraction(result);
+        if (!changed) {
+            break;
+        }
+        result = updated;
+        guard += 1;
+    }
+    return result;
+}
+
+function applyFractionPlainTextModeToItem(item) {
+    if (!item || typeof item !== 'object') {
+        return item;
+    }
+
+    const convert = (val) => replaceLatexFractionsWithSlash(val);
+
+    if (typeof item.questionText === 'string') {
+        item.questionText = convert(item.questionText);
+    }
+    if (typeof item.passage === 'string') {
+        item.passage = convert(item.passage);
+    }
+    if (typeof item.rationale === 'string') {
+        item.rationale = convert(item.rationale);
+    }
+    if (typeof item.correctAnswer === 'string') {
+        item.correctAnswer = convert(item.correctAnswer);
+    }
+    if (Array.isArray(item.answerOptions)) {
+        item.answerOptions = item.answerOptions.map((opt) => {
+            if (!opt || typeof opt !== 'object') {
+                return opt;
+            }
+            const next = { ...opt };
+            if (typeof next.text === 'string') {
+                next.text = convert(next.text);
+            }
+            if (typeof next.rationale === 'string') {
+                next.rationale = convert(next.rationale);
+            }
+            return next;
+        });
+    }
+    return item;
+}
 function cloneQuestion(q) {
     if (!q || typeof q !== 'object') return q;
     return {
@@ -827,21 +949,51 @@ const NON_CALC_COUNT = 12;
 const GEOMETRY_COUNT = 12;
 const ALGEBRA_COUNT = 12;
 
-const STRICT_JSON_HEADER_MATH = `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
+const FRACTION_PLAIN_TEXT_RULE = `IMPORTANT FRACTION RULE:
+Any fraction MUST be written using plain text with a slash. Examples:
+
+* one-half = 1/2
+* three-fourths = 3/4
+* (2x + 1)/3
+* mixed number: 2 1/2
+
+NEVER write a fraction using LaTeX or KaTeX syntax like \frac{1}{2}.
+NEVER wrap a fraction in $, $$, \(:, or [.
+
+Everything else (exponents, square roots, inequality symbols like ≤ and ≥, etc.) can be written normally the way you usually would for math class.`;
+
+function buildStrictJsonHeaderMath({ fractionPlainTextMode } = {}) {
+    const questionTextLine = fractionPlainTextMode
+        ? '  "questionText": "Plain English with math notation allowed (e.g., exponents like x^2, roots like \\sqrt{9}, inequality symbols like \\le or \\ge). DO NOT use math delimiters ($, $$, \\(, \\[). Fractions must follow the plain-text slash rule described below. DO NOT use HTML.",'
+        : '  "questionText": "Plain English with LaTeX commands allowed (e.g., \\frac{1}{2}, \\sqrt{9}, \\le, \\ge, \\pi). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.",';
+
+    const fractionRuleBlock = fractionPlainTextMode ? `\n${FRACTION_PLAIN_TEXT_RULE}\n` : '';
+
+    const hardRuleLines = [
+        fractionPlainTextMode
+            ? '- LaTeX commands allowed (\\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).'
+            : '- LaTeX commands allowed (\\frac, \\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).',
+        fractionPlainTextMode
+            ? '- Fractions must use plain-text slash notation (e.g., 3/4, (2x+1)/3).'
+            : '- Ensure braces balance in \\frac{...}{...}.',
+        '- Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.',
+        '- No HTML or markdown tables. Describe any table verbally in questionText.',
+        '- Ensure braces balance in \\sqrt{...}. No custom macros.',
+        '- If a passage/stimulus is used, it MUST be <= 250 words.',
+        '- Exactly N items; top-level is a JSON array only.'
+    ].join('\n');
+
+    return `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
 Each item schema:
 {
   "id": "<unique string>",
   "questionType": "standalone" | "freeResponse",
-  "questionText": "Plain English with LaTeX commands allowed (e.g., \\frac{1}{2}, \\sqrt{9}, \\le, \\ge, \\pi). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.",
+${questionTextLine}
   "answerOptions": [{"text":"...","isCorrect":true|false,"rationale":"..."}] // omit for freeResponse
-}
+}`${fractionRuleBlock}
 Hard rules:
-- LaTeX commands allowed (\\frac, \\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).
-- Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.
-- No HTML or markdown tables. Describe any table verbally in questionText.
-- Ensure braces balance in \\frac{...}{...} and \\sqrt{...}. No custom macros.
-- If a passage/stimulus is used, it MUST be <= 250 words.
-- Exactly N items; top-level is a JSON array only.`;
+${hardRuleLines}`;
+}
 
 const STRICT_JSON_HEADER_SHARED = `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap output between <BEGIN_JSON> and <END_JSON>.
 Each item schema:
@@ -1063,9 +1215,10 @@ async function callChatGPT(payload, { signal, timeoutMs } = {}) {
     return response.data;
 }
 
-function buildCombinedPrompt_Math(totalCounts) {
+function buildCombinedPrompt_Math(totalCounts, { fractionPlainTextMode } = {}) {
     const { NON_CALC_COUNT, GEOMETRY_COUNT, ALGEBRA_COUNT } = totalCounts;
-    return `${STRICT_JSON_HEADER_MATH}
+    const header = buildStrictJsonHeaderMath({ fractionPlainTextMode });
+    return `${header}
 Create ONE flat JSON array with ${NON_CALC_COUNT + GEOMETRY_COUNT + ALGEBRA_COUNT} math questions in random order:
 - Non-calculator: ${NON_CALC_COUNT}
 - Geometry/measurement (describe visuals in text; no images): ${GEOMETRY_COUNT}
@@ -1333,8 +1486,8 @@ async function applyMathCorrectnessPass(questions, options = {}) {
     }
 }
 
-async function generateExam(subject, promptBuilder, counts) {
-    const prompt = promptBuilder(counts);
+async function generateExam(subject, promptBuilder, counts, options = {}) {
+    const prompt = promptBuilder(counts, options);
 
     const { items: generatedItems } = await generateQuizItemsWithFallback(
         subject,
@@ -1371,18 +1524,22 @@ async function generateExam(subject, promptBuilder, counts) {
         }
     }
 
-    return items.map((it) => enforceWordCapsOnItem(it, subject));
+    const processed = items.map((it) => enforceWordCapsOnItem(it, subject));
+    if (options?.fractionPlainTextMode) {
+        return processed.map((it) => applyFractionPlainTextModeToItem(it));
+    }
+    return processed;
 }
 
 async function runExam() {
     const counts = { NON_CALC_COUNT, GEOMETRY_COUNT, ALGEBRA_COUNT };
-    const generated = await generateExam('Math', buildCombinedPrompt_Math, counts);
+    const generated = await generateExam('Math', buildCombinedPrompt_Math, counts, { fractionPlainTextMode: true });
 
     const cleaned = [];
     for (const q of generated) {
         const sanitized = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(q)), 'Math');
         if (validateQuestion(sanitized)) {
-            cleaned.push(sanitized);
+            cleaned.push(applyFractionPlainTextModeToItem(sanitized));
         }
     }
 
@@ -2377,6 +2534,12 @@ Citations:
 
 Word caps:
 - Keep questionText concise.
+
+${FRACTION_PLAIN_TEXT_RULE}
+
+Formatting notes:
+- Do not wrap mathematical expressions in $, $$, \(:, or \[.
+- Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
 `;
     } else {
         MIX_RULES = `
@@ -2412,7 +2575,7 @@ Subskills to rotate (Social Studies):
 - civics processes, document interpretation (quotes), economic reasoning (supply/demand, inflation, unemployment), map/graph reading, chronology/timeline, main idea/inference, rights & responsibilities.`,
         "Math": `
 Subskills to rotate (Math):
-- number operations, fractions/decimals/percents, ratios/proportions, linear equations/inequalities, functions/graphs (described in text), geometry/measurement, data & probability. Use inline $...$ for expressions; no $$ display math. CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.`,
+- number operations, fractions/decimals/percents, ratios/proportions, linear equations/inequalities, functions/graphs (described in text), geometry/measurement, data & probability. Fractions must use slash notation (e.g., 3/4, (2x+1)/3). Keep notation inline and avoid $$ display math. CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.`,
         "Reasoning Through Language Arts (RLA)": `
 Subskills to rotate (RLA):
 - main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`,
@@ -2464,34 +2627,31 @@ const promptLibrary = {
 }
 },
     "Math": {
-        topic: (topic) => `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is perfectly formatted for KaTeX. This is a non-negotiable, critical requirement. Failure to format correctly will make the output unusable.
+        topic: (topic) => `You are a GED Math exam creator. Maintain precise, readable notation for every problem.
 
-MANDATORY FORMATTING RULES:
-1. **Fractions:** All fractions MUST be written as '$\\frac{numerator}{denominator}$'. For example, 'five eighths' must be '$\\frac{5}{8}$'.
-2. **Delimiters:** Enclose every LaTeX math expression in single dollar signs '$'.
-3. **Commands:** Always include the leading backslash on LaTeX commands (e.g., use '$\\frac{1}{2}$', not '$frac{1}{2}$').
-4. **Currency:** Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
-5. **Answer Options:** For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency answers, use a single dollar sign like $10.50.
+${FRACTION_PLAIN_TEXT_RULE}
 
-Examples of CORRECT Formatting to IMITATE:
-* '$\\frac{3}{4}$'
-* '$x^2$'
-* '$15.50'
-
-Examples of INCORRECT Formatting to AVOID:
-* '$1/2$' (Incorrect: Always use the \\frac{...} command for fractions).
-* '$$x^2$$' (Incorrect: Never use double dollar signs.)
-* '&#36;15.50$' (Incorrect: Do not wrap currency in math delimiters.)
+Additional formatting rules:
+- Do not wrap mathematical expressions in $, $$, \(:, or \[.
+- You may use KaTeX-friendly commands for exponents, roots, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge) but keep them inline and readable.
+- Currency: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
+- Answer options: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency answers, use a single dollar sign like $10.50.
+- CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.
 
 With those rules in mind, generate a 15-question GED-style Math quiz focused on "${topic}".
-STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.
-CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.`,
+STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.`,
         comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
-        STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems. Include word problems and questions based on data charts.
-        IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate. This is a non-negotiable requirement.
-        CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
-        CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
-        CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.`
+${FRACTION_PLAIN_TEXT_RULE}
+
+Additional formatting rules:
+- Do not wrap mathematical expressions in $, $$, \(:, or \[.
+- You may use KaTeX-friendly commands for exponents, roots, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge) but keep them inline and readable.
+- CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
+- CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
+- CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.
+- Include word problems and questions based on data charts.
+
+STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems.`
     }
 };
 
@@ -2637,7 +2797,11 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         }
         
         // 7. Final cleanup and response
-        const finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...normalizeStimulusAndSource(item), questionNumber: idx + 1 }));
+        let finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...normalizeStimulusAndSource(item), questionNumber: idx + 1 }));
+        const fractionPlainTextMode = subject === 'Math';
+        if (fractionPlainTextMode) {
+            finalItems = finalItems.map(applyFractionPlainTextModeToItem);
+        }
 
         console.log(`[Variety Pack] Successfully generated and processed ${finalItems.length} questions.`);
 
@@ -2649,7 +2813,9 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             topic,
             items: finalItems,
             model: winnerModel || 'unknown',
-            latencyMs: latencyMs ?? 0
+            latencyMs: latencyMs ?? 0,
+            source: 'aiGenerated',
+            fraction_plain_text_mode: fractionPlainTextMode
         });
 
     } catch (err) {
@@ -2663,7 +2829,12 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
 app.post('/api/math-autogen', async (_req, res) => {
     try {
         const items = await runExam();
-        res.json({ items });
+        const fractionPlainTextMode = true;
+        res.json({
+            items,
+            source: 'aiGenerated',
+            fraction_plain_text_mode: fractionPlainTextMode
+        });
     } catch (error) {
         console.error('Failed to generate math autogen batch:', error.message || error);
         res.status(500).json({ error: 'Failed to generate math autogen batch.' });
@@ -3198,9 +3369,13 @@ const generateStandaloneQuestion = async (subject, topic, options = {}) => {
         prompt = `Generate a single, standalone, GED-style math word problem or calculation problem for the topic "${topic}".
         STRICT REQUIREMENT: The question MUST be a math problem that requires mathematical reasoning to solve.
         DO NOT generate a reading passage or a reading comprehension question (e.g., "What is the main idea...").
-        IMPORTANT: For all mathematical expressions, including fractions, exponents, and symbols, you MUST format them using KaTeX-compatible LaTeX syntax enclosed in single dollar signs. For example, a fraction like 'five eighths' must be written as '$\\frac{5}{8}$', an exponent like 'x squared' must be '$x^2$', and a division symbol should be '$\\div$' where appropriate.
-        CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
-        CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
+${FRACTION_PLAIN_TEXT_RULE}
+
+Formatting notes:
+- Do not wrap mathematical expressions in $, $$, \(:, or \[.
+- Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
+- CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
+- CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
         Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
     } else {
         prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
@@ -3218,6 +3393,9 @@ const generateStandaloneQuestion = async (subject, topic, options = {}) => {
     };
 
     const question = await callAI(prompt, schema, options);
+    if (subject === 'Math') {
+        applyFractionPlainTextModeToItem(question);
+    }
     question.type = 'standalone';
     return enforceWordCapsOnItem(question, subject);
 };
@@ -3231,6 +3409,12 @@ const buildGeometryPrompt = (topic, attempt) => {
     The problem should clearly rely on a diagram that would normally accompany the question.
     IMPORTANT: Do NOT return any images, SVG markup, or geometry specifications. Instead, append a concise, human-readable description of the required diagram (1–3 sentences) at the end of the question stem. Use plain text or simple Markdown only.
     ${sharedConstraints}
+
+${FRACTION_PLAIN_TEXT_RULE}
+
+Formatting notes:
+- Do not wrap mathematical expressions in $, $$, \(:, or \[.
+- Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
 
     Output JSON with the exact structure:
     {
@@ -3257,7 +3441,9 @@ const buildGeometryPrompt = (topic, attempt) => {
     const shapesList = SUPPORTED_SHAPES.join(', ');
     const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
     The problem MUST require a visual diagram to be solved and should stay aligned with GED Geometry expectations.
-    IMPORTANT: Format mathematical expressions for the question and choices using KaTeX-compatible LaTeX enclosed in single dollar signs when appropriate (fractions, exponents, radicals, etc.).
+    IMPORTANT: Keep mathematical expressions clear and inline.
+${FRACTION_PLAIN_TEXT_RULE}
+    Use KaTeX-friendly notation for exponents, roots, and symbols (e.g., x^2, \sqrt{9}, \le, \ge) when needed, but do not wrap expressions in $, $$, \(, or \[.
     ${sharedConstraints}\nKeep all coordinate values between 0 and 100.
 
     Output JSON with the exact structure:
@@ -3371,6 +3557,7 @@ async function generateGeometryQuestion(topic, subject, attempt = 1, options = {
             questionPayload.geometrySpec = geometrySpec;
         }
 
+        applyFractionPlainTextModeToItem(questionPayload);
         return questionPayload;
     } catch (error) {
         if (error instanceof GeometryJsonError && error.needRegen) {
@@ -3399,8 +3586,12 @@ async function generateNonCalculatorQuestion(options = {}) {
     Generate a single, high-quality question from the "Number Sense & Operations" domain (GED Indicator Q.1 or Q.2).
     The question must be solvable without a calculator, focusing on concepts like number properties, estimation, or basic arithmetic with integers, fractions, and decimals.
     CRITICAL: Do NOT generate a question that requires complex calculations.
-    IMPORTANT: For all mathematical expressions, including fractions and exponents, you MUST use KaTeX-compatible LaTeX syntax enclosed in single dollar signs (e.g., '$\\frac{5}{8}$', '$x^2$').
-    CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
+${FRACTION_PLAIN_TEXT_RULE}
+
+Formatting notes:
+- Do not wrap mathematical expressions in $, $$, \(:, or \[.
+- Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
+- CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
     Output a single valid JSON object for the question.`;
     const schema = {
         type: "OBJECT",
@@ -3411,6 +3602,7 @@ async function generateNonCalculatorQuestion(options = {}) {
         required: ["questionText", "answerOptions"]
     };
     const question = await callAI(prompt, schema, options);
+    applyFractionPlainTextModeToItem(question);
     question.type = 'standalone';
     question.calculator = false; // Explicitly mark as non-calculator
     return enforceWordCapsOnItem(question, 'Math');
@@ -3422,10 +3614,13 @@ async function generateDataQuestion(options = {}) {
     FIRST, create a simple HTML table with a caption, 2-4 columns, and 3-5 rows of numerical data.
     SECOND, write a question that requires interpreting that table to find the mean, median, mode, or range.
     The question text MUST reference the HTML table.
-    IMPORTANT: For all mathematical expressions, use KaTeX-compatible LaTeX syntax enclosed in single dollar signs.
-    CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
-    Output a single valid JSON object containing the 'questionText' (which INCLUDES the HTML table) and 'answerOptions'.`;
+${FRACTION_PLAIN_TEXT_RULE}
 
+Formatting notes:
+- Do not wrap mathematical expressions in $, $$, \(:, or \[.
+- Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
+- CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
+    Output a single valid JSON object containing the 'questionText' (which INCLUDES the HTML table) and 'answerOptions'.`;
     const schema = {
         type: "OBJECT",
         properties: {
@@ -3435,6 +3630,7 @@ async function generateDataQuestion(options = {}) {
         required: ["questionText", "answerOptions"]
     };
     const question = await callAI(prompt, schema, options);
+    applyFractionPlainTextModeToItem(question);
     question.type = 'standalone'; // The table is part of the question text
     question.calculator = true;
     return enforceWordCapsOnItem(question, 'Math');
@@ -3448,8 +3644,12 @@ async function generateGraphingQuestion(options = {}) {
     - Understanding and using function notation (e.g., f(x) = 2x + 1, find f(3)).
     - Interpreting a graph to identify relationships between variables, find specific points, or determine intercepts.
     You can optionally reference one of the curated graph images if the context fits.
-    IMPORTANT: Use KaTeX-compatible LaTeX for all mathematical notation (e.g., '$f(x)$', '$x^2$').
-    CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
+${FRACTION_PLAIN_TEXT_RULE}
+
+Formatting notes:
+- Do not wrap mathematical expressions in $, $$, \(:, or \[.
+- Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
+- CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
     Output a single valid JSON object for the question.`;
     const schema = {
         type: "OBJECT",
@@ -3460,24 +3660,26 @@ async function generateGraphingQuestion(options = {}) {
         required: ["questionText", "answerOptions"]
     };
     const question = await callAI(prompt, schema, options);
+    applyFractionPlainTextModeToItem(question);
     question.type = 'standalone';
     question.calculator = true;
     return enforceWordCapsOnItem(question, 'Math');
 }
 
 async function generateMath_FillInTheBlank(options = {}) {
-    const prompt = `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is perfectly formatted for KaTeX.
-- All fractions MUST be in the format '$\\frac{numerator}{denominator}$'.
-- All LaTeX expressions MUST be enclosed in single dollar signs '$'.
+    const prompt = `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is precise and readable.
+${FRACTION_PLAIN_TEXT_RULE}
 
 With those rules in mind, generate a single, high-quality, GED-style math question (from any topic area) that requires a single numerical or simple fractional answer (e.g., 25, -10, 5/8).
 CRITICAL: The question MUST NOT have multiple-choice options. The answer should be a number that the user would type into a box.
-CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
+Formatting notes:
+- Do not wrap mathematical expressions in $, $$, \(:, or \[.
+- Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
+- CRITICAL RULE FOR ANSWERS: Provide the exact numerical or fractional answer using plain text slash notation when needed. For currency, use a single dollar sign like $10.50.
 Output a single valid JSON object with three keys:
 1. "type": a string with the value "fill-in-the-blank".
 2. "questionText": a string containing the full question.
 3. "correctAnswer": a NUMBER or STRING containing the exact correct answer.`;
-
     const schema = {
         type: "OBJECT",
         properties: {
@@ -3488,6 +3690,7 @@ Output a single valid JSON object with three keys:
         required: ["type", "questionText", "correctAnswer"]
     };
     const question = await callAI(prompt, schema, options);
+    applyFractionPlainTextModeToItem(question);
     question.calculator = true; // Most fill-in-the-blank will be calculator-permitted
     return enforceWordCapsOnItem(question, 'Math');
 }
@@ -3590,9 +3793,9 @@ async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
 async function reviewAndCorrectMathQuestion(questionObject, options = {}) {
     const prompt = `You are an expert GED math editor. Your ONLY job is to fix formatting in the following JSON object. **Aggressively correct all syntax errors.**
 **CRITICAL RULES:**
-1.  **FIX FRACTIONS:** Convert all slash fractions (e.g., \`$1/2$\`) to use the \`\\frac\` command (e.g., \`$\\frac{1}{2}$\`).
-2.  **FIX LATEX:** Ensure all LaTeX commands have a leading backslash (e.g., \`frac\` becomes \`\\frac\`).
-3.  **FIX DELIMITERS:** Ensure all math expressions are properly enclosed in single dollar signs '$'.
+1.  **FIX FRACTIONS:** Convert any LaTeX-style fractions (e.g., \`$\frac{1}{2}$\`) into plain-text slash notation (e.g., \`1/2\` or \`(2x+1)/3\`). Remove dollar-sign delimiters around fractions.
+2.  **FIX DELIMITERS:** Ensure math expressions are not wrapped in double dollar signs and avoid using $, $$, \(:, or \[ for fractions.
+3.  **FIX LATEX:** Keep any remaining LaTeX commands well-formed with leading backslashes (e.g., \`sqrt\` becomes \`\sqrt\`).
 4.  **FIX ANSWERS:** Remove any \`$$\` prefixes from the 'text' field in 'answerOptions'. Currency in answers should be a single '$', like '$15.50'.
 5.  **FIX HTML:** Simplify any HTML tables by removing ALL inline CSS (e.g., \`style="..."\`).
 
@@ -3694,9 +3897,22 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
         items = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
 
+        const fractionPlainTextMode = subject === 'Math';
+        if (fractionPlainTextMode) {
+            items = items.map(applyFractionPlainTextModeToItem);
+        }
+
         res.set('X-Model', winnerModel || 'unknown');
         res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
-        res.json({ subject, topic, items, model: winnerModel || 'unknown', latencyMs: latencyMs ?? 0 });
+        res.json({
+            subject,
+            topic,
+            items,
+            model: winnerModel || 'unknown',
+            latencyMs: latencyMs ?? 0,
+            source: 'aiGenerated',
+            fraction_plain_text_mode: fractionPlainTextMode
+        });
     } catch (err) {
         console.error('topic generation failed', err);
         const status = err?.statusCode === 504 ? 504 : 500;
@@ -3766,6 +3982,8 @@ app.post('/generate-quiz', async (req, res) => {
                     id: `ai_comp_ss_draft_${new Date().getTime()}`,
                     title: `Comprehensive Social Studies Exam`,
                     subject: subject,
+                    source: 'aiGenerated',
+                    fraction_plain_text_mode: false,
                     questions: draftQuestionSet,
                 };
 
@@ -3806,6 +4024,8 @@ app.post('/generate-quiz', async (req, res) => {
                     id: `ai_comp_sci_draft_${new Date().getTime()}`,
                     title: `Comprehensive Science Exam`,
                     subject: subject,
+                    source: 'aiGenerated',
+                    fraction_plain_text_mode: false,
                     questions: draftQuestionSet,
                 };
 
@@ -3846,7 +4066,9 @@ app.post('/generate-quiz', async (req, res) => {
             part1_reading: part1Questions,
             part2_essay: part2Essay,
             part3_language: part3Questions,
-            questions: allQuestions // Keep this for compatibility with results screen
+            questions: allQuestions, // Keep this for compatibility with results screen
+            source: 'aiGenerated',
+            fraction_plain_text_mode: false
         };
 
         // RLA does not need a second review pass due to its complex, multi-part nature
@@ -3959,6 +4181,8 @@ app.post('/generate-quiz', async (req, res) => {
             title: `Comprehensive Mathematical Reasoning Exam`,
             subject: subject,
             type: 'multi-part-math',
+            source: 'aiGenerated',
+            fraction_plain_text_mode: true,
             part1_non_calculator: correctedPart1,
             part2_calculator: correctedPart2,
             questions: correctedAllQuestions
@@ -4046,10 +4270,16 @@ app.post('/generate-quiz', async (req, res) => {
                 finalQuestions = await applyMathCorrectnessPass(finalQuestions);
             }
 
+            if (subject === 'Math') {
+                finalQuestions = finalQuestions.map(applyFractionPlainTextModeToItem);
+            }
+
             let draftQuiz = {
                 id: `ai_topic_${new Date().getTime()}`,
                 title: `${subject}: ${topic}`,
                 subject: subject,
+                source: 'aiGenerated',
+                fraction_plain_text_mode: subject === 'Math',
                 questions: finalQuestions,
             };
 
