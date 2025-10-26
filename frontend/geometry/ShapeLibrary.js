@@ -32,7 +32,7 @@ const ensureStyles = () => {
       flex-wrap: wrap;
       gap: 8px;
       padding: 12px;
-      background: var(--geometry-toolbar-bg, #f8fafc);
+      background: var(--geometry-toolbar-bg, #ffffff);
       border-radius: 12px;
       box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
     }
@@ -43,7 +43,7 @@ const ensureStyles = () => {
     .geometry-toolbar button {
       appearance: none;
       border: 1px solid rgba(148, 163, 184, 0.4);
-      background: rgba(255, 255, 255, 0.95);
+      background: #ffffff;
       color: #0f172a;
       padding: 8px 12px;
       border-radius: 10px;
@@ -96,7 +96,7 @@ const ensureStyles = () => {
       padding: 6px 10px;
       border-radius: 8px;
       border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(255, 255, 255, 0.95);
+      background: #ffffff;
       color: inherit;
       font-weight: 600;
       cursor: pointer;

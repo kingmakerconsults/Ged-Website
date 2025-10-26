@@ -18,7 +18,7 @@ const ensureStyles = () => {
       min-width: 260px;
       max-width: 320px;
       border-radius: 18px;
-      background: rgba(248, 250, 252, 0.95);
+      background: #ffffff;
       box-shadow: 0 24px 48px rgba(15, 23, 42, 0.2);
       color: #0f172a;
     }
@@ -35,7 +35,7 @@ const ensureStyles = () => {
       align-items: center;
     }
     .graph-inspector .metric-card {
-      background: rgba(255, 255, 255, 0.9);
+      background: #ffffff;
       border-radius: 14px;
       padding: 14px;
       box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.2);

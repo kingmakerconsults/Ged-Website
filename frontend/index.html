@@ -10821,9 +10821,9 @@ function GeometryPracticeTool({ onExit }) {
                 const hidden = context.hiddenLabels || [];
                 return (
                     <g>
-                        <rect x="50" y="75" width={w * 8} height={h * 8} stroke="black" fill="none" strokeWidth="2" />
-                        <text x={50 + (w*8)/2} y="65" textAnchor="middle">{hidden.includes('w') ? '?' : w}</text>
-                        <text x={40} y={75 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <rect x="50" y="75" width={w * 8} height={h * 8} stroke="currentColor" fill="none" strokeWidth="2" />
+                        <text x={50 + (w*8)/2} y="65" textAnchor="middle" fill="currentColor">{hidden.includes('w') ? '?' : w}</text>
+                        <text x={40} y={75 + (h*8)/2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
                     </g>
                 );
             }
@@ -10847,9 +10847,9 @@ function GeometryPracticeTool({ onExit }) {
                 const hidden = context.hiddenLabels || [];
                 return (
                     <g>
-                        <polygon points={`50,${50+h*8} ${50+b*8},${50+h*8} ${50+b*8},50`} stroke="black" fill="none" strokeWidth="2" />
-                        <text x={50 + (b*8)/2} y={65+h*8} textAnchor="middle">{hidden.includes('b') ? '?' : b}</text>
-                        <text x={60+b*8} y={50+(h*8)/2} dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <polygon points={`50,${50+h*8} ${50+b*8},${50+h*8} ${50+b*8},50`} stroke="currentColor" fill="none" strokeWidth="2" />
+                        <text x={50 + (b*8)/2} y={65+h*8} textAnchor="middle" fill="currentColor">{hidden.includes('b') ? '?' : b}</text>
+                        <text x={60+b*8} y={50+(h*8)/2} dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
                     </g>
                 );
             }
@@ -10878,9 +10878,9 @@ function GeometryPracticeTool({ onExit }) {
                 const hidden = context.hiddenLabels || [];
                 return (
                     <g>
-                        <circle cx="150" cy="150" r={r * 8} stroke="black" fill="none" strokeWidth="2" />
-                        <line x1="150" y1="150" x2={150 + r * 8} y2="150" stroke="black" strokeDasharray="4" />
-                        <text x={150 + (r*8)/2} y="140">{hidden.includes('r') ? '?' : r}</text>
+                        <circle cx="150" cy="150" r={r * 8} stroke="currentColor" fill="none" strokeWidth="2" />
+                        <line x1="150" y1="150" x2={150 + r * 8} y2="150" stroke="currentColor" strokeDasharray="4" />
+                        <text x={150 + (r*8)/2} y="140" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -10903,16 +10903,16 @@ function GeometryPracticeTool({ onExit }) {
             render: ({ l, w, h }, context = {}) => {
                 const hidden = context.hiddenLabels || [];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <rect x={50} y={50} width={l*8} height={h*8} />
                         <path d={`M ${50},${50} l ${w*3},-${w*3}`} />
                         <path d={`M ${50+l*8},${50} l ${w*3},-${w*3}`} />
                         <path d={`M ${50+l*8},${50+h*8} l ${w*3},-${w*3}`} />
                         <path d={`M ${50+w*3},${50-w*3} H ${50+w*3+l*8}`} />
                         <path d={`M ${50+w*3+l*8},${50-w*3} V ${50-w*3+h*8}`} />
-                        <text x={50 + (l*8)/2} y={60+h*8} textAnchor="middle">{hidden.includes('l') ? '?' : l}</text>
-                        <text x={55+l*8+(w*3)/2} y={40-w*3} textAnchor="middle">{hidden.includes('w') ? '?' : w}</text>
-                        <text x={40} y={50 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={50 + (l*8)/2} y={60+h*8} textAnchor="middle" fill="currentColor">{hidden.includes('l') ? '?' : l}</text>
+                        <text x={55+l*8+(w*3)/2} y={40-w*3} textAnchor="middle" fill="currentColor">{hidden.includes('w') ? '?' : w}</text>
+                        <text x={40} y={50 + (h*8)/2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
                     </g>
                 );
             }
@@ -10940,13 +10940,13 @@ function GeometryPracticeTool({ onExit }) {
             render: ({ r, h }, context = {}) => {
                 const hidden = context.hiddenLabels || [];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <ellipse cx="150" cy="50" rx={r*5} ry={r*2} />
                         <path d={`M ${150 - r*5},50 L ${150 - r*5},${50 + h*5}`} />
                         <path d={`M ${150 + r*5},50 L ${150 + r*5},${50 + h*5}`} />
                         <ellipse cx="150" cy={50 + h*5} rx={r*5} ry={r*2} />
-                        <text x="140" y={50 + (h*5)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
-                        <text x={150} y={65+h*5} textAnchor="middle">{hidden.includes('r') ? '?' : r}</text>
+                        <text x="140" y={50 + (h*5)/2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={150} y={65+h*5} textAnchor="middle" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -10978,12 +10978,12 @@ function GeometryPracticeTool({ onExit }) {
                 const centerX = 150;
                 const baseY = 200;
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <ellipse cx={centerX} cy={baseY} rx={baseRadius} ry={baseRadius / 3} />
                         <line x1={centerX - baseRadius} y1={baseY} x2={centerX} y2={baseY - height} />
                         <line x1={centerX + baseRadius} y1={baseY} x2={centerX} y2={baseY - height} />
-                        <text x={centerX - baseRadius - 10} y={baseY - height / 2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
-                        <text x={centerX + baseRadius / 2} y={baseY + 20} textAnchor="middle">{hidden.includes('r') ? '?' : r}</text>
+                        <text x={centerX - baseRadius - 10} y={baseY - height / 2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={centerX + baseRadius / 2} y={baseY + 20} textAnchor="middle" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -11011,11 +11011,11 @@ function GeometryPracticeTool({ onExit }) {
             render: ({ r }, context = {}) => {
                 const hidden = context.hiddenLabels || [];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <circle cx="150" cy="130" r={r * 8} />
                         <ellipse cx="150" cy="130" rx={r * 8} ry={r * 3} strokeDasharray="6" />
                         <line x1="150" y1="130" x2={150 + r * 8} y2="130" strokeDasharray="4" />
-                        <text x={150 + (r*8)/2} y="115">{hidden.includes('r') ? '?' : r}</text>
+                        <text x={150 + (r*8)/2} y="115" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -11037,12 +11037,12 @@ function GeometryPracticeTool({ onExit }) {
                 const pointB = [startX + a * scale, startY];
                 const pointC = [startX, startY - b * scale];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <polygon points={`${startX},${startY} ${pointB[0]},${pointB[1]} ${pointC[0]},${pointC[1]}`} />
                         <path d={`M ${startX + 20},${startY} L ${startX + 20},${startY - 20} L ${startX},${startY - 20}`} strokeWidth="2" />
-                        <text x={startX + (a * scale) / 2} y={startY + 20} textAnchor="middle">{hidden.includes('a') ? '?' : `a = ${a}`}</text>
-                        <text x={startX - 20} y={startY - (b * scale) / 2} textAnchor="end" dominantBaseline="middle">{hidden.includes('b') ? '?' : `b = ${b}`}</text>
-                        <text x={(startX + pointB[0]) / 2 + 10} y={(startY + pointC[1]) / 2} textAnchor="middle">c</text>
+                        <text x={startX + (a * scale) / 2} y={startY + 20} textAnchor="middle" fill="currentColor">{hidden.includes('a') ? '?' : `a = ${a}`}</text>
+                        <text x={startX - 20} y={startY - (b * scale) / 2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('b') ? '?' : `b = ${b}`}</text>
+                        <text x={(startX + pointB[0]) / 2 + 10} y={(startY + pointC[1]) / 2} textAnchor="middle" fill="currentColor">c</text>
                     </g>
                 );
             }
@@ -11099,14 +11099,14 @@ function GeometryPracticeTool({ onExit }) {
     const showExitButton = typeof onExit === 'function';
 
     return (
-        <div className="fade-in space-y-6">
+        <div className="fade-in space-y-6 bg-white text-black dark:bg-slate-900 dark:text-slate-100">
             <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-2 border-b border-slate-200 dark:border-slate-700">
                 <div className="flex-none min-w-[140px]">
                     {showExitButton && (
-                        <button onClick={onExit} className="flex items-center gap-1 text-sm font-semibold text-slate-700 hover:text-sky-600 dark:text-slate-200 dark:hover:text-sky-300"><ArrowLeftIcon /> Back</button>
+                        <button onClick={onExit} className="flex items-center gap-1 text-sm font-semibold text-black hover:text-sky-600 dark:text-slate-200 dark:hover:text-sky-300"><ArrowLeftIcon /> Back</button>
                     )}
                 </div>
-                <h2 className="text-2xl font-bold text-center text-slate-900 dark:text-slate-100 flex-1">Geometry Practice Tool</h2>
+                <h2 className="text-2xl font-bold text-center text-black dark:text-slate-100 flex-1">Geometry Practice Tool</h2>
                 <div className="flex-none min-w-[140px]" aria-hidden="true"></div>
             </header>
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
@@ -11114,23 +11114,23 @@ function GeometryPracticeTool({ onExit }) {
                     {currentProblem ? (
                         <>
                             <svg
-                                className="w-full max-w-2xl h-[360px]"
+                                className="w-full max-w-2xl h-[360px] text-black dark:text-white"
                                 viewBox="0 0 400 320"
                                 preserveAspectRatio="xMidYMid meet"
                             >
                                 {currentProblem.renderer(currentProblem.dims, currentProblem.context)}
                             </svg>
-                            <p className="text-lg font-semibold mt-6 text-center text-slate-900 dark:text-slate-100 max-w-2xl">
+                            <p className="text-lg font-semibold mt-6 text-center text-black dark:text-slate-100 max-w-2xl">
                                 {currentProblem.prompt}
                             </p>
                         </>
                     ) : (
-                        <p className="text-base text-slate-700 dark:text-slate-200">Select a shape to begin.</p>
+                        <p className="text-base text-black dark:text-slate-200">Select a shape to begin.</p>
                     )}
                 </div>
                 <div className="space-y-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                     <div>
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">Shapes</h3>
+                        <h3 className="text-lg font-semibold text-black dark:text-slate-100 mb-3">Shapes</h3>
                         <div className="grid grid-cols-2 gap-2">
                             {Object.keys(SHAPE_LIBRARY).map(shape => (
                                 <button
@@ -11138,7 +11138,7 @@ function GeometryPracticeTool({ onExit }) {
                                     onClick={() => generateProblem(shape)}
                                     className={`p-2 font-semibold rounded-md transition capitalize ${currentProblem?.shape === shape
                                         ? 'bg-sky-600 text-white shadow'
-                                        : 'bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'}`}
+                                        : 'bg-white text-black border border-slate-300 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 dark:border-slate-600'}`}
                                 >
                                     {shape.replace('_', ' ')}
                                 </button>
@@ -11147,13 +11147,13 @@ function GeometryPracticeTool({ onExit }) {
                     </div>
                     {currentProblem && (
                         <div className="space-y-3">
-                            <label htmlFor="answer" className="font-semibold text-slate-900 dark:text-slate-100">Your Answer:</label>
+                            <label htmlFor="answer" className="font-semibold text-black dark:text-slate-100">Your Answer:</label>
                             <input
                                 type="number"
                                 id="answer"
                                 value={userAnswer}
                                 onChange={(e) => setUserAnswer(e.target.value)}
-                                className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-950 text-black dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
                             />
                             <button onClick={checkAnswer} className="w-full p-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition">Check Answer</button>
                             {feedback && (
@@ -11343,21 +11343,21 @@ function GraphingTool({ onExit }) {
 
     return (
         <div className="fade-in">
-             <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b">
-                 <div className="flex-none min-w-[120px]">
-                     {showExitButton && (
-                         <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                     )}
-                 </div>
-                 <h2 className="text-xl font-bold text-center text-slate-800 flex-1">Interactive Graphing Tool</h2>
-                 <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
+            <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b">
+                <div className="flex-none min-w-[120px]">
+                    {showExitButton && (
+                        <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                    )}
+                </div>
+                <h2 className="text-xl font-bold text-center text-white flex-1">Interactive Graphing Tool</h2>
+                <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
             </header>
             <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-grow">
-                     <div id="graphing-tool-board" ref={boardRef} className="jxgbox" style={{ width: '100%', height: '400px' }}></div>
+                    <div id="graphing-tool-board" ref={boardRef} className="jxgbox" style={{ width: '100%', height: '400px' }}></div>
                 </div>
-                <div className="md:w-72 flex-shrink-0">
-                    <h3 className="text-lg font-semibold text-slate-700 mb-2">Tools</h3>
+                <div className="md:w-72 flex-shrink-0 text-black dark:text-white">
+                    <h3 className="text-lg font-semibold text-black dark:text-white mb-2">Tools</h3>
                     <div className="flex gap-2 mb-4">
                         <button onClick={() => setToolMode('plotLine')} className={`flex-1 p-2 font-semibold rounded-md transition ${toolMode === 'plotLine' ? 'bg-sky-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}`}>Plot Line</button>
                         <button onClick={() => setToolMode('plotPoint')} className={`flex-1 p-2 font-semibold rounded-md transition ${toolMode === 'plotPoint' ? 'bg-sky-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}`}>Plot Point</button>
@@ -11365,7 +11365,7 @@ function GraphingTool({ onExit }) {
 
                     {toolMode === 'plotLine' ? (
                         <div>
-                            <p className="font-semibold text-slate-600 mb-2">Equations (y = )</p>
+                            <p className="font-semibold text-black dark:text-slate-200 mb-2">Equations (y = )</p>
                             <div className="space-y-3">
                                 {equationInputs.map((value, index) => (
                                     <div key={index} className="flex items-center gap-2">
@@ -11378,7 +11378,7 @@ function GraphingTool({ onExit }) {
                                         />
                                         <button
                                             onClick={() => removeEquationInput(index)}
-                                            className="p-2 text-sm bg-slate-200 rounded-md hover:bg-slate-300"
+                                            className="p-2 text-sm bg-slate-200 text-black rounded-md hover:bg-slate-300"
                                             title="Remove equation"
                                             disabled={equationInputs.length === 1}
                                         >
@@ -11388,7 +11388,7 @@ function GraphingTool({ onExit }) {
                                 ))}
                             </div>
                             <div className="flex gap-2 mt-3">
-                                <button onClick={addEquationInput} className="flex-1 p-2 bg-slate-200 text-slate-700 font-semibold rounded-md hover:bg-slate-300 transition">Add Equation</button>
+                                <button onClick={addEquationInput} className="flex-1 p-2 bg-slate-200 text-black font-semibold rounded-md hover:bg-slate-300 transition">Add Equation</button>
                                 <button onClick={handlePlot} className="flex-1 p-2 bg-sky-600 text-white font-bold rounded-md hover:bg-sky-700 transition">Plot All</button>
                             </div>
                         </div>
