@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,10 +131,12 @@
                 const root = document.documentElement;
                 if (root) {
                     root.classList.toggle('dark', theme === 'dark');
+                    root.setAttribute('data-theme', theme);
                 }
                 const body = document.body;
                 if (body) {
                     body.classList.toggle('dark', theme === 'dark');
+                    body.setAttribute('data-theme', theme);
                 }
             };
 
@@ -160,6 +162,28 @@
         :root.fs-md { font-size: 16px; }
         :root.fs-lg { font-size: 18px; }
         :root.fs-xl { font-size: 20px; }
+
+        :root[data-theme="light"] {
+            --bg-color: #ffffff;
+            --panel-bg: #fafafa;
+            --text-color: #222222;
+            --subtext-color: #444444;
+            --border-color: #cccccc;
+            --button-bg: #f0f0f0;
+            --button-hover-bg: #e5e5e5;
+            --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        :root:not([data-theme]) {
+            --bg-color: #ffffff;
+            --panel-bg: #fafafa;
+            --text-color: #222222;
+            --subtext-color: #444444;
+            --border-color: #cccccc;
+            --button-bg: #f0f0f0;
+            --button-hover-bg: #e5e5e5;
+            --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
 
         :root {
             color-scheme: light;
@@ -341,8 +365,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-page);
-            color: var(--text-primary);
+            background-color: var(--bg-page, var(--bg-color));
+            color: var(--text-color, var(--text-primary));
         }
         h1 {
             font-family: 'Poppins', 'Inter', system-ui, sans-serif;
@@ -372,7 +396,7 @@
             font-family: 'Inter', system-ui, sans-serif;
             font-size: 1rem;
             line-height: 1.7;
-            color: var(--text-tertiary);
+            color: var(--subtext-color, var(--text-tertiary));
         }
         body::before {
             content: "";
@@ -405,6 +429,86 @@
             border-radius: 1rem;
             box-shadow: var(--shadow-strong);
             color: var(--text-primary);
+        }
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+            color: var(--hero-text-color, var(--text-color, var(--text-primary)));
+        }
+        .hero-section > * {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-title {
+            color: var(--hero-text-color, var(--text-color, var(--text-primary)));
+        }
+        [data-theme="light"] .hero-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: brightness(0.9);
+            z-index: 0;
+            pointer-events: none;
+        }
+        [data-theme="light"] .quiz-panel,
+        [data-theme="light"] .question-container,
+        [data-theme="light"] .passage-section {
+            color: var(--text-color);
+            background-color: var(--panel-bg);
+        }
+        [data-theme="light"] .passage-section p,
+        [data-theme="light"] .question-container p,
+        [data-theme="light"] .quiz-panel p {
+            color: var(--text-color);
+        }
+        [data-theme="light"] .quiz-panel,
+        [data-theme="light"] .content-card,
+        [data-theme="light"] .question-container {
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        [data-theme="light"] .quiz-panel button,
+        [data-theme="light"] .quiz-nav button,
+        [data-theme="light"] .start-btn,
+        [data-theme="light"] .action-button {
+            color: var(--text-color);
+            background-color: var(--button-bg);
+            border: 1px solid var(--border-color);
+        }
+        [data-theme="light"] .quiz-panel button:hover,
+        [data-theme="light"] .quiz-nav button:hover,
+        [data-theme="light"] .start-btn:hover,
+        [data-theme="light"] .action-button:hover {
+            background-color: var(--button-hover-bg);
+        }
+        [data-theme="light"] .math-theme button,
+        [data-theme="light"] .science-theme button,
+        [data-theme="light"] .rla-theme button,
+        [data-theme="light"] .social-theme button {
+            color: #111111;
+        }
+        [data-theme="light"] .answer-option {
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            border: 1px solid var(--border-color);
+        }
+        [data-theme="light"] .answer-option:hover {
+            background-color: #eaeaea;
+        }
+        [data-theme="light"] .answer-option.correct {
+            background-color: #d2f8d2;
+            color: #111111;
+        }
+        [data-theme="light"] .answer-option.incorrect {
+            background-color: #fdecec;
+            color: #111111;
+        }
+        [data-theme="light"] svg,
+        [data-theme="light"] .icon {
+            fill: currentColor;
+            stroke: currentColor;
+            color: var(--text-color);
         }
         .subject-card {
             transition: all 0.3s ease;
@@ -684,7 +788,7 @@
         }
     </style>
 </head>
-<body style="background-color: var(--bg-page); color: var(--text-primary);">
+<body data-theme="light" style="background-color: var(--bg-page); color: var(--text-primary);">
     <div id="root"></div>
 
     <script src="data/quiz_data.js"></script>
@@ -6094,7 +6198,7 @@ function App({ externalTheme, onThemeChange }) {
                     geometryNode={mathToolsNodes ? mathToolsNodes.geometry : null}
                 />
                 <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8 pt-[4.5rem] space-y-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
-                    <div className="bg-white dark:bg-slate-900/90 border border-slate-200/70 dark:border-slate-700/70 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
+                    <div className="content-card bg-white dark:bg-slate-900/90 border border-slate-200/70 dark:border-slate-700/70 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                         {renderView()}
                     </div>
                 </main>
@@ -8042,14 +8146,15 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         return (
             <>
                 <div
-                    className="animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
+                    className="hero-section animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
                     style={{
                         ...heroStyles,
-                        color: heroTextColor,
+                        '--hero-text-color': heroTextColor,
+                        '--hero-accent-color': heroAccentColor,
                     }}
                 >
                     <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
-                    <h2 className="text-3xl font-extrabold mb-4" style={{ color: heroTextColor }}>
+                    <h2 className="hero-title text-3xl font-extrabold mb-4">
                         {selectedCategory}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -8257,15 +8362,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <ScienceFormulaSheet onClose={() => setViewScienceFormulas(false)} />
                 )}
                 <div
-                    className="animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
+                    className="hero-section animate-floatIn rounded-2xl -m-4 sm:-m-6 md:-m-8 p-4 sm:p-6 md:p-8 shadow-2xl"
                     style={{
                         ...heroStyles,
-                        color: heroTextColor,
+                        '--hero-text-color': heroTextColor,
+                        '--hero-accent-color': heroAccentColor,
                     }}
                 >
                     <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-                        <h2 className="text-3xl font-extrabold" style={{ color: heroTextColor }}>
+                        <h2 className="hero-title text-3xl font-extrabold">
                             {selectedSubject}
                         </h2>
                         {(selectedSubject === 'Math' || selectedSubject === 'Science') && (
@@ -8734,7 +8840,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                 <ScienceFormulaSheet onClose={() => setShowScienceFormulas(false)} />
             )}
             <div
-                className="rounded-2xl p-4 sm:p-6 shadow-lg"
+                className="quiz-panel rounded-2xl p-4 sm:p-6 shadow-lg"
                 style={{ backgroundColor: scheme.surface, border: `1px solid ${scheme.surfaceBorder}` }}
             >
                 {showTimer && (
@@ -8857,7 +8963,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                 </div>
 
                 <div
-                    className="rounded-xl p-4 sm:p-6 shadow-inner"
+                    className="question-container rounded-xl p-4 sm:p-6 shadow-inner"
                     style={{
                         border: `1px solid ${scheme.surfaceBorder}`,
                         backgroundColor: scheme.surfaceStrong || scheme.surface,
@@ -8924,11 +9030,15 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                     optionStyles.borderColor = scheme.optionSelectedBorder;
                                     optionStyles.color = scheme.accentText;
                                 }
+                                const optionClassNames = ['option', 'answer-option', 'w-full', 'text-left', 'transition'];
+                                if (isSelected) {
+                                    optionClassNames.push('selected');
+                                }
                                 return (
                                     <button
                                         key={i}
                                         onClick={() => handleSelect(opt.text)}
-                                        className="option w-full text-left transition"
+                                        className={optionClassNames.join(' ')}
                                         style={optionStyles}
                                     >
                                         <span className="flex-grow text-left" style={{ color: 'var(--text-primary)' }}>
@@ -9316,11 +9426,11 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                 return (
                     <div>
                         <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response (Essay)</h3>
-                        <div className="prose max-w-none bg-slate-50 p-4 rounded-lg mb-4">
+                        <div className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg mb-4">
                             <h4 className="question-stem">{quiz.part2_essay.passages[0].title}</h4>
                             <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[0].content, { normalizeSpacing: true }) }} />
                         </div>
-                        <div className="prose max-w-none bg-slate-50 p-4 rounded-lg">
+                        <div className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg">
                             <h4 className="question-stem">{quiz.part2_essay.passages[1].title}</h4>
                             <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[1].content, { normalizeSpacing: true }) }} />
                         </div>
@@ -9569,7 +9679,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                  <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
                  <div></div>
             </header>
-            <article className="prose max-w-none">
+            <article className="prose passage-section max-w-none">
                 <h3 className="text-2xl font-bold question-stem" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.article.title, { normalizeSpacing: true }) }}></h3>
                 <p className="text-sm italic text-slate-500">{quiz.article.genre}</p>
                 {quiz.imageUrl && <img src={quiz.imageUrl} alt="Article supplemental image" className="my-4 mx-auto rounded-md border" />}
@@ -9579,7 +9689,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 <h3 className="text-2xl font-bold mb-4">Questions</h3>
                 <div className="space-y-6">
                     {quiz.questions.map((q, i) => (
-                        <div key={i} className={`p-4 rounded-lg transition-colors ${isSubmitted ? (answers[i] === (q.answerOptions || []).find(o=>o.isCorrect)?.text ? 'bg-green-50' : 'bg-red-50') : 'bg-slate-50'}`}>
+                        <div key={i} className={`question-container p-4 rounded-lg transition-colors ${isSubmitted ? (answers[i] === (q.answerOptions || []).find(o=>o.isCorrect)?.text ? 'bg-green-50' : 'bg-red-50') : 'bg-slate-50'}`}>
                             {q.imageUrl && !(q.stimulusImage && q.stimulusImage.src) && (
                                 <img src={q.imageUrl} alt={`Visual for question ${i + 1}`} className="my-2 rounded-md border max-w-xs h-auto" />
                             )}
@@ -9593,14 +9703,23 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                                 <Stem item={{ ...q, questionNumber: q.questionNumber ?? (i + 1) }} />
                             </div>
                             <div className="mt-2 space-y-1">
-                                {(q.answerOptions || []).map((opt, j) => (
-                                    <label key={j} className={`flex items-center p-2 rounded cursor-pointer ${answers[i] === opt.text ? 'bg-slate-200': 'hover:bg-slate-100'}`}>
-                                        <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
-                                        <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && answers[i] === opt.text && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
-                                            <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} subject={q.subject || quiz.subject || 'Math'} />
-                                        </span>
-                                    </label>
-                                ))}
+                                {(q.answerOptions || []).map((opt, j) => {
+                                    const isSelectedOption = answers[i] === opt.text;
+                                    const optionClasses = [
+                                        'answer-option flex items-center p-2 rounded cursor-pointer',
+                                        isSelectedOption ? 'bg-slate-200' : 'hover:bg-slate-100',
+                                        isSubmitted && opt.isCorrect ? 'correct' : '',
+                                        isSubmitted && isSelectedOption && !opt.isCorrect ? 'incorrect' : '',
+                                    ].filter(Boolean).join(' ');
+                                    return (
+                                        <label key={j} className={optionClasses}>
+                                            <input type="radio" name={`q${i}`} value={opt.text} onChange={() => handleAnswer(i, opt.text)} disabled={isSubmitted} className="mr-2"/>
+                                            <span className={`${isSubmitted && opt.isCorrect ? 'font-bold text-green-700' : ''} ${isSubmitted && isSelectedOption && !opt.isCorrect ? 'line-through text-red-700' : ''} question-stem`}>
+                                                <MathText text={opt.text} className="question-stem" itemIndex={`${q.questionNumber ?? (i + 1)}-practice-opt-${j}`} subject={q.subject || quiz.subject || 'Math'} />
+                                            </span>
+                                        </label>
+                                    );
+                                })}
                             </div>
                         </div>
                     ))}
@@ -9832,11 +9951,11 @@ const passagesData = [
         switch (overlayView) {
             case 'passage1':
                 return (
-                    <div className="prose max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage1.content, { normalizeSpacing: true }) }} />
+                    <div className="prose passage-section max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage1.content, { normalizeSpacing: true }) }} />
                 );
             case 'passage2':
                 return (
-                    <div className="prose max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage2.content, { normalizeSpacing: true }) }} />
+                    <div className="prose passage-section max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage2.content, { normalizeSpacing: true }) }} />
                 );
             default:
                 return (
@@ -10969,10 +11088,12 @@ function useThemeController() {
             const body = document.body;
             if (body) {
                 body.classList.toggle('dark', normalized === 'dark');
+                body.setAttribute('data-theme', normalized);
             }
             const root = document.documentElement;
             if (root) {
                 root.classList.toggle('dark', normalized === 'dark');
+                root.setAttribute('data-theme', normalized);
             }
         }
         try {
