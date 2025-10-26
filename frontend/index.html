@@ -10931,57 +10931,73 @@ function GeometryPracticeTool({ onExit }) {
     const showExitButton = typeof onExit === 'function';
 
     return (
-        <div className="fade-in">
-            <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b">
-                <div className="flex-none min-w-[120px]">
+        <div className="fade-in space-y-6">
+            <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-2 border-b border-slate-200 dark:border-slate-700">
+                <div className="flex-none min-w-[140px]">
                     {showExitButton && (
-                        <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
+                        <button onClick={onExit} className="flex items-center gap-1 text-sm font-semibold text-slate-700 hover:text-sky-600 dark:text-slate-200 dark:hover:text-sky-300"><ArrowLeftIcon /> Back</button>
                     )}
                 </div>
-                <h2 className="text-xl font-bold text-center text-slate-800 flex-1">Geometry Practice Tool</h2>
-                <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
+                <h2 className="text-2xl font-bold text-center text-slate-900 dark:text-slate-100 flex-1">Geometry Practice Tool</h2>
+                <div className="flex-none min-w-[140px]" aria-hidden="true"></div>
             </header>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="md:col-span-2 bg-slate-50 rounded-lg p-4 flex flex-col items-center justify-center">
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]">
                     {currentProblem ? (
                         <>
-                            <svg width="100%" height="300" viewBox="0 0 350 250">
+                            <svg
+                                className="w-full max-w-2xl h-[360px]"
+                                viewBox="0 0 400 320"
+                                preserveAspectRatio="xMidYMid meet"
+                            >
                                 {currentProblem.renderer(currentProblem.dims, currentProblem.context)}
                             </svg>
-                            <p className="text-lg font-semibold mt-4">{currentProblem.prompt}</p>
+                            <p className="text-lg font-semibold mt-6 text-center text-slate-900 dark:text-slate-100 max-w-2xl">
+                                {currentProblem.prompt}
+                            </p>
                         </>
                     ) : (
-                        <p>Select a shape to begin.</p>
+                        <p className="text-base text-slate-700 dark:text-slate-200">Select a shape to begin.</p>
                     )}
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                     <div>
-                        <h3 className="text-lg font-semibold mb-2">Shapes</h3>
+                        <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">Shapes</h3>
                         <div className="grid grid-cols-2 gap-2">
                             {Object.keys(SHAPE_LIBRARY).map(shape => (
-                                <button key={shape} onClick={() => generateProblem(shape)} className={`p-2 font-semibold rounded-md transition capitalize ${currentProblem?.shape === shape ? 'bg-sky-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}`}>
+                                <button
+                                    key={shape}
+                                    onClick={() => generateProblem(shape)}
+                                    className={`p-2 font-semibold rounded-md transition capitalize ${currentProblem?.shape === shape
+                                        ? 'bg-sky-600 text-white shadow'
+                                        : 'bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'}`}
+                                >
                                     {shape.replace('_', ' ')}
                                 </button>
                             ))}
                         </div>
                     </div>
                     {currentProblem && (
-                        <div className="space-y-2">
-                            <label htmlFor="answer" className="font-semibold text-slate-600">Your Answer:</label>
+                        <div className="space-y-3">
+                            <label htmlFor="answer" className="font-semibold text-slate-900 dark:text-slate-100">Your Answer:</label>
                             <input
                                 type="number"
                                 id="answer"
                                 value={userAnswer}
                                 onChange={(e) => setUserAnswer(e.target.value)}
-                                className="w-full p-2 border border-slate-300 rounded-md"
+                                className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
                             />
                             <button onClick={checkAnswer} className="w-full p-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition">Check Answer</button>
                             {feedback && (
-                                <p className={`mt-2 p-2 rounded-md text-center font-semibold ${feedback.includes('Correct') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                <p
+                                    className={`mt-2 p-2 rounded-md text-center font-semibold ${feedback.includes('Correct')
+                                        ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200'
+                                        : 'bg-red-100 text-red-800 dark:bg-red-900/60 dark:text-red-200'}`}
+                                >
                                     {feedback}
                                 </p>
                             )}
-                            <button onClick={() => generateProblem(currentProblem.shape)} className="w-full p-2 mt-2 bg-sky-500 text-white font-bold rounded-lg hover:bg-sky-600 transition">Next Problem</button>
+                            <button onClick={() => generateProblem(currentProblem.shape)} className="w-full p-2 bg-sky-500 text-white font-bold rounded-lg hover:bg-sky-600 transition">Next Problem</button>
                         </div>
                     )}
                 </div>
