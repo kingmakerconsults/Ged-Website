@@ -337,7 +337,25 @@ if (!GEOMETRY_FIGURES_ENABLED) {
     console.info('Geometry figures disabled (GEOMETRY_FIGURES_ENABLED=false); using text-only diagram descriptions.');
 }
 
-function extractJSONArray(raw) {
+function sanitizeAIJSONString(raw) {
+    if (typeof raw !== 'string') return '';
+
+    let s = raw.trim();
+
+    s = s.replace(/\\n(\\t|\\n){2,}/g, ' ');
+    s = s.replace(/(\\t){2,}/g, ' ');
+    s = s.replace(/(\\n){2,}/g, '\\n');
+    s = s.replace(/\\frac\s*\{\s*([^}]+)\s*\}\s*\{\s*([^}]+)\s*\}/g, '($1/$2)');
+
+    const lastBracket = s.lastIndexOf(']');
+    if (lastBracket !== -1) {
+        s = s.slice(0, lastBracket + 1);
+    }
+
+    return s.trim();
+}
+
+function extractJSONArray(raw, { sanitize = false, logLabel } = {}) {
     if (typeof raw !== 'string') return null;
     const bs = raw.indexOf('<BEGIN_JSON>');
     const es = raw.lastIndexOf('<END_JSON>');
@@ -345,9 +363,24 @@ function extractJSONArray(raw) {
     const first = body.indexOf('[');
     const last = body.lastIndexOf(']');
     if (first === -1 || last === -1 || last <= first) return null;
+
+    let jsonText = body.slice(first, last + 1);
+    jsonText = sanitize ? sanitizeAIJSONString(jsonText) : jsonText.trim();
+
+    if (!jsonText) return null;
+
     try {
-        return JSON.parse(body.slice(first, last + 1));
-    } catch {
+        const parsed = JSON.parse(jsonText);
+        return Array.isArray(parsed) ? parsed : [parsed];
+    } catch (error) {
+        if (sanitize) {
+            const snippet = jsonText.slice(0, 1000);
+            console.error('Failed to parse sanitized AI JSON response.', {
+                error: error.message,
+                snippet,
+                ...(logLabel ? { stage: logLabel } : {})
+            });
+        }
         return null;
     }
 }
@@ -363,7 +396,7 @@ function parseGeminiResponse(data) {
         text = data.candidates[0].content.parts[0].text;
     }
     if (typeof text !== 'string' || !text.trim()) return null;
-    return extractJSONArray(text);
+    return extractJSONArray(text, { sanitize: true, logLabel: 'gemini' });
 }
 
 function parseOpenAIResponse(data) {
@@ -386,15 +419,27 @@ function parseOpenAIResponse(data) {
             .trim();
     }
     if (typeof text !== 'string' || !text.trim()) return null;
-    const json = extractJSONArray(text);
+    const json = extractJSONArray(text, { sanitize: true, logLabel: 'openai-extract' });
     if (json) return json;
     try {
-        const parsed = JSON.parse(text);
-        if (Array.isArray(parsed)) return parsed;
-        if (Array.isArray(parsed?.items)) return parsed.items;
-        if (Array.isArray(parsed?.questions)) return parsed.questions;
-        if (Array.isArray(parsed?.data)) return parsed.data;
+        const sanitized = sanitizeAIJSONString(text);
+        const parsed = JSON.parse(sanitized);
+        const questionsArray = Array.isArray(parsed)
+            ? parsed
+            : Array.isArray(parsed?.items)
+                ? parsed.items
+                : Array.isArray(parsed?.questions)
+                    ? parsed.questions
+                    : Array.isArray(parsed?.data)
+                        ? parsed.data
+                        : parsed;
+        return Array.isArray(questionsArray) ? questionsArray : [questionsArray];
     } catch (err) {
+        const sanitized = sanitizeAIJSONString(text);
+        console.error('Failed to parse sanitized OpenAI JSON response.', {
+            error: err.message,
+            snippet: sanitized.slice(0, 1000)
+        });
         return null;
     }
     return null;
@@ -552,7 +597,7 @@ const QuestionSchema = {
     required: ['id', 'questionType', 'questionText'],
     properties: {
         id: { type: ['string', 'number'] },
-        questionType: { enum: ['standalone', 'freeResponse'] },
+        questionType: { enum: ['standalone', 'freeResponse', 'multipleChoice'] },
         questionText: { type: 'string' },
         answerOptions: {
             type: 'array',
@@ -581,7 +626,7 @@ const OPENAI_QUESTION_JSON_SCHEMA = {
         additionalProperties: true,
         properties: {
             id: { type: ['string', 'number'] },
-            questionType: { type: 'string', enum: ['standalone', 'freeResponse'] },
+            questionType: { type: 'string', enum: ['standalone', 'freeResponse', 'multipleChoice'] },
             questionText: { type: 'string' },
             answerOptions: {
                 type: 'array',
@@ -842,35 +887,58 @@ NEVER wrap a fraction in $, $$, \(:, or [.
 
 Everything else (exponents, square roots, inequality symbols like ≤ and ≥, etc.) can be written normally the way you usually would for math class.`;
 
+
+
 function buildStrictJsonHeaderMath({ fractionPlainTextMode } = {}) {
-    const questionTextLine = fractionPlainTextMode
-        ? '  "questionText": "Plain English with math notation allowed (e.g., exponents like x^2, roots like \\sqrt{9}, inequality symbols like \\le or \\ge). DO NOT use math delimiters ($, $$, \\(, \\[). Fractions must follow the plain-text slash rule described below. DO NOT use HTML.",'
-        : '  "questionText": "Plain English with LaTeX commands allowed (e.g., \\frac{1}{2}, \\sqrt{9}, \\le, \\ge, \\pi). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.",';
+    const questionTextGuidance = fractionPlainTextMode
+        ? '- questionText: Plain English with math notation allowed (e.g., exponents like x^2, roots like \\sqrt{9}, inequality symbols like \\le or \\ge). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.'
+        : '- questionText: Plain English with LaTeX commands allowed (e.g., \\sqrt{9}, \\le, \\ge, \\pi). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.';
+
+    const answerOptionsGuidance = '- answerOptions: Provide multiple choices; each must include "text", "isCorrect", and "rationale". Exactly one answerOption must have isCorrect=true.';
 
     const fractionRuleBlock = fractionPlainTextMode ? `\n${FRACTION_PLAIN_TEXT_RULE}\n` : '';
 
+    const formattingRulesBlock = [
+        '* "Return ONLY a JSON array of question objects between <BEGIN_JSON> and <END_JSON>. Do not wrap it in any other object. Do not include keys like \'questions\', \'metadata\', \'notes\', \'reasoning\', or anything else. Only the array."',
+        '',
+        '* "Each question object must use this shape exactly:',
+        '  {',
+        '  "id": "string",',
+        '  "questionText": "string",',
+        '  "answerOptions": [',
+        '  {',
+        '  "text": "string",',
+        '  "isCorrect": true/false,',
+        '  "rationale": "string"',
+        '  }',
+        '  ],',
+        '  "questionType": "multipleChoice"',
+        '  }"',
+        '',
+        '* "Do NOT include giant indentation blocks made of tab or newline spam. You may use normal short `\n` for formatting, but you MUST NOT repeat `\n` or `\t` more than two times in a row. Never output a huge run of `\\n\\t\\t\\t\\t...`."',
+        '',
+        '* "If you want to show a formula with a fraction, ALWAYS use plain text slash style like 3/4 or (2x+1)/3. NEVER use \\frac{...}{...}. NEVER use $...$, $$...$$, \\( ... \\), or \\[ ... \\] around a fraction."',
+        '',
+        '* "Other math formatting (exponents like x^2, √, ≤, ≥, tables, etc.) is allowed."',
+        '',
+        '* "Do NOT write any text after </END_JSON> and do not write any explanations before <BEGIN_JSON>."'
+    ].join('\\n');
+
     const hardRuleLines = [
-        fractionPlainTextMode
-            ? '- LaTeX commands allowed (\\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).'
-            : '- LaTeX commands allowed (\\frac, \\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).',
-        fractionPlainTextMode
-            ? '- Fractions must use plain-text slash notation (e.g., 3/4, (2x+1)/3).'
-            : '- Ensure braces balance in \\frac{...}{...}.',
+        '- LaTeX commands allowed (\\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).',
+        '- Fractions must use plain-text slash notation (e.g., 3/4, (2x+1)/3).',
         '- Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.',
         '- No HTML or markdown tables. Describe any table verbally in questionText.',
         '- Ensure braces balance in \\sqrt{...}. No custom macros.',
         '- If a passage/stimulus is used, it MUST be <= 250 words.',
         '- Exactly N items; top-level is a JSON array only.'
-    ].join('\n');
+    ].join('\\n');
 
     return `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
-Each item schema:
-{
-  "id": "<unique string>",
-  "questionType": "standalone" | "freeResponse",
-${questionTextLine}
-  "answerOptions": [{"text":"...","isCorrect":true|false,"rationale":"..."}] // omit for freeResponse
-}`${fractionRuleBlock}
+${formattingRulesBlock}${fractionRuleBlock}
+Additional guidance:
+${questionTextGuidance}
+${answerOptionsGuidance}
 Hard rules:
 ${hardRuleLines}`;
 }
