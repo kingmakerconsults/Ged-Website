@@ -8,7 +8,7 @@ const ensureStyles = () => {
     .graph-hints {
       border-radius: 16px;
       padding: 18px 20px;
-      background: rgba(244, 247, 255, 0.92);
+      background: #ffffff;
       color: #0f172a;
       display: flex;
       flex-direction: column;

@@ -39,7 +39,7 @@ const THEME_VARIANTS = {
   dark: {
     background: '#050505',
     gridStroke: 'rgba(0,255,255,0.12)',
-    primaryStroke: '#e0faff',
+    primaryStroke: '#ffffff',
     primaryFill: 'rgba(0,255,255,0.12)',
     text: '#e2fdff',
     glow: 'drop-shadow(0 0 8px rgba(0,255,255,0.3))',
@@ -47,7 +47,7 @@ const THEME_VARIANTS = {
     handleStroke: '#8af3ff',
     overlayStroke: '#8af3ff',
     overlayFill: 'rgba(0,255,255,0.08)',
-    measurementText: '#cafafe',
+    measurementText: '#ffffff',
   },
 };
 

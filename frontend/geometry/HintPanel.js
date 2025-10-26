@@ -12,7 +12,7 @@ const ensureStyles = () => {
     .geometry-hints {
       border-radius: 14px;
       padding: 16px 18px;
-      background: rgba(244, 244, 249, 0.9);
+      background: #ffffff;
       box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.25);
       display: flex;
       flex-direction: column;
