@@ -34,7 +34,7 @@ const THEME_TOKENS = {
     axis: '#f8fafc',
     axisLabel: '#f8fafc',
     highlight: '#38bdf8',
-    objectStroke: '#e0f2fe',
+    objectStroke: '#ffffff',
     objectFill: 'rgba(56, 189, 248, 0.18)',
     shadeFill: 'rgba(56, 189, 248, 0.16)',
     trace: '#f8fafc',
