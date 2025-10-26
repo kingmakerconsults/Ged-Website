@@ -7815,24 +7815,59 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
     );
 }
 
-function SubjectVocabularySection({ subject, words }) {
+function SubjectVocabularySection({ subject, words, theme = 'light' }) {
     if (!Array.isArray(words) || !words.length) {
         return null;
     }
+
+    const isDarkMode = theme === 'dark';
+    const colorScheme = SUBJECT_COLORS[subject] || {};
+    const accentColor = colorScheme.accent || colorScheme.text || '#0f172a';
+    const textColor = colorScheme.text || '#0f172a';
+    const lightTint = SUBJECT_LIGHT_TINTS[subject] || 'rgba(148,163,184,0.28)';
+    const lightSurface = SUBJECT_LIGHT_SURFACE_GRADIENTS[subject];
+
+    const containerClasses = `animate-floatIn rounded-2xl p-6 mb-6 border transition-colors duration-300 ${isDarkMode ? 'bg-slate-900/60 border-slate-700/60' : 'bg-white shadow-xl'}`;
+    const containerStyle = isDarkMode
+        ? undefined
+        : {
+            backgroundColor: '#ffffff',
+            backgroundImage: lightSurface || undefined,
+            borderColor: lightTint,
+            boxShadow: '0 22px 45px -32px rgba(15,23,42,0.45)',
+        };
+
+    const headerTextStyle = isDarkMode ? undefined : { color: accentColor };
+    const subtextStyle = isDarkMode ? undefined : { color: textColor, opacity: 0.75 };
+
+    const cardClasses = `rounded-xl p-4 shadow-sm border transition-all ${isDarkMode ? 'bg-slate-900/60 border-slate-700/60' : 'bg-white'}`;
+    const cardStyle = isDarkMode
+        ? undefined
+        : {
+            backgroundColor: '#ffffff',
+            borderColor: lightTint,
+            borderLeft: `4px solid ${accentColor}`,
+            boxShadow: '0 14px 32px -28px rgba(15,23,42,0.35)',
+        };
+
+    const termStyle = isDarkMode ? undefined : { color: textColor };
+    const definitionStyle = isDarkMode ? undefined : { color: textColor, opacity: 0.85 };
+    const exampleStyle = isDarkMode ? undefined : { color: accentColor, opacity: 0.8 };
+
     return (
-        <div id="subject-vocabulary-section" className="glass animate-floatIn rounded-2xl p-6 mb-6 border border-slate-200/70 dark:border-slate-700/60">
+        <div id="subject-vocabulary-section" className={containerClasses} style={containerStyle}>
             <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">Subject Vocabulary</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-300">Scroll through the complete list of key terms for {subject}.</p>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100" style={headerTextStyle}>Subject Vocabulary</h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-300" style={subtextStyle}>Scroll through the complete list of key terms for {subject}.</p>
                 </div>
             </div>
             <div className="mt-4 max-h-96 overflow-y-auto pr-1 space-y-3">
                 {words.map((word) => (
-                    <div key={word.term} className="rounded-lg bg-white/85 dark:bg-slate-900/60 p-4 shadow-sm border border-slate-200/60 dark:border-slate-700/60 transition-all">
-                        <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">{word.term}</p>
-                        {word.definition && <p className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">{word.definition}</p>}
-                        {word.example && <p className="text-xs text-slate-500 dark:text-slate-400 italic mt-2">Example: {word.example}</p>}
+                    <div key={word.term} className={cardClasses} style={cardStyle}>
+                        <p className="text-lg font-semibold text-slate-900 dark:text-slate-100" style={termStyle}>{word.term}</p>
+                        {word.definition && <p className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed" style={definitionStyle}>{word.definition}</p>}
+                        {word.example && <p className="text-xs text-slate-500 dark:text-slate-400 italic mt-2" style={exampleStyle}>Example: {word.example}</p>}
                     </div>
                 ))}
             </div>
@@ -7976,6 +8011,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
     const isDarkMode = theme === 'dark';
+    const homePanelStyle = isDarkMode
+        ? undefined
+        : {
+            backgroundColor: '#ffffff',
+            color: '#0f172a',
+            borderColor: 'rgba(148,163,184,0.32)',
+        };
+    const homePanelPrimaryTextClass = isDarkMode ? 'text-slate-300' : 'text-slate-900';
     const vocabularyData = vocabulary && typeof vocabulary === 'object' ? vocabulary : {};
     const profile = profileData?.profile || {};
     const challengeOptions = Array.isArray(profileData?.challengeOptions) ? profileData.challengeOptions : [];
@@ -8413,6 +8456,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         <SubjectVocabularySection
                             subject={selectedSubject}
                             words={subjectVocabulary}
+                            theme={theme}
                         />
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -8560,9 +8604,9 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 </header>
                 {currentUser && (
                     <div className="grid gap-4 md:grid-cols-2 mb-6">
-                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-2">
+                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Upcoming Tests</h2>
+                                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Upcoming Tests</h2>
                                 <button
                                     type="button"
                                     onClick={goToProfile}
@@ -8575,27 +8619,27 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 <p className="text-sm text-emerald-600">You marked every GED subject as passed. Amazing work!</p>
                             ) : nextUpcomingSummary ? (
                                 <>
-                                    <p className="text-sm text-slate-600 dark:text-slate-300">
-                                        Next: <span className="font-semibold text-slate-800 dark:text-slate-100">{nextUpcomingSummary.subject}</span> on{' '}
-                                        <span className="font-semibold text-slate-800 dark:text-slate-100">{nextUpcomingSummary.testDate}</span>
-                                        {nextUpcomingSummary.daysUntilText && (
-                                            <> · {nextUpcomingSummary.daysUntilText} remaining</>
-                                        )}
-                                    </p>
-                                    {nextUpcomingSummary.location && (
-                                        <p className="text-sm text-slate-600 dark:text-slate-300">Location: {nextUpcomingSummary.location}</p>
+                                <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+                                    Next: <span className="font-semibold text-slate-900 dark:text-slate-100">{nextUpcomingSummary.subject}</span> on{' '}
+                                    <span className="font-semibold text-slate-900 dark:text-slate-100">{nextUpcomingSummary.testDate}</span>
+                                    {nextUpcomingSummary.daysUntilText && (
+                                        <> · {nextUpcomingSummary.daysUntilText} remaining</>
                                     )}
-                                </>
-                            ) : hasSavedTest ? (
-                                <p className="text-sm text-slate-600 dark:text-slate-300">Keep adding your remaining test dates to stay organized.</p>
-                            ) : (
-                                <p className="text-sm text-slate-600 dark:text-slate-300">Set your test dates to start the countdown.</p>
-                            )}
-                            <p className="text-xs text-slate-500 dark:text-slate-400">Need changes? Update them from your profile.</p>
+                                </p>
+                                {nextUpcomingSummary.location && (
+                                    <p className={`text-sm ${homePanelPrimaryTextClass}`}>Location: {nextUpcomingSummary.location}</p>
+                                )}
+                            </>
+                        ) : hasSavedTest ? (
+                            <p className={`text-sm ${homePanelPrimaryTextClass}`}>Keep adding your remaining test dates to stay organized.</p>
+                        ) : (
+                            <p className={`text-sm ${homePanelPrimaryTextClass}`}>Set your test dates to start the countdown.</p>
+                        )}
+                            <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-800'}`}>Need changes? Update them from your profile.</p>
                         </article>
-                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-2">
+                        <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Learning Challenges</h2>
+                                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Learning Challenges</h2>
                                 <button
                                     type="button"
                                     onClick={goToProfile}
@@ -8605,16 +8649,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 </button>
                             </div>
                             {selectedChallenges.length ? (
-                                <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-300">
+                                <ul className={`space-y-1 text-sm ${homePanelPrimaryTextClass}`}>
                                     {displayedChallenges.map((challenge) => (
                                         <li key={challenge.id}>• {challenge.label || `${challenge.subject} — ${challenge.subtopic}`}</li>
                                     ))}
                                     {hiddenChallengeCount > 0 && (
-                                        <li className="text-xs text-slate-500 dark:text-slate-400">and {hiddenChallengeCount} more…</li>
+                                        <li className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-800'}`}>and {hiddenChallengeCount} more…</li>
                                     )}
                                 </ul>
                             ) : (
-                                <p className="text-sm text-slate-600 dark:text-slate-300">Tell us what topics to focus on to unlock a tailored plan.</p>
+                                <p className={`text-sm ${homePanelPrimaryTextClass}`}>Tell us what topics to focus on to unlock a tailored plan.</p>
                             )}
                             {!onboardingComplete && (
                                 <p className="text-xs text-rose-500">Finish selecting challenges to complete onboarding.</p>
