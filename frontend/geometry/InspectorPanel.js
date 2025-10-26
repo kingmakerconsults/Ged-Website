@@ -20,7 +20,7 @@ const ensureStyles = () => {
       gap: 12px;
       padding: 18px;
       border-radius: 14px;
-      background: linear-gradient(160deg, rgba(248, 250, 252, 0.92), rgba(226, 232, 240, 0.65));
+      background: #ffffff;
       color: #0f172a;
       min-width: 260px;
       max-width: 320px;
@@ -39,7 +39,7 @@ const ensureStyles = () => {
       align-items: center;
     }
     .geometry-inspector .metric-card {
-      background: rgba(255, 255, 255, 0.85);
+      background: #ffffff;
       border-radius: 12px;
       padding: 12px 14px;
       box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.25);
