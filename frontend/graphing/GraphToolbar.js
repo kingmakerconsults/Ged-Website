@@ -16,11 +16,11 @@ const ensureStyles = () => {
       display: grid;
       gap: 12px;
       padding: 16px;
-      background: rgba(248, 250, 252, 0.92);
+      background: #ffffff;
       border-radius: 16px;
       box-shadow: 0 20px 48px rgba(15, 23, 42, 0.18);
       backdrop-filter: blur(12px);
-      color: #0f172a;
+      color: #000000;
     }
     .graph-toolbar.dark {
       background: rgba(15, 23, 42, 0.78);
@@ -43,7 +43,7 @@ const ensureStyles = () => {
       font-weight: 600;
       cursor: pointer;
       transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-      background: rgba(255, 255, 255, 0.92);
+      background: #ffffff;
       color: inherit;
       box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.22);
     }
@@ -61,7 +61,7 @@ const ensureStyles = () => {
       transform: translateY(-1px);
     }
     .graph-toolbar details {
-      background: rgba(255, 255, 255, 0.88);
+      background: #ffffff;
       border-radius: 14px;
       padding: 12px 14px;
       box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.2);
@@ -95,7 +95,7 @@ const ensureStyles = () => {
       border-radius: 10px;
       padding: 6px 10px;
       font-size: 14px;
-      background: rgba(255, 255, 255, 0.95);
+      background: #ffffff;
       color: inherit;
     }
     .graph-toolbar.dark input {
