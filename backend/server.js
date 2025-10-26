@@ -44,6 +44,69 @@ async function bindGoogleIdentity(userId, sub) {
     );
 }
 
+const SUPER_ADMIN_EMAIL = 'kingmakerconsults@gmail.com';
+
+async function loadUserWithRole(userId) {
+    if (!userId) {
+        return null;
+    }
+    return db.oneOrNone(
+        `SELECT
+            u.id,
+            u.email,
+            u.name,
+            u.role,
+            u.organization_id,
+            u.picture_url,
+            o.name AS organization_name
+         FROM users u
+         LEFT JOIN organizations o ON o.id = u.organization_id
+         WHERE u.id = $1`,
+        [userId]
+    );
+}
+
+function normalizeRole(role) {
+    switch (role) {
+        case 'super_admin':
+        case 'org_admin':
+        case 'student':
+            return role;
+        default:
+            return 'student';
+    }
+}
+
+function buildAuthPayloadFromUserRow(row) {
+    if (!row) {
+        throw new Error('User row is required');
+    }
+    const role = normalizeRole(row.role);
+    return {
+        sub: row.id,
+        userId: row.id,
+        email: row.email,
+        role,
+        organization_id: row.organization_id ?? null,
+        name: row.name || null,
+    };
+}
+
+function buildUserResponse(row, fallbackPicture = null) {
+    if (!row) {
+        return null;
+    }
+    return {
+        id: row.id,
+        email: row.email,
+        name: row.name,
+        role: normalizeRole(row.role),
+        organization_id: row.organization_id ?? null,
+        organization_name: row.organization_name || null,
+        picture: row.picture_url || fallbackPicture || null,
+    };
+}
+
 function selectModelTimeoutMs({ examType } = {}) {
     return examType === 'comprehensive' ? COMPREHENSIVE_TIMEOUT_MS : MODEL_HTTP_TIMEOUT_MS;
 }
@@ -203,8 +266,8 @@ const {
 } = require('./utils/geometryJson');
 const normalizeLatex = (text) => text;
 const { fetchApproved } = require('./src/fetch/fetcher');
-const { requireAuth, adminBypassLogin, setAuthCookie } = require('./src/middleware/auth');
-const { adminPreviewBypass } = require('./src/middleware/adminBypass');
+const { requireAuth, setAuthCookie } = require('./src/middleware/auth');
+const { requireSuperAdmin, requireOrgAdmin } = require('./middleware/adminRoles');
 const { assertUserIsActive } = require('./utils/userPresence');
 const { sanitizeExamObject, sanitizeField } = require('./src/lib/sanitizeExamText');
 const {
@@ -1391,19 +1454,41 @@ function authenticateBearerToken(req, res, next) {
 
     try {
         const payload = jwt.verify(token, secret);
-        req.user = { ...(req.user || {}), userId: payload.userId };
+        const normalizedId = payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
+        const normalizedRole = payload?.role || 'student';
+        const normalizedOrg = payload?.organization_id ?? null;
+        const normalizedEmail = payload?.email || null;
+
+        req.user = {
+            ...(req.user || {}),
+            ...payload,
+            id: normalizedId,
+            userId: normalizedId,
+            role: normalizedRole,
+            organization_id: normalizedOrg,
+            email: normalizedEmail,
+        };
         return next();
     } catch (error) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
 }
 
-function createUserToken(userId) {
+async function createUserToken(userId) {
     const secret = process.env.JWT_SECRET;
     if (!secret) {
         throw new Error('JWT_SECRET is not configured');
     }
-    return jwt.sign({ userId }, secret, { expiresIn: USER_TOKEN_TTL });
+    const userRow = await loadUserWithRole(userId);
+    if (!userRow) {
+        throw new Error('User not found');
+    }
+    if (!userRow.role) {
+        await pool.query(`UPDATE users SET role = 'student' WHERE id = $1`, [userId]);
+        userRow.role = 'student';
+    }
+    const payload = buildAuthPayloadFromUserRow(userRow);
+    return jwt.sign(payload, secret, { expiresIn: USER_TOKEN_TTL });
 }
 
 function requireAuthInProd(req, res, next) {
@@ -1550,13 +1635,6 @@ function ensureRequestUser(req) {
 function authRequired(req, res, next) {
     if (!ensureRequestUser(req)) {
         return res.status(401).json({ error: 'Not authenticated' });
-    }
-    return next();
-}
-
-function requireAdminRole(req, res, next) {
-    if (!req.user || req.user.role !== 'admin') {
-        return res.status(403).json({ error: 'Admin access required' });
     }
     return next();
 }
@@ -2087,7 +2165,7 @@ app.post('/api/register', async (req, res) => {
         );
 
         const user = formatUserRow(result.rows[0]);
-        const token = createUserToken(user.id);
+        const token = await createUserToken(user.id);
         return res.status(201).json({ message: 'Registration successful', user, token });
     } catch (error) {
         if (error?.code === '23505') {
@@ -2132,7 +2210,7 @@ app.post('/api/login', async (req, res) => {
         }
 
         const user = formatUserRow(userRow);
-        const token = createUserToken(user.id);
+        const token = await createUserToken(user.id);
         return res.status(200).json({ message: 'Login successful', user, token });
     } catch (error) {
         console.error('Login failed:', error);
@@ -4104,25 +4182,57 @@ app.post('/api/auth/google', async (req, res) => {
         }
 
         const now = new Date();
-        await pool.query(
-            `UPDATE users
-                SET name = $2, email = $3, picture_url = $4, last_login = $5
-              WHERE id = $1`,
-            [userId, name, email, picture, now]
-        );
-        console.log(`User ${name} (${email}) logged in and data was saved to the database.`);
+        const updateParams = [userId, name, email, picture, now];
+        if (email === SUPER_ADMIN_EMAIL) {
+            await pool.query(
+                `UPDATE users
+                    SET name = $2,
+                        email = $3,
+                        picture_url = $4,
+                        last_login = $5,
+                        role = 'super_admin',
+                        organization_id = NULL
+                  WHERE id = $1`,
+                updateParams
+            );
+        } else {
+            await pool.query(
+                `UPDATE users
+                    SET name = $2,
+                        email = $3,
+                        picture_url = $4,
+                        last_login = $5,
+                        role = COALESCE(role, 'student')
+                  WHERE id = $1`,
+                updateParams
+            );
+        }
 
-        const tokenPayload = { sub: userId, userId, name };
-        const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const userRow = await loadUserWithRole(userId);
+        if (!userRow) {
+            console.error('User record missing after Google login.');
+            return res.status(500).json({ error: 'Authentication or database error.' });
+        }
+
+        if (!userRow.role) {
+            await pool.query(`UPDATE users SET role = 'student' WHERE id = $1`, [userId]);
+            userRow.role = 'student';
+        }
+
+        if (!process.env.JWT_SECRET) {
+            console.error('JWT_SECRET is not configured for Google authentication.');
+            return res.status(500).json({ error: 'Authentication unavailable.' });
+        }
+
+        const authPayload = buildAuthPayloadFromUserRow(userRow);
+        const token = jwt.sign(authPayload, process.env.JWT_SECRET, { expiresIn: '1d' });
         setAuthCookie(res, token, 24 * 60 * 60 * 1000);
 
+        const responseUser = buildUserResponse(userRow, picture);
+        console.log(`User ${responseUser?.name || name || email} (${email}) logged in as ${authPayload.role}.`);
+
         res.status(200).json({
-            user: {
-                id: userId,
-                name,
-                email,
-                picture,
-            },
+            user: responseUser,
             token,
         });
     } catch (error) {
@@ -4131,33 +4241,125 @@ app.post('/api/auth/google', async (req, res) => {
     }
 });
 
-app.get('/admin/active-users', requireAuth, requireAdminRole, async (req, res) => {
+// --- API ENDPOINT TO SAVE A QUIZ ATTEMPT ---
+app.get('/api/admin/organizations', requireAuth, requireSuperAdmin, async (req, res) => {
     try {
-        const result = await db.query(
+        const rows = await db.many(
             `SELECT
-                id,
-                name,
-                email,
-                last_seen_at,
-                (NOW() - last_seen_at) < INTERVAL '2 minutes' AS is_active
-             FROM users
-             WHERE last_seen_at IS NOT NULL
-             ORDER BY last_seen_at DESC
-             LIMIT 200`
+                o.id,
+                o.name,
+                COUNT(u.id) AS user_count,
+                MAX(qa.attempted_at) AS recent_activity
+             FROM organizations o
+             LEFT JOIN users u ON u.organization_id = o.id
+             LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
+             GROUP BY o.id, o.name
+             ORDER BY o.name ASC`
         );
 
-        return res.json(result.rows);
-    } catch (err) {
-        console.error('active-users failed:', err?.message || err);
-        return res.status(500).json({ error: 'active_users_failed' });
+        const organizations = rows.map((row) => ({
+            id: row.id,
+            name: row.name,
+            userCount: Number(row.user_count) || 0,
+            recentActivity: row.recent_activity || null,
+        }));
+
+        return res.json({ organizations });
+    } catch (error) {
+        console.error('Failed to load organizations:', error);
+        return res.status(500).json({ error: 'Unable to load organizations' });
     }
 });
 
-app.post('/admin/bypass-login', adminPreviewBypass);
+app.get('/api/admin/org-summary', requireAuth, requireOrgAdmin, async (req, res) => {
+    try {
+        let targetOrgId;
+        if (req.user.role === 'super_admin' && req.query.organization_id) {
+            const parsed = Number.parseInt(String(req.query.organization_id), 10);
+            if (!Number.isInteger(parsed) || parsed <= 0) {
+                return res.status(400).json({ error: 'Invalid organization_id' });
+            }
+            targetOrgId = parsed;
+        } else {
+            targetOrgId = req.user.organization_id;
+        }
 
-app.post('/api/admin/login', adminBypassLogin);
+        if (!targetOrgId) {
+            return res.status(400).json({ error: 'No organization scope' });
+        }
 
-// --- API ENDPOINT TO SAVE A QUIZ ATTEMPT ---
+        const organization = await db.oneOrNone(
+            `SELECT id, name FROM organizations WHERE id = $1`,
+            [targetOrgId]
+        );
+
+        if (!organization) {
+            return res.status(404).json({ error: 'Organization not found' });
+        }
+
+        const userRows = await db.many(
+            `SELECT id, name, email, last_login
+               FROM users
+              WHERE organization_id = $1
+              ORDER BY name NULLS LAST, email ASC`,
+            [targetOrgId]
+        );
+
+        const attemptRows = await db.many(
+            `SELECT
+                ranked.user_id,
+                ranked.subject,
+                ranked.quiz_type,
+                ranked.scaled_score,
+                ranked.attempted_at
+             FROM (
+                SELECT
+                    qa.user_id,
+                    qa.subject,
+                    qa.quiz_type,
+                    qa.scaled_score,
+                    qa.attempted_at,
+                    qa.id,
+                    ROW_NUMBER() OVER (PARTITION BY qa.user_id ORDER BY qa.attempted_at DESC, qa.id DESC) AS rn
+                FROM quiz_attempts qa
+                JOIN users u ON u.id = qa.user_id
+                WHERE u.organization_id = $1
+             ) ranked
+             WHERE ranked.rn <= 5
+             ORDER BY ranked.user_id, ranked.attempted_at DESC, ranked.id DESC`,
+            [targetOrgId]
+        );
+
+        const attemptsByUser = new Map();
+        for (const row of attemptRows) {
+            const entry = attemptsByUser.get(row.user_id) || [];
+            entry.push({
+                subject: row.subject,
+                quiz_type: row.quiz_type,
+                scaled_score: row.scaled_score != null ? Number(row.scaled_score) : null,
+                attempted_at: row.attempted_at,
+            });
+            attemptsByUser.set(row.user_id, entry);
+        }
+
+        const users = userRows.map((row) => ({
+            id: row.id,
+            name: row.name,
+            email: row.email,
+            last_login: row.last_login || null,
+            quizAttempts: attemptsByUser.get(row.id) || [],
+        }));
+
+        return res.json({
+            organization,
+            users,
+        });
+    } catch (error) {
+        console.error('Failed to load organization summary:', error);
+        return res.status(500).json({ error: 'Unable to load organization summary' });
+    }
+});
+
 app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
     try {
         const userId = req.user?.userId || req.user?.sub;
