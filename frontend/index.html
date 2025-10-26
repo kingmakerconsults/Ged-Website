@@ -4479,6 +4479,17 @@ function sanitizeCodeSegment(value, fallback = '') {
     return normalized || fallback;
 }
 
+function cloneArticle(article) {
+    if (!article || typeof article !== 'object') {
+        return null;
+    }
+    try {
+        return JSON.parse(JSON.stringify(article));
+    } catch (error) {
+        return Array.isArray(article) ? [...article] : { ...article };
+    }
+}
+
 function assignPremadeQuizCodes(data) {
     const catalog = {};
     if (!data || typeof data !== 'object') {
@@ -8357,20 +8368,37 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 }
 
                                 const quizCode = quiz.quizCode || `${quizIdBase}_set_${index}`;
-                                onSelectQuiz(
-                                    {
-                                        ...quiz,
-                                        id: quiz.quizId || quizCode,
-                                        quizCode,
-                                        title: derivedTitle,
-                                        topicId: topic.id,
-                                        topicTitle: topic.title || baseTitle,
-                                        description: quiz.description || topic.description,
-                                        type: quiz.type || topic.type || 'quiz',
-                                        questions: resolvedQuestions,
-                                    },
-                                    selectedSubject
-                                );
+                                const sourceTopic = quiz.questionSourceTopicId
+                                    ? getTopicById(selectedSubject, quiz.questionSourceTopicId)
+                                    : null;
+                                const articleSource = quiz.article || topic.article || (sourceTopic && sourceTopic.article);
+                                const articleClone = cloneArticle(articleSource);
+                                const resolvedImageUrl = quiz.imageUrl
+                                    || topic.imageUrl
+                                    || (sourceTopic && sourceTopic.imageUrl)
+                                    || (articleClone && articleClone.imageUrl)
+                                    || (articleSource && articleSource.imageUrl);
+
+                                const preparedQuiz = {
+                                    ...quiz,
+                                    id: quiz.quizId || quizCode,
+                                    quizCode,
+                                    title: derivedTitle,
+                                    topicId: topic.id,
+                                    topicTitle: topic.title || baseTitle,
+                                    description: quiz.description || topic.description,
+                                    type: quiz.type || topic.type || (sourceTopic ? sourceTopic.type : 'quiz') || 'quiz',
+                                    questions: resolvedQuestions,
+                                };
+
+                                if (articleClone) {
+                                    preparedQuiz.article = articleClone;
+                                }
+                                if (!preparedQuiz.imageUrl && resolvedImageUrl) {
+                                    preparedQuiz.imageUrl = resolvedImageUrl;
+                                }
+
+                                onSelectQuiz(preparedQuiz, selectedSubject);
                             };
 
                             return (
@@ -8452,7 +8480,36 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                             const topicQuizCode = topic.quizCode || topic.id || `${subjectSlug}__${fallbackTopicSlug}`;
                                             return (
                                                 <button
-                                                    onClick={() => onSelectQuiz({ ...topic, id: topic.quizCode || topicQuizCode, quizCode: topicQuizCode }, selectedSubject)}
+                                                    onClick={() => {
+                                                        if (typeof onSelectQuiz !== 'function') {
+                                                            return;
+                                                        }
+                                                        const articleClone = cloneArticle(topic.article);
+                                                        const preparedQuiz = {
+                                                            ...topic,
+                                                            id: topic.quizCode || topicQuizCode,
+                                                            quizCode: topicQuizCode,
+                                                        };
+                                                        if (articleClone) {
+                                                            preparedQuiz.article = articleClone;
+                                                        }
+                                                        const fallbackImageUrl = topic.imageUrl
+                                                            || (articleClone && articleClone.imageUrl)
+                                                            || (topic.article && topic.article.imageUrl);
+                                                        if (!preparedQuiz.imageUrl && fallbackImageUrl) {
+                                                            preparedQuiz.imageUrl = fallbackImageUrl;
+                                                        }
+                                                        if (Array.isArray(topic.questions)) {
+                                                            preparedQuiz.questions = topic.questions.map((question, questionIndex) => {
+                                                                if (question && typeof question === 'object') {
+                                                                    const nextNumber = question.questionNumber ?? (questionIndex + 1);
+                                                                    return { ...question, questionNumber: nextNumber };
+                                                                }
+                                                                return question;
+                                                            });
+                                                        }
+                                                        onSelectQuiz(preparedQuiz, selectedSubject);
+                                                    }}
                                                     className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
                                                     style={buttonStyle}
                                                 >
