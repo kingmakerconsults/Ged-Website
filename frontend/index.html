@@ -10832,9 +10832,9 @@ function GeometryPracticeTool({ onExit }) {
                 const hidden = context.hiddenLabels || [];
                 return (
                     <g>
-                        <rect x="50" y="75" width={w * 8} height={h * 8} stroke="black" fill="none" strokeWidth="2" />
-                        <text x={50 + (w*8)/2} y="65" textAnchor="middle">{hidden.includes('w') ? '?' : w}</text>
-                        <text x={40} y={75 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <rect x="50" y="75" width={w * 8} height={h * 8} stroke="currentColor" fill="none" strokeWidth="2" />
+                        <text x={50 + (w*8)/2} y="65" textAnchor="middle" fill="currentColor">{hidden.includes('w') ? '?' : w}</text>
+                        <text x={40} y={75 + (h*8)/2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
                     </g>
                 );
             }
@@ -10858,9 +10858,9 @@ function GeometryPracticeTool({ onExit }) {
                 const hidden = context.hiddenLabels || [];
                 return (
                     <g>
-                        <polygon points={`50,${50+h*8} ${50+b*8},${50+h*8} ${50+b*8},50`} stroke="black" fill="none" strokeWidth="2" />
-                        <text x={50 + (b*8)/2} y={65+h*8} textAnchor="middle">{hidden.includes('b') ? '?' : b}</text>
-                        <text x={60+b*8} y={50+(h*8)/2} dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <polygon points={`50,${50+h*8} ${50+b*8},${50+h*8} ${50+b*8},50`} stroke="currentColor" fill="none" strokeWidth="2" />
+                        <text x={50 + (b*8)/2} y={65+h*8} textAnchor="middle" fill="currentColor">{hidden.includes('b') ? '?' : b}</text>
+                        <text x={60+b*8} y={50+(h*8)/2} dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
                     </g>
                 );
             }
@@ -10889,9 +10889,9 @@ function GeometryPracticeTool({ onExit }) {
                 const hidden = context.hiddenLabels || [];
                 return (
                     <g>
-                        <circle cx="150" cy="150" r={r * 8} stroke="black" fill="none" strokeWidth="2" />
-                        <line x1="150" y1="150" x2={150 + r * 8} y2="150" stroke="black" strokeDasharray="4" />
-                        <text x={150 + (r*8)/2} y="140">{hidden.includes('r') ? '?' : r}</text>
+                        <circle cx="150" cy="150" r={r * 8} stroke="currentColor" fill="none" strokeWidth="2" />
+                        <line x1="150" y1="150" x2={150 + r * 8} y2="150" stroke="currentColor" strokeDasharray="4" />
+                        <text x={150 + (r*8)/2} y="140" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -10914,16 +10914,16 @@ function GeometryPracticeTool({ onExit }) {
             render: ({ l, w, h }, context = {}) => {
                 const hidden = context.hiddenLabels || [];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <rect x={50} y={50} width={l*8} height={h*8} />
                         <path d={`M ${50},${50} l ${w*3},-${w*3}`} />
                         <path d={`M ${50+l*8},${50} l ${w*3},-${w*3}`} />
                         <path d={`M ${50+l*8},${50+h*8} l ${w*3},-${w*3}`} />
                         <path d={`M ${50+w*3},${50-w*3} H ${50+w*3+l*8}`} />
                         <path d={`M ${50+w*3+l*8},${50-w*3} V ${50-w*3+h*8}`} />
-                        <text x={50 + (l*8)/2} y={60+h*8} textAnchor="middle">{hidden.includes('l') ? '?' : l}</text>
-                        <text x={55+l*8+(w*3)/2} y={40-w*3} textAnchor="middle">{hidden.includes('w') ? '?' : w}</text>
-                        <text x={40} y={50 + (h*8)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={50 + (l*8)/2} y={60+h*8} textAnchor="middle" fill="currentColor">{hidden.includes('l') ? '?' : l}</text>
+                        <text x={55+l*8+(w*3)/2} y={40-w*3} textAnchor="middle" fill="currentColor">{hidden.includes('w') ? '?' : w}</text>
+                        <text x={40} y={50 + (h*8)/2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
                     </g>
                 );
             }
@@ -10951,13 +10951,13 @@ function GeometryPracticeTool({ onExit }) {
             render: ({ r, h }, context = {}) => {
                 const hidden = context.hiddenLabels || [];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <ellipse cx="150" cy="50" rx={r*5} ry={r*2} />
                         <path d={`M ${150 - r*5},50 L ${150 - r*5},${50 + h*5}`} />
                         <path d={`M ${150 + r*5},50 L ${150 + r*5},${50 + h*5}`} />
                         <ellipse cx="150" cy={50 + h*5} rx={r*5} ry={r*2} />
-                        <text x="140" y={50 + (h*5)/2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
-                        <text x={150} y={65+h*5} textAnchor="middle">{hidden.includes('r') ? '?' : r}</text>
+                        <text x="140" y={50 + (h*5)/2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={150} y={65+h*5} textAnchor="middle" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -10989,12 +10989,12 @@ function GeometryPracticeTool({ onExit }) {
                 const centerX = 150;
                 const baseY = 200;
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <ellipse cx={centerX} cy={baseY} rx={baseRadius} ry={baseRadius / 3} />
                         <line x1={centerX - baseRadius} y1={baseY} x2={centerX} y2={baseY - height} />
                         <line x1={centerX + baseRadius} y1={baseY} x2={centerX} y2={baseY - height} />
-                        <text x={centerX - baseRadius - 10} y={baseY - height / 2} textAnchor="end" dominantBaseline="middle">{hidden.includes('h') ? '?' : h}</text>
-                        <text x={centerX + baseRadius / 2} y={baseY + 20} textAnchor="middle">{hidden.includes('r') ? '?' : r}</text>
+                        <text x={centerX - baseRadius - 10} y={baseY - height / 2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('h') ? '?' : h}</text>
+                        <text x={centerX + baseRadius / 2} y={baseY + 20} textAnchor="middle" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -11022,11 +11022,11 @@ function GeometryPracticeTool({ onExit }) {
             render: ({ r }, context = {}) => {
                 const hidden = context.hiddenLabels || [];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <circle cx="150" cy="130" r={r * 8} />
                         <ellipse cx="150" cy="130" rx={r * 8} ry={r * 3} strokeDasharray="6" />
                         <line x1="150" y1="130" x2={150 + r * 8} y2="130" strokeDasharray="4" />
-                        <text x={150 + (r*8)/2} y="115">{hidden.includes('r') ? '?' : r}</text>
+                        <text x={150 + (r*8)/2} y="115" fill="currentColor">{hidden.includes('r') ? '?' : r}</text>
                     </g>
                 );
             }
@@ -11048,12 +11048,12 @@ function GeometryPracticeTool({ onExit }) {
                 const pointB = [startX + a * scale, startY];
                 const pointC = [startX, startY - b * scale];
                 return (
-                    <g stroke="black" fill="none" strokeWidth="2">
+                    <g stroke="currentColor" fill="none" strokeWidth="2">
                         <polygon points={`${startX},${startY} ${pointB[0]},${pointB[1]} ${pointC[0]},${pointC[1]}`} />
                         <path d={`M ${startX + 20},${startY} L ${startX + 20},${startY - 20} L ${startX},${startY - 20}`} strokeWidth="2" />
-                        <text x={startX + (a * scale) / 2} y={startY + 20} textAnchor="middle">{hidden.includes('a') ? '?' : `a = ${a}`}</text>
-                        <text x={startX - 20} y={startY - (b * scale) / 2} textAnchor="end" dominantBaseline="middle">{hidden.includes('b') ? '?' : `b = ${b}`}</text>
-                        <text x={(startX + pointB[0]) / 2 + 10} y={(startY + pointC[1]) / 2} textAnchor="middle">c</text>
+                        <text x={startX + (a * scale) / 2} y={startY + 20} textAnchor="middle" fill="currentColor">{hidden.includes('a') ? '?' : `a = ${a}`}</text>
+                        <text x={startX - 20} y={startY - (b * scale) / 2} textAnchor="end" dominantBaseline="middle" fill="currentColor">{hidden.includes('b') ? '?' : `b = ${b}`}</text>
+                        <text x={(startX + pointB[0]) / 2 + 10} y={(startY + pointC[1]) / 2} textAnchor="middle" fill="currentColor">c</text>
                     </g>
                 );
             }
@@ -11125,7 +11125,7 @@ function GeometryPracticeTool({ onExit }) {
                     {currentProblem ? (
                         <>
                             <svg
-                                className="w-full max-w-2xl h-[360px]"
+                                className="w-full max-w-2xl h-[360px] text-slate-900 dark:text-white"
                                 viewBox="0 0 400 320"
                                 preserveAspectRatio="xMidYMid meet"
                             >
