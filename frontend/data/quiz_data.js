@@ -411,6 +411,143 @@ const expandedQuizData = {
                                 label: "Quiz A",
                                 description: "Analyze informational texts for central ideas, evidence, and author's claims.",
                                 questionSourceTopicId: "rla_info_main_idea"
+                            },
+                            {
+                                quizId: "rla_info_main_idea_set2",
+                                label: "Quiz B",
+                                description: "Practice identifying supporting details and evidence in complex texts.",
+                                questionSourceTopicId: "rla_info_main_idea",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'text',
+                                        passage: "The rise of remote work, accelerated by the 2020 pandemic, has fundamentally altered the job market. Companies are now able to hire talent from a global pool, and employees are enjoying newfound flexibility. However, this shift is not without its challenges. Maintaining a strong company culture, ensuring data security, and combating employee burnout are significant hurdles that organizations must address to make remote work sustainable in the long term.",
+                                        question: "Which of the following is presented as evidence of a challenge associated with remote work?",
+                                        answerOptions: [
+                                            { text: "Companies can hire from a global talent pool.", rationale: "This is presented as a benefit, not a challenge.", isCorrect: false },
+                                            { text: "Employees enjoy newfound flexibility.", rationale: "This is a benefit for employees.", isCorrect: false },
+                                            { text: "Maintaining a strong company culture.", rationale: "Correct. The passage explicitly lists this as a hurdle for organizations.", isCorrect: true },
+                                            { text: "The job market has been fundamentally altered.", rationale: "This is the main idea, not a specific piece of evidence for a challenge.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'text',
+                                        passage: "The Great Barrier Reef, the world's largest coral reef system, is facing an existential threat due to climate change. Rising ocean temperatures lead to coral bleaching, a phenomenon where corals expel the algae living in their tissues, causing them to turn completely white. While corals can survive a bleaching event, they are under more stress and are subject to mortality. According to a 2018 study, the reef has lost half of its coral populations over the past three decades.",
+                                        question: "What specific detail does the author provide to support the claim that the Great Barrier Reef is under threat?",
+                                        answerOptions: [
+                                            { text: "It is the world's largest coral reef system.", rationale: "While true, this fact describes the reef but doesn't support the claim of it being under threat.", isCorrect: false },
+                                            { text: "Corals can survive a bleaching event.", rationale: "This detail suggests resilience, which slightly contradicts the main claim of a threat.", isCorrect: false },
+                                            { text: "The reef has lost half its coral populations in 30 years.", rationale: "Correct. This statistic is a direct piece of evidence supporting the central threat.", isCorrect: true },
+                                            { text: "Coral bleaching is when corals expel algae.", rationale: "This explains the mechanism of bleaching but is not the evidence of the overall threat's impact.", isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                quizId: "rla_info_main_idea_set3",
+                                label: "Quiz C",
+                                description: "Determine author's purpose, point of view, and tone.",
+                                questionSourceTopicId: "rla_info_main_idea",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'text',
+                                        passage: "It is imperative that we invest in high-speed rail infrastructure. Such a project would not only create thousands of jobs during construction but also provide a greener, more efficient alternative to air and car travel, reducing our nation's carbon footprint for generations to come. To delay is to deny ourselves a more prosperous and sustainable future.",
+                                        question: "What is the author's primary purpose in writing this passage?",
+                                        answerOptions: [
+                                            { text: "To inform readers about the history of rail travel.", rationale: "The passage does not discuss history.", isCorrect: false },
+                                            { text: "To persuade readers to support investment in high-speed rail.", rationale: "Correct. The use of words like 'imperative' and the focus on benefits clearly indicate a persuasive intent.", isCorrect: true },
+                                            { text: "To entertain readers with a story about trains.", rationale: "The tone is serious and argumentative, not entertaining.", isCorrect: false },
+                                            { text: "To describe the process of building a railway.", rationale: "The passage focuses on the 'why', not the 'how'.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'text',
+                                        passage: "While some critics have dismissed the new city ordinance as an overreach of government power, they fail to acknowledge the tangible benefits it will bring. The regulation, which limits single-use plastics in restaurants, is a crucial step toward reducing landfill waste and protecting our local waterways. The minor inconvenience of bringing a reusable bag is a small price to pay for a cleaner community.",
+                                        question: "The author's point of view can best be described as:",
+                                        answerOptions: [
+                                            { text: "Neutral and objective.", rationale: "The author takes a clear side and uses persuasive language.", isCorrect: false },
+                                            { text: "Strongly in favor of the ordinance.", rationale: "Correct. The author defends the ordinance and minimizes the arguments against it.", isCorrect: true },
+                                            { text: "Strongly against the ordinance.", rationale: "The author is defending the ordinance, not opposing it.", isCorrect: false },
+                                            { text: "Confused and uncertain.", rationale: "The author's tone is confident and assertive.", isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Reading Comprehension: Literary Texts": {
+                topics: [
+                    {
+                        id: "rla_lit_analysis",
+                        quizzes: [
+                            {
+                                quizId: "rla_lit_analysis_set1",
+                                label: "Quiz A",
+                                description: "Analyze literary texts for themes, character development, and literary devices.",
+                                questionSourceTopicId: "rla_lit_analysis",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'text',
+                                        passage: "It was in the clove of seasons, summer was dead but autumn had not yet been born, that the ibis lit in the bleeding tree. The flower garden was strained with rotting brown magnolia petals and ironweeds grew rank amid the purple phlox. The five o’clocks by the chimney still marked time, but the oriole nest in the elm was untenanted and rocked back and forth like an empty cradle. The last graveyard flowers were blooming, and their smell drifted across the cotton field and through every room of our house, speaking softly the names of our dead.",
+                                        question: "The mood of the passage can best be described as:",
+                                        answerOptions: [
+                                            { text: "Joyful and celebratory.", rationale: "The imagery of death, decay ('rotting brown magnolia petals'), and emptiness ('untenanted') creates a somber, not joyful, mood.", isCorrect: false },
+                                            { text: "Suspenseful and tense.", rationale: "While the mood is heavy, there is no building of tension or suspense; it's more reflective and melancholic.", isCorrect: false },
+                                            { text: "Somber and reflective.", rationale: "Correct. The author uses words like 'dead,' 'rotting,' 'untenanted,' and 'graveyard' to create a mood of melancholy and remembrance.", isCorrect: true },
+                                            { text: "Hectic and chaotic.", rationale: "The pace of the passage is slow and descriptive, the opposite of hectic.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'text',
+                                        passage: "It was in the clove of seasons, summer was dead but autumn had not yet been born, that the ibis lit in the bleeding tree. The flower garden was strained with rotting brown magnolia petals and ironweeds grew rank amid the purple phlox. The five o’clocks by the chimney still marked time, but the oriole nest in the elm was untenanted and rocked back and forth like an empty cradle. The last graveyard flowers were blooming, and their smell drifted across the cotton field and through every room of our house, speaking softly the names of our dead.",
+                                        question: "The phrase 'the oriole nest in the elm was untenanted and rocked back and forth like an empty cradle' is an example of what literary device?",
+                                        answerOptions: [
+                                            { text: "Metaphor.", rationale: "A metaphor is a direct comparison (e.g., 'the nest was an empty cradle'). The use of 'like' makes this a simile.", isCorrect: false },
+                                            { text: "Personification.", rationale: "Personification gives human qualities to inanimate objects. While the flowers' smell is personified later, this phrase is a simile.", isCorrect: false },
+                                            { text: "Hyperbole.", rationale: "Hyperbole is an extreme exaggeration, which is not used here.", isCorrect: false },
+                                            { text: "Simile.", rationale: "Correct. The nest is compared to a cradle using the word 'like', which is the definition of a simile.", isCorrect: true }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                quizId: "rla_lit_analysis_set2",
+                                label: "Quiz B",
+                                description: "Interpret figurative language and analyze character.",
+                                questionSourceTopicId: "rla_lit_analysis",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'text',
+                                        passage: "She was a small woman, but she carried herself with the confidence of a giant. Her eyes, the color of worn denim, missed nothing. When she entered a room, conversation didn't stop, but its pitch and cadence changed. It was the unconscious deference of the village to its unofficial queen. She never raised her voice, yet her softest whisper could quell a brewing argument or ignite a dormant hope. Her power was not in decree, but in presence.",
+                                        question: "Which of the following statements best characterizes the woman?",
+                                        answerOptions: [
+                                            { text: "She is a loud and demanding leader.", rationale: "The passage states the opposite: 'She never raised her voice' and her power was quiet.", isCorrect: false },
+                                            { text: "She is physically imposing and intimidating.", rationale: "The passage explicitly says she 'was a small woman.'", isCorrect: false },
+                                            { text: "She possesses a quiet but powerful influence over others.", rationale: "Correct. The passage emphasizes her subtle, unspoken authority ('unconscious deference,' 'power was not in decree, but in presence').", isCorrect: true },
+                                            { text: "She is unnoticed and ignored by the villagers.", rationale: "The passage shows the opposite is true; the villagers change their behavior when she enters.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'text',
+                                        passage: "The wind was a whetted knife, carving the icy canyons of the city. It found every crack in his threadbare coat, a constant, nagging reminder of his poverty. He huddled in the doorway, watching the laughing, fur-clad couples emerge from the theater, their warmth a world away. Each blast of wind felt like a personal insult, another shove from a world that had no room for him.",
+                                        question: "The phrase 'the wind was a whetted knife' is an example of:",
+                                        answerOptions: [
+                                            { text: "A metaphor, used to emphasize the cutting and painful nature of the cold wind.", rationale: "Correct. The wind is directly compared to a knife to convey its sharpness and hostility without using 'like' or 'as'.", isCorrect: true },
+                                            { text: "A simile, used to show the wind was similar to a knife.", rationale: "It does not use 'like' or 'as', so it is a metaphor, not a simile.", isCorrect: false },
+                                            { text: "Personification, used to give the wind human-like qualities.", rationale: "While the wind's actions might seem human-like ('carving'), the direct comparison to a knife makes it a metaphor.", isCorrect: false },
+                                            { text: "An understatement, used to minimize the effect of the wind.", rationale: "This is an exaggeration (hyperbole) of the wind's effect, not an understatement.", isCorrect: false }
+                                        ]
+                                    }
+                                 ]
                             }
                         ]
                     }
@@ -426,6 +563,66 @@ const expandedQuizData = {
                                 label: "Quiz A",
                                 description: "Strengthen grammar, usage, and mechanics skills for the RLA test.",
                                 questionSourceTopicId: "rla_grammar_usage"
+                            },
+                            {
+                                quizId: "rla_grammar_usage_set2",
+                                label: "Quiz B",
+                                description: "Focus on sentence structure, punctuation, and capitalization.",
+                                questionSourceTopicId: "rla_grammar_usage",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'knowledge',
+                                        question: "Which of the following sentences is capitalized correctly?",
+                                        answerOptions: [
+                                            { text: "We visited the Grand Canyon, a famous landmark in arizona.", rationale: "The state name 'Arizona' should be capitalized.", isCorrect: false },
+                                            { text: "My favorite book is 'The Catcher In The Rye' by J.D. Salinger.", rationale: "In titles, prepositions like 'in' and articles like 'the' are typically not capitalized unless they are the first or last word.", isCorrect: false },
+                                            { text: "She is studying french and european history at the university.", rationale: "'French' and 'European' should be capitalized as they are proper adjectives.", isCorrect: false },
+                                            { text: "The President of the United States will address the nation on Tuesday.", rationale: "Correct. 'President' is capitalized as a title, and 'Tuesday' is a proper noun.", isCorrect: true }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'knowledge',
+                                        question: "Which sentence uses commas correctly?",
+                                        answerOptions: [
+                                            { text: "After a long, and tiring day, we finally went home.", rationale: "There should not be a comma after 'long' or 'tiring' if 'and' is used. Also, no comma after 'day'.", isCorrect: false },
+                                            { text: "She packed a sandwich, an apple, and a bottle of water.", rationale: "Correct. This sentence correctly uses the Oxford comma to separate items in a list.", isCorrect: true },
+                                            { text: "He was, however, not ready to leave.", rationale: "While commas around 'however' can be correct, the flow here is awkward. A better structure would be 'He was not ready to leave, however.'", isCorrect: false },
+                                            { text: "The man who was wearing a red hat, was my uncle.", rationale: "The clause 'who was wearing a red hat' is essential to identify the man, so it should not be set off by commas.", isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                quizId: "rla_grammar_usage_set3",
+                                label: "Quiz C",
+                                description: "Master verb tenses, subject-verb agreement, and pronoun usage.",
+                                questionSourceTopicId: "rla_grammar_usage",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'knowledge',
+                                        question: "Which sentence demonstrates correct subject-verb agreement?",
+                                        answerOptions: [
+                                            { text: "The team of players are ready for the game.", rationale: "'Team' is a singular noun, so the verb should be 'is'.", isCorrect: false },
+                                            { text: "Each of the boys has his own ticket.", rationale: "Correct. 'Each' is a singular pronoun, so it takes the singular verb 'has'.", isCorrect: true },
+                                            { text: "The news about the storms were frightening.", rationale: "'News' is a singular noun, so the verb should be 'was'.", isCorrect: false },
+                                            { text: "There is three reasons for the delay.", rationale: "'Reasons' is plural, so the verb should be 'are'.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'knowledge',
+                                        question: "Choose the sentence that uses pronouns correctly.",
+                                        answerOptions: [
+                                            { text: "Her and her friends went to the movies.", rationale: "'Her' is an object pronoun and cannot be the subject of a sentence. It should be 'She'.", isCorrect: false },
+                                            { text: "The teacher gave the award to John and I.", rationale: "'I' is a subject pronoun. The object of the preposition 'to' should be 'me'.", isCorrect: false },
+                                            { text: "Just between you and me, I think the plan will fail.", rationale: "Correct. 'Me' is the correct object pronoun to use after the preposition 'between'.", isCorrect: true },
+                                            { text: "Everyone must turn in their assignment by Friday.", rationale: "This is a common usage, but traditionally 'everyone' is singular and should be paired with 'his or her'. However, 'their' is increasingly accepted. In a strict grammar context, it's often considered incorrect.", isCorrect: false }
+                                        ]
+                                    }
+                                ]
                             }
                         ]
                     }
