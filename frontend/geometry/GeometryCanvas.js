@@ -664,6 +664,7 @@ class GeometryCanvas {
   render() {
     const { background, primaryStroke } = this.theme;
     this.svg.style.background = background;
+    this.container.style.background = background;
     this.svg.style.color = primaryStroke;
     this.svg.style.setProperty('--geometry-shape-shadow', this.theme.glow);
     this.updateGridPattern();
