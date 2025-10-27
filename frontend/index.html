@@ -4716,6 +4716,10 @@ function assignPremadeQuizCodes(data) {
                             return;
                         }
 
+                        if (!quizHasAvailableQuestions(subjectName, topic, quiz)) {
+                            return;
+                        }
+
                         const quizIdSegment = sanitizeCodeSegment(quiz.quizId || '', '');
                         const labelSegment = sanitizeCodeSegment(quiz.label || '', '');
                         const setSegment = quizIdSegment || labelSegment || `set-${quizIndex + 1}`;
@@ -8771,6 +8775,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
             };
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
+        const subjectPremadeTotal = getPremadeQuizTotal(selectedSubject);
+        const subjectPremadeLabel = subjectPremadeTotal === 1
+            ? '1 premade quiz ready'
+            : `${subjectPremadeTotal} premade quizzes ready`;
         return (
             <>
                 {viewScienceFormulas && (
@@ -8786,9 +8794,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 >
                     <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-                        <h2 className="hero-title text-3xl font-extrabold">
-                            {selectedSubject}
-                        </h2>
+                        <div className="flex flex-col gap-1">
+                            <h2 className="hero-title text-3xl font-extrabold">
+                                {selectedSubject}
+                            </h2>
+                            <p className="text-sm font-semibold" style={heroMutedTextStyle}>
+                                {subjectPremadeLabel}
+                            </p>
+                        </div>
                         {(selectedSubject === 'Math' || selectedSubject === 'Science') && (
                             <div className="flex flex-wrap gap-2">
                                 {selectedSubject === 'Math' && (
@@ -9099,6 +9112,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     ? { backgroundColor: colorScheme.background }
                                     : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
                             const subjectTextColor = colorScheme.text || '#ffffff';
+                            const premadeTotal = getPremadeQuizTotal(subjectName);
+                            const premadeLabel = premadeTotal === 1
+                                ? '1 premade quiz ready'
+                                : `${premadeTotal} premade quizzes ready`;
                             return (
                                 <button
                                     key={subjectName}
@@ -9118,7 +9135,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100" style={{ color: colorScheme.text || undefined }}>
                                     {subjectName}
                                 </h2>
-                                <span className="text-sm text-slate-500 dark:text-slate-300">Explore lessons &amp; quizzes</span>
+                                <span className="text-sm text-slate-500 dark:text-slate-300 text-center">{premadeLabel}</span>
                             </button>
                             );
                         })}
