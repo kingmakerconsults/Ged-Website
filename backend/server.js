@@ -458,7 +458,7 @@ function limitWords(text, max = 250) {
 function enforceWordCapsOnItem(item, subject) {
     const out = JSON.parse(JSON.stringify(item));
 
-    if (subject === 'RLA') {
+    if (isRlaSubject(subject)) {
         if (out.passage) out.passage = limitWords(out.passage, 250);
     }
 
@@ -1084,6 +1084,13 @@ const SUBJECT_PARAM_ALIASES = new Map([
     ['reasoning-through-language-arts-(rla)', 'RLA']
 ]);
 
+const RLA_SUBJECT_LABEL = 'Reasoning Through Language Arts (RLA)';
+const RLA_SUBJECT_ALIAS = 'RLA';
+
+function isRlaSubject(subject) {
+    return subject === RLA_SUBJECT_ALIAS || subject === RLA_SUBJECT_LABEL;
+}
+
 function normalizeSubjectParam(rawSubject) {
     if (!rawSubject) return null;
     const lower = String(rawSubject).trim().toLowerCase();
@@ -1102,7 +1109,7 @@ function normalizeSubjectParam(rawSubject) {
     return SUBJECT_PARAM_ALIASES.get(lower) || null;
 }
 
-const SMITH_A_SKILL_MAP = {
+const SMITH_A_SKILL_ENTRIES = {
     Math: {
         "Quantitative Problem Solving": "Fractions, decimals, percentages, ratios, and data analysis."
     },
@@ -1115,10 +1122,16 @@ const SMITH_A_SKILL_MAP = {
     "Social Studies": {
         "U.S. History": "Foundations of the United States, government, civics, and historical analysis."
     },
-    "Reasoning Through Language Arts (RLA)": {
+    [RLA_SUBJECT_LABEL]: {
         "Language & Grammar": "Standard English conventions, grammar, punctuation, and usage.",
-        "Reading Comprehension: Informational Texts": "Determine main ideas, evaluate arguments, interpret charts, and understand structure."
+        "Reading Comprehension: Informational Texts": "Determine main ideas, evaluate arguments, interpret charts, and understand structure.",
+        "Poetry & Figurative Language": "Interpret poetry for theme, tone, figurative language, and structure."
     }
+};
+
+const SMITH_A_SKILL_MAP = {
+    ...SMITH_A_SKILL_ENTRIES,
+    [RLA_SUBJECT_ALIAS]: SMITH_A_SKILL_ENTRIES[RLA_SUBJECT_LABEL]
 };
 
 const SMITH_A_SUBTOPICS = Object.fromEntries(
@@ -2447,7 +2460,8 @@ function buildTopicPrompt_VarietyPack(subject, topic, n = 12, ctx = [], imgs = [
         id: im.id || `img${i+1}`, src: im.filePath, alt: im.altText || '', description: im.detailedDescription || ''
     })));
 
-    const skillDescription = SMITH_A_SKILL_MAP[subject]?.[topic];
+    const canonicalSubject = isRlaSubject(subject) ? RLA_SUBJECT_LABEL : subject;
+    const skillDescription = (SMITH_A_SKILL_MAP[subject] || SMITH_A_SKILL_MAP[canonicalSubject])?.[topic];
     const skillFocusLine = skillDescription ? `Skill focus: ${skillDescription}\n` : '';
     const isScientificNumeracy = subject === 'Science' && /scientific\s+numeracy/i.test(topic);
 
@@ -2606,6 +2620,8 @@ Additional formatting rules:
 STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems.`
     }
 };
+
+promptLibrary[RLA_SUBJECT_ALIAS] = promptLibrary[RLA_SUBJECT_LABEL];
 
 function existingTopicPrompt(subject, topic, count = 15) {
     const entry = promptLibrary?.[subject];
@@ -3991,7 +4007,7 @@ app.post('/generate-quiz', async (req, res) => {
                 logGenerationDuration(examType, subject, generationStart, 'failed');
                 res.status(500).json({ error: 'Failed to generate Science exam.' });
             }
-        } else if (subject === 'Reasoning Through Language Arts (RLA)') {
+        } else if (isRlaSubject(subject)) {
     try {
         console.log("Generating comprehensive RLA exam...");
 
