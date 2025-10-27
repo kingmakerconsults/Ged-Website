@@ -4557,10 +4557,63 @@ const quizHasAvailableQuestions = (subjectName, topic, quiz) => {
     return Array.isArray(topic?.questions) && topic.questions.length > 0;
 };
 
+const annotateQuestionsWithSubject = (questions, subjectKey) => {
+    if (!Array.isArray(questions) || !subjectKey) {
+        return Array.isArray(questions) ? questions : [];
+    }
+
+    return questions.map((question) => {
+        if (!question || typeof question !== 'object') {
+            return question;
+        }
+
+        if (!question.subject) {
+            return { ...question, subject: subjectKey };
+        }
+
+        return question;
+    });
+};
+
 const integrateExpandedQuizData = (baseData, expandedData) => {
     if (!expandedData || typeof expandedData !== 'object') {
         return baseData;
     }
+
+    const annotateSubjectTree = (subjectNode, subjectKey) => {
+        if (!subjectNode || typeof subjectNode !== 'object') {
+            return;
+        }
+
+        Object.values(subjectNode.categories || {}).forEach((category) => {
+            if (!category || typeof category !== 'object') {
+                return;
+            }
+
+            (category.topics || []).forEach((topic) => {
+                if (!topic || typeof topic !== 'object') {
+                    return;
+                }
+
+                if (Array.isArray(topic.quizzes)) {
+                    topic.quizzes = topic.quizzes.map((quiz) => {
+                        if (!quiz || typeof quiz !== 'object') {
+                            return quiz;
+                        }
+                        return {
+                            ...quiz,
+                            subject: quiz.subject || subjectKey,
+                            questions: annotateQuestionsWithSubject(quiz.questions, subjectKey)
+                        };
+                    });
+                }
+
+                if (Array.isArray(topic.questions)) {
+                    topic.questions = annotateQuestionsWithSubject(topic.questions, subjectKey);
+                }
+            });
+        });
+    };
 
     Object.entries(expandedData).forEach(([subjectName, expandedSubject]) => {
         if (!expandedSubject || typeof expandedSubject !== 'object') {
@@ -4569,6 +4622,7 @@ const integrateExpandedQuizData = (baseData, expandedData) => {
 
         if (!baseData[subjectName]) {
             baseData[subjectName] = JSON.parse(JSON.stringify(expandedSubject));
+            annotateSubjectTree(baseData[subjectName], subjectName);
             return;
         }
 
@@ -4616,20 +4670,34 @@ const integrateExpandedQuizData = (baseData, expandedData) => {
                 }
 
                 if (Array.isArray(expandedTopic.quizzes) && expandedTopic.quizzes.length) {
-                    existingTopic.quizzes = expandedTopic.quizzes.map((quiz) => ({
-                        ...quiz,
-                        questions: Array.isArray(quiz.questions) ? quiz.questions : []
-                    }));
+                    existingTopic.quizzes = expandedTopic.quizzes.map((quiz) => {
+                        if (!quiz || typeof quiz !== 'object') {
+                            return quiz;
+                        }
+
+                        const questions = annotateQuestionsWithSubject(quiz.questions, subjectName);
+                        return {
+                            ...quiz,
+                            subject: quiz.subject || subjectName,
+                            questions
+                        };
+                    });
 
                     if (!Array.isArray(existingTopic.questions) || !existingTopic.questions.length) {
                         const firstQuiz = existingTopic.quizzes[0];
                         if (firstQuiz && Array.isArray(firstQuiz.questions)) {
-                            existingTopic.questions = [...firstQuiz.questions];
+                            existingTopic.questions = annotateQuestionsWithSubject(firstQuiz.questions, subjectName);
                         }
                     }
                 }
+
+                if (Array.isArray(existingTopic.questions) && existingTopic.questions.length) {
+                    existingTopic.questions = annotateQuestionsWithSubject(existingTopic.questions, subjectName);
+                }
             });
         });
+
+        annotateSubjectTree(baseSubject, subjectName);
     });
 
     return baseData;
