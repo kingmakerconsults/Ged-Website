@@ -2054,9 +2054,9 @@ const GEOMETRY_FIGURES_ENABLED = Boolean(
 );
 
 const DEFAULT_FIGURE_STYLE = {
-    stroke: '#1f2937',
+    stroke: '#000000',
     fill: 'rgba(96, 165, 250, 0.12)',
-    labelColor: '#1f2937',
+    labelColor: '#000000',
     pointFill: '#ffffff'
 };
 
@@ -4713,6 +4713,10 @@ function assignPremadeQuizCodes(data) {
                 if (Array.isArray(topic.quizzes) && topic.quizzes.length) {
                     topic.quizzes.forEach((quiz, quizIndex) => {
                         if (!quiz || typeof quiz !== 'object') {
+                            return;
+                        }
+
+                        if (!quizHasAvailableQuestions(subjectName, topic, quiz)) {
                             return;
                         }
 
@@ -8771,6 +8775,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
             };
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
+        const subjectPremadeTotal = getPremadeQuizTotal(selectedSubject);
+        const subjectPremadeLabel = subjectPremadeTotal === 1
+            ? '1 premade quiz ready'
+            : `${subjectPremadeTotal} premade quizzes ready`;
         return (
             <>
                 {viewScienceFormulas && (
@@ -8786,9 +8794,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 >
                     <Breadcrumb variant="onColor" color={heroTextColor} accentColor={heroAccentColor} />
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-                        <h2 className="hero-title text-3xl font-extrabold">
-                            {selectedSubject}
-                        </h2>
+                        <div className="flex flex-col gap-1">
+                            <h2 className="hero-title text-3xl font-extrabold">
+                                {selectedSubject}
+                            </h2>
+                            <p className="text-sm font-semibold" style={heroMutedTextStyle}>
+                                {subjectPremadeLabel}
+                            </p>
+                        </div>
                         {(selectedSubject === 'Math' || selectedSubject === 'Science') && (
                             <div className="flex flex-wrap gap-2">
                                 {selectedSubject === 'Math' && (
@@ -9099,6 +9112,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     ? { backgroundColor: colorScheme.background }
                                     : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
                             const subjectTextColor = colorScheme.text || '#ffffff';
+                            const premadeTotal = getPremadeQuizTotal(subjectName);
+                            const premadeLabel = premadeTotal === 1
+                                ? '1 premade quiz ready'
+                                : `${premadeTotal} premade quizzes ready`;
                             return (
                                 <button
                                     key={subjectName}
@@ -9118,7 +9135,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100" style={{ color: colorScheme.text || undefined }}>
                                     {subjectName}
                                 </h2>
-                                <span className="text-sm text-slate-500 dark:text-slate-300">Explore lessons &amp; quizzes</span>
+                                <span className="text-sm text-slate-500 dark:text-slate-300 text-center">{premadeLabel}</span>
                             </button>
                             );
                         })}
@@ -9496,8 +9513,8 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     )}
                     {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
                         <div
-                            className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm"
-                            style={{ backgroundColor: 'var(--bg-surface)', border: `1px solid ${scheme.surfaceBorder}` }}
+                            className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100"
+                            style={{ border: `1px solid ${scheme.surfaceBorder}` }}
                         >
                             <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
                         </div>
@@ -11121,17 +11138,17 @@ function GeometryPracticeTool({ onExit }) {
                 <div className="flex-none min-w-[140px]" aria-hidden="true"></div>
             </header>
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]">
+                <div className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]">
                     {currentProblem ? (
                         <>
                             <svg
-                                className="w-full max-w-2xl h-[360px] text-slate-900 dark:text-white"
+                                className="w-full max-w-2xl h-[360px] text-slate-900 dark:text-white bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-700"
                                 viewBox="0 0 400 320"
                                 preserveAspectRatio="xMidYMid meet"
                             >
                                 {currentProblem.renderer(currentProblem.dims, currentProblem.context)}
                             </svg>
-                            <p className="text-lg font-semibold mt-6 text-center text-black dark:text-slate-100 max-w-2xl">
+                            <p className="text-lg font-semibold mt-6 text-center text-slate-900 dark:text-slate-100 max-w-2xl">
                                 {currentProblem.prompt}
                             </p>
                         </>
@@ -11139,7 +11156,7 @@ function GeometryPracticeTool({ onExit }) {
                         <p className="text-base text-black dark:text-slate-200">Select a shape to begin.</p>
                     )}
                 </div>
-                <div className="space-y-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
+                <div className="space-y-5 bg-white text-black dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                     <div>
                         <h3 className="text-lg font-semibold text-black dark:text-slate-100 mb-3">Shapes</h3>
                         <div className="grid grid-cols-2 gap-2">
