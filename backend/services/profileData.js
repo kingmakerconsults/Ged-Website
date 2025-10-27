@@ -96,7 +96,8 @@ async function loadTestPlan(userId) {
     SELECT subject,
            test_date,
            test_location,
-           passed
+           passed,
+           not_scheduled
     FROM test_plans
     WHERE user_id = $1
     `,
@@ -114,7 +115,8 @@ async function loadTestPlan(userId) {
       subject: r.subject,
       testDate: r.test_date ? r.test_date.toISOString().slice(0,10) : null,
       testLocation: r.test_location || null,
-      passed: !!r.passed
+      passed: !!r.passed,
+      notScheduled: !!r.not_scheduled
     };
   }
 
@@ -124,7 +126,8 @@ async function loadTestPlan(userId) {
       subject: subj,
       testDate: null,
       testLocation: null,
-      passed: false
+      passed: false,
+      notScheduled: false
     };
     return {
       ...info,

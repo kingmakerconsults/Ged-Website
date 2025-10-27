@@ -61,7 +61,8 @@ async function getTestPlan(userId) {
         subject,
         test_date      AS "testDate",
         test_location  AS "testLocation",
-        passed
+        passed,
+        not_scheduled  AS "notScheduled"
      FROM test_plans
      WHERE user_id = $1
      ORDER BY subject`,
@@ -271,7 +272,7 @@ router.patch('/name', express.json(), async (req, res) => {
 });
 
 // PATCH /api/profile/test
-// Body: { subject, testDate, testLocation, passed }
+// Body: { subject, testDate, testLocation, passed, notScheduled }
 // Upserts into test_plans, then returns the full profile bundle again.
 router.patch('/test', express.json(), async (req, res) => {
   try {
@@ -284,7 +285,7 @@ router.patch('/test', express.json(), async (req, res) => {
       return res.status(403).json({ error: 'user_not_active' });
     }
 
-    const { subject, testDate, testLocation, passed } = req.body || {};
+    const { subject, testDate, testLocation, passed, notScheduled } = req.body || {};
     const subj = (subject || '').toString().trim();
     if (!subj) {
       return res.status(400).json({ error: 'Missing subject' });
@@ -292,7 +293,8 @@ router.patch('/test', express.json(), async (req, res) => {
 
     // Allow blank date or null
     let normalizedDate = null;
-    if (testDate) {
+    const normNotScheduled = !!notScheduled;
+    if (!normNotScheduled && testDate) {
       const d = new Date(testDate);
       if (isNaN(d.getTime())) {
         return res.status(400).json({ error: 'Invalid test date' });
@@ -302,20 +304,21 @@ router.patch('/test', express.json(), async (req, res) => {
     }
 
     const normLocation = (testLocation || '').toString().trim() || null;
-    const normPassed = !!passed;
+    const normPassed = normNotScheduled ? false : !!passed;
 
     await pool.query(
       `
-      INSERT INTO test_plans (user_id, subject, test_date, test_location, passed, updated_at)
-      VALUES ($1, $2, $3, $4, $5, NOW())
+      INSERT INTO test_plans (user_id, subject, test_date, test_location, passed, not_scheduled, updated_at)
+      VALUES ($1, $2, $3, $4, $5, $6, NOW())
       ON CONFLICT (user_id, subject)
       DO UPDATE SET
         test_date = EXCLUDED.test_date,
         test_location = EXCLUDED.test_location,
         passed = EXCLUDED.passed,
+        not_scheduled = EXCLUDED.not_scheduled,
         updated_at = NOW()
       `,
-      [userId, subj, normalizedDate, normLocation, normPassed]
+      [userId, subj, normalizedDate, normLocation, normPassed, normNotScheduled]
     );
 
     const bundle = await buildProfileBundle(userId);
