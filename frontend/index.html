@@ -298,6 +298,19 @@
             vertical-align: baseline;
         }
 
+        .math-inline {
+            font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .math-inline sup {
+            font-size: 0.75em;
+            vertical-align: super;
+            line-height: 0;
+            font-weight: 500;
+        }
+
         [data-theme="dark"] .frac {
             background: rgba(255,255,255,0.07);
         }
@@ -1800,7 +1813,7 @@ const ALLOWED_HTML_TAGS = [
     'a','b','strong','i','em','u','s','span','p','br','ul','ol','li','table','thead','tbody','tfoot','tr','th','td','caption',
     'colgroup','col','code','pre','sup','sub','div','img'
 ];
-const ALLOWED_HTML_ATTR = ['href','title','target','rel','colspan','rowspan','align','scope','src','alt'];
+const ALLOWED_HTML_ATTR = ['href','title','target','rel','colspan','rowspan','align','scope','src','alt','class'];
 const ENTITY_DECODER = typeof document !== 'undefined' ? document.createElement('textarea') : null;
 
 function collapseSplitLatexCommands(source) {
@@ -2018,6 +2031,17 @@ function stripLeakedMathPlaceholders(text) {
         .replace(/MATH_SEGMENT_[A-Z0-9]+/gi, '');
 }
 
+function formatExponents(input) {
+    if (typeof input !== 'string') return input;
+
+    const safe = input
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+    return safe.replace(/([A-Za-z0-9\)])\^(\d+)/g, (_, base, exp) => `${base}<sup>${exp}</sup>`);
+}
+
 function renderStem(text) {
     if (typeof text !== 'string') {
         return '';
@@ -2029,12 +2053,8 @@ function renderStem(text) {
 
     for (const segment of segments) {
         if (segment.type === 'math') {
-            try {
-                renderedParts.push(renderLatexToHtml(segment.value));
-            } catch (err) {
-                console.warn('KaTeX render failed:', err);
-                renderedParts.push(segment.raw);
-            }
+            const pretty = formatExponents(segment.value);
+            renderedParts.push(`<span class="math-inline">${pretty}</span>`);
         } else {
             renderedParts.push(segment.value);
         }
@@ -2042,7 +2062,7 @@ function renderStem(text) {
 
     const combinedHtml = renderedParts.join('');
     return DOMPurify.sanitize(combinedHtml, {
-        ALLOWED_TAGS: [...ALLOWED_HTML_TAGS, 'span', 'path', 'svg'],
+        ALLOWED_TAGS: [...ALLOWED_HTML_TAGS, 'span', 'sup', 'path', 'svg'],
         ALLOWED_ATTR: [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns']
     });
 }
