@@ -1,4 +1,4 @@
-export const expandedQuizData = {
+const expandedQuizData = {
     "Science": {
         icon: "BeakerIcon",
         categories: {
