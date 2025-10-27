@@ -4577,6 +4577,19 @@ const quizHasAvailableQuestions = (subjectName, topic, quiz) => {
     return Array.isArray(topic?.questions) && topic.questions.length > 0;
 };
 
+const topicHasAvailableQuestions = (subjectName, topic) => {
+    if (!topic || typeof topic !== 'object') {
+        return false;
+    }
+    if (Array.isArray(topic.questions) && topic.questions.length > 0) {
+        return true;
+    }
+    if (Array.isArray(topic.quizzes) && topic.quizzes.length > 0) {
+        return topic.quizzes.some((quiz) => quizHasAvailableQuestions(subjectName, topic, quiz));
+    }
+    return false;
+};
+
 const annotateQuestionsWithSubject = (questions, subjectKey) => {
     if (!Array.isArray(questions) || !subjectKey) {
         return Array.isArray(questions) ? questions : [];
@@ -8663,7 +8676,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     // View 3: Topic Selection
     if (selectedSubject && selectedCategory) {
-        const topics = AppData[selectedSubject].categories[selectedCategory].topics;
+        const rawTopics = AppData[selectedSubject].categories[selectedCategory].topics || [];
+        const topics = rawTopics.filter((topic) => topicHasAvailableQuestions(selectedSubject, topic));
         const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
         const lightTint = SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.28)';
         const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject]
@@ -8714,6 +8728,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         {selectedCategory}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {topics.length === 0 && (
+                            <div className="col-span-full text-center text-sm text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-800/60 border border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6">
+                                Premade quizzes for this category are coming soon.
+                            </div>
+                        )}
                         {topics.map((topic, topicIndex) => {
                             const quizSets = Array.isArray(topic.quizzes)
                                 ? topic.quizzes.filter((quiz) => quizHasAvailableQuestions(selectedSubject, topic, quiz))
