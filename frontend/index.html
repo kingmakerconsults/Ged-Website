@@ -11244,10 +11244,47 @@ function GeometryPracticeTool({ onExit }) {
         generateProblem('rectangle');
     }, []);
 
+    const getCurrentTheme = useCallback(() => {
+        if (typeof document === 'undefined') {
+            return 'light';
+        }
+        const root = document.documentElement;
+        if (!root) {
+            return 'light';
+        }
+        const explicit = root.getAttribute('data-theme');
+        if (explicit === 'dark') return 'dark';
+        if (explicit === 'light') return 'light';
+        return root.classList.contains('dark') ? 'dark' : 'light';
+    }, []);
+
+    const [activeTheme, setActiveTheme] = useState(getCurrentTheme);
+
+    useEffect(() => {
+        if (typeof document === 'undefined' || typeof MutationObserver === 'undefined') {
+            return;
+        }
+        const root = document.documentElement;
+        if (!root) {
+            return;
+        }
+        const observer = new MutationObserver(() => {
+            setActiveTheme(getCurrentTheme());
+        });
+        observer.observe(root, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+        return () => observer.disconnect();
+    }, [getCurrentTheme]);
+
+    const isDarkMode = activeTheme === 'dark';
+    const surfaceColor = isDarkMode ? '#020617' : '#ffffff';
+
     const showExitButton = typeof onExit === 'function';
 
     return (
-        <div className="fade-in space-y-6 bg-white text-black dark:bg-slate-900 dark:text-slate-100">
+        <div
+            className="fade-in space-y-6 bg-white text-black dark:bg-slate-900 dark:text-slate-100"
+            style={{ backgroundColor: surfaceColor }}
+        >
             <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-2 border-b border-slate-200 dark:border-slate-700">
                 <div className="flex-none min-w-[140px]">
                     {showExitButton && (
@@ -11258,11 +11295,15 @@ function GeometryPracticeTool({ onExit }) {
                 <div className="flex-none min-w-[140px]" aria-hidden="true"></div>
             </header>
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
-                <div className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]">
+                <div
+                    className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]"
+                    style={{ backgroundColor: surfaceColor }}
+                >
                     {currentProblem ? (
                         <>
                             <svg
                                 className="w-full max-w-2xl h-[360px] text-slate-900 dark:text-white bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-700"
+                                style={{ backgroundColor: surfaceColor }}
                                 viewBox="0 0 400 320"
                                 preserveAspectRatio="xMidYMid meet"
                             >
@@ -11276,7 +11317,10 @@ function GeometryPracticeTool({ onExit }) {
                         <p className="text-base text-black dark:text-slate-200">Select a shape to begin.</p>
                     )}
                 </div>
-                <div className="space-y-5 bg-white text-black dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
+                <div
+                    className="space-y-5 bg-white text-black dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm"
+                    style={{ backgroundColor: surfaceColor }}
+                >
                     <div>
                         <h3 className="text-lg font-semibold text-black dark:text-slate-100 mb-3">Shapes</h3>
                         <div className="grid grid-cols-2 gap-2">
