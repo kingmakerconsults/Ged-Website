@@ -1213,10 +1213,10 @@ const expandedQuizData = {
                                         type: 'knowledge',
                                         question: "Which sentence punctuates dialogue correctly?",
                                         answerOptions: [
-                                            { text: ""Let's head inside". whispered Leo.", rationale: "The period should be inside the quotation marks, and the dialogue tag should follow after a comma.", isCorrect: false },
-                                            { text: ""Are you ready for the quiz?" asked Ms. Patel.", rationale: "Correct. The question mark stays inside the quotation marks, and the tag follows.", isCorrect: true },
-                                            { text: ""I can't believe it", she said!,", rationale: "The punctuation is out of order and excessive.", isCorrect: false },
-                                            { text: "He replied, "I think so"?,", rationale: "The punctuation after the quote is incorrect.", isCorrect: false }
+                                            { text: "\"Let's head inside\", whispered Leo.", rationale: "The period should be inside the quotation marks, and the dialogue tag should follow after a comma.", isCorrect: false },
+                                            { text: "\"Are you ready for the quiz?\" asked Ms. Patel.", rationale: "Correct. The question mark stays inside the quotation marks, and the tag follows.", isCorrect: true },
+                                            { text: "\"I can't believe it\", she said!,", rationale: "The punctuation is out of order and excessive.", isCorrect: false },
+                                            { text: "He replied, \"I think so\"?,", rationale: "The punctuation after the quote is incorrect.", isCorrect: false }
                                         ]
                                     },
                                     {
