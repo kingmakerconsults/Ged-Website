@@ -2054,9 +2054,9 @@ const GEOMETRY_FIGURES_ENABLED = Boolean(
 );
 
 const DEFAULT_FIGURE_STYLE = {
-    stroke: '#1f2937',
+    stroke: '#000000',
     fill: 'rgba(96, 165, 250, 0.12)',
-    labelColor: '#1f2937',
+    labelColor: '#000000',
     pointFill: '#ffffff'
 };
 
@@ -9513,8 +9513,8 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     )}
                     {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
                         <div
-                            className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm"
-                            style={{ backgroundColor: 'var(--bg-surface)', border: `1px solid ${scheme.surfaceBorder}` }}
+                            className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100"
+                            style={{ border: `1px solid ${scheme.surfaceBorder}` }}
                         >
                             <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
                         </div>
@@ -11138,11 +11138,11 @@ function GeometryPracticeTool({ onExit }) {
                 <div className="flex-none min-w-[140px]" aria-hidden="true"></div>
             </header>
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]">
+                <div className="bg-white text-black dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]">
                     {currentProblem ? (
                         <>
                             <svg
-                                className="w-full max-w-2xl h-[360px] text-slate-900 dark:text-white"
+                                className="w-full max-w-2xl h-[360px] text-black dark:text-white bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-700"
                                 viewBox="0 0 400 320"
                                 preserveAspectRatio="xMidYMid meet"
                             >
@@ -11156,7 +11156,7 @@ function GeometryPracticeTool({ onExit }) {
                         <p className="text-base text-black dark:text-slate-200">Select a shape to begin.</p>
                     )}
                 </div>
-                <div className="space-y-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
+                <div className="space-y-5 bg-white text-black dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                     <div>
                         <h3 className="text-lg font-semibold text-black dark:text-slate-100 mb-3">Shapes</h3>
                         <div className="grid grid-cols-2 gap-2">
