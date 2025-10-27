@@ -11365,6 +11365,9 @@ function GeometryPracticeTool({ onExit }) {
 
     const isDarkMode = activeTheme === 'dark';
     const surfaceColor = isDarkMode ? '#020617' : '#ffffff';
+    const geometryPalette = isDarkMode
+        ? { text: '#e2fdff' }
+        : { text: '#0f172a' };
 
     const showExitButton = typeof onExit === 'function';
 
