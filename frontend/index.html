@@ -4906,10 +4906,10 @@ const DEFAULT_LOCAL_PROFILE = {
         onboardingComplete: false,
     },
     testPlan: [
-        { subject: 'Math', testDate: '', testLocation: '', passed: false },
-        { subject: 'RLA', testDate: '', testLocation: '', passed: false },
-        { subject: 'Science', testDate: '', testLocation: '', passed: false },
-        { subject: 'Social Studies', testDate: '', testLocation: '', passed: false },
+        { subject: 'Math', testDate: '', testLocation: '', passed: false, notScheduled: false },
+        { subject: 'RLA', testDate: '', testLocation: '', passed: false, notScheduled: false },
+        { subject: 'Science', testDate: '', testLocation: '', passed: false, notScheduled: false },
+        { subject: 'Social Studies', testDate: '', testLocation: '', passed: false, notScheduled: false },
     ],
     challengeOptions: DEFAULT_CHALLENGE_OPTIONS.map((opt) => ({ ...opt })),
     recentScoresDashboard: {},
@@ -4935,10 +4935,10 @@ const SUBJECT_NAMES = ['Math', 'RLA', 'Science', 'Social Studies'];
 
 function createEmptySubjectEdits() {
     return {
-        Math: { testDate: '', testLocation: '', passed: false },
-        RLA: { testDate: '', testLocation: '', passed: false },
-        Science: { testDate: '', testLocation: '', passed: false },
-        'Social Studies': { testDate: '', testLocation: '', passed: false },
+        Math: { testDate: '', testLocation: '', passed: false, notScheduled: false },
+        RLA: { testDate: '', testLocation: '', passed: false, notScheduled: false },
+        Science: { testDate: '', testLocation: '', passed: false, notScheduled: false },
+        'Social Studies': { testDate: '', testLocation: '', passed: false, notScheduled: false },
     };
 }
 
@@ -4953,6 +4953,7 @@ function buildSubjectEditsFromPlan(plan) {
                 testDate: row.testDate || '',
                 testLocation: row.testLocation || '',
                 passed: !!row.passed,
+                notScheduled: !!row.notScheduled,
             };
         }
     }
@@ -4983,6 +4984,7 @@ function buildSubjectEditsFromPlan(plan) {
                 testDate: planFromServer[subject].testDate || '',
                 testLocation: planFromServer[subject].testLocation || '',
                 passed: !!planFromServer[subject].passed,
+                notScheduled: !!planFromServer[subject].notScheduled,
             };
         }
     }
@@ -4994,7 +4996,13 @@ function canCompleteOnboarding(p) {
     const hasName = p?.profile?.name && p.profile.name.trim() !== '';
 
     const hasAnyTestProgress = Array.isArray(p?.testPlan)
-        ? p.testPlan.some((row) => row && (row.passed || (row.testDate && row.testDate.trim() !== '')))
+        ? p.testPlan.some(
+              (row) =>
+                  row
+                  && (row.passed
+                      || row.notScheduled
+                      || (row.testDate && row.testDate.trim() !== ''))
+          )
         : false;
 
     const hasChallenges = Array.isArray(p?.challengeOptions)
@@ -5440,6 +5448,7 @@ function App({ externalTheme, onThemeChange }) {
                             testDate: row?.testDate || '',
                             testLocation: row?.testLocation || '',
                             passed: !!row?.passed,
+                            notScheduled: !!row?.notScheduled,
                         }))
                         : DEFAULT_LOCAL_PROFILE.testPlan.map((row) => ({ ...row })),
                     challengeOptions: Array.isArray(parsed.challengeOptions)
@@ -5731,13 +5740,41 @@ function App({ externalTheme, onThemeChange }) {
             return;
         }
         setSubjectEdits((prev) => {
-            const existing = prev?.[subject] || { testDate: '', testLocation: '', passed: false };
+            const existing = prev?.[subject] || {
+                testDate: '',
+                testLocation: '',
+                passed: false,
+                notScheduled: false,
+            };
+            const next = { ...existing };
+
+            if (field === 'passed') {
+                const checked = !!value;
+                next.passed = checked;
+                if (checked) {
+                    next.notScheduled = false;
+                    next.testDate = '';
+                }
+            } else if (field === 'testDate') {
+                const inputValue = typeof value === 'string' ? value : '';
+                next.testDate = inputValue;
+                if (inputValue) {
+                    next.notScheduled = false;
+                }
+            } else if (field === 'notScheduled') {
+                const flagged = !!value;
+                next.notScheduled = flagged;
+                if (flagged) {
+                    next.testDate = '';
+                    next.passed = false;
+                }
+            } else {
+                next[field] = value;
+            }
+
             return {
                 ...prev,
-                [subject]: {
-                    ...existing,
-                    [field]: field === 'passed' ? !!value : value,
-                },
+                [subject]: next,
             };
         });
     }, []);
@@ -5749,10 +5786,20 @@ function App({ externalTheme, onThemeChange }) {
             return;
         }
 
-        const edits = subjectEdits[trimmedSubject] || { testDate: '', testLocation: '', passed: false };
-        const normalizedDate = typeof edits.testDate === 'string' ? edits.testDate.trim() : '';
+        const edits = subjectEdits[trimmedSubject] || {
+            testDate: '',
+            testLocation: '',
+            passed: false,
+            notScheduled: false,
+        };
+        const normalizedNotScheduled = !!edits.notScheduled;
+        const normalizedDate = normalizedNotScheduled
+            ? ''
+            : typeof edits.testDate === 'string'
+                ? edits.testDate.trim()
+                : '';
         const normalizedLocation = typeof edits.testLocation === 'string' ? edits.testLocation.trim() : '';
-        const normalizedPassed = !!edits.passed;
+        const normalizedPassed = normalizedNotScheduled ? false : !!edits.passed;
 
         setTestSaving(trimmedSubject);
         setLocalProfile((prev) => {
@@ -5766,6 +5813,7 @@ function App({ externalTheme, onThemeChange }) {
                         testDate: normalizedDate,
                         testLocation: normalizedLocation,
                         passed: normalizedPassed,
+                        notScheduled: normalizedNotScheduled,
                     };
                 }
                 return row;
@@ -5776,6 +5824,7 @@ function App({ externalTheme, onThemeChange }) {
                     testDate: normalizedDate,
                     testLocation: normalizedLocation,
                     passed: normalizedPassed,
+                    notScheduled: normalizedNotScheduled,
                 });
             }
             return {
@@ -6775,6 +6824,7 @@ function ProfileView({
                 testDate: entry.testDate || '',
                 testLocation: entry.testLocation || '',
                 passed: !!entry.passed,
+                notScheduled: !!entry.notScheduled,
                 daysUntil: entry.daysUntil ?? null,
             });
         });
@@ -6785,6 +6835,7 @@ function ProfileView({
                     testDate: '',
                     testLocation: '',
                     passed: false,
+                    notScheduled: false,
                     daysUntil: null,
                 });
             }
@@ -6849,7 +6900,9 @@ function ProfileView({
 
     const selectedCount = selectedIds.length;
     const highlightName = !onboardingComplete && !profile.name;
-    const hasAnyTestProgress = normalizedTestPlan.some((entry) => entry.passed || entry.testDate);
+    const hasAnyTestProgress = normalizedTestPlan.some(
+        (entry) => entry.passed || entry.notScheduled || entry.testDate
+    );
     const highlightTest = !onboardingComplete && !hasAnyTestProgress;
     const highlightChallenges = !onboardingComplete && selectedCount === 0;
 
@@ -6992,10 +7045,15 @@ function ProfileView({
                                 testDate: '',
                                 testLocation: '',
                                 passed: false,
+                                notScheduled: false,
                             };
                             const savingThisSubject = testSaving === entry.subject;
+                            const isNotScheduled =
+                                typeof edits.notScheduled === 'boolean'
+                                    ? edits.notScheduled
+                                    : !!entry.notScheduled;
                             const countdownLabel = (() => {
-                                if (!entry.testDate || edits.passed) {
+                                if (isNotScheduled || !entry.testDate || edits.passed) {
                                     return null;
                                 }
                                 if (entry.daysUntil != null) {
@@ -7017,10 +7075,23 @@ function ProfileView({
                                             type="date"
                                             className="tp-date rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                                             data-subject={entry.subject}
-                                            value={edits.testDate || ''}
+                                            value={isNotScheduled ? '' : edits.testDate || ''}
                                             onChange={(event) => onSubjectFieldChange?.(entry.subject, 'testDate', event.target.value)}
+                                            disabled={savingThisSubject || isNotScheduled}
+                                        />
+                                    </label>
+                                    <label className="inline-row flex items-center gap-2 text-sm text-slate-600">
+                                        <input
+                                            type="checkbox"
+                                            className="tp-not-scheduled h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                                            data-subject={entry.subject}
+                                            checked={!!isNotScheduled}
+                                            onChange={(event) =>
+                                                onSubjectFieldChange?.(entry.subject, 'notScheduled', event.target.checked)
+                                            }
                                             disabled={savingThisSubject}
                                         />
+                                        I have not scheduled this test yet
                                     </label>
                                     <label className="flex flex-col gap-1 text-sm text-slate-600">
                                         Location
@@ -7056,6 +7127,8 @@ function ProfileView({
                                     </button>
                                     {edits.passed ? (
                                         <p className="text-xs text-emerald-600">Great job! We marked this subject as passed.</p>
+                                    ) : isNotScheduled ? (
+                                        <p className="text-xs text-slate-500">We'll remind you to set a date when you're ready.</p>
                                     ) : countdownLabel ? (
                                         <p className="text-xs text-slate-500">{countdownLabel}</p>
                                     ) : null}
