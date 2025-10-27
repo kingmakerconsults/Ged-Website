@@ -1,8 +1,37 @@
-import { expandedQuizData } from '../frontend/data/quiz_data.js';
+import fs from 'fs';
 import { strict as assert } from 'assert';
+import { JSDOM } from 'jsdom';
+
+// We need to simulate a browser environment for the script to run
+const dom = new JSDOM(`<!DOCTYPE html><html><body><script></script></body></html>`, {
+    runScripts: "dangerously",
+    beforeParse(window) {
+        // Define a dummy AppData object. The script will populate window.AppData.Math
+        window.AppData = { Math: {} };
+    }
+});
+
+const window = dom.window;
+
+// Load the new math exams script into the JSDOM environment
+const math_script_content = fs.readFileSync('frontend/data/new_math_exams.js', 'utf8');
+
+// The script expects a variable `new_math_exams`, but we want to attach it to window.AppData.Math
+const modified_script_content = math_script_content.replace('var new_math_exams =', 'window.AppData.Math.categories =');
+
+const scriptEl = window.document.createElement('script');
+scriptEl.textContent = modified_script_content;
+window.document.body.appendChild(scriptEl);
+
+
+function getAppData() {
+    return window.AppData;
+}
+
 
 function runMathQuizTests() {
-  const mathData = expandedQuizData.Math;
+  const AppData = getAppData();
+  const mathData = AppData.Math;
   assert.ok(mathData, 'Math data should exist');
   assert.ok(mathData.categories, 'Math categories should exist');
 
@@ -16,16 +45,33 @@ function runMathQuizTests() {
           topic.quizzes.forEach(quiz => {
             console.log(`Testing quiz: ${quiz.quizId}`);
 
-            // Unit test: each Math quiz returns questions.length >= 12.
-            assert.ok(quiz.questions.length >= 12, `Quiz ${quiz.quizId} should have at least 12 questions.`);
+            // Unit test: each Math quiz has exactly 12 questions.
+            assert.strictEqual(quiz.questions.length, 12, `Quiz ${quiz.quizId} should have exactly 12 questions.`);
+
+            // Unit test: check difficulty distribution (3 easy, 6 medium, 3 hard)
+            const easyCount = quiz.questions.filter(q => q.difficulty === 'easy').length;
+            const mediumCount = quiz.questions.filter(q => q.difficulty === 'medium').length;
+            const hardCount = quiz.questions.filter(q => q.difficulty === 'hard').length;
+            assert.strictEqual(easyCount, 3, `Quiz ${quiz.quizId} should have 3 easy questions. Found ${easyCount}`);
+            assert.strictEqual(mediumCount, 6, `Quiz ${quiz.quizId} should have 6 medium questions. Found ${mediumCount}`);
+            assert.strictEqual(hardCount, 3, `Quiz ${quiz.quizId} should have 3 hard questions. Found ${hardCount}`);
+
 
             quiz.questions.forEach((q, idx) => {
               // Unit test: each question has questionNumber matching index.
               assert.strictEqual(q.questionNumber, idx + 1, `Question number should match index in ${quiz.quizId}`);
 
-              // Unit test: each question has answerOptions with exactly 1 correct.
-              const correctCount = q.answerOptions.filter(a => a.isCorrect).length;
-              assert.strictEqual(correctCount, 1, `Question ${q.questionNumber} in ${quiz.quizId} should have exactly one correct answer.`);
+              // Unit test: each multiple choice question has answerOptions with exactly 1 correct.
+              if (q.type === 'knowledge') {
+                assert.ok(q.answerOptions && Array.isArray(q.answerOptions), `Question ${q.questionNumber} in ${quiz.quizId} should have answerOptions array.`);
+                const correctCount = q.answerOptions.filter(a => a.isCorrect).length;
+                assert.strictEqual(correctCount, 1, `Question ${q.questionNumber} in ${quiz.quizId} should have exactly one correct answer.`);
+              }
+
+              // Unit test: each fill-in-the-blank question has a correctAnswer string.
+              if (q.type === 'fill-in-the-blank') {
+                  assert.ok(typeof q.correctAnswer === 'string', `Fill-in-the-blank question ${q.questionNumber} in ${quiz.quizId} should have a correctAnswer string.`);
+              }
             });
             totalQuizzesTested++;
           });

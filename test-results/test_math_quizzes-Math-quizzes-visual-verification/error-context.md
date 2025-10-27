@@ -1,0 +1,45 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - button "Mr. Smith's Learning Canvas" [ref=e7] [cursor=pointer]
+        - navigation [ref=e8]:
+          - button "Dashboard" [ref=e9] [cursor=pointer]
+          - link "Quizzes" [ref=e10] [cursor=pointer]:
+            - /url: "#quizzes"
+          - link "Progress" [ref=e11] [cursor=pointer]:
+            - /url: "#progress"
+      - button "Toggle color mode" [ref=e13] [cursor=pointer]:
+        - img [ref=e14]
+  - main [ref=e17]:
+    - generic [ref=e19]:
+      - heading "Welcome!" [level=2] [ref=e20]
+      - paragraph [ref=e21]: Sign in to save your progress across devices.
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]: Email
+          - textbox "Email" [ref=e25]:
+            - /placeholder: you@example.com
+        - generic [ref=e26]:
+          - generic [ref=e27]: Password
+          - textbox "Password" [ref=e28]:
+            - /placeholder: Enter your password
+        - button "Log In" [ref=e29] [cursor=pointer]
+      - paragraph [ref=e30]:
+        - text: Need an account?
+        - button "Register" [ref=e31] [cursor=pointer]
+      - generic [ref=e34]: Or continue with
+      - generic [ref=e37]:
+        - button "Sign in with Google. Opens in new tab" [ref=e39] [cursor=pointer]:
+          - generic [ref=e41]:
+            - img [ref=e43]
+            - generic [ref=e50]: Sign in with Google
+        - iframe
+      - paragraph [ref=e51]: "Admins: Sign in with Google to access your dashboard."
+  - contentinfo [ref=e52]:
+    - img "Kingmakerconsults logo" [ref=e53]
+    - paragraph [ref=e54]: Kingmakerconsults Copyright ©
+```
