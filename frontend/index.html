@@ -4496,8 +4496,8 @@ const AppData = {
                     },
                     {
                         id: "rla_lit_theme_figurative_language",
-                        title: "Theme & Figurative Language",
-                        description: "Identifying the underlying message and interpreting metaphors, similes, etc.",
+                        title: "Poetry & Figurative Language",
+                        description: "Analyze poems for theme, tone, and figurative language techniques.",
                         quizzes: [
                             { id: "rla_lit_theme_figurative_language_quiz1", label: "Set 1", questionSourceTopicId: "rla_lit_theme_figurative_language" },
                             { id: "rla_lit_theme_figurative_language_quiz2", label: "Set 2" },
@@ -8793,7 +8793,20 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     // --- NEW: Logic to get topics for the dropdown (moved from AIQuizGenerator) ---
     // This includes the fix for the white screen error using optional chaining (`?.`)
     const availableTopics = selectedSubject && AppData[selectedSubject]?.categories
-        ? Object.values(AppData[selectedSubject].categories).flatMap(category => category.topics?.map(topic => topic.title) || [])
+        ? Object.values(AppData[selectedSubject].categories)
+            .flatMap((category) => category.topics?.map((topic) => topic.title) || [])
+            .filter((topicTitle) => {
+                if (!topicTitle) {
+                    return false;
+                }
+                if (
+                    (selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'RLA') &&
+                    topicTitle.trim() === 'Extended Response'
+                ) {
+                    return false;
+                }
+                return true;
+            })
         : [];
 
     const Breadcrumb = ({ variant = 'default', color, accentColor } = {}) => {
@@ -9264,28 +9277,6 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         })}
                         {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                             <>
-                                {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
-                                    <div
-                                        className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
-                                        style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
-                                    >
-                                        <div>
-                                            <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
-                                                <BookOpenIcon className="h-8 w-8" />
-                                                <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Essay Practice Tool</h3>
-                                            </div>
-                                            <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
-                                                Build your extended response with guided support.
-                                            </p>
-                                        </div>
-                                        <button
-                                            onClick={() => onSelectQuiz({ id: 'essay_practice_tool', type: 'essay', title: 'GED® Essay Practice Toolkit' }, selectedSubject)}
-                                            className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
-                                        >
-                                            Launch Essay Practice
-                                        </button>
-                                    </div>
-                                )}
                                 <div
                                     className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
                                     style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
