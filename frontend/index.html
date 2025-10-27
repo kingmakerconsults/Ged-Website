@@ -6206,41 +6206,161 @@ function App({ externalTheme, onThemeChange }) {
     };
 
     const handleStartPopQuiz = () => {
-        const allQuestions = [];
-        Object.values(AppData).forEach(subject => {
-            if (subject?.categories) {
-                Object.values(subject.categories).forEach(category => {
-                    if (Array.isArray(category?.topics)) {
-                        category.topics.forEach(topic => {
-                            if (!topic || typeof topic !== 'object') {
+        const cloneQuestionWithAnswers = (question) => {
+            if (!question || typeof question !== 'object') {
+                return null;
+            }
+            const cloned = { ...question };
+            if (Array.isArray(question.answerOptions)) {
+                cloned.answerOptions = question.answerOptions.map((option) => ({ ...option }));
+            }
+            return cloned;
+        };
+
+        const collectPremadeQuestions = () => {
+            const pool = [];
+            Object.entries(AppData).forEach(([subjectName, subject]) => {
+                if (!subject || typeof subject !== 'object' || !subject.categories) {
+                    return;
+                }
+
+                Object.values(subject.categories).forEach((category) => {
+                    const topics = Array.isArray(category?.topics) ? category.topics : [];
+                    topics.forEach((topic) => {
+                        if (!topic || typeof topic !== 'object') {
+                            return;
+                        }
+
+                        const pushQuestions = (questions, origin) => {
+                            if (!Array.isArray(questions)) {
                                 return;
                             }
-                            if (Array.isArray(topic.quizzes) && topic.quizzes.length) {
-                                topic.quizzes.forEach(quiz => {
-                                    if (quiz && Array.isArray(quiz.questions)) {
-                                        allQuestions.push(...quiz.questions);
-                                    }
-                                });
-                            } else if (Array.isArray(topic.questions) && topic.questions.length) {
-                                allQuestions.push(...topic.questions);
-                            }
-                        });
-                    }
-                });
-            }
-        });
+                            questions.forEach((rawQuestion) => {
+                                const question = cloneQuestionWithAnswers(rawQuestion);
+                                if (!question) {
+                                    return;
+                                }
+                                if (!Array.isArray(question.answerOptions) || question.answerOptions.length < 2) {
+                                    return;
+                                }
+                                if (!question.answerOptions.some((option) => option && option.isCorrect)) {
+                                    return;
+                                }
+                                const enriched = {
+                                    ...question,
+                                    subject: question.subject || subjectName,
+                                    popQuizOrigin: origin,
+                                };
+                                pool.push(enriched);
+                            });
+                        };
 
-        const shuffled = shuffleArray(allQuestions);
-        const selectedQuestions = shuffled.slice(0, 5).map((q, index) => ({
-            ...q,
-            questionNumber: index + 1
-        }));
+                        if (Array.isArray(topic.quizzes) && topic.quizzes.length) {
+                            topic.quizzes.forEach((quiz) => {
+                                if (!quiz || typeof quiz !== 'object' || !quiz.quizCode) {
+                                    return;
+                                }
+                                const resolvedQuestions = resolveQuizQuestions(subjectName, topic, quiz);
+                                pushQuestions(resolvedQuestions, {
+                                    type: 'premade',
+                                    subject: subjectName,
+                                    quizTitle: quiz.title || topic.title || quiz.quizCode,
+                                    quizCode: quiz.quizCode,
+                                });
+                            });
+                        } else if (topic.quizCode && Array.isArray(topic.questions) && topic.questions.length) {
+                            pushQuestions(topic.questions, {
+                                type: 'premade',
+                                subject: subjectName,
+                                quizTitle: topic.title || topic.quizCode,
+                                quizCode: topic.quizCode,
+                            });
+                        }
+                    });
+                });
+            });
+            return pool;
+        };
+
+        const collectVocabularyQuestions = () => {
+            const pool = [];
+            const vocabularyEntries = Object.entries(vocabulary || {}).filter(([, terms]) => Array.isArray(terms) && terms.length > 0);
+            if (!vocabularyEntries.length) {
+                return pool;
+            }
+
+            const allDefinitions = vocabularyEntries
+                .flatMap(([, terms]) => terms.map((item) => (typeof item?.definition === 'string' ? item.definition : null)))
+                .filter(Boolean);
+
+            const getDistractorDefinitions = (correctDefinition) => {
+                const candidates = allDefinitions.filter((definition) => definition !== correctDefinition);
+                return shuffleArray(candidates).slice(0, 3);
+            };
+
+            vocabularyEntries.forEach(([subjectName, terms]) => {
+                terms.forEach((item) => {
+                    if (!item || typeof item.term !== 'string' || typeof item.definition !== 'string') {
+                        return;
+                    }
+                    const distractors = getDistractorDefinitions(item.definition);
+                    const answerOptions = shuffleArray([
+                        { text: item.definition, isCorrect: true },
+                        ...distractors.map((definition) => ({ text: definition, isCorrect: false })),
+                    ]);
+
+                    if (answerOptions.length < 2) {
+                        return;
+                    }
+
+                    pool.push({
+                        type: 'vocabulary',
+                        question: `What is the best definition of "${item.term}"?`,
+                        answerOptions: answerOptions.map((option) => ({ ...option })),
+                        subject: subjectName,
+                        popQuizOrigin: {
+                            type: 'vocabulary',
+                            subject: subjectName,
+                            term: item.term,
+                        },
+                    });
+                });
+            });
+
+            return pool;
+        };
+
+        const premadePool = collectPremadeQuestions();
+        const vocabularyPool = collectVocabularyQuestions();
+        const combinedPool = [...premadePool, ...vocabularyPool];
+
+        if (!combinedPool.length) {
+            alert('Pop quiz is not available right now. Please try again later.');
+            return;
+        }
+
+        const totalAvailable = combinedPool.length;
+        let desiredCount;
+        if (totalAvailable >= 5) {
+            desiredCount = 5;
+        } else if (totalAvailable >= 4) {
+            desiredCount = 4;
+        } else {
+            desiredCount = totalAvailable;
+        }
+
+        const selectedQuestions = shuffleArray(combinedPool)
+            .slice(0, desiredCount)
+            .map((question, index) => ({
+                ...question,
+                questionNumber: index + 1,
+            }));
 
         const popQuiz = {
             id: 'pop_quiz_' + new Date().getTime(),
             title: '5-Minute Pop Quiz',
             questions: selectedQuestions,
-            timeLimit: 300 // 5 minutes in seconds
+            timeLimit: 300,
         };
 
         startQuiz(popQuiz, 'Pop Quiz');
@@ -11156,31 +11276,16 @@ function GeometryPracticeTool({ onExit }) {
     }, [getCurrentTheme]);
 
     const isDarkMode = activeTheme === 'dark';
-    const geometryPalette = isDarkMode
-        ? {
-            panel: '#020617',
-            canvas: '#020617',
-            border: '#1e293b',
-            text: '#f8fafc',
-        }
-        : {
-            panel: '#1f2937',
-            canvas: '#314159',
-            border: '#334155',
-            text: '#ffffff',
-        };
+    const surfaceColor = isDarkMode ? '#020617' : '#ffffff';
 
     const showExitButton = typeof onExit === 'function';
 
     return (
         <div
-            className="fade-in space-y-6"
-            style={{ backgroundColor: geometryPalette.panel, color: geometryPalette.text }}
+            className="fade-in space-y-6 bg-white text-black dark:bg-slate-900 dark:text-slate-100"
+            style={{ backgroundColor: surfaceColor }}
         >
-            <header
-                className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-2 border-b"
-                style={{ borderColor: geometryPalette.border }}
-            >
+            <header className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-2 border-b border-slate-200 dark:border-slate-700">
                 <div className="flex-none min-w-[140px]">
                     {showExitButton && (
                         <button
@@ -11198,22 +11303,14 @@ function GeometryPracticeTool({ onExit }) {
             </header>
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]">
                 <div
-                    className="border rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]"
-                    style={{
-                        backgroundColor: geometryPalette.panel,
-                        borderColor: geometryPalette.border,
-                        color: geometryPalette.text,
-                    }}
+                    className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center min-h-[420px]"
+                    style={{ backgroundColor: surfaceColor }}
                 >
                     {currentProblem ? (
                         <>
                             <svg
-                                className="w-full max-w-2xl h-[360px] rounded-xl border"
-                                style={{
-                                    backgroundColor: geometryPalette.canvas,
-                                    color: geometryPalette.text,
-                                    borderColor: geometryPalette.border,
-                                }}
+                                className="w-full max-w-2xl h-[360px] text-slate-900 dark:text-white bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-700"
+                                style={{ backgroundColor: surfaceColor }}
                                 viewBox="0 0 400 320"
                                 preserveAspectRatio="xMidYMid meet"
                             >
@@ -11230,12 +11327,8 @@ function GeometryPracticeTool({ onExit }) {
                     )}
                 </div>
                 <div
-                    className="space-y-5 border rounded-2xl p-5 shadow-sm"
-                    style={{
-                        backgroundColor: geometryPalette.panel,
-                        borderColor: geometryPalette.border,
-                        color: geometryPalette.text,
-                    }}
+                    className="space-y-5 bg-white text-black dark:bg-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm"
+                    style={{ backgroundColor: surfaceColor }}
                 >
                     <div>
                         <h3 className="text-lg font-semibold mb-3" style={{ color: geometryPalette.text }}>
