@@ -1124,7 +1124,8 @@ const SMITH_A_SKILL_ENTRIES = {
     },
     [RLA_SUBJECT_LABEL]: {
         "Language & Grammar": "Standard English conventions, grammar, punctuation, and usage.",
-        "Reading Comprehension: Informational Texts": "Determine main ideas, evaluate arguments, interpret charts, and understand structure."
+        "Reading Comprehension: Informational Texts": "Determine main ideas, evaluate arguments, interpret charts, and understand structure.",
+        "Poetry & Figurative Language": "Interpret poetry for theme, tone, figurative language, and structure."
     }
 };
 
