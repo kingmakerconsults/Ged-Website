@@ -596,6 +596,7 @@ const expandedQuizData = {
                                 description: "Analyze informational texts for central ideas, evidence, and author's claims.",
                                 questionSourceTopicId: "rla_info_main_idea"
                             },
+                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
                                 quizId: "rla_info_main_idea_set2",
                                 label: "Quiz B",
@@ -626,8 +627,130 @@ const expandedQuizData = {
                                             { text: "Coral bleaching is when corals expel algae.", rationale: "This explains the mechanism of bleaching but is not the evidence of the overall threat's impact.", isCorrect: false }
                                         ]
                                     }
+                                    ,
+                                    {
+                                        questionNumber: 3,
+                                        type: 'text',
+                                        passage: "City council members are debating whether to invest in expanding public libraries. Supporters point to data showing that library usage has increased 25% in the past three years, especially for job-seeking resources. Opponents argue that funds should instead go toward road repairs, noting that pothole complaints have doubled over the same period. During the meeting, several residents shared stories about how library programs helped them learn new skills.",
+                                        question: "Which detail best supports the argument in favor of expanding public libraries?",
+                                        answerOptions: [
+                                            { text: "Road repair complaints have doubled.", rationale: "This detail supports the argument against expanding libraries.", isCorrect: false },
+                                            { text: "Library usage has increased 25% in three years.", rationale: "Correct. This statistic shows growing demand for library services, supporting expansion.", isCorrect: true },
+                                            { text: "Some residents shared stories at the meeting.", rationale: "While anecdotal stories are persuasive, the question asks for the best supporting detail.", isCorrect: false },
+                                            { text: "Council members are debating the proposal.", rationale: "This restates the scenario rather than offering supporting evidence.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'text',
+                                        passage: "A recent report on urban agriculture highlights the benefits of rooftop gardens. According to the report, buildings with rooftop gardens reduce summer energy usage by an average of 15%, provide fresh produce to local communities, and help manage stormwater runoff by absorbing rainfall before it hits city streets. The report also notes that initial installation costs can be high but are often offset within five years.",
+                                        question: "Which sentence from the passage provides evidence that rooftop gardens help the environment?",
+                                        answerOptions: [
+                                            { text: "Initial installation costs can be high.", rationale: "This addresses finances, not environmental impact.", isCorrect: false },
+                                            { text: "Rooftop gardens provide fresh produce to local communities.", rationale: "This is a benefit, but it relates to food access rather than environmental impact.", isCorrect: false },
+                                            { text: "Buildings with rooftop gardens reduce summer energy usage by an average of 15%.", rationale: "Correct. Lower energy usage reduces environmental strain.", isCorrect: true },
+                                            { text: "The report highlights the benefits of rooftop gardens.", rationale: "This is too general to serve as specific evidence.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'text',
+                                        passage: "An investigative article examined why a local river has become unsafe for swimming. The reporter cites state environmental tests showing elevated bacteria levels after heavy rains, interviews with farmers who use fertilizer near the riverbanks, and city budget documents revealing delays in upgrading the storm sewer system. The article concludes that runoff from both agriculture and aging infrastructure contributes to the pollution.",
+                                        question: "What type of evidence does the reporter use to support the conclusion?",
+                                        answerOptions: [
+                                            { text: "Personal opinions from swimmers.", rationale: "The passage does not mention opinions from swimmers.", isCorrect: false },
+                                            { text: "Laboratory tests, interviews, and budget documents.", rationale: "Correct. The reporter references scientific tests, expert interviews, and official records.", isCorrect: true },
+                                            { text: "Photographs of the river.", rationale: "No visual evidence is described in the passage.", isCorrect: false },
+                                            { text: "Anecdotes from city council meetings.", rationale: "Council meetings are not mentioned.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'text',
+                                        passage: "A policy brief argues that expanding broadband access in rural areas will boost local economies. It cites a study showing that small businesses with high-speed internet grow their revenue 20% faster than those without it. The brief also highlights a pilot program where farmers used online marketplaces to sell produce directly to consumers, increasing profits. Finally, it mentions that students with reliable internet perform better on standardized tests.",
+                                        question: "Which detail most directly supports the claim that broadband access improves local economies?",
+                                        answerOptions: [
+                                            { text: "Students with reliable internet perform better on standardized tests.", rationale: "While important, this detail focuses on education rather than local economies.", isCorrect: false },
+                                            { text: "Farmers increased profits through online marketplaces.", rationale: "Correct. Increased profits for local farmers show an economic benefit.", isCorrect: true },
+                                            { text: "The brief argues for expanding broadband access.", rationale: "Restating the argument does not provide evidence.", isCorrect: false },
+                                            { text: "Small businesses use the internet for marketing.", rationale: "The passage specifically mentions revenue growth, not just marketing.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'text',
+                                        passage: "In a newsletter, the superintendent explains the district's decision to shift to a later high school start time. She references medical research showing that teenagers need eight to ten hours of sleep and that later start times reduce tardiness. She also notes survey results indicating that 72% of parents support the change. The superintendent acknowledges transportation schedules will require adjustment but states the benefits outweigh the challenges.",
+                                        question: "Which evidence best supports the superintendent's decision?",
+                                        answerOptions: [
+                                            { text: "Transportation schedules will require adjustment.", rationale: "This describes a challenge, not supporting evidence.", isCorrect: false },
+                                            { text: "Medical research shows later start times reduce tardiness.", rationale: "Correct. This research-based evidence supports the decision.", isCorrect: true },
+                                            { text: "The superintendent explains the decision in a newsletter.", rationale: "This is background information, not evidence.", isCorrect: false },
+                                            { text: "Parents completed a survey.", rationale: "The survey is evidence, but the question asks for the best support, which is the research on outcomes.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'text',
+                                        passage: "A nonprofit organization summarizes its annual impact in a report. The report emphasizes that its financial literacy workshops reached 1,200 participants, 85% of whom reported feeling more confident about budgeting afterward. It also mentions that partnerships with local banks allowed the nonprofit to offer free checking accounts to attendees.",
+                                        question: "What statistic provides evidence that the workshops were effective?",
+                                        answerOptions: [
+                                            { text: "1,200 participants attended the workshops.", rationale: "Attendance alone does not show effectiveness.", isCorrect: false },
+                                            { text: "Partnerships with local banks offered free checking accounts.", rationale: "This is a benefit, but it does not measure workshop effectiveness.", isCorrect: false },
+                                            { text: "85% of participants reported feeling more confident about budgeting afterward.", rationale: "Correct. This directly indicates improved confidence, showing effectiveness.", isCorrect: true },
+                                            { text: "The organization summarizes its impact annually.", rationale: "This is context, not evidence of effectiveness.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'text',
+                                        passage: "A journalist profiles a new community center that offers free childcare while parents attend job-training classes. The article highlights that 60 parents have already completed the training, and half reported receiving job offers within a month. The director explains that the program partners with local employers who guarantee interviews for graduates.",
+                                        question: "Which detail best supports the idea that the community center is helping parents find employment?",
+                                        answerOptions: [
+                                            { text: "The program partners with local employers.", rationale: "Partnerships are helpful, but the question asks for evidence that parents are finding jobs.", isCorrect: false },
+                                            { text: "The center offers free childcare.", rationale: "This is a feature of the program, not direct evidence of employment outcomes.", isCorrect: false },
+                                            { text: "Half of the parents reported receiving job offers within a month.", rationale: "Correct. This statistic directly connects the program to employment success.", isCorrect: true },
+                                            { text: "Sixty parents completed the training.", rationale: "Completion numbers show participation, not job placement.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'text',
+                                        passage: "An opinion column argues that community gardens should receive more city funding. The writer points out that neighborhoods with gardens have reported a 30% increase in neighbor-to-neighbor interactions, according to a recent survey. The column also references a university study showing that access to fresh produce improves residents' overall health scores. The author ends by describing a successful harvest festival attended by hundreds of residents.",
+                                        question: "Which piece of evidence best supports the claim that community gardens benefit residents' health?",
+                                        answerOptions: [
+                                            { text: "A survey showed increased neighbor-to-neighbor interactions.", rationale: "This supports social benefits, not health.", isCorrect: false },
+                                            { text: "A university study showed access to fresh produce improves overall health scores.", rationale: "Correct. This directly links gardens to better health outcomes.", isCorrect: true },
+                                            { text: "Hundreds attended a harvest festival.", rationale: "Event attendance shows interest, not health impact.", isCorrect: false },
+                                            { text: "The writer argues for more city funding.", rationale: "Restating the claim is not evidence.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'text',
+                                        passage: "A public health briefing outlines the results of a vaccination campaign. Before the campaign, only 45% of residents received the recommended shots. After mobile clinics visited every neighborhood, vaccination rates rose to 78%. Hospitalizations for the targeted illness dropped by 40% within six months.",
+                                        question: "Which statistic best supports the effectiveness of the vaccination campaign?",
+                                        answerOptions: [
+                                            { text: "Mobile clinics visited every neighborhood.", rationale: "This describes the strategy, not its effectiveness.", isCorrect: false },
+                                            { text: "Vaccination rates rose from 45% to 78%.", rationale: "Correct. This shows the campaign successfully increased vaccinations.", isCorrect: true },
+                                            { text: "Residents received recommended shots.", rationale: "This restates the goal rather than showing impact.", isCorrect: false },
+                                            { text: "The campaign was outlined in a briefing.", rationale: "This provides context but not evidence of success.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'text',
+                                        passage: "A transportation study compares neighborhoods with and without dedicated bike lanes. In areas with bike lanes, bicycle commuting increased by 40% over two years, and local businesses reported higher weekend sales as more cyclists stopped to shop. Neighborhoods without bike lanes saw no significant change in bicycle commuting.",
+                                        question: "Which detail provides the strongest evidence that bike lanes can boost local commerce?",
+                                        answerOptions: [
+                                            { text: "Bicycle commuting increased by 40%.", rationale: "This shows more people biking but does not directly address commerce.", isCorrect: false },
+                                            { text: "Neighborhoods without bike lanes saw no significant change.", rationale: "This comparison highlights differences but does not address commerce.", isCorrect: false },
+                                            { text: "Local businesses reported higher weekend sales as more cyclists stopped to shop.", rationale: "Correct. Increased sales directly link bike lanes to local commerce.", isCorrect: true },
+                                            { text: "The study compared neighborhoods.", rationale: "This explains the method rather than providing evidence.", isCorrect: false }
+                                        ]
+                                    }
                                 ]
                             },
+                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
                                 quizId: "rla_info_main_idea_set3",
                                 label: "Quiz C",
@@ -657,6 +780,126 @@ const expandedQuizData = {
                                             { text: "Strongly against the ordinance.", rationale: "The author is defending the ordinance, not opposing it.", isCorrect: false },
                                             { text: "Confused and uncertain.", rationale: "The author's tone is confident and assertive.", isCorrect: false }
                                         ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'text',
+                                        passage: "Our town has long prided itself on its artistic spirit. Yet the proposed cuts to the community arts grant threaten to silence dozens of after-school programs and shutter the only gallery that showcases local talent. Investing in the arts is not a luxury; it is an investment in creativity, collaboration, and the heart of who we are.",
+                                        question: "What is the author's primary purpose in this passage?",
+                                        answerOptions: [
+                                            { text: "To narrate a personal experience in the arts.", rationale: "The passage does not include a personal story.", isCorrect: false },
+                                            { text: "To persuade readers to oppose cuts to the community arts grant.", rationale: "Correct. The author argues against the proposed funding cuts and appeals to shared values.", isCorrect: true },
+                                            { text: "To analyze the history of the town's art scene.", rationale: "The passage focuses on current funding issues, not history.", isCorrect: false },
+                                            { text: "To inform readers about how to apply for a grant.", rationale: "Instructions are not provided.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'text',
+                                        passage: "Some critics argue that handwriting lessons are outdated in the digital age. However, recent studies show that students who practice handwriting develop stronger memory retention and improved reading fluency. Rather than abandoning handwriting, schools should integrate it with modern technology, reinforcing skills that support overall literacy.",
+                                        question: "Which choice best describes the author's point of view?",
+                                        answerOptions: [
+                                            { text: "Handwriting should be replaced by typing in schools.", rationale: "This is the viewpoint the author is arguing against.", isCorrect: false },
+                                            { text: "Handwriting has no impact on literacy.", rationale: "The author cites studies showing handwriting benefits literacy.", isCorrect: false },
+                                            { text: "Handwriting instruction should complement technology in schools.", rationale: "Correct. The author supports a blended approach that keeps handwriting alongside modern tools.", isCorrect: true },
+                                            { text: "Technology should be removed from classrooms.", rationale: "The author advocates integration, not removal.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'text',
+                                        passage: "When the river finally receded, it left behind more than mud-caked streets and toppled fences. It revealed the resolve of neighbors who cooked for one another, the teachers who turned classrooms into temporary shelters, and the teenagers who spent spring break hauling sandbags. Disaster had come, but so had the proof that resilience lives on this block.",
+                                        question: "Which word best describes the tone of the passage?",
+                                        answerOptions: [
+                                            { text: "Hopeless.", rationale: "The passage highlights perseverance, not despair.", isCorrect: false },
+                                            { text: "Resentful.", rationale: "The narrator does not express bitterness or anger.", isCorrect: false },
+                                            { text: "Determined.", rationale: "Correct. The passage emphasizes community resilience and resolve.", isCorrect: true },
+                                            { text: "Humorous.", rationale: "There are no lighthearted or comedic elements.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'text',
+                                        passage: "The scientist began her presentation with an apology for yet another graph. 'But this one,' she said, 'is the most important.' It showed global carbon emissions climbing steadily upward, despite decades of pledges to curb them. As she explained the data, the room fell silent—not from boredom, but from the weight of what the numbers meant.",
+                                        question: "What is the effect of describing the audience as falling silent?",
+                                        answerOptions: [
+                                            { text: "It suggests the audience was confused by the graph.", rationale: "The silence stems from concern, not confusion.", isCorrect: false },
+                                            { text: "It highlights the audience's apathy toward the topic.", rationale: "Silence indicates the seriousness of the information, not apathy.", isCorrect: false },
+                                            { text: "It emphasizes the gravity of the information being presented.", rationale: "Correct. The silence reflects the audience's realization of the problem's seriousness.", isCorrect: true },
+                                            { text: "It shows the presentation was too technical.", rationale: "Nothing indicates the content was overly technical.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'text',
+                                        passage: "While opponents claim that the city's tree-planting initiative is cosmetic, they overlook the measurable benefits. Tree canopy lowers temperatures during heat waves, reduces energy consumption, and improves air quality. Residents in neighborhoods with more trees report higher satisfaction with their surroundings. Investing in urban forestry is a practical, evidence-based strategy, not mere decoration.",
+                                        question: "Which statement best summarizes the author's viewpoint?",
+                                        answerOptions: [
+                                            { text: "Tree planting is largely a cosmetic effort.", rationale: "This reflects the position the author is rebutting.", isCorrect: false },
+                                            { text: "The initiative lacks measurable benefits.", rationale: "The author lists multiple measurable benefits.", isCorrect: false },
+                                            { text: "Tree planting is a practical strategy supported by evidence.", rationale: "Correct. The author provides data-driven reasons to support the initiative.", isCorrect: true },
+                                            { text: "Urban forestry should be postponed until other needs are met.", rationale: "The author advocates investing now, not postponing.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'text',
+                                        passage: "As a pediatric nurse for twenty years, I've watched children transform when hospitals create spaces that feel less clinical and more comforting. A mural on the wall can soften a scary diagnosis. A bookshelf in the waiting room can turn dread into distraction. These details matter; they remind young patients that they are more than their charts.",
+                                        question: "How does the author establish credibility?",
+                                        answerOptions: [
+                                            { text: "By citing national statistics about hospital stays.", rationale: "No statistics are mentioned.", isCorrect: false },
+                                            { text: "By describing personal experience as a pediatric nurse.", rationale: "Correct. The author references two decades of professional experience.", isCorrect: true },
+                                            { text: "By quoting hospital administrators.", rationale: "No quotations from administrators appear in the passage.", isCorrect: false },
+                                            { text: "By referencing medical textbooks.", rationale: "Textbooks are not referenced.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'text',
+                                        passage: "The new downtown market has been open for just six months, yet it already feels like the beating heart of the neighborhood. Families pick up produce after work, musicians play on the plaza every Saturday, and small-business owners finally have a place to test their recipes. The market isn't simply a place to shop; it's where the community gathers to breathe and grow together.",
+                                        question: "Which sentence best captures the passage's central idea?",
+                                        answerOptions: [
+                                            { text: "The downtown market struggles to attract customers.", rationale: "The passage emphasizes popularity, not struggle.", isCorrect: false },
+                                            { text: "The market is an important community gathering place.", rationale: "Correct. The passage describes various ways the market brings people together.", isCorrect: true },
+                                            { text: "Musicians play every day at the market.", rationale: "The passage mentions performances only on Saturdays.", isCorrect: false },
+                                            { text: "Small-business owners avoid testing recipes at the market.", rationale: "The passage states the opposite.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'text',
+                                        passage: "When my grandfather taught me to fix bicycles, he insisted on patience. 'Listen to the wheel,' he would say, 'and it will tell you what it needs.' Years later, as I mentor young mechanics, I realize he was teaching more than maintenance—he was teaching how to slow down and pay attention to the people in front of us.",
+                                        question: "What inference can be made about the narrator's relationship with the grandfather?",
+                                        answerOptions: [
+                                            { text: "It was distant and formal.", rationale: "The anecdote shows closeness and shared lessons, not distance.", isCorrect: false },
+                                            { text: "It was strained due to disagreements.", rationale: "No conflicts or disagreements are described.", isCorrect: false },
+                                            { text: "It was close and influential.", rationale: "Correct. The narrator values lessons learned from the grandfather and passes them on.", isCorrect: true },
+                                            { text: "It was limited to holiday visits.", rationale: "The passage describes hands-on teaching, indicating frequent interaction.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'text',
+                                        passage: "Parents across the district packed the auditorium to hear the board's decision on arts funding. As the chair announced that the programs would continue, the crowd erupted into cheers. Cameras flashed, students hugged their teachers, and the band struck up the school song. For one night, debate gave way to celebration.",
+                                        question: "Which sentence best describes the tone of the final sentence?",
+                                        answerOptions: [
+                                            { text: "It is gloomy because the programs were canceled.", rationale: "The programs continued, and the tone is celebratory.", isCorrect: false },
+                                            { text: "It is relieved and joyful after a tense debate.", rationale: "Correct. The final sentence shows relief and celebration.", isCorrect: true },
+                                            { text: "It is skeptical about the board's decision.", rationale: "No doubt or skepticism is expressed.", isCorrect: false },
+                                            { text: "It is indifferent to the outcome.", rationale: "The description of cheering and music conveys excitement, not indifference.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'text',
+                                        passage: "Before the new tutoring center opened, many adult learners in our county had to drive over an hour for help preparing for the GED exam. Now, volunteers meet them in the evenings, childcare is offered on-site, and laptops are available for practice tests. The waiting list has nearly disappeared, and pass rates climbed 18% in the first year.",
+                                        question: "Which detail best supports the claim that the new tutoring center has improved access to GED preparation?",
+                                        answerOptions: [
+                                            { text: "Volunteers meet learners in the evenings.", rationale: "This shows convenience but not overall impact on access.", isCorrect: false },
+                                            { text: "Childcare is offered on-site.", rationale: "While helpful, the best evidence of improved access is the decrease in waiting lists and increased pass rates.", isCorrect: false },
+                                            { text: "The waiting list has nearly disappeared.", rationale: "Correct. This directly indicates that more learners can receive services when they need them.", isCorrect: true },
+                                            { text: "Laptops are available for practice tests.", rationale: "This is a feature of the center but not the strongest evidence of improved access.", isCorrect: false }
+                                        ]
                                     }
                                 ]
                             }
@@ -669,6 +912,7 @@ const expandedQuizData = {
                     {
                         id: "rla_lit_analysis",
                         quizzes: [
+                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
                                 quizId: "rla_lit_analysis_set1",
                                 label: "Quiz A",
@@ -698,9 +942,130 @@ const expandedQuizData = {
                                             { text: "Hyperbole.", rationale: "Hyperbole is an extreme exaggeration, which is not used here.", isCorrect: false },
                                             { text: "Simile.", rationale: "Correct. The nest is compared to a cradle using the word 'like', which is the definition of a simile.", isCorrect: true }
                                         ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'text',
+                                        passage: "Lena traced her fingers over the worn cover of the journal before opening it to the page marked with a ribbon. Each entry ended with the same promise: 'Tomorrow I'll begin again.' She closed the book, straightened her shoulders, and reached for the sketchpad she had ignored for months.",
+                                        question: "What does the repeated promise in the journal suggest about Lena?",
+                                        answerOptions: [
+                                            { text: "She rarely keeps track of her thoughts.", rationale: "The journal entries show she records her thoughts carefully.", isCorrect: false },
+                                            { text: "She is committed to renewing her creative efforts.", rationale: "Correct. The repeated promise to 'begin again' shows determination to restart her art.", isCorrect: true },
+                                            { text: "She plans to sell the journal.", rationale: "There is no evidence she intends to sell it.", isCorrect: false },
+                                            { text: "She has given up on drawing entirely.", rationale: "She reaches for her sketchpad, showing she still intends to draw.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'text',
+                                        passage: "The train coughed and lurched before settling into a steady rhythm. Mateo pressed his forehead against the window, watching the city lights recede like a constellation dissolving at dawn. He had never left home before, yet the thought of returning filled him with more dread than the miles of unknown track ahead.",
+                                        question: "What can be inferred about Mateo's feelings toward his hometown?",
+                                        answerOptions: [
+                                            { text: "He feels relieved to be returning soon.", rationale: "He is leaving and feels dread at the idea of returning, not relief.", isCorrect: false },
+                                            { text: "He is indifferent to leaving home.", rationale: "His physical reaction and strong comparison show he is not indifferent.", isCorrect: false },
+                                            { text: "He is eager to escape his hometown despite his fears.", rationale: "Correct. He fears the unknown, yet returning seems worse, indicating a desire to leave.", isCorrect: true },
+                                            { text: "He plans to live in the city permanently.", rationale: "The passage does not address his long-term plans.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'text',
+                                        passage: "The violinist's bow danced across the strings, stitching a silver thread of melody through the hush of the auditorium until the final note fluttered down like a feather.",
+                                        question: "Which literary device is used to describe the melody in this passage?",
+                                        answerOptions: [
+                                            { text: "Alliteration.", rationale: "While the sentence is musical, it does not rely on repeated initial consonant sounds.", isCorrect: false },
+                                            { text: "Metaphor.", rationale: "Correct. The melody is compared to a 'silver thread' without using 'like' or 'as'.", isCorrect: true },
+                                            { text: "Onomatopoeia.", rationale: "No word imitates sound directly.", isCorrect: false },
+                                            { text: "Irony.", rationale: "There is no contrast between expectation and reality.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'text',
+                                        passage: "'You always find the sunshine in a storm,' Mei said, handing her brother an umbrella. He shrugged, staring at the dark clouds. 'Maybe, but today the storm is inside.'",
+                                        question: "What does the brother's response reveal about his character?",
+                                        answerOptions: [
+                                            { text: "He is amused by the weather.", rationale: "His tone suggests emotional turmoil, not amusement.", isCorrect: false },
+                                            { text: "He is unconcerned about Mei's optimism.", rationale: "He acknowledges her optimism but reveals his own struggle.", isCorrect: false },
+                                            { text: "He is dealing with internal conflict despite outward support.", rationale: "Correct. He implies his troubles are emotional rather than weather-related.", isCorrect: true },
+                                            { text: "He is eager to go outside in the rain.", rationale: "Nothing indicates he wants to go out; he is preoccupied with inner turmoil.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'text',
+                                        passage: "During the festival, booths crowded the square, but Aria kept returning to the storyteller seated near the fountain. With each tale, he wove the names of the town's founders into legends of bravery and sacrifice. When the last story ended, Aria looked at the familiar streets with new reverence.",
+                                        question: "What theme is suggested by the passage?",
+                                        answerOptions: [
+                                            { text: "Legends make it difficult to appreciate the present.", rationale: "Aria gains appreciation, not difficulty.", isCorrect: false },
+                                            { text: "History shapes how people value their community.", rationale: "Correct. The stories about founders deepen Aria's respect for her town.", isCorrect: true },
+                                            { text: "Festivals distract people from learning about their town.", rationale: "Aria learns during the festival rather than being distracted.", isCorrect: false },
+                                            { text: "Sacrifice always leads to regret.", rationale: "The stories inspire reverence, not regret.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'text',
+                                        passage: "The letter was short—three sentences at most—but every word was deliberate. 'I am safe. I have found work. I am not returning.' Laila folded the paper and stared at the empty chair across the kitchen table.",
+                                        question: "Which statement best describes the tone conveyed by the letter writer?",
+                                        answerOptions: [
+                                            { text: "Playful and teasing.", rationale: "The message is brief and serious, not playful.", isCorrect: false },
+                                            { text: "Uncertain and hesitant.", rationale: "The sentences are direct and confident, showing no hesitation.", isCorrect: false },
+                                            { text: "Resolute and independent.", rationale: "Correct. The writer clearly states decisions and intention not to return.", isCorrect: true },
+                                            { text: "Angry and accusatory.", rationale: "No blame or anger appears in the letter.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'text',
+                                        passage: "As the debate dragged into its fourth hour, Jordan's patience thinned. He leaned toward the microphone and said, 'If we continue to circle the issue like wary birds, we'll never land on a solution.'",
+                                        question: "The phrase 'circle the issue like wary birds' is used to:",
+                                        answerOptions: [
+                                            { text: "Suggest the council should postpone the decision.", rationale: "Jordan wants progress, not delay.", isCorrect: false },
+                                            { text: "Criticize the council for avoiding a direct decision.", rationale: "Correct. The simile shows frustration with indecision.", isCorrect: true },
+                                            { text: "Compliment the council on careful planning.", rationale: "The tone conveys impatience, not praise.", isCorrect: false },
+                                            { text: "Explain why birds migrate south.", rationale: "The comparison illustrates behavior in the debate, not bird migration.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'text',
+                                        passage: "Nora's grandmother had always insisted that every recipe told a story. When Nora found the smeared card for honey cakes, she noticed the note at the bottom: 'For celebrations only—make sure you are truly joyful first.' Nora set down the card and went to call her brother with good news before preheating the oven.",
+                                        question: "What motivates Nora's actions at the end of the passage?",
+                                        answerOptions: [
+                                            { text: "She wants to double-check the ingredients.", rationale: "She sets the card down to share news, not to review ingredients.", isCorrect: false },
+                                            { text: "She plans to replace the recipe with a new one.", rationale: "She keeps the recipe; there is no replacement.", isCorrect: false },
+                                            { text: "She follows her grandmother's advice to bake only when joyful.", rationale: "Correct. She ensures she is celebrating before starting the recipe.", isCorrect: true },
+                                            { text: "She decides not to bake after all.", rationale: "She intends to bake after sharing the good news.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'text',
+                                        passage: "'Everyone sees the crown,' the young queen whispered, 'but no one notices how heavy it is.' She placed it on the velvet stand and stared at the empty throne, wondering when her decisions would feel like her own.",
+                                        question: "Which conflict is highlighted in the passage?",
+                                        answerOptions: [
+                                            { text: "Man vs. nature.", rationale: "The struggle is internal, not against natural forces.", isCorrect: false },
+                                            { text: "Man vs. society.", rationale: "While expectations exist, the focus is on her personal struggle.", isCorrect: false },
+                                            { text: "Man vs. self.", rationale: "Correct. The queen wrestles with the weight of responsibility and self-doubt.", isCorrect: true },
+                                            { text: "Man vs. technology.", rationale: "Technology is not mentioned.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'text',
+                                        passage: "I tucked the photograph back into my wallet, promising myself that next time I wouldn't let fear keep me silent. The bus jolted forward, and with it, my resolve.",
+                                        question: "From which point of view is this passage most likely narrated?",
+                                        answerOptions: [
+                                            { text: "First person.", rationale: "Correct. The narrator uses 'I,' indicating a first-person perspective.", isCorrect: true },
+                                            { text: "Second person.", rationale: "Second person would address the reader as 'you.'", isCorrect: false },
+                                            { text: "Third person limited.", rationale: "Third person would refer to characters as 'he' or 'she.'", isCorrect: false },
+                                            { text: "Third person omniscient.", rationale: "An omniscient narrator would describe multiple characters' thoughts.", isCorrect: false }
+                                        ]
                                     }
                                 ]
                             },
+                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
                                 quizId: "rla_lit_analysis_set2",
                                 label: "Quiz B",
@@ -722,16 +1087,136 @@ const expandedQuizData = {
                                     {
                                         questionNumber: 2,
                                         type: 'text',
-                                        passage: "The wind was a whetted knife, carving the icy canyons of the city. It found every crack in his threadbare coat, a constant, nagging reminder of his poverty. He huddled in the doorway, watching the laughing, fur-clad couples emerge from the theater, their warmth a world away. Each blast of wind felt like a personal insult, another shove from a world that had no room for him.",
-                                        question: "The phrase 'the wind was a whetted knife' is an example of:",
+                                        passage: "She was a small woman, but she carried herself with the confidence of a giant. Her eyes, the color of worn denim, missed nothing. When she entered a room, conversation didn't stop, but its pitch and cadence changed. It was the unconscious deference of the village to its unofficial queen. She never raised her voice, yet her softest whisper could quell a brewing argument or ignite a dormant hope. Her power was not in decree, but in presence.",
+                                        question: "The phrase 'conversation didn't stop, but its pitch and cadence changed' suggests that:",
                                         answerOptions: [
-                                            { text: "A metaphor, used to emphasize the cutting and painful nature of the cold wind.", rationale: "Correct. The wind is directly compared to a knife to convey its sharpness and hostility without using 'like' or 'as'.", isCorrect: true },
-                                            { text: "A simile, used to show the wind was similar to a knife.", rationale: "It does not use 'like' or 'as', so it is a metaphor, not a simile.", isCorrect: false },
-                                            { text: "Personification, used to give the wind human-like qualities.", rationale: "While the wind's actions might seem human-like ('carving'), the direct comparison to a knife makes it a metaphor.", isCorrect: false },
-                                            { text: "An understatement, used to minimize the effect of the wind.", rationale: "This is an exaggeration (hyperbole) of the wind's effect, not an understatement.", isCorrect: false }
+                                            { text: "People ignored her when she entered the room.", rationale: "The conversation changed because of her presence; it didn't show that people ignored her.", isCorrect: false },
+                                            { text: "Her presence had a subtle impact on the room.", rationale: "Correct. The shift in conversation's tone indicates that her presence influenced people without overt commands.", isCorrect: true },
+                                            { text: "She deliberately interrupted every conversation.", rationale: "The passage states that the conversation did not stop, so she did not interrupt it.", isCorrect: false },
+                                            { text: "The villagers disliked speaking when she was around.", rationale: "There is no indication of dislike; the change suggests respect, not avoidance.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'text',
+                                        passage: "Whenever Malik walked past the boarded-up theater, he slowed his steps. The posters had long since faded, but he still imagined the applause that once shook its rafters. He kept the key to the front door on his keychain, though the lock had not turned in years.",
+                                        question: "What do Malik's actions reveal about him?",
+                                        answerOptions: [
+                                            { text: "He wants to tear down the theater.", rationale: "Nothing indicates he wishes to demolish it; he cherishes it.", isCorrect: false },
+                                            { text: "He is indifferent to the theater's history.", rationale: "Slowing down and keeping the key show he values its past.", isCorrect: false },
+                                            { text: "He holds sentimental attachment to the theater.", rationale: "Correct. His imagination and the key signal emotional connection.", isCorrect: true },
+                                            { text: "He plans to sell the theater soon.", rationale: "No plan to sell is mentioned.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'text',
+                                        passage: "The poet compares her grandmother's hands to 'maps etched with rivers of resilience.'",
+                                        question: "What is the effect of this figurative language?",
+                                        answerOptions: [
+                                            { text: "It suggests her grandmother is obsessed with geography.", rationale: "The comparison is symbolic, not literal.", isCorrect: false },
+                                            { text: "It emphasizes the strength and history carried in her grandmother's hands.", rationale: "Correct. 'Maps' and 'rivers' evoke the endurance of a lifetime of work.", isCorrect: true },
+                                            { text: "It indicates her grandmother is frail and weak.", rationale: "The imagery highlights resilience, not weakness.", isCorrect: false },
+                                            { text: "It shows the grandmother is an artist.", rationale: "The line focuses on character, not occupation.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'text',
+                                        passage: "'If you leave now,' Carlos said, 'the silence will be louder than any apology you could give.'",
+                                        question: "What does Carlos mean by this statement?",
+                                        answerOptions: [
+                                            { text: "He believes silence is relaxing.", rationale: "He uses 'silence' to convey emotional impact, not relaxation.", isCorrect: false },
+                                            { text: "Leaving would hurt more than an apology could fix later.", rationale: "Correct. He warns that walking away would cause lasting emotional damage.", isCorrect: true },
+                                            { text: "He prefers not to talk about problems.", rationale: "He is urging conversation, not avoidance.", isCorrect: false },
+                                            { text: "Apologies are unnecessary.", rationale: "He suggests an apology later would be inadequate, not unnecessary.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'text',
+                                        passage: "Nadia reread the email from the director: 'Your revisions have transformed the play. The characters now breathe.' She exhaled, realizing she had been bracing for criticism.",
+                                        question: "Which statement best explains Nadia's reaction?",
+                                        answerOptions: [
+                                            { text: "She expected harsh feedback and is relieved by praise.", rationale: "Correct. Her held breath and surprise reveal she anticipated criticism.", isCorrect: true },
+                                            { text: "She is disappointed the director noticed her work.", rationale: "She is relieved, not disappointed.", isCorrect: false },
+                                            { text: "She plans to quit the production.", rationale: "The passage suggests renewed confidence, not resignation.", isCorrect: false },
+                                            { text: "She disagrees with the director's assessment.", rationale: "No disagreement is expressed.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'text',
+                                        passage: "The wind rattled the café windows while patrons huddled over mugs. At the corner table, Priya flipped her notebook shut. 'We keep brainstorming new flavors,' she said, 'but the real recipe is already here—it's the way people linger.'",
+                                        question: "What central idea does Priya express?",
+                                        answerOptions: [
+                                            { text: "The café's menu needs more variety.", rationale: "She implies the atmosphere, not new flavors, is key.", isCorrect: false },
+                                            { text: "Customers should leave more quickly.", rationale: "She values that customers linger.", isCorrect: false },
+                                            { text: "The café's sense of community is its greatest strength.", rationale: "Correct. She believes the gathered people are the 'real recipe.'", isCorrect: true },
+                                            { text: "The storm will force the café to close early.", rationale: "Weather sets the scene but does not drive her conclusion.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'text',
+                                        passage: "When the curtain fell, Jae bowed deeply before the small audience. The applause was polite, but his grin was genuine. 'I remembered every line,' he whispered, more to himself than anyone else.",
+                                        question: "What does Jae value most about his performance?",
+                                        answerOptions: [
+                                            { text: "Receiving loud applause from the audience.", rationale: "The applause is polite, yet he is satisfied, indicating applause is not his main concern.", isCorrect: false },
+                                            { text: "Perfecting the set design.", rationale: "The passage focuses on his acting, not the set.", isCorrect: false },
+                                            { text: "Delivering his lines accurately.", rationale: "Correct. His whispered comment shows pride in remembering every line.", isCorrect: true },
+                                            { text: "Ensuring the audience leaves early.", rationale: "There is no mention of wanting the audience to depart.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'text',
+                                        passage: "The narrator describes the library as 'a lighthouse for restless minds,' drawing students in after midnight to study beneath the humming lamps.",
+                                        question: "What does this metaphor suggest about the library?",
+                                        answerOptions: [
+                                            { text: "It is located near the ocean.", rationale: "The metaphor is figurative; there is no literal ocean.", isCorrect: false },
+                                            { text: "It guides and supports learners who seek knowledge.", rationale: "Correct. A lighthouse guides travelers; the library guides students.", isCorrect: true },
+                                            { text: "It only opens during storms.", rationale: "The passage mentions midnight study sessions, not weather events.", isCorrect: false },
+                                            { text: "It is an outdated building needing repairs.", rationale: "The metaphor focuses on purpose, not condition.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'text',
+                                        passage: "'You call it stubborn,' Rosa said, 'but I call it faith in what we've built.'",
+                                        question: "What does Rosa's statement reveal about the conflict?",
+                                        answerOptions: [
+                                            { text: "She believes persistence is necessary to protect their work.", rationale: "Correct. She reframes stubbornness as faith in their efforts.", isCorrect: true },
+                                            { text: "She agrees that they should abandon the project.", rationale: "She defends continuing, not abandoning.", isCorrect: false },
+                                            { text: "She distrusts the people involved.", rationale: "Her statement expresses belief, not distrust.", isCorrect: false },
+                                            { text: "She wants to start a new venture immediately.", rationale: "She is committed to the current project.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'text',
+                                        passage: "In the final chapter, the narrator addresses the reader directly: 'You might think I regretted my choice, but I carry it like a compass, guiding every step.'",
+                                        question: "How does this narrative technique affect the reader?",
+                                        answerOptions: [
+                                            { text: "It creates distance between the narrator and reader.", rationale: "Direct address invites closeness, not distance.", isCorrect: false },
+                                            { text: "It encourages readers to consider the narrator's perspective personally.", rationale: "Correct. Addressing 'you' draws readers into the narrator's reflection.", isCorrect: true },
+                                            { text: "It reveals that the narrator is unreliable.", rationale: "Nothing suggests dishonesty or unreliability.", isCorrect: false },
+                                            { text: "It signals the beginning of a new chapter.", rationale: "The quotation appears in the final chapter, not at the beginning of a new one.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'text',
+                                        passage: "The short story ends with the line, 'They planted the seedling together, neither certain it would survive, but both willing to return each morning with water.'",
+                                        question: "Which theme is reinforced by the ending?",
+                                        answerOptions: [
+                                            { text: "Hope and shared effort can sustain uncertain futures.", rationale: "Correct. Despite uncertainty, the characters commit to caring for the seedling together.", isCorrect: true },
+                                            { text: "Success requires abandoning fragile plans.", rationale: "The characters continue nurturing the plant; they do not abandon it.", isCorrect: false },
+                                            { text: "Independence is more valuable than cooperation.", rationale: "The ending highlights cooperation, not independence.", isCorrect: false },
+                                            { text: "Only experts should attempt new projects.", rationale: "The passage shows ordinary characters willing to try, not experts.", isCorrect: false }
                                         ]
                                     }
-                                 ]
+                                ]
                             }
                         ]
                     }
@@ -748,6 +1233,7 @@ const expandedQuizData = {
                                 description: "Strengthen grammar, usage, and mechanics skills for the RLA test.",
                                 questionSourceTopicId: "rla_grammar_usage"
                             },
+                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
                                 quizId: "rla_grammar_usage_set2",
                                 label: "Quiz B",
@@ -775,9 +1261,120 @@ const expandedQuizData = {
                                             { text: "He was, however, not ready to leave.", rationale: "While commas around 'however' can be correct, the flow here is awkward. A better structure would be 'He was not ready to leave, however.'", isCorrect: false },
                                             { text: "The man who was wearing a red hat, was my uncle.", rationale: "The clause 'who was wearing a red hat' is essential to identify the man, so it should not be set off by commas.", isCorrect: false }
                                         ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'knowledge',
+                                        question: "Which sentence is punctuated correctly with a semicolon?",
+                                        answerOptions: [
+                                            { text: "We planned the fundraiser; and we designed the posters.", rationale: "A semicolon should not be used before a coordinating conjunction like 'and'.", isCorrect: false },
+                                            { text: "The meeting ran late; everyone stayed to finish the report.", rationale: "Correct. The semicolon joins two closely related independent clauses.", isCorrect: true },
+                                            { text: "It was raining;, so we canceled the picnic.", rationale: "The semicolon and comma together are incorrect.", isCorrect: false },
+                                            { text: "She wanted to join the club; but she missed the deadline.", rationale: "A comma should be used with 'but,' not a semicolon.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'knowledge',
+                                        question: "Select the sentence that correctly punctuates a compound sentence.",
+                                        answerOptions: [
+                                            { text: "The river flooded the road therefore we stayed home.", rationale: "A coordinating conjunction like 'therefore' needs a comma or semicolon before it.", isCorrect: false },
+                                            { text: "The sky darkened, and thunder rolled across the hills.", rationale: "Correct. The comma before 'and' properly joins two independent clauses.", isCorrect: true },
+                                            { text: "The lights flickered and, the television went silent.", rationale: "The comma is misplaced.", isCorrect: false },
+                                            { text: "We hurried inside but, the rain had already started.", rationale: "The comma should come before 'but,' not after it.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'knowledge',
+                                        question: "Which sentence uses a colon correctly?",
+                                        answerOptions: [
+                                            { text: "Her to-do list included: vacuuming the living room, washing the dishes, and folding laundry.", rationale: "A colon should not come directly after a verb unless the list is formally introduced.", isCorrect: false },
+                                            { text: "There are three things I love about autumn: crisp air, colorful leaves, and warm cider.", rationale: "Correct. The independent clause before the colon introduces the list clearly.", isCorrect: true },
+                                            { text: "He said: that he would arrive late.", rationale: "The colon interrupts the flow of the sentence unnecessarily.", isCorrect: false },
+                                            { text: "Please bring: your ID and ticket to the event.", rationale: "A colon is not needed between the verb and its objects.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'knowledge',
+                                        question: "Which option shows the correct use of a hyphen?",
+                                        answerOptions: [
+                                            { text: "We saw a well known author at the bookstore.", rationale: "'Well-known' should be hyphenated before a noun.", isCorrect: false },
+                                            { text: "The twenty-four-year-old pianist won the competition.", rationale: "Correct. All parts of a compound adjective before a noun are hyphenated.", isCorrect: true },
+                                            { text: "Please re-elect the vice president tomorrow.", rationale: "A hyphen is not needed in 're-elect' in modern usage.", isCorrect: false },
+                                            { text: "Our plan is cost-effective because we cut unnecessary expenses.", rationale: "'Cost-effective' should be hyphenated when used before or after a noun, but this option is missing the hyphen.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'knowledge',
+                                        question: "Which sentence uses apostrophes correctly?",
+                                        answerOptions: [
+                                            { text: "The womens' locker room was recently renovated.", rationale: "The plural possessive of 'women' is 'women's.'", isCorrect: false },
+                                            { text: "James's guitar needs to be tuned before the show.", rationale: "Correct. Singular nouns ending in s typically add 's to show possession.", isCorrect: true },
+                                            { text: "Its' wheels squeaked as it rolled down the hallway.", rationale: "'Its' is already possessive; no apostrophe is needed.", isCorrect: false },
+                                            { text: "The dogs collar jingled as she ran.", rationale: "The possessive form should be 'dog's'.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'knowledge',
+                                        question: "Which sentence maintains parallel structure?",
+                                        answerOptions: [
+                                            { text: "The campers enjoy hiking, to swim, and sitting by the fire.", rationale: "The verbs are not in the same form.", isCorrect: false },
+                                            { text: "The internship requires attention to detail, communicating clearly, and that you arrive on time.", rationale: "The third element does not match the structure of the first two.", isCorrect: false },
+                                            { text: "He promised to proofread the report, to email the client, and to schedule the follow-up meeting.", rationale: "Correct. Each phrase begins with 'to,' creating a parallel structure.", isCorrect: true },
+                                            { text: "She likes reading novels, to paint landscapes, and baking bread.", rationale: "The verb forms are inconsistent.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'knowledge',
+                                        question: "Which sentence punctuates dialogue correctly?",
+                                        answerOptions: [
+                                            { text: ""Let's head inside". whispered Leo.", rationale: "The period should be inside the quotation marks, and the dialogue tag should follow after a comma.", isCorrect: false },
+                                            { text: ""Are you ready for the quiz?" asked Ms. Patel.", rationale: "Correct. The question mark stays inside the quotation marks, and the tag follows.", isCorrect: true },
+                                            { text: ""I can't believe it", she said!,", rationale: "The punctuation is out of order and excessive.", isCorrect: false },
+                                            { text: "He replied, "I think so"?,", rationale: "The punctuation after the quote is incorrect.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'knowledge',
+                                        question: "Which revision correctly fixes the run-on sentence? 'The choir rehearsed for hours it wanted the concert to be perfect.'",
+                                        answerOptions: [
+                                            { text: "The choir rehearsed for hours wanting the concert to be perfect.", rationale: "This still creates a run-on by joining ideas without proper punctuation.", isCorrect: false },
+                                            { text: "The choir rehearsed for hours, it wanted the concert to be perfect.", rationale: "This is a comma splice.", isCorrect: false },
+                                            { text: "The choir rehearsed for hours because it wanted the concert to be perfect.", rationale: "Correct. Adding a subordinating conjunction creates a complete complex sentence.", isCorrect: true },
+                                            { text: "The choir rehearsed for hours; wanting the concert to be perfect.", rationale: "The clause after the semicolon is not independent.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'knowledge',
+                                        question: "Which sentence uses an em dash appropriately?",
+                                        answerOptions: [
+                                            { text: "The recipe called for three ingredients—flour, sugar, butter—and eggs.", rationale: "The sentence uses both a dash and 'and' redundantly.", isCorrect: false },
+                                            { text: "Only one person—Jamal—volunteered to stay late and clean up.", rationale: "Correct. The em dashes set off an interruption that adds emphasis.", isCorrect: true },
+                                            { text: "She packed her bag—, then she left for the airport.", rationale: "The dash and comma together are incorrect.", isCorrect: false },
+                                            { text: "We will—we must—finish the project tomorrow?,", rationale: "The punctuation at the end is incorrect.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'knowledge',
+                                        question: "Which sentence avoids unnecessary wordiness?",
+                                        answerOptions: [
+                                            { text: "Due to the fact that the train was late, we arrived behind schedule.", rationale: "'Due to the fact that' is wordy; 'Because' would be clearer.", isCorrect: false },
+                                            { text: "Because the train was late, we arrived behind schedule.", rationale: "Correct. The sentence is concise and clear.", isCorrect: true },
+                                            { text: "On account of the train having been late in its arrival, we were delayed.", rationale: "This sentence is wordy and awkward.", isCorrect: false },
+                                            { text: "We were delayed for the reason that the train was late in arriving.", rationale: "This sentence is repetitive and wordy.", isCorrect: false }
+                                        ]
                                     }
                                 ]
                             },
+                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
                                 quizId: "rla_grammar_usage_set3",
                                 label: "Quiz C",
@@ -804,6 +1401,116 @@ const expandedQuizData = {
                                             { text: "The teacher gave the award to John and I.", rationale: "'I' is a subject pronoun. The object of the preposition 'to' should be 'me'.", isCorrect: false },
                                             { text: "Just between you and me, I think the plan will fail.", rationale: "Correct. 'Me' is the correct object pronoun to use after the preposition 'between'.", isCorrect: true },
                                             { text: "Everyone must turn in their assignment by Friday.", rationale: "This is a common usage, but traditionally 'everyone' is singular and should be paired with 'his or her'. However, 'their' is increasingly accepted. In a strict grammar context, it's often considered incorrect.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'knowledge',
+                                        question: "Which sentence maintains consistent verb tense?",
+                                        answerOptions: [
+                                            { text: "Maria finished her homework and goes outside to play.", rationale: "The verbs shift from past to present without reason.", isCorrect: false },
+                                            { text: "The orchestra tunes their instruments and then performed the piece.", rationale: "The verbs shift from present to past unnecessarily.", isCorrect: false },
+                                            { text: "After they packed the car, they drove to the campsite.", rationale: "Correct. Both verbs are in the past tense and logically ordered.", isCorrect: true },
+                                            { text: "He will studies the notes before the exam.", rationale: "'Will studies' is not a correct verb form.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'knowledge',
+                                        question: "Which sentence uses the correct pronoun in a compound object?",
+                                        answerOptions: [
+                                            { text: "The invitation was addressed to Carlos and I.", rationale: "'I' should be 'me' as part of the object of the preposition 'to'.", isCorrect: false },
+                                            { text: "Grandma baked cookies for my sister and me.", rationale: "Correct. 'Me' is the appropriate object pronoun.", isCorrect: true },
+                                            { text: "The coach congratulated she and I after the game.", rationale: "Both pronouns should be in object form: 'her and me'.", isCorrect: false },
+                                            { text: "Our neighbors invited we to their barbecue.", rationale: "'We' should be 'us'.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'knowledge',
+                                        question: "Which sentence forms the comparative adjective correctly?",
+                                        answerOptions: [
+                                            { text: "This puzzle is more easier than the last one.", rationale: "'More' and '-er' should not be used together.", isCorrect: false },
+                                            { text: "Of the two routes, the highway is faster.", rationale: "Correct. 'Faster' is the proper comparative form when comparing two items.", isCorrect: true },
+                                            { text: "This recipe is gooder than the other one.", rationale: "'Gooder' is not a standard comparative form.", isCorrect: false },
+                                            { text: "Our team played most well in the second half.", rationale: "The comparative form should be 'better'.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'knowledge',
+                                        question: "Which sentence places the modifier correctly?",
+                                        answerOptions: [
+                                            { text: "Running down the street, the backpack fell off Jamal's shoulder.", rationale: "It sounds like the backpack was running.", isCorrect: false },
+                                            { text: "She nearly drove her brother to school every day.", rationale: "'Nearly drove' changes the meaning.", isCorrect: false },
+                                            { text: "Walking into the auditorium, Maya spotted her friends in the front row.", rationale: "Correct. The introductory modifier clearly refers to Maya.", isCorrect: true },
+                                            { text: "After finishing the experiment, the results were recorded by the students.", rationale: "The modifier should clearly reference the students, not the results.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'knowledge',
+                                        question: "Which option correctly uses the past perfect tense?",
+                                        answerOptions: [
+                                            { text: "By the time we arrived, the movie started.", rationale: "The past perfect is needed to show which action happened first.", isCorrect: false },
+                                            { text: "They had eaten dinner before the guests knocked on the door.", rationale: "Correct. 'Had eaten' shows the meal was finished before the knock.", isCorrect: true },
+                                            { text: "When the bell had rung, students leave the classroom.", rationale: "Tense inconsistency makes the sentence incorrect.", isCorrect: false },
+                                            { text: "She had goes to the store before it closed.", rationale: "'Had goes' is not a correct verb form.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'knowledge',
+                                        question: "Which sentence uses 'who' or 'whom' correctly?",
+                                        answerOptions: [
+                                            { text: "To who should I address the letter?", rationale: "'Whom' is needed as the object of the preposition 'to'.", isCorrect: false },
+                                            { text: "Whom is making the announcement this afternoon?", rationale: "'Who' should be used as the subject of the sentence.", isCorrect: false },
+                                            { text: "We asked whom the scholarship committee selected.", rationale: "Correct. 'Whom' functions as the object of 'selected'.", isCorrect: true },
+                                            { text: "The neighbors, who we admire, are moving next week.", rationale: "'Whom' should be used because it is the object of 'admire'.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'knowledge',
+                                        question: "Which sentence uses the correct pronoun to agree with its antecedent?",
+                                        answerOptions: [
+                                            { text: "Neither of the singers forgot their lyrics.", rationale: "A singular pronoun should refer back to 'neither'.", isCorrect: false },
+                                            { text: "Each student must bring their own calculator.", rationale: "In traditional grammar rules, 'each' is singular and should pair with 'his or her'.", isCorrect: false },
+                                            { text: "Anyone who wants a program should pick up his or her copy at the door.", rationale: "Correct. 'Anyone' is singular, so 'his or her' maintains agreement.", isCorrect: true },
+                                            { text: "Everybody need to turn in their assignments.", rationale: "'Everybody' is singular and should take 'needs'.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'knowledge',
+                                        question: "Which sentence uses the correct form of the verb with an indefinite pronoun?",
+                                        answerOptions: [
+                                            { text: "All of the pie was eaten by the guests.", rationale: "Correct. 'All' refers to a singular noun ('pie'), so the singular verb 'was' is appropriate.", isCorrect: true },
+                                            { text: "None of the cookies is missing from the plate.", rationale: "'None' with a plural noun typically takes a plural verb: 'are missing'.", isCorrect: false },
+                                            { text: "Some of the students has finished the project.", rationale: "'Some' with a plural noun should take 'have'.", isCorrect: false },
+                                            { text: "Most of the water have evaporated.", rationale: "'Water' is singular, so the verb should be 'has'.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'knowledge',
+                                        question: "Which sentence correctly distinguishes between 'its' and 'it's'?",
+                                        answerOptions: [
+                                            { text: "The company updated it's website after the launch.", rationale: "'It's' means 'it is' and is incorrect here.", isCorrect: false },
+                                            { text: "The cat stretched its paws before curling up on the blanket.", rationale: "Correct. 'Its' shows possession without an apostrophe.", isCorrect: true },
+                                            { text: "Its going to rain later this evening.", rationale: "'It's' (it is) should be used here.", isCorrect: false },
+                                            { text: "The tree lost it's leaves early this year.", rationale: "The possessive pronoun should be 'its'.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'knowledge',
+                                        question: "Which sentence avoids a double negative?",
+                                        answerOptions: [
+                                            { text: "I can't hardly hear the speaker from the back row.", rationale: "'Can't hardly' creates a double negative.", isCorrect: false },
+                                            { text: "We didn't see no shooting stars last night.", rationale: "'Didn't' and 'no' create a double negative.", isCorrect: false },
+                                            { text: "The librarian didn't tell anyone to remain quiet.", rationale: "Correct. Only one negative word is used.", isCorrect: true },
+                                            { text: "He hasn't never tried sushi before.", rationale: "'Hasn't never' is a double negative.", isCorrect: false }
                                         ]
                                     }
                                 ]
