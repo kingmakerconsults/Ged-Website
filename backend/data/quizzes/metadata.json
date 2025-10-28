@@ -1,0 +1,1057 @@
+{
+  "app": {
+    "Science": {
+      "icon": "BeakerIcon",
+      "categories": {
+        "Life Science": {
+          "description": "Explore the fundamental principles of living organisms, from the cellular level to entire ecosystems.",
+          "topics": [
+            {
+              "id": "sci_life_science_basics",
+              "title": "Life Science Basics",
+              "description": "Cell structure, function, photosynthesis, and cellular respiration.",
+              "questionModuleRef": "science/topic_sci_life_science_basics"
+            },
+            {
+              "id": "sci_ecosystems_environment",
+              "title": "Ecosystems & Environment",
+              "description": "Ecology, food webs, and human impact on the environment.",
+              "questionModuleRef": "science/topic_sci_ecosystems_environment"
+            }
+          ]
+        },
+        "Physical Science": {
+          "description": "Investigate the principles of chemistry and physics that govern the world around us.",
+          "topics": [
+            {
+              "id": "sci_chem_fundamentals",
+              "title": "Chemistry Fundamentals",
+              "description": "Properties of matter, atoms, elements, and the periodic table.",
+              "questionModuleRef": "science/topic_sci_chem_fundamentals"
+            },
+            {
+              "id": "sci_physics_motion",
+              "title": "Physics in Motion",
+              "description": "Newton's laws of motion, energy transformations, and waves.",
+              "questionModuleRef": "science/topic_sci_physics_motion"
+            }
+          ]
+        },
+        "Scientific Numeracy": {
+          "description": "Practice applying mathematical skills to interpret scientific data, charts, and formulas.",
+          "image": "./images/scientific_numeracy_icon.png",
+          "topics": [
+            {
+              "id": "sci_scientific_numeracy_core",
+              "title": "Scientific Numeracy",
+              "description": "Core Skills Practice Set",
+              "config": {
+                "calculator": true,
+                "formulaSheet": true,
+                "totalTime": 1200
+              },
+              "questionModuleRef": "science/topic_sci_scientific_numeracy_core"
+            }
+          ]
+        },
+        "Earth & Space Science": {
+          "description": "Study the systems of planet Earth and its place in the universe.",
+          "topics": [
+            {
+              "id": "sci_earth_space",
+              "title": "Earth & Space Systems",
+              "description": "Plate tectonics, the rock cycle, and the solar system.",
+              "questionModuleRef": "science/topic_sci_earth_space"
+            }
+          ]
+        }
+      }
+    },
+    "Math": {
+      "icon": "CalculatorIcon",
+      "categories": {
+        "Quantitative Problem Solving": {
+          "description": "Solve problems using numbers, data, and statistics.",
+          "icon": "ChartBarIcon",
+          "topics": [
+            {
+              "id": "math_quant_basics",
+              "title": "Whole Numbers, Fractions & Decimals",
+              "description": "Operations with integers, fractions, and decimals.",
+              "type": "quiz",
+              "questionModuleRef": "math/topic_math_quant_basics"
+            },
+            {
+              "id": "math_quant_ratios_percents",
+              "title": "Ratios, Proportions & Percents",
+              "description": "Solving real-world problems with ratios and percentages.",
+              "type": "quiz",
+              "questionModuleRef": "math/topic_math_quant_ratios_percents"
+            },
+            {
+              "id": "math_quant_stats_probability",
+              "title": "Statistics & Probability",
+              "description": "Mean, median, mode, range, and basic probability.",
+              "type": "quiz",
+              "questionModuleRef": "math/topic_math_quant_stats_probability"
+            }
+          ]
+        },
+        "Algebraic Problem Solving": {
+          "description": "Master expressions, equations, graphing, and functions.",
+          "icon": "VariableIcon",
+          "topics": [
+            {
+              "id": "math_alg_expressions",
+              "title": "Expressions & Polynomials",
+              "description": "Working with variables, exponents, and polynomials.",
+              "type": "quiz",
+              "questionModuleRef": "math/topic_math_alg_expressions"
+            },
+            {
+              "id": "math_alg_equations_inequalities",
+              "title": "Equations & Inequalities",
+              "description": "Solving linear and quadratic equations and inequalities.",
+              "type": "quiz",
+              "questionModuleRef": "math/topic_math_alg_equations_inequalities"
+            },
+            {
+              "id": "math_alg_graphing_functions",
+              "title": "Graphing & Functions",
+              "description": "Understanding slope, graphing lines, and function notation.",
+              "type": "quiz",
+              "questionModuleRef": "math/topic_math_alg_graphing_functions"
+            }
+          ]
+        },
+        "Geometry": {
+          "description": "Calculate area, perimeter, volume, and apply geometric theorems.",
+          "icon": "ShapesIcon",
+          "topics": [
+            {
+              "id": "math_geom_basics",
+              "title": "Geometry Basics",
+              "description": "Calculating area, perimeter, volume, and surface area.",
+              "type": "quiz",
+              "questionModuleRef": "math/topic_math_geom_basics"
+            }
+          ]
+        }
+      }
+    },
+    "Social Studies": {
+      "icon": "GlobeIcon",
+      "categories": {
+        "U.S. History": {
+          "description": "Explore the events, figures, and ideas that shaped the United States, from its origins to the present day.",
+          "topics": [
+            {
+              "id": "ss_us_hist_foundations",
+              "title": "Foundations (1491-1763)",
+              "description": "Exploration, Colonial Regions, Mercantilism, French & Indian War.",
+              "questionModuleRef": "social-studies/topic_ss_us_hist_foundations"
+            },
+            {
+              "id": "ss_us_hist_revolution",
+              "title": "The American Revolution (1763-1783)",
+              "description": "Causes (Stamp Act, Intolerable Acts), Declaration of Independence, Key Battles (Saratoga, Yorktown), Treaty of Paris.",
+              "questionModuleRef": "social-studies/topic_ss_us_hist_revolution"
+            },
+            {
+              "id": "ss_us_hist_new_nation",
+              "title": "A New Nation (1783-1824)",
+              "description": "Articles of Confederation, Constitutional Convention, Westward Expansion (Louisiana Purchase, Lewis & Clark).",
+              "questionModuleRef": "social-studies/topic_ss_us_hist_new_nation"
+            },
+            {
+              "id": "ss_us_hist_divided_nation",
+              "title": "A Nation Divided (1824-1877)",
+              "description": "Sectionalism, Manifest Destiny, The Civil War, Reconstruction Amendments (13th, 14th, 15th).",
+              "questionModuleRef": "social-studies/topic_ss_us_hist_divided_nation"
+            },
+            {
+              "id": "ss_us_hist_industrial_america",
+              "title": "Industrial America (1877-1914)",
+              "description": "Industrialization, Immigration, Urbanization, The Progressive Era.",
+              "questionModuleRef": "social-studies/topic_ss_us_hist_industrial_america"
+            },
+            {
+              "id": "ss_us_hist_global_conflicts",
+              "title": "Global Conflicts (1914-1945)",
+              "description": "World War I, The Great Depression, World War II.",
+              "questionModuleRef": "social-studies/topic_ss_us_hist_global_conflicts"
+            },
+            {
+              "id": "ss_us_hist_modern_era",
+              "title": "The Modern Era (1945-Present)",
+              "description": "The Cold War, The Civil Rights Movement, The Vietnam War, Contemporary America.",
+              "questionModuleRef": "social-studies/topic_ss_us_hist_modern_era"
+            },
+            {
+              "id": "legacy_us_history_review",
+              "title": "Legacy U.S. History Review",
+              "description": "Historical quiz sets migrated from quizzes.txt.",
+              "quizzes": [
+                {
+                  "id": "us_history_revolution_quiz_1",
+                  "title": "Causes of the Revolution",
+                  "questionModuleRef": "social-studies/us_history_revolution_quiz_1"
+                },
+                {
+                  "id": "us_history_revolution_quiz_2",
+                  "title": "Key Figures and Battles",
+                  "questionModuleRef": "social-studies/us_history_revolution_quiz_2"
+                },
+                {
+                  "id": "us_history_revolution_quiz_3",
+                  "title": "Ideals and Consequences",
+                  "questionModuleRef": "social-studies/us_history_revolution_quiz_3"
+                }
+              ]
+            }
+          ]
+        },
+        "Civics & Government": {
+          "description": "Understand the structure and function of the U.S. government.",
+          "topics": [
+            {
+              "id": "ss_civics_constitution",
+              "title": "The Constitution",
+              "description": "Preamble, Articles, and the Bill of Rights.",
+              "questionModuleRef": "social-studies/topic_ss_civics_constitution"
+            },
+            {
+              "id": "ss_civics_legislative",
+              "title": "The Legislative Branch",
+              "description": "Congress, How a Bill Becomes a Law, Powers of Congress.",
+              "questionModuleRef": "social-studies/topic_ss_civics_legislative"
+            },
+            {
+              "id": "ss_civics_executive",
+              "title": "The Executive Branch",
+              "description": "The President, The Cabinet, Powers of the President.",
+              "questionModuleRef": "social-studies/topic_ss_civics_executive"
+            },
+            {
+              "id": "ss_civics_judicial",
+              "title": "The Judicial Branch",
+              "description": "The Supreme Court, Judicial Review, Landmark Cases.",
+              "questionModuleRef": "social-studies/topic_ss_civics_judicial"
+            },
+            {
+              "id": "ss_civics_federalism_elections",
+              "title": "Federalism & Elections",
+              "description": "Federal vs. State Powers, The Electoral College, Political Parties.",
+              "questionModuleRef": "social-studies/topic_ss_civics_federalism_elections"
+            }
+          ]
+        },
+        "Economics": {
+          "description": "Learn about key economic principles and the U.S. economy.",
+          "topics": [
+            {
+              "id": "ss_econ_foundations",
+              "title": "Foundational Concepts",
+              "description": "Scarcity, Opportunity Cost, Supply and Demand.",
+              "questionModuleRef": "social-studies/topic_ss_econ_foundations"
+            },
+            {
+              "id": "ss_econ_us_economy",
+              "title": "The U.S. Economy",
+              "description": "Market Systems, Role of Government, Fiscal vs. Monetary Policy.",
+              "questionModuleRef": "social-studies/topic_ss_econ_us_economy"
+            }
+          ]
+        },
+        "Geography and the World": {
+          "description": "Develop skills in interpreting maps, charts, and data.",
+          "topics": [
+            {
+              "id": "ss_geo_map_skills",
+              "title": "Map & Data Skills",
+              "description": "Reading Maps, Charts, and Graphs (Mean, Median, Mode).",
+              "questionModuleRef": "social-studies/topic_ss_geo_map_skills"
+            }
+          ]
+        }
+      }
+    },
+    "Reasoning Through Language Arts (RLA)": {
+      "icon": "BookOpenIcon",
+      "categories": {
+        "Reading Comprehension: Informational Texts": {
+          "description": "Practice analyzing non-fiction texts to find main ideas, evaluate arguments, and interpret graphics.",
+          "topics": [
+            {
+              "id": "rla_info_main_idea",
+              "title": "Main Idea & Details",
+              "description": "Finding the central idea and supporting evidence in non-fiction.",
+              "type": "reading",
+              "article": {
+                "title": "The Rise of Renewable Energy: Powering a Sustainable Future",
+                "genre": "Informational Text (Expository Essay)",
+                "text": [
+                  "For over a century, human civilization has been powered predominantly by fossil fuels—coal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underway, shifting focus toward renewable sources. These sources, which include solar, wind, hydropower, and geothermal energy, are naturally replenished and produce minimal to no carbon emissions. This transition is not merely an environmental imperative but also a technological and economic evolution, promising a more sustainable and resilient energy future.",
+                  "At the forefront of this revolution is solar power, which harnesses the immense energy of the sun. The most common method involves photovoltaic (PV) cells, which directly convert sunlight into electricity. Another approach, concentrated solar power (CSP), uses mirrors to focus sunlight to heat a fluid, which then creates steam to power a turbine. The primary advantages of solar energy are its abundance and its clean nature. However, its main drawback is intermittency—it only generates power when the sun is shining. This necessitates the development of large-scale energy storage solutions, such as advanced batteries, to provide reliable power around the clock. Furthermore, large solar farms require significant land area, which can raise concerns about land use and ecosystem impact.",
+                  "Wind power offers another powerful alternative. Giant turbines, often grouped together in wind farms on land or offshore, capture kinetic energy from the wind and convert it into electricity. Like solar power, wind is a clean energy source, but it shares the same challenge of intermittency, as it is dependent on weather patterns. The visual impact of turbines on landscapes and potential harm to avian wildlife, such as birds and bats, are also significant concerns that require careful planning and mitigation.",
+                  "Hydropower and geothermal energy provide more consistent, or baseload, power. Hydropower, generated by the force of flowing water turning turbines in dams, is one of the oldest and most established forms of renewable energy. It is highly reliable and can be dispatched on demand. The main limitation is its environmental impact; large dams can alter river ecosystems, disrupt fish migration, and displace communities. Geothermal energy taps into the Earth's internal heat, using steam from underground reservoirs to generate electricity. It is a highly reliable and clean source of energy with a small physical footprint. Its primary constraint is geographical, as it is only economically viable in regions with accessible geothermal activity, such as volcanic zones or areas with tectonic plate boundaries.",
+                  "The complete transition to a renewable energy system presents formidable but surmountable challenges. Beyond the intermittency of solar and wind, modernizing the electrical grid to handle decentralized energy sources is a major hurdle. Smart grids, which use digital technology to manage electricity distribution more efficiently, are essential. Advances in battery technology are critical for storing excess energy for when the sun isn't shining or the wind isn't blowing. Furthermore, supportive government policies, such as carbon pricing and tax incentives for renewable installations, play a crucial role in accelerating this transition. While the path is complex, the collective push toward a renewable-powered world represents a fundamental rethinking of our relationship with energy, aiming for a future that is not only prosperous but also environmentally sustainable for generations to come."
+                ]
+              },
+              "questionModuleRef": "rla/topic_rla_info_main_idea"
+            },
+            {
+              "id": "rla_info_pov",
+              "title": "Point of View & Purpose",
+              "description": "Analyzing an author's perspective, bias, and reason for writing.",
+              "type": "reading",
+              "article": {
+                "title": "The Case for Year-Round Schooling",
+                "genre": "Persuasive Essay",
+                "text": [
+                  "The traditional ten-month school calendar, with its long summer break, is an outdated relic of an agrarian past that no longer serves the needs of modern students. It is time for a fundamental shift to a year-round schooling model. A balanced calendar, with shorter, more frequent breaks distributed throughout the year, offers a powerful solution to combat the well-documented 'summer slide'—the significant learning loss that occurs over the long summer vacation. This loss is particularly detrimental to students from low-income families, who often lack access to enriching summer activities, thus widening the achievement gap.",
+                  "Opponents of year-round schooling often raise concerns about disrupting family traditions and the summer tourism industry. While these are valid considerations, they pale in comparison to the profound educational benefits. Shorter breaks mean that teachers spend less time re-teaching old material in the fall, allowing them to cover more ground and delve deeper into complex topics. Furthermore, a balanced calendar can reduce teacher and student burnout by providing more frequent opportunities for rest and rejuvenation. The argument that 'kids need a break' misunderstands the nature of modern learning; the goal is not to eliminate breaks, but to distribute them more effectively to create a continuous and more engaging learning environment.",
+                  "Ultimately, the transition to year-round schooling is not merely a logistical change; it is an investment in our children's future. It is a commitment to closing the achievement gap, improving academic retention, and creating a more efficient and effective educational system. Clinging to a calendar designed for a bygone era is a disservice to our students. We must have the courage to embrace a model that is better suited to the demands of the 21st century."
+                ]
+              },
+              "questionModuleRef": "rla/topic_rla_info_pov"
+            },
+            {
+              "id": "rla_info_arguments",
+              "title": "Analyzing Arguments",
+              "description": "Evaluating claims, evidence, and logical reasoning in persuasive texts.",
+              "type": "reading",
+              "article": {
+                "title": "The Necessity of Urban Green Spaces",
+                "genre": "Argumentative Article",
+                "text": [
+                  "In the concrete jungles of our rapidly growing cities, green spaces are not a luxury; they are a vital necessity. Parks, community gardens, and even small green rooftops are essential infrastructure for a healthy, resilient, and equitable urban future. The argument against dedicating valuable urban real estate to non-commercial use is shortsighted, ignoring the immense economic, environmental, and social returns that green spaces provide. It is imperative that city planners and policymakers prioritize the creation and preservation of these natural oases.",
+                  "The environmental benefits are the most obvious. Trees and vegetation absorb carbon dioxide, filter air pollutants, and mitigate the urban heat island effect, where dense concentrations of pavement and buildings absorb and retain heat, making cities significantly hotter than surrounding rural areas. A single large tree can provide the cooling effect of ten room-sized air conditioners. Furthermore, green spaces with permeable surfaces can absorb stormwater, reducing runoff and preventing flooding, which saves millions in infrastructure costs.",
+                  "Beyond the environmental impact, the social and health benefits are profound. Access to green space is directly linked to improved physical and mental health. Studies have consistently shown that time spent in nature reduces stress, lowers blood pressure, and improves overall well-being. Parks and community gardens also serve as crucial social hubs, fostering community cohesion and providing safe places for children to play and for neighbors to interact. In many underserved neighborhoods, a local park is the only available space for recreation and social gathering.",
+                  "Some may argue that cities facing housing shortages cannot afford to 'waste' land on parks. This is a false dichotomy. Well-designed cities can and must incorporate both affordable housing and accessible green space. In fact, the presence of parks can increase the value of nearby residential properties, creating a more desirable and stable community. The choice is not between housing and parks; it is between short-term, profit-driven development and long-term, sustainable urban planning that values the health and happiness of its citizens."
+                ]
+              },
+              "questionModuleRef": "rla/topic_rla_info_arguments"
+            },
+            {
+              "id": "rla_info_graphics",
+              "title": "Interpreting Graphics",
+              "description": "Reading charts, graphs, and tables that accompany articles.",
+              "type": "reading",
+              "article": {
+                "title": "Trends in Global Energy Consumption",
+                "genre": "Informational Report with Graphics",
+                "text": [
+                  "Global energy consumption has seen dramatic shifts over the past fifty years. As developing nations industrialize and global population grows, the demand for energy continues to rise. While fossil fuels have long dominated the energy landscape, the mix of sources is beginning to change. The accompanying graphics illustrate these trends, providing a snapshot of where our energy comes from and which sectors are the largest consumers.",
+                  "The pie chart below shows the breakdown of global energy consumption by source for the most recent year. As is evident, fossil fuels (coal, oil, and natural gas combined) still account for the vast majority of the world's energy supply. However, the share of renewables, including hydropower, solar, and wind, is steadily growing, driven by environmental concerns and decreasing costs. Nuclear energy remains a small but consistent contributor.",
+                  "The bar chart further details the primary uses of electricity. The industrial sector is the largest consumer, powering factories and manufacturing processes. This is followed closely by the residential sector (for lighting, heating, and appliances) and the commercial sector (for businesses and offices). Transportation currently represents a smaller portion of electricity use, but this is expected to grow significantly with the adoption of electric vehicles."
+                ]
+              },
+              "questionModuleRef": "rla/topic_rla_info_graphics"
+            }
+          ]
+        },
+        "Reading Comprehension: Literary Texts": {
+          "description": "Learn to analyze plot, character, theme, and figurative language in fiction.",
+          "topics": [
+            {
+              "id": "rla_lit_plot_character",
+              "title": "Plot & Character",
+              "description": "Analyzing story structure and character development.",
+              "type": "reading",
+              "article": {
+                "title": "An Excerpt from 'The Gift of the Magi' by O. Henry",
+                "genre": "Short Story",
+                "text": [
+                  "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one's cheeks burned with the silent imputation of parsimony that such close dealing implied. Three times Della counted it. One dollar and eighty-seven cents. And the next day would be Christmas.",
+                  "There was clearly nothing to do but flop down on the shabby little couch and howl. So Della did it. Which instigates the moral reflection that life is made up of sobs, sniffles, and smiles, with sniffles predominating.",
+                  "Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterling—something just a little bit near to being worthy of the honor of being owned by Jim.",
+                  "Suddenly she whirled from the window and stood before the glass. Her eyes were shining brilliantly, but her face had lost its color within twenty seconds. Rapidly she pulled down her hair and let it fall to its full length. Now, there were two possessions of the James Dillingham Youngs in which they both took a mighty pride. One was Jim's gold watch that had been his father's and his grandfather's. The other was Della's hair. Had the queen of Sheba lived in the flat across the airshaft, Della would have let her hair hang out the window some day to dry just to depreciate Her Majesty's jewels and gifts. Had King Solomon been the janitor, with all his treasures piled up in the basement, Jim would have pulled out his watch every time he passed, just to see him pluck at his beard from envy.",
+                  "So now Della's beautiful hair fell about her, rippling and shining like a cascade of brown waters. It reached below her knee and made itself almost a garment for her. And then she did it up again nervously and quickly. Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet. On went her old brown jacket; on went her old brown hat. With a whirl of skirts and with the brilliant sparkle still in her eyes, she fluttered out the door and down the stairs to the street."
+                ]
+              },
+              "questionModuleRef": "rla/topic_rla_lit_plot_character"
+            },
+            {
+              "id": "rla_lit_theme_figurative_language",
+              "title": "Theme & Figurative Language",
+              "description": "Identifying the underlying message and interpreting metaphors, similes, etc.",
+              "type": "reading",
+              "article": {
+                "title": "The Road Not Taken",
+                "genre": "Poem by Robert Frost",
+                "text": [
+                  "Two roads diverged in a yellow wood,",
+                  "And sorry I could not travel both",
+                  "And be one traveler, long I stood",
+                  "And looked down one as far as I could",
+                  "To where it bent in the undergrowth;",
+                  "<br/>",
+                  "Then took the other, as just as fair,",
+                  "And having perhaps the better claim,",
+                  "Because it was grassy and wanted wear;",
+                  "Though as for that the passing there",
+                  "Had worn them really about the same,",
+                  "<br/>",
+                  "And both that morning equally lay",
+                  "In leaves no step had trodden black.",
+                  "Oh, I kept the first for another day!",
+                  "Yet knowing how way leads on to way,",
+                  "I doubted if I should ever come back.",
+                  "<br/>",
+                  "I shall be telling this with a sigh",
+                  "Somewhere ages and ages hence:",
+                  "Two roads diverged in a wood, and I—",
+                  "I took the one less traveled by,",
+                  "And that has made all the difference."
+                ]
+              },
+              "questionModuleRef": "rla/topic_rla_lit_theme_figurative_language"
+            }
+          ]
+        },
+        "Language & Grammar": {
+          "description": "Master the rules of standard English grammar, punctuation, and sentence structure.",
+          "topics": [
+            {
+              "id": "rla_grammar_structure",
+              "title": "Sentence Structure",
+              "description": "Correcting fragments, run-on sentences, and comma splices.",
+              "questionModuleRef": "rla/topic_rla_grammar_structure"
+            },
+            {
+              "id": "rla_grammar_punctuation",
+              "title": "Punctuation & Mechanics",
+              "description": "Proper use of commas, semicolons, apostrophes, and capitalization.",
+              "questionModuleRef": "rla/topic_rla_grammar_punctuation"
+            },
+            {
+              "id": "rla_grammar_usage",
+              "title": "Grammar & Usage",
+              "description": "Subject-verb agreement, pronoun usage, and correct word choice.",
+              "questionModuleRef": "rla/topic_rla_grammar_usage"
+            }
+          ]
+        }
+      }
+    },
+    "Simulations": {
+      "icon": "BeakerIcon",
+      "categories": {
+        "Interactive Labs": {
+          "description": "Engage with hands-on simulations to explore concepts.",
+          "topics": [
+            {
+              "id": "sim_life",
+              "title": "The Game of Life",
+              "description": "A cellular automaton devised by the British mathematician John Horton Conway in 1970.",
+              "type": "simulation"
+            },
+            {
+              "id": "sim_graphing_tool",
+              "title": "Interactive Graphing Tool",
+              "description": "Plot linear equations and explore the coordinate plane.",
+              "type": "graphing_tool"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "expanded": {
+    "Science": {
+      "icon": "BeakerIcon",
+      "categories": {
+        "Life Science": {
+          "description": "Explore the fundamental principles of living organisms, from the cellular level to entire ecosystems.",
+          "topics": [
+            {
+              "id": "sci_life_science_basics",
+              "title": "Life Science Basics",
+              "description": "Cell structure, function, photosynthesis, and cellular respiration.",
+              "quizzes": [
+                {
+                  "quizId": "sci_life_science_basics_set1",
+                  "label": "Quiz A",
+                  "questionModuleRef": "science/sci_life_science_basics_set1"
+                },
+                {
+                  "quizId": "sci_life_science_basics_set2",
+                  "label": "Quiz B",
+                  "questionModuleRef": "science/sci_life_science_basics_set2"
+                },
+                {
+                  "quizId": "sci_life_science_basics_set3",
+                  "label": "Quiz C",
+                  "questionModuleRef": "science/sci_life_science_basics_set3"
+                }
+              ]
+            },
+            {
+              "id": "sci_ecosystems_environment",
+              "title": "Ecosystems & Environment",
+              "description": "Ecology, food webs, and human impact on the environment.",
+              "quizzes": [
+                {
+                  "quizId": "sci_ecosystems_environment_set1",
+                  "label": "Quiz A",
+                  "questionModuleRef": "science/sci_ecosystems_environment_set1"
+                },
+                {
+                  "quizId": "sci_ecosystems_environment_set2",
+                  "label": "Quiz B",
+                  "questionModuleRef": "science/sci_ecosystems_environment_set2"
+                },
+                {
+                  "quizId": "sci_ecosystems_environment_set3",
+                  "label": "Quiz C",
+                  "questionModuleRef": "science/sci_ecosystems_environment_set3"
+                }
+              ]
+            },
+            {
+              "id": "sci_genetics_heredity",
+              "title": "Genetics & Heredity",
+              "description": "DNA, genes, and the inheritance of traits.",
+              "quizzes": [
+                {
+                  "quizId": "sci_genetics_heredity_set1",
+                  "label": "Quiz A",
+                  "questionModuleRef": "science/sci_genetics_heredity_set1"
+                },
+                {
+                  "quizId": "sci_genetics_heredity_set2",
+                  "label": "Quiz B",
+                  "questionModuleRef": "science/sci_genetics_heredity_set2"
+                },
+                {
+                  "quizId": "sci_genetics_heredity_set3",
+                  "label": "Quiz C",
+                  "questionModuleRef": "science/sci_genetics_heredity_set3"
+                }
+              ]
+            }
+          ]
+        },
+        "Physical Science": {
+          "description": "The study of matter, energy, and the fundamental forces of nature.",
+          "topics": [
+            {
+              "id": "sci_physical_science_basics",
+              "title": "Force, Motion, and Energy",
+              "description": "Newton's laws, simple machines, and the conservation of energy.",
+              "quizzes": [
+                {
+                  "quizId": "sci_physical_science_basics_set1",
+                  "label": "Quiz A",
+                  "questionModuleRef": "science/sci_physical_science_basics_set1"
+                },
+                {
+                  "quizId": "sci_physical_science_basics_set2",
+                  "label": "Quiz B",
+                  "questionModuleRef": "science/sci_physical_science_basics_set2"
+                },
+                {
+                  "quizId": "sci_physical_science_basics_set3",
+                  "label": "Quiz C",
+                  "questionModuleRef": "science/sci_physical_science_basics_set3"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Math": {
+      "icon": "CalculatorIcon",
+      "categories": {
+        "Quantitative Problem Solving": {
+          "topics": [
+            {
+              "id": "math_quant_basics",
+              "quizzes": [
+                {
+                  "quizId": "math_quant_basics_set1",
+                  "label": "Quiz A",
+                  "description": "Master core operations with whole numbers, decimals, and fractions.",
+                  "questionSourceTopicId": "math_quant_basics",
+                  "questionModuleRef": "math/math_quant_basics_set1"
+                },
+                {
+                  "quizId": "math_quant_basics_set2",
+                  "label": "Quiz B",
+                  "description": "Practice ratios, proportions, and percentage reasoning.",
+                  "questionSourceTopicId": "math_quant_basics",
+                  "questionModuleRef": "math/math_quant_basics_set2"
+                },
+                {
+                  "quizId": "math_quant_basics_set3",
+                  "label": "Quiz C",
+                  "description": "Apply quantitative reasoning to multi-step problems.",
+                  "questionSourceTopicId": "math_quant_basics",
+                  "questionModuleRef": "math/math_quant_basics_set3"
+                }
+              ]
+            }
+          ]
+        },
+        "Algebraic Reasoning": {
+          "topics": [
+            {
+              "id": "math_alg_expressions",
+              "quizzes": [
+                {
+                  "quizId": "math_alg_expressions_set1",
+                  "label": "Quiz A",
+                  "description": "Practice simplifying expressions and working with polynomials.",
+                  "questionSourceTopicId": "math_alg_expressions",
+                  "questionModuleRef": "math/math_alg_expressions_set1"
+                },
+                {
+                  "quizId": "math_alg_expressions_set2",
+                  "label": "Quiz B",
+                  "description": "Solve linear equations and inequalities.",
+                  "questionSourceTopicId": "math_alg_expressions",
+                  "questionModuleRef": "math/math_alg_expressions_set2"
+                },
+                {
+                  "quizId": "math_alg_expressions_set3",
+                  "label": "Quiz C",
+                  "description": "Work with quadratic equations and functions.",
+                  "questionSourceTopicId": "math_alg_expressions",
+                  "questionModuleRef": "math/math_alg_expressions_set3"
+                },
+                {
+                  "quizId": "math_alg_expressions_set4",
+                  "label": "Quiz D",
+                  "description": "Explore functions and their graphs.",
+                  "questionSourceTopicId": "math_alg_expressions",
+                  "questionModuleRef": "math/math_alg_expressions_set4"
+                }
+              ]
+            }
+          ]
+        },
+        "Geometry": {
+          "topics": [
+            {
+              "id": "math_geom_basics",
+              "quizzes": [
+                {
+                  "quizId": "math_geom_basics_set1",
+                  "label": "Quiz A",
+                  "description": "Review perimeter, area, volume, and surface area applications.",
+                  "questionSourceTopicId": "math_geom_basics",
+                  "questionModuleRef": "math/math_geom_basics_set1"
+                },
+                {
+                  "quizId": "math_geom_basics_set2",
+                  "label": "Quiz B",
+                  "description": "Analyze geometric shapes and their properties.",
+                  "questionSourceTopicId": "math_geom_basics",
+                  "questionModuleRef": "math/math_geom_basics_set2"
+                },
+                {
+                  "quizId": "math_geom_basics_set3",
+                  "label": "Quiz C",
+                  "description": "Apply the Pythagorean theorem and other geometric theorems.",
+                  "questionSourceTopicId": "math_geom_basics",
+                  "questionModuleRef": "math/math_geom_basics_set3"
+                },
+                {
+                  "quizId": "math_geom_basics_set4",
+                  "label": "Quiz D",
+                  "description": "Solve problems involving angles, lines, and coordinate geometry.",
+                  "questionSourceTopicId": "math_geom_basics",
+                  "questionModuleRef": "math/math_geom_basics_set4"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Reasoning Through Language Arts (RLA)": {
+      "icon": "BookOpenIcon",
+      "categories": {
+        "Reading Comprehension: Informational Texts": {
+          "topics": [
+            {
+              "id": "rla_info_main_idea",
+              "quizzes": [
+                {
+                  "quizId": "rla_info_main_idea_set1",
+                  "label": "Quiz A",
+                  "description": "Analyze informational texts for central ideas, evidence, and author's claims.",
+                  "questionSourceTopicId": "rla_info_main_idea"
+                },
+                {
+                  "quizId": "rla_info_main_idea_set2",
+                  "label": "Quiz B",
+                  "description": "Practice identifying supporting details and evidence in complex texts.",
+                  "questionSourceTopicId": "rla_info_main_idea",
+                  "questionModuleRef": "rla/rla_info_main_idea_set2"
+                },
+                {
+                  "quizId": "rla_info_main_idea_set3",
+                  "label": "Quiz C",
+                  "description": "Determine author's purpose, point of view, and tone.",
+                  "questionSourceTopicId": "rla_info_main_idea",
+                  "questionModuleRef": "rla/rla_info_main_idea_set3"
+                }
+              ]
+            }
+          ]
+        },
+        "Reading Comprehension: Literary Texts": {
+          "topics": [
+            {
+              "id": "rla_lit_analysis",
+              "quizzes": [
+                {
+                  "quizId": "rla_lit_analysis_set1",
+                  "label": "Quiz A",
+                  "description": "Analyze literary texts for themes, character development, and literary devices.",
+                  "questionSourceTopicId": "rla_lit_analysis",
+                  "questionModuleRef": "rla/rla_lit_analysis_set1"
+                },
+                {
+                  "quizId": "rla_lit_analysis_set2",
+                  "label": "Quiz B",
+                  "description": "Interpret figurative language and analyze character.",
+                  "questionSourceTopicId": "rla_lit_analysis",
+                  "questionModuleRef": "rla/rla_lit_analysis_set2"
+                }
+              ]
+            }
+          ]
+        },
+        "Language & Grammar": {
+          "topics": [
+            {
+              "id": "rla_grammar_usage",
+              "quizzes": [
+                {
+                  "quizId": "rla_grammar_usage_set1",
+                  "label": "Quiz A",
+                  "description": "Strengthen grammar, usage, and mechanics skills for the RLA test.",
+                  "questionSourceTopicId": "rla_grammar_usage"
+                },
+                {
+                  "quizId": "rla_grammar_usage_set2",
+                  "label": "Quiz B",
+                  "description": "Focus on sentence structure, punctuation, and capitalization.",
+                  "questionSourceTopicId": "rla_grammar_usage",
+                  "questionModuleRef": "rla/rla_grammar_usage_set2"
+                },
+                {
+                  "quizId": "rla_grammar_usage_set3",
+                  "label": "Quiz C",
+                  "description": "Master verb tenses, subject-verb agreement, and pronoun usage.",
+                  "questionSourceTopicId": "rla_grammar_usage",
+                  "questionModuleRef": "rla/rla_grammar_usage_set3"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Social Studies": {
+      "icon": "GlobeIcon",
+      "categories": {
+        "U.S. History": {
+          "topics": [
+            {
+              "id": "ss_us_hist_colonial_period",
+              "title": "Colonial Period",
+              "description": "European settlement, development of the 13 colonies.",
+              "quizzes": [
+                {
+                  "quizId": "ss_us_hist_colonial_period_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on European settlement and the 13 colonies.",
+                  "questionSourceTopicId": "ss_us_hist_colonial_period"
+                },
+                {
+                  "quizId": "ss_us_hist_colonial_period_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on the development of the 13 colonies.",
+                  "questionSourceTopicId": "ss_us_hist_colonial_period"
+                },
+                {
+                  "quizId": "ss_us_hist_colonial_period_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on colonial life and economy.",
+                  "questionSourceTopicId": "ss_us_hist_colonial_period"
+                }
+              ]
+            },
+            {
+              "id": "ss_us_hist_american_revolution",
+              "title": "The American Revolution",
+              "description": "Causes, key events, and outcomes.",
+              "quizzes": [
+                {
+                  "quizId": "ss_us_hist_american_revolution_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on the causes of the American Revolution.",
+                  "title": "Causes of the Revolution",
+                  "questionModuleRef": "social-studies/ss_us_hist_american_revolution_set1"
+                },
+                {
+                  "quizId": "ss_us_hist_american_revolution_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on the key events of the American Revolution.",
+                  "title": "Key Figures and Battles",
+                  "questionModuleRef": "social-studies/ss_us_hist_american_revolution_set2"
+                },
+                {
+                  "quizId": "ss_us_hist_american_revolution_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on the outcomes of the American Revolution.",
+                  "title": "Ideals and Consequences",
+                  "questionModuleRef": "social-studies/ss_us_hist_american_revolution_set3"
+                }
+              ]
+            },
+            {
+              "id": "ss_us_hist_early_republic",
+              "title": "The Early Republic",
+              "description": "The Constitution, nation-building, and early challenges.",
+              "quizzes": [
+                {
+                  "quizId": "ss_us_hist_early_republic_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on the U.S. Constitution.",
+                  "questionSourceTopicId": "ss_us_hist_early_republic"
+                },
+                {
+                  "quizId": "ss_us_hist_early_republic_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on nation-building in the Early Republic.",
+                  "questionSourceTopicId": "ss_us_hist_early_republic"
+                },
+                {
+                  "quizId": "ss_us_hist_early_republic_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on the early challenges of the Republic.",
+                  "questionSourceTopicId": "ss_us_hist_early_republic"
+                }
+              ]
+            },
+            {
+              "id": "ss_us_hist_westward_expansion",
+              "title": "Westward Expansion",
+              "description": "Manifest Destiny, territorial acquisitions, and impact on Native Americans.",
+              "quizzes": [
+                {
+                  "quizId": "ss_us_hist_westward_expansion_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on Manifest Destiny.",
+                  "questionSourceTopicId": "ss_us_hist_westward_expansion"
+                },
+                {
+                  "quizId": "ss_us_hist_westward_expansion_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on territorial acquisitions.",
+                  "questionSourceTopicId": "ss_us_hist_westward_expansion"
+                },
+                {
+                  "quizId": "ss_us_hist_westward_expansion_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on the impact on Native Americans.",
+                  "questionSourceTopicId": "ss_us_hist_westward_expansion"
+                }
+              ]
+            },
+            {
+              "id": "ss_us_hist_civil_war",
+              "title": "Civil War and Reconstruction",
+              "description": "Causes, major conflicts, and the rebuilding of the nation.",
+              "quizzes": [
+                {
+                  "quizId": "ss_us_hist_civil_war_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on the causes of the Civil War.",
+                  "questionSourceTopicId": "ss_us_hist_civil_war"
+                },
+                {
+                  "quizId": "ss_us_hist_civil_war_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on the major conflicts of the Civil War.",
+                  "questionSourceTopicId": "ss_us_hist_civil_war"
+                },
+                {
+                  "quizId": "ss_us_hist_civil_war_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on the Reconstruction era.",
+                  "questionSourceTopicId": "ss_us_hist_civil_war"
+                }
+              ]
+            }
+          ]
+        },
+        "Civics & Government": {
+          "topics": [
+            {
+              "id": "ss_civics_constitutional_principles",
+              "title": "Key Constitutional Principles",
+              "description": "Popular sovereignty, federalism, separation of powers, checks and balances.",
+              "quizzes": [
+                {
+                  "quizId": "ss_civics_constitutional_principles_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on popular sovereignty and federalism.",
+                  "questionSourceTopicId": "ss_civics_constitutional_principles"
+                },
+                {
+                  "quizId": "ss_civics_constitutional_principles_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on separation of powers.",
+                  "questionSourceTopicId": "ss_civics_constitutional_principles"
+                },
+                {
+                  "quizId": "ss_civics_constitutional_principles_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on checks and balances.",
+                  "questionSourceTopicId": "ss_civics_constitutional_principles"
+                }
+              ]
+            },
+            {
+              "id": "ss_civics_bill_of_rights",
+              "title": "The Bill of Rights",
+              "description": "The first 10 amendments and their significance.",
+              "quizzes": [
+                {
+                  "quizId": "ss_civics_bill_of_rights_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on the first 5 amendments.",
+                  "questionSourceTopicId": "ss_civics_bill_of_rights"
+                },
+                {
+                  "quizId": "ss_civics_bill_of_rights_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on amendments 6-10.",
+                  "questionSourceTopicId": "ss_civics_bill_of_rights"
+                },
+                {
+                  "quizId": "ss_civics_bill_of_rights_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on the significance of the Bill of Rights.",
+                  "questionSourceTopicId": "ss_civics_bill_of_rights"
+                }
+              ]
+            },
+            {
+              "id": "ss_civics_gov_structure",
+              "title": "Structure of the U.S. Government",
+              "description": "The legislative, executive, and judicial branches.",
+              "quizzes": [
+                {
+                  "quizId": "ss_civics_gov_structure_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on the legislative branch.",
+                  "questionSourceTopicId": "ss_civics_gov_structure"
+                },
+                {
+                  "quizId": "ss_civics_gov_structure_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on the executive branch.",
+                  "questionSourceTopicId": "ss_civics_gov_structure"
+                },
+                {
+                  "quizId": "ss_civics_gov_structure_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on the judicial branch.",
+                  "questionSourceTopicId": "ss_civics_gov_structure"
+                }
+              ]
+            },
+            {
+              "id": "ss_civics_elections",
+              "title": "Political Parties and Elections",
+              "description": "The role of parties, the election process, and civic participation.",
+              "quizzes": [
+                {
+                  "quizId": "ss_civics_elections_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on political parties.",
+                  "questionSourceTopicId": "ss_civics_elections"
+                },
+                {
+                  "quizId": "ss_civics_elections_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on the election process.",
+                  "questionSourceTopicId": "ss_civics_elections"
+                },
+                {
+                  "quizId": "ss_civics_elections_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on civic participation.",
+                  "questionSourceTopicId": "ss_civics_elections"
+                }
+              ]
+            },
+            {
+              "id": "ss_civics_supreme_court",
+              "title": "Landmark Supreme Court Cases",
+              "description": "Key decisions and their impact on American society.",
+              "quizzes": [
+                {
+                  "quizId": "ss_civics_supreme_court_set1",
+                  "label": "Quiz A",
+                  "description": "Quiz on early landmark cases.",
+                  "questionSourceTopicId": "ss_civics_supreme_court"
+                },
+                {
+                  "quizId": "ss_civics_supreme_court_set2",
+                  "label": "Quiz B",
+                  "description": "Quiz on 20th-century landmark cases.",
+                  "questionSourceTopicId": "ss_civics_supreme_court"
+                },
+                {
+                  "quizId": "ss_civics_supreme_court_set3",
+                  "label": "Quiz C",
+                  "description": "Quiz on recent landmark cases.",
+                  "questionSourceTopicId": "ss_civics_supreme_court"
+                }
+              ]
+            }
+          ]
+        },
+        "Economics": {
+          "topics": [
+            {
+              "id": "ss_econ_foundations",
+              "quizzes": [
+                {
+                  "quizId": "ss_econ_foundations_set1",
+                  "label": "Quiz A",
+                  "description": "Understand core economic concepts, fiscal policy, and the role of government.",
+                  "questionSourceTopicId": "ss_econ_foundations"
+                }
+              ]
+            }
+          ]
+        },
+        "Geography and the World": {
+          "topics": [
+            {
+              "id": "ss_geo_map_skills",
+              "quizzes": [
+                {
+                  "quizId": "ss_geo_map_skills_set1",
+                  "label": "Quiz A",
+                  "description": "Apply map, chart, and data analysis skills to geographic scenarios.",
+                  "questionSourceTopicId": "ss_geo_map_skills"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

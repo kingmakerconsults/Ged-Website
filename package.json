@@ -9,7 +9,7 @@
     "img:stats": "node tools/gov-image-harvester/inspect.mjs --stats",
     "img:keywords:sci": "node tools/gov-image-harvester/inspect.mjs --keywords Science",
     "img:verify": "node tools/gov-image-harvester/inspect.mjs --verify-paths",
-    "validate:math": "node scripts/validate_math_quizzes.js",
+    "validate:math": "node dev-tools/scripts/validate_math_quizzes.js",
     "test:math": "node tests/math_quizzes.test.js",
     "prepare": "husky"
   },
