@@ -1217,11 +1217,759 @@ export const expandedQuizData = {
                                         ]
                                     }
                                 ]
+                                    }
+                                ]
                             }
                         ]
-                    }
-                ]
-            },
+                    },
+                    {
+                        id: "rla_poetry_figurative_language",
+                        title: "Poetry & Figurative Language",
+                        description: "Interpret poems for theme, tone, imagery, sound devices, and structure.",
+                        quizzes: [
+                            {
+                                quizId: "rla_poetry_figurative_language_set1",
+                                label: "Quiz A",
+                                description: "Analyze imagery, symbolism, and structure in contemporary poems.",
+                                questionSourceTopicId: "rla_poetry_figurative_language",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'text',
+                                        passage: "Dawn stitched a seam of amber through the clouds while our boots traced the riverbank. The work of rebuilding seemed endless, yet the water kept whispering, 'Begin again.'",
+                                        question: "Which statement best captures the central idea of the passage?",
+                                        answerOptions: [
+                                            { text: "The speakers are ready to abandon their task.", rationale: "They continue walking and consider the water's encouragement to persist.", isCorrect: false },
+                                            { text: "Nature offers encouragement during difficult efforts.", rationale: "Correct. The river's whisper to 'Begin again' supports the workers' perseverance.", isCorrect: true },
+                                            { text: "The river is too dangerous to approach.", rationale: "No danger is described; the focus is on rebuilding.", isCorrect: false },
+                                            { text: "Dawn is an inconvenient time to rebuild.", rationale: "Dawn is described positively as stitching amber light.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'text',
+                                        passage: "We cup the silence in cracked enamel mugs, sip carefully, and let the warmth travel toward the questions we are afraid to voice.",
+                                        question: "What does the metaphor of 'cupping the silence' suggest?",
+                                        answerOptions: [
+                                            { text: "The speakers prefer to remain thirsty.", rationale: "They are drinking silence as if it were tea, not rejecting refreshment.", isCorrect: false },
+                                            { text: "The silence is fragile and must be held gently.", rationale: "Correct. Treating silence like a drink in a mug highlights care and vulnerability.", isCorrect: true },
+                                            { text: "The mugs are empty and useless.", rationale: "The mugs carry warmth, implying they are serving a purpose.", isCorrect: false },
+                                            { text: "The speakers are waiting for the mugs to fill with sound.", rationale: "The metaphor emphasizes handling silence, not anticipating noise.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'knowledge',
+                                        question: "In poetry, what is enjambment?",
+                                        answerOptions: [
+                                            { text: "A rhyme that uses similar but not identical sounds.", rationale: "This describes slant rhyme.", isCorrect: false },
+                                            { text: "The continuation of a sentence across a line break without a pause.", rationale: "Correct. Enjambment carries the thought into the next line.", isCorrect: true },
+                                            { text: "The arrangement of stressed and unstressed syllables.", rationale: "That describes meter.", isCorrect: false },
+                                            { text: "A repeated phrase at the beginning of successive lines.", rationale: "That technique is anaphora.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'text',
+                                        passage: "I am the river's patient student, tracing every bend until my stubborn anger settles into sediment.",
+                                        question: "What tone does the speaker convey in this passage?",
+                                        answerOptions: [
+                                            { text: "Resentful and bitter.", rationale: "The anger settles rather than grows, suggesting release.", isCorrect: false },
+                                            { text: "Calm and reflective.", rationale: "Correct. The speaker learns patience from the river and finds peace.", isCorrect: true },
+                                            { text: "Confused and uncertain.", rationale: "The speaker feels guided, not confused.", isCorrect: false },
+                                            { text: "Humorous and lighthearted.", rationale: "The diction is serious and meditative, not playful.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'text',
+                                        passage: "The sparrow rehearses the same two notes outside my window—again, again, again—until even the hinges breathe in rhythm.",
+                                        question: "What is the effect of the repetition in this passage?",
+                                        answerOptions: [
+                                            { text: "It shows the bird is learning a complex melody.", rationale: "The sparrow repeats only two notes.", isCorrect: false },
+                                            { text: "It emphasizes the persistent presence of the bird's song.", rationale: "Correct. The repeated word 'again' mirrors the repeated notes.", isCorrect: true },
+                                            { text: "It signals that the hinges are broken.", rationale: "The hinges breathe in rhythm, suggesting harmony, not damage.", isCorrect: false },
+                                            { text: "It indicates the speaker dislikes music.", rationale: "No dislike is expressed; the focus is on steady rhythm.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'text',
+                                        passage: "If hope is a lantern we hang from the rafters, its light must be tended with calloused hands that still smell of rain.",
+                                        question: "What does the lantern symbolize in the passage?",
+                                        answerOptions: [
+                                            { text: "A heavy object that should be removed.", rationale: "The lantern is cherished, not a burden.", isCorrect: false },
+                                            { text: "An untrustworthy guide that flickers out quickly.", rationale: "The speaker tends the light, implying reliability through care.", isCorrect: false },
+                                            { text: "The community's shared optimism that requires ongoing effort.", rationale: "Correct. The lantern's light must be tended by hardworking hands.", isCorrect: true },
+                                            { text: "A warning sign that danger is near.", rationale: "Nothing in the passage hints at danger; the tone is protective.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'knowledge',
+                                        question: "Which line from a poem best illustrates personification?",
+                                        answerOptions: [
+                                            { text: "The map unfolded across the table.", rationale: "This is a literal description with no human trait applied.", isCorrect: false },
+                                            { text: "The clock argued with the morning sun about the hour.", rationale: "Correct. The clock and sun engage in a human action—arguing.", isCorrect: true },
+                                            { text: "The hill was taller than the chapel spire.", rationale: "This is a comparison of size, not personification.", isCorrect: false },
+                                            { text: "Rain fell in silver threads.", rationale: "This is a metaphor, not a human action.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'text',
+                                        passage: "We hammered equity into bylaws, stitched it through the banners, and sang it from the courthouse steps until the syllables felt like bread.",
+                                        question: "Which theme is reinforced by the imagery in this passage?",
+                                        answerOptions: [
+                                            { text: "Justice requires collective effort and persistence.", rationale: "Correct. The verbs 'hammered,' 'stitched,' and 'sang' show ongoing communal labor.", isCorrect: true },
+                                            { text: "Legal language is impossible to understand.", rationale: "The passage emphasizes commitment, not confusion.", isCorrect: false },
+                                            { text: "Art and music cannot influence public change.", rationale: "Singing from the courthouse suggests art supports activism.", isCorrect: false },
+                                            { text: "Bread is more important than fairness.", rationale: "Bread is a metaphor for sustenance, connecting to the value of justice.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'text',
+                                        passage: "The moon is a bruise on the city's shoulder, tender from the weight of stories we have yet to tell.",
+                                        question: "What mood is created by this imagery?",
+                                        answerOptions: [
+                                            { text: "Playful and carefree.", rationale: "A bruise and tender shoulder convey ache, not playfulness.", isCorrect: false },
+                                            { text: "Reflective and slightly sorrowful.", rationale: "Correct. The imagery suggests pain mixed with contemplation.", isCorrect: true },
+                                            { text: "Triumphant and victorious.", rationale: "Nothing suggests triumph; the tone is subdued.", isCorrect: false },
+                                            { text: "Angry and confrontational.", rationale: "The passage implies quiet hurt rather than anger.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'knowledge',
+                                        question: "Which statement best describes a poem written in free verse?",
+                                        answerOptions: [
+                                            { text: "It follows a strict pattern of rhyme and meter.", rationale: "Free verse avoids strict patterns.", isCorrect: false },
+                                            { text: "It is limited to fourteen lines with a defined rhyme scheme.", rationale: "That describes a sonnet.", isCorrect: false },
+                                            { text: "It relies on natural rhythms and does not follow a fixed form.", rationale: "Correct. Free verse allows flexible structure.", isCorrect: true },
+                                            { text: "It must include a repeated refrain every other line.", rationale: "Refrains are optional, not required.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'text',
+                                        passage: "I fold the letter into tomorrow and tuck it in my coat, certain that when the sun opens it, the ink will have learned courage.",
+                                        question: "What inference can be made about the speaker?",
+                                        answerOptions: [
+                                            { text: "The speaker plans to discard the letter.", rationale: "They keep it close in their coat, not throw it away.", isCorrect: false },
+                                            { text: "The speaker is hopeful that time will help them express difficult feelings.", rationale: "Correct. The 'ink learning courage' implies future readiness to speak.", isCorrect: true },
+                                            { text: "The speaker is angry about receiving mail.", rationale: "No anger is described; the letter holds their own words.", isCorrect: false },
+                                            { text: "The speaker doubts the letter will ever be read.", rationale: "They expect the sun (time) to open it, suggesting eventual sharing.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'text',
+                                        passage: "When the final couplet snaps the poem shut, its echo keeps circling the rafters, daring us to write the next line ourselves.",
+                                        question: "How does the final couplet contribute to the poem's structure?",
+                                        answerOptions: [
+                                            { text: "It abruptly ends the poem without inviting reflection.", rationale: "The echo invites continued thought and action.", isCorrect: false },
+                                            { text: "It resolves earlier images while encouraging the reader to respond.", rationale: "Correct. The couplet closes the poem yet urges readers to continue the conversation.", isCorrect: true },
+                                            { text: "It introduces entirely new characters and conflicts.", rationale: "The focus is on echo and invitation, not new characters.", isCorrect: false },
+                                            { text: "It reveals that the poem was written in prose form.", rationale: "Nothing indicates prose; the mention of a couplet affirms poetic structure.", isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                quizId: "rla_poetry_figurative_language_set2",
+                                label: "Quiz B",
+                                description: "Evaluate tone, sound devices, and shifts across poetic lines.",
+                                questionSourceTopicId: "rla_poetry_figurative_language",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'text',
+                                        passage: "The tide refused to hurry; it pulled thread by patient thread until the dock's creaks softened. I waited beside a lantern that dimmed with every sigh, trusting the water to keep its quiet promise.",
+                                        question: "Which theme is most clearly expressed in the passage?",
+                                        answerOptions: [
+                                            { text: "Anger at the changing shoreline.", rationale: "No frustration is mentioned; the speaker remains patient.", isCorrect: false },
+                                            { text: "Faith that steady patience will be rewarded.", rationale: "Correct. The speaker trusts the tide's 'quiet promise.'", isCorrect: true },
+                                            { text: "Curiosity about life underwater.", rationale: "The focus is on waiting at the dock, not exploring underwater life.", isCorrect: false },
+                                            { text: "Fear that the dock will collapse.", rationale: "The creaks soften, but there is no suggestion of fear or collapse.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'text',
+                                        passage: "Because the train's whistle braided the dusk into a single thread of longing, every porch light flickered awake in reply.",
+                                        question: "What effect does the imagery of the whistle 'braiding the dusk' create?",
+                                        answerOptions: [
+                                            { text: "It highlights the mechanical precision of the train schedule.", rationale: "The emphasis is on emotional response, not punctuality.", isCorrect: false },
+                                            { text: "It portrays the sound as weaving the evening together emotionally.", rationale: "Correct. The whistle braids dusk, tying community feelings into one thread.", isCorrect: true },
+                                            { text: "It suggests the whistle is too quiet to notice.", rationale: "The imagery shows the whistle powerfully affecting the town.", isCorrect: false },
+                                            { text: "It indicates the dusk is unraveling uncontrollably.", rationale: "The braid metaphor suggests unity, not disorder.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'knowledge',
+                                        question: "What is an extended metaphor in poetry?",
+                                        answerOptions: [
+                                            { text: "A comparison developed over multiple lines or stanzas.", rationale: "Correct. An extended metaphor carries the comparison through much of the poem.", isCorrect: true },
+                                            { text: "A direct address to an absent person or idea.", rationale: "That device is an apostrophe.", isCorrect: false },
+                                            { text: "A question asked for dramatic effect without expecting an answer.", rationale: "That technique is a rhetorical question.", isCorrect: false },
+                                            { text: "A final summary sentence at the poem's conclusion.", rationale: "Concluding statements are not inherently metaphors.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'text',
+                                        passage: "She pauses at the door— / longing breathing in the comma— / then steps into the winter-lit street.",
+                                        question: "How does the poet's line break after 'door—' influence meaning?",
+                                        answerOptions: [
+                                            { text: "It shows the speaker has forgotten where she is going.", rationale: "The pause signals hesitation, not confusion.", isCorrect: false },
+                                            { text: "It creates a moment of hesitation that mirrors the speaker's lingering feelings.", rationale: "Correct. The break and em dash slow the movement as longing 'breathes.'", isCorrect: true },
+                                            { text: "It indicates the speaker changes locations abruptly.", rationale: "The transition is careful and reflective, not abrupt.", isCorrect: false },
+                                            { text: "It demonstrates the poet's dislike of punctuation.", rationale: "The passage uses punctuation intentionally to create pause.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'text',
+                                        passage: "Who will gather the scattered seeds? Who will listen when the soil remembers names? Who will carry water until the map of thirst is erased?",
+                                        question: "What is the effect of the repeated questions in this passage?",
+                                        answerOptions: [
+                                            { text: "They reveal that the speaker already knows the answers.", rationale: "The speaker issues a call, implying uncertainty and urgency.", isCorrect: false },
+                                            { text: "They emphasize the communal responsibility the speaker is urging others to accept.", rationale: "Correct. The repetition presses readers to respond to a shared duty.", isCorrect: true },
+                                            { text: "They mock people who ask for help.", rationale: "The tone is earnest and inviting, not mocking.", isCorrect: false },
+                                            { text: "They indicate that the soil cannot remember anything.", rationale: "The soil remembering names is metaphorical, underscoring the land's history.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'knowledge',
+                                        question: "Which word best demonstrates onomatopoeia?",
+                                        answerOptions: [
+                                            { text: "Glisten", rationale: "'Glisten' describes shining but does not imitate a sound.", isCorrect: false },
+                                            { text: "Whisper", rationale: "Correct. 'Whisper' imitates the soft sound it names.", isCorrect: true },
+                                            { text: "Vivid", rationale: "'Vivid' describes brightness or clarity, not sound.", isCorrect: false },
+                                            { text: "Distant", rationale: "'Distant' is an adjective describing space, not sound imitation.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'text',
+                                        passage: "My grandmother's voice is chalk on the blackboard of memory, squeaking truths that refuse to fade.",
+                                        question: "What does the comparison in this passage suggest about the grandmother's voice?",
+                                        answerOptions: [
+                                            { text: "It is soft and barely noticeable.", rationale: "Chalk squeaking implies sharpness and insistence.", isCorrect: false },
+                                            { text: "It is harsh yet unforgettable, leaving lasting lessons.", rationale: "Correct. Chalk may grate, but it leaves marks that stay.", isCorrect: true },
+                                            { text: "It is musical and soothing.", rationale: "The image of squeaking contradicts a soothing tone.", isCorrect: false },
+                                            { text: "It is weak and uncertain.", rationale: "The voice delivers truths that 'refuse to fade,' signaling strength.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'text',
+                                        passage: "We plant radishes in coffee cans along the apartment sill, trading stories while the seedlings lean toward the morning train.",
+                                        question: "What inference can be made about the people planting the radishes?",
+                                        answerOptions: [
+                                            { text: "They live on a farm far from public transit.", rationale: "The scene occurs in an apartment beside a train route.", isCorrect: false },
+                                            { text: "They share both limited space and a hopeful routine together.", rationale: "Correct. The coffee cans and shared stories show companionship within tight quarters.", isCorrect: true },
+                                            { text: "They plan to sell the radishes at a large market.", rationale: "The passage focuses on companionship, not commerce.", isCorrect: false },
+                                            { text: "They resent the presence of the train.", rationale: "The seedlings lean toward the train, suggesting fascination rather than resentment.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'knowledge',
+                                        question: "In a sonnet, what is the volta?",
+                                        answerOptions: [
+                                            { text: "The speaker's introduction at the poem's beginning.", rationale: "The volta occurs later, marking a turn.", isCorrect: false },
+                                            { text: "A shift in argument or emotion that often appears near the end.", rationale: "Correct. A volta signals a turn in perspective or tone.", isCorrect: true },
+                                            { text: "The final word in each line that rhymes.", rationale: "That describes end rhyme, not the volta.", isCorrect: false },
+                                            { text: "A concluding couplet that always resolves the conflict.", rationale: "Many sonnets include a couplet, but the volta may appear before it.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'text',
+                                        passage: "In the final stanza, the speaker shifts from 'I' to 'we' as the marchers lock arms and move toward city hall.",
+                                        question: "What does this shift in pronouns reveal?",
+                                        answerOptions: [
+                                            { text: "The speaker feels increasingly isolated from others.", rationale: "The shift to 'we' indicates unity, not isolation.", isCorrect: false },
+                                            { text: "The speaker now views the struggle as a shared collective effort.", rationale: "Correct. Changing to 'we' shows the movement has grown communal.", isCorrect: true },
+                                            { text: "The march has ended and everyone has gone home.", rationale: "The marchers are still moving toward city hall.", isCorrect: false },
+                                            { text: "The speaker is unsure who is participating.", rationale: "The pronoun change clarifies that many are involved.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'knowledge',
+                                        question: "How is tone different from mood in poetry?",
+                                        answerOptions: [
+                                            { text: "Tone refers to the reader's feelings, while mood reflects the poet's biography.", rationale: "This reverses definitions and adds unrelated biography.", isCorrect: false },
+                                            { text: "Tone is the author's attitude toward the subject; mood is the atmosphere experienced by readers.", rationale: "Correct. Tone arises from the writer, mood from reader response.", isCorrect: true },
+                                            { text: "Tone and mood are identical concepts with no distinction.", rationale: "The two terms describe different perspectives.", isCorrect: false },
+                                            { text: "Tone describes imagery, while mood describes figurative language.", rationale: "Imagery and figurative language can influence both, but do not define the terms.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'text',
+                                        passage: "The poem closes with 'the stars close like shutters over the restless town, promising a brief mercy of dark.'",
+                                        question: "What does the closing image suggest about the town?",
+                                        answerOptions: [
+                                            { text: "The town will finally sleep peacefully after endless noise.", rationale: "Correct. Shutters closing promise a respite for the restless town.", isCorrect: true },
+                                            { text: "The town is preparing for a festival at dawn.", rationale: "The focus is on night and relief, not celebration.", isCorrect: false },
+                                            { text: "The town is angry about losing the stars.", rationale: "The stars offer mercy, not loss or anger.", isCorrect: false },
+                                            { text: "The town plans to remove all shutters from windows.", rationale: "Shutters closing is metaphorical for night falling, not literal renovations.", isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                quizId: "rla_poetry_figurative_language_set3",
+                                label: "Quiz C",
+                                description: "Interpret symbolism, structural shifts, and poetic devices across varied stanzas.",
+                                questionSourceTopicId: "rla_poetry_figurative_language",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'text',
+                                        passage: "My mother's hands scatter dandelion seeds across the stoop, promising me that wishes will root even in the cracks of concrete.",
+                                        question: "Which idea is emphasized by the imagery in this passage?",
+                                        answerOptions: [
+                                            { text: "Dreams can flourish despite difficult surroundings.", rationale: "Correct. Seeds rooting in concrete symbolize hope in hard places.", isCorrect: true },
+                                            { text: "Dandelions are more valuable than other flowers.", rationale: "The passage focuses on resilience, not botanical value.", isCorrect: false },
+                                            { text: "The mother dislikes living in the city.", rationale: "Her actions show optimism, not dislike.", isCorrect: false },
+                                            { text: "Concrete prevents plants from growing.", rationale: "The image shows seeds finding ways to root in concrete.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'knowledge',
+                                        question: "What is a caesura in poetry?",
+                                        answerOptions: [
+                                            { text: "A pause or break within a line, often marked by punctuation.", rationale: "Correct. A caesura interrupts the line's rhythm for emphasis.", isCorrect: true },
+                                            { text: "A repeated consonant sound at the beginning of words.", rationale: "That device is alliteration.", isCorrect: false },
+                                            { text: "The final pair of rhymed lines in a poem.", rationale: "That describes a rhyming couplet.", isCorrect: false },
+                                            { text: "A stanza composed of three lines.", rationale: "That is a tercet, not a caesura.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'text',
+                                        passage: "We tilt our mirrors toward the sun to borrow a single beam, stitching it into the banner we will lift tonight.",
+                                        question: "What does the borrowed beam of sunlight symbolize?",
+                                        answerOptions: [
+                                            { text: "A fleeting moment of joy that the speakers plan to hide.", rationale: "The beam is stitched into a banner to share publicly, not conceal.", isCorrect: false },
+                                            { text: "The community's desire to draw strength and visibility into their cause.", rationale: "Correct. Borrowing and stitching light implies empowerment and unity.", isCorrect: true },
+                                            { text: "An attempt to end the night permanently.", rationale: "The action is symbolic of hope, not changing the sun's cycle.", isCorrect: false },
+                                            { text: "A plan to sell the mirror for profit.", rationale: "The focus is on using light for a banner, not commerce.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'text',
+                                        passage: "Between the alleys we found a fragment of psalm, rain-soaked but legible, and we sang it until the brick walls loosened their echo.",
+                                        question: "What can be inferred about the speakers from this passage?",
+                                        answerOptions: [
+                                            { text: "They value shared rituals to transform harsh surroundings.", rationale: "Correct. Singing the psalm together brings warmth to a gritty setting.", isCorrect: true },
+                                            { text: "They ignore the meaning of the psalm.", rationale: "They sing it repeatedly, showing engagement with its message.", isCorrect: false },
+                                            { text: "They plan to rebuild the alley immediately.", rationale: "The passage mentions singing, not construction plans.", isCorrect: false },
+                                            { text: "They believe echoes are a sign of danger.", rationale: "The echo loosens, indicating comfort rather than fear.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'knowledge',
+                                        question: "Which line best illustrates alliteration?",
+                                        answerOptions: [
+                                            { text: "Lanterns glowed above the gathered crowd.", rationale: "'Lanterns' and 'glowed' do not share initial consonant sounds.", isCorrect: false },
+                                            { text: "Wind wandered, weaving whispers through willows.", rationale: "Correct. Repetition of the 'w' sound exemplifies alliteration.", isCorrect: true },
+                                            { text: "A distant siren rose and fell.", rationale: "This line uses imagery but not repeated initial consonants.", isCorrect: false },
+                                            { text: "The night was quiet and warm.", rationale: "No alliterative pattern appears.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'text',
+                                        passage: "I keep the rhythm in my ribs like coins that refuse to stop clinking, even when the song is over.",
+                                        question: "What does the comparison of rhythm to coins suggest about the speaker?",
+                                        answerOptions: [
+                                            { text: "They feel weighed down by financial debt.", rationale: "The clinking coins refer to sound, not money worries.", isCorrect: false },
+                                            { text: "Music continues to resonate within them long after the performance ends.", rationale: "Correct. The ongoing clink mirrors rhythm lingering in the body.", isCorrect: true },
+                                            { text: "They plan to give away all their money.", rationale: "The image focuses on rhythm, not generosity.", isCorrect: false },
+                                            { text: "They cannot remember how the song sounded.", rationale: "The sound persists vividly, contradicting forgetfulness.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'text',
+                                        passage: "Listen, city, I am your sleepless neighbor tapping messages on the radiator pipes until you dream of justice.",
+                                        question: "What is the effect of addressing the city directly?",
+                                        answerOptions: [
+                                            { text: "It personifies the city, turning it into a listener responsible for change.", rationale: "Correct. Speaking to the city as 'you' makes it an active participant.", isCorrect: true },
+                                            { text: "It suggests the speaker wants to move away immediately.", rationale: "The speaker engages with the city, urging improvement rather than escape.", isCorrect: false },
+                                            { text: "It reveals that the speaker is unsure who lives nearby.", rationale: "The speaker identifies as a neighbor, showing awareness of community.", isCorrect: false },
+                                            { text: "It indicates the poem is written in second-person point of view for the entire piece.", rationale: "This excerpt shows direct address but does not confirm the entire poem's perspective.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'knowledge',
+                                        question: "Which option is an example of a simile?",
+                                        answerOptions: [
+                                            { text: "Her laughter is a fountain in the foyer.", rationale: "This is a metaphor with no 'like' or 'as'.", isCorrect: false },
+                                            { text: "Hope settled like feathers on our shoulders.", rationale: "Correct. The comparison uses 'like' to link hope and feathers.", isCorrect: true },
+                                            { text: "We marched a river of voices through downtown.", rationale: "This is a metaphor equating voices with a river.", isCorrect: false },
+                                            { text: "The drumline thundered down the avenue.", rationale: "This uses vivid verbs but not a simile.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'text',
+                                        passage: "The first stanza arrives in clipped, two-beat lines; midway through, the lines lengthen into sweeping sentences that spill across the page.",
+                                        question: "How does this structural shift affect the poem?",
+                                        answerOptions: [
+                                            { text: "It slows the pacing to mirror the speaker losing energy.", rationale: "The longer lines actually expand energy rather than slow it drastically.", isCorrect: false },
+                                            { text: "It releases built-up tension, mirroring the speaker's growing confidence.", rationale: "Correct. Short lines build intensity that bursts into expansive phrases.", isCorrect: true },
+                                            { text: "It shows the poet ran out of ideas for shorter lines.", rationale: "Structural shifts are purposeful, not accidents.", isCorrect: false },
+                                            { text: "It makes the poem impossible to read aloud.", rationale: "Longer lines may change cadence but remain readable.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'knowledge',
+                                        question: "What best defines iambic pentameter?",
+                                        answerOptions: [
+                                            { text: "A line with five pairs of unstressed and stressed syllables.", rationale: "Correct. Iambic pentameter features five iambs per line.", isCorrect: true },
+                                            { text: "A stanza that contains five lines total.", rationale: "A five-line stanza is a cinquain, not necessarily iambic pentameter.", isCorrect: false },
+                                            { text: "A poem that alternates between rhyme and prose sections.", rationale: "This mix does not define iambic pentameter.", isCorrect: false },
+                                            { text: "A rhythm pattern made only of stressed syllables.", rationale: "Iambs rely on alternating unstressed and stressed beats.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'text',
+                                        passage: "Our footsteps leave commas in the mud, reminding us to pause before we speak the next demand.",
+                                        question: "What does the comma metaphor reveal about the speakers?",
+                                        answerOptions: [
+                                            { text: "They are uncertain about what to ask for next.", rationale: "The commas encourage thoughtful pacing, not uncertainty.", isCorrect: false },
+                                            { text: "They value strategic pauses to reflect during their movement.", rationale: "Correct. Commas symbolize purposeful pauses before continuing demands.", isCorrect: true },
+                                            { text: "They regret leaving footprints in the mud.", rationale: "There is no suggestion of regret; the focus is on deliberate pacing.", isCorrect: false },
+                                            { text: "They wish to stop protesting altogether.", rationale: "The metaphor implies brief pauses, not an end to action.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'text',
+                                        passage: "The final stanza repeats the opening line—'We will not whisper what deserves a shout'—but now the line is set in bold italics.",
+                                        question: "What is the effect of repeating the opening line in a new format?",
+                                        answerOptions: [
+                                            { text: "It shows the speaker has changed their mind.", rationale: "The line is reinforced, not retracted.", isCorrect: false },
+                                            { text: "It reinforces the poem's central claim with greater emphasis and urgency.", rationale: "Correct. Formatting highlights the repeated declaration.", isCorrect: true },
+                                            { text: "It introduces a completely different topic for the conclusion.", rationale: "The line repeats the original statement, maintaining focus.", isCorrect: false },
+                                            { text: "It indicates the poet forgot the first line had already been used.", rationale: "Repetition is intentional to strengthen the message.", isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                quizId: "rla_poetry_figurative_language_set4",
+                                label: "Quiz D",
+                                description: "Analyze speaker perspective, refrains, and sonic patterns in poetic narratives.",
+                                questionSourceTopicId: "rla_poetry_figurative_language",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'text',
+                                        passage: "Snow forgets to cover the footsteps leading to our door, and we leave them uncovered too, proof that neighbors still arrive when the night is longest.",
+                                        question: "What idea is conveyed through the image of uncovered footsteps?",
+                                        answerOptions: [
+                                            { text: "No one has visited the speaker recently.", rationale: "The footprints show neighbors still come by.", isCorrect: false },
+                                            { text: "Community support persists even during difficult times.", rationale: "Correct. The visible tracks attest to ongoing visits in the darkest season.", isCorrect: true },
+                                            { text: "Snowfall is rare in the speaker's town.", rationale: "Snow is present but chooses not to cover the prints, emphasizing connection.", isCorrect: false },
+                                            { text: "The speaker plans to move to a warmer climate.", rationale: "No relocation is suggested; the focus is on present community.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'knowledge',
+                                        question: "In poetry, how is the speaker different from the poet?",
+                                        answerOptions: [
+                                            { text: "The speaker is the fictional or narrative voice, while the poet is the actual author.", rationale: "Correct. The speaker may or may not reflect the poet personally.", isCorrect: true },
+                                            { text: "They are always the same person with identical experiences.", rationale: "Poets often create speakers distinct from themselves.", isCorrect: false },
+                                            { text: "The speaker writes the poem's title, and the poet writes the rest.", rationale: "Titles are chosen by poets; this division is inaccurate.", isCorrect: false },
+                                            { text: "The poet speaks only in prose, and the speaker speaks only in verse.", rationale: "Both terms apply to poetic voices, not separate forms.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'text',
+                                        passage: "I polished hope until it mirrored the sky, then set it on the windowsill for the whole block to see their reflection.",
+                                        question: "What does the polished 'hope' most likely represent?",
+                                        answerOptions: [
+                                            { text: "A literal mirror the speaker purchased.", rationale: "Hope is personified as something polished, not an actual mirror for sale.", isCorrect: false },
+                                            { text: "A message of optimism the speaker shares with the community.", rationale: "Correct. Displaying hope invites others to see themselves in it.", isCorrect: true },
+                                            { text: "A collection of coins saved for future use.", rationale: "There is no mention of money; the focus is on reflection and encouragement.", isCorrect: false },
+                                            { text: "A warning that the sky is falling.", rationale: "The tone is uplifting, not fearful.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'text',
+                                        passage: "When midnight sirens shrieked, we answered with saucepans and spoons, beating a rhythm that told the block: stay awake, stay together, stay loud.",
+                                        question: "Which tone best describes this passage?",
+                                        answerOptions: [
+                                            { text: "Mournful resignation.", rationale: "The response is active and defiant, not resigned.", isCorrect: false },
+                                            { text: "Determined solidarity.", rationale: "Correct. The neighbors respond collectively with purposeful noise.", isCorrect: true },
+                                            { text: "Amused detachment.", rationale: "The passage shows urgency, not amusement.", isCorrect: false },
+                                            { text: "Fearful retreat.", rationale: "The community moves toward action, not retreat.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'knowledge',
+                                        question: "Which option contains internal rhyme?",
+                                        answerOptions: [
+                                            { text: "We climbed the hill to see the sunrise.", rationale: "No rhyming words appear within the line.", isCorrect: false },
+                                            { text: "The light of night fell soft and bright.", rationale: "Correct. 'Light' and 'night' rhyme within the same line.", isCorrect: true },
+                                            { text: "Our voices rose across the square.", rationale: "This line lacks rhyming words.", isCorrect: false },
+                                            { text: "Leaves rustled under careful steps.", rationale: "No internal rhyme is present.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'text',
+                                        passage: "Notice how the poet indents the line 'we will not fold' so it juts forward like a shoulder stepping out of line.",
+                                        question: "What is the effect of the indentation described?",
+                                        answerOptions: [
+                                            { text: "It shows the line is unimportant.", rationale: "Indention highlights the line, signaling importance.", isCorrect: false },
+                                            { text: "It visually reinforces the poem's message about refusing to conform.", rationale: "Correct. The physical shift mirrors stepping out of formation.", isCorrect: true },
+                                            { text: "It indicates the poet forgot to include a word.", rationale: "Indentation is deliberate formatting, not an error.", isCorrect: false },
+                                            { text: "It marks the beginning of a new chapter in the poem.", rationale: "Poems do not have chapters; the indentation emphasizes a particular line.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'text',
+                                        passage: "We string names along the railing like notes on a staff, letting each syllable ring before the next one joins.",
+                                        question: "What does this imagery suggest about how the names are treated?",
+                                        answerOptions: [
+                                            { text: "They are spoken hurriedly to finish the list quickly.", rationale: "The ringing syllables indicate careful, deliberate attention.", isCorrect: false },
+                                            { text: "They are honored with musical care and reverence.", rationale: "Correct. Comparing names to notes underscores respect and harmony.", isCorrect: true },
+                                            { text: "They are written down instead of spoken aloud.", rationale: "The passage focuses on sound, not writing.", isCorrect: false },
+                                            { text: "They are forgotten as soon as they are said.", rationale: "The ringing effect suggests lasting memory, not forgetfulness.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'knowledge',
+                                        question: "What is the primary purpose of a refrain in poetry?",
+                                        answerOptions: [
+                                            { text: "To introduce new characters in each stanza.", rationale: "Refrains repeat lines for emphasis, not new characters.", isCorrect: false },
+                                            { text: "To provide a recurring line or phrase that reinforces key ideas.", rationale: "Correct. Refrains create rhythm and highlight central themes.", isCorrect: true },
+                                            { text: "To signal that the poem must end immediately.", rationale: "Refrains can appear throughout a poem, not only at the end.", isCorrect: false },
+                                            { text: "To ensure the poem follows a strict rhyme scheme.", rationale: "A refrain may repeat regardless of rhyme.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'text',
+                                        passage: "In stanza four the imagery shifts from frost-bitten windows to kettles steaming open, and the speaker's voice warms as if the room itself were thawing.",
+                                        question: "What does this shift in imagery accomplish?",
+                                        answerOptions: [
+                                            { text: "It signals that the speaker has given up hope.", rationale: "The warming imagery suggests renewed hope, not defeat.", isCorrect: false },
+                                            { text: "It illustrates emotional movement from hardship toward comfort.", rationale: "Correct. Frost to steam mirrors the speaker's emotional thaw.", isCorrect: true },
+                                            { text: "It warns readers that winter will return.", rationale: "The focus is on present warmth, not future warnings.", isCorrect: false },
+                                            { text: "It confuses the timeline of the poem.", rationale: "The transition is purposeful, not confusing.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'knowledge',
+                                        question: "Which description best fits a haiku?",
+                                        answerOptions: [
+                                            { text: "A three-line poem with a 5-7-5 syllable pattern focusing on nature or observation.", rationale: "Correct. Haiku traditionally capture a moment with this syllable structure.", isCorrect: true },
+                                            { text: "A fourteen-line poem written in iambic pentameter.", rationale: "That describes a sonnet.", isCorrect: false },
+                                            { text: "A narrative poem divided into equal quatrains.", rationale: "Quatrains are four-line stanzas; this is not the haiku form.", isCorrect: false },
+                                            { text: "A poem that must include a repeated chorus after every line.", rationale: "Refrains are optional and not part of haiku structure.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'text',
+                                        passage: "The final line leaves the door ajar for those arriving late, a narrow glow spilling across the threshold.",
+                                        question: "What inference does this closing image support?",
+                                        answerOptions: [
+                                            { text: "The gathering remains open and welcoming to newcomers.", rationale: "Correct. An ajar door with light invites late arrivals.", isCorrect: true },
+                                            { text: "The hosts are tired and ready to shut everyone out.", rationale: "The door stays open, contradicting exclusion.", isCorrect: false },
+                                            { text: "The speaker regrets leaving the porch light on.", rationale: "The light symbolizes welcome, not regret.", isCorrect: false },
+                                            { text: "No one else is expected to arrive.", rationale: "The image anticipates late arrivals.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'knowledge',
+                                        question: "What is consonance in poetry?",
+                                        answerOptions: [
+                                            { text: "The repetition of vowel sounds in nearby words.", rationale: "That describes assonance.", isCorrect: false },
+                                            { text: "The repetition of consonant sounds, often at the end or middle of words.", rationale: "Correct. Consonance highlights repeated consonant sounds.", isCorrect: true },
+                                            { text: "A pause marked by punctuation within a line.", rationale: "That defines a caesura.", isCorrect: false },
+                                            { text: "A word that imitates a natural sound.", rationale: "That is onomatopoeia.", isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                quizId: "rla_poetry_figurative_language_set5",
+                                label: "Quiz E",
+                                description: "Synthesize analysis of repetition, figurative language, and shifts in poetic focus.",
+                                questionSourceTopicId: "rla_poetry_figurative_language",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'text',
+                                        passage: "When the power flickered, we mapped constellations on the ceiling with flashlights, naming the elders who taught us how to endure long nights.",
+                                        question: "What central idea is reinforced by this passage?",
+                                        answerOptions: [
+                                            { text: "Modern technology has made elders unnecessary.", rationale: "The elders are honored, not dismissed.", isCorrect: false },
+                                            { text: "Family memories guide the community through present challenges.", rationale: "Correct. The stars named for elders symbolize inherited resilience.", isCorrect: true },
+                                            { text: "Flashlights are ineffective during power outages.", rationale: "The flashlights provide light to draw constellations.", isCorrect: false },
+                                            { text: "The community prefers to sleep during storms.", rationale: "They stay awake, mapping constellations together.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'knowledge',
+                                        question: "What is slant rhyme (also called near rhyme)?",
+                                        answerOptions: [
+                                            { text: "Words that share identical ending sounds like 'night' and 'light'.", rationale: "That describes exact rhyme.", isCorrect: false },
+                                            { text: "Words with similar but not identical sounds, such as 'time' and 'line'.", rationale: "Correct. Slant rhymes have closely related sounds.", isCorrect: true },
+                                            { text: "Words that rhyme only at the beginning of each line.", rationale: "Rhymes typically occur at the end or within lines; this option misstates the concept.", isCorrect: false },
+                                            { text: "Words that do not share any consonant or vowel sounds.", rationale: "If no sounds match, there is no rhyme at all.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'text',
+                                        passage: "She says grief is the backpack she refuses to set down—heavy, yes, but filled with notebooks she cannot bear to lose.",
+                                        question: "What does the backpack metaphor suggest about grief?",
+                                        answerOptions: [
+                                            { text: "The speaker plans to discard her memories soon.", rationale: "She refuses to set the backpack down, indicating she keeps the memories.", isCorrect: false },
+                                            { text: "Grief carries painful weight yet preserves meaningful reminders of love.", rationale: "Correct. The notebooks symbolize cherished memories within the burden.", isCorrect: true },
+                                            { text: "Grief is a fashionable accessory.", rationale: "The passage focuses on emotional significance, not style.", isCorrect: false },
+                                            { text: "The speaker never experiences sorrow.", rationale: "She acknowledges grief's heaviness.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'text',
+                                        passage: "Every line of the second stanza begins with 'Because we…', cataloging reasons the march continues despite rain and ridicule.",
+                                        question: "What is the effect of this repeated opening?",
+                                        answerOptions: [
+                                            { text: "It weakens the poem by repeating unnecessary words.", rationale: "The repetition builds momentum and purpose.", isCorrect: false },
+                                            { text: "It provides a rhythmic list that reinforces collective motivation.", rationale: "Correct. Each 'Because we' adds justification for continuing the march.", isCorrect: true },
+                                            { text: "It signals that the marchers plan to stop soon.", rationale: "The stanza emphasizes persistence.", isCorrect: false },
+                                            { text: "It suggests the speaker has forgotten other transitions.", rationale: "The repetition is deliberate for emphasis.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'knowledge',
+                                        question: "Which excerpt best appeals to the sense of sound (aural imagery)?",
+                                        answerOptions: [
+                                            { text: "Lantern light pooled around the stoop.", rationale: "This appeals to sight, not sound.", isCorrect: false },
+                                            { text: "Our banners smelled of rain and ink.", rationale: "This appeals to smell.", isCorrect: false },
+                                            { text: "Boot heels drummed against the pavement in steady unison.", rationale: "Correct. 'Drummed' and 'steady unison' evoke sound.", isCorrect: true },
+                                            { text: "The wool scarf scratched against my chin.", rationale: "This appeals to touch.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'text',
+                                        passage: "Midway through the poem, the city street gives way to shoreline cliffs, and the speaker imagines the tide carrying their chants to distant harbors.",
+                                        question: "How does this shift in setting affect the poem's meaning?",
+                                        answerOptions: [
+                                            { text: "It narrows the poem's focus to a single neighborhood.", rationale: "The tide metaphor expands the movement's reach, not narrows it.", isCorrect: false },
+                                            { text: "It broadens the impact of the protest, suggesting their message travels far beyond the city.", rationale: "Correct. The tide delivering chants symbolizes wide influence.", isCorrect: true },
+                                            { text: "It indicates the speaker wants to abandon the protest.", rationale: "The imagery extends the protest, not abandon it.", isCorrect: false },
+                                            { text: "It introduces a new conflict unrelated to the march.", rationale: "The shoreline imagery continues the theme of spreading voices.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'knowledge',
+                                        question: "What is anaphora?",
+                                        answerOptions: [
+                                            { text: "The repetition of a word or phrase at the beginning of successive lines or clauses.", rationale: "Correct. Anaphora creates emphasis through repeated openings.", isCorrect: true },
+                                            { text: "The substitution of a mild word for a harsh one.", rationale: "That describes euphemism.", isCorrect: false },
+                                            { text: "A comparison that continues for several stanzas.", rationale: "That's an extended metaphor.", isCorrect: false },
+                                            { text: "A question that does not expect an answer.", rationale: "That device is a rhetorical question.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'text',
+                                        passage: "I carve our pledge into frost so the sunrise must read it aloud before it melts.",
+                                        question: "Which interpretation best fits this figurative language?",
+                                        answerOptions: [
+                                            { text: "The pledge will vanish without anyone ever noticing it.", rationale: "Carving into frost ensures the sunrise 'reads' it, implying temporary but public visibility.", isCorrect: false },
+                                            { text: "The speaker wants their promise to be seen each morning, even if briefly.", rationale: "Correct. The melting frost symbolizes fleeting yet repeated visibility.", isCorrect: true },
+                                            { text: "The speaker plans to destroy the pledge immediately.", rationale: "Carving it suggests desire to display, not destroy.", isCorrect: false },
+                                            { text: "The pledge is written indoors on paper.", rationale: "The line clearly describes outdoor frost.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'text',
+                                        passage: "(We tuck spare mittens in the railings.) (We stash notes beneath the third stair.) These parenthetical lines interrupt the stanza like whispered instructions.",
+                                        question: "What is the purpose of the parentheses in this excerpt?",
+                                        answerOptions: [
+                                            { text: "They hide secret actions that support the group's larger efforts.", rationale: "Correct. The whispered directions in parentheses convey discreet planning.", isCorrect: true },
+                                            { text: "They indicate mistakes that should be deleted.", rationale: "Parentheses intentionally include side comments, not errors.", isCorrect: false },
+                                            { text: "They show the speaker is unsure about the plan.", rationale: "The instructions are confident, not uncertain.", isCorrect: false },
+                                            { text: "They signal that the poem is switching speakers.", rationale: "The parentheses add stage directions within the same voice.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'knowledge',
+                                        question: "Which statement describes a couplet?",
+                                        answerOptions: [
+                                            { text: "Two consecutive lines that usually share a rhyme or thematic connection.", rationale: "Correct. Couplets often pair lines through rhyme or meaning.", isCorrect: true },
+                                            { text: "A stanza with alternating lines of prose and poetry.", rationale: "Couplets contain verse lines, not prose.", isCorrect: false },
+                                            { text: "A repeated refrain that appears after every stanza.", rationale: "Refrains can involve more than two lines and repeat at intervals.", isCorrect: false },
+                                            { text: "A poem composed entirely of questions.", rationale: "A couplet refers to a pair of lines, not the content of questions.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'text',
+                                        passage: "Even after dawn brightens the kitchen, we refuse to dim the porch light, promising: whoever needs a path will find it.",
+                                        question: "What does this final image communicate?",
+                                        answerOptions: [
+                                            { text: "The community plans to sleep through the day.", rationale: "Keeping the light on invites visitors, not sleep.", isCorrect: false },
+                                            { text: "Their commitment to welcome others continues beyond the night.", rationale: "Correct. The light remains as a lasting invitation.", isCorrect: true },
+                                            { text: "They have decided to waste electricity.", rationale: "The focus is on symbolic welcome, not waste.", isCorrect: false },
+                                            { text: "The protest has ended permanently.", rationale: "Maintaining the light shows ongoing readiness.", isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'knowledge',
+                                        question: "Imagery that appeals specifically to the sense of smell is called:",
+                                        answerOptions: [
+                                            { text: "Gustatory imagery.", rationale: "Gustatory relates to taste.", isCorrect: false },
+                                            { text: "Olfactory imagery.", rationale: "Correct. Olfactory imagery evokes scents.", isCorrect: true },
+                                            { text: "Tactile imagery.", rationale: "Tactile imagery refers to touch.", isCorrect: false },
+                                            { text: "Kinesthetic imagery.", rationale: "Kinesthetic imagery describes motion.", isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            }
+                            },
+                            },
+                            },
+                            },
             "Language & Grammar": {
                 topics: [
                     {
