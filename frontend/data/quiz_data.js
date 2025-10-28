@@ -1560,19 +1560,187 @@ export const expandedQuizData = {
                                 quizId: "ss_us_hist_american_revolution_set1",
                                 label: "Quiz A",
                                 description: "Quiz on the causes of the American Revolution.",
-                                questionSourceTopicId: "ss_us_hist_american_revolution"
+                                title: "Causes of the Revolution",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'knowledge',
+                                        question: "What was the primary purpose of the Stamp Act of 1765?",
+                                        answerOptions: [
+                                            {
+                                                text: "To restrict colonial trade with France.",
+                                                rationale: "The Stamp Act placed taxes on paper goods; it did not target trade with France.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "To raise revenue from the colonies for Britain.",
+                                                rationale: "Correct. Britain introduced the tax to help pay debts from the French and Indian War.",
+                                                isCorrect: true
+                                            },
+                                            {
+                                                text: "To pay for the housing of British soldiers.",
+                                                rationale: "Housing troops was the focus of the Quartering Act, not the Stamp Act.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "To establish a colonial postal service.",
+                                                rationale: "The Stamp Act concerned taxation on paper products, not mail delivery.",
+                                                isCorrect: false
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'knowledge',
+                                        question: "The Boston Tea Party was a protest against which British policy?",
+                                        answerOptions: [
+                                            {
+                                                text: "The Townshend Acts",
+                                                rationale: "The Townshend Acts taxed imports like glass and lead, but the Tea Party targeted a later tea tax.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "The Intolerable Acts",
+                                                rationale: "These acts were passed in response to the Boston Tea Party, not the cause of it.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "The Tea Act",
+                                                rationale: "Correct. Colonists dumped tea to protest the Tea Act's tax and monopoly for the British East India Company.",
+                                                isCorrect: true
+                                            },
+                                            {
+                                                text: "The Quartering Act",
+                                                rationale: "The Quartering Act required colonists to house soldiers but was not the focus of the Tea Party protest.",
+                                                isCorrect: false
+                                            }
+                                        ]
+                                    }
+                                ]
                             },
                             {
                                 quizId: "ss_us_hist_american_revolution_set2",
                                 label: "Quiz B",
                                 description: "Quiz on the key events of the American Revolution.",
-                                questionSourceTopicId: "ss_us_hist_american_revolution"
+                                title: "Key Figures and Battles",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'knowledge',
+                                        question: "Who was the primary author of the Declaration of Independence?",
+                                        answerOptions: [
+                                            {
+                                                text: "George Washington",
+                                                rationale: "Washington commanded the Continental Army but did not draft the Declaration.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "Benjamin Franklin",
+                                                rationale: "Franklin served on the committee but was not the principal author.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "John Adams",
+                                                rationale: "Adams advocated strongly for independence but asked another delegate to draft the document.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "Thomas Jefferson",
+                                                rationale: "Correct. Jefferson drafted the Declaration of Independence.",
+                                                isCorrect: true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'knowledge',
+                                        question: "The Battle of Saratoga was a significant turning point in the war because it:",
+                                        answerOptions: [
+                                            {
+                                                text: "Led to the capture of Philadelphia.",
+                                                rationale: "The capture of Philadelphia was connected to battles elsewhere, not Saratoga.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "Was the first major victory for the Continental Army.",
+                                                rationale: "Earlier battles such as those at Trenton and Princeton also provided major victories.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "Convinced France to form an alliance with the United States.",
+                                                rationale: "Correct. The American victory at Saratoga helped secure French military support.",
+                                                isCorrect: true
+                                            },
+                                            {
+                                                text: "Resulted in the surrender of General Cornwallis.",
+                                                rationale: "Cornwallis surrendered later at Yorktown, not Saratoga.",
+                                                isCorrect: false
+                                            }
+                                        ]
+                                    }
+                                ]
                             },
                             {
                                 quizId: "ss_us_hist_american_revolution_set3",
                                 label: "Quiz C",
                                 description: "Quiz on the outcomes of the American Revolution.",
-                                questionSourceTopicId: "ss_us_hist_american_revolution"
+                                title: "Ideals and Consequences",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'knowledge',
+                                        question: "Which Enlightenment philosopher's ideas of natural rights heavily influenced the Declaration of Independence?",
+                                        answerOptions: [
+                                            {
+                                                text: "Montesquieu",
+                                                rationale: "Montesquieu influenced ideas about separation of powers but not the natural rights language in the Declaration.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "Voltaire",
+                                                rationale: "Voltaire emphasized civil liberties, yet the Declaration's natural rights language drew more directly from another thinker.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "John Locke",
+                                                rationale: "Correct. Locke's ideas about life, liberty, and property inspired Jefferson's writing.",
+                                                isCorrect: true
+                                            },
+                                            {
+                                                text: "Jean-Jacques Rousseau",
+                                                rationale: "Rousseau wrote about the social contract, but the natural rights emphasis came from Locke.",
+                                                isCorrect: false
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'knowledge',
+                                        question: "What was the name of the treaty that officially ended the American Revolutionary War?",
+                                        answerOptions: [
+                                            {
+                                                text: "The Treaty of Ghent",
+                                                rationale: "The Treaty of Ghent ended the War of 1812, not the Revolutionary War.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "The Treaty of Paris",
+                                                rationale: "Correct. The 1783 Treaty of Paris recognized American independence and ended the war.",
+                                                isCorrect: true
+                                            },
+                                            {
+                                                text: "The Treaty of Versailles",
+                                                rationale: "This treaty concluded World War I, not the American Revolution.",
+                                                isCorrect: false
+                                            },
+                                            {
+                                                text: "The Jay Treaty",
+                                                rationale: "Jay's Treaty addressed lingering disputes with Britain in 1794 but did not end the war itself.",
+                                                isCorrect: false
+                                            }
+                                        ]
+                                    }
+                                ]
                             }
                         ]
                     },
