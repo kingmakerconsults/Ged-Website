@@ -1,4 +1,4 @@
-var new_math_exams = {
+var AppData = {
     "Quantitative Problem Solving": {
         "topics": [
             {

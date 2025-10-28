@@ -14,17 +14,14 @@ const dom = new JSDOM(`<!DOCTYPE html><html><body><script></script></body></html
 const window = dom.window;
 
 // Load the new math exams script into the JSDOM environment
-const math_script_content = fs.readFileSync('frontend/data/new_math_exams.js', 'utf8');
-
-// The script expects a variable `new_math_exams`, but we want to attach it to window.AppData.Math
-const modified_script_content = math_script_content.replace('var new_math_exams =', 'window.AppData.Math.categories =');
-
+const quiz_data_content = fs.readFileSync('frontend/data/quiz_data.js', 'utf8');
 const scriptEl = window.document.createElement('script');
-scriptEl.textContent = modified_script_content;
+scriptEl.textContent = quiz_data_content;
 window.document.body.appendChild(scriptEl);
 
 
 function getAppData() {
+    window.AppData.Math = window.ExpandedQuizData.Math;
     return window.AppData;
 }
 

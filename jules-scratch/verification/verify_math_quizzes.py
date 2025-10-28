@@ -1,20 +1,34 @@
-from playwright.sync_api import sync_playwright
 
-def run(playwright):
-    browser = playwright.chromium.launch(headless=True)
-    context = browser.new_context()
-    page = context.new_page()
+import logging
+from playwright.sync_api import Page, expect
 
-    logs = []
-    page.on("console", lambda msg: logs.append(msg.text))
+logging.basicConfig(level=logging.INFO)
 
-    page.goto("http://localhost:8000")
+def test_math_quiz_display(page: Page):
+    """
+    This test verifies that the math quizzes are displayed correctly.
+    """
+    try:
+        logging.info("Navigating to the homepage.")
+        page.goto("http://localhost:8000")
 
-    print("".join(logs))
+        logging.info("Clicking the 'Math' button.")
+        math_button = page.get_by_role("button", name="Math")
+        math_button.click()
 
-    page.screenshot(path="jules-scratch/verification/math_quiz_verification.png")
+        logging.info("Checking for math quiz topics.")
+        expect(page.get_by_text("Number Sense and Operations")).to_be_visible()
+        expect(page.get_by_text("Data Analysis and Statistics")).to_be_visible()
+        expect(page.get_by_text("Geometric Figures")).to_be_visible()
+        expect(page.get_by_text("The Pythagorean Theorem")).to_be_visible()
+        expect(page.get_by_text("Expressions and Equations")).to_be_visible()
+        expect(page.get_by_text("Functions")).to_be_visible()
 
-    browser.close()
+        logging.info("Taking a screenshot.")
+        page.screenshot(path="jules-scratch/verification/math_quizzes.png")
+        logging.info("Screenshot saved to jules-scratch/verification/math_quizzes.png")
 
-with sync_playwright() as playwright:
-    run(playwright)
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        page.screenshot(path="jules-scratch/verification/verification_error.png")
+        raise
