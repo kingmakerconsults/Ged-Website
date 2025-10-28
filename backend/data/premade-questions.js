@@ -796,8 +796,7 @@ const ALL_QUIZZES = {
                             calculator: true,
                             formulaSheet: true,
                             parts: [{ name: "Quiz", questionCount: 1 }]
-                        },
-                        questions: []
+                        }
                     }
                 ]
             }

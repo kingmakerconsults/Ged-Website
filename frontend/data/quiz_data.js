@@ -300,24 +300,21 @@ export const expandedQuizData = {
             "Quantitative Problem Solving": {
                 topics: [
                     {
-                        id: "math_quant_basics",
-                        quizzes: []
+                        id: "math_quant_basics"
                     }
                 ]
             },
             "Algebraic Reasoning": {
                 topics: [
                     {
-                        id: "math_alg_expressions",
-                        quizzes: []
+                        id: "math_alg_expressions"
                     }
                 ]
             },
             "Geometry and Spatial Sense": {
                 topics: [
                     {
-                        id: "math_geom_basics",
-                        quizzes: []
+                        id: "math_geom_basics"
                     }
                 ]
             }

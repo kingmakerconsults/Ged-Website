@@ -2999,21 +2999,18 @@ const AppData = {
                     title: "Whole Numbers, Fractions & Decimals",
                     description: "Operations with integers, fractions, and decimals.",
                     type: "quiz",
-                    questions: []
                 },
                 {
                     id: "math_quant_ratios_percents",
                     title: "Ratios, Proportions & Percents",
                     description: "Solving real-world problems with ratios and percentages.",
                     type: "quiz",
-                    questions: []
                 },
                 {
                     id: "math_quant_stats_probability",
                     title: "Statistics & Probability",
                     description: "Mean, median, mode, range, and basic probability.",
                     type: "quiz",
-                    questions: []
                 }
             ]
         },
@@ -3026,21 +3023,18 @@ const AppData = {
                     title: "Expressions & Polynomials",
                     description: "Working with variables, exponents, and polynomials.",
                     type: "quiz",
-                    questions: []
                 },
                 {
                     id: "math_alg_equations_inequalities",
                     title: "Equations & Inequalities",
                     description: "Solving linear and quadratic equations and inequalities.",
                     type: "quiz",
-                    questions: []
                 },
                 {
                     id: "math_alg_graphing_functions",
                     title: "Graphing & Functions",
                     description: "Understanding slope, graphing lines, and function notation.",
                     type: "quiz",
-                    questions: []
                 },
             ]
         },
@@ -3048,12 +3042,11 @@ const AppData = {
             description: "Calculate area, perimeter, volume, and apply geometric theorems.",
             icon: "ShapesIcon", // New Icon
             topics: [
-                 {
+                {
                     id: "math_geom_basics",
                     title: "Geometry Basics",
                     description: "Calculating area, perimeter, volume, and surface area.",
                     type: "quiz",
-                    questions: []
                 },
             ]
         }
