@@ -49,6 +49,7 @@
     </script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="LifeChoicesSimulation.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
     <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4219,11 +4220,22 @@ async function fetchJSON(url, options = {}) {
 }
 
 // --- App Structure Components ---
-function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSettings, activePanel, theme, onToggleTheme }) {
+function AppHeader({
+    currentUser,
+    onLogout,
+    onShowHome,
+    onShowProfile,
+    onShowSettings,
+    onShowSimulations,
+    activePanel,
+    theme,
+    onToggleTheme,
+}) {
     const displayName = currentUser?.name || currentUser?.email || 'Learner';
     const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'U';
     const isProfileActive = activePanel === 'profile';
     const isSettingsActive = activePanel === 'settings';
+    const isSimulationsActive = activePanel === 'simulations';
     const isDark = theme === 'dark';
 
     return (
@@ -4239,6 +4251,7 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
                     </button>
                     <nav className="hidden md:flex items-center gap-4 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
                         <button onClick={onShowHome} className="hover:text-sky-600 dark:hover:text-sky-400 transition" type="button">Dashboard</button>
+                        <button onClick={onShowSimulations} className={`transition ${isSimulationsActive ? 'text-sky-600 dark:text-sky-300 font-semibold' : 'hover:text-sky-600 dark:hover:text-sky-400'}`} type="button">Simulations</button>
                         <a className="hover:text-sky-600 dark:hover:text-sky-400 transition" href="#quizzes">Quizzes</a>
                         <a className="hover:text-sky-600 dark:hover:text-sky-400 transition" href="#progress">Progress</a>
                     </nav>
@@ -4302,6 +4315,15 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
                             </button>
                             <button
                                 type="button"
+                                onClick={onShowSimulations}
+                                className={`px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border transition ${isSimulationsActive ? 'bg-sky-500 text-white border-transparent' : 'text-sky-700 dark:text-sky-300 border-sky-200/70 dark:border-slate-600 hover:bg-sky-50 dark:hover:bg-slate-800/70'}`}
+                                aria-controls="simulationsView"
+                                aria-expanded={isSimulationsActive}
+                            >
+                                Simulations
+                            </button>
+                            <button
+                                type="button"
                                 onClick={onLogout}
                                 className="px-3 py-2 text-xs sm:text-sm font-semibold text-rose-600 hover:text-rose-500 dark:text-rose-300 dark:hover:text-rose-200 transition"
                             >
@@ -4313,6 +4335,202 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
                 </div>
             </div>
         </header>
+    );
+}
+
+function SimulationsView({ onStartLifeSimulation }) {
+    return (
+        <div className="p-4 md:p-6 space-y-4">
+            <div className="space-y-2">
+                <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100">Simulations Hub</h1>
+                <p className="text-slate-600 dark:text-slate-300">
+                    Explore immersive decision-making experiences. These simulations are ungraded sandboxes where your choices change the story in real time.
+                </p>
+            </div>
+            <div className="mt-4 rounded-xl border border-slate-300 dark:border-slate-700 p-4 bg-white dark:bg-slate-800 space-y-3">
+                <div className="space-y-1">
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Life Choices</h2>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                        Build a life from age 18 to retirement. Choose jobs, housing, saving habits, and respond to surprise events while you watch cash, debt, and happiness move together.
+                    </p>
+                </div>
+                <button
+                    className="mt-3 w-full rounded-lg bg-cyan-600 text-white font-semibold py-2 hover:bg-cyan-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                    type="button"
+                    onClick={onStartLifeSimulation}
+                >
+                    Start Simulation
+                </button>
+            </div>
+        </div>
+    );
+}
+
+function LifeChoicesView({ onBack }) {
+    const rootRef = useRef(null);
+
+    useEffect(() => {
+        const bootFn = typeof window !== 'undefined' ? window.bootLifeChoices : null;
+        if (rootRef.current && typeof bootFn === 'function') {
+            bootFn(rootRef.current);
+        }
+    }, []);
+
+    return (
+        <div ref={rootRef} id="life-choices-root" className="p-4 md:p-6">
+            <div className="space-y-6">
+                <section id="life-choices-start" className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-6">
+                    <div className="space-y-3 text-center">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Life Choices Simulation</h2>
+                        <p className="text-slate-600 dark:text-slate-400">
+                            Plan your path from high school graduation through retirement. Set your goals, make choices, and see how finances, happiness, and skills evolve together.
+                        </p>
+                        <div className="flex flex-wrap items-center justify-center gap-3">
+                            <button type="button" className="inline-flex items-center justify-center rounded-lg bg-cyan-600 text-white px-6 py-3 font-semibold shadow hover:bg-cyan-500">
+                            Begin Your Journey
+                            </button>
+                            {onBack && (
+                                <button
+                                    type="button"
+                                    onClick={onBack}
+                                    className="inline-flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                                >
+                                    Back to Simulations
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </section>
+
+                <section id="life-choices-personality" className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-6">
+                    <div className="space-y-3">
+                        <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Personality Quiz</h3>
+                        <p className="text-slate-600 dark:text-slate-400 text-sm">
+                            Answer a few quick questions to unlock your character traits and unlock tailored scenarios.
+                        </p>
+                        <div className="space-y-2">
+                            <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-4 bg-slate-50 dark:bg-slate-800/60">
+                                <p className="font-medium text-slate-800 dark:text-slate-200">Question prompt placeholder</p>
+                                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                                    <button type="button" className="rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:border-cyan-500">Option A</button>
+                                    <button type="button" className="rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:border-cyan-500">Option B</button>
+                                    <button type="button" className="rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:border-cyan-500">Option C</button>
+                                    <button type="button" className="rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:border-cyan-500">Option D</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="life-choices-game" className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-6">
+                    <div className="space-y-4">
+                        <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                            <div>
+                                <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Yearly Decisions</h3>
+                                <p className="text-sm text-slate-600 dark:text-slate-400">Track finances, happiness, and skills as you progress.</p>
+                            </div>
+                            <div className="flex flex-wrap gap-3 text-sm">
+                                <div className="flex items-center gap-2 rounded-lg bg-cyan-50 dark:bg-cyan-900/40 px-3 py-2">
+                                    <span className="font-medium text-cyan-700 dark:text-cyan-300">Cash</span>
+                                    <span id="life-choices-cash" className="text-cyan-600 dark:text-cyan-200">$0</span>
+                                </div>
+                                <div className="flex items-center gap-2 rounded-lg bg-amber-50 dark:bg-amber-900/40 px-3 py-2">
+                                    <span className="font-medium text-amber-700 dark:text-amber-300">Debt</span>
+                                    <span id="life-choices-debt" className="text-amber-600 dark:text-amber-200">$0</span>
+                                </div>
+                                <div className="flex items-center gap-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/40 px-3 py-2">
+                                    <span className="font-medium text-emerald-700 dark:text-emerald-300">Happiness</span>
+                                    <span id="life-choices-happiness" className="text-emerald-600 dark:text-emerald-200">50%</span>
+                                </div>
+                            </div>
+                        </header>
+
+                        <div className="grid gap-4 md:grid-cols-[2fr,1fr]">
+                            <div className="space-y-4">
+                                <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-4">
+                                    <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Scenario</h4>
+                                    <p id="life-choices-question" className="mt-2 text-slate-700 dark:text-slate-300">
+                                        Scenario description placeholder.
+                                    </p>
+                                </div>
+                                <div className="grid gap-3" id="life-choices-choices">
+                                    <button type="button" className="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-left text-sm font-medium text-slate-700 dark:text-slate-200 hover:border-cyan-500">
+                                        Choice placeholder
+                                    </button>
+                                </div>
+                            </div>
+                            <aside className="space-y-4">
+                                <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-4 space-y-2">
+                                    <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Timeline</h4>
+                                    <ul id="life-choices-timeline" className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                                        <li>Milestone updates will appear here.</li>
+                                    </ul>
+                                </div>
+                                <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-4 space-y-2">
+                                    <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Profile Snapshot</h4>
+                                    <p id="life-choices-profile" className="text-sm text-slate-600 dark:text-slate-300">Traits and stats placeholder.</p>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="life-choices-results" className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-6">
+                    <div className="space-y-3 text-center">
+                        <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Final Summary</h3>
+                        <p className="text-slate-600 dark:text-slate-400 text-sm">
+                            When the simulation ends, your lifetime overview will appear in this space.
+                        </p>
+                        <div className="grid gap-3 sm:grid-cols-3">
+                            <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-4">
+                                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Net Worth</p>
+                                <p id="life-choices-summary-net-worth" className="text-lg font-semibold text-slate-900 dark:text-slate-100">$0</p>
+                            </div>
+                            <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-4">
+                                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Career Path</p>
+                                <p id="life-choices-summary-career" className="text-lg font-semibold text-slate-900 dark:text-slate-100">Undecided</p>
+                            </div>
+                            <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-4">
+                                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Happiness</p>
+                                <p id="life-choices-summary-happiness" className="text-lg font-semibold text-slate-900 dark:text-slate-100">50%</p>
+                            </div>
+                        </div>
+                        <button type="button" className="inline-flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+                            Restart Simulation
+                        </button>
+                    </div>
+                </section>
+
+                <div id="life-choices-modals" className="space-y-4">
+                    <div className="hidden" id="life-choices-breakdown-modal"></div>
+                    <div className="hidden" id="life-choices-profile-modal"></div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function SimulationsShell() {
+    const [view, setView] = useState('simulations');
+
+    const handleStartLifeSimulation = useCallback(() => {
+        setView('life');
+    }, []);
+
+    const handleBackToSimulations = useCallback(() => {
+        setView('simulations');
+    }, []);
+
+    return (
+        <>
+            {view === 'simulations' && (
+                <SimulationsView onStartLifeSimulation={handleStartLifeSimulation} />
+            )}
+
+            {view === 'life' && (
+                <LifeChoicesView onBack={handleBackToSimulations} />
+            )}
+        </>
     );
 }
 
@@ -5331,8 +5549,8 @@ function App({ externalTheme, onThemeChange }) {
         }
 
         if (quizPayload.type === 'simulation') {
-            setActiveQuiz({ ...quizPayload, subject });
-            setView('simulation');
+            setActiveQuiz(null);
+            setView('simulations');
             return;
         }
 
@@ -5502,6 +5720,10 @@ function App({ externalTheme, onThemeChange }) {
         }
     }, [loadProfileOnce, onboardingComplete, profileData]);
 
+    const handleShowSimulationsView = useCallback(() => {
+        setView('simulations');
+    }, []);
+
     const handleReviewMarked = (markedQuestions) => {
         const reviewQuiz = {
             id: 'review_quiz_' + new Date().getTime(),
@@ -5522,39 +5744,8 @@ function App({ externalTheme, onThemeChange }) {
                  return <ReadingPractice quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />;
             case 'essay':
                 return <EssayGuide onExit={navigateHome} />;
-            case 'simulation':
-                return (
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 text-white p-8 sm:p-10 text-center shadow-xl">
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.25),_transparent_55%)] pointer-events-none"></div>
-                        <div className="relative z-10 flex flex-col items-center gap-6">
-                            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white/20 shadow-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-9 h-9">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l3.5 3.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h1 className="text-3xl font-extrabold">The Game of Life Simulation</h1>
-                                <p className="mt-3 text-lg text-orange-50/90 max-w-xl">
-                                    We&apos;re polishing this interactive experience. Soon you&apos;ll be able to explore scenarios, make choices, and see how decisions impact real-world outcomes.
-                                </p>
-                            </div>
-                            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 max-w-2xl w-full text-left">
-                                <h2 className="text-sm uppercase tracking-wide text-orange-100/90">What to Expect</h2>
-                                <ul className="mt-2 space-y-1 text-base">
-                                    <li>• Dynamic, choice-driven practice scenarios</li>
-                                    <li>• Instant feedback with skill tips</li>
-                                    <li>• Progress tracking tailored to you</li>
-                                </ul>
-                            </div>
-                            <button
-                                onClick={navigateHome}
-                                className="px-6 py-2.5 rounded-full bg-white text-orange-600 font-semibold shadow-lg transition hover:shadow-xl hover:bg-orange-50"
-                            >
-                                Back to Dashboard
-                            </button>
-                        </div>
-                    </div>
-                );
+            case 'simulations':
+                return <SimulationsShell />;
             case 'results':
                 return <ResultsScreen results={quizResults} quiz={activeQuiz} onRestart={() => startQuiz(activeQuiz, activeQuiz.subject)} onHome={navigateHome} onReviewMarked={handleReviewMarked} />;
             case 'generator':
@@ -5666,6 +5857,14 @@ function App({ externalTheme, onThemeChange }) {
         };
     }, [mathToolsInitialized]);
 
+    const headerActivePanel = view === 'profile'
+        ? 'profile'
+        : view === 'settings'
+            ? 'settings'
+            : view === 'simulations'
+                ? 'simulations'
+                : null;
+
     return (
         <>
             {showWelcomeSplash && (
@@ -5693,7 +5892,8 @@ function App({ externalTheme, onThemeChange }) {
                     onShowHome={navigateHome}
                     onShowProfile={handleShowProfileView}
                     onShowSettings={handleShowSettingsView}
-                    activePanel={view === 'profile' ? 'profile' : view === 'settings' ? 'settings' : null}
+                    onShowSimulations={handleShowSimulationsView}
+                    activePanel={headerActivePanel}
                     theme={preferences.theme}
                     onToggleTheme={toggleThemePreference}
                 />
