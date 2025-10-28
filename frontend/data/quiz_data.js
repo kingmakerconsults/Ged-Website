@@ -1,4 +1,4 @@
-export const expandedQuizData = {
+const expandedQuizData = {
     "Science": {
         icon: "BeakerIcon",
         categories: {
@@ -297,190 +297,539 @@ export const expandedQuizData = {
     "Math": {
         icon: "CalculatorIcon",
         categories: {
-            "Quantitative Problem Solving": {
+            "The Basics": {
+                description: "Foundational math skills, including number sense, operations, and data analysis.",
                 topics: [
                     {
-                        id: "math_quant_basics",
+                        id: "math_basics_number_sense",
+                        title: "Number Sense and Operations",
+                        description: "Decimals, fractions, exponents, and scientific notation.",
                         quizzes: [
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
-                                quizId: "math_quant_basics_set1",
+                                quizId: "math_basics_number_sense_set1",
                                 label: "Quiz A",
-                                description: "Master operations with whole numbers, fractions, and decimals in real-world contexts.",
-                                questionSourceTopicId: "math_quant_basics",
                                 questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "Compute 48 + 36.", answerOptions: [ { text: "78", rationale: "This would be the result of adding 30 instead of 36.", isCorrect: false }, { text: "82", rationale: "This adds 34 to 48 instead of 36.", isCorrect: false }, { text: "84", rationale: "Correct. 48 + 36 = 84.", isCorrect: true }, { text: "88", rationale: "This mistakenly adds 40 to 48.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "knowledge", question: "Evaluate 125 - 87.", answerOptions: [ { text: "32", rationale: "This would be the result of 125 - 93.", isCorrect: false }, { text: "34", rationale: "This subtracts 91 instead of 87.", isCorrect: false }, { text: "38", rationale: "Correct. 125 - 87 = 38.", isCorrect: true }, { text: "42", rationale: "This subtracts only 83 from 125.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "applied", question: "Maria buys 3 notebooks priced at \$2.75 each. What is the total cost?", answerOptions: [ { text: "\$6.75", rationale: "This multiplies \$2.25 by 3 instead of \$2.75.", isCorrect: false }, { text: "\$7.25", rationale: "This underestimates the cost by \$1.00.", isCorrect: false }, { text: "\$8.25", rationale: "Correct. 3 × \$2.75 = \$8.25.", isCorrect: true }, { text: "\$8.75", rationale: "This adds an extra \$0.50 to the correct amount.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "knowledge", question: "Evaluate 6 × 4 - 9.", answerOptions: [ { text: "15", rationale: "Correct. Multiply first to get 24, then subtract 9.", isCorrect: true }, { text: "18", rationale: "This subtracts 6 instead of 9 after multiplying.", isCorrect: false }, { text: "21", rationale: "This subtracts only 3 from 24.", isCorrect: false }, { text: "24", rationale: "This omits the subtraction step altogether.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "knowledge", question: "Compute 7 × 8.", answerOptions: [ { text: "48", rationale: "This is 6 × 8.", isCorrect: false }, { text: "54", rationale: "This adds 6 to the correct product.", isCorrect: false }, { text: "56", rationale: "Correct. 7 × 8 = 56.", isCorrect: true }, { text: "64", rationale: "This is 8 × 8.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "knowledge", question: "Find the sum 4.6 + 2.35.", answerOptions: [ { text: "6.85", rationale: "This subtracts 0.10 from the correct total.", isCorrect: false }, { text: "6.90", rationale: "This rounds 2.35 to 2.30 before adding.", isCorrect: false }, { text: "6.95", rationale: "Correct. Align the decimal points to add accurately.", isCorrect: true }, { text: "7.05", rationale: "This adds an extra 0.10 to the sum.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "knowledge", question: "Find the difference 9.2 - 4.58.", answerOptions: [ { text: "4.32", rationale: "This subtracts 4.88 instead of 4.58.", isCorrect: false }, { text: "4.52", rationale: "This subtracts 4.68 rather than 4.58.", isCorrect: false }, { text: "4.62", rationale: "Correct. Align the decimals to find 9.20 - 4.58 = 4.62.", isCorrect: true }, { text: "5.38", rationale: "This adds the numbers instead of subtracting them.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "knowledge", question: "Evaluate 3/4 + 1/2.", answerOptions: [ { text: "3/8", rationale: "This incorrectly adds numerators and denominators.", isCorrect: false }, { text: "5/4", rationale: "Correct. Convert 1/2 to 2/4 and add to 3/4.", isCorrect: true }, { text: "4/6", rationale: "This equals 2/3 and does not match the problem.", isCorrect: false }, { text: "7/4", rationale: "This adds the numerators without using a common denominator properly.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "knowledge", question: "Express 2 3/5 as an improper fraction.", answerOptions: [ { text: "7/5", rationale: "This would come from 1 2/5, not 2 3/5.", isCorrect: false }, { text: "8/5", rationale: "This multiplies the whole number by the denominator but does not add the numerator.", isCorrect: false }, { text: "10/5", rationale: "This equals 2 and ignores the fractional part.", isCorrect: false }, { text: "13/5", rationale: "Correct. 2 × 5 + 3 = 13, so the fraction is 13/5.", isCorrect: true } ] },
-                                    { questionNumber: 10, type: "applied", question: "A recipe requires 2/3 cup of sugar. If the recipe is doubled, how much sugar is needed?", answerOptions: [ { text: "2/3 cup", rationale: "Doubling the recipe should increase, not keep, the amount of sugar the same.", isCorrect: false }, { text: "4/3 cup", rationale: "Correct. 2 × 2/3 = 4/3 cup, or 1 1/3 cups.", isCorrect: true }, { text: "5/3 cup", rationale: "This adds an extra third of a cup beyond the correct amount.", isCorrect: false }, { text: "8/3 cup", rationale: "This multiplies by 4 instead of by 2.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "applied", question: "A pack of 24 markers is divided equally among 6 students. How many markers will each student receive?", answerOptions: [ { text: "3 markers", rationale: "This divides 24 by 8 instead of by 6.", isCorrect: false }, { text: "4 markers", rationale: "Correct. 24 / 6 = 4.", isCorrect: true }, { text: "5 markers", rationale: "This divides 24 by 5.", isCorrect: false }, { text: "6 markers", rationale: "This divides 24 by 4.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "knowledge", question: "Which expression is equivalent to 5(7 + 2)?", answerOptions: [ { text: "5 × 7 + 2", rationale: "This does not follow the order of operations.", isCorrect: false }, { text: "5 × 9", rationale: "Correct. Simplify inside the parentheses first: 7 + 2 = 9.", isCorrect: true }, { text: "5 + 7 + 2", rationale: "This removes multiplication entirely.", isCorrect: false }, { text: "5 × 7 × 2", rationale: "This multiplies both numbers instead of adding them before multiplying by 5.", isCorrect: false } ] }
+                                    {
+                                        questionNumber: 1,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'What is the value of the expression $5 \\times (3 + 8) - 2^3$?',
+                                        correctAnswer: '47'
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'Which of the following numbers is a prime number?',
+                                        answerOptions: [
+                                            { text: '51', isCorrect: false },
+                                            { text: '53', isCorrect: true },
+                                            { text: '55', isCorrect: false },
+                                            { text: '57', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'What is the least common multiple (LCM) of 12 and 18?',
+                                        answerOptions: [
+                                            { text: '6', isCorrect: false },
+                                            { text: '24', isCorrect: false },
+                                            { text: '36', isCorrect: true },
+                                            { text: '72', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'Simplify the expression: $3(x + 4) - 2(x - 1)$',
+                                        correctAnswer: 'x + 14'
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'What is the value of the expression $2x^2 - 3x + 5$ when $x = -2$?',
+                                        answerOptions: [
+                                            { text: '7', isCorrect: false },
+                                            { text: '19', isCorrect: true },
+                                            { text: '3', isCorrect: false },
+                                            { text: '-1', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'What is the slope of the line that passes through the points $(2, 5)$ and $(4, 1)$?',
+                                        answerOptions: [
+                                            { text: '2', isCorrect: false },
+                                            { text: '-2', isCorrect: true },
+                                            { text: '1/2', isCorrect: false },
+                                            { text: '-1/2', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'Solve for x: $3x - 7 = 14$',
+                                        correctAnswer: '7'
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'What is the perimeter of a rectangle with a length of 8 cm and a width of 5 cm?',
+                                        answerOptions: [
+                                            { text: '13 cm', isCorrect: false },
+                                            { text: '26 cm', isCorrect: true },
+                                            { text: '40 cm', isCorrect: false },
+                                            { text: '21 cm', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'What is the area of a triangle with a base of 10 inches and a height of 6 inches?',
+                                        answerOptions: [
+                                            { text: '16 square inches', isCorrect: false },
+                                            { text: '30 square inches', isCorrect: true },
+                                            { text: '60 square inches', isCorrect: false },
+                                            { text: '32 square inches', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'A car travels at a speed of 60 miles per hour. How far will it travel in 3.5 hours?',
+                                        correctAnswer: '210 miles'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A survey of 100 people found that 60% of them prefer coffee to tea. How many people prefer coffee?',
+                                        answerOptions: [
+                                            { text: '40', isCorrect: false },
+                                            { text: '60', isCorrect: true },
+                                            { text: '100', isCorrect: false },
+                                            { text: '160', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'What is the probability of rolling a 4 on a standard six-sided die?',
+                                        answerOptions: [
+                                            { text: '1/6', isCorrect: true },
+                                            { text: '1/3', isCorrect: false },
+                                            { text: '1/2', isCorrect: false },
+                                            { text: '1/4', isCorrect: false }
+                                        ]
+                                    }
                                 ]
                             },
-
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
-                                quizId: "math_quant_basics_set2",
+                                quizId: "math_basics_number_sense_set2",
                                 label: "Quiz B",
-                                description: "Practice with ratios, proportions, and percentages.",
-                                questionSourceTopicId: "math_quant_basics",
                                 questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "Simplify the ratio 18:24 to lowest terms.", answerOptions: [ { text: "2:3", rationale: "Dividing both terms by 9 leaves a common factor behind.", isCorrect: false }, { text: "3:4", rationale: "Correct. Divide both numbers by 6 to fully simplify.", isCorrect: true }, { text: "6:8", rationale: "This divides by 3 but does not reach simplest form.", isCorrect: false }, { text: "9:12", rationale: "This divides by 2 only once.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "applied", question: "A recipe uses 2 cups of sugar for every 5 cups of flour. How many cups of sugar are required for 20 cups of flour?", answerOptions: [ { text: "4 cups", rationale: "This keeps the sugar amount the same.", isCorrect: false }, { text: "6 cups", rationale: "This solves the proportion incorrectly; x should be 8.", isCorrect: false }, { text: "8 cups", rationale: "Correct. 2:5 = x:20 gives x = 8.", isCorrect: true }, { text: "10 cups", rationale: "This assumes equal amounts of sugar and flour.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "knowledge", question: "Which ratio is equivalent to 4/5 in simplest terms?", answerOptions: [ { text: "12:20", rationale: "This simplifies to 3/5.", isCorrect: false }, { text: "16:20", rationale: "Correct. Multiply both terms by 4.", isCorrect: true }, { text: "18:20", rationale: "This simplifies to 9/10.", isCorrect: false }, { text: "8:15", rationale: "This simplifies to 8/15.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "applied", question: "A car travels 180 miles in 3 hours. What is its speed in miles per hour?", answerOptions: [ { text: "45 miles per hour", rationale: "This divides by 4 instead of 3.", isCorrect: false }, { text: "54 miles per hour", rationale: "This divides by 3.333 instead of 3.", isCorrect: false }, { text: "60 miles per hour", rationale: "Correct. 180 / 3 = 60.", isCorrect: true }, { text: "63 miles per hour", rationale: "This assumes 189 miles were traveled.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "knowledge", question: "Find 35% of 200.", answerOptions: [ { text: "50", rationale: "This equals 25% of 200.", isCorrect: false }, { text: "60", rationale: "This equals 30% of 200.", isCorrect: false }, { text: "70", rationale: "Correct. 0.35 × 200 = 70.", isCorrect: true }, { text: "90", rationale: "This equals 45% of 200.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "knowledge", question: "Convert 18% to decimal form.", answerOptions: [ { text: "0.018", rationale: "This moves the decimal two places too far.", isCorrect: false }, { text: "0.18", rationale: "Correct. Divide by 100 to convert percent to decimal.", isCorrect: true }, { text: "1.8", rationale: "This multiplies instead of dividing by 100.", isCorrect: false }, { text: "18.0", rationale: "This removes the percent symbol without changing the value.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "applied", question: "A jacket priced at \$80 is discounted by 15%. What is the sale price?", answerOptions: [ { text: "\$12", rationale: "This is the discount amount, not the price after discount.", isCorrect: false }, { text: "\$68", rationale: "Correct. \$80 - \$12 = \$68.", isCorrect: true }, { text: "\$72", rationale: "This subtracts only 10% of the cost.", isCorrect: false }, { text: "\$92", rationale: "This adds the discount instead of subtracting it.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "applied", question: "A bag contains 15 red marbles and 5 blue marbles. What percent of the marbles are blue?", answerOptions: [ { text: "20%", rationale: "This would be correct if there were 25 marbles total.", isCorrect: false }, { text: "25%", rationale: "Correct. 5/20 = 0.25, or 25%.", isCorrect: true }, { text: "30%", rationale: "This assumes 6 blue marbles out of 20.", isCorrect: false }, { text: "75%", rationale: "This is the percent of marbles that are red.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "knowledge", question: "Express 7/20 as a percentage.", answerOptions: [ { text: "28%", rationale: "This multiplies by 4 instead of 5.", isCorrect: false }, { text: "30%", rationale: "This equals 3/10, not 7/20.", isCorrect: false }, { text: "35%", rationale: "Correct. 7 × 5 = 35 gives the percent.", isCorrect: true }, { text: "70%", rationale: "This doubles the correct percent.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "applied", question: "A store applies an 8% sales tax to a \$150 purchase. What is the total cost?", answerOptions: [ { text: "\$158", rationale: "This assumes the tax is \$8 rather than \$12.", isCorrect: false }, { text: "\$162", rationale: "Correct. Add the \$12 tax to get \$162.", isCorrect: true }, { text: "\$164", rationale: "This treats the tax as \$14.", isCorrect: false }, { text: "\$168", rationale: "This doubles the tax rate.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "applied", question: "In a class, the ratio of students who prefer science to those who prefer history is 3:2. If 24 students prefer science, how many students prefer history?", answerOptions: [ { text: "12 students", rationale: "This assumes half as many students prefer science as history.", isCorrect: false }, { text: "14 students", rationale: "This does not match the 3:2 relationship.", isCorrect: false }, { text: "16 students", rationale: "Correct. Each ratio part is 8 students, so history has 16 students.", isCorrect: true }, { text: "20 students", rationale: "This changes the ratio to 3:2.5.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "applied", question: "A bicycle regularly costs \$240 and is discounted by 25%. What is the sale price?", answerOptions: [ { text: "\$120", rationale: "This is a 50% discount, not 25%.", isCorrect: false }, { text: "\$160", rationale: "This subtracts \$80, which is more than 25%.", isCorrect: false }, { text: "\$180", rationale: "Correct. \$240 - \$60 = \$180.", isCorrect: true }, { text: "\$200", rationale: "This subtracts only \$40 from the original price.", isCorrect: false } ] }
-                                ]
-                            },
-
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
-                            {
-                                quizId: "math_quant_basics_set3",
-                                label: "Quiz C",
-                                description: "Apply number sense and problem-solving strategies.",
-                                questionSourceTopicId: "math_quant_basics",
-                                questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "What is the place value of the digit 6 in 4,682?", answerOptions: [ { text: "6", rationale: "This would be true if the 6 were in the ones place.", isCorrect: false }, { text: "60", rationale: "This places the digit in the tens place.", isCorrect: false }, { text: "600", rationale: "Correct. The digit 6 is in the hundreds place.", isCorrect: true }, { text: "6,000", rationale: "This would be true if the 6 were in the thousands place.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "knowledge", question: "Which number is greater, 0.45 or 0.405?", answerOptions: [ { text: "0.405", rationale: "This number has a smaller tenths digit.", isCorrect: false }, { text: "They are equal.", rationale: "The numbers differ in the hundredths place.", isCorrect: false }, { text: "0.45", rationale: "Correct. Compare digits place by place to see 0.45 is larger.", isCorrect: true }, { text: "0.045", rationale: "This is a different value entirely.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "knowledge", question: "Round 7,463 to the nearest hundred place.", answerOptions: [ { text: "7,400", rationale: "This ignores the 6 in the tens place, which tells us to round up.", isCorrect: false }, { text: "7,460", rationale: "This rounds to the nearest ten, not the nearest hundred.", isCorrect: false }, { text: "7,500", rationale: "Correct. Because the tens digit is 6, round up to 7,500.", isCorrect: true }, { text: "7,600", rationale: "This rounds to the nearest thousand.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "knowledge", question: "Evaluate 3^2 + 5.", answerOptions: [ { text: "8", rationale: "This adds 3 and 5 before squaring.", isCorrect: false }, { text: "9", rationale: "This calculates 3^2 but omits the addition of 5.", isCorrect: false }, { text: "14", rationale: "Correct. 3^2 = 9 and 9 + 5 = 14.", isCorrect: true }, { text: "15", rationale: "This squares incorrectly to 10 before adding 5.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "knowledge", question: "Which of the following values is a prime number?", answerOptions: [ { text: "12", rationale: "This number has factors of 2, 3, 4, and 6.", isCorrect: false }, { text: "15", rationale: "This number is divisible by 3 and 5.", isCorrect: false }, { text: "17", rationale: "Correct. 17 has no positive divisors other than 1 and 17.", isCorrect: true }, { text: "21", rationale: "This number is divisible by 3 and 7.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "knowledge", question: "Evaluate -4 + 9.", answerOptions: [ { text: "-13", rationale: "This adds the numbers instead of subtracting 4 from 9.", isCorrect: false }, { text: "5", rationale: "Correct. 9 - 4 = 5.", isCorrect: true }, { text: "-5", rationale: "This subtracts 9 from 4.", isCorrect: false }, { text: "13", rationale: "This ignores the negative sign on -4.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "knowledge", question: "What is |-12|?", answerOptions: [ { text: "-12", rationale: "Absolute value is always non-negative.", isCorrect: false }, { text: "0", rationale: "Zero is the absolute value of zero, not -12.", isCorrect: false }, { text: "12", rationale: "Correct. Absolute value measures distance from zero.", isCorrect: true }, { text: "24", rationale: "This doubles the distance from zero.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "knowledge", question: "Convert 125% to decimal form.", answerOptions: [ { text: "0.125", rationale: "This would be the decimal form of 12.5%.", isCorrect: false }, { text: "1.25", rationale: "Correct. Divide 125 by 100 to get 1.25.", isCorrect: true }, { text: "12.5", rationale: "This multiplies the percent instead of converting it.", isCorrect: false }, { text: "125", rationale: "This removes the percent sign without changing the value.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "knowledge", question: "Which fraction represents 0.75?", answerOptions: [ { text: "1/4", rationale: "This equals 0.25.", isCorrect: false }, { text: "3/4", rationale: "Correct. 0.75 equals 3/4.", isCorrect: true }, { text: "4/5", rationale: "This equals 0.8.", isCorrect: false }, { text: "2/5", rationale: "This equals 0.4.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "applied", question: "Evaluate 2(5 + 3) - 4.", answerOptions: [ { text: "8", rationale: "This omits the subtraction of 4 at the end.", isCorrect: false }, { text: "12", rationale: "Correct. 5 + 3 = 8, 2 × 8 = 16, and 16 - 4 = 12.", isCorrect: true }, { text: "16", rationale: "This skips the subtraction step.", isCorrect: false }, { text: "20", rationale: "This adds 4 instead of subtracting it.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "knowledge", question: "What is the greatest common factor of 18 and 24?", answerOptions: [ { text: "3", rationale: "This is a common factor but not the greatest.", isCorrect: false }, { text: "6", rationale: "Correct. 6 is the largest factor shared by both numbers.", isCorrect: true }, { text: "9", rationale: "Only 18 is divisible by 9.", isCorrect: false }, { text: "12", rationale: "Only 24 is divisible by 12.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "knowledge", question: "Write 5,200 in scientific notation.", answerOptions: [ { text: "5.2 × 10^2", rationale: "This equals 520.", isCorrect: false }, { text: "5.2 × 10^3", rationale: "Correct. Move the decimal three places to the left.", isCorrect: true }, { text: "5.2 × 10^4", rationale: "This equals 52,000.", isCorrect: false }, { text: "0.52 × 10^4", rationale: "This equals 5,200, but the coefficient should be between 1 and 10.", isCorrect: false } ] }
-                                ]
-                            },
-
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
-                            {
-                                quizId: "math_quant_basics_set4",
-                                label: "Quiz D",
-                                description: "Challenge your skills with multi-step quantitative problems.",
-                                questionSourceTopicId: "math_quant_basics",
-                                questions: [
-                                    { questionNumber: 1, type: "applied", question: "A store sells 12 apples for \$4.80. At that rate, what is the cost of 18 apples?", answerOptions: [ { text: "\$6.00", rationale: "This assumes each apple costs \$0.33.", isCorrect: false }, { text: "\$7.20", rationale: "Correct. Each apple costs \$0.40, so 18 apples cost 7.20.", isCorrect: true }, { text: "\$8.40", rationale: "This uses approximately \$0.47 per apple.", isCorrect: false }, { text: "\$9.60", rationale: "This doubles the original purchase instead of scaling by 1.5.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "applied", question: "A train travels at 60 miles per hour. How many miles will it travel in 2.5 hours?", answerOptions: [ { text: "90 miles", rationale: "This multiplies by 1.5 hours.", isCorrect: false }, { text: "120 miles", rationale: "This uses 2 hours instead of 2.5 hours.", isCorrect: false }, { text: "150 miles", rationale: "Correct. 60 × 2.5 = 150 miles.", isCorrect: true }, { text: "180 miles", rationale: "This assumes the train travels for 3 hours.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "applied", question: "A water tank holds 350 liters when full. After 125 liters are used, how many liters remain?", answerOptions: [ { text: "200 liters", rationale: "This subtracts 150 liters.", isCorrect: false }, { text: "215 liters", rationale: "This subtracts 135 liters.", isCorrect: false }, { text: "225 liters", rationale: "Correct. 350 - 125 = 225 liters remain.", isCorrect: true }, { text: "235 liters", rationale: "This subtracts only 115 liters.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "applied", question: "Jordan earns \$15 per hour and receives a \$45 bonus for completing a project. How much will Jordan earn for working 8 hours, including the bonus?", answerOptions: [ { text: "\$120", rationale: "This includes only the hourly pay.", isCorrect: false }, { text: "\$135", rationale: "This adds only part of the bonus.", isCorrect: false }, { text: "\$165", rationale: "Correct. 8 × 15 = 120 and 120 + 45 = 165.", isCorrect: true }, { text: "\$180", rationale: "This adds the bonus twice.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "applied", question: "A recipe for 12 cookies uses 3 cups of flour. How many cups of flour are needed to bake 30 cookies?", answerOptions: [ { text: "5 cups", rationale: "This scales the recipe to 20 cookies.", isCorrect: false }, { text: "6 cups", rationale: "This would make 24 cookies, not 30.", isCorrect: false }, { text: "7.5 cups", rationale: "Correct. 3/12 = x/30 gives x = 7.5 cups.", isCorrect: true }, { text: "9 cups", rationale: "This assumes flour and cookies increase at the same number.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "applied", question: "Maria deposits \$800 into a savings account earning simple interest at 3% annually. How much interest does she earn in one year?", answerOptions: [ { text: "\$18", rationale: "This equals 2.25% interest.", isCorrect: false }, { text: "\$21", rationale: "This equals 2.625% interest.", isCorrect: false }, { text: "\$24", rationale: "Correct. 800 × 0.03 = 24.", isCorrect: true }, { text: "\$30", rationale: "This would be 3.75% interest.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "applied", question: "A rectangular garden is 12 meters long and 9 meters wide. What is its area in square meters?", answerOptions: [ { text: "21 square meters", rationale: "This adds the sides instead of multiplying them.", isCorrect: false }, { text: "54 square meters", rationale: "This multiplies the length by half the width.", isCorrect: false }, { text: "108 square meters", rationale: "Correct. 12 × 9 = 108 square meters.", isCorrect: true }, { text: "216 square meters", rationale: "This doubles the correct area.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "applied", question: "In a class of 28 students, 75% passed an exam. How many students passed the exam?", answerOptions: [ { text: "18 students", rationale: "This equals about 64% of the class.", isCorrect: false }, { text: "20 students", rationale: "This equals about 71% of the class.", isCorrect: false }, { text: "21 students", rationale: "Correct. 28 × 0.75 = 21 students.", isCorrect: true }, { text: "24 students", rationale: "This equals about 86% of the class.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "applied", question: "Lena bikes 15 miles at a constant speed of 12 miles per hour. How long does the trip take in hours?", answerOptions: [ { text: "0.8 hours", rationale: "This reverses the distance and speed.", isCorrect: false }, { text: "1.25 hours", rationale: "Correct. Time equals distance divided by speed.", isCorrect: true }, { text: "1.5 hours", rationale: "This assumes she travels 18 miles.", isCorrect: false }, { text: "2 hours", rationale: "This assumes a speed of 7.5 miles per hour.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "applied", question: "Each box of supplies weighs 4.5 kilograms. What is the total weight of 6 boxes in kilograms?", answerOptions: [ { text: "24 kilograms", rationale: "This multiplies by 5 boxes.", isCorrect: false }, { text: "25.5 kilograms", rationale: "This adds an extra half-box of weight.", isCorrect: false }, { text: "27 kilograms", rationale: "Correct. 4.5 × 6 = 27 kilograms.", isCorrect: true }, { text: "30 kilograms", rationale: "This rounds 4.5 up to 5 before multiplying.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "applied", question: "How many pounds of \$9-per-pound nuts should be mixed with \$5-per-pound nuts to make 4 pounds of a mixture that costs \$7 per pound?", answerOptions: [ { text: "1 pound", rationale: "This would produce a cheaper mixture.", isCorrect: false }, { text: "2 pounds", rationale: "Correct. Solve 9x + 5(4 - x) = 28 to get x = 2.", isCorrect: true }, { text: "3 pounds", rationale: "This would raise the mixture price above \$7 per pound.", isCorrect: false }, { text: "4 pounds", rationale: "This would use only the \$9 nuts.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "applied", question: "A car rental company charges \$45 per day plus \$0.20 per mile. What is the total cost for a 3-day rental with 150 miles driven?", answerOptions: [ { text: "\$120", rationale: "This includes only the daily charge.", isCorrect: false }, { text: "\$135", rationale: "This adds one daily charge to the mileage fee.", isCorrect: false }, { text: "\$165", rationale: "Correct. 3 × 45 = 135 and 150 × 0.20 = 30, so 135 + 30 = 165.", isCorrect: true }, { text: "\$195", rationale: "This charges \$60 per day instead of \$45.", isCorrect: false } ] }
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'What is 25% of 200?',
+                                        answerOptions: [
+                                            { text: '25', isCorrect: false },
+                                            { text: '50', isCorrect: true },
+                                            { text: '75', isCorrect: false },
+                                            { text: '100', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'What is the next number in the sequence: 2, 4, 8, 16, ...?',
+                                        correctAnswer: '32'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'Which fraction is equivalent to 0.75?',
+                                        answerOptions: [
+                                            { text: '1/4', isCorrect: false },
+                                            { text: '1/2', isCorrect: false },
+                                            { text: '3/4', isCorrect: true },
+                                            { text: '4/3', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'What is the value of $|-5| + 3$?',
+                                        answerOptions: [
+                                            { text: '-2', isCorrect: false },
+                                            { text: '8', isCorrect: true },
+                                            { text: '2', isCorrect: false },
+                                            { text: '-8', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'Evaluate the expression: $10 + (6 - 2) \\times 3$',
+                                        correctAnswer: '22'
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A recipe calls for 2 cups of flour for every 3 eggs. If you use 9 eggs, how much flour do you need?',
+                                        answerOptions: [
+                                            { text: '4 cups', isCorrect: false },
+                                            { text: '6 cups', isCorrect: true },
+                                            { text: '8 cups', isCorrect: false },
+                                            { text: '9 cups', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'What is the greatest common factor (GCF) of 24 and 36?',
+                                        correctAnswer: '12'
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'If a shirt that costs $40 is on sale for 20% off, what is the sale price?',
+                                        answerOptions: [
+                                            { text: '$8', isCorrect: false },
+                                            { text: '$20', isCorrect: false },
+                                            { text: '$32', isCorrect: true },
+                                            { text: '$48', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'Which of the following is equal to $5^0$?',
+                                        answerOptions: [
+                                            { text: '0', isCorrect: false },
+                                            { text: '1', isCorrect: true },
+                                            { text: '5', isCorrect: false },
+                                            { text: '-5', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'A bookstore sold 80 copies of a new book in the first week. This was 20% of the total copies they had in stock. How many copies did they have in stock?',
+                                        correctAnswer: '400'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A garden has a length of 12 feet and a width of 8 feet. If the owner wants to put a fence around it, how many feet of fencing will they need?',
+                                        answerOptions: [
+                                            { text: '20 feet', isCorrect: false },
+                                            { text: '40 feet', isCorrect: true },
+                                            { text: '96 feet', isCorrect: false },
+                                            { text: '120 feet', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'If you roll two six-sided dice, what is the probability of rolling a sum of 7?',
+                                        answerOptions: [
+                                            { text: '1/6', isCorrect: true },
+                                            { text: '1/12', isCorrect: false },
+                                            { text: '7/36', isCorrect: false },
+                                            { text: '1/36', isCorrect: false }
+                                        ]
+                                    }
                                 ]
                             }
-
                         ]
-                    }
-                ]
-            },
-            "Algebraic Reasoning": {
-                topics: [
+                    },
                     {
-                        id: "math_alg_expressions",
+                        id: "math_basics_data_analysis",
+                        title: "Data Analysis and Statistics",
+                        description: "Mean, median, mode, and interpreting graphs.",
                         quizzes: [
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
-                                quizId: "math_alg_expressions_set1",
+                                quizId: "math_basics_data_analysis_set1",
                                 label: "Quiz A",
-                                description: "Practice simplifying expressions and working with polynomials.",
-                                questionSourceTopicId: "math_alg_expressions",
                                 questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "Combine like terms: 3x + 5x.", answerOptions: [ { text: "8x", rationale: "Correct. Add the coefficients of like terms: 3 + 5 = 8.", isCorrect: true }, { text: "15x", rationale: "This adds 3 and 5 as whole numbers instead of combining like terms.", isCorrect: false }, { text: "3x^2", rationale: "This incorrectly squares x when adding.", isCorrect: false }, { text: "5x^2", rationale: "This treats the expression as multiplication rather than addition.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "knowledge", question: "Combine like terms in 4x + 7 - 2x + 3.", answerOptions: [ { text: "2x + 10", rationale: "Correct. Combine 4x - 2x to get 2x and 7 + 3 to get 10.", isCorrect: true }, { text: "2x + 4", rationale: "This adds 7 + 3 incorrectly.", isCorrect: false }, { text: "6x + 10", rationale: "This adds the x coefficients instead of subtracting 2x.", isCorrect: false }, { text: "6x + 4", rationale: "Both the coefficient and constant terms are combined incorrectly.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "knowledge", question: "Use the distributive property to simplify 5(2x - 3).", answerOptions: [ { text: "10x - 15", rationale: "Correct. Multiply 5 by each term inside the parentheses.", isCorrect: true }, { text: "10x - 3", rationale: "Only the first term was multiplied by 5.", isCorrect: false }, { text: "7x - 8", rationale: "This combines unlike operations and coefficients.", isCorrect: false }, { text: "10x + 15", rationale: "This adds instead of subtracting for the second term.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "applied", question: "Expand (x + 4)(x - 1).", answerOptions: [ { text: "x^2 + 3x - 4", rationale: "Correct. Multiply term by term and combine like terms.", isCorrect: true }, { text: "x^2 + 4x - 1", rationale: "This omits the product of the constant terms.", isCorrect: false }, { text: "x^2 - x + 4", rationale: "This mixes signs for the middle term and constant.", isCorrect: false }, { text: "x^2 - 5", rationale: "This only multiplies the outer and inner terms.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "knowledge", question: "Combine like terms in 4x^2 - 3x + 2x^2 + 5x.", answerOptions: [ { text: "6x^2 + 2x", rationale: "Correct. Combine 4x^2 + 2x^2 and -3x + 5x separately.", isCorrect: true }, { text: "6x^2 - 8x", rationale: "This subtracts instead of adds the linear terms.", isCorrect: false }, { text: "6x^2 + 8x", rationale: "This adds the coefficients without considering the negative sign.", isCorrect: false }, { text: "8x^2 + 2x", rationale: "This adds 4x^2 and 2x^2 incorrectly.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "knowledge", question: "Factor 9x^2y + 12xy^2 completely.", answerOptions: [ { text: "3xy(3x + 4y)", rationale: "Correct. Factor out the greatest common factor 3xy.", isCorrect: true }, { text: "3x(3xy + 4y^2)", rationale: "This leaves a common factor of y inside the parentheses.", isCorrect: false }, { text: "xy(9x + 12y)", rationale: "This misses the numerical greatest common factor of 3.", isCorrect: false }, { text: "9xy(x + y)", rationale: "This does not reproduce the original coefficients when expanded.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "applied", question: "Evaluate p(x) = x^2 - 2x + 1 for x = -3.", answerOptions: [ { text: "16", rationale: "Correct. Substitute -3 to get 9 + 6 + 1 = 16.", isCorrect: true }, { text: "4", rationale: "This evaluates (-3)^2 - 2(-3) but omits the constant +1.", isCorrect: false }, { text: "-8", rationale: "This treats x^2 as (-3)^2 = -9 incorrectly.", isCorrect: false }, { text: "-16", rationale: "This changes the signs of all terms after substitution.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "knowledge", question: "What is the coefficient of x^3 in 7x^3 - 5x + 2?", answerOptions: [ { text: "7", rationale: "Correct. The coefficient multiplying x^3 is 7.", isCorrect: true }, { text: "-5", rationale: "This is the coefficient of x.", isCorrect: false }, { text: "2", rationale: "This is the constant term, not a coefficient of x^3.", isCorrect: false }, { text: "0", rationale: "There is an x^3 term, so the coefficient is not zero.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "knowledge", question: "Simplify (2x^2)(-3x^3).", answerOptions: [ { text: "-6x^5", rationale: "Correct. Multiply the coefficients and add the exponents of x.", isCorrect: true }, { text: "-6x^6", rationale: "This adds the exponents incorrectly: 2 + 3 != 6.", isCorrect: false }, { text: "-1x^5", rationale: "This multiplies the coefficients incorrectly.", isCorrect: false }, { text: "6x^5", rationale: "This ignores the negative sign from -3x^3.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "knowledge", question: "What is the degree of the polynomial 6x^4 - 2x^2 + 9?", answerOptions: [ { text: "4", rationale: "Correct. The highest exponent on x is 4.", isCorrect: true }, { text: "3", rationale: "There is no x^3 term, but the degree depends on the highest exponent, not the middle term.", isCorrect: false }, { text: "2", rationale: "The quadratic term is not the highest power.", isCorrect: false }, { text: "0", rationale: "A constant polynomial would have degree 0, which is not the case here.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "applied", question: "Simplify (3x^2 + 5x - 2) - (x^2 - 4x + 7).", answerOptions: [ { text: "2x^2 + 9x - 9", rationale: "Correct. Distribute the negative sign and combine like terms.", isCorrect: true }, { text: "2x^2 + x + 5", rationale: "This subtracts 7 incorrectly and mishandles the linear terms.", isCorrect: false }, { text: "4x^2 + 9x + 5", rationale: "This adds the polynomials instead of subtracting.", isCorrect: false }, { text: "2x^2 + 9x + 9", rationale: "The constants were added rather than subtracted.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "knowledge", question: "Combine like terms: 1/2x + 3/4x.", answerOptions: [ { text: "5/4x", rationale: "Correct. Convert 1/2 to 2/4 and add to 3/4.", isCorrect: true }, { text: "3/8x", rationale: "This adds the denominators instead of the numerators.", isCorrect: false }, { text: "1/4x", rationale: "This subtracts the fractions rather than adding them.", isCorrect: false }, { text: "7/4x", rationale: "This adds an extra 1/2x.", isCorrect: false } ] }
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'What is the mean of the following set of numbers: 2, 5, 8, 1, 4?',
+                                        answerOptions: [
+                                            { text: '3', isCorrect: false },
+                                            { text: '4', isCorrect: true },
+                                            { text: '5', isCorrect: false },
+                                            { text: '6', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'What is the mode of the following set of numbers: 2, 3, 3, 4, 5, 5, 5, 6?',
+                                        correctAnswer: '5'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'What is the median of the following set of numbers: 1, 2, 3, 4, 5?',
+                                        answerOptions: [
+                                            { text: '2', isCorrect: false },
+                                            { text: '3', isCorrect: true },
+                                            { text: '4', isCorrect: false },
+                                            { text: '5', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A bar chart is used to display:',
+                                        answerOptions: [
+                                            { text: 'Categorical data', isCorrect: true },
+                                            { text: 'Continuous data', isCorrect: false },
+                                            { text: 'Time-series data', isCorrect: false },
+                                            { text: 'Geographical data', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'The range of a set of data is the difference between the highest and lowest values. What is the range of the following set: 10, 2, 8, 15, 5?',
+                                        correctAnswer: '13'
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A pie chart shows:',
+                                        answerOptions: [
+                                            { text: 'The relationship between two variables', isCorrect: false },
+                                            { text: 'The parts of a whole', isCorrect: true },
+                                            { text: 'The change in a variable over time', isCorrect: false },
+                                            { text: 'The frequency of a variable', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'If a coin is flipped 100 times and lands on heads 45 times, what is the experimental probability of it landing on heads?',
+                                        correctAnswer: '45%'
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A line graph is best used to show:',
+                                        answerOptions: [
+                                            { text: 'Trends over time', isCorrect: true },
+                                            { text: 'Proportions of a whole', isCorrect: false },
+                                            { text: 'Comparisons between categories', isCorrect: false },
+                                            { text: 'The distribution of data', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'What is the average of the first five even numbers (2, 4, 6, 8, 10)?',
+                                        answerOptions: [
+                                            { text: '5', isCorrect: false },
+                                            { text: '6', isCorrect: true },
+                                            { text: '7', isCorrect: false },
+                                            { text: '8', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'A bag contains 3 red marbles, 5 blue marbles, and 2 green marbles. What is the probability of picking a blue marble?',
+                                        correctAnswer: '1/2'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A student scored 80, 85, 90, and 95 on four tests. What score must they get on the fifth test to have an average of 90?',
+                                        answerOptions: [
+                                            { text: '90', isCorrect: false },
+                                            { text: '95', isCorrect: false },
+                                            { text: '100', isCorrect: true },
+                                            { text: '105', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A survey of 50 people found that 30 preferred brand A and 20 preferred brand B. If this is represented in a pie chart, how many degrees would the section for brand A be?',
+                                        answerOptions: [
+                                            { text: '180 degrees', isCorrect: false },
+                                            { text: '216 degrees', isCorrect: true },
+                                            { text: '144 degrees', isCorrect: false },
+                                            { text: '360 degrees', isCorrect: false }
+                                        ]
+                                    }
                                 ]
                             },
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
-                                quizId: "math_alg_expressions_set2",
+                                quizId: "math_basics_data_analysis_set2",
                                 label: "Quiz B",
-                                description: "Solve linear equations and inequalities.",
-                                questionSourceTopicId: "math_alg_expressions",
                                 questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "Solve for x: 3x + 5 = 20.", answerOptions: [ { text: "x = 5", rationale: "Correct. Subtract 5 and divide by 3 to find x.", isCorrect: true }, { text: "x = 15", rationale: "This forgets to divide by 3 after subtracting 5.", isCorrect: false }, { text: "x = 15/3", rationale: "This restates 15 without simplifying and ignores subtraction.", isCorrect: false }, { text: "x = 5/3", rationale: "This divides 5 by 3 instead of 15 by 3.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "applied", question: "Solve for x: 2(x - 4) = 18.", answerOptions: [ { text: "x = 13", rationale: "Correct. Divide by 2 to get x - 4 = 9 and then add 4.", isCorrect: true }, { text: "x = 7", rationale: "This subtracts instead of adds after dividing.", isCorrect: false }, { text: "x = 11", rationale: "This adds 2 instead of 4 after dividing.", isCorrect: false }, { text: "x = -5", rationale: "This mismanages both the division and addition steps.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "knowledge", question: "Solve for x: 1/2x - 4 = 2.", answerOptions: [ { text: "x = 12", rationale: "Correct. Add 4 to get 1/2x = 6 and multiply by 2.", isCorrect: true }, { text: "x = 4", rationale: "This stops after adding 4.", isCorrect: false }, { text: "x = -12", rationale: "This adds 4 incorrectly and multiplies by -2.", isCorrect: false }, { text: "x = 3", rationale: "This divides by 2 instead of multiplying after isolating.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "knowledge", question: "Solve for x: 5 - 2x = 13.", answerOptions: [ { text: "x = -4", rationale: "Correct. Subtract 5 to get -2x = 8 and divide by -2.", isCorrect: true }, { text: "x = 4", rationale: "This ignores the negative coefficient on x.", isCorrect: false }, { text: "x = -9", rationale: "This subtracts 5 incorrectly to get -2x = -8.", isCorrect: false }, { text: "x = 9", rationale: "This divides 8 by 2 without addressing the sign.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "knowledge", question: "Solve the inequality 4x - 7 < 9.", answerOptions: [ { text: "x < 4", rationale: "Correct. Add 7 and divide by 4 to isolate x.", isCorrect: true }, { text: "x < 2", rationale: "This divides by 2 instead of 4.", isCorrect: false }, { text: "x > 4", rationale: "The inequality direction should not reverse because we divided by a positive number.", isCorrect: false }, { text: "x > -4", rationale: "This adds instead of subtracts 7.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "applied", question: "Solve the inequality -3(x + 2) <= 12.", answerOptions: [ { text: "x >= -6", rationale: "Correct. Divide by -3 and reverse the inequality sign.", isCorrect: true }, { text: "x <= -6", rationale: "This forgets to reverse the inequality when dividing by a negative.", isCorrect: false }, { text: "x >= 6", rationale: "This adds instead of subtracts when isolating x.", isCorrect: false }, { text: "x <= 6", rationale: "This mishandles both the sign and the direction of the inequality.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "knowledge", question: "Solve for x: 2/3x + 1 = 7.", answerOptions: [ { text: "x = 9", rationale: "Correct. Subtract 1 to get 2/3x = 6 and multiply by 3/2.", isCorrect: true }, { text: "x = 8", rationale: "This divides 6 by 2 but forgets to multiply by 3.", isCorrect: false }, { text: "x = 3", rationale: "This multiplies 6 by 1/2 instead of 3/2.", isCorrect: false }, { text: "x = -9", rationale: "This subtracts 1 incorrectly and mishandles the fraction.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "applied", question: "Solve |x - 3| = 5.", answerOptions: [ { text: "x = 8 or x = -2", rationale: "Correct. Set x - 3 = 5 and x - 3 = -5 to find both solutions.", isCorrect: true }, { text: "x = 8 only", rationale: "Absolute value equations typically yield two solutions.", isCorrect: false }, { text: "x = -2 only", rationale: "Both the positive and negative cases must be considered.", isCorrect: false }, { text: "x = 5 or x = -5", rationale: "This confuses the solutions with the absolute value outputs.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "knowledge", question: "Solve for x: 3x + 4 = 2x - 6.", answerOptions: [ { text: "x = -10", rationale: "Correct. Subtract 2x and 4 to isolate x.", isCorrect: true }, { text: "x = 10", rationale: "This drops the negative sign when moving terms.", isCorrect: false }, { text: "x = -2", rationale: "This subtracts 4 on the wrong side.", isCorrect: false }, { text: "x = 2", rationale: "This divides -6 by 3 without collecting like terms.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "knowledge", question: "Solve the inequality x/5 >= -2.", answerOptions: [ { text: "x >= -10", rationale: "Correct. Multiply both sides by 5, a positive number.", isCorrect: true }, { text: "x <= -10", rationale: "The inequality should not reverse when multiplying by a positive number.", isCorrect: false }, { text: "x >= 10", rationale: "This ignores the negative sign on the right-hand side.", isCorrect: false }, { text: "x <= 10", rationale: "This reverses the inequality and changes the sign incorrectly.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "applied", question: "Solve for x: 4(x - 1) = 2x + 6.", answerOptions: [ { text: "x = 5", rationale: "Correct. Distribute to get 4x - 4 and then isolate x.", isCorrect: true }, { text: "x = 3", rationale: "This subtracts 4 from 6 incorrectly.", isCorrect: false }, { text: "x = -5", rationale: "This changes the sign when moving terms across the equation.", isCorrect: false }, { text: "x = 10", rationale: "This divides 10 by 1 instead of 2 after simplifying.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "applied", question: "Five more than twice a number equals 23. What is the number?", answerOptions: [ { text: "x = 9", rationale: "Correct. Solve 2x + 5 = 23 to get 2x = 18 and x = 9.", isCorrect: true }, { text: "x = 14", rationale: "This adds 5 to 23 instead of subtracting.", isCorrect: false }, { text: "x = 18", rationale: "This equates twice the number directly to 23 without subtracting 5.", isCorrect: false }, { text: "x = 9/2", rationale: "This divides 23 by 2 without first removing the added 5.", isCorrect: false } ] }
-                                ]
-                            },
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
-                            {
-                                quizId: "math_alg_expressions_set3",
-                                label: "Quiz C",
-                                description: "Work with quadratic equations and functions.",
-                                questionSourceTopicId: "math_alg_expressions",
-                                questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "Solve x^2 - 9 = 0.", answerOptions: [ { text: "x = 3 or x = -3", rationale: "Correct. Take the square root of both sides after factoring as (x - 3)(x + 3) = 0.", isCorrect: true }, { text: "x = 9", rationale: "This squares instead of square roots the constant.", isCorrect: false }, { text: "x = 0", rationale: "This is only a solution when the constant term is 0.", isCorrect: false }, { text: "x = ± sqrt(9)", rationale: "This repeats the expression without simplifying to numerical values.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "knowledge", question: "Solve x^2 + 6x + 8 = 0.", answerOptions: [ { text: "x = -2 or x = -4", rationale: "Correct. Factor to (x + 2)(x + 4) = 0.", isCorrect: true }, { text: "x = 2 or x = 4", rationale: "This ignores the signs needed to make the factors zero.", isCorrect: false }, { text: "x = -8", rationale: "This adds the constant and linear coefficients instead of factoring.", isCorrect: false }, { text: "x = 6", rationale: "This sets the coefficient of x equal to zero.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "knowledge", question: "Factor x^2 - 5x - 14.", answerOptions: [ { text: "(x - 7)(x + 2)", rationale: "Correct. The factors multiply to -14 and add to -5.", isCorrect: true }, { text: "(x - 2)(x + 7)", rationale: "This expands to x^2 + 5x - 14 with the wrong sign on the linear term.", isCorrect: false }, { text: "(x - 7)(x - 2)", rationale: "The product of the constants would be 14, not -14.", isCorrect: false }, { text: "(x + 7)(x + 2)", rationale: "This results in a positive linear term.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "applied", question: "Use the quadratic formula to solve 2x^2 - 3x - 2 = 0.", answerOptions: [ { text: "x = 2 or x = -1/2", rationale: "Correct. Substitute a = 2, b = -3, and c = -2 into the formula.", isCorrect: true }, { text: "x = -2 or x = 1/2", rationale: "This switches the signs of both solutions.", isCorrect: false }, { text: "x = 3 or x = -3/4", rationale: "This divides by 4 incorrectly inside the formula.", isCorrect: false }, { text: "x = 3 ± sqrt(5)/2", rationale: "This omits dividing the discriminant by 2a = 4.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "knowledge", question: "What is the vertex of y = (x - 4)^2 + 3?", answerOptions: [ { text: "(4, 3)", rationale: "Correct. Vertex form y = (x - h)^2 + k has vertex (h, k).", isCorrect: true }, { text: "(4, -3)", rationale: "This changes the sign of the k value.", isCorrect: false }, { text: "( -4, 3)", rationale: "This changes the sign of the h value.", isCorrect: false }, { text: "( -4, -3)", rationale: "Both coordinates have incorrect signs.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "knowledge", question: "What is the axis of symmetry for y = x^2 - 6x + 5?", answerOptions: [ { text: "x = 3", rationale: "Correct. Use x = -b/2a = --6/2 = 3.", isCorrect: true }, { text: "x = -3", rationale: "This neglects the negative sign in the formula.", isCorrect: false }, { text: "x = 5", rationale: "This confuses the constant term with the axis.", isCorrect: false }, { text: "x = 6", rationale: "This uses the coefficient of x directly.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "applied", question: "Evaluate y = x^2 - 4x + 7 for x = 1.", answerOptions: [ { text: "y = 4", rationale: "Correct. Substitute to get 1 - 4 + 7 = 4.", isCorrect: true }, { text: "y = -2", rationale: "This subtracts the constant instead of adding it.", isCorrect: false }, { text: "y = 0", rationale: "This assumes the expression factors with a root at x = 1.", isCorrect: false }, { text: "y = 6", rationale: "This multiplies -4 and 7 instead of adding.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "knowledge", question: "Does the equation y = x^2 + 4x + 8 have real solutions?", answerOptions: [ { text: "No, because the discriminant is negative.", rationale: "Correct. b^2 - 4ac = 16 - 32 = -16 < 0.", isCorrect: true }, { text: "Yes, because every quadratic has two real solutions.", rationale: "A negative discriminant produces complex solutions.", isCorrect: false }, { text: "Yes, because c is positive.", rationale: "The sign of c alone does not determine the nature of the roots.", isCorrect: false }, { text: "No, because the leading coefficient is positive.", rationale: "The sign of a determines concavity, not root type.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "knowledge", question: "What is the y-intercept of the quadratic y = x^2 - 5x + 6?", answerOptions: [ { text: "(0, 6)", rationale: "Correct. Set x = 0 to find the y-intercept.", isCorrect: true }, { text: "(6, 0)", rationale: "This is an x-intercept, not the y-intercept.", isCorrect: false }, { text: "(0, -5)", rationale: "This uses the coefficient of x instead of the constant term.", isCorrect: false }, { text: "(1, 6)", rationale: "This substitutes x = 1 rather than x = 0.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "applied", question: "Solve -2(x + 1)^2 + 8 = 0.", answerOptions: [ { text: "x = 1 or x = -3", rationale: "Correct. Move 8, divide by -2, and take square roots.", isCorrect: true }, { text: "x = -1 or x = 3", rationale: "This reverses the shifts inside the parentheses.", isCorrect: false }, { text: "x = 2", rationale: "This assumes a single root without considering symmetry.", isCorrect: false }, { text: "x = -4", rationale: "This substitutes x for (x + 1) directly.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "knowledge", question: "For x^2 + kx + 9 = 0 to have exactly one real solution, what value of k is required?", answerOptions: [ { text: "k = 6 or k = -6", rationale: "Correct. Set the discriminant k^2 - 36 equal to zero.", isCorrect: true }, { text: "k = 0", rationale: "This gives a negative discriminant of -36.", isCorrect: false }, { text: "k = 3", rationale: "This results in 9 - 36 < 0, producing two complex roots.", isCorrect: false }, { text: "k = 9", rationale: "This leads to a positive discriminant, not a single solution.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "applied", question: "What is the maximum value of y = -x^2 + 4x + 1?", answerOptions: [ { text: "5", rationale: "Correct. The vertex at x = 2 gives y = -4 + 8 + 1 = 5.", isCorrect: true }, { text: "-5", rationale: "This negates the correct value.", isCorrect: false }, { text: "1", rationale: "This is the constant term, not the vertex value.", isCorrect: false }, { text: "4", rationale: "This evaluates the function at x = 1 instead of the vertex.", isCorrect: false } ] }
-                                ]
-                            },
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
-                            {
-                                quizId: "math_alg_expressions_set4",
-                                label: "Quiz D",
-                                description: "Explore functions and their graphs.",
-                                questionSourceTopicId: "math_alg_expressions",
-                                questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "Evaluate f(5) when f(x) = 3x - 4.", answerOptions: [ { text: "11", rationale: "Correct. Substitute x = 5 to get 15 - 4.", isCorrect: true }, { text: "19", rationale: "This adds instead of subtracts the constant.", isCorrect: false }, { text: "-11", rationale: "This changes the sign of the output unnecessarily.", isCorrect: false }, { text: "1", rationale: "This subtracts 4 from 5 before multiplying by 3.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "applied", question: "Evaluate g(-2) when g(t) = 2t^2 - 1.", answerOptions: [ { text: "7", rationale: "Correct. 2(4) - 1 = 7.", isCorrect: true }, { text: "-7", rationale: "This forgets that squaring -2 gives a positive 4.", isCorrect: false }, { text: "-3", rationale: "This substitutes -2 without squaring.", isCorrect: false }, { text: "3", rationale: "This halves the correct answer.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "knowledge", question: "What is the slope of the line y = (-1/2)x + 6?", answerOptions: [ { text: "-1/2", rationale: "Correct. The coefficient of x in slope-intercept form gives the slope.", isCorrect: true }, { text: "1/2", rationale: "This ignores the negative sign.", isCorrect: false }, { text: "6", rationale: "This is the y-intercept, not the slope.", isCorrect: false }, { text: "-6", rationale: "This multiplies the slope and intercept.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "knowledge", question: "What is the domain of f(x) = sqrt(x - 3)?", answerOptions: [ { text: "x >= 3", rationale: "Correct. The expression under the square root must be nonnegative.", isCorrect: true }, { text: "x > 0", rationale: "This ignores the -3 inside the radical.", isCorrect: false }, { text: "All real numbers", rationale: "Square roots of negative numbers are not real.", isCorrect: false }, { text: "x <= 3", rationale: "This reverses the inequality needed to keep the radicand nonnegative.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "knowledge", question: "What is the range of y = x^2 + 2?", answerOptions: [ { text: "y >= 2", rationale: "Correct. The parabola opens upward and has a minimum of 2.", isCorrect: true }, { text: "y > 0", rationale: "This ignores the vertical shift of +2.", isCorrect: false }, { text: "All real numbers", rationale: "Quadratic functions with positive leading coefficient are bounded below.", isCorrect: false }, { text: "y <= 2", rationale: "This would describe a downward-opening parabola.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "applied", question: "For f(x) = 2x + 3, what value of x produces f(x) = 11?", answerOptions: [ { text: "x = 4", rationale: "Correct. Solve 2x + 3 = 11 to find x = 4.", isCorrect: true }, { text: "x = 8", rationale: "This forgets to subtract 3 before dividing by 2.", isCorrect: false }, { text: "x = -4", rationale: "This changes the sign when isolating x.", isCorrect: false }, { text: "x = 14", rationale: "This sets x equal to the function output.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "knowledge", question: "What is the y-intercept of y = 5 - 3x?", answerOptions: [ { text: "(0, 5)", rationale: "Correct. Set x = 0 to find where the graph crosses the y-axis.", isCorrect: true }, { text: "(5, 0)", rationale: "This is the x-intercept instead.", isCorrect: false }, { text: "(0, -3)", rationale: "This uses the slope rather than the constant term.", isCorrect: false }, { text: "(1, 2)", rationale: "This substitutes x = 1 instead of x = 0.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "knowledge", question: "Evaluate h(2) when h(x) = |x - 2|.", answerOptions: [ { text: "0", rationale: "Correct. |2 - 2| = 0.", isCorrect: true }, { text: "2", rationale: "This omits subtracting before taking the absolute value.", isCorrect: false }, { text: "-2", rationale: "Absolute value outputs are never negative.", isCorrect: false }, { text: "1", rationale: "This evaluates |2 - 1| instead.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "applied", question: "Compute f(g(3)) when f(x) = x + 4 and g(x) = 2x.", answerOptions: [ { text: "10", rationale: "Correct. First find g(3) = 6 and then compute f(6) = 10.", isCorrect: true }, { text: "14", rationale: "This adds 4 to 3 before doubling.", isCorrect: false }, { text: "6", rationale: "This stops after finding g(3) without applying f.", isCorrect: false }, { text: "12", rationale: "This multiplies f(3) by g(3).", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "knowledge", question: "Does the relation y = x^2 - 1 define y as a function of x?", answerOptions: [ { text: "Yes, each input x produces exactly one output y.", rationale: "Correct. The relation passes the vertical line test.", isCorrect: true }, { text: "No, because x has two possible outputs.", rationale: "Each value of x gives a single value of y.", isCorrect: false }, { text: "No, because the graph is a curve.", rationale: "Being curved does not prevent a relation from being a function.", isCorrect: false }, { text: "Yes, because it is symmetric about the y-axis.", rationale: "Symmetry alone does not define a function; the unique output rule does.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "applied", question: "What is the average rate of change of f(x) = x^2 from x = 1 to x = 4?", answerOptions: [ { text: "5", rationale: "Correct. f(4) - f(1)/4 - 1 = 16 - 1/3 = 5.", isCorrect: true }, { text: "3", rationale: "This divides by 4 instead of 3.", isCorrect: false }, { text: "7", rationale: "This subtracts 1 from 16 incorrectly.", isCorrect: false }, { text: "15", rationale: "This omits dividing by the change in x.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "applied", question: "A function maps each input x to 2x - 1. If the output is 9, what input produced it?", answerOptions: [ { text: "x = 5", rationale: "Correct. Solve 2x - 1 = 9 to get x = 5.", isCorrect: true }, { text: "x = 4", rationale: "This subtracts 1 from 9 but forgets to divide by 2.", isCorrect: false }, { text: "x = 10", rationale: "This sets the input equal to twice the output.", isCorrect: false }, { text: "x = -5", rationale: "This changes the sign while solving.", isCorrect: false } ] }
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'Which of the following is a measure of central tendency?',
+                                        answerOptions: [
+                                            { text: 'Range', isCorrect: false },
+                                            { text: 'Mean', isCorrect: true },
+                                            { text: 'Standard Deviation', isCorrect: false },
+                                            { text: 'Variance', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'What is the median of the following set of numbers: 10, 20, 30, 40, 50, 60?',
+                                        correctAnswer: '35'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'A graph that uses pictures to represent data is called a:',
+                                        answerOptions: [
+                                            { text: 'Bar chart', isCorrect: false },
+                                            { text: 'Pictograph', isCorrect: true },
+                                            { text: 'Line graph', isCorrect: false },
+                                            { text: 'Pie chart', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'The probability of an event is always between:',
+                                        answerOptions: [
+                                            { text: '0 and 1', isCorrect: true },
+                                            { text: '-1 and 1', isCorrect: false },
+                                            { text: '0 and 100', isCorrect: false },
+                                            { text: '1 and 10', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'If a die is rolled once, what is the probability of rolling an even number?',
+                                        correctAnswer: '1/2'
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A company has 10 employees. Their salaries are: $30k, $30k, $40k, $40k, $40k, $50k, $60k, $70k, $80k, $120k. What is the mode of the salaries?',
+                                        answerOptions: [
+                                            { text: '$30k', isCorrect: false },
+                                            { text: '$40k', isCorrect: true },
+                                            { text: '$50k', isCorrect: false },
+                                            { text: '$120k', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'A car dealership sold 15 cars on Monday, 20 on Tuesday, 10 on Wednesday, 25 on Thursday, and 30 on Friday. What was the average number of cars sold per day?',
+                                        correctAnswer: '20'
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A scatter plot is used to:',
+                                        answerOptions: [
+                                            { text: 'Show the relationship between two variables', isCorrect: true },
+                                            { text: 'Show the parts of a whole', isCorrect: false },
+                                            { text: 'Show trends over time', isCorrect: false },
+                                            { text: 'Compare categories', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'If a spinner has 4 equal sections colored red, blue, green, and yellow, what is the probability of landing on red?',
+                                        answerOptions: [
+                                            { text: '1/2', isCorrect: false },
+                                            { text: '1/4', isCorrect: true },
+                                            { text: '1/3', isCorrect: false },
+                                            { text: '1', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'A survey of 200 people found that 120 preferred product A. What percentage of people preferred product A?',
+                                        correctAnswer: '60%'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A test has 50 questions. A student answers 45 correctly. What is their score as a percentage?',
+                                        answerOptions: [
+                                            { text: '80%', isCorrect: false },
+                                            { text: '85%', isCorrect: false },
+                                            { text: '90%', isCorrect: true },
+                                            { text: '95%', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A weather forecast predicts a 30% chance of rain. What is the probability that it will not rain?',
+                                        answerOptions: [
+                                            { text: '30%', isCorrect: false },
+                                            { text: '50%', isCorrect: false },
+                                            { text: '70%', isCorrect: true },
+                                            { text: '100%', isCorrect: false }
+                                        ]
+                                    }
                                 ]
                             }
                         ]
@@ -488,92 +837,1042 @@ export const expandedQuizData = {
                 ]
             },
             "Geometry": {
+                description: "The study of shapes, sizes, positions of figures, and properties of space.",
                 topics: [
                     {
-                        id: "math_geom_basics",
+                        id: "math_geometry_figures",
+                        title: "Geometric Figures",
+                        description: "Properties of 2D and 3D shapes, including triangles, quadrilaterals, and circles.",
                         quizzes: [
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
-                                quizId: "math_geom_basics_set1",
+                                quizId: "math_geometry_figures_set1",
                                 label: "Quiz A",
-                                description: "Review perimeter, area, volume, and surface area applications.",
-                                questionSourceTopicId: "math_geom_basics",
                                 questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "What is the perimeter of a rectangle that is 8 units long and 5 units wide?", answerOptions: [ { text: "26 units", rationale: "Correct. 2(8 + 5) = 26.", isCorrect: true }, { text: "40 units", rationale: "This multiplies the length and width instead of adding.", isCorrect: false }, { text: "13 units", rationale: "This adds the length and width only once.", isCorrect: false }, { text: "30 units", rationale: "This adds an extra side length.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "knowledge", question: "Find the area of a triangle with a 12-unit base and a height of 5 units.", answerOptions: [ { text: "30 square units", rationale: "Correct. Use 1/2bh = 1/2(12)(5).", isCorrect: true }, { text: "60 square units", rationale: "This omits the 1/2 factor.", isCorrect: false }, { text: "17 square units", rationale: "This adds the base and height instead of multiplying.", isCorrect: false }, { text: "24 square units", rationale: "This multiplies 12 by 2 rather than 5.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "knowledge", question: "Determine the area of a circle with radius 4 units.", answerOptions: [ { text: "16π square units", rationale: "Correct. Use A = π r^2 = π(4^2) = 16π.", isCorrect: true }, { text: "8π square units", rationale: "This uses the diameter instead of the radius.", isCorrect: false }, { text: "32π square units", rationale: "This doubles the correct area.", isCorrect: false }, { text: "64π square units", rationale: "This squares the radius and multiplies by 4 again.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "knowledge", question: "A rectangular prism measures 3 cm by 4 cm by 5 cm. What is its volume in cubic centimeters?", answerOptions: [ { text: "60 cubic centimeters", rationale: "Correct. Multiply the dimensions: 3 × 4 × 5 = 60.", isCorrect: true }, { text: "12 cubic centimeters", rationale: "This multiplies only two of the dimensions.", isCorrect: false }, { text: "45 cubic centimeters", rationale: "This omits one dimension when multiplying.", isCorrect: false }, { text: "64 cubic centimeters", rationale: "This treats the prism as a cube with edge 4.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "knowledge", question: "What is the total surface area of a cube with side length 6 inches?", answerOptions: [ { text: "216 square inches", rationale: "Correct. 6 faces each with area 36.", isCorrect: true }, { text: "36 square inches", rationale: "This finds the area of just one face.", isCorrect: false }, { text: "1296 square inches", rationale: "This squares the volume instead of finding surface area.", isCorrect: false }, { text: "108 square inches", rationale: "This multiplies by 3 instead of 6.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "applied", question: "A trapezoid has bases of 10 meters and 6 meters with a height of 4 meters. What is its area in square meters?", answerOptions: [ { text: "32 square meters", rationale: "Correct. 1/2(10 + 6)(4) = 32.", isCorrect: true }, { text: "64 square meters", rationale: "This omits the 1/2 factor.", isCorrect: false }, { text: "16 square meters", rationale: "This averages the bases but forgets to multiply by height.", isCorrect: false }, { text: "20 square meters", rationale: "This uses only one base times the height.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "knowledge", question: "Find the circumference of a circle with radius 7 inches.", answerOptions: [ { text: "14π inches", rationale: "Correct. Use C = 2π r = 14π.", isCorrect: true }, { text: "7π inches", rationale: "This omits the factor of 2.", isCorrect: false }, { text: "49π inches", rationale: "This squares the radius incorrectly.", isCorrect: false }, { text: "28π inches", rationale: "This doubles the correct circumference.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "applied", question: "What is the volume of a cylinder with radius 3 feet and height 10 feet?", answerOptions: [ { text: "90π cubic feet", rationale: "Correct. V = π r^2 h = π(9)(10).", isCorrect: true }, { text: "30π cubic feet", rationale: "This forgets to square the radius.", isCorrect: false }, { text: "60π cubic feet", rationale: "This multiplies only one radius by the height.", isCorrect: false }, { text: "180π cubic feet", rationale: "This doubles the correct product.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "applied", question: "A square has an area of 81 square centimeters. What is the length of each side?", answerOptions: [ { text: "9 centimeters", rationale: "Correct. Take the square root of the area: sqrt(81) = 9.", isCorrect: true }, { text: "18 centimeters", rationale: "This doubles the correct side length.", isCorrect: false }, { text: "81 centimeters", rationale: "This uses the area itself as the side length.", isCorrect: false }, { text: "27 centimeters", rationale: "This cubes the side length unnecessarily.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "applied", question: "A rectangular garden is 20 feet long and 15 feet wide. What is its area in square feet?", answerOptions: [ { text: "300 square feet", rationale: "Correct. Multiply length by width.", isCorrect: true }, { text: "70 square feet", rationale: "This adds the dimensions rather than multiplying.", isCorrect: false }, { text: "140 square feet", rationale: "This doubles the perimeter instead of finding area.", isCorrect: false }, { text: "225 square feet", rationale: "This multiplies 15 by itself.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "knowledge", question: "A rectangle has a perimeter of 54 meters and a length of 20 meters. What is its width?", answerOptions: [ { text: "7 meters", rationale: "Correct. 2(20 + w) = 54 leads to w = 7.", isCorrect: true }, { text: "14 meters", rationale: "This divides the perimeter by 4 without subtracting the length first.", isCorrect: false }, { text: "34 meters", rationale: "This subtracts the length just once instead of twice.", isCorrect: false }, { text: "17 meters", rationale: "This subtracts 20 from 54 without accounting for both lengths.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "applied", question: "A right triangular prism has a base area of 24 square inches and a height of 9 inches. What is its volume in cubic inches?", answerOptions: [ { text: "216 cubic inches", rationale: "Correct. Multiply the base area by the height: 24 × 9.", isCorrect: true }, { text: "48 cubic inches", rationale: "This doubles the base area but omits the prism height.", isCorrect: false }, { text: "33 cubic inches", rationale: "This averages the base area and height incorrectly.", isCorrect: false }, { text: "432 cubic inches", rationale: "This multiplies by the height twice.", isCorrect: false } ] }
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'A triangle with all sides of equal length is called:',
+                                        answerOptions: [
+                                            { text: 'Isosceles', isCorrect: false },
+                                            { text: 'Equilateral', isCorrect: true },
+                                            { text: 'Scalene', isCorrect: false },
+                                            { text: 'Right', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'How many degrees are in a right angle?',
+                                        correctAnswer: '90'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'What is the name of a polygon with 5 sides?',
+                                        answerOptions: [
+                                            { text: 'Hexagon', isCorrect: false },
+                                            { text: 'Pentagon', isCorrect: true },
+                                            { text: 'Octagon', isCorrect: false },
+                                            { text: 'Quadrilateral', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'The distance around a circle is called the:',
+                                        answerOptions: [
+                                            { text: 'Radius', isCorrect: false },
+                                            { text: 'Diameter', isCorrect: false },
+                                            { text: 'Circumference', isCorrect: true },
+                                            { text: 'Area', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'If the radius of a circle is 5 cm, what is its diameter?',
+                                        correctAnswer: '10 cm'
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A quadrilateral with four equal sides and four right angles is a:',
+                                        answerOptions: [
+                                            { text: 'Rhombus', isCorrect: false },
+                                            { text: 'Square', isCorrect: true },
+                                            { text: 'Trapezoid', isCorrect: false },
+                                            { text: 'Parallelogram', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'What is the sum of the angles in a triangle?',
+                                        correctAnswer: '180 degrees'
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'Which of the following is a three-dimensional shape?',
+                                        answerOptions: [
+                                            { text: 'Circle', isCorrect: false },
+                                            { text: 'Sphere', isCorrect: true },
+                                            { text: 'Square', isCorrect: false },
+                                            { text: 'Triangle', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'The formula for the area of a rectangle is:',
+                                        answerOptions: [
+                                            { text: 'Length + Width', isCorrect: false },
+                                            { text: 'Length x Width', isCorrect: true },
+                                            { text: '2 x (Length + Width)', isCorrect: false },
+                                            { text: 'Length / Width', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'What is the volume of a cube with a side length of 3 cm?',
+                                        correctAnswer: '27 cubic cm'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'If two angles in a triangle are 60 and 80 degrees, what is the third angle?',
+                                        answerOptions: [
+                                            { text: '20 degrees', isCorrect: false },
+                                            { text: '40 degrees', isCorrect: true },
+                                            { text: '60 degrees', isCorrect: false },
+                                            { text: '80 degrees', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A shape with 8 sides is called an:',
+                                        answerOptions: [
+                                            { text: 'Hexagon', isCorrect: false },
+                                            { text: 'Octagon', isCorrect: true },
+                                            { text: 'Decagon', isCorrect: false },
+                                            { text: 'Nonagon', isCorrect: false }
+                                        ]
+                                    }
                                 ]
                             },
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
-                                quizId: "math_geom_basics_set2",
+                                quizId: "math_geometry_figures_set2",
                                 label: "Quiz B",
-                                description: "Analyze geometric shapes and their properties.",
-                                questionSourceTopicId: "math_geom_basics",
                                 questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "Which statement is always true for any parallelogram?", answerOptions: [ { text: "Opposite sides are parallel.", rationale: "Correct. This property defines a parallelogram.", isCorrect: true }, { text: "All angles are right angles.", rationale: "Only rectangles and squares guarantee right angles.", isCorrect: false }, { text: "All sides are congruent.", rationale: "This describes a rhombus, not every parallelogram.", isCorrect: false }, { text: "Diagonals are congruent.", rationale: "This is true for rectangles, not all parallelograms.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "knowledge", question: "What is the sum of the interior angle measures of a pentagon?", answerOptions: [ { text: "540°", rationale: "Correct. (n - 2) × 180 = 3 × 180.", isCorrect: true }, { text: "360°", rationale: "This is the sum for a quadrilateral.", isCorrect: false }, { text: "720°", rationale: "This is the sum for a hexagon.", isCorrect: false }, { text: "900°", rationale: "This overestimates by using n × 180.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "knowledge", question: "A triangle has side lengths 7, 7, and 5. How is this triangle classified?", answerOptions: [ { text: "Isosceles", rationale: "Correct. Two sides are congruent.", isCorrect: true }, { text: "Equilateral", rationale: "Equilateral triangles have three equal sides.", isCorrect: false }, { text: "Scalene", rationale: "Scalene triangles have no equal sides.", isCorrect: false }, { text: "Right", rationale: "The side lengths do not satisfy the Pythagorean theorem.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "knowledge", question: "What is the measure of each interior angle in a regular octagon?", answerOptions: [ { text: "135°", rationale: "Correct. Use (n - 2) × 180/n = 6 × 180/8.", isCorrect: true }, { text: "120°", rationale: "This is the interior angle of a regular hexagon.", isCorrect: false }, { text: "140°", rationale: "This results from miscalculating the numerator.", isCorrect: false }, { text: "160°", rationale: "This assumes an incorrect angle sum.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "knowledge", question: "Which statement best defines a trapezoid using the inclusive definition?", answerOptions: [ { text: "A quadrilateral with at least one pair of parallel sides.", rationale: "Correct. Inclusive definitions allow parallelograms to count as trapezoids.", isCorrect: true }, { text: "A quadrilateral with both pairs of opposite sides parallel.", rationale: "This defines a parallelogram.", isCorrect: false }, { text: "A quadrilateral with all sides congruent.", rationale: "This describes a rhombus.", isCorrect: false }, { text: "A quadrilateral with exactly two right angles.", rationale: "Right angles are not required.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "knowledge", question: "What is the measure of each exterior angle of a regular decagon?", answerOptions: [ { text: "36°", rationale: "Correct. Exterior angles sum to 360°, so 360 / 10 = 36.", isCorrect: true }, { text: "18°", rationale: "This divides 180 by the number of sides instead of 360.", isCorrect: false }, { text: "54°", rationale: "This corresponds to a regular heptagon.", isCorrect: false }, { text: "144°", rationale: "This is an interior angle measurement.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "applied", question: "A triangle has angles measuring 90°, 45°, and 45°. How is the triangle classified?", answerOptions: [ { text: "Right isosceles triangle", rationale: "Correct. It has a right angle and two equal angles.", isCorrect: true }, { text: "Acute scalene triangle", rationale: "The triangle contains a right angle, not all acute angles.", isCorrect: false }, { text: "Obtuse isosceles triangle", rationale: "There is no obtuse angle.", isCorrect: false }, { text: "Equilateral triangle", rationale: "Equilateral triangles have three 60° angles.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "knowledge", question: "How many diagonals can be drawn in a hexagon?", answerOptions: [ { text: "9", rationale: "Correct. Use n(n - 3)/2 = 6 × 3/2.", isCorrect: true }, { text: "6", rationale: "This counts only the sides.", isCorrect: false }, { text: "12", rationale: "This counts each diagonal twice.", isCorrect: false }, { text: "15", rationale: "This applies the formula for an octagon.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "knowledge", question: "Which quadrilateral has four congruent sides and four right angles?", answerOptions: [ { text: "Square", rationale: "Correct. A square has both properties.", isCorrect: true }, { text: "Rhombus", rationale: "A rhombus has congruent sides but not necessarily right angles.", isCorrect: false }, { text: "Rectangle", rationale: "A rectangle has right angles but not necessarily congruent sides.", isCorrect: false }, { text: "Trapezoid", rationale: "Trapezoids do not require congruent sides or right angles.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "knowledge", question: "Which statement about a rhombus is always true?", answerOptions: [ { text: "Its diagonals are perpendicular.", rationale: "Correct. The diagonals of a rhombus intersect at right angles.", isCorrect: true }, { text: "Its diagonals are congruent.", rationale: "This is true for rectangles, not all rhombi.", isCorrect: false }, { text: "All angles are acute.", rationale: "A rhombus can have obtuse angles.", isCorrect: false }, { text: "It has exactly one pair of parallel sides.", rationale: "A rhombus has two pairs of parallel sides.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "applied", question: "Two angles of a triangle measure 35° and 65°. What is the measure of the third angle?", answerOptions: [ { text: "80°", rationale: "Correct. The angles of a triangle sum to 180°.", isCorrect: true }, { text: "90°", rationale: "This assumes the triangle is right without calculation.", isCorrect: false }, { text: "70°", rationale: "This subtracts only one given angle from 180°.", isCorrect: false }, { text: "45°", rationale: "This averages the given angles instead of subtracting their sum.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "knowledge", question: "Which statement accurately describes a kite?", answerOptions: [ { text: "It has two distinct pairs of adjacent congruent sides.", rationale: "Correct. This property defines a kite.", isCorrect: true }, { text: "All four sides are congruent.", rationale: "That describes a rhombus.", isCorrect: false }, { text: "Opposite sides are parallel.", rationale: "This is a property of parallelograms, not kites.", isCorrect: false }, { text: "Its diagonals are both bisected.", rationale: "Only one diagonal is bisected in a kite.", isCorrect: false } ] }
+                                    {
+                                        questionNumber: 1,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'A flat surface that goes on forever in all directions is a ____.',
+                                        correctAnswer: 'Plane'
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'Parallel lines ____.',
+                                        answerOptions: [
+                                            { text: 'Intersect at one point', isCorrect: false },
+                                            { text: 'Never intersect', isCorrect: true },
+                                            { text: 'Intersect at two points', isCorrect: false },
+                                            { text: 'Are perpendicular', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'An angle that is less than 90 degrees is called ____.',
+                                        answerOptions: [
+                                            { text: 'Obtuse', isCorrect: false },
+                                            { text: 'Acute', isCorrect: true },
+                                            { text: 'Right', isCorrect: false },
+                                            { text: 'Straight', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'The point where two lines meet to form an angle is called the ____.',
+                                        correctAnswer: 'Vertex'
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A parallelogram has ____ pairs of parallel sides.',
+                                        answerOptions: [
+                                            { text: '1', isCorrect: false },
+                                            { text: '2', isCorrect: true },
+                                            { text: '3', isCorrect: false },
+                                            { text: '4', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'If a circle has a circumference of 10π, what is its radius?',
+                                        correctAnswer: '5'
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A cube has ____ faces.',
+                                        answerOptions: [
+                                            { text: '4', isCorrect: false },
+                                            { text: '6', isCorrect: true },
+                                            { text: '8', isCorrect: false },
+                                            { text: '12', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'The area of a circle is calculated by the formula ____.',
+                                        answerOptions: [
+                                            { text: '2πr', isCorrect: false },
+                                            { text: 'πr²', isCorrect: true },
+                                            { text: 'πd', isCorrect: false },
+                                            { text: '2πd', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'A triangle with two equal sides is called ____.',
+                                        correctAnswer: 'Isosceles'
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'If the area of a square is 64 square inches, what is the length of one of its sides?',
+                                        correctAnswer: '8 inches'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A cylinder has a radius of 4 cm and a height of 10 cm. What is its volume? (Use π = 3.14)',
+                                        answerOptions: [
+                                            { text: '125.6 cubic cm', isCorrect: false },
+                                            { text: '502.4 cubic cm', isCorrect: true },
+                                            { text: '1256 cubic cm', isCorrect: false },
+                                            { text: '400 cubic cm', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A rectangular prism has a length of 5, a width of 3, and a height of 4. What is its surface area?',
+                                        answerOptions: [
+                                            { text: '60', isCorrect: false },
+                                            { text: '94', isCorrect: true },
+                                            { text: '120', isCorrect: false },
+                                            { text: '47', isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: "math_geometry_pythagorean",
+                        title: "The Pythagorean Theorem",
+                        description: "Understanding and applying the theorem to solve for sides of a right triangle.",
+                        quizzes: [
+                            {
+                                quizId: "math_geometry_pythagorean_set1",
+                                label: "Quiz A",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'The Pythagorean theorem applies to which type of triangle?',
+                                        answerOptions: [
+                                            { text: 'Acute', isCorrect: false },
+                                            { text: 'Obtuse', isCorrect: false },
+                                            { text: 'Right', isCorrect: true },
+                                            { text: 'Equilateral', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'In a right triangle, the side opposite the right angle is called the ____.',
+                                        correctAnswer: 'Hypotenuse'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'The formula for the Pythagorean theorem is ____.',
+                                        answerOptions: [
+                                            { text: 'a² + b² = c²', isCorrect: true },
+                                            { text: 'a + b = c', isCorrect: false },
+                                            { text: 'a² - b² = c²', isCorrect: false },
+                                            { text: 'a + b = c²', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'In a right triangle, if the two shorter sides are 3 and 4, what is the length of the hypotenuse?',
+                                        correctAnswer: '5'
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'If the hypotenuse of a right triangle is 10 and one of the other sides is 6, what is the length of the remaining side?',
+                                        answerOptions: [
+                                            { text: '4', isCorrect: false },
+                                            { text: '8', isCorrect: true },
+                                            { text: '16', isCorrect: false },
+                                            { text: '64', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'A ladder is leaning against a wall. The base of the ladder is 5 feet from the wall, and the top of the ladder is 12 feet up the wall. How long is the ladder?',
+                                        correctAnswer: '13 feet'
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'Which of the following sets of numbers could be the sides of a right triangle?',
+                                        answerOptions: [
+                                            { text: '5, 12, 13', isCorrect: true },
+                                            { text: '4, 5, 6', isCorrect: false },
+                                            { text: '2, 3, 4', isCorrect: false },
+                                            { text: '1, 2, 3', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'If a right triangle has sides of length 8 and 15, what is the length of the hypotenuse?',
+                                        answerOptions: [
+                                            { text: '17', isCorrect: true },
+                                            { text: '23', isCorrect: false },
+                                            { text: '120', isCorrect: false },
+                                            { text: '289', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'A rectangular field is 30 yards wide and 40 yards long. What is the length of the diagonal?',
+                                        correctAnswer: '50 yards'
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'If a right triangle has a hypotenuse of 25 and one leg of 7, what is the length of the other leg?',
+                                        correctAnswer: '24'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A boat travels 9 miles east and then 12 miles north. How far is the boat from its starting point?',
+                                        answerOptions: [
+                                            { text: '15 miles', isCorrect: true },
+                                            { text: '21 miles', isCorrect: false },
+                                            { text: '3 miles', isCorrect: false },
+                                            { text: '108 miles', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A TV screen has a diagonal of 50 inches and a width of 40 inches. What is its height?',
+                                        answerOptions: [
+                                            { text: '10 inches', isCorrect: false },
+                                            { text: '30 inches', isCorrect: true },
+                                            { text: '60 inches', isCorrect: false },
+                                            { text: '90 inches', isCorrect: false }
+                                        ]
+                                    }
                                 ]
                             },
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
-                                quizId: "math_geom_basics_set3",
-                                label: "Quiz C",
-                                description: "Apply the Pythagorean theorem and other geometric theorems.",
-                                questionSourceTopicId: "math_geom_basics",
+                                quizId: "math_geometry_pythagorean_set2",
+                                label: "Quiz B",
                                 questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "In a right triangle with legs 6 and 8, what is the length of the hypotenuse?", answerOptions: [ { text: "10", rationale: "Correct. 6^2 + 8^2 = 36 + 64 = 100 and sqrt(100) = 10.", isCorrect: true }, { text: "12", rationale: "This adds the legs instead of using the Pythagorean theorem.", isCorrect: false }, { text: "14", rationale: "This multiplies the legs before taking a square root.", isCorrect: false }, { text: "5", rationale: "This subtracts the legs.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "knowledge", question: "A right triangle has a hypotenuse of 13 and one leg of 5. What is the length of the other leg?", answerOptions: [ { text: "12", rationale: "Correct. 13^2 - 5^2 = 169 - 25 = 144 and sqrt(144) = 12.", isCorrect: true }, { text: "8", rationale: "This subtracts the leg from the hypotenuse without squaring.", isCorrect: false }, { text: "18", rationale: "This adds the hypotenuse and leg.", isCorrect: false }, { text: "sqrt(30)", rationale: "This fails to square before subtracting.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "knowledge", question: "Do the side lengths 7, 24, and 25 form a right triangle?", answerOptions: [ { text: "Yes, because 7^2 + 24^2 = 25^2.", rationale: "Correct. 49 + 576 = 625 equals 25^2.", isCorrect: true }, { text: "No, because 7 + 24 != 25.", rationale: "Triangle classification depends on squared side lengths, not sums.", isCorrect: false }, { text: "No, because the sides are not consecutive numbers.", rationale: "Consecutive numbers are not required for right triangles.", isCorrect: false }, { text: "Yes, because all sides are different.", rationale: "Being scalene alone does not guarantee a right triangle.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "applied", question: "A 15-foot ladder reaches the top of a wall 12 feet high. How far from the wall is the base of the ladder?", answerOptions: [ { text: "9 feet", rationale: "Correct. 15^2 - 12^2 = 225 - 144 = 81, so the base is sqrt(81) = 9 feet away.", isCorrect: true }, { text: "3 feet", rationale: "This subtracts 12 from 15 without squaring.", isCorrect: false }, { text: "18 feet", rationale: "This adds the ladder length and wall height.", isCorrect: false }, { text: "13 feet", rationale: "This misapplies the theorem by averaging the legs.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "applied", question: "What is the distance between the points (2, -1) and (-4, 3)?", answerOptions: [ { text: "2 * sqrt(13)", rationale: "Correct. Differences of -6 and 4 give sqrt(36 + 16) = sqrt(52) = 2 * sqrt(13).", isCorrect: true }, { text: "sqrt(20)", rationale: "This squares only one coordinate difference.", isCorrect: false }, { text: "10", rationale: "This adds the coordinate differences without squaring.", isCorrect: false }, { text: "8", rationale: "This treats the differences as legs of a rectangle without squaring.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "knowledge", question: "What is the midpoint of the segment with endpoints (5, 9) and (1, -3)?", answerOptions: [ { text: "(3, 3)", rationale: "Correct. Average the x-coordinates and y-coordinates separately.", isCorrect: true }, { text: "(6, 6)", rationale: "This adds the coordinates without dividing by 2.", isCorrect: false }, { text: "(4, 0)", rationale: "This averages only the x-values correctly.", isCorrect: false }, { text: "(2, 12)", rationale: "This subtracts instead of averaging.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "applied", question: "What is the length of the diagonal of a rectangle that is 9 meters wide and 12 meters long?", answerOptions: [ { text: "15 meters", rationale: "Correct. 9^2 + 12^2 = 81 + 144 = 225, and sqrt(225) = 15.", isCorrect: true }, { text: "21 meters", rationale: "This adds the side lengths.", isCorrect: false }, { text: "108 meters", rationale: "This multiplies the side lengths.", isCorrect: false }, { text: "13 meters", rationale: "This forgets to square before adding.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "knowledge", question: "In a 45°-45°-90° triangle with leg length 7, what is the hypotenuse?", answerOptions: [ { text: "7 * sqrt(2)", rationale: "Correct. Multiply a leg by sqrt(2) for the hypotenuse in this special triangle.", isCorrect: true }, { text: "7", rationale: "This would make the triangle equilateral.", isCorrect: false }, { text: "14", rationale: "This doubles the leg length instead of using sqrt(2).", isCorrect: false }, { text: "7 * sqrt(3)", rationale: "This corresponds to a 30°-60°-90° triangle.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "knowledge", question: "In a 30°-60°-90° triangle, the shorter leg is 4. What is the hypotenuse?", answerOptions: [ { text: "8", rationale: "Correct. The hypotenuse is twice the shorter leg.", isCorrect: true }, { text: "4 * sqrt(3)", rationale: "This gives the length of the longer leg.", isCorrect: false }, { text: "6", rationale: "This averages the two legs.", isCorrect: false }, { text: "2", rationale: "This halves the shorter leg instead of doubling it.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "knowledge", question: "What is the radius of the circle defined by x^2 + y^2 = 49?", answerOptions: [ { text: "7", rationale: "Correct. The equation is in standard form with r^2 = 49.", isCorrect: true }, { text: "49", rationale: "This treats r^2 as the radius itself.", isCorrect: false }, { text: "14", rationale: "This doubles the radius.", isCorrect: false }, { text: "sqrt(49)", rationale: "This restates the radius without simplifying.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "applied", question: "What is the equation of a circle with center (3, -2) and radius 5?", answerOptions: [ { text: "(x - 3)^2 + (y + 2)^2 = 25", rationale: "Correct. Substitute the center and r^2 = 25 into the standard equation.", isCorrect: true }, { text: "(x + 3)^2 + (y - 2)^2 = 5", rationale: "This reverses the signs and forgets to square the radius.", isCorrect: false }, { text: "(x - 3)^2 + (y - 2)^2 = 10", rationale: "This uses 2r instead of r^2.", isCorrect: false }, { text: "(x + 3)^2 + (y + 2)^2 = 25", rationale: "This negates both coordinates of the center.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "applied", question: "How far is the point (-3, 4) from the origin?", answerOptions: [ { text: "5 units", rationale: "Correct. (-3)^2 + 4^2 = 9 + 16 = 25, and sqrt(25) = 5.", isCorrect: true }, { text: "1 unit", rationale: "This subtracts the coordinates instead of using distance.", isCorrect: false }, { text: "7 units", rationale: "This adds the absolute values of the coordinates.", isCorrect: false }, { text: "sqrt(7) units", rationale: "This squares only one coordinate.", isCorrect: false } ] }
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'Which side of a right triangle is the longest?',
+                                        answerOptions: [
+                                            { text: 'The hypotenuse', isCorrect: true },
+                                            { text: 'The adjacent side', isCorrect: false },
+                                            { text: 'The opposite side', isCorrect: false },
+                                            { text: 'All sides are equal', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'True or False: The Pythagorean theorem can be used for any triangle.',
+                                        correctAnswer: 'False'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'If a right triangle has sides of length 6 and 8, what is the length of the hypotenuse?',
+                                        answerOptions: [
+                                            { text: '10', isCorrect: true },
+                                            { text: '12', isCorrect: false },
+                                            { text: '14', isCorrect: false },
+                                            { text: '100', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'A right triangle has a hypotenuse of 13 and one leg of 5. What is the length of the other leg?',
+                                        correctAnswer: '12'
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A square has a diagonal of length 10. What is the length of one of its sides?',
+                                        answerOptions: [
+                                            { text: '5', isCorrect: false },
+                                            { text: '√50', isCorrect: true },
+                                            { text: '10', isCorrect: false },
+                                            { text: '√10', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'A right triangle has legs of length 7 and 24. What is the length of the hypotenuse?',
+                                        correctAnswer: '25'
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'Which of these is a Pythagorean triple?',
+                                        answerOptions: [
+                                            { text: '(3, 4, 5)', isCorrect: true },
+                                            { text: '(2, 3, 4)', isCorrect: false },
+                                            { text: '(4, 5, 6)', isCorrect: false },
+                                            { text: '(1, 1, 2)', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'If a right triangle has a hypotenuse of 17 and one leg of 8, what is the length of the other leg?',
+                                        answerOptions: [
+                                            { text: '9', isCorrect: false },
+                                            { text: '15', isCorrect: true },
+                                            { text: '25', isCorrect: false },
+                                            { text: '√353', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'A baseball diamond is a square with sides of 90 feet. What is the distance from home plate to second base?',
+                                        correctAnswer: '√16200 feet'
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'A right triangle has legs of length 10 and 24. What is the length of the hypotenuse?',
+                                        correctAnswer: '26'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A ladder 25 feet long is leaning against a wall. The base of the ladder is 7 feet from the wall. How high up the wall does the ladder reach?',
+                                        answerOptions: [
+                                            { text: '18 feet', isCorrect: false },
+                                            { text: '24 feet', isCorrect: true },
+                                            { text: '32 feet', isCorrect: false },
+                                            { text: '√674 feet', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'An isosceles right triangle has a hypotenuse of length 8. What is the length of each leg?',
+                                        answerOptions: [
+                                            { text: '4', isCorrect: false },
+                                            { text: '√32', isCorrect: true },
+                                            { text: '8', isCorrect: false },
+                                            { text: '√8', isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Algebra": {
+                description: "The study of mathematical symbols and the rules for manipulating these symbols.",
+                topics: [
+                    {
+                        id: "math_algebra_expressions",
+                        title: "Expressions and Equations",
+                        description: "Solving linear equations, inequalities, and systems of equations.",
+                        quizzes: [
+                            {
+                                quizId: "math_algebra_expressions_set1",
+                                label: "Quiz A",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'Simplify the expression: 3x + 5x - 2x',
+                                        answerOptions: [
+                                            { text: '6x', isCorrect: true },
+                                            { text: '8x', isCorrect: false },
+                                            { text: '10x', isCorrect: false },
+                                            { text: 'x', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'Solve for x: x + 5 = 12',
+                                        correctAnswer: '7'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'What is the value of the expression 2a + 3b if a=4 and b=2?',
+                                        answerOptions: [
+                                            { text: '14', isCorrect: true },
+                                            { text: '10', isCorrect: false },
+                                            { text: '9', isCorrect: false },
+                                            { text: '20', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'Solve for y: 4y - 3 = 17',
+                                        correctAnswer: '5'
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'Which of the following is a solution to the inequality 2x + 1 > 7?',
+                                        answerOptions: [
+                                            { text: '2', isCorrect: false },
+                                            { text: '3', isCorrect: false },
+                                            { text: '4', isCorrect: true },
+                                            { text: '1', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'Expand the expression: 2(x + 3)',
+                                        correctAnswer: '2x + 6'
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'What is the solution to the system of equations: x + y = 5 and x - y = 1?',
+                                        answerOptions: [
+                                            { text: 'x=2, y=3', isCorrect: false },
+                                            { text: 'x=3, y=2', isCorrect: true },
+                                            { text: 'x=4, y=1', isCorrect: false },
+                                            { text: 'x=1, y=4', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'Factor the expression: x² - 9',
+                                        answerOptions: [
+                                            { text: '(x-3)(x+3)', isCorrect: true },
+                                            { text: '(x-3)(x-3)', isCorrect: false },
+                                            { text: '(x+3)(x+3)', isCorrect: false },
+                                            { text: '(x-9)(x+1)', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'Solve for x: 2(x + 1) = 10',
+                                        correctAnswer: '4'
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'Solve the quadratic equation: x² - 5x + 6 = 0',
+                                        correctAnswer: 'x=2 or x=3'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'Simplify the expression: (2x²)³',
+                                        answerOptions: [
+                                            { text: '6x⁵', isCorrect: false },
+                                            { text: '8x⁶', isCorrect: true },
+                                            { text: '2x⁶', isCorrect: false },
+                                            { text: '8x⁵', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'The sum of two numbers is 15 and their difference is 3. What are the two numbers?',
+                                        answerOptions: [
+                                            { text: '7 and 8', isCorrect: false },
+                                            { text: '6 and 9', isCorrect: true },
+                                            { text: '5 and 10', isCorrect: false },
+                                            { text: '4 and 11', isCorrect: false }
+                                        ]
+                                    }
                                 ]
                             },
-                            // TODO: UNDER-MINIMUM originally. Added questions to reach 12.
                             {
-                                quizId: "math_geom_basics_set4",
-                                label: "Quiz D",
-                                description: "Solve problems involving angles, lines, and coordinate geometry.",
-                                questionSourceTopicId: "math_geom_basics",
+                                quizId: "math_algebra_expressions_set2",
+                                label: "Quiz B",
                                 questions: [
-                                    { questionNumber: 1, type: "knowledge", question: "Which statement correctly describes complementary angles?", answerOptions: [ { text: "Two angles whose measures add to 90°.", rationale: "Correct. Complementary angles form a right angle when combined.", isCorrect: true }, { text: "Two angles whose measures add to 180°.", rationale: "This defines supplementary angles.", isCorrect: false }, { text: "Two angles that share a common side and vertex.", rationale: "This defines adjacent angles.", isCorrect: false }, { text: "Two angles that are equal in measure.", rationale: "Equal angles are congruent, not necessarily complementary.", isCorrect: false } ] },
-                                    { questionNumber: 2, type: "knowledge", question: "Which statement correctly describes supplementary angles?", answerOptions: [ { text: "Two angles whose measures add to 180°.", rationale: "Correct. Supplementary angles form a straight line when combined.", isCorrect: true }, { text: "Two angles whose measures add to 90°.", rationale: "This describes complementary angles.", isCorrect: false }, { text: "Two angles that are vertical angles.", rationale: "Vertical angles are opposite each other and congruent.", isCorrect: false }, { text: "Two angles with a common vertex but no common side.", rationale: "This is not a standard angle relationship.", isCorrect: false } ] },
-                                    { questionNumber: 3, type: "applied", question: "Angles measuring 3x + 15 and 2x + 45 form a linear pair. What is the value of x?", answerOptions: [ { text: "24", rationale: "Correct. Set 3x + 15 + 2x + 45 = 180 to solve 5x = 120.", isCorrect: true }, { text: "15", rationale: "This divides 180 by the number of angles.", isCorrect: false }, { text: "30", rationale: "This subtracts only one constant term before dividing.", isCorrect: false }, { text: "21", rationale: "This sets one angle equal to 180°.", isCorrect: false } ] },
-                                    { questionNumber: 4, type: "knowledge", question: "When two parallel lines are cut by a transversal, which angle pair is always congruent?", answerOptions: [ { text: "Alternate interior angles", rationale: "Correct. They occupy opposite sides of the transversal and inside the lines.", isCorrect: true }, { text: "Same-side interior angles", rationale: "These are supplementary, not congruent.", isCorrect: false }, { text: "Consecutive exterior angles", rationale: "These are supplementary when lines are parallel.", isCorrect: false }, { text: "Adjacent angles", rationale: "Adjacent angles share a vertex and side but are not necessarily congruent.", isCorrect: false } ] },
-                                    { questionNumber: 5, type: "applied", question: "If angle A and angle B are vertical angles and m∠A = 120°, what is m∠B?", answerOptions: [ { text: "120°", rationale: "Correct. Vertical angles are congruent.", isCorrect: true }, { text: "60°", rationale: "This halves the given angle without justification.", isCorrect: false }, { text: "180°", rationale: "This gives the supplementary angle instead.", isCorrect: false }, { text: "30°", rationale: "This divides the angle by four randomly.", isCorrect: false } ] },
-                                    { questionNumber: 6, type: "knowledge", question: "What is the slope of the line passing through (1, -2) and (5, 6)?", answerOptions: [ { text: "2", rationale: "Correct. 6 - (-2)/5 - 1 = 8/4 = 2.", isCorrect: true }, { text: "-2", rationale: "This reverses the change in y.", isCorrect: false }, { text: "1/2", rationale: "This swaps the numerator and denominator.", isCorrect: false }, { text: "8", rationale: "This divides the change in y by 1.", isCorrect: false } ] },
-                                    { questionNumber: 7, type: "knowledge", question: "A line has slope 3/4. What is the slope of a line perpendicular to it?", answerOptions: [ { text: "-4/3", rationale: "Correct. Perpendicular slopes are negative reciprocals.", isCorrect: true }, { text: "4/3", rationale: "This gives a parallel slope.", isCorrect: false }, { text: "-3/4", rationale: "This keeps the same slope but changes the sign.", isCorrect: false }, { text: "3/4", rationale: "This repeats the original slope.", isCorrect: false } ] },
-                                    { questionNumber: 8, type: "applied", question: "What is the equation of the line with slope -1 that passes through (2, 3)?", answerOptions: [ { text: "y = -x + 5", rationale: "Correct. Use point-slope form: y - 3 = -1(x - 2).", isCorrect: true }, { text: "y = -x - 1", rationale: "This assumes the line passes through the origin.", isCorrect: false }, { text: "y = x - 5", rationale: "This uses the opposite slope.", isCorrect: false }, { text: "y = -x + 1", rationale: "This substitutes x for the y-intercept.", isCorrect: false } ] },
-                                    { questionNumber: 9, type: "applied", question: "Are the lines y = 2x + 1 and y = (-1/2)x + 4 perpendicular?", answerOptions: [ { text: "Yes, because the product of the slopes is -1.", rationale: "Correct. 2 × -1/2 = -1.", isCorrect: true }, { text: "No, because the lines have different y-intercepts.", rationale: "Different intercepts do not prevent perpendicularity.", isCorrect: false }, { text: "Yes, because both lines have positive slopes.", rationale: "One slope is negative.", isCorrect: false }, { text: "No, because the slopes are reciprocals but not negatives.", rationale: "The slopes are negative reciprocals, satisfying the perpendicular condition.", isCorrect: false } ] },
-                                    { questionNumber: 10, type: "applied", question: "Point (-3, 5) is translated 4 units right and 2 units down. What are the coordinates of the image point?", answerOptions: [ { text: "(1, 3)", rationale: "Correct. Add 4 to the x-coordinate and subtract 2 from the y-coordinate.", isCorrect: true }, { text: "(7, 7)", rationale: "This adds 4 and 2 to both coordinates.", isCorrect: false }, { text: "( -7, 3)", rationale: "This subtracts instead of adding to the x-coordinate.", isCorrect: false }, { text: "(1, 7)", rationale: "This adds 2 instead of subtracting for the vertical shift.", isCorrect: false } ] },
-                                    { questionNumber: 11, type: "knowledge", question: "In a triangle, the exterior angle equals the sum of the two remote interior angles. If the remote angles are 40° and 55°, what is the measure of the exterior angle?", answerOptions: [ { text: "95°", rationale: "Correct. Add the measures of the two remote interior angles.", isCorrect: true }, { text: "85°", rationale: "This subtracts the smaller angle from the larger.", isCorrect: false }, { text: "125°", rationale: "This adds the remote angles to 180°.", isCorrect: false }, { text: "15°", rationale: "This finds the difference rather than the sum.", isCorrect: false } ] },
-                                    { questionNumber: 12, type: "knowledge", question: "An angle measures 135°. How is this angle classified?", answerOptions: [ { text: "Obtuse", rationale: "Correct. Obtuse angles measure between 90° and 180°.", isCorrect: true }, { text: "Acute", rationale: "Acute angles are less than 90°.", isCorrect: false }, { text: "Right", rationale: "Right angles measure exactly 90°.", isCorrect: false }, { text: "Straight", rationale: "Straight angles measure 180°.", isCorrect: false } ] }
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'Which of the following is a linear equation?',
+                                        answerOptions: [
+                                            { text: 'y = x² + 2', isCorrect: false },
+                                            { text: 'y = 2x + 1', isCorrect: true },
+                                            { text: 'y = 1/x', isCorrect: false },
+                                            { text: 'y = x³', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'In the equation y = mx + b, what does "m" represent?',
+                                        correctAnswer: 'slope'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'What is the y-intercept of the equation y = 3x - 2?',
+                                        answerOptions: [
+                                            { text: '3', isCorrect: false },
+                                            { text: '-2', isCorrect: true },
+                                            { text: '2', isCorrect: false },
+                                            { text: '-3', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'If f(x) = 2x - 5, what is f(3)?',
+                                        correctAnswer: '1'
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'The graph of a quadratic function is a ____.',
+                                        answerOptions: [
+                                            { text: 'Straight line', isCorrect: false },
+                                            { text: 'Parabola', isCorrect: true },
+                                            { text: 'Circle', isCorrect: false },
+                                            { text: 'Hyperbola', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'What is the slope of the line passing through the points (1, 2) and (3, 6)?',
+                                        correctAnswer: '2'
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'Which of the following functions has a vertical asymptote at x=0?',
+                                        answerOptions: [
+                                            { text: 'y = x + 1', isCorrect: false },
+                                            { text: 'y = 1/x', isCorrect: true },
+                                            { text: 'y = x²', isCorrect: false },
+                                            { text: 'y = 2x', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'The domain of a function is ____.',
+                                        answerOptions: [
+                                            { text: 'The set of all possible input values (x-values)', isCorrect: true },
+                                            { text: 'The set of all possible output values (y-values)', isCorrect: false },
+                                            { text: 'The slope of the function', isCorrect: false },
+                                            { text: 'The y-intercept of the function', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'What is the vertex of the parabola y = (x-2)² + 3?',
+                                        correctAnswer: '(2, 3)'
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'If g(x) = x² + 2x + 1, what is g(-1)?',
+                                        correctAnswer: '0'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'The function f(x) = 2x is an example of ____.',
+                                        answerOptions: [
+                                            { text: 'Linear growth', isCorrect: true },
+                                            { text: 'Exponential growth', isCorrect: false },
+                                            { text: 'Quadratic growth', isCorrect: false },
+                                            { text: 'Logarithmic growth', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A function is a relation in which ____.',
+                                        answerOptions: [
+                                            { text: 'Each input has exactly one output', isCorrect: true },
+                                            { text: 'Each output has exactly one input', isCorrect: false },
+                                            { text: 'The graph is a straight line', isCorrect: false },
+                                            { text: 'The domain and range are the same', isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: "math_algebra_functions",
+                        title: "Functions",
+                        description: "Understanding, interpreting, and graphing functions.",
+                        quizzes: [
+                            {
+                                quizId: "math_algebra_functions_set1",
+                                label: "Quiz A",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'If f(x) = 3x, what is f(4)?',
+                                        answerOptions: [
+                                            { text: '7', isCorrect: false },
+                                            { text: '12', isCorrect: true },
+                                            { text: '1', isCorrect: false },
+                                            { text: '34', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'In the equation y = 2x + 5, what is the y-intercept?',
+                                        correctAnswer: '5'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'A horizontal line has a slope of ____.',
+                                        answerOptions: [
+                                            { text: '1', isCorrect: false },
+                                            { text: '0', isCorrect: true },
+                                            { text: 'Undefined', isCorrect: false },
+                                            { text: '-1', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'What is the slope of the equation y = -3x + 4?',
+                                        correctAnswer: '-3'
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'Which of the following is the graph of a function?',
+                                        answerOptions: [
+                                            { text: 'A circle', isCorrect: false },
+                                            { text: 'A vertical line', isCorrect: false },
+                                            { text: 'A parabola opening to the side', isCorrect: false },
+                                            { text: 'A parabola opening up or down', isCorrect: true }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'If a function is defined by the set of ordered pairs {(1,2), (3,4), (5,6)}, what is the domain?',
+                                        correctAnswer: '{1, 3, 5}'
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'For the function f(x) = x², what is the range?',
+                                        answerOptions: [
+                                            { text: 'All real numbers', isCorrect: false },
+                                            { text: 'All non-negative real numbers', isCorrect: true },
+                                            { text: 'All positive real numbers', isCorrect: false },
+                                            { text: 'All integers', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'An exponential function is of the form ____.',
+                                        answerOptions: [
+                                            { text: 'y = mx + b', isCorrect: false },
+                                            { text: 'y = ax² + bx + c', isCorrect: false },
+                                            { text: 'y = a * b^x', isCorrect: true },
+                                            { text: 'y = log(x)', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'What is the equation of a line with a slope of 2 and a y-intercept of -1?',
+                                        correctAnswer: 'y = 2x - 1'
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'If f(x) = 2x and g(x) = x + 3, what is f(g(2))?',
+                                        correctAnswer: '10'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'The vertex of the parabola y = x² - 4x + 3 is at ____.',
+                                        answerOptions: [
+                                            { text: '(2, -1)', isCorrect: true },
+                                            { text: '(-2, 1)', isCorrect: false },
+                                            { text: '(4, 3)', isCorrect: false },
+                                            { text: '(0, 3)', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A function that is symmetric with respect to the y-axis is called an ____ function.',
+                                        answerOptions: [
+                                            { text: 'Even', isCorrect: true },
+                                            { text: 'Odd', isCorrect: false },
+                                            { text: 'Linear', isCorrect: false },
+                                            { text: 'Quadratic', isCorrect: false }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                quizId: "math_algebra_functions_set2",
+                                label: "Quiz B",
+                                questions: [
+                                    {
+                                        questionNumber: 1,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'Which of the following represents a function?',
+                                        answerOptions: [
+                                            { text: 'A vertical line', isCorrect: false },
+                                            { text: 'A set of ordered pairs with repeated x-values and different y-values', isCorrect: false },
+                                            { text: 'A graph that passes the vertical line test', isCorrect: true },
+                                            { text: 'An equation where y can have multiple values for a single x', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 2,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'easy',
+                                        question: 'If a line has a positive slope, it goes ____ from left to right.',
+                                        correctAnswer: 'up'
+                                    },
+                                    {
+                                        questionNumber: 3,
+                                        type: 'multiple-choice',
+                                        difficulty: 'easy',
+                                        question: 'What is the domain of the function f(x) = x?',
+                                        answerOptions: [
+                                            { text: 'All real numbers', isCorrect: true },
+                                            { text: 'All positive real numbers', isCorrect: false },
+                                            { text: 'All integers', isCorrect: false },
+                                            { text: 'All non-negative real numbers', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 4,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'What is the equation of a line that is parallel to y = 2x + 3 and passes through the origin?',
+                                        correctAnswer: 'y = 2x'
+                                    },
+                                    {
+                                        questionNumber: 5,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'The range of a function is ____.',
+                                        answerOptions: [
+                                            { text: 'The set of all possible input values', isCorrect: false },
+                                            { text: 'The set of all possible output values', isCorrect: true },
+                                            { text: 'The x-intercepts', isCorrect: false },
+                                            { text: 'The slope', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 6,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'If f(x) = 3x + 1, for what value of x does f(x) = 10?',
+                                        correctAnswer: '3'
+                                    },
+                                    {
+                                        questionNumber: 7,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'A function where the graph is not a straight line is called a ____ function.',
+                                        answerOptions: [
+                                            { text: 'Linear', isCorrect: false },
+                                            { text: 'Non-linear', isCorrect: true },
+                                            { text: 'Constant', isCorrect: false },
+                                            { text: 'Identity', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 8,
+                                        type: 'multiple-choice',
+                                        difficulty: 'medium',
+                                        question: 'The point where a graph crosses the y-axis is called the ____.',
+                                        answerOptions: [
+                                            { text: 'x-intercept', isCorrect: false },
+                                            { text: 'y-intercept', isCorrect: true },
+                                            { text: 'Vertex', isCorrect: false },
+                                            { text: 'Origin', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 9,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'medium',
+                                        question: 'What is the inverse of the function f(x) = x + 2?',
+                                        correctAnswer: 'f⁻¹(x) = x - 2'
+                                    },
+                                    {
+                                        questionNumber: 10,
+                                        type: 'fill-in-the-blank',
+                                        difficulty: 'hard',
+                                        question: 'The graph of y = |x| is in the shape of a ____.',
+                                        correctAnswer: 'V'
+                                    },
+                                    {
+                                        questionNumber: 11,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'If the graph of f(x) is a parabola opening upwards, then f(x) has a ____ value.',
+                                        answerOptions: [
+                                            { text: 'Maximum', isCorrect: false },
+                                            { text: 'Minimum', isCorrect: true },
+                                            { text: 'Zero', isCorrect: false },
+                                            { text: 'None of the above', isCorrect: false }
+                                        ]
+                                    },
+                                    {
+                                        questionNumber: 12,
+                                        type: 'multiple-choice',
+                                        difficulty: 'hard',
+                                        question: 'A function that is symmetric with respect to the origin is called an ____ function.',
+                                        answerOptions: [
+                                            { text: 'Even', isCorrect: false },
+                                            { text: 'Odd', isCorrect: true },
+                                            { text: 'Linear', isCorrect: false },
+                                            { text: 'Quadratic', isCorrect: false }
+                                        ]
+                                    }
                                 ]
                             }
                         ]
@@ -1521,299 +2820,6 @@ export const expandedQuizData = {
             }
         }
     },
-    "Social Studies": {
-        icon: "GlobeIcon",
-        categories: {
-            "U.S. History": {
-                topics: [
-                    {
-                        id: "ss_us_hist_colonial_period",
-                        title: "Colonial Period",
-                        description: "European settlement, development of the 13 colonies.",
-                        quizzes: [
-                            {
-                                quizId: "ss_us_hist_colonial_period_set1",
-                                label: "Quiz A",
-                                description: "Quiz on European settlement and the 13 colonies.",
-                                questionSourceTopicId: "ss_us_hist_colonial_period"
-                            },
-                            {
-                                quizId: "ss_us_hist_colonial_period_set2",
-                                label: "Quiz B",
-                                description: "Quiz on the development of the 13 colonies.",
-                                questionSourceTopicId: "ss_us_hist_colonial_period"
-                            },
-                            {
-                                quizId: "ss_us_hist_colonial_period_set3",
-                                label: "Quiz C",
-                                description: "Quiz on colonial life and economy.",
-                                questionSourceTopicId: "ss_us_hist_colonial_period"
-                            }
-                        ]
-                    },
-                    {
-                        id: "ss_us_hist_american_revolution",
-                        title: "The American Revolution",
-                        description: "Causes, key events, and outcomes.",
-                        quizzes: [
-                            {
-                                quizId: "ss_us_hist_american_revolution_set1",
-                                label: "Quiz A",
-                                description: "Quiz on the causes of the American Revolution.",
-                                questionSourceTopicId: "ss_us_hist_american_revolution"
-                            },
-                            {
-                                quizId: "ss_us_hist_american_revolution_set2",
-                                label: "Quiz B",
-                                description: "Quiz on the key events of the American Revolution.",
-                                questionSourceTopicId: "ss_us_hist_american_revolution"
-                            },
-                            {
-                                quizId: "ss_us_hist_american_revolution_set3",
-                                label: "Quiz C",
-                                description: "Quiz on the outcomes of the American Revolution.",
-                                questionSourceTopicId: "ss_us_hist_american_revolution"
-                            }
-                        ]
-                    },
-                    {
-                        id: "ss_us_hist_early_republic",
-                        title: "The Early Republic",
-                        description: "The Constitution, nation-building, and early challenges.",
-                        quizzes: [
-                            {
-                                quizId: "ss_us_hist_early_republic_set1",
-                                label: "Quiz A",
-                                description: "Quiz on the U.S. Constitution.",
-                                questionSourceTopicId: "ss_us_hist_early_republic"
-                            },
-                            {
-                                quizId: "ss_us_hist_early_republic_set2",
-                                label: "Quiz B",
-                                description: "Quiz on nation-building in the Early Republic.",
-                                questionSourceTopicId: "ss_us_hist_early_republic"
-                            },
-                            {
-                                quizId: "ss_us_hist_early_republic_set3",
-                                label: "Quiz C",
-                                description: "Quiz on the early challenges of the Republic.",
-                                questionSourceTopicId: "ss_us_hist_early_republic"
-                            }
-                        ]
-                    },
-                    {
-                        id: "ss_us_hist_westward_expansion",
-                        title: "Westward Expansion",
-                        description: "Manifest Destiny, territorial acquisitions, and impact on Native Americans.",
-                        quizzes: [
-                            {
-                                quizId: "ss_us_hist_westward_expansion_set1",
-                                label: "Quiz A",
-                                description: "Quiz on Manifest Destiny.",
-                                questionSourceTopicId: "ss_us_hist_westward_expansion"
-                            },
-                            {
-                                quizId: "ss_us_hist_westward_expansion_set2",
-                                label: "Quiz B",
-                                description: "Quiz on territorial acquisitions.",
-                                questionSourceTopicId: "ss_us_hist_westward_expansion"
-                            },
-                            {
-                                quizId: "ss_us_hist_westward_expansion_set3",
-                                label: "Quiz C",
-                                description: "Quiz on the impact on Native Americans.",
-                                questionSourceTopicId: "ss_us_hist_westward_expansion"
-                            }
-                        ]
-                    },
-                    {
-                        id: "ss_us_hist_civil_war",
-                        title: "Civil War and Reconstruction",
-                        description: "Causes, major conflicts, and the rebuilding of the nation.",
-                        quizzes: [
-                            {
-                                quizId: "ss_us_hist_civil_war_set1",
-                                label: "Quiz A",
-                                description: "Quiz on the causes of the Civil War.",
-                                questionSourceTopicId: "ss_us_hist_civil_war"
-                            },
-                            {
-                                quizId: "ss_us_hist_civil_war_set2",
-                                label: "Quiz B",
-                                description: "Quiz on the major conflicts of the Civil War.",
-                                questionSourceTopicId: "ss_us_hist_civil_war"
-                            },
-                            {
-                                quizId: "ss_us_hist_civil_war_set3",
-                                label: "Quiz C",
-                                description: "Quiz on the Reconstruction era.",
-                                questionSourceTopicId: "ss_us_hist_civil_war"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "Civics & Government": {
-                topics: [
-                    {
-                        id: "ss_civics_constitutional_principles",
-                        title: "Key Constitutional Principles",
-                        description: "Popular sovereignty, federalism, separation of powers, checks and balances.",
-                        quizzes: [
-                            {
-                                quizId: "ss_civics_constitutional_principles_set1",
-                                label: "Quiz A",
-                                description: "Quiz on popular sovereignty and federalism.",
-                                questionSourceTopicId: "ss_civics_constitutional_principles"
-                            },
-                            {
-                                quizId: "ss_civics_constitutional_principles_set2",
-                                label: "Quiz B",
-                                description: "Quiz on separation of powers.",
-                                questionSourceTopicId: "ss_civics_constitutional_principles"
-                            },
-                            {
-                                quizId: "ss_civics_constitutional_principles_set3",
-                                label: "Quiz C",
-                                description: "Quiz on checks and balances.",
-                                questionSourceTopicId: "ss_civics_constitutional_principles"
-                            }
-                        ]
-                    },
-                    {
-                        id: "ss_civics_bill_of_rights",
-                        title: "The Bill of Rights",
-                        description: "The first 10 amendments and their significance.",
-                        quizzes: [
-                            {
-                                quizId: "ss_civics_bill_of_rights_set1",
-                                label: "Quiz A",
-                                description: "Quiz on the first 5 amendments.",
-                                questionSourceTopicId: "ss_civics_bill_of_rights"
-                            },
-                            {
-                                quizId: "ss_civics_bill_of_rights_set2",
-                                label: "Quiz B",
-                                description: "Quiz on amendments 6-10.",
-                                questionSourceTopicId: "ss_civics_bill_of_rights"
-                            },
-                            {
-                                quizId: "ss_civics_bill_of_rights_set3",
-                                label: "Quiz C",
-                                description: "Quiz on the significance of the Bill of Rights.",
-                                questionSourceTopicId: "ss_civics_bill_of_rights"
-                            }
-                        ]
-                    },
-                    {
-                        id: "ss_civics_gov_structure",
-                        title: "Structure of the U.S. Government",
-                        description: "The legislative, executive, and judicial branches.",
-                        quizzes: [
-                            {
-                                quizId: "ss_civics_gov_structure_set1",
-                                label: "Quiz A",
-                                description: "Quiz on the legislative branch.",
-                                questionSourceTopicId: "ss_civics_gov_structure"
-                            },
-                            {
-                                quizId: "ss_civics_gov_structure_set2",
-                                label: "Quiz B",
-                                description: "Quiz on the executive branch.",
-                                questionSourceTopicId: "ss_civics_gov_structure"
-                            },
-                            {
-                                quizId: "ss_civics_gov_structure_set3",
-                                label: "Quiz C",
-                                description: "Quiz on the judicial branch.",
-                                questionSourceTopicId: "ss_civics_gov_structure"
-                            }
-                        ]
-                    },
-                    {
-                        id: "ss_civics_elections",
-                        title: "Political Parties and Elections",
-                        description: "The role of parties, the election process, and civic participation.",
-                        quizzes: [
-                            {
-                                quizId: "ss_civics_elections_set1",
-                                label: "Quiz A",
-                                description: "Quiz on political parties.",
-                                questionSourceTopicId: "ss_civics_elections"
-                            },
-                            {
-                                quizId: "ss_civics_elections_set2",
-                                label: "Quiz B",
-                                description: "Quiz on the election process.",
-                                questionSourceTopicId: "ss_civics_elections"
-                            },
-                            {
-                                quizId: "ss_civics_elections_set3",
-                                label: "Quiz C",
-                                description: "Quiz on civic participation.",
-                                questionSourceTopicId: "ss_civics_elections"
-                            }
-                        ]
-                    },
-                    {
-                        id: "ss_civics_supreme_court",
-                        title: "Landmark Supreme Court Cases",
-                        description: "Key decisions and their impact on American society.",
-                        quizzes: [
-                            {
-                                quizId: "ss_civics_supreme_court_set1",
-                                label: "Quiz A",
-                                description: "Quiz on early landmark cases.",
-                                questionSourceTopicId: "ss_civics_supreme_court"
-                            },
-                            {
-                                quizId: "ss_civics_supreme_court_set2",
-                                label: "Quiz B",
-                                description: "Quiz on 20th-century landmark cases.",
-                                questionSourceTopicId: "ss_civics_supreme_court"
-                            },
-                            {
-                                quizId: "ss_civics_supreme_court_set3",
-                                label: "Quiz C",
-                                description: "Quiz on recent landmark cases.",
-                                questionSourceTopicId: "ss_civics_supreme_court"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "Economics": {
-                topics: [
-                    {
-                        id: "ss_econ_foundations",
-                        quizzes: [
-                            {
-                                quizId: "ss_econ_foundations_set1",
-                                label: "Quiz A",
-                                description: "Understand core economic concepts, fiscal policy, and the role of government.",
-                                questionSourceTopicId: "ss_econ_foundations"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "Geography and the World": {
-                topics: [
-                    {
-                        id: "ss_geo_map_skills",
-                        quizzes: [
-                            {
-                                quizId: "ss_geo_map_skills_set1",
-                                label: "Quiz A",
-                                description: "Apply map, chart, and data analysis skills to geographic scenarios.",
-                                questionSourceTopicId: "ss_geo_map_skills"
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    }
 };
 
 

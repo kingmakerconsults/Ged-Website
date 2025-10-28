@@ -9616,6 +9616,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         </button>
                     </div>
                     <div id="quizzes" className="grid grid-cols-1 md:grid-cols-3 gap-6 subject-bar">
+                        {console.log("AppData keys:", Object.keys(AppData))}
                         {Object.entries(AppData).map(([subjectName, subject]) => {
                             const IconComponent = ICONS[subject.icon];
                             const colorScheme = SUBJECT_COLORS[subjectName] || {};

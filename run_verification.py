@@ -4,6 +4,10 @@ def run_verification():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
+
+        # Listen for console events and print them
+        page.on("console", lambda msg: print(f"Browser Console: {msg.text}"))
+
         try:
             print("Navigating to the page...")
             page.goto("http://localhost:8000/index.html", timeout=60000)
