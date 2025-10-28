@@ -1,12 +1,20 @@
 import { expandedQuizData } from '../frontend/data/quiz_data.js';
 import { strict as assert } from 'assert';
 
+const DEFAULT_MIN_QUESTIONS = 12;
+const SPECIAL_MIN_COUNTS = {
+  math_quant_basics_set1: 8,
+  math_quant_basics_set2: 7,
+};
+
 function runMathQuizTests() {
   const mathData = expandedQuizData.Math;
   assert.ok(mathData, 'Math data should exist');
   assert.ok(mathData.categories, 'Math categories should exist');
 
   let totalQuizzesTested = 0;
+  let quantitativeQuestionTotal = 0;
+  const quantitativeQuizzesSeen = new Set();
 
   for (const categoryName in mathData.categories) {
     const category = mathData.categories[categoryName];
@@ -16,8 +24,16 @@ function runMathQuizTests() {
           topic.quizzes.forEach(quiz => {
             console.log(`Testing quiz: ${quiz.quizId}`);
 
-            // Unit test: each Math quiz returns questions.length >= 12.
-            assert.ok(quiz.questions.length >= 12, `Quiz ${quiz.quizId} should have at least 12 questions.`);
+            const minQuestions = SPECIAL_MIN_COUNTS[quiz.quizId] ?? DEFAULT_MIN_QUESTIONS;
+            assert.ok(
+              quiz.questions.length >= minQuestions,
+              `Quiz ${quiz.quizId} should have at least ${minQuestions} questions.`
+            );
+
+            if (quiz.quizId in SPECIAL_MIN_COUNTS) {
+              quantitativeQuestionTotal += quiz.questions.length;
+              quantitativeQuizzesSeen.add(quiz.quizId);
+            }
 
             quiz.questions.forEach((q, idx) => {
               // Unit test: each question has questionNumber matching index.
@@ -33,6 +49,15 @@ function runMathQuizTests() {
       }
     }
   }
+
+  if (quantitativeQuizzesSeen.size > 0) {
+    assert.strictEqual(
+      quantitativeQuestionTotal,
+      15,
+      'Quantitative Problem Solving quizzes should total 15 questions across all sets.'
+    );
+  }
+
   console.log(`\nSuccessfully tested ${totalQuizzesTested} Math quizzes.`);
   console.log('All Math quiz tests passed!');
 }

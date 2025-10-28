@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test": "npm run test:math",
     "harvest:science": "node tools/gov-image-harvester/index.mjs --subject Science",
     "harvest:socstud": "node tools/gov-image-harvester/index.mjs --subject \"Social Studies\"",
     "img:stats": "node tools/gov-image-harvester/inspect.mjs --stats",
