@@ -1,0 +1,233 @@
+[
+  {
+    "path": "frontend/data/quiz_data.js",
+    "subject": "Science",
+    "quizCount": 12,
+    "questionCount": 180,
+    "quizIds": [
+      "sci_life_science_basics_set1",
+      "sci_life_science_basics_set2",
+      "sci_life_science_basics_set3",
+      "sci_ecosystems_environment_set1",
+      "sci_ecosystems_environment_set2",
+      "sci_ecosystems_environment_set3",
+      "sci_genetics_heredity_set1",
+      "sci_genetics_heredity_set2",
+      "sci_genetics_heredity_set3",
+      "sci_physical_science_basics_set1",
+      "sci_physical_science_basics_set2",
+      "sci_physical_science_basics_set3"
+    ],
+    "notes": "Frontend expandedQuizData used by UI and scripts; contains question sets and quiz metadata."
+  },
+  {
+    "path": "frontend/data/quiz_data.js",
+    "subject": "Math",
+    "quizCount": 11,
+    "questionCount": 111,
+    "quizIds": [
+      "math_quant_basics_set1",
+      "math_quant_basics_set2",
+      "math_quant_basics_set3",
+      "math_alg_expressions_set1",
+      "math_alg_expressions_set2",
+      "math_alg_expressions_set3",
+      "math_alg_expressions_set4",
+      "math_geom_basics_set1",
+      "math_geom_basics_set2",
+      "math_geom_basics_set3",
+      "math_geom_basics_set4"
+    ],
+    "notes": "Frontend expandedQuizData used by UI and scripts; contains question sets and quiz metadata."
+  },
+  {
+    "path": "frontend/data/quiz_data.js",
+    "subject": "Reasoning Through Language Arts (RLA)",
+    "quizCount": 8,
+    "questionCount": 72,
+    "quizIds": [
+      "rla_info_main_idea_set1",
+      "rla_info_main_idea_set2",
+      "rla_info_main_idea_set3",
+      "rla_lit_analysis_set1",
+      "rla_lit_analysis_set2",
+      "rla_grammar_usage_set1",
+      "rla_grammar_usage_set2",
+      "rla_grammar_usage_set3"
+    ],
+    "notes": "Frontend expandedQuizData used by UI and scripts; contains question sets and quiz metadata."
+  },
+  {
+    "path": "frontend/data/quiz_data.js",
+    "subject": "Social Studies",
+    "quizCount": 32,
+    "questionCount": 6,
+    "quizIds": [
+      "ss_us_hist_colonial_period_set1",
+      "ss_us_hist_colonial_period_set2",
+      "ss_us_hist_colonial_period_set3",
+      "ss_us_hist_american_revolution_set1",
+      "ss_us_hist_american_revolution_set2",
+      "ss_us_hist_american_revolution_set3",
+      "ss_us_hist_early_republic_set1",
+      "ss_us_hist_early_republic_set2",
+      "ss_us_hist_early_republic_set3",
+      "ss_us_hist_westward_expansion_set1",
+      "ss_us_hist_westward_expansion_set2",
+      "ss_us_hist_westward_expansion_set3",
+      "ss_us_hist_civil_war_set1",
+      "ss_us_hist_civil_war_set2",
+      "ss_us_hist_civil_war_set3",
+      "ss_civics_constitutional_principles_set1",
+      "ss_civics_constitutional_principles_set2",
+      "ss_civics_constitutional_principles_set3",
+      "ss_civics_bill_of_rights_set1",
+      "ss_civics_bill_of_rights_set2",
+      "ss_civics_bill_of_rights_set3",
+      "ss_civics_gov_structure_set1",
+      "ss_civics_gov_structure_set2",
+      "ss_civics_gov_structure_set3",
+      "ss_civics_elections_set1",
+      "ss_civics_elections_set2",
+      "ss_civics_elections_set3",
+      "ss_civics_supreme_court_set1",
+      "ss_civics_supreme_court_set2",
+      "ss_civics_supreme_court_set3",
+      "ss_econ_foundations_set1",
+      "ss_geo_map_skills_set1"
+    ],
+    "notes": "Frontend expandedQuizData used by UI and scripts; contains question sets and quiz metadata."
+  },
+  {
+    "path": "backend/data/premade-questions.js",
+    "subject": "Science",
+    "topicCount": 4,
+    "questionCount": 48,
+    "topics": [
+      {
+        "topicId": "sci_life_science_basics",
+        "questionCount": 12
+      },
+      {
+        "topicId": "sci_ecosystems_environment",
+        "questionCount": 12
+      },
+      {
+        "topicId": "sci_chem_fundamentals",
+        "questionCount": 12
+      },
+      {
+        "topicId": "sci_scientific_numeracy_core",
+        "questionCount": 12
+      }
+    ],
+    "notes": "Backend ALL_QUIZZES structure consumed by server; mirrors frontend AppData."
+  },
+  {
+    "path": "backend/data/premade-questions.js",
+    "subject": "Math",
+    "topicCount": 1,
+    "questionCount": 1,
+    "topics": [
+      {
+        "topicId": "math_quant_numbers",
+        "questionCount": 1
+      }
+    ],
+    "notes": "Backend ALL_QUIZZES structure consumed by server; mirrors frontend AppData."
+  },
+  {
+    "path": "backend/data/premade-questions.js",
+    "subject": "Social Studies",
+    "topicCount": 1,
+    "questionCount": 1,
+    "topics": [
+      {
+        "topicId": "ss_us_hist_foundations",
+        "questionCount": 1
+      }
+    ],
+    "notes": "Backend ALL_QUIZZES structure consumed by server; mirrors frontend AppData."
+  },
+  {
+    "path": "backend/data/premade-questions.js",
+    "subject": "Reasoning Through Language Arts (RLA)",
+    "topicCount": 2,
+    "questionCount": 2,
+    "topics": [
+      {
+        "topicId": "rla_grammar_usage",
+        "questionCount": 1
+      },
+      {
+        "topicId": "rla_info_main_idea",
+        "questionCount": 1
+      }
+    ],
+    "notes": "Backend ALL_QUIZZES structure consumed by server; mirrors frontend AppData."
+  },
+  {
+    "path": "quizzes.txt",
+    "subject": "Social Studies",
+    "quizCount": 3,
+    "questionCount": 6,
+    "quizIds": [
+      "us_history_revolution_quiz_1",
+      "us_history_revolution_quiz_2",
+      "us_history_revolution_quiz_3"
+    ],
+    "notes": "Legacy JSON quiz definitions (US History focus)."
+  },
+  {
+    "path": "reports/math_validation_bypass_1761566960512.json",
+    "subject": "Math",
+    "quizCount": 1,
+    "questionCount": 1,
+    "quizIds": [
+      "math_quant_basics_set1"
+    ],
+    "notes": "Validation bypass log referencing quiz issues; contains quiz metadata but no full question text."
+  },
+  {
+    "path": "reports/math_validation_bypass_1761567005010.json",
+    "subject": "Math",
+    "quizCount": 1,
+    "questionCount": 1,
+    "quizIds": [
+      "math_quant_basics_set1"
+    ],
+    "notes": "Validation bypass log referencing quiz issues; contains quiz metadata but no full question text."
+  },
+  {
+    "path": "frontend/index.html",
+    "subject": "Multiple (Science, Math, RLA, Social Studies)",
+    "quizCount": null,
+    "questionCount": null,
+    "quizIds": [],
+    "notes": "AppData embeds full quiz questions per subject for client-side use; duplicates backend data."
+  },
+  {
+    "path": "frontend/index.html.bak",
+    "subject": "Multiple (Science, Math, RLA, Social Studies)",
+    "quizCount": null,
+    "questionCount": null,
+    "quizIds": [],
+    "notes": "Backup of frontend index with embedded quiz content."
+  },
+  {
+    "path": "tests/math_quizzes.test.js",
+    "subject": "Math",
+    "quizCount": null,
+    "questionCount": null,
+    "quizIds": [],
+    "notes": "Test harness iterating expandedQuizData Math quizzes."
+  },
+  {
+    "path": "tests/verify_rla_expansion.py",
+    "subject": "RLA",
+    "quizCount": null,
+    "questionCount": null,
+    "quizIds": [],
+    "notes": "Playwright test verifying RLA quiz availability."
+  }
+]

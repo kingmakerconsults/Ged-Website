@@ -1,4 +1,12 @@
-import { expandedQuizData } from '../frontend/data/quiz_data.js';
+import { expandedQuizData } from '../../frontend/data/quiz_data.js';
+import fs from 'fs';
+import path from 'path';
+
+const MATH_QUIZ_VALIDATION_BYPASS = process.env.MATH_QUIZ_VALIDATION_BYPASS === 'true';
+
+if (MATH_QUIZ_VALIDATION_BYPASS) {
+    console.log('***MATH VALIDATION BYPASS ACTIVE — DEV ONLY***');
+}
 
 function validateQuiz(quiz, topicId) {
   if (!quiz.quizId || typeof quiz.quizId !== 'string') {
@@ -30,7 +38,27 @@ function validateQuiz(quiz, topicId) {
     }
     q.answerOptions.forEach(a => {
         if (!a.rationale || a.rationale.trim() === '') {
-            a.rationale = 'Noted: choose the reason why this is correct/incorrect.';
+            if (MATH_QUIZ_VALIDATION_BYPASS) {
+                a.rationale = 'TODO_AUTOGEN: Replace with vetted rationale before merging.';
+                const archiveDir = path.resolve('dev-tools', 'archive');
+                if (!fs.existsSync(archiveDir)) {
+                    fs.mkdirSync(archiveDir, { recursive: true });
+                }
+                const reportPath = path.join(archiveDir, `math_validation_bypass_${Date.now()}.json`);
+                const bypassData = {
+                    quizId: quiz.quizId,
+                    questionNumber: q.questionNumber,
+                    reason: 'Missing rationale',
+                    autoCorrection: 'Added TODO_AUTOGEN placeholder.',
+                    environment: {
+                        branch: process.env.GIT_BRANCH || 'unknown',
+                        bypassFlag: MATH_QUIZ_VALIDATION_BYPASS
+                    }
+                };
+                fs.appendFileSync(reportPath, JSON.stringify(bypassData) + '\n');
+            } else {
+                a.rationale = 'Noted: choose the reason why this is correct/incorrect.';
+            }
             console.warn(`WARNING: Missing rationale for an answer in question ${q.questionNumber} of quiz ${quiz.quizId}. Added placeholder.`);
         }
     });
@@ -41,12 +69,28 @@ function validateQuiz(quiz, topicId) {
     if (q.question.includes('\\frac') && !q.question.includes('\\\\frac')) {
         console.warn(`WARNING: Found single backslash LaTeX in question ${q.questionNumber} of ${quiz.quizId}. Consider fixing to double backslash.`);
     }
+
+    // HTML tag validation
+    const htmlTagRegex = /<[^>]*>/g;
+    if (htmlTagRegex.test(q.question)) {
+        console.warn(`WARNING: Found HTML tags in question ${q.questionNumber} of ${quiz.quizId}.`);
+    }
+    q.answerOptions.forEach(a => {
+        if (htmlTagRegex.test(a.text)) {
+            console.warn(`WARNING: Found HTML tags in an answer option for question ${q.questionNumber} of ${quiz.quizId}.`);
+        }
+    });
   });
 
   return true;
 }
 
 function validateMathQuizzes() {
+    if (MATH_QUIZ_VALIDATION_BYPASS && process.env.GIT_BRANCH && process.env.GIT_BRANCH !== 'dev') {
+        console.error("BYPASS BLOCKED: Disable MATH_QUIZ_VALIDATION_BYPASS or resolve all TODO_AUTOGEN items before merging.");
+        process.exit(1);
+    }
+
     const mathData = expandedQuizData.Math;
     if (!mathData || !mathData.categories) {
         throw new Error('Math data or categories are missing.');
@@ -78,6 +122,15 @@ function validateMathQuizzes() {
         console.log(`${warnings} warnings were issued.`);
     } else {
         console.log("No warnings.");
+    }
+
+    // Check for TODO_AUTOGEN strings only when bypass is off
+    if (!MATH_QUIZ_VALIDATION_BYPASS) {
+        const quizDataString = JSON.stringify(mathData);
+        if (quizDataString.includes('TODO_AUTOGEN')) {
+            console.error("ERROR: Found 'TODO_AUTOGEN' placeholders in the math quiz data. Please resolve these before committing.");
+            process.exit(1);
+        }
     }
 }
 
