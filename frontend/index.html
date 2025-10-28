@@ -9413,6 +9413,28 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         })}
                         {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                             <>
+                                {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
+                                    <div
+                                        className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
+                                        style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                                    >
+                                        <div>
+                                            <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
+                                                <BookOpenIcon className="h-8 w-8" />
+                                                <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Essay Practice Tool</h3>
+                                            </div>
+                                            <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
+                                                Build your extended response with guided support.
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={() => onSelectQuiz({ id: 'essay_practice_tool', type: 'essay', title: 'GED® Essay Practice Toolkit' }, selectedSubject)}
+                                            className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
+                                        >
+                                            Launch Essay Practice
+                                        </button>
+                                    </div>
+                                )}
                                 <div
                                     className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
                                     style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
