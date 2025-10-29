@@ -1,0 +1,35 @@
+{
+  "generatedAt": "2025-10-29T04:44:27.772Z",
+  "entries": [
+    {
+      "path": "frontend/New Exams/new_math_exams.js",
+      "subject": "Math",
+      "approxQuestionCount": 60
+    },
+    {
+      "path": "frontend/New Exams/new_math_exams2.js",
+      "subject": "Math",
+      "approxQuestionCount": 112
+    },
+    {
+      "path": "backend/data/premade-questions.js",
+      "subject": "Unknown",
+      "approxQuestionCount": 59
+    },
+    {
+      "path": "backend/data/quizzes/premade-questions.js",
+      "subject": "Unknown",
+      "approxQuestionCount": 14
+    },
+    {
+      "path": "backend/tests/sanitizeExamText.test.js",
+      "subject": "Unknown",
+      "approxQuestionCount": 1
+    },
+    {
+      "path": "quizzes.txt",
+      "subject": "Unknown",
+      "approxQuestionCount": 6
+    }
+  ]
+}

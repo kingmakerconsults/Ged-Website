@@ -1,0 +1,18 @@
+# Quiz loader status
+
+Generated: 2025-10-29T04:44:40.656Z
+
+- Legacy topics: 8, questions: 52
+- Dynamic topics: 8, questions: 52
+
+Dynamic content present. Validate shapes before switching the loader.
+
+## Topic files
+- backend/data/quizzes/math/math_quant_numbers.js
+- backend/data/quizzes/rla/rla_grammar_usage.js
+- backend/data/quizzes/rla/rla_info_main_idea.js
+- backend/data/quizzes/science/sci_chem_fundamentals.js
+- backend/data/quizzes/science/sci_ecosystems_environment.js
+- backend/data/quizzes/science/sci_life_science_basics.js
+- backend/data/quizzes/science/sci_scientific_numeracy_core.js
+- backend/data/quizzes/social-studies/ss_us_hist_foundations.js

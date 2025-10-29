@@ -1958,8 +1958,13 @@ function ensureTestUserForNow(req, res, next) {
 }
 const profileRouter = require('./routes/profile');
 
-ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
-ensureQuizAttemptsTable().catch((e) => console.error('Quiz attempt table init error:', e));
+// Optional: allow local development to disable DB migrations/ensures
+if (!process.env.DB_DISABLED) {
+    ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
+    ensureQuizAttemptsTable().catch((e) => console.error('Quiz attempt table init error:', e));
+} else {
+    console.log('DB_DISABLED=true; skipping DB ensure steps.');
+}
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -4658,7 +4663,7 @@ app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
 });
 
 
-const { ALL_QUIZZES } = require('./data/premade-questions.js');
+const { ALL_QUIZZES } = require('./data/quizzes');
 
 // Helper function to get random questions from the premade data
 const getPremadeQuestions = (subject, count) => {

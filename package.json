@@ -9,7 +9,12 @@
     "img:stats": "node tools/gov-image-harvester/inspect.mjs --stats",
     "img:keywords:sci": "node tools/gov-image-harvester/inspect.mjs --keywords Science",
     "img:verify": "node tools/gov-image-harvester/inspect.mjs --verify-paths",
-    "validate:math": "node scripts/validate_math_quizzes.js",
+  "validate:math": "node scripts/validate_math_quizzes.js",
+  "quizzes:inventory": "node scripts/inventory_quiz_sources.js",
+  "quizzes:convert": "node scripts/convert_premade_to_new.js",
+  "quizzes:verify": "node scripts/verify_quiz_sources_and_loader.js",
+  "quizzes:check-shape": "node scripts/validate_quiz_shapes.js",
+  "reports:prune": "node scripts/prune_reports.js --days 45",
     "test:math": "node tests/math_quizzes.test.js",
     "prepare": "husky"
   },

@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2025-10-29T04:44:34.244Z",
+  "subjects": [
+    {
+      "subjectKey": "Science",
+      "subjectFolder": "science",
+      "topicCount": 4,
+      "questionCount": 48
+    },
+    {
+      "subjectKey": "Math",
+      "subjectFolder": "math",
+      "topicCount": 1,
+      "questionCount": 1
+    },
+    {
+      "subjectKey": "Social Studies",
+      "subjectFolder": "social-studies",
+      "topicCount": 1,
+      "questionCount": 1
+    },
+    {
+      "subjectKey": "Reasoning Through Language Arts (RLA)",
+      "subjectFolder": "rla",
+      "topicCount": 2,
+      "questionCount": 2
+    }
+  ],
+  "totalTopics": 8,
+  "totalQuestions": 52,
+  "outputRoot": "backend/data/quizzes"
+}
