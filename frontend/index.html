@@ -777,6 +777,17 @@
                                     color: inherit;
                                 }
 
+                                        /* Settings page: force Font Size and Color Mode texts to black in BOTH themes */
+                                        #settingsView fieldset > legend,
+                                        #settingsView fieldset > p {
+                                            color: #000000 !important;
+                                        }
+                                        /* Option labels and their subtext (for both Font Size and Color Mode) */
+                                        #settingsView label span .font-semibold,
+                                        #settingsView label span .text-xs {
+                                            color: #000000 !important;
+                                        }
+
                         /* C) Do NOT affect the subject tiles/gradients or stat boxes */
                         [data-theme="light"] .content-card .subject-card,
                         [data-theme="light"] .content-card .stat {
@@ -795,6 +806,138 @@
                         html[data-theme="light"] body:not(.dark) .content-card [class*="dark:bg-"] {
                             background-color: inherit !important; /* neutralize dark:bg-* when not in dark */
                         }
+
+                                /* ------------------------------ */
+                                /* Light-mode polish: Dashboard & Settings (scoped) */
+                                /* 1) Card surfaces & elevation (subtle, white on white) */
+                                [data-theme="light"] .content-card,
+                                [data-theme="light"] .dashboard-row,
+                                [data-theme="light"] .panel,
+                                [data-theme="light"] .box,
+                                [data-theme="light"] .section,
+                                [data-theme="light"] .profile-block,
+                                [data-theme="light"] .vocabulary-ticker,
+                                [data-theme="light"] .settings-card,
+                                [data-theme="light"] .settings-section {
+                                    position: relative;
+                                    background: linear-gradient(135deg, #ffffff, #f9fafb);
+                                    border: 1px solid rgba(148,163,184,0.2);
+                                    border-radius: 1rem;
+                                    box-shadow: 0 6px 14px rgba(2,6,23,0.05);
+                                    transition: box-shadow .25s ease, transform .2s ease;
+                                }
+
+                                [data-theme="light"] .panel:hover,
+                                [data-theme="light"] .box:hover,
+                                [data-theme="light"] .settings-section:hover {
+                                    transform: translateY(-2px);
+                                    box-shadow: 0 12px 24px rgba(2,6,23,0.08);
+                                }
+
+                                /* Keep subject tiles/gradients untouched */
+                                [data-theme="light"] .subject-card,
+                                [data-theme="light"] .subject-gradient,
+                                [data-theme="light"] .stat { background: unset; box-shadow: none; border: none; }
+
+                                /* 2) Section headers feel “distinct” without dark bars */
+                                [data-theme="light"] .section-header,
+                                [data-theme="light"] .panel-header,
+                                [data-theme="light"] .settings-header {
+                                    background: linear-gradient(90deg, rgba(14,165,233,0.06), rgba(236,72,153,0.06));
+                                    border-bottom: 1px solid rgba(148,163,184,0.18);
+                                    border-radius: .75rem .75rem 0 0;
+                                    padding: .6rem .9rem;
+                                }
+
+                                /* 3) Typography upgrades (titles, labels; content stays black on white) */
+                                [data-theme="light"] .content-card,
+                                [data-theme="light"] .settings-card {
+                                    -webkit-font-smoothing: antialiased;
+                                    -moz-osx-font-smoothing: grayscale;
+                                }
+
+                                [data-theme="light"] .section-title,
+                                [data-theme="light"] .panel-title,
+                                [data-theme="light"] .settings-title {
+                                    font-weight: 700;
+                                    letter-spacing: .02em;
+                                    line-height: 1.25;
+                                    color: #0f172a;
+                                    text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+                                    margin-bottom: .5rem;
+                                    border-bottom: 2px solid rgba(148,163,184,0.18);
+                                    padding-bottom: .4rem;
+                                }
+
+                                [data-theme="light"] .overline,
+                                [data-theme="light"] .label-lite {
+                                    font-size: .75rem;
+                                    font-weight: 700;
+                                    letter-spacing: .06em;
+                                    text-transform: uppercase;
+                                    color: #334155;
+                                    opacity: .9;
+                                }
+
+                                [data-theme="light"] .question-text,
+                                [data-theme="light"] .passage,
+                                [data-theme="light"] .answer-option,
+                                [data-theme="light"] .settings-description {
+                                    color: #0b1220; /* dark text for readability */
+                                    text-shadow: none;
+                                }
+
+                                /* 4) Buttons & controls: subtle lift, scoped to Dashboard & Settings containers */
+                                [data-theme="light"] .content-card button,
+                                [data-theme="light"] .content-card .action-button,
+                                [data-theme="light"] .settings-card button,
+                                [data-theme="light"] .settings-card .action-button {
+                                    border-radius: .6rem;
+                                    border: 1px solid rgba(148,163,184,0.25);
+                                    box-shadow: 0 2px 6px rgba(2,6,23,0.06);
+                                    transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease;
+                                }
+                                [data-theme="light"] .content-card button:hover,
+                                [data-theme="light"] .content-card .action-button:hover,
+                                [data-theme="light"] .settings-card button:hover,
+                                [data-theme="light"] .settings-card .action-button:hover {
+                                    transform: translateY(-1px);
+                                    box-shadow: 0 6px 14px rgba(2,6,23,0.09);
+                                }
+
+                                /* 5) Pills/chips (Vocabulary, Settings options) look premium */
+                                [data-theme="light"] .content-card .chip,
+                                [data-theme="light"] .content-card .vocabulary-chip,
+                                [data-theme="light"] .content-card .option-pill,
+                                [data-theme="light"] .settings-card .chip,
+                                [data-theme="light"] .settings-card .option-pill {
+                                    background: linear-gradient(180deg, #ffffff, #f3f6fb);
+                                    border: 1px solid rgba(148,163,184,0.25);
+                                    border-radius: 999px;
+                                    box-shadow: 0 1px 2px rgba(2,6,23,0.06);
+                                }
+                                [data-theme="light"] .content-card .option-pill.is-selected,
+                                [data-theme="light"] .settings-card .option-pill.is-selected {
+                                    background: linear-gradient(180deg, #eef6ff, #e7f0ff);
+                                    border-color: rgba(37,99,235,0.45);
+                                    box-shadow: 0 4px 10px rgba(37,99,235,0.15);
+                                }
+
+                                /* 6) Gentle separators & spacing rhythm */
+                                [data-theme="light"] .content-card .divider,
+                                [data-theme="light"] .content-card .rule,
+                                [data-theme="light"] .settings-card .divider,
+                                [data-theme="light"] .settings-card .rule {
+                                    border-color: rgba(148,163,184,0.25);
+                                    opacity: .9;
+                                }
+                                [data-theme="light"] .content-card .section,
+                                [data-theme="light"] .settings-section { padding: 1.1rem 1.25rem; }
+
+                                /* 7) Guard rails: also for settings container */
+                                html[data-theme="light"] body:not(.dark) .settings-card [class*="dark:bg-"] {
+                                    background-color: transparent !important;
+                                }
         /* Default subject heading color in light mode (fallback) */
         [data-theme="light"] .subject-accent-heading {
             color: var(--accent) !important;
@@ -7693,8 +7836,8 @@ function ProfileView({
 
     return (
         <section id="profileView" data-view="profile" tabIndex={-1} className="outline-none">
-            <div className="max-w-4xl mx-auto space-y-6">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="max-w-4xl mx-auto space-y-6 settings-card">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between settings-header">
                     <div>
                         <h1 className="text-3xl font-bold text-white drop-shadow-sm">Profile</h1>
                         <p className="text-sm text-slate-500">Update your learning plan and keep your information in sync.</p>
@@ -8216,14 +8359,14 @@ function SettingsView({ preferences, onApply, onSave, saving, status, onBack, lo
                 </div>
 
                 <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 dark:border-slate-700/70 bg-white/95 dark:bg-slate-900/80 p-5 shadow-sm space-y-6">
-                    <fieldset className="space-y-3">
+                    <fieldset className="space-y-3 settings-section">
                         <legend className="text-lg font-semibold text-slate-800 dark:text-slate-100">Font Size</legend>
                         <p className="text-sm text-slate-500 dark:text-slate-300">Pick the text size that feels comfortable on your device.</p>
                         <div className="grid gap-2 sm:grid-cols-2">
                             {fontSizeOptions.map((option) => (
                                 <label
                                     key={option.value}
-                                    className="flex items-center gap-3 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-3 py-2 hover:border-sky-300 dark:hover:border-sky-400 focus-within:ring-2 focus-within:ring-sky-500"
+                                    className={`option-pill ${fontSize === option.value ? 'is-selected' : ''} flex items-center gap-3 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-3 py-2 hover:border-sky-300 dark:hover:border-sky-400 focus-within:ring-2 focus-within:ring-sky-500`}
                                 >
                                     <input
                                         type="radio"
@@ -8242,14 +8385,14 @@ function SettingsView({ preferences, onApply, onSave, saving, status, onBack, lo
                         </div>
                     </fieldset>
 
-                    <fieldset className="space-y-3">
+                    <fieldset className="space-y-3 settings-section">
                         <legend className="text-lg font-semibold text-slate-800 dark:text-slate-100">Color Mode</legend>
                         <p className="text-sm text-slate-500 dark:text-slate-300">Choose between light and dark themes. We’ll remember your pick.</p>
                         <div className="grid gap-2 sm:grid-cols-2">
                             {themeOptions.map((option) => (
                                 <label
                                     key={option.value}
-                                    className={`flex items-center gap-3 rounded-lg border px-3 py-2 transition ${theme === option.value ? 'border-sky-400 ring-2 ring-sky-200 dark:ring-sky-500/40' : 'border-slate-200 dark:border-slate-600'} bg-white dark:bg-slate-900/60 hover:border-sky-300 dark:hover:border-sky-400`}
+                                    className={`option-pill ${theme === option.value ? 'is-selected ' : ''}flex items-center gap-3 rounded-lg border px-3 py-2 transition ${theme === option.value ? 'border-sky-400 ring-2 ring-sky-200 dark:ring-sky-500/40' : 'border-slate-200 dark:border-slate-600'} bg-white dark:bg-slate-900/60 hover:border-sky-300 dark:hover:border-sky-400`}
                                 >
                                     <input
                                         type="radio"
