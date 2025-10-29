@@ -664,6 +664,15 @@
             border: 1px solid var(--border-subtle);
             box-shadow: 0 1px 2px rgba(0,0,0,0.04);
         }
+        /* Dashboard panels: force white in LIGHT mode only (do not affect dark mode or themed cards) */
+        [data-theme="light"] .panel,
+        [data-theme="light"] .block-profile.panel,
+        [data-theme="light"] .block-vocab.panel {
+            background-color: #ffffff; /* solid white surface */
+            color: var(--text-color);  /* keep normal readable text */
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow, 0 1px 2px rgba(0,0,0,0.05));
+        }
         /* Default subject heading color in light mode (fallback) */
         [data-theme="light"] .subject-accent-heading {
             color: var(--accent) !important;
