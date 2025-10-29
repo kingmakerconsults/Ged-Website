@@ -710,6 +710,47 @@
                 /* 4) Do NOT touch themed tiles/cards (subject gradients/stats) */
                 [data-theme="light"] .subject-card,
                 [data-theme="light"] .stat { background: unset; border: none; box-shadow: none; }
+
+                        /* A) Make the primary dashboard wrapper truly white in LIGHT mode */
+                        [data-theme="light"] .content-card {
+                            background-color: #ffffff !important;
+                            /* ensure the white fills behind inner gaps */
+                            background-clip: padding-box;
+                        }
+
+                        /* B) Ensure inner shells don't re-expose the dark page bg */
+                        [data-theme="light"] .content-card .dashboard-sections,
+                        [data-theme="light"] .content-card .dashboard-row,
+                        [data-theme="light"] .content-card .section,
+                        [data-theme="light"] .content-card .section-container,
+                        [data-theme="light"] .content-card .section-header,
+                        [data-theme="light"] .content-card .panel-header,
+                        [data-theme="light"] .content-card .vocabulary-ticker {
+                            background-color: #ffffff !important;
+                            color: var(--text-color);
+                            /* keep our existing light borders/shadows */
+                            border: 1px solid var(--border-color);
+                            box-shadow: var(--shadow);
+                        }
+
+                        /* C) Do NOT affect the subject tiles/gradients or stat boxes */
+                        [data-theme="light"] .content-card .subject-card,
+                        [data-theme="light"] .content-card .stat {
+                            background: unset !important;
+                            border: none !important;
+                            box-shadow: none !important;
+                        }
+
+                        /* D) If any 'glass' overlays are applied inside the content card, keep them light */
+                        [data-theme="light"] .content-card .glass {
+                            background-color: rgba(255,255,255,0.75) !important;
+                            border-color: rgba(148,163,184,0.22) !important;
+                        }
+
+                        /* E) Guard against accidental dark variants leaking in light mode */
+                        html[data-theme="light"] body:not(.dark) .content-card [class*="dark:bg-"] {
+                            background-color: inherit !important; /* neutralize dark:bg-* when not in dark */
+                        }
         /* Default subject heading color in light mode (fallback) */
         [data-theme="light"] .subject-accent-heading {
             color: var(--accent) !important;
