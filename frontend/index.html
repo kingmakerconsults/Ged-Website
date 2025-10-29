@@ -673,6 +673,43 @@
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow, 0 1px 2px rgba(0,0,0,0.05));
         }
+
+                /* 1) Generic dashboard section shells that still inherit the dark page bg */
+                [data-theme="light"] .card,
+                [data-theme="light"] .box,
+                [data-theme="light"] .quiz-section,
+                [data-theme="light"] .dashboard-row,
+                [data-theme="light"] .section,
+                [data-theme="light"] .section-container {
+                    background-color: #ffffff;
+                    border: 1px solid var(--border-color);
+                    box-shadow: var(--shadow);
+                    color: var(--text-color);
+                }
+
+                /* 2) "Vocabulary Spotlight" bar uses its own wrapper; make its shell white */
+                [data-theme="light"] .vocabulary-ticker {
+                    background-color: #ffffff;
+                    border: 1px solid var(--border-color);
+                    box-shadow: var(--shadow);
+                }
+
+                /* Keep ticker chips as they are */
+                [data-theme="light"] .vocabulary-ticker-track,
+                [data-theme="light"] .vocabulary-chip { background-color: inherit; }
+
+                /* 3) Section headers that may still be using a dark strip */
+                [data-theme="light"] .section-title,
+                [data-theme="light"] .section-header,
+                [data-theme="light"] .panel-header {
+                    background-color: #ffffff;
+                    color: var(--text-color);
+                    border-bottom: 1px solid var(--border-color);
+                }
+
+                /* 4) Do NOT touch themed tiles/cards (subject gradients/stats) */
+                [data-theme="light"] .subject-card,
+                [data-theme="light"] .stat { background: unset; border: none; box-shadow: none; }
         /* Default subject heading color in light mode (fallback) */
         [data-theme="light"] .subject-accent-heading {
             color: var(--accent) !important;
