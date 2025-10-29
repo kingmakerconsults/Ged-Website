@@ -203,7 +203,7 @@
 
         :root[data-theme="light"] {
             --bg-color: #ffffff;
-            --panel-bg: #fafafa;
+            --panel-bg: #ffffff;
             --text-color: #222222;
             --subtext-color: #444444;
             --border-color: #cccccc;
@@ -214,7 +214,7 @@
 
         :root:not([data-theme]) {
             --bg-color: #ffffff;
-            --panel-bg: #fafafa;
+            --panel-bg: #ffffff;
             --text-color: #222222;
             --subtext-color: #444444;
             --border-color: #cccccc;
@@ -527,7 +527,7 @@
             color: var(--text-primary);
         }
         [data-theme="light"] .glass {
-            background-color: rgba(255, 255, 255, 0.75);
+            background-color: #ffffff;
             color: #0f172a;
             border-color: rgba(148, 163, 184, 0.22);
         }
@@ -555,8 +555,8 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: brightness(0.9);
+            background: transparent;
+            backdrop-filter: none;
             z-index: 0;
             pointer-events: none;
         }
