@@ -555,10 +555,31 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: transparent;
+            /* Subtle white gradient wash to distinguish content area while keeping page white */
+            background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.65) 35%, rgba(255,255,255,0.45) 100%);
             backdrop-filter: none;
             z-index: 0;
             pointer-events: none;
+        }
+
+        /* Force dashboard/content surface to stay white even when the global theme is dark */
+        [data-theme="dark"] .min-h-screen {
+            background-color: #ffffff !important;
+        }
+        [data-theme="dark"] .content-card {
+            background-color: #ffffff !important;
+            border-color: rgba(148,163,184,0.35) !important;
+            color: #0f172a !important;
+        }
+        /* Ensure common text elements inside white content surfaces render dark text in dark mode */
+        [data-theme="dark"] .content-card h1,
+        [data-theme="dark"] .content-card h2,
+        [data-theme="dark"] .content-card h3,
+        [data-theme="dark"] .content-card p,
+        [data-theme="dark"] .content-card li,
+        [data-theme="dark"] .content-card small,
+        [data-theme="dark"] .content-card span {
+            color: #0f172a !important;
         }
         [data-theme="light"] .quiz-panel,
         [data-theme="light"] .question-container,
