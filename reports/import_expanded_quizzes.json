@@ -1,12 +1,13 @@
 {
-  "generatedAt": "2025-10-29T12:31:13.408Z",
+  "generatedAt": "2025-10-29T19:15:27.872Z",
   "sources": [
     "frontend/Expanded/combined_math_quizzes.js",
     "frontend/Expanded/all_science_quizzes.js",
+    "frontend/Expanded/science_quizzes.js",
     "frontend/Expanded/social_studies_quizzes.js",
     "frontend/Expanded/rla_quizzes.js"
   ],
-  "topicsWritten": 162,
-  "questionsWritten": 1725,
-  "supplementalCount": 162
+  "topicsWritten": 184,
+  "questionsWritten": 1989,
+  "supplementalCount": 184
 }
