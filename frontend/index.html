@@ -3303,6 +3303,40 @@ function ChartDisplay({ chartData }) {
     );
 }
 
+// Science formula sheet data
+const ScienceFormulas = [
+    {
+        name: "Density",
+        formula: "d = \\frac{m}{V}",
+        variables: "d = density (mass per unit volume), m = mass, V = volume"
+    },
+    {
+        name: "Average Speed",
+        formula: "v = \\frac{d}{t}",
+        variables: "v = average speed, d = distance traveled, t = elapsed time"
+    },
+    {
+        name: "Force",
+        formula: "F = ma",
+        variables: "F = net force, m = mass, a = acceleration"
+    },
+    {
+        name: "Work",
+        formula: "W = F \\times d",
+        variables: "W = work, F = applied force, d = displacement in the direction of the force"
+    },
+    {
+        name: "Mean (Average)",
+        formula: "\\bar{x} = \\frac{\\text{Total of all data values}}{\\text{How many values there are}}",
+        variables: "\\bar{x} = mean (average) of the data set: add all values together and divide by how many values there are"
+    },
+    {
+        name: "Range",
+        formula: "\\text{Range} = \\text{Maximum value} - \\text{Minimum value}",
+        variables: "Describes the spread between the largest and smallest values in a data set."
+    }
+];
+
 const SCI_NUMERACY_QUESTIONS = [
     {
         questionNumber: 1,
@@ -7150,7 +7184,23 @@ function App({ externalTheme, onThemeChange }) {
             case 'simulation':
                 return (
                     activeQuiz && (activeQuiz.id === 'sim_life' || activeQuiz.title === 'The Game of Life') ? (
-                        <SmithGameOfLife onExit={navigateHome} />
+                        <div className="fade-in" data-subject="Simulations">
+                            <div className="rounded-2xl overflow-hidden shadow-xl mb-4" style={{ background: 'var(--subject-simulations-gradient)' }}>
+                                <header className="flex flex-wrap items-center justify-between gap-3 p-4 text-white">
+                                    <div className="flex-none min-w-[120px]">
+                                        <button onClick={navigateHome} className="inline-flex items-center gap-2 text-sm font-semibold bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md">
+                                            <ArrowLeftIcon />
+                                            <span>Back</span>
+                                        </button>
+                                    </div>
+                                    <h2 className="text-2xl font-extrabold text-center flex-1">The Game of Life</h2>
+                                    <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
+                                </header>
+                            </div>
+                            <div className="panel-surface rounded-xl p-2 border" style={{ borderColor: 'var(--subject-simulations-border)', backgroundColor: 'white' }}>
+                                <LifeChoicesSimulation srcPath="Game of Life/The Game of life.html" />
+                            </div>
+                        </div>
                     ) : (
                         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 text-white p-8 sm:p-10 text-center shadow-xl">
                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.25),_transparent_55%)] pointer-events-none"></div>
@@ -9095,7 +9145,7 @@ function ScienceFormulaSheet({ onClose }) {
                 <h2 className="formula-sheet-title text-xl font-bold mb-4">Science Formula Sheet</h2>
 
                 <div className="formula-sheet-grid space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-                    {ScienceFormulas.map((item, idx) => (
+                    {(Array.isArray(ScienceFormulas) ? ScienceFormulas : []).map((item, idx) => (
                         <div key={idx} className="formula-sheet-card rounded-lg p-3 space-y-2">
                             <h3 className="formula-sheet-label font-semibold">{item.name}</h3>
                             <FormulaDisplay
@@ -12190,157 +12240,7 @@ function GeometryPracticeTool({ onExit }) {
     );
 }
 
-function SmithGameOfLife({ onExit }) {
-    const rows = 30;
-    const cols = 50;
-
-    const createEmptyGrid = React.useCallback(() => Array.from({ length: rows }, () => Array(cols).fill(false)), [rows, cols]);
-
-    const [grid, setGrid] = React.useState(createEmptyGrid);
-    const [running, setRunning] = React.useState(false);
-    const [speed, setSpeed] = React.useState(200); // ms per generation
-    const [generation, setGeneration] = React.useState(0);
-    const [population, setPopulation] = React.useState(0);
-
-    const intervalRef = React.useRef(null);
-
-    const countNeighbors = (g, r, c) => {
-        let count = 0;
-        for (let dr = -1; dr <= 1; dr++) {
-            for (let dc = -1; dc <= 1; dc++) {
-                if (dr === 0 && dc === 0) continue;
-                const nr = r + dr;
-                const nc = c + dc;
-                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && g[nr][nc]) count++;
-            }
-        }
-        return count;
-    };
-
-    const step = React.useCallback(() => {
-        setGrid((prev) => {
-            const next = prev.map((row, r) => row.map((cell, c) => {
-                const neighbors = countNeighbors(prev, r, c);
-                if (cell) {
-                    return neighbors === 2 || neighbors === 3;
-                } else {
-                    return neighbors === 3;
-                }
-            }));
-            const live = next.reduce((acc, row) => acc + row.filter(Boolean).length, 0);
-            setPopulation(live);
-            setGeneration((g) => g + 1);
-            return next;
-        });
-    }, [rows, cols]);
-
-    React.useEffect(() => {
-        if (running) {
-            intervalRef.current = setInterval(step, Math.max(50, speed));
-            return () => clearInterval(intervalRef.current);
-        } else {
-            if (intervalRef.current) clearInterval(intervalRef.current);
-        }
-    }, [running, speed, step]);
-
-    const toggleCell = (r, c) => {
-        setGrid((prev) => {
-            const next = prev.map((row) => row.slice());
-            next[r][c] = !next[r][c];
-            const live = next.reduce((acc, row) => acc + row.filter(Boolean).length, 0);
-            setPopulation(live);
-            return next;
-        });
-    };
-
-    const handleClear = () => {
-        setRunning(false);
-        setGrid(createEmptyGrid());
-        setGeneration(0);
-        setPopulation(0);
-    };
-
-    const handleRandomize = () => {
-        setRunning(false);
-        const rand = Array.from({ length: rows }, () => Array.from({ length: cols }, () => Math.random() < 0.25));
-        setGrid(rand);
-        const live = rand.reduce((acc, row) => acc + row.filter(Boolean).length, 0);
-        setPopulation(live);
-        setGeneration(0);
-    };
-
-    const showExitButton = typeof onExit === 'function';
-
-    return (
-        <div className="fade-in" data-subject="Simulations">
-            <div className="rounded-2xl overflow-hidden shadow-xl mb-4" style={{ background: 'var(--subject-simulations-gradient)' }}>
-                <header className="flex flex-wrap items-center justify-between gap-3 p-4 text-white">
-                    <div className="flex-none min-w-[120px]">
-                        {showExitButton && (
-                            <button onClick={onExit} className="inline-flex items-center gap-2 text-sm font-semibold bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md">
-                                <ArrowLeftIcon />
-                                <span>Back</span>
-                            </button>
-                        )}
-                    </div>
-                    <h2 className="text-2xl font-extrabold text-center flex-1">Smith’s Game of Life</h2>
-                    <div className="flex-none min-w-[120px]" aria-hidden="true"></div>
-                </header>
-            </div>
-
-            <div className="panel-surface rounded-xl p-4 border border-[var(--subject-simulations-border)] bg-white dark:bg-slate-900">
-                <div className="flex flex-wrap items-center gap-3 justify-between mb-4">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <button onClick={() => setRunning((r) => !r)} className={`px-3 py-1.5 rounded-md font-semibold ${running ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-green-600 text-white hover:bg-green-700'}`}>
-                            {running ? 'Pause' : 'Play'}
-                        </button>
-                        <button onClick={step} className="px-3 py-1.5 rounded-md font-semibold bg-slate-200 hover:bg-slate-300 text-slate-800">Step</button>
-                        <button onClick={handleClear} className="px-3 py-1.5 rounded-md font-semibold bg-slate-200 hover:bg-slate-300 text-slate-800">Clear</button>
-                        <button onClick={handleRandomize} className="px-3 py-1.5 rounded-md font-semibold bg-slate-200 hover:bg-slate-300 text-slate-800">Randomize</button>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <label className="text-sm text-slate-600 dark:text-slate-300">Speed</label>
-                        <input type="range" min="50" max="1000" step="50" value={speed} onChange={(e) => setSpeed(parseInt(e.target.value, 10) || 200)} />
-                        <span className="text-xs text-slate-500 dark:text-slate-400 w-12 text-right">{speed}ms</span>
-                    </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-6 mb-4">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--subject-simulations-accent)] text-[var(--subject-simulations-text)]">
-                        <span className="text-xs uppercase tracking-wide">Generation</span>
-                        <span className="text-base font-bold">{generation}</span>
-                    </div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--subject-simulations-accent)] text-[var(--subject-simulations-text)]">
-                        <span className="text-xs uppercase tracking-wide">Population</span>
-                        <span className="text-base font-bold">{population}</span>
-                    </div>
-                    <div className="text-xs text-slate-600 dark:text-slate-300">Click cells to toggle alive/dead. Rules: B3/S23</div>
-                </div>
-
-                <div className="overflow-auto rounded-md border border-slate-200 dark:border-slate-700" style={{ maxHeight: 560 }}>
-                    <div
-                        className="grid bg-white dark:bg-slate-950"
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: `repeat(${cols}, 18px)`,
-                            gridTemplateRows: `repeat(${rows}, 18px)`,
-                        }}
-                    >
-                        {grid.map((row, r) =>
-                            row.map((alive, c) => (
-                                <div
-                                    key={`${r}-${c}`}
-                                    onClick={() => toggleCell(r, c)}
-                                    className={`w-[18px] h-[18px] border border-slate-200 dark:border-slate-800 ${alive ? 'bg-[var(--subject-simulations-accent)]' : 'bg-white dark:bg-slate-900'}`}
-                                />
-                            ))
-                        )}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
+// (Removed) SmithGameOfLife React component in favor of embedding the authored HTML simulation
 
 function GraphingTool({ onExit }) {
     const boardRef = React.useRef(null);
@@ -12728,6 +12628,40 @@ function runMathPipelineDiagnostics() {
 
 if (typeof window !== 'undefined' && window.location && window.location.search.includes('mathdiag=1')) {
     setTimeout(runMathPipelineDiagnostics, 0);
+}
+
+function LifeChoicesSimulation({ srcPath }) {
+    const [srcDoc, setSrcDoc] = React.useState(null);
+    const iframeRef = React.useRef(null);
+
+    React.useEffect(() => {
+        let cancelled = false;
+        async function load() {
+            try {
+                const res = await fetch(srcPath, { cache: 'no-store' });
+                if (!res.ok) throw new Error(`Failed to load ${srcPath}: ${res.status}`);
+                const html = await res.text();
+                if (!cancelled) setSrcDoc(html);
+            } catch (e) {
+                console.warn('Falling back to src attribute for simulation:', e?.message || e);
+                if (!cancelled) setSrcDoc(null);
+            }
+        }
+        load();
+        return () => { cancelled = true; };
+    }, [srcPath]);
+
+    return (
+        <iframe
+            ref={iframeRef}
+            title="The Game of Life"
+            className="w-full h-[80vh] rounded-lg"
+            style={{ border: '1px solid var(--subject-simulations-border)', background: 'white' }}
+            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+            src={srcDoc ? undefined : srcPath}
+            srcDoc={srcDoc || undefined}
+        />
+    );
 }
 
 function useThemeController() {
