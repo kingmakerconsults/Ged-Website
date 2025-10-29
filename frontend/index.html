@@ -636,6 +636,76 @@
         [data-theme="light"] textarea::placeholder {
             color: #475569;
         }
+        /* Dark mode form fields: ensure strong contrast for typed text and placeholders */
+        [data-theme="dark"] input,
+        [data-theme="dark"] select,
+        [data-theme="dark"] textarea {
+            color: #ffffff;
+            background-color: rgba(2,6,23,0.85);
+            border-color: rgba(148,163,184,0.45);
+        }
+        [data-theme="dark"] input::placeholder,
+        [data-theme="dark"] textarea::placeholder {
+            color: #94a3b8;
+        }
+        /* Essay/practice textareas in dark mode */
+        [data-theme="dark"] .practice-textarea {
+            color: #ffffff;
+            background-color: rgba(2,6,23,0.85);
+            border-color: rgba(148,163,184,0.45);
+        }
+        [data-theme="dark"] .practice-textarea::placeholder {
+            color: #94a3b8;
+        }
+        /* Subject-accented headings and light-mode white panels for specific review surfaces */
+        [data-theme="light"] .panel-surface {
+            background-color: #ffffff !important;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        /* Default subject heading color in light mode (fallback) */
+        [data-theme="light"] .subject-accent-heading {
+            color: var(--accent) !important;
+        }
+        /* Per-subject heading accents in light mode */
+        [data-theme="light"] [data-subject="Math"] .subject-accent-heading {
+            color: var(--subject-math-accent) !important;
+        }
+        [data-theme="light"] [data-subject="Science"] .subject-accent-heading {
+            color: var(--subject-science-accent) !important;
+        }
+        [data-theme="light"] [data-subject="Social Studies"] .subject-accent-heading {
+            color: var(--subject-social-accent) !important;
+        }
+        [data-theme="light"] [data-subject="Reasoning Through Language Arts (RLA)"] .subject-accent-heading {
+            color: var(--subject-rla-accent) !important;
+        }
+        /* Dark mode: always render these headers white for readability */
+        [data-theme="dark"] .subject-accent-heading {
+            color: #ffffff !important;
+        }
+        /* Settings: clearer selected state for Font Size and Theme bubbles */
+        #settingsView label:has(input[type="radio"][name="fontSize"]:checked) {
+            border-color: var(--accent);
+            background-color: var(--accent-soft);
+            box-shadow: 0 0 0 2px var(--accent-ring);
+        }
+        #settingsView label:has(input[type="radio"][name="theme"]:checked) {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-ring);
+        }
+        /* Test Plan: clearer selected state for checkboxes (Not scheduled / Passed) */
+        .subject-test-block label.inline-row:has(input:checked) {
+            background-color: var(--accent-soft);
+            border: 1px solid var(--accent-border);
+            border-radius: 0.5rem;
+            padding-inline: 0.5rem;
+            color: var(--text-primary);
+        }
+        .subject-test-block label:has(input:focus) {
+            outline: 2px solid var(--accent-ring);
+            outline-offset: 2px;
+        }
         .refresh-button {
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
@@ -7081,13 +7151,13 @@ function App({ externalTheme, onThemeChange }) {
         }
     }, [loadProfileOnce, profileData]);
 
-    const handleReviewMarked = (markedQuestions) => {
+    const handleReviewMarked = (markedQuestions, subject) => {
         const reviewQuiz = {
             id: 'review_quiz_' + new Date().getTime(),
             title: 'Review Marked Questions',
             questions: markedQuestions.map((q, index) => ({ ...q, questionNumber: index + 1 })),
         };
-        startQuiz(reviewQuiz, 'Review');
+        startQuiz(reviewQuiz, subject || 'Review');
     };
 
     const renderView = () => {
@@ -8664,14 +8734,14 @@ function DetailedProgressView({ subject, progressData, onBack }) {
     const recentAttempts = attempts.slice(0, 10);
 
     return (
-        <div className="fade-in">
+        <div className="fade-in" data-subject={subject}>
             <header className="flex items-center pb-4 mb-4 border-b">
                 <button type="button" onClick={onBack} className="flex items-center gap-1 text-sm text-sky-600 hover:text-sky-800 font-semibold"><ArrowLeftIcon /> Back to Dashboard</button>
             </header>
-            <h2 className="text-3xl font-extrabold text-slate-800 mb-4">{subject} Progress Details</h2>
+            <h2 className="text-3xl font-extrabold subject-accent-heading mb-4">{subject} Progress Details</h2>
             <div className="space-y-6">
-                <section className="rounded-lg border border-slate-200 bg-slate-50 p-5 shadow-inner">
-                    <h3 className="text-lg font-semibold text-slate-700">Premade Exam Progress</h3>
+                <section className="rounded-lg border border-slate-200 bg-slate-50 p-5 shadow-inner panel-surface">
+                    <h3 className="text-lg font-semibold subject-accent-heading">Premade Exam Progress</h3>
                     <div className="mt-3 h-3 w-full rounded-full bg-white/70">
                         <div className="h-3 rounded-full bg-sky-500 transition-all duration-300" style={{ width: `${Math.min(100, Math.max(0, completionPercentage))}%` }}></div>
                     </div>
@@ -8686,8 +8756,8 @@ function DetailedProgressView({ subject, progressData, onBack }) {
                     )}
                 </section>
 
-                <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-                    <h3 className="text-lg font-semibold text-slate-700 mb-2">Last Exam</h3>
+                <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm panel-surface">
+                    <h3 className="text-lg font-semibold subject-accent-heading mb-2">Last Exam</h3>
                     {lastAttempt ? (
                         <div className="space-y-2">
                             <p className="text-xl font-bold text-slate-900">{lastAttempt.quizTitle || 'Exam'}</p>
@@ -8709,13 +8779,13 @@ function DetailedProgressView({ subject, progressData, onBack }) {
                 </section>
 
                 <section>
-                    <h3 className="text-lg font-semibold text-slate-700 mb-3">Recent Attempts</h3>
+                    <h3 className="text-lg font-semibold subject-accent-heading mb-3">Recent Attempts</h3>
                     {recentAttempts.length ? (
                         <ul className="space-y-3">
                             {recentAttempts.map((attempt, index) => {
                                 const { label, className } = formatPassStatus(attempt.passed);
                                 return (
-                                    <li key={`${attempt.quizCode || 'attempt'}-${index}`} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                                    <li key={`${attempt.quizCode || 'attempt'}-${index}`} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm panel-surface">
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
                                                 <p className="font-semibold text-slate-800">{attempt.quizTitle || attempt.quizCode || `Exam ${index + 1}`}</p>
@@ -9160,6 +9230,13 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
+    const [onboardingBannerHidden, setOnboardingBannerHidden] = useState(() => {
+        try {
+            return typeof sessionStorage !== 'undefined' && sessionStorage.getItem('hide_onboarding_banner') === 'true';
+        } catch (_) {
+            return false;
+        }
+    });
     const isDarkMode = theme === 'dark';
     const homePanelStyle = isDarkMode
         ? undefined
@@ -9203,6 +9280,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const hasVocabulary = Object.values(vocabularyData).some(words => Array.isArray(words) && words.length > 0);
     const goToProfile = () => {
         onShowProfile?.();
+    };
+    const hideOnboardingBanner = () => {
+        setOnboardingBannerHidden(true);
+        try {
+            if (typeof sessionStorage !== 'undefined') {
+                sessionStorage.setItem('hide_onboarding_banner', 'true');
+            }
+        } catch (_) {
+            // ignore
+        }
     };
 
     const handleSelectSubject = (subject) => {
@@ -9836,6 +9923,31 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         </>
                     )}
                 </header>
+                {!onboardingComplete && !onboardingBannerHidden && (
+                    <div className="mb-6 rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-900 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="space-y-1">
+                            <p className="font-semibold">Finish setting up your learning plan</p>
+                            <p className="text-sm opacity-90">Add your name, pick a few challenge areas, and set test dates to personalize your dashboard.</p>
+                        </div>
+                        <div className="flex gap-2 shrink-0">
+                            <button
+                                type="button"
+                                onClick={goToProfile}
+                                className="inline-flex items-center justify-center rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
+                            >
+                                Continue Onboarding
+                            </button>
+                            <button
+                                type="button"
+                                onClick={hideOnboardingBanner}
+                                className="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-sm font-semibold hover:bg-white/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
+                                aria-label="Hide onboarding reminder for now"
+                            >
+                                Hide for now
+                            </button>
+                        </div>
+                    </div>
+                )}
                 <div className="dashboard-sections">
                     {currentUser && (
                         <div className="grid gap-4 md:grid-cols-2 mb-6 dashboard-row">
@@ -10798,7 +10910,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             case 2:
                 return (
                     <div>
-                        <h3 className="text-2xl font-bold mb-4">Part 2: Extended Response (Essay)</h3>
+                        <h3 className="text-2xl font-bold mb-4 subject-accent-heading">Part 2: Extended Response (Essay)</h3>
                         <div className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg mb-4">
                             <h4 className="question-stem">{quiz.part2_essay.passages[0].title}</h4>
                             <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[0].content, { normalizeSpacing: true }) }} />
@@ -10920,8 +11032,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     };
 
     return (
-        <div className="text-center fade-in">
-            <h2 className="text-3xl font-bold text-slate-800">Results: {quiz.title}</h2>
+        <div className="text-center fade-in results-screen" data-subject={quiz.subject}>
+            <h2 className="text-3xl font-bold subject-accent-heading">Results: {quiz.title}</h2>
             <div className="my-6">
                 <p className="text-lg text-slate-600">Your estimated GED® Score is:</p>
                 <p className={`text-6xl font-bold my-2 ${performance.color}`}>{results.scaledScore}</p>
@@ -10930,10 +11042,10 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             </div>
 
             <div className="mt-8 pt-6 border-t max-w-lg mx-auto">
-                <h3 className="text-xl font-bold text-slate-700 mb-4">Performance by Category</h3>
+                <h3 className="text-xl font-bold subject-accent-heading mb-4">Performance by Category</h3>
                 <div className="space-y-3 text-left">
                     {Object.entries(performanceByCategory).map(([type, data]) => (
-                        <div key={type} className="bg-slate-100 p-3 rounded-lg">
+                        <div key={type} className="bg-slate-100 p-3 rounded-lg panel-surface">
                             <div className="flex justify-between items-center">
                                 <span className="font-semibold text-slate-600">{categoryNames[type] || type}</span>
                                 <span className="font-bold text-slate-800">{data.correct} / {data.total}</span>
@@ -10948,8 +11060,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
              <div className="mt-8 flex justify-center gap-4">
                  <button onClick={onHome} className="px-6 py-2 bg-slate-600 text-white font-bold rounded-lg hover:bg-slate-700">Go Home</button>
-                 {markedQuestions.length > 0 && (
-                    <button onClick={() => onReviewMarked(markedQuestions)} className="px-6 py-2 bg-yellow-500 text-white font-bold rounded-lg hover:bg-yellow-600">
+                      {markedQuestions.length > 0 && (
+                          <button onClick={() => onReviewMarked(markedQuestions, quiz.subject)} className="px-6 py-2 bg-yellow-500 text-white font-bold rounded-lg hover:bg-yellow-600">
                         Review {markedQuestions.length} Marked
                     </button>
                  )}
@@ -10957,7 +11069,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             </div>
 
             <div className="mt-8 pt-6 border-t">
-                <h3 className="text-xl font-bold text-slate-700 mb-4">Detailed Question Review</h3>
+                <h3 className="text-xl font-bold subject-accent-heading mb-4">Detailed Question Review</h3>
                 <div className="space-y-4 text-left">
                     {(quiz.questions || []).map((question, index) => {
                         const userAnswer = results.answers[index];
@@ -10973,7 +11085,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                         };
 
                         return (
-                            <div key={index} className={`p-4 rounded-lg border ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
+                            <div key={index} className={`p-4 rounded-lg border panel-surface ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
                                 <div className="mb-2 flex items-start gap-3">
                                     <span className="font-semibold question-stem leading-relaxed">{question.questionNumber}.</span>
                                     <Stem item={question} />
@@ -11046,10 +11158,10 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
     };
 
     return (
-        <div className="fade-in">
+        <div className="fade-in" data-subject={quiz.subject}>
              <header className="flex justify-between items-center pb-4 mb-4 border-b">
                  <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800">{quiz.title}</h2>
+                 <h2 className="text-xl font-bold text-center subject-accent-heading">{quiz.title}</h2>
                  <div></div>
             </header>
             <article className="prose passage-section max-w-none">
@@ -11059,7 +11171,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 {quiz.article.text.map((p, i) => <p key={i} dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(p, { normalizeSpacing: true }) }}></p>)}
             </article>
             <section className="mt-8 pt-6 border-t">
-                <h3 className="text-2xl font-bold mb-4">Questions</h3>
+                <h3 className="text-2xl font-bold mb-4 subject-accent-heading">Questions</h3>
                 <div className="space-y-6">
                     {quiz.questions.map((q, i) => (
                         <div key={i} className={`question-container p-4 rounded-lg transition-colors ${isSubmitted ? (answers[i] === (q.answerOptions || []).find(o=>o.isCorrect)?.text ? 'bg-green-50' : 'bg-red-50') : 'bg-slate-50'}`}>
@@ -11521,10 +11633,10 @@ const passagesData = [
     };
 
     return (
-        <div className="fade-in">
+        <div className="fade-in" data-subject="Reasoning Through Language Arts (RLA)">
             <header className="flex justify-between items-center pb-4 mb-4 border-b">
                  <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800">Interactive Essay Guide</h2>
+                    <h2 className="text-xl font-bold text-center subject-accent-heading">Interactive Essay Guide</h2>
                  <div></div>
             </header>
 

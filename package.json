@@ -14,7 +14,8 @@
     "quizzes:import-expanded": "node scripts/import_expanded_quizzes.js",
   "quizzes:build-frontend-expanded": "node scripts/build_frontend_expanded_bundle.cjs",
   "quizzes:integrate-frontend": "npm run quizzes:import-expanded ; npm run quizzes:build-frontend-expanded",
-    "prepare": "husky"
+    "validate-quizzes": "node tests/quizValidation.test.js",
+    "prepare": "husky install"
   },
   "dependencies": {
     "fast-xml-parser": "^4",
