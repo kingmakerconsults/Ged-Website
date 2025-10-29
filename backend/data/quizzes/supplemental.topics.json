@@ -1,0 +1,3566 @@
+[
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_02",
+      "title": "Algebra & Linear Equations: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_02.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_03",
+      "title": "Algebra & Linear Equations: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_03.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_04",
+      "title": "Algebra & Linear Equations: Quiz 4",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_04.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_05",
+      "title": "Algebra & Linear Equations: Quiz 5",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_05.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_06",
+      "title": "Algebra & Linear Equations: Quiz 6",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_06.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_07",
+      "title": "Algebra & Linear Equations: Quiz 7",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_07.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_08",
+      "title": "Algebra & Linear Equations: Quiz 8",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_08.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_09",
+      "title": "Algebra & Linear Equations: Quiz 9",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_09.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_10",
+      "title": "Algebra & Linear Equations: Quiz 10",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_10.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_11",
+      "title": "Algebra & Linear Equations: Quiz 11",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_11.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Algebra & Linear Equations",
+    "topic": {
+      "id": "math_algebra_12",
+      "title": "Algebra & Linear Equations: Quiz 12",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_algebra_12.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_01",
+      "title": "Data, Statistics & Probability: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_01.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_02",
+      "title": "Data, Statistics & Probability: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_02.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_03",
+      "title": "Data, Statistics & Probability: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_03.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_04",
+      "title": "Data, Statistics & Probability: Quiz 4",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_04.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_05",
+      "title": "Data, Statistics & Probability: Quiz 5",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_05.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_06",
+      "title": "Data, Statistics & Probability: Quiz 6",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_06.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_07",
+      "title": "Data, Statistics & Probability: Quiz 7",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_07.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_08",
+      "title": "Data, Statistics & Probability: Quiz 8",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_08.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_09",
+      "title": "Data, Statistics & Probability: Quiz 9",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_09.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_10",
+      "title": "Data, Statistics & Probability: Quiz 10",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_10.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_11",
+      "title": "Data, Statistics & Probability: Quiz 11",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_11.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Data, Statistics & Probability",
+    "topic": {
+      "id": "math_data_12",
+      "title": "Data, Statistics & Probability: Quiz 12",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_data_12.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_01",
+      "title": "Geometry & Measurement: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_01.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_02",
+      "title": "Geometry & Measurement: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_02.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_03",
+      "title": "Geometry & Measurement: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_03.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_04",
+      "title": "Geometry & Measurement: Quiz 4",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_04.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_05",
+      "title": "Geometry & Measurement: Quiz 5",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_05.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_06",
+      "title": "Geometry & Measurement: Quiz 6",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_06.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_07",
+      "title": "Geometry & Measurement: Quiz 7",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_07.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_08",
+      "title": "Geometry & Measurement: Quiz 8",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_08.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_09",
+      "title": "Geometry & Measurement: Quiz 9",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_09.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_10",
+      "title": "Geometry & Measurement: Quiz 10",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_10.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_11",
+      "title": "Geometry & Measurement: Quiz 11",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_11.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry & Measurement",
+    "topic": {
+      "id": "math_geometry_12",
+      "title": "Geometry & Measurement: Quiz 12",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_12.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_01",
+      "title": "Graphs & Functions: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_01.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_02",
+      "title": "Graphs & Functions: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_02.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_03",
+      "title": "Graphs & Functions: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_03.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_04",
+      "title": "Graphs & Functions: Quiz 4",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_04.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_05",
+      "title": "Graphs & Functions: Quiz 5",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_05.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_06",
+      "title": "Graphs & Functions: Quiz 6",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_06.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_07",
+      "title": "Graphs & Functions: Quiz 7",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_07.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_08",
+      "title": "Graphs & Functions: Quiz 8",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_08.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_09",
+      "title": "Graphs & Functions: Quiz 9",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_09.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_10",
+      "title": "Graphs & Functions: Quiz 10",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_10.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_11",
+      "title": "Graphs & Functions: Quiz 11",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_11.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Graphs & Functions",
+    "topic": {
+      "id": "math_graphs_12",
+      "title": "Graphs & Functions: Quiz 12",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphs_12.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_01",
+      "title": "Number Sense & Operations: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_01.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_02",
+      "title": "Number Sense & Operations: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_02.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_03",
+      "title": "Number Sense & Operations: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_03.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_04",
+      "title": "Number Sense & Operations: Quiz 4",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_04.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_05",
+      "title": "Number Sense & Operations: Quiz 5",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_05.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_06",
+      "title": "Number Sense & Operations: Quiz 6",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_06.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_07",
+      "title": "Number Sense & Operations: Quiz 7",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_07.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_08",
+      "title": "Number Sense & Operations: Quiz 8",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_08.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_09",
+      "title": "Number Sense & Operations: Quiz 9",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_09.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_10",
+      "title": "Number Sense & Operations: Quiz 10",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_10.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_11",
+      "title": "Number Sense & Operations: Quiz 11",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_11.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Number Sense & Operations",
+    "topic": {
+      "id": "math_number_sense_12",
+      "title": "Number Sense & Operations: Quiz 12",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_number_sense_12.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions",
+    "topic": {
+      "id": "math_ratios_01",
+      "title": "Ratios & Proportions: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_01.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_02",
+      "title": "Ratios & Proportions: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_02.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_03",
+      "title": "Ratios & Proportions: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_03.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_04",
+      "title": "Ratios & Proportions: Quiz 4",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_04.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_05",
+      "title": "Ratios & Proportions: Quiz 5",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_05.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_06",
+      "title": "Ratios & Proportions: Quiz 6",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_06.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_07",
+      "title": "Ratios & Proportions: Quiz 7",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_07.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_08",
+      "title": "Ratios & Proportions: Quiz 8",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_08.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_09",
+      "title": "Ratios & Proportions: Quiz 9",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_09.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_10",
+      "title": "Ratios & Proportions: Quiz 10",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_10.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_11",
+      "title": "Ratios & Proportions: Quiz 11",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_11.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Ratios & Proportions / Percent Applications",
+    "topic": {
+      "id": "math_ratios_12",
+      "title": "Ratios & Proportions: Quiz 12",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_ratios_12.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_1",
+      "title": "Life Science Concepts",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_1.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_1",
+      "title": "Physical Science Principles",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_1.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth & Space Science",
+    "topic": {
+      "id": "sci_earth_space_1",
+      "title": "Earth and Space Systems",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_1.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices / Data Reasoning",
+    "topic": {
+      "id": "sci_data_reasoning_1",
+      "title": "Scientific Reasoning and Data Analysis",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_data_reasoning_1.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_2",
+      "title": "Heredity and Ecosystems",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 13
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_2.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_2",
+      "title": "Matter, Energy, and Waves",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 13
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_2.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth & Space Science",
+    "topic": {
+      "id": "sci_earth_space_2",
+      "title": "Climate and Geology",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_2.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices / Data Reasoning",
+    "topic": {
+      "id": "sci_data_reasoning_2",
+      "title": "Experimental Design and Interpretation",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 13
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_data_reasoning_2.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_3",
+      "title": "Human Body Systems",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_3.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_3",
+      "title": "Electricity and Magnetism",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_3.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth & Space Science",
+    "topic": {
+      "id": "sci_earth_space_3",
+      "title": "Earth's Systems and Human Impact",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 14
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_3.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices / Data Reasoning",
+    "topic": {
+      "id": "sci_data_reasoning_3",
+      "title": "Interpreting Experiments and Data",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 13
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_data_reasoning_3.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_4",
+      "title": "Cells, Genetics, and Evolution",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 14
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_4.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_4",
+      "title": "Chemical Reactions and Properties of Matter",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_4.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth & Space Science",
+    "topic": {
+      "id": "sci_earth_space_4",
+      "title": "Geology and Planetary Science",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_4.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices / Data Reasoning",
+    "topic": {
+      "id": "sci_data_reasoning_4",
+      "title": "Data Representation and Scientific Inquiry",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_data_reasoning_4.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_5",
+      "title": "Ecosystems and Cell Biology",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 13
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_5.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_5",
+      "title": "Forces, Motion, and Energy Applications",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 14
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_5.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth & Space Science",
+    "topic": {
+      "id": "sci_earth_space_5",
+      "title": "Astronomy and Earth's Cycles",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_5.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices / Data Reasoning",
+    "topic": {
+      "id": "sci_data_reasoning_5",
+      "title": "Scientific Method and Conclusions",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_data_reasoning_5.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_6",
+      "title": "Ecology and Human Impact",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_6.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_6",
+      "title": "Thermodynamics and Modern Physics",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_6.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_civics_bill_of_rights_15",
+      "title": "The Bill of Rights",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_bill_of_rights_15.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_civics_citizen_rights_7",
+      "title": "Rights and Responsibilities of Citizens",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_citizen_rights_7.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civil Rights movement and modern era",
+    "topic": {
+      "id": "ss_civil_rights_14",
+      "title": "Struggles for Equality in Modern America",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civil_rights_14.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civil Rights movement and modern era",
+    "topic": {
+      "id": "ss_civil_rights_4",
+      "title": "The Civil Rights Movement",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civil_rights_4.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civil War & Reconstruction",
+    "topic": {
+      "id": "ss_civil_war_11",
+      "title": "Key Aspects of the Civil War",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civil_war_11.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civil War & Reconstruction",
+    "topic": {
+      "id": "ss_civil_war_3",
+      "title": "The Civil War and Reconstruction Era",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civil_war_3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Colonial era and early United States",
+    "topic": {
+      "id": "ss_colonial_era_1",
+      "title": "Colonial Foundations and Early America",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_colonial_era_1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Colonial era and early United States",
+    "topic": {
+      "id": "ss_colonial_era_12",
+      "title": "The Early American Republic",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_colonial_era_12.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Economics / Geography",
+    "topic": {
+      "id": "ss_economics_geography_8",
+      "title": "Economic Principles and Geographic Skills",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_economics_geography_8.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_civics_elections_17",
+      "title": "Political Parties and Elections",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_elections_17.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_civics_federalism_6",
+      "title": "Federal vs. State Powers",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_federalism_6.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_civics_gov_structure_16",
+      "title": "Structure of the U.S. Government",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_gov_structure_16.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_civics_lawmaking_10",
+      "title": "How Laws and Policies are Made",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_lawmaking_10.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Reading Primary / Secondary Sources",
+    "topic": {
+      "id": "ss_reading_sources_9",
+      "title": "Analyzing Primary and Secondary Sources",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_reading_sources_9.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_civics_separation_of_powers_5",
+      "title": "Separation of Powers and Checks & Balances",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_separation_of_powers_5.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Civics & Government",
+    "topic": {
+      "id": "ss_civics_supreme_court_18",
+      "title": "Landmark Supreme Court Cases",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_supreme_court_18.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Westward expansion / industrialization",
+    "topic": {
+      "id": "ss_westward_expansion_13",
+      "title": "Growth and Change in the 19th Century",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_westward_expansion_13.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Westward expansion / industrialization",
+    "topic": {
+      "id": "ss_westward_expansion_2",
+      "title": "Manifest Destiny and Industrialization",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_westward_expansion_2.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_01",
+      "title": "Selecting Evidence",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_01.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_02",
+      "title": "Supporting Claims with Evidence",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_02.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_03",
+      "title": "Evaluating Supporting Evidence",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 11
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_03.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_04",
+      "title": "Identifying Supporting Details",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 9
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_04.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_05",
+      "title": "Connecting Evidence to Claims",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_05.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_06",
+      "title": "Using Evidence to Support Arguments",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_06.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_07",
+      "title": "Locating Key Evidence",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 4
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_07.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_08",
+      "title": "Justifying Claims with Evidence",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_08.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_09",
+      "title": "Advanced Evidence Analysis",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_09.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Evidence Selection",
+    "topic": {
+      "id": "rla_evidence_10",
+      "title": "Comprehensive Evidence Review",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_evidence_10.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_01",
+      "title": "Grammar and Sentence Clarity",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_01.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_02",
+      "title": "Effective Sentence Construction",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_02.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_03",
+      "title": "Clarity and Concision",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_03.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_04",
+      "title": "Advanced Grammar and Style",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_04.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_05",
+      "title": "Precision in Writing",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 9
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_05.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_06",
+      "title": "Mastering Sentence Structure",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_06.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_07",
+      "title": "Advanced Sentence Revision",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_07.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_08",
+      "title": "Polishing and Refining Sentences",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_08.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_09",
+      "title": "Effective Writing Strategies",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_09.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Grammar, Clarity, and Revision",
+    "topic": {
+      "id": "rla_grammar_10",
+      "title": "Comprehensive Grammar Review",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_10.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_01",
+      "title": "Inference, Tone, and Purpose",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_01.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_02",
+      "title": "Reading Between the Lines",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_02.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_03",
+      "title": "Deducing Meaning and Intent",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_03.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_04",
+      "title": "Analyzing Author's Intent",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_04.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_05",
+      "title": "Discerning Authorial Intent",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 9
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_05.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_06",
+      "title": "Uncovering Implicit Meaning",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_06.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_07",
+      "title": "Reading for Implied Meaning",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_07.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_08",
+      "title": "Analyzing Tone and Purpose",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_08.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_09",
+      "title": "Advanced Analysis of Tone and Purpose",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_09.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Inference, Tone, and Purpose",
+    "topic": {
+      "id": "rla_inference_10",
+      "title": "Comprehensive Inference and Tone Review",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_inference_10.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_01",
+      "title": "Identifying the Main Idea",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_01.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_02",
+      "title": "Finding the Central Point",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_02.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_03",
+      "title": "Summarizing Central Ideas",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 11
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_03.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_04",
+      "title": "Identifying the Main Idea in Various Texts",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 9
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_04.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_05",
+      "title": "Grasping the Central Theme",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_05.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_06",
+      "title": "Synthesizing the Main Idea",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_06.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_07",
+      "title": "Extracting the Core Message",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 4
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_07.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_08",
+      "title": "Identifying Core Concepts",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_08.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_09",
+      "title": "Discerning the Primary Message",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_09.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_10",
+      "title": "Comprehensive Main Idea Review",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_10.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Main Idea",
+    "topic": {
+      "id": "rla_main_idea_11",
+      "title": "Final Main Idea Challenge",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_main_idea_11.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_01",
+      "title": "Vocabulary in Context",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_01.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_02",
+      "title": "Understanding Word Meanings",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_02.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_03",
+      "title": "Words in Context",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_03.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_04",
+      "title": "Advanced Vocabulary in Context",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 10
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_04.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_05",
+      "title": "Meaning from Context",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 9
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_05.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_06",
+      "title": "Determining Word Meanings",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_06.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_07",
+      "title": "Understanding Vocabulary from Context",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_07.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_08",
+      "title": "Advanced Vocabulary",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_08.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_09",
+      "title": "Challenging Vocabulary",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_09.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "Vocabulary in Context",
+    "topic": {
+      "id": "rla_vocabulary_10",
+      "title": "Comprehensive Vocabulary Review",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_vocabulary_10.js"
+    }
+  }
+]

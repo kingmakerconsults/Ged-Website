@@ -1,0 +1,12 @@
+{
+  "generatedAt": "2025-10-29T12:01:59.687Z",
+  "sources": [
+    "frontend/Expanded/combined_math_quizzes.js",
+    "frontend/Expanded/all_science_quizzes.js",
+    "frontend/Expanded/social_studies_quizzes.js",
+    "frontend/Expanded/rla_quizzes.js"
+  ],
+  "topicsWritten": 162,
+  "questionsWritten": 1725,
+  "supplementalCount": 162
+}

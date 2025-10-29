@@ -11,6 +11,7 @@
     "img:verify": "node tools/gov-image-harvester/inspect.mjs --verify-paths",
     "validate:math": "node scripts/validate_math_quizzes.js",
     "test:math": "node tests/math_quizzes.test.js",
+    "quizzes:import-expanded": "node scripts/import_expanded_quizzes.js",
     "prepare": "husky"
   },
   "dependencies": {
