@@ -225,7 +225,7 @@
 
         :root {
             color-scheme: light;
-            --bg-page: #f8fafc;
+            --bg-page: #ffffff;
             --bg-surface: #ffffff;
             --bg-overlay: rgba(255, 255, 255, 0.6);
             --bg-muted: #f1f5f9;
@@ -10085,7 +10085,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 >
                                     <IconComponent className="h-12 w-12 text-white drop-shadow" />
                                 </div>
-                                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100" style={{ color: colorScheme.text || undefined }}>
+                                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100" style={{ color: (subjectName === 'Math') ? (isDarkMode ? (colorScheme.text || undefined) : (colorScheme.accent || undefined)) : (colorScheme.text || undefined) }}>
                                     {subjectName}
                                 </h2>
                                 <span
