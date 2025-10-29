@@ -5428,6 +5428,7 @@ const DEFAULT_LOCAL_PROFILE = {
         timezone: 'America/New_York',
         reminderEnabled: true,
         fontSize: null,
+        onboardingStatus: 'pending',
         onboardingComplete: false,
     },
     testPlan: [
@@ -6028,12 +6029,14 @@ function App({ externalTheme, onThemeChange }) {
     }, [localProfile?.profile?.name]);
 
     useEffect(() => {
-        const flag = !!localProfile?.profile?.onboardingComplete;
+        const status = localProfile?.profile?.onboardingStatus;
+        const legacyFlag = !!localProfile?.profile?.onboardingComplete;
+        const flag = status === 'complete' || legacyFlag;
         setOnboardingComplete(flag);
         if (typeof window !== 'undefined') {
             window._onboardingComplete = flag;
         }
-    }, [localProfile?.profile?.onboardingComplete]);
+    }, [localProfile?.profile?.onboardingStatus, localProfile?.profile?.onboardingComplete]);
 
     const profileData = localProfile;
 
@@ -6216,10 +6219,12 @@ function App({ externalTheme, onThemeChange }) {
         if (!currentUser) {
             return;
         }
-        if (!onboardingComplete) {
+        // Allow normal access while onboarding is pending; only redirect if explicitly required
+        const status = localProfile?.profile?.onboardingStatus;
+        if (status === 'required') {
             setView('profile');
         }
-    }, [currentUser, onboardingComplete]);
+    }, [currentUser, localProfile?.profile?.onboardingStatus]);
 
     const currentUserId = currentUser?.id ?? null;
 
@@ -6398,6 +6403,7 @@ function App({ externalTheme, onThemeChange }) {
                 ...prev,
                 profile: {
                     ...prev.profile,
+                    onboardingStatus: 'complete',
                     onboardingComplete: true,
                 },
             };
@@ -6406,6 +6412,19 @@ function App({ externalTheme, onThemeChange }) {
         if (completed) {
             setView('start');
         }
+    }, [setView]);
+
+    const handleCompleteOnboardingLater = useCallback(() => {
+        // Mark status as pending and allow navigation
+        setLocalProfile((prev) => ({
+            ...prev,
+            profile: {
+                ...prev.profile,
+                onboardingStatus: 'pending',
+                onboardingComplete: false,
+            },
+        }));
+        setView('start');
     }, [setView]);
 
     const loadQuizAttempts = useCallback(async (token, options = {}) => {
@@ -7046,27 +7065,21 @@ function App({ externalTheme, onThemeChange }) {
         setActiveQuiz(null);
         setQuizResults(null);
         setActiveGenerator(null);
-        if (!onboardingComplete) {
-            setView('profile');
-            return;
-        }
+        // Allow normal access even if onboarding is pending
         setView('start');
-    }, [onboardingComplete]);
+    }, []);
 
     const handleShowProfileView = useCallback(() => {
         setView('profile');
     }, []);
 
     const handleShowSettingsView = useCallback(() => {
-        if (!onboardingComplete) {
-            setView('profile');
-            return;
-        }
+        // Settings are accessible even if onboarding is pending
         setView('settings');
         if (!profileData) {
             loadProfileOnce();
         }
-    }, [loadProfileOnce, onboardingComplete, profileData]);
+    }, [loadProfileOnce, profileData]);
 
     const handleReviewMarked = (markedQuestions) => {
         const reviewQuiz = {
@@ -7152,6 +7165,7 @@ function App({ externalTheme, onThemeChange }) {
                         onToggleChallenge={toggleChallengeSelection}
                         challengesSaving={challengesSaving}
                         onFinishOnboarding={handleFinishOnboarding}
+                        onCompleteLater={handleCompleteOnboardingLater}
                         finishingOnboarding={finishingOnboarding}
                         onboardingComplete={onboardingComplete}
                     />
@@ -7329,6 +7343,7 @@ function ProfileView({
     onSaveChallenges,
     challengesSaving,
     onFinishOnboarding,
+    onCompleteLater,
     finishingOnboarding,
     onboardingComplete,
 }) {
@@ -7451,10 +7466,7 @@ function ProfileView({
     };
 
     const handleBackClick = () => {
-        if (!onboardingComplete) {
-            window.alert('Please finish onboarding before heading to the dashboard.');
-            return;
-        }
+        // Allow returning to dashboard even if onboarding is pending
         onBack?.();
     };
 
@@ -7505,15 +7517,26 @@ function ProfileView({
                             <li>Set your test date (or mark "I passed")</li>
                             <li>Choose a display name</li>
                         </ol>
-                        <button
-                            id="finishOnboardingBtn"
-                            type="button"
-                            onClick={onFinishOnboarding}
-                            className="mt-3 inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
-                            disabled={finishingOnboarding}
-                        >
-                            {finishingOnboarding ? 'Checking…' : "I'm Done"}
-                        </button>
+                        <div className="mt-3 flex flex-col sm:flex-row gap-2">
+                            <button
+                                id="finishOnboardingBtn"
+                                type="button"
+                                onClick={onFinishOnboarding}
+                                className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                                disabled={finishingOnboarding}
+                            >
+                                {finishingOnboarding ? 'Checking…' : "I'm Done"}
+                            </button>
+                            <button
+                                id="completeLaterBtn"
+                                type="button"
+                                onClick={onCompleteLater}
+                                className="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                                aria-label="Skip onboarding for now"
+                            >
+                                Complete Later
+                            </button>
+                        </div>
                     </div>
                 )}
 
@@ -7714,7 +7737,8 @@ function ProfileView({
                                                         return (
                                                             <label
                                                                 key={opt.id}
-                                                                className="ml-8 mt-2 flex items-start gap-2 text-sm text-slate-600"
+                                                                className={`ml-8 mt-2 flex items-start gap-2 text-sm rounded-md border px-2 py-1 transition ${isChecked ? 'bg-sky-50 border-sky-300 text-slate-700 shadow-sm' : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-600'}`}
+                                                                data-selected={isChecked ? 'true' : 'false'}
                                                             >
                                                                 <input
                                                                     type="checkbox"
@@ -7722,6 +7746,8 @@ function ProfileView({
                                                                     data-id={opt.id}
                                                                     checked={isChecked}
                                                                     onChange={() => handleChallengeToggle(opt.id)}
+                                                                    aria-checked={isChecked}
+                                                                    aria-label={opt.label || opt.subtopic || opt.subject}
                                                                 />
                                                                 <span>{opt.label || opt.subtopic || opt.subject}</span>
                                                             </label>
