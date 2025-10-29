@@ -4658,7 +4658,8 @@ app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
 });
 
 
-const { ALL_QUIZZES } = require('./data/premade-questions.js');
+// Load quizzes from dynamic index which merges legacy and supplemental topics
+const { ALL_QUIZZES } = require('./data/quizzes');
 
 // Helper function to get random questions from the premade data
 const getPremadeQuestions = (subject, count) => {
