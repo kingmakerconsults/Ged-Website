@@ -39,12 +39,19 @@ function firstTopicConfigForSubject(subjectKey) {
 
 function sanitizeExpandedSource(src) {
   let s = String(src);
-  // Fix known typos like: is 'Correct': false -> isCorrect: false
-  s = s.replace(/is\s*["'‘’“”]?Correct["'‘’“”]?\s*:/g, 'isCorrect:');
+  // Fix known typos like keys written as is 'Correct' (quoted inside or unquoted)
+  // 1) "is 'Correct": false -> "isCorrect": false
+  s = s.replace(/"is\s*[‘’“”']Correct[‘’“”']"\s*:/g, '"isCorrect":');
+  // 2) is 'Correct': false -> isCorrect: false (unquoted key form)
+  s = s.replace(/\bis\s*[‘’“”']Correct[‘’“”']\s*:/g, 'isCorrect:');
   // Replace any `export const <name> = [...]` with `var quizzes = [...]`
   s = s.replace(/export\s+const\s+[A-Za-z0-9_]+\s*=\s*(?=\[)/, 'var quizzes = ');
   // Replace any `export const <name> = []` with `var quizzes = []` (for push-style files)
   s = s.replace(/export\s+const\s+[A-Za-z0-9_]+\s*=\s*\[\]/, 'var quizzes = []');
+  // Handle non-exported scienceQuizzes style files: `const scienceQuizzes = [ ... ]`
+  s = s.replace(/\bconst\s+scienceQuizzes\s*=\s*(?=\[)/, 'var quizzes = ');
+  s = s.replace(/\blet\s+scienceQuizzes\s*=\s*(?=\[)/, 'var quizzes = ');
+  s = s.replace(/\bvar\s+scienceQuizzes\s*=\s*(?=\[)/, 'var quizzes = ');
   // Remove any leftover export statements
   s = s.replace(/export\s+\{[^}]*\};?/g, '');
   s = s.replace(/export\s+default\s+quizzes;?/g, '');
@@ -54,6 +61,13 @@ function sanitizeExpandedSource(src) {
 function evalExpandedFileToQuizzes(filePath) {
   const raw = fs.readFileSync(filePath, 'utf8');
   const code = sanitizeExpandedSource(raw);
+  // Debug dump for inspection when handling new files
+  try {
+    if (path.basename(filePath) === 'science_quizzes.js') {
+      ensureDir(reportsDir);
+      fs.writeFileSync(path.join(reportsDir, 'debug_science_sanitized.js'), code);
+    }
+  } catch {}
   const sandbox = { quizzes: [] };
   vm.createContext(sandbox);
   const script = new vm.Script(code, { filename: path.basename(filePath) });
@@ -90,6 +104,7 @@ function loadExpandedSets() {
   const files = [
     'combined_math_quizzes.js',
     'all_science_quizzes.js',
+    'science_quizzes.js',
     'social_studies_quizzes.js',
     'rla_quizzes.js',
   ];

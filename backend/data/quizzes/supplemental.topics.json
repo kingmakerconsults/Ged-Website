@@ -3562,5 +3562,489 @@
       },
       "file": "backend/data/quizzes/rla/rla_vocabulary_10.js"
     }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_cells_organelles_1",
+      "title": "Life Science: Cells and Organelles",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_cells_organelles_1.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_matter_energy_2",
+      "title": "Physical Science: Matter and Energy",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_matter_energy_2.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth and Space Science",
+    "topic": {
+      "id": "sci_earth_space_science_rock_cycle_3",
+      "title": "Earth & Space Science: The Rock Cycle",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_science_rock_cycle_3.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_scientific_practices_method_4",
+      "title": "Scientific Practices: The Scientific Method",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_scientific_practices_method_4.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_ecosystems_5",
+      "title": "Life Science: Ecosystems",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_ecosystems_5.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_chemistry_6",
+      "title": "Physical Science: Chemistry",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_chemistry_6.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth and Space Science",
+    "topic": {
+      "id": "sci_earth_space_science_geological_time_7",
+      "title": "Earth & Space Science: Geological Time",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_science_geological_time_7.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_human_body_systems_8",
+      "title": "Life Science: Human Body Systems",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_human_body_systems_8.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_scientific_practices_data_reasoning_9",
+      "title": "Scientific Practices: Data Reasoning",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_scientific_practices_data_reasoning_9.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_newtons_laws_10",
+      "title": "Physical Science: Newton's Laws of Motion",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_newtons_laws_10.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth and Space Science",
+    "topic": {
+      "id": "sci_earth_space_science_weather_climate_11",
+      "title": "Earth & Space Science: Weather and Climate",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_science_weather_climate_11.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_photosynthesis_respiration_12",
+      "title": "Life Science: Photosynthesis & Respiration",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_photosynthesis_respiration_12.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_scientific_practices_experimental_design_13",
+      "title": "Scientific Practices: Experimental Design",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_scientific_practices_experimental_design_13.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_energy_transformations_14",
+      "title": "Physical Science: Energy Transformations",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_energy_transformations_14.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth and Space Science",
+    "topic": {
+      "id": "sci_earth_space_science_weather_climate_15",
+      "title": "Earth & Space Science: Weather and Climate",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_science_weather_climate_15.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_human_body_systems_16",
+      "title": "Life Science: Human Body Systems",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_human_body_systems_16.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_chemical_reactions_17",
+      "title": "Physical Science: Chemical Reactions",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_chemical_reactions_17.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Scientific Practices",
+    "topic": {
+      "id": "sci_scientific_practices_data_interpretation_18",
+      "title": "Scientific Practices: Data Interpretation",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_scientific_practices_data_interpretation_18.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Earth and Space Science",
+    "topic": {
+      "id": "sci_earth_space_science_ecosystems_19",
+      "title": "Earth & Space Science: Ecosystems",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space_science_ecosystems_19.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_genetics_heredity_20",
+      "title": "Life Science: Genetics and Heredity",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_genetics_heredity_20.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Physical Science",
+    "topic": {
+      "id": "sci_physical_science_forces_motion_21",
+      "title": "Physical Science: Forces and Motion",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physical_science_forces_motion_21.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Life Science",
+    "topic": {
+      "id": "sci_life_science_natural_selection_22",
+      "title": "Life Science: Natural Selection",
+      "description": "",
+      "config": {
+        "totalTime": 1500,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_life_science_natural_selection_22.js"
+    }
   }
 ]
