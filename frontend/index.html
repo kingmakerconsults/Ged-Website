@@ -5140,6 +5140,51 @@ function assignPremadeQuizCodes(data) {
 
 PREMADE_QUIZ_CATALOG = assignPremadeQuizCodes(AppData);
 
+// --- QUIZ LIBRARY (clusters) ---
+// Build a centralized cluster library from AppData categories to power a two-level browser.
+// Structure:
+//   QUIZ_LIBRARY = {
+//     [subjectName]: {
+//       clusters: [
+//         { id, label, description, topicIds: [topicId, ...] }
+//       ]
+//     }
+//   }
+function buildQuizLibraryFromAppData(data) {
+    const result = {};
+    if (!data || typeof data !== 'object') {
+        return result;
+    }
+    Object.entries(data).forEach(([subjectName, subject]) => {
+        if (!subject || typeof subject !== 'object' || !subject.categories) {
+            return;
+        }
+        const clusters = [];
+        Object.entries(subject.categories).forEach(([categoryName, category], idx) => {
+            if (!category || typeof category !== 'object') {
+                return;
+            }
+            const id = sanitizeCodeSegment(categoryName, `cluster-${idx + 1}`);
+            const topicIds = Array.isArray(category.topics)
+                ? category.topics.map((t, tIdx) => t?.id || `${id}__topic-${tIdx + 1}`)
+                : [];
+            clusters.push({
+                id,
+                label: categoryName,
+                description: category.description || '',
+                topicIds
+            });
+        });
+        result[subjectName] = { clusters };
+    });
+    return result;
+}
+
+const QUIZ_LIBRARY = buildQuizLibraryFromAppData(AppData);
+if (typeof window !== 'undefined') {
+    window.QUIZ_LIBRARY = QUIZ_LIBRARY;
+}
+
 // --- ICON COMPONENTS ---
 const BookOpenIcon = ({ className = '' } = {}) => (
     <i className={["fas fa-book-open", className].filter(Boolean).join(' ')} aria-hidden="true"></i>
@@ -5158,6 +5203,188 @@ const VariableIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-
 const ShapesIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12l-9-9-9 9m18 0l-9 9-9-9" /></svg>;
 const UserIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>;
 const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>;
+
+// --- SubjectQuizBrowser (clustered UI) ---
+function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
+    const isDarkMode = theme === 'dark';
+    const library = (typeof window !== 'undefined' ? window.QUIZ_LIBRARY : QUIZ_LIBRARY) || {};
+    const subjectColors = SUBJECT_COLORS[subjectName] || DEFAULT_COLOR_SCHEME;
+    const clusters = library?.[subjectName]?.clusters || [];
+    const [activeClusterId, setActiveClusterId] = React.useState(
+        clusters.length ? clusters[0].id : null
+    );
+
+    React.useEffect(() => {
+        // Reset active cluster if subject changes
+        setActiveClusterId(clusters.length ? clusters[0].id : null);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [subjectName]);
+
+    if (!clusters.length) {
+        return (
+            <div className="rounded-lg border p-4 text-sm" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
+                No premade clusters yet for this subject.
+            </div>
+        );
+    }
+
+    const active = clusters.find(c => c.id === activeClusterId) || clusters[0];
+
+    const buttonStyle = {
+        backgroundColor: subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
+        color: subjectColors.accentText || '#ffffff',
+        borderColor: subjectColors.border || subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
+    };
+
+    const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[subjectName]
+        || 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))';
+    const cardTextColor = subjectColors.text || subjectColors.heroText || '#0f172a';
+
+    const renderTopicCard = (topic) => {
+        if (!topic) return null;
+        const quizSets = Array.isArray(topic.quizzes) ? topic.quizzes.filter((quiz) => quizHasAvailableQuestions(subjectName, topic, quiz)) : [];
+        const supportsMultiple = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
+
+        const launchQuizSet = (quiz, index) => {
+            if (typeof onSelectQuiz !== 'function' || !quiz) return;
+            const quizLabel = quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
+            const baseTitle = topic.title || 'Quiz';
+            const derivedTitle = quiz.title || `${baseTitle} — ${quizLabel}`;
+            const resolvedQuestions = resolveQuizQuestions(subjectName, topic, quiz).map((q, qi) => {
+                if (q && typeof q === 'object') {
+                    const nextNumber = q.questionNumber ?? (qi + 1);
+                    return { ...q, questionNumber: nextNumber };
+                }
+                return q;
+            });
+            if (!resolvedQuestions.length) {
+                alert('This quiz does not have any questions yet. Please try another set.');
+                return;
+            }
+            const prepared = {
+                ...quiz,
+                id: quiz.quizId || quiz.quizCode || `${topic.id || 'topic'}__set_${index}`,
+                quizCode: quiz.quizCode || `${sanitizeCodeSegment(subjectName, 'subject')}__${sanitizeCodeSegment(topic.id || topic.title || 'topic')}__set-${index + 1}`,
+                title: derivedTitle,
+                topicId: topic.id,
+                topicTitle: topic.title || baseTitle,
+                description: quiz.description || topic.description,
+                type: quiz.type || topic.type || 'quiz',
+                questions: resolvedQuestions,
+            };
+            const sourceTopic = quiz.questionSourceTopicId ? getTopicById(subjectName, quiz.questionSourceTopicId) : null;
+            const articleSource = quiz.article || topic.article || (sourceTopic && sourceTopic.article);
+            const articleClone = cloneArticle(articleSource);
+            if (articleClone) prepared.article = articleClone;
+            const resolvedImageUrl = quiz.imageUrl || topic.imageUrl || (sourceTopic && sourceTopic.imageUrl) || (articleClone && articleClone.imageUrl);
+            if (!prepared.imageUrl && resolvedImageUrl) prepared.imageUrl = resolvedImageUrl;
+            onSelectQuiz(prepared, subjectName);
+        };
+
+        return (
+            <div
+                key={topic.id || topic.title}
+                className="rounded-xl border bg-white/95 dark:bg-slate-900/80 dark:border-slate-700 p-4 flex flex-col justify-between shadow-md"
+                style={isDarkMode
+                    ? { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', color: subjectColors.text || '#f8fafc' }
+                    : { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', backgroundColor: '#ffffff', backgroundImage: lightCardBackground, color: cardTextColor }}
+            >
+                <div>
+                    <h3 className="text-lg font-bold" style={isDarkMode ? { color: subjectColors.text || '#f8fafc' } : { color: cardTextColor }}>
+                        {topic.title}
+                    </h3>
+                    {topic.description && (
+                        <p className="text-sm mt-2" style={isDarkMode ? { color: 'rgba(226,232,240,0.82)' } : { color: 'rgba(15,23,42,0.78)' }}>
+                            {topic.description}
+                        </p>
+                    )}
+                </div>
+                {supportsMultiple ? (
+                    <div className="mt-3 grid gap-2">
+                        {quizSets.map((quiz, idx) => (
+                            <button
+                                key={quiz.quizId || `${topic.id || 'topic'}_quiz_${idx}`}
+                                onClick={() => launchQuizSet(quiz, idx)}
+                                className="w-full px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                                style={buttonStyle}
+                            >
+                                Start {quiz.label || `Quiz ${String.fromCharCode(65 + idx)}`}
+                            </button>
+                        ))}
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => {
+                            if (typeof onSelectQuiz !== 'function') return;
+                            const articleClone = cloneArticle(topic.article);
+                            const prepared = {
+                                ...topic,
+                                id: topic.quizCode || topic.id || sanitizeCodeSegment(topic.title || 'quiz'),
+                                quizCode: topic.quizCode || `${sanitizeCodeSegment(subjectName, 'subject')}__${sanitizeCodeSegment(topic.id || topic.title || 'topic')}`,
+                            };
+                            if (articleClone) prepared.article = articleClone;
+                            if (Array.isArray(topic.questions)) {
+                                prepared.questions = topic.questions.map((q, qi) => {
+                                    if (q && typeof q === 'object') {
+                                        const nextNumber = q.questionNumber ?? (qi + 1);
+                                        return { ...q, questionNumber: nextNumber };
+                                    }
+                                    return q;
+                                });
+                            }
+                            onSelectQuiz(prepared, subjectName);
+                        }}
+                        className="w-full mt-3 px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                        style={buttonStyle}
+                    >
+                        Start Quiz
+                    </button>
+                )}
+            </div>
+        );
+    };
+
+    const topicsForActive = Array.isArray(active?.topicIds)
+        ? active.topicIds.map((tid) => getTopicById(subjectName, tid)).filter(Boolean)
+        : [];
+
+    return (
+        <div className="space-y-4">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                {clusters.map((cluster) => {
+                    const selected = cluster.id === activeClusterId;
+                    return (
+                        <button
+                            key={cluster.id}
+                            type="button"
+                            onClick={() => setActiveClusterId(cluster.id)}
+                            className={`whitespace-nowrap px-3 py-1.5 rounded-full border text-sm font-semibold transition ${selected ? 'shadow' : ''}`}
+                            style={selected
+                                ? { backgroundColor: subjectColors.accent || '#0ea5e9', color: subjectColors.accentText || '#ffffff', borderColor: subjectColors.accent || '#0ea5e9' }
+                                : { backgroundColor: isDarkMode ? 'rgba(148,163,184,0.12)' : '#ffffff', color: subjectColors.text || '#0f172a', borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}
+                            aria-pressed={selected}
+                        >
+                            {cluster.label}
+                        </button>
+                    );
+                })}
+            </div>
+            {active?.description && (
+                <p className="text-sm" style={{ color: isDarkMode ? 'rgba(226,232,240,0.82)' : 'rgba(15,23,42,0.78)' }}>
+                    {active.description}
+                </p>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {topicsForActive.length === 0 && (
+                    <div className="col-span-full text-center text-sm opacity-80 border border-dashed rounded-lg p-4" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
+                        No topics available yet for this cluster.
+                    </div>
+                )}
+                {topicsForActive.map((topic) => renderTopicCard(topic))}
+            </div>
+        </div>
+    );
+}
 const HomeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
 const SparklesIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L11 15l-4 6h12l-4-6-1.293-1.293a1 1 0 010-1.414L15 5m0 0l2.293-2.293a1 1 0 011.414 0L21 5m-6 12v4m2-2h-4" /></svg>;
 
@@ -9460,117 +9687,88 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             theme={theme}
                         />
                     )}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {Object.entries(subject.categories).map(([categoryName, category]) => {
-                            const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
-                            const cardStyle = isDarkMode
-                                ? {
-                                    borderColor: subjectColors.border || panelBorderColor,
-                                    color: subjectColors.text || heroTextColor,
-                                }
-                                : {
-                                    borderColor: subjectColors.border || panelBorderColor,
-                                    backgroundColor: '#ffffff',
-                                    backgroundImage: lightCardBackground,
-                                    color: subjectColors.text || heroTextColor,
-                                    boxShadow: '0 22px 45px -34px rgba(15,23,42,0.35)',
-                                };
-                            return (
-                                <button
-                                    key={categoryName}
-                                    onClick={() => handleSelectCategory(categoryName)}
-                                    className="text-left border rounded-lg p-4 flex flex-col justify-between bg-white dark:bg-slate-900/75 dark:border-slate-700 transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
-                                    style={cardStyle}
-                                >
-                                    <h3 className="text-xl font-bold" style={{ color: subjectColors.text || heroTextColor }}>
-                                        {categoryName}
-                                    </h3>
-                                    <p className="subject-description text-sm my-2 flex-grow">
-                                        {category.description}
-                                    </p>
-                                </button>
-                            );
-                        })}
-                        {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
-                            <>
-                                {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
-                                    <div
-                                        className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
-                                        style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
-                                    >
-                                        <div>
-                                            <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
-                                                <BookOpenIcon className="h-8 w-8" />
-                                                <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Essay Practice Tool</h3>
-                                            </div>
-                                            <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
-                                                Build your extended response with guided support.
-                                            </p>
-                                        </div>
-                                        <button
-                                            onClick={() => onSelectQuiz({ id: 'essay_practice_tool', type: 'essay', title: 'GED® Essay Practice Toolkit' }, selectedSubject)}
-                                            className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
-                                        >
-                                            Launch Essay Practice
-                                        </button>
-                                    </div>
-                                )}
+                    {/* New clustered quiz browser */}
+                    <SubjectQuizBrowser subjectName={selectedSubject} onSelectQuiz={onSelectQuiz} theme={theme} />
+                    {/* Keep generator and comprehensive exam below the cluster UI */}
+                    {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                            {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
                                 <div
                                     className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
                                     style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
                                 >
                                     <div>
                                         <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
-                                            <SparklesIcon className="h-8 w-8" />
-                                            <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Smith a Quiz</h3>
+                                            <BookOpenIcon className="h-8 w-8" />
+                                            <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Essay Practice Tool</h3>
                                         </div>
                                         <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
-                                            Generate a new quiz for any topic in {selectedSubject}.
+                                            Build your extended response with guided support.
                                         </p>
-                                        <div className="mt-2">
-                                            <label
-                                                className="block font-semibold mb-1"
-                                                htmlFor="ai-quiz-topic"
-                                                style={{ color: heroTextColor }}
-                                            >
-                                                Choose a topic
-                                            </label>
-                                            <select
-                                                id="ai-quiz-topic"
-                                                value={aiQuizTopic}
-                                                onChange={(e) => setAiQuizTopic(e.target.value)}
-                                                className="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-0"
-                                                style={selectStyle}
-                                            >
-                                                <option value="">Select a topic</option>
-                                                {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
-                                            </select>
-                                        </div>
                                     </div>
                                     <button
-                                        onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
-                                        disabled={!aiQuizTopic}
-                                        className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md transition hover:bg-white/90 disabled:bg-white/60 disabled:text-slate-400 disabled:cursor-not-allowed"
+                                        onClick={() => onSelectQuiz({ id: 'essay_practice_tool', type: 'essay', title: 'GED® Essay Practice Toolkit' }, selectedSubject)}
+                                        className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
                                     >
-                                        Generate Quiz
+                                        Launch Essay Practice
                                     </button>
                                 </div>
-                                <div
-                                    className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-center items-center hover:shadow-lg transition-all md:col-span-2 lg:col-span-1"
-                                    style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
-                                >
-                                    <SparklesIcon className="h-8 w-8" style={{ color: heroAccentColor }} />
-                                    <h3 className="text-xl font-bold mt-2" style={{ color: heroTextColor }}>Comprehensive Exam</h3>
+                            )}
+                            <div
+                                className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
+                                style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                            >
+                                <div>
+                                    <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
+                                        <SparklesIcon className="h-8 w-8" />
+                                        <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Smith a Quiz</h3>
+                                    </div>
                                     <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
-                                        Take a full-length practice exam for {selectedSubject}.
+                                        Generate a new quiz for any topic in {selectedSubject}.
                                     </p>
-                                    <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition">
-                                        Start Comprehensive Exam
-                                    </button>
+                                    <div className="mt-2">
+                                        <label
+                                            className="block font-semibold mb-1"
+                                            htmlFor="ai-quiz-topic"
+                                            style={{ color: heroTextColor }}
+                                        >
+                                            Choose a topic
+                                        </label>
+                                        <select
+                                            id="ai-quiz-topic"
+                                            value={aiQuizTopic}
+                                            onChange={(e) => setAiQuizTopic(e.target.value)}
+                                            className="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-0"
+                                            style={selectStyle}
+                                        >
+                                            <option value="">Select a topic</option>
+                                            {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
+                                        </select>
+                                    </div>
                                 </div>
-                            </>
-                        )}
-                    </div>
+                                <button
+                                    onClick={() => onSelectGenerator(selectedSubject, aiQuizTopic, setIsLoading, setLoadingMessage)}
+                                    disabled={!aiQuizTopic}
+                                    className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md transition hover:bg-white/90 disabled:bg-white/60 disabled:text-slate-400 disabled:cursor-not-allowed"
+                                >
+                                    Generate Quiz
+                                </button>
+                            </div>
+                            <div
+                                className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-center items-center hover:shadow-lg transition-all md:col-span-2 lg:col-span-1"
+                                style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                            >
+                                <SparklesIcon className="h-8 w-8" style={{ color: heroAccentColor }} />
+                                <h3 className="text-xl font-bold mt-2" style={{ color: heroTextColor }}>Comprehensive Exam</h3>
+                                <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
+                                    Take a full-length practice exam for {selectedSubject}.
+                                </p>
+                                <button onClick={async () => await onStartComprehensiveExam(selectedSubject)} className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition">
+                                    Start Comprehensive Exam
+                                </button>
+                            </div>
+                        </div>
+                    )}
                     <div className="mt-6">
                         <button
                             type="button"
