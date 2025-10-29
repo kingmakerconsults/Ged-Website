@@ -672,10 +672,11 @@
             color: var(--text-color);  /* keep normal readable text */
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow, 0 1px 2px rgba(0,0,0,0.05));
+            background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
         }
 
                 /* 1) Generic dashboard section shells that still inherit the dark page bg */
-                [data-theme="light"] .card,
+                        [data-theme="light"] .card,
                 [data-theme="light"] .box,
                 [data-theme="light"] .quiz-section,
                 [data-theme="light"] .dashboard-row,
@@ -685,13 +686,15 @@
                     border: 1px solid var(--border-color);
                     box-shadow: var(--shadow);
                     color: var(--text-color);
+                            background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
                 }
 
                 /* 2) "Vocabulary Spotlight" bar uses its own wrapper; make its shell white */
-                [data-theme="light"] .vocabulary-ticker {
+                        [data-theme="light"] .vocabulary-ticker {
                     background-color: #ffffff;
                     border: 1px solid var(--border-color);
                     box-shadow: var(--shadow);
+                            background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
                 }
 
                 /* Keep ticker chips as they are */
@@ -712,14 +715,15 @@
                 [data-theme="light"] .stat { background: unset; border: none; box-shadow: none; }
 
                         /* A) Make the primary dashboard wrapper truly white in LIGHT mode */
-                        [data-theme="light"] .content-card {
+                                [data-theme="light"] .content-card {
                             background-color: #ffffff !important;
                             /* ensure the white fills behind inner gaps */
                             background-clip: padding-box;
+                                    background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
                         }
 
                         /* B) Ensure inner shells don't re-expose the dark page bg */
-                        [data-theme="light"] .content-card .dashboard-sections,
+                                [data-theme="light"] .content-card .dashboard-sections,
                         [data-theme="light"] .content-card .dashboard-row,
                         [data-theme="light"] .content-card .section,
                         [data-theme="light"] .content-card .section-container,
@@ -731,7 +735,47 @@
                             /* keep our existing light borders/shadows */
                             border: 1px solid var(--border-color);
                             box-shadow: var(--shadow);
+                                    background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
                         }
+
+                                /* Make the welcome header and subtitle jet-black in LIGHT mode */
+                                [data-theme="light"] .content-card header.text-center h1,
+                                [data-theme="light"] .content-card header.text-center p {
+                                    color: #000000 !important;
+                                }
+
+                                /* Profile page: render text black in LIGHT mode except buttons */
+                                [data-theme="light"] #profileView h1,
+                                [data-theme="light"] #profileView h2,
+                                [data-theme="light"] #profileView h3,
+                                [data-theme="light"] #profileView p,
+                                [data-theme="light"] #profileView label,
+                                [data-theme="light"] #profileView li,
+                                [data-theme="light"] #profileView dt,
+                                [data-theme="light"] #profileView dd {
+                                    color: #000000 !important;
+                                }
+                                /* Do not alter button label colors in profile view */
+                                [data-theme="light"] #profileView button,
+                                [data-theme="light"] #profileView button * {
+                                    color: inherit;
+                                }
+
+                                /* Settings page: render text black in LIGHT mode except buttons */
+                                [data-theme="light"] #settingsView h1,
+                                [data-theme="light"] #settingsView h2,
+                                [data-theme="light"] #settingsView h3,
+                                [data-theme="light"] #settingsView p,
+                                [data-theme="light"] #settingsView label,
+                                [data-theme="light"] #settingsView li,
+                                [data-theme="light"] #settingsView dt,
+                                [data-theme="light"] #settingsView dd {
+                                    color: #000000 !important;
+                                }
+                                [data-theme="light"] #settingsView button,
+                                [data-theme="light"] #settingsView button * {
+                                    color: inherit;
+                                }
 
                         /* C) Do NOT affect the subject tiles/gradients or stat boxes */
                         [data-theme="light"] .content-card .subject-card,
@@ -8950,6 +8994,7 @@ function ProgressDashboard({ progress, onSubjectClick }) {
         : {
             borderColor: 'rgba(148,163,184,0.35)',
             backgroundColor: '#ffffff',
+            backgroundImage: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
             color: '#0f172a',
         };
 
