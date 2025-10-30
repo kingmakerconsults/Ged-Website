@@ -10229,6 +10229,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const testDateDiffDays = normalizedProfileTestDate ? diffDaysFromToday(normalizedProfileTestDate) : null;
     const testDateDisplay = normalizedProfileTestDate ? formatMMDDYYYY(parseYMD(normalizedProfileTestDate)) : null;
 
+    // Decide which upcoming panel to show (avoid duplicates)
+    const showPlanCard = Boolean(nextUpcomingSummary || hasSavedTest || allSubjectsPassed);
+    const showProfileCard = !showPlanCard;
+
     const [showTestReminder, setShowTestReminder] = useState(null);
     useEffect(() => {
         const todayKey = new Date().toISOString().slice(0, 10);
@@ -10926,8 +10930,9 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 )}
                 <div className="dashboard-sections">
                     {currentUser && (
-                        <div className="grid gap-4 md:grid-cols-2 mb-6 dashboard-row">
-                            {/* Upcoming GED Test (Profile-level) */}
+                        <div className={`grid gap-4 ${showProfileCard && showPlanCard ? 'md:grid-cols-2' : 'md:grid-cols-1'} mb-6 dashboard-row`}>
+                            {/* Upcoming GED Test (Profile-level) - only when no plan data yet */}
+                            {showProfileCard && (
                             <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70 block-profile-test panel card" style={homePanelStyle}>
                                 <div className="flex items-center justify-between">
                                     <h2
@@ -10976,6 +10981,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 )}
                                 <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-800'}`}>This uses the single profile test date.</p>
                             </article>
+                            )}
+                            {showPlanCard && (
                             <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70 block-test-date panel card" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
                                 <h2
@@ -11014,6 +11021,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         )}
                             <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-800'}`}>Need changes? Update them from your profile.</p>
                         </article>
+                        )}
                         <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70 block-challenges panel card" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
                                 <h2
