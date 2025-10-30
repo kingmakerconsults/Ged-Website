@@ -776,6 +776,10 @@
                                 [data-theme="light"] #settingsView button * {
                                     color: inherit;
                                 }
+                                        /* Settings Back to Dashboard (and other buttons) should have black text in light mode */
+                                        [data-theme="light"] #settingsView .settings-header button {
+                                            color: #000000 !important;
+                                        }
 
                                         /* Settings page: force Font Size and Color Mode texts to black in BOTH themes */
                                         #settingsView fieldset > legend,
@@ -938,6 +942,24 @@
                                 html[data-theme="light"] body:not(.dark) .settings-card [class*="dark:bg-"] {
                                     background-color: transparent !important;
                                 }
+
+                                        /* Math Tools: ensure tab button text is black in LIGHT mode */
+                                        [data-theme="light"] .math-tools-tabs button {
+                                            color: #000000 !important;
+                                        }
+
+                                        /* Dashboard bottom cards: stronger distinction in LIGHT mode */
+                                        [data-theme="light"] .block-start-quiz .panel.card {
+                                            background: linear-gradient(135deg, #ffffff, #f9fafb);
+                                            border: 1px solid rgba(2,6,23,0.12);
+                                            box-shadow: 0 10px 24px rgba(2,6,23,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
+                                        }
+                                                [data-theme="light"] .scores-shell,
+                                                [data-theme="light"] .vocab-shell {
+                                                    background: linear-gradient(135deg, #ffffff, #f9fafb);
+                                                    border: 1px solid rgba(2,6,23,0.12);
+                                                    box-shadow: 0 10px 24px rgba(2,6,23,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
+                                                }
         /* Default subject heading color in light mode (fallback) */
         [data-theme="light"] .subject-accent-heading {
             color: var(--accent) !important;
@@ -10332,7 +10354,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     </div>
                 )}
                 {profileData && (
-                    <div className="mb-6 block-profile panel">
+                    <div className="mb-6 block-profile panel scores-shell">
                         <RecentScoresPanel
                             title="Latest Scores"
                             summary={recentDashboardSummary}
@@ -10342,7 +10364,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     </div>
                 )}
                 {hasVocabulary && (
-                    <div className="mb-6 space-y-6 block-vocab panel">
+                    <div className="mb-6 space-y-6 block-vocab panel vocab-shell">
                         <VocabularyTicker vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
                         <VocabularyOverview vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
                     </div>
@@ -12438,7 +12460,7 @@ function GeometryPracticeTool({ onExit }) {
                             onClick={onExit}
                             className={`flex items-center gap-1 text-sm font-semibold transition-colors ${isDarkMode
                                 ? 'text-slate-200 hover:text-sky-300'
-                                : 'text-white hover:text-sky-300'}`}
+                                : 'text-slate-900 hover:text-sky-700'}`}
                         >
                             <ArrowLeftIcon /> Back
                         </button>
@@ -12801,6 +12823,14 @@ function MathPracticeToolsPage({ onExit, activeTab, onTabChange, graphingNode, g
         { id: 'graphing', label: 'Graphing Tool' },
         { id: 'geometry', label: 'Geometry Tool' },
     ];
+    const isLightMode = (() => {
+        if (typeof document === 'undefined') return true;
+        const root = document.documentElement;
+        const themeAttr = root.getAttribute('data-theme');
+        const hasDarkClass = root.classList.contains('dark') || document.body.classList.contains('dark');
+        if (themeAttr === 'dark' || hasDarkClass) return false;
+        return true;
+    })();
 
     const renderContent = () => {
         if (activeTab === 'graphing') {
@@ -12837,13 +12867,13 @@ function MathPracticeToolsPage({ onExit, activeTab, onTabChange, graphingNode, g
                 </h1>
                 <span className="hidden sm:block sm:w-40"></span>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 math-tools-tabs">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => onTabChange?.(tab.id)}
                         className={`px-4 py-2 rounded-lg font-semibold transition ${activeTab === tab.id
-                            ? 'bg-sky-600 text-white shadow'
+                            ? (isLightMode ? 'bg-sky-600 text-black shadow' : 'bg-sky-600 text-white shadow')
                             : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600'}`}
                     >
                         {tab.label}
