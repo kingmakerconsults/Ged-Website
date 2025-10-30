@@ -1662,7 +1662,11 @@ async function getChallengeTables() {
     }
 
     const optionCandidates = ['challenge_options', 'challenge_catalog'];
-    const selectionCandidates = ['profile_challenges', 'user_challenge_tags'];
+    const selectionCandidates = [
+        'user_selected_challenges',
+        'user_challenge_tags',
+        'profile_challenges'
+    ];
 
     let optionTable = null;
     for (const tableName of optionCandidates) {
