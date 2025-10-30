@@ -1552,6 +1552,39 @@
             border-radius: 0.5rem;
             padding: 0.5rem 0.75rem;
         }
+
+        /* Countdown chip for Upcoming Test UI */
+        .countdown-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            border: 1px solid var(--accent-border);
+            background: rgba(56,189,248,0.14);
+            color: var(--accent-text);
+            font-weight: 700;
+            font-size: 0.9rem;
+            line-height: 1.1;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            user-select: none;
+        }
+        [data-theme="dark"] .countdown-chip {
+            background: rgba(56,189,248,0.24);
+            border-color: rgba(56,189,248,0.55);
+            color: var(--accent-text);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+        }
+        .countdown-chip .dot {
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 9999px;
+            background: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-soft);
+        }
+        .countdown-chip .label {
+            letter-spacing: 0.02em;
+        }
     </style>
 </head>
 <body data-theme="light" style="background-color: var(--bg-page); color: var(--text-primary);">
@@ -6842,6 +6875,11 @@ function App({ externalTheme, onThemeChange }) {
     }, [localProfile?.profile?.onboardingStatus, localProfile?.profile?.onboardingComplete]);
 
     const profileData = localProfile;
+    // Normalize a single-profile test date if provided by backend/frontend
+    const profileTestDate = (profileData?.profile?.test_date
+        || profileData?.profile?.exam_date
+        || profileData?.profile?.testDate
+        || null);
 
     useEffect(() => {
         if (typeof document === 'undefined') {
@@ -8120,6 +8158,7 @@ function App({ externalTheme, onThemeChange }) {
                         onLogout={handleLogout}
                         progress={progress}
                         profileBundle={profileData}
+                        testDate={profileTestDate}
                         onboardingComplete={onboardingComplete}
                         onShowProfile={handleShowProfileView}
                         onSelectQuiz={startQuiz}
@@ -8240,6 +8279,33 @@ function App({ externalTheme, onThemeChange }) {
                     <p>Kingmakerconsults Copyright ©</p>
                 </footer>
             </div>
+            {/* Test reminder modal/toast */}
+            {activeView === 'dashboard' && showTestReminder && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    role="dialog"
+                    aria-modal="true"
+                    style={{ backgroundColor: 'var(--modal-overlay)' }}
+                >
+                    <div
+                        className="rounded-lg shadow-2xl w-full max-w-md p-6"
+                        style={{ backgroundColor: 'var(--modal-surface)', color: 'var(--modal-text)', border: '1px solid var(--modal-border)' }}
+                    >
+                        <h2 className="text-xl font-bold mb-2">Upcoming GED test</h2>
+                        <p className="mb-4">Your test is in <strong>{showTestReminder.days}</strong> day(s): {showTestReminder.date}</p>
+                        <div className="flex justify-end">
+                            <button
+                                type="button"
+                                onClick={() => setShowTestReminder(null)}
+                                className="px-4 py-2 rounded-md font-semibold border"
+                                style={{ background: 'transparent', color: 'var(--text-primary)', borderColor: 'var(--border-subtle)' }}
+                            >
+                                Got it
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
@@ -10089,7 +10155,7 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools, theme = 'light' }) {
+function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, testDate, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools, theme = 'light' }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
@@ -10156,6 +10222,55 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             // ignore
         }
     };
+
+    // --- Upcoming GED Test (profile-level) helpers ---
+    const parseYMD = (str) => {
+        if (!str || typeof str !== 'string') return null;
+        const m = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (!m) return null;
+        const y = Number(m[1]);
+        const mo = Number(m[2]);
+        const d = Number(m[3]);
+        if (!y || !mo || !d) return null;
+        return new Date(y, mo - 1, d);
+    };
+    const toLocalMidnight = (dt) => dt ? new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()) : null;
+    const formatMMDDYYYY = (dt) => {
+        if (!(dt instanceof Date) || isNaN(dt)) return 'Invalid date';
+        const mm = String(dt.getMonth() + 1).padStart(2, '0');
+        const dd = String(dt.getDate()).padStart(2, '0');
+        const yyyy = dt.getFullYear();
+        return `${mm}/${dd}/${yyyy}`;
+    };
+    const diffDaysFromToday = (dateStr) => {
+        const examLocal = toLocalMidnight(parseYMD(dateStr));
+        if (!examLocal) return null;
+        const today = new Date();
+        const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const msPerDay = 1000 * 60 * 60 * 24;
+        return Math.ceil((examLocal - todayLocal) / msPerDay);
+    };
+
+    const normalizedProfileTestDate = testDate || null;
+    const testDateDiffDays = normalizedProfileTestDate ? diffDaysFromToday(normalizedProfileTestDate) : null;
+    const testDateDisplay = normalizedProfileTestDate ? formatMMDDYYYY(parseYMD(normalizedProfileTestDate)) : null;
+
+    const [showTestReminder, setShowTestReminder] = useState(null);
+    useEffect(() => {
+        if (!normalizedProfileTestDate) return;
+        const days = diffDaysFromToday(normalizedProfileTestDate);
+        if (days == null || days < 0) return; // past or invalid → no reminder
+        const todayKey = new Date().toISOString().slice(0, 10);
+        const storageKey = `seenTestReminder:${todayKey}`;
+        try {
+            const hasSeen = typeof localStorage !== 'undefined' && localStorage.getItem(storageKey);
+            if (!hasSeen) {
+                const exam = parseYMD(normalizedProfileTestDate);
+                setShowTestReminder({ days, date: exam ? exam.toISOString().slice(0, 10) : normalizedProfileTestDate });
+                localStorage.setItem(storageKey, '1');
+            }
+        } catch (_) {}
+    }, [normalizedProfileTestDate]);
 
     const handleSelectSubject = (subject) => {
         setSelectedSubject(subject);
@@ -10816,6 +10931,55 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 <div className="dashboard-sections">
                     {currentUser && (
                         <div className="grid gap-4 md:grid-cols-2 mb-6 dashboard-row">
+                            {/* Upcoming GED Test (Profile-level) */}
+                            <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70 block-profile-test panel card" style={homePanelStyle}>
+                                <div className="flex items-center justify-between">
+                                    <h2
+                                        className="text-lg font-semibold text-slate-900 dark:text-slate-100"
+                                        style={isDarkMode ? undefined : { color: '#000000' }}
+                                    >
+                                        Upcoming GED Test
+                                    </h2>
+                                    <button
+                                        type="button"
+                                        onClick={goToProfile}
+                                        className="text-sm font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200"
+                                    >
+                                        Edit
+                                    </button>
+                                </div>
+                                {normalizedProfileTestDate ? (
+                                    (() => {
+                                        if (testDateDiffDays == null) {
+                                            return <p className={`text-sm ${homePanelPrimaryTextClass}`}>Test date unavailable. Please update in profile.</p>;
+                                        }
+                                        if (testDateDiffDays > 1) {
+                                            return (
+                                                <div className={`text-sm ${homePanelPrimaryTextClass}`}>
+                                                    <p>Your test is in <strong>{testDateDiffDays}</strong> days ({testDateDisplay}).</p>
+                                                    <span className="countdown-chip mt-2 inline-block">{testDateDiffDays} days left</span>
+                                                </div>
+                                            );
+                                        }
+                                        if (testDateDiffDays === 1) {
+                                            return (
+                                                <div className={`text-sm ${homePanelPrimaryTextClass}`}>
+                                                    <p>Your test is <strong>tomorrow</strong> ({testDateDisplay}).</p>
+                                                    <span className="countdown-chip mt-2 inline-block">1 day left</span>
+                                                </div>
+                                            );
+                                        }
+                                        if (testDateDiffDays === 0) {
+                                            return <p className={`text-sm ${homePanelPrimaryTextClass}`}><strong>Your test is today.</strong> Good luck!</p>;
+                                        }
+                                        // Past date
+                                        return <p className={`text-sm ${homePanelPrimaryTextClass}`}>Your previous test date was {testDateDisplay}. Set a new one.</p>;
+                                    })()
+                                ) : (
+                                    <p className={`text-sm ${homePanelPrimaryTextClass}`}>No test date on file. Set one in your profile.</p>
+                                )}
+                                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-800'}`}>This uses the single profile test date.</p>
+                            </article>
                             <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 p-5 shadow-lg space-y-2 dark:bg-slate-800/70 block-test-date panel card" style={homePanelStyle}>
                             <div className="flex items-center justify-between">
                                 <h2
@@ -10840,7 +11004,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     Next: <span className="font-semibold text-slate-900 dark:text-slate-100">{nextUpcomingSummary.subject}</span> on{' '}
                                     <span className="font-semibold text-slate-900 dark:text-slate-100">{nextUpcomingSummary.testDate}</span>
                                     {nextUpcomingSummary.daysUntilText && (
-                                        <> · {nextUpcomingSummary.daysUntilText} remaining</>
+                                        <span className="countdown-chip ml-2 inline-flex"><span className="dot"></span><span className="label">{nextUpcomingSummary.daysUntilText} left</span></span>
                                     )}
                                 </p>
                                 {nextUpcomingSummary.location && (
