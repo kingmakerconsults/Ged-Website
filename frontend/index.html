@@ -5531,6 +5531,26 @@ PREMADE_QUIZ_CATALOG = assignPremadeQuizCodes(AppData);
 //       ]
 //     }
 //   }
+// Optional grouping configuration to merge multiple raw categories into cleaner clusters
+// and/or rename clusters for a tidier quiz browser. Any categories not listed here
+// will be included as their own clusters under their original names.
+const QUIZ_GROUPING = {
+    // Science has several closely related categories; combine two to reduce clutter.
+    "Science": [
+        { label: "Life Science", categories: ["Life Science"] },
+        { label: "Physical, Earth & Space", categories: ["Physical Science", "Earth & Space Science"] },
+        { label: "Scientific Numeracy", categories: ["Scientific Numeracy"] }
+    ],
+    // Math: reordered to surface Algebra first in the browser.
+    "Math": [
+        { label: "Algebra", categories: ["Algebraic Problem Solving"] },
+        { label: "Quantitative & Data", categories: ["Quantitative Problem Solving"] },
+        { label: "Geometry", categories: ["Geometry"] }
+    ]
+    // Note: Social Studies currently nests eras as topics within "U.S. History",
+    // so category-level grouping is not needed there.
+};
+
 function buildQuizLibraryFromAppData(data) {
     const result = {};
     if (!data || typeof data !== 'object') {
@@ -5541,21 +5561,77 @@ function buildQuizLibraryFromAppData(data) {
             return;
         }
         const clusters = [];
-        Object.entries(subject.categories).forEach(([categoryName, category], idx) => {
-            if (!category || typeof category !== 'object') {
-                return;
-            }
-            const id = sanitizeCodeSegment(categoryName, `cluster-${idx + 1}`);
-            const topicIds = Array.isArray(category.topics)
-                ? category.topics.map((t, tIdx) => t?.id || `${id}__topic-${tIdx + 1}`)
-                : [];
-            clusters.push({
-                id,
-                label: categoryName,
-                description: category.description || '',
-                topicIds
+
+        // If a grouping is provided for this subject, build clusters from it; otherwise fall back to 1:1 category mapping
+        const groupDefs = QUIZ_GROUPING[subjectName];
+        const usedCategories = new Set();
+
+        if (Array.isArray(groupDefs) && groupDefs.length) {
+            groupDefs.forEach((group, gIdx) => {
+                const groupLabel = group?.label || `Cluster ${gIdx + 1}`;
+                const groupCats = Array.isArray(group?.categories) ? group.categories : [];
+                const topicIds = [];
+                const descParts = [];
+
+                groupCats.forEach((catName) => {
+                    const cat = subject.categories[catName];
+                    if (!cat || typeof cat !== 'object') return;
+                    usedCategories.add(catName);
+                    if (Array.isArray(cat.topics)) {
+                        cat.topics.forEach((t, tIdx) => {
+                            topicIds.push(t?.id || `${sanitizeCodeSegment(catName)}__topic-${tIdx + 1}`);
+                        });
+                    }
+                    if (cat.description) descParts.push(`${catName}: ${cat.description}`);
+                });
+
+                if (topicIds.length) {
+                    clusters.push({
+                        id: sanitizeCodeSegment(groupLabel, `cluster-${gIdx + 1}`),
+                        label: groupLabel,
+                        description: descParts.join(' | '),
+                        topicIds
+                    });
+                }
             });
-        });
+
+            // Any remaining categories not covered by grouping get their own clusters
+            const remaining = Object.entries(subject.categories)
+                .filter(([name]) => !usedCategories.has(name))
+                .sort((a, b) => a[0].localeCompare(b[0])); // deterministic alphabetical order
+            remaining.forEach(([categoryName, category], idx) => {
+                if (!category || typeof category !== 'object') return;
+                const id = sanitizeCodeSegment(categoryName, `cluster-extra-${idx + 1}`);
+                const topicIds = Array.isArray(category.topics)
+                    ? category.topics.map((t, tIdx) => t?.id || `${id}__topic-${tIdx + 1}`)
+                    : [];
+                if (topicIds.length) {
+                    clusters.push({
+                        id,
+                        label: categoryName,
+                        description: category.description || '',
+                        topicIds
+                    });
+                }
+            });
+        } else {
+            // Default behavior: one cluster per category
+            Object.entries(subject.categories).forEach(([categoryName, category], idx) => {
+                if (!category || typeof category !== 'object') {
+                    return;
+                }
+                const id = sanitizeCodeSegment(categoryName, `cluster-${idx + 1}`);
+                const topicIds = Array.isArray(category.topics)
+                    ? category.topics.map((t, tIdx) => t?.id || `${id}__topic-${tIdx + 1}`)
+                    : [];
+                clusters.push({
+                    id,
+                    label: categoryName,
+                    description: category.description || '',
+                    topicIds
+                });
+            });
+        }
         result[subjectName] = { clusters };
     });
     return result;
