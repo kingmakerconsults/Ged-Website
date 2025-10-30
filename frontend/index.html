@@ -948,6 +948,16 @@
                                             color: #000000 !important;
                                         }
 
+                                        /* Math Practice Tools title and graphing Equations label must be black in LIGHT mode */
+                                        [data-theme="light"] .math-practice-header h1 { color: #000000 !important; }
+                                        [data-theme="light"] .equations-label { color: #000000 !important; }
+
+                                        /* Settings: force Save button text to black in LIGHT mode */
+                                        [data-theme="light"] #settingsView button[type="submit"],
+                                        [data-theme="light"] #settingsView button[type="submit"] * {
+                                            color: #000000 !important;
+                                        }
+
                                         /* Dashboard bottom cards: stronger distinction in LIGHT mode */
                                         [data-theme="light"] .block-start-quiz .panel.card {
                                             background: linear-gradient(135deg, #ffffff, #f9fafb);
@@ -5937,7 +5947,7 @@ async function fetchJSON(url, options = {}) {
 }
 
 // --- App Structure Components ---
-function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSettings, activePanel, theme, onToggleTheme }) {
+function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSettings, onShowQuizzes, onShowProgress, activePanel, theme, onToggleTheme }) {
     const displayName = currentUser?.name || currentUser?.email || 'Learner';
     const initial = displayName ? displayName.trim().charAt(0).toUpperCase() : 'U';
     const isProfileActive = activePanel === 'profile';
@@ -5965,8 +5975,8 @@ function AppHeader({ currentUser, onLogout, onShowHome, onShowProfile, onShowSet
                     </button>
                     <nav className="hidden md:flex items-center gap-4 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
                         <button onClick={onShowHome} className="hover:text-sky-600 dark:hover:text-sky-400 transition" type="button">Dashboard</button>
-                        <a className="hover:text-sky-600 dark:hover:text-sky-400 transition" href="#quizzes">Quizzes</a>
-                        <a className="hover:text-sky-600 dark:hover:text-sky-400 transition" href="#progress">Progress</a>
+                        <button onClick={onShowQuizzes} className="hover:text-sky-600 dark:hover:text-sky-400 transition" type="button" aria-controls="quizzes">Quizzes</button>
+                        <button onClick={onShowProgress} className="hover:text-sky-600 dark:hover:text-sky-400 transition" type="button" aria-controls="progress">Progress</button>
                     </nav>
                 </div>
                 <div className="flex items-center gap-4">
@@ -6200,6 +6210,7 @@ function App({ externalTheme, onThemeChange }) {
     const presenceIntervalRef = useRef(null);
     const lastAttemptsFetchRef = useRef(0);
     const pendingAttemptsFetchRef = useRef(null);
+    const [pendingScrollTarget, setPendingScrollTarget] = useState(null);
 
     useEffect(() => {
         currentUserRef.current = currentUser;
@@ -6250,7 +6261,7 @@ function App({ externalTheme, onThemeChange }) {
 
         sendPresencePing();
 
-        presenceIntervalRef.current = window.setInterval(sendPresencePing, 60000);
+    presenceIntervalRef.current = window.setInterval(sendPresencePing, 60000);
 
         window.addEventListener('beforeunload', handleBeforeUnload);
 
@@ -6434,6 +6445,66 @@ function App({ externalTheme, onThemeChange }) {
         setMathToolsInitialized(true);
         setView('mathTools');
     }, [setView]);
+
+    // Navigate to a dashboard section (e.g., #quizzes or #progress) from anywhere
+    const navigateToSection = useCallback((targetId) => {
+        const id = typeof targetId === 'string' ? targetId.replace(/^#/, '') : '';
+        if (!id) return;
+        if (view !== 'start') {
+            setPendingScrollTarget(id);
+            setView('start');
+            return;
+        }
+        const el = typeof document !== 'undefined' ? document.getElementById(id) : null;
+        if (el && typeof el.scrollIntoView === 'function') {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        if (typeof window !== 'undefined') {
+            window.location.hash = id;
+        }
+    }, [view]);
+
+    // After switching to the dashboard, perform the pending scroll once content is painted
+    useEffect(() => {
+        if (view !== 'start' || !pendingScrollTarget) return;
+        const id = pendingScrollTarget;
+        const rAF = typeof window !== 'undefined' && window.requestAnimationFrame
+            ? window.requestAnimationFrame
+            : (fn) => setTimeout(fn, 0);
+        rAF(() => {
+            const el = typeof document !== 'undefined' ? document.getElementById(id) : null;
+            if (el && typeof el.scrollIntoView === 'function') {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            if (typeof window !== 'undefined') {
+                window.location.hash = id;
+            }
+            setPendingScrollTarget(null);
+        });
+    }, [view, pendingScrollTarget]);
+
+    // Optional: handle direct hash navigation (e.g., external links to #quizzes or #progress)
+    useEffect(() => {
+        const handleHashNavigate = () => {
+            if (typeof window === 'undefined') return;
+            const raw = window.location.hash || '';
+            const id = raw.replace(/^#/, '');
+            if (id === 'quizzes' || id === 'progress') {
+                if (view !== 'start') {
+                    setPendingScrollTarget(id);
+                    setView('start');
+                } else {
+                    const el = document.getElementById(id);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        };
+        if (typeof window !== 'undefined') {
+            window.addEventListener('hashchange', handleHashNavigate);
+            handleHashNavigate();
+            return () => window.removeEventListener('hashchange', handleHashNavigate);
+        }
+    }, [view]);
 
     const recalcProgress = useCallback((attemptList) => {
         setProgress(buildProgressFromAttempts(attemptList));
@@ -7673,6 +7744,8 @@ function App({ externalTheme, onThemeChange }) {
                     onShowHome={navigateHome}
                     onShowProfile={handleShowProfileView}
                     onShowSettings={handleShowSettingsView}
+                    onShowQuizzes={() => navigateToSection('quizzes')}
+                    onShowProgress={() => navigateToSection('progress')}
                     activePanel={view === 'profile' ? 'profile' : view === 'settings' ? 'settings' : null}
                     theme={preferences.theme}
                     onToggleTheme={toggleThemePreference}
@@ -12742,7 +12815,7 @@ function GraphingTool({ onExit }) {
 
                     {toolMode === 'plotLine' ? (
                         <div>
-                            <p className="font-semibold text-black dark:text-slate-200 mb-2">Equations (y = )</p>
+                            <p className="font-semibold text-black dark:text-slate-200 mb-2 equations-label">Equations (y = )</p>
                             <div className="space-y-3">
                                 {equationInputs.map((value, index) => (
                                     <div key={index} className="flex items-center gap-2">
@@ -12854,7 +12927,7 @@ function MathPracticeToolsPage({ onExit, activeTab, onTabChange, graphingNode, g
 
     return (
         <div className="fade-in space-y-6">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 dark:border-slate-700/70 pb-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 dark:border-slate-700/70 pb-4 math-practice-header">
                 <button
                     onClick={onExit}
                     className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-300 dark:hover:text-sky-200"
