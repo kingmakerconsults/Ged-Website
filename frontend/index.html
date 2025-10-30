@@ -10257,20 +10257,42 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     const [showTestReminder, setShowTestReminder] = useState(null);
     useEffect(() => {
-        if (!normalizedProfileTestDate) return;
-        const days = diffDaysFromToday(normalizedProfileTestDate);
-        if (days == null || days < 0) return; // past or invalid → no reminder
         const todayKey = new Date().toISOString().slice(0, 10);
         const storageKey = `seenTestReminder:${todayKey}`;
-        try {
-            const hasSeen = typeof localStorage !== 'undefined' && localStorage.getItem(storageKey);
-            if (!hasSeen) {
-                const exam = parseYMD(normalizedProfileTestDate);
-                setShowTestReminder({ days, date: exam ? exam.toISOString().slice(0, 10) : normalizedProfileTestDate });
-                localStorage.setItem(storageKey, '1');
+
+        // Profile-level single test date: remind for upcoming/today (>= 0 days)
+        if (normalizedProfileTestDate) {
+            const days = diffDaysFromToday(normalizedProfileTestDate);
+            if (days != null && days >= 0) {
+                try {
+                    const hasSeen = typeof localStorage !== 'undefined' && localStorage.getItem(storageKey);
+                    if (!hasSeen) {
+                        const exam = parseYMD(normalizedProfileTestDate);
+                        setShowTestReminder({ days, date: exam ? exam.toISOString().slice(0, 10) : normalizedProfileTestDate });
+                        localStorage.setItem(storageKey, '1');
+                        return; // show only one reminder per day
+                    }
+                } catch (_) {}
             }
-        } catch (_) {}
-    }, [normalizedProfileTestDate]);
+        }
+
+        // NEW: Test-plan nextUpcomingTest — also show when the next scheduled test is today
+        if (nextUpcomingTest && nextUpcomingTest.testDate) {
+            const daysFromPlan = (typeof nextUpcomingTest.daysUntil === 'number')
+                ? Math.floor(nextUpcomingTest.daysUntil)
+                : diffDaysFromToday(nextUpcomingTest.testDate);
+            if (daysFromPlan === 0) {
+                try {
+                    const hasSeen = typeof localStorage !== 'undefined' && localStorage.getItem(storageKey);
+                    if (!hasSeen) {
+                        const exam = parseYMD(nextUpcomingTest.testDate);
+                        setShowTestReminder({ days: 0, date: exam ? exam.toISOString().slice(0, 10) : nextUpcomingTest.testDate });
+                        localStorage.setItem(storageKey, '1');
+                    }
+                } catch (_) {}
+            }
+        }
+    }, [normalizedProfileTestDate, nextUpcomingTest?.testDate, nextUpcomingTest?.daysUntil]);
 
     const handleSelectSubject = (subject) => {
         setSelectedSubject(subject);
