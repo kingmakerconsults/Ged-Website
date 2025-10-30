@@ -234,10 +234,27 @@ router.get('/me', async (req, res) => {
       return res.status(401).json({ error: 'Not signed in' });
     }
 
+    console.log('[GET] /api/profile/me', { userId });
     const bundle = await buildProfileBundle(userId);
     return res.json(bundle);
   } catch (err) {
     console.error('GET /api/profile/me failed:', err);
+    return res.status(500).json({ error: 'Failed to load profile' });
+  }
+});
+
+// GET /api/profile (alias)
+router.get('/', async (req, res) => {
+  try {
+    const userId = req.user?.userId ?? req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Not signed in' });
+    }
+    console.log('[GET] /api/profile', { userId });
+    const bundle = await buildProfileBundle(userId);
+    return res.json(bundle);
+  } catch (err) {
+    console.error('GET /api/profile failed:', err);
     return res.status(500).json({ error: 'Failed to load profile' });
   }
 });
@@ -262,6 +279,7 @@ router.patch('/name', express.json(), async (req, res) => {
       return res.status(400).json({ error: 'Name is required' });
     }
 
+    console.log('[PATCH] /api/profile/name', { userId, nameLength: name.length });
     await pool.query('UPDATE users SET name = $1 WHERE id = $2', [name, userId]);
 
     return res.json({ name });
@@ -303,8 +321,10 @@ router.patch('/test', express.json(), async (req, res) => {
       normalizedDate = d.toISOString().slice(0, 10);
     }
 
-    const normLocation = (testLocation || '').toString().trim() || null;
-    const normPassed = normNotScheduled ? false : !!passed;
+  const normLocation = (testLocation || '').toString().trim() || null;
+  const normPassed = normNotScheduled ? false : !!passed;
+
+  console.log('[PATCH] /api/profile/test', { userId, subject: subj, notScheduled: normNotScheduled, hasDate: !!normalizedDate, passed: normPassed });
 
     await pool.query(
       `
@@ -349,6 +369,8 @@ router.patch('/challenges/tags', express.json(), async (req, res) => {
     const selectedIds = Array.isArray(req.body?.selectedIds)
       ? req.body.selectedIds
       : [];
+
+    console.log('[PATCH] /api/profile/challenges/tags', { userId, selectedCount: selectedIds.length });
 
     await client.query('BEGIN');
 
@@ -398,6 +420,47 @@ router.patch('/challenges/tags', express.json(), async (req, res) => {
   }
 });
 
+// PATCH /api/profile/preferences
+// Body: { fontSize: 'sm'|'md'|'lg'|'xl', theme: 'light'|'dark'|'system' }
+// Updates profiles font_size and theme, returns { fontSize, theme }
+router.patch('/preferences', express.json(), async (req, res) => {
+  try {
+    const userId = req.user?.userId ?? req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Not signed in' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+      return res.status(403).json({ error: 'user_not_active' });
+    }
+
+    const VALID_SIZES = new Set(['sm', 'md', 'lg', 'xl']);
+    const VALID_THEMES = new Set(['light', 'dark', 'system']);
+    let { fontSize, theme } = req.body || {};
+    const normalizedSize = VALID_SIZES.has(fontSize) ? fontSize : 'md';
+    const normalizedTheme = VALID_THEMES.has(theme) ? theme : 'light';
+
+    await ensureProfileRow(userId);
+
+    console.log('[PATCH] /api/profile/preferences', { userId, fontSize: normalizedSize, theme: normalizedTheme });
+    await pool.query(
+      `
+      UPDATE profiles
+         SET font_size = $1,
+             theme = $2,
+             updated_at = NOW()
+       WHERE user_id = $3
+      `,
+      [normalizedSize, normalizedTheme, userId]
+    );
+
+    return res.json({ fontSize: normalizedSize, theme: normalizedTheme });
+  } catch (err) {
+    console.error('PATCH /api/profile/preferences failed:', err);
+    return res.status(500).json({ error: 'Failed to save preferences' });
+  }
+});
+
 // PATCH /api/profile/complete-onboarding
 // Marks onboarding_complete = TRUE in profiles, then returns the new bundle
 router.patch('/complete-onboarding', express.json(), async (req, res) => {
@@ -413,6 +476,7 @@ router.patch('/complete-onboarding', express.json(), async (req, res) => {
 
     await ensureProfileRow(userId);
 
+    console.log('[PATCH] /api/profile/complete-onboarding', { userId });
     await pool.query(
       `
       UPDATE profiles
@@ -432,3 +496,129 @@ router.patch('/complete-onboarding', express.json(), async (req, res) => {
 });
 
 module.exports = router;
+// PUT /api/profile
+// Composite upsert endpoint. Body may include any of:
+// { name, preferences: {fontSize, theme}, testPlan: [{subject, testDate, testLocation, passed, notScheduled}], challenges: { selectedIds: [] | challengeOptions: [] }, onboardingComplete }
+router.put('/', express.json(), async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const userId = req.user?.userId ?? req.user?.id;
+    if (!userId) {
+      client.release();
+      return res.status(401).json({ error: 'Not signed in' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+      client.release();
+      return res.status(403).json({ error: 'user_not_active' });
+    }
+
+    const body = req.body || {};
+    const name = typeof body.name === 'string' ? body.name.trim().slice(0, 80) : null;
+    const prefs = body.preferences || {};
+    const VALID_SIZES = new Set(['sm', 'md', 'lg', 'xl']);
+    const VALID_THEMES = new Set(['light', 'dark', 'system']);
+    const prefSize = VALID_SIZES.has(prefs.fontSize) ? prefs.fontSize : null;
+    const prefTheme = VALID_THEMES.has(prefs.theme) ? prefs.theme : null;
+    const testPlan = Array.isArray(body.testPlan) ? body.testPlan : [];
+    const challenges = body.challenges || {};
+    const onboardingComplete = body.onboardingComplete === true;
+
+    await client.query('BEGIN');
+    await ensureProfileRow(userId);
+
+    if (name) {
+      console.log('[PUT] /api/profile -> name', { userId });
+      await client.query('UPDATE users SET name = $1 WHERE id = $2', [name, userId]);
+    }
+
+    if (prefSize || prefTheme) {
+      console.log('[PUT] /api/profile -> preferences', { userId, fontSize: prefSize, theme: prefTheme });
+      await client.query(
+        `UPDATE profiles SET
+           font_size = COALESCE($1, font_size),
+           theme = COALESCE($2, theme),
+           updated_at = NOW()
+         WHERE user_id = $3`,
+        [prefSize, prefTheme, userId]
+      );
+    }
+
+    if (testPlan.length > 0) {
+      console.log('[PUT] /api/profile -> testPlan', { userId, count: testPlan.length });
+      for (const row of testPlan) {
+        if (!row || !row.subject) continue;
+        const subj = String(row.subject).trim();
+        let normalizedDate = null;
+        const normNotScheduled = !!row.notScheduled;
+        if (!normNotScheduled && row.testDate) {
+          const d = new Date(row.testDate);
+          if (!isNaN(d.getTime())) {
+            normalizedDate = d.toISOString().slice(0, 10);
+          }
+        }
+        const normLocation = (row.testLocation || '').toString().trim() || null;
+        const normPassed = normNotScheduled ? false : !!row.passed;
+
+        await client.query(
+          `INSERT INTO test_plans (user_id, subject, test_date, test_location, passed, not_scheduled, updated_at)
+           VALUES ($1, $2, $3, $4, $5, $6, NOW())
+           ON CONFLICT (user_id, subject)
+           DO UPDATE SET test_date = EXCLUDED.test_date,
+                         test_location = EXCLUDED.test_location,
+                         passed = EXCLUDED.passed,
+                         not_scheduled = EXCLUDED.not_scheduled,
+                         updated_at = NOW()`,
+          [userId, subj, normalizedDate, normLocation, normPassed, normNotScheduled]
+        );
+      }
+    }
+
+    if (challenges) {
+      const selectedIds = Array.isArray(challenges.selectedIds)
+        ? challenges.selectedIds
+        : (Array.isArray(challenges.challengeOptions)
+            ? challenges.challengeOptions.filter((c) => c && c.id && c.selected).map((c) => c.id)
+            : []);
+      if (selectedIds) {
+        console.log('[PUT] /api/profile -> challenges', { userId, selectedCount: selectedIds.length });
+        if (selectedIds.length === 0) {
+          await client.query('DELETE FROM user_challenge_tags WHERE user_id = $1', [userId]);
+        } else {
+          const placeholders = selectedIds.map((_, i) => `$${i + 2}`).join(', ');
+          await client.query(
+            `DELETE FROM user_challenge_tags WHERE user_id = $1 AND challenge_id NOT IN (${placeholders})`,
+            [userId, ...selectedIds]
+          );
+          for (const cid of selectedIds) {
+            await client.query(
+              `INSERT INTO user_challenge_tags (user_id, challenge_id)
+               VALUES ($1, $2)
+               ON CONFLICT DO NOTHING`,
+              [userId, cid]
+            );
+          }
+        }
+      }
+    }
+
+    if (onboardingComplete) {
+      console.log('[PUT] /api/profile -> onboardingComplete', { userId });
+      await client.query(
+        `UPDATE profiles SET onboarding_complete = TRUE, updated_at = NOW() WHERE user_id = $1`,
+        [userId]
+      );
+    }
+
+    await client.query('COMMIT');
+    client.release();
+    const bundle = await buildProfileBundle(userId);
+    return res.json(bundle);
+  } catch (err) {
+    await client.query('ROLLBACK').catch(() => {});
+    client.release();
+    console.error('PUT /api/profile failed:', err);
+    return res.status(500).json({ error: 'Failed to save profile' });
+  }
+});
+
