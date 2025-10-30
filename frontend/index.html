@@ -5726,6 +5726,42 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         } catch { return { attempts: 0, best: null, lastAt: null, status: 'Not Attempted' }; }
     };
 
+    // helpers: truncation and summaries
+    const truncate = (text, max = 100) => {
+        if (!text) return '';
+        const clean = String(text).trim();
+        if (clean.length <= max) return clean;
+        return clean.slice(0, Math.max(0, max - 1)).trim() + '…';
+    };
+    const topicOneLiner = (topic) => {
+        const fromTopic = topic?.description?.trim();
+        const fromQuiz = Array.isArray(topic?.quizzes) && topic.quizzes.find(q => q && q.description)?.description;
+        const line = fromTopic || fromQuiz || 'A short practice set covering key concepts in this topic.';
+        return truncate(line, 100);
+    };
+    const quizOneLiner = (quiz, topic) => {
+        const line = (quiz && quiz.description) || (topic && topic.description) || 'A short practice set covering key concepts in this topic.';
+        return truncate(line, 100);
+    };
+    const levelScore = (lvl) => lvl === 'Beginner' ? 1 : (lvl === 'Advanced' ? 3 : 2);
+    const summarizeDifficulty = (items) => {
+        if (!Array.isArray(items) || items.length === 0) return 'Varied';
+        const avg = items.reduce((sum, it) => sum + levelScore(deriveLevel(it.topic || it)), 0) / items.length;
+        if (avg < 1.5) return 'Mostly Beginner';
+        if (avg < 2.5) return 'Mostly Intermediate';
+        return 'Mostly Advanced';
+    };
+    const sectionSummaryForKey = (groupKey, title) => {
+        if (groupKey.startsWith('levels-beginner')) return 'Start here to build solid foundations with approachable practice sets.';
+        if (groupKey.startsWith('levels-intermediate')) return 'Strengthen your skills with mid-level problems and mixed question types.';
+        if (groupKey.startsWith('levels-advanced')) return 'Challenge yourself with multi-step questions and deeper reasoning.';
+        if (groupKey.startsWith('special-timed')) return 'Build test stamina with timed sets that simulate real exam pacing.';
+        if (groupKey.startsWith('special-image')) return 'Practice interpreting diagrams, charts, and other visual information.';
+        if (groupKey.startsWith('special-passage')) return 'Read passages closely and answer evidence-based questions effectively.';
+        // Fallback for cluster/core sections
+        return `Practice key concepts in ${title || 'this section'}.`;
+    };
+
     const filterByControls = (items) => {
         const { status } = filters;
         let out = items;
@@ -5821,15 +5857,23 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                     ? { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', color: subjectColors.text || '#f8fafc' }
                     : { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', backgroundColor: '#ffffff', backgroundImage: lightCardBackground, color: cardTextColor }}
             >
-                <div>
+                <div className="fade-in">
                     <h3 className="text-lg font-bold" style={isDarkMode ? { color: subjectColors.text || '#f8fafc' } : { color: cardTextColor }}>
                         {topic.title}
                     </h3>
-                    {topic.description && (
-                        <p className="text-sm mt-2" style={isDarkMode ? { color: 'rgba(226,232,240,0.82)' } : { color: 'rgba(15,23,42,0.78)' }}>
-                            {topic.description}
-                        </p>
-                    )}
+                    <p
+                        className="mt-2"
+                        title={topicOneLiner(topic)}
+                        style={{
+                            fontSize: '0.9rem',
+                            lineHeight: 1.4,
+                            opacity: 0.85,
+                            fontWeight: 500,
+                            color: isDarkMode ? 'var(--text-tertiary, rgba(226,232,240,0.78))' : 'var(--subtext-color, rgba(15,23,42,0.66))',
+                        }}
+                    >
+                        {topicOneLiner(topic)}
+                    </p>
                 </div>
                 {supportsMultiple ? (
                     <div className="mt-3 grid gap-2">
@@ -5838,6 +5882,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                                 key={quiz.quizId || `${topic.id || 'topic'}_quiz_${idx}`}
                                 onClick={() => launchQuizSet(quiz, idx)}
                                 className="w-full px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                                title={quizOneLiner(quiz, topic)}
                                 style={buttonStyle}
                             >
                                 Start {quiz.label || `Quiz ${String.fromCharCode(65 + idx)}`}
@@ -5934,11 +5979,61 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                     );
                 })}
                 </div>
-                {active?.description && (
-                    <p className="text-sm" style={{ color: isDarkMode ? 'rgba(226,232,240,0.82)' : 'rgba(15,23,42,0.78)' }}>
-                        {active.description}
-                    </p>
-                )}
+                {(active?.description || active?.label) && (() => {
+                    const coreInfoKey = `info:core:${subjectName}:${active?.id || 'cluster'}`;
+                    const coreInfoOpen = !!expandedGroups[coreInfoKey];
+                    const clusterItems = (Array.isArray(active?.topicIds) ? active.topicIds : [])
+                        .map(tid => getTopicById(subjectName, tid))
+                        .filter(Boolean)
+                        .map(t => ({ topic: t }));
+                    const clusterOverview = active?.description || sectionSummaryForKey('core-cluster', active?.label);
+                    const clusterDifficulty = summarizeDifficulty(clusterItems);
+                    const clusterQuizCount = clusterItems.reduce((acc, it) => {
+                        const t = it.topic;
+                        if (Array.isArray(t?.quizzes) && t.quizzes.length) return acc + t.quizzes.length;
+                        return acc + 1;
+                    }, 0);
+                    return (
+                        <div className="fade-in">
+                            <div className="flex items-center gap-2">
+                                <p
+                                    style={{
+                                        fontSize: '0.9rem',
+                                        lineHeight: 1.4,
+                                        opacity: 0.85,
+                                        fontWeight: 500,
+                                        color: isDarkMode ? 'var(--text-tertiary, rgba(226,232,240,0.78))' : 'var(--subtext-color, rgba(15,23,42,0.66))',
+                                    }}
+                                    title={clusterOverview}
+                                >
+                                    {clusterOverview}
+                                </p>
+                                <button
+                                    type="button"
+                                    className="text-sky-600 dark:text-sky-400 underline-offset-2 text-sm"
+                                    aria-label={`Learn more about ${active?.label || 'this cluster'}`}
+                                    aria-expanded={coreInfoOpen}
+                                    onClick={() => {
+                                        const next = { ...expandedGroups, [coreInfoKey]: !coreInfoOpen };
+                                        persistExpanded(next);
+                                    }}
+                                >
+                                    ℹ️
+                                </button>
+                            </div>
+                            {coreInfoOpen && (
+                                <div
+                                    className="mt-2 rounded-lg border px-3 py-2 text-sm"
+                                    style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', background: isDarkMode ? 'rgba(15,23,42,0.35)' : 'rgba(241,245,249,0.5)' }}
+                                >
+                                    <p className="mb-1">{clusterOverview}</p>
+                                    <p className="mb-1"><strong>Difficulty:</strong> {clusterDifficulty}</p>
+                                    <p><strong>Quizzes in this section:</strong> {clusterQuizCount}</p>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })()}
                 {renderFilterBar()}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filtered.length === 0 && (
@@ -5957,10 +6052,33 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         const expanded = !!expandedGroups[key];
         const filtered = sortItems(filterByControls(items));
         const shown = expanded ? filtered : filtered.slice(0, 4);
+        const infoKey = `info:${key}`;
+        const showInfo = !!expandedGroups[infoKey];
+        const overview = sectionSummaryForKey(groupKey, title);
+        const difficultyBlurb = summarizeDifficulty(filtered);
+        const quizCount = filtered.reduce((acc, it) => {
+            const t = it.topic;
+            if (Array.isArray(t?.quizzes) && t.quizzes.length) return acc + t.quizzes.length;
+            return acc + 1;
+        }, 0);
         return (
             <section className="rounded-xl border p-3" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
                 <div className="flex items-center justify-between">
-                    <h4 className="font-semibold">{title} <span className="opacity-60 text-sm">({filtered.length})</span></h4>
+                    <div className="flex items-center gap-2">
+                        <h4 className="font-semibold">{title} <span className="opacity-60 text-sm">({filtered.length})</span></h4>
+                        <button
+                            type="button"
+                            className="text-sky-600 dark:text-sky-400 underline-offset-2"
+                            aria-label={`Learn more about ${title}`}
+                            aria-expanded={showInfo}
+                            onClick={() => {
+                                const next = { ...expandedGroups, [infoKey]: !showInfo };
+                                persistExpanded(next);
+                            }}
+                        >
+                            ℹ️
+                        </button>
+                    </div>
                     <button
                         className="text-sm underline"
                         aria-expanded={expanded}
@@ -5972,6 +6090,29 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                         {expanded ? 'Show Less' : 'View More'}
                     </button>
                 </div>
+                <p
+                    className="mt-1 fade-in"
+                    style={{
+                        fontSize: '0.9rem',
+                        lineHeight: 1.4,
+                        opacity: 0.85,
+                        fontWeight: 500,
+                        color: isDarkMode ? 'var(--text-tertiary, rgba(226,232,240,0.78))' : 'var(--subtext-color, rgba(15,23,42,0.66))',
+                    }}
+                    title={overview}
+                >
+                    {overview}
+                </p>
+                {showInfo && (
+                    <div
+                        className="mt-2 rounded-lg border px-3 py-2 text-sm"
+                        style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', background: isDarkMode ? 'rgba(15,23,42,0.35)' : 'rgba(241,245,249,0.5)' }}
+                    >
+                        <p className="mb-1">{overview}</p>
+                        <p className="mb-1"><strong>Difficulty:</strong> {difficultyBlurb}</p>
+                        <p><strong>Quizzes in this section:</strong> {quizCount}</p>
+                    </div>
+                )}
                 <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {shown.map(({ topic }) => renderTopicCard(topic))}
                     {shown.length === 0 && (
