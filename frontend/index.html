@@ -5670,12 +5670,87 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     const [activeClusterId, setActiveClusterId] = React.useState(
         clusters.length ? clusters[0].id : null
     );
+    // New: tabbed layers and filtering
+    const [activeTab, setActiveTab] = React.useState('core'); // 'core' | 'levels' | 'special'
+    const [filters, setFilters] = React.useState({ status: 'All', sort: 'Newest' });
+    const storageKey = `quizBrowserExpanded:${sanitizeCodeSegment(subjectName)}`;
+    const [expandedGroups, setExpandedGroups] = React.useState(() => {
+        try {
+            const raw = window.localStorage?.getItem(storageKey);
+            return raw ? JSON.parse(raw) : {};
+        } catch {
+            return {};
+        }
+    });
+    const persistExpanded = (next) => {
+        setExpandedGroups(next);
+        try { window.localStorage?.setItem(storageKey, JSON.stringify(next)); } catch {}
+    };
 
     React.useEffect(() => {
         // Reset active cluster if subject changes
         setActiveClusterId(clusters.length ? clusters[0].id : null);
+        setActiveTab('core');
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [subjectName]);
+
+    // Derivers: topic access, tagging, filters, sorting
+    const allTopics = React.useMemo(() => {
+        const list = [];
+        clusters.forEach((c) => {
+            (c.topicIds || []).forEach((tid) => {
+                const t = getTopicById(subjectName, tid);
+                if (t) list.push({ topic: t, clusterId: c.id, clusterLabel: c.label });
+            });
+        });
+        return list;
+    }, [clusters, subjectName]);
+
+    const deriveLevel = (t) => {
+        const title = (t.title || '').toLowerCase();
+        if (/basic|foundation|intro|beginners?/.test(title)) return 'Beginner';
+        if (/advanced|challenge|honors/.test(title)) return 'Advanced';
+        return 'Intermediate';
+    };
+    const hasImage = (t) => Array.isArray(t.questions) && t.questions.some((q) => q?.type === 'image');
+    const isTimed = (t) => (t.config && typeof t.config.totalTime === 'number') || false;
+    const hasPassage = (t) => Array.isArray(t.questions) && t.questions.some((q) => q?.type === 'text' && q?.passage);
+
+    // minimal client-side attempt store (fallback)
+    const getAttemptMeta = (topicOrQuizCode) => {
+        try {
+            const raw = window.localStorage?.getItem('attemptIndex');
+            const idx = raw ? JSON.parse(raw) : {};
+            const rec = idx[topicOrQuizCode];
+            return rec || { attempts: 0, best: null, lastAt: null, status: 'Not Attempted' };
+        } catch { return { attempts: 0, best: null, lastAt: null, status: 'Not Attempted' }; }
+    };
+
+    const filterByControls = (items) => {
+        const { status } = filters;
+        let out = items;
+        if (status !== 'All') {
+            out = out.filter(({ topic }) => {
+                const code = topic.quizCode || topic.id || topic.title;
+                return getAttemptMeta(code).status === status;
+            });
+        }
+        return out;
+    };
+
+    const sortItems = (items) => {
+        switch (filters.sort) {
+            case 'Highest Score':
+                return [...items].sort((a, b) => (getAttemptMeta(b.topic.quizCode || b.topic.id || '').best ?? -1) - (getAttemptMeta(a.topic.quizCode || a.topic.id || '').best ?? -1));
+            case 'Most Attempted':
+                return [...items].sort((a, b) => (getAttemptMeta(b.topic.quizCode || b.topic.id || '').attempts) - (getAttemptMeta(a.topic.quizCode || a.topic.id || '').attempts));
+            case 'Topic A–Z':
+                return [...items].sort((a, b) => (a.topic.title || '').localeCompare(b.topic.title || ''));
+            case 'Newest':
+            default:
+                return items; // preserve author order
+        }
+    };
 
     if (!clusters.length) {
         return (
@@ -5805,9 +5880,42 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         ? active.topicIds.map((tid) => getTopicById(subjectName, tid)).filter(Boolean)
         : [];
 
-    return (
-        <div className="space-y-4">
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+    // UI helpers
+    const renderFilterBar = () => (
+        <div className="flex flex-wrap gap-2 items-center py-2">
+            <div className="flex items-center gap-1">
+                <label className="text-sm opacity-80">Status</label>
+                <select
+                    aria-label="Filter by status"
+                    className="px-2 py-1 rounded-md border text-sm"
+                    value={filters.status}
+                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                >
+                    {['All', 'Not Attempted', 'Completed', 'Passed'].map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                </select>
+            </div>
+            <div className="flex items-center gap-1 ml-auto">
+                <label className="text-sm opacity-80">Sort</label>
+                <select
+                    aria-label="Sort topics"
+                    className="px-2 py-1 rounded-md border text-sm"
+                    value={filters.sort}
+                    onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
+                >
+                    {['Newest', 'Most Attempted', 'Highest Score', 'Topic A–Z'].map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                </select>
+            </div>
+        </div>
+    );
+
+    const renderCoreTab = () => {
+        const topicsForActive = Array.isArray(active?.topicIds)
+            ? active.topicIds.map((tid) => getTopicById(subjectName, tid)).filter(Boolean)
+            : [];
+        const filtered = sortItems(filterByControls(topicsForActive.map(t => ({ topic: t })))).map(x => x.topic);
+        return (
+            <>
+                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" role="tablist" aria-label="Category clusters">
                 {clusters.map((cluster) => {
                     const selected = cluster.id === activeClusterId;
                     return (
@@ -5825,20 +5933,114 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                         </button>
                     );
                 })}
-            </div>
-            {active?.description && (
-                <p className="text-sm" style={{ color: isDarkMode ? 'rgba(226,232,240,0.82)' : 'rgba(15,23,42,0.78)' }}>
-                    {active.description}
-                </p>
-            )}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {topicsForActive.length === 0 && (
+                </div>
+                {active?.description && (
+                    <p className="text-sm" style={{ color: isDarkMode ? 'rgba(226,232,240,0.82)' : 'rgba(15,23,42,0.78)' }}>
+                        {active.description}
+                    </p>
+                )}
+                {renderFilterBar()}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {filtered.length === 0 && (
                     <div className="col-span-full text-center text-sm opacity-80 border border-dashed rounded-lg p-4" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
                         No topics available yet for this cluster.
                     </div>
-                )}
-                {topicsForActive.map((topic) => renderTopicCard(topic))}
+                    )}
+                    {filtered.map((topic) => renderTopicCard(topic))}
+                </div>
+            </>
+        );
+    };
+
+    const renderGroupSection = (title, items, groupKey) => {
+        const key = `${activeTab}:${groupKey}`;
+        const expanded = !!expandedGroups[key];
+        const filtered = sortItems(filterByControls(items));
+        const shown = expanded ? filtered : filtered.slice(0, 4);
+        return (
+            <section className="rounded-xl border p-3" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
+                <div className="flex items-center justify-between">
+                    <h4 className="font-semibold">{title} <span className="opacity-60 text-sm">({filtered.length})</span></h4>
+                    <button
+                        className="text-sm underline"
+                        aria-expanded={expanded}
+                        onClick={() => {
+                            const next = { ...expandedGroups, [key]: !expanded };
+                            persistExpanded(next);
+                        }}
+                    >
+                        {expanded ? 'Show Less' : 'View More'}
+                    </button>
+                </div>
+                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {shown.map(({ topic }) => renderTopicCard(topic))}
+                    {shown.length === 0 && (
+                        <div className="col-span-full text-center text-sm opacity-80 border border-dashed rounded-lg p-4" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
+                            No topics match the current filters.
+                        </div>
+                    )}
+                </div>
+            </section>
+        );
+    };
+
+    const renderLevelsTab = () => {
+        const list = allTopics.map(({ topic }) => ({ topic, level: deriveLevel(topic) }));
+        return (
+            <>
+                {renderFilterBar()}
+                <div className="space-y-4">
+                    {renderGroupSection('Beginner', list.filter(x => x.level === 'Beginner').map(x => ({ topic: x.topic })), 'levels-beginner')}
+                    {renderGroupSection('Intermediate', list.filter(x => x.level === 'Intermediate').map(x => ({ topic: x.topic })), 'levels-intermediate')}
+                    {renderGroupSection('Advanced', list.filter(x => x.level === 'Advanced').map(x => ({ topic: x.topic })), 'levels-advanced')}
+                </div>
+            </>
+        );
+    };
+
+    const renderSpecialTab = () => {
+        const list = allTopics.map(({ topic }) => ({ topic, image: hasImage(topic), timed: isTimed(topic), passage: hasPassage(topic) }));
+        return (
+            <>
+                {renderFilterBar()}
+                <div className="space-y-4">
+                    {renderGroupSection('Timed Practice', list.filter(x => x.timed).map(x => ({ topic: x.topic })), 'special-timed')}
+                    {renderGroupSection('Image-Based', list.filter(x => x.image).map(x => ({ topic: x.topic })), 'special-image')}
+                    {renderGroupSection('Reading Passage', list.filter(x => x.passage).map(x => ({ topic: x.topic })), 'special-passage')}
+                </div>
+            </>
+        );
+    };
+
+    return (
+        <div className="space-y-4">
+            {/* Tabs */}
+            <div className="flex items-center gap-2" role="tablist" aria-label="Quiz organization tabs">
+                {[
+                    { id: 'core', label: 'Core Topics' },
+                    { id: 'levels', label: 'Skill Levels' },
+                    { id: 'special', label: 'Special Sets' }
+                ].map(tab => {
+                    const selected = activeTab === tab.id;
+                    return (
+                        <button
+                            key={tab.id}
+                            role="tab"
+                            aria-selected={selected}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`px-3 py-1.5 rounded-md border text-sm font-semibold ${selected ? 'shadow' : ''}`}
+                            style={selected
+                                ? { backgroundColor: subjectColors.accent || '#0ea5e9', color: subjectColors.accentText || '#ffffff', borderColor: subjectColors.accent || '#0ea5e9' }
+                                : { backgroundColor: isDarkMode ? 'rgba(148,163,184,0.12)' : '#ffffff', color: subjectColors.text || '#0f172a', borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}
+                        >
+                            {tab.label}
+                        </button>
+                    );
+                })}
             </div>
+            {activeTab === 'core' && renderCoreTab()}
+            {activeTab === 'levels' && renderLevelsTab()}
+            {activeTab === 'special' && renderSpecialTab()}
         </div>
     );
 }
