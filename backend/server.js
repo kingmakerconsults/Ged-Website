@@ -1,9 +1,7 @@
 // server.js (Updated Version)
 
-// Only use dotenv for local development. Render will provide environment variables in production.
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
-}
+// Load local environment variables for development before any other imports that use them
+require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
@@ -1931,8 +1929,26 @@ async function buildProfileBundle(userId) {
 }
 
 const app = express();
-// IMPROVEMENT: Use the port provided by Render's environment, falling back to 3001 for local use.
-const port = process.env.PORT || 3001;
+// Use the configured port or default to 3002 locally
+let port = Number(process.env.PORT || 3002);
+const net = require('net');
+
+async function isPortBusy(p) {
+    return new Promise((resolve) => {
+        const tester = net.createServer()
+            .once('error', (err) => {
+                if (err && err.code === 'EADDRINUSE') {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            })
+            .once('listening', () => {
+                tester.close(() => resolve(false));
+            })
+            .listen(p, '0.0.0.0');
+    });
+}
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const devAuth = require('./middleware/devAuth');
 
@@ -4699,10 +4715,50 @@ const generateAIContent = async (prompt, schema) => {
 
 // The '0.0.0.0' is important for containerized environments like Render.
 if (require.main === module) {
-    app.listen(port, '0.0.0.0', () => {
-        console.log(`Your service is live 🚀`);
-        console.log(`Server listening on port ${port}`);
-    });
+    (async () => {
+        const desiredPort = port;
+        if (await isPortBusy(desiredPort)) {
+            if (!process.env.PORT && desiredPort === 3002) {
+                const fallback = 3003;
+                if (await isPortBusy(fallback)) {
+                    console.log(`Port ${desiredPort} and fallback ${fallback} are already in use. If another backend is running, stop it or set PORT to a free port.`);
+                    process.exit(0);
+                } else {
+                    console.log(`Port ${desiredPort} is in use. Starting backend on ${fallback} instead.`);
+                    port = fallback;
+                }
+            } else {
+                console.log(`Port ${desiredPort} is already in use. If another backend is running on this port, stop it or choose a different PORT.`);
+                process.exit(0);
+            }
+        }
+
+        const server = app.listen(port, '0.0.0.0', () => {
+            console.log(`Your service is live 🚀`);
+            console.log(`Server listening on port ${port}`);
+        });
+
+        server.on('error', (err) => {
+            if (err && err.code === 'EADDRINUSE') {
+                if (!process.env.PORT && port === 3002) {
+                    const fallback = 3003;
+                    console.log(`EADDRINUSE on ${port}. Attempting fallback port ${fallback}...`);
+                    server.close(() => {
+                        app.listen(fallback, '0.0.0.0', () => {
+                            port = fallback;
+                            console.log(`Server listening on fallback port ${port}`);
+                        });
+                    });
+                } else {
+                    console.log(`EADDRINUSE: address already in use 0.0.0.0:${port}. Not restarting task. Stop the other process or set PORT to a different value.`);
+                    process.exit(0);
+                }
+            } else {
+                console.error('Server error:', err);
+                process.exit(1);
+            }
+        });
+    })();
 }
 
 module.exports = {
