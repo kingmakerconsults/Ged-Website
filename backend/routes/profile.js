@@ -426,21 +426,14 @@ router.patch('/challenges/tags', express.json(), async (req, res) => {
 
     await client.query('BEGIN');
 
-    const { selectionTable, selectionIdColumn, selectionUserIdType } = await getChallengeInfo();
-    // Coerce user id to match selection table's user_id type
+    const selectionTable = 'public.user_selected_challenges';
+    const selectionIdColumn = 'challenge_id';
+    // Coerce user id to integer for Render DB
     let selUserId = req.user?.userId ?? req.user?.id;
-    if (selectionUserIdType === 'integer') {
-      const parsed = parseInt(String(selUserId), 10);
-      if (Number.isNaN(parsed)) {
-        // No-op if we cannot coerce user id; still return bundle later
-        selUserId = null;
-      } else {
-        selUserId = parsed;
-      }
-    } else if (selectionUserIdType === 'uuid') {
-      selUserId = String(selUserId);
-    } else {
-      selUserId = String(selUserId);
+    selUserId = parseInt(String(selUserId), 10);
+    if (Number.isNaN(selUserId)) {
+      // No-op if we cannot coerce user id; still return bundle later
+      selUserId = null;
     }
 
     // If user cleared everything, just delete all their tags
