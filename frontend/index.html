@@ -6374,7 +6374,11 @@ function canCompleteOnboarding(p) {
 async function fetchJSON(url, options = {}) {
     const { headers, ...rest } = options || {};
     const finalHeaders = headers ? { ...headers } : undefined;
-    const response = await fetch(url, {
+    const isAbsolute = typeof url === 'string' && /^(https?:)?\/\//i.test(url);
+    const targetUrl = isAbsolute
+        ? url
+        : (typeof url === 'string' && url.startsWith('/') ? `${API_BASE_URL}${url}` : url);
+    const response = await fetch(targetUrl, {
         credentials: 'include',
         ...rest,
         headers: finalHeaders,
@@ -7070,9 +7074,10 @@ function App({ externalTheme, onThemeChange }) {
         setSettingsSaving(true);
         setSettingsStatus('');
         try {
+            const token = authToken || (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null);
             const response = await fetchJSON('/api/profile/preferences', {
                 method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
                 body: JSON.stringify(nextPrefs),
             });
             if (response) {
@@ -7096,7 +7101,7 @@ function App({ externalTheme, onThemeChange }) {
         } finally {
             setSettingsSaving(false);
         }
-    }, [applyPreferenceUpdate, preferences.fontSize, preferences.theme]);
+    }, [applyPreferenceUpdate, preferences.fontSize, preferences.theme, authToken]);
     const saveDisplayName = useCallback((fullName) => {
         const trimmed = String(fullName || '').trim();
         if (!trimmed) {
@@ -7142,11 +7147,69 @@ function App({ externalTheme, onThemeChange }) {
         return trimmed;
     }, []);
 
-    const loadProfileOnce = useCallback(() => {
-        setProfileLoading(false);
+    const loadProfileOnce = useCallback(async () => {
+        setProfileLoading(true);
         setProfileError(null);
-        return localProfile;
-    }, [localProfile]);
+        const token = authToken || (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null);
+        if (!token || !currentUser) {
+            setProfileLoading(false);
+            return localProfile;
+        }
+        try {
+            const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/me`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (bundle && typeof bundle === 'object') {
+                // Apply server preferences to UI state (not stored inside localProfile)
+                const srvFont = bundle?.profile?.fontSize;
+                const srvTheme = bundle?.profile?.theme;
+                const prefUpdates = {};
+                if (srvFont && VALID_FONT_SIZES.has(srvFont)) prefUpdates.fontSize = srvFont;
+                if (srvTheme && VALID_THEMES.has(srvTheme)) prefUpdates.theme = srvTheme === 'system' ? (externalTheme && VALID_THEMES.has(externalTheme) ? externalTheme : 'light') : srvTheme;
+                if (Object.keys(prefUpdates).length) {
+                    setPreferences((prev) => ({ ...prev, ...prefUpdates }));
+                }
+
+                // Normalize to localProfile shape
+                const serverTestPlan = Array.isArray(bundle.testPlan) ? bundle.testPlan.map((row) => ({
+                    subject: row?.subject || '',
+                    testDate: row?.testDate || '',
+                    testLocation: row?.testLocation || '',
+                    passed: !!row?.passed,
+                    notScheduled: !!row?.notScheduled,
+                })) : [];
+                const serverChallenges = Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
+                    id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
+                    subject: opt?.subject || '',
+                    subtopic: opt?.subtopic || '',
+                    label: opt?.label || '',
+                    selected: !!opt?.selected,
+                })) : [];
+                const serverProfile = {
+                    ...localProfile.profile,
+                    name: bundle?.profile?.name || '',
+                    timezone: bundle?.profile?.timezone || localProfile.profile.timezone,
+                    reminderEnabled: typeof bundle?.profile?.reminderEnabled === 'boolean' ? bundle.profile.reminderEnabled : localProfile.profile.reminderEnabled,
+                    onboardingComplete: !!bundle?.profile?.onboardingComplete,
+                };
+
+                setLocalProfile((prev) => ({
+                    ...prev,
+                    profile: serverProfile,
+                    testPlan: serverTestPlan,
+                    challengeOptions: serverChallenges,
+                    recentScoresDashboard: bundle?.recentScores && typeof bundle.recentScores === 'object' ? bundle.recentScores : (prev.recentScoresDashboard || {}),
+                }));
+            }
+            setProfileLoading(false);
+            return bundle;
+        } catch (error) {
+            console.warn('Failed to load profile from server, using local profile:', error?.message || error);
+            setProfileError('Unable to load latest profile. Working from local data.');
+            setProfileLoading(false);
+            return localProfile;
+        }
+    }, [authToken, currentUser, externalTheme, localProfile, setPreferences]);
 
     useEffect(() => {
         if (currentUser?.name && !localProfile?.profile?.name) {
@@ -7179,7 +7242,7 @@ function App({ externalTheme, onThemeChange }) {
         setNameStatus('');
     }, []);
 
-    const handleProfileNameSubmit = useCallback((event) => {
+    const handleProfileNameSubmit = useCallback(async (event) => {
         event.preventDefault();
         const trimmed = nameDraft.trim();
         if (!trimmed) {
@@ -7188,6 +7251,25 @@ function App({ externalTheme, onThemeChange }) {
         }
         setNameSaving(true);
         setNameStatus('');
+        const token = authToken || (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null);
+        if (token) {
+            try {
+                const resp = await fetchJSON(`${API_BASE_URL}/api/profile/name`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                    body: JSON.stringify({ name: trimmed }),
+                });
+                const newName = resp?.name || trimmed;
+                setLocalProfile((prev) => ({ ...prev, profile: { ...prev.profile, name: newName } }));
+                setCurrentUser((prev) => prev ? { ...prev, name: newName } : prev);
+                setNameDraft(newName);
+                setNameStatus('Name saved.');
+                setNameSaving(false);
+                return;
+            } catch (err) {
+                console.warn('Server name save failed; falling back to local:', err);
+            }
+        }
         const saved = saveDisplayName(trimmed);
         if (saved) {
             setNameStatus('Name saved locally.');
@@ -7196,11 +7278,11 @@ function App({ externalTheme, onThemeChange }) {
             setNameStatus('Please enter a display name.');
         }
         setNameSaving(false);
-    }, [nameDraft, saveDisplayName]);
+    }, [nameDraft, saveDisplayName, authToken]);
 
-    const handleProfileRefresh = useCallback(() => {
-        loadProfileOnce();
-        setNameStatus('Profile refreshed locally.');
+    const handleProfileRefresh = useCallback(async () => {
+        await loadProfileOnce();
+        setNameStatus('Profile refreshed.');
         setSubjectEdits(buildSubjectEditsFromPlan(localProfile?.testPlan));
     }, [loadProfileOnce, localProfile?.testPlan]);
 
@@ -7248,7 +7330,7 @@ function App({ externalTheme, onThemeChange }) {
         });
     }, []);
 
-    const handleSaveSubject = useCallback((subject) => {
+    const handleSaveSubject = useCallback(async (subject) => {
         const trimmedSubject = subject ? String(subject).trim() : '';
         if (!trimmedSubject) {
             window.alert('Missing subject.');
@@ -7271,6 +7353,54 @@ function App({ externalTheme, onThemeChange }) {
         const normalizedPassed = normalizedNotScheduled ? false : !!edits.passed;
 
         setTestSaving(trimmedSubject);
+        const token = authToken || (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null);
+        if (token) {
+            try {
+                const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/test`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                    body: JSON.stringify({
+                        subject: trimmedSubject,
+                        testDate: normalizedDate,
+                        testLocation: normalizedLocation,
+                        passed: normalizedPassed,
+                        notScheduled: normalizedNotScheduled,
+                    }),
+                });
+                if (bundle && typeof bundle === 'object') {
+                    // merge from server
+                    setLocalProfile((prev) => ({
+                        ...prev,
+                        profile: {
+                            ...prev.profile,
+                            name: bundle?.profile?.name ?? prev.profile.name,
+                            onboardingComplete: !!bundle?.profile?.onboardingComplete,
+                        },
+                        testPlan: Array.isArray(bundle.testPlan) ? bundle.testPlan.map((row) => ({
+                            subject: row?.subject || '',
+                            testDate: row?.testDate || '',
+                            testLocation: row?.testLocation || '',
+                            passed: !!row?.passed,
+                            notScheduled: !!row?.notScheduled,
+                        })) : prev.testPlan,
+                        challengeOptions: Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
+                            id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
+                            subject: opt?.subject || '',
+                            subtopic: opt?.subtopic || '',
+                            label: opt?.label || '',
+                            selected: !!opt?.selected,
+                        })) : (prev.challengeOptions || []),
+                        recentScoresDashboard: bundle?.recentScores && typeof bundle.recentScores === 'object' ? bundle.recentScores : (prev.recentScoresDashboard || {}),
+                    }));
+                    setTestSaving(null);
+                    window.alert('Saved.');
+                    return;
+                }
+            } catch (err) {
+                console.warn('Server test plan save failed; falling back to local:', err);
+            }
+        }
+        // Fallback: save locally
         setLocalProfile((prev) => {
             const existingPlan = Array.isArray(prev.testPlan) ? prev.testPlan : [];
             let updated = false;
@@ -7296,20 +7426,60 @@ function App({ externalTheme, onThemeChange }) {
                     notScheduled: normalizedNotScheduled,
                 });
             }
-            return {
-                ...prev,
-                testPlan: updatedPlan,
-            };
+            return { ...prev, testPlan: updatedPlan };
         });
         setTestSaving(null);
         window.alert('Saved locally.');
-    }, [subjectEdits]);
+    }, [subjectEdits, authToken]);
 
-    const handleSaveChallenges = useCallback(() => {
+    const handleSaveChallenges = useCallback(async () => {
         setChallengesSaving(true);
+        const token = authToken || (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null);
+        const selectedIds = Array.isArray(localProfile?.challengeOptions)
+            ? localProfile.challengeOptions.filter((c) => c && c.selected && c.id).map((c) => c.id)
+            : [];
+        if (token) {
+            try {
+                const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/challenges/tags`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                    body: JSON.stringify({ selectedIds }),
+                });
+                if (bundle && typeof bundle === 'object') {
+                    setLocalProfile((prev) => ({
+                        ...prev,
+                        profile: {
+                            ...prev.profile,
+                            name: bundle?.profile?.name ?? prev.profile.name,
+                            onboardingComplete: !!bundle?.profile?.onboardingComplete,
+                        },
+                        testPlan: Array.isArray(bundle.testPlan) ? bundle.testPlan.map((row) => ({
+                            subject: row?.subject || '',
+                            testDate: row?.testDate || '',
+                            testLocation: row?.testLocation || '',
+                            passed: !!row?.passed,
+                            notScheduled: !!row?.notScheduled,
+                        })) : (prev.testPlan || []),
+                        challengeOptions: Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
+                            id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
+                            subject: opt?.subject || '',
+                            subtopic: opt?.subtopic || '',
+                            label: opt?.label || '',
+                            selected: !!opt?.selected,
+                        })) : (prev.challengeOptions || []),
+                        recentScoresDashboard: bundle?.recentScores && typeof bundle.recentScores === 'object' ? bundle.recentScores : (prev.recentScoresDashboard || {}),
+                    }));
+                    window.alert('Challenges saved.');
+                    setChallengesSaving(false);
+                    return;
+                }
+            } catch (err) {
+                console.warn('Server challenges save failed; falling back to local:', err);
+            }
+        }
         window.alert('Challenges saved locally.');
         setChallengesSaving(false);
-    }, []);
+    }, [authToken, localProfile?.challengeOptions]);
 
     const toggleChallengeSelection = useCallback((challengeId) => {
         if (!challengeId) {
@@ -7327,31 +7497,68 @@ function App({ externalTheme, onThemeChange }) {
         }));
     }, []);
 
-    const handleFinishOnboarding = useCallback(() => {
+    const handleFinishOnboarding = useCallback(async () => {
         setFinishingOnboarding(true);
-        let completed = false;
-        setLocalProfile((prev) => {
-            const ok = canCompleteOnboarding(prev);
-            if (!ok) {
-                window.alert('Almost there! Please fill in your test info, choose challenges, and add your name.');
-                return prev;
-            }
-            completed = true;
-            window.alert('Great! You’re all set.');
-            return {
-                ...prev,
-                profile: {
-                    ...prev.profile,
-                    onboardingStatus: 'complete',
-                    onboardingComplete: true,
-                },
-            };
-        });
-        setFinishingOnboarding(false);
-        if (completed) {
-            setView('start');
+        const okLocal = canCompleteOnboarding(localProfile);
+        if (!okLocal) {
+            window.alert('Almost there! Please fill in your test info, choose challenges, and add your name.');
+            setFinishingOnboarding(false);
+            return;
         }
-    }, [setView]);
+        const token = authToken || (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null);
+        if (token) {
+            try {
+                const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/complete-onboarding`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                });
+                if (bundle && typeof bundle === 'object') {
+                    setLocalProfile((prev) => ({
+                        ...prev,
+                        profile: {
+                            ...prev.profile,
+                            onboardingStatus: 'complete',
+                            onboardingComplete: true,
+                            name: bundle?.profile?.name ?? prev.profile.name,
+                        },
+                        testPlan: Array.isArray(bundle.testPlan) ? bundle.testPlan.map((row) => ({
+                            subject: row?.subject || '',
+                            testDate: row?.testDate || '',
+                            testLocation: row?.testLocation || '',
+                            passed: !!row?.passed,
+                            notScheduled: !!row?.notScheduled,
+                        })) : (prev.testPlan || []),
+                        challengeOptions: Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
+                            id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
+                            subject: opt?.subject || '',
+                            subtopic: opt?.subtopic || '',
+                            label: opt?.label || '',
+                            selected: !!opt?.selected,
+                        })) : (prev.challengeOptions || []),
+                        recentScoresDashboard: bundle?.recentScores && typeof bundle.recentScores === 'object' ? bundle.recentScores : (prev.recentScoresDashboard || {}),
+                    }));
+                    window.alert('Great! You’re all set.');
+                    setFinishingOnboarding(false);
+                    setView('start');
+                    return;
+                }
+            } catch (err) {
+                console.warn('Server onboarding completion failed; falling back to local:', err);
+            }
+        }
+        // Fallback local-only
+        setLocalProfile((prev) => ({
+            ...prev,
+            profile: {
+                ...prev.profile,
+                onboardingStatus: 'complete',
+                onboardingComplete: true,
+            },
+        }));
+        window.alert('Great! You’re all set.');
+        setFinishingOnboarding(false);
+        setView('start');
+    }, [setView, localProfile, authToken]);
 
     const handleCompleteOnboardingLater = useCallback(() => {
         // Mark status as pending and allow navigation
@@ -7595,11 +7802,29 @@ function App({ externalTheme, onThemeChange }) {
         setView('start');
     };
 
-    const handleSaveName = (firstName, lastName) => {
+    const handleSaveName = async (firstName, lastName) => {
         const newName = `${firstName} ${lastName}`.trim();
         if (!newName) {
             alert('Please enter both a first and last name.');
             return;
+        }
+        const token = authToken || (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null);
+        if (token) {
+            try {
+                const resp = await fetchJSON(`${API_BASE_URL}/api/profile/name`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                    body: JSON.stringify({ name: newName }),
+                });
+                const confirmed = resp?.name || newName;
+                setLocalProfile((prev) => ({ ...prev, profile: { ...prev.profile, name: confirmed } }));
+                setCurrentUser((prev) => prev ? { ...prev, name: confirmed } : prev);
+                setNameDraft(confirmed);
+                setShowNamePrompt(false);
+                return;
+            } catch (err) {
+                console.warn('Server name save failed from modal; falling back to local:', err);
+            }
         }
         const saved = saveDisplayName(newName);
         if (saved) {
