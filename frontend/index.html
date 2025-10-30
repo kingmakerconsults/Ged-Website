@@ -7239,10 +7239,10 @@ function App({ externalTheme, onThemeChange }) {
     const loadProfileOnce = useCallback(async () => {
         setProfileLoading(true);
         setProfileError(null);
-        const token = authToken || (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null);
-        if (!token || !currentUser) {
+        const token = (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null) || authToken || null;
+        if (!token) {
             setProfileLoading(false);
-            return localProfile;
+            return null;
         }
         try {
             const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/me`, {
@@ -7254,7 +7254,9 @@ function App({ externalTheme, onThemeChange }) {
                 const srvTheme = bundle?.profile?.theme;
                 const prefUpdates = {};
                 if (srvFont && VALID_FONT_SIZES.has(srvFont)) prefUpdates.fontSize = srvFont;
-                if (srvTheme && VALID_THEMES.has(srvTheme)) prefUpdates.theme = srvTheme === 'system' ? (externalTheme && VALID_THEMES.has(externalTheme) ? externalTheme : 'light') : srvTheme;
+                if (srvTheme && VALID_THEMES.has(srvTheme) && srvTheme !== 'system') {
+                    prefUpdates.theme = srvTheme;
+                }
                 if (Object.keys(prefUpdates).length) {
                     setPreferences((prev) => ({ ...prev, ...prefUpdates }));
                 }
@@ -7274,17 +7276,15 @@ function App({ externalTheme, onThemeChange }) {
                     label: opt?.label || '',
                     selected: !!opt?.selected,
                 })) : [];
-                const serverProfile = {
-                    ...localProfile.profile,
-                    name: bundle?.profile?.name || '',
-                    timezone: bundle?.profile?.timezone || localProfile.profile.timezone,
-                    reminderEnabled: typeof bundle?.profile?.reminderEnabled === 'boolean' ? bundle.profile.reminderEnabled : localProfile.profile.reminderEnabled,
-                    onboardingComplete: !!bundle?.profile?.onboardingComplete,
-                };
-
                 setLocalProfile((prev) => ({
                     ...prev,
-                    profile: serverProfile,
+                    profile: {
+                        ...prev.profile,
+                        name: bundle?.profile?.name || prev.profile.name || '',
+                        timezone: bundle?.profile?.timezone || prev.profile.timezone,
+                        reminderEnabled: typeof bundle?.profile?.reminderEnabled === 'boolean' ? bundle.profile.reminderEnabled : prev.profile.reminderEnabled,
+                        onboardingComplete: !!bundle?.profile?.onboardingComplete,
+                    },
                     testPlan: serverTestPlan,
                     challengeOptions: serverChallenges,
                     recentScoresDashboard: bundle?.recentScores && typeof bundle.recentScores === 'object' ? bundle.recentScores : (prev.recentScoresDashboard || {}),
@@ -7296,9 +7296,9 @@ function App({ externalTheme, onThemeChange }) {
             console.warn('Failed to load profile from server, using local profile:', error?.message || error);
             setProfileError('Unable to load latest profile. Working from local data.');
             setProfileLoading(false);
-            return localProfile;
+            return null;
         }
-    }, [authToken, currentUser, externalTheme, localProfile, setPreferences]);
+    }, []);
 
     useEffect(() => {
         if (currentUser?.name && !localProfile?.profile?.name) {
@@ -7324,7 +7324,21 @@ function App({ externalTheme, onThemeChange }) {
             return;
         }
         loadProfileOnce();
-    }, [currentUserId, loadProfileOnce]);
+    }, [currentUserId]);
+
+    // Optional gentle polling every 60s to keep dashboard fresh without spamming
+    useEffect(() => {
+        let stopped = false;
+        const id = setInterval(() => {
+            if (!stopped) {
+                loadProfileOnce();
+            }
+        }, 60000);
+        return () => {
+            stopped = true;
+            clearInterval(id);
+        };
+    }, []);
 
     const handleNameDraftChange = useCallback((value) => {
         setNameDraft(value);
