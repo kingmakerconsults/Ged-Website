@@ -8279,33 +8279,7 @@ function App({ externalTheme, onThemeChange }) {
                     <p>Kingmakerconsults Copyright ©</p>
                 </footer>
             </div>
-            {/* Test reminder modal/toast */}
-            {activeView === 'dashboard' && showTestReminder && (
-                <div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                    role="dialog"
-                    aria-modal="true"
-                    style={{ backgroundColor: 'var(--modal-overlay)' }}
-                >
-                    <div
-                        className="rounded-lg shadow-2xl w-full max-w-md p-6"
-                        style={{ backgroundColor: 'var(--modal-surface)', color: 'var(--modal-text)', border: '1px solid var(--modal-border)' }}
-                    >
-                        <h2 className="text-xl font-bold mb-2">Upcoming GED test</h2>
-                        <p className="mb-4">Your test is in <strong>{showTestReminder.days}</strong> day(s): {showTestReminder.date}</p>
-                        <div className="flex justify-end">
-                            <button
-                                type="button"
-                                onClick={() => setShowTestReminder(null)}
-                                className="px-4 py-2 rounded-md font-semibold border"
-                                style={{ background: 'transparent', color: 'var(--text-primary)', borderColor: 'var(--border-subtle)' }}
-                            >
-                                Got it
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            
         </>
     );
 }
@@ -11153,6 +11127,33 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 </section>
                 </div>
             </div>
+            {/* Test reminder modal/toast (scoped to StartScreen) */}
+            {showTestReminder && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    role="dialog"
+                    aria-modal="true"
+                    style={{ backgroundColor: 'var(--modal-overlay)' }}
+                >
+                    <div
+                        className="rounded-lg shadow-2xl w-full max-w-md p-6"
+                        style={{ backgroundColor: 'var(--modal-surface)', color: 'var(--modal-text)', border: '1px solid var(--modal-border)' }}
+                    >
+                        <h2 className="text-xl font-bold mb-2">Upcoming GED test</h2>
+                        <p className="mb-4">Your test is in <strong>{showTestReminder.days}</strong> day(s): {showTestReminder.date}</p>
+                        <div className="flex justify-end">
+                            <button
+                                type="button"
+                                onClick={() => setShowTestReminder(null)}
+                                className="px-4 py-2 rounded-md font-semibold border"
+                                style={{ background: 'transparent', color: 'var(--text-primary)', borderColor: 'var(--border-subtle)' }}
+                            >
+                                Got it
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
