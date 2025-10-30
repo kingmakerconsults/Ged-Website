@@ -18,81 +18,23 @@ const pool = new Pool({
 // Cache detected challenge tables/columns so we don't probe every request
 let cachedChallengeInfo = null;
 
-// Detect which tables/columns exist for challenge options and selections across envs
+// Fixed configuration for challenge tables/columns
 async function getChallengeInfo() {
   if (cachedChallengeInfo) return cachedChallengeInfo;
 
-  const optionCandidates = ['challenge_options', 'challenge_catalog'];
-  // Prefer the new table first
-  const selectionCandidates = ['user_selected_challenges', 'user_challenge_tags', 'profile_challenges'];
+  const optionTable = 'challenge_catalog';
+  const optionIdColumn = 'id';
+  const selectionTable = 'user_selected_challenges';
+  const selectionIdColumn = 'challenge_id';
+  const selectionUserIdType = 'integer';
 
-  let optionTable = null;
-  for (const t of optionCandidates) {
-    try {
-      await pool.query(`SELECT 1 FROM ${t} LIMIT 1`);
-      optionTable = t;
-      break;
-    } catch (err) {
-      // 42P01 = undefined_table; ignore and continue probing
-      if (!err || err.code !== '42P01') {
-        console.warn(`[profile] Option table probe failed for ${t}:`, err?.message || err);
-      }
-    }
-  }
-  if (!optionTable) optionTable = optionCandidates[optionCandidates.length - 1];
-
-  // Determine ID column for option table
-  const optionIdCandidates = ['id', 'challenge_id'];
-  let optionIdColumn = 'id';
-  try {
-    const { rows } = await pool.query(
-      `SELECT column_name FROM information_schema.columns WHERE table_name = $1`,
-      [optionTable]
-    );
-    const cols = new Set(rows.map((r) => r.column_name));
-    optionIdColumn = optionIdCandidates.find((c) => cols.has(c)) || optionIdColumn;
-  } catch (err) {
-    // non-fatal
-  }
-
-  let selectionTable = null;
-  for (const t of selectionCandidates) {
-    try {
-      await pool.query(`SELECT 1 FROM ${t} LIMIT 1`);
-      selectionTable = t;
-      break;
-    } catch (err) {
-      if (!err || err.code !== '42P01') {
-        console.warn(`[profile] Selection table probe failed for ${t}:`, err?.message || err);
-      }
-    }
-  }
-  if (!selectionTable) selectionTable = selectionCandidates[selectionCandidates.length - 1];
-
-  const selectionIdCandidates = ['challenge_id', 'challenge', 'challenge_code', 'challenge_uid', 'challenge_uuid', 'tag_id'];
-  let selectionIdColumn = 'challenge_id';
-  let selectionUserIdType = null; // 'integer' | 'uuid' | 'text' | null
-  try {
-    const { rows } = await pool.query(
-      `SELECT column_name, data_type, udt_name FROM information_schema.columns WHERE table_name = $1`,
-      [selectionTable]
-    );
-    const cols = new Set(rows.map((r) => r.column_name));
-    selectionIdColumn = selectionIdCandidates.find((c) => cols.has(c)) || selectionIdColumn;
-    // detect user_id type to coerce token value appropriately
-    const userIdCol = rows.find((r) => r.column_name === 'user_id');
-    if (userIdCol) {
-      const dt = (userIdCol.data_type || '').toLowerCase();
-      const udt = (userIdCol.udt_name || '').toLowerCase();
-      if (dt.includes('uuid') || udt.includes('uuid')) selectionUserIdType = 'uuid';
-      else if (udt.includes('int') || dt.includes('integer')) selectionUserIdType = 'integer';
-      else if (dt.includes('text') || dt.includes('char')) selectionUserIdType = 'text';
-    }
-  } catch (err) {
-    // non-fatal
-  }
-
-  cachedChallengeInfo = { optionTable, selectionTable, optionIdColumn, selectionIdColumn, selectionUserIdType };
+  cachedChallengeInfo = {
+    optionTable,
+    selectionTable,
+    optionIdColumn,
+    selectionIdColumn,
+    selectionUserIdType,
+  };
   return cachedChallengeInfo;
 }
 
@@ -317,11 +259,16 @@ async function buildProfileBundle(userId) {
   const challengeOptions = await getChallengeOptions(userId);
   const recentScores = await getRecentScores(userId);
   const nextUpcomingTest = computeNextUpcomingTest(testPlan);
+  const selectedChallenges = Array.isArray(challengeOptions)
+    ? challengeOptions.filter((o) => o && o.selected).map((o) => String(o.id))
+    : [];
 
   return {
     profile: profileRow,
     testPlan,
     challengeOptions,
+    selectedChallenges,
+    challenges: selectedChallenges,
     recentScores,
     nextUpcomingTest,
   };
