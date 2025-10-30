@@ -8924,10 +8924,8 @@ function ProfileView({
                                     <label className="flex flex-col gap-1 text-sm text-slate-600">
                                         Date
                                         <input
-                                            type="text"
-                                            inputMode="numeric"
-                                            placeholder="YYYY-MM-DD"
-                                            className="tp-date rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                                            type="date"
+                                            className="tp-date profile-date-input rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                                             data-subject={entry.subject}
                                             value={isNotScheduled ? '' : edits.testDate || ''}
                                             onChange={(event) => onSubjectFieldChange?.(entry.subject, 'testDate', event.target.value)}

@@ -1864,7 +1864,7 @@ async function buildProfileBundle(userId) {
     let planRows = [];
     try {
         const result = await db.query(
-            `SELECT subject, test_date, test_location, passed FROM ${testPlanTable} WHERE user_id = $1 ORDER BY subject`,
+            `SELECT subject, test_date, test_location, passed, not_scheduled FROM ${testPlanTable} WHERE user_id = $1 ORDER BY subject`,
             [userId]
         );
         planRows = result.rows;
@@ -1876,7 +1876,8 @@ async function buildProfileBundle(userId) {
         subject: r.subject,
         testDate: normalizeTestDate(r.test_date),
         testLocation: r.test_location || '',
-        passed: !!r.passed
+        passed: !!r.passed,
+        notScheduled: !!r.not_scheduled
     }));
 
     const { optionTable, selectionTable } = await getChallengeTables();
@@ -2110,7 +2111,7 @@ app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd,
     if (!(await assertUserIsActive(userId))) {
         return res.status(403).json({ ok: false, error: 'user_not_active' });
     }
-    const { subject, testDate, testLocation, passed } = req.body || {};
+    const { subject, testDate, testLocation, passed, notScheduled } = req.body || {};
     const subj = typeof subject === 'string' ? subject.trim() : '';
 
     console.log('[/api/profile/test] parsed payload:', {
@@ -2127,12 +2128,20 @@ app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd,
     let normalizedDate = null;
     if (typeof testDate === 'string') {
         const trimmedDate = testDate.trim();
-        normalizedDate = trimmedDate ? trimmedDate : null;
+        // Prefer ISO with dashes; normalize any slashes to dashes
+        const dashed = trimmedDate.replace(/\//g, '-');
+        normalizedDate = dashed || null;
     } else if (testDate instanceof Date) {
-        normalizedDate = testDate.toISOString();
+        normalizedDate = testDate.toISOString().slice(0, 10);
     } else if (testDate !== undefined && testDate !== null) {
         const coerced = String(testDate).trim();
         normalizedDate = coerced ? coerced : null;
+    }
+
+    const normalizedNotScheduled = !!notScheduled;
+    if (normalizedNotScheduled) {
+        // If the user marks not scheduled, clear date and passed
+        normalizedDate = null;
     }
 
     let normalizedLocation = null;
@@ -2146,30 +2155,55 @@ app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd,
 
     try {
         const tableName = await getTestPlanTableName();
-        await db.query(
-            `INSERT INTO ${tableName} (user_id, subject, test_date, test_location, passed, updated_at)
-             VALUES ($1, $2, $3, $4, $5, NOW())
+        const saved = await db.query(
+            `INSERT INTO ${tableName} (user_id, subject, test_date, test_location, passed, not_scheduled, updated_at)
+             VALUES ($1, $2, $3, $4, $5, $6, NOW())
              ON CONFLICT (user_id, subject)
              DO UPDATE SET
                test_date = EXCLUDED.test_date,
                test_location = EXCLUDED.test_location,
                passed = EXCLUDED.passed,
-               updated_at = NOW()`,
+               not_scheduled = EXCLUDED.not_scheduled,
+               updated_at = NOW()
+             RETURNING user_id, subject, test_date, test_location, passed, not_scheduled`,
             [
                 userId,
                 subj,
                 normalizedDate,
                 normalizedLocation,
-                !!passed
+                !!passed && !normalizedNotScheduled,
+                normalizedNotScheduled
             ]
         );
+
+        const savedRow = saved?.rows?.[0] || null;
+        if (savedRow) {
+            const savedShape = {
+                subject: savedRow.subject,
+                testDate: normalizeTestDate(savedRow.test_date),
+                testLocation: savedRow.test_location || '',
+                passed: !!savedRow.passed,
+                notScheduled: !!savedRow.not_scheduled
+            };
+            console.log('[profile/test] saved =>', savedShape);
+        }
 
         const bundle = await buildProfileBundle(userId);
         console.log('[/api/profile/test] SUCCESS for subject:', subj);
 
         return res.json({
             ok: true,
+            success: true,
             message: 'Saved test info.',
+            test: (saved?.rows?.[0]
+                ? {
+                    subject: saved.rows[0].subject,
+                    testDate: normalizeTestDate(saved.rows[0].test_date),
+                    testLocation: saved.rows[0].test_location || '',
+                    passed: !!saved.rows[0].passed,
+                    notScheduled: !!saved.rows[0].not_scheduled
+                  }
+                : null),
             bundle,
         });
     } catch (err) {
