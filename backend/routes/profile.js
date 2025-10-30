@@ -23,7 +23,8 @@ async function getChallengeInfo() {
   if (cachedChallengeInfo) return cachedChallengeInfo;
 
   const optionCandidates = ['challenge_options', 'challenge_catalog'];
-  const selectionCandidates = ['user_challenge_tags', 'profile_challenges'];
+  // Prefer the new table first
+  const selectionCandidates = ['user_selected_challenges', 'user_challenge_tags', 'profile_challenges'];
 
   let optionTable = null;
   for (const t of optionCandidates) {
@@ -70,18 +71,28 @@ async function getChallengeInfo() {
 
   const selectionIdCandidates = ['challenge_id', 'challenge', 'challenge_code', 'challenge_uid', 'challenge_uuid', 'tag_id'];
   let selectionIdColumn = 'challenge_id';
+  let selectionUserIdType = null; // 'integer' | 'uuid' | 'text' | null
   try {
     const { rows } = await pool.query(
-      `SELECT column_name FROM information_schema.columns WHERE table_name = $1`,
+      `SELECT column_name, data_type, udt_name FROM information_schema.columns WHERE table_name = $1`,
       [selectionTable]
     );
     const cols = new Set(rows.map((r) => r.column_name));
     selectionIdColumn = selectionIdCandidates.find((c) => cols.has(c)) || selectionIdColumn;
+    // detect user_id type to coerce token value appropriately
+    const userIdCol = rows.find((r) => r.column_name === 'user_id');
+    if (userIdCol) {
+      const dt = (userIdCol.data_type || '').toLowerCase();
+      const udt = (userIdCol.udt_name || '').toLowerCase();
+      if (dt.includes('uuid') || udt.includes('uuid')) selectionUserIdType = 'uuid';
+      else if (udt.includes('int') || dt.includes('integer')) selectionUserIdType = 'integer';
+      else if (dt.includes('text') || dt.includes('char')) selectionUserIdType = 'text';
+    }
   } catch (err) {
     // non-fatal
   }
 
-  cachedChallengeInfo = { optionTable, selectionTable, optionIdColumn, selectionIdColumn };
+  cachedChallengeInfo = { optionTable, selectionTable, optionIdColumn, selectionIdColumn, selectionUserIdType };
   return cachedChallengeInfo;
 }
 
@@ -144,7 +155,7 @@ async function getTestPlan(userId) {
 // Build the challenge options list, plus whether the user has selected each
 async function getChallengeOptions(userId) {
   try {
-    const { optionTable, selectionTable, optionIdColumn, selectionIdColumn } = await getChallengeInfo();
+  const { optionTable, selectionTable, optionIdColumn, selectionIdColumn, selectionUserIdType } = await getChallengeInfo();
 
     // Load all available options
     const optionRes = await pool.query(
@@ -152,12 +163,33 @@ async function getChallengeOptions(userId) {
     );
 
     // Load user's selected challenge ids
-    const selectedRes = await pool.query(
-      `SELECT ${selectionIdColumn} AS challenge_id FROM ${selectionTable} WHERE user_id = $1`,
-      [userId]
-    );
+    let paramUserId = userId;
+    if (selectionUserIdType === 'integer') {
+      const parsed = parseInt(String(userId), 10);
+      if (Number.isNaN(parsed)) {
+        // Token is not numeric but table expects int – treat as no selections
+        paramUserId = null;
+      } else {
+        paramUserId = parsed;
+      }
+    } else if (selectionUserIdType === 'uuid') {
+      // leave as-is; DB will validate uuid type
+      paramUserId = String(userId);
+    } else {
+      // text or unknown – use string form
+      paramUserId = String(userId);
+    }
 
-    const chosenSet = new Set(selectedRes.rows.map((r) => String(r.challenge_id)));
+    let selectedRows = [];
+    if (paramUserId !== null && paramUserId !== undefined && paramUserId !== '') {
+      const selectedRes = await pool.query(
+        `SELECT ${selectionIdColumn} AS challenge_id FROM ${selectionTable} WHERE user_id = $1`,
+        [paramUserId]
+      );
+      selectedRows = selectedRes.rows;
+    }
+
+    const chosenSet = new Set(selectedRows.map((r) => String(r.challenge_id)));
 
     return optionRes.rows.map((r) => ({
       id: String(r.id),
@@ -447,33 +479,54 @@ router.patch('/challenges/tags', express.json(), async (req, res) => {
 
     await client.query('BEGIN');
 
-    const { selectionTable, selectionIdColumn } = await getChallengeInfo();
+    const { selectionTable, selectionIdColumn, selectionUserIdType } = await getChallengeInfo();
+    // Coerce user id to match selection table's user_id type
+    let selUserId = req.user?.userId ?? req.user?.id;
+    if (selectionUserIdType === 'integer') {
+      const parsed = parseInt(String(selUserId), 10);
+      if (Number.isNaN(parsed)) {
+        // No-op if we cannot coerce user id; still return bundle later
+        selUserId = null;
+      } else {
+        selUserId = parsed;
+      }
+    } else if (selectionUserIdType === 'uuid') {
+      selUserId = String(selUserId);
+    } else {
+      selUserId = String(selUserId);
+    }
 
     // If user cleared everything, just delete all their tags
     if (selectedIds.length === 0) {
-      await client.query(
-        `DELETE FROM ${selectionTable} WHERE user_id = $1`,
-        [userId]
-      );
+      if (selUserId !== null) {
+        await client.query(
+          `DELETE FROM ${selectionTable} WHERE user_id = $1`,
+          [selUserId]
+        );
+      }
     } else {
       // Remove any tags not in the new list
       const placeholders = selectedIds
         .map((_, i) => `$${i + 2}`)
         .join(', ');
-      await client.query(
-        `DELETE FROM ${selectionTable}
-         WHERE user_id = $1 AND ${selectionIdColumn} NOT IN (${placeholders})`,
-        [userId, ...selectedIds]
-      );
+      if (selUserId !== null) {
+        await client.query(
+          `DELETE FROM ${selectionTable}
+           WHERE user_id = $1 AND ${selectionIdColumn} NOT IN (${placeholders})`,
+          [selUserId, ...selectedIds]
+        );
+      }
 
       // Add the ones that are missing
-      for (const cid of selectedIds) {
-        await client.query(
-          `INSERT INTO ${selectionTable} (user_id, ${selectionIdColumn})
-           VALUES ($1, $2)
-           ON CONFLICT DO NOTHING`,
-          [userId, cid]
-        );
+      if (selUserId !== null) {
+        for (const cid of selectedIds) {
+          await client.query(
+            `INSERT INTO ${selectionTable} (user_id, ${selectionIdColumn})
+             VALUES ($1, $2)
+             ON CONFLICT DO NOTHING`,
+            [selUserId, cid]
+          );
+        }
       }
     }
 
@@ -652,22 +705,34 @@ router.put('/', express.json(), async (req, res) => {
             : []);
       if (selectedIds) {
         console.log('[PUT] /api/profile -> challenges', { userId, selectedCount: selectedIds.length });
-        const { selectionTable, selectionIdColumn } = await getChallengeInfo();
-        if (selectedIds.length === 0) {
-          await client.query(`DELETE FROM ${selectionTable} WHERE user_id = $1`, [userId]);
+        const { selectionTable, selectionIdColumn, selectionUserIdType } = await getChallengeInfo();
+        let selUserId = userId;
+        if (selectionUserIdType === 'integer') {
+          const parsed = parseInt(String(selUserId), 10);
+          selUserId = Number.isNaN(parsed) ? null : parsed;
+        } else if (selectionUserIdType === 'uuid') {
+          selUserId = String(selUserId);
         } else {
-          const placeholders = selectedIds.map((_, i) => `$${i + 2}`).join(', ');
-          await client.query(
-            `DELETE FROM ${selectionTable} WHERE user_id = $1 AND ${selectionIdColumn} NOT IN (${placeholders})`,
-            [userId, ...selectedIds]
-          );
-          for (const cid of selectedIds) {
+          selUserId = String(selUserId);
+        }
+
+        if (selUserId !== null) {
+          if (selectedIds.length === 0) {
+            await client.query(`DELETE FROM ${selectionTable} WHERE user_id = $1`, [selUserId]);
+          } else {
+            const placeholders = selectedIds.map((_, i) => `$${i + 2}`).join(', ');
             await client.query(
-              `INSERT INTO ${selectionTable} (user_id, ${selectionIdColumn})
-               VALUES ($1, $2)
-               ON CONFLICT DO NOTHING`,
-              [userId, cid]
+              `DELETE FROM ${selectionTable} WHERE user_id = $1 AND ${selectionIdColumn} NOT IN (${placeholders})`,
+              [selUserId, ...selectedIds]
             );
+            for (const cid of selectedIds) {
+              await client.query(
+                `INSERT INTO ${selectionTable} (user_id, ${selectionIdColumn})
+                 VALUES ($1, $2)
+                 ON CONFLICT DO NOTHING`,
+                [selUserId, cid]
+              );
+            }
           }
         }
       }
