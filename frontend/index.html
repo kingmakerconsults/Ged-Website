@@ -6184,6 +6184,8 @@ function App({ externalTheme, onThemeChange }) {
     const [loadingMessage, setLoadingMessage] = useState('');
     const [revolvingPrompt, setRevolvingPrompt] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
+    // Global navigation state for top-level views
+    const [activeView, setActiveView] = useState('dashboard'); // 'dashboard' | 'quizzes' | 'progress' | 'profile' | 'settings'
     const [authToken, setAuthToken] = useState(() => {
         if (typeof window === 'undefined') {
             return null;
@@ -6445,6 +6447,38 @@ function App({ externalTheme, onThemeChange }) {
         setMathToolsInitialized(true);
         setView('mathTools');
     }, [setView]);
+
+    // Centralized navigation handlers
+    const goToDashboard = useCallback(() => {
+        setActiveView('dashboard');
+        setPendingScrollTarget('__top');
+        setView('start');
+    }, []);
+
+    const goToQuizzes = useCallback(() => {
+        setActiveView('quizzes');
+        setPendingScrollTarget('quizzes');
+        setView('start');
+    }, []);
+
+    const goToProgress = useCallback(() => {
+        setActiveView('progress');
+        setPendingScrollTarget('progress');
+        setView('start');
+    }, []);
+
+    const goToProfile = useCallback(() => {
+        setActiveView('profile');
+        setView('start');
+    }, []);
+
+    const goToSettings = useCallback(() => {
+        setActiveView('settings');
+        setView('start');
+        if (!profileData) {
+            loadProfileOnce();
+        }
+    }, [loadProfileOnce, profileData]);
 
     // Navigate to a dashboard section (e.g., #quizzes or #progress) from anywhere
     const navigateToSection = useCallback((targetId) => {
@@ -7513,28 +7547,16 @@ function App({ externalTheme, onThemeChange }) {
         setActiveQuiz(null);
         setQuizResults(null);
         setActiveGenerator(null);
-        // Always go to dashboard and scroll to top
-        if (view !== 'start') {
-            setPendingScrollTarget('__top');
-            setView('start');
-        } else {
-            if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-    }, [view]);
+        goToDashboard();
+    }, [goToDashboard]);
 
     const handleShowProfileView = useCallback(() => {
-        setView('profile');
-    }, []);
+        goToProfile();
+    }, [goToProfile]);
 
     const handleShowSettingsView = useCallback(() => {
-        // Settings are accessible even if onboarding is pending
-        setView('settings');
-        if (!profileData) {
-            loadProfileOnce();
-        }
-    }, [loadProfileOnce, profileData]);
+        goToSettings();
+    }, [goToSettings]);
 
     const handleReviewMarked = (markedQuestions, subject) => {
         const reviewQuiz = {
@@ -7612,43 +7634,13 @@ function App({ externalTheme, onThemeChange }) {
             case 'generator':
                 return <AIQuizGenerator {...activeGenerator} onQuizGenerated={(quiz) => startQuiz(quiz, activeGenerator.subject)} onExit={navigateHome} />;
             case 'profile':
-                return (
-                    <ProfileView
-                        loading={profileLoading}
-                        error={profileError}
-                        data={profileData}
-                        nameDraft={nameDraft}
-                        onNameDraftChange={handleNameDraftChange}
-                        onSubmitName={handleProfileNameSubmit}
-                        nameSaving={nameSaving}
-                        nameStatus={nameStatus}
-                        onRefresh={handleProfileRefresh}
-                        onBack={navigateHome}
-                        subjectEdits={subjectEdits}
-                        onSubjectFieldChange={handleSubjectFieldChange}
-                        onSubjectSave={handleSaveSubject}
-                        testSaving={testSaving}
-                        onSaveChallenges={handleSaveChallenges}
-                        onToggleChallenge={toggleChallengeSelection}
-                        challengesSaving={challengesSaving}
-                        onFinishOnboarding={handleFinishOnboarding}
-                        onCompleteLater={handleCompleteOnboardingLater}
-                        finishingOnboarding={finishingOnboarding}
-                        onboardingComplete={onboardingComplete}
-                    />
-                );
+                // Deprecated path: use activeView under 'start'. Keep for backward safety but route to start/profile
+                goToProfile();
+                return null;
             case 'settings':
-                return (
-                    <SettingsView
-                        preferences={preferences}
-                        onApply={handleSettingsInstantChange}
-                        onSave={handlePersistPreferences}
-                        saving={settingsSaving}
-                        status={settingsStatus}
-                        onBack={navigateHome}
-                        loading={profileLoading}
-                    />
-                );
+                // Deprecated path: use activeView under 'start'. Keep for backward safety but route to start/settings
+                goToSettings();
+                return null;
             case 'mathTools':
                 return (
                     <MathPracticeToolsPage
@@ -7660,7 +7652,49 @@ function App({ externalTheme, onThemeChange }) {
                     />
                 );
             case 'start':
-            default:
+            default: {
+                // Route within the dashboard container based on activeView
+                if (activeView === 'profile') {
+                    return (
+                        <ProfileView
+                            loading={profileLoading}
+                            error={profileError}
+                            data={profileData}
+                            nameDraft={nameDraft}
+                            onNameDraftChange={handleNameDraftChange}
+                            onSubmitName={handleProfileNameSubmit}
+                            nameSaving={nameSaving}
+                            nameStatus={nameStatus}
+                            onRefresh={handleProfileRefresh}
+                            onBack={navigateHome}
+                            subjectEdits={subjectEdits}
+                            onSubjectFieldChange={handleSubjectFieldChange}
+                            onSubjectSave={handleSaveSubject}
+                            testSaving={testSaving}
+                            onSaveChallenges={handleSaveChallenges}
+                            onToggleChallenge={toggleChallengeSelection}
+                            challengesSaving={challengesSaving}
+                            onFinishOnboarding={handleFinishOnboarding}
+                            onCompleteLater={handleCompleteOnboardingLater}
+                            finishingOnboarding={finishingOnboarding}
+                            onboardingComplete={onboardingComplete}
+                        />
+                    );
+                }
+                if (activeView === 'settings') {
+                    return (
+                        <SettingsView
+                            preferences={preferences}
+                            onApply={handleSettingsInstantChange}
+                            onSave={handlePersistPreferences}
+                            saving={settingsSaving}
+                            status={settingsStatus}
+                            onBack={navigateHome}
+                            loading={profileLoading}
+                        />
+                    );
+                }
+                // Dashboard, Quizzes, Progress all use the StartScreen container; scrolling is handled by pendingScrollTarget
                 return (
                     <StartScreen
                         currentUser={currentUser}
@@ -7717,6 +7751,7 @@ function App({ externalTheme, onThemeChange }) {
                         }}
                     />
                 );
+            }
         }
     };
 
@@ -7754,12 +7789,12 @@ function App({ externalTheme, onThemeChange }) {
                 <AppHeader
                     currentUser={currentUser}
                     onLogout={handleLogout}
-                    onShowHome={navigateHome}
-                    onShowProfile={handleShowProfileView}
-                    onShowSettings={handleShowSettingsView}
-                    onShowQuizzes={() => navigateToSection('quizzes')}
-                    onShowProgress={() => navigateToSection('progress')}
-                    activePanel={view === 'profile' ? 'profile' : view === 'settings' ? 'settings' : null}
+                    onShowHome={goToDashboard}
+                    onShowProfile={goToProfile}
+                    onShowSettings={goToSettings}
+                    onShowQuizzes={goToQuizzes}
+                    onShowProgress={goToProgress}
+                    activePanel={activeView === 'profile' ? 'profile' : activeView === 'settings' ? 'settings' : null}
                     theme={preferences.theme}
                     onToggleTheme={toggleThemePreference}
                 />
