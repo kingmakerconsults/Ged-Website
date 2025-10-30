@@ -6848,6 +6848,7 @@ function App({ externalTheme, onThemeChange }) {
     const [testSaving, setTestSaving] = useState(null);
     const [challengesSaving, setChallengesSaving] = useState(false);
     const [finishingOnboarding, setFinishingOnboarding] = useState(false);
+    const [savingAll, setSavingAll] = useState(false);
 
     useEffect(() => {
         if (typeof window === 'undefined') {
@@ -6908,6 +6909,94 @@ function App({ externalTheme, onThemeChange }) {
         setMathToolsInitialized(true);
         setView('mathTools');
     }, [setView]);
+
+    const handleSaveAllProfile = useCallback(async () => {
+        const token = authToken || (typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('appToken') : null);
+        if (!token) {
+            alert('You must be signed in to save your profile.');
+            return;
+        }
+
+        // Compose testPlan from subjectEdits, but only include rows with some data set
+        const testPlanPayload = Object.entries(subjectEdits || {})
+            .map(([subject, fields]) => ({ subject, ...(fields || {}) }))
+            .filter((row) => row && row.subject && (row.passed || row.notScheduled || (row.testDate && row.testDate.trim() !== '') || (row.testLocation && row.testLocation.trim() !== '')))
+            .map((row) => ({
+                subject: row.subject,
+                testDate: typeof row.testDate === 'string' ? row.testDate.trim() : '',
+                testLocation: typeof row.testLocation === 'string' ? row.testLocation.trim() : '',
+                passed: !!row.passed,
+                notScheduled: !!row.notScheduled,
+            }));
+
+        const selectedIds = Array.isArray(localProfile?.challengeOptions)
+            ? localProfile.challengeOptions.filter((c) => c && c.selected && c.id).map((c) => c.id)
+            : [];
+
+        const payload = {
+            // Only include name if non-empty
+            ...(nameDraft && nameDraft.trim() ? { name: nameDraft.trim() } : {}),
+            preferences: { fontSize: preferences.fontSize, theme: preferences.theme },
+            ...(testPlanPayload.length ? { testPlan: testPlanPayload } : {}),
+            challenges: { selectedIds },
+        };
+
+        setSavingAll(true);
+        try {
+            const bundle = await fetchJSON(`${API_BASE_URL}/api/profile`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                body: JSON.stringify(payload),
+            });
+            if (bundle && typeof bundle === 'object') {
+                // Merge bundle into local state
+                const serverTestPlan = Array.isArray(bundle.testPlan) ? bundle.testPlan.map((row) => ({
+                    subject: row?.subject || '',
+                    testDate: row?.testDate || '',
+                    testLocation: row?.testLocation || '',
+                    passed: !!row?.passed,
+                    notScheduled: !!row?.notScheduled,
+                })) : [];
+                const serverChallenges = Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
+                    id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
+                    subject: opt?.subject || '',
+                    subtopic: opt?.subtopic || '',
+                    label: opt?.label || '',
+                    selected: !!opt?.selected,
+                })) : [];
+                setLocalProfile((prev) => ({
+                    ...prev,
+                    profile: {
+                        ...prev.profile,
+                        name: bundle?.profile?.name ?? prev.profile.name,
+                        onboardingComplete: !!bundle?.profile?.onboardingComplete,
+                    },
+                    testPlan: serverTestPlan.length ? serverTestPlan : (prev.testPlan || []),
+                    challengeOptions: serverChallenges.length ? serverChallenges : (prev.challengeOptions || []),
+                    recentScoresDashboard: bundle?.recentScores && typeof bundle.recentScores === 'object' ? bundle.recentScores : (prev.recentScoresDashboard || {}),
+                }));
+                // Update UI name and prefs from saved
+                if (bundle?.profile?.name) {
+                    setCurrentUser((prev) => prev ? { ...prev, name: bundle.profile.name } : prev);
+                    setNameDraft(bundle.profile.name);
+                }
+                const srvFont = bundle?.profile?.fontSize;
+                const srvTheme = bundle?.profile?.theme;
+                const prefUpdates = {};
+                if (srvFont && VALID_FONT_SIZES.has(srvFont)) prefUpdates.fontSize = srvFont;
+                if (srvTheme && VALID_THEMES.has(srvTheme)) prefUpdates.theme = srvTheme === 'system' ? preferences.theme : srvTheme;
+                if (Object.keys(prefUpdates).length) {
+                    setPreferences((prev) => ({ ...prev, ...prefUpdates }));
+                }
+                alert('Profile saved.');
+            }
+        } catch (err) {
+            console.error('Failed to save full profile:', err);
+            alert('Unable to save profile right now. Please try again.');
+        } finally {
+            setSavingAll(false);
+        }
+    }, [authToken, nameDraft, preferences.fontSize, preferences.theme, subjectEdits, localProfile?.challengeOptions]);
 
     // Centralized navigation handlers
     const goToDashboard = useCallback(() => {
@@ -8349,6 +8438,8 @@ function App({ externalTheme, onThemeChange }) {
                             nameStatus={nameStatus}
                             onRefresh={handleProfileRefresh}
                             onBack={navigateHome}
+                            onSaveAll={handleSaveAllProfile}
+                            savingAll={savingAll}
                             subjectEdits={subjectEdits}
                             onSubjectFieldChange={handleSubjectFieldChange}
                             onSubjectSave={handleSaveSubject}
@@ -8523,6 +8614,8 @@ function ProfileView({
     nameStatus,
     onRefresh,
     onBack,
+    onSaveAll,
+    savingAll,
     subjectEdits,
     onSubjectFieldChange,
     onSubjectSave,
@@ -8680,6 +8773,14 @@ function ProfileView({
                         </button>
                         <button
                             type="button"
+                            onClick={onSaveAll}
+                            className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                            disabled={!!savingAll}
+                        >
+                            {savingAll ? 'Saving…' : 'Save All'}
+                        </button>
+                        <button
+                            type="button"
                             onClick={handleBackClick}
                             className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
                         >
@@ -8809,7 +8910,9 @@ function ProfileView({
                                     <label className="flex flex-col gap-1 text-sm text-slate-600">
                                         Date
                                         <input
-                                            type="date"
+                                            type="text"
+                                            inputMode="numeric"
+                                            placeholder="YYYY-MM-DD"
                                             className="tp-date rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                                             data-subject={entry.subject}
                                             value={isNotScheduled ? '' : edits.testDate || ''}

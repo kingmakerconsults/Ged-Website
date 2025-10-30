@@ -15,6 +15,76 @@ const pool = new Pool({
 
 // --- helpers -------------------------------------------------
 
+// Cache detected challenge tables/columns so we don't probe every request
+let cachedChallengeInfo = null;
+
+// Detect which tables/columns exist for challenge options and selections across envs
+async function getChallengeInfo() {
+  if (cachedChallengeInfo) return cachedChallengeInfo;
+
+  const optionCandidates = ['challenge_options', 'challenge_catalog'];
+  const selectionCandidates = ['user_challenge_tags', 'profile_challenges'];
+
+  let optionTable = null;
+  for (const t of optionCandidates) {
+    try {
+      await pool.query(`SELECT 1 FROM ${t} LIMIT 1`);
+      optionTable = t;
+      break;
+    } catch (err) {
+      // 42P01 = undefined_table; ignore and continue probing
+      if (!err || err.code !== '42P01') {
+        console.warn(`[profile] Option table probe failed for ${t}:`, err?.message || err);
+      }
+    }
+  }
+  if (!optionTable) optionTable = optionCandidates[optionCandidates.length - 1];
+
+  // Determine ID column for option table
+  const optionIdCandidates = ['id', 'challenge_id'];
+  let optionIdColumn = 'id';
+  try {
+    const { rows } = await pool.query(
+      `SELECT column_name FROM information_schema.columns WHERE table_name = $1`,
+      [optionTable]
+    );
+    const cols = new Set(rows.map((r) => r.column_name));
+    optionIdColumn = optionIdCandidates.find((c) => cols.has(c)) || optionIdColumn;
+  } catch (err) {
+    // non-fatal
+  }
+
+  let selectionTable = null;
+  for (const t of selectionCandidates) {
+    try {
+      await pool.query(`SELECT 1 FROM ${t} LIMIT 1`);
+      selectionTable = t;
+      break;
+    } catch (err) {
+      if (!err || err.code !== '42P01') {
+        console.warn(`[profile] Selection table probe failed for ${t}:`, err?.message || err);
+      }
+    }
+  }
+  if (!selectionTable) selectionTable = selectionCandidates[selectionCandidates.length - 1];
+
+  const selectionIdCandidates = ['challenge_id', 'challenge', 'challenge_code', 'challenge_uid', 'challenge_uuid', 'tag_id'];
+  let selectionIdColumn = 'challenge_id';
+  try {
+    const { rows } = await pool.query(
+      `SELECT column_name FROM information_schema.columns WHERE table_name = $1`,
+      [selectionTable]
+    );
+    const cols = new Set(rows.map((r) => r.column_name));
+    selectionIdColumn = selectionIdCandidates.find((c) => cols.has(c)) || selectionIdColumn;
+  } catch (err) {
+    // non-fatal
+  }
+
+  cachedChallengeInfo = { optionTable, selectionTable, optionIdColumn, selectionIdColumn };
+  return cachedChallengeInfo;
+}
+
 // Make sure profiles has a row for this user so selects don't come back empty
 async function ensureProfileRow(userId) {
   // if there's already a row, do nothing
@@ -73,30 +143,33 @@ async function getTestPlan(userId) {
 
 // Build the challenge options list, plus whether the user has selected each
 async function getChallengeOptions(userId) {
-  const { rows } = await pool.query(
-    `
-    SELECT
-      c.id,
-      c.subject,
-      c.subtopic,
-      c.label,
-      CASE WHEN u.user_id IS NULL THEN FALSE ELSE TRUE END AS selected
-    FROM challenge_catalog c
-    LEFT JOIN user_challenge_tags u
-      ON u.challenge_id = c.id
-     AND u.user_id = $1
-    ORDER BY c.subject, c.subtopic, c.label
-    `,
-    [userId]
-  );
+  try {
+    const { optionTable, selectionTable, optionIdColumn, selectionIdColumn } = await getChallengeInfo();
 
-  return rows.map(r => ({
-    id: r.id,
-    subject: r.subject,
-    subtopic: r.subtopic,
-    label: r.label,
-    selected: r.selected,
-  }));
+    // Load all available options
+    const optionRes = await pool.query(
+      `SELECT ${optionIdColumn} AS id, subject, subtopic, label FROM ${optionTable} ORDER BY subject, subtopic, label`
+    );
+
+    // Load user's selected challenge ids
+    const selectedRes = await pool.query(
+      `SELECT ${selectionIdColumn} AS challenge_id FROM ${selectionTable} WHERE user_id = $1`,
+      [userId]
+    );
+
+    const chosenSet = new Set(selectedRes.rows.map((r) => String(r.challenge_id)));
+
+    return optionRes.rows.map((r) => ({
+      id: String(r.id),
+      subject: r.subject,
+      subtopic: r.subtopic,
+      label: r.label,
+      selected: chosenSet.has(String(r.id)),
+    }));
+  } catch (err) {
+    console.warn('[profile] getChallengeOptions failed; returning empty list:', err?.message || err);
+    return [];
+  }
 }
 
 // Summaries for Recent Scores (the UI will show "No scores yet." if arrays are empty)
@@ -374,10 +447,12 @@ router.patch('/challenges/tags', express.json(), async (req, res) => {
 
     await client.query('BEGIN');
 
+    const { selectionTable, selectionIdColumn } = await getChallengeInfo();
+
     // If user cleared everything, just delete all their tags
     if (selectedIds.length === 0) {
       await client.query(
-        'DELETE FROM user_challenge_tags WHERE user_id = $1',
+        `DELETE FROM ${selectionTable} WHERE user_id = $1`,
         [userId]
       );
     } else {
@@ -386,22 +461,17 @@ router.patch('/challenges/tags', express.json(), async (req, res) => {
         .map((_, i) => `$${i + 2}`)
         .join(', ');
       await client.query(
-        `
-        DELETE FROM user_challenge_tags
-        WHERE user_id = $1
-          AND challenge_id NOT IN (${placeholders})
-        `,
+        `DELETE FROM ${selectionTable}
+         WHERE user_id = $1 AND ${selectionIdColumn} NOT IN (${placeholders})`,
         [userId, ...selectedIds]
       );
 
       // Add the ones that are missing
       for (const cid of selectedIds) {
         await client.query(
-          `
-          INSERT INTO user_challenge_tags (user_id, challenge_id)
-          VALUES ($1, $2)
-          ON CONFLICT DO NOTHING
-          `,
+          `INSERT INTO ${selectionTable} (user_id, ${selectionIdColumn})
+           VALUES ($1, $2)
+           ON CONFLICT DO NOTHING`,
           [userId, cid]
         );
       }
@@ -582,17 +652,18 @@ router.put('/', express.json(), async (req, res) => {
             : []);
       if (selectedIds) {
         console.log('[PUT] /api/profile -> challenges', { userId, selectedCount: selectedIds.length });
+        const { selectionTable, selectionIdColumn } = await getChallengeInfo();
         if (selectedIds.length === 0) {
-          await client.query('DELETE FROM user_challenge_tags WHERE user_id = $1', [userId]);
+          await client.query(`DELETE FROM ${selectionTable} WHERE user_id = $1`, [userId]);
         } else {
           const placeholders = selectedIds.map((_, i) => `$${i + 2}`).join(', ');
           await client.query(
-            `DELETE FROM user_challenge_tags WHERE user_id = $1 AND challenge_id NOT IN (${placeholders})`,
+            `DELETE FROM ${selectionTable} WHERE user_id = $1 AND ${selectionIdColumn} NOT IN (${placeholders})`,
             [userId, ...selectedIds]
           );
           for (const cid of selectedIds) {
             await client.query(
-              `INSERT INTO user_challenge_tags (user_id, challenge_id)
+              `INSERT INTO ${selectionTable} (user_id, ${selectionIdColumn})
                VALUES ($1, $2)
                ON CONFLICT DO NOTHING`,
               [userId, cid]
