@@ -1638,7 +1638,8 @@ async function getTestPlanTableName() {
         return cachedTestPlanTableName;
     }
 
-    const candidates = ['test_plan', 'test_plans'];
+    // Prefer the known real table name first
+    const candidates = ['test_plans', 'test_plan'];
     for (const tableName of candidates) {
         try {
             await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
@@ -1926,7 +1927,9 @@ async function buildProfileBundle(userId) {
             fontSize: profileData.font_size,
             onboardingComplete: !!profileData.onboarding_complete
         },
+        // Both testPlan (normalized for UI) and raw tests for debugging/compat
         testPlan,
+        tests: planRows,
         challengeOptions,
         recentScoresDashboard: recentScoresDashboard || {},
         scores: legacyScores || {}
@@ -2204,7 +2207,8 @@ app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd,
                     notScheduled: !!saved.rows[0].not_scheduled
                   }
                 : null),
-            bundle,
+            // Spread the bundle at top-level to preserve FE expectations
+            ...bundle,
         });
     } catch (err) {
         console.error('[/api/profile/test] ERROR:', err);

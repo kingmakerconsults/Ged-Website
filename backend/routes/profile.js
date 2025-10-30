@@ -378,7 +378,7 @@ router.patch('/test', express.json(), async (req, res) => {
 
   console.log('[PATCH] /api/profile/test', { userId, subject: subj, notScheduled: normNotScheduled, hasDate: !!normalizedDate, passed: normPassed });
 
-    await pool.query(
+    const saved = await pool.query(
       `
       INSERT INTO test_plans (user_id, subject, test_date, test_location, passed, not_scheduled, updated_at)
       VALUES ($1, $2, $3, $4, $5, $6, NOW())
@@ -389,12 +389,28 @@ router.patch('/test', express.json(), async (req, res) => {
         passed = EXCLUDED.passed,
         not_scheduled = EXCLUDED.not_scheduled,
         updated_at = NOW()
+      RETURNING user_id, subject, test_date, test_location, passed, not_scheduled;
       `,
       [userId, subj, normalizedDate, normLocation, normPassed, normNotScheduled]
     );
 
+    const savedRow = saved?.rows?.[0] || null;
+    if (savedRow) {
+      console.log('[profile/test] saved =>', {
+        subject: savedRow.subject,
+        testDate: savedRow.test_date,
+        testLocation: savedRow.test_location || '',
+        passed: !!savedRow.passed,
+        notScheduled: !!savedRow.not_scheduled,
+      });
+    }
+
     const bundle = await buildProfileBundle(userId);
-    return res.json(bundle);
+    return res.json({
+      success: true,
+      test: savedRow,
+      ...bundle,
+    });
   } catch (err) {
     console.error('PATCH /api/profile/test failed:', err);
     return res.status(500).json({ error: 'Failed to save test plan' });
