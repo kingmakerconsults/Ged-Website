@@ -1981,14 +1981,15 @@ try {
         try { console.log('[QUIZZES] request:', req.method, req.url); } catch {}
         next();
     });
-    // Serve quizzes from backend-local folder first (works on Render when only backend is deployed)
-    app.use('/quizzes', express.static(path.join(__dirname, 'quizzes'), {
+    // Prefer repository public/quizzes (canonical built files),
+    // but allow backend-local overrides if needed.
+    app.use('/quizzes', express.static(path.join(publicDir, 'quizzes'), {
         maxAge: '1h',
         setHeaders(res) {
             res.setHeader('Access-Control-Allow-Origin', '*');
         }
     }));
-    app.use('/quizzes', express.static(path.join(publicDir, 'quizzes'), {
+    app.use('/quizzes', express.static(path.join(__dirname, 'quizzes'), {
         maxAge: '1h',
         setHeaders(res) {
             res.setHeader('Access-Control-Allow-Origin', '*');
@@ -2606,8 +2607,27 @@ app.get('/api/scores', authenticateBearerToken, async (req, res) => {
 });
 
 app.get('/client-config.js', (req, res) => {
-    const payload = `window.__APP_CONFIG__ = window.__APP_CONFIG__ || {}; window.__APP_CONFIG__.geometryFiguresEnabled = ${GEOMETRY_FIGURES_ENABLED};`;
-    res.type('application/javascript').send(payload);
+    // Compute external origin (Render forwards proto)
+    const xfProto = (req.headers['x-forwarded-proto'] || '').toString().split(',')[0].trim();
+    const proto = xfProto || req.protocol || 'https';
+    const host = req.get('host');
+    const origin = `${proto}://${host}`;
+
+    const js = `
+        // Merge app config flags
+        (function(){
+            try {
+                window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
+                window.__APP_CONFIG__.geometryFiguresEnabled = ${GEOMETRY_FIGURES_ENABLED};
+            } catch (e) {}
+            try {
+                var cfg = (typeof window.__CLIENT_CONFIG__ === 'object' && window.__CLIENT_CONFIG__) ? window.__CLIENT_CONFIG__ : {};
+                cfg.API_BASE_URL = cfg.API_BASE_URL || ${JSON.stringify(origin)};
+                window.__CLIENT_CONFIG__ = cfg;
+            } catch (e) {}
+        })();
+    `;
+    res.type('application/javascript').send(js);
 });
 
 let curatedImages = [];
