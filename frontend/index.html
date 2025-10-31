@@ -6407,7 +6407,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         || 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))';
     const cardTextColor = subjectColors.text || subjectColors.heroText || '#0f172a';
 
-    const renderTopicCard = (topic) => {
+    const renderTopicCard = (topic, idx) => {
         if (!topic) return null;
         const quizSets = Array.isArray(topic.quizzes) ? topic.quizzes.filter((quiz) => quizHasAvailableQuestions(subjectName, topic, quiz)) : [];
         const supportsMultiple = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
@@ -6448,9 +6448,9 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             onSelectQuiz(prepared, subjectName);
         };
 
-        return (
+    return (
             <div
-                key={topic.id || topic.title}
+        key={topic.id || `topic_${idx}`}
                 className="rounded-xl border bg-white/95 dark:bg-slate-900/80 dark:border-slate-700 p-4 flex flex-col justify-between shadow-md"
                 style={isDarkMode
                     ? { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', color: subjectColors.text || '#f8fafc' }
@@ -6640,7 +6640,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                         No topics available yet for this cluster.
                     </div>
                     )}
-                    {filtered.map((topic) => renderTopicCard(topic))}
+                    {filtered.map((topic, idx) => renderTopicCard(topic, idx))}
                 </div>
             </>
         );
@@ -6713,7 +6713,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                     </div>
                 )}
                 <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {shown.map(({ topic }) => renderTopicCard(topic))}
+                    {shown.map(({ topic }, idx) => renderTopicCard(topic, idx))}
                     {shown.length === 0 && (
                         <div className="col-span-full text-center text-sm opacity-80 border border-dashed rounded-lg p-4" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
                             No topics match the current filters.
@@ -11978,7 +11978,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                             style={selectStyle}
                                         >
                                             <option value="">Select a topic</option>
-                                            {availableTopics.map(topic => topic && <option key={topic} value={topic}>{topic}</option>)}
+                                            {availableTopics.map((topic, idx) => topic && <option key={`${topic}-${idx}`} value={topic}>{topic}</option>)}
                                         </select>
                                     </div>
                                 </div>
@@ -12840,7 +12840,8 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     const handleComplete = (result) => {
         let score = 0;
         questions.forEach((q, i) => {
-            const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+            const options = Array.isArray(q.answerOptions) ? q.answerOptions : [];
+            const correctOption = options.find(opt => opt.isCorrect);
             if (correctOption && result.answers[i] === correctOption.text) {
                 score++;
             }
@@ -12882,15 +12883,46 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
     };
 
     const handlePart2Complete = (result) => {
-        const finalAnswers = [...part1Result.answers, ...result.answers];
-        const finalMarked = [...part1Result.marked, ...result.marked];
-        const finalConfidence = [...part1Result.confidence, ...result.confidence];
+        // Defensive merging in case part1Result is null/partial
+        const p1 = part1Result || {
+            answers: Array(part1Questions.length).fill(null),
+            marked: Array(part1Questions.length).fill(false),
+            confidence: Array(part1Questions.length).fill(null)
+        };
+
+        const finalAnswers = [...(p1.answers || []), ...(result.answers || [])];
+        const finalMarked = [...(p1.marked || []), ...(result.marked || [])];
+        const finalConfidence = [...(p1.confidence || []), ...(result.confidence || [])];
+
+        // Normalization helpers to avoid crashes and tolerate light formatting
+        const normalizeAnswer = (val) => {
+            if (val === null || val === undefined) return '';
+            return String(val)
+                .replace(/^\$+|\$+$/g, '') // strip surrounding $
+                .replace(/\u00A0/g, ' ')     // non-breaking space to regular space if present
+                .replace(/\s+/g, ' ')
+                .trim();
+        };
+        const isNumericEqual = (a, b) => {
+            const na = Number(a);
+            const nb = Number(b);
+            if (!Number.isFinite(na) || !Number.isFinite(nb)) return false;
+            return Math.abs(na - nb) < 1e-9;
+        };
 
         let score = 0;
+        const missing = [];
         quiz.questions.forEach((q, i) => {
             const isFillIn = !q.answerOptions || q.answerOptions.length === 0;
             if (isFillIn) {
-                if (String(finalAnswers[i]).trim() === String(q.correctAnswer)) { // Corrected to use correctAnswer
+                const user = normalizeAnswer(finalAnswers[i]);
+                const correct = normalizeAnswer(q.correctAnswer);
+                if (!user || !correct) {
+                    // Skip silently but track for a one-time log
+                    if (!correct) missing.push(i + 1);
+                    return;
+                }
+                if (user === correct || isNumericEqual(user, correct)) {
                     score++;
                 }
             } else {
@@ -12900,6 +12932,11 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
                 }
             }
         });
+
+        if (missing.length) {
+            // Non-spammy single warning per submission with question numbers lacking correctAnswer
+            console.warn(`[grader] ${missing.length} fill-in question(s) missing correctAnswer: #${missing.join(', ')}`);
+        }
 
         const percentage = (score / quiz.questions.length) * 100;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
@@ -13993,7 +14030,7 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
                     className="w-full p-3 border border-sky-300 rounded-md mb-4 text-lg"
                 >
                     <option value="">-- Select a Topic --</option>
-                    {availableTopics.map(topic => <option key={topic} value={topic}>{topic}</option>)}
+                    {availableTopics.map((topic, idx) => <option key={`${topic}-${idx}`} value={topic}>{topic}</option>)}
                 </select>
 
                 <button 
