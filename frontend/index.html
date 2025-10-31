@@ -779,6 +779,11 @@
                                         /* Settings Back to Dashboard (and other buttons) should have black text in light mode */
                                         [data-theme="light"] #settingsView .settings-header button {
                                             color: #000000 !important;
+                                            background-color: #ffffff !important;
+                                            border: 1px solid #d1d5db !important;
+                                        }
+                                        [data-theme="light"] #settingsView .settings-header button:hover:not(:disabled) {
+                                            background-color: #f0f0f0 !important;
                                         }
 
                                         /* Settings page: force Font Size and Color Mode texts to black in BOTH themes */
@@ -9286,7 +9291,7 @@ function SettingsView({ preferences, onApply, onSave, saving, status, onBack, lo
     return (
         <section id="settingsView" data-view="settings" tabIndex={-1} className="outline-none">
             <div className="max-w-4xl mx-auto space-y-6">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between settings-header">
                     <div>
                         <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">Settings</h1>
                         <p className="text-sm text-slate-500 dark:text-slate-300">Choose the font size and color mode that feel right for your reading style. Changes apply instantly.</p>
