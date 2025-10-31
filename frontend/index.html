@@ -319,6 +319,23 @@
             --math-muted-text: #1e293b;
         }
 
+        /* Badge strip (light defaults; neutral for dark as images are colored) */
+        .badge-strip {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem 0.25rem;
+            align-items: center;
+        }
+        .badge-icon {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(15,23,42,0.12));
+        }
+        @media (max-width: 768px) {
+            .badge-strip { overflow-x: auto; }
+        }
+
         .frac {
             background: rgba(0,0,0,0.05);
             padding: 0.15em 0.4em;
@@ -11377,6 +11394,65 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         }
     };
 
+    // --- Earned badges (passed subjects) ---
+    const SUBJECT_ID_MAP = {
+        'Math': 'math',
+        'Science': 'science',
+        'Social Studies': 'social_studies',
+        'Reasoning Through Language Arts (RLA)': 'rla',
+        'RLA': 'rla',
+    };
+    const BADGE_IMG_PATHS = {
+        math: '/badges/math.svg',
+        science: '/badges/science.svg',
+        social_studies: '/badges/social-studies.svg',
+        rla: '/badges/rla.svg',
+    };
+    const profilePassedMap = useMemo(() => {
+        const map = {};
+        const plan = Array.isArray(profileData?.testPlan) ? profileData.testPlan : [];
+        plan.forEach((row) => {
+            if (!row || !row.subject) return;
+            const id = SUBJECT_ID_MAP[row.subject] || null;
+            if (!id) return;
+            if (row.passed === true) map[id] = true;
+        });
+        // Also check profile.tests if present
+        const pt = profileData?.profile?.tests;
+        if (pt && typeof pt === 'object') {
+            Object.entries(pt).forEach(([key, val]) => {
+                if (!val) return;
+                const id = key;
+                if (val.passed === true || val.isPassed === true) map[id] = true;
+            });
+        }
+        return map;
+    }, [profileData?.testPlan, profileData?.profile?.tests]);
+    const progressPassedMap = useMemo(() => {
+        const map = {};
+        const subjectNames = Object.keys(SUBJECT_ID_MAP);
+        subjectNames.forEach((label) => {
+            const id = SUBJECT_ID_MAP[label];
+            const p = progress?.[label] || {};
+            const passedCount = Array.isArray(p?.passedExamCodes) ? p.passedExamCodes.length : (typeof p?.completedCount === 'number' ? p.completedCount : 0);
+            if (passedCount > 0) map[id] = true;
+        });
+        return map;
+    }, [progress]);
+    const earnedBadges = useMemo(() => {
+        const ids = new Set();
+        Object.entries(profilePassedMap).forEach(([id, val]) => { if (val) ids.add(id); });
+        Object.entries(progressPassedMap).forEach(([id, val]) => { if (val) ids.add(id); });
+        const order = ['math', 'rla', 'science', 'social_studies'];
+        return order
+            .filter((id) => ids.has(id))
+            .map((id) => ({
+                id,
+                label: id === 'rla' ? 'Reasoning Through Language Arts (RLA)' : (id === 'social_studies' ? 'Social Studies' : id.charAt(0).toUpperCase() + id.slice(1).replace('_', ' ')),
+                img: BADGE_IMG_PATHS[id]
+            }));
+    }, [profilePassedMap, progressPassedMap]);
+
     // Restore: clicking a subject opens its premade list view (do not auto-start a quiz)
     const openSubjectPremades = (subjectLabel) => {
         const subjectKey = subjectLabel; // labels already match keys in AppData
@@ -12131,6 +12207,22 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 )}
                 {currentUser && (
                     <div id="progress" className="animate-floatIn block-profile panel">
+                        {earnedBadges && earnedBadges.length > 0 && (
+                            <div className={isDarkMode ? 'badge-strip' : 'badge-strip'}>
+                                {earnedBadges.map((b) => (
+                                    <img
+                                        key={b.id}
+                                        src={b.img}
+                                        alt={`${b.label} badge`}
+                                        title={`GED ${b.label} passed`}
+                                        className="badge-icon"
+                                        onClick={() => openSubjectPremades(b.label)}
+                                        role="button"
+                                        style={{ cursor: 'pointer' }}
+                                    />
+                                ))}
+                            </div>
+                        )}
                         <ProgressDashboard progress={progress} onSubjectClick={setDetailedViewSubject} />
                     </div>
                 )}
