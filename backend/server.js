@@ -1964,6 +1964,28 @@ const app = express();
 let port = Number(process.env.PORT || 3002);
 const net = require('net');
 
+// Serve static quiz bundles so the frontend JSON loader can fetch them reliably
+// We expose both /public (full folder) and a convenience /quizzes path.
+try {
+    const repoRoot = path.resolve(__dirname, '..');
+    const publicDir = path.join(repoRoot, 'public');
+    app.use('/public', express.static(publicDir, {
+        maxAge: '1h',
+        setHeaders(res) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        }
+    }));
+    app.use('/quizzes', express.static(path.join(publicDir, 'quizzes'), {
+        maxAge: '1h',
+        setHeaders(res) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        }
+    }));
+    console.log('[static] Serving /public and /quizzes from', publicDir);
+} catch (e) {
+    console.warn('[static] Failed to initialize static serving for /public:', e?.message || e);
+}
+
 async function isPortBusy(p) {
     return new Promise((resolve) => {
         const tester = net.createServer()
