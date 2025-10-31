@@ -15,6 +15,7 @@
   "quizzes:build-frontend-expanded": "node scripts/build_frontend_expanded_bundle.cjs",
   "quizzes:integrate-frontend": "npm run quizzes:import-expanded ; npm run quizzes:build-frontend-expanded",
   "quizzes:build-extras": "node scripts/build_ss_extras_json.cjs",
+  "quizzes:build-all": "npm run quizzes:build-extras ; npm run quizzes:build-json",
     "validate-quizzes": "node tests/quizValidation.test.js",
     "counts:premade": "node scripts/print_premade_counts.js",
   "counts:ss:everywhere": "node scripts/count_social_studies_everywhere.js",
