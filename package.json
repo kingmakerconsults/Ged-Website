@@ -16,6 +16,7 @@
   "quizzes:integrate-frontend": "npm run quizzes:import-expanded ; npm run quizzes:build-frontend-expanded",
     "validate-quizzes": "node tests/quizValidation.test.js",
     "counts:premade": "node scripts/print_premade_counts.js",
+  "counts:ss:everywhere": "node scripts/count_social_studies_everywhere.js",
     "prepare": "husky install"
   },
   "dependencies": {
