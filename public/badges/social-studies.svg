@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-label="Social Studies badge">
+  <defs>
+    <filter id="ds" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#14532d" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#ds)">
+    <circle cx="48" cy="48" r="44" fill="#16a34a"/>
+    <circle cx="48" cy="48" r="40" fill="#4ade80" opacity="0.18"/>
+    <g fill="#ffffff" stroke="#eafff0" stroke-width="1.5">
+      <path d="M48 26c-12.15 0-22 9.85-22 22s9.85 22 22 22 22-9.85 22-22-9.85-22-22-22zm0 4c9.94 0 18 8.06 18 18s-8.06 18-18 18-18-8.06-18-18 8.06-18 18-18z"/>
+      <path d="M30 48h36M48 30v36"/>
+      <circle cx="48" cy="48" r="5"/>
+    </g>
+  </g>
+</svg>
