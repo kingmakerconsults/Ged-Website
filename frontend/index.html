@@ -1749,29 +1749,25 @@
                                                             'social-studies.quizzes.json',
                                                             'social-studies.extras.json'
                                                         ];
-                                                        // Serve from a single, predictable path exposed by Express
-                                                        const QUIZ_PREFIXES = ['/quizzes'];
+                                                        // Resolve backend origin from client config or fallback to current origin
+                                                        const API_BASE = (typeof window !== 'undefined' && window.__CLIENT_CONFIG__ && window.__CLIENT_CONFIG__.API_BASE_URL)
+                                                            ? window.__CLIENT_CONFIG__.API_BASE_URL
+                                                            : (typeof API_BASE_URL === 'string' && API_BASE_URL) || (typeof window !== 'undefined' ? window.location.origin : '');
 
                                                         async function loadAllQuizPartsOnce() {
                                                             const parts = [];
                                                             for (const name of QUIZ_FILENAMES) {
-                                                                let loaded = false;
-                                                                for (const base of QUIZ_PREFIXES) {
-                                                                    const url = base ? `${base}/${name}` : `/${name}`;
-                                                                    try {
-                                                                        const res = await fetch(url, { cache: 'no-cache' });
-                                                                        if (!res.ok) {
-                                                                            // Try next base
-                                                                            continue;
-                                                                        }
-                                                                        const json = await res.json();
-                                                                        parts.push(json);
-                                                                        loaded = true;
-                                                                        break;
-                                                                    } catch {}
-                                                                }
-                                                                if (!loaded) {
-                                                                    console.warn('[quizzes] failed to load', name, 'from any known prefix');
+                                                                const url = `${API_BASE}/quizzes/${name}`;
+                                                                try {
+                                                                    const res = await fetch(url, { cache: 'no-cache' });
+                                                                    if (!res.ok) {
+                                                                        console.warn('[quizzes] failed to load', url, res.status);
+                                                                        continue;
+                                                                    }
+                                                                    const json = await res.json();
+                                                                    parts.push(json);
+                                                                } catch (err) {
+                                                                    console.warn('[quizzes] error fetching', url, err?.message || err);
                                                                 }
                                                             }
                                                             return parts;
@@ -1821,6 +1817,24 @@
                                                                     app[subject].categories[catName] = { description: '', topics: Array.isArray(cat.topics) ? cat.topics : [] };
                                                                 }
                                                             });
+                                                            // Fallback: if nothing loaded from backend, try legacy global datasets
+                                                            if (Object.keys(app).length === 0 && typeof window !== 'undefined') {
+                                                                try {
+                                                                    const legacy = window.MergedExpandedQuizData
+                                                                        || window.ExpandedQuizData
+                                                                        || window.__ESM_ExpandedQuizData
+                                                                        || (window.Data && window.Data.expandedQuizData) || null;
+                                                                    if (legacy && typeof legacy === 'object') {
+                                                                        Object.entries(legacy).forEach(([subject, data]) => {
+                                                                            const cats = (data && data.categories) || {};
+                                                                            app[subject] = { icon: null, description: '', categories: {} };
+                                                                            for (const [catName, cat] of Object.entries(cats)) {
+                                                                                app[subject].categories[catName] = { description: '', topics: Array.isArray(cat?.topics) ? cat.topics : [] };
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                } catch {}
+                                                            }
                                                             // Normalize and force Social Studies merge with any extras
                                                             const merged = forceSocialStudiesMerge(app, ssExtras);
                                                             window.UnifiedQuizCatalog = merged;
@@ -7283,7 +7297,7 @@ function App({ externalTheme, onThemeChange }) {
 
     const sendPresencePing = useCallback(async () => {
         try {
-            await fetch('/presence/ping', {
+            await fetch(`${API_BASE_URL}/presence/ping`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' }
@@ -7315,7 +7329,7 @@ function App({ externalTheme, onThemeChange }) {
             if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
                 try {
                     const blob = new Blob([], { type: 'application/json' });
-                    navigator.sendBeacon('/presence/ping', blob);
+                    navigator.sendBeacon(`${API_BASE_URL}/presence/ping`, blob);
                 } catch (err) {
                     console.warn('presence beacon failed:', err);
                 }

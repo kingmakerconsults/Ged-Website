@@ -1981,6 +1981,13 @@ try {
         try { console.log('[QUIZZES] request:', req.method, req.url); } catch {}
         next();
     });
+    // Serve quizzes from backend-local folder first (works on Render when only backend is deployed)
+    app.use('/quizzes', express.static(path.join(__dirname, 'quizzes'), {
+        maxAge: '1h',
+        setHeaders(res) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        }
+    }));
     app.use('/quizzes', express.static(path.join(publicDir, 'quizzes'), {
         maxAge: '1h',
         setHeaders(res) {
