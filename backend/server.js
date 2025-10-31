@@ -1976,14 +1976,12 @@ try {
             res.setHeader('Access-Control-Allow-Origin', '*');
         }
     }));
+    // Log quiz requests to verify the frontend is hitting this endpoint
+    app.use('/quizzes', (req, _res, next) => {
+        try { console.log('[QUIZZES] request:', req.method, req.url); } catch {}
+        next();
+    });
     app.use('/quizzes', express.static(path.join(publicDir, 'quizzes'), {
-        maxAge: '1h',
-        setHeaders(res) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-        }
-    }));
-    // Convenience: also serve quiz bundles at root (e.g., /math.quizzes.part1.json)
-    app.use('/', express.static(path.join(publicDir, 'quizzes'), {
         maxAge: '1h',
         setHeaders(res) {
             res.setHeader('Access-Control-Allow-Origin', '*');
