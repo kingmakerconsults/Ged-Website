@@ -1613,6 +1613,35 @@
         <!-- Inject expanded quizzes built from backend supplemental topics (non-breaking; merges at runtime) -->
     <script src="Expanded/expanded.quizzes.bundle.js"></script>
 
+        <!-- Optionally load per-subject ESM arrays (if present) and expose them for unification -->
+        <script type="module">
+            const sources = {};
+            try {
+                const mod = await import('./Expanded/social_studies_quizzes.js');
+                sources['Social Studies'] = Array.isArray(mod.socialStudiesQuizzes) ? mod.socialStudiesQuizzes : (Array.isArray(mod.default) ? mod.default : []);
+            } catch {}
+            try {
+                const mod = await import('./Expanded/combined_math_quizzes.js');
+                sources['Math'] = Array.isArray(mod.combinedMathQuizzes) ? mod.combinedMathQuizzes : (Array.isArray(mod.default) ? mod.default : []);
+            } catch {}
+            try {
+                const mod = await import('./Expanded/all_science_quizzes.js');
+                sources['Science'] = Array.isArray(mod.allScienceQuizzes) ? mod.allScienceQuizzes : (Array.isArray(mod.default) ? mod.default : []);
+            } catch {}
+            try {
+                const mod = await import('./Expanded/science_quizzes.js');
+                const arr = Array.isArray(mod.scienceQuizzes) ? mod.scienceQuizzes : (Array.isArray(mod.default) ? mod.default : []);
+                if (arr.length) {
+                    sources['Science'] = (sources['Science'] || []).concat(arr);
+                }
+            } catch {}
+            try {
+                const mod = await import('./Expanded/rla_quizzes.js');
+                sources['RLA'] = Array.isArray(mod.rlaQuizzes) ? mod.rlaQuizzes : (Array.isArray(mod.default) ? mod.default : []);
+            } catch {}
+            window.__ExpandedArraySources = sources;
+        </script>
+
             <!-- Deep-merge expanded datasets into a single window.ExpandedQuizData, normalize keys, and integrate into AppData/QUIZ_LIBRARY -->
             <script>
                 (function () {
@@ -1734,15 +1763,75 @@
                             return src;
                         }
 
-                        // Gather sources
+                                    // Heuristic category/topic mapping for array-based sources
+                                    function deriveCategoryFor(subject, item) {
+                                        const title = String(item?.title || item?.topic || '').toLowerCase();
+                                        const id = String(item?.id || '').toLowerCase();
+                                        if (subject === 'Social Studies') {
+                                            const civicsKeys = ['constitution','bill-of-rights','elections','federalism','judicial','executive','legislative','civics','government'];
+                                            if (civicsKeys.some(k => title.includes(k) || id.includes(k))) return 'Civics & Government';
+                                            return 'U.S. History';
+                                        }
+                                        if (subject === 'Math') {
+                                            if (/(algebra|equation|expression|polynomial|linear|quadratic)/.test(title)) return 'Algebraic Problem Solving';
+                                            if (/(geometry|angle|triang|circle|perimeter|area|volume)/.test(title)) return 'Geometry';
+                                            return 'Quantitative Problem Solving';
+                                        }
+                                        if (subject === 'Science') {
+                                            if (/(cell|ecosystem|biology|life)/.test(title)) return 'Life Science';
+                                            if (/(earth|space|planet|astronomy)/.test(title)) return 'Earth & Space Science';
+                                            if (/(data|measurement|numeracy|graph)/.test(title)) return 'Scientific Numeracy';
+                                            return 'Physical Science';
+                                        }
+                                        if (subject === 'RLA') {
+                                            if (/(grammar|usage|conventions|punctuation)/.test(title)) return 'Language & Writing';
+                                            return 'Reading Comprehension';
+                                        }
+                                        return 'General';
+                                    }
+                                    function ensure(obj, key, init) { if (!obj[key]) obj[key] = init; return obj[key]; }
+                                    function arraysToSubjectShape(arr, subject) {
+                                        const out = { icon: null, description: '', categories: {}, quizzes: [] };
+                                        if (!Array.isArray(arr)) return out;
+                                        for (const item of arr) {
+                                            if (!item) continue;
+                                            const catName = deriveCategoryFor(subject, item);
+                                            const cat = ensure(out.categories, catName, { description: '', topics: [] });
+                                            const topicTitle = item.topic || item.title || 'Practice Set';
+                                            const topicId = item.id || `${subject.toLowerCase()}_${topicTitle.toLowerCase().replace(/\s+/g,'_')}`;
+                                            // find or create topic by id
+                                            let tIdx = Array.isArray(cat.topics) ? cat.topics.findIndex(t => t && (t.id === topicId || t.title === topicTitle)) : -1;
+                                            if (tIdx === -1) { cat.topics.push({ id: topicId, title: topicTitle, description: item.description || '', quizzes: [] }); tIdx = cat.topics.length - 1; }
+                                            const topic = cat.topics[tIdx];
+                                            // Treat item as a quiz under this topic
+                                            const quizId = item.id || `${topicId}_set`;
+                                            const existingIds = new Set((topic.quizzes || []).map(q => q && (q.quizId || q.id)));
+                                            if (!existingIds.has(quizId)) {
+                                                const quiz = { quizId, title: item.title || topicTitle, label: item.label || item.setLabel || undefined, questions: Array.isArray(item.questions) ? item.questions : [] };
+                                                topic.quizzes = Array.isArray(topic.quizzes) ? topic.quizzes : [];
+                                                topic.quizzes.push(quiz);
+                                            }
+                                        }
+                                        return out;
+                                    }
+
+                                    // Gather sources
                         const esmData = window.__ESM_ExpandedQuizData || {};
                         const extraData = window.ExpandedExtraQuizData || window.ExpandedBundleData || window.ExpandedQuizData || {};
+                                    const arraySources = window.__ExpandedArraySources || {};
 
                         // Build single expanded dataset
                         let expandedAll = {};
                         expandedAll = mergeExpandedIntoBase(expandedAll, esmData);
                         expandedAll = mergeExpandedIntoBase(expandedAll, extraData);
                         expandedAll = normalizeSubjectKeys(expandedAll);
+
+                                    // Convert array sources into subject-shaped data and merge
+                                    Object.entries(arraySources).forEach(([subjectName, arr]) => {
+                                        if (!arr || (Array.isArray(arr) && !arr.length)) return;
+                                        const shaped = {}; shaped[subjectName] = arraysToSubjectShape(arr, subjectName);
+                                        mergeExpandedIntoBase(expandedAll, shaped);
+                                    });
 
                         // Publish merged expanded
                         window.ExpandedQuizData = expandedAll;
@@ -1756,6 +1845,9 @@
                                         // expose mutated AppData for downstream helpers
                                         window.AppData = AppData;
                         }
+
+                                    // Expose a unified catalog for direct consumption
+                                    window.UnifiedQuizCatalog = (typeof window !== 'undefined' ? window.AppData : AppData) || expandedAll;
 
                         // Inspect and count after merge
                         function countQuizzesForSubject(subjectData) {
@@ -1777,10 +1869,11 @@
                         console.log('[premade] subjects =', Object.keys(window.ExpandedQuizData || {}));
                         console.log('[premade] social studies categories =', window.ExpandedQuizData?.['Social Studies']?.categories);
 
-                        const subjectsForCounts = Object.keys(window.ExpandedQuizData || {});
+                                    const subjectsForCounts = Object.keys(window.UnifiedQuizCatalog || window.ExpandedQuizData || {});
                         const premadeCounts = {};
                         subjectsForCounts.forEach((s) => {
-                            premadeCounts[s] = countQuizzesForSubject(window.ExpandedQuizData?.[s]);
+                                        const src = (window.UnifiedQuizCatalog || window.ExpandedQuizData) || {};
+                                        premadeCounts[s] = countQuizzesForSubject(src?.[s]);
                         });
                         console.log('[premade] counts after merge:', premadeCounts);
                     } catch (e) {
@@ -1808,7 +1901,22 @@ if (typeof window !== 'undefined') {
 }
 
 const getPremadeQuizTotal = (subject) => {
-    return Array.isArray(PREMADE_QUIZ_CATALOG[subject]) ? PREMADE_QUIZ_CATALOG[subject].length : 0;
+    try {
+        const src = (typeof window !== 'undefined' && window.UnifiedQuizCatalog) ? window.UnifiedQuizCatalog : (typeof window !== 'undefined' ? window.AppData : AppData);
+        const subjectData = src?.[subject];
+        if (!subjectData) return 0;
+        let total = 0;
+        if (Array.isArray(subjectData.quizzes)) total += subjectData.quizzes.length;
+        const cats = subjectData.categories || {};
+        for (const catName of Object.keys(cats)) {
+            const topics = Array.isArray(cats[catName]?.topics) ? cats[catName].topics : [];
+            topics.forEach((t) => {
+                if (Array.isArray(t?.quizzes)) total += t.quizzes.length;
+                else if (Array.isArray(t?.questions)) total += 1; // count bare question topics as one quiz
+            });
+        }
+        return total;
+    } catch { return 0; }
 };
 
 const createEmptyProgress = () => SUBJECT_PROGRESS_KEYS.reduce((acc, subject) => {
@@ -6718,57 +6826,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     };
 
     // Catalog-backed flat listing (ensures full inventory is accessible even if clusters omit content)
-    const renderAllPremadesList = () => {
-        const cat = (typeof window !== 'undefined' && window.PREMADE_QUIZ_CATALOG) ? window.PREMADE_QUIZ_CATALOG : {};
-        const allEntries = Array.isArray(cat?.[subjectName]) ? cat[subjectName] : [];
-        if (!allEntries.length) return null;
-        // Filter to only unmatched quizzes (not already present in organized categories/topics)
-        const subj = (typeof window !== 'undefined' ? (window.AppData || AppData) : AppData)?.[subjectName];
-        const presentCodes = new Set();
-        if (subj) {
-            // subject-level quizzes
-            if (Array.isArray(subj.quizzes)) {
-                subj.quizzes.forEach(q => { if (q?.quizCode) presentCodes.add(q.quizCode); });
-            }
-            const cats = subj.categories || {};
-            for (const cname of Object.keys(cats)) {
-                const c = cats[cname];
-                const topics = Array.isArray(c?.topics) ? c.topics : [];
-                topics.forEach(t => {
-                    if (Array.isArray(t?.quizzes)) {
-                        t.quizzes.forEach(q => { if (q?.quizCode) presentCodes.add(q.quizCode); });
-                    }
-                });
-            }
-        }
-        const entries = allEntries.filter(e => !presentCodes.has(e.code));
-        if (!entries.length) return null; // nothing unmatched: skip the flat bottom
-        return (
-            <section className="rounded-xl border p-3" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
-                <div className="flex items-center justify-between">
-                    <h4 className="font-semibold">Uncategorized / Other <span className="opacity-60 text-sm">({entries.length})</span></h4>
-                </div>
-                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {entries.map(({ code, title }) => (
-                        <button
-                            key={code}
-                            onClick={() => resolveAndLaunchByCode(code)}
-                            className="text-left w-full px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95 border"
-                            style={{
-                                backgroundColor: isDarkMode ? 'rgba(148,163,184,0.12)' : '#ffffff',
-                                color: subjectColors.text || '#0f172a',
-                                borderColor: subjectColors.border || 'rgba(148,163,184,0.35)'
-                            }}
-                            title={title}
-                        >
-                            <span className="block truncate">{title}</span>
-                            <span className="block text-xs opacity-70 mt-0.5">{code}</span>
-                        </button>
-                    ))}
-                </div>
-            </section>
-        );
-    };
+    // Flat premade list removed after unification; all quizzes should appear under categories/topics
 
     return (
         <div className="space-y-4">
@@ -6799,7 +6857,6 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             {activeTab === 'core' && renderCoreTab()}
             {activeTab === 'levels' && renderLevelsTab()}
             {activeTab === 'special' && renderSpecialTab()}
-            {renderAllPremadesList()}
         </div>
     );
 }
