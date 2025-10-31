@@ -7857,6 +7857,16 @@ function App({ externalTheme, onThemeChange }) {
         return trimmed;
     }, []);
 
+    // Helper: normalize nextUpcomingTest from server
+    const normalizeNextUpcoming = (raw) => {
+        if (!raw || typeof raw !== 'object') return null;
+        const subject = raw.subject || '';
+        const testDate = raw.testDate || '';
+        const daysUntil = (typeof raw.daysUntil === 'number' && Number.isFinite(raw.daysUntil)) ? raw.daysUntil : null;
+        if (!subject || !testDate) return null;
+        return { subject, testDate, daysUntil };
+    };
+
     const loadProfileOnce = useCallback(async () => {
         setProfileLoading(true);
         setProfileError(null);
@@ -7907,6 +7917,7 @@ function App({ externalTheme, onThemeChange }) {
                         onboardingComplete: !!bundle?.profile?.onboardingComplete,
                     },
                     testPlan: serverTestPlan,
+                    nextUpcomingTest: normalizeNextUpcoming(bundle?.nextUpcomingTest),
                     challengeOptions: serverChallenges,
                     recentScoresDashboard: bundle?.recentScores && typeof bundle.recentScores === 'object' ? bundle.recentScores : (prev.recentScoresDashboard || {}),
                 }));
@@ -8107,6 +8118,7 @@ function App({ externalTheme, onThemeChange }) {
                             passed: !!row?.passed,
                             notScheduled: !!row?.notScheduled,
                         })) : prev.testPlan,
+                        nextUpcomingTest: normalizeNextUpcoming(bundle?.nextUpcomingTest),
                         challengeOptions: Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
                             id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
                             subject: opt?.subject || '',
@@ -8184,6 +8196,7 @@ function App({ externalTheme, onThemeChange }) {
                             passed: !!row?.passed,
                             notScheduled: !!row?.notScheduled,
                         })) : (prev.testPlan || []),
+                        nextUpcomingTest: normalizeNextUpcoming(bundle?.nextUpcomingTest),
                         challengeOptions: Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
                             id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
                             subject: opt?.subject || '',
@@ -8252,6 +8265,7 @@ function App({ externalTheme, onThemeChange }) {
                             passed: !!row?.passed,
                             notScheduled: !!row?.notScheduled,
                         })) : (prev.testPlan || []),
+                        nextUpcomingTest: normalizeNextUpcoming(bundle?.nextUpcomingTest),
                         challengeOptions: Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
                             id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
                             subject: opt?.subject || '',
