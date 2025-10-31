@@ -1604,13 +1604,99 @@
 <body data-theme="light" style="background-color: var(--bg-page); color: var(--text-primary);">
     <div id="root"></div>
 
-        <!-- Load premade quiz data as an ES module and expose it once on window to avoid in-browser Babel transpiling -->
-        <script type="module">
-            import { expandedQuizData } from './data/quiz_data.js';
-            window.ExpandedQuizData = expandedQuizData;
-        </script>
+                <!-- Load premade quiz data as an ES module and stage it under a separate global to avoid clobbering -->
+                <script type="module">
+                        import { expandedQuizData } from './data/quiz_data.js';
+                        // Do NOT assign directly to window.ExpandedQuizData here; stash for a later deep-merge
+                        window.__ESM_ExpandedQuizData = expandedQuizData;
+                </script>
         <!-- Inject expanded quizzes built from backend supplemental topics (non-breaking; merges at runtime) -->
     <script src="Expanded/expanded.quizzes.bundle.js"></script>
+
+        <!-- Merge all available expanded datasets into a single window.ExpandedQuizData and expose a merged copy -->
+        <script>
+            (function () {
+                try {
+                    const deepMerge = (target, source) => {
+                        if (!source || typeof source !== 'object') return target;
+                        for (const [subject, incoming] of Object.entries(source)) {
+                            if (!incoming || typeof incoming !== 'object') continue;
+                            if (!target[subject]) {
+                                target[subject] = incoming;
+                                continue;
+                            }
+                            const cur = target[subject];
+                            if (incoming.categories) {
+                                cur.categories = cur.categories || {};
+                                for (const [catName, incCat] of Object.entries(incoming.categories)) {
+                                    if (!cur.categories[catName]) {
+                                        cur.categories[catName] = incCat;
+                                    } else {
+                                        const curCat = cur.categories[catName];
+                                        // topics
+                                        if (Array.isArray(incCat.topics)) {
+                                            curCat.topics = Array.isArray(curCat.topics) ? curCat.topics : [];
+                                            const existingIds = new Set(curCat.topics.filter(t => t && t.id).map(t => t.id));
+                                            for (const t of incCat.topics) {
+                                                if (!t) continue;
+                                                const tid = t.id || null;
+                                                if (!tid || !existingIds.has(tid)) {
+                                                    curCat.topics.push(t);
+                                                    if (tid) existingIds.add(tid);
+                                                }
+                                            }
+                                        }
+                                        // quizzes directly under category
+                                        if (Array.isArray(incCat.quizzes)) {
+                                            curCat.quizzes = Array.isArray(curCat.quizzes) ? curCat.quizzes : [];
+                                            const existingQ = new Set(curCat.quizzes.filter(q => q && q.quizId).map(q => q.quizId));
+                                            for (const q of incCat.quizzes) {
+                                                if (!q) continue;
+                                                const qid = q.quizId || null;
+                                                if (!qid || !existingQ.has(qid)) {
+                                                    curCat.quizzes.push(q);
+                                                    if (qid) existingQ.add(qid);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            // subject-level quizzes merge
+                            if (Array.isArray(incoming.quizzes)) {
+                                cur.quizzes = Array.isArray(cur.quizzes) ? cur.quizzes : [];
+                                const existingQ = new Set(cur.quizzes.filter(q => q && q.quizId).map(q => q.quizId));
+                                for (const q of incoming.quizzes) {
+                                    if (!q) continue;
+                                    const qid = q.quizId || null;
+                                    if (!qid || !existingQ.has(qid)) {
+                                        cur.quizzes.push(q);
+                                        if (qid) existingQ.add(qid);
+                                    }
+                                }
+                            }
+                        }
+                        return target;
+                    };
+
+                    // Start from any existing ExpandedQuizData set by the supplemental bundle; else empty
+                    const merged = deepMerge({}, window.ExpandedQuizData || {});
+                    // Merge in the ESM dataset if present
+                    if (window.__ESM_ExpandedQuizData) {
+                        deepMerge(merged, window.__ESM_ExpandedQuizData);
+                    }
+                    // Optional legacy bucket shape
+                    if (window.Data && window.Data.expandedQuizData) {
+                        deepMerge(merged, window.Data.expandedQuizData);
+                    }
+                    window.ExpandedQuizData = merged;
+                    // Also expose a stable merged copy for resolvers
+                    window.MergedExpandedQuizData = merged;
+                } catch (e) {
+                    console.warn('[premade] Merge of expanded datasets failed:', e);
+                }
+            })();
+        </script>
 
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
@@ -5784,9 +5870,22 @@ function assignPremadeQuizCodes(data) {
 // Defer building premade catalog until expanded data is ready
 function initPremades(retryMs = 200) {
     try {
-        const source = (typeof window !== 'undefined')
-            ? (window.expandedQuizData || window.ExpandedQuizData || (window.Data && window.Data.expandedQuizData) || null)
-            : null;
+        const collect = () => {
+            const sources = [];
+            if (typeof window === 'undefined') return null;
+            if (window.MergedExpandedQuizData) sources.push(window.MergedExpandedQuizData);
+            if (window.ExpandedQuizData) sources.push(window.ExpandedQuizData);
+            if (window.__ESM_ExpandedQuizData) sources.push(window.__ESM_ExpandedQuizData);
+            if (window.Data && window.Data.expandedQuizData) sources.push(window.Data.expandedQuizData);
+            if (!sources.length) return null;
+            // shallow subject-level merge is enough as assignPremadeQuizCodes walks all branches
+            const merged = sources.reduce((acc, src) => {
+                Object.entries(src || {}).forEach(([k, v]) => { if (!acc[k]) acc[k] = v; });
+                return acc;
+            }, {});
+            return merged;
+        };
+        const source = collect();
         if (!source) {
             console.warn('expandedQuizData not ready yet, will retry...');
             if (typeof setTimeout === 'function') setTimeout(() => initPremades(retryMs), retryMs);
@@ -5797,7 +5896,8 @@ function initPremades(retryMs = 200) {
             window.PREMADE_QUIZ_CATALOG = PREMADE_QUIZ_CATALOG;
         }
         const summary = Object.fromEntries(Object.entries(PREMADE_QUIZ_CATALOG).map(([s, arr]) => [s, Array.isArray(arr) ? arr.length : 0]));
-        console.log('Premade summary (rebuilt):', summary);
+        console.log('[premade] subjects:', Object.keys(PREMADE_QUIZ_CATALOG));
+        console.log('[premade] total quizzes:', Object.values(summary).reduce((a,b)=>a+b,0), summary);
     } catch (err) {
         console.warn('Failed to build premade catalog:', err);
     }
@@ -5806,6 +5906,15 @@ if (typeof window !== 'undefined') {
     window.initPremades = initPremades;
 }
 initPremades();
+// Regression guard: warn if expanded data failed to load
+(function(){
+    try {
+        const s = (typeof window !== 'undefined') ? window.ExpandedQuizData : null;
+        if (!s || (typeof s === 'object' && Object.keys(s).length === 0)) {
+            console.warn('[premade] ExpandedQuizData did NOT load. Showing fallback counts only.');
+        }
+    } catch {}
+})();
 
 // --- QUIZ LIBRARY (clusters) ---
 // Build a centralized cluster library from AppData categories to power a two-level browser.
@@ -6448,6 +6557,107 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         );
     };
 
+    // Fallback: Launch any premade by quizCode from the merged dataset
+    const resolveAndLaunchByCode = (quizCode) => {
+        try {
+            const data = (typeof window !== 'undefined') ? (window.MergedExpandedQuizData || window.ExpandedQuizData || {}) : {};
+            const subject = data?.[subjectName];
+            if (!subject) throw new Error('Subject dataset not found');
+            let found = null;
+            // search helper
+            const setIfMatch = (obj) => {
+                if (found) return;
+                if (!obj) return;
+                if (obj.quizCode && obj.quizCode === quizCode) found = obj;
+            };
+            // subject-level quizzes
+            if (Array.isArray(subject.quizzes)) subject.quizzes.forEach(setIfMatch);
+            // categories
+            const cats = subject.categories || {};
+            for (const catName of Object.keys(cats)) {
+                const cat = cats[catName];
+                if (!cat) continue;
+                if (Array.isArray(cat.quizzes)) cat.quizzes.forEach(setIfMatch);
+                const topics = Array.isArray(cat.topics) ? cat.topics : [];
+                for (const t of topics) {
+                    if (!t) continue;
+                    // topic as a direct quiz
+                    setIfMatch(t);
+                    // topic quiz sets
+                    if (Array.isArray(t.quizzes)) t.quizzes.forEach(setIfMatch);
+                }
+            }
+            if (!found) {
+                alert('Sorry, this premade could not be resolved. Try another.');
+                return;
+            }
+            // Build a prepared quiz similar to topic/quizStart
+            const originTopic = found.topicId ? getTopicById(subjectName, found.topicId) : null;
+            const baseTitle = found.title || originTopic?.title || 'Premade Quiz';
+            const prepared = {
+                ...found,
+                id: found.quizCode || found.quizId || sanitizeCodeSegment(baseTitle),
+                title: baseTitle,
+                quizCode: found.quizCode || `${sanitizeCodeSegment(subjectName,'subject')}__${sanitizeCodeSegment(baseTitle)}`,
+                type: found.type || originTopic?.type || 'quiz',
+            };
+            // Resolve questions from topic/quizzes where needed
+            let questions = [];
+            if (Array.isArray(found.questions) && found.questions.length) {
+                questions = found.questions;
+            } else if (originTopic && Array.isArray(originTopic.questions) && originTopic.questions.length) {
+                questions = originTopic.questions;
+            } else if (originTopic && Array.isArray(originTopic.quizzes)) {
+                // pick first matching set if any
+                const match = originTopic.quizzes.find(q => q.quizCode === found.quizCode || q.quizId === found.quizId) || originTopic.quizzes[0];
+                if (match && Array.isArray(match.questions)) questions = match.questions;
+            }
+            const normalizedQuestions = (Array.isArray(questions) ? questions : []).map((q, qi) => {
+                const withNum = q && typeof q === 'object' ? { ...q, questionNumber: q.questionNumber ?? (qi + 1) } : q;
+                return normalizeQuestionAssets(withNum, subjectName);
+            });
+            prepared.questions = normalizedQuestions;
+            ensureMinQuestions(prepared, subjectName, 12);
+            prepared.isPremade = true;
+            onSelectQuiz(prepared, subjectName);
+        } catch (e) {
+            console.warn('Failed to resolve premade by code', quizCode, e);
+            alert('Could not start this premade quiz due to a data error.');
+        }
+    };
+
+    // Catalog-backed flat listing (ensures full inventory is accessible even if clusters omit content)
+    const renderAllPremadesList = () => {
+        const cat = (typeof window !== 'undefined' && window.PREMADE_QUIZ_CATALOG) ? window.PREMADE_QUIZ_CATALOG : {};
+        const entries = Array.isArray(cat?.[subjectName]) ? cat[subjectName] : [];
+        if (!entries.length) return null;
+        return (
+            <section className="rounded-xl border p-3" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
+                <div className="flex items-center justify-between">
+                    <h4 className="font-semibold">All Premade Quizzes <span className="opacity-60 text-sm">({entries.length})</span></h4>
+                </div>
+                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {entries.map(({ code, title }) => (
+                        <button
+                            key={code}
+                            onClick={() => resolveAndLaunchByCode(code)}
+                            className="text-left w-full px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95 border"
+                            style={{
+                                backgroundColor: isDarkMode ? 'rgba(148,163,184,0.12)' : '#ffffff',
+                                color: subjectColors.text || '#0f172a',
+                                borderColor: subjectColors.border || 'rgba(148,163,184,0.35)'
+                            }}
+                            title={title}
+                        >
+                            <span className="block truncate">{title}</span>
+                            <span className="block text-xs opacity-70 mt-0.5">{code}</span>
+                        </button>
+                    ))}
+                </div>
+            </section>
+        );
+    };
+
     return (
         <div className="space-y-4">
             {/* Tabs */}
@@ -6477,6 +6687,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             {activeTab === 'core' && renderCoreTab()}
             {activeTab === 'levels' && renderLevelsTab()}
             {activeTab === 'special' && renderSpecialTab()}
+            {renderAllPremadesList()}
         </div>
     );
 }
@@ -11320,9 +11531,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             };
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         const subjectPremadeTotal = getPremadeQuizTotal(selectedSubject);
-        const subjectPremadeLabel = subjectPremadeTotal === 1
-            ? '1 premade quiz ready'
-            : `${subjectPremadeTotal} premade quizzes ready`;
+        const expandedReady = (typeof window !== 'undefined' && window.ExpandedQuizData && Object.keys(window.ExpandedQuizData).length > 0);
+        const subjectPremadeLabel = expandedReady
+            ? (subjectPremadeTotal === 1 ? '1 premade quiz ready' : `${subjectPremadeTotal} premade quizzes ready`)
+            : 'loading (partial set)…';
         return (
             <>
                 {viewScienceFormulas && (
@@ -11706,9 +11918,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
                             const subjectTextColor = colorScheme.text || '#ffffff';
                             const premadeTotal = getPremadeQuizTotal(subjectName);
-                            const premadeLabel = premadeTotal === 1
-                                ? '1 premade quiz ready'
-                                : `${premadeTotal} premade quizzes ready`;
+                            const expandedReady = (typeof window !== 'undefined' && window.ExpandedQuizData && Object.keys(window.ExpandedQuizData).length > 0);
+                            const premadeLabel = expandedReady
+                                ? (premadeTotal === 1 ? '1 premade quiz ready' : `${premadeTotal} premade quizzes ready`)
+                                : 'loading (partial set)…';
                             const subjectDataKey = SUBJECT_SHORT_LABELS[subjectName] || subjectName;
                             return (
                                 <button
