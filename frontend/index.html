@@ -1027,6 +1027,15 @@
             border: 1px solid #d1d5db;
             box-shadow: inset 0 0 0 1px rgba(148,163,184,0.12);
         }
+        /* Ensure Profile refresh button text is black in light mode, overriding broader button color rules */
+        [data-theme="light"] #profileView .refresh-button,
+        [data-theme="light"] #profileView .refresh-button * {
+            color: #000000 !important;
+        }
+        [data-theme="light"] #profileView .refresh-button {
+            background-color: #ffffff !important;
+            border: 1px solid #d1d5db !important;
+        }
         [data-theme="light"] .refresh-button:hover:not(:disabled) {
             background-color: #f0f0f0;
         }
@@ -1595,8 +1604,12 @@
 <body data-theme="light" style="background-color: var(--bg-page); color: var(--text-primary);">
     <div id="root"></div>
 
-    <script src="data/quiz_data.js"></script>
-    <!-- Inject expanded quizzes built from backend supplemental topics (non-breaking; merges at runtime) -->
+        <!-- Load premade quiz data as an ES module and expose it once on window to avoid in-browser Babel transpiling -->
+        <script type="module">
+            import { expandedQuizData } from './data/quiz_data.js';
+            window.ExpandedQuizData = expandedQuizData;
+        </script>
+        <!-- Inject expanded quizzes built from backend supplemental topics (non-breaking; merges at runtime) -->
     <script src="Expanded/expanded.quizzes.bundle.js"></script>
 
 <script type="text/babel" data-presets="env,react">

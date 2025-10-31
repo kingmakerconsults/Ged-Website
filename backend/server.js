@@ -1773,7 +1773,10 @@ const PROFILE_ALLOW = new Set([
     '/api/profile/save',  // future unified save endpoint
     '/api/profile/challenges/tags',
     '/api/challenges/tags',
-    '/api/whoami'
+    '/api/whoami',
+    // presence + quiz attempts should not be blocked by active-user gating
+    '/presence/ping',
+    '/api/quiz/attempts'
 ]);
 
 function isProfileAllowlistedPath(pathname) {
@@ -2051,6 +2054,44 @@ app.post('/presence/ping', devAuth, ensureTestUserForNow, requireAuthInProd, aut
         console.error('presence/ping failed:', err?.message || err);
         return res.status(500).json({ error: 'presence_update_failed' });
     }
+});
+
+// Also support GET pings so callers that use fetch GET won't 404
+app.get('/presence/ping', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+
+        if (!userId) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        try {
+            await db.query(
+                `UPDATE users
+                    SET last_seen_at = NOW()
+                  WHERE id = $1`,
+                [userId]
+            );
+        } catch (e) {
+            console.warn('[presence/ping] failed to update last_seen_at', e?.message || e);
+        }
+
+        return res.json({ ok: true });
+    } catch (err) {
+        console.error('presence/ping (GET) failed:', err?.message || err);
+        return res.status(500).json({ error: 'presence_update_failed' });
+    }
+});
+
+// Minimal quiz attempts endpoints to satisfy frontend calls
+app.get('/api/quiz/attempts', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    // later: SELECT * FROM quiz_attempts WHERE user_id = $1 ORDER BY created_at DESC
+    return res.json({ ok: true, attempts: [] });
+});
+
+app.post('/api/quiz/attempts', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+    // for now just ACK
+    return res.json({ ok: true });
 });
 
 // Simple endpoint to debug the resolved identity and profile presence
