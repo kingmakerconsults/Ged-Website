@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-label="Math badge">
+  <defs>
+    <filter id="ds" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#0b4f71" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#ds)">
+    <circle cx="48" cy="48" r="44" fill="#0284c7"/>
+    <circle cx="48" cy="48" r="40" fill="#0ea5e9" opacity="0.2"/>
+    <g fill="#ffffff" stroke="#e0f2fe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M28 40h16M36 32v16"/>
+      <path d="M52 44h16"/>
+      <path d="M54 56h12M54 64h12"/>
+      <path d="M28 60l12 12M40 60l-12 12"/>
+    </g>
+  </g>
+</svg>
