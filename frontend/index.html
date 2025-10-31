@@ -1613,90 +1613,181 @@
         <!-- Inject expanded quizzes built from backend supplemental topics (non-breaking; merges at runtime) -->
     <script src="Expanded/expanded.quizzes.bundle.js"></script>
 
-        <!-- Merge all available expanded datasets into a single window.ExpandedQuizData and expose a merged copy -->
-        <script>
-            (function () {
-                try {
-                    const deepMerge = (target, source) => {
-                        if (!source || typeof source !== 'object') return target;
-                        for (const [subject, incoming] of Object.entries(source)) {
-                            if (!incoming || typeof incoming !== 'object') continue;
-                            if (!target[subject]) {
-                                target[subject] = incoming;
-                                continue;
-                            }
-                            const cur = target[subject];
-                            if (incoming.categories) {
-                                cur.categories = cur.categories || {};
-                                for (const [catName, incCat] of Object.entries(incoming.categories)) {
-                                    if (!cur.categories[catName]) {
-                                        cur.categories[catName] = incCat;
-                                    } else {
-                                        const curCat = cur.categories[catName];
-                                        // topics
-                                        if (Array.isArray(incCat.topics)) {
-                                            curCat.topics = Array.isArray(curCat.topics) ? curCat.topics : [];
-                                            const existingIds = new Set(curCat.topics.filter(t => t && t.id).map(t => t.id));
-                                            for (const t of incCat.topics) {
-                                                if (!t) continue;
-                                                const tid = t.id || null;
-                                                if (!tid || !existingIds.has(tid)) {
-                                                    curCat.topics.push(t);
-                                                    if (tid) existingIds.add(tid);
-                                                }
-                                            }
-                                        }
-                                        // quizzes directly under category
-                                        if (Array.isArray(incCat.quizzes)) {
-                                            curCat.quizzes = Array.isArray(curCat.quizzes) ? curCat.quizzes : [];
-                                            const existingQ = new Set(curCat.quizzes.filter(q => q && q.quizId).map(q => q.quizId));
-                                            for (const q of incCat.quizzes) {
-                                                if (!q) continue;
-                                                const qid = q.quizId || null;
-                                                if (!qid || !existingQ.has(qid)) {
-                                                    curCat.quizzes.push(q);
-                                                    if (qid) existingQ.add(qid);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            // subject-level quizzes merge
-                            if (Array.isArray(incoming.quizzes)) {
-                                cur.quizzes = Array.isArray(cur.quizzes) ? cur.quizzes : [];
-                                const existingQ = new Set(cur.quizzes.filter(q => q && q.quizId).map(q => q.quizId));
-                                for (const q of incoming.quizzes) {
-                                    if (!q) continue;
-                                    const qid = q.quizId || null;
-                                    if (!qid || !existingQ.has(qid)) {
-                                        cur.quizzes.push(q);
-                                        if (qid) existingQ.add(qid);
-                                    }
-                                }
-                            }
-                        }
-                        return target;
-                    };
+            <!-- Deep-merge expanded datasets into a single window.ExpandedQuizData, normalize keys, and integrate into AppData/QUIZ_LIBRARY -->
+            <script>
+                (function () {
+                    try {
+                        // Deep subject -> category -> topics -> quizzes merge
+                        function mergeExpandedIntoBase(base, incoming) {
+                            if (!incoming) return base;
+                            const out = base || {};
 
-                    // Start from any existing ExpandedQuizData set by the supplemental bundle; else empty
-                    const merged = deepMerge({}, window.ExpandedQuizData || {});
-                    // Merge in the ESM dataset if present
-                    if (window.__ESM_ExpandedQuizData) {
-                        deepMerge(merged, window.__ESM_ExpandedQuizData);
+                            for (const subjectName of Object.keys(incoming)) {
+                                const incSubject = incoming[subjectName];
+                                if (!incSubject) continue;
+
+                                // ensure subject exists
+                                if (!out[subjectName]) {
+                                    out[subjectName] = {
+                                        icon: incSubject.icon || null,
+                                        description: incSubject.description || '',
+                                        categories: {},
+                                        quizzes: Array.isArray(incSubject.quizzes) ? [...incSubject.quizzes] : []
+                                    };
+                                }
+
+                                const outSubject = out[subjectName];
+
+                                // 1) merge subject-level quizzes
+                                if (Array.isArray(incSubject.quizzes) && incSubject.quizzes.length) {
+                                    const existingIds = new Set(
+                                        (outSubject.quizzes || []).map(q => q && (q.quizId || q.id))
+                                    );
+                                    outSubject.quizzes = outSubject.quizzes || [];
+                                    for (const q of incSubject.quizzes) {
+                                        if (!q) continue;
+                                        const qid = q.quizId || q.id;
+                                        if (!qid || !existingIds.has(qid)) {
+                                            outSubject.quizzes.push(q);
+                                            if (qid) existingIds.add(qid);
+                                        }
+                                    }
+                                }
+
+                                // 2) merge categories
+                                const incCats = incSubject.categories || {};
+                                outSubject.categories = outSubject.categories || {};
+                                for (const catName of Object.keys(incCats)) {
+                                    const incCat = incCats[catName];
+                                    if (!outSubject.categories[catName]) {
+                                        // whole category is new
+                                        outSubject.categories[catName] = {
+                                            description: incCat.description || '',
+                                            topics: Array.isArray(incCat.topics) ? [...incCat.topics] : []
+                                        };
+                                        continue;
+                                    }
+
+                                    // category exists, merge topics
+                                    const outCat = outSubject.categories[catName];
+                                    outCat.description = outCat.description || incCat.description || '';
+
+                                    const outTopics = Array.isArray(outCat.topics) ? outCat.topics : [];
+                                    const incTopics = Array.isArray(incCat.topics) ? incCat.topics : [];
+
+                                    // index existing topics by id
+                                    const topicById = {};
+                                    outTopics.forEach((t, idx) => {
+                                        if (t && t.id) topicById[t.id] = { idx, t };
+                                    });
+
+                                    incTopics.forEach((incTopic) => {
+                                        if (!incTopic) return;
+                                        const tid = incTopic.id;
+                                        if (!tid || !topicById[tid]) {
+                                            // new topic
+                                            outTopics.push(incTopic);
+                                            return;
+                                        }
+                                        // topic exists -> merge quizzes on that topic
+                                        const { idx, t: outTopic } = topicById[tid];
+                                        const outQuizzes = Array.isArray(outTopic.quizzes) ? outTopic.quizzes : [];
+                                        const incomingQuizzes = Array.isArray(incTopic.quizzes) ? incTopic.quizzes : [];
+
+                                        const existingQuizIds = new Set(outQuizzes.map(q => q && (q.quizId || q.id)));
+
+                                        incomingQuizzes.forEach((q) => {
+                                            if (!q) return;
+                                            const qid = q.quizId || q.id;
+                                            if (!qid || !existingQuizIds.has(qid)) {
+                                                outQuizzes.push(q);
+                                                if (qid) existingQuizIds.add(qid);
+                                            }
+                                        });
+
+                                        outTopics[idx] = {
+                                            ...outTopic,
+                                            quizzes: outQuizzes
+                                        };
+                                    });
+
+                                    outCat.topics = outTopics;
+                                }
+                            }
+
+                            return out;
+                        }
+
+                        // Normalize subject keys (e.g., Social Studies variants)
+                        function normalizeSubjectKeys(obj) {
+                            if (!obj || typeof obj !== 'object') return obj;
+                            const src = obj;
+                            const keys = Object.keys(src);
+                            for (const k of keys) {
+                                const trimmed = k.trim();
+                                const lower = trimmed.toLowerCase();
+                                if (lower === 'social studies' && trimmed !== 'Social Studies') {
+                                    src['Social Studies'] = mergeExpandedIntoBase(src['Social Studies'] || {}, src[k]);
+                                    if (k !== 'Social Studies') delete src[k];
+                                }
+                            }
+                            return src;
+                        }
+
+                        // Gather sources
+                        const esmData = window.__ESM_ExpandedQuizData || {};
+                        const extraData = window.ExpandedExtraQuizData || window.ExpandedBundleData || window.ExpandedQuizData || {};
+
+                        // Build single expanded dataset
+                        let expandedAll = {};
+                        expandedAll = mergeExpandedIntoBase(expandedAll, esmData);
+                        expandedAll = mergeExpandedIntoBase(expandedAll, extraData);
+                        expandedAll = normalizeSubjectKeys(expandedAll);
+
+                        // Publish merged expanded
+                        window.ExpandedQuizData = expandedAll;
+
+                        // Integrate into the app's base data model (AppData)
+                                    if (typeof AppData === 'object' && AppData) {
+                            mergeExpandedIntoBase(AppData, expandedAll); // mutate in place
+                            if (typeof buildQuizLibraryFromAppData === 'function') {
+                                window.QUIZ_LIBRARY = buildQuizLibraryFromAppData(AppData);
+                            }
+                                        // expose mutated AppData for downstream helpers
+                                        window.AppData = AppData;
+                        }
+
+                        // Inspect and count after merge
+                        function countQuizzesForSubject(subjectData) {
+                            if (!subjectData) return 0;
+                            let total = 0;
+                            if (Array.isArray(subjectData.quizzes)) total += subjectData.quizzes.length;
+                            const cats = subjectData.categories || {};
+                            for (const catName of Object.keys(cats)) {
+                                const cat = cats[catName];
+                                const topics = Array.isArray(cat.topics) ? cat.topics : [];
+                                topics.forEach((topic) => {
+                                    if (Array.isArray(topic.quizzes)) total += topic.quizzes.length;
+                                });
+                            }
+                            return total;
+                        }
+
+                        console.log('[premade] window.ExpandedQuizData =', window.ExpandedQuizData);
+                        console.log('[premade] subjects =', Object.keys(window.ExpandedQuizData || {}));
+                        console.log('[premade] social studies categories =', window.ExpandedQuizData?.['Social Studies']?.categories);
+
+                        const subjectsForCounts = Object.keys(window.ExpandedQuizData || {});
+                        const premadeCounts = {};
+                        subjectsForCounts.forEach((s) => {
+                            premadeCounts[s] = countQuizzesForSubject(window.ExpandedQuizData?.[s]);
+                        });
+                        console.log('[premade] counts after merge:', premadeCounts);
+                    } catch (e) {
+                        console.warn('[premade] Merge of expanded datasets failed:', e);
                     }
-                    // Optional legacy bucket shape
-                    if (window.Data && window.Data.expandedQuizData) {
-                        deepMerge(merged, window.Data.expandedQuizData);
-                    }
-                    window.ExpandedQuizData = merged;
-                    // Also expose a stable merged copy for resolvers
-                    window.MergedExpandedQuizData = merged;
-                } catch (e) {
-                    console.warn('[premade] Merge of expanded datasets failed:', e);
-                }
-            })();
-        </script>
+                })();
+            </script>
 
 <script type="text/babel" data-presets="env,react">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
@@ -6629,12 +6720,33 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     // Catalog-backed flat listing (ensures full inventory is accessible even if clusters omit content)
     const renderAllPremadesList = () => {
         const cat = (typeof window !== 'undefined' && window.PREMADE_QUIZ_CATALOG) ? window.PREMADE_QUIZ_CATALOG : {};
-        const entries = Array.isArray(cat?.[subjectName]) ? cat[subjectName] : [];
-        if (!entries.length) return null;
+        const allEntries = Array.isArray(cat?.[subjectName]) ? cat[subjectName] : [];
+        if (!allEntries.length) return null;
+        // Filter to only unmatched quizzes (not already present in organized categories/topics)
+        const subj = (typeof window !== 'undefined' ? (window.AppData || AppData) : AppData)?.[subjectName];
+        const presentCodes = new Set();
+        if (subj) {
+            // subject-level quizzes
+            if (Array.isArray(subj.quizzes)) {
+                subj.quizzes.forEach(q => { if (q?.quizCode) presentCodes.add(q.quizCode); });
+            }
+            const cats = subj.categories || {};
+            for (const cname of Object.keys(cats)) {
+                const c = cats[cname];
+                const topics = Array.isArray(c?.topics) ? c.topics : [];
+                topics.forEach(t => {
+                    if (Array.isArray(t?.quizzes)) {
+                        t.quizzes.forEach(q => { if (q?.quizCode) presentCodes.add(q.quizCode); });
+                    }
+                });
+            }
+        }
+        const entries = allEntries.filter(e => !presentCodes.has(e.code));
+        if (!entries.length) return null; // nothing unmatched: skip the flat bottom
         return (
             <section className="rounded-xl border p-3" style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}>
                 <div className="flex items-center justify-between">
-                    <h4 className="font-semibold">All Premade Quizzes <span className="opacity-60 text-sm">({entries.length})</span></h4>
+                    <h4 className="font-semibold">Uncategorized / Other <span className="opacity-60 text-sm">({entries.length})</span></h4>
                 </div>
                 <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {entries.map(({ code, title }) => (
