@@ -1624,7 +1624,11 @@ const SUBJECT_PROGRESS_KEYS = [
 
 const GED_PASSING_SCORE = 145;
 
-let PREMADE_QUIZ_CATALOG = {};
+// Global premade catalog; ensure it's on window to be shareable across late loaders
+let PREMADE_QUIZ_CATALOG = (typeof window !== 'undefined' && window.PREMADE_QUIZ_CATALOG) ? window.PREMADE_QUIZ_CATALOG : {};
+if (typeof window !== 'undefined') {
+    window.PREMADE_QUIZ_CATALOG = PREMADE_QUIZ_CATALOG;
+}
 
 const getPremadeQuizTotal = (subject) => {
     return Array.isArray(PREMADE_QUIZ_CATALOG[subject]) ? PREMADE_QUIZ_CATALOG[subject].length : 0;
@@ -5665,6 +5669,7 @@ function assignPremadeQuizCodes(data) {
             catalog[subjectName] = [];
         }
 
+        // Helper to register a quiz entry and stamp quizCode on the source object
         Object.entries(subject.categories || {}).forEach(([categoryName, category], categoryIndex) => {
             if (!category || typeof category !== 'object') {
                 return;
@@ -5729,18 +5734,78 @@ function assignPremadeQuizCodes(data) {
                     registerQuiz(topic, code, quizTitle);
                 }
             });
+
+            // Some categories might have quizzes directly (without topics)
+            if (Array.isArray(category.quizzes) && category.quizzes.length) {
+                category.quizzes.forEach((quiz, quizIndex) => {
+                    if (!quiz || typeof quiz !== 'object') return;
+                    const subjectKey = subjectName;
+                    if (!Array.isArray(quiz.questions)) quiz.questions = [];
+                    quiz.questions = quiz.questions.map((q) => normalizeQuestionAssets(q, subjectKey));
+                    ensureMinQuestions(quiz, subjectKey, 12);
+                    const quizIdSegment = sanitizeCodeSegment(quiz.quizId || '', '');
+                    const labelSegment = sanitizeCodeSegment(quiz.label || quiz.title || '', '');
+                    const setSegment = quizIdSegment || labelSegment || `set-${quizIndex + 1}`;
+                    const code = [subjectSlug, categorySlug, setSegment].filter(Boolean).join('__');
+                    const quizTitle = quiz.title || `${categoryName} — ${quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`}`;
+                    // Stamp code for potential resolution later
+                    quiz.quizCode = code;
+                    if (!catalog[subjectName].some((e) => e.code === code)) {
+                        catalog[subjectName].push({ code, title: quizTitle });
+                    }
+                });
+            }
         });
+
+        // Subject-level quizzes (rare)
+        if (Array.isArray(subject.quizzes) && subject.quizzes.length) {
+            subject.quizzes.forEach((quiz, quizIndex) => {
+                if (!quiz || typeof quiz !== 'object') return;
+                const subjectKey = subjectName;
+                if (!Array.isArray(quiz.questions)) quiz.questions = [];
+                quiz.questions = quiz.questions.map((q) => normalizeQuestionAssets(q, subjectKey));
+                ensureMinQuestions(quiz, subjectKey, 12);
+                const quizIdSegment = sanitizeCodeSegment(quiz.quizId || '', '');
+                const labelSegment = sanitizeCodeSegment(quiz.label || quiz.title || '', '');
+                const setSegment = quizIdSegment || labelSegment || `set-${quizIndex + 1}`;
+                const code = [subjectSlug, setSegment].filter(Boolean).join('__');
+                const quizTitle = quiz.title || `${subjectName} — ${quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`}`;
+                quiz.quizCode = code;
+                if (!catalog[subjectName].some((e) => e.code === code)) {
+                    catalog[subjectName].push({ code, title: quizTitle });
+                }
+            });
+        }
     });
 
     return catalog;
 }
 
-PREMADE_QUIZ_CATALOG = assignPremadeQuizCodes(AppData);
-// Log summary counts for verification
-try {
-    const summary = Object.fromEntries(Object.entries(PREMADE_QUIZ_CATALOG).map(([s, arr]) => [s, Array.isArray(arr) ? arr.length : 0]));
-    console.log('Premade summary', summary);
-} catch {}
+// Defer building premade catalog until expanded data is ready
+function initPremades(retryMs = 200) {
+    try {
+        const source = (typeof window !== 'undefined')
+            ? (window.expandedQuizData || window.ExpandedQuizData || (window.Data && window.Data.expandedQuizData) || null)
+            : null;
+        if (!source) {
+            console.warn('expandedQuizData not ready yet, will retry...');
+            if (typeof setTimeout === 'function') setTimeout(() => initPremades(retryMs), retryMs);
+            return;
+        }
+        PREMADE_QUIZ_CATALOG = assignPremadeQuizCodes(source);
+        if (typeof window !== 'undefined') {
+            window.PREMADE_QUIZ_CATALOG = PREMADE_QUIZ_CATALOG;
+        }
+        const summary = Object.fromEntries(Object.entries(PREMADE_QUIZ_CATALOG).map(([s, arr]) => [s, Array.isArray(arr) ? arr.length : 0]));
+        console.log('Premade summary (rebuilt):', summary);
+    } catch (err) {
+        console.warn('Failed to build premade catalog:', err);
+    }
+}
+if (typeof window !== 'undefined') {
+    window.initPremades = initPremades;
+}
+initPremades();
 
 // --- QUIZ LIBRARY (clusters) ---
 // Build a centralized cluster library from AppData categories to power a two-level browser.
@@ -5885,6 +5950,15 @@ const ArrowLeftIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h
 // --- SubjectQuizBrowser (clustered UI) ---
 function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     const isDarkMode = theme === 'dark';
+    // Ensure premade catalog exists even if initial build was early/empty
+    try {
+        const cat = (typeof window !== 'undefined' && window.PREMADE_QUIZ_CATALOG) ? window.PREMADE_QUIZ_CATALOG : {};
+        if (!cat || (typeof cat === 'object' && Object.keys(cat).length === 0)) {
+            if (typeof window !== 'undefined' && typeof window.initPremades === 'function') {
+                window.initPremades();
+            }
+        }
+    } catch {}
     const library = (typeof window !== 'undefined' ? window.QUIZ_LIBRARY : QUIZ_LIBRARY) || {};
     const subjectColors = SUBJECT_COLORS[subjectName] || DEFAULT_COLOR_SCHEME;
     const clusters = library?.[subjectName]?.clusters || [];
@@ -10843,84 +10917,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         }
     };
 
-    // --- Subject tile: start first available premade quiz for this subject ---
-    const SUBJECT_MAP = {
-        'Science': 'Science',
-        'Math': 'Math',
-        'Social Studies': 'Social Studies',
-        'Reasoning Through Language Arts (RLA)': 'Reasoning Through Language Arts (RLA)',
-        'RLA': 'Reasoning Through Language Arts (RLA)',
-        'Simulations': 'Simulations',
-    };
-
-    const findQuizPayloadByCode = (subjectKey, quizCode) => {
-        const subject = AppData?.[subjectKey];
-        if (!subject || !subject.categories) return null;
-        for (const [categoryName, category] of Object.entries(subject.categories)) {
-            const topics = Array.isArray(category?.topics) ? category.topics : [];
-            for (const topic of topics) {
-                if (!topic || typeof topic !== 'object') continue;
-                if (topic.quizCode === quizCode) {
-                    // Single-quiz topic
-                    const baseTitle = topic.title || 'Quiz';
-                    const qs = Array.isArray(topic.questions) ? topic.questions.map((q, i) => ({ ...(q || {}), questionNumber: (q?.questionNumber ?? (i + 1)) })) : [];
-                    const pseudo = { questions: qs };
-                    ensureMinQuestions(pseudo, subjectKey, 12);
-                    const normalizedQs = pseudo.questions.map((q) => normalizeQuestionAssets(q, subjectKey));
-                    return {
-                        id: topic.quizCode || topic.id || sanitizeCodeSegment(baseTitle),
-                        quizCode: topic.quizCode,
-                        title: baseTitle,
-                        topicId: topic.id,
-                        topicTitle: baseTitle,
-                        description: topic.description || '',
-                        type: topic.type || 'quiz',
-                        questions: normalizedQs,
-                    };
-                }
-                const quizSets = Array.isArray(topic.quizzes) ? topic.quizzes : [];
-                const found = quizSets.find((q) => q && q.quizCode === quizCode);
-                if (found) {
-                    const label = found.label || 'Quiz';
-                    const baseTitle = found.title || `${topic.title || 'Quiz'} — ${label}`;
-                    const resolved = resolveQuizQuestions(subjectKey, topic, found).map((q, i) => ({ ...(q || {}), questionNumber: (q?.questionNumber ?? (i + 1)) }));
-                    const holder = { questions: resolved };
-                    ensureMinQuestions(holder, subjectKey, 12);
-                    const normalizedQs = holder.questions.map((q) => normalizeQuestionAssets(q, subjectKey));
-                    return {
-                        ...found,
-                        id: found.quizId || found.quizCode || `${topic.id || 'topic'}__auto`,
-                        quizCode: found.quizCode,
-                        title: baseTitle,
-                        topicId: topic.id,
-                        topicTitle: topic.title || baseTitle,
-                        description: found.description || topic.description || '',
-                        type: found.type || topic.type || 'quiz',
-                        questions: normalizedQs,
-                    };
-                }
-            }
-        }
-        return null;
-    };
-
-    const startFirstPremadeForSubject = (tileLabel) => {
-        const subjectKey = SUBJECT_MAP[tileLabel] || tileLabel;
-        const list = Array.isArray(PREMADE_QUIZ_CATALOG?.[subjectKey]) ? PREMADE_QUIZ_CATALOG[subjectKey] : [];
-        if (!list.length) {
-            console.warn('No quizzes for subject', subjectKey);
-            handleSelectSubject(subjectKey);
-            return;
-        }
-        const first = list[0];
-        const payload = findQuizPayloadByCode(subjectKey, first.code);
-        if (!payload || !Array.isArray(payload.questions) || !payload.questions.length) {
-            // fallback to subject browser
-            console.warn('Unable to resolve quiz payload for', subjectKey, first.code);
-            handleSelectSubject(subjectKey);
-            return;
-        }
-        onSelectQuiz?.(payload, subjectKey);
+    // Restore: clicking a subject opens its premade list view (do not auto-start a quiz)
+    const openSubjectPremades = (subjectLabel) => {
+        const subjectKey = subjectLabel; // labels already match keys in AppData
+        handleSelectSubject(subjectKey);
     };
 
     // --- NEW: If detailed view is active, render it instead of the main dashboard ---
@@ -11713,7 +11713,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             return (
                                 <button
                                     key={subjectName}
-                                    onClick={() => startFirstPremadeForSubject(subjectName)}
+                                    onClick={() => openSubjectPremades(subjectName)}
                                     className="subject-card glass group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-lg transition-all duration-300 subject-choice"
                                     data-testid={`subject-button-${subjectName.toLowerCase().replace(/[\s()]+/g, '-').replace(/-$/, '')}`}
                                 >
