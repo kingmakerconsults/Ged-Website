@@ -1749,8 +1749,8 @@
                                                             'social-studies.quizzes.json',
                                                             'social-studies.extras.json'
                                                         ];
-                                                        // Try these base prefixes in order; first one that works wins per file
-                                                        const QUIZ_PREFIXES = ['/quizzes', '/public/quizzes', ''];
+                                                        // Serve from a single, predictable path exposed by Express
+                                                        const QUIZ_PREFIXES = ['/quizzes'];
 
                                                         async function loadAllQuizPartsOnce() {
                                                             const parts = [];
