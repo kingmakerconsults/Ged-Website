@@ -156,6 +156,17 @@ async function loadPerSubjectArrays() {
   return map;
 }
 
+function loadSSExtrasJSON() {
+  try {
+    const p = path.join(root, 'public', 'quizzes', 'social-studies.extras.json');
+    if (!fs.existsSync(p)) return [];
+    const arr = JSON.parse(fs.readFileSync(p, 'utf8'));
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
+
 function loadBackendPremade() {
   try {
     const mod = requireCJS(path.join(root, 'backend', 'data', 'premade-questions.js'));
@@ -315,7 +326,21 @@ async function collectAllSources() {
     }
   }
 
-  // 6) New Exams (optional, likely Math)
+  // 6) Social Studies extras (built from ESM into JSON to avoid runtime transpile)
+  const ssExtras = loadSSExtrasJSON();
+  if (Array.isArray(ssExtras) && ssExtras.length) {
+    for (let i = 0; i < ssExtras.length; i++) {
+      const q = ssExtras[i];
+      const subj = 'Social Studies';
+      const cat = deriveCategoryFor(subj, q);
+      const topicTitle = q.topic || q.title || 'Practice Set';
+      const topicId = q.id || q.quizId || `ss_extra_${i+1}`;
+      const quiz = { quizId: q.quizId || q.id || `ss_extra_${i+1}`, title: q.title || topicTitle, questions: Array.isArray(q.questions) ? q.questions : [] };
+      entries.push({ subject: subj, category: cat, topicId, topicTitle, quiz });
+    }
+  }
+
+  // 7) New Exams (optional, likely Math)
   const newExams = loadNewExams();
   for (const { data } of newExams) {
     for (const [subjectName, subject] of Object.entries(data || {})) {
@@ -327,6 +352,50 @@ async function collectAllSources() {
   return entries;
 }
 
+function curateSocialStudies(payload, target = 66) {
+  if (!payload || payload.subject !== 'Social Studies') return payload;
+  const prefOrder = ['Civics & Government', 'U.S. History', 'Economics', 'Economics / Geography', 'Geography and the World'];
+  const categories = payload.categories || {};
+  // Flatten
+  const items = [];
+  for (const [catName, cat] of Object.entries(categories)) {
+    const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+    for (const t of topics) {
+      const quizzes = Array.isArray(t?.quizzes) ? t.quizzes : [];
+      for (const q of quizzes) {
+        const key = (q.quizId || q.id || '').toLowerCase() || (q.title || '').toLowerCase();
+        items.push({ catName, topicId: t.id || t.title || 'Topic', topicTitle: t.title || t.id || 'Topic', quiz: { ...q, quizId: q.quizId || q.id || `${(t.id||'topic')}_auto_${Math.random().toString(36).slice(2,7)}` }, key });
+      }
+    }
+  }
+  // De-dupe by id/title key preserving first occurrence
+  const seen = new Set();
+  const deduped = items.filter(it => {
+    if (!it.key) return true;
+    if (seen.has(it.key)) return false;
+    seen.add(it.key); return true;
+  });
+  // Sort by preferred category order; keep stable within categories
+  const orderIndex = (name) => {
+    const idx = prefOrder.findIndex(n => (name||'').toLowerCase().startsWith(n.toLowerCase()));
+    return idx === -1 ? 999 : idx;
+  };
+  deduped.sort((a,b)=> orderIndex(a.catName) - orderIndex(b.catName));
+  const selected = deduped.slice(0, Math.min(target, deduped.length));
+  // Rebuild structure
+  const out = { subject: 'Social Studies', categories: {} };
+  for (const it of selected) {
+    if (!out.categories[it.catName]) out.categories[it.catName] = { topics: [] };
+    const cat = out.categories[it.catName];
+    let tIdx = cat.topics.findIndex(t => t && (t.id === it.topicId || t.title === it.topicTitle));
+    if (tIdx === -1) { cat.topics.push({ id: it.topicId, title: it.topicTitle, quizzes: [] }); tIdx = cat.topics.length - 1; }
+    const topic = cat.topics[tIdx];
+    const exists = new Set((topic.quizzes||[]).map(q => q && q.quizId));
+    if (!exists.has(it.quiz.quizId)) topic.quizzes.push(it.quiz);
+  }
+  return out;
+}
+
 async function main() {
   const outDir = path.join(root, 'public', 'quizzes');
   ensureDir(outDir);
@@ -335,14 +404,15 @@ async function main() {
   const bySubject = buildSubjectPayloads(entries);
 
   for (const [subject, payload] of bySubject.entries()) {
+    const finalPayload = (subject === 'Social Studies') ? curateSocialStudies(payload, 66) : payload;
     const slug = subjectSlug(subject);
-    const json = JSON.stringify(payload);
+    const json = JSON.stringify(finalPayload);
     const size = Buffer.byteLength(json, 'utf8');
     if (size <= 480 * 1024) {
       fs.writeFileSync(path.join(outDir, `${slug}.quizzes.json`), json, 'utf8');
       info(`[WRITE] ${slug}.quizzes.json (${Math.round(size/1024)} KB)`);
     } else {
-      const parts = splitSubjectPayload(payload, 400 * 1024);
+      const parts = splitSubjectPayload(finalPayload, 400 * 1024);
       parts.forEach((chunk, idx) => {
         const j = JSON.stringify(chunk);
         fs.writeFileSync(path.join(outDir, `${slug}.quizzes.part${idx+1}.json`), j, 'utf8');

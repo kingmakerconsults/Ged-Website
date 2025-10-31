@@ -1969,6 +1969,7 @@ const net = require('net');
 try {
     const repoRoot = path.resolve(__dirname, '..');
     const publicDir = path.join(repoRoot, 'public');
+    const frontendDir = path.join(repoRoot, 'frontend');
     app.use('/public', express.static(publicDir, {
         maxAge: '1h',
         setHeaders(res) {
@@ -1981,7 +1982,20 @@ try {
             res.setHeader('Access-Control-Allow-Origin', '*');
         }
     }));
+    // Serve frontend static assets at root (JS, images, etc.)
+    app.use('/', express.static(frontendDir, {
+        index: false,
+        maxAge: '1h',
+        setHeaders(res) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        }
+    }));
+    // SPA shell at '/'
+    app.get(['/', '/index.html'], (req, res) => {
+        res.sendFile(path.join(frontendDir, 'index.html'));
+    });
     console.log('[static] Serving /public and /quizzes from', publicDir);
+    console.log('[static] Serving SPA and assets from', frontendDir);
 } catch (e) {
     console.warn('[static] Failed to initialize static serving for /public:', e?.message || e);
 }
