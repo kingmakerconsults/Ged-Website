@@ -1764,6 +1764,25 @@ function authRequired(req, res, next) {
     return next();
 }
 
+// Allowlist for profile onboarding routes that should not enforce "active user/org" checks
+const PROFILE_ALLOW = new Set([
+    '/api/profile/me',
+    '/api/profile/test',
+    '/api/profile/tests', // alias some clients might use
+    '/api/profile/name',
+    '/api/profile/save',  // future unified save endpoint
+    '/api/profile/challenges/tags',
+    '/api/challenges/tags'
+]);
+
+function isProfileAllowlistedPath(pathname) {
+    try {
+        return PROFILE_ALLOW.has(pathname);
+    } catch (e) {
+        return false;
+    }
+}
+
 async function buildScoreSummary(userId) {
     try {
         const { loadScoresSafe } = require('./services/profileData');
@@ -2054,7 +2073,7 @@ app.patch('/api/profile/name', devAuth, ensureTestUserForNow, requireAuthInProd,
         return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    if (!(await assertUserIsActive(userId))) {
+    if (!isProfileAllowlistedPath(req.path) && !(await assertUserIsActive(userId))) {
         return res.status(403).json({ error: 'user_not_active' });
     }
     const { name } = req.body || {};
@@ -2100,7 +2119,8 @@ app.patch('/api/profile/name', devAuth, ensureTestUserForNow, requireAuthInProd,
     }
 });
 
-app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+// Shared handler for saving a single subject test plan row
+async function handleSaveTestPlan(req, res) {
     console.log('[/api/profile/test] req.user =', req.user);
     console.log('[/api/profile/test] req.body =', req.body);
     console.log('[/api/profile/test] HIT');
@@ -2111,7 +2131,7 @@ app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd,
         return res.status(401).json({ ok: false, error: 'Not authenticated' });
     }
 
-    if (!(await assertUserIsActive(userId))) {
+    if (!isProfileAllowlistedPath(req.path) && !(await assertUserIsActive(userId))) {
         return res.status(403).json({ ok: false, error: 'user_not_active' });
     }
     const { subject, testDate, testLocation, passed, notScheduled } = req.body || {};
@@ -2157,6 +2177,11 @@ app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd,
     }
 
     try {
+        // Ensure a profile row exists for this user (onboarding-safe)
+        await db.query(
+            'INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING',
+            [userId]
+        );
         const tableName = await getTestPlanTableName();
         const saved = await db.query(
             `INSERT INTO ${tableName} (user_id, subject, test_date, test_location, passed, not_scheduled, updated_at)
@@ -2219,7 +2244,11 @@ app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd,
             details: err?.message || String(err),
         });
     }
-});
+}
+
+app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), handleSaveTestPlan);
+// Accept legacy/alternate route as POST
+app.post('/api/profile/tests', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), handleSaveTestPlan);
 
 app.patch('/api/profile/challenges/tags', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
     console.log('[/api/profile/challenges/tags] req.user =', req.user);
@@ -2231,7 +2260,7 @@ app.patch('/api/profile/challenges/tags', devAuth, ensureTestUserForNow, require
         return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    if (!(await assertUserIsActive(userId))) {
+    if (!isProfileAllowlistedPath(req.path) && !(await assertUserIsActive(userId))) {
         return res.status(403).json({ error: 'user_not_active' });
     }
     const { selectedIds } = req.body || {};
