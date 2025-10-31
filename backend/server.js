@@ -1982,6 +1982,13 @@ try {
             res.setHeader('Access-Control-Allow-Origin', '*');
         }
     }));
+    // Convenience: also serve quiz bundles at root (e.g., /math.quizzes.part1.json)
+    app.use('/', express.static(path.join(publicDir, 'quizzes'), {
+        maxAge: '1h',
+        setHeaders(res) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        }
+    }));
     // Serve frontend static assets at root (JS, images, etc.)
     app.use('/', express.static(frontendDir, {
         index: false,
