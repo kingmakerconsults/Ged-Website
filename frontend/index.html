@@ -1738,107 +1738,108 @@
                                                             return out;
                                                         }
 
-                                                        async function fetchSubjectQuizzes(subjectSlug) {
-                                                const tryUrls = [
-                                                    `/public/quizzes/${subjectSlug}.quizzes.json`,
-                                                    `./public/quizzes/${subjectSlug}.quizzes.json`,
-                                                    `/quizzes/${subjectSlug}.quizzes.json`,
-                                                    `./quizzes/${subjectSlug}.quizzes.json`,
-                                                ];
-                                    for (const url of tryUrls) {
-                                        try {
-                                            const res = await fetch(url, { cache: 'no-cache' });
-                                            if (res.ok) return await res.json();
-                                        } catch {}
-                                    }
-                                    // parts fallback
-                                    const parts = [];
-                                                    for (let i=1; i<10; i++) {
-                                        let got = false;
-                                                        for (const base of ['/public/quizzes', './public/quizzes', '/quizzes', './quizzes']) {
-                                            try {
-                                                const u = `${base}/${subjectSlug}.quizzes.part${i}.json`;
-                                                const res = await fetch(u, { cache: 'no-cache' });
-                                                if (res.ok) { parts.push(await res.json()); got = true; break; }
-                                            } catch {}
-                                        }
-                                        if (!got) break;
-                                    }
-                                    if (!parts.length) return null;
-                                    // merge parts (categories-level merge)
-                                    const merged = { subject: null, categories: {} };
-                                    for (const p of parts) {
-                                        merged.subject = merged.subject || p.subject || null;
-                                        const cats = p.categories || {};
-                                        for (const [catName, cat] of Object.entries(cats)) {
-                                            if (!merged.categories[catName]) { merged.categories[catName] = cat; continue; }
-                                            const cur = merged.categories[catName];
-                                            const topics = Array.isArray(cat?.topics) ? cat.topics : [];
-                                            const existingIds = new Set((cur.topics||[]).map(t=>t&&t.id));
-                                            for (const t of topics) { if (!existingIds.has(t.id)) cur.topics.push(t); }
-                                        }
-                                    }
-                                    return merged;
-                                }
+                                                        // One-pass loader: try each known quiz JSON once; no infinite retry
+                                                        const QUIZ_SOURCES = [
+                                                            '/quizzes/math.quizzes.part1.json',
+                                                            '/quizzes/math.quizzes.part2.json',
+                                                            '/quizzes/science.quizzes.part1.json',
+                                                            '/quizzes/science.quizzes.part2.json',
+                                                            '/quizzes/rla.quizzes.part1.json',
+                                                            '/quizzes/rla.quizzes.part2.json',
+                                                            '/quizzes/social-studies.quizzes.json',
+                                                            '/quizzes/social-studies.extras.json'
+                                                            // If static path changes, update prefix accordingly.
+                                                        ];
 
-                                            async function buildUnifiedCatalog() {
-                                    const subjects = ['math','science','social-studies','rla'];
-                                    const payloads = await Promise.all(subjects.map(fetchSubjectQuizzes));
-                                    // attempt to load legacy Social Studies extras (converted to JSON at build-time)
-                                    async function fetchSSExtras() {
-                                        const tryUrls = [
-                                            '/public/quizzes/social-studies.extras.json',
-                                            './public/quizzes/social-studies.extras.json',
-                                            '/quizzes/social-studies.extras.json',
-                                            './quizzes/social-studies.extras.json',
-                                        ];
-                                        for (const url of tryUrls) {
-                                            try { const res = await fetch(url, { cache: 'no-cache' }); if (res.ok) return await res.json(); } catch {}
-                                        }
-                                        return [];
-                                    }
-                                    const ssExtras = await fetchSSExtras();
-                                                const catalog = {};
-                                                payloads.forEach((p) => { if (p && p.subject) catalog[p.subject] = p; });
-                                    // Adapt to AppData shape
-                                    const app = {};
-                                    Object.entries(catalog).forEach(([subject, payload]) => {
-                                        app[subject] = { icon: null, description: '', categories: {} };
-                                        const cats = payload.categories || {};
-                                        for (const [catName, cat] of Object.entries(cats)) {
-                                            app[subject].categories[catName] = { description: '', topics: Array.isArray(cat.topics) ? cat.topics : [] };
-                                        }
-                                    });
-                                                // Normalize and force Social Studies merge with any legacy extras
-                                                const extras = (Array.isArray(ssExtras) && ssExtras.length ? ssExtras : ((typeof window !== 'undefined' && (window.SocialStudiesExtraQuizzes || window.LegacySocialStudies)) || []));
-                                                const merged = forceSocialStudiesMerge(app, extras);
-                                                window.UnifiedQuizCatalog = merged;
-                                                if (typeof window !== 'undefined') {
-                                                    // Mutate existing AppData in place so legacy helpers resolve topics correctly
-                                                    try {
-                                                        if (typeof AppData === 'object' && AppData) {
-                                                            Object.entries(merged).forEach(([subject, data]) => { AppData[subject] = data; });
+                                                        async function loadAllQuizPartsOnce() {
+                                                            const parts = [];
+                                                            for (const url of QUIZ_SOURCES) {
+                                                                try {
+                                                                    const res = await fetch(url, { cache: 'no-cache' });
+                                                                    if (!res.ok) {
+                                                                        console.warn('[quizzes] failed to load', url, res.status);
+                                                                        continue;
+                                                                    }
+                                                                    const json = await res.json();
+                                                                    parts.push(json);
+                                                                } catch (err) {
+                                                                    console.warn('[quizzes] error fetching', url, err?.message || err);
+                                                                }
+                                                            }
+                                                            return parts;
                                                         }
-                                                    } catch {}
-                                                    // Integrate with existing library builder
-                                                    if (typeof buildQuizLibraryFromAppData === 'function') {
-                                                        window.QUIZ_LIBRARY = buildQuizLibraryFromAppData((typeof AppData === 'object' && AppData) ? AppData : merged);
-                                                    }
-                                                    window.AppData = (typeof AppData === 'object' && AppData) ? AppData : merged;
-                                                }
-                                                if (typeof window !== 'undefined' && window.__DEBUG_QUIZZES) {
-                                                    console.log('[quizzes] UnifiedQuizCatalog built from JSON bundles:', Object.keys(catalog));
-                                                }
-                                                try {
-                                                    const ssTotal = countQuizzesForSubject(window.UnifiedQuizCatalog['Social Studies']);
-                                                    if (typeof window !== 'undefined' && window.__DEBUG_QUIZZES) {
-                                                        console.log('[premade] social studies total =', ssTotal);
-                                                    }
-                                                } catch {}
-                                }
 
-                                // Fire and forget; UI reads window.QUIZ_LIBRARY dynamically
-                                buildUnifiedCatalog();
+                                                        function mergeQuizPayloads(parts) {
+                                                            const bySubject = {};
+                                                            let ssExtras = [];
+                                                            for (const p of parts) {
+                                                                if (!p) continue;
+                                                                if (Array.isArray(p)) {
+                                                                    // Treat any array payload as Social Studies extras array
+                                                                    ssExtras = ssExtras.concat(p);
+                                                                    continue;
+                                                                }
+                                                                const subj = p.subject || null;
+                                                                const cats = p.categories || {};
+                                                                if (!subj) continue;
+                                                                if (!bySubject[subj]) bySubject[subj] = { subject: subj, categories: {} };
+                                                                const target = bySubject[subj].categories;
+                                                                for (const [catName, cat] of Object.entries(cats)) {
+                                                                    if (!target[catName]) { target[catName] = { ...(cat || {}) }; continue; }
+                                                                    const cur = target[catName];
+                                                                    const newTopics = Array.isArray(cat?.topics) ? cat.topics : [];
+                                                                    const existingIds = new Set((cur.topics || []).map((t) => t && t.id));
+                                                                    cur.topics = (cur.topics || []).slice();
+                                                                    for (const t of newTopics) {
+                                                                        if (!existingIds.has(t.id)) cur.topics.push(t);
+                                                                    }
+                                                                }
+                                                            }
+                                                            return { bySubject, ssExtras };
+                                                        }
+
+                                                        async function buildUnifiedCatalog() {
+                                                            const parts = await loadAllQuizPartsOnce();
+                                                            if (!parts.length && (typeof window !== 'undefined' && window.__DEBUG_QUIZZES)) {
+                                                                console.warn('[quizzes] no quiz parts loaded — using empty catalog');
+                                                            }
+                                                            const { bySubject, ssExtras } = mergeQuizPayloads(parts);
+                                                            // Adapt to AppData shape
+                                                            const app = {};
+                                                            Object.entries(bySubject).forEach(([subject, payload]) => {
+                                                                app[subject] = { icon: null, description: '', categories: {} };
+                                                                const cats = payload.categories || {};
+                                                                for (const [catName, cat] of Object.entries(cats)) {
+                                                                    app[subject].categories[catName] = { description: '', topics: Array.isArray(cat.topics) ? cat.topics : [] };
+                                                                }
+                                                            });
+                                                            // Normalize and force Social Studies merge with any extras
+                                                            const merged = forceSocialStudiesMerge(app, ssExtras);
+                                                            window.UnifiedQuizCatalog = merged;
+                                                            if (typeof window !== 'undefined') {
+                                                                // Mutate existing AppData in place so legacy helpers resolve topics correctly
+                                                                try {
+                                                                    if (typeof AppData === 'object' && AppData) {
+                                                                        Object.entries(merged).forEach(([subject, data]) => { AppData[subject] = data; });
+                                                                    }
+                                                                } catch {}
+                                                                // Integrate with existing library builder
+                                                                if (typeof buildQuizLibraryFromAppData === 'function') {
+                                                                    window.QUIZ_LIBRARY = buildQuizLibraryFromAppData((typeof AppData === 'object' && AppData) ? AppData : merged);
+                                                                }
+                                                                window.AppData = (typeof AppData === 'object' && AppData) ? AppData : merged;
+                                                            }
+                                                            if (typeof window !== 'undefined' && window.__DEBUG_QUIZZES) {
+                                                                console.log('[quizzes] UnifiedQuizCatalog built from JSON bundles:', Object.keys(bySubject));
+                                                                try {
+                                                                    const ssTotal = countQuizzesForSubject(window.UnifiedQuizCatalog['Social Studies']);
+                                                                    console.log('[premade] social studies total =', ssTotal);
+                                                                } catch {}
+                                                            }
+                                                        }
+
+                                                        // Fire and forget; UI reads window.QUIZ_LIBRARY dynamically
+                                                        buildUnifiedCatalog();
                             })();
                         </script>
 
@@ -6032,7 +6033,7 @@ function assignPremadeQuizCodes(data) {
 }
 
 // Defer building premade catalog until expanded data is ready
-function initPremades(retryMs = 200) {
+function initPremades() {
     try {
         const collect = () => {
             const sources = [];
@@ -6050,35 +6051,26 @@ function initPremades(retryMs = 200) {
             return merged;
         };
         const source = collect();
-        if (!source) {
-            console.warn('expandedQuizData not ready yet, will retry...');
-            if (typeof setTimeout === 'function') setTimeout(() => initPremades(retryMs), retryMs);
-            return;
-        }
-        PREMADE_QUIZ_CATALOG = assignPremadeQuizCodes(source);
+        PREMADE_QUIZ_CATALOG = source ? assignPremadeQuizCodes(source) : {};
         if (typeof window !== 'undefined') {
             window.PREMADE_QUIZ_CATALOG = PREMADE_QUIZ_CATALOG;
         }
-        const summary = Object.fromEntries(Object.entries(PREMADE_QUIZ_CATALOG).map(([s, arr]) => [s, Array.isArray(arr) ? arr.length : 0]));
-        console.log('[premade] subjects:', Object.keys(PREMADE_QUIZ_CATALOG));
-        console.log('[premade] total quizzes:', Object.values(summary).reduce((a,b)=>a+b,0), summary);
+        if (typeof window !== 'undefined' && window.__DEBUG_QUIZZES) {
+            const summary = Object.fromEntries(Object.entries(PREMADE_QUIZ_CATALOG).map(([s, arr]) => [s, Array.isArray(arr) ? arr.length : 0]));
+            console.log('[premade] subjects:', Object.keys(PREMADE_QUIZ_CATALOG));
+            console.log('[premade] total quizzes:', Object.values(summary).reduce((a,b)=>a+b,0), summary);
+            if (!source) console.log('[premade] ExpandedQuizData not found — using empty catalog');
+        }
     } catch (err) {
-        console.warn('Failed to build premade catalog:', err);
+        if (typeof window !== 'undefined' && window.__DEBUG_QUIZZES) {
+            console.warn('Failed to build premade catalog:', err);
+        }
     }
 }
 if (typeof window !== 'undefined') {
     window.initPremades = initPremades;
 }
 initPremades();
-// Regression guard: warn if expanded data failed to load
-(function(){
-    try {
-        const s = (typeof window !== 'undefined') ? window.ExpandedQuizData : null;
-        if (!s || (typeof s === 'object' && Object.keys(s).length === 0)) {
-            console.warn('[premade] ExpandedQuizData did NOT load. Showing fallback counts only.');
-        }
-    } catch {}
-})();
 
 // --- QUIZ LIBRARY (clusters) ---
 // Build a centralized cluster library from AppData categories to power a two-level browser.
