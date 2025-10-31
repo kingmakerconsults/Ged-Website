@@ -7893,13 +7893,46 @@ function App({ externalTheme, onThemeChange }) {
                 }
 
                 // Normalize to localProfile shape
-                const serverTestPlan = Array.isArray(bundle.testPlan) ? bundle.testPlan.map((row) => ({
+                const coerceIso = (str) => {
+                    if (!str || typeof str !== 'string') return '';
+                    const s = str.trim();
+                    // Accept YYYY-MM-DD
+                    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+                    // Accept MM/DD/YYYY
+                    const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+                    if (m) {
+                        const mm = String(m[1]).padStart(2, '0');
+                        const dd = String(m[2]).padStart(2, '0');
+                        const yyyy = m[3];
+                        return `${yyyy}-${mm}-${dd}`;
+                    }
+                    return '';
+                };
+                const arrayFromPlan = (planArr) => Array.isArray(planArr) ? planArr.map((row) => ({
                     subject: row?.subject || '',
-                    testDate: row?.testDate || '',
-                    testLocation: row?.testLocation || '',
-                    passed: !!row?.passed,
-                    notScheduled: !!row?.notScheduled,
+                    testDate: coerceIso(row?.testDate || row?.date),
+                    testLocation: row?.testLocation || row?.location || '',
+                    passed: !!(row?.passed ?? row?.isPassed),
+                    notScheduled: !!(row?.notScheduled ?? row?.not_scheduled),
                 })) : [];
+                let serverTestPlan = arrayFromPlan(bundle.testPlan);
+                // Fallback: server might return profile.tests keyed by subject codes
+                if ((!serverTestPlan || serverTestPlan.length === 0) && bundle?.profile && bundle.profile.tests && typeof bundle.profile.tests === 'object') {
+                    const tests = bundle.profile.tests;
+                    const labelMap = {
+                        math: 'Math',
+                        rla: 'Reasoning Through Language Arts (RLA)',
+                        science: 'Science',
+                        social_studies: 'Social Studies',
+                    };
+                    serverTestPlan = Object.entries(tests).map(([key, val]) => ({
+                        subject: labelMap[key] || key,
+                        testDate: coerceIso(val?.testDate || val?.date),
+                        testLocation: val?.testLocation || val?.location || '',
+                        passed: !!(val?.passed ?? val?.isPassed),
+                        notScheduled: !!(val?.notScheduled ?? val?.not_scheduled),
+                    }));
+                }
                 const serverChallenges = Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
                     id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
                     subject: opt?.subject || '',
@@ -8129,6 +8162,8 @@ function App({ externalTheme, onThemeChange }) {
                         recentScoresDashboard: bundle?.recentScores && typeof bundle.recentScores === 'object' ? bundle.recentScores : (prev.recentScoresDashboard || {}),
                     }));
                     setTestSaving(null);
+                    // Re-fetch to ensure freshest computed fields (e.g., nextUpcoming)
+                    try { await loadProfileOnce(); } catch (_) {}
                     window.alert('Saved.');
                     return;
                 }
@@ -9128,6 +9163,7 @@ function App({ externalTheme, onThemeChange }) {
                         onShowProfile={handleShowProfileView}
                         onSelectQuiz={startQuiz}
                         vocabulary={vocabulary}
+                        onRefreshProfile={loadProfileOnce}
                         onStartPopQuiz={handleStartPopQuiz}
                         onStartComprehensiveExam={handleGenerateComprehensiveExam}
                         setIsLoading={setIsLoading}
@@ -11104,7 +11140,7 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, testDate, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools, theme = 'light' }) {
+function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, testDate, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools, theme = 'light', onRefreshProfile }) {
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
@@ -11198,6 +11234,57 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         const msPerDay = 1000 * 60 * 60 * 24;
         return Math.ceil((examLocal - todayLocal) / msPerDay);
+    };
+
+    // Refresh test plan on dashboard mount to reduce staleness
+    useEffect(() => {
+        onRefreshProfile?.();
+    }, []);
+
+    // Build upcoming list from testPlan with filtering and sorting
+    const parseAnyDate = (s) => {
+        if (!s || typeof s !== 'string') return null;
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return parseYMD(s);
+        const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+        if (m) {
+            const mm = Number(m[1]);
+            const dd = Number(m[2]);
+            const yyyy = Number(m[3]);
+            return new Date(yyyy, mm - 1, dd);
+        }
+        return null;
+    };
+    const toISO = (dt) => dt ? `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}` : '';
+    const todayLocal = new Date();
+    const todayStart = new Date(todayLocal.getFullYear(), todayLocal.getMonth(), todayLocal.getDate());
+    const upcomingList = useMemo(() => {
+        const rows = [];
+        for (const entry of testPlan) {
+            if (!entry) continue;
+            const passed = !!entry.passed;
+            const notScheduled = !!entry.notScheduled;
+            const rawDate = entry.testDate || '';
+            if (passed || notScheduled || !rawDate) continue;
+            const dt = parseAnyDate(rawDate);
+            if (!dt || isNaN(dt)) continue;
+            const d0 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
+            if (d0 < todayStart) continue; // past
+            rows.push({
+                subject: entry.subject || '',
+                dateISO: toISO(d0),
+                formattedDate: formatMMDDYYYY(d0),
+                location: entry.testLocation || null,
+                daysUntil: Math.ceil((d0 - todayStart) / (1000 * 60 * 60 * 24)),
+            });
+        }
+        rows.sort((a, b) => (a.dateISO < b.dateISO ? -1 : a.dateISO > b.dateISO ? 1 : 0));
+        return rows.slice(0, 4);
+    }, [testPlan]);
+    const countdownLabel = (days) => {
+        if (typeof days !== 'number' || !Number.isFinite(days)) return null;
+        if (days <= 0) return 'Today';
+        if (days === 1) return '1 day left';
+        return `${days} days left`;
     };
 
     const normalizedProfileTestDate = testDate || null;
@@ -11979,26 +12066,32 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     Edit
                                 </button>
                             </div>
+                            <p className={`text-sm ${homePanelPrimaryTextClass}`}>Keep adding your remaining test dates to stay organized.</p>
                             {allSubjectsPassed ? (
                                 <p className="text-sm text-emerald-600">You marked every GED subject as passed. Amazing work!</p>
-                            ) : nextUpcomingSummary ? (
-                                <>
-                                <p className={`text-sm ${homePanelPrimaryTextClass}`}>
-                                    Next: <span className="font-semibold text-slate-900 dark:text-slate-100">{nextUpcomingSummary.subject}</span> on{' '}
-                                    <span className="font-semibold text-slate-900 dark:text-slate-100">{nextUpcomingSummary.testDate}</span>
-                                    {nextUpcomingSummary.daysUntilText && (
-                                        <span className="countdown-chip ml-2 inline-flex"><span className="dot"></span><span className="label">{nextUpcomingSummary.daysUntilText} left</span></span>
-                                    )}
-                                </p>
-                                {nextUpcomingSummary.location && (
-                                    <p className={`text-sm ${homePanelPrimaryTextClass}`}>Location: {nextUpcomingSummary.location}</p>
-                                )}
-                            </>
-                        ) : hasSavedTest ? (
-                            <p className={`text-sm ${homePanelPrimaryTextClass}`}>Keep adding your remaining test dates to stay organized.</p>
-                        ) : (
-                            <p className={`text-sm ${homePanelPrimaryTextClass}`}>Set your test dates to start the countdown.</p>
-                        )}
+                            ) : (upcomingList && upcomingList.length > 0) ? (
+                                <div className="mt-2 space-y-2">
+                                    {upcomingList.map((item, idx) => (
+                                        <div key={`${item.subject}-${item.dateISO}-${idx}`} className="flex items-center justify-between py-1">
+                                            <div>
+                                                <p className="font-semibold text-slate-900 dark:text-slate-100">{item.subject}</p>
+                                                <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+                                                    {item.formattedDate}
+                                                    {item.location ? <span> • {item.location}</span> : null}
+                                                </p>
+                                            </div>
+                                            <span className="countdown-chip inline-flex">
+                                                <span className="dot"></span>
+                                                <span className="label">{countdownLabel(item.daysUntil)}</span>
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : hasSavedTest ? (
+                                <p className={`text-sm ${homePanelPrimaryTextClass}`}>No test scheduled yet.</p>
+                            ) : (
+                                <p className={`text-sm ${homePanelPrimaryTextClass}`}>Set your test dates to start the countdown.</p>
+                            )}
                             <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-800'}`}>Need changes? Update them from your profile.</p>
                         </article>
                         )}
