@@ -1607,7 +1607,138 @@
                         <!-- Centralized JSON loader: build-time bundles only (no large runtime scripts) -->
                         <script>
                             (function(){
-                                            async function fetchSubjectQuizzes(subjectSlug) {
+                                                        // --- helpers: merge + normalization + counting ---
+                                                        function normalizeSubjectKey(key) {
+                                                            if (!key) return null;
+                                                            const trimmed = String(key).trim();
+                                                            const lower = trimmed.toLowerCase();
+                                                            if ([
+                                                                'social studies',
+                                                                'social-studies',
+                                                                'social_studies',
+                                                                'civics & government',
+                                                            ].includes(lower)) {
+                                                                return 'Social Studies';
+                                                            }
+                                                            return trimmed;
+                                                        }
+
+                                                        function mergeExpandedIntoBase(base, incoming) {
+                                                            if (!incoming || typeof incoming !== 'object') return base || {};
+                                                            const out = base || {};
+                                                            for (const [subjectNameRaw, incSubject] of Object.entries(incoming)) {
+                                                                if (!incSubject) continue;
+                                                                const subjectName = normalizeSubjectKey(subjectNameRaw) || subjectNameRaw;
+                                                                if (!out[subjectName]) out[subjectName] = { icon: null, description: '', categories: {}, quizzes: [] };
+                                                                const outSubj = out[subjectName];
+                                                                // subject-level quizzes
+                                                                if (Array.isArray(incSubject.quizzes)) {
+                                                                    const existing = new Set((outSubj.quizzes || []).map(q => q && (q.quizId || q.id)));
+                                                                    outSubj.quizzes = Array.isArray(outSubj.quizzes) ? outSubj.quizzes : [];
+                                                                    incSubject.quizzes.forEach((q) => {
+                                                                        if (!q) return;
+                                                                        const qid = q.quizId || q.id;
+                                                                        if (!qid || !existing.has(qid)) {
+                                                                            outSubj.quizzes.push(q);
+                                                                            if (qid) existing.add(qid);
+                                                                        }
+                                                                    });
+                                                                }
+                                                                // categories/topics/quizzes
+                                                                const incCats = incSubject.categories || {};
+                                                                outSubj.categories = outSubj.categories || {};
+                                                                for (const [catName, incCat] of Object.entries(incCats)) {
+                                                                    if (!outSubj.categories[catName]) {
+                                                                        outSubj.categories[catName] = { description: incCat?.description || '', topics: Array.isArray(incCat?.topics) ? [...incCat.topics] : [] };
+                                                                        continue;
+                                                                    }
+                                                                    const outCat = outSubj.categories[catName];
+                                                                    outCat.description = outCat.description || incCat?.description || '';
+                                                                    const outTopics = Array.isArray(outCat.topics) ? outCat.topics : [];
+                                                                    const incTopics = Array.isArray(incCat?.topics) ? incCat.topics : [];
+                                                                    const byId = new Map(outTopics.map((t, i) => [t?.id || `idx_${i}`, { t, i }]));
+                                                                    incTopics.forEach((t) => {
+                                                                        if (!t) return;
+                                                                        const key = t.id || t.title || `topic_${outTopics.length + 1}`;
+                                                                        if (!byId.has(key)) {
+                                                                            outTopics.push(t);
+                                                                            byId.set(key, { t, i: outTopics.length - 1 });
+                                                                        } else {
+                                                                            const { i, t: existingT } = byId.get(key);
+                                                                            const outQuizzes = Array.isArray(existingT.quizzes) ? existingT.quizzes : [];
+                                                                            const incQuizzes = Array.isArray(t.quizzes) ? t.quizzes : [];
+                                                                            const exists = new Set(outQuizzes.map(q => q && (q.quizId || q.id)));
+                                                                            incQuizzes.forEach((q) => {
+                                                                                const qid = q && (q.quizId || q.id);
+                                                                                if (!qid || !exists.has(qid)) { outQuizzes.push(q); if (qid) exists.add(qid); }
+                                                                            });
+                                                                            outTopics[i] = { ...existingT, quizzes: outQuizzes };
+                                                                        }
+                                                                    });
+                                                                    outCat.topics = outTopics;
+                                                                }
+                                                            }
+                                                            return out;
+                                                        }
+
+                                                        function normalizeQuiz(q, subject) {
+                                                            if (!q || typeof q !== 'object') return q;
+                                                            const quizId = q.quizId || q.id || `${(subject||'quiz').toLowerCase()}_${Math.random().toString(36).slice(2,7)}`;
+                                                            return {
+                                                                quizId,
+                                                                title: q.title || q.label || 'Practice Quiz',
+                                                                label: q.label,
+                                                                description: q.description || '',
+                                                                questions: Array.isArray(q.questions) ? q.questions : q.items || [],
+                                                                __topicGuess: q.topicId || q.topic || null,
+                                                            };
+                                                        }
+
+                                                        function countQuizzesForSubject(subjectData) {
+                                                            if (!subjectData) return 0;
+                                                            let total = 0;
+                                                            if (Array.isArray(subjectData.quizzes)) total += subjectData.quizzes.length;
+                                                            const cats = subjectData.categories || {};
+                                                            Object.values(cats).forEach((cat) => {
+                                                                const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+                                                                topics.forEach((t) => {
+                                                                    if (Array.isArray(t?.quizzes)) total += t.quizzes.length;
+                                                                    else if (Array.isArray(t?.questions) && t.questions.length) total += 1;
+                                                                });
+                                                            });
+                                                            return total;
+                                                        }
+
+                                                        function forceSocialStudiesMerge(catalog, extraSSArray) {
+                                                            const canonicalKey = 'Social Studies';
+                                                            const out = catalog || {};
+                                                            // unify variant subject keys
+                                                            Object.keys(out).forEach((k) => {
+                                                                const norm = normalizeSubjectKey(k);
+                                                                if (norm === canonicalKey && k !== canonicalKey) {
+                                                                    mergeExpandedIntoBase(out, { [canonicalKey]: out[k] });
+                                                                    delete out[k];
+                                                                }
+                                                            });
+                                                            if (!out[canonicalKey]) out[canonicalKey] = { categories: {}, quizzes: [] };
+                                                            // merge standalone array if provided
+                                                            if (Array.isArray(extraSSArray) && extraSSArray.length) {
+                                                                const topics = extraSSArray.map((q, idx) => {
+                                                                    const nq = normalizeQuiz(q, canonicalKey);
+                                                                    return {
+                                                                        id: nq.__topicGuess || `ss_extra_${idx+1}`,
+                                                                        title: nq.title || 'Social Studies Quiz',
+                                                                        description: nq.description || '',
+                                                                        quizzes: [nq],
+                                                                    };
+                                                                });
+                                                                const struct = { [canonicalKey]: { categories: { 'Civics & Government': { topics } } } };
+                                                                mergeExpandedIntoBase(out, struct);
+                                                            }
+                                                            return out;
+                                                        }
+
+                                                        async function fetchSubjectQuizzes(subjectSlug) {
                                                 const tryUrls = [
                                                     `/public/quizzes/${subjectSlug}.quizzes.json`,
                                                     `./public/quizzes/${subjectSlug}.quizzes.json`,
@@ -1650,11 +1781,25 @@
                                     return merged;
                                 }
 
-                                async function buildUnifiedCatalog() {
+                                            async function buildUnifiedCatalog() {
                                     const subjects = ['math','science','social-studies','rla'];
                                     const payloads = await Promise.all(subjects.map(fetchSubjectQuizzes));
-                                    const catalog = {};
-                                    payloads.forEach((p) => { if (p && p.subject) catalog[p.subject] = p; });
+                                    // attempt to load legacy Social Studies extras (converted to JSON at build-time)
+                                    async function fetchSSExtras() {
+                                        const tryUrls = [
+                                            '/public/quizzes/social-studies.extras.json',
+                                            './public/quizzes/social-studies.extras.json',
+                                            '/quizzes/social-studies.extras.json',
+                                            './quizzes/social-studies.extras.json',
+                                        ];
+                                        for (const url of tryUrls) {
+                                            try { const res = await fetch(url, { cache: 'no-cache' }); if (res.ok) return await res.json(); } catch {}
+                                        }
+                                        return [];
+                                    }
+                                    const ssExtras = await fetchSSExtras();
+                                                const catalog = {};
+                                                payloads.forEach((p) => { if (p && p.subject) catalog[p.subject] = p; });
                                     // Adapt to AppData shape
                                     const app = {};
                                     Object.entries(catalog).forEach(([subject, payload]) => {
@@ -1664,21 +1809,28 @@
                                             app[subject].categories[catName] = { description: '', topics: Array.isArray(cat.topics) ? cat.topics : [] };
                                         }
                                     });
-                                                window.UnifiedQuizCatalog = app;
+                                                // Normalize and force Social Studies merge with any legacy extras
+                                                const extras = (Array.isArray(ssExtras) && ssExtras.length ? ssExtras : ((typeof window !== 'undefined' && (window.SocialStudiesExtraQuizzes || window.LegacySocialStudies)) || []));
+                                                const merged = forceSocialStudiesMerge(app, extras);
+                                                window.UnifiedQuizCatalog = merged;
                                                 if (typeof window !== 'undefined') {
                                                     // Mutate existing AppData in place so legacy helpers resolve topics correctly
                                                     try {
                                                         if (typeof AppData === 'object' && AppData) {
-                                                            Object.entries(app).forEach(([subject, data]) => { AppData[subject] = data; });
+                                                            Object.entries(merged).forEach(([subject, data]) => { AppData[subject] = data; });
                                                         }
                                                     } catch {}
                                                     // Integrate with existing library builder
                                                     if (typeof buildQuizLibraryFromAppData === 'function') {
-                                                        window.QUIZ_LIBRARY = buildQuizLibraryFromAppData((typeof AppData === 'object' && AppData) ? AppData : app);
+                                                        window.QUIZ_LIBRARY = buildQuizLibraryFromAppData((typeof AppData === 'object' && AppData) ? AppData : merged);
                                                     }
-                                                    window.AppData = (typeof AppData === 'object' && AppData) ? AppData : app;
+                                                    window.AppData = (typeof AppData === 'object' && AppData) ? AppData : merged;
                                                 }
-                                    console.log('[quizzes] UnifiedQuizCatalog built from JSON bundles:', Object.keys(catalog));
+                                                console.log('[quizzes] UnifiedQuizCatalog built from JSON bundles:', Object.keys(catalog));
+                                                try {
+                                                    const ssTotal = countQuizzesForSubject(window.UnifiedQuizCatalog['Social Studies']);
+                                                    console.log('[premade] social studies total =', ssTotal);
+                                                } catch {}
                                 }
 
                                 // Fire and forget; UI reads window.QUIZ_LIBRARY dynamically
@@ -11510,9 +11662,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
         const subjectPremadeTotal = getPremadeQuizTotal(selectedSubject);
         const expandedReady = (typeof window !== 'undefined' && window.ExpandedQuizData && Object.keys(window.ExpandedQuizData).length > 0);
-        const subjectPremadeLabel = expandedReady
-            ? (subjectPremadeTotal === 1 ? '1 premade quiz ready' : `${subjectPremadeTotal} premade quizzes ready`)
-            : 'loading (partial set)…';
+        const subjectPremadeLabel = (subjectPremadeTotal === 1 ? '1 premade quiz ready' : `${subjectPremadeTotal} premade quizzes ready`);
         return (
             <>
                 {viewScienceFormulas && (
@@ -11897,9 +12047,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             const subjectTextColor = colorScheme.text || '#ffffff';
                             const premadeTotal = getPremadeQuizTotal(subjectName);
                             const expandedReady = (typeof window !== 'undefined' && window.ExpandedQuizData && Object.keys(window.ExpandedQuizData).length > 0);
-                            const premadeLabel = expandedReady
-                                ? (premadeTotal === 1 ? '1 premade quiz ready' : `${premadeTotal} premade quizzes ready`)
-                                : 'loading (partial set)…';
+                            const premadeLabel = (premadeTotal === 1 ? '1 premade quiz ready' : `${premadeTotal} premade quizzes ready`);
                             const subjectDataKey = SUBJECT_SHORT_LABELS[subjectName] || subjectName;
                             return (
                                 <button
