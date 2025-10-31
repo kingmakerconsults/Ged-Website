@@ -1739,31 +1739,39 @@
                                                         }
 
                                                         // One-pass loader: try each known quiz JSON once; no infinite retry
-                                                        const QUIZ_SOURCES = [
-                                                            '/quizzes/math.quizzes.part1.json',
-                                                            '/quizzes/math.quizzes.part2.json',
-                                                            '/quizzes/science.quizzes.part1.json',
-                                                            '/quizzes/science.quizzes.part2.json',
-                                                            '/quizzes/rla.quizzes.part1.json',
-                                                            '/quizzes/rla.quizzes.part2.json',
-                                                            '/quizzes/social-studies.quizzes.json',
-                                                            '/quizzes/social-studies.extras.json'
-                                                            // If static path changes, update prefix accordingly.
+                                                        const QUIZ_FILENAMES = [
+                                                            'math.quizzes.part1.json',
+                                                            'math.quizzes.part2.json',
+                                                            'science.quizzes.part1.json',
+                                                            'science.quizzes.part2.json',
+                                                            'rla.quizzes.part1.json',
+                                                            'rla.quizzes.part2.json',
+                                                            'social-studies.quizzes.json',
+                                                            'social-studies.extras.json'
                                                         ];
+                                                        // Try these base prefixes in order; first one that works wins per file
+                                                        const QUIZ_PREFIXES = ['/quizzes', '/public/quizzes', ''];
 
                                                         async function loadAllQuizPartsOnce() {
                                                             const parts = [];
-                                                            for (const url of QUIZ_SOURCES) {
-                                                                try {
-                                                                    const res = await fetch(url, { cache: 'no-cache' });
-                                                                    if (!res.ok) {
-                                                                        console.warn('[quizzes] failed to load', url, res.status);
-                                                                        continue;
-                                                                    }
-                                                                    const json = await res.json();
-                                                                    parts.push(json);
-                                                                } catch (err) {
-                                                                    console.warn('[quizzes] error fetching', url, err?.message || err);
+                                                            for (const name of QUIZ_FILENAMES) {
+                                                                let loaded = false;
+                                                                for (const base of QUIZ_PREFIXES) {
+                                                                    const url = base ? `${base}/${name}` : `/${name}`;
+                                                                    try {
+                                                                        const res = await fetch(url, { cache: 'no-cache' });
+                                                                        if (!res.ok) {
+                                                                            // Try next base
+                                                                            continue;
+                                                                        }
+                                                                        const json = await res.json();
+                                                                        parts.push(json);
+                                                                        loaded = true;
+                                                                        break;
+                                                                    } catch {}
+                                                                }
+                                                                if (!loaded) {
+                                                                    console.warn('[quizzes] failed to load', name, 'from any known prefix');
                                                                 }
                                                             }
                                                             return parts;
