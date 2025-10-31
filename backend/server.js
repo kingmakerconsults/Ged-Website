@@ -1772,7 +1772,8 @@ const PROFILE_ALLOW = new Set([
     '/api/profile/name',
     '/api/profile/save',  // future unified save endpoint
     '/api/profile/challenges/tags',
-    '/api/challenges/tags'
+    '/api/challenges/tags',
+    '/api/whoami'
 ]);
 
 function isProfileAllowlistedPath(pathname) {
@@ -2049,6 +2050,55 @@ app.post('/presence/ping', devAuth, ensureTestUserForNow, requireAuthInProd, aut
     } catch (err) {
         console.error('presence/ping failed:', err?.message || err);
         return res.status(500).json({ error: 'presence_update_failed' });
+    }
+});
+
+// Simple endpoint to debug the resolved identity and profile presence
+app.get('/api/whoami', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) {
+            return res.status(401).json({ ok: false, error: 'unauthorized' });
+        }
+
+        let userRow = null;
+        try {
+            userRow = await loadUserWithRole(userId);
+        } catch (e) {
+            // ignore
+        }
+
+        let profileRow = null;
+        let profileExists = false;
+        try {
+            const result = await db.query(`SELECT user_id, timezone, onboarding_complete, font_size FROM profiles WHERE user_id = $1`, [userId]);
+            profileRow = result.rows[0] || null;
+            profileExists = !!profileRow;
+        } catch (_) {
+            // profiles table/columns may vary; fall back to existence check only
+            try {
+                const result = await db.query(`SELECT 1 FROM profiles WHERE user_id = $1 LIMIT 1`, [userId]);
+                profileExists = result.rowCount > 0;
+            } catch (__) {}
+        }
+
+        const minimalReqUser = req.user ? {
+            id: req.user.id,
+            email: req.user.email || null,
+            role: req.user.role || null,
+            organization_id: req.user.organization_id ?? null
+        } : null;
+
+        return res.json({
+            ok: true,
+            user: userRow ? buildUserResponse(userRow) : minimalReqUser,
+            profile: {
+                exists: profileExists,
+                row: profileRow || null
+            }
+        });
+    } catch (err) {
+        return res.status(500).json({ ok: false, error: 'whoami_failed', details: err?.message || String(err) });
     }
 });
 
