@@ -1172,8 +1172,34 @@
             filter: drop-shadow(0 6px 16px rgba(15, 23, 42, 0.18));
             background: transparent;
         }
+        /* Fallback pill only if SVG missing; keep absolute so it never shifts layout */
+        .subject-badge-pill {
+            position: absolute;
+            top: -12px;
+            right: -8px;
+            z-index: 10;
+            pointer-events: none;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 1;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #6d28d9; /* subtle purple */
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(15,23,42,0.2);
+        }
         @media (max-width: 768px) {
             .subject-badge { top: -10px; right: -6px; height: 44px; }
+            .subject-badge-pill { top: -8px; right: -6px; font-size: 11px; padding: 5px 8px; }
+        }
+
+        /* Requested explicit containers (structure only; we keep Tailwind grid too) */
+        .dashboard-progress { align-items: stretch; }
+        .progress-card.total-attempts { background: #ffffff; }
+        .progress-subjects .subject-card {
+            background: #ffffff;
+            opacity: 1;
+            filter: none;
         }
         .quiz-nav {
             scrollbar-width: thin;
@@ -10805,13 +10831,14 @@ function ProgressDashboard({ progress, onSubjectClick, passedSubjectIds }) {
     const formatAverage = (value) => (value == null ? 'N/A' : Math.round(value));
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-            <div className="p-4 rounded-lg text-center shadow-inner border sm:col-span-3 lg:col-span-1" style={totalCardStyle}>
+        <section className="dashboard-progress grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+            <div className="progress-card total-attempts p-4 rounded-lg text-center shadow-inner border sm:col-span-3 lg:col-span-1" style={totalCardStyle}>
                 <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: isDark ? 'rgba(248,250,252,0.75)' : '#334155' }}>
                     Total Attempts
                 </p>
                 <p className="text-4xl font-bold" style={{ color: isDark ? '#ffffff' : '#0f172a' }}>{totalAttempts}</p>
             </div>
+            <div className="progress-subjects sm:col-span-3 lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {subjects.map(subject => {
                 const data = progress[subject] || {};
                 const cardStyle = getCardStyles(subject);
@@ -10875,7 +10902,8 @@ function ProgressDashboard({ progress, onSubjectClick, passedSubjectIds }) {
                     </button>
                 );
             })}
-        </div>
+            </div>
+        </section>
     );
 }
 
