@@ -1995,6 +1995,20 @@ try {
             res.setHeader('Access-Control-Allow-Origin', '*');
         }
     }));
+    // Serve subject badge assets at a stable path
+    app.use('/badges', express.static(path.join(publicDir, 'badges'), {
+        maxAge: '1h',
+        setHeaders(res) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        }
+    }));
+    // Fallback to frontend/badges for local development
+    app.use('/badges', express.static(path.join(frontendDir, 'badges'), {
+        maxAge: '1h',
+        setHeaders(res) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+        }
+    }));
     // Serve frontend static assets at root (JS, images, etc.)
     app.use('/', express.static(frontendDir, {
         index: false,
