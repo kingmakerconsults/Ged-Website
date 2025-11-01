@@ -10762,10 +10762,10 @@ function ProgressDashboard({ progress, onSubjectClick, passedSubjectIds }) {
         'RLA': 'rla',
     };
     const BADGE_IMG_PATHS = {
-        math: '/public/badges/math.svg',
-        science: '/public/badges/science.svg',
-        social_studies: '/public/badges/social-studies.svg',
-        rla: '/public/badges/rla.svg',
+        math: '/badges/math.svg',
+        science: '/badges/science.svg',
+        social_studies: '/badges/social-studies.svg',
+        rla: '/badges/rla.svg',
     };
     const totalAttempts = Object.values(progress).reduce((acc, subjectData) => acc + (subjectData?.attemptCount || 0), 0);
     const subjects = SUBJECT_PROGRESS_KEYS;
@@ -10824,6 +10824,7 @@ function ProgressDashboard({ progress, onSubjectClick, passedSubjectIds }) {
                 const subjectId = SUBJECT_ID_MAP[subject] || null;
                 const isPassed = subjectId && passedSubjectIds instanceof Set ? passedSubjectIds.has(subjectId) : false;
                 const badgeSrc = subjectId ? BADGE_IMG_PATHS[subjectId] : null;
+                const shortLabel = (SUBJECT_SHORT_LABELS && SUBJECT_SHORT_LABELS[subject]) || (subjectId === 'rla' ? 'RLA' : subject);
                 return (
                     <button
                         key={subject}
@@ -10832,25 +10833,25 @@ function ProgressDashboard({ progress, onSubjectClick, passedSubjectIds }) {
                         className="subject-card p-4 rounded-lg text-left shadow-inner border transition-transform duration-200 hover:-translate-y-1"
                         style={cardStyle}
                     >
-                        {isPassed && badgeSrc && (
-                            <img
-                                src={badgeSrc}
-                                alt={`${subject} passed`}
-                                className="subject-badge"
-                                onError={(e) => {
-                                    try {
-                                        const el = e.currentTarget;
-                                        const triedFallback = el.getAttribute('data-fallback') === '1';
-                                        if (!triedFallback) {
-                                            el.setAttribute('data-fallback', '1');
-                                            const fallback = (el.src || '').replace('/public', '');
-                                            el.src = fallback;
-                                        } else {
-                                            el.style.display = 'none';
-                                        }
-                                    } catch {}
-                                }}
-                            />
+                        {isPassed && (
+                            <span className="subject-badge-wrap" aria-hidden>
+                                {badgeSrc && (
+                                    <img
+                                        src={badgeSrc}
+                                        alt=""
+                                        className="subject-badge"
+                                        onError={(e) => {
+                                            try {
+                                                const el = e.currentTarget;
+                                                el.style.display = 'none';
+                                                const pill = el.nextElementSibling;
+                                                if (pill) pill.style.display = 'inline-block';
+                                            } catch {}
+                                        }}
+                                    />
+                                )}
+                                <span className="subject-badge-pill" style={{ display: 'none' }}>{shortLabel}</span>
+                            </span>
                         )}
                         <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.85)' }}>
                             {subject}
@@ -11457,10 +11458,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         'RLA': 'rla',
     };
     const BADGE_IMG_PATHS = {
-        math: '/public/badges/math.svg',
-        science: '/public/badges/science.svg',
-        social_studies: '/public/badges/social-studies.svg',
-        rla: '/public/badges/rla.svg',
+        math: '/badges/math.svg',
+        science: '/badges/science.svg',
+        social_studies: '/badges/social-studies.svg',
+        rla: '/badges/rla.svg',
     };
     const profilePassedMap = useMemo(() => {
         const map = {};
@@ -12261,35 +12262,6 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 )}
                 {currentUser && (
                     <div id="progress" className="animate-floatIn block-profile panel">
-                        {earnedBadges && earnedBadges.length > 0 && (
-                            <div className={isDarkMode ? 'badge-strip' : 'badge-strip'}>
-                                {earnedBadges.map((b) => (
-                                    <img
-                                        key={b.id}
-                                        src={b.img}
-                                        alt={`${b.label} badge`}
-                                        title={`GED ${b.label} passed`}
-                                        className="badge-icon"
-                                        onClick={() => openSubjectPremades(b.label)}
-                                        role="button"
-                                        style={{ cursor: 'pointer' }}
-                                        onError={(e) => {
-                                            try {
-                                                const el = e.currentTarget;
-                                                const triedFallback = el.getAttribute('data-fallback') === '1';
-                                                if (!triedFallback) {
-                                                    el.setAttribute('data-fallback', '1');
-                                                    const fallback = (el.src || '').replace('/public', '');
-                                                    el.src = fallback;
-                                                } else {
-                                                    el.style.display = 'none';
-                                                }
-                                            } catch {}
-                                        }}
-                                    />
-                                ))}
-                            </div>
-                        )}
                         <ProgressDashboard
                             progress={progress}
                             onSubjectClick={setDetailedViewSubject}
