@@ -1776,7 +1776,8 @@ const PROFILE_ALLOW = new Set([
     '/api/whoami',
     // presence + quiz attempts should not be blocked by active-user gating
     '/presence/ping',
-    '/api/quiz/attempts'
+    '/api/quiz/attempts',
+    '/api/quiz-attempts'
 ]);
 
 function isProfileAllowlistedPath(pathname) {
