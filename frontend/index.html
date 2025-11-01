@@ -1215,6 +1215,13 @@
             0%   { opacity: 0; transform: translateY(10px) scale(0.98); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
+        /* Dashboard badge pop-in animation */
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .badge-pop { animation: popIn 0.5s ease-out forwards; }
         .animate-fadeIn { animation: fadeIn 0.6s ease-in-out; }
         .animate-floatIn { animation: floatIn 0.5s ease; }
         .prose ::selection { background-color: var(--selection-bg); }
@@ -8555,6 +8562,18 @@ function App({ externalTheme, onThemeChange }) {
                 recalcProgress(nextAttempts);
                 return nextAttempts;
             });
+            // Persist passed subject locally to drive dashboard badges
+            try {
+                if (savedAttempt && savedAttempt.passed && typeof savedAttempt.subject === 'string') {
+                    const raw = localStorage.getItem('passedSubjects');
+                    const arr = raw ? JSON.parse(raw) : [];
+                    const set = new Set(Array.isArray(arr) ? arr : []);
+                    set.add(savedAttempt.subject);
+                    localStorage.setItem('passedSubjects', JSON.stringify(Array.from(set)));
+                }
+            } catch (e) {
+                console.warn('Unable to update passedSubjects in localStorage:', e);
+            }
         } catch (error) {
             console.error('Failed to save quiz attempt:', error);
         }
@@ -10830,6 +10849,35 @@ function ProgressDashboard({ progress, onSubjectClick }) {
         'Reasoning Through Language Arts (RLA)': 'rla',
         'RLA': 'rla',
     };
+    // Subject → badge image map (use correct server path mounted at /badges)
+    const BADGE_IMAGES = {
+        'Reasoning Through Language Arts (RLA)': '/badges/rla.svg',
+        'Math': '/badges/math.svg',
+        'Science': '/badges/science.svg',
+        'Social Studies': '/badges/social-studies.svg',
+    };
+    // Merge localStorage marks with computed progress so badges appear reliably
+    const passedSubjectsSet = React.useMemo(() => {
+        const set = new Set();
+        try {
+            const raw = localStorage.getItem('passedSubjects');
+            if (raw) {
+                const arr = JSON.parse(raw);
+                if (Array.isArray(arr)) arr.forEach((s) => { if (typeof s === 'string') set.add(s); });
+            }
+        } catch (e) {
+            console.warn('Failed to read passedSubjects from localStorage:', e);
+        }
+        try {
+            SUBJECT_PROGRESS_KEYS.forEach((subj) => {
+                const data = progress[subj];
+                if (data && Number.isFinite(data.completedCount) && data.completedCount > 0) {
+                    set.add(subj);
+                }
+            });
+        } catch {}
+        return set;
+    }, [progress]);
     const totalAttempts = Object.values(progress).reduce((acc, subjectData) => acc + (subjectData?.attemptCount || 0), 0);
     const subjects = SUBJECT_PROGRESS_KEYS;
     const getScoreTheme = (subject) => SUBJECT_COLORS[subject] || {};
@@ -10894,9 +10942,16 @@ function ProgressDashboard({ progress, onSubjectClick }) {
                         key={subject}
                         id={subjectId ? `subject-card-${subjectId}` : undefined}
                         onClick={() => onSubjectClick(subject)}
-                        className="subject-card p-4 rounded-lg text-left shadow-inner border transition-transform duration-200 hover:-translate-y-1"
+                        className="subject-card relative p-4 rounded-lg text-left shadow-inner border transition-transform duration-200 hover:-translate-y-1"
                         style={cardStyle}
                     >
+                        {passedSubjectsSet.has(subject) && BADGE_IMAGES[subject] && (
+                            <img
+                                src={BADGE_IMAGES[subject]}
+                                alt={`${subject} badge`}
+                                className="absolute top-2 right-2 w-16 h-16 opacity-90 drop-shadow-lg badge-pop pointer-events-none"
+                            />
+                        )}
                         <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: titleColor }}>
                             {subject}
                         </p>
