@@ -1168,9 +1168,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
 
-            /* Desktop: larger overlay for better presence on wide screens */
-            width: 800%;
-            max-height: 800%;
+            /* make it fill most of the card */
+            width: 240%;
+            max-height: 240%;
             object-fit: contain;
 
             /* stay above text */
@@ -1181,11 +1181,11 @@
             filter: drop-shadow(0 12px 32px rgba(15, 23, 42, 0.35));
 
             /* ebb / pulse opacity */
-            animation: subjectBadgePulse 4s ease-in-out infinite;
+            animation: badgePulse 4s ease-in-out infinite;
         }
         /* mobile — just shrink a bit so it doesn’t cover everything */
         @media (max-width: 768px) {
-            .subject-badge { width: 375%; max-height: 375%; }
+            .subject-badge { width: 145%; max-height: 145%; }
         }
         /* Fallback pill if the SVG is missing — keep it in the corner */
         .subject-badge-pill {
@@ -1204,36 +1204,12 @@
             box-shadow: 0 4px 10px rgba(15,23,42,0.2);
         }
         /* 4 second “ebb” — full ➜ translucent ➜ full */
-        @keyframes subjectBadgePulse {
-            0%   { opacity: 1; }
-            25%  { opacity: 0.25; }
-            50%  { opacity: 0.18; }
-            75%  { opacity: 0.25; }
-            100% { opacity: 1; }
-        }
-        /* Alias for desktop prompt compatibility */
         @keyframes badgePulse {
             0%   { opacity: 1; }
             25%  { opacity: 0.25; }
             50%  { opacity: 0.18; }
             75%  { opacity: 0.25; }
             100% { opacity: 1; }
-        }
-
-        /* Desktop override: center and size per prompt */
-        @media (min-width: 1024px) {
-            .subject-card .subject-badge {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 11rem;
-                max-width: 85%;
-                height: auto;
-                pointer-events: none;
-                z-index: 3;
-                animation: badgePulse 4s ease-in-out infinite;
-            }
         }
 
         /* Requested explicit containers (structure only; we keep Tailwind grid too) */
@@ -11001,8 +10977,8 @@ function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profile
                             badgeSrc ? (
                                 <img
                                     src={badgeSrc}
-                                    alt={`${subject} GED badge`}
-                                    className="subject-badge"
+                                    alt={`${subject} GED passed`}
+                                    className="subject-badge badge-pop pointer-events-none"
                                     onError={(e) => {
                                         e.currentTarget.style.display = 'none';
                                         const pill = e.currentTarget.parentElement?.querySelector('.subject-badge-pill');
