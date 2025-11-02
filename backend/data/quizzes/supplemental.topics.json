@@ -266,35 +266,35 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
-    "categoryName": "Interactive Demos",
+    "categoryName": "Geometry & Measurement",
     "topic": {
-      "id": "math_graphing_tool_demo",
-      "title": "[Tool Demo] Graphing Functions (Interactive)",
-      "description": "A short 4-question set to validate the graphing tool mount.",
+      "id": "math_geometry_tool_demo",
+      "title": "[MATH TOOL DEMO] Geometry Tool Starter",
+      "description": "Short 4-question demo that forces the geometry canvas to show.",
       "config": {
         "totalTime": 600,
-        "calculator": true,
+        "calculator": false,
         "formulaSheet": false,
-        "parts": [ { "name": "Quiz", "questionCount": 4 } ]
+        "parts": [ { "label": "Geometry Tool", "questionCount": 4 } ]
       },
-      "file": "backend/data/quizzes/math/math_graphing_tool_demo.js"
+      "file": "backend/data/quizzes/math/math_geometry_tool_demo.js"
     }
   },
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
-    "categoryName": "Interactive Demos",
+    "categoryName": "Graphs & Functions",
     "topic": {
-      "id": "math_geometry_tool_demo",
-      "title": "[Tool Demo] Geometry Constructions (Interactive)",
-      "description": "A short 4-question set to validate the geometry tool mount.",
+      "id": "math_graphing_tool_demo",
+      "title": "[MATH TOOL DEMO] Graphing Tool Starter",
+      "description": "Short 4-question demo that requires the graphing canvas.",
       "config": {
         "totalTime": 600,
-        "calculator": false,
+        "calculator": true,
         "formulaSheet": false,
-        "parts": [ { "name": "Quiz", "questionCount": 4 } ]
+        "parts": [ { "label": "Graphing Tool", "questionCount": 4 } ]
       },
-      "file": "backend/data/quizzes/math/math_geometry_tool_demo.js"
+      "file": "backend/data/quizzes/math/math_graphing_tool_demo.js"
     }
   },
   {
