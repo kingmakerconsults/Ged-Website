@@ -1181,7 +1181,7 @@
             filter: drop-shadow(0 12px 32px rgba(15, 23, 42, 0.35));
 
             /* ebb / pulse opacity */
-            animation: badgePulse 4s ease-in-out infinite;
+            animation: subjectBadgePulse 4s ease-in-out infinite;
         }
         /* mobile — just shrink a bit so it doesn’t cover everything */
         @media (max-width: 768px) {
@@ -1192,7 +1192,7 @@
             position: absolute;
             top: -12px;
             right: -8px;
-            z-index: 10;
+            z-index: 25;
             pointer-events: none;
             font-weight: 700;
             font-size: 12px;
@@ -1204,16 +1204,12 @@
             box-shadow: 0 4px 10px rgba(15,23,42,0.2);
         }
         /* 4 second “ebb” — full ➜ translucent ➜ full */
-        @keyframes badgePulse {
+        @keyframes subjectBadgePulse {
             0%   { opacity: 1; }
             25%  { opacity: 0.25; }
             50%  { opacity: 0.18; }
             75%  { opacity: 0.25; }
             100% { opacity: 1; }
-        }
-        /* Combine pop-in with pulse so both play (pulse starts after pop-in) */
-        .subject-badge.badge-pop {
-            animation: popIn 0.5s ease-out forwards, badgePulse 4s ease-in-out infinite 0.5s;
         }
 
         /* Requested explicit containers (structure only; we keep Tailwind grid too) */
@@ -10979,8 +10975,8 @@ function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profile
                             badgeSrc ? (
                                 <img
                                     src={badgeSrc}
-                                    alt={`${subject} GED passed`}
-                                    className="subject-badge badge-pop"
+                                    alt={`${subject} GED badge`}
+                                    className="subject-badge"
                                     onError={(e) => {
                                         e.currentTarget.style.display = 'none';
                                         const pill = e.currentTarget.parentElement?.querySelector('.subject-badge-pill');
