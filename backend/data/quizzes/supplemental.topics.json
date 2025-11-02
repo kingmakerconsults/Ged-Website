@@ -266,7 +266,7 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
-    "categoryName": "Graphing Tool Demos",
+    "categoryName": "Interactive Demos",
     "topic": {
       "id": "math_graphing_tool_demo",
       "title": "[Tool Demo] Graphing Functions (Interactive)",
@@ -283,7 +283,7 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
-    "categoryName": "Geometry Tool Demos",
+    "categoryName": "Interactive Demos",
     "topic": {
       "id": "math_geometry_tool_demo",
       "title": "[Tool Demo] Geometry Constructions (Interactive)",
