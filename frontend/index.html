@@ -1168,9 +1168,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
 
-            /* make it dramatically larger than the card while centered */
-            width: 140%;
-            max-height: 140%;
+            /* 300% larger (≈4x the original corner icon), centered */
+            width: 400%;
+            max-height: 400%;
             object-fit: contain;
 
             /* stay above text */
@@ -1185,7 +1185,7 @@
         }
         /* mobile — just shrink a bit so it doesn’t cover everything */
         @media (max-width: 768px) {
-            .subject-badge { width: 120%; max-height: 120%; }
+            .subject-badge { width: 300%; max-height: 300%; }
         }
         /* Fallback pill if the SVG is missing — keep it in the corner */
         .subject-badge-pill {
