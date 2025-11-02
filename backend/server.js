@@ -3907,12 +3907,9 @@ async function generateGeometryQuestion(topic, subject, attempt = 1, options = {
             answerOptions
         };
 
-        if (GEOMETRY_FIGURES_ENABLED && geometrySpec) {
-            questionPayload.geometrySpec = geometrySpec;
-        }
-
-        // Signal the frontend to mount the geometry tool panel for this item
-        questionPayload.useGeometryTool = true;
+        // Attach geometrySpec explicitly (null when absent) and a clear flag
+        questionPayload.geometrySpec = GEOMETRY_FIGURES_ENABLED && geometrySpec ? geometrySpec : null;
+        questionPayload.useGeometryTool = Boolean(questionPayload.geometrySpec);
 
         applyFractionPlainTextModeToItem(questionPayload);
         return questionPayload;
@@ -4020,9 +4017,31 @@ Formatting notes:
     applyFractionPlainTextModeToItem(question);
     question.type = 'standalone';
     question.calculator = true;
-    // Signal the frontend to mount the graphing tool panel for this item
-    question.useGraphTool = true;
+    // Provide a minimal graph spec so the canvas has data to draw
+    if (!question.graphSpec) {
+        question.graphSpec = {
+            type: 'line',
+            points: [
+                { x: 0, y: 10 },
+                { x: 10, y: 5 }
+            ],
+            xLabel: 'x',
+            yLabel: 'y'
+        };
+    }
+    // Flag for the tool panel
+    question.useGraphTool = Boolean(question.graphSpec);
     return enforceWordCapsOnItem(question, 'Math');
+}
+
+// Extra helper to auto-flag obvious graph items if used elsewhere
+function autoMarkGraph(questionText, item) {
+    try {
+        const t = String(questionText || '').toLowerCase();
+        if (t.includes('the graph below') || t.includes('coordinate plane') || t.includes('linearly ')) {
+            item.useGraphTool = true;
+        }
+    } catch {}
 }
 
 async function generateMath_FillInTheBlank(options = {}) {

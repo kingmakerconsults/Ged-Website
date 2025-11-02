@@ -13420,13 +13420,18 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
             return;
         }
 
-        const wantsGraph = Boolean(currentQ.useGraphTool);
-        const wantsGeometry = Boolean(currentQ.useGeometryTool);
-        const nextType = wantsGraph ? 'graph' : (wantsGeometry ? 'geometry' : null);
+    const hasGraphData = currentQ && (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane);
+    const hasGeometryData = currentQ && currentQ.geometrySpec;
+
+    const wantsGraph = Boolean(currentQ && currentQ.useGraphTool) || Boolean(hasGraphData);
+    const wantsGeometry = !wantsGraph && (Boolean(currentQ && currentQ.useGeometryTool) || Boolean(hasGeometryData));
+    const nextType = wantsGraph ? 'graph' : (wantsGeometry ? 'geometry' : null);
 
         // Nothing to mount for this question
         if (!nextType) {
             destroyTool();
+            // Hide panel if no tool is needed
+            try { panel.style.display = 'none'; panel.setAttribute('aria-hidden', 'true'); } catch {}
             return;
         }
 
@@ -13437,7 +13442,9 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
 
         // Replace any existing tool
         destroyTool();
-        panel.innerHTML = '';
+    panel.innerHTML = '';
+    // Ensure panel is visible when we're mounting a tool
+    try { panel.style.display = ''; panel.removeAttribute('aria-hidden'); } catch {}
 
         // Ensure container has a reasonable height for canvases
         panel.style.minHeight = '320px';
@@ -13449,14 +13456,18 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     const mod = await import('/graphing/GraphCanvas.js');
                     const GraphCanvas = mod && (mod.default || mod.GraphCanvas);
                     if (typeof GraphCanvas === 'function') {
-                        toolInstanceRef.current = new GraphCanvas(panel, {});
+                        toolInstanceRef.current = new GraphCanvas(panel, {
+                            spec: (currentQ && (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)) || null
+                        });
                         toolTypeRef.current = 'graph';
                     }
                 } else if (nextType === 'geometry') {
                     const mod = await import('/geometry/GeometryCanvas.js');
                     const GeometryCanvas = mod && (mod.default || mod.GeometryCanvas);
                     if (typeof GeometryCanvas === 'function') {
-                        toolInstanceRef.current = new GeometryCanvas(panel, {});
+                        toolInstanceRef.current = new GeometryCanvas(panel, {
+                            spec: (currentQ && currentQ.geometrySpec) || null
+                        });
                         toolTypeRef.current = 'geometry';
                     }
                 }
