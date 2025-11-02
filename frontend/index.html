@@ -6735,8 +6735,14 @@ const QUIZ_GROUPING = {
         { label: "Physical, Earth & Space", categories: ["Physical Science", "Earth & Space Science"] },
         { label: "Scientific Numeracy", categories: ["Scientific Numeracy"] }
     ],
-    // Math: canonical clusters with variant lists
+    // Math: add a highlighted Demo category first, then canonical clusters
     "Math": [
+        { label: "Interactive Demos (Beta)", categories: [
+            "Interactive Demos",
+            "Interactive Tool Demos",
+            "Tool Demos",
+            "Demos"
+        ] },
         { label: "Algebra", categories: [
             "Algebra",
             "Algebraic Problem Solving",
@@ -6864,30 +6870,7 @@ function buildQuizLibraryFromAppData(data) {
             });
         }
 
-        // Math: pin Interactive Tool demos at the very top as a featured cluster
-        if (String(subjectName).toLowerCase() === 'math') {
-            try {
-                // Find the demo topics if present in any category
-                const demoIds = ['math_graphing_tool_demo', 'math_geometry_tool_demo'];
-                const present = new Set();
-                Object.values(subject.categories).forEach((cat) => {
-                    const topics = Array.isArray(cat?.topics) ? cat.topics : [];
-                    topics.forEach((t) => { if (t && demoIds.includes(t.id)) present.add(t.id); });
-                });
-                const topicIds = demoIds.filter(id => present.has(id));
-                if (topicIds.length) {
-                    const featured = {
-                        id: 'interactive-tools',
-                        label: 'Interactive Tools (Beta)',
-                        description: 'Fast access to the Graphing and Geometry tool demos.',
-                        topicIds,
-                    };
-                    // Avoid duplicate if already added somehow
-                    const exists = clusters.some(c => c.id === featured.id);
-                    if (!exists) clusters.unshift(featured);
-                }
-            } catch {}
-        }
+        // No extra featured insertion; Math demos are grouped under the 'Interactive Demos' category
         result[subjectName] = { clusters };
     });
     return result;
