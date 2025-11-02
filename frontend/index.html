@@ -1211,6 +1211,30 @@
             75%  { opacity: 0.25; }
             100% { opacity: 1; }
         }
+        /* Alias for desktop prompt compatibility */
+        @keyframes badgePulse {
+            0%   { opacity: 1; }
+            25%  { opacity: 0.25; }
+            50%  { opacity: 0.18; }
+            75%  { opacity: 0.25; }
+            100% { opacity: 1; }
+        }
+
+        /* Desktop override: center and size per prompt */
+        @media (min-width: 1024px) {
+            .subject-card .subject-badge {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 11rem;
+                max-width: 85%;
+                height: auto;
+                pointer-events: none;
+                z-index: 3;
+                animation: badgePulse 4s ease-in-out infinite;
+            }
+        }
 
         /* Requested explicit containers (structure only; we keep Tailwind grid too) */
         .dashboard-progress { align-items: stretch; }
