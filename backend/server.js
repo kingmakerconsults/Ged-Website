@@ -5154,6 +5154,14 @@ app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
 // Load quizzes from dynamic index which merges legacy and supplemental topics
 const { ALL_QUIZZES } = require('./data/quizzes');
 
+// Expose ALL_QUIZZES for the frontend to build a unified catalog, including supplemental topics
+app.get('/api/all-quizzes', (req, res) => {
+    try {
+        res.set('Cache-Control', 'no-store');
+    } catch {}
+    res.json(ALL_QUIZZES);
+});
+
 // Helper function to get random questions from the premade data
 const getPremadeQuestions = (subject, count) => {
     const allQuestions = [];
@@ -5171,6 +5179,17 @@ const getPremadeQuestions = (subject, count) => {
     const shuffled = allQuestions.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
 };
+
+// Lightweight catalog endpoint for frontend to ingest merged legacy + supplemental topics
+app.get('/api/all-quizzes', (req, res) => {
+    try {
+        res.set('Cache-Control', 'no-store');
+        return res.json(ALL_QUIZZES);
+    } catch (e) {
+        console.warn('[api] /api/all-quizzes failed:', e?.message || e);
+        return res.status(500).json({ error: 'Failed to load quiz catalog' });
+    }
+});
 
 // Helper function to generate AI questions
 const generateAIContent = async (prompt, schema) => {
