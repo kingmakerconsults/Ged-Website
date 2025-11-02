@@ -13454,20 +13454,30 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
             try {
                 if (nextType === 'graph') {
                     const mod = await import('/graphing/GraphCanvas.js');
+                    const mount = mod && mod.mount;
+                    const unmount = mod && mod.unmount;
                     const GraphCanvas = mod && (mod.default || mod.GraphCanvas);
-                    if (typeof GraphCanvas === 'function') {
-                        toolInstanceRef.current = new GraphCanvas(panel, {
-                            spec: (currentQ && (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)) || null
-                        });
+                    const payload = { graphSpec: (currentQ && (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)) || null };
+                    if (typeof mount === 'function') {
+                        mount(panel, payload);
+                        toolInstanceRef.current = { destroy: () => { try { unmount && unmount(panel); } catch {} } };
+                        toolTypeRef.current = 'graph';
+                    } else if (typeof GraphCanvas === 'function') {
+                        toolInstanceRef.current = new GraphCanvas(panel, { spec: payload.graphSpec });
                         toolTypeRef.current = 'graph';
                     }
                 } else if (nextType === 'geometry') {
                     const mod = await import('/geometry/GeometryCanvas.js');
+                    const mount = mod && mod.mount;
+                    const unmount = mod && mod.unmount;
                     const GeometryCanvas = mod && (mod.default || mod.GeometryCanvas);
-                    if (typeof GeometryCanvas === 'function') {
-                        toolInstanceRef.current = new GeometryCanvas(panel, {
-                            spec: (currentQ && currentQ.geometrySpec) || null
-                        });
+                    const payload = { geometrySpec: (currentQ && currentQ.geometrySpec) || null };
+                    if (typeof mount === 'function') {
+                        mount(panel, payload);
+                        toolInstanceRef.current = { destroy: () => { try { unmount && unmount(panel); } catch {} } };
+                        toolTypeRef.current = 'geometry';
+                    } else if (typeof GeometryCanvas === 'function') {
+                        toolInstanceRef.current = new GeometryCanvas(panel, { spec: payload.geometrySpec });
                         toolTypeRef.current = 'geometry';
                     }
                 }

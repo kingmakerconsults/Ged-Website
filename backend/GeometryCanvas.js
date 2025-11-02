@@ -118,3 +118,25 @@ export class GeometryCanvas {
 }
 
 export default GeometryCanvas;
+
+// Simple module API for easier mounting from the quiz panel
+export function mount(el, payload = {}) {
+  try {
+    const spec = payload.spec || payload.geometrySpec || null;
+    const instance = new GeometryCanvas(el, { spec });
+    el.__geometryInstance = instance;
+    return instance;
+  } catch (e) {
+    console.warn('[GeometryCanvas] mount failed:', e?.message || e);
+    throw e;
+  }
+}
+
+export function unmount(el) {
+  try {
+    if (el && el.__geometryInstance && typeof el.__geometryInstance.destroy === 'function') {
+      el.__geometryInstance.destroy();
+    }
+  } catch {}
+  if (el) delete el.__geometryInstance;
+}
