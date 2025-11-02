@@ -9771,6 +9771,7 @@ function ProfileView({
 }) {
     const profile = data?.profile || {};
     const challengeOptions = Array.isArray(data?.challengeOptions) ? data.challengeOptions : [];
+    const totalChallenges = challengeOptions.length;
     const recentSummary = data?.recentScoresDashboard || {};
     const legacyScores = data?.scores || {};
     const SUBJECT_ORDER = useMemo(() => [...SUBJECT_NAMES], []);
@@ -9841,6 +9842,7 @@ function ProfileView({
         [challengeOptions]
     );
     const [selectedIds, setSelectedIds] = useState(selectedFromServer);
+    const [showAllChallenges, setShowAllChallenges] = useState(false);
     useEffect(() => {
         setSelectedIds(selectedFromServer);
     }, [selectedFromServer]);
@@ -10146,9 +10148,20 @@ function ProfileView({
                     onSubmit={handleChallengesSubmit}
                     className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightChallenges ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
                 >
-                    <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Learning Challenges</h2>
+                    <div className="flex items-center justify-between gap-2">
+                        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Learning Challenges</h2>
+                        <button
+                            type="button"
+                            onClick={() => setShowAllChallenges((v) => !v)}
+                            className="inline-flex items-center justify-center rounded-lg border px-2.5 py-1.5 text-xs font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                            aria-expanded={showAllChallenges ? 'true' : 'false'}
+                            aria-controls="challengeList"
+                        >
+                            {showAllChallenges ? 'Collapse list' : 'Show all'}{totalChallenges ? ` (${totalChallenges})` : ''}
+                        </button>
+                    </div>
                     <p className="text-sm text-slate-600">Select the areas you find tough. We’ll use this later to build a study plan for you.</p>
-                    <div id="challengeList" className="max-h-64 overflow-y-auto rounded-lg border border-slate-200 p-2">
+                    <div id="challengeList" className={`${showAllChallenges ? 'max-h-none' : 'max-h-64 overflow-y-auto'} rounded-lg border border-slate-200 p-2`}>
                         {Object.keys(groupedChallenges).length === 0 ? (
                             <p className="text-sm text-slate-500">No challenge options available yet.</p>
                         ) : (
@@ -10190,7 +10203,7 @@ function ProfileView({
                         )}
                     </div>
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                        <p className="text-xs text-slate-500">Selected: {selectedCount}</p>
+                        <p className="text-xs text-slate-500">Selected: {selectedCount}{totalChallenges ? ` / ${totalChallenges}` : ''}</p>
                         <button
                             id="saveChallengesBtn"
                             type="submit"
