@@ -10849,34 +10849,12 @@ function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profile
         'Reasoning Through Language Arts (RLA)': 'rla',
         'RLA': 'rla',
     };
-    // Subject → badge image map (use correct server path mounted at /badges)
-    const BADGE_IMAGES = {
-        'Reasoning Through Language Arts (RLA)': '/badges/rla.svg',
-        'Math': '/badges/math.svg',
-        'Science': '/badges/science.svg',
-        'Social Studies': '/badges/social-studies.svg',
-    };
-    // Merge localStorage marks with computed progress so badges appear reliably
+    // Static base path for badges served by the backend
+    const BADGE_BASE = '/badges';
+    // Build passed set from profile only, plus optional localStorage overrides
     const passedSubjectsSet = React.useMemo(() => {
         const set = new Set();
-        try {
-            const raw = localStorage.getItem('passedSubjects');
-            if (raw) {
-                const arr = JSON.parse(raw);
-                if (Array.isArray(arr)) arr.forEach((s) => { if (typeof s === 'string') set.add(s); });
-            }
-        } catch (e) {
-            console.warn('Failed to read passedSubjects from localStorage:', e);
-        }
-        try {
-            SUBJECT_PROGRESS_KEYS.forEach((subj) => {
-                const data = progress[subj];
-                if (data && Number.isFinite(data.completedCount) && data.completedCount > 0) {
-                    set.add(subj);
-                }
-            });
-        } catch {}
-        // Merge in profile-passed flags coming from the profile/test-plan
+        // Merge in profile-passed flags coming from the profile/test-plan (source of truth)
         try {
             const pm = profilePassedFromProps;
             if (pm && typeof pm === 'object') {
@@ -10894,11 +10872,17 @@ function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profile
                     if (label) set.add(label);
                 });
             }
-        } catch (e) {
-            console.warn('Failed to merge profilePassedMap into badges:', e);
-        }
+        } catch {}
+        // Optional: also respect any local manual flags present in localStorage
+        try {
+            const raw = localStorage.getItem('passedSubjects');
+            if (raw) {
+                const arr = JSON.parse(raw);
+                if (Array.isArray(arr)) arr.forEach((s) => { if (typeof s === 'string') set.add(s); });
+            }
+        } catch {}
         return set;
-    }, [progress, profilePassedFromProps]);
+    }, [profilePassedFromProps]);
     const totalAttempts = Object.values(progress).reduce((acc, subjectData) => acc + (subjectData?.attemptCount || 0), 0);
     const subjects = SUBJECT_PROGRESS_KEYS;
     const getScoreTheme = (subject) => SUBJECT_COLORS[subject] || {};
@@ -10958,6 +10942,8 @@ function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profile
                 const shortLabel = (SUBJECT_SHORT_LABELS && SUBJECT_SHORT_LABELS[subject]) || (subjectId === 'rla' ? 'RLA' : subject);
                 const hasGradient = Boolean(SUBJECT_BG_GRADIENTS[subject]);
                 const titleColor = hasGradient ? 'rgba(255,255,255,0.85)' : '#0f172a';
+                const badgeSrc = subjectId ? `${BADGE_BASE}/${subjectId}.svg` : null;
+                const showBadge = passedSubjectsSet.has(subject);
                 return (
                     <button
                         key={subject}
@@ -10966,18 +10952,21 @@ function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profile
                         className="subject-card relative p-4 rounded-lg text-left shadow-inner border transition-transform duration-200 hover:-translate-y-1"
                         style={cardStyle}
                     >
-                        {passedSubjectsSet.has(subject) && (
-                            BADGE_IMAGES[subject]
-                                ? (
-                                    <img
-                                        src={BADGE_IMAGES[subject]}
-                                        alt={`${subject} badge`}
-                                        className="subject-badge absolute top-2 right-2 w-16 h-16 opacity-90 drop-shadow-lg badge-pop pointer-events-none"
-                                    />
-                                  )
-                                : (
-                                    <span className="subject-badge-pill badge-pop">{shortLabel}</span>
-                                  )
+                        {showBadge && (
+                            badgeSrc ? (
+                                <img
+                                    src={badgeSrc}
+                                    alt={`${subject} GED passed`}
+                                    className="subject-badge absolute top-2 right-2 w-16 h-16 opacity-90 drop-shadow-lg badge-pop pointer-events-none"
+                                    onError={(e) => {
+                                        e.currentTarget.style.display = 'none';
+                                        const pill = e.currentTarget.parentElement?.querySelector('.subject-badge-pill');
+                                        if (pill) pill.style.display = 'inline-flex';
+                                    }}
+                                />
+                            ) : (
+                                <span className="subject-badge-pill badge-pop">{shortLabel}</span>
+                            )
                         )}
                         <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: titleColor }}>
                             {subject}
