@@ -9,6 +9,7 @@ const db = require('./db');
 const { applyFractionPlainTextModeToItem, replaceLatexFractionsWithSlash } = require('./utils/fractionPlainText');
 const ensureProfilePreferenceColumns = require('./db/initProfilePrefs');
 const ensureQuizAttemptsTable = require('./db/initQuizAttempts');
+const ensureEssayScoresTable = require('./db/initEssayScores');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
@@ -2115,6 +2116,7 @@ const profileRouter = require('./routes/profile');
 
 ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
 ensureQuizAttemptsTable().catch((e) => console.error('Quiz attempt table init error:', e));
+ensureEssayScoresTable().catch((e) => console.error('Essay score table init error:', e));
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -4641,6 +4643,122 @@ app.post('/score-essay', async (req, res) => {
     } catch (error) {
         console.error('Error calling Google AI API for essay scoring:', error.response ? error.response.data : error.message);
         res.status(500).json({ error: 'Failed to score essay from AI service.' });
+    }
+});
+
+// New, auth-protected essay scoring endpoint used by the SPA
+// Persists ONLY the total (0-6) score for the authenticated user.
+app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
+    const userId = req.user?.userId || req.user?.sub;
+    if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { essayText, completion, promptId } = req.body || {};
+    if (!essayText || typeof essayText !== 'string' || !essayText.trim()) {
+        return res.status(400).json({ error: 'Essay text is required.' });
+    }
+
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+    if (!apiKey) {
+        console.error('[ESSAY-SCORE] API key not configured on the server.');
+        return res.status(500).json({ error: 'Server configuration error.' });
+    }
+
+    const prompt = `Act as a GED RLA essay evaluator. The student was asked to write a 5-paragraph essay.\n\n` +
+        `IMPORTANT CONTEXT: The student's level of completion for this draft was ${completion ?? 'unknown'} sections. ` +
+        `Factor this completion level into your feedback and scores, especially for Trait 3. An incomplete essay cannot score a 2 on Trait 3.\n\n` +
+        `Here is the student's essay:\n---\n${essayText}\n---\n\n` +
+        `Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". ` +
+        `For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores (0..6). ` +
+        `"overallFeedback" should be a short summary.`;
+
+    const schema = {
+        type: 'OBJECT',
+        properties: {
+            trait1: { type: 'OBJECT', properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } } },
+            trait2: { type: 'OBJECT', properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } } },
+            trait3: { type: 'OBJECT', properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } } },
+            overallScore: { type: 'NUMBER' },
+            overallFeedback: { type: 'STRING' },
+        },
+        required: ['trait1', 'trait2', 'trait3', 'overallScore', 'overallFeedback'],
+    };
+
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+            responseMimeType: 'application/json',
+            responseSchema: schema,
+        },
+    };
+
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+    const normalizeResponse = (raw) => {
+        try {
+            // If the model returned the structured object, prefer it
+            if (raw && typeof raw === 'object' && raw.trait1 && raw.trait2 && raw.trait3) {
+                return raw;
+            }
+            // Otherwise, attempt to peel the Google response format
+            const txt = raw?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (typeof txt === 'string') {
+                const parsed = JSON.parse(txt);
+                return parsed;
+            }
+        } catch (e) {
+            // fall through to fallback
+        }
+        return null;
+    };
+
+    console.log('[ESSAY-SCORE] Scoring request received', {
+        userId,
+        completion: completion ?? null,
+        hasText: !!essayText,
+        promptId: promptId || null,
+    });
+
+    try {
+        const response = await http.post(apiUrl, payload);
+        const normalized = normalizeResponse(response.data);
+        if (!normalized) {
+            throw new Error('AI response was not parseable');
+        }
+
+        // Clamp and normalize the total score to 0..6, integer
+        const total = Math.max(0, Math.min(6, Math.round(Number(normalized.overallScore))));
+
+        try {
+            await pool.query(
+                `INSERT INTO essay_scores (user_id, total_score, prompt_id) VALUES ($1, $2, $3)`,
+                [userId, total, promptId || null]
+            );
+            console.log('[ESSAY-SCORE] Saved total score', { userId, total, promptId: promptId || null });
+        } catch (dbErr) {
+            console.warn('[ESSAY-SCORE] Failed to persist total score:', dbErr?.message || dbErr);
+        }
+
+        // Return normalized structure directly to the client
+        return res.json({
+            trait1: normalized.trait1,
+            trait2: normalized.trait2,
+            trait3: normalized.trait3,
+            overallScore: total,
+            overallFeedback: normalized.overallFeedback || '',
+        });
+    } catch (error) {
+        const errMsg = error?.response ? JSON.stringify(error.response.data) : (error?.message || String(error));
+        console.error('[ESSAY-SCORE] AI scoring failed:', errMsg);
+        // Safe fallback response: do not persist, but return a neutral evaluation
+        return res.status(200).json({
+            trait1: { score: 0, feedback: 'We could not evaluate this draft right now. Try again shortly.' },
+            trait2: { score: 0, feedback: 'We could not evaluate this draft right now. Try again shortly.' },
+            trait3: { score: 0, feedback: 'We could not evaluate this draft right now. Try again shortly.' },
+            overallScore: 0,
+            overallFeedback: 'Temporary scoring outage. Your draft was not saved for scoring; please rescore later.',
+        });
     }
 });
 
