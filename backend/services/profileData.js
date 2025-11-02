@@ -170,13 +170,38 @@ async function loadTestPlan(userId) {
  */
 async function loadScoresSafe(userId) {
   try {
-    // We are intentionally returning empty structures for now
-    // so that profile doesn't 500 if queries are incomplete.
-    // We'll wire in real rollup SQL later.
+    // Compute a minimal dashboard summary. Keep resilient to schema gaps.
+    let avgEssay = null;
+    try {
+      const row = await db.oneOrNone(
+        `SELECT AVG(total_score)::numeric(10,2) AS avg_score FROM essay_scores WHERE user_id = $1`,
+        [userId]
+      );
+      if (row && row.avg_score != null) {
+        avgEssay = Number(row.avg_score);
+      }
+    } catch (e) {
+      // ignore; keep null
+    }
+
+    const cards = [];
+    if (avgEssay != null && Number.isFinite(avgEssay)) {
+      cards.push({
+        id: 'rla_essay_avg',
+        name: 'RLA Essay Avg (0–6)',
+        subject: 'RLA',
+        // Use display to avoid % formatting in the UI component
+        value: { display: `${avgEssay.toFixed(1)} / 6` },
+      });
+    }
+
     return {
       bySubject: [],
       bySubtopic: [],
-      recentScoresDashboard: {}
+      recentScoresDashboard: {
+        cards,
+        lastUpdated: new Date().toISOString(),
+      }
     };
   } catch (err) {
     console.error('loadScoresSafe error', err);
