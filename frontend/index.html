@@ -13393,6 +13393,19 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
 
     const isFillInTheBlank = currentQ.type === 'fill-in-the-blank' || (!currentQ.answerOptions || currentQ.answerOptions.length === 0);
 
+    // TEMPORARY: disable interactive math tool mounting entirely
+    const TOOL_PANEL_ENABLED = false;
+
+    // Precompute if the question would need a tool (ignored when flag is false)
+    const hasGraphDataForRender = Boolean(currentQ && (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane));
+    const hasGeometryDataForRender = Boolean(currentQ && currentQ.geometrySpec);
+    const needsToolPanel = Boolean(currentQ && (
+        currentQ.useGraphTool ||
+        currentQ.useGeometryTool ||
+        hasGraphDataForRender ||
+        hasGeometryDataForRender
+    ));
+
     const subjectForRender = currentQ.subject || subject || 'Default';
     const quizSubject = subject || 'Default';
     const formulaSheetEnabled = Boolean(quizConfig?.formulaSheet);
@@ -13414,6 +13427,15 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
             toolTypeRef.current = null;
             if (panel) panel.innerHTML = '';
         };
+
+        // Hard-off flag: don't render or import any tool
+        if (!TOOL_PANEL_ENABLED) {
+            destroyTool();
+            if (panel) {
+                try { panel.style.display = 'none'; panel.setAttribute('aria-hidden', 'true'); } catch {}
+            }
+            return;
+        }
 
         if (!panel || !currentQ) {
             destroyTool();
@@ -13452,6 +13474,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
         // Dynamically import modules served from /frontend
         (async () => {
             try {
+                if (!TOOL_PANEL_ENABLED) return;
                 if (nextType === 'graph') {
                     const mod = await import('/graphing/GraphCanvas.js');
                     const mount = mod && mod.mount;
@@ -13721,18 +13744,21 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                         </div>
                     )}
 
-                    {/* Interactive tool panel (mounted dynamically per-question) */}
-                    <div
-                        ref={toolPanelRef}
-                        className="quiz-tool-panel my-4 rounded-lg"
-                        role="region"
-                        aria-label="Interactive math tool"
-                        style={{
-                            backgroundColor: scheme.surface,
-                            border: `1px dashed ${scheme.surfaceBorder}`,
-                            padding: '0.75rem',
-                        }}
-                    />
+                    {/* Interactive tool panel (conditionally rendered; disabled via flag) */}
+                    {TOOL_PANEL_ENABLED && needsToolPanel && (
+                        <div
+                            id="interactive-tool-panel"
+                            ref={toolPanelRef}
+                            className="quiz-tool-panel my-4 rounded-lg"
+                            role="region"
+                            aria-label="Interactive math tool"
+                            style={{
+                                backgroundColor: scheme.surface,
+                                border: `1px dashed ${scheme.surfaceBorder}`,
+                                padding: '0.75rem',
+                            }}
+                        />
+                    )}
 
                     {isFillInTheBlank ? (
                         <div>
