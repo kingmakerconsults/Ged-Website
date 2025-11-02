@@ -1634,6 +1634,45 @@ let cachedTestPlanTableName = null;
 let cachedChallengeTables = null;
 let cachedProfileNameColumn = null;
 
+// Expanded in-memory fallback list for profile challenges by subject/subtopic
+// Used when the DB challenge catalog is unavailable or empty
+const FALLBACK_PROFILE_CHALLENGES = [
+    // MATH (algebra, geometry, data)
+    { id: 'math-1', subject: 'Math', subject_alias: 'Math', subtopic: 'Number Sense & Fluency', label: 'Fractions, decimals, %' },
+    { id: 'math-2', subject: 'Math', subject_alias: 'Math', subtopic: 'Algebra Foundations', label: 'Writing and solving 1-step equations' },
+    { id: 'math-3', subject: 'Math', subject_alias: 'Math', subtopic: 'Algebra Foundations', label: '2-step equations & inequalities' },
+    { id: 'math-4', subject: 'Math', subject_alias: 'Math', subtopic: 'Word Problems', label: 'Translating real situations to expressions' },
+    { id: 'math-5', subject: 'Math', subject_alias: 'Math', subtopic: 'Geometry & Measurement', label: 'Perimeter, area, and volume' },
+    { id: 'math-6', subject: 'Math', subject_alias: 'Math', subtopic: 'Data & Graphs', label: 'Reading tables, charts, and graphs' },
+    { id: 'math-7', subject: 'Math', subject_alias: 'Math', subtopic: 'Scientific Calculator', label: 'Using the calculator efficiently' },
+    { id: 'math-8', subject: 'Math', subject_alias: 'Math', subtopic: 'Test Skills', label: 'Multi-step GED-style math items' },
+
+    // RLA (reading, grammar, extended response)
+    { id: 'rla-1', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Reading Comprehension', label: 'Main idea and supporting details' },
+    { id: 'rla-2', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Reading Comprehension', label: 'Author’s purpose & tone' },
+    { id: 'rla-3', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Informational Text', label: 'Reading charts / text together' },
+    { id: 'rla-4', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Language & Editing', label: 'Grammar, usage, and mechanics' },
+    { id: 'rla-5', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Language & Editing', label: 'Punctuation and sentence boundaries' },
+    { id: 'rla-6', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Writing', label: 'Organizing ideas for responses' },
+    { id: 'rla-7', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Writing', label: 'Citing evidence from the passage' },
+
+    // SCIENCE (data, life, physical, reasoning)
+    { id: 'science-1', subject: 'Science', subject_alias: 'Science', subtopic: 'Data Interpretation', label: 'Reading charts and graphs' },
+    { id: 'science-2', subject: 'Science', subject_alias: 'Science', subtopic: 'Physical Science', label: 'Forces, motion, and energy' },
+    { id: 'science-3', subject: 'Science', subject_alias: 'Science', subtopic: 'Life Science', label: 'Cells and human body systems' },
+    { id: 'science-4', subject: 'Science', subject_alias: 'Science', subtopic: 'Earth & Space', label: 'Weather, climate, earth systems' },
+    { id: 'science-5', subject: 'Science', subject_alias: 'Science', subtopic: 'Scientific Practice', label: 'Experimental design & variables' },
+    { id: 'science-6', subject: 'Science', subject_alias: 'Science', subtopic: 'Reasoning in Science', label: 'Cause-and-effect in passages' },
+
+    // SOCIAL STUDIES (civics, history, econ, reading graphs)
+    { id: 'social-1', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Civics', label: 'Government and civics concepts' },
+    { id: 'social-2', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Geography', label: 'Interpreting maps and data' },
+    { id: 'social-3', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'History', label: 'Remembering historical events' },
+    { id: 'social-4', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'US History', label: 'Colonial → Civil War sequence' },
+    { id: 'social-5', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Economics', label: 'Basic economics and graphs' },
+    { id: 'social-6', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Document Literacy', label: 'Reading primary/secondary sources' },
+];
+
 async function getTestPlanTableName() {
     if (cachedTestPlanTableName) {
         return cachedTestPlanTableName;
@@ -1908,45 +1947,6 @@ async function buildProfileBundle(userId) {
 
     const { optionTable, selectionTable } = await getChallengeTables();
 
-    // Expanded in-memory fallback list for profile challenges by subject/subtopic
-    // Used when the DB challenge catalog is unavailable or empty
-    const FALLBACK_PROFILE_CHALLENGES = [
-        // MATH (algebra, geometry, data)
-        { id: 'math-1', subject: 'Math', subject_alias: 'Math', subtopic: 'Number Sense & Fluency', label: 'Fractions, decimals, %' },
-        { id: 'math-2', subject: 'Math', subject_alias: 'Math', subtopic: 'Algebra Foundations', label: 'Writing and solving 1-step equations' },
-        { id: 'math-3', subject: 'Math', subject_alias: 'Math', subtopic: 'Algebra Foundations', label: '2-step equations & inequalities' },
-        { id: 'math-4', subject: 'Math', subject_alias: 'Math', subtopic: 'Word Problems', label: 'Translating real situations to expressions' },
-        { id: 'math-5', subject: 'Math', subject_alias: 'Math', subtopic: 'Geometry & Measurement', label: 'Perimeter, area, and volume' },
-        { id: 'math-6', subject: 'Math', subject_alias: 'Math', subtopic: 'Data & Graphs', label: 'Reading tables, charts, and graphs' },
-        { id: 'math-7', subject: 'Math', subject_alias: 'Math', subtopic: 'Scientific Calculator', label: 'Using the calculator efficiently' },
-        { id: 'math-8', subject: 'Math', subject_alias: 'Math', subtopic: 'Test Skills', label: 'Multi-step GED-style math items' },
-
-        // RLA (reading, grammar, extended response)
-        { id: 'rla-1', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Reading Comprehension', label: 'Main idea and supporting details' },
-        { id: 'rla-2', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Reading Comprehension', label: 'Author’s purpose & tone' },
-        { id: 'rla-3', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Informational Text', label: 'Reading charts / text together' },
-        { id: 'rla-4', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Language & Editing', label: 'Grammar, usage, and mechanics' },
-        { id: 'rla-5', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Language & Editing', label: 'Punctuation and sentence boundaries' },
-        { id: 'rla-6', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Writing', label: 'Organizing ideas for responses' },
-        { id: 'rla-7', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Writing', label: 'Citing evidence from the passage' },
-
-        // SCIENCE (data, life, physical, reasoning)
-        { id: 'science-1', subject: 'Science', subject_alias: 'Science', subtopic: 'Data Interpretation', label: 'Reading charts and graphs' },
-        { id: 'science-2', subject: 'Science', subject_alias: 'Science', subtopic: 'Physical Science', label: 'Forces, motion, and energy' },
-        { id: 'science-3', subject: 'Science', subject_alias: 'Science', subtopic: 'Life Science', label: 'Cells and human body systems' },
-        { id: 'science-4', subject: 'Science', subject_alias: 'Science', subtopic: 'Earth & Space', label: 'Weather, climate, earth systems' },
-        { id: 'science-5', subject: 'Science', subject_alias: 'Science', subtopic: 'Scientific Practice', label: 'Experimental design & variables' },
-        { id: 'science-6', subject: 'Science', subject_alias: 'Science', subtopic: 'Reasoning in Science', label: 'Cause-and-effect in passages' },
-
-        // SOCIAL STUDIES (civics, history, econ, reading graphs)
-        { id: 'social-1', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Civics', label: 'Government and civics concepts' },
-        { id: 'social-2', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Geography', label: 'Interpreting maps and data' },
-        { id: 'social-3', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'History', label: 'Remembering historical events' },
-        { id: 'social-4', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'US History', label: 'Colonial → Civil War sequence' },
-        { id: 'social-5', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Economics', label: 'Basic economics and graphs' },
-        { id: 'social-6', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Document Literacy', label: 'Reading primary/secondary sources' },
-    ];
-
     let allChallenges = [];
     try {
         const result = await db.query(
@@ -1975,13 +1975,29 @@ async function buildProfileBundle(userId) {
 
     const chosenSet = new Set(chosen.map((r) => String(r.challenge_id)));
 
-    const challengeOptions = effectiveAllChallenges.map((opt) => ({
+    let challengeOptions = effectiveAllChallenges.map((opt) => ({
         id: String(opt.id),
         subject: opt.subject || opt.subject_alias || opt.subject,
         subtopic: opt.subtopic,
         label: opt.label,
         selected: chosenSet.has(String(opt.id))
     }));
+
+    // Safety: if the query probes or mapping above produced an empty list,
+    // always fall back to the in-memory catalog so the UI has options.
+    if (!Array.isArray(challengeOptions) || challengeOptions.length === 0) {
+        try {
+            challengeOptions = FALLBACK_PROFILE_CHALLENGES.map((opt) => ({
+                id: String(opt.id),
+                subject: opt.subject || opt.subject_alias || opt.subject,
+                subtopic: opt.subtopic,
+                label: opt.label,
+                selected: chosenSet.has(String(opt.id))
+            }));
+        } catch (_) {
+            challengeOptions = [];
+        }
+    }
 
     const { recentScoresDashboard, legacyScores } = await buildScoreSummary(userId);
 
@@ -2264,6 +2280,49 @@ app.get('/api/profile/me', devAuth, ensureTestUserForNow, requireAuthInProd, aut
     } catch (err) {
         console.error('[/api/profile/me] ERROR:', err);
         return res.status(500).json({ error: 'Unable to load profile' });
+    }
+});
+
+// Read-only endpoint to inspect the default challenge catalog (useful for QA)
+app.get('/api/challenges/defaults', devAuth, requireAuthInProd, authRequired, async (_req, res) => {
+    res.json({ items: FALLBACK_PROFILE_CHALLENGES });
+});
+
+// Admin seed endpoint: create/populate the challenge catalog table from the fallback list
+app.post('/api/admin/challenges/seed', devAuth, requireAuthInProd, requireSuperAdmin, async (_req, res) => {
+    try {
+        const { optionTable } = await getChallengeTables();
+        // Ensure table exists with a minimal schema compatible with our reads
+        try {
+            await db.query(`
+                CREATE TABLE IF NOT EXISTS ${optionTable} (
+                    id TEXT PRIMARY KEY,
+                    subject TEXT NOT NULL,
+                    subtopic TEXT NOT NULL,
+                    label TEXT NOT NULL
+                )`);
+        } catch (e) {
+            console.warn(`[seed] create table ${optionTable} skipped/failed:`, e?.message || e);
+        }
+
+        let inserted = 0;
+        for (const item of FALLBACK_PROFILE_CHALLENGES) {
+            try {
+                await db.query(
+                    `INSERT INTO ${optionTable} (id, subject, subtopic, label)
+                     VALUES ($1, $2, $3, $4)
+                     ON CONFLICT (id) DO NOTHING`,
+                    [String(item.id), item.subject || item.subject_alias || 'Unknown', item.subtopic, item.label]
+                );
+                inserted++;
+            } catch (e) {
+                console.warn('[seed] insert failed for', item.id, e?.message || e);
+            }
+        }
+        return res.json({ ok: true, table: optionTable, attempted: FALLBACK_PROFILE_CHALLENGES.length, inserted });
+    } catch (err) {
+        console.error('[/api/admin/challenges/seed] ERROR:', err);
+        return res.status(500).json({ ok: false, error: 'seed_failed', details: err?.message || String(err) });
     }
 });
 
