@@ -6994,18 +6994,40 @@ const VALID_THEMES = new Set(['light', 'dark']);
 const DEFAULT_PREFERENCES = Object.freeze({ fontSize: 'md', theme: 'light' });
 
 const DEFAULT_CHALLENGE_OPTIONS = [
-    { id: 'math-1', subject: 'Math', subtopic: 'Fractions', label: 'Fractions are hard', selected: false },
-    { id: 'math-2', subject: 'Math', subtopic: 'Equations', label: 'Solving multi-step equations trips me up', selected: false },
-    { id: 'math-3', subject: 'Math', subtopic: 'Word Problems', label: 'Word problems take me too long', selected: false },
-    { id: 'rla-1', subject: 'RLA', subtopic: 'Reading Comprehension', label: 'Understanding passages', selected: false },
-    { id: 'rla-2', subject: 'RLA', subtopic: 'Writing', label: 'Organizing my extended response', selected: false },
-    { id: 'rla-3', subject: 'RLA', subtopic: 'Language Conventions', label: 'Grammar and punctuation practice', selected: false },
+    // MATH (algebra, geometry, data)
+    { id: 'math-1', subject: 'Math', subtopic: 'Number Sense & Fluency', label: 'Fractions, decimals, %', selected: false },
+    { id: 'math-2', subject: 'Math', subtopic: 'Algebra Foundations', label: 'Writing and solving 1-step equations', selected: false },
+    { id: 'math-3', subject: 'Math', subtopic: 'Algebra Foundations', label: '2-step equations & inequalities', selected: false },
+    { id: 'math-4', subject: 'Math', subtopic: 'Word Problems', label: 'Translating real situations to expressions', selected: false },
+    { id: 'math-5', subject: 'Math', subtopic: 'Geometry & Measurement', label: 'Perimeter, area, and volume', selected: false },
+    { id: 'math-6', subject: 'Math', subtopic: 'Data & Graphs', label: 'Reading tables, charts, and graphs', selected: false },
+    { id: 'math-7', subject: 'Math', subtopic: 'Scientific Calculator', label: 'Using the calculator efficiently', selected: false },
+    { id: 'math-8', subject: 'Math', subtopic: 'Test Skills', label: 'Multi-step GED-style math items', selected: false },
+
+    // RLA (reading, grammar, extended response)
+    { id: 'rla-1', subject: 'RLA', subtopic: 'Reading Comprehension', label: 'Main idea and supporting details', selected: false },
+    { id: 'rla-2', subject: 'RLA', subtopic: 'Reading Comprehension', label: 'Author’s purpose & tone', selected: false },
+    { id: 'rla-3', subject: 'RLA', subtopic: 'Informational Text', label: 'Reading charts / text together', selected: false },
+    { id: 'rla-4', subject: 'RLA', subtopic: 'Language & Editing', label: 'Grammar, usage, and mechanics', selected: false },
+    { id: 'rla-5', subject: 'RLA', subtopic: 'Language & Editing', label: 'Punctuation and sentence boundaries', selected: false },
+    { id: 'rla-6', subject: 'RLA', subtopic: 'Writing', label: 'Organizing ideas for responses', selected: false },
+    { id: 'rla-7', subject: 'RLA', subtopic: 'Writing', label: 'Citing evidence from the passage', selected: false },
+
+    // SCIENCE (data, life, physical, reasoning)
     { id: 'science-1', subject: 'Science', subtopic: 'Data Interpretation', label: 'Reading charts and graphs', selected: false },
     { id: 'science-2', subject: 'Science', subtopic: 'Physical Science', label: 'Forces, motion, and energy', selected: false },
     { id: 'science-3', subject: 'Science', subtopic: 'Life Science', label: 'Cells and human body systems', selected: false },
+    { id: 'science-4', subject: 'Science', subtopic: 'Earth & Space', label: 'Weather, climate, earth systems', selected: false },
+    { id: 'science-5', subject: 'Science', subtopic: 'Scientific Practice', label: 'Experimental design & variables', selected: false },
+    { id: 'science-6', subject: 'Science', subtopic: 'Reasoning in Science', label: 'Cause-and-effect in passages', selected: false },
+
+    // SOCIAL STUDIES (civics, history, econ, reading graphs)
     { id: 'social-1', subject: 'Social Studies', subtopic: 'Civics', label: 'Government and civics concepts', selected: false },
     { id: 'social-2', subject: 'Social Studies', subtopic: 'Geography', label: 'Interpreting maps and data', selected: false },
     { id: 'social-3', subject: 'Social Studies', subtopic: 'History', label: 'Remembering historical events', selected: false },
+    { id: 'social-4', subject: 'Social Studies', subtopic: 'US History', label: 'Colonial → Civil War sequence', selected: false },
+    { id: 'social-5', subject: 'Social Studies', subtopic: 'Economics', label: 'Basic economics and graphs', selected: false },
+    { id: 'social-6', subject: 'Social Studies', subtopic: 'Document Literacy', label: 'Reading primary/secondary sources', selected: false },
 ];
 
 const DEFAULT_LOCAL_PROFILE = {

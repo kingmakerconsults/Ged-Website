@@ -18,6 +18,45 @@ const pool = new Pool({
 // Cache detected challenge tables/columns so we don't probe every request
 let cachedChallengeInfo = null;
 
+// Expanded in-memory fallback list for profile challenges by subject/subtopic
+// Used when the DB challenge catalog is unavailable or empty
+const FALLBACK_PROFILE_CHALLENGES = [
+  // MATH (algebra, geometry, data)
+  { id: 'math-1', subject: 'Math', subtopic: 'Number Sense & Fluency', label: 'Fractions, decimals, %' },
+  { id: 'math-2', subject: 'Math', subtopic: 'Algebra Foundations', label: 'Writing and solving 1-step equations' },
+  { id: 'math-3', subject: 'Math', subtopic: 'Algebra Foundations', label: '2-step equations & inequalities' },
+  { id: 'math-4', subject: 'Math', subtopic: 'Word Problems', label: 'Translating real situations to expressions' },
+  { id: 'math-5', subject: 'Math', subtopic: 'Geometry & Measurement', label: 'Perimeter, area, and volume' },
+  { id: 'math-6', subject: 'Math', subtopic: 'Data & Graphs', label: 'Reading tables, charts, and graphs' },
+  { id: 'math-7', subject: 'Math', subtopic: 'Scientific Calculator', label: 'Using the calculator efficiently' },
+  { id: 'math-8', subject: 'Math', subtopic: 'Test Skills', label: 'Multi-step GED-style math items' },
+
+  // RLA (reading, grammar, extended response)
+  { id: 'rla-1', subject: 'RLA', subtopic: 'Reading Comprehension', label: 'Main idea and supporting details' },
+  { id: 'rla-2', subject: 'RLA', subtopic: 'Reading Comprehension', label: 'Author’s purpose & tone' },
+  { id: 'rla-3', subject: 'RLA', subtopic: 'Informational Text', label: 'Reading charts / text together' },
+  { id: 'rla-4', subject: 'RLA', subtopic: 'Language & Editing', label: 'Grammar, usage, and mechanics' },
+  { id: 'rla-5', subject: 'RLA', subtopic: 'Language & Editing', label: 'Punctuation and sentence boundaries' },
+  { id: 'rla-6', subject: 'RLA', subtopic: 'Writing', label: 'Organizing ideas for responses' },
+  { id: 'rla-7', subject: 'RLA', subtopic: 'Writing', label: 'Citing evidence from the passage' },
+
+  // SCIENCE (data, life, physical, reasoning)
+  { id: 'science-1', subject: 'Science', subtopic: 'Data Interpretation', label: 'Reading charts and graphs' },
+  { id: 'science-2', subject: 'Science', subtopic: 'Physical Science', label: 'Forces, motion, and energy' },
+  { id: 'science-3', subject: 'Science', subtopic: 'Life Science', label: 'Cells and human body systems' },
+  { id: 'science-4', subject: 'Science', subtopic: 'Earth & Space', label: 'Weather, climate, earth systems' },
+  { id: 'science-5', subject: 'Science', subtopic: 'Scientific Practice', label: 'Experimental design & variables' },
+  { id: 'science-6', subject: 'Science', subtopic: 'Reasoning in Science', label: 'Cause-and-effect in passages' },
+
+  // SOCIAL STUDIES (civics, history, econ, reading graphs)
+  { id: 'social-1', subject: 'Social Studies', subtopic: 'Civics', label: 'Government and civics concepts' },
+  { id: 'social-2', subject: 'Social Studies', subtopic: 'Geography', label: 'Interpreting maps and data' },
+  { id: 'social-3', subject: 'Social Studies', subtopic: 'History', label: 'Remembering historical events' },
+  { id: 'social-4', subject: 'Social Studies', subtopic: 'US History', label: 'Colonial → Civil War sequence' },
+  { id: 'social-5', subject: 'Social Studies', subtopic: 'Economics', label: 'Basic economics and graphs' },
+  { id: 'social-6', subject: 'Social Studies', subtopic: 'Document Literacy', label: 'Reading primary/secondary sources' },
+];
+
 // Fixed configuration for challenge tables/columns
 async function getChallengeInfo() {
   if (cachedChallengeInfo) return cachedChallengeInfo;
@@ -104,6 +143,11 @@ async function getChallengeOptions(userId) {
       `SELECT ${optionIdColumn} AS id, subject, subtopic, label FROM ${optionTable} ORDER BY subject, subtopic, label`
     );
 
+    const optionRows = Array.isArray(optionRes?.rows) ? optionRes.rows : [];
+    const allOptions = optionRows.length > 0
+      ? optionRows
+      : FALLBACK_PROFILE_CHALLENGES.map((o) => ({ id: o.id, subject: o.subject, subtopic: o.subtopic, label: o.label }));
+
     // Load user's selected challenge ids
     let paramUserId = userId;
     if (selectionUserIdType === 'integer') {
@@ -133,7 +177,7 @@ async function getChallengeOptions(userId) {
 
     const chosenSet = new Set(selectedRows.map((r) => String(r.challenge_id)));
 
-    return optionRes.rows.map((r) => ({
+    return allOptions.map((r) => ({
       id: String(r.id),
       subject: r.subject,
       subtopic: r.subtopic,
@@ -142,7 +186,14 @@ async function getChallengeOptions(userId) {
     }));
   } catch (err) {
     console.warn('[profile] getChallengeOptions failed; returning empty list:', err?.message || err);
-    return [];
+    // fall back to in-memory catalog if DB query fails entirely
+    return FALLBACK_PROFILE_CHALLENGES.map((o) => ({
+      id: String(o.id),
+      subject: o.subject,
+      subtopic: o.subtopic,
+      label: o.label,
+      selected: false,
+    }));
   }
 }
 
