@@ -6371,6 +6371,9 @@ function normalizeQuestionAssets(question, subjectName) {
             ));
         }
     }
+    // Preserve tool flags for Math interactive demos
+    if (question.useGeometryTool) question.useGeometryTool = true;
+    if (question.useGraphTool) question.useGraphTool = true;
     return question;
 }
 
