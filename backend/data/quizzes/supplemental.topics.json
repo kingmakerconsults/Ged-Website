@@ -266,6 +266,40 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
+    "categoryName": "Graphing Tool Demos",
+    "topic": {
+      "id": "math_graphing_tool_demo",
+      "title": "[Tool Demo] Graphing Functions (Interactive)",
+      "description": "A short 4-question set to validate the graphing tool mount.",
+      "config": {
+        "totalTime": 600,
+        "calculator": true,
+        "formulaSheet": false,
+        "parts": [ { "name": "Quiz", "questionCount": 4 } ]
+      },
+      "file": "backend/data/quizzes/math/math_graphing_tool_demo.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Geometry Tool Demos",
+    "topic": {
+      "id": "math_geometry_tool_demo",
+      "title": "[Tool Demo] Geometry Constructions (Interactive)",
+      "description": "A short 4-question set to validate the geometry tool mount.",
+      "config": {
+        "totalTime": 600,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [ { "name": "Quiz", "questionCount": 4 } ]
+      },
+      "file": "backend/data/quizzes/math/math_geometry_tool_demo.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
     "categoryName": "Data, Statistics & Probability",
     "topic": {
       "id": "math_data_02",

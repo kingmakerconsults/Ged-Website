@@ -2003,6 +2003,14 @@
 
                                                         async function buildUnifiedCatalog() {
                                                             const parts = await loadAllQuizPartsOnce();
+                                                            // Also fetch backend-assembled premade topics (legacy + supplemental)
+                                                            let backendAll = null;
+                                                            try {
+                                                                const res = await fetch(`/api/all-quizzes`, { cache: 'no-cache' });
+                                                                if (res.ok) backendAll = await res.json();
+                                                            } catch (e) {
+                                                                console.warn('[quizzes] backend ALL_QUIZZES unavailable', e?.message || e);
+                                                            }
                                                             if (!parts.length && (typeof window !== 'undefined' && window.__DEBUG_QUIZZES)) {
                                                                 console.warn('[quizzes] no quiz parts loaded — using empty catalog');
                                                             }
@@ -2015,7 +2023,31 @@
                                                                 for (const [catName, cat] of Object.entries(cats)) {
                                                                     app[subject].categories[catName] = { description: '', topics: Array.isArray(cat.topics) ? cat.topics : [] };
                                                                 }
-                                                                // normalize categories to canonical keys for this subject
+                                                            });
+
+                                                            // Merge backend ALL_QUIZZES structure into app so supplemental topics appear in browser
+                                                            if (backendAll && typeof backendAll === 'object') {
+                                                                Object.entries(backendAll).forEach(([subject, subjData]) => {
+                                                                    if (!app[subject]) app[subject] = { icon: subjData?.icon || null, description: '', categories: {} };
+                                                                    const targetCats = app[subject].categories || (app[subject].categories = {});
+                                                                    const srcCats = (subjData && subjData.categories) || {};
+                                                                    Object.entries(srcCats).forEach(([catName, cat]) => {
+                                                                        if (!targetCats[catName]) targetCats[catName] = { description: '', topics: [] };
+                                                                        const outTopics = targetCats[catName].topics || (targetCats[catName].topics = []);
+                                                                        const seen = new Set(outTopics.map(t => t && t.id));
+                                                                        const srcTopics = Array.isArray(cat?.topics) ? cat.topics : [];
+                                                                        srcTopics.forEach((t) => {
+                                                                            if (!t || !t.id || seen.has(t.id)) return;
+                                                                            // Preserve id/title/questions/config used by UI
+                                                                            outTopics.push({ id: t.id, title: t.title || t.id, description: t.description || '', questions: Array.isArray(t.questions) ? t.questions : [], config: t.config || null });
+                                                                            seen.add(t.id);
+                                                                        });
+                                                                    });
+                                                                });
+                                                            }
+
+                                                            // Now normalize categories to canonical keys for each subject
+                                                            Object.keys(app).forEach((subject) => {
                                                                 try {
                                                                     if (typeof window !== 'undefined' && typeof window.normalizeCategoriesObject === 'function') {
                                                                         const subjKey = (typeof window.canonicalSubjectKey === 'function') ? window.canonicalSubjectKey(subject) : subject;
@@ -6830,6 +6862,31 @@ function buildQuizLibraryFromAppData(data) {
                     topicIds
                 });
             });
+        }
+
+        // Math: pin Interactive Tool demos at the very top as a featured cluster
+        if (String(subjectName).toLowerCase() === 'math') {
+            try {
+                // Find the demo topics if present in any category
+                const demoIds = ['math_graphing_tool_demo', 'math_geometry_tool_demo'];
+                const present = new Set();
+                Object.values(subject.categories).forEach((cat) => {
+                    const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+                    topics.forEach((t) => { if (t && demoIds.includes(t.id)) present.add(t.id); });
+                });
+                const topicIds = demoIds.filter(id => present.has(id));
+                if (topicIds.length) {
+                    const featured = {
+                        id: 'interactive-tools',
+                        label: 'Interactive Tools (Beta)',
+                        description: 'Fast access to the Graphing and Geometry tool demos.',
+                        topicIds,
+                    };
+                    // Avoid duplicate if already added somehow
+                    const exists = clusters.some(c => c.id === featured.id);
+                    if (!exists) clusters.unshift(featured);
+                }
+            } catch {}
         }
         result[subjectName] = { clusters };
     });
@@ -13259,6 +13316,9 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const [showMathFormulas, setShowMathFormulas] = useState(false);
     const [showScienceFormulas, setShowScienceFormulas] = useState(false);
     const [showArticle, setShowArticle] = useState(Boolean(article));
+    const toolPanelRef = useRef(null);
+    const toolInstanceRef = useRef(null);
+    const toolTypeRef = useRef(null); // 'graph' | 'geometry' | null
 
     useEffect(() => {
         setTimeLeft(timeLimit || questions.length * 90);
@@ -13341,6 +13401,73 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
     const timerStyle = timeLeft <= 60
         ? { backgroundColor: scheme.timerLowBg, color: scheme.timerLowText }
         : { backgroundColor: scheme.timerDefaultBg, color: scheme.timerDefaultText };
+
+    // Interactive tool mounting lifecycle
+    useEffect(() => {
+        const panel = toolPanelRef.current;
+        // Cleanup helper
+        const destroyTool = () => {
+            try { toolInstanceRef.current?.destroy?.(); } catch {}
+            toolInstanceRef.current = null;
+            toolTypeRef.current = null;
+            if (panel) panel.innerHTML = '';
+        };
+
+        if (!panel || !currentQ) {
+            destroyTool();
+            return;
+        }
+
+        const wantsGraph = Boolean(currentQ.useGraphTool);
+        const wantsGeometry = Boolean(currentQ.useGeometryTool);
+        const nextType = wantsGraph ? 'graph' : (wantsGeometry ? 'geometry' : null);
+
+        // Nothing to mount for this question
+        if (!nextType) {
+            destroyTool();
+            return;
+        }
+
+        // If the same tool type is already mounted, just keep it
+        if (toolInstanceRef.current && toolTypeRef.current === nextType) {
+            return;
+        }
+
+        // Replace any existing tool
+        destroyTool();
+        panel.innerHTML = '';
+
+        // Ensure container has a reasonable height for canvases
+        panel.style.minHeight = '320px';
+
+        // Dynamically import modules served from /frontend
+        (async () => {
+            try {
+                if (nextType === 'graph') {
+                    const mod = await import('/graphing/GraphCanvas.js');
+                    const GraphCanvas = mod && (mod.default || mod.GraphCanvas);
+                    if (typeof GraphCanvas === 'function') {
+                        toolInstanceRef.current = new GraphCanvas(panel, {});
+                        toolTypeRef.current = 'graph';
+                    }
+                } else if (nextType === 'geometry') {
+                    const mod = await import('/geometry/GeometryCanvas.js');
+                    const GeometryCanvas = mod && (mod.default || mod.GeometryCanvas);
+                    if (typeof GeometryCanvas === 'function') {
+                        toolInstanceRef.current = new GeometryCanvas(panel, {});
+                        toolTypeRef.current = 'geometry';
+                    }
+                }
+            } catch (e) {
+                console.warn('[tool-panel] failed to mount tool:', nextType, e?.message || e);
+            }
+        })();
+
+        // Cleanup on unmount or question change
+        return () => {
+            destroyTool();
+        };
+    }, [currentIndex, currentQ && currentQ.useGraphTool, currentQ && currentQ.useGeometryTool]);
 
     return (
         <div className="fade-in">
@@ -13570,6 +13697,17 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                             <GeometryFigure spec={currentQ.geometrySpec} className="w-full h-auto" />
                         </div>
                     )}
+
+                    {/* Interactive tool panel (mounted dynamically per-question) */}
+                    <div
+                        ref={toolPanelRef}
+                        className="quiz-tool-panel my-4 rounded-lg"
+                        style={{
+                            backgroundColor: scheme.surface,
+                            border: `1px dashed ${scheme.surfaceBorder}`,
+                            padding: '0.75rem',
+                        }}
+                    />
 
                     {isFillInTheBlank ? (
                         <div>
