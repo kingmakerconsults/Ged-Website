@@ -13700,6 +13700,8 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                     <div
                         ref={toolPanelRef}
                         className="quiz-tool-panel my-4 rounded-lg"
+                        role="region"
+                        aria-label="Interactive math tool"
                         style={{
                             backgroundColor: scheme.surface,
                             border: `1px dashed ${scheme.surfaceBorder}`,
