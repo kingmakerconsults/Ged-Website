@@ -130,5 +130,18 @@
     window.resolveCanonicalTopic = resolveCanonicalTopic;
     // Use canonical topics to drive ordering and filtering by default
     window.CURATED_SAQ_TOPICS = CANONICAL_TOPICS;
+
+    // Centralized getter for Smith-a-Quiz topic lists (no fallback to filenames)
+    window.getSmithAQuizTopics = function getSmithAQuizTopics(subject) {
+      const list = (CANONICAL_TOPICS && CANONICAL_TOPICS[subject]) ? CANONICAL_TOPICS[subject] : [];
+      try {
+        if (Array.isArray(list)) {
+          console.log(`[Smith-a-Quiz] topics rendered: ${subject} → ${list.length} topics (canonical mode)`);
+        } else {
+          console.warn('[Smith-a-Quiz] canonical topics missing for subject:', subject);
+        }
+      } catch {}
+      return Array.isArray(list) ? list.slice() : [];
+    };
   }
 })();

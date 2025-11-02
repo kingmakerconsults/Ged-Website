@@ -11823,23 +11823,34 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     }
 
     // --- NEW: Logic to get topics for the dropdown (moved from AIQuizGenerator) ---
-    // This includes the fix for the white screen error using optional chaining (`?.`)
-    const availableTopics = selectedSubject && AppData[selectedSubject]?.categories
-        ? Object.values(AppData[selectedSubject].categories)
-            .flatMap((category) => category.topics?.map((topic) => topic.title) || [])
-            .filter((topicTitle) => {
-                if (!topicTitle) {
-                    return false;
-                }
-                if (
-                    (selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'RLA') &&
-                    topicTitle.trim() === 'Extended Response'
-                ) {
-                    return false;
-                }
-                return true;
-            })
-        : [];
+    // Build strictly from the canonical list; do NOT derive from filenames or AppData quiz sets.
+    const dropVariantish = (name) => {
+        if (!name) return false;
+        const t = String(name).toLowerCase();
+        return /quiz\b|\bset\b|version\b|form\s*[a-z]\b|practice\b/.test(t) ? false : true;
+    };
+    const dedupeCI = (arr) => {
+        const seen = new Set();
+        const out = [];
+        arr.forEach((s) => {
+            const key = String(s || '').trim().toLowerCase();
+            if (!key || seen.has(key)) return;
+            seen.add(key);
+            out.push(s);
+        });
+        return out;
+    };
+    const availableTopics = (() => {
+        if (!selectedSubject) return [];
+        try {
+            if (typeof window !== 'undefined' && typeof window.getSmithAQuizTopics === 'function') {
+                const list = window.getSmithAQuizTopics(selectedSubject) || [];
+                return dedupeCI(list.filter(dropVariantish));
+            }
+        } catch {}
+        // No fallback: when canonical list is unavailable, return empty to avoid reintroducing filename-derived topics
+        return [];
+    })();
 
     const Breadcrumb = ({ variant = 'default', color, accentColor } = {}) => {
         const isOnColor = variant === 'onColor';
@@ -14327,9 +14338,32 @@ function AIQuizGenerator({ subject, onQuizGenerated, onExit, setIsLoading, setLo
     const [selectedTopic, setSelectedTopic] = useState('');
     const [error, setError] = useState(null);
 
-    const availableTopics = AppData[subject]
-        ? Object.values(AppData[subject].categories).flatMap(category => category.topics.map(topic => topic.title))
-        : [];
+    // Canonical-only list for Smith-a-Quiz dropdown
+    const availableTopics = React.useMemo(() => {
+        const dropVariantish = (name) => {
+            if (!name) return false;
+            const t = String(name).toLowerCase();
+            return /quiz\b|\bset\b|version\b|form\s*[a-z]\b|practice\b/.test(t) ? false : true;
+        };
+        const dedupeCI = (arr) => {
+            const seen = new Set();
+            const out = [];
+            arr.forEach((s) => {
+                const key = String(s || '').trim().toLowerCase();
+                if (!key || seen.has(key)) return;
+                seen.add(key);
+                out.push(s);
+            });
+            return out;
+        };
+        try {
+            if (typeof window !== 'undefined' && typeof window.getSmithAQuizTopics === 'function') {
+                const list = window.getSmithAQuizTopics(subject) || [];
+                return dedupeCI(list.filter(dropVariantish));
+            }
+        } catch {}
+        return [];
+    }, [subject]);
 
     const handleGenerate = async () => {
         if (!selectedTopic) {
