@@ -1168,9 +1168,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
 
-            /* 300% larger (≈4x the original corner icon), centered */
-            width: 400%;
-            max-height: 400%;
+            /* +25% over prior large size */
+            width: 500%;
+            max-height: 500%;
             object-fit: contain;
 
             /* stay above text */
@@ -1185,7 +1185,7 @@
         }
         /* mobile — just shrink a bit so it doesn’t cover everything */
         @media (max-width: 768px) {
-            .subject-badge { width: 300%; max-height: 300%; }
+            .subject-badge { width: 375%; max-height: 375%; }
         }
         /* Fallback pill if the SVG is missing — keep it in the corner */
         .subject-badge-pill {
@@ -10961,7 +10961,9 @@ function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profile
                 const shortLabel = (SUBJECT_SHORT_LABELS && SUBJECT_SHORT_LABELS[subject]) || (subjectId === 'rla' ? 'RLA' : subject);
                 const hasGradient = Boolean(SUBJECT_BG_GRADIENTS[subject]);
                 const titleColor = hasGradient ? 'rgba(255,255,255,0.85)' : '#0f172a';
-                const badgeSrc = subjectId ? `${BADGE_BASE}/${subjectId}.svg` : null;
+                // Map subjectId to on-disk filename (social studies uses a hyphen)
+                const badgeFile = subjectId === 'social_studies' ? 'social-studies' : subjectId;
+                const badgeSrc = badgeFile ? `${BADGE_BASE}/${badgeFile}.svg` : null;
                 const showBadge = passedSubjectsSet.has(subject);
                 return (
                     <button
