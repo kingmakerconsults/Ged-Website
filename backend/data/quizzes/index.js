@@ -56,6 +56,7 @@ function buildAllQuizzes() {
       id: entry.topic.id,
       title: entry.topic.title || entry.topic.id,
       description: entry.topic.description || '',
+      type: entry.topic.type || (config && config.type) || null,
       config: config ? { ...config } : null,
       questions: q,
     };

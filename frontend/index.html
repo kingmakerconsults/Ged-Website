@@ -6463,6 +6463,13 @@ function flushShortQuizToTwelve(quiz, subject) {
 function ensureMinQuestions(quiz, subject, min = 12) {
     if (!quiz) return quiz;
     if (!Array.isArray(quiz.questions)) quiz.questions = [];
+    // Skip padding for interactive tool-type quizzes
+    try {
+        const qType = (quiz && (quiz.type || (quiz.config && quiz.config.type))) || '';
+        if (qType === 'graphing_tool' || qType === 'geometry_tool') {
+            return quiz;
+        }
+    } catch {}
     const current = quiz.questions.length;
     // 0–4 => flush with new unique questions
     if (current < 5) {
@@ -6624,7 +6631,12 @@ function assignPremadeQuizCodes(data) {
                     const subjectKey = subjectName;
                     topic.questions = topic.questions.map((q) => normalizeQuestionAssets(q, subjectKey));
                     const pseudoQuiz = { questions: topic.questions };
-                    ensureMinQuestions(pseudoQuiz, subjectKey, 12);
+                    // If this topic represents a tool demo, skip padding to keep it at 4Q
+                    if (topic && (topic.type === 'graphing_tool' || topic.type === 'geometry_tool')) {
+                        // no-op: retain original question count
+                    } else {
+                        ensureMinQuestions(pseudoQuiz, subjectKey, 12);
+                    }
                     topic.questions = pseudoQuiz.questions;
                     const code = [subjectSlug, baseSegment || topicSlug || `topic-${topicIndex + 1}`].filter(Boolean).join('__');
                     const quizTitle = topic.title || `Topic ${topicIndex + 1}`;
@@ -7062,7 +7074,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     const renderTopicCard = (topic, idx) => {
         if (!topic) return null;
         const quizSets = Array.isArray(topic.quizzes) ? topic.quizzes.filter((quiz) => quizHasAvailableQuestions(subjectName, topic, quiz)) : [];
-    const supportsMultiple = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
+    const supportsMultiple = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool', 'geometry_tool'].includes(topic.type);
 
             const launchQuizSet = (quiz, index, displayNameOverride) => {
             if (typeof onSelectQuiz !== 'function' || !quiz) return;
@@ -12498,14 +12510,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             const quizSets = Array.isArray(topic.quizzes)
                                 ? topic.quizzes.filter((quiz) => quizHasAvailableQuestions(selectedSubject, topic, quiz))
                                 : [];
-                            const supportsMultipleQuizzes = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
+                            const supportsMultipleQuizzes = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool', 'geometry_tool'].includes(topic.type);
                             const buttonStyle = {
                                 backgroundColor: subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
                                 color: subjectColors.accentText || '#ffffff',
                                 borderColor: subjectColors.border || subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
                                 boxShadow: !isDarkMode ? '0 12px 24px -18px rgba(15,23,42,0.45)' : undefined,
                             };
-                            const defaultButtonLabel = (topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool')
+                            const defaultButtonLabel = (topic.type === 'essay' || topic.type === 'simulation' || topic.type === 'graphing_tool' || topic.type === 'geometry_tool')
                                 ? 'Open'
                                 : 'Start Quiz';
 
