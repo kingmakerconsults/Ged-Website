@@ -1160,19 +1160,34 @@
             transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
         }
-        /* Overlay badge shown on passed subject cards */
+        /* BIG overlay badge for “I passed this GED subject” */
         .subject-badge {
             position: absolute;
-            top: -14px;
-            right: -10px;
-            height: 54px;
-            width: auto;
-            z-index: 10;
-            pointer-events: none; /* let clicks pass through to card */
-            filter: drop-shadow(0 6px 16px rgba(15, 23, 42, 0.18));
-            background: transparent;
+            /* dead center on the card */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            /* make it fill most of the card but keep aspect ratio */
+            width: 78%;
+            max-height: 80%;
+            object-fit: contain;
+
+            /* stay above text */
+            z-index: 20;
+            pointer-events: none;
+
+            /* nice drop shadow so it sits on top of the gradient */
+            filter: drop-shadow(0 10px 28px rgba(15, 23, 42, 0.35));
+
+            /* ebb / pulse opacity */
+            animation: badgePulse 4s ease-in-out infinite;
         }
-        /* Fallback pill only if SVG missing; keep absolute so it never shifts layout */
+        /* mobile — just shrink a bit so it doesn’t cover everything */
+        @media (max-width: 768px) {
+            .subject-badge { width: 85%; }
+        }
+        /* Fallback pill if the SVG is missing — keep it in the corner */
         .subject-badge-pill {
             position: absolute;
             top: -12px;
@@ -1184,13 +1199,16 @@
             line-height: 1;
             padding: 6px 10px;
             border-radius: 999px;
-            background: #6d28d9; /* subtle purple */
+            background: #6d28d9;
             color: #ffffff;
             box-shadow: 0 4px 10px rgba(15,23,42,0.2);
         }
-        @media (max-width: 768px) {
-            .subject-badge { top: -10px; right: -6px; height: 44px; }
-            .subject-badge-pill { top: -8px; right: -6px; font-size: 11px; padding: 5px 8px; }
+        /* 4 second “ebb” — full ➜ translucent ➜ full */
+        @keyframes badgePulse {
+            0%   { opacity: 1; }
+            40%  { opacity: 0.32; }
+            60%  { opacity: 0.32; }
+            100% { opacity: 1; }
         }
 
         /* Requested explicit containers (structure only; we keep Tailwind grid too) */
@@ -10957,7 +10975,7 @@ function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profile
                                 <img
                                     src={badgeSrc}
                                     alt={`${subject} GED passed`}
-                                    className="subject-badge absolute top-2 right-2 w-16 h-16 opacity-90 drop-shadow-lg badge-pop pointer-events-none"
+                                    className="subject-badge badge-pop"
                                     onError={(e) => {
                                         e.currentTarget.style.display = 'none';
                                         const pill = e.currentTarget.parentElement?.querySelector('.subject-badge-pill');
