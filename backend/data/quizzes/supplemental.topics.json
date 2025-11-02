@@ -266,7 +266,7 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
-  "categoryName": "Algebra",
+  "categoryName": "Demo",
     "topic": {
       "id": "math_geometry_tool_demo",
       "title": "★ Math Demo — Geometry Tool (4Q)",
@@ -282,7 +282,7 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
-  "categoryName": "Algebra",
+  "categoryName": "Demo",
     "topic": {
       "id": "math_graphing_tool_demo",
       "title": "★ Math Demo — Graphing Tool (4Q)",
