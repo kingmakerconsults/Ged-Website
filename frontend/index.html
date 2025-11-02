@@ -1160,32 +1160,29 @@
             transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
         }
-        /* BIG overlay badge for “I passed this GED subject” */
-        .subject-badge {
+        /* centered, pulsing badge for ANY subject that is reported as passed */
+        .subject-badge-shell {
             position: absolute;
-            /* dead center on the card */
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-
-            /* make it fill most of the card */
-            width: 240%;
-            max-height: 240%;
-            object-fit: contain;
-
-            /* stay above text */
-            z-index: 20;
+            /* make it big — adjust if too much */
+            width: 130%;
+            height: 130%;
+            max-width: 130%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             pointer-events: none;
-
-            /* nice drop shadow so it sits on top of the gradient */
-            filter: drop-shadow(0 12px 32px rgba(15, 23, 42, 0.35));
-
-            /* ebb / pulse opacity */
+            z-index: 20;
             animation: badgePulse 4s ease-in-out infinite;
         }
-        /* mobile — just shrink a bit so it doesn’t cover everything */
-        @media (max-width: 768px) {
-            .subject-badge { width: 145%; max-height: 145%; }
+        /* the actual SVG/img */
+        .subject-badge-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 12px 32px rgba(15, 23, 42, 0.35));
         }
         /* Fallback pill if the SVG is missing — keep it in the corner */
         .subject-badge-pill {
@@ -10975,18 +10972,22 @@ function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profile
                     >
                         {showBadge && (
                             badgeSrc ? (
-                                <img
-                                    src={badgeSrc}
-                                    alt={`${subject} GED passed`}
-                                    className="subject-badge badge-pop pointer-events-none"
-                                    onError={(e) => {
-                                        e.currentTarget.style.display = 'none';
-                                        const pill = e.currentTarget.parentElement?.querySelector('.subject-badge-pill');
-                                        if (pill) pill.style.display = 'inline-flex';
-                                    }}
-                                />
+                                <div className="subject-badge-shell">
+                                    <img
+                                        src={badgeSrc}
+                                        alt={`${subject} GED badge`}
+                                        className="subject-badge-img"
+                                        onError={(e) => {
+                                            // Hide the shell if the image fails, then show pill fallback
+                                            const shell = e.currentTarget.parentElement;
+                                            if (shell) shell.style.display = 'none';
+                                            const pill = e.currentTarget.closest('.subject-card')?.querySelector('.subject-badge-pill');
+                                            if (pill) pill.style.display = 'inline-flex';
+                                        }}
+                                    />
+                                </div>
                             ) : (
-                                <span className="subject-badge-pill badge-pop">{shortLabel}</span>
+                                <span className="subject-badge-pill">{shortLabel}</span>
                             )
                         )}
                         <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: titleColor }}>
