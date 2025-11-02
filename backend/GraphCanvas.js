@@ -126,3 +126,25 @@ export class GraphCanvas {
 }
 
 export default GraphCanvas;
+
+// Simple module API for easier mounting from the quiz panel
+export function mount(el, payload = {}) {
+  try {
+    const spec = payload.spec || payload.graphSpec || null;
+    const instance = new GraphCanvas(el, { spec });
+    el.__graphInstance = instance;
+    return instance;
+  } catch (e) {
+    console.warn('[GraphCanvas] mount failed:', e?.message || e);
+    throw e;
+  }
+}
+
+export function unmount(el) {
+  try {
+    if (el && el.__graphInstance && typeof el.__graphInstance.destroy === 'function') {
+      el.__graphInstance.destroy();
+    }
+  } catch {}
+  if (el) delete el.__graphInstance;
+}
