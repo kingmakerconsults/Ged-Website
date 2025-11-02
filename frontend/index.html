@@ -10840,7 +10840,7 @@ function DetailedProgressView({ subject, progressData, onBack }) {
     );
 }
 
-function ProgressDashboard({ progress, onSubjectClick }) {
+function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profilePassedFromProps }) {
     // Local subject id + badge path maps (mirrors the main app maps)
     const SUBJECT_ID_MAP = {
         'Math': 'math',
@@ -10876,8 +10876,29 @@ function ProgressDashboard({ progress, onSubjectClick }) {
                 }
             });
         } catch {}
+        // Merge in profile-passed flags coming from the profile/test-plan
+        try {
+            const pm = profilePassedFromProps;
+            if (pm && typeof pm === 'object') {
+                Object.entries(pm).forEach(([id, isPassed]) => {
+                    if (!isPassed) return;
+                    const label = id === 'rla'
+                        ? 'Reasoning Through Language Arts (RLA)'
+                        : id === 'social_studies'
+                            ? 'Social Studies'
+                            : id === 'math'
+                                ? 'Math'
+                                : id === 'science'
+                                    ? 'Science'
+                                    : null;
+                    if (label) set.add(label);
+                });
+            }
+        } catch (e) {
+            console.warn('Failed to merge profilePassedMap into badges:', e);
+        }
         return set;
-    }, [progress]);
+    }, [progress, profilePassedFromProps]);
     const totalAttempts = Object.values(progress).reduce((acc, subjectData) => acc + (subjectData?.attemptCount || 0), 0);
     const subjects = SUBJECT_PROGRESS_KEYS;
     const getScoreTheme = (subject) => SUBJECT_COLORS[subject] || {};
@@ -10945,12 +10966,18 @@ function ProgressDashboard({ progress, onSubjectClick }) {
                         className="subject-card relative p-4 rounded-lg text-left shadow-inner border transition-transform duration-200 hover:-translate-y-1"
                         style={cardStyle}
                     >
-                        {passedSubjectsSet.has(subject) && BADGE_IMAGES[subject] && (
-                            <img
-                                src={BADGE_IMAGES[subject]}
-                                alt={`${subject} badge`}
-                                className="absolute top-2 right-2 w-16 h-16 opacity-90 drop-shadow-lg badge-pop pointer-events-none"
-                            />
+                        {passedSubjectsSet.has(subject) && (
+                            BADGE_IMAGES[subject]
+                                ? (
+                                    <img
+                                        src={BADGE_IMAGES[subject]}
+                                        alt={`${subject} badge`}
+                                        className="subject-badge absolute top-2 right-2 w-16 h-16 opacity-90 drop-shadow-lg badge-pop pointer-events-none"
+                                    />
+                                  )
+                                : (
+                                    <span className="subject-badge-pill badge-pop">{shortLabel}</span>
+                                  )
                         )}
                         <p className="text-sm font-semibold uppercase tracking-wider" style={{ color: titleColor }}>
                             {subject}
@@ -12374,6 +12401,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         <ProgressDashboard
                             progress={progress}
                             onSubjectClick={setDetailedViewSubject}
+                            profilePassedMap={profilePassedMap}
                         />
                     </div>
                 )}
