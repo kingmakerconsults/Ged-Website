@@ -263,38 +263,7 @@
       "file": "backend/data/quizzes/math/math_data_01.js"
     }
   },
-  {
-    "subjectKey": "Math",
-    "subjectFolder": "math",
-  "categoryName": "Demo",
-    "topic": {
-      "id": "math_geometry_tool_demo",
-      "title": "★ Math Demo — Geometry Tool (4Q)",
-      "description": "Short quiz that forces the GeometryCanvas to mount.",
-      "type": "geometry_tool",
-      "config": {
-        "type": "geometry_tool",
-        "totalTime": 600
-      },
-      "file": "backend/data/quizzes/math/math_geometry_tool_demo.js"
-    }
-  },
-  {
-    "subjectKey": "Math",
-    "subjectFolder": "math",
-  "categoryName": "Demo",
-    "topic": {
-      "id": "math_graphing_tool_demo",
-      "title": "★ Math Demo — Graphing Tool (4Q)",
-      "description": "Short quiz that forces the GraphCanvas to mount.",
-      "type": "graphing_tool",
-      "config": {
-        "type": "graphing_tool",
-        "totalTime": 600
-      },
-      "file": "backend/data/quizzes/math/math_graphing_tool_demo.js"
-    }
-  },
+  
   {
     "subjectKey": "Math",
     "subjectFolder": "math",

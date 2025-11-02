@@ -3911,6 +3911,9 @@ async function generateGeometryQuestion(topic, subject, attempt = 1, options = {
             questionPayload.geometrySpec = geometrySpec;
         }
 
+        // Signal the frontend to mount the geometry tool panel for this item
+        questionPayload.useGeometryTool = true;
+
         applyFractionPlainTextModeToItem(questionPayload);
         return questionPayload;
     } catch (error) {
@@ -4017,6 +4020,8 @@ Formatting notes:
     applyFractionPlainTextModeToItem(question);
     question.type = 'standalone';
     question.calculator = true;
+    // Signal the frontend to mount the graphing tool panel for this item
+    question.useGraphTool = true;
     return enforceWordCapsOnItem(question, 'Math');
 }
 
