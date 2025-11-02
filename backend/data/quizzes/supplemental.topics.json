@@ -269,9 +269,11 @@
     "categoryName": "Geometry & Measurement",
     "topic": {
       "id": "math_geometry_tool_demo",
-      "title": "[MATH TOOL DEMO] Geometry Tool Starter",
+      "title": "★ Math Demo — Geometry Tool (4Q)",
       "description": "Short 4-question demo that forces the geometry canvas to show.",
+      "type": "geometry_tool",
       "config": {
+        "type": "geometry_tool",
         "totalTime": 600,
         "calculator": false,
         "formulaSheet": false,
@@ -283,12 +285,14 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
-    "categoryName": "Graphs & Functions",
+    "categoryName": "Algebra",
     "topic": {
       "id": "math_graphing_tool_demo",
-      "title": "[MATH TOOL DEMO] Graphing Tool Starter",
+      "title": "★ Math Demo — Graphing Tool (4Q)",
       "description": "Short 4-question demo that requires the graphing canvas.",
+      "type": "graphing_tool",
       "config": {
+        "type": "graphing_tool",
         "totalTime": 600,
         "calculator": true,
         "formulaSheet": false,
