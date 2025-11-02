@@ -1830,6 +1830,113 @@
                                                             return out;
                                                         }
 
+                                                        // --- Category canonicalization (Math/RLA) ---
+                                                        (function initCategoryCanon() {
+                                                            try {
+                                                                const CANON = {
+                                                                    Math: {
+                                                                        "Algebra": [
+                                                                            "Algebra",
+                                                                            "Algebraic Problem Solving",
+                                                                            "Algebraic Reasoning",
+                                                                            "Algebra & Linear Equations",
+                                                                            "Algebraic Expressions & Linear Equations",
+                                                                            "Expressions & Equations",
+                                                                            "Expressions and Equations",
+                                                                            "Graphs & Functions",
+                                                                            "Graphs and Functions"
+                                                                        ],
+                                                                        "Quantitative & Data": [
+                                                                            "Quantitative & Data",
+                                                                            "Quantitative Problem Solving",
+                                                                            "Data, Statistics & Probability",
+                                                                            "Data & Graphs",
+                                                                            "Data and Graphs"
+                                                                        ],
+                                                                        "Geometry & Measurement": [
+                                                                            "Geometry & Measurement",
+                                                                            "Geometry",
+                                                                            "Measurement & Geometry"
+                                                                        ]
+                                                                    },
+                                                                    RLA: {
+                                                                        "Reading Comprehension": [
+                                                                            "Reading Comprehension",
+                                                                            "Reading Comprehension: Informational Texts",
+                                                                            "Reading Comprehension: Literary Texts",
+                                                                            "Reading Comprehension: Paired Passages",
+                                                                            "Main Idea"
+                                                                        ],
+                                                                        "Language & Editing": [
+                                                                            "Language & Editing",
+                                                                            "Language & Grammar",
+                                                                            "Language",
+                                                                            "Editing",
+                                                                            "Editing & Revision"
+                                                                        ],
+                                                                        "Writing / Extended Response": [
+                                                                            "Writing / Extended Response",
+                                                                            "Essay Writing",
+                                                                            "Constructed Response"
+                                                                        ]
+                                                                    }
+                                                                };
+
+                                                                function canonicalSubjectKey(subject) {
+                                                                    const s = String(subject || '').toLowerCase();
+                                                                    if (s.includes('language arts') || s === 'rla') return 'RLA';
+                                                                    if (s === 'mathematics' || s === 'math') return 'Math';
+                                                                    if (s.includes('social')) return 'Social Studies';
+                                                                    if (s.includes('science')) return 'Science';
+                                                                    return subject;
+                                                                }
+
+                                                                function canonicalizeCategoryName(subject, name) {
+                                                                    const subj = canonicalSubjectKey(subject);
+                                                                    const raw = String(name || '').trim();
+                                                                    if (!raw) return raw;
+                                                                    const table = CANON[subj] || {};
+                                                                    for (const [canon, variants] of Object.entries(table)) {
+                                                                        if (canon === raw) return canon;
+                                                                        if (variants.some(v => String(v).trim() === raw)) return canon;
+                                                                    }
+                                                                    return raw; // no change
+                                                                }
+
+                                                                function mergeTopicsDedup(a, b) {
+                                                                    const out = Array.isArray(a) ? a.slice() : [];
+                                                                    const more = Array.isArray(b) ? b : [];
+                                                                    const seen = new Set(out.map(t => t && t.id));
+                                                                    more.forEach((t) => { if (t && !seen.has(t.id)) { out.push(t); if (t.id) seen.add(t.id); } });
+                                                                    return out;
+                                                                }
+
+                                                                function normalizeCategoriesObject(subject, categories) {
+                                                                    const result = {};
+                                                                    const cats = categories || {};
+                                                                    Object.entries(cats).forEach(([name, cat]) => {
+                                                                        const canon = canonicalizeCategoryName(subject, name);
+                                                                        const target = result[canon] || { description: '', topics: [] };
+                                                                        if (cat && typeof cat === 'object') {
+                                                                            const topics = Array.isArray(cat.topics) ? cat.topics : [];
+                                                                            target.topics = mergeTopicsDedup(target.topics, topics);
+                                                                            if (cat.description && !target.description) target.description = cat.description;
+                                                                        }
+                                                                        result[canon] = target;
+                                                                    });
+                                                                    return result;
+                                                                }
+
+                                                                // expose on window for the React/Babel block
+                                                                window.CATEGORY_CANON = CANON;
+                                                                window.canonicalSubjectKey = canonicalSubjectKey;
+                                                                window.canonicalizeCategoryName = canonicalizeCategoryName;
+                                                                window.normalizeCategoriesObject = normalizeCategoriesObject;
+                                                            } catch (e) {
+                                                                console.warn('CATEGORY_CANON init failed', e);
+                                                            }
+                                                        })();
+
                                                         // One-pass loader: try each known quiz JSON once; no infinite retry
                                                         const QUIZ_FILENAMES = [
                                                             'math.quizzes.part1.json',
@@ -1908,6 +2015,13 @@
                                                                 for (const [catName, cat] of Object.entries(cats)) {
                                                                     app[subject].categories[catName] = { description: '', topics: Array.isArray(cat.topics) ? cat.topics : [] };
                                                                 }
+                                                                // normalize categories to canonical keys for this subject
+                                                                try {
+                                                                    if (typeof window !== 'undefined' && typeof window.normalizeCategoriesObject === 'function') {
+                                                                        const subjKey = (typeof window.canonicalSubjectKey === 'function') ? window.canonicalSubjectKey(subject) : subject;
+                                                                        app[subject].categories = window.normalizeCategoriesObject(subjKey, app[subject].categories);
+                                                                    }
+                                                                } catch {}
                                                             });
                                                             // Fallback: if nothing loaded from backend, try legacy global datasets
                                                             if (Object.keys(app).length === 0 && typeof window !== 'undefined') {
@@ -1923,6 +2037,13 @@
                                                                             for (const [catName, cat] of Object.entries(cats)) {
                                                                                 app[subject].categories[catName] = { description: '', topics: Array.isArray(cat?.topics) ? cat.topics : [] };
                                                                             }
+                                                                            // normalize legacy categories too
+                                                                            try {
+                                                                                if (typeof window !== 'undefined' && typeof window.normalizeCategoriesObject === 'function') {
+                                                                                    const subjKey = (typeof window.canonicalSubjectKey === 'function') ? window.canonicalSubjectKey(subject) : subject;
+                                                                                    app[subject].categories = window.normalizeCategoriesObject(subjKey, app[subject].categories);
+                                                                                }
+                                                                            } catch {}
                                                                         });
                                                                     }
                                                                 } catch {}
@@ -6340,8 +6461,21 @@ function assignPremadeQuizCodes(data) {
             catalog[subjectName] = [];
         }
 
+        // Normalize category keys to canonical names for stable downstream behavior
+        const normalizedCats = (() => {
+            try {
+                if (typeof window !== 'undefined' && typeof window.normalizeCategoriesObject === 'function') {
+                    const subjKey = (typeof window.canonicalSubjectKey === 'function')
+                        ? window.canonicalSubjectKey(subjectName)
+                        : subjectName;
+                    return window.normalizeCategoriesObject(subjKey, subject.categories || {});
+                }
+            } catch {}
+            return subject.categories || {};
+        })();
+
         // Helper to register a quiz entry and stamp quizCode on the source object
-        Object.entries(subject.categories || {}).forEach(([categoryName, category], categoryIndex) => {
+        Object.entries(normalizedCats).forEach(([categoryName, category], categoryIndex) => {
             if (!category || typeof category !== 'object') {
                 return;
             }
@@ -6390,7 +6524,64 @@ function assignPremadeQuizCodes(data) {
                         const labelSegment = sanitizeCodeSegment(quiz.label || '', '');
                         const setSegment = quizIdSegment || labelSegment || `set-${quizIndex + 1}`;
                         const code = [subjectSlug, baseSegment || topicSlug, setSegment].filter(Boolean).join('__');
-                        const quizTitle = quiz.title || `${topic.title || 'Quiz'} — ${quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`}`;
+                        // Title resolution: prefer provided; otherwise humanize or rebuild for Math
+                        let quizTitle = quiz.title;
+                        const looksAutoId = (s) => {
+                            if (!s) return true;
+                            const t = String(s);
+                            return /(^|\b)(math|rla)_/i.test(t) || t.includes('_');
+                        };
+                        const humanizeQuizId = (id) => {
+                            if (!id) return '';
+                            let t = String(id).replace(/^(math|rla)_/i, '');
+                            t = t.replace(/[_-]+/g, ' ').trim();
+                            t = t.replace(/\b(set|quiz)\s*(\d+|[A-Z])\b/ig, (m) => m.toUpperCase());
+                            return t.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1));
+                        };
+                        const deriveSetNumber = () => {
+                            if (quiz.label) {
+                                const m = String(quiz.label).match(/([A-Z])$/);
+                                if (m) return (m[1].charCodeAt(0) - 64);
+                                const n = String(quiz.label).match(/(\d+)/);
+                                if (n) return parseInt(n[1], 10);
+                            }
+                            const n2 = String(quiz.quizId || '').match(/(\d+)/);
+                            if (n2) return parseInt(n2[1], 10);
+                            return quizIndex + 1;
+                        };
+                        const canonicalizeCategoryNameLocal = (subj, name) => {
+                            try { return (typeof window !== 'undefined' && typeof window.canonicalizeCategoryName === 'function') ? window.canonicalizeCategoryName(subj, name) : name; } catch { return name; }
+                        };
+                        const deriveMathShortTopic = (topicTitle, canonCat) => {
+                            const raw = String(topicTitle || '').trim();
+                            if (!raw) return 'Practice';
+                            // Remove leading category and dividers
+                            let base = raw;
+                            if (canonCat && base.toLowerCase().startsWith(canonCat.toLowerCase())) {
+                                base = base.slice(canonCat.length).trim();
+                            }
+                            if (base.startsWith(':') || base.startsWith('—') || base.startsWith('-')) base = base.slice(1).trim();
+                            // Drop trailing variant markers like "Quiz 2"
+                            base = base.replace(/\b(quiz|set|practice)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i, '').trim();
+                            // If empty, fallback to topicTitle without quiz suffix
+                            if (!base) {
+                                const noSuffix = raw.replace(/\b(quiz|set)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i, '').trim();
+                                return noSuffix || 'Practice';
+                            }
+                            return base;
+                        };
+                        if (!quizTitle || looksAutoId(quizTitle)) {
+                            if (String(subjectName).toLowerCase() === 'math') {
+                                const canonCat = canonicalizeCategoryNameLocal(subjectName, categoryName);
+                                const shortTopic = deriveMathShortTopic(topic.title, canonCat);
+                                const setNum = deriveSetNumber();
+                                quizTitle = `${canonCat}: ${shortTopic} (Set ${setNum})`;
+                            } else {
+                                const fallback = quiz.quizId ? humanizeQuizId(quiz.quizId) : '';
+                                const labelText = quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`;
+                                quizTitle = fallback ? `${fallback}` : `${topic.title || 'Quiz'} — ${labelText}`;
+                            }
+                        }
                         registerQuiz(quiz, code, quizTitle);
                     });
                 } else if (Array.isArray(topic.questions) && topic.questions.length) {
@@ -6506,20 +6697,57 @@ initPremades();
 // and/or rename clusters for a tidier quiz browser. Any categories not listed here
 // will be included as their own clusters under their original names.
 const QUIZ_GROUPING = {
-    // Science has several closely related categories; combine two to reduce clutter.
+    // Science: mild consolidation
     "Science": [
         { label: "Life Science", categories: ["Life Science"] },
         { label: "Physical, Earth & Space", categories: ["Physical Science", "Earth & Space Science"] },
         { label: "Scientific Numeracy", categories: ["Scientific Numeracy"] }
     ],
-    // Math: reordered to surface Algebra first in the browser.
+    // Math: canonical clusters with variant lists
     "Math": [
-        { label: "Algebra", categories: ["Algebraic Problem Solving"] },
-        { label: "Quantitative & Data", categories: ["Quantitative Problem Solving"] },
-        { label: "Geometry", categories: ["Geometry"] }
+        { label: "Algebra", categories: [
+            "Algebra",
+            "Algebraic Problem Solving",
+            "Algebraic Reasoning",
+            "Algebra & Linear Equations",
+            "Algebraic Expressions & Linear Equations",
+            "Expressions & Equations",
+            "Expressions and Equations"
+        ] },
+        { label: "Quantitative & Data", categories: [
+            "Quantitative & Data",
+            "Quantitative Problem Solving",
+            "Data, Statistics & Probability"
+        ] },
+        { label: "Geometry & Measurement", categories: [
+            "Geometry & Measurement",
+            "Geometry",
+            "Measurement & Geometry"
+        ] }
+    ],
+    // RLA: canonical clusters with variants
+    "Reasoning Through Language Arts (RLA)": [
+        { label: "Reading Comprehension", categories: [
+            "Reading Comprehension",
+            "Reading Comprehension: Informational Texts",
+            "Reading Comprehension: Literary Texts",
+            "Reading Comprehension: Paired Passages",
+            "Main Idea"
+        ] },
+        { label: "Language & Editing", categories: [
+            "Language & Editing",
+            "Language & Grammar",
+            "Language",
+            "Editing",
+            "Editing & Revision"
+        ] },
+        { label: "Writing / Extended Response", categories: [
+            "Writing / Extended Response",
+            "Essay Writing",
+            "Constructed Response"
+        ] }
     ]
-    // Note: Social Studies currently nests eras as topics within "U.S. History",
-    // so category-level grouping is not needed there.
+    // Social Studies: categories are already tidy; no grouping needed
 };
 
 function buildQuizLibraryFromAppData(data) {
@@ -6793,11 +7021,68 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         const quizSets = Array.isArray(topic.quizzes) ? topic.quizzes.filter((quiz) => quizHasAvailableQuestions(subjectName, topic, quiz)) : [];
     const supportsMultiple = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
 
-        const launchQuizSet = (quiz, index, displayNameOverride) => {
+            const launchQuizSet = (quiz, index, displayNameOverride) => {
             if (typeof onSelectQuiz !== 'function' || !quiz) return;
             const quizLabel = displayNameOverride || quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
             const baseTitle = topic.title || 'Quiz';
-            const derivedTitle = quiz.title || `${baseTitle} — ${quizLabel}`;
+            // Better title handling: humanize auto IDs and retitle Math sets using canonical category
+            const looksAutoId = (s) => {
+                if (!s) return true;
+                const t = String(s);
+                return /(^|\b)(math|rla)_/i.test(t) || t.includes('_');
+            };
+            const humanizeQuizId = (id) => {
+                if (!id) return '';
+                let t = String(id).replace(/^(math|rla)_/i, '');
+                t = t.replace(/[_-]+/g, ' ').trim();
+                t = t.replace(/\b(set|quiz)\s*(\d+|[A-Z])\b/ig, (m) => m.toUpperCase());
+                return t.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1));
+            };
+            const getCategoryOfTopic = (subj, topicId) => {
+                try {
+                    const sourceApp = (typeof window !== 'undefined' && window.AppData) ? window.AppData : AppData;
+                    const subject = sourceApp?.[subj];
+                    if (!subject || !subject.categories) return null;
+                    for (const [catName, cat] of Object.entries(subject.categories)) {
+                        const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+                        if (topics.some(t => t && t.id === topicId)) return catName;
+                    }
+                } catch {}
+                return null;
+            };
+            const canonicalizeCategoryNameLocal = (subj, name) => {
+                try { return (typeof window !== 'undefined' && typeof window.canonicalizeCategoryName === 'function') ? window.canonicalizeCategoryName(subj, name) : name; } catch { return name; }
+            };
+            const deriveMathShortTopic = (title, canonCat) => {
+                const raw = String(title || '').trim();
+                if (!raw) return 'Practice';
+                let base = raw;
+                if (canonCat && base.toLowerCase().startsWith(canonCat.toLowerCase())) {
+                    base = base.slice(canonCat.length).trim();
+                }
+                if (base.startsWith(':') || base.startsWith('—') || base.startsWith('-')) base = base.slice(1).trim();
+                base = base.replace(/\b(quiz|set|practice)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i, '').trim();
+                if (!base) return 'Practice';
+                return base;
+            };
+            let derivedTitle = quiz.title || `${baseTitle} — ${quizLabel}`;
+            if (looksAutoId(derivedTitle)) {
+                if (String(subjectName).toLowerCase() === 'math') {
+                    const catRaw = getCategoryOfTopic(subjectName, topic.id);
+                    const canonCat = canonicalizeCategoryNameLocal(subjectName, catRaw || 'Math');
+                    const shortTopic = deriveMathShortTopic(baseTitle, canonCat);
+                    const setNum = (() => {
+                        const m = String(quiz.label || '').match(/([A-Z])$/);
+                        if (m) return (m[1].charCodeAt(0) - 64);
+                        const n = String(quiz.quizId || '').match(/(\d+)/);
+                        if (n) return parseInt(n[1], 10);
+                        return index + 1;
+                    })();
+                    derivedTitle = `${canonCat}: ${shortTopic} (Set ${setNum})`;
+                } else {
+                    derivedTitle = humanizeQuizId(quiz.quizId || derivedTitle);
+                }
+            }
             const resolvedQuestions = resolveQuizQuestions(subjectName, topic, quiz).map((q, qi) => {
                 if (q && typeof q === 'object') {
                     const nextNumber = q.questionNumber ?? (qi + 1);
