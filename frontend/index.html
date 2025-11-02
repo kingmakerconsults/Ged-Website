@@ -5730,6 +5730,108 @@ const topicHasAvailableQuestions = (subjectName, topic) => {
     return false;
 };
 
+// --- Canonical topic grouping (collapse variants like "Quiz 2", "Set B", etc.) ---
+// Heuristics only: if window.CURATED_SAQ_TOPICS[subject] exists, it will be used to order/filter.
+function isVariantSuffix(text) {
+    if (!text) return false;
+    const t = String(text).trim().toLowerCase();
+    // Matches: Quiz 2, Quiz B, Set 3, Version 4, Test A, Practice Set 2, Form C, Variant I, V2, etc.
+    return /\b(quiz|set|version|form|variant|practice\s*set|test)\b\s*([#:.-]?\s*[a-z0-9ivxlcm]+)?\s*$/.test(t)
+        || /\b(v\s*\d+)\s*$/.test(t);
+}
+
+function splitOnDivider(title) {
+    // Prefer colon or long dash as divider between base and variant
+    const dividers = [':', '—', '–', '-', '|'];
+    for (const d of dividers) {
+        const idx = title.indexOf(d);
+        if (idx > -1) {
+            return [title.slice(0, idx).trim(), title.slice(idx + 1).trim()];
+        }
+    }
+    return [title.trim(), ''];
+}
+
+function deriveCanonicalTopicTitle(rawTitle) {
+    if (!rawTitle) return '';
+    let title = String(rawTitle).trim();
+    // Remove trailing parenthetical variant markers e.g., (Set 2), (Quiz B)
+    title = title.replace(/\((?:\s*(?:quiz|set|version|form|variant)[^)]*)\)\s*$/i, '').trim();
+    // If there is a divider, and the right side looks like a variant tag, keep the left side
+    const [left, right] = splitOnDivider(title);
+    if (right && isVariantSuffix(right)) {
+        return left;
+    }
+    // Otherwise, strip trailing inline variant patterns like "... Quiz 3" or "... Set B"
+    const stripped = title.replace(/\b(quiz|set|version|form|variant|practice\s*set)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i, '').trim();
+    return stripped || left || title;
+}
+
+function buildCanonicalTopics(subjectName, categoryName, rawTopics) {
+    const groups = new Map();
+    const curated = (typeof window !== 'undefined' && window.CURATED_SAQ_TOPICS && window.CURATED_SAQ_TOPICS[subjectName])
+        ? window.CURATED_SAQ_TOPICS[subjectName]
+        : null;
+
+    const pushVariant = (group, topic, quizLike, indexWithinTopic) => {
+        if (!quizLike || typeof quizLike !== 'object') return;
+        // Ensure variant has minimally required shape; keep original for resolution
+        const variant = { ...quizLike };
+        // Defer question resolution to existing pipeline; ensure label exists for UI
+        if (!variant.label) {
+            const idx = typeof indexWithinTopic === 'number' ? indexWithinTopic : (Array.isArray(group.quizzes) ? group.quizzes.length : 0);
+            variant.label = `Quiz ${String.fromCharCode(65 + (idx % 26))}`;
+        }
+        group.quizzes.push(variant);
+    };
+
+    const ensureGroup = (canonicalTitle) => {
+        const key = canonicalTitle.toLowerCase();
+        if (!groups.has(key)) {
+            const id = `canon__${sanitizeCodeSegment(canonicalTitle, canonicalTitle)}`;
+            groups.set(key, { id, title: canonicalTitle, description: '', quizzes: [], imageUrl: null });
+        }
+        return groups.get(key);
+    };
+
+    const topics = Array.isArray(rawTopics) ? rawTopics : [];
+    topics.forEach((topic) => {
+        if (!topic || typeof topic !== 'object') return;
+        const baseTitle = deriveCanonicalTopicTitle(topic.title || topic.id || '');
+        const group = ensureGroup(baseTitle);
+        if (!group.description && topic.description) group.description = topic.description;
+        if (!group.imageUrl && topic.imageUrl) group.imageUrl = topic.imageUrl;
+
+        if (Array.isArray(topic.quizzes) && topic.quizzes.length) {
+            topic.quizzes.forEach((quiz, qi) => pushVariant(group, topic, quiz, qi));
+        }
+        if (Array.isArray(topic.questions) && topic.questions.length) {
+            // Treat topic-level questions as a single variant
+            const pseudo = { title: topic.title, questions: topic.questions, quizId: topic.id, questionSourceTopicId: topic.id };
+            pushVariant(group, topic, pseudo, 0);
+        }
+    });
+
+    // Filter out empty groups (no available questions at all)
+    let aggregated = Array.from(groups.values()).map((g) => {
+        const filtered = {
+            ...g,
+            quizzes: (g.quizzes || []).filter((q) => q && quizHasAvailableQuestions(subjectName, { id: g.id, title: g.title }, q)),
+        };
+        return filtered;
+    }).filter((g) => Array.isArray(g.quizzes) && g.quizzes.length > 0);
+
+    // Optional: apply curated allowlist ordering if provided
+    if (Array.isArray(curated) && curated.length) {
+        const allow = new Set(curated.map((t) => String(t).toLowerCase().trim()).filter(Boolean));
+        aggregated = aggregated.filter((g) => allow.has(String(g.title).toLowerCase().trim()));
+        const order = new Map(curated.map((t, i) => [String(t).toLowerCase().trim(), i]));
+        aggregated.sort((a, b) => (order.get(a.title.toLowerCase().trim()) ?? 1e9) - (order.get(b.title.toLowerCase().trim()) ?? 1e9));
+    }
+
+    return aggregated;
+}
+
 const annotateQuestionsWithSubject = (questions, subjectKey) => {
     if (!Array.isArray(questions) || !subjectKey) {
         return Array.isArray(questions) ? questions : [];
@@ -11761,8 +11863,9 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     // View 3: Topic Selection
     if (selectedSubject && selectedCategory) {
-        const rawTopics = AppData[selectedSubject].categories[selectedCategory].topics || [];
-        const topics = rawTopics.filter((topic) => topicHasAvailableQuestions(selectedSubject, topic));
+    const rawTopics = AppData[selectedSubject].categories[selectedCategory].topics || [];
+    // Collapse variants under canonical topic headings for a cleaner selector
+    const topics = buildCanonicalTopics(selectedSubject, selectedCategory, rawTopics);
         const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
         const lightTint = SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.28)';
         const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject]
@@ -11822,7 +11925,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             const quizSets = Array.isArray(topic.quizzes)
                                 ? topic.quizzes.filter((quiz) => quizHasAvailableQuestions(selectedSubject, topic, quiz))
                                 : [];
-                            const supportsMultipleQuizzes = quizSets.length > 0 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
+                            const supportsMultipleQuizzes = quizSets.length > 1 && !['essay', 'simulation', 'graphing_tool'].includes(topic.type);
                             const buttonStyle = {
                                 backgroundColor: subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
                                 color: subjectColors.accentText || '#ffffff',
@@ -11966,6 +12069,20 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                             const fallbackTopicSlug = sanitizeCodeSegment(topic.title || `topic-${topicIndex + 1}`, `topic-${topicIndex + 1}`);
                                             const subjectSlug = sanitizeCodeSegment(selectedSubject, 'subject');
                                             const topicQuizCode = topic.quizCode || topic.id || `${subjectSlug}__${fallbackTopicSlug}`;
+                                            // If exactly one quiz variant exists, start that variant directly
+                                            if (Array.isArray(quizSets) && quizSets.length === 1) {
+                                                const single = quizSets[0];
+                                                return (
+                                                    <button
+                                                        onClick={() => launchQuizSet(single, 0)}
+                                                        className="w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                                                        style={buttonStyle}
+                                                    >
+                                                        {defaultButtonLabel}
+                                                    </button>
+                                                );
+                                            }
+                                            // Otherwise, fall back to topic-level questions (if present)
                                             return (
                                                 <button
                                                     onClick={() => {
