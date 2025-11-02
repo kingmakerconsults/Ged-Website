@@ -99,9 +99,8 @@
 
     <script>
         window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
-        if (typeof window.__APP_CONFIG__.geometryFiguresEnabled === 'undefined') {
-            window.__APP_CONFIG__.geometryFiguresEnabled = false;
-        }
+        // Hard-enable geometry figures for now; do not guard with undefined checks
+        window.__APP_CONFIG__.geometryFiguresEnabled = true;
     </script>
     <script>
       window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
@@ -113,6 +112,11 @@
             }
     </script>
     <script src="https://ged-website.onrender.com/client-config.js"></script>
+    <script>
+        // Ensure figures stay enabled even if remote client-config overrides it
+        window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
+        window.__APP_CONFIG__.geometryFiguresEnabled = true;
+    </script>
 
     <script>
         (function preloadPreferences() {
