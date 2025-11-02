@@ -1691,6 +1691,7 @@
             letter-spacing: 0.02em;
         }
     </style>
+    <script src="lib/topic_map.js"></script>
 </head>
 <body data-theme="light" style="background-color: var(--bg-page); color: var(--text-primary);">
     <div id="root"></div>
@@ -5755,6 +5756,13 @@ function splitOnDivider(title) {
 function deriveCanonicalTopicTitle(rawTitle) {
     if (!rawTitle) return '';
     let title = String(rawTitle).trim();
+    // Prefer centralized resolver if present
+    try {
+        if (typeof window !== 'undefined' && typeof window.resolveCanonicalTopic === 'function' && subjectName) {
+            const resolved = window.resolveCanonicalTopic(subjectName, title);
+            if (resolved) return resolved;
+        }
+    } catch {}
     // Remove trailing parenthetical variant markers e.g., (Set 2), (Quiz B)
     title = title.replace(/\((?:\s*(?:quiz|set|version|form|variant)[^)]*)\)\s*$/i, '').trim();
     // If there is a divider, and the right side looks like a variant tag, keep the left side
@@ -5797,7 +5805,17 @@ function buildCanonicalTopics(subjectName, categoryName, rawTopics) {
     const topics = Array.isArray(rawTopics) ? rawTopics : [];
     topics.forEach((topic) => {
         if (!topic || typeof topic !== 'object') return;
-        const baseTitle = deriveCanonicalTopicTitle(topic.title || topic.id || '');
+        const srcTitle = topic.title || topic.id || '';
+        // Try centralized resolver first
+        let baseTitle = null;
+        try {
+            if (typeof window !== 'undefined' && typeof window.resolveCanonicalTopic === 'function') {
+                baseTitle = window.resolveCanonicalTopic(subjectName, srcTitle);
+            }
+        } catch {}
+        if (!baseTitle) {
+            baseTitle = deriveCanonicalTopicTitle(srcTitle, subjectName);
+        }
         const group = ensureGroup(baseTitle);
         if (!group.description && topic.description) group.description = topic.description;
         if (!group.imageUrl && topic.imageUrl) group.imageUrl = topic.imageUrl;
@@ -11977,6 +11995,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     title: derivedTitle,
                                     topicId: topic.id,
                                     topicTitle: topic.title || baseTitle,
+                                    canonicalTopicTitle: topic.title || baseTitle,
                                     description: quiz.description || topic.description,
                                     type: quiz.type || topic.type || (sourceTopic ? sourceTopic.type : 'quiz') || 'quiz',
                                     questions: resolvedQuestions,
@@ -12094,6 +12113,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                                             ...topic,
                                                             id: topic.quizCode || topicQuizCode,
                                                             quizCode: topicQuizCode,
+                                                            canonicalTopicTitle: topic.title || (selectedCategory + ' Topic'),
                                                         };
                                                         if (articleClone) {
                                                             preparedQuiz.article = articleClone;
