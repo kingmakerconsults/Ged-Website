@@ -266,18 +266,15 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
-    "categoryName": "Geometry & Measurement",
+    "categoryName": "Interactive Tool Demos",
     "topic": {
       "id": "math_geometry_tool_demo",
-      "title": "★ Math Demo — Geometry Tool (4Q)",
-      "description": "Short 4-question demo that forces the geometry canvas to show.",
+      "title": "MATH — Geometry Tool DEMO (standout)",
+      "description": "Short 4-question demo that uses the in-app geometry canvas.",
       "type": "geometry_tool",
       "config": {
         "type": "geometry_tool",
-        "totalTime": 600,
-        "calculator": false,
-        "formulaSheet": false,
-        "parts": [ { "label": "Geometry Tool", "questionCount": 4 } ]
+        "totalTime": 600
       },
       "file": "backend/data/quizzes/math/math_geometry_tool_demo.js"
     }
@@ -285,18 +282,15 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
-    "categoryName": "Algebra",
+    "categoryName": "Interactive Tool Demos",
     "topic": {
       "id": "math_graphing_tool_demo",
-      "title": "★ Math Demo — Graphing Tool (4Q)",
-      "description": "Short 4-question demo that requires the graphing canvas.",
+      "title": "MATH — Graphing Tool DEMO (standout)",
+      "description": "Short 4-question demo that opens the in-app graphing tool for math items.",
       "type": "graphing_tool",
       "config": {
         "type": "graphing_tool",
-        "totalTime": 600,
-        "calculator": true,
-        "formulaSheet": false,
-        "parts": [ { "label": "Graphing Tool", "questionCount": 4 } ]
+        "totalTime": 600
       },
       "file": "backend/data/quizzes/math/math_graphing_tool_demo.js"
     }
