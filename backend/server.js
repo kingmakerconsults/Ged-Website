@@ -2063,8 +2063,11 @@ try {
             res.setHeader('Access-Control-Allow-Origin', '*');
         }
     }));
-    // SPA shell at '/'
+    // SPA shell at '/' — send with no-store to avoid stale HTML caching during development
     app.get(['/', '/index.html'], (req, res) => {
+        try {
+            res.set('Cache-Control', 'no-store');
+        } catch {}
         res.sendFile(path.join(frontendDir, 'index.html'));
     });
     console.log('[static] Serving /public and /quizzes from', publicDir);
