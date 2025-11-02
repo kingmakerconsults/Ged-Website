@@ -1957,10 +1957,18 @@ async function buildProfileBundle(userId) {
         console.error('Failed to load challenge options', err?.message || err);
     }
 
-    // Fallback to in-memory list if DB has nothing
-    const effectiveAllChallenges = Array.isArray(allChallenges) && allChallenges.length
-        ? allChallenges
-        : FALLBACK_PROFILE_CHALLENGES;
+    // Determine whether to use DB catalog or fallback list
+    // - Use env ALWAYS_USE_FALLBACK_CHALLENGES=true to force fallback
+    // - Otherwise require a minimum catalog size (default 20) before trusting DB
+    const alwaysUseFallback = String(process.env.ALWAYS_USE_FALLBACK_CHALLENGES || '').toLowerCase() === 'true';
+    const minSize = (() => {
+        const n = Number(process.env.MIN_CHALLENGE_CATALOG_SIZE || 20);
+        return Number.isFinite(n) && n > 0 ? Math.floor(n) : 20;
+    })();
+    const hasSufficientCatalog = Array.isArray(allChallenges) && allChallenges.length >= minSize;
+    const effectiveAllChallenges = alwaysUseFallback
+        ? FALLBACK_PROFILE_CHALLENGES
+        : (hasSufficientCatalog ? allChallenges : FALLBACK_PROFILE_CHALLENGES);
 
     let chosen = [];
     try {
