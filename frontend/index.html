@@ -1168,9 +1168,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
 
-            /* make it fill most of the card but keep aspect ratio */
-            width: 95%;
-            max-height: 95%;
+            /* make it dramatically larger than the card while centered */
+            width: 140%;
+            max-height: 140%;
             object-fit: contain;
 
             /* stay above text */
@@ -1185,7 +1185,7 @@
         }
         /* mobile — just shrink a bit so it doesn’t cover everything */
         @media (max-width: 768px) {
-            .subject-badge { width: 88%; }
+            .subject-badge { width: 120%; max-height: 120%; }
         }
         /* Fallback pill if the SVG is missing — keep it in the corner */
         .subject-badge-pill {
