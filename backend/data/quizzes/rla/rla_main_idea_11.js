@@ -86,5 +86,276 @@ module.exports = [
         "isCorrect": false
       }
     ]
+  },
+  {
+    "questionNumber": 4,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 11 Case Study 4: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 11 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 11 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 11 concept to reasoning through language arts (rla) reasoning at question 4.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "medium",
+    "__autogen": true
+  },
+  {
+    "questionNumber": 5,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 11 Case Study 5: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 11 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 11 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 11 concept to reasoning through language arts (rla) reasoning at question 5.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "easy",
+    "__autogen": true
+  },
+  {
+    "questionNumber": 6,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 11 Case Study 6: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 11 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 11 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 11 concept to reasoning through language arts (rla) reasoning at question 6.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "hard",
+    "__autogen": true
+  },
+  {
+    "questionNumber": 7,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 11 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 11 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 11 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 11 concept to reasoning through language arts (rla) reasoning at question 7.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "medium",
+    "__autogen": true
+  },
+  {
+    "questionNumber": 8,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 11 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 11 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 11 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 11 concept to reasoning through language arts (rla) reasoning at question 8.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "easy",
+    "__autogen": true
+  },
+  {
+    "questionNumber": 9,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 11 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 11 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 11 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 11 concept to reasoning through language arts (rla) reasoning at question 9.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "hard",
+    "__autogen": true
+  },
+  {
+    "questionNumber": 10,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 11 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 11 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 11 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 11 concept to reasoning through language arts (rla) reasoning at question 10.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "medium",
+    "__autogen": true
+  },
+  {
+    "questionNumber": 11,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 11 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 11 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 11 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 11 concept to reasoning through language arts (rla) reasoning at question 11.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "medium",
+    "__autogen": true
+  },
+  {
+    "questionNumber": 12,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 11 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 11 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 11 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 11 concept to reasoning through language arts (rla) reasoning at question 12.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "medium",
+    "__autogen": true
   }
-];
+]
+;
