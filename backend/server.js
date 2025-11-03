@@ -5786,60 +5786,135 @@ function assembleSingleSubject(subjectKey, requiredCount) {
     return pool.slice(0, Math.min(pool.length, requiredCount));
 }
 
-app.post('/api/practice-session', async (req, res) => {
-    try {
-        const body = req.body || {};
-        const inputMode = (body.mode || 'balanced').toString().toLowerCase();
-        const duration = clampDuration(body.durationMinutes || 10);
-        // 5 questions per 10 minutes as a simple pacing rule
-        const plannedCount = Math.max(1, Math.floor((duration / 10) * 5));
+// Practice Session builder (placed after getPremadeQuestions)
+app.post(
+    '/api/practice-session',
+    devAuth,
+    ensureTestUserForNow,
+    requireAuthInProd,
+    authRequired,
+    express.json(),
+    (req, res) => {
+        try {
+            let { durationMinutes, mode, subject } = req.body || {};
 
-        let mode = 'balanced';
-        let subjectKey = null;
-        switch (inputMode) {
-            case 'math':
-                mode = 'math'; subjectKey = 'Math'; break;
-            case 'rla':
-            case 'language':
-                mode = 'rla'; subjectKey = 'RLA'; break;
-            case 'science':
-                mode = 'science'; subjectKey = 'Science'; break;
-            case 'social-studies':
-            case 'social_studies':
-            case 'socialstudies':
-            case 'ss':
-                mode = 'social-studies'; subjectKey = 'Social Studies'; break;
-            case 'balanced':
-            default:
-                mode = 'balanced'; subjectKey = null; break;
+            // Normalize inputs
+            const VALID_MINUTES = [10, 20, 30, 40, 50, 60];
+            durationMinutes = Number(durationMinutes);
+            if (!VALID_MINUTES.includes(durationMinutes)) {
+                durationMinutes = 10;
+            }
+
+            const questionsNeeded = Math.max(1, Math.round((durationMinutes / 10) * 5));
+
+            const SUBJECT_LABELS = {
+                math: 'Math',
+                science: 'Science',
+                rla: 'Reasoning Through Language Arts (RLA)',
+                social: 'Social Studies',
+                'social-studies': 'Social Studies',
+                ss: 'Social Studies',
+            };
+
+            // Accept both the new spec and legacy simplified modes for compatibility
+            const m = (mode || '').toString().toLowerCase();
+            let subjectList = [];
+            switch (m) {
+                case 'single-subject': {
+                    const subjKey = (subject || '').toString().toLowerCase();
+                    const key = SUBJECT_LABELS[subjKey] || SUBJECT_LABELS[(SUBJECT_LABELS[(subject || '').toString()]) ? (subject || '').toString() : ''] || null;
+                    if (!key) {
+                        return res.status(400).json({ error: 'subject_required' });
+                    }
+                    subjectList = [key];
+                    break;
+                }
+                case 'math-rla':
+                    subjectList = [SUBJECT_LABELS.math, SUBJECT_LABELS.rla];
+                    break;
+                case 'science-social':
+                    subjectList = [SUBJECT_LABELS.science, SUBJECT_LABELS.social];
+                    break;
+                case 'full-random':
+                case 'balanced-4':
+                    subjectList = [SUBJECT_LABELS.math, SUBJECT_LABELS.science, SUBJECT_LABELS.rla, SUBJECT_LABELS.social];
+                    mode = 'balanced-4';
+                    break;
+                // Legacy/simple modes: map to single-subject or balanced
+                case 'math':
+                    subjectList = [SUBJECT_LABELS.math];
+                    mode = 'single-subject';
+                    subject = 'math';
+                    break;
+                case 'rla':
+                    subjectList = [SUBJECT_LABELS.rla];
+                    mode = 'single-subject';
+                    subject = 'rla';
+                    break;
+                case 'science':
+                    subjectList = [SUBJECT_LABELS.science];
+                    mode = 'single-subject';
+                    subject = 'science';
+                    break;
+                case 'social-studies':
+                case 'social_studies':
+                case 'socialstudies':
+                case 'ss':
+                    subjectList = [SUBJECT_LABELS['social-studies']];
+                    mode = 'single-subject';
+                    subject = 'social';
+                    break;
+                case 'balanced':
+                default:
+                    subjectList = [SUBJECT_LABELS.math, SUBJECT_LABELS.science, SUBJECT_LABELS.rla, SUBJECT_LABELS.social];
+                    mode = 'balanced-4';
+                    break;
+            }
+
+            // Pull questions from selected subjects
+            let pool = [];
+            subjectList.forEach((subj) => {
+                const pulled = getPremadeQuestions(subj, questionsNeeded * 2); // pull extra to allow shuffle
+                if (Array.isArray(pulled)) {
+                    pulled.forEach((q) => {
+                        pool.push({
+                            ...q,
+                            subject: q.subject || subj,
+                        });
+                    });
+                }
+            });
+
+            if (!pool.length) {
+                return res.json({
+                    title: 'Practice Session',
+                    durationMinutes,
+                    mode,
+                    questionCount: 0,
+                    questions: [],
+                });
+            }
+
+            // shuffle
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+
+            const questions = pool.slice(0, questionsNeeded).map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
+            return res.json({
+                title: 'Practice Session',
+                durationMinutes,
+                mode,
+                questionCount: questions.length,
+                questions,
+            });
+        } catch (e) {
+            console.error('practice-session error:', e);
+            return res.status(500).json({ error: 'Failed to build practice session' });
         }
-
-        let questions;
-        if (mode === 'balanced') {
-            questions = assembleBalancedPool(plannedCount);
-        } else {
-            questions = assembleSingleSubject(subjectKey, plannedCount);
-        }
-
-        // number questions for display
-        const numbered = questions.map((q, i) => ({ ...q, questionNumber: i + 1 }));
-
-        const response = {
-            title: 'Practice Session',
-            mode,
-            subject: subjectKey,
-            durationMinutes: duration,
-            plannedQuestionCount: plannedCount,
-            actualQuestionCount: numbered.length,
-            questions: numbered,
-        };
-        res.set('Cache-Control', 'no-store');
-        return res.status(200).json(response);
-    } catch (err) {
-        console.error('Failed to assemble practice session:', err);
-        return res.status(500).json({ error: 'Failed to assemble practice session' });
     }
-});
+);
 
 // Helper function to generate AI questions
 const generateAIContent = async (prompt, schema) => {
