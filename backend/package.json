@@ -19,6 +19,7 @@
     "google-auth-library": "^8.9.0",
     "jsdom": "^24.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mathjs": "^11.11.0",
     "openai": "^6.3.0",
     "p-queue": "^7.4.1",
     "pg": "^8.16.3",
