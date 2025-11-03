@@ -7825,9 +7825,12 @@ async function fetchJSON(url, options = {}) {
     const { headers, ...rest } = options || {};
     const finalHeaders = headers ? { ...headers } : undefined;
     const isAbsolute = typeof url === 'string' && /^(https?:)?\/\//i.test(url);
+    const BASE = (typeof window !== 'undefined' && window.__CLIENT_CONFIG__ && window.__CLIENT_CONFIG__.API_BASE_URL)
+        ? window.__CLIENT_CONFIG__.API_BASE_URL
+        : (typeof API_BASE_URL === 'string' && API_BASE_URL) || (typeof window !== 'undefined' ? window.location.origin : '');
     const targetUrl = isAbsolute
         ? url
-        : (typeof url === 'string' && url.startsWith('/') ? `${API_BASE_URL}${url}` : url);
+        : (typeof url === 'string' && url.startsWith('/') ? `${BASE}${url}` : url);
     const response = await fetch(targetUrl, {
         credentials: 'include',
         ...rest,
@@ -8072,6 +8075,98 @@ function NamePromptModal({ user, onSave, onDismiss }) {
     );
 }
 
+function PracticeSessionModal({ defaultMode = 'balanced', defaultDuration = 10, onStart, onDismiss }) {
+    const [mode, setMode] = React.useState(defaultMode);
+    const [duration, setDuration] = React.useState(defaultDuration);
+    const [submitting, setSubmitting] = React.useState(false);
+    const [error, setError] = React.useState('');
+
+    const handleSubmit = async () => {
+        if (submitting) return;
+        setError('');
+        setSubmitting(true);
+        try {
+            await onStart({ mode, durationMinutes: Number(duration) });
+        } catch (e) {
+            const msg = (e && e.message) ? e.message : 'Failed to start practice session.';
+            setError(msg);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    return (
+        <div
+            role="dialog"
+            aria-modal="true"
+            className="fixed inset-0 z-[70] flex items-center justify-center p-4"
+            style={{ backgroundColor: 'var(--modal-overlay)' }}
+        >
+            <div
+                className="w-full max-w-md rounded-2xl p-6 shadow-2xl border"
+                style={{ backgroundColor: 'var(--modal-surface)', color: 'var(--modal-text)', border: `1px solid var(--modal-border)` }}
+            >
+                <h2 className="text-xl font-bold mb-4">Start a Practice Session</h2>
+                <div className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Duration</label>
+                        <select
+                            className="w-full rounded-md border px-3 py-2 bg-transparent"
+                            style={{ borderColor: 'var(--modal-border)' }}
+                            value={duration}
+                            onChange={(e) => setDuration(parseInt(e.target.value, 10))}
+                            disabled={submitting}
+                        >
+                            {[10,20,30,40,50,60].map((m) => (
+                                <option key={m} value={m}>{m} minutes</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Mode</label>
+                        <select
+                            className="w-full rounded-md border px-3 py-2 bg-transparent"
+                            style={{ borderColor: 'var(--modal-border)' }}
+                            value={mode}
+                            onChange={(e) => setMode(e.target.value)}
+                            disabled={submitting}
+                        >
+                            <option value="balanced">Balanced (Mixed Subjects)</option>
+                            <option value="math">Math Only</option>
+                            <option value="rla">RLA Only</option>
+                            <option value="science">Science Only</option>
+                            <option value="social-studies">Social Studies Only</option>
+                        </select>
+                    </div>
+                    {error && (
+                        <p className="text-sm text-rose-500">{error}</p>
+                    )}
+                </div>
+                <div className="mt-6 flex items-center justify-end gap-3">
+                    <button
+                        type="button"
+                        onClick={onDismiss}
+                        className="px-4 py-2 rounded-md border"
+                        style={{ borderColor: 'var(--modal-border)' }}
+                        disabled={submitting}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleSubmit}
+                        className={`px-4 py-2 rounded-md font-semibold ${submitting ? 'opacity-70' : ''}`}
+                        style={{ backgroundColor: '#2563eb', color: 'white' }}
+                        disabled={submitting}
+                    >
+                        {submitting ? 'Starting…' : 'Start'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 // --- Main App Component ---
 function App({ externalTheme, onThemeChange }) {
     const SMITHING_PROMPTS = [
@@ -8108,6 +8203,7 @@ function App({ externalTheme, onThemeChange }) {
     const [quizAttempts, setQuizAttempts] = useState([]);
     const [showFormulaSheet, setShowFormulaSheet] = useState(false);
     const [showNamePrompt, setShowNamePrompt] = useState(false);
+    const [showPracticeModal, setShowPracticeModal] = useState(false);
     const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
     const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
     const [showWelcomeSplash, setShowWelcomeSplash] = useState(false);
@@ -9653,7 +9749,7 @@ function App({ externalTheme, onThemeChange }) {
 
         const { subject } = results;
 
-        if (subject === 'Pop Quiz') return; // Do not track progress for pop quizzes
+    if (subject === 'Pop Quiz' || subject === 'Practice Session') return; // Do not track progress for pop/practice sessions
 
         const quizDetails = results.quiz || activeQuiz;
         if (!quizDetails) {
@@ -9678,165 +9774,8 @@ function App({ externalTheme, onThemeChange }) {
     };
 
     const handleStartPopQuiz = () => {
-        const cloneQuestionWithAnswers = (question) => {
-            if (!question || typeof question !== 'object') {
-                return null;
-            }
-            const cloned = { ...question };
-            if (Array.isArray(question.answerOptions)) {
-                cloned.answerOptions = question.answerOptions.map((option) => ({ ...option }));
-            }
-            return cloned;
-        };
-
-        const collectPremadeQuestions = () => {
-            const pool = [];
-            Object.entries(AppData).forEach(([subjectName, subject]) => {
-                if (!subject || typeof subject !== 'object' || !subject.categories) {
-                    return;
-                }
-
-                Object.values(subject.categories).forEach((category) => {
-                    const topics = Array.isArray(category?.topics) ? category.topics : [];
-                    topics.forEach((topic) => {
-                        if (!topic || typeof topic !== 'object') {
-                            return;
-                        }
-
-                        const pushQuestions = (questions, origin) => {
-                            if (!Array.isArray(questions)) {
-                                return;
-                            }
-                            questions.forEach((rawQuestion) => {
-                                const question = cloneQuestionWithAnswers(rawQuestion);
-                                if (!question) {
-                                    return;
-                                }
-                                if (!Array.isArray(question.answerOptions) || question.answerOptions.length < 2) {
-                                    return;
-                                }
-                                if (!question.answerOptions.some((option) => option && option.isCorrect)) {
-                                    return;
-                                }
-                                const enriched = {
-                                    ...question,
-                                    subject: question.subject || subjectName,
-                                    popQuizOrigin: origin,
-                                    isPremade: origin && origin.type === 'premade',
-                                };
-                                pool.push(enriched);
-                            });
-                        };
-
-                        if (Array.isArray(topic.quizzes) && topic.quizzes.length) {
-                            topic.quizzes.forEach((quiz) => {
-                                if (!quiz || typeof quiz !== 'object' || !quiz.quizCode) {
-                                    return;
-                                }
-                                const resolvedQuestions = resolveQuizQuestions(subjectName, topic, quiz);
-                                pushQuestions(resolvedQuestions, {
-                                    type: 'premade',
-                                    subject: subjectName,
-                                    quizTitle: quiz.title || topic.title || quiz.quizCode,
-                                    quizCode: quiz.quizCode,
-                                });
-                            });
-                        } else if (topic.quizCode && Array.isArray(topic.questions) && topic.questions.length) {
-                            pushQuestions(topic.questions, {
-                                type: 'premade',
-                                subject: subjectName,
-                                quizTitle: topic.title || topic.quizCode,
-                                quizCode: topic.quizCode,
-                            });
-                        }
-                    });
-                });
-            });
-            return pool;
-        };
-
-        const collectVocabularyQuestions = () => {
-            const pool = [];
-            const vocabularyEntries = Object.entries(vocabulary || {}).filter(([, terms]) => Array.isArray(terms) && terms.length > 0);
-            if (!vocabularyEntries.length) {
-                return pool;
-            }
-
-            const allDefinitions = vocabularyEntries
-                .flatMap(([, terms]) => terms.map((item) => (typeof item?.definition === 'string' ? item.definition : null)))
-                .filter(Boolean);
-
-            const getDistractorDefinitions = (correctDefinition) => {
-                const candidates = allDefinitions.filter((definition) => definition !== correctDefinition);
-                return shuffleArray(candidates).slice(0, 3);
-            };
-
-            vocabularyEntries.forEach(([subjectName, terms]) => {
-                terms.forEach((item) => {
-                    if (!item || typeof item.term !== 'string' || typeof item.definition !== 'string') {
-                        return;
-                    }
-                    const distractors = getDistractorDefinitions(item.definition);
-                    const answerOptions = shuffleArray([
-                        { text: item.definition, isCorrect: true },
-                        ...distractors.map((definition) => ({ text: definition, isCorrect: false })),
-                    ]);
-
-                    if (answerOptions.length < 2) {
-                        return;
-                    }
-
-                    pool.push({
-                        type: 'vocabulary',
-                        question: `What is the best definition of "${item.term}"?`,
-                        answerOptions: answerOptions.map((option) => ({ ...option })),
-                        subject: subjectName,
-                        popQuizOrigin: {
-                            type: 'vocabulary',
-                            subject: subjectName,
-                            term: item.term,
-                        },
-                    });
-                });
-            });
-
-            return pool;
-        };
-
-        const premadePool = collectPremadeQuestions();
-        const vocabularyPool = collectVocabularyQuestions();
-        const combinedPool = [...premadePool, ...vocabularyPool];
-
-        if (!combinedPool.length) {
-            alert('Pop quiz is not available right now. Please try again later.');
-            return;
-        }
-
-        const totalAvailable = combinedPool.length;
-        let desiredCount;
-        if (totalAvailable >= 5) {
-            desiredCount = 5;
-        } else if (totalAvailable >= 4) {
-            desiredCount = 4;
-        } else {
-            desiredCount = totalAvailable;
-        }
-
-        const selectedQuestions = shuffleArray(combinedPool)
-            .slice(0, desiredCount)
-            .map((question, index) => ({
-                ...question,
-                questionNumber: index + 1,
-            }));
-
-        const popQuiz = {
-            id: 'pop_quiz_' + new Date().getTime(),
-            title: '5-Minute Pop Quiz',
-            questions: selectedQuestions,
-            timeLimit: 300,
-        };
-
-        startQuiz(popQuiz, 'Pop Quiz');
+        // Open the Practice Session modal (renamed feature)
+        setShowPracticeModal(true);
     };
 
     const navigateHome = useCallback(() => {
@@ -10115,6 +10054,32 @@ function App({ externalTheme, onThemeChange }) {
                 )}
                 {showFormulaSheet && <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />}
                 {showNamePrompt && <NamePromptModal user={currentUser} onSave={handleSaveName} onDismiss={handleDismissNamePrompt} />}
+                {showPracticeModal && (
+                    <PracticeSessionModal
+                        defaultMode="balanced"
+                        defaultDuration={10}
+                        onDismiss={() => setShowPracticeModal(false)}
+                        onStart={async ({ mode, durationMinutes }) => {
+                            const payload = { mode, durationMinutes };
+                            const resp = await fetchJSON(`${API_BASE_URL}/api/practice-session`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload),
+                            });
+                            if (!resp || !Array.isArray(resp.questions) || resp.questions.length === 0) {
+                                throw new Error('Practice session is not available right now.');
+                            }
+                            const practiceQuiz = {
+                                id: 'practice_' + Date.now(),
+                                title: 'Practice Session',
+                                questions: resp.questions.map((q, i) => ({ ...q, questionNumber: i + 1 })),
+                                timeLimit: Number(resp.durationMinutes || durationMinutes) * 60,
+                            };
+                            startQuiz(practiceQuiz, 'Practice Session');
+                            setShowPracticeModal(false);
+                        }}
+                    />
+                )}
                 <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8 pt-[4.5rem] space-y-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
                     <div className="content-card bg-white dark:bg-slate-900/90 border border-slate-200/70 dark:border-slate-700/70 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
                         {renderView()}
@@ -13222,7 +13187,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             onClick={onStartPopQuiz}
                             className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 quiz-start-btn"
                         >
-                            Start a 5-Minute Pop Quiz ⏱️
+                            Start a Practice Session ⏱️
                         </button>
                     </div>
                     <div id="quizzes" className="grid grid-cols-1 md:grid-cols-3 gap-6 subject-bar">
