@@ -1790,9 +1790,28 @@
             background: var(--accent);
             box-shadow: 0 0 0 2px var(--accent-soft);
         }
-        .countdown-chip .label {
+                .countdown-chip .label {
             letter-spacing: 0.02em;
         }
+
+                /* Passage section visibility fixes */
+                [data-theme="light"] .passage-section {
+                    background-color: #ffffff !important;   /* solid white for light mode */
+                    color: #000000 !important;
+                    border: 1px solid #d1d5db !important;
+                }
+
+                [data-theme="dark"] .passage-section {
+                    background-color: #0f172a !important;   /* deep navy for dark mode */
+                    color: #ffffff !important;
+                    border: 1px solid rgba(148,163,184,0.4) !important;
+                }
+
+                /* Ensure passage text inherits correctly */
+                .passage-section .passage-text,
+                .passage-section p {
+                    color: inherit !important;
+                }
     </style>
     <script src="lib/topic_map.js"></script>
 </head>
