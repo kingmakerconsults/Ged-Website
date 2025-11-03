@@ -1794,6 +1794,40 @@
             letter-spacing: 0.02em;
         }
 
+                        /* Essay practice: base */
+                        .essay-practice-shell .essay-argument-column {
+                            border-radius: 0.75rem;
+                            border: 1px solid rgba(148, 163, 184, 0.25);
+                            overflow-y: auto;
+                        }
+
+                        /* LIGHT MODE: white box, dark text */
+                        [data-theme="light"] .essay-practice-shell .essay-argument-column {
+                            background: #ffffff !important;
+                            color: #0f172a !important;
+                        }
+                        [data-theme="light"] .essay-practice-shell .essay-argument-column :where(h1,h2,h3,h4,h5,h6,p,li,span,strong,em,a,blockquote) {
+                            color: #0f172a !important;
+                        }
+
+                        /* DARK MODE: dark box, white text */
+                        [data-theme="dark"] .essay-practice-shell .essay-argument-column {
+                            background: #0f172a !important;
+                            color: #ffffff !important;
+                            border-color: rgba(148,163,184,0.4) !important;
+                        }
+                        [data-theme="dark"] .essay-practice-shell .essay-argument-column :where(h1,h2,h3,h4,h5,h6,p,li,span,strong,em,a,blockquote) {
+                            color: #ffffff !important;
+                        }
+
+                        /* Dark-mode controls for topic selector */
+                        [data-theme="dark"] .essay-practice-shell input,
+                        [data-theme="dark"] .essay-practice-shell select {
+                            background: rgba(2,6,23,0.9);
+                            color: #ffffff;
+                            border: 1px solid rgba(148,163,184,0.45);
+                        }
+
                 /* Passage section visibility fixes */
                 [data-theme="light"] .passage-section {
                     background-color: #ffffff !important;   /* solid white for light mode */
@@ -1892,15 +1926,14 @@
                                                                     outCat.topics = outTopics;
                                                                 }
                                                             }
-                                                            return out;
-                                                        }
+                                                            return (
+                                                                <div className="fade-in essay-practice-shell" data-subject="Reasoning Through Language Arts (RLA)">
 
-                                                        function normalizeQuiz(q, subject) {
-                                                            if (!q || typeof q !== 'object') return q;
+                                                                                    <article className="bg-white p-6 rounded-lg shadow-md essay-argument-column">
                                                             const quizId = q.quizId || q.id || `${(subject||'quiz').toLowerCase()}_${Math.random().toString(36).slice(2,7)}`;
                                                             return {
                                                                 quizId,
-                                                                title: q.title || q.label || 'Practice Quiz',
+                                                                                    <article className="bg-white p-6 rounded-lg shadow-md essay-argument-column">
                                                                 label: q.label,
                                                                 description: q.description || '',
                                                                 questions: Array.isArray(q.questions) ? q.questions : q.items || [],
@@ -15115,11 +15148,11 @@ const passagesData = [
                                 </div>
                             )}
                             <div className="grid lg:grid-cols-2 gap-8" style={{ filter: lockedTopic === null ? 'blur(4px)' : 'none' }}>
-                            <article className="bg-white p-6 rounded-lg shadow-md">
+                            <article className="bg-white p-6 rounded-lg shadow-md essay-argument-column">
                                 <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">{selectedPassage.passage1.title}</h2>
                                 <div style={{ whiteSpace: 'pre-wrap' }}>{expandIfShort(selectedPassage.topic, selectedPassage.passage1.title, selectedPassage.passage1.content)}</div>
                             </article>
-                            <article className="bg-white p-6 rounded-lg shadow-md">
+                            <article className="bg-white p-6 rounded-lg shadow-md essay-argument-column">
                                 <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">{selectedPassage.passage2.title}</h2>
                                 <div style={{ whiteSpace: 'pre-wrap' }}>{expandIfShort(selectedPassage.topic, selectedPassage.passage2.title, selectedPassage.passage2.content)}</div>
                             </article>
@@ -15307,7 +15340,7 @@ const passagesData = [
     };
 
     return (
-        <div className="fade-in" data-subject="Reasoning Through Language Arts (RLA)">
+        <div className="fade-in essay-practice-shell" data-subject="Reasoning Through Language Arts (RLA)">
             <header className="flex justify-between items-center pb-4 mb-4 border-b">
                  <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
                     <h2 className="text-xl font-bold text-center subject-accent-heading">Interactive Essay Guide</h2>
