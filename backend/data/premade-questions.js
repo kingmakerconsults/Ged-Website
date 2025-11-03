@@ -861,7 +861,7 @@ const ALL_QUIZZES = {
                             totalTime: 15 * 60,
                             calculator: false,
                             formulaSheet: false,
-                            parts: [{ name: "Quiz", questionCount: 1 }]
+                            parts: [{ name: "Quiz", questionCount: 12 }]
                         },
                         questions: [
                             {
@@ -872,7 +872,177 @@ const ALL_QUIZZES = {
                                     imageURL: "",
                                     questionText: "Select the verb that correctly completes the sentence."
                                 },
-                                answerOptions: [ { text: "is", isCorrect: true, rationale: "The subject 'team' is a collective noun that acts as a single unit, so it requires the singular verb 'is'." }, { text: "are", isCorrect: false, rationale: "While 'team' is made of multiple people, in this context it is acting as one body, making the singular verb correct." }, { text: "were", isCorrect: false, rationale: "'Were' is a plural, past-tense verb and does not fit the context." }, { text: "have been", isCorrect: false, rationale: "'Have' is a plural verb." } ]
+                                answerOptions: [
+                                    { text: "is", isCorrect: true, rationale: "The subject 'team' is a collective noun acting as a single unit, so it takes the singular verb 'is'." },
+                                    { text: "are", isCorrect: false, rationale: "Even though a team contains many people, here it functions as one body and therefore does not take a plural verb." },
+                                    { text: "were", isCorrect: false, rationale: "'Were' is past tense and plural, so it does not fit the present-tense context." },
+                                    { text: "have been", isCorrect: false, rationale: "This plural verb phrase mismatches the singular subject." }
+                                ]
+                            },
+                            {
+                                questionNumber: 2,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: Neither the players nor the coach [CHOICE] willing to postpone the tournament.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "is", isCorrect: true, rationale: "With 'neither...nor,' the verb agrees with the subject closest to it; 'coach' is singular, so use 'is'." },
+                                    { text: "are", isCorrect: false, rationale: "'Are' would agree with 'players,' but the verb must match the nearer subject 'coach'." },
+                                    { text: "be", isCorrect: false, rationale: "The base form does not agree with the sentence structure." },
+                                    { text: "were", isCorrect: false, rationale: "This plural past-tense verb does not match the present context." }
+                                ]
+                            },
+                            {
+                                questionNumber: 3,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: The boxes of donated books [CHOICE] stacked neatly in the hallway.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "are", isCorrect: true, rationale: "The true subject is 'boxes,' which is plural, requiring the verb 'are'." },
+                                    { text: "is", isCorrect: false, rationale: "A singular verb would be used only if the subject were singular." },
+                                    { text: "was", isCorrect: false, rationale: "This is past tense and does not match the present tense of the sentence." },
+                                    { text: "has been", isCorrect: false, rationale: "This perfect tense construction does not align with the simple present structure." }
+                                ]
+                            },
+                            {
+                                questionNumber: 4,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: Each of the applicants [CHOICE] submitted a portfolio for review.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "has", isCorrect: true, rationale: "'Each' is singular, so the verb must be singular: 'has'." },
+                                    { text: "have", isCorrect: false, rationale: "'Have' is plural and does not agree with the singular subject 'Each'." },
+                                    { text: "were", isCorrect: false, rationale: "This plural past-tense verb does not match the sentence." },
+                                    { text: "are", isCorrect: false, rationale: "This plural present-tense verb does not agree with the subject." }
+                                ]
+                            },
+                            {
+                                questionNumber: 5,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: My brother, along with his friends, [CHOICE] planning a surprise party.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "is", isCorrect: true, rationale: "The subject is 'My brother'; the phrase 'along with his friends' is additional information and does not change the singular verb." },
+                                    { text: "are", isCorrect: false, rationale: "'Are' would agree with a plural subject, but the main subject is singular." },
+                                    { text: "be", isCorrect: false, rationale: "This form is grammatically incomplete in the sentence." },
+                                    { text: "were", isCorrect: false, rationale: "This past-tense plural form does not agree with the present singular subject." }
+                                ]
+                            },
+                            {
+                                questionNumber: 6,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: Either the printers or the fax machine [CHOICE] responsible for the noise in the office.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "is", isCorrect: true, rationale: "With 'either...or,' the verb agrees with the subject nearer to it; 'machine' is singular, so 'is' is required." },
+                                    { text: "are", isCorrect: false, rationale: "'Are' would agree with the plural 'printers,' but the verb must match the nearer subject." },
+                                    { text: "were", isCorrect: false, rationale: "This plural past-tense verb does not fit the sentence." },
+                                    { text: "have been", isCorrect: false, rationale: "This plural perfect tense does not agree with the singular subject." }
+                                ]
+                            },
+                            {
+                                questionNumber: 7,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: The data from the latest studies [CHOICE] especially promising for future treatments.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "are", isCorrect: true, rationale: "In academic contexts, 'data' is treated as a plural noun, so it pairs with the plural verb 'are'." },
+                                    { text: "is", isCorrect: false, rationale: "Using 'is' would treat 'data' as singular, which is not standard in formal writing." },
+                                    { text: "was", isCorrect: false, rationale: "This past tense does not match the present-tense description." },
+                                    { text: "be", isCorrect: false, rationale: "The base form cannot serve as the main verb here." }
+                                ]
+                            },
+                            {
+                                questionNumber: 8,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: The number of volunteers [CHOICE] increasing every week as the event approaches.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "is", isCorrect: true, rationale: "'The number' is singular, so the verb must be singular: 'is'." },
+                                    { text: "are", isCorrect: false, rationale: "'Are' would agree with 'volunteers,' but the true subject is the singular phrase 'The number'." },
+                                    { text: "have", isCorrect: false, rationale: "This plural verb form does not agree with the subject." },
+                                    { text: "were", isCorrect: false, rationale: "This past-tense plural verb does not match the present context." }
+                                ]
+                            },
+                            {
+                                questionNumber: 9,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: A bouquet of roses [CHOICE] waiting on the table when we arrived.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "was", isCorrect: true, rationale: "The subject is the singular noun 'bouquet,' so the singular past-tense verb 'was' is appropriate." },
+                                    { text: "were", isCorrect: false, rationale: "'Were' would be used with a plural subject, but 'bouquet' is singular." },
+                                    { text: "are", isCorrect: false, rationale: "This plural present-tense verb does not match the sentence." },
+                                    { text: "be", isCorrect: false, rationale: "The infinitive form does not fit grammatically." }
+                                ]
+                            },
+                            {
+                                questionNumber: 10,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: Neither of the solutions [CHOICE] acceptable to the client.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "is", isCorrect: true, rationale: "'Neither' takes a singular verb, so 'is' is the correct choice." },
+                                    { text: "are", isCorrect: false, rationale: "This plural verb does not agree with the singular subject 'Neither'." },
+                                    { text: "have been", isCorrect: false, rationale: "This plural verb phrase disagrees with the singular subject." },
+                                    { text: "were", isCorrect: false, rationale: "This past-tense plural verb does not match the structure." }
+                                ]
+                            },
+                            {
+                                questionNumber: 11,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: The team of engineers [CHOICE] completing its prototype ahead of schedule.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "is", isCorrect: true, rationale: "The subject 'team' is singular even though it contains many members, so the verb must be 'is'." },
+                                    { text: "are", isCorrect: false, rationale: "'Are' would treat 'team' as plural, which is inconsistent with the collective noun usage here." },
+                                    { text: "be", isCorrect: false, rationale: "The base form does not work as the main verb." },
+                                    { text: "were", isCorrect: false, rationale: "This plural past-tense verb does not match the sentence." }
+                                ]
+                            },
+                            {
+                                questionNumber: 12,
+                                type: 'dropdown',
+                                content: {
+                                    passage: "Choose the verb that completes the sentence: Both the manager and the assistants [CHOICE] attending the regional conference this month.",
+                                    imageURL: "",
+                                    questionText: "Which option correctly completes the sentence?"
+                                },
+                                answerOptions: [
+                                    { text: "are", isCorrect: true, rationale: "'Both...and' creates a plural subject, so the plural verb 'are' is needed." },
+                                    { text: "is", isCorrect: false, rationale: "A singular verb would not agree with the compound subject." },
+                                    { text: "was", isCorrect: false, rationale: "This past-tense singular verb does not match the present plural subject." },
+                                    { text: "has been", isCorrect: false, rationale: "This singular verb phrase still fails to agree with the plural subject." }
+                                ]
                             }
                         ]
                     }
@@ -889,7 +1059,7 @@ const ALL_QUIZZES = {
                             totalTime: 15 * 60,
                             calculator: false,
                             formulaSheet: false,
-                            parts: [{ name: "Quiz", questionCount: 1 }]
+                            parts: [{ name: "Quiz", questionCount: 12 }]
                         },
                         questions: [
                             {
@@ -900,7 +1070,177 @@ const ALL_QUIZZES = {
                                     imageURL: "",
                                     questionText: "What is the central challenge presented in the passage?"
                                 },
-                                answerOptions: [ { text: "The lack of economic growth.", rationale: "The passage states automation can lead to growth.", isCorrect: false }, { text: "The need to re-skill the workforce in response to automation.", rationale: "Correct. The passage identifies managing the transition through education and retraining as the key challenge.", isCorrect: true }, { text: "The failure of automation technology.", rationale: "The passage assumes automation is rising and effective.", isCorrect: false }, { text: "The decline of the manufacturing industry.", rationale: "This is mentioned as one affected area, but the central challenge is broader.", isCorrect: false } ]
+                                answerOptions: [
+                                    { text: "The lack of economic growth.", rationale: "The passage states automation can lead to growth.", isCorrect: false },
+                                    { text: "The need to re-skill the workforce in response to automation.", rationale: "Correct. The passage identifies retraining workers as the main challenge.", isCorrect: true },
+                                    { text: "The failure of automation technology.", rationale: "The passage assumes automation is successful and expanding.", isCorrect: false },
+                                    { text: "The decline of the manufacturing industry.", rationale: "This is one example of disruption, not the passage's central challenge.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 2,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "A neighborhood library recently expanded its digital services. Patrons can now borrow e-books, stream educational videos, and attend online author talks. Librarians report that more working parents are participating because the flexible schedule fits their routines.",
+                                    imageURL: "",
+                                    questionText: "Which statement best expresses the main idea of the passage?"
+                                },
+                                answerOptions: [
+                                    { text: "The library stopped offering in-person programs.", rationale: "The passage does not say in-person events ended.", isCorrect: false },
+                                    { text: "Digital services help the library reach patrons with busy schedules.", rationale: "Correct. The passage emphasizes how the new digital options engage working parents.", isCorrect: true },
+                                    { text: "Educational videos are the most popular resource at the library.", rationale: "The passage does not compare resource popularity.", isCorrect: false },
+                                    { text: "Libraries should only host events in the evening.", rationale: "The passage never recommends a specific time for events.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 3,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "The city introduced a curbside composting program to reduce landfill waste. Residents received small kitchen bins and instructions for separating food scraps. After six months, landfill contributions dropped by 20 percent, and community gardens benefited from free compost.",
+                                    imageURL: "",
+                                    questionText: "What is the main idea of the passage?"
+                                },
+                                answerOptions: [
+                                    { text: "Composting is too complicated for most residents to try.", rationale: "The passage shows residents succeeded with composting.", isCorrect: false },
+                                    { text: "The new composting program helped the city reduce waste and support gardens.", rationale: "Correct. The passage focuses on the program's positive results.", isCorrect: true },
+                                    { text: "Landfills are the only place to dispose of food scraps.", rationale: "The passage describes composting as an alternative.", isCorrect: false },
+                                    { text: "Kitchen bins are expensive to provide to residents.", rationale: "Cost is not mentioned in the passage.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 4,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "An after-school robotics club meets twice a week at the community center. Students build machines that solve real-world problems, such as sorting recyclables or monitoring water quality. Coaches say the projects teach coding, teamwork, and persistence when early designs fail.",
+                                    imageURL: "",
+                                    questionText: "Which statement best summarizes the passage?"
+                                },
+                                answerOptions: [
+                                    { text: "Students only learn coding by copying online tutorials.", rationale: "The passage highlights hands-on projects, not copying tutorials.", isCorrect: false },
+                                    { text: "The robotics club gives students practical experience solving problems and collaborating.", rationale: "Correct. The passage stresses real-world projects that build teamwork and perseverance.", isCorrect: true },
+                                    { text: "Robotics projects never face setbacks during testing.", rationale: "The passage states students persist when designs fail.", isCorrect: false },
+                                    { text: "Only high school seniors may join the robotics club.", rationale: "Eligibility is not mentioned.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 5,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "To improve public transportation, the city added more express bus routes and built sheltered stops with digital timetables. Commuters now spend less time waiting, and local businesses near the upgraded stops report increased customer visits.",
+                                    imageURL: "",
+                                    questionText: "What is the main idea of the passage?"
+                                },
+                                answerOptions: [
+                                    { text: "Digital timetables are confusing for most riders.", rationale: "The passage indicates the upgrades helped riders, not confused them.", isCorrect: false },
+                                    { text: "City transportation upgrades made commuting more efficient and supported nearby businesses.", rationale: "Correct. The passage connects the improvements to benefits for riders and local shops.", isCorrect: true },
+                                    { text: "Commuters should avoid express buses during rush hour.", rationale: "The passage suggests express routes improved service during busy times.", isCorrect: false },
+                                    { text: "Businesses near bus stops prefer fewer customers.", rationale: "The passage says businesses saw increased visits, not fewer.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 6,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "A science museum unveiled an interactive exhibit about ecosystems. Visitors manipulate touchscreens to adjust rainfall, temperature, and animal populations, watching how each change affects the environment. Teachers report that students now better understand the balance that ecosystems require.",
+                                    imageURL: "",
+                                    questionText: "Which statement best captures the main idea?"
+                                },
+                                answerOptions: [
+                                    { text: "Interactive exhibits distract students from learning.", rationale: "The passage shows the exhibit improves understanding.", isCorrect: false },
+                                    { text: "Hands-on exhibits can help visitors grasp complex science concepts.", rationale: "Correct. The passage highlights how the interactive display deepens comprehension.", isCorrect: true },
+                                    { text: "Museums should limit technology in their displays.", rationale: "The passage praises technology's impact rather than criticizing it.", isCorrect: false },
+                                    { text: "Teachers prefer to avoid taking students on field trips.", rationale: "The passage indicates teachers value the museum visits.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 7,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "A local business incubator offers mentorship, shared office space, and marketing workshops for new entrepreneurs. Participants say the guidance helps them avoid costly mistakes and launch products faster than they could alone.",
+                                    imageURL: "",
+                                    questionText: "What is the main idea of the passage?"
+                                },
+                                answerOptions: [
+                                    { text: "Business incubators only provide free rent to companies.", rationale: "The passage stresses mentorship and workshops, not just space.", isCorrect: false },
+                                    { text: "Support from the incubator helps entrepreneurs develop their businesses more effectively.", rationale: "Correct. The passage focuses on how the incubator's resources speed progress.", isCorrect: true },
+                                    { text: "Entrepreneurs should avoid outside feedback when launching products.", rationale: "The passage suggests guidance is valuable, not harmful.", isCorrect: false },
+                                    { text: "Marketing workshops are unnecessary for startups.", rationale: "The passage describes the workshops as helpful, not unnecessary.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 8,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "The school district created a virtual tutoring program that pairs students with teachers after class. Sessions are recorded so families can review strategies at home. Early data shows improved homework completion and higher quiz scores for participants.",
+                                    imageURL: "",
+                                    questionText: "Which choice states the main idea of the passage?"
+                                },
+                                answerOptions: [
+                                    { text: "Virtual tutoring has not changed student performance.", rationale: "The passage says quiz scores improved for participants.", isCorrect: false },
+                                    { text: "The new online tutoring program is helping students complete homework and raise scores.", rationale: "Correct. The passage emphasizes the program's positive impact.", isCorrect: true },
+                                    { text: "Families should avoid reviewing recorded lessons.", rationale: "Recordings are presented as a helpful resource, not something to avoid.", isCorrect: false },
+                                    { text: "Teachers no longer hold classes during the day.", rationale: "The passage discusses additional tutoring, not replacing classes.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 9,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "Volunteers organized a monthly neighborhood cleanup to address litter in local parks. They track the amount of trash collected and share progress with residents. After three months, the parks require fewer cleanups because people are throwing away less waste.",
+                                    imageURL: "",
+                                    questionText: "What is the main idea of the passage?"
+                                },
+                                answerOptions: [
+                                    { text: "The cleanup events failed to make any difference in the parks.", rationale: "The passage reports that litter decreased over time.", isCorrect: false },
+                                    { text: "Community cleanups encouraged residents to reduce litter in local parks.", rationale: "Correct. The passage highlights the positive results of the cleanup initiative.", isCorrect: true },
+                                    { text: "Volunteers should focus on cleaning only one park.", rationale: "The passage does not limit the effort to a single park.", isCorrect: false },
+                                    { text: "Trash data should be kept private from residents.", rationale: "The passage says volunteers share progress with the community.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 10,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "After recent flooding, the city invested in new stormwater drains and restored wetlands along the river. Engineers explain that these upgrades absorb excess rainwater and reduce the strain on older infrastructure.",
+                                    imageURL: "",
+                                    questionText: "Which statement best captures the main idea?"
+                                },
+                                answerOptions: [
+                                    { text: "Wetlands have no effect on flooding.", rationale: "The passage states wetlands help absorb rainwater.", isCorrect: false },
+                                    { text: "The city's flood-control investments aim to manage heavy rainfall more effectively.", rationale: "Correct. The passage focuses on new drains and wetlands reducing flood risk.", isCorrect: true },
+                                    { text: "Engineers prefer to ignore aging infrastructure.", rationale: "The passage shows engineers upgrading systems, not ignoring them.", isCorrect: false },
+                                    { text: "Flooding is unavoidable, so preparation is unnecessary.", rationale: "The passage describes proactive steps to handle flooding.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 11,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "A regional hospital launched a wellness program for staff members. Participants receive nutrition counseling, fitness classes, and stress-management workshops. Administrators note that employees are taking fewer sick days and report higher job satisfaction.",
+                                    imageURL: "",
+                                    questionText: "What is the main idea of the passage?"
+                                },
+                                answerOptions: [
+                                    { text: "Wellness programs have no effect on employees.", rationale: "The passage states workers report higher satisfaction and fewer sick days.", isCorrect: false },
+                                    { text: "The hospital's wellness program is improving staff health and morale.", rationale: "Correct. The passage highlights the positive outcomes of the program.", isCorrect: true },
+                                    { text: "Stress-management workshops replaced all medical training.", rationale: "Medical training is not mentioned in the passage.", isCorrect: false },
+                                    { text: "Employees dislike fitness classes offered at work.", rationale: "The passage suggests staff members appreciate the offerings.", isCorrect: false }
+                                ]
+                            },
+                            {
+                                questionNumber: 12,
+                                type: 'multiple-choice-text',
+                                content: {
+                                    passage: "The community theater partnered with local schools to produce a historical play. Students interviewed long-time residents, crafted set pieces, and performed for families. Audience members said the production strengthened connections between generations.",
+                                    imageURL: "",
+                                    questionText: "Which statement best states the main idea?"
+                                },
+                                answerOptions: [
+                                    { text: "The theater production created conflict between students and residents.", rationale: "The passage explains the project built connections, not conflict.", isCorrect: false },
+                                    { text: "Collaboration on the play brought students and community members together.", rationale: "Correct. The passage emphasizes how the partnership strengthened relationships.", isCorrect: true },
+                                    { text: "Set design was more important than the interviews.", rationale: "The passage does not rank the tasks in importance.", isCorrect: false },
+                                    { text: "Families refused to attend the performance.", rationale: "Audience members attended and praised the production.", isCorrect: false }
+                                ]
                             }
                         ]
                     }
