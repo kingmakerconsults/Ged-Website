@@ -24,6 +24,103 @@ async function findUserIdByGoogleSub(sub) {
     );
 }
 
+// Heuristic: determine whether a Science item requires scientific numeracy
+function isScienceNumeracyItem(item) {
+    try {
+        const text = [item?.questionText || '', item?.passage || ''].join(' ').toLowerCase();
+        if (!text.trim()) return false;
+
+        // HTML table, chart, graph, or explicit data words
+        if (/<table[\s\S]*?>/i.test(text)) return true;
+        if (/(chart|graph|table|dataset|data|figure)/i.test(text)) return true;
+
+        // Contains numbers plus measurement units or symbols
+        const hasNumber = /\d/.test(text);
+        const hasUnit = /(\bcm\b|\bmm\b|\bm\b|\bkm\b|\bg\b|\bkg\b|\bmg\b|\bl\b|\bml\b|\bn\b|\bj\b|\bw\b|\bpa\b|\batm\b|\bmol\b|\bs\b|\bsec\b|\bsecond(s)?\b|\bmin(ute)?(s)?\b|\bh(our)?(s)?\b|m\/s|km\/h|mph|°c|°f|\bkelvin\b|%)/i.test(text);
+        const hasEquationLike = /(=|\+|-|\*|\/)/.test(text) && /[a-z]/i.test(text) && /\d/.test(text);
+        if (hasNumber && (hasUnit || hasEquationLike)) return true;
+
+        // Common numeracy keywords
+        if (/(density|rate|speed|velocity|acceleration|force|work|power|energy|mass|volume|pressure|concentration|ohm|voltage|current|calculate|using the formula|use the formula|according to the formula)/i.test(text)) return true;
+
+        return false;
+    } catch (_) {
+        return false;
+    }
+}
+
+function countScienceNumeracy(items) {
+    return Array.isArray(items) ? items.reduce((acc, it) => acc + (isScienceNumeracyItem(it) ? 1 : 0), 0) : 0;
+}
+
+function textWordCount(item) {
+    const toCount = (s) => (typeof s === 'string' ? s.trim().split(/\s+/).filter(Boolean).length : 0);
+    return toCount(item?.questionText) + toCount(item?.passage);
+}
+
+async function generateScienceNumeracyQuestion(category, options = {}) {
+    const prompt = `You are a GED Science exam creator. Generate a single numeracy-focused question in the category "${category}".
+Requirements:
+- Provide a short context using a small HTML <table> (2–4 columns, 3–5 rows) OR a concise calculation setup that uses measurement units (e.g., density, speed, rate, force, energy).
+- The question MUST require interpreting the data or performing a short calculation with units.
+- Use clear, plain language; keep the table small and directly relevant.
+Return one JSON object with keys "questionText" and "answerOptions" (array of {text, isCorrect, rationale}).`;
+    const schema = {
+        type: 'OBJECT',
+        properties: {
+            questionText: { type: 'STRING' },
+            answerOptions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { text: { type: 'STRING' }, isCorrect: { type: 'BOOLEAN' }, rationale: { type: 'STRING' } }, required: ['text', 'isCorrect', 'rationale'] } }
+        },
+        required: ['questionText', 'answerOptions']
+    };
+    const q = await callAI(prompt, schema, options);
+    return enforceWordCapsOnItem(q, 'Science');
+}
+
+async function ensureScienceNumeracy(items, { requiredFraction = 1/3, categories = ['Life Science', 'Physical Science', 'Earth & Space Science'], aiOptions = {} } = {}) {
+    if (!Array.isArray(items) || !items.length) return items;
+    const total = items.length;
+    const required = Math.max(1, Math.ceil(total * requiredFraction));
+    let count = countScienceNumeracy(items);
+    if (count >= required) return items;
+
+    const deficit = required - count;
+    try { console.warn(`[Science][Numeracy] Found ${count}/${total} numeracy items; need ${required}. Attempting to add ${deficit}.`); } catch {}
+
+    // Pick non-numeracy items with lowest text to replace
+    const nonNumeric = items.map((it, idx) => ({ it, idx, wc: textWordCount(it) })).filter(x => !isScienceNumeracyItem(x.it));
+    nonNumeric.sort((a, b) => a.wc - b.wc);
+
+    const toReplace = nonNumeric.slice(0, deficit);
+    if (!toReplace.length) return items;
+
+    const replacements = [];
+    for (let i = 0; i < toReplace.length; i++) {
+        const cat = categories[i % categories.length];
+        try {
+            const q = await generateScienceNumeracyQuestion(cat, aiOptions);
+            if (q && q.questionText && Array.isArray(q.answerOptions)) {
+                replacements.push(q);
+            }
+        } catch (e) {
+            // skip failed gen
+        }
+    }
+
+    if (!replacements.length) {
+        try { console.warn('[Science][Numeracy] Unable to generate replacements; proceeding without changes.'); } catch {}
+        return items;
+    }
+
+    const cloned = items.slice();
+    for (let i = 0; i < replacements.length && i < toReplace.length; i++) {
+        cloned[toReplace[i].idx] = replacements[i];
+    }
+    const newCount = countScienceNumeracy(cloned);
+    try { console.log(`[Science][Numeracy] After replacement: ${newCount}/${total} numeracy items.`); } catch {}
+    return cloned;
+}
+
 async function findUserByEmail(email) {
     return db.oneOrNone(`SELECT id, email, name FROM users WHERE email = $1`, [email]);
 }
@@ -217,6 +314,7 @@ async function raceGeminiWithDelayedFallback({ primaryFn, fallbackFn, primaryMod
 }
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 let IMAGE_DB = [];
 const IMAGE_BY_PATH = new Map();
@@ -236,20 +334,208 @@ function rebuildImagePathIndex() {
     }
 }
 
-try {
-    const raw = fs.readFileSync(path.join(__dirname, 'image_metadata_final.json'), 'utf8');
-    IMAGE_DB = JSON.parse(raw);
-} catch (e) {
-    console.warn('Image metadata not loaded:', e.message);
+// --- Image metadata loader with auto-augment for new Science/SocialStudies images ---
+function readJsonSafe(file) {
     try {
-        const fallbackRaw = fs.readFileSync(path.join(__dirname, 'data', 'image_metadata_final.json'), 'utf8');
-        IMAGE_DB = JSON.parse(fallbackRaw);
-    } catch (fallbackErr) {
-        console.warn('Fallback image metadata not loaded:', fallbackErr.message);
+        return JSON.parse(fs.readFileSync(file, 'utf8'));
+    } catch (e) {
+        return null;
     }
 }
 
+function walkDir(dir, files = []) {
+    try {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        for (const ent of entries) {
+            const full = path.join(dir, ent.name);
+            if (ent.isDirectory()) {
+                walkDir(full, files);
+            } else {
+                files.push(full);
+            }
+        }
+    } catch {}
+    return files;
+}
+
+function sha1OfFile(filePath) {
+    try {
+        const hash = crypto.createHash('sha1');
+        const data = fs.readFileSync(filePath);
+        hash.update(data);
+        return hash.digest('hex');
+    } catch {
+        return '';
+    }
+}
+
+function getImageDimensions(filePath) {
+    // Minimal PNG and JPEG dimension readers to avoid external deps
+    try {
+        const fd = fs.openSync(filePath, 'r');
+        const header = Buffer.alloc(32);
+        fs.readSync(fd, header, 0, 32, 0);
+        // PNG signature
+        if (header[0] === 0x89 && header.toString('ascii', 1, 4) === 'PNG') {
+            // IHDR width/height at bytes 16..23 (big-endian)
+            const buf = Buffer.alloc(24);
+            fs.readSync(fd, buf, 0, 24, 0);
+            const width = buf.readUInt32BE(16);
+            const height = buf.readUInt32BE(20);
+            fs.closeSync(fd);
+            return { width, height };
+        }
+        // JPEG: scan markers for SOFn
+        const stat = fs.fstatSync(fd);
+        const buf = Buffer.alloc(stat.size);
+        fs.readSync(fd, buf, 0, stat.size, 0);
+        fs.closeSync(fd);
+        let i = 2; // skip SOI 0xFFD8
+        while (i < buf.length) {
+            if (buf[i] !== 0xFF) { i++; continue; }
+            const marker = buf[i+1];
+            const size = buf.readUInt16BE(i+2);
+            if (marker >= 0xC0 && marker <= 0xC3) {
+                const height = buf.readUInt16BE(i+5);
+                const width = buf.readUInt16BE(i+7);
+                return { width, height };
+            }
+            i += 2 + size;
+        }
+    } catch {}
+    return { width: 0, height: 0 };
+}
+
+function normalizePathForMetadata(absPath, subject) {
+    // Build /frontend/Images/<Subject>/<relative...>
+    const parts = absPath.split(path.sep);
+    const idx = parts.lastIndexOf('Images');
+    if (idx >= 0) {
+        const rel = parts.slice(idx).join('/');
+        return '/' + ['frontend', rel].join('/');
+    }
+    // fallback: prefix subject
+    const fname = path.basename(absPath);
+    return `/frontend/Images/${subject}/${fname}`;
+}
+
+function detectCategory(absPath, subject) {
+    // Category = first folder under subject if present
+    const parts = absPath.split(path.sep);
+    const sIdx = parts.findIndex(p => p.toLowerCase() === subject.toLowerCase());
+    if (sIdx >= 0 && parts.length > sIdx + 2) {
+        return parts[sIdx + 1];
+    }
+    return '';
+}
+
+function randomId() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    return crypto.randomBytes(16).toString('hex');
+}
+
+function loadAndAugmentImageMetadata() {
+    const primaryFile = path.join(__dirname, 'image_metadata_final.json');
+    const fallbackFile = path.join(__dirname, 'data', 'image_metadata_final.json');
+    let db = readJsonSafe(primaryFile) || readJsonSafe(fallbackFile) || [];
+    if (!Array.isArray(db)) db = [];
+
+    // Build fast lookup
+    const byPath = new Set();
+    const bySha1 = new Set();
+    for (const im of db) {
+        const p = (im && (im.filePath || im.src || im.path)) || '';
+        if (p) byPath.add(String(p).toLowerCase());
+        if (im && im.sha1) bySha1.add(String(im.sha1).toLowerCase());
+    }
+
+    const repoRoot = path.resolve(__dirname, '..');
+    const scienceRoot = path.join(repoRoot, 'frontend', 'Images', 'Science');
+    const socialRoot = path.join(repoRoot, 'frontend', 'Images', 'SocialStudies');
+
+    const candidates = [];
+    for (const [root, subject] of [[scienceRoot, 'Science'], [socialRoot, 'Social Studies']]) {
+        const files = walkDir(root, []);
+        for (const f of files) {
+            const ext = path.extname(f).toLowerCase();
+            if (!['.png', '.jpg', '.jpeg'].includes(ext)) continue;
+            candidates.push({ abs: f, subject });
+        }
+    }
+
+    let added = 0;
+    const nowIso = new Date().toISOString();
+    for (const c of candidates) {
+        if (!fs.existsSync(c.abs)) continue;
+        const filePathMeta = normalizePathForMetadata(c.abs, c.subject);
+        const key = filePathMeta.toLowerCase();
+        const sha1 = sha1OfFile(c.abs);
+        const dup = byPath.has(key) || (sha1 && bySha1.has(sha1.toLowerCase()));
+        if (dup) continue;
+        const dims = getImageDimensions(c.abs);
+        const fileName = path.basename(c.abs);
+        const category = detectCategory(c.abs, c.subject);
+        const entry = {
+            id: randomId(),
+            subject: c.subject,
+            fileName,
+            filePath: filePathMeta,
+            width: dims.width || 0,
+            height: dims.height || 0,
+            dominantType: 'photo',
+            altText: '',
+            detailedDescription: '',
+            keywords: [],
+            sourceUrl: '',
+            sourceTitle: '',
+            sourcePublished: '',
+            license: '',
+            collectedAt: nowIso,
+            category,
+            usageDirectives: '',
+            sha1
+        };
+        db.push(entry);
+        byPath.add(key);
+        if (sha1) bySha1.add(sha1.toLowerCase());
+        added++;
+    }
+
+    // Sort by subject then by fileName
+    db.sort((a, b) => {
+        const sa = String(a.subject || '').toLowerCase();
+        const sb = String(b.subject || '').toLowerCase();
+        if (sa < sb) return -1; if (sa > sb) return 1;
+        const fa = String(a.fileName || '');
+        const fb = String(b.fileName || '');
+        return fa.localeCompare(fb);
+    });
+
+    try {
+        fs.writeFileSync(primaryFile, JSON.stringify(db, null, 2), 'utf8');
+    } catch (e) {
+        console.warn('[ImageDB] Failed to write image metadata file:', e.message);
+    }
+
+    IMAGE_DB = db;
+}
+
+loadAndAugmentImageMetadata();
+
 rebuildImagePathIndex();
+// Optional enhancement: log counts by subject
+(function logImageCounts() {
+    try {
+        const total = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
+        const bySubject = IMAGE_DB.reduce((acc, im) => {
+            const s = im && im.subject ? String(im.subject) : 'Other';
+            acc[s] = (acc[s] || 0) + 1;
+            return acc;
+        }, {});
+        const parts = Object.entries(bySubject).map(([s, n]) => `${s}: ${n}`);
+        console.info(`[ImageDB] Loaded ${total} total images (${parts.join(', ')})`);
+    } catch {}
+})();
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
@@ -2835,6 +3121,149 @@ async function retrieveSnippets(subject, topic) {
     return out;
 }
 
+// Build an APPROVED PASSAGES section by fetching a few allowlisted sources for the subject/topic
+async function buildApprovedPassagesSection(subject, topic) {
+    try {
+        const seeds = pickCandidateUrls(subject, topic);
+        const results = [];
+        for (const url of seeds) {
+            try {
+                const page = await fetchApproved(url);
+                results.push({
+                    url: page.url,
+                    title: page.title,
+                    text: compactText(page.text, 320),
+                    table: Array.isArray(page.tables) && page.tables.length ? page.tables[0] : null
+                });
+                if (results.length >= 3) break;
+            } catch (_) {
+                // skip failed URL
+            }
+        }
+
+        if (!results.length) return '';
+        return `APPROVED PASSAGES (use these first, do not fabricate sources):\n${JSON.stringify(results, null, 2)}\n`;
+    } catch (e) {
+        return '';
+    }
+}
+
+// Allowed question types across subjects (non-Math)
+const ALLOWED_QUESTION_TYPES = new Set([
+    'multiple_choice_single',
+    'multiple_select',
+    'drag_drop_ordering',
+    'short_constructed_response'
+]);
+
+// Unified prompt builder per subject and exam type
+function buildSubjectPrompt({ subject, topic, examType, context = [], images = [], questionCount = 12, approvedPassagesSection = '' }) {
+    const isComprehensive = examType === 'comprehensive';
+
+    const contextJSON = JSON.stringify(context.map(c => ({ url: c.url, title: c.title, text: c.text, table: c.table || null })));
+    const imagesJSON = JSON.stringify((images || []).map((im, i) => ({ id: im.id || `img${i+1}`, src: im.filePath, alt: im.altText || '', description: im.detailedDescription || '' })));
+
+    const sharedSafety = [
+        'When constructing a passage or stimulus, FIRST try to use / adapt from the APPROVED PASSAGES section above. If no approved passage matches, write an original passage and label it clearly.',
+        'Do not attribute passages to real news outlets or paywalled sites unless they are listed above in APPROVED PASSAGES.'
+    ].join('\n');
+
+    const questionTypesBlock = `QUESTION TYPES ALLOWED (choose appropriately):\n- multiple_choice_single\n- multiple_select (2 correct; MUST specify number of correct choices)\n- drag_drop_ordering (only if clearly described)\n- short_constructed_response (1–2 sentences, only when the stimulus clearly requires it)`;
+
+    const majorityStimulusRule = 'A majority (at least 60%) of questions must use a proper stimulus (passage, chart, table, quote, diagram, or image reference). A question with no stimulus is allowed only when the skill being tested is simple (e.g., grammar fix, vocabulary in context, or a straightforward recall from the topic).';
+
+    const schemaReminder = `Return ONE compact JSON array. Each item MUST have:\n- "questionText"\n- "options" (array) for choice questions\n- "correctAnswer" OR "correctAnswers"\n- "questionType" (must be one of the allowed types above)\n- "stimulus" or "passage" or "asset" when the question uses a stimulus\n- "subject": ${JSON.stringify(subject)}\n- "topic": ${JSON.stringify(topic)}`;
+
+    let header = `${STRICT_JSON_HEADER_SHARED}\n`;
+    if (approvedPassagesSection) {
+        header += `${approvedPassagesSection}\n`;
+    }
+
+    const base = [
+        header,
+        `SUBJECT STYLE: GED ${subject} — ${isComprehensive ? 'Comprehensive Exam' : `Topic Quiz on "${topic}"`}`,
+        `Use only the CONTEXT and IMAGES provided (if any) for factual details. Do not fabricate specific data.`,
+        questionTypesBlock,
+        majorityStimulusRule,
+        sharedSafety
+    ];
+
+    if (isComprehensive) {
+        if (subject === 'Social Studies') {
+            base.push(
+                `STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.`,
+                `Ensure variety of stimuli: passages, historical quotes, charts/graphs, and images when appropriate.`
+            );
+        } else if (subject === 'Science') {
+            base.push(
+                `STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 40% Life Science, 40% Physical Science, 20% Earth & Space.`,
+                `Ensure variety of stimuli: passages, data tables/graphs, and diagrams.`,
+                `Ensure that at least one-third (1/3) of all questions require scientific numeracy — interpreting data tables, reading charts, working with units/measurements, using or reading formulas, or doing a short calculation.`
+            );
+        } else if (isRlaSubject(subject)) {
+            base.push(`RLA comprehensive: keep the existing 3-part flow as-is (reading comprehension, extended response prompt, and language/grammar).`);
+        }
+    } else {
+        if (subject === 'Social Studies') {
+            base.push(
+                `Generate ${questionCount} GED-style Social Studies questions focused entirely on the topic "${topic}". All questions must directly relate to this topic (e.g. constitution, founding documents, branches of government, key amendments) and must not introduce unrelated economics or geography content unless it is clearly and explicitly tied to the topic.`,
+                `Keep the variety of stimuli, but tie all stimuli directly to the topic.`
+            );
+        } else if (subject === 'Science') {
+            base.push(
+                `Generate ${questionCount} GED-style Science questions focused entirely on the topic "${topic}". Do not mix in Life/Earth/Space strands that are unrelated to the topic. Prefer data-driven science questions (tables, charts, labeled diagrams) that match this topic.`,
+                `Keep the variety of stimuli, and prefer data tables/graphs and short experiment setups tied to the topic.`
+            );
+        } else if (isRlaSubject(subject)) {
+            base.push(
+                `Generate ${questionCount} GED-style RLA questions focused on the skill area "${topic}" (for example, Grammar, Usage, Conventions, Reading Comprehension, or Vocabulary). Do not enforce the 75% informational / 25% literary split here unless the topic explicitly asks for it.`,
+                `Keep a variety of stimuli appropriate for the skill, and prefer short passages for reading items.`
+            );
+        }
+        base.push(
+            `Prioritize attaching a stimulus to the question. For Social Studies, prefer historical quotes, short excerpts from founding documents, charts on population/voting, or image descriptions from the approved list. For Science, prefer data tables, experiment setups, labeled diagrams. For RLA, prefer short passages.`
+        );
+    }
+
+    base.push(
+        `CONTEXT:${contextJSON}`,
+        `IMAGES:${imagesJSON}`,
+        `Return ONE compact JSON array with exactly ${questionCount} items.`,
+        schemaReminder
+    );
+
+    return base.join('\n');
+}
+
+function hasStimulus(item) {
+    return Boolean(
+        (typeof item?.stimulus === 'string' && item.stimulus.trim()) ||
+        (typeof item?.passage === 'string' && item.passage.trim()) ||
+        (item && typeof item.asset === 'object' && item.asset !== null) ||
+        (item && item.stimulusImage && typeof item.stimulusImage.src === 'string')
+    );
+}
+
+// Drop items without allowed questionType; warn if insufficient stimulus usage
+function validateAndFilterAiItems(items, subject, topic) {
+    if (!Array.isArray(items)) return [];
+    const filtered = items.filter((it) => {
+        const qt = typeof it?.questionType === 'string' ? it.questionType : '';
+        return ALLOWED_QUESTION_TYPES.has(qt);
+    }).map((it) => ({
+        ...it,
+        subject: subject,
+        topic: topic
+    }));
+
+    const withStim = filtered.filter((it) => hasStimulus(it)).length;
+    const ratio = filtered.length ? (withStim / filtered.length) : 0;
+    if (ratio < 0.6) {
+        try { console.warn('[AI][QUIZ] insufficient stimulus-bearing questions for topic', subject, topic); } catch {}
+    }
+    return filtered;
+}
+
 // START: New Helper Functions for Variety Pack Generation
 
 function buildTopicPrompt_VarietyPack(subject, topic, n = 12, ctx = [], imgs = []) {
@@ -3095,29 +3524,57 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         const imgs = subjectNeedsImages ? findImagesForSubjectTopic(subject, topic, 6) : [];
         console.log(`[Variety Pack] Found ${imgs.length} candidate images.`);
 
-        // 3. Build the "Variety Pack" prompt
-        const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
+        // 3. Build the topic prompt (new behavior for non-Math) with approved passages section
+        let winnerModel = 'unknown';
+        let latencyMs = 0;
+        let generatedItems = [];
 
-        // 4. Call the AI with fallback logic
-        const { items: generatedItems, model: winnerModel, latencyMs } = await generateWithGemini_OneCall(subject, prompt)
-            .then(items => ({ items, model: 'gemini', latencyMs: 0 })) // Simplified for clarity
-            .catch(async (geminiErr) => {
-                console.warn(`[Variety Pack] Gemini call failed: ${geminiErr.message}. Attempting ChatGPT fallback.`);
-                const items = await generateWithChatGPT_Fallback(subject, prompt);
-                return { items, model: 'chatgpt-fallback', latencyMs: 0 };
+        if (subject === 'Math' || isScientificNumeracy) {
+            // Preserve existing Math and scientific numeracy flow
+            const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
+            const result = await generateWithGemini_OneCall(subject, prompt)
+                .then(items => ({ items, model: 'gemini', latencyMs: 0 }))
+                .catch(async (geminiErr) => {
+                    console.warn(`[Variety Pack] Gemini call failed: ${geminiErr.message}. Attempting ChatGPT fallback.`);
+                    const items = await generateWithChatGPT_Fallback(subject, prompt);
+                    return { items, model: 'chatgpt-fallback', latencyMs: 0 };
+                });
+            generatedItems = result.items;
+            winnerModel = result.model;
+            latencyMs = result.latencyMs || 0;
+        } else {
+            const approvedSection = await buildApprovedPassagesSection(subject, topic);
+            const prompt = buildSubjectPrompt({
+                subject,
+                topic,
+                examType: 'topic',
+                context: ctx,
+                images: imgs,
+                questionCount: QUIZ_COUNT,
+                approvedPassagesSection: approvedSection
             });
 
-        console.log(`[Variety Pack] Received ${generatedItems.length} items from AI model: ${winnerModel}.`);
-        
-        // 5. Post-processing and validation
+            const result = await generateQuizItemsWithFallback(
+                subject,
+                prompt,
+                { retries: 1 },
+                { retries: 1 }
+            );
+            generatedItems = Array.isArray(result.items) ? result.items : [];
+            winnerModel = result.model || 'unknown';
+            latencyMs = result.latencyMs || 0;
+        }
+
+        console.log(`[TopicGen] Received ${generatedItems.length} items from AI model: ${winnerModel}.`);
+
+        // 4. Post-processing and validation
         let items = generatedItems.map((it) => enforceWordCapsOnItem(it, subject));
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
 
         const bad = [];
         items.forEach((it, i) => { if (hasSchemaIssues(it)) bad.push(i); });
-
         if (bad.length) {
-            console.log(`[Variety Pack] Repairing ${bad.length} items with schema issues...`);
+            console.log(`[TopicGen] Repairing ${bad.length} items with schema issues...`);
             const toFix = bad.map(i => items[i]);
             const fixedSubset = await repairBatchWithChatGPT_once(toFix);
             if (Array.isArray(fixedSubset)) {
@@ -3125,39 +3582,26 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
                     const originalIndex = bad[j];
                     items[originalIndex] = enforceWordCapsOnItem(f, subject);
                 });
-                items = items.map(tagMissingItemType).map(tagMissingDifficulty); // Re-tag after repair
+                items = items.map(tagMissingItemType).map(tagMissingDifficulty);
             }
         }
 
-        // 6. Enforce mix, dedupe, and shuffle
-        if (isScientificNumeracy) {
-            items = items.map((item) => ({
-                ...item,
-                itemType: 'standalone',
-                qaProfileKey: item.qaProfileKey || 'numeracy'
-            }));
-            items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
-            items = dedupeNearDuplicates(items, 0.85);
-            items = shuffleArray(items);
-        } else if (subject === 'Math') {
-            items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
-            items = dedupeNearDuplicates(items, 0.85);
-            items = shuffleArray(items);
-        } else {
-            items = enforceVarietyMix(items, { passage: 4, image: 3, standalone: 5 });
-            items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
-            items = dedupeNearDuplicates(items, 0.85);
-            items = groupedShuffle(items);
+        // 5. If non-Math, enforce new validator rules (questionType + stimulus ratio)
+        if (subject !== 'Math' && !isScientificNumeracy) {
+            items = validateAndFilterAiItems(items, subject, topic);
         }
-        
-        // 7. Final cleanup and response
+
+        // 6. Final cleanup and response
+        items = dedupeNearDuplicates(items, 0.85);
+        items = groupedShuffle(items);
+
         let finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...normalizeStimulusAndSource(item), questionNumber: idx + 1 }));
         const fractionPlainTextMode = subject === 'Math';
         if (fractionPlainTextMode) {
             finalItems = finalItems.map(applyFractionPlainTextModeToItem);
         }
 
-        console.log(`[Variety Pack] Successfully generated and processed ${finalItems.length} questions.`);
+        console.log(`[TopicGen] Successfully generated and processed ${finalItems.length} questions.`);
 
         res.set('X-Model', winnerModel || 'unknown');
         res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
@@ -4227,39 +4671,45 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
         const subjectNeedsRetrieval = TOPIC_STIMULUS_SUBJECTS.has(subject);
         const subjectNeedsImages = TOPIC_STIMULUS_SUBJECTS.has(subject);
 
-        const ctx = subjectNeedsRetrieval
-            ? await retrieveSnippets(subject, topic)
-            : [];
+        const ctx = subjectNeedsRetrieval ? await retrieveSnippets(subject, topic) : [];
+        const imgs = subjectNeedsImages ? findImagesForSubjectTopic(subject, topic, 6) : [];
 
-        const imgs = subjectNeedsImages
-            ? findImagesForSubjectTopic(subject, topic, 6)
-            : [];
+        let prompt;
+        let winnerModel = 'unknown';
+        let latencyMs = 0;
 
-        const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
+        if (subject === 'Math') {
+            // Keep legacy variety pack for Math
+            prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
+        } else {
+            const approvedSection = await buildApprovedPassagesSection(subject, topic);
+            prompt = buildSubjectPrompt({ subject, topic, examType: 'topic', context: ctx, images: imgs, questionCount: QUIZ_COUNT, approvedPassagesSection: approvedSection });
+        }
 
-        const { items: generatedItems, model: winnerModel, latencyMs } = await generateQuizItemsWithFallback(
+        const result = await generateQuizItemsWithFallback(
             subject,
             prompt,
             {
                 retries: 2,
                 minTimeout: 800,
-                onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini topic pack generation failed: ${err?.message || err}`)
+                onFailedAttempt: (err, n) => console.warn(`[retry ${n}] topic generation failed: ${err?.message || err}`)
             }
         );
+        winnerModel = result.model || 'unknown';
+        latencyMs = result.latencyMs || 0;
 
-        let items = generatedItems.map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
+        let items = (Array.isArray(result.items) ? result.items : []).map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
 
         const bad = [];
         items.forEach((it, i) => { if (!validateQuestion(it)) bad.push(i); });
-
         if (bad.length) {
             const fixed = await withRetry(
                 () => repairBatchWithChatGPT_once(bad.map(i => items[i])),
                 {
                     retries: 2,
                     minTimeout: 800,
-                    onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT topic pack repair failed: ${err?.message || err}`)
+                    onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT topic repair failed: ${err?.message || err}`)
                 }
             );
             fixed.forEach((f, j) => {
@@ -4268,8 +4718,10 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
             items = items.map(tagMissingItemType).map(tagMissingDifficulty);
         }
 
-        items = enforceVarietyMix(items, { passage: 4, image: 3, standalone: 5 });
-        items = enforceDifficultySpread(items, { easy: 4, medium: 5, hard: 3 });
+        if (subject !== 'Math') {
+            items = validateAndFilterAiItems(items, subject, topic);
+        }
+
         items = dedupeNearDuplicates(items, 0.85);
         items = groupedShuffle(items);
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
@@ -4395,7 +4847,12 @@ app.post('/generate-quiz', async (req, res) => {
 
                 const results = await Promise.all(promises);
                 let allQuestions = results.flat().filter(q => q);
-                const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
+                let draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
+
+                // Enforce >= 1/3 numeracy post-processing
+                const categoryList = Object.keys(blueprint);
+                draftQuestionSet = await ensureScienceNumeracy(draftQuestionSet, { requiredFraction: 1/3, categories: categoryList, aiOptions });
+
                 draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
                 const draftQuiz = {
@@ -4404,6 +4861,8 @@ app.post('/generate-quiz', async (req, res) => {
                     subject: subject,
                     source: 'aiGenerated',
                     fraction_plain_text_mode: false,
+                    // Enable formula sheet in frontend header
+                    config: { formulaSheet: true },
                     questions: draftQuestionSet,
                 };
 
@@ -4561,6 +5020,8 @@ app.post('/generate-quiz', async (req, res) => {
             type: 'multi-part-math',
             source: 'aiGenerated',
             fraction_plain_text_mode: true,
+            // Enable formula sheet in frontend header
+            config: { formulaSheet: true },
             part1_non_calculator: correctedPart1,
             part2_calculator: correctedPart2,
             questions: correctedAllQuestions
@@ -4658,6 +5119,8 @@ app.post('/generate-quiz', async (req, res) => {
                 subject: subject,
                 source: 'aiGenerated',
                 fraction_plain_text_mode: subject === 'Math',
+                // Enable formula sheet for Math & Science topic quizzes
+                config: { formulaSheet: subject === 'Math' || subject === 'Science' },
                 questions: finalQuestions,
             };
 
