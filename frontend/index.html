@@ -723,6 +723,44 @@
         [data-theme="dark"] .essay-passage-panel .passage-card {
             background: transparent !important;
         }
+        /* Light mode left passage panel: force white panel and dark text for GED-style contrast */
+        [data-theme="light"] .essay-passage-panel {
+            background: #ffffff;
+            color: #0f172a; /* slate-900 */
+        }
+        [data-theme="light"] .essay-passage-panel .passage-card {
+            background: #ffffff !important;
+            color: inherit;
+        }
+        /* Evidence highlighting in passages (works for <mark> or <span> with the classes) */
+        [data-theme="light"] mark.evidence-strong,
+        [data-theme="light"] .evidence-strong {
+            background: rgba(16, 185, 129, 0.20); /* emerald-500 */
+            box-shadow: inset 0 -2px 0 0 rgba(16, 185, 129, 0.35);
+            border-radius: 0.15em;
+            padding: 0 .15em;
+        }
+        [data-theme="light"] mark.evidence-weak,
+        [data-theme="light"] .evidence-weak {
+            background: rgba(239, 68, 68, 0.18); /* red-500 */
+            box-shadow: inset 0 -2px 0 0 rgba(239, 68, 68, 0.35);
+            border-radius: 0.15em;
+            padding: 0 .15em;
+        }
+        [data-theme="dark"] mark.evidence-strong,
+        [data-theme="dark"] .evidence-strong {
+            background: rgba(16, 185, 129, 0.32);
+            box-shadow: inset 0 -2px 0 0 rgba(16, 185, 129, 0.55);
+            border-radius: 0.15em;
+            padding: 0 .15em;
+        }
+        [data-theme="dark"] mark.evidence-weak,
+        [data-theme="dark"] .evidence-weak {
+            background: rgba(239, 68, 68, 0.28);
+            box-shadow: inset 0 -2px 0 0 rgba(239, 68, 68, 0.55);
+            border-radius: 0.15em;
+            padding: 0 .15em;
+        }
         @media (max-width: 900px) {
             .essay-section {
                 flex-direction: column;
