@@ -20,6 +20,7 @@
     "counts:premade": "node scripts/print_premade_counts.js",
   "counts:ss:everywhere": "node scripts/count_social_studies_everywhere.js",
   "quizzes:build-json": "node scripts/build-quizzes.js",
+    "quizzes:ensure-min": "node scripts/ensure_min_quiz_questions.js",
     "prepare": "husky install"
   },
   "dependencies": {

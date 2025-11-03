@@ -1,0 +1,45 @@
+{
+  "min": 12,
+  "updated": [
+    {
+      "file": "math.quizzes.part1.json",
+      "subject": "Math",
+      "quizzesTouched": 1,
+      "questionsAdded": 11
+    },
+    {
+      "file": "rla.quizzes.part1.json",
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "quizzesTouched": 22,
+      "questionsAdded": 169
+    },
+    {
+      "file": "rla.quizzes.part2.json",
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "quizzesTouched": 16,
+      "questionsAdded": 107
+    },
+    {
+      "file": "social-studies.quizzes.json",
+      "subject": "Social Studies",
+      "quizzesTouched": 36,
+      "questionsAdded": 425
+    }
+  ],
+  "unchanged": [
+    {
+      "file": "math.quizzes.part2.json",
+      "subject": "Math"
+    },
+    {
+      "file": "science.quizzes.part1.json",
+      "subject": "Science"
+    },
+    {
+      "file": "science.quizzes.part2.json",
+      "subject": "Science"
+    }
+  ],
+  "skipped": [],
+  "timestamp": "2025-11-03T17:10:58.483Z"
+}
