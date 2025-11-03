@@ -679,6 +679,58 @@
         [data-theme="dark"] .practice-textarea::placeholder {
             color: #94a3b8;
         }
+        /* Dark mode exam headers/titles: ensure readability */
+        [data-theme="dark"] .exam-header,
+        [data-theme="dark"] .exam-title,
+        [data-theme="dark"] .comprehensive-exam-title {
+            color: #ffffff !important;
+        }
+        /* RLA Part 2: Essay prompt title colors */
+        [data-theme="light"] .essay-prompt-title {
+            color: #000000;
+            font-weight: 600;
+        }
+        [data-theme="dark"] .essay-prompt-title {
+            color: #ffffff;
+        }
+        /* RLA Part 2: Layout and sizing for essay panels */
+        .essay-wrapper {
+            min-height: calc(100vh - 140px);
+        }
+        .essay-section {
+            display: flex;
+            align-items: stretch;
+            gap: 1.5rem;
+        }
+        .essay-right-panel {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 50%;
+            min-height: 520px;
+        }
+        .essay-response-box {
+            flex-grow: 1;
+        }
+        /* Dark mode left passage panel */
+        [data-theme="dark"] .essay-passage-panel {
+            background: #000000;
+            color: #ffffff;
+        }
+        [data-theme="dark"] .essay-passage-panel .essay-author {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        /* Make individual passage cards transparent in dark mode so the black panel shows */
+        [data-theme="dark"] .essay-passage-panel .passage-card {
+            background: transparent !important;
+        }
+        @media (max-width: 900px) {
+            .essay-section {
+                flex-direction: column;
+            }
+            .essay-right-panel {
+                min-height: 420px;
+            }
+        }
         /* Subject-accented headings and light-mode white panels for specific review surfaces */
         [data-theme="light"] .panel-surface {
             background-color: #ffffff !important;
@@ -12232,6 +12284,15 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         });
         return map;
     }, [progress]);
+    // Self-declared "already passed" check: require all four subjects to be marked passed in profile/test plan
+    const allSubjectsSelfDeclaredPassed = useMemo(() => {
+        try {
+            const required = ['math', 'rla', 'science', 'social_studies'];
+            return required.every((id) => profilePassedMap && profilePassedMap[id] === true);
+        } catch {
+            return false;
+        }
+    }, [profilePassedMap]);
     const earnedBadges = useMemo(() => {
         const ids = new Set();
         Object.entries(profilePassedMap).forEach(([id, val]) => { if (val) ids.add(id); });
@@ -12968,7 +13029,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 </button>
                             </div>
                             <p className={`text-sm ${homePanelPrimaryTextClass}`}>Keep adding your remaining test dates to stay organized.</p>
-                            {allSubjectsPassed ? (
+                            {allSubjectsSelfDeclaredPassed ? (
                                 <p className="text-sm text-emerald-600">You marked every GED subject as passed. Amazing work!</p>
                             ) : (upcomingList && upcomingList.length > 0) ? (
                                 <div className="mt-2 space-y-2">
@@ -13437,7 +13498,7 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                             </button>
                         )}
                         <h2
-                            className="flex-1 text-center text-xl font-bold"
+                            className="flex-1 text-center text-xl font-bold exam-title"
                             style={{ color: scheme.text }}
                         >
                             {quizTitle}
@@ -14135,25 +14196,25 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                 );
             case 2:
                 return (
-                    <div>
+                    <div className="essay-wrapper">
                         <h3 className="text-2xl font-bold mb-4 subject-accent-heading">Part 2: Extended Response (Essay)</h3>
-                        <div className="flex flex-col lg:flex-row gap-4">
+                        <div className="flex flex-col lg:flex-row gap-4 essay-section">
                             {/* LEFT: passages */}
-                            <div className="lg:w-1/2 space-y-4 max-h-[32rem] overflow-y-auto">
+                            <div className="lg:w-1/2 space-y-4 max-h-[32rem] overflow-y-auto essay-passage-panel">
                                 {(Array.isArray(quiz.part2_essay.passages) ? quiz.part2_essay.passages : []).slice(0,2).map((p, idx) => (
-                                    <div key={idx} className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg">
+                                    <div key={idx} className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg passage-card">
                                         <h4 className="question-stem">{p?.title || `Passage ${idx+1}`}</h4>
-                                        {p?.author ? <p className="text-xs text-slate-500 mb-2">by {p.author}</p> : null}
+                                        {p?.author ? <p className="text-xs text-slate-500 mb-2 essay-author">by {p.author}</p> : null}
                                         <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(p?.content || '', { normalizeSpacing: true }) }} />
                                     </div>
                                 ))}
                             </div>
                             {/* RIGHT: writing area */}
-                            <div className="lg:w-1/2 flex flex-col">
-                                <h4 className="font-bold mb-2">Essay Prompt:</h4>
+                            <div className="lg:w-1/2 flex flex-col essay-right-panel">
+                                <h4 className="font-bold mb-2 essay-prompt-title">Essay Prompt:</h4>
                                 <p className="mb-2">{quiz.part2_essay.prompt}</p>
                                 <textarea
-                                    className="w-full min-h-[24rem] p-2 border rounded flex-1"
+                                    className="w-full min-h-[24rem] p-2 border rounded flex-1 essay-response-box"
                                     value={essayText}
                                     onChange={(e) => setEssayText(e.target.value)}
                                     onKeyDown={(e) => {
@@ -14215,7 +14276,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         <div className="fade-in">
              <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b">
                  <button onClick={onExit} className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"><ArrowLeftIcon /> Back</button>
-                 <h2 className="text-xl font-bold text-center text-slate-800 flex-1">{quiz.title}</h2>
+                 <h2 className="text-xl font-bold text-center text-slate-800 flex-1 exam-title">{quiz.title}</h2>
                  <div className="flex flex-col sm:items-end gap-2">
                     <div className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-700'}`}>
                         <span role="img" aria-label="timer">⏱️</span>
@@ -14481,17 +14542,98 @@ function EssayGuide({ onExit }) {
 
     const intervalRef = useRef(null);
 
+// Helper: strip HTML to plain text, preserve basic paragraph breaks
+const stripHtmlToPlain = (html) => {
+    if (typeof html !== 'string') return '';
+    // Replace paragraph tags with double newlines before stripping other tags
+    let text = html
+        .replace(/<\s*br\s*\/?>/gi, '\n')
+        .replace(/<\s*\/?p[^>]*>/gi, '\n\n')
+        .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' • '))
+        .replace(/<\s*\/?(strong|em|b|i|u|span|div|h\d|section|article|blockquote)[^>]*>/gi, '')
+        .replace(/<[^>]+>/g, '');
+    // Decode a few common entities
+    text = text
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'");
+    // Normalize whitespace
+    return text.replace(/[\t\r ]+/g, ' ').replace(/\s*\n\s*\n\s*/g, '\n\n').trim();
+};
+
+const wordCount = (text) => {
+    if (!text) return 0;
+    return String(text).trim().split(/\s+/).filter(Boolean).length;
+};
+
+const genericExpansion = {
+    stronger: (
+        'Proponents argue that the most persuasive way to evaluate this issue is to look at measurable outcomes and well-documented mechanisms. ' +
+        'When a policy or practice produces consistent benefits across different settings, it suggests the core claim is not just theoretically appealing but operationally sound. ' +
+        'For instance, researchers often highlight trends that persist after controlling for confounding factors, which strengthens causal interpretations. ' +
+        'In everyday terms, the effects show up in places that are not cherry-picked: large districts as well as small ones, urban areas as well as rural communities, and across diverse populations. ' +
+        'This breadth matters because it demonstrates that the argument is not reliant on a single exceptional case.\n\n' +
+        'Equally important is the internal logic of the claim. ' +
+        'A clear explanation of how inputs become outcomes—backed by credible studies or official records—builds reader confidence. ' +
+        'When authors acknowledge limitations, address counterarguments directly, and explain why competing explanations fall short, they further enhance credibility. ' +
+        'The tone remains measured and analytic rather than speculative, and the supporting evidence goes beyond anecdotes to include trends, comparative data, or longitudinal results.\n\n' +
+        'Finally, strong arguments connect evidence to implications. ' +
+        'They clarify not only that an approach works, but why it is better than realistic alternatives in terms of access, cost, fairness, or long-term sustainability. ' +
+        'This emphasis on mechanisms and trade-offs gives readers a trustworthy basis for judgment, which is precisely what the GED essay task asks evaluators to reward.'
+    ),
+    weaker: (
+        'Skeptics raise concerns that deserve attention, though their claims often rely on broad generalizations, isolated examples, or predictions that are not fully supported by data. ' +
+        'These reservations can be useful for surfacing potential risks or unintended consequences, but they are most convincing when paired with specific evidence and a clear explanation of scope. ' +
+        'Without those anchors, caution can drift into conjecture, making it hard to weigh against concrete results reported elsewhere.\n\n' +
+        'In addition, weaker arguments sometimes mistake correlation for causation or rely on assumptions about human behavior that are plausible but untested. ' +
+        'They may emphasize exceptional cases—outliers—while downplaying broader trends that move in the opposite direction. ' +
+        'A careful reader should ask whether the same claim holds across settings and whether competing explanations have been seriously considered. ' +
+        'When key terms are left undefined or evidence is largely anecdotal, the overall force of the case diminishes.\n\n' +
+        'That said, raising practical constraints and ethical considerations is valuable. ' +
+        'Well-framed questions about cost, feasibility, or equity can guide better policy design. ' +
+        'But to match the rigor expected on the GED, these concerns need to be grounded in verifiable facts and organized into a clear line of reasoning rather than relying primarily on intuition or personal experience.'
+    )
+};
+
+const expandIfShort = (topic, title, baseText) => {
+    const MIN = 450;
+    const MAX = 650;
+    let text = stripHtmlToPlain(baseText);
+    let wc = wordCount(text);
+    if (wc >= MIN && wc <= MAX) return text;
+    const stance = /stronger/i.test(title) ? 'stronger' : (/weaker/i.test(title) ? 'weaker' : 'stronger');
+    // Append one or more generic expansions until within range
+    const add = genericExpansion[stance];
+    while (wc < MIN) {
+        text += '\n\n' + add;
+        wc = wordCount(text);
+        if (wc > MAX) break;
+    }
+    // If we overshoot significantly, we can trim last sentence
+    if (wc > MAX) {
+        const sentences = text.split(/(?<=[.!?])\s+/);
+        while (wordCount(sentences.join(' ')) > MAX && sentences.length > 3) {
+            sentences.pop();
+        }
+        text = sentences.join(' ');
+    }
+    return text;
+};
+
 const passagesData = [
     // --- All 10 Topics Updated with Highlighted & Imbalanced Evidence ---
     {
         topic: "Should the Voting Age Be Lowered to 16?",
         passage1: {
             title: "Dr. Alisa Klein, Sociologist (Stronger Argument)",
-            content: "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy—'no taxation without representation'—that they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
+            content: stripHtmlToPlain("<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy—'no taxation without representation'—that they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>")
         },
         passage2: {
             title: "Marcus heavyweight, Political Analyst (Weaker Argument)",
-            content: "<p>While the idealism behind lowering the voting age is appealing, the practical realities suggest it would be a mistake. The adolescent brain is still undergoing significant development, particularly in areas related to long-term decision-making and impulse control. The political landscape is complex, requiring a level of experience and cognitive maturity that most 16-year-olds have not yet developed.</p><p>We risk trivializing the profound responsibility of voting by extending it to a demographic that is, by and large, not yet equipped to handle it. <span class='bad-evidence'>I remember being 16, and my friends and I were far more concerned with prom dates and getting a driver's license than with monetary policy.</span> Their priorities are simply not aligned with the serious nature of national governance.</p><p>The current age of 18 strikes a reasonable balance, marking a clear transition into legal adulthood and the full spectrum of responsibilities that come with it. To change this is to experiment with the foundation of our republic for no clear gain.</p>"
+            content: stripHtmlToPlain("<p>While the idealism behind lowering the voting age is appealing, the practical realities suggest it would be a mistake. The adolescent brain is still undergoing significant development, particularly in areas related to long-term decision-making and impulse control. The political landscape is complex, requiring a level of experience and cognitive maturity that most 16-year-olds have not yet developed.</p><p>We risk trivializing the profound responsibility of voting by extending it to a demographic that is, by and large, not yet equipped to handle it. <span class='bad-evidence'>I remember being 16, and my friends and I were far more concerned with prom dates and getting a driver's license than with monetary policy.</span> Their priorities are simply not aligned with the serious nature of national governance.</p><p>The current age of 18 strikes a reasonable balance, marking a clear transition into legal adulthood and the full spectrum of responsibilities that come with it. To change this is to experiment with the foundation of our republic for no clear gain.</p>")
         }
     },
     {
@@ -14814,14 +14956,18 @@ const passagesData = [
     const renderOverlayBody = () => {
         if (!selectedPassage) return null;
         switch (overlayView) {
-            case 'passage1':
+            case 'passage1': {
+                const text = expandIfShort(selectedPassage.topic, selectedPassage.passage1.title, selectedPassage.passage1.content);
                 return (
-                    <div className="prose passage-section max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage1.content, { normalizeSpacing: true }) }} />
+                    <div className="prose passage-section max-w-none text-sm text-slate-700" style={{ whiteSpace: 'pre-wrap' }}>{text}</div>
                 );
-            case 'passage2':
+            }
+            case 'passage2': {
+                const text = expandIfShort(selectedPassage.topic, selectedPassage.passage2.title, selectedPassage.passage2.content);
                 return (
-                    <div className="prose passage-section max-w-none text-sm text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage2.content, { normalizeSpacing: true }) }} />
+                    <div className="prose passage-section max-w-none text-sm text-slate-700" style={{ whiteSpace: 'pre-wrap' }}>{text}</div>
                 );
+            }
             default:
                 return (
                     <div className="space-y-3 text-sm leading-relaxed text-slate-700">
@@ -14905,11 +15051,11 @@ const passagesData = [
                             <div className="grid lg:grid-cols-2 gap-8" style={{ filter: lockedTopic === null ? 'blur(4px)' : 'none' }}>
                             <article className="bg-white p-6 rounded-lg shadow-md">
                                 <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">{selectedPassage.passage1.title}</h2>
-                                <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage1.content, { normalizeSpacing: true }) }} />
+                                <div style={{ whiteSpace: 'pre-wrap' }}>{expandIfShort(selectedPassage.topic, selectedPassage.passage1.title, selectedPassage.passage1.content)}</div>
                             </article>
                             <article className="bg-white p-6 rounded-lg shadow-md">
                                 <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">{selectedPassage.passage2.title}</h2>
-                                <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(selectedPassage.passage2.content, { normalizeSpacing: true }) }} />
+                                <div style={{ whiteSpace: 'pre-wrap' }}>{expandIfShort(selectedPassage.topic, selectedPassage.passage2.title, selectedPassage.passage2.content)}</div>
                             </article>
                             </div>
                         </div>
