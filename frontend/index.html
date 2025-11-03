@@ -14137,55 +14137,57 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                 return (
                     <div>
                         <h3 className="text-2xl font-bold mb-4 subject-accent-heading">Part 2: Extended Response (Essay)</h3>
-                        <div className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg mb-4">
-                            <h4 className="question-stem">{quiz.part2_essay.passages[0].title}</h4>
-                            <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[0].content, { normalizeSpacing: true }) }} />
+                        <div className="flex flex-col lg:flex-row gap-4">
+                            {/* LEFT: passages */}
+                            <div className="lg:w-1/2 space-y-4 max-h-[32rem] overflow-y-auto">
+                                {(Array.isArray(quiz.part2_essay.passages) ? quiz.part2_essay.passages : []).slice(0,2).map((p, idx) => (
+                                    <div key={idx} className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg">
+                                        <h4 className="question-stem">{p?.title || `Passage ${idx+1}`}</h4>
+                                        {p?.author ? <p className="text-xs text-slate-500 mb-2">by {p.author}</p> : null}
+                                        <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(p?.content || '', { normalizeSpacing: true }) }} />
+                                    </div>
+                                ))}
+                            </div>
+                            {/* RIGHT: writing area */}
+                            <div className="lg:w-1/2 flex flex-col">
+                                <h4 className="font-bold mb-2">Essay Prompt:</h4>
+                                <p className="mb-2">{quiz.part2_essay.prompt}</p>
+                                <textarea
+                                    className="w-full min-h-[24rem] p-2 border rounded flex-1"
+                                    value={essayText}
+                                    onChange={(e) => setEssayText(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Tab') {
+                                            e.preventDefault();
+                                            const target = e.target;
+                                            const start = target.selectionStart;
+                                            const end = target.selectionEnd;
+                                            const value = target.value;
+                                            const insert = '    ';
+                                            const next = value.slice(0, start) + insert + value.slice(end);
+                                            setEssayText(next);
+                                            setTimeout(() => {
+                                                try { target.selectionStart = target.selectionEnd = start + insert.length; } catch {}
+                                            }, 0);
+                                        }
+                                    }}
+                                    placeholder="Type your essay response here..."
+                                />
+                                <div className="mt-4 flex justify-end">
+                                    <button
+                                        type="button"
+                                        onClick={handlePart2Complete}
+                                        disabled={isScoring}
+                                        className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg disabled:bg-slate-400 disabled:cursor-not-allowed"
+                                    >
+                                        {isScoring ? 'Scoring Essay...' : 'Continue to Final Section'}
+                                    </button>
+                                </div>
+                                {isScoring && (
+                                    <p className="mt-2 text-sm text-slate-500">Scoring your essay with AI feedback. Please hold tight...</p>
+                                )}
+                            </div>
                         </div>
-                        <div className="prose passage-section max-w-none bg-slate-50 p-4 rounded-lg">
-                            <h4 className="question-stem">{quiz.part2_essay.passages[1].title}</h4>
-                            <div dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.part2_essay.passages[1].content, { normalizeSpacing: true }) }} />
-                        </div>
-                        <div className="mt-4">
-                            <h4 className="font-bold">Essay Prompt:</h4>
-                            <p className="mb-2">{quiz.part2_essay.prompt}</p>
-                            <textarea
-                                className="w-full h-64 p-2 border rounded"
-                                value={essayText}
-                                onChange={(e) => setEssayText(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Tab') {
-                                        e.preventDefault();
-                                        const target = e.target;
-                                        const start = target.selectionStart;
-                                        const end = target.selectionEnd;
-                                        const value = target.value;
-                                        const insert = '    ';
-                                        const next = value.slice(0, start) + insert + value.slice(end);
-                                        setEssayText(next);
-                                        // Move caret after inserted spaces
-                                        setTimeout(() => {
-                                            try {
-                                                target.selectionStart = target.selectionEnd = start + insert.length;
-                                            } catch {}
-                                        }, 0);
-                                    }
-                                }}
-                                placeholder="Type your essay response here..."
-                            />
-                        </div>
-                        <div className="mt-4 flex justify-end">
-                            <button
-                                type="button"
-                                onClick={handlePart2Complete}
-                                disabled={isScoring}
-                                className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg disabled:bg-slate-400 disabled:cursor-not-allowed"
-                            >
-                                {isScoring ? 'Scoring Essay...' : 'Continue to Final Section'}
-                            </button>
-                        </div>
-                        {isScoring && (
-                            <p className="mt-2 text-sm text-slate-500">Scoring your essay with AI feedback. Please hold tight...</p>
-                        )}
                     </div>
                 );
             case 3:
