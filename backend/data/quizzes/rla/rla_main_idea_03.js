@@ -318,5 +318,36 @@ module.exports = [
         "isCorrect": false
       }
     ]
+  },
+  {
+    "questionNumber": 12,
+    "type": "multipleChoice",
+    "passage": "Rla Main Idea 03 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
+    "question": "Rla Main Idea 03 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "answerOptions": [
+      {
+        "text": "A. Provides contextual detail but misses the rla main idea 03 focus.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "B. Connects the rla main idea 03 concept to reasoning through language arts (rla) reasoning at question 12.",
+        "isCorrect": true,
+        "rationale": "This option aligns with the required analysis."
+      },
+      {
+        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      },
+      {
+        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
+        "isCorrect": false,
+        "rationale": "This choice does not address the key skill emphasized by the question."
+      }
+    ],
+    "difficulty": "medium",
+    "__autogen": true
   }
-];
+]
+;
