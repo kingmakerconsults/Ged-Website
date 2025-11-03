@@ -722,6 +722,11 @@
         /* Make individual passage cards transparent in dark mode so the black panel shows */
         [data-theme="dark"] .essay-passage-panel .passage-card {
             background: transparent !important;
+            color: #ffffff !important;
+        }
+        /* In dark mode, override Typography (.prose) nested element colors */
+        [data-theme="dark"] .essay-passage-panel .passage-card :where(h1,h2,h3,h4,h5,h6,p,li,span,strong,em,a,blockquote,code,small){
+            color: #ffffff !important;
         }
         /* Light mode left passage panel: force white panel and dark text for GED-style contrast */
         [data-theme="light"] .essay-passage-panel {
@@ -730,7 +735,11 @@
         }
         [data-theme="light"] .essay-passage-panel .passage-card {
             background: #ffffff !important;
-            color: inherit;
+            color: #0f172a !important;
+        }
+        /* In light mode, ensure nested elements are dark text */
+        [data-theme="light"] .essay-passage-panel .passage-card :where(h1,h2,h3,h4,h5,h6,p,li,span,strong,em,a,blockquote,code,small){
+            color: #0f172a !important;
         }
         /* Evidence highlighting in passages (works for <mark> or <span> with the classes) */
         [data-theme="light"] mark.evidence-strong,
