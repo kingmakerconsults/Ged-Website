@@ -2326,7 +2326,7 @@
                 },
                 {
                   "type": "multiple_choice",
-                  "question": "A tank is $\\frac{2}{5}$ full of water. If 50 gallons are added, the tank is $\\frac{3}{4}$ full. What is the total capacity of the tank in gallons?",
+                  "question": "A tank is $\\frac{2}{5}$ full of water. If 35 gallons are added, the tank is $\\frac{3}{4}$ full. What is the total capacity of the tank in gallons?",
                   "answerOptions": [
                     "100 gallons",
                     "120 gallons",
@@ -2913,14 +2913,14 @@
                 },
                 {
                   "type": "multiple_choice",
-                  "question": "A cylindrical can has a volume of 314 cm$^3$ and a height of 10 cm. What is its radius? (Use 3.14 for pi)",
+                  "question": "A cylindrical can has a volume of 314 cm$^3$ and a height of 10 cm. What is its radius to the nearest tenth of a centimeter? (Use 3.14 for pi)",
                   "answerOptions": [
-                    "3 cm",
-                    "4 cm",
-                    "5 cm",
-                    "10 cm"
+                    "2.8 cm",
+                    "3.2 cm",
+                    "3.6 cm",
+                    "4.0 cm"
                   ],
-                  "correctAnswer": "3 cm",
+                  "correctAnswer": "3.2 cm",
                   "difficulty": "medium"
                 },
                 {
