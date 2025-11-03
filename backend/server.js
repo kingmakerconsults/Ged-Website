@@ -5697,6 +5697,150 @@ app.get('/api/all-quizzes', (req, res) => {
     }
 });
 
+// Practice Session helpers and endpoint
+const PRACTICE_SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
+const VALID_DURATIONS = [10, 20, 30, 40, 50, 60];
+
+function clampDuration(mins) {
+    const n = Number(mins);
+    if (VALID_DURATIONS.includes(n)) return n;
+    // find nearest valid duration; default to 10 if invalid
+    const sorted = [...VALID_DURATIONS].sort((a, b) => Math.abs(a - n) - Math.abs(b - n));
+    return sorted[0] || 10;
+}
+
+function shuffleArray(arr) {
+    const a = Array.isArray(arr) ? arr.slice() : [];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function isValidMC(question) {
+    if (!question || typeof question !== 'object') return false;
+    const opts = Array.isArray(question.answerOptions) ? question.answerOptions : [];
+    if (opts.length < 2) return false;
+    return opts.some(o => o && o.isCorrect === true);
+}
+
+function cloneQuestion(q) {
+    if (!q || typeof q !== 'object') return null;
+    const cloned = { ...q };
+    if (Array.isArray(q.answerOptions)) {
+        cloned.answerOptions = q.answerOptions.map(opt => ({ ...opt }));
+    }
+    return cloned;
+}
+
+function flattenSubjectQuestions(subjectKey) {
+    const out = [];
+    const subj = ALL_QUIZZES[subjectKey];
+    if (!subj || !subj.categories) return out;
+    Object.values(subj.categories).forEach(cat => {
+        const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+        topics.forEach(topic => {
+            const questions = Array.isArray(topic?.questions) ? topic.questions : [];
+            questions.forEach(raw => {
+                const q = cloneQuestion(raw);
+                if (!isValidMC(q)) return;
+                // Ensure subject property present
+                if (!q.subject) q.subject = subjectKey;
+                out.push(q);
+            });
+        });
+    });
+    return out;
+}
+
+function assembleBalancedPool(requiredCount) {
+    // Collect per-subject pools
+    const bySubject = PRACTICE_SUBJECTS.map(s => ({ subject: s, pool: shuffleArray(flattenSubjectQuestions(s)) }));
+    const totalAvailable = bySubject.reduce((acc, s) => acc + s.pool.length, 0);
+    const take = Math.min(requiredCount, totalAvailable);
+    if (take <= 0) return [];
+
+    // Base quota per subject
+    const base = Math.floor(take / PRACTICE_SUBJECTS.length);
+    let remainder = take % PRACTICE_SUBJECTS.length;
+    const selections = [];
+
+    bySubject.forEach(({ subject, pool }) => {
+        const extra = remainder > 0 ? 1 : 0;
+        const need = base + extra;
+        if (remainder > 0) remainder -= 1;
+        selections.push(...pool.slice(0, need).map(q => ({ ...q, subject })));
+    });
+
+    // If still short (because some pools were smaller), top up from any remaining
+    if (selections.length < take) {
+        const leftovers = shuffleArray(bySubject.flatMap(({ subject, pool }) => pool.slice(0))).filter(q => !selections.includes(q));
+        selections.push(...leftovers.slice(0, take - selections.length));
+    }
+    return shuffleArray(selections).slice(0, take);
+}
+
+function assembleSingleSubject(subjectKey, requiredCount) {
+    const pool = shuffleArray(flattenSubjectQuestions(subjectKey));
+    return pool.slice(0, Math.min(pool.length, requiredCount));
+}
+
+app.post('/api/practice-session', async (req, res) => {
+    try {
+        const body = req.body || {};
+        const inputMode = (body.mode || 'balanced').toString().toLowerCase();
+        const duration = clampDuration(body.durationMinutes || 10);
+        // 5 questions per 10 minutes as a simple pacing rule
+        const plannedCount = Math.max(1, Math.floor((duration / 10) * 5));
+
+        let mode = 'balanced';
+        let subjectKey = null;
+        switch (inputMode) {
+            case 'math':
+                mode = 'math'; subjectKey = 'Math'; break;
+            case 'rla':
+            case 'language':
+                mode = 'rla'; subjectKey = 'RLA'; break;
+            case 'science':
+                mode = 'science'; subjectKey = 'Science'; break;
+            case 'social-studies':
+            case 'social_studies':
+            case 'socialstudies':
+            case 'ss':
+                mode = 'social-studies'; subjectKey = 'Social Studies'; break;
+            case 'balanced':
+            default:
+                mode = 'balanced'; subjectKey = null; break;
+        }
+
+        let questions;
+        if (mode === 'balanced') {
+            questions = assembleBalancedPool(plannedCount);
+        } else {
+            questions = assembleSingleSubject(subjectKey, plannedCount);
+        }
+
+        // number questions for display
+        const numbered = questions.map((q, i) => ({ ...q, questionNumber: i + 1 }));
+
+        const response = {
+            title: 'Practice Session',
+            mode,
+            subject: subjectKey,
+            durationMinutes: duration,
+            plannedQuestionCount: plannedCount,
+            actualQuestionCount: numbered.length,
+            questions: numbered,
+        };
+        res.set('Cache-Control', 'no-store');
+        return res.status(200).json(response);
+    } catch (err) {
+        console.error('Failed to assemble practice session:', err);
+        return res.status(500).json({ error: 'Failed to assemble practice session' });
+    }
+});
+
 // Helper function to generate AI questions
 const generateAIContent = async (prompt, schema) => {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
