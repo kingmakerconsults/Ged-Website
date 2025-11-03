@@ -3073,13 +3073,15 @@ function pickCandidateUrls(subject, topic) {
         return [
             `https://www.britannica.com/search?query=${encodeURIComponent(topic)}`,
             `https://www.loc.gov/search/?q=${encodeURIComponent(topic)}&all=true`,
-            `https://www.census.gov/topics.html`
+            `https://www.archives.gov/search?query=${encodeURIComponent(topic)}`,
+            `https://www.presidency.ucsb.edu/documents?field-keywords=${encodeURIComponent(topic)}`
         ];
     }
     if (subject === 'Science') {
         const seeds = [
             `https://www.nasa.gov/search/?q=${encodeURIComponent(topic)}`,
-            `https://www.noaa.gov/search?s=${encodeURIComponent(topic)}`
+            `https://www.noaa.gov/search?s=${encodeURIComponent(topic)}`,
+            `https://oceanservice.noaa.gov/search.html?q=${encodeURIComponent(topic)}`
         ];
         if (/climate|weather|atmosphere|carbon|warming/i.test(topic)) {
             seeds.splice(1, 0, 'https://climate.nasa.gov/');
@@ -3206,7 +3208,9 @@ function buildSubjectPrompt({ subject, topic, examType, context = [], images = [
     } else {
         if (subject === 'Social Studies') {
             base.push(
-                `Generate ${questionCount} GED-style Social Studies questions focused entirely on the topic "${topic}". All questions must directly relate to this topic (e.g. constitution, founding documents, branches of government, key amendments) and must not introduce unrelated economics or geography content unless it is clearly and explicitly tied to the topic.`,
+                `This is a TOPIC-FOCUSED quiz. Stay strictly on "${topic}" or its immediate historical/civic context. Do NOT apply or rebalance to comprehensive percentages (e.g., 50/20/15/15).`,
+                `Generate ${questionCount} GED-style Social Studies questions focused entirely on the topic "${topic}" (e.g., Constitution, founding documents, branches of government, key amendments). Do not introduce unrelated economics or geography content unless it is clearly and explicitly tied to the topic.`,
+                `Prefer primary-source style stimuli: speeches, letters, founding-era documents, short legal excerpts, and historically grounded encyclopedia entries (use approved sources when possible).`,
                 `Keep the variety of stimuli, but tie all stimuli directly to the topic.`
             );
         } else if (subject === 'Science') {
@@ -4519,7 +4523,13 @@ Output a single valid JSON object with three keys:
 
 async function generateRlaPart1(options = {}) {
     const prompt = `${STRICT_JSON_HEADER_RLA}
-Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 passages (3 informational, 1 literary), each 150-230 words and NEVER above 250 words, with concise titles in <strong> tags and <p> tags for paragraphs. For EACH passage, generate exactly 5 reading comprehension questions (total 20). Return the JSON array of question objects only.`;
+Create the Reading Comprehension section of a GED RLA exam.
+Produce exactly 4 passages:
+- 3 informational / nonfiction passages (science/society/history topics are fine),
+- 1 literary passage that may be EITHER narrative fiction OR a short poem, but keep it 150–230 words.
+Use concise titles in <strong> tags and <p> tags for paragraphs. Each passage must be 150-230 words and NEVER above 250 words.
+For EACH passage, generate exactly 5 reading comprehension questions (total 20).
+Return the JSON array of question objects only.`;
     const schema = { type: "ARRAY", items: singleQuestionSchema };
     const questions = await callAI(prompt, schema, options);
     const cappedQuestions = Array.isArray(questions)
@@ -4547,11 +4557,11 @@ Create the Reading Comprehension section of a GED RLA exam. Produce exactly 4 pa
 }
 
 async function generateRlaPart2(options = {}) {
-    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each, 150-230 words and never above 250 words). Each passage MUST have its own title. Output a JSON object with keys "passages" (an array of two objects, each with "title" and "content") and "prompt" (the essay question, <= 250 words).`;
+    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each, 150-230 words and never above 250 words). Each passage MUST have: "title", "author" (a plausible human name), and "content". Output a JSON object with keys "passages" (an array of two objects, each with "title", "author", and "content") and "prompt" (the essay question, <= 250 words).`;
     const schema = {
         type: "OBJECT",
         properties: {
-            passages: { type: "ARRAY", items: { type: "OBJECT", properties: { title: { type: "STRING" }, content: { type: "STRING" } } } },
+            passages: { type: "ARRAY", items: { type: "OBJECT", properties: { title: { type: "STRING" }, author: { type: "STRING" }, content: { type: "STRING" } } } },
             prompt: { type: "STRING" }
         },
         required: ["passages", "prompt"]
