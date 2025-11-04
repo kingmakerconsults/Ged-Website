@@ -2992,7 +2992,19 @@ async function findOrCreateDailyRow(userId, subject, planDateISO) {
             const day = Array.isArray(weekly.plan_json?.days) ? weekly.plan_json.days.find((d) => Number(d.day) === (dayIdx + 1)) : null;
             if (day) {
                 const focus = Array.isArray(day.focus) ? day.focus.join(', ') : '';
-                notes = `Focus: ${focus}\nTask: ${day.task || ''}\nPlanned: ${day.minutes || 0} min`;
+                const taskText = day.label || day.task || day.type || '';
+                notes = `Focus: ${focus}\nTask: ${taskText}\nPlanned: ${day.minutes || 0} min`;
+                // If weekly plan assigned a premade quiz for today, carry its id to daily row
+                if (day.quizId) {
+                    // Use a stable coach quiz id for today's date; store source id for FE launch mapping
+                    const sourceId = String(day.quizId);
+                    const coachId = `${COACH_ASSIGNED_BY}:${subject}:${planDateISO}`;
+                    await pool.query(
+                        `UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_source_id = $5, coach_quiz_completed = FALSE, updated_at = NOW()
+                           WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
+                        [userId, subject, planDateISO, coachId, sourceId]
+                    );
+                }
             }
         } else {
             needsRefresh = true;
@@ -3046,6 +3058,55 @@ app.get('/api/coach/:subject', devAuth, ensureTestUserForNow, requireAuthInProd,
     }
 });
 
+// Build a premade quiz inventory for a subject from ALL_QUIZZES
+function loadPremadeQuizzesForSubjectSync(subject) {
+    const out = [];
+    const subj = ALL_QUIZZES?.[subject];
+    if (!subj || !subj.categories) return out;
+    for (const [catName, cat] of Object.entries(subj.categories)) {
+        const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+        for (const t of topics) {
+            const quizzes = Array.isArray(t?.quizzes) ? t.quizzes : [];
+            for (const q of quizzes) {
+                if (!q) continue;
+                // Aggregate tags from attached questions if present
+                let tags = [];
+                if (Array.isArray(q.questions)) {
+                    q.questions.forEach((qq, i) => {
+                        const norm = ensureQuestionTags(subject, catName, t, qq, i);
+                        if (Array.isArray(norm?.challenge_tags)) tags.push(...norm.challenge_tags);
+                    });
+                }
+                const id = q.quizCode || q.quizId || `${subject}:${(q.title || q.name || 'quiz').toLowerCase().replace(/[^a-z0-9]+/g,'-')}`;
+                out.push({ id, title: q.title || q.name || 'Quiz', challenge_tags: Array.from(new Set(tags)) });
+            }
+            // If a topic has questions but no quiz objects, treat topic as one premade
+            if (!Array.isArray(t?.quizzes) && Array.isArray(t?.questions) && t.questions.length > 0) {
+                let tags = [];
+                t.questions.forEach((qq, i) => {
+                    const norm = ensureQuestionTags(subject, catName, t, qq, i);
+                    if (Array.isArray(norm?.challenge_tags)) tags.push(...norm.challenge_tags);
+                });
+                const id = `${subject}:${(t.title || 'topic').toLowerCase().replace(/[^a-z0-9]+/g,'-')}`;
+                out.push({ id, title: t.title || 'Topic Quiz', challenge_tags: Array.from(new Set(tags)) });
+            }
+        }
+    }
+    return out;
+}
+
+function prioritizeQuizzesByChallenges(quizzes, challengeTags) {
+    const wanted = new Set((challengeTags || []).map(t => String(t).toLowerCase()));
+    return quizzes
+        .map(q => {
+            const tags = (q.challenge_tags || []).map(t => String(t).toLowerCase());
+            const overlap = tags.filter(t => wanted.has(t)).length;
+            return { ...q, _score: overlap };
+        })
+        .sort((a,b) => (b._score - a._score) || (a.title || '').localeCompare(b.title || ''))
+        .map(({ _score, ...rest }) => rest);
+}
+
 app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
     try {
         const userId = req.user?.id || req.user?.userId;
@@ -3057,7 +3118,7 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             return res.status(400).json({ ok: false, error: 'subject_passed', message: 'This subject has been marked as passed.' });
         }
 
-        // 1) freshness check (read latest; enforce once per calendar week)
+        // 1) enforce once per calendar week
         let latest = null;
         try {
             const r = await pool.query(
@@ -3066,20 +3127,15 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             );
             latest = r.rows && r.rows[0] ? r.rows[0] : null;
         } catch (_) {}
-        let fresh = false;
         const weekStartISO = getCurrentWeekStartISO();
         if (latest && latest.valid_from) {
             const latestStart = (latest.valid_from instanceof Date) ? latest.valid_from.toISOString().slice(0,10) : String(latest.valid_from).slice(0,10);
             if (latestStart === weekStartISO) {
-                // Already generated for this week — return existing plan
-                return res.json({ ok: true, plan: latest, fresh: true, alreadyGenerated: true });
+                return res.status(429).json({ ok: false, message: 'You already generated the weekly plan for this subject this week.' });
             }
-            const dt = new Date(latest.generated_at || latest.valid_from);
-            const ageDays = (Date.now() - dt.getTime()) / (1000*60*60*24);
-            fresh = ageDays < 7;
         }
 
-        // 2) inputs: test date
+    // 2) inputs: test date
         const testPlanTable = await getTestPlanTableName();
         let testDate = null;
         try {
@@ -3136,7 +3192,7 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             }
         } catch (_) {}
 
-        // 5) stats: compute priority per tag
+    // 5) stats: compute priority per tag
         const prefixes = subjectTagPrefixes(subject);
         let topStats = [];
         try {
@@ -3159,8 +3215,8 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             topStats.sort((a,b) => b.priority - a.priority);
         } catch (_) {}
 
-        const topFromStats = topStats.slice(0, 4).map(s => ({ tag: s.tag, reason: `Missed ${s.wrong}× recently` }));
-        const declaredList = Array.from(declaredTags).slice(0, 4).map(t => ({ tag: t, reason: 'Student declared this as a challenge' }));
+    const topFromStats = topStats.slice(0, 6).map(s => ({ tag: s.tag, reason: `Missed ${s.wrong}× recently` }));
+    const declaredList = Array.from(declaredTags).slice(0, 6).map(t => ({ tag: t, reason: 'Student declared this as a challenge' }));
 
         // Merge, de-dup, keep 3–4
         const merged = [];
@@ -3176,51 +3232,29 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             merged.push(declaredList[0]);
         }
 
-        // Build plan ingredients
-        const todayISO = new Date().toISOString().slice(0,10);
-        const daysRemaining = (() => {
-            if (!testDate) return null;
-            try {
-                const t = new Date(testDate);
-                const today = new Date(todayISO);
-                return Math.ceil((t - today) / (1000*60*60*24));
-            } catch { return null; }
-        })();
-
-        const ingredients = {
-            subject,
-            today: todayISO,
-            testDate: testDate || null,
-            daysRemaining,
-            topChallenges: merged,
-            recentScores: recentAttempts.filter(a => a.score != null).map(a => ({ quiz: a.quiz, score: a.score }))
-        };
-
-        // AI prompt and schema
-        const coachPrompt = `You are a GED study coach. Based on the JSON below, create a 7-day study plan starting from "today". Each day should have:\n\n- 1–2 target challenges chosen from topChallenges\n- a task type (relearn, short practice, timed 12-question set, or mixed review)\n- an estimated time (15, 20, or 30 minutes)\nIf testDate is close (<= 10 days), increase the number of mixed / timed tasks.\nReturn only JSON in this exact shape: {\n  "days": [ { "day": 1, "focus": ["tag"], "task": "...", "minutes": 20 } ],\n  "notes": "..."\n}\n\nINPUT:\n${JSON.stringify(ingredients, null, 2)}`;
-
-        const planSchema = {
-            type: 'OBJECT',
-            properties: {
-                days: { type: 'ARRAY', items: { type: 'OBJECT', properties: {
-                    day: { type: 'NUMBER' },
-                    focus: { type: 'ARRAY', items: { type: 'STRING' } },
-                    task: { type: 'STRING' },
-                    minutes: { type: 'NUMBER' },
-                }, required: ['day','focus','task','minutes'] } },
-                notes: { type: 'STRING' }
-            },
-            required: ['days']
-        };
-
-        let aiPlan = null;
-        try {
-            aiPlan = await callAI(coachPrompt, planSchema, { generationOverrides: { temperature: 0.4 } });
-        } catch (e) {
-            console.error('[coach] AI generation failed:', e?.message || e);
-            // Fallback: simple deterministic plan
-            aiPlan = { days: Array.from({ length: 7 }, (_, i) => ({ day: i+1, focus: merged.length ? [merged[i % merged.length].tag] : [], task: 'mixed review', minutes: 20 })), notes: testDate ? 'Auto plan based on recent challenges.' : 'No test date set; general practice.' };
+        // Build a deterministic 7-day plan with premade quizzes prioritized by challenges
+        const challengeTags = merged.map(m => m.tag);
+        const inventory = loadPremadeQuizzesForSubjectSync(subject);
+        const prioritized = prioritizeQuizzesByChallenges(inventory, challengeTags);
+        const pick = (i) => prioritized.length ? prioritized[i % prioritized.length] : null;
+        const days = [];
+        for (let i = 0; i < 7; i++) {
+            const quiz = pick(i);
+            days.push({
+                day: i + 1,
+                type: 'premade-quiz',
+                quizId: quiz ? quiz.id : null,
+                label: quiz ? (quiz.title || 'Premade Quiz') : `Practice ${subject}`,
+                minutes: 20,
+                focus: challengeTags.slice(0, 3)
+            });
         }
+        const aiPlan = {
+            days,
+            notes: testDate
+                ? `Work through these daily items before your ${subject} test on ${testDate}.`
+                : `Work through one item per day to make steady progress in ${subject}.`
+        };
 
         // Persist plan
     const validFrom = weekStartISO;
@@ -3235,7 +3269,7 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             [userId, subject, validFrom, validTo, aiPlan, aiPlan?.notes || (testDate ? 'Generated weekly plan.' : 'Generated; no test date set.')]
         );
 
-        return res.json({ ok: true, plan: insert.rows[0], fresh });
+        return res.json({ ok: true, plan: insert.rows[0] });
     } catch (e) {
         console.error('POST /api/coach/:subject/generate-week failed:', e);
         return res.status(500).json({ ok: false, error: 'coach_generate_failed' });
@@ -3270,8 +3304,10 @@ app.get('/api/coach/daily', devAuth, ensureTestUserForNow, requireAuthInProd, au
                 }
                 lines.forEach((ln) => tasks.push({ type: 'note', label: ln }));
             }
-            if (row.coach_quiz_id && !row.coach_quiz_completed) {
-                tasks.push({ type: 'coach-quiz', label: 'Do coach quiz', quizId: row.coach_quiz_source_id || null, focusTag: focusTag || null });
+            if (row.coach_quiz_id && !row.coach_quiz_completed && row.coach_quiz_source_id) {
+                tasks.push({ type: 'premade-quiz', label: 'Today\'s premade', quizId: row.coach_quiz_source_id, focusTag: focusTag || null });
+            } else if (row.coach_quiz_id && !row.coach_quiz_completed) {
+                tasks.push({ type: 'coach-quiz', label: 'Do coach quiz', quizId: null, focusTag: focusTag || null });
             }
             subjects.push({
                 subject: subj,
@@ -3288,6 +3324,57 @@ app.get('/api/coach/daily', devAuth, ensureTestUserForNow, requireAuthInProd, au
     } catch (e) {
         console.error('GET /api/coach/daily failed:', e);
         return res.status(500).json({ ok: false, error: 'coach_daily_failed' });
+    }
+});
+// Ask Coach (subject) — ad-hoc 12Q mixed quiz filtered by user challenge tags
+app.post('/api/coach/:subject/ask', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const subject = normalizeSubjectLabel(req.params.subject);
+
+        // Gather challenge tags for this subject
+        const { optionTable, selectionTable } = await getChallengeTables();
+        const prefixes = subjectTagPrefixes(subject);
+        let userTags = new Set();
+        try {
+            const sel = await db.query(`SELECT challenge_id FROM ${selectionTable} WHERE user_id = $1`, [userId]);
+            const ids = sel.rows.map(r => String(r.challenge_id));
+            if (ids.length) {
+                const optRows = await db.query(`SELECT id, subject, subtopic, label FROM ${optionTable}`);
+                const byId = new Map(optRows.rows.map(o => [String(o.id), o]));
+                for (const id of ids) {
+                    if (/:/.test(id)) {
+                        const tag = String(id).toLowerCase();
+                        if (!prefixes.length || prefixes.some(p => tag.startsWith(p))) userTags.add(tag);
+                        continue;
+                    }
+                    const opt = byId.get(id);
+                    if (opt && (!subject || opt.subject === subject)) {
+                        const subjKey = (subject === 'Social Studies') ? 'social' : subject.toLowerCase();
+                        const slug = (opt.subtopic || opt.label || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                        if (slug) userTags.add(`${subjKey}:${slug}`);
+                    }
+                }
+            }
+        } catch (_) {}
+
+        // Build pool of questions for subject
+        let pool = getPremadeQuestions(subject, 200);
+        const wanted = Array.from(userTags);
+        let filtered = pool.filter(q => Array.isArray(q?.challenge_tags) && q.challenge_tags.some(t => wanted.includes(String(t).toLowerCase())));
+        if (filtered.length < 10) filtered = pool;
+
+        // Shuffle and take 12
+        for (let i = filtered.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+        }
+        const questions = filtered.slice(0, 12).map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
+        return res.json({ ok: true, subject, quiz: { id: `coach-${subject.toLowerCase()}-${Date.now()}`, title: `Coach Smith — ${subject} Check`, questions } });
+    } catch (e) {
+        console.error('POST /api/coach/:subject/ask failed:', e);
+        return res.status(500).json({ ok: false, error: 'ask_failed' });
     }
 });
 

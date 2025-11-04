@@ -1807,6 +1807,32 @@
                     padding: 2px 8px;
                 }
 
+                /* tinted subject pills per subject for readability on gold */
+                .coach-subject-card.subject-math .subject-pill {
+                    background: rgba(14,165,233,0.22);
+                    color: #063a4a;
+                    border: 1px solid rgba(14,165,233,0.45);
+                    box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset;
+                }
+                .coach-subject-card.subject-rla .subject-pill {
+                    background: rgba(124,58,237,0.22);
+                    color: #2e1065;
+                    border: 1px solid rgba(124,58,237,0.45);
+                    box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset;
+                }
+                .coach-subject-card.subject-science .subject-pill {
+                    background: rgba(248,113,113,0.22);
+                    color: #7f1d1d;
+                    border: 1px solid rgba(248,113,113,0.45);
+                    box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset;
+                }
+                .coach-subject-card.subject-social .subject-pill {
+                    background: rgba(22,163,74,0.22);
+                    color: #064e3b;
+                    border: 1px solid rgba(22,163,74,0.45);
+                    box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset;
+                }
+
         /* Settings: force all text to white in DARK mode */
         [data-theme="dark"] #settingsView,
         [data-theme="dark"] #settingsView * {
@@ -12288,6 +12314,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const [dailySubjects, setDailySubjects] = useState([]);
     // weekly coach summary for dashboard
     const [weeklySubjects, setWeeklySubjects] = useState([]);
+    const [generatingAll, setGeneratingAll] = useState(false);
     // Vocabulary collapsible
     const [vocabOpen, setVocabOpen] = useState(true);
 
@@ -12336,6 +12363,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             if (res.ok) {
                 const data = await res.json();
                 if (data && data.ok && data.plan) setCoachPlan(data.plan);
+            } else if (res.status === 429) {
+                const data = await res.json().catch(() => ({}));
+                setCoachError(data?.message || 'You already generated the weekly plan for this subject this week.');
+                alert(data?.message || 'You already generated the weekly plan for this subject this week.');
             } else {
                 setCoachError('Failed to generate plan.');
             }
@@ -12343,6 +12374,47 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             setCoachError('Failed to generate plan.');
         } finally {
             setCoachLoading(false);
+        }
+    };
+
+    // Generate weekly plans for all subjects, then refresh weekly summary
+    const generateAllWeeklyPlans = async () => {
+        try {
+            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+            if (!token) { alert('Please sign in to generate weekly plans.'); return; }
+            setGeneratingAll(true);
+            const subjects = ['Math', 'RLA', 'Science', 'Social Studies'];
+            const results = [];
+            for (const subj of subjects) {
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subj)}/generate-week`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                    });
+                    if (res.status === 429) {
+                        const data = await res.json().catch(() => ({}));
+                        results.push(`${subj}: already generated`);
+                        continue;
+                    }
+                    if (!res.ok) {
+                        results.push(`${subj}: error (${res.status})`);
+                        continue;
+                    }
+                    results.push(`${subj}: ok`);
+                } catch (e) {
+                    results.push(`${subj}: error`);
+                }
+            }
+            // Refresh weekly summary panel
+            try {
+                const wr = await fetch(`${API_BASE_URL}/api/coach/weekly`, { headers: { Authorization: `Bearer ${token}` } });
+                const wd = await wr.json().catch(() => ({}));
+                setWeeklySubjects(Array.isArray(wd?.subjects) ? wd.subjects : []);
+            } catch (_) {}
+            // Optional toast via alert for now
+            if (results.length) alert(results.join('\n'));
+        } finally {
+            setGeneratingAll(false);
         }
     };
     useEffect(() => { if (selectedSubject) loadCoachPlan(); }, [selectedSubject]);
@@ -12397,12 +12469,81 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         if (key === 'rla' || key.includes('language')) return 'rla';
         return 'social-studies';
     };
+    // Resolve and launch a premade by quizCode for a subject (global helper)
+    const launchPremadeByCodeGlobal = (subject, quizCode) => {
+        try {
+            const data = (typeof window !== 'undefined') ? (window.MergedExpandedQuizData || window.ExpandedQuizData || {}) : {};
+            const subjectData = data?.[displaySubjectName(subject)] || data?.[subject] || null;
+            if (!subjectData) throw new Error('Subject dataset not found');
+            let found = null;
+            const setIfMatch = (obj) => {
+                if (found) return; if (!obj) return;
+                if (obj.quizCode && obj.quizCode === quizCode) found = obj;
+            };
+            if (Array.isArray(subjectData.quizzes)) subjectData.quizzes.forEach(setIfMatch);
+            const cats = subjectData.categories || {};
+            for (const catName of Object.keys(cats)) {
+                const cat = cats[catName]; if (!cat) continue;
+                if (Array.isArray(cat.quizzes)) cat.quizzes.forEach(setIfMatch);
+                const topics = Array.isArray(cat.topics) ? cat.topics : [];
+                for (const t of topics) {
+                    setIfMatch(t);
+                    if (Array.isArray(t?.quizzes)) t.quizzes.forEach(setIfMatch);
+                }
+            }
+            if (!found) throw new Error('not_found');
+            const baseTitle = found.title || 'Premade Quiz';
+            let questions = [];
+            if (Array.isArray(found.questions) && found.questions.length) {
+                questions = found.questions;
+            } else {
+                // try origin topic
+                const locateTopicById = (id) => {
+                    if (!id) return null;
+                    for (const cat of Object.values(cats)) {
+                        const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+                        for (const t of topics) if (t && (t.id === id || t.quizCode === id)) return t;
+                    }
+                    return null;
+                };
+                const originTopic = locateTopicById(found.topicId) || null;
+                if (originTopic && Array.isArray(originTopic.questions) && originTopic.questions.length) {
+                    questions = originTopic.questions;
+                } else if (originTopic && Array.isArray(originTopic.quizzes)) {
+                    const match = originTopic.quizzes.find(q => q.quizCode === found.quizCode || q.quizId === found.quizId) || originTopic.quizzes[0];
+                    if (match && Array.isArray(match.questions)) questions = match.questions;
+                }
+            }
+            const normalized = (questions || []).map((q, i) => normalizeQuestionAssets(q && typeof q === 'object' ? { ...q, questionNumber: q.questionNumber ?? (i + 1) } : q, displaySubjectName(subject)));
+            const payload = {
+                ...found,
+                id: found.quizCode || found.quizId || baseTitle,
+                quizCode: found.quizCode || found.quizId || baseTitle,
+                title: baseTitle,
+                type: found.type || 'quiz',
+                questions: normalized,
+                isPremade: true,
+                assignedBy: 'coach-smith',
+            };
+            startQuiz(payload, displaySubjectName(subject));
+            return true;
+        } catch (e) {
+            console.warn('launchPremadeByCodeGlobal failed', subject, quizCode, e);
+            return false;
+        }
+    };
+
     const startCoachQuizForSubject = async (subject, sourceId) => {
         try {
             const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
             if (!token) { alert('Please sign in to take today\'s coach quiz.'); return; }
             setIsLoading(true);
             setLoadingMessage(`Loading Coach Smith quiz for ${subject}...`);
+            if (sourceId) {
+                // If a premade assignment exists, launch it directly
+                const launched = launchPremadeByCodeGlobal(subject, sourceId);
+                if (launched) return; // early exit; loader will be dismissed in finally
+            }
             const body = {
                 durationMinutes: 20,
                 mode: 'single-subject',
@@ -12436,14 +12577,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         }
     };
 
-    // Start a composite premade for today's focus via new endpoint
+    // Ask Coach (subject): ad-hoc challenge-filtered 12Q quiz via new endpoint
     const startDailyCompositeForSubject = async (subject, focusTag) => {
         try {
             const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
             if (!token) { alert('Please sign in to start a composite quiz.'); return; }
             setIsLoading(true);
-            setLoadingMessage(`Building a quick ${subject} set…`);
-            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(practiceSubjectParam(subject))}/daily-composite`, {
+            setLoadingMessage(`Asking Coach for a custom ${subject} mix…`);
+            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(practiceSubjectParam(subject))}/ask`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
                 body: JSON.stringify({ focusTag })
@@ -12457,7 +12598,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             const displaySubject = displaySubjectName(subject);
             startQuiz({ ...quiz, assignedBy: 'coach-smith' }, displaySubject);
         } catch (e) {
-            alert('Unable to start a composite quiz right now.');
+            alert('Unable to start an Ask Coach quiz right now.');
         } finally {
             setIsLoading(false);
         }
@@ -13335,7 +13476,10 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                         </div>
                                         {Array.isArray(ds.tasks) && ds.tasks.length ? (
                                             <ul className="mt-2 list-disc ml-5 text-sm" style={heroMutedTextStyle}>
-                                                {ds.tasks.map((t, i) => <li key={i}>{t}</li>)}
+                                                {ds.tasks.map((t, i) => {
+                                                    const text = (t && typeof t === 'object') ? (t.label || t.type || '') : (t || '');
+                                                    return <li key={i}>{text}</li>;
+                                                })}
                                             </ul>
                                         ) : null}
                                     </div>
@@ -13724,6 +13868,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <div className={`mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${theme === 'dark' ? '' : 'coach-gold-light'}`}>
                         <div className="flex items-center justify-between mb-3">
                             <h2 className={`text-lg font-semibold ${homePanelPrimaryTextClass}`}>Coach Smith — This Week</h2>
+                            <button
+                                onClick={generateAllWeeklyPlans}
+                                disabled={generatingAll}
+                                className="text-sm font-semibold px-3 py-1 rounded-md bg-white text-slate-900 hover:bg-white/90 disabled:opacity-60 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+                                title="Generate weekly plans for Math, RLA, Science, and Social Studies"
+                            >{generatingAll ? 'Generating…' : 'Generate all'}</button>
                         </div>
 
                         {dailyLoading ? (
