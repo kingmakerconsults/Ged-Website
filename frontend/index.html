@@ -1742,14 +1742,46 @@
 
         /* Coach Smith gold panel visuals */
         .coach-panel {
-            background: linear-gradient(135deg, #fff7d6 0%, #fde68a 35%, #f4c95d 65%, #d4af37 100%);
-            border: 1px solid rgba(148,163,184,0.32);
-            box-shadow: 0 8px 20px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.4);
+            /* Match the rich dark-mode gold gradient in all themes */
+            background: linear-gradient(135deg, #3f2e0b 0%, #5b460d 35%, #7c6316 65%, #b08d2a 100%);
+            border: 1px solid rgba(148,163,184,0.35);
+            box-shadow: 0 8px 20px rgba(176,141,42,0.2), inset 0 1px 0 rgba(255,255,255,0.06);
         }
         [data-theme="dark"] .coach-panel {
             background: linear-gradient(135deg, #3f2e0b 0%, #5b460d 35%, #7c6316 65%, #b08d2a 100%);
             border: 1px solid rgba(148,163,184,0.35);
             box-shadow: 0 8px 20px rgba(176,141,42,0.2), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+        /* In light mode, force all text inside coach panel to pure black for maximum contrast */
+        [data-theme="light"] .coach-panel,
+        [data-theme="light"] .coach-panel * {
+            color: #000 !important;
+        }
+
+        /* Settings: force all text to white in DARK mode */
+        [data-theme="dark"] #settingsView,
+        [data-theme="dark"] #settingsView * {
+            color: #ffffff !important;
+        }
+
+        /* Profile: dark mode panels and text */
+        [data-theme="dark"] #profileView article,
+        [data-theme="dark"] #profileView form,
+        [data-theme="dark"] #profileView .panel,
+        [data-theme="dark"] #profileView .card {
+            background-color: rgba(15,23,42,0.9) !important; /* slate-900-ish */
+            border-color: rgba(148,163,184,0.35) !important; /* subtle border */
+            color: #ffffff !important;
+        }
+        [data-theme="dark"] #profileView .pref-row {
+            background-color: rgba(30,41,59,0.7) !important; /* slate-800-ish */
+            color: #ffffff !important;
+        }
+
+        /* Profile: Show all (challenges) button text black in LIGHT mode */
+        [data-theme="light"] #profileView .challenges-toggle-btn,
+        [data-theme="light"] #profileView .challenges-toggle-btn * {
+            color: #000 !important;
         }
 
         /* FORM CONTROL NORMALIZATION */
@@ -10599,21 +10631,21 @@ function ProfileView({
                 </section>
 
                     <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-3">
-                        <h2 className="text-lg font-semibold text-slate-800">Preferences Snapshot</h2>
+                        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Preferences Snapshot</h2>
                         <dl className="space-y-2 text-sm text-slate-600">
-                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row">
                                 <dt className="font-medium text-slate-700">Font Size</dt>
                                 <dd className="capitalize">{profile.fontSize || 'md'}</dd>
                             </div>
-                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row">
                                 <dt className="font-medium text-slate-700">Color Contrast</dt>
                                 <dd className="capitalize">Automatic</dd>
                             </div>
-                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row">
                                 <dt className="font-medium text-slate-700">Timezone</dt>
                                 <dd>{timezoneLabel}</dd>
                             </div>
-                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row">
                                 <dt className="font-medium text-slate-700">Test Reminders</dt>
                                 <dd>{reminderLabel}</dd>
                             </div>
@@ -10624,14 +10656,14 @@ function ProfileView({
 
                 <form
                     onSubmit={handleChallengesSubmit}
-                    className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightChallenges ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                    className={`rounded-2xl border bg-white/95 dark:bg-slate-900/85 dark:text-slate-100 p-5 shadow-sm space-y-4 ${highlightChallenges ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200 dark:border-slate-700/60'}`}
                 >
                     <div className="flex items-center justify-between gap-2">
                         <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Learning Challenges</h2>
                         <button
                             type="button"
                             onClick={() => setShowAllChallenges((v) => !v)}
-                            className="inline-flex items-center justify-center rounded-lg border px-2.5 py-1.5 text-xs font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                            className="inline-flex items-center justify-center rounded-lg border px-2.5 py-1.5 text-xs font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 challenges-toggle-btn"
                             aria-expanded={showAllChallenges ? 'true' : 'false'}
                             aria-controls="challengeList"
                         >
@@ -13173,7 +13205,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         />
                     )}
                     {/* Daily Coach goals (across subjects) */}
-                    <div className="coach-panel rounded-lg p-4 mt-4 shadow-md" style={panelBaseStyle}>
+                    <div className="coach-panel rounded-lg p-4 mt-4 shadow-md">
                         <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
                             <CalendarIcon className="h-8 w-8" />
                             <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Today&apos;s Coach Goals</h3>
@@ -13250,8 +13282,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                             <div
-                                className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
-                                style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                                className="coach-panel rounded-lg p-4 flex flex-col justify-between shadow-md hover:shadow-lg transition-all"
                             >
                                 <div>
                                     <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
