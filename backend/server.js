@@ -1,6 +1,7 @@
 // server.js (Updated Version)
 
 const path = require('path');
+const fs = require('fs');
 // Load local environment variables for development before any other imports that use them
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const express = require('express');
@@ -435,6 +436,19 @@ function detectCategory(absPath, subject) {
 function randomId() {
     if (crypto.randomUUID) return crypto.randomUUID();
     return crypto.randomBytes(16).toString('hex');
+}
+
+// Safe JSON read utility used by image metadata loader
+function readJsonSafe(filePath) {
+    try {
+        if (fs.existsSync(filePath)) {
+            const raw = fs.readFileSync(filePath, 'utf8');
+            return JSON.parse(raw);
+        }
+    } catch (err) {
+        console.warn('readJsonSafe failed for', filePath, err?.message || err);
+    }
+    return null;
 }
 
 function loadAndAugmentImageMetadata() {
