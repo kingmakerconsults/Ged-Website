@@ -2439,6 +2439,9 @@ const profileRouter = require('./routes/profile');
 ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
 ensureQuizAttemptsTable().catch((e) => console.error('Quiz attempt table init error:', e));
 ensureEssayScoresTable().catch((e) => console.error('Essay score table init error:', e));
+ensureChallengeSystemTables().catch((e) => console.error('Challenge system init error:', e));
+ensureStudyPlansTable().catch((e) => console.error('Study plans table init error:', e));
+ensureCoachDailyTables().catch((e) => console.error('Coach daily tables init error:', e));
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -2515,6 +2518,192 @@ app.get('/presence/ping', devAuth, ensureTestUserForNow, requireAuthInProd, auth
     }
 });
 
+// --- Challenge system table ensure (best-effort, complements migrations) ---
+async function ensureChallengeSystemTables() {
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS challenge_tag_catalog (
+              challenge_tag TEXT PRIMARY KEY,
+              subject TEXT,
+              label TEXT,
+              created_at TIMESTAMPTZ DEFAULT NOW()
+            );
+        `);
+    } catch (e) { console.warn('[ensure] challenge_tag_catalog', e?.code || e?.message || e); }
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS user_challenge_stats (
+              user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+              challenge_tag TEXT NOT NULL,
+              correct_count INTEGER NOT NULL DEFAULT 0,
+              wrong_count INTEGER NOT NULL DEFAULT 0,
+              last_seen TIMESTAMPTZ,
+              last_wrong_at TIMESTAMPTZ,
+              source TEXT,
+              PRIMARY KEY (user_id, challenge_tag)
+            );
+        `);
+    } catch (e) { console.warn('[ensure] user_challenge_stats', e?.code || e?.message || e); }
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS user_challenge_suggestions (
+              id SERIAL PRIMARY KEY,
+              user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+              challenge_tag TEXT NOT NULL,
+              suggestion_type TEXT NOT NULL CHECK (suggestion_type IN ('add','remove')),
+              source TEXT,
+              reason TEXT,
+              created_at TIMESTAMPTZ DEFAULT NOW(),
+              resolved_at TIMESTAMPTZ
+            );
+        `);
+    } catch (e) { console.warn('[ensure] user_challenge_suggestions', e?.code || e?.message || e); }
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS essay_challenge_log (
+              id SERIAL PRIMARY KEY,
+              user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+              challenge_tag TEXT NOT NULL,
+              essay_id TEXT,
+              source TEXT DEFAULT 'essay',
+              created_at TIMESTAMPTZ DEFAULT NOW()
+            );
+        `);
+    } catch (e) { console.warn('[ensure] essay_challenge_log', e?.code || e?.message || e); }
+}
+
+// --- Study plans table ensure ---
+async function ensureStudyPlansTable() {
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS study_plans (
+              id SERIAL PRIMARY KEY,
+              user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+              subject TEXT NOT NULL,
+              generated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+              valid_from DATE NOT NULL,
+              valid_to DATE NOT NULL,
+              plan_json JSONB NOT NULL,
+              notes TEXT
+            );
+        `);
+        await pool.query(`CREATE INDEX IF NOT EXISTS idx_study_plans_user_subject ON study_plans (user_id, subject);`);
+        await pool.query(`CREATE INDEX IF NOT EXISTS idx_study_plans_generated_at ON study_plans (generated_at DESC);`);
+    } catch (e) {
+        console.warn('[ensure] study_plans', e?.code || e?.message || e);
+    }
+}
+
+// --- Daily Coach tables ensure ---
+async function ensureCoachDailyTables() {
+    // Per-day progress per subject
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS coach_daily_progress (
+              user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+              subject TEXT NOT NULL,
+              plan_date DATE NOT NULL,
+              expected_minutes INTEGER NOT NULL DEFAULT 45,
+              completed_minutes INTEGER NOT NULL DEFAULT 0,
+              coach_quiz_id TEXT,
+              coach_quiz_source_id TEXT,
+              coach_quiz_completed BOOLEAN NOT NULL DEFAULT false,
+              notes TEXT,
+              created_at TIMESTAMPTZ DEFAULT NOW(),
+              updated_at TIMESTAMPTZ DEFAULT NOW(),
+              PRIMARY KEY (user_id, subject, plan_date)
+            );
+        `);
+        await pool.query(`CREATE INDEX IF NOT EXISTS idx_coach_daily_user_date ON coach_daily_progress (user_id, plan_date DESC);`);
+    } catch (e) { console.warn('[ensure] coach_daily_progress', e?.code || e?.message || e); }
+
+    // Per-subject status (passed)
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS user_subject_status (
+              user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+              subject TEXT NOT NULL,
+              passed BOOLEAN NOT NULL DEFAULT false,
+              passed_at TIMESTAMPTZ,
+              created_at TIMESTAMPTZ DEFAULT NOW(),
+              updated_at TIMESTAMPTZ DEFAULT NOW(),
+              PRIMARY KEY (user_id, subject)
+            );
+        `);
+        await pool.query(`CREATE INDEX IF NOT EXISTS idx_subject_status_user ON user_subject_status (user_id);`);
+    } catch (e) { console.warn('[ensure] user_subject_status', e?.code || e?.message || e); }
+}
+
+// --- Challenge system helpers ---
+async function upsertChallengeStat(userId, challengeTag, gotCorrect, source) {
+    if (!userId || !challengeTag) return;
+    const now = new Date();
+    const incCorrect = gotCorrect ? 1 : 0;
+    const incWrong = gotCorrect ? 0 : 1;
+    const lastWrong = gotCorrect ? null : now;
+    await pool.query(`
+        INSERT INTO user_challenge_stats
+          (user_id, challenge_tag, correct_count, wrong_count, last_seen, last_wrong_at, source)
+        VALUES ($1, $2, $3, $4, $5, $6, COALESCE($7, 'quiz'))
+        ON CONFLICT (user_id, challenge_tag)
+        DO UPDATE SET
+          correct_count = user_challenge_stats.correct_count + EXCLUDED.correct_count,
+          wrong_count = user_challenge_stats.wrong_count + EXCLUDED.wrong_count,
+          last_seen = EXCLUDED.last_seen,
+          last_wrong_at = CASE WHEN EXCLUDED.last_wrong_at IS NOT NULL THEN EXCLUDED.last_wrong_at ELSE user_challenge_stats.last_wrong_at END,
+          source = COALESCE(user_challenge_stats.source, EXCLUDED.source);
+    `, [userId, challengeTag, incCorrect, incWrong, now, lastWrong, source || null]);
+}
+
+async function userHasActiveChallenge(userId, challengeTag) {
+    const { selectionTable } = await getChallengeTables();
+    try {
+        const r = await db.oneOrNone(`SELECT 1 FROM ${selectionTable} WHERE user_id = $1 AND challenge_id = $2 LIMIT 1`, [userId, challengeTag]);
+        return !!r;
+    } catch (_) { return false; }
+}
+
+async function createSuggestion(userId, challengeTag, type, source, reason) {
+    try {
+        await pool.query(
+            `INSERT INTO user_challenge_suggestions (user_id, challenge_tag, suggestion_type, source, reason)
+             VALUES ($1, $2, $3, $4, $5)`,
+            [userId, challengeTag, type, source || null, reason || null]
+        );
+    } catch (e) {
+        console.warn('[suggestion] insert failed', e?.message || e);
+    }
+}
+
+async function runPromotionDemotionRules(userId, tag) {
+    // Load stats
+    const { rows } = await pool.query(`SELECT correct_count, wrong_count, last_seen, last_wrong_at FROM user_challenge_stats WHERE user_id = $1 AND challenge_tag = $2`, [userId, tag]);
+    if (!rows || rows.length === 0) return;
+    const s = rows[0];
+    const correct = Number(s.correct_count) || 0;
+    const wrong = Number(s.wrong_count) || 0;
+    const lastSeen = s.last_seen ? new Date(s.last_seen) : null;
+    const lastWrongAt = s.last_wrong_at ? new Date(s.last_wrong_at) : null;
+
+    // PROMOTE (suggest add)
+    if (wrong >= 3 && wrong >= correct + 2) {
+        const active = await userHasActiveChallenge(userId, tag);
+        if (!active) {
+            await createSuggestion(userId, tag, 'add', 'quiz', 'Missed several questions tied to this challenge');
+        }
+    }
+
+    // DEMOTE (suggest remove)
+    const active = await userHasActiveChallenge(userId, tag);
+    if (active && correct >= 4) {
+        // "no new wrongs since last_seen" approximation: last_wrong_at older than last_seen or null
+        const noNewWrongs = !lastWrongAt || (lastSeen && lastWrongAt < lastSeen);
+        if (noNewWrongs) {
+            await createSuggestion(userId, tag, 'remove', 'quiz', 'You are consistently answering this challenge correctly');
+        }
+    }
+}
+
 // Minimal quiz attempts endpoints to satisfy frontend calls
 app.get('/api/quiz/attempts', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
     // later: SELECT * FROM quiz_attempts WHERE user_id = $1 ORDER BY created_at DESC
@@ -2589,6 +2778,573 @@ app.get('/api/profile/me', devAuth, ensureTestUserForNow, requireAuthInProd, aut
 // Read-only endpoint to inspect the default challenge catalog (useful for QA)
 app.get('/api/challenges/defaults', devAuth, requireAuthInProd, authRequired, async (_req, res) => {
     res.json({ items: FALLBACK_PROFILE_CHALLENGES });
+});
+
+// Return unresolved challenge suggestions for the current user
+app.get('/api/challenges/suggestions', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const { rows } = await pool.query(`
+            SELECT s.id, s.challenge_tag, s.suggestion_type, s.source, s.reason, s.created_at,
+                   c.subject, c.label
+              FROM user_challenge_suggestions s
+              LEFT JOIN challenge_tag_catalog c ON c.challenge_tag = s.challenge_tag
+             WHERE s.user_id = $1 AND s.resolved_at IS NULL
+             ORDER BY s.created_at DESC, s.id DESC
+        `, [userId]);
+        return res.json({ items: rows.map(r => ({
+            id: r.id,
+            challenge_tag: r.challenge_tag,
+            suggestion_type: r.suggestion_type,
+            source: r.source,
+            reason: r.reason,
+            created_at: r.created_at,
+            subject: r.subject || null,
+            label: r.label || null,
+        }))});
+    } catch (e) {
+        console.error('GET /api/challenges/suggestions failed:', e);
+        return res.status(500).json({ error: 'failed_to_load_suggestions' });
+    }
+});
+
+// Ingest per-question responses (no quiz_attempt row). Intended for Practice Sessions / Pop Quiz.
+app.post('/api/challenges/ingest-responses', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const { responses = [], source = 'practice' } = req.body || {};
+        if (!Array.isArray(responses) || responses.length === 0) {
+            return res.status(400).json({ error: 'responses_required' });
+        }
+        let processed = 0;
+        for (const item of responses) {
+            if (!item || !Array.isArray(item.challenge_tags)) continue;
+            const gotCorrect = !!item.correct;
+            for (const tag of item.challenge_tags) {
+                if (!tag || typeof tag !== 'string') continue;
+                const clean = tag.trim().toLowerCase();
+                if (!clean) continue;
+                try {
+                    const exists = await db.oneOrNone('SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1', [clean]);
+                    if (!exists) {
+                        console.warn('[challenge-tag] Missing in catalog:', clean);
+                    }
+                } catch (_) {}
+                await upsertChallengeStat(userId, clean, gotCorrect, source === 'pop_quiz' ? 'pop_quiz' : 'practice');
+                await runPromotionDemotionRules(userId, clean);
+                processed++;
+            }
+        }
+        return res.json({ ok: true, processed });
+    } catch (e) {
+        console.error('POST /api/challenges/ingest-responses failed:', e);
+        return res.status(500).json({ error: 'failed_to_ingest' });
+    }
+});
+
+// --- Weekly Study Coach ---
+function normalizeSubjectLabel(subj) {
+    const s = String(subj || '').trim();
+    if (!s) return '';
+    // Accept a variety of labels from UI
+    if (/^math$/i.test(s)) return 'Math';
+    if (/^science$/i.test(s)) return 'Science';
+    if (/^(rla|language|reasoning\s+through)/i.test(s)) return 'RLA';
+    if (/^social(\s*studies)?$/i.test(s)) return 'Social Studies';
+    if (/^social\-studies$/i.test(s)) return 'Social Studies';
+    return s;
+}
+function subjectTagPrefixes(label) {
+    const l = normalizeSubjectLabel(label);
+    switch (l) {
+        case 'Math': return ['math:'];
+        case 'Science': return ['science:'];
+        case 'RLA': return ['rla:'];
+        case 'Social Studies': return ['social:', 'social-studies:'];
+        default: return [];
+    }
+}
+
+// --- Daily Coach constants & helpers ---
+const COACH_DAILY_QUIZZES = {
+    'Math': ['math.fractions.01', 'math.mixed.02', 'math.algebra.01'],
+    'Science': ['science.reading.01', 'science.data.01'],
+    'RLA': ['rla.reading.01', 'rla.grammar.01'],
+    'Social Studies': ['social.civics.01', 'social.history.01']
+};
+const COACH_ASSIGNED_BY = 'coach-smith';
+const COACH_QUIZ_MINUTES = 15; // minutes credited when coach quiz is completed
+
+function todayISO() {
+    return new Date().toISOString().slice(0, 10);
+}
+
+async function isSubjectPassed(userId, subject) {
+    try {
+        // Check explicit status table first
+        const r = await pool.query(`SELECT passed FROM user_subject_status WHERE user_id = $1 AND subject = $2 LIMIT 1`, [userId, subject]);
+        if (r.rowCount && r.rows[0] && r.rows[0].passed === true) return true;
+    } catch (_) {}
+    // Fallback: also respect test plan 'passed' if present
+    try {
+        const testPlanTable = await getTestPlanTableName();
+        const r2 = await pool.query(`SELECT passed FROM ${testPlanTable} WHERE user_id = $1 AND subject = $2 LIMIT 1`, [userId, subject]);
+        if (r2.rowCount && r2.rows[0] && r2.rows[0].passed === true) return true;
+    } catch (_) {}
+    return false;
+}
+
+async function latestWeeklyPlan(userId, subject) {
+    const { rows } = await pool.query(
+        `SELECT id, subject, valid_from, valid_to, plan_json, notes
+           FROM study_plans
+          WHERE user_id = $1 AND subject = $2
+          ORDER BY generated_at DESC, id DESC
+          LIMIT 1`,
+        [userId, subject]
+    );
+    return rows && rows[0] ? rows[0] : null;
+}
+
+function dateDiffDays(aISO, bISO) {
+    try {
+        const a = new Date(aISO);
+        const b = new Date(bISO);
+        return Math.floor((a - b) / (1000 * 60 * 60 * 24));
+    } catch {
+        return 0;
+    }
+}
+
+function pickCoachQuizSourceId(subject, dayIndex = 0) {
+    const list = COACH_DAILY_QUIZZES[subject] || [];
+    if (!list.length) return null;
+    const idx = Math.abs(dayIndex) % list.length;
+    return list[idx];
+}
+
+async function findOrCreateDailyRow(userId, subject, planDateISO) {
+    // Try existing row
+    const sel = await pool.query(
+        `SELECT user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
+           FROM coach_daily_progress
+          WHERE user_id = $1 AND subject = $2 AND plan_date = $3
+          LIMIT 1`,
+        [userId, subject, planDateISO]
+    );
+    if (sel.rowCount) return sel.rows[0];
+
+    // Seed from weekly plan if available
+    const weekly = await latestWeeklyPlan(userId, subject);
+    let notes = '';
+    let dayIdx = 0;
+    let needsRefresh = false;
+    if (weekly) {
+        const vf = weekly.valid_from instanceof Date ? weekly.valid_from.toISOString().slice(0, 10) : String(weekly.valid_from).slice(0, 10);
+        const vt = weekly.valid_to instanceof Date ? weekly.valid_to.toISOString().slice(0, 10) : String(weekly.valid_to).slice(0, 10);
+        const dFrom = dateDiffDays(planDateISO, vf);
+        const dTo = dateDiffDays(planDateISO, vt);
+        if (dFrom >= 0 && dTo <= 0) {
+            dayIdx = dFrom;
+            const day = Array.isArray(weekly.plan_json?.days) ? weekly.plan_json.days.find((d) => Number(d.day) === (dayIdx + 1)) : null;
+            if (day) {
+                const focus = Array.isArray(day.focus) ? day.focus.join(', ') : '';
+                notes = `Focus: ${focus}\nTask: ${day.task || ''}\nPlanned: ${day.minutes || 0} min`;
+            }
+        } else {
+            needsRefresh = true;
+            notes = 'Outside weekly plan window. Please refresh your Weekly Coach plan.';
+        }
+    } else {
+        notes = 'No weekly plan found. Tap "Weekly Coach" to generate one.';
+    }
+
+    const expected = 45;
+    const coachQuizSource = pickCoachQuizSourceId(subject, dayIdx);
+    const coachQuizId = coachQuizSource ? `${COACH_ASSIGNED_BY}:${subject}:${planDateISO}` : null;
+
+    await pool.query(
+        `INSERT INTO coach_daily_progress (user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes, updated_at)
+         VALUES ($1, $2, $3, $4, 0, $5, $6, false, $7, NOW())
+         ON CONFLICT (user_id, subject, plan_date) DO NOTHING`,
+        [userId, subject, planDateISO, expected, coachQuizId, coachQuizSource, notes]
+    );
+
+    const sel2 = await pool.query(
+        `SELECT user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
+           FROM coach_daily_progress
+          WHERE user_id = $1 AND subject = $2 AND plan_date = $3
+          LIMIT 1`,
+        [userId, subject, planDateISO]
+    );
+    return sel2.rowCount ? sel2.rows[0] : null;
+}
+
+app.get('/api/coach/:subject', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const subject = normalizeSubjectLabel(req.params.subject);
+        const { rows } = await pool.query(
+            `SELECT id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes
+               FROM study_plans
+              WHERE user_id = $1 AND subject = $2
+              ORDER BY generated_at DESC, id DESC
+              LIMIT 1`,
+            [userId, subject]
+        );
+        if (!rows || rows.length === 0) {
+            return res.json({ ok: false, reason: 'no_plan' });
+        }
+        return res.json({ ok: true, plan: rows[0] });
+    } catch (e) {
+        console.error('GET /api/coach/:subject failed:', e);
+        return res.status(500).json({ ok: false, error: 'coach_fetch_failed' });
+    }
+});
+
+app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const subject = normalizeSubjectLabel(req.params.subject);
+
+        // Respect subject passed flag
+        if (await isSubjectPassed(userId, subject)) {
+            return res.status(400).json({ ok: false, error: 'subject_passed', message: 'This subject has been marked as passed.' });
+        }
+
+        // 1) freshness check (read latest; we still proceed to regenerate)
+        let latest = null;
+        try {
+            const r = await pool.query(
+                `SELECT id, generated_at, valid_from, valid_to FROM study_plans WHERE user_id = $1 AND subject = $2 ORDER BY generated_at DESC, id DESC LIMIT 1`,
+                [userId, subject]
+            );
+            latest = r.rows && r.rows[0] ? r.rows[0] : null;
+        } catch (_) {}
+        let fresh = false;
+        if (latest && latest.generated_at) {
+            const dt = new Date(latest.generated_at);
+            const ageDays = (Date.now() - dt.getTime()) / (1000*60*60*24);
+            fresh = ageDays < 7;
+        }
+
+        // 2) inputs: test date
+        const testPlanTable = await getTestPlanTableName();
+        let testDate = null;
+        try {
+            const r = await db.query(`SELECT test_date, not_scheduled, passed FROM ${testPlanTable} WHERE user_id = $1 AND subject = $2 LIMIT 1`, [userId, subject]);
+            if (r.rows && r.rows[0]) {
+                testDate = normalizeTestDate(r.rows[0].test_date || null);
+            }
+        } catch (_) {}
+
+        // 3) recent attempts (last 5)
+        let recentAttempts = [];
+        try {
+            const r = await pool.query(
+                `SELECT quiz_title, score, total_questions, scaled_score, attempted_at
+                   FROM quiz_attempts
+                  WHERE user_id = $1 AND subject = $2
+                  ORDER BY attempted_at DESC, id DESC
+                  LIMIT 5`,
+                [userId, subject]
+            );
+            recentAttempts = (r.rows || []).map(row => ({
+                quiz: row.quiz_title || 'Practice Quiz',
+                score: (Number(row.score) && Number(row.total_questions)) ? Math.round((Number(row.score)/Number(row.total_questions))*100) : (Number(row.scaled_score) || null),
+                attempted_at: row.attempted_at
+            }));
+        } catch (_) {}
+
+        // 4) selected/self-declared challenges
+        const { optionTable, selectionTable } = await getChallengeTables();
+        let declaredTags = new Set();
+        try {
+            const sel = await db.query(`SELECT challenge_id FROM ${selectionTable} WHERE user_id = $1`, [userId]);
+            const ids = sel.rows.map(r => String(r.challenge_id));
+            if (ids.length) {
+                // try to map ids to tags using heuristics and options table
+                const optRows = await db.query(`SELECT id, subject, subtopic, label FROM ${optionTable}`);
+                const byId = new Map(optRows.rows.map(o => [String(o.id), o]));
+                const subjPrefixes = subjectTagPrefixes(subject);
+                for (const id of ids) {
+                    if (/:/.test(id)) {
+                        // already a tag-like id
+                        if (!subjPrefixes.length || subjPrefixes.some(p => id.startsWith(p))) declaredTags.add(id.toLowerCase());
+                        continue;
+                    }
+                    const opt = byId.get(id);
+                    if (opt && (!subject || opt.subject === subject)) {
+                        const subjKey = (subject === 'Social Studies') ? 'social' : subject.toLowerCase();
+                        const slug = (opt.subtopic || opt.label || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                        if (slug) {
+                            declaredTags.add(`${subjKey}:${slug}`);
+                        }
+                    }
+                }
+            }
+        } catch (_) {}
+
+        // 5) stats: compute priority per tag
+        const prefixes = subjectTagPrefixes(subject);
+        let topStats = [];
+        try {
+            const r = await pool.query(
+                `SELECT challenge_tag, correct_count, wrong_count
+                   FROM user_challenge_stats
+                  WHERE user_id = $1`,
+                [userId]
+            );
+            for (const row of r.rows || []) {
+                const tag = String(row.challenge_tag || '').toLowerCase();
+                if (prefixes.length && !prefixes.some(p => tag.startsWith(p))) continue;
+                const correct = Number(row.correct_count) || 0;
+                const wrong = Number(row.wrong_count) || 0;
+                const priority = wrong * 3 - correct;
+                if (priority > 0) {
+                    topStats.push({ tag, correct, wrong, priority });
+                }
+            }
+            topStats.sort((a,b) => b.priority - a.priority);
+        } catch (_) {}
+
+        const topFromStats = topStats.slice(0, 4).map(s => ({ tag: s.tag, reason: `Missed ${s.wrong}× recently` }));
+        const declaredList = Array.from(declaredTags).slice(0, 4).map(t => ({ tag: t, reason: 'Student declared this as a challenge' }));
+
+        // Merge, de-dup, keep 3–4
+        const merged = [];
+        const seen = new Set();
+        for (const item of [...topFromStats, ...declaredList]) {
+            const k = item.tag;
+            if (seen.has(k)) continue;
+            seen.add(k);
+            merged.push(item);
+            if (merged.length >= 4) break;
+        }
+        if (merged.length === 0 && declaredList.length) {
+            merged.push(declaredList[0]);
+        }
+
+        // Build plan ingredients
+        const todayISO = new Date().toISOString().slice(0,10);
+        const daysRemaining = (() => {
+            if (!testDate) return null;
+            try {
+                const t = new Date(testDate);
+                const today = new Date(todayISO);
+                return Math.ceil((t - today) / (1000*60*60*24));
+            } catch { return null; }
+        })();
+
+        const ingredients = {
+            subject,
+            today: todayISO,
+            testDate: testDate || null,
+            daysRemaining,
+            topChallenges: merged,
+            recentScores: recentAttempts.filter(a => a.score != null).map(a => ({ quiz: a.quiz, score: a.score }))
+        };
+
+        // AI prompt and schema
+        const coachPrompt = `You are a GED study coach. Based on the JSON below, create a 7-day study plan starting from "today". Each day should have:\n\n- 1–2 target challenges chosen from topChallenges\n- a task type (relearn, short practice, timed 12-question set, or mixed review)\n- an estimated time (15, 20, or 30 minutes)\nIf testDate is close (<= 10 days), increase the number of mixed / timed tasks.\nReturn only JSON in this exact shape: {\n  "days": [ { "day": 1, "focus": ["tag"], "task": "...", "minutes": 20 } ],\n  "notes": "..."\n}\n\nINPUT:\n${JSON.stringify(ingredients, null, 2)}`;
+
+        const planSchema = {
+            type: 'OBJECT',
+            properties: {
+                days: { type: 'ARRAY', items: { type: 'OBJECT', properties: {
+                    day: { type: 'NUMBER' },
+                    focus: { type: 'ARRAY', items: { type: 'STRING' } },
+                    task: { type: 'STRING' },
+                    minutes: { type: 'NUMBER' },
+                }, required: ['day','focus','task','minutes'] } },
+                notes: { type: 'STRING' }
+            },
+            required: ['days']
+        };
+
+        let aiPlan = null;
+        try {
+            aiPlan = await callAI(coachPrompt, planSchema, { generationOverrides: { temperature: 0.4 } });
+        } catch (e) {
+            console.error('[coach] AI generation failed:', e?.message || e);
+            // Fallback: simple deterministic plan
+            aiPlan = { days: Array.from({ length: 7 }, (_, i) => ({ day: i+1, focus: merged.length ? [merged[i % merged.length].tag] : [], task: 'mixed review', minutes: 20 })), notes: testDate ? 'Auto plan based on recent challenges.' : 'No test date set; general practice.' };
+        }
+
+        // Persist plan
+        const validFrom = todayISO;
+        const d0 = new Date(todayISO);
+        const d6 = new Date(d0.getTime() + 6*24*60*60*1000);
+        const validTo = `${d6.getFullYear()}-${String(d6.getMonth()+1).padStart(2,'0')}-${String(d6.getDate()).padStart(2,'0')}`;
+
+        const insert = await pool.query(
+            `INSERT INTO study_plans (user_id, subject, valid_from, valid_to, plan_json, notes)
+             VALUES ($1, $2, $3, $4, $5, $6)
+             RETURNING id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes`,
+            [userId, subject, validFrom, validTo, aiPlan, aiPlan?.notes || (testDate ? 'Generated weekly plan.' : 'Generated; no test date set.')]
+        );
+
+        return res.json({ ok: true, plan: insert.rows[0], fresh });
+    } catch (e) {
+        console.error('POST /api/coach/:subject/generate-week failed:', e);
+        return res.status(500).json({ ok: false, error: 'coach_generate_failed' });
+    }
+});
+
+// --- Daily Coach API ---
+// 1) GET /api/coach/daily — return or create today's plan per active subject
+app.get('/api/coach/daily', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const today = todayISO();
+
+        const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
+        const subjects = [];
+
+        for (const subj of SUBJECTS) {
+            if (await isSubjectPassed(userId, subj)) continue; // skip passed subjects
+            const row = await findOrCreateDailyRow(userId, subj, today);
+            if (!row) continue;
+            const tasks = [];
+            if (row.notes) {
+                // split lines into tasks, keep short
+                row.notes.split(/\n+/).forEach((ln) => { const t = ln.trim(); if (t) tasks.push(t); });
+            }
+            if (row.coach_quiz_id && !row.coach_quiz_completed) tasks.push('Do coach quiz');
+            subjects.push({
+                subject: subj,
+                expected_minutes: Number(row.expected_minutes) || 45,
+                completed_minutes: Math.max(0, Number(row.completed_minutes) || 0),
+                coach_quiz_id: row.coach_quiz_id || null,
+                coach_quiz_completed: !!row.coach_quiz_completed,
+                coach_quiz_source_id: row.coach_quiz_source_id || null,
+                tasks
+            });
+        }
+
+        return res.json({ ok: true, today, subjects });
+    } catch (e) {
+        console.error('GET /api/coach/daily failed:', e);
+        return res.status(500).json({ ok: false, error: 'coach_daily_failed' });
+    }
+});
+
+// 2) POST /api/coach/complete — add minutes and optionally mark coach quiz done
+app.post('/api/coach/complete', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        let { subject, plan_date, activity, minutes } = req.body || {};
+        subject = normalizeSubjectLabel(subject);
+        const dateISO = (typeof plan_date === 'string' && plan_date.trim()) ? plan_date.trim().slice(0,10) : todayISO();
+        const inc = Number(minutes);
+        const add = Number.isFinite(inc) ? inc : 0;
+
+        // Ensure row exists
+        const row = await findOrCreateDailyRow(userId, subject, dateISO);
+        if (!row) return res.status(500).json({ ok: false, error: 'create_daily_failed' });
+
+        const markQuiz = (activity || '').toString().toLowerCase() === 'coach-quiz';
+        await pool.query(
+            `UPDATE coach_daily_progress
+                SET completed_minutes = GREATEST(0, completed_minutes + $4),
+                    coach_quiz_completed = CASE WHEN $5 THEN TRUE ELSE coach_quiz_completed END,
+                    updated_at = NOW()
+              WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
+            [userId, subject, dateISO, add, markQuiz]
+        );
+
+        const { rows } = await pool.query(
+            `SELECT user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
+               FROM coach_daily_progress
+              WHERE user_id = $1 AND subject = $2 AND plan_date = $3
+              LIMIT 1`,
+            [userId, subject, dateISO]
+        );
+        const out = rows && rows[0] ? rows[0] : null;
+        return res.json({ ok: true, day: out });
+    } catch (e) {
+        console.error('POST /api/coach/complete failed:', e);
+        return res.status(500).json({ ok: false, error: 'coach_complete_failed' });
+    }
+});
+
+// 3) POST /api/coach/subject-passed — mark/unmark subject as passed
+app.post('/api/coach/subject-passed', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const { subject, passed } = req.body || {};
+        const subj = normalizeSubjectLabel(subject);
+        if (!subj) return res.status(400).json({ ok: false, error: 'subject_required' });
+        const flag = !!passed;
+        await pool.query(
+            `INSERT INTO user_subject_status (user_id, subject, passed, passed_at, updated_at)
+             VALUES ($1, $2, $3, CASE WHEN $3 THEN NOW() ELSE NULL END, NOW())
+             ON CONFLICT (user_id, subject)
+             DO UPDATE SET passed = EXCLUDED.passed,
+                           passed_at = CASE WHEN EXCLUDED.passed THEN NOW() ELSE NULL END,
+                           updated_at = NOW()`,
+            [userId, subj, flag]
+        );
+        return res.json({ ok: true, subject: subj, passed: flag });
+    } catch (e) {
+        console.error('POST /api/coach/subject-passed failed:', e);
+        return res.status(500).json({ ok: false, error: 'subject_pass_update_failed' });
+    }
+});
+
+// Resolve a suggestion: accept or reject
+app.post('/api/challenges/resolve', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const { suggestion_id, action } = req.body || {};
+        if (!suggestion_id) return res.status(400).json({ error: 'suggestion_id_required' });
+        const srow = await db.oneOrNone(`SELECT id, user_id, challenge_tag, suggestion_type FROM user_challenge_suggestions WHERE id = $1 AND user_id = $2`, [suggestion_id, userId]);
+        if (!srow) return res.status(404).json({ error: 'not_found' });
+
+        const act = (action || '').toString().toLowerCase();
+        const now = new Date();
+
+        if (act === 'accept') {
+            if (srow.suggestion_type === 'add') {
+                // Ensure tag present in catalog with basic label if missing
+                try {
+                    const tag = srow.challenge_tag;
+                    const subjKey = tag.split(':')[0] || '';
+                    const subjectMap = { math: 'Math', science: 'Science', rla: 'RLA', 'social': 'Social Studies', 'social-studies': 'Social Studies' };
+                    const subject = subjectMap[subjKey] || null;
+                    const pretty = tag.replace(/[:_-]/g, ' ');
+                    await pool.query(`INSERT INTO challenge_tag_catalog (challenge_tag, subject, label) VALUES ($1, $2, $3) ON CONFLICT (challenge_tag) DO NOTHING`, [tag, subject, pretty]);
+                } catch (_) {}
+                // Add to user's active list via selectionTable, using tag as challenge_id
+                try {
+                    const { selectionTable } = await getChallengeTables();
+                    await db.query(`INSERT INTO ${selectionTable} (user_id, challenge_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, [userId, srow.challenge_tag]);
+                } catch (e) { console.warn('[resolve] add selection failed', e?.message || e); }
+            } else if (srow.suggestion_type === 'remove') {
+                try {
+                    const { selectionTable } = await getChallengeTables();
+                    await db.query(`DELETE FROM ${selectionTable} WHERE user_id = $1 AND challenge_id = $2`, [userId, srow.challenge_tag]);
+                } catch (e) { console.warn('[resolve] remove selection failed', e?.message || e); }
+            }
+            await pool.query(`UPDATE user_challenge_suggestions SET resolved_at = $2 WHERE id = $1`, [srow.id, now]);
+            return res.json({ ok: true, resolved: true });
+        } else if (act === 'reject') {
+            await pool.query(`UPDATE user_challenge_suggestions SET resolved_at = $2 WHERE id = $1`, [srow.id, now]);
+            return res.json({ ok: true, resolved: true });
+        }
+        return res.status(400).json({ error: 'invalid_action' });
+    } catch (e) {
+        console.error('POST /api/challenges/resolve failed:', e);
+        return res.status(500).json({ error: 'failed_to_resolve' });
+    }
 });
 
 // Admin seed endpoint: create/populate the challenge catalog table from the fallback list
@@ -5247,7 +6003,10 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
         `Here is the student's essay:\n---\n${essayText}\n---\n\n` +
         `Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". ` +
         `For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores (0..6). ` +
-        `"overallFeedback" should be a short summary.`;
+        `"overallFeedback" should be a short summary. ` +
+        `After scoring the essay, also output a field \"challenge_tags\" which is an array of zero or more of the following strings: ` +
+        `\"writing:thesis\", \"writing:evidence\", \"writing:organization\", \"writing:grammar-mechanics\", \"writing:addressing-prompt\". ` +
+        `Only include a tag if the essay showed that specific weakness. Return JSON.`;
 
     const schema = {
         type: 'OBJECT',
@@ -5257,6 +6016,7 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
             trait3: { type: 'OBJECT', properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } } },
             overallScore: { type: 'NUMBER' },
             overallFeedback: { type: 'STRING' },
+            challenge_tags: { type: 'ARRAY', items: { type: 'STRING' } },
         },
         required: ['trait1', 'trait2', 'trait3', 'overallScore', 'overallFeedback'],
     };
@@ -5316,6 +6076,27 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
             console.warn('[ESSAY-SCORE] Failed to persist total score:', dbErr?.message || dbErr);
         }
 
+        // Challenge tags integration
+        try {
+            const tags = Array.isArray(normalized.challenge_tags) ? normalized.challenge_tags : [];
+            for (const rawTag of tags) {
+                if (!rawTag || typeof rawTag !== 'string') continue;
+                const t = rawTag.trim().toLowerCase();
+                if (!t) continue;
+                // Audit log
+                try { await pool.query(`INSERT INTO essay_challenge_log (user_id, challenge_tag, essay_id, source) VALUES ($1, $2, $3, 'essay')`, [userId, t, promptId || null]); } catch (_e) {}
+                // Upsert stats: essays count as "wrong" to trigger practice
+                await upsertChallengeStat(userId, t, false, 'essay');
+                // Suggest add if not active
+                const active = await userHasActiveChallenge(userId, t);
+                if (!active) {
+                    await createSuggestion(userId, t, 'add', 'essay', 'AI grader found this in your writing');
+                }
+            }
+        } catch (e) {
+            console.warn('[ESSAY-SCORE] challenge tag processing failed:', e?.message || e);
+        }
+
         // Return normalized structure directly to the client
         return res.json({
             trait1: normalized.trait1,
@@ -5323,6 +6104,7 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
             trait3: normalized.trait3,
             overallScore: total,
             overallFeedback: normalized.overallFeedback || '',
+            challenge_tags: Array.isArray(normalized.challenge_tags) ? normalized.challenge_tags : [],
         });
     } catch (error) {
         const errMsg = error?.response ? JSON.stringify(error.response.data) : (error?.message || String(error));
@@ -5619,9 +6401,57 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
             normalizedPassed,
         ];
 
-        const result = await pool.query(insertQuery, params);
+    const result = await pool.query(insertQuery, params);
 
         console.log(`Saved quiz attempt ${normalizedQuizCode} for user ${userId} in subject ${normalizedSubject}`);
+        // Process optional per-question responses for challenge tags
+        try {
+            const { responses } = req.body || {};
+            if (Array.isArray(responses)) {
+                for (const item of responses) {
+                    if (!item || !Array.isArray(item.challenge_tags)) continue;
+                    const gotCorrect = !!item.correct;
+                    for (const tag of item.challenge_tags) {
+                        if (!tag || typeof tag !== 'string') continue;
+                        const clean = tag.trim().toLowerCase();
+                        if (!clean) continue;
+                        // Warn if tag not present in catalog
+                        try {
+                            const exists = await db.oneOrNone('SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1', [clean]);
+                            if (!exists) {
+                                console.warn('[challenge-tag] Missing in catalog:', clean);
+                            }
+                        } catch (_) {}
+                        await upsertChallengeStat(userId, clean, gotCorrect, 'quiz');
+                        await runPromotionDemotionRules(userId, clean);
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('[quiz-attempts] response processing failed:', e?.message || e);
+        }
+
+        // If this was a coach-assigned quiz, mark daily completion and credit minutes
+        try {
+            const { assigned_by } = req.body || {};
+            const by = (assigned_by || '').toString().toLowerCase().replace(/_/g, '-');
+            if (by === COACH_ASSIGNED_BY) {
+                const subj = normalizeSubjectLabel(normalizedSubject);
+                const dateISO = todayISO();
+                await findOrCreateDailyRow(userId, subj, dateISO);
+                await pool.query(
+                    `UPDATE coach_daily_progress
+                        SET completed_minutes = GREATEST(0, completed_minutes + $4),
+                            coach_quiz_completed = TRUE,
+                            updated_at = NOW()
+                      WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
+                    [userId, subj, dateISO, COACH_QUIZ_MINUTES]
+                );
+            }
+        } catch (e) {
+            console.warn('[quiz-attempts] coach completion credit failed:', e?.message || e);
+        }
+
         res.status(201).json(formatQuizAttemptRow(result.rows[0]));
 
     } catch (error) {
@@ -5660,23 +6490,97 @@ app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
 // Load quizzes from dynamic index which merges legacy and supplemental topics
 const { ALL_QUIZZES } = require('./data/quizzes');
 
+// Subtopic → challenge tag mapping for auto-derivation when questions lack explicit tags
+const SUBTOPIC_TO_CHALLENGE = {
+    'Fractions': ['math:fraction'],
+    'Decimals': ['math:decimals'],
+    'Ratios, Proportions & Percents': ['math:ratio-percent'],
+    'Scientific Numeracy': ['science:numeracy'],
+    'Reading for Meaning': ['rla:inference'],
+    'Main Idea': ['rla:main-idea'],
+};
+
+function deriveTagsFromContext(subjectKey, categoryName, topic) {
+    // Prefer topic title mapping first
+    const tTitle = (topic && (topic.title || topic.id)) ? String(topic.title || topic.id) : '';
+    if (tTitle && SUBTOPIC_TO_CHALLENGE[tTitle]) return SUBTOPIC_TO_CHALLENGE[tTitle];
+    // Fallback to category mapping
+    const cName = categoryName ? String(categoryName) : '';
+    if (cName && SUBTOPIC_TO_CHALLENGE[cName]) return SUBTOPIC_TO_CHALLENGE[cName];
+    return [];
+}
+
+function ensureQuestionTags(subjectKey, categoryName, topic, question, idxForLog = null) {
+    try {
+        const hasExplicit = Array.isArray(question?.challenge_tags) && question.challenge_tags.length > 0;
+        if (hasExplicit) {
+            // Respect explicit tags
+            return question;
+        }
+        const derived = deriveTagsFromContext(subjectKey, categoryName, topic);
+        if (Array.isArray(derived) && derived.length > 0) {
+            question.challenge_tags = derived.slice();
+            return question;
+        }
+        // Log missing tag for later hand-tagging
+        const topicId = topic?.id || topic?.title || 'topic';
+        const qIndex = (idxForLog != null) ? `#${idxForLog + 1}` : '';
+        console.warn(`[challenge-tags] question ${subjectKey}/${topicId}${qIndex} has no challenge_tags and no subtopic mapping`);
+        return question;
+    } catch (e) {
+        return question;
+    }
+}
+
 // Expose ALL_QUIZZES for the frontend to build a unified catalog, including supplemental topics
+function buildAllQuizzesWithTags() {
+    // Deep-ish clone with tag normalization; keep structure intact
+    const out = {};
+    for (const [subjectKey, subj] of Object.entries(ALL_QUIZZES || {})) {
+        const subjCopy = { icon: subj.icon || null, categories: {} };
+        for (const [catName, cat] of Object.entries(subj.categories || {})) {
+            const catCopy = { description: cat.description || '', topics: [] };
+            const topics = Array.isArray(cat.topics) ? cat.topics : [];
+            topics.forEach((topic) => {
+                const tCopy = { ...topic };
+                if (Array.isArray(topic.questions)) {
+                    tCopy.questions = topic.questions.map((q, i) => {
+                        const cloned = q && typeof q === 'object' ? { ...q } : q;
+                        return ensureQuestionTags(subjectKey, catName, topic, cloned, i);
+                    });
+                }
+                catCopy.topics.push(tCopy);
+            });
+            subjCopy.categories[catName] = catCopy;
+        }
+        out[subjectKey] = subjCopy;
+    }
+    return out;
+}
+
 app.get('/api/all-quizzes', (req, res) => {
     try {
         res.set('Cache-Control', 'no-store');
-    } catch {}
-    res.json(ALL_QUIZZES);
+        return res.json(buildAllQuizzesWithTags());
+    } catch (e) {
+        return res.json(ALL_QUIZZES);
+    }
 });
 
-// Helper function to get random questions from the premade data
+// Helper function to get random questions from the premade data,
+// normalizing challenge_tags using subtopic/category mapping when absent.
 const getPremadeQuestions = (subject, count) => {
     const allQuestions = [];
     if (ALL_QUIZZES[subject] && ALL_QUIZZES[subject].categories) {
-        Object.values(ALL_QUIZZES[subject].categories).forEach(category => {
-            if (category.topics) {
-                category.topics.forEach(topic => {
-                    if (topic.questions) {
-                        allQuestions.push(...topic.questions);
+        Object.entries(ALL_QUIZZES[subject].categories).forEach(([categoryName, category]) => {
+            if (category && Array.isArray(category.topics)) {
+                category.topics.forEach((topic) => {
+                    if (Array.isArray(topic?.questions)) {
+                        topic.questions.forEach((q, i) => {
+                            const cloned = q && typeof q === 'object' ? { ...q } : q;
+                            const normalized = ensureQuestionTags(subject, categoryName, topic, cloned, i);
+                            allQuestions.push(normalized);
+                        });
                     }
                 });
             }
@@ -5686,11 +6590,43 @@ const getPremadeQuestions = (subject, count) => {
     return shuffled.slice(0, count);
 };
 
+// Validate challenge tags present in premade catalog at startup (warn only)
+function validatePremadeChallengeTags() {
+    try {
+        const subjects = Object.keys(ALL_QUIZZES || {});
+        subjects.forEach((subj) => {
+            const categories = ALL_QUIZZES[subj]?.categories || {};
+            Object.values(categories).forEach((cat) => {
+                const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+                topics.forEach((topic) => {
+                    const questions = Array.isArray(topic?.questions) ? topic.questions : [];
+                    questions.forEach((q) => {
+                        const tags = Array.isArray(q?.challenge_tags) ? q.challenge_tags : [];
+                        tags.forEach(async (t) => {
+                            const tag = (t || '').toString().trim().toLowerCase();
+                            if (!tag) return;
+                            try {
+                                const exists = await pool.query('SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1', [tag]);
+                                if (!exists || !exists.rowCount) {
+                                    console.warn('[challenge-tag] Not found in catalog:', tag);
+                                }
+                            } catch (_) {}
+                        });
+                    });
+                });
+            });
+        });
+    } catch (e) {
+        console.warn('validatePremadeChallengeTags failed:', e?.message || e);
+    }
+}
+validatePremadeChallengeTags();
+
 // Lightweight catalog endpoint for frontend to ingest merged legacy + supplemental topics
 app.get('/api/all-quizzes', (req, res) => {
     try {
         res.set('Cache-Control', 'no-store');
-        return res.json(ALL_QUIZZES);
+        return res.json(buildAllQuizzesWithTags());
     } catch (e) {
         console.warn('[api] /api/all-quizzes failed:', e?.message || e);
         return res.status(500).json({ error: 'Failed to load quiz catalog' });

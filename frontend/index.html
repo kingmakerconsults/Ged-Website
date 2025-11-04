@@ -1926,17 +1926,20 @@
                                                                     outCat.topics = outTopics;
                                                                 }
                                                             }
-                                                            return (
-                                                                <div className="fade-in essay-practice-shell" data-subject="Reasoning Through Language Arts (RLA)">
+                                                            return out;
+                                                        }
 
-                                                                                    <article className="bg-white p-6 rounded-lg shadow-md essay-argument-column">
+                                                        // Normalize an incoming quiz object to the internal shape
+                                                        function normalizeQuiz(q, subject) {
+                                                            if (!q || typeof q !== 'object') {
+                                                                return { quizId: null, label: '', description: '', questions: [], __topicGuess: null };
+                                                            }
                                                             const quizId = q.quizId || q.id || `${(subject||'quiz').toLowerCase()}_${Math.random().toString(36).slice(2,7)}`;
                                                             return {
                                                                 quizId,
-                                                                                    <article className="bg-white p-6 rounded-lg shadow-md essay-argument-column">
-                                                                label: q.label,
+                                                                label: q.label || q.title || 'Quiz',
                                                                 description: q.description || '',
-                                                                questions: Array.isArray(q.questions) ? q.questions : q.items || [],
+                                                                questions: Array.isArray(q.questions) ? q.questions : (Array.isArray(q.items) ? q.items : []),
                                                                 __topicGuess: q.topicId || q.topic || null,
                                                             };
                                                         }
@@ -6945,6 +6948,9 @@ if (typeof window !== 'undefined') {
 const BookOpenIcon = ({ className = '' } = {}) => (
     <i className={["fas fa-book-open", className].filter(Boolean).join(' ')} aria-hidden="true"></i>
 );
+const CalendarIcon = ({ className = '' } = {}) => (
+    <i className={["far fa-calendar-alt", className].filter(Boolean).join(' ')} aria-hidden="true"></i>
+);
 const GlobeIcon = ({ className = '' } = {}) => (
     <i className={["fas fa-landmark", className].filter(Boolean).join(' ')} aria-hidden="true"></i>
 );
@@ -9739,7 +9745,7 @@ function App({ externalTheme, onThemeChange }) {
         setView(viewType);
     };
     
-    const onQuizComplete = (results) => {
+    const onQuizComplete = async (results) => {
         setQuizResults(results);
         setView('results');
 
@@ -9749,7 +9755,69 @@ function App({ externalTheme, onThemeChange }) {
 
         const { subject } = results;
 
-    if (subject === 'Pop Quiz' || subject === 'Practice Session') return; // Do not track progress for pop/practice sessions
+        // Build per-question responses (correct + challenge_tags) when we have answers/questions
+        let responses = [];
+        try {
+            const quizObj = results.quiz || activeQuiz || {};
+            const questions = Array.isArray(quizObj?.questions) ? quizObj.questions : [];
+            const answers = Array.isArray(results?.answers) ? results.answers : [];
+            if (questions.length && answers.length && questions.length === answers.length) {
+                const normalizeAnswer = (val) => {
+                    if (val === null || val === undefined) return '';
+                    return String(val)
+                        .replace(/^\$+|\$+$/g, '')
+                        .replace(/\u00A0/g, ' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+                };
+                const isNumericEqual = (a, b) => {
+                    const na = Number(a);
+                    const nb = Number(b);
+                    if (!Number.isFinite(na) || !Number.isFinite(nb)) return false;
+                    return Math.abs(na - nb) < 1e-9;
+                };
+                responses = questions.map((q, i) => {
+                    const userAns = answers[i];
+                    let correct = false;
+                    if (!q.answerOptions || q.answerOptions.length === 0) {
+                        // fill-in or numeric
+                        const user = normalizeAnswer(userAns);
+                        const key = normalizeAnswer(q.correctAnswer);
+                        correct = !!user && !!key && (user === key || isNumericEqual(user, key));
+                    } else {
+                        const correctOption = (q.answerOptions || []).find((opt) => opt.isCorrect);
+                        correct = !!correctOption && userAns === correctOption.text;
+                    }
+                    const tags = Array.isArray(q.challenge_tags) ? q.challenge_tags : [];
+                    return { correct, challenge_tags: tags };
+                });
+            }
+        } catch (e) {
+            console.warn('[quiz] failed to build responses payload:', e?.message || e);
+        }
+
+        // For Practice Session/Pop Quiz, skip attempt history but still ingest challenge responses
+        if (subject === 'Pop Quiz' || subject === 'Practice Session') {
+            try {
+                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+                if (token && responses.length) {
+                    await fetch(`${API_BASE_URL}/api/challenges/ingest-responses`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({
+                            responses,
+                            source: subject === 'Pop Quiz' ? 'pop_quiz' : 'practice',
+                        }),
+                    });
+                }
+            } catch (e) {
+                console.warn('[practice] failed to ingest responses:', e?.message || e);
+            }
+            return;
+        }
 
         const quizDetails = results.quiz || activeQuiz;
         if (!quizDetails) {
@@ -9761,6 +9829,7 @@ function App({ externalTheme, onThemeChange }) {
             return;
         }
 
+        // Persist to local progress history
         persistQuizAttempt({
             subject,
             quizCode,
@@ -9771,6 +9840,35 @@ function App({ externalTheme, onThemeChange }) {
             scaledScore: results.scaledScore,
             passed: typeof results.scaledScore === 'number' ? results.scaledScore >= GED_PASSING_SCORE : undefined,
         });
+
+        // Also POST to backend for challenge-tag processing if authenticated
+        try {
+            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+            if (token) {
+                const payload = {
+                    subject,
+                    quizCode,
+                    quizTitle: quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
+                    quizType: quizDetails.type,
+                    score: results.score,
+                    totalQuestions: results.totalQuestions,
+                    scaledScore: results.scaledScore,
+                    passed: typeof results.scaledScore === 'number' ? results.scaledScore >= GED_PASSING_SCORE : undefined,
+                    ...(responses.length ? { responses } : {}),
+                    ...(quizDetails && quizDetails.assignedBy ? { assigned_by: quizDetails.assignedBy } : {}),
+                };
+                await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(payload),
+                });
+            }
+        } catch (e) {
+            console.warn('[quiz] failed to POST /api/quiz-attempts:', e?.message || e);
+        }
     };
 
     const handleStartPopQuiz = () => {
@@ -12777,6 +12875,137 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             backgroundColor: isDarkMode ? 'rgba(255,255,255,0.08)' : '#ffffff',
             color: heroTextColor,
         };
+    const [coachPlan, setCoachPlan] = useState(null);
+        const [coachLoading, setCoachLoading] = useState(false);
+        const [coachError, setCoachError] = useState('');
+    // Daily Coach state
+    const [dailyLoading, setDailyLoading] = useState(false);
+    const [dailyError, setDailyError] = useState('');
+    const [dailyToday, setDailyToday] = useState('');
+    const [dailySubjects, setDailySubjects] = useState([]);
+        const loadCoachPlan = async () => {
+            try {
+                setCoachLoading(true);
+                setCoachError('');
+                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+                if (!token) { setCoachPlan(null); return; }
+                const subjectParam = selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject;
+                const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subjectParam)}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.ok && data.plan) setCoachPlan(data.plan);
+                    else setCoachPlan(null);
+                } else {
+                    setCoachPlan(null);
+                }
+            } catch (e) {
+                setCoachError('Unable to load coach plan.');
+            } finally {
+                setCoachLoading(false);
+            }
+        };
+        const generateCoachPlan = async () => {
+            try {
+                setCoachLoading(true);
+                setCoachError('');
+                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+                if (!token) { alert('Please sign in to generate a weekly plan.'); return; }
+                const subjectParam = selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject;
+                const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subjectParam)}/generate-week`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.ok && data.plan) setCoachPlan(data.plan);
+                } else {
+                    setCoachError('Failed to generate plan.');
+                }
+            } catch (e) {
+                setCoachError('Failed to generate plan.');
+            } finally {
+                setCoachLoading(false);
+            }
+        };
+        useEffect(() => { loadCoachPlan(); }, [selectedSubject]);
+        // Load today's coach goals once on dashboard load
+        useEffect(() => {
+            (async () => {
+                try {
+                    setDailyLoading(true);
+                    setDailyError('');
+                    const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+                    if (!token) { setDailyToday(''); setDailySubjects([]); return; }
+                    const res = await fetch(`${API_BASE_URL}/api/coach/daily`, { headers: { Authorization: `Bearer ${token}` } });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.ok) {
+                            setDailyToday(data.today || '');
+                            setDailySubjects(Array.isArray(data.subjects) ? data.subjects : []);
+                        } else {
+                            setDailyToday('');
+                            setDailySubjects([]);
+                        }
+                    } else {
+                        setDailyError('Unable to load today\'s coach goals.');
+                    }
+                } catch (e) {
+                    setDailyError('Unable to load today\'s coach goals.');
+                } finally {
+                    setDailyLoading(false);
+                }
+            })();
+        }, []);
+
+        const displaySubjectName = (s) => (s === 'RLA' ? 'Reasoning Through Language Arts (RLA)' : s);
+        const practiceSubjectParam = (s) => {
+            const key = (s || '').toLowerCase();
+            if (key.startsWith('math')) return 'math';
+            if (key.startsWith('science')) return 'science';
+            if (key === 'rla' || key.includes('language')) return 'rla';
+            return 'social-studies';
+        };
+
+        const startCoachQuizForSubject = async (subject, sourceId) => {
+            try {
+                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+                if (!token) { alert('Please sign in to take today\'s coach quiz.'); return; }
+                setIsLoading(true);
+                setLoadingMessage(`Loading Coach Smith quiz for ${subject}...`);
+                const body = {
+                    durationMinutes: 20,
+                    mode: 'single-subject',
+                    subject: practiceSubjectParam(subject)
+                };
+                const res = await fetch(`${API_BASE_URL}/api/practice-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                    body: JSON.stringify(body)
+                });
+                if (!res.ok) {
+                    throw new Error(`Server responded ${res.status}`);
+                }
+                const session = await res.json();
+                const today = new Date().toISOString().slice(0,10);
+                const quizId = `coach-smith:${subject}:${today}`;
+                const displaySubject = displaySubjectName(subject);
+                const quizPayload = {
+                    id: quizId,
+                    quizCode: quizId,
+                    title: 'Coach Smith Quiz',
+                    type: 'coach-quiz',
+                    questions: Array.isArray(session?.questions) ? session.questions : [],
+                    assignedBy: 'coach-smith'
+                };
+                startQuiz(quizPayload, displaySubject);
+            } catch (e) {
+                alert('Unable to start Coach Smith quiz right now.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
         const panelBackground = !isDarkMode && SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
         if (panelBackground) {
             panelBaseStyle.backgroundImage = panelBackground;
@@ -12873,11 +13102,101 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             theme={theme}
                         />
                     )}
+                    {/* Daily Coach goals (across subjects) */}
+                    <div className="border-2 rounded-lg p-4 mt-4" style={panelBaseStyle}>
+                        <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
+                            <CalendarIcon className="h-8 w-8" />
+                            <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Today&apos;s Coach Goals</h3>
+                        </div>
+                        {dailyLoading ? (
+                            <p className="text-center text-sm mt-2" style={heroMutedTextStyle}>Loading…</p>
+                        ) : dailyError ? (
+                            <p className="text-center text-sm mt-2 text-red-600">{dailyError}</p>
+                        ) : Array.isArray(dailySubjects) && dailySubjects.length ? (
+                            <div className="mt-3 space-y-3">
+                                {dailySubjects.map((ds, idx) => (
+                                    <div key={idx} className="border rounded-md p-3" style={{ borderColor: panelBorderColor }}>
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <div className="font-semibold" style={{ color: heroTextColor }}>{displaySubjectName(ds.subject)}</div>
+                                                <div className="text-sm" style={heroMutedTextStyle}>
+                                                    {Math.max(0, ds.completed_minutes || 0)} / {ds.expected_minutes || 45} minutes
+                                                </div>
+                                            </div>
+                                            <div>
+                                                {ds.coach_quiz_id ? (
+                                                    ds.coach_quiz_completed ? (
+                                                        <span className="text-sm px-3 py-1 rounded-full" style={{ backgroundColor: isDarkMode ? 'rgba(34,197,94,0.2)' : '#dcfce7', color: '#166534' }}>Coach Quiz Done</span>
+                                                    ) : (
+                                                        <button
+                                                            onClick={() => startCoachQuizForSubject(ds.subject, ds.coach_quiz_source_id)}
+                                                            className="px-3 py-2 text-sm font-semibold rounded-md transition"
+                                                            style={{ backgroundColor: '#ffffff', color: '#0f172a' }}
+                                                        >
+                                                            Take Today&apos;s Coach Smith Quiz
+                                                        </button>
+                                                    )
+                                                ) : null}
+                                            </div>
+                                        </div>
+                                        {Array.isArray(ds.tasks) && ds.tasks.length ? (
+                                            <ul className="mt-2 list-disc ml-5 text-sm" style={heroMutedTextStyle}>
+                                                {ds.tasks.map((t, i) => <li key={i}>{t}</li>)}
+                                            </ul>
+                                        ) : null}
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-center text-sm mt-2" style={heroMutedTextStyle}>No goals for today yet.</p>
+                        )}
+                    </div>
+
                     {/* New clustered quiz browser */}
                     <SubjectQuizBrowser subjectName={selectedSubject} onSelectQuiz={onSelectQuiz} theme={theme} />
                     {/* Keep generator and comprehensive exam below the cluster UI */}
                     {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                            <div
+                                className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
+                                style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                            >
+                                <div>
+                                    <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
+                                        <CalendarIcon className="h-8 w-8" />
+                                        <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Weekly Coach</h3>
+                                    </div>
+                                    <p className="text-sm my-2 text-center" style={heroMutedTextStyle}>
+                                        A 7-day plan tailored to your recent progress.
+                                    </p>
+                                    {coachLoading ? (
+                                        <p className="text-center text-sm" style={heroMutedTextStyle}>Loading…</p>
+                                    ) : coachPlan && coachPlan.plan_json && Array.isArray(coachPlan.plan_json.days) ? (
+                                        <div className="mt-2 max-h-48 overflow-y-auto space-y-1">
+                                            {coachPlan.plan_json.days.slice(0,7).map((d, idx) => (
+                                                <div key={idx} className="text-sm flex items-start gap-2">
+                                                    <span className="font-semibold">Day {d.day}:</span>
+                                                    <span>{Array.isArray(d.focus) ? d.focus.join(', ') : ''} — {d.task} ({d.minutes || 20}m)</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-center text-sm" style={heroMutedTextStyle}>No plan yet.</p>
+                                    )}
+                                    {coachError && (
+                                        <p className="text-center text-xs text-red-600 mt-2">{coachError}</p>
+                                    )}
+                                </div>
+                                <div className="mt-3">
+                                    <button
+                                        onClick={generateCoachPlan}
+                                        disabled={coachLoading}
+                                        className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/70 disabled:text-slate-400"
+                                    >
+                                        {coachPlan ? 'Generate / Refresh Plan' : 'Generate Plan'}
+                                    </button>
+                                </div>
+                            </div>
                             {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
                                 <div
                                     className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
@@ -14227,6 +14546,18 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                 throw new Error('Unexpected essay score format');
             }
             setEssayScore(parsedScore);
+            // Fetch challenge suggestions to show to the student
+            try {
+                const sugRes = await fetch(`${API_BASE_URL}/api/challenges/suggestions`, {
+                    headers: {
+                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                    },
+                });
+                if (sugRes.ok) {
+                    const data = await sugRes.json();
+                    console.log('[Essay] Suggestions:', data);
+                }
+            } catch (_) {}
             return parsedScore;
         } catch (error) {
             console.error("Error scoring essay:", error);
@@ -14373,6 +14704,57 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 }
 
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
+    const [suggestions, setSuggestions] = useState([]);
+    const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+
+    useEffect(() => {
+        let isActive = true;
+        const load = async () => {
+            try {
+                setLoadingSuggestions(true);
+                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+                if (!token) { setSuggestions([]); return; }
+                const res = await fetch(`${API_BASE_URL}/api/challenges/suggestions`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (isActive) setSuggestions(Array.isArray(data?.items) ? data.items : []);
+                }
+            } catch (_e) {
+                // ignore
+            } finally {
+                if (isActive) setLoadingSuggestions(false);
+            }
+        };
+        load();
+        return () => { isActive = false; };
+    }, []);
+
+    const prettyLabel = (tag, label) => {
+        if (label && typeof label === 'string') return label;
+        if (!tag) return 'Unknown';
+        const t = String(tag).replace(/[:_\-]/g, ' ');
+        return t.replace(/\b\w/g, (m) => m.toUpperCase());
+    };
+
+    const resolveSuggestion = async (id, action) => {
+        try {
+            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+            if (!token) return;
+            const res = await fetch(`${API_BASE_URL}/api/challenges/resolve`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ suggestion_id: id, action }),
+            });
+            if (res.ok) {
+                setSuggestions((prev) => prev.filter((s) => s.id !== id));
+            }
+        } catch (_e) {}
+    };
     const getPerf = (score) => {
         if (score >= 175) return { level: "GED® College Ready + Credit", color: "text-purple-600" };
         if (score >= 165) return { level: "GED® College Ready", color: "text-blue-600" };
@@ -14416,6 +14798,32 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 <p className={`text-2xl font-semibold mb-2 ${performance.color}`}>{performance.level}</p>
                 <p className="text-lg text-slate-500">{results.score} / {results.totalQuestions} Correct</p>
             </div>
+
+            {(loadingSuggestions || (suggestions && suggestions.length)) && (
+                <div className="mt-6 pt-4 border-t max-w-2xl mx-auto text-left">
+                    <h3 className="text-xl font-bold subject-accent-heading mb-3">Suggested Focus Areas</h3>
+                    {loadingSuggestions && !suggestions.length ? (
+                        <p className="text-sm text-slate-500">Loading suggestions…</p>
+                    ) : suggestions.length ? (
+                        <ul className="space-y-2">
+                            {suggestions.map((s) => (
+                                <li key={s.id} className="flex items-center justify-between gap-3 bg-slate-50 panel-surface p-3 rounded-lg border">
+                                    <div>
+                                        <p className="font-semibold text-slate-800">{prettyLabel(s.challenge_tag, s.label)}</p>
+                                        <p className="text-xs text-slate-500">{s.suggestion_type === 'add' ? 'Consider adding this challenge to your practice plan.' : 'We think you may be ready to remove this challenge.'}</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <button onClick={() => resolveSuggestion(s.id, 'reject')} className="px-3 py-1 text-sm rounded-md bg-slate-200 hover:bg-slate-300">Dismiss</button>
+                                        <button onClick={() => resolveSuggestion(s.id, 'accept')} className="px-3 py-1 text-sm rounded-md bg-sky-600 text-white hover:bg-sky-700">Accept</button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="text-sm text-slate-500">No suggestions right now.</p>
+                    )}
+                </div>
+            )}
 
             <div className="mt-8 pt-6 border-t max-w-lg mx-auto">
                 <h3 className="text-xl font-bold subject-accent-heading mb-4">Performance by Category</h3>
@@ -14997,6 +15405,18 @@ const passagesData = [
                 throw new Error('Unexpected essay score format');
             }
             setScoreResult(parsedScore);
+            // Fetch challenge suggestions after essay scoring
+            try {
+                const sugRes = await fetch(`${API_BASE_URL}/api/challenges/suggestions`, {
+                    headers: {
+                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                    },
+                });
+                if (sugRes.ok) {
+                    const data = await sugRes.json();
+                    console.log('[Essay Builder] Suggestions:', data);
+                }
+            } catch (_) {}
 
         } catch (error) {
             console.error("Error scoring essay:", error);
