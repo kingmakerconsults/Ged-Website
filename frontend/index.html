@@ -1756,6 +1756,56 @@
             color: #000 !important;
         }
 
+                /* light-mode gold for Coach Smith main panel override (slightly darker radial) */
+                .coach-gold-light {
+                    background: radial-gradient(circle at top, #f4c060 0%, #d99b30 40%, #b87b1c 100%);
+                    border: 1px solid rgba(184, 123, 28, 0.35);
+                }
+
+                /* readable text on light gold */
+                .coach-gold-light h2,
+                .coach-gold-light .coach-header,
+                .coach-gold-light p {
+                    color: #1f2937;
+                }
+
+                /* subject cards inside coach panel */
+                .coach-subject-card.coach-gold-card {
+                    background: linear-gradient(135deg, rgba(244, 192, 96, 0.85) 0%, rgba(217, 155, 48, 0.95) 60%, rgba(184, 123, 28, 1) 100%);
+                    border: 1px solid rgba(184, 123, 28, 0.25);
+                    box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22);
+                }
+
+                        /* subtle per-subject border glow on gold cards */
+                        .coach-subject-card.subject-math {
+                            border-color: rgba(14,165,233,0.45);
+                            box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22), 0 0 0 1px rgba(14,165,233,0.45) inset, 0 0 16px rgba(14,165,233,0.20);
+                        }
+                        .coach-subject-card.subject-rla {
+                            border-color: rgba(124,58,237,0.45);
+                            box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22), 0 0 0 1px rgba(124,58,237,0.45) inset, 0 0 16px rgba(124,58,237,0.20);
+                        }
+                        .coach-subject-card.subject-science {
+                            border-color: rgba(248,113,113,0.45);
+                            box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22), 0 0 0 1px rgba(248,113,113,0.45) inset, 0 0 16px rgba(248,113,113,0.20);
+                        }
+                        .coach-subject-card.subject-social {
+                            border-color: rgba(22,163,74,0.45);
+                            box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22), 0 0 0 1px rgba(22,163,74,0.45) inset, 0 0 16px rgba(22,163,74,0.20);
+                        }
+
+                /* subject label chips and minutes badges stay visible */
+                .coach-subject-card .subject-pill {
+                    background: rgba(255, 255, 255, 0.8);
+                    color: #1f2937;
+                }
+                .coach-subject-card .minutes-pill {
+                    background: rgba(255, 255, 255, 0.55);
+                    color: #1f2937;
+                    border-radius: 9999px;
+                    padding: 2px 8px;
+                }
+
         /* Settings: force all text to white in DARK mode */
         [data-theme="dark"] #settingsView,
         [data-theme="dark"] #settingsView * {
@@ -13650,7 +13700,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 )}
                 {/* Coach Smith — This Week (4 subject cards) */}
                 {currentUser && (
-                    <div className="mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md">
+                    <div className={`mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${theme === 'dark' ? '' : 'coach-gold-light'}`}>
                         <div className="flex items-center justify-between mb-3">
                             <h2 className={`text-lg font-semibold ${homePanelPrimaryTextClass}`}>Coach Smith — This Week</h2>
                         </div>
@@ -13675,30 +13725,21 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     const target = match?.expected_minutes_week || 140;
                                     const summary = match?.summary;
 
-                                    let accentBg = 'rgba(255,255,255,0.18)';
-                                    let accentText = '#000';
-                                    if (label === 'Math') {
-                                        accentBg = 'rgba(14,165,233,0.16)';
-                                        accentText = '#0f172a';
-                                    } else if (label.startsWith('Reasoning')) {
-                                        accentBg = 'rgba(124,58,237,0.14)';
-                                    } else if (label === 'Science') {
-                                        accentBg = 'rgba(248,113,113,0.16)';
-                                    } else if (label === 'Social Studies') {
-                                        accentBg = 'rgba(22,163,74,0.16)';
-                                    }
+                                    // subject key for styling hooks
+                                    const subjectKey = (label === 'Math')
+                                      ? 'math'
+                                      : (label.startsWith('Reasoning') ? 'rla' : (label === 'Science' ? 'science' : 'social'));
 
                                     return (
                                         <div
                                             key={label}
-                                            className="rounded-lg border border-amber-200/60 bg-amber-50/50 dark:bg-amber-900/10 p-3 backdrop-blur-sm"
-                                            style={{ background: 'rgba(255,255,255,0.1)' }}
+                                            className={`coach-subject-card coach-gold-card rounded-lg border p-3 backdrop-blur-sm subject-${subjectKey}`}
                                         >
                                             <div className="flex items-center justify-between mb-2">
-                                                <p className="text-xs font-semibold uppercase tracking-wide" style={{ background: accentBg, color: accentText, borderRadius: '9999px', padding: '2px 10px' }}>
+                                                <p className="subject-pill text-xs font-semibold uppercase tracking-wide" style={{ borderRadius: '9999px', padding: '2px 10px' }}>
                                                     {label === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : label}
                                                 </p>
-                                                <span className="text-[0.65rem] text-slate-700 dark:text-slate-200">
+                                                <span className="minutes-pill text-[0.65rem] text-slate-700 dark:text-slate-200">
                                                     {completed} / {target} min
                                                 </span>
                                             </div>
