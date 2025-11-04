@@ -214,129 +214,131 @@ function toMs(nsDiff) { return Number(nsDiff) / 1e6; }
 async function timed(label, fn) {
     const start = nowNs();
     try {
+// --- coach advice helpers (top level) ---
+function getCurrentWeekStartISO() {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun,1=Mon,...
+    const diffToMonday = (day === 0 ? -6 : 1) - day; // move to Monday
+    const monday = new Date(now);
+    monday.setDate(now.getDate() + diffToMonday);
+    monday.setHours(0, 0, 0, 0);
+    return monday.toISOString().slice(0, 10);
+}
+
+async function getUserEmailById(userId) {
+    if (!userId) return null;
+    try {
+        const row = await db.oneOrNone(`SELECT email FROM users WHERE id = $1`, [userId]);
+        return row?.email || null;
+    } catch (_) {
+        return null;
+    }
+}
+
+// --- /api/coach/advice (top level) ---
+// Ask Coach advice endpoint with weekly throttle (2/week) and challenge selection requirement
+app.post('/api/coach/advice', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+    try {
+        const userId = req.user.id;
+        let email = (req.user && (req.user.email || req.user.userEmail)) || null;
+        if (!email) {
+            email = await getUserEmailById(userId);
+        }
+
+        const testerByEmail = (String(email || '')).toLowerCase() === 'zacharysmith527@gmail.com';
+
+        // Build profile bundle to inspect selected challenges and test plan
+        const bundle = await buildProfileBundle(userId);
+        const challengeOptions = Array.isArray(bundle?.challengeOptions) ? bundle.challengeOptions : [];
+        const selected = challengeOptions.filter((c) => c && c.selected);
+
+        if (!Array.isArray(selected) || selected.length === 0) {
+            return res.status(400).json({ error: 'Pick at least one challenge in your profile so Coach can tailor advice.' });
+        }
+
+        // Subject hint is optional; if provided, narrow the selected challenges
+        const subjectHintRaw = (req.body && req.body.subject) ? String(req.body.subject) : '';
+        const subjectHint = subjectHintRaw
+            ? (subjectHintRaw.toLowerCase() === 'rla' ? 'RLA' : (subjectHintRaw.toLowerCase().startsWith('social') ? 'Social Studies' : subjectHintRaw.charAt(0).toUpperCase() + subjectHintRaw.slice(1)))
+            : '';
+
+        const bySubject = subjectHint
+            ? selected.filter((s) => (s.subject || '').toString() === subjectHint)
+            : selected;
+
+        // Throttle: 2 per week per user, unless tester email
+        const weekStartISO = getCurrentWeekStartISO();
+        if (!testerByEmail) {
+            const existing = await db.oneOrNone(
+                `SELECT used_count FROM coach_advice_usage WHERE user_id = $1 AND week_start_date = $2`,
+                [userId, weekStartISO]
+            );
+            const used = existing?.used_count || 0;
+            if (used >= 2) {
+                return res.status(429).json({ error: 'You\'ve reached your Ask Coach limit for this week (2/2). Try again next week.' });
+            }
+        }
+
+        // Gather test date context for the hinted subject (or nearest upcoming)
+        const testPlan = Array.isArray(bundle?.testPlan) ? bundle.testPlan : [];
+        let subjectTestDate = '';
+        if (subjectHint) {
+            const match = testPlan.find((t) => t && t.subject === subjectHint && t.testDate);
+            subjectTestDate = match?.testDate || '';
+        } else {
+            const upcoming = testPlan.find((t) => t && t.testDate);
+            subjectTestDate = upcoming?.testDate || '';
+        }
+
+        // Compose prompt for AI
+        const tagList = bySubject.map((c) => `${c.subject}: ${c.subtopic} — ${c.label}`).slice(0, 10).join('\n- ');
+        const subjForPrompt = subjectHint || 'your GED subjects';
+        const dateForPrompt = subjectTestDate ? `Target test date: ${subjectTestDate}.` : 'No test date saved yet.';
+        const prompt = `You are Coach Smith, a concise GED study coach.
+Provide 3-5 specific, encouraging tips tailored to ${subjForPrompt}.
+Focus on 45-minute sessions and include one quick practice idea.
+Ground your advice in these selected challenges (if present):
+- ${tagList || 'No tags selected beyond basics.'}
+${dateForPrompt}
+Return JSON as { "advice": "<single paragraph or short bullets>" }.`;
+
+        const SCHEMA = { type: 'OBJECT', properties: { advice: { type: 'STRING' } }, required: ['advice'] };
+
+        let adviceText = '';
+        try {
+            const ai = await callAI(prompt, SCHEMA, { generationOverrides: { temperature: 0.7 } });
+            adviceText = (ai && ai.advice) ? String(ai.advice) : '';
+        } catch (e) {
+            // Fallback to simple templated guidance
+            const firstTag = bySubject[0] || selected[0];
+            const tagStr = firstTag ? `${firstTag.subject}: ${firstTag.subtopic.toLowerCase()}` : 'your weakest areas';
+            adviceText = `Spend 45 minutes today focused on ${tagStr}. Start with 10 minutes reviewing notes, then 25 minutes of practice (2-3 short passages or 8-10 problems), and finish with a 10-minute reflection to write down one mistake pattern and how you\\'ll fix it next time.`;
+            if (subjectTestDate) {
+                adviceText += ` You\\'ve saved a test date (${subjectTestDate}) — aim for 3 focused sessions this week.`;
+            }
+        }
+
+        // Record usage (skip for tester email)
+        if (!testerByEmail) {
+            await db.query(
+                `INSERT INTO coach_advice_usage (user_id, week_start_date, used_count, last_used_at)
+                 VALUES ($1, $2, 1, now())
+                 ON CONFLICT (user_id, week_start_date)
+                 DO UPDATE SET used_count = coach_advice_usage.used_count + 1, last_used_at = now()`,
+                [userId, weekStartISO]
+            );
+        }
+
+        return res.json({ ok: true, advice: adviceText, weekStart: weekStartISO });
+    } catch (e) {
+        console.error('POST /api/coach/advice failed:', e?.message || e);
+        return res.status(500).json({ error: 'Unable to fetch advice right now.' });
+    }
+});
+
         const data = await fn();
         const ms = toMs(nowNs() - start);
-        console.log(`[AI][OK] ${label} in ${Math.round(ms)} ms`);
-        return { data, ms };
-    } catch (err) {
-        const ms = toMs(nowNs() - start);
-        console.warn(`[AI][FAIL] ${label} after ${Math.round(ms)} ms: ${err?.message}`);
-        throw Object.assign(err, { elapsedMs: ms });
-    }
-}
-
-function logGenerationDuration(examType, subject, startMs, status = 'completed') {
-    if (!startMs) return;
-    const elapsed = Date.now() - startMs;
-    const label = `${examType || 'standard'}:${subject || 'unknown'}`;
-    console.log(`[${label}] Generation ${status} in ${elapsed}ms`);
-}
-
-// Rolling latency (last 200)
-const AI_LATENCY = {
-    buf: [],
-    push(ms) { this.buf.push(ms); if (this.buf.length > 200) this.buf.shift(); },
-    stats() {
-        const arr = [...this.buf].sort((a, b) => a - b);
-        if (!arr.length) return { count: 0, p50: 0, p95: 0, p99: 0, avg: 0 };
-        const q = (p) => arr[Math.min(arr.length - 1, Math.floor((p / 100) * (arr.length - 1)))];
-        const sum = arr.reduce((s, v) => s + v, 0);
-        return { count: arr.length, p50: q(50), p95: q(95), p99: q(99), avg: sum / arr.length };
-    }
-};
-
-const GEMINI_SOFT_TIMEOUT_MS = Number(process.env.GEMINI_SOFT_TIMEOUT_MS) || 70000;
-const FALLBACK_TIMEOUT_MS = Number(process.env.FALLBACK_TIMEOUT_MS) || 35000;
-
-function delay(ms) { return new Promise((r) => setTimeout(r, ms)); }
-
-async function raceGeminiWithDelayedFallback({ primaryFn, fallbackFn, primaryModelName = 'primary', fallbackModelName = 'fallback' }) {
-    let resolved = false;
-    let winner = null;
-    let latencyMs = 0;
-    const fallbackConfigured = fallbackModelName === 'chatgpt'
-        ? Boolean(process.env.OPENAI_API_KEY)
-        : true;
-
-    const primaryPromise = timed(`${primaryModelName}:topic`, primaryFn)
-        .then(({ data, ms }) => {
-            if (!resolved) {
-                resolved = true;
-                winner = { model: primaryModelName, data, ms };
-            }
-        })
-        .catch((err) => {
-            if (!resolved) {
-                console.warn(`[AI] ${primaryModelName} error:`, err?.message);
-                if (!fallbackConfigured) {
-                    resolved = true;
-                    winner = { model: `${primaryModelName}-error`, error: err, ms: err?.elapsedMs ?? 0 };
-                }
-            }
-        });
-
-    const fallbackStarter = (async () => {
-        await delay(GEMINI_SOFT_TIMEOUT_MS);
-        if (resolved) return;
-        if (!fallbackConfigured) return;
-        try {
-            const r = await timed(`${fallbackModelName}:fallback`, fallbackFn);
-            if (!resolved) {
-                resolved = true;
-                winner = { model: fallbackModelName, data: r.data, ms: r.ms };
-            }
-        } catch (err) {
-            if (!resolved) {
-                console.warn(`[AI] ${fallbackModelName} fallback failed:`, err?.message);
-            }
-        }
-    })();
-
-    const hardCap = delay(MODEL_HTTP_TIMEOUT_MS).then(() => {
-        if (!resolved) {
-            resolved = true;
-            winner = { model: 'timeout', data: null, ms: MODEL_HTTP_TIMEOUT_MS };
-        }
-    });
-
-    while (!winner) {
-        await delay(25);
-    }
-
-    try {
-        await Promise.race([primaryPromise, fallbackStarter, hardCap]);
-    } catch (err) {
-        console.warn('[AI] race drain error:', err?.message);
-    }
-
-    latencyMs = winner.ms ?? 0;
-    return { winner, latencyMs };
-}
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
-
-let IMAGE_DB = [];
-const IMAGE_BY_PATH = new Map();
-
-function rebuildImagePathIndex() {
-    IMAGE_BY_PATH.clear();
-    for (const im of Array.isArray(IMAGE_DB) ? IMAGE_DB : []) {
-        if (!im || typeof im !== 'object') continue;
-        const rawPath = im.filePath || im.src || im.path;
-        if (typeof rawPath !== 'string' || !rawPath) continue;
-        const clean = rawPath.replace(/^\/frontend/i, '');
-        if (!clean) continue;
-        const normalized = clean.startsWith('/') ? clean : `/${clean}`;
-        IMAGE_BY_PATH.set(normalized, im);
-        IMAGE_BY_PATH.set(normalized.slice(1), im);
-        IMAGE_BY_PATH.set(rawPath, im);
-    }
-}
-
-// --- Image metadata loader with auto-augment for new Science/SocialStudies images ---
-function readJsonSafe(file) {
-    try {
+    
         return JSON.parse(fs.readFileSync(file, 'utf8'));
     } catch (e) {
         return null;
@@ -2926,6 +2928,27 @@ async function latestWeeklyPlan(userId, subject) {
     return rows && rows[0] ? rows[0] : null;
 }
 
+// Helper to get the start of the current ISO week (Monday) as a date string YYYY-MM-DD
+function getCurrentWeekStartISO() {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun,1=Mon,...
+    const diffToMonday = (day === 0 ? -6 : 1) - day; // move to Monday
+    const monday = new Date(now);
+    monday.setDate(now.getDate() + diffToMonday);
+    monday.setHours(0, 0, 0, 0);
+    return monday.toISOString().slice(0, 10);
+}
+
+async function getUserEmailById(userId) {
+    if (!userId) return null;
+    try {
+        const row = await db.oneOrNone(`SELECT email FROM users WHERE id = $1`, [userId]);
+        return row?.email || null;
+    } catch (_) {
+        return null;
+    }
+}
+
 function dateDiffDays(aISO, bISO) {
     try {
         const a = new Date(aISO);
@@ -3034,7 +3057,7 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             return res.status(400).json({ ok: false, error: 'subject_passed', message: 'This subject has been marked as passed.' });
         }
 
-        // 1) freshness check (read latest; we still proceed to regenerate)
+        // 1) freshness check (read latest; enforce once per calendar week)
         let latest = null;
         try {
             const r = await pool.query(
@@ -3044,8 +3067,14 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             latest = r.rows && r.rows[0] ? r.rows[0] : null;
         } catch (_) {}
         let fresh = false;
-        if (latest && latest.generated_at) {
-            const dt = new Date(latest.generated_at);
+        const weekStartISO = getCurrentWeekStartISO();
+        if (latest && latest.valid_from) {
+            const latestStart = (latest.valid_from instanceof Date) ? latest.valid_from.toISOString().slice(0,10) : String(latest.valid_from).slice(0,10);
+            if (latestStart === weekStartISO) {
+                // Already generated for this week — return existing plan
+                return res.json({ ok: true, plan: latest, fresh: true, alreadyGenerated: true });
+            }
+            const dt = new Date(latest.generated_at || latest.valid_from);
             const ageDays = (Date.now() - dt.getTime()) / (1000*60*60*24);
             fresh = ageDays < 7;
         }
@@ -3194,8 +3223,8 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         }
 
         // Persist plan
-        const validFrom = todayISO;
-        const d0 = new Date(todayISO);
+    const validFrom = weekStartISO;
+    const d0 = new Date(`${weekStartISO}T00:00:00Z`);
         const d6 = new Date(d0.getTime() + 6*24*60*60*1000);
         const validTo = `${d6.getFullYear()}-${String(d6.getMonth()+1).padStart(2,'0')}-${String(d6.getDate()).padStart(2,'0')}`;
 
@@ -3228,12 +3257,22 @@ app.get('/api/coach/daily', devAuth, ensureTestUserForNow, requireAuthInProd, au
             if (await isSubjectPassed(userId, subj)) continue; // skip passed subjects
             const row = await findOrCreateDailyRow(userId, subj, today);
             if (!row) continue;
+            // Build structured task list
             const tasks = [];
+            let focusTag = null;
             if (row.notes) {
-                // split lines into tasks, keep short
-                row.notes.split(/\n+/).forEach((ln) => { const t = ln.trim(); if (t) tasks.push(t); });
+                const lines = row.notes.split(/\n+/).map(s => s.trim()).filter(Boolean);
+                // Try to parse Focus: a, b from first line
+                const focusLine = lines.find(ln => /^focus\s*:/i.test(ln));
+                if (focusLine) {
+                    const tags = focusLine.split(':').slice(1).join(':').split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+                    focusTag = tags[0] || null;
+                }
+                lines.forEach((ln) => tasks.push({ type: 'note', label: ln }));
             }
-            if (row.coach_quiz_id && !row.coach_quiz_completed) tasks.push('Do coach quiz');
+            if (row.coach_quiz_id && !row.coach_quiz_completed) {
+                tasks.push({ type: 'coach-quiz', label: 'Do coach quiz', quizId: row.coach_quiz_source_id || null, focusTag: focusTag || null });
+            }
             subjects.push({
                 subject: subj,
                 expected_minutes: Number(row.expected_minutes) || 45,
@@ -3249,6 +3288,98 @@ app.get('/api/coach/daily', devAuth, ensureTestUserForNow, requireAuthInProd, au
     } catch (e) {
         console.error('GET /api/coach/daily failed:', e);
         return res.status(500).json({ ok: false, error: 'coach_daily_failed' });
+    }
+});
+
+// 1b) GET /api/coach/weekly — consolidated subject summaries for the current week
+app.get('/api/coach/weekly', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const weekStart = getCurrentWeekStartISO();
+        const d0 = new Date(`${weekStart}T00:00:00Z`);
+        const d6 = new Date(d0.getTime() + 6*24*60*60*1000);
+        const weekEnd = `${d6.getFullYear()}-${String(d6.getMonth()+1).padStart(2,'0')}-${String(d6.getDate()).padStart(2,'0')}`;
+
+        const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
+        const subjects = [];
+
+        for (const subj of SUBJECTS) {
+            if (await isSubjectPassed(userId, subj)) continue;
+            const latest = await latestWeeklyPlan(userId, subj);
+            let expectedWeek = 0;
+            let summary = '';
+            if (latest && latest.plan_json && Array.isArray(latest.plan_json.days)) {
+                expectedWeek = latest.plan_json.days.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0);
+                // Build a short focus summary using top 2 tags from first 3 days
+                const f = [];
+                latest.plan_json.days.slice(0,3).forEach(d => {
+                    (Array.isArray(d.focus) ? d.focus : []).forEach(tag => { const t = String(tag||'').toLowerCase(); if (t && !f.includes(t) && f.length < 4) f.push(t); });
+                });
+                if (f.length) summary = `Focus: ${f.join(', ')}`;
+            }
+
+            // Completed minutes across week in coach_daily_progress
+            let completedWeek = 0;
+            try {
+                const r = await pool.query(
+                    `SELECT SUM(completed_minutes) AS total
+                       FROM coach_daily_progress
+                      WHERE user_id = $1 AND subject = $2 AND plan_date BETWEEN $3 AND $4`,
+                    [userId, subj, weekStart, weekEnd]
+                );
+                completedWeek = Number(r?.rows?.[0]?.total) || 0;
+            } catch (_) {}
+
+            subjects.push({ subject: subj, expected_minutes_week: expectedWeek || 140, completed_minutes_week: completedWeek, summary });
+        }
+
+        return res.json({ ok: true, weekStart, subjects });
+    } catch (e) {
+        console.error('GET /api/coach/weekly failed:', e);
+        return res.status(500).json({ ok: false, error: 'coach_weekly_failed' });
+    }
+});
+
+// 1c) POST /api/coach/:subject/daily-composite — build a single-subject composite from premades (optionally filtered by focusTag)
+app.post('/api/coach/:subject/daily-composite', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const subject = normalizeSubjectLabel(req.params.subject);
+        const { focusTag } = req.body || {};
+        const today = todayISO();
+
+        // Build pool and filter by focus tag if present
+        let pool = getPremadeQuestions(subject, 60);
+        if (focusTag) {
+            const needle = String(focusTag).toLowerCase();
+            pool = pool.filter(q => Array.isArray(q?.challenge_tags) && q.challenge_tags.map(t => String(t).toLowerCase()).includes(needle));
+            if (pool.length < 12) {
+                // backfill with general pool if too few
+                const backfill = getPremadeQuestions(subject, 60).filter(q => !pool.includes(q));
+                pool = pool.concat(backfill);
+            }
+        }
+
+        if (!pool.length) return res.status(400).json({ ok: false, error: 'no_questions' });
+        // Shuffle
+        for (let i = pool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+        const questions = pool.slice(0, 12).map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
+        const quizCode = `${COACH_ASSIGNED_BY}:${subject}:${today}:composite`;
+        const quiz = { id: quizCode, quizCode, title: 'Coach Daily Composite', type: 'premade-composite', questions, assignedBy: COACH_ASSIGNED_BY };
+
+        // Save to today's daily row
+    const row = await findOrCreateDailyRow(userId, subject, today);
+    await pool.query(`UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_completed = FALSE, updated_at = NOW() WHERE user_id = $1 AND subject = $2 AND plan_date = $3`, [userId, subject, today, quizCode]);
+
+        return res.json({ ok: true, quiz });
+    } catch (e) {
+        console.error('POST /api/coach/:subject/daily-composite failed:', e);
+        return res.status(500).json({ ok: false, error: 'daily_composite_failed' });
     }
 });
 
@@ -3294,27 +3425,28 @@ app.post('/api/coach/complete', devAuth, ensureTestUserForNow, requireAuthInProd
 
 // 3) POST /api/coach/subject-passed — mark/unmark subject as passed
 app.post('/api/coach/subject-passed', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
-
-// Helper to get the start of the current ISO week (Monday) as a date string YYYY-MM-DD
-function getCurrentWeekStartISO() {
-    const now = new Date();
-    const day = now.getDay(); // 0=Sun,1=Mon,...
-    const diffToMonday = (day === 0 ? -6 : 1) - day; // move to Monday
-    const monday = new Date(now);
-    monday.setDate(now.getDate() + diffToMonday);
-    monday.setHours(0, 0, 0, 0);
-    return monday.toISOString().slice(0, 10);
-}
-
-async function getUserEmailById(userId) {
-    if (!userId) return null;
     try {
-        const row = await db.oneOrNone(`SELECT email FROM users WHERE id = $1`, [userId]);
-        return row?.email || null;
-    } catch (_) {
-        return null;
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const { subject, passed } = req.body || {};
+        const subj = normalizeSubjectLabel(subject);
+        if (!subj) return res.status(400).json({ ok: false, error: 'subject_required' });
+        const flag = !!passed;
+        await pool.query(
+            `INSERT INTO user_subject_status (user_id, subject, passed, passed_at, updated_at)
+             VALUES ($1, $2, $3, CASE WHEN $3 THEN NOW() ELSE NULL END, NOW())
+             ON CONFLICT (user_id, subject)
+             DO UPDATE SET passed = EXCLUDED.passed,
+                           passed_at = CASE WHEN EXCLUDED.passed THEN NOW() ELSE NULL END,
+                           updated_at = NOW()`,
+            [userId, subj, flag]
+        );
+        return res.json({ ok: true, subject: subj, passed: flag });
+    } catch (e) {
+        console.error('POST /api/coach/subject-passed failed:', e);
+        return res.status(500).json({ ok: false, error: 'subject_pass_update_failed' });
     }
-}
+});
 
 // Ask Coach advice endpoint with weekly throttle (2/week) and challenge selection requirement
 app.post('/api/coach/advice', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
@@ -3413,28 +3545,6 @@ Return JSON as { "advice": "<single paragraph or short bullets>" }.`;
     } catch (e) {
         console.error('POST /api/coach/advice failed:', e?.message || e);
         return res.status(500).json({ error: 'Unable to fetch advice right now.' });
-    }
-});
-    try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const { subject, passed } = req.body || {};
-        const subj = normalizeSubjectLabel(subject);
-        if (!subj) return res.status(400).json({ ok: false, error: 'subject_required' });
-        const flag = !!passed;
-        await pool.query(
-            `INSERT INTO user_subject_status (user_id, subject, passed, passed_at, updated_at)
-             VALUES ($1, $2, $3, CASE WHEN $3 THEN NOW() ELSE NULL END, NOW())
-             ON CONFLICT (user_id, subject)
-             DO UPDATE SET passed = EXCLUDED.passed,
-                           passed_at = CASE WHEN EXCLUDED.passed THEN NOW() ELSE NULL END,
-                           updated_at = NOW()`,
-            [userId, subj, flag]
-        );
-        return res.json({ ok: true, subject: subj, passed: flag });
-    } catch (e) {
-        console.error('POST /api/coach/subject-passed failed:', e);
-        return res.status(500).json({ ok: false, error: 'subject_pass_update_failed' });
     }
 });
 
