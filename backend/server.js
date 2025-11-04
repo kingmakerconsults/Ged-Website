@@ -1,7 +1,8 @@
 // server.js (Updated Version)
 
+const path = require('path');
 // Load local environment variables for development before any other imports that use them
-require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
@@ -3285,7 +3286,14 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
 
         // Sync today's daily row so the daily panel can immediately show the quiz
         try {
-            await findOrCreateDailyRow(userId, subject, todayISO());
+            const today = todayISO();
+            // Remove any stale daily row created earlier today before the weekly plan existed
+            await pool.query(
+                `DELETE FROM coach_daily_progress WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
+                [userId, subject, today]
+            );
+            // Recreate it so it pulls from the just-created weekly plan
+            await findOrCreateDailyRow(userId, subject, today);
         } catch (syncErr) {
             console.warn('Could not sync weekly -> daily coach quiz', syncErr);
         }
