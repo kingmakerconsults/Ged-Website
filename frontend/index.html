@@ -13570,12 +13570,17 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                         <p className="text-center text-sm" style={heroMutedTextStyle}>Loading…</p>
                                     ) : coachPlan && coachPlan.plan_json && Array.isArray(coachPlan.plan_json.days) ? (
                                         <div className="mt-2 max-h-48 overflow-y-auto space-y-1">
-                                            {coachPlan.plan_json.days.slice(0,7).map((d, idx) => (
-                                                <div key={idx} className="text-sm flex items-start gap-2">
-                                                    <span className="font-semibold">Day {d.day}:</span>
-                                                    <span>{Array.isArray(d.focus) ? d.focus.join(', ') : ''} — {d.task} ({d.minutes || 20}m)</span>
-                                                </div>
-                                            ))}
+                                            {coachPlan.plan_json.days.slice(0,7).map((d, idx) => {
+                                                const title = d?.label || d?.task || d?.type || 'Practice';
+                                                const focus = Array.isArray(d?.focus) ? d.focus.join(', ') : (d?.focus || '');
+                                                const minutes = d?.minutes || 20;
+                                                return (
+                                                    <div key={idx} className="text-sm flex items-start gap-2">
+                                                        <span className="font-semibold">Day {d.day}:</span>
+                                                        <span>{focus ? `${focus} — ` : ''}{title} ({minutes}m)</span>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     ) : (
                                         <p className="text-center text-sm" style={heroMutedTextStyle}>No plan yet.</p>
