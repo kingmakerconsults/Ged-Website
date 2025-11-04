@@ -2,6 +2,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 // Load local environment variables for development before any other imports that use them
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const express = require('express');
@@ -15,6 +16,25 @@ const ensureEssayScoresTable = require('./db/initEssayScores');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
+
+// --- in-memory image metadata structures used by image loader section ---
+let IMAGE_DB = [];
+const IMAGE_BY_PATH = new Map();
+
+function rebuildImagePathIndex() {
+    IMAGE_BY_PATH.clear();
+    const list = Array.isArray(IMAGE_DB) ? IMAGE_DB : [];
+    for (const im of list) {
+        if (!im || typeof im !== 'object') continue;
+        const rawPath = im.filePath || im.src || im.path;
+        if (!rawPath) continue;
+        const clean = String(rawPath).replace(/^\/frontend/i, '');
+        const normalized = clean.startsWith('/') ? clean : `/${clean}`;
+        IMAGE_BY_PATH.set(normalized, im);
+        IMAGE_BY_PATH.set(normalized.slice(1), im);
+        IMAGE_BY_PATH.set(rawPath, im);
+    }
+}
 
 async function findUserIdByGoogleSub(sub) {
     return db.oneOrNone(
