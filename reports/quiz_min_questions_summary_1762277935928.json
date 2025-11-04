@@ -1,0 +1,81 @@
+{
+  "min": 12,
+  "updated": [],
+  "unchanged": [
+    {
+      "file": "math.quizzes.part1.json",
+      "subject": "Math"
+    },
+    {
+      "file": "math.quizzes.part2.json",
+      "subject": "Math"
+    },
+    {
+      "file": "rla.quizzes.part1.json",
+      "subject": "Reasoning Through Language Arts (RLA)"
+    },
+    {
+      "file": "rla.quizzes.part2.json",
+      "subject": "Reasoning Through Language Arts (RLA)"
+    },
+    {
+      "file": "science.quizzes.part1.json",
+      "subject": "Science"
+    },
+    {
+      "file": "science.quizzes.part2.json",
+      "subject": "Science"
+    },
+    {
+      "file": "social-studies.quizzes.json",
+      "subject": "Social Studies"
+    }
+  ],
+  "skipped": [],
+  "timestamp": "2025-11-04T17:38:55.850Z",
+  "subjectSummaries": {
+    "Math": {
+      "totalQuizzes": 98,
+      "checkedQuizzes": 98,
+      "quizzesNeedingAugmentation": 0,
+      "questionsAdded": 0,
+      "fileCount": 2,
+      "files": [
+        "math.quizzes.part1.json",
+        "math.quizzes.part2.json"
+      ]
+    },
+    "Reasoning Through Language Arts (RLA)": {
+      "totalQuizzes": 61,
+      "checkedQuizzes": 61,
+      "quizzesNeedingAugmentation": 0,
+      "questionsAdded": 0,
+      "fileCount": 2,
+      "files": [
+        "rla.quizzes.part1.json",
+        "rla.quizzes.part2.json"
+      ]
+    },
+    "Science": {
+      "totalQuizzes": 60,
+      "checkedQuizzes": 60,
+      "quizzesNeedingAugmentation": 0,
+      "questionsAdded": 0,
+      "fileCount": 2,
+      "files": [
+        "science.quizzes.part1.json",
+        "science.quizzes.part2.json"
+      ]
+    },
+    "Social Studies": {
+      "totalQuizzes": 54,
+      "checkedQuizzes": 54,
+      "quizzesNeedingAugmentation": 0,
+      "questionsAdded": 0,
+      "fileCount": 1,
+      "files": [
+        "social-studies.quizzes.json"
+      ]
+    }
+  }
+}

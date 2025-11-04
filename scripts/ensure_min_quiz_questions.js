@@ -17,6 +17,7 @@ const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, '..');
 const quizzesDir = path.join(root, 'public', 'quizzes');
 const reportsDir = path.join(root, 'reports');
+const auditLogPath = path.join(root, 'quiz_length_audit.log');
 const MIN_QUESTIONS = Math.max(2, parseInt(process.env.MIN_QUESTIONS || '12', 10) || 12);
 
 function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); }
@@ -72,20 +73,78 @@ function subjectAwareRationale(subject, isCorrect) {
   }
 }
 
-function makeAutogenQuestion(subject, topicTitle, questionNumber, seed) {
+function makeAutogenQuestion(subject, topicTitle, questionNumber, seed, difficulty) {
   const choices = generateChoiceLabels();
   const correctIndex = seed % choices.length; // pseudo-random but stable per call
+  const stem = subjectAwareStem(subject, topicTitle, questionNumber);
   return {
     questionNumber,
-    question: `${subjectAwareStem(subject, topicTitle, questionNumber)}`,
+    question: `${stem} (Practice ${questionNumber})`,
     answerOptions: choices.map((lbl, idx) => ({
       text: `${lbl}. ${subject} practice placeholder`,
       isCorrect: idx === correctIndex,
       rationale: subjectAwareRationale(subject, idx === correctIndex),
     })),
-    explanation: 'Practice placeholder. Replace with a vetted item when available.',
+    explanation: `Practice placeholder generated to meet the minimum length requirement for this quiz. Difficulty: ${difficulty}.`,
+    difficulty,
     __autogen: true,
   };
+}
+
+function allocateDifficulties(count) {
+  const config = [
+    { level: 'medium', weight: 0.5, priority: 0 },
+    { level: 'easy', weight: 0.25, priority: 1 },
+    { level: 'hard', weight: 0.25, priority: 2 },
+  ];
+
+  const allocation = config.map((cfg) => {
+    const exact = count * cfg.weight;
+    const base = Math.floor(exact);
+    return { ...cfg, exact, count: base };
+  });
+
+  let assigned = allocation.reduce((sum, item) => sum + item.count, 0);
+  let remainder = count - assigned;
+
+  if (remainder > 0) {
+    const byFraction = [...allocation].sort((a, b) => {
+      const fracA = a.exact - Math.floor(a.exact);
+      const fracB = b.exact - Math.floor(b.exact);
+      const diff = fracB - fracA;
+      if (diff !== 0) return diff > 0 ? 1 : -1;
+      return a.priority - b.priority;
+    });
+    let idx = 0;
+    while (remainder > 0) {
+      byFraction[idx % byFraction.length].count += 1;
+      remainder -= 1;
+      idx += 1;
+    }
+  }
+
+  return allocation.reduce((acc, item) => {
+    acc[item.level] = item.count;
+    return acc;
+  }, {});
+}
+
+function buildDifficultySequence(count) {
+  if (count <= 0) return [];
+  const allocations = allocateDifficulties(count);
+  const order = ['medium', 'easy', 'hard'];
+  const remaining = { ...allocations };
+  const sequence = [];
+  while (sequence.length < count) {
+    for (const level of order) {
+      if ((remaining[level] || 0) > 0) {
+        sequence.push(level);
+        remaining[level] -= 1;
+      }
+      if (sequence.length === count) break;
+    }
+  }
+  return sequence;
 }
 
 function collectQuizzesFromSubjectPayload(payload) {
@@ -105,7 +164,20 @@ function collectQuizzesFromSubjectPayload(payload) {
   return out;
 }
 
-function enforceMinOnFile(absPath, fileName, report) {
+function ensureSubjectStats(subjectStats, subjectName) {
+  if (!subjectStats[subjectName]) {
+    subjectStats[subjectName] = {
+      totalQuizzes: 0,
+      checkedQuizzes: 0,
+      quizzesNeedingAugmentation: 0,
+      questionsAdded: 0,
+      files: new Set(),
+    };
+  }
+  return subjectStats[subjectName];
+}
+
+function enforceMinOnFile(absPath, fileName, report, auditEntries, subjectStats) {
   const raw = safeRead(absPath);
   if (!raw) { report.skipped.push({ file: fileName, reason: 'cannot read' }); return; }
   let json;
@@ -123,12 +195,19 @@ function enforceMinOnFile(absPath, fileName, report) {
   let addedQuestions = 0;
 
   const all = collectQuizzesFromSubjectPayload(json);
+  const stats = ensureSubjectStats(subjectStats, subjectFromName);
+  stats.totalQuizzes += all.length;
+  stats.checkedQuizzes += all.length;
+  stats.files.add(fileName);
   for (const { topic, quiz } of all) {
-    const topicTitle = topic?.title || topic?.id || 'Topic';
+    const topicTitle = topic?.title || topic?.label || topic?.name || topic?.id || 'Topic';
+    const quizLabel = quiz?.label || quiz?.title || quiz?.name || quiz?.quizId || quiz?.id || 'Quiz';
     const arr = Array.isArray(quiz.questions) ? quiz.questions : [];
     const present = arr.length;
     if (present >= MIN_QUESTIONS) continue;
     const need = MIN_QUESTIONS - present;
+
+    const difficulties = buildDifficultySequence(need);
 
     // Normalize questionNumber for existing questions (1..n)
     for (let i = 0; i < arr.length; i++) {
@@ -143,12 +222,25 @@ function enforceMinOnFile(absPath, fileName, report) {
     // Append generated placeholders
     for (let i = 0; i < need; i++) {
       const qNum = present + i + 1;
-      const q = makeAutogenQuestion(subjectFromName, topicTitle, qNum, (qNum * 9301 + 49297) % 233280);
+      const difficulty = difficulties[i] || 'medium';
+      const q = makeAutogenQuestion(subjectFromName, topicTitle, qNum, (qNum * 9301 + 49297) % 233280, difficulty);
       arr.push(q);
     }
     quiz.questions = arr;
     touchedQuizzes += 1;
     addedQuestions += need;
+    const after = arr.length;
+    stats.quizzesNeedingAugmentation += 1;
+    stats.questionsAdded += need;
+    auditEntries.push({
+      subject: subjectFromName,
+      topicTitle,
+      quizLabel,
+      before: present,
+      after,
+      file: fileName,
+    });
+    console.log(`[UPDATED] ${subjectFromName} | ${quizLabel} (${topicTitle}) ${present} -> ${after} questions [${fileName}]`);
   }
 
   if (touchedQuizzes > 0) {
@@ -156,6 +248,34 @@ function enforceMinOnFile(absPath, fileName, report) {
     report.updated.push({ file: fileName, subject: subjectFromName, quizzesTouched: touchedQuizzes, questionsAdded: addedQuestions });
   } else {
     report.unchanged.push({ file: fileName, subject: subjectFromName });
+  }
+}
+
+function serializeSubjectStats(subjectStats) {
+  const out = {};
+  for (const [subject, stats] of Object.entries(subjectStats)) {
+    out[subject] = {
+      totalQuizzes: stats.totalQuizzes,
+      checkedQuizzes: stats.checkedQuizzes,
+      quizzesNeedingAugmentation: stats.quizzesNeedingAugmentation,
+      questionsAdded: stats.questionsAdded,
+      fileCount: stats.files.size,
+      files: [...stats.files].sort(),
+    };
+  }
+  return out;
+}
+
+function logSubjectCoverage(subjectStats) {
+  const targets = new Set(['Social Studies', 'Science']);
+  for (const [subject, stats] of Object.entries(subjectStats)) {
+    if (!targets.has(subject)) continue;
+    const { checkedQuizzes, totalQuizzes, quizzesNeedingAugmentation, files } = stats;
+    const fileCount = files.size;
+    const augmentationNote = quizzesNeedingAugmentation > 0
+      ? `${quizzesNeedingAugmentation} quiz(es) expanded`
+      : 'all quizzes already met the minimum';
+    console.log(`[SUBJECT SUMMARY] ${subject}: checked ${checkedQuizzes} of ${totalQuizzes} quizzes across ${fileCount} file(s); ${augmentationNote}.`);
   }
 }
 
@@ -170,15 +290,36 @@ function main() {
   const targetFiles = files.filter(f => /^(math|science|rla|social-studies|simulations)\.quizzes(\.part\d+)?\.json$/i.test(f));
 
   const report = { min: MIN_QUESTIONS, updated: [], unchanged: [], skipped: [], timestamp: new Date().toISOString() };
+  const auditEntries = [];
+  const subjectStats = {};
   for (const f of targetFiles) {
     const abs = path.join(quizzesDir, f);
-    enforceMinOnFile(abs, f, report);
+    enforceMinOnFile(abs, f, report, auditEntries, subjectStats);
   }
+
+  report.subjectSummaries = serializeSubjectStats(subjectStats);
 
   const outPath = path.join(reportsDir, `quiz_min_questions_summary_${Date.now()}.json`);
   writeJson(outPath, report);
   console.log(`[REPORT] ${outPath}`);
   console.log(`[SUMMARY] min=${MIN_QUESTIONS} updated=${report.updated.length} unchanged=${report.unchanged.length} skipped=${report.skipped.length}`);
+
+  logSubjectCoverage(subjectStats);
+
+  if (auditEntries.length > 0) {
+    const timestamp = new Date().toISOString();
+    const lines = [
+      `Run ${timestamp}`,
+      ...auditEntries.map((entry) =>
+        `${entry.subject} | ${entry.topicTitle} | ${entry.quizLabel} | ${entry.before} -> ${entry.after} questions (file: ${entry.file})`
+      ),
+      '',
+    ];
+    fs.appendFileSync(auditLogPath, `${lines.join('\n')}\n`, 'utf8');
+    console.log(`[AUDIT] ${auditEntries.length} quizzes augmented. Log appended to ${path.relative(root, auditLogPath)}`);
+  } else {
+    console.log('[AUDIT] All quizzes already met the minimum length.');
+  }
 
   // Non-blocking: exit 0 regardless; the goal is augmentation
 }
