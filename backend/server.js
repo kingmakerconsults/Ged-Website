@@ -2442,6 +2442,7 @@ ensureEssayScoresTable().catch((e) => console.error('Essay score table init erro
 ensureChallengeSystemTables().catch((e) => console.error('Challenge system init error:', e));
 ensureStudyPlansTable().catch((e) => console.error('Study plans table init error:', e));
 ensureCoachDailyTables().catch((e) => console.error('Coach daily tables init error:', e));
+ensureCoachAdviceUsageTable().catch((e) => console.error('Coach advice usage table init error:', e));
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -2632,6 +2633,23 @@ async function ensureCoachDailyTables() {
         `);
         await pool.query(`CREATE INDEX IF NOT EXISTS idx_subject_status_user ON user_subject_status (user_id);`);
     } catch (e) { console.warn('[ensure] user_subject_status', e?.code || e?.message || e); }
+}
+
+// Track per-user Ask Coach advice usage by week
+async function ensureCoachAdviceUsageTable() {
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS coach_advice_usage (
+              id SERIAL PRIMARY KEY,
+              user_id INTEGER NOT NULL,
+              week_start_date DATE NOT NULL,
+              used_count INTEGER NOT NULL DEFAULT 0,
+              last_used_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+              UNIQUE (user_id, week_start_date)
+            );
+        `);
+        await pool.query(`CREATE INDEX IF NOT EXISTS idx_coach_advice_usage_user_week ON coach_advice_usage (user_id, week_start_date);`);
+    } catch (e) { console.warn('[ensure] coach_advice_usage', e?.code || e?.message || e); }
 }
 
 // --- Challenge system helpers ---
@@ -3276,6 +3294,127 @@ app.post('/api/coach/complete', devAuth, ensureTestUserForNow, requireAuthInProd
 
 // 3) POST /api/coach/subject-passed — mark/unmark subject as passed
 app.post('/api/coach/subject-passed', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+
+// Helper to get the start of the current ISO week (Monday) as a date string YYYY-MM-DD
+function getCurrentWeekStartISO() {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun,1=Mon,...
+    const diffToMonday = (day === 0 ? -6 : 1) - day; // move to Monday
+    const monday = new Date(now);
+    monday.setDate(now.getDate() + diffToMonday);
+    monday.setHours(0, 0, 0, 0);
+    return monday.toISOString().slice(0, 10);
+}
+
+async function getUserEmailById(userId) {
+    if (!userId) return null;
+    try {
+        const row = await db.oneOrNone(`SELECT email FROM users WHERE id = $1`, [userId]);
+        return row?.email || null;
+    } catch (_) {
+        return null;
+    }
+}
+
+// Ask Coach advice endpoint with weekly throttle (2/week) and challenge selection requirement
+app.post('/api/coach/advice', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+    try {
+        const userId = req.user.id;
+        let email = (req.user && (req.user.email || req.user.userEmail)) || null;
+        if (!email) {
+            email = await getUserEmailById(userId);
+        }
+
+        const testerByEmail = (String(email || '')).toLowerCase() === 'zacharysmith527@gmail.com';
+
+        // Build profile bundle to inspect selected challenges and test plan
+        const bundle = await buildProfileBundle(userId);
+        const challengeOptions = Array.isArray(bundle?.challengeOptions) ? bundle.challengeOptions : [];
+        const selected = challengeOptions.filter((c) => c && c.selected);
+
+        if (!Array.isArray(selected) || selected.length === 0) {
+            return res.status(400).json({ error: 'Pick at least one challenge in your profile so Coach can tailor advice.' });
+        }
+
+        // Subject hint is optional; if provided, narrow the selected challenges
+        const subjectHintRaw = (req.body && req.body.subject) ? String(req.body.subject) : '';
+        const subjectHint = subjectHintRaw
+            ? (subjectHintRaw.toLowerCase() === 'rla' ? 'RLA' : (subjectHintRaw.toLowerCase().startsWith('social') ? 'Social Studies' : subjectHintRaw.charAt(0).toUpperCase() + subjectHintRaw.slice(1)))
+            : '';
+
+        const bySubject = subjectHint
+            ? selected.filter((s) => (s.subject || '').toString() === subjectHint)
+            : selected;
+
+        // Throttle: 2 per week per user, unless tester email
+        const weekStartISO = getCurrentWeekStartISO();
+        if (!testerByEmail) {
+            const existing = await db.oneOrNone(
+                `SELECT used_count FROM coach_advice_usage WHERE user_id = $1 AND week_start_date = $2`,
+                [userId, weekStartISO]
+            );
+            const used = existing?.used_count || 0;
+            if (used >= 2) {
+                return res.status(429).json({ error: 'You\'ve reached your Ask Coach limit for this week (2/2). Try again next week.' });
+            }
+        }
+
+        // Gather test date context for the hinted subject (or nearest upcoming)
+        const testPlan = Array.isArray(bundle?.testPlan) ? bundle.testPlan : [];
+        let subjectTestDate = '';
+        if (subjectHint) {
+            const match = testPlan.find((t) => t && t.subject === subjectHint && t.testDate);
+            subjectTestDate = match?.testDate || '';
+        } else {
+            const upcoming = testPlan.find((t) => t && t.testDate);
+            subjectTestDate = upcoming?.testDate || '';
+        }
+
+        // Compose prompt for AI
+        const tagList = bySubject.map((c) => `${c.subject}: ${c.subtopic} — ${c.label}`).slice(0, 10).join('\n- ');
+        const subjForPrompt = subjectHint || 'your GED subjects';
+        const dateForPrompt = subjectTestDate ? `Target test date: ${subjectTestDate}.` : 'No test date saved yet.';
+        const prompt = `You are Coach Smith, a concise GED study coach.
+Provide 3-5 specific, encouraging tips tailored to ${subjForPrompt}.
+Focus on 45-minute sessions and include one quick practice idea.
+Ground your advice in these selected challenges (if present):
+- ${tagList || 'No tags selected beyond basics.'}
+${dateForPrompt}
+Return JSON as { "advice": "<single paragraph or short bullets>" }.`;
+
+        const SCHEMA = { type: 'OBJECT', properties: { advice: { type: 'STRING' } }, required: ['advice'] };
+
+        let adviceText = '';
+        try {
+            const ai = await callAI(prompt, SCHEMA, { generationOverrides: { temperature: 0.7 } });
+            adviceText = (ai && ai.advice) ? String(ai.advice) : '';
+        } catch (e) {
+            // Fallback to simple templated guidance
+            const firstTag = bySubject[0] || selected[0];
+            const tagStr = firstTag ? `${firstTag.subject}: ${firstTag.subtopic.toLowerCase()}` : 'your weakest areas';
+            adviceText = `Spend 45 minutes today focused on ${tagStr}. Start with 10 minutes reviewing notes, then 25 minutes of practice (2-3 short passages or 8-10 problems), and finish with a 10-minute reflection to write down one mistake pattern and how you\'ll fix it next time.`;
+            if (subjectTestDate) {
+                adviceText += ` You\'ve saved a test date (${subjectTestDate}) — aim for 3 focused sessions this week.`;
+            }
+        }
+
+        // Record usage (skip for tester email)
+        if (!testerByEmail) {
+            await db.query(
+                `INSERT INTO coach_advice_usage (user_id, week_start_date, used_count, last_used_at)
+                 VALUES ($1, $2, 1, now())
+                 ON CONFLICT (user_id, week_start_date)
+                 DO UPDATE SET used_count = coach_advice_usage.used_count + 1, last_used_at = now()`,
+                [userId, weekStartISO]
+            );
+        }
+
+        return res.json({ ok: true, advice: adviceText, weekStart: weekStartISO });
+    } catch (e) {
+        console.error('POST /api/coach/advice failed:', e?.message || e);
+        return res.status(500).json({ error: 'Unable to fetch advice right now.' });
+    }
+});
     try {
         const userId = req.user?.id || req.user?.userId;
         if (!userId) return res.status(401).json({ error: 'Not authenticated' });

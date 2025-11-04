@@ -1726,6 +1726,32 @@
             }
         }
 
+        /* Coach panel gold gradient styling */
+        .coach-panel {
+            background-image: linear-gradient(135deg, #f8e7a1 0%, #f1d17a 50%, #d4af37 100%);
+            color: #111827; /* slate-900 */
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+        .dark .coach-panel, [data-theme="dark"] .coach-panel {
+            background-image: linear-gradient(135deg, #b8860b 0%, #8b6b10 50%, #6b4e0b 100%);
+            color: #f8fafc; /* slate-50 */
+            border-color: rgba(255,255,255,0.12);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        }
+
+        /* Coach Smith gold panel visuals */
+        .coach-panel {
+            background: linear-gradient(135deg, #fff7d6 0%, #fde68a 35%, #f4c95d 65%, #d4af37 100%);
+            border: 1px solid rgba(148,163,184,0.32);
+            box-shadow: 0 8px 20px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+        [data-theme="dark"] .coach-panel {
+            background: linear-gradient(135deg, #3f2e0b 0%, #5b460d 35%, #7c6316 65%, #b08d2a 100%);
+            border: 1px solid rgba(148,163,184,0.35);
+            box-shadow: 0 8px 20px rgba(176,141,42,0.2), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+
         /* FORM CONTROL NORMALIZATION */
         button,
         input,
@@ -12180,6 +12206,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const [dailyToday, setDailyToday] = useState('');
     const [dailySubjects, setDailySubjects] = useState([]);
 
+    // Ask Coach (advice)
+    const [adviceLoading, setAdviceLoading] = useState(false);
+    const [adviceText, setAdviceText] = useState('');
+    const [adviceError, setAdviceError] = useState('');
+
     // Weekly coach helpers (top-level)
     const loadCoachPlan = async () => {
         try {
@@ -12305,6 +12336,37 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             alert('Unable to start Coach Smith quiz right now.');
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleAskCoach = async (subjectHint) => {
+        try {
+            setAdviceLoading(true);
+            setAdviceError('');
+            setAdviceText('');
+            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+            if (!token) { alert('Please sign in to ask Coach.'); return; }
+            const body = {};
+            if (subjectHint) {
+                body.subject = practiceSubjectParam(subjectHint);
+            } else if (selectedSubject) {
+                const subj = (selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject);
+                body.subject = practiceSubjectParam(subj);
+            }
+            const res = await fetch(`${API_BASE_URL}/api/coach/advice`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                throw new Error(data?.error || `Unable to get advice (HTTP ${res.status})`);
+            }
+            setAdviceText(data?.advice || '');
+        } catch (e) {
+            setAdviceError(e?.message || 'Unable to get advice right now.');
+        } finally {
+            setAdviceLoading(false);
         }
     };
     const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
@@ -13158,6 +13220,28 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         ) : (
                             <p className="text-center text-sm mt-2" style={heroMutedTextStyle}>No goals for today yet.</p>
                         )}
+                        {/* Ask Coach advice (subject-scoped) */}
+                        <div className="mt-4 border rounded-md p-3" style={{ borderColor: panelBorderColor, backgroundColor: isDarkMode ? 'rgba(15,23,42,0.5)' : 'rgba(255,255,255,0.7)' }}>
+                            <div className="flex items-center gap-2 mb-2" style={{ color: heroTextColor }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 2a9 9 0 00-9 9c0 4.418 3.134 8.09 7.25 8.848V22l3.5-2H14a9 9 0 000-18z"/></svg>
+                                <span className="text-sm font-medium">Ask Coach for a {selectedSubject ? selectedSubject : 'subject'} tip</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => handleAskCoach(selectedSubject)}
+                                    disabled={adviceLoading}
+                                    className="px-3 py-2 text-sm font-semibold rounded-md transition"
+                                    style={{ backgroundColor: '#ffffff', color: '#0f172a', opacity: adviceLoading ? 0.6 : 1 }}
+                                >
+                                    {adviceLoading ? 'Asking…' : 'Ask Coach'}
+                                </button>
+                                {adviceError && <span className="text-xs text-red-600">{adviceError}</span>}
+                            </div>
+                            {adviceText && (
+                                <div className="mt-2 text-sm whitespace-pre-wrap" style={{ color: heroTextColor }}>{adviceText}</div>
+                            )}
+                            <p className="mt-2 text-xs" style={heroMutedTextStyle}>2 tips per week per student. Tester account is unlimited.</p>
+                        </div>
                     </div>
 
                     {/* New clustered quiz browser */}
@@ -13494,7 +13578,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 )}
                 {/* Replace Latest Scores with Coach Smith daily goals */}
                 {currentUser && (
-                    <div className="mb-6 block-profile panel coach-smith-shell">
+                    <div className="mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md">
                         <div className="flex items-center justify-between mb-2">
                             <h2 className={`text-lg font-semibold ${homePanelPrimaryTextClass}`}>Coach Smith — Today's Goals</h2>
                         </div>
@@ -13520,7 +13604,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                                     onClick={() => startCoachQuizForSubject(ds.subject, ds.coach_quiz_source_id)}
                                                     className="text-xs font-semibold px-3 py-1 rounded-md bg-white text-slate-900 hover:bg-white/90 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
                                                 >
-                                                    Take todays quiz
+                                                    Take today's quiz
                                                 </button>
                                             )
                                         ) : null}
@@ -13530,6 +13614,27 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         ) : (
                             <p className={`text-sm ${homePanelPrimaryTextClass}`}>No goals for today yet.</p>
                         )}
+                        {/* Ask Coach advice section */}
+                        <div className="mt-4 border rounded-md p-3 bg-white/70 dark:bg-slate-800/60">
+                            <div className="flex items-center gap-2 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 2a9 9 0 00-9 9c0 4.418 3.134 8.09 7.25 8.848V22l3.5-2H14a9 9 0 000-18z"/></svg>
+                                <span className={`text-sm font-medium ${homePanelPrimaryTextClass}`}>Need a quick study tip?</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => handleAskCoach()}
+                                    disabled={adviceLoading}
+                                    className="px-3 py-2 text-sm font-semibold rounded-md bg-white text-slate-900 hover:bg-white/90 disabled:opacity-60 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+                                >
+                                    {adviceLoading ? 'Asking Coach…' : 'Ask Coach'}
+                                </button>
+                                {adviceError && <span className="text-xs text-red-600">{adviceError}</span>}
+                            </div>
+                            {adviceText && (
+                                <div className="mt-2 text-sm whitespace-pre-wrap text-slate-800 dark:text-slate-100">{adviceText}</div>
+                            )}
+                            <p className="mt-2 text-xs text-slate-600 dark:text-slate-300">Limited to 2 tips per week per student. Tester account is unlimited.</p>
+                        </div>
                     </div>
                 )}
                 {hasVocabulary && (
