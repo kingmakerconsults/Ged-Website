@@ -3276,14 +3276,18 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         const days = [];
         for (let i = 0; i < 7; i++) {
             const quiz = pick(i);
-            days.push({
+            const label = quiz ? (quiz.title || 'Premade Quiz') : `Practice ${subject}`;
+            const day = {
                 day: i + 1,
                 type: 'premade-quiz',
                 quizId: quiz ? quiz.id : null,
-                label: quiz ? (quiz.title || 'Premade Quiz') : `Practice ${subject}`,
+                label,
                 minutes: 20,
                 focus: challengeTags.slice(0, 3)
-            });
+            };
+            // Normalize for older frontends expecting `task`
+            day.task = day.task || day.label || day.type || 'Practice';
+            days.push(day);
         }
         const aiPlan = {
             days,
