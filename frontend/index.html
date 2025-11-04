@@ -12169,6 +12169,144 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
+    // weekly coach
+    const [coachPlan, setCoachPlan] = useState(null);
+    const [coachLoading, setCoachLoading] = useState(false);
+    const [coachError, setCoachError] = useState('');
+
+    // daily coach
+    const [dailyLoading, setDailyLoading] = useState(false);
+    const [dailyError, setDailyError] = useState('');
+    const [dailyToday, setDailyToday] = useState('');
+    const [dailySubjects, setDailySubjects] = useState([]);
+
+    // Weekly coach helpers (top-level)
+    const loadCoachPlan = async () => {
+        try {
+            setCoachLoading(true);
+            setCoachError('');
+            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+            if (!token) { setCoachPlan(null); return; }
+            const subjectParam = selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject;
+            if (!subjectParam) { setCoachPlan(null); return; }
+            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subjectParam)}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.ok && data.plan) setCoachPlan(data.plan);
+                else setCoachPlan(null);
+            } else {
+                setCoachPlan(null);
+            }
+        } catch (e) {
+            setCoachError('Unable to load coach plan.');
+        } finally {
+            setCoachLoading(false);
+        }
+    };
+    const generateCoachPlan = async () => {
+        try {
+            setCoachLoading(true);
+            setCoachError('');
+            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+            if (!token) { alert('Please sign in to generate a weekly plan.'); return; }
+            const subjectParam = selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject;
+            if (!subjectParam) { alert('Pick a subject first.'); return; }
+            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subjectParam)}/generate-week`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.ok && data.plan) setCoachPlan(data.plan);
+            } else {
+                setCoachError('Failed to generate plan.');
+            }
+        } catch (e) {
+            setCoachError('Failed to generate plan.');
+        } finally {
+            setCoachLoading(false);
+        }
+    };
+    useEffect(() => { if (selectedSubject) loadCoachPlan(); }, [selectedSubject]);
+
+    // Daily coach loader (top-level)
+    useEffect(() => {
+        (async () => {
+            try {
+                setDailyLoading(true);
+                setDailyError('');
+                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+                if (!token) { setDailyToday(''); setDailySubjects([]); return; }
+                const res = await fetch(`${API_BASE_URL}/api/coach/daily`, { headers: { Authorization: `Bearer ${token}` } });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.ok) {
+                        setDailyToday(data.today || '');
+                        setDailySubjects(Array.isArray(data.subjects) ? data.subjects : []);
+                    } else {
+                        setDailyToday('');
+                        setDailySubjects([]);
+                    }
+                } else {
+                    setDailyError("Unable to load today's coach goals.");
+                }
+            } catch (e) {
+                setDailyError("Unable to load today's coach goals.");
+            } finally {
+                setDailyLoading(false);
+            }
+        })();
+    }, []);
+
+    // Shared helpers used by daily goals panel buttons
+    const displaySubjectName = (s) => (s === 'RLA' ? 'Reasoning Through Language Arts (RLA)' : s);
+    const practiceSubjectParam = (s) => {
+        const key = (s || '').toLowerCase();
+        if (key.startsWith('math')) return 'math';
+        if (key.startsWith('science')) return 'science';
+        if (key === 'rla' || key.includes('language')) return 'rla';
+        return 'social-studies';
+    };
+    const startCoachQuizForSubject = async (subject, sourceId) => {
+        try {
+            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+            if (!token) { alert('Please sign in to take today\'s coach quiz.'); return; }
+            setIsLoading(true);
+            setLoadingMessage(`Loading Coach Smith quiz for ${subject}...`);
+            const body = {
+                durationMinutes: 20,
+                mode: 'single-subject',
+                subject: practiceSubjectParam(subject)
+            };
+            const res = await fetch(`${API_BASE_URL}/api/practice-session`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                body: JSON.stringify(body)
+            });
+            if (!res.ok) {
+                throw new Error(`Server responded ${res.status}`);
+            }
+            const session = await res.json();
+            const today = new Date().toISOString().slice(0,10);
+            const quizId = `coach-smith:${subject}:${today}`;
+            const displaySubject = displaySubjectName(subject);
+            const quizPayload = {
+                id: quizId,
+                quizCode: quizId,
+                title: 'Coach Smith Quiz',
+                type: 'coach-quiz',
+                questions: Array.isArray(session?.questions) ? session.questions : [],
+                assignedBy: 'coach-smith'
+            };
+            startQuiz(quizPayload, displaySubject);
+        } catch (e) {
+            alert('Unable to start Coach Smith quiz right now.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
     const [viewScienceFormulas, setViewScienceFormulas] = useState(false);
     const [onboardingBannerHidden, setOnboardingBannerHidden] = useState(() => {
         try {
@@ -12875,137 +13013,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             backgroundColor: isDarkMode ? 'rgba(255,255,255,0.08)' : '#ffffff',
             color: heroTextColor,
         };
-    const [coachPlan, setCoachPlan] = useState(null);
-        const [coachLoading, setCoachLoading] = useState(false);
-        const [coachError, setCoachError] = useState('');
-    // Daily Coach state
-    const [dailyLoading, setDailyLoading] = useState(false);
-    const [dailyError, setDailyError] = useState('');
-    const [dailyToday, setDailyToday] = useState('');
-    const [dailySubjects, setDailySubjects] = useState([]);
-        const loadCoachPlan = async () => {
-            try {
-                setCoachLoading(true);
-                setCoachError('');
-                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-                if (!token) { setCoachPlan(null); return; }
-                const subjectParam = selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject;
-                const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subjectParam)}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.ok && data.plan) setCoachPlan(data.plan);
-                    else setCoachPlan(null);
-                } else {
-                    setCoachPlan(null);
-                }
-            } catch (e) {
-                setCoachError('Unable to load coach plan.');
-            } finally {
-                setCoachLoading(false);
-            }
-        };
-        const generateCoachPlan = async () => {
-            try {
-                setCoachLoading(true);
-                setCoachError('');
-                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-                if (!token) { alert('Please sign in to generate a weekly plan.'); return; }
-                const subjectParam = selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject;
-                const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subjectParam)}/generate-week`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.ok && data.plan) setCoachPlan(data.plan);
-                } else {
-                    setCoachError('Failed to generate plan.');
-                }
-            } catch (e) {
-                setCoachError('Failed to generate plan.');
-            } finally {
-                setCoachLoading(false);
-            }
-        };
-        useEffect(() => { loadCoachPlan(); }, [selectedSubject]);
-        // Load today's coach goals once on dashboard load
-        useEffect(() => {
-            (async () => {
-                try {
-                    setDailyLoading(true);
-                    setDailyError('');
-                    const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-                    if (!token) { setDailyToday(''); setDailySubjects([]); return; }
-                    const res = await fetch(`${API_BASE_URL}/api/coach/daily`, { headers: { Authorization: `Bearer ${token}` } });
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data && data.ok) {
-                            setDailyToday(data.today || '');
-                            setDailySubjects(Array.isArray(data.subjects) ? data.subjects : []);
-                        } else {
-                            setDailyToday('');
-                            setDailySubjects([]);
-                        }
-                    } else {
-                        setDailyError('Unable to load today\'s coach goals.');
-                    }
-                } catch (e) {
-                    setDailyError('Unable to load today\'s coach goals.');
-                } finally {
-                    setDailyLoading(false);
-                }
-            })();
-        }, []);
-
-        const displaySubjectName = (s) => (s === 'RLA' ? 'Reasoning Through Language Arts (RLA)' : s);
-        const practiceSubjectParam = (s) => {
-            const key = (s || '').toLowerCase();
-            if (key.startsWith('math')) return 'math';
-            if (key.startsWith('science')) return 'science';
-            if (key === 'rla' || key.includes('language')) return 'rla';
-            return 'social-studies';
-        };
-
-        const startCoachQuizForSubject = async (subject, sourceId) => {
-            try {
-                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-                if (!token) { alert('Please sign in to take today\'s coach quiz.'); return; }
-                setIsLoading(true);
-                setLoadingMessage(`Loading Coach Smith quiz for ${subject}...`);
-                const body = {
-                    durationMinutes: 20,
-                    mode: 'single-subject',
-                    subject: practiceSubjectParam(subject)
-                };
-                const res = await fetch(`${API_BASE_URL}/api/practice-session`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                    body: JSON.stringify(body)
-                });
-                if (!res.ok) {
-                    throw new Error(`Server responded ${res.status}`);
-                }
-                const session = await res.json();
-                const today = new Date().toISOString().slice(0,10);
-                const quizId = `coach-smith:${subject}:${today}`;
-                const displaySubject = displaySubjectName(subject);
-                const quizPayload = {
-                    id: quizId,
-                    quizCode: quizId,
-                    title: 'Coach Smith Quiz',
-                    type: 'coach-quiz',
-                    questions: Array.isArray(session?.questions) ? session.questions : [],
-                    assignedBy: 'coach-smith'
-                };
-                startQuiz(quizPayload, displaySubject);
-            } catch (e) {
-                alert('Unable to start Coach Smith quiz right now.');
-            } finally {
-                setIsLoading(false);
-            }
-        };
+        
         const panelBackground = !isDarkMode && SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
         if (panelBackground) {
             panelBaseStyle.backgroundImage = panelBackground;
