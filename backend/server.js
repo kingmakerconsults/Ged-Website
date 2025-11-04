@@ -3139,6 +3139,8 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         const userId = req.user?.id || req.user?.userId;
         if (!userId) return res.status(401).json({ error: 'Not authenticated' });
         const subject = normalizeSubjectLabel(req.params.subject);
+        const userEmail = String(req.user?.email || '').toLowerCase();
+        const isTester = userEmail === 'zacharysmith527@gmail.com';
 
         // Respect subject passed flag
         if (await isSubjectPassed(userId, subject)) {
@@ -3159,7 +3161,9 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         if (latest && latest.valid_from) {
             const latestStart = (latest.valid_from instanceof Date) ? latest.valid_from.toISOString().slice(0,10) : String(latest.valid_from).slice(0,10);
             if (latestStart === weekStartISO) {
-                if (subject === 'RLA') {
+                if (isTester) {
+                    upsertPlanId = latest.id; // tester can regenerate freely
+                } else if (subject === 'RLA') {
                     upsertPlanId = latest.id; // allow regeneration for RLA by updating existing plan for the week
                 } else {
                     return res.status(429).json({ ok: false, message: 'You already generated the weekly plan for this subject this week.' });
@@ -3327,9 +3331,10 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
                 [userId, subject, today]
             );
             // Recreate it so it pulls from the just-created weekly plan
-            await findOrCreateDailyRow(userId, subject, today);
+            const refreshed = await findOrCreateDailyRow(userId, subject, today);
+            console.log('[coach-sync] refreshed daily row', { userId, subject, today, hasRow: !!refreshed });
         } catch (syncErr) {
-            console.warn('Could not sync weekly -> daily coach quiz', syncErr);
+            console.error('Could not sync weekly -> daily coach quiz', syncErr);
         }
 
         return res.json({ ok: true, plan: saved });
