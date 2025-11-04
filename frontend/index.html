@@ -12363,6 +12363,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             if (res.ok) {
                 const data = await res.json();
                 if (data && data.ok && data.plan) setCoachPlan(data.plan);
+                // Refresh daily + weekly cards so Today and dashboard reflect the new plan immediately
+                await refreshCoachPanels();
             } else if (res.status === 429) {
                 const data = await res.json().catch(() => ({}));
                 setCoachError(data?.message || 'You already generated the weekly plan for this subject this week.');
@@ -12405,12 +12407,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     results.push(`${subj}: error`);
                 }
             }
-            // Refresh weekly summary panel
-            try {
-                const wr = await fetch(`${API_BASE_URL}/api/coach/weekly`, { headers: { Authorization: `Bearer ${token}` } });
-                const wd = await wr.json().catch(() => ({}));
-                setWeeklySubjects(Array.isArray(wd?.subjects) ? wd.subjects : []);
-            } catch (_) {}
+            // Refresh both daily and weekly so panels reflect new plans immediately
+            await refreshCoachPanels();
             // Optional toast via alert for now
             if (results.length) alert(results.join('\n'));
         } finally {
@@ -12468,6 +12466,29 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         if (key.startsWith('science')) return 'science';
         if (key === 'rla' || key.includes('language')) return 'rla';
         return 'social-studies';
+    };
+
+    // Refresh both daily and weekly coach panels on demand
+    const refreshCoachPanels = async () => {
+        const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+        if (!token) return;
+        try {
+            const resDaily = await fetch(`${API_BASE_URL}/api/coach/daily`, { headers: { Authorization: `Bearer ${token}` } });
+            if (resDaily.ok) {
+                const d = await resDaily.json();
+                if (d && d.ok) {
+                    setDailyToday(d.today || '');
+                    setDailySubjects(Array.isArray(d.subjects) ? d.subjects : []);
+                }
+            }
+        } catch (_) {}
+        try {
+            const resWeekly = await fetch(`${API_BASE_URL}/api/coach/weekly`, { headers: { Authorization: `Bearer ${token}` } });
+            if (resWeekly.ok) {
+                const dw = await resWeekly.json();
+                setWeeklySubjects(Array.isArray(dw?.subjects) ? dw.subjects : []);
+            }
+        } catch (_) {}
     };
     // Resolve and launch a premade by quizCode for a subject (global helper)
     const launchPremadeByCodeGlobal = (subject, quizCode) => {
