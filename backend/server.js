@@ -2982,6 +2982,7 @@ async function findOrCreateDailyRow(userId, subject, planDateISO) {
     let notes = '';
     let dayIdx = 0;
     let needsRefresh = false;
+    let planSource = null; // quizCode from weekly plan day if any
     if (weekly) {
         const vf = weekly.valid_from instanceof Date ? weekly.valid_from.toISOString().slice(0, 10) : String(weekly.valid_from).slice(0, 10);
         const vt = weekly.valid_to instanceof Date ? weekly.valid_to.toISOString().slice(0, 10) : String(weekly.valid_to).slice(0, 10);
@@ -2994,17 +2995,8 @@ async function findOrCreateDailyRow(userId, subject, planDateISO) {
                 const focus = Array.isArray(day.focus) ? day.focus.join(', ') : '';
                 const taskText = day.label || day.task || day.type || '';
                 notes = `Focus: ${focus}\nTask: ${taskText}\nPlanned: ${day.minutes || 0} min`;
-                // If weekly plan assigned a premade quiz for today, carry its id to daily row
-                if (day.quizId) {
-                    // Use a stable coach quiz id for today's date; store source id for FE launch mapping
-                    const sourceId = String(day.quizId);
-                    const coachId = `${COACH_ASSIGNED_BY}:${subject}:${planDateISO}`;
-                    await pool.query(
-                        `UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_source_id = $5, coach_quiz_completed = FALSE, updated_at = NOW()
-                           WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
-                        [userId, subject, planDateISO, coachId, sourceId]
-                    );
-                }
+                // Prefer premade quiz assignment from weekly plan day
+                if (day.quizId) planSource = String(day.quizId);
             }
         } else {
             needsRefresh = true;
@@ -3015,7 +3007,7 @@ async function findOrCreateDailyRow(userId, subject, planDateISO) {
     }
 
     const expected = 45;
-    const coachQuizSource = pickCoachQuizSourceId(subject, dayIdx);
+    const coachQuizSource = planSource || pickCoachQuizSourceId(subject, dayIdx);
     const coachQuizId = coachQuizSource ? `${COACH_ASSIGNED_BY}:${subject}:${planDateISO}` : null;
 
     await pool.query(
@@ -3128,10 +3120,15 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             latest = r.rows && r.rows[0] ? r.rows[0] : null;
         } catch (_) {}
         const weekStartISO = getCurrentWeekStartISO();
+        let upsertPlanId = null;
         if (latest && latest.valid_from) {
             const latestStart = (latest.valid_from instanceof Date) ? latest.valid_from.toISOString().slice(0,10) : String(latest.valid_from).slice(0,10);
             if (latestStart === weekStartISO) {
-                return res.status(429).json({ ok: false, message: 'You already generated the weekly plan for this subject this week.' });
+                if (subject === 'RLA') {
+                    upsertPlanId = latest.id; // allow regeneration for RLA by updating existing plan for the week
+                } else {
+                    return res.status(429).json({ ok: false, message: 'You already generated the weekly plan for this subject this week.' });
+                }
             }
         }
 
@@ -3262,14 +3259,38 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         const d6 = new Date(d0.getTime() + 6*24*60*60*1000);
         const validTo = `${d6.getFullYear()}-${String(d6.getMonth()+1).padStart(2,'0')}-${String(d6.getDate()).padStart(2,'0')}`;
 
-        const insert = await pool.query(
-            `INSERT INTO study_plans (user_id, subject, valid_from, valid_to, plan_json, notes)
-             VALUES ($1, $2, $3, $4, $5, $6)
-             RETURNING id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes`,
-            [userId, subject, validFrom, validTo, aiPlan, aiPlan?.notes || (testDate ? 'Generated weekly plan.' : 'Generated; no test date set.')]
-        );
+        let saved;
+        if (upsertPlanId) {
+            const update = await pool.query(
+                `UPDATE study_plans
+                    SET generated_at = NOW(),
+                        valid_from = $3,
+                        valid_to = $4,
+                        plan_json = $5,
+                        notes = $6
+                  WHERE id = $1 AND user_id = $2 AND subject = $7
+                RETURNING id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes`,
+                [upsertPlanId, userId, validFrom, validTo, aiPlan, aiPlan?.notes || (testDate ? 'Generated weekly plan.' : 'Generated; no test date set.'), subject]
+            );
+            saved = update.rows[0];
+        } else {
+            const insert = await pool.query(
+                `INSERT INTO study_plans (user_id, subject, valid_from, valid_to, plan_json, notes)
+                 VALUES ($1, $2, $3, $4, $5, $6)
+                 RETURNING id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes`,
+                [userId, subject, validFrom, validTo, aiPlan, aiPlan?.notes || (testDate ? 'Generated weekly plan.' : 'Generated; no test date set.')]
+            );
+            saved = insert.rows[0];
+        }
 
-        return res.json({ ok: true, plan: insert.rows[0] });
+        // Sync today's daily row so the daily panel can immediately show the quiz
+        try {
+            await findOrCreateDailyRow(userId, subject, todayISO());
+        } catch (syncErr) {
+            console.warn('Could not sync weekly -> daily coach quiz', syncErr);
+        }
+
+        return res.json({ ok: true, plan: saved });
     } catch (e) {
         console.error('POST /api/coach/:subject/generate-week failed:', e);
         return res.status(500).json({ ok: false, error: 'coach_generate_failed' });

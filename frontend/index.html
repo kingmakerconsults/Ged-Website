@@ -13438,7 +13438,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         />
                     )}
                     {/* Daily Coach goals (across subjects) */}
-                    <div className="coach-panel rounded-lg p-4 mt-4 shadow-md">
+                    <div className={`coach-panel rounded-lg p-4 mt-4 shadow-md ${isDarkMode ? '' : 'coach-gold-light'}`}>
                         <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
                             <CalendarIcon className="h-8 w-8" />
                             <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Today&apos;s Coach Goals</h3>
@@ -13458,15 +13458,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                                     {Math.max(0, ds.completed_minutes || 0)} / {ds.expected_minutes || 45} minutes
                                                 </div>
                                             </div>
-                                            <div>
+                                            <div className="flex justify-end">
                                                 {ds.coach_quiz_id ? (
                                                     ds.coach_quiz_completed ? (
                                                         <span className="text-sm px-3 py-1 rounded-full" style={{ backgroundColor: isDarkMode ? 'rgba(34,197,94,0.2)' : '#dcfce7', color: '#166534' }}>Coach Quiz Done</span>
                                                     ) : (
                                                         <button
                                                             onClick={() => startCoachQuizForSubject(ds.subject, ds.coach_quiz_source_id)}
-                                                            className="px-3 py-2 text-sm font-semibold rounded-md transition"
-                                                            style={{ backgroundColor: '#ffffff', color: '#0f172a' }}
+                                                            className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 quiz-start-btn"
                                                         >
                                                             Take Today&apos;s Coach Smith Quiz
                                                         </button>
