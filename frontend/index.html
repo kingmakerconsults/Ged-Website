@@ -1795,11 +1795,12 @@
                         }
 
                 /* subject label chips and minutes badges stay visible */
-                .coach-subject-card .subject-pill {
+                        /* generic pill styles (used in subject and dashboard) */
+                        .subject-pill {
                     background: rgba(255, 255, 255, 0.8);
                     color: #1f2937;
                 }
-                .coach-subject-card .minutes-pill {
+                        .minutes-pill {
                     background: rgba(255, 255, 255, 0.55);
                     color: #1f2937;
                     border-radius: 9999px;
@@ -13372,10 +13373,28 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     {/* Keep generator and comprehensive exam below the cluster UI */}
                     {(selectedSubject === 'Social Studies' || selectedSubject === 'Reasoning Through Language Arts (RLA)' || selectedSubject === 'Science' || selectedSubject === 'Math') && (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                            <div
-                                className="coach-panel rounded-lg p-4 flex flex-col justify-between shadow-md hover:shadow-lg transition-all"
-                            >
+                            {(() => {
+                                const subj = selectedSubject;
+                                const subjectKey = (subj === 'Math') ? 'math' : (subj === 'Science' ? 'science' : (subj?.startsWith('Reasoning') ? 'rla' : 'social'));
+                                const match = Array.isArray(weeklySubjects)
+                                    ? weeklySubjects.find((ws) => (subj?.startsWith('Reasoning') ? (ws.subject === 'RLA' || ws.subject === subj) : ws.subject === subj))
+                                    : null;
+                                const completed = Math.max(0, match?.completed_minutes_week || 0);
+                                const fallbackTarget = (coachPlan && coachPlan.plan_json && Array.isArray(coachPlan.plan_json.days))
+                                    ? coachPlan.plan_json.days.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0)
+                                    : 140;
+                                const target = match?.expected_minutes_week || fallbackTarget;
+                                return (
+                                    <div
+                                        className={`coach-panel ${theme === 'dark' ? '' : 'coach-gold-light'} coach-subject-card subject-${subjectKey} rounded-lg p-4 flex flex-col justify-between shadow-md hover:shadow-lg transition-all`}
+                                    >
                                 <div>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <p className="subject-pill text-xs font-semibold uppercase tracking-wide" style={{ borderRadius: '9999px', padding: '2px 10px' }}>
+                                            {subj?.startsWith('Reasoning') ? 'RLA' : subj}
+                                        </p>
+                                        <span className="minutes-pill text-[0.70rem]">{completed} / {target} min</span>
+                                    </div>
                                     <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
                                         <CalendarIcon className="h-8 w-8" />
                                         <h3 className="text-xl font-bold" style={{ color: heroTextColor }}>Weekly Coach</h3>
@@ -13410,7 +13429,9 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                         {coachPlan ? 'Generate / Refresh Plan' : 'Generate Plan'}
                                     </button>
                                 </div>
-                            </div>
+                                    </div>
+                                );
+                            })()}
                             {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
                                 <div
                                     className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
