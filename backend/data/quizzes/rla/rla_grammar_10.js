@@ -87,263 +87,254 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "question": "Rla Grammar 10 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which revision best corrects the faulty comparison? 'This tablet is lighter than any laptop.'",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "This tablet is lighter than any laptop is.",
+        "rationale": "Still compares the tablet to a category that includes itself or mismatches forms; better to specify 'any laptop computer'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 10 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "This tablet is lighter than any laptop computer.",
+        "rationale": "Correct. The comparison is parallel and unambiguous.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "This tablet is lighter than any of laptop computers.",
+        "rationale": "Ungrammatical phrasing ('any of laptop').",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "This tablet is more light than any laptop computer.",
+        "rationale": "'Lighter' (not 'more light') is the standard comparative form.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "question": "Rla Grammar 10 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "question": "Which sentence avoids a double negative?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We don't need no help.",
+        "rationale": "'Don't' and 'no' create a double negative; use 'any'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 10 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "She can't hardly hear the speaker.",
+        "rationale": "'Can't hardly' is a double negative; 'can hardly' is correct.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "I haven't seen any mistakes so far.",
+        "rationale": "Correct. 'Haven't' pairs with 'any', avoiding a double negative.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "There isn't no reason to worry.",
+        "rationale": "'Isn't no' is a double negative; use 'is any'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "question": "Rla Grammar 10 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "question": "Which sentence correctly uses a colon?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The chef prepared: salad, soup and bread.",
+        "rationale": "A colon should follow an independent clause; 'prepared' directly before a list is incorrect here.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 10 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "We brought everything we needed: flashlights, water, and a map.",
+        "rationale": "Correct. The colon introduces a list after a complete clause.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The reasons are the following, safety, cost, and timing.",
+        "rationale": "A colon, not a comma, should introduce this list; the structure is also awkward.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They include the following: that we were late, that we were tired, and that we left early.",
+        "rationale": "Not ideal; 'include' plus 'the following' can take a colon, but the repeated 'that' clauses are clunky and not parallel to the prompt's intent.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "question": "Rla Grammar 10 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence corrects the pronoun-antecedent agreement error? 'Each of the volunteers forgot their badge.'",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Each of the volunteers forgot they badge.",
+        "rationale": "'They badge' is ungrammatical.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 10 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Each of the volunteers forgot his or her badge.",
+        "rationale": "Correct. Singular 'each' takes a singular pronoun ('his or her').",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Each of the volunteers forgot their badges.",
+        "rationale": "This still mismatches singular 'each' with plural 'their badges'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Each volunteer forgot they badge.",
+        "rationale": "Still ungrammatical ('they badge').",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "question": "Rla Grammar 10 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "question": "Which sentence is punctuated correctly?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Before we leave make sure the lights are off.",
+        "rationale": "A comma is needed after the introductory clause 'Before we leave'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 10 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Before we leave, make sure the lights are off.",
+        "rationale": "Correct. The introductory clause is followed by a comma.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Before we leave make sure, the lights are off.",
+        "rationale": "This comma splits the main clause incorrectly.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Before, we leave make sure the lights are off.",
+        "rationale": "The comma is misplaced after 'Before'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "question": "Rla Grammar 10 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "question": "Which sentence correctly uses a dash?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Three qualities—patience, precision and resilience—are essential; for success.",
+        "rationale": "The semicolon before 'for success' is incorrect; also comma use is fine but punctuation overall is off.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 10 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Three qualities—patience, precision, and resilience—are essential for success.",
+        "rationale": "Correct. The pair of dashes sets off the appositive list cleanly.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Three qualities—patience precision, and resilience are essential for success.",
+        "rationale": "Missing a comma after 'patience' and before 'and resilience'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Three qualities—patience, precision, and resilience are essential for success—.",
+        "rationale": "Strike punctuation at the end is incorrect; dash placement is wrong.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "question": "Rla Grammar 10 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which revision best reduces choppiness? 'The policy was confusing. It frustrated new employees. It slowed training.'",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The policy was confusing, and it frustrated new employees. It slowed training.",
+        "rationale": "Still choppy; only the first two are combined.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 10 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Because the policy was confusing, it frustrated new employees, and it slowed training, too.",
+        "rationale": "Wordy and includes an unnecessary 'too'.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The confusing policy frustrated new employees and slowed training.",
+        "rationale": "Correct. Concise combination that preserves meaning.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The policy frustrated new employees, the training was slowed, and it was confusing.",
+        "rationale": "Comma splice and awkward repetition.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "question": "Rla Grammar 10 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence avoids a pronoun shift error?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "When a student arrives late, you should apologize to the class.",
+        "rationale": "Shifts from third person ('a student') to second person ('you').",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 10 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "When students arrive late, a person should apologize to the class.",
+        "rationale": "Shifts from plural ('students') to singular ('a person').",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "When a student arrives late, he or she should apologize to the class.",
+        "rationale": "Correct. Pronoun agrees in number and person with 'a student'.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "When a student arrives late, they should apologize to the class immediately to prevent disruptions that could occur later in the day and to ensure that the teacher doesn't think they are being disrespectful.",
+        "rationale": "Though common in modern usage, this is long and introduces potential number mismatch; the more formal test-prep choice uses 'he or she'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "question": "Rla Grammar 10 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence avoids a misplaced modifier?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "She served sandwiches to the children on paper plates.",
+        "rationale": "Implies the children were on paper plates; modifier is misplaced.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 10 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "She served sandwiches on paper plates to the children.",
+        "rationale": "Correct. The modifier 'on paper plates' clearly describes 'sandwiches.'",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "She on paper plates served sandwiches to the children.",
+        "rationale": "Awkward word order that misplaces the modifier.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "On paper plates she served sandwiches, to the children.",
+        "rationale": "Comma is unnecessary and placement is awkward; the modifier still distracts.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
