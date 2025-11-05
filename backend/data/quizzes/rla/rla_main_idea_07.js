@@ -119,242 +119,234 @@ module.exports = [
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 07 Case Study 5: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 07 practice question 5: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A neighborhood 'tool library' allows residents to borrow rarely used items—like power washers or tile cutters—instead of buying them. Members pay a small annual fee that covers maintenance and safety checks. Supporters say sharing saves money and reduces waste while still letting people complete home projects.",
+    "question": "Which sentence best states the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Residents should buy new tools for every project.",
+        "rationale": "The passage promotes borrowing and sharing, not buying new.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 07 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "A community tool library helps people save money and reduce waste by sharing equipment.",
+        "rationale": "Correct. This captures the core purpose and benefits of the tool library.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Safety checks are unnecessary for borrowed tools.",
+        "rationale": "The passage notes that the fee covers maintenance and safety checks; it doesn't dismiss safety.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Only contractors can join the tool library.",
+        "rationale": "Membership is described for residents, not limited to contractors.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 07 Case Study 6: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 07 practice question 6: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "The community pool will be closed next Wednesday for maintenance. Swim lessons will resume on Thursday at their regular times. We appreciate your patience.",
+    "question": "What is the main idea of this notice?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The pool is closed next Wednesday for maintenance and reopens Thursday for lessons.",
+        "rationale": "Correct. This summarizes the closure and resumption of services.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla main idea 07 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Swim lessons are canceled forever.",
+        "rationale": "Lessons resume Thursday; this exaggeration is incorrect.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The pool will be open on Wednesday.",
+        "rationale": "The notice says the pool will be closed on Wednesday.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The pool will raise lesson fees.",
+        "rationale": "Fees are not mentioned in the notice.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 07 Case Study 7: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 07 practice question 7: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "Discussions of automation often focus on job losses, but what changes first are tasks within jobs. As software and machines take over repetitive work, remaining tasks may demand more problem-solving and communication. That shift doesn't eliminate the need for workers; it changes the skills that are in demand, making training and upskilling essential.",
+    "question": "Which sentence best captures the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Automation will immediately eliminate all jobs in every industry.",
+        "rationale": "The passage emphasizes task shifts and skills, not total job elimination.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 07 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Automation changes tasks and raises the value of human skills, increasing the need for worker training.",
+        "rationale": "Correct. It summarizes the shift in tasks and the resulting need for upskilling.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Only repetitive jobs require retraining.",
+        "rationale": "The passage suggests broader skill changes, not just for a narrow set of jobs.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Automation is mainly about building more machines.",
+        "rationale": "The focus here is on changing job tasks and skills, not machine production itself.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 07 Case Study 8: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 07 practice question 8: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Several districts that moved high school start times later reported higher attendance and fewer first-period tardies. Teachers also noted students were more alert in early classes. Opponents worry about after-school sports schedules, but many schools adjusted practice times to accommodate the change.",
+    "question": "What is the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Later start times improve outcomes like attendance and alertness, though schools must manage scheduling trade-offs.",
+        "rationale": "Correct. It summarizes the benefits and acknowledges the logistical concern.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla main idea 07 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Sports are more important than academics.",
+        "rationale": "The passage does not make this claim; it mentions sports as a concern to be managed.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Teachers oppose all schedule changes.",
+        "rationale": "Teachers noted positive effects; opposition isn't attributed to teachers.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Attendance always falls with later start times.",
+        "rationale": "The passage reports the opposite—improved attendance.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 07 Case Study 9: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 07 practice question 9: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "Join us for the Animal Shelter's Fall Adoption Day this Saturday from 10–3. Adoption fees are discounted, and every pet goes home vaccinated and microchipped.",
+    "question": "What is the main idea of the announcement?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The shelter is hosting a Saturday adoption event with discounted fees and included services.",
+        "rationale": "Correct. It summarizes the event, timing, and key benefits.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla main idea 07 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "All adoptions are free every day.",
+        "rationale": "The announcement mentions a one-day discount, not permanent free adoptions.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Only cats are available for adoption.",
+        "rationale": "The species are not restricted in the announcement.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Microchips are optional for a fee.",
+        "rationale": "It states microchipping is included, not optional for a fee.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 07 Case Study 10: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 07 practice question 10: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "Nutrition headlines often tout single 'superfoods,' but many studies showing associations between a food and an outcome cannot demonstrate causation. Diets are complex, and people who eat more of one food may also exercise more or sleep better. Interpreting nutrition research requires caution and an understanding of correlation versus causation.",
+    "question": "Which statement best expresses the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Any food linked to good health in a study causes those benefits.",
+        "rationale": "The passage warns against equating correlation with causation.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 07 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Nutrition findings based on correlation should be interpreted cautiously because many factors can confound results.",
+        "rationale": "Correct. It captures the caution and reason (confounding) emphasized in the passage.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Superfoods guarantee better sleep and more exercise.",
+        "rationale": "This overstates and misrepresents the passage's cautionary message.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Nutrition science cannot be studied at all.",
+        "rationale": "The passage calls for careful interpretation, not impossibility.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 07 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 07 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Urban neighborhoods with few trees can be several degrees hotter in summer than leafier areas, increasing energy bills and heat-related health risks. Expanding tree canopy lowers temperatures, provides shade at bus stops, and improves air quality, though it requires long-term maintenance funding.",
+    "question": "Which sentence best states the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Trees are nice to look at in the summer.",
+        "rationale": "The passage emphasizes practical benefits and trade-offs, not aesthetics alone.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 07 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Increasing urban tree canopy can reduce heat and improve health, but cities must plan for maintenance costs.",
+        "rationale": "Correct. It captures the benefits and the acknowledged cost consideration.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Bus stops should be eliminated in hot weather.",
+        "rationale": "The passage suggests shading bus stops with trees, not eliminating them.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Only rural areas benefit from trees.",
+        "rationale": "The passage specifically discusses urban neighborhoods.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 07 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 07 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Food labels that say 'natural' can be misleading because the term has no single, regulated definition for many products. Some 'natural' snacks still contain high levels of sugar or salt. Consumers who want healthier options must look past marketing words and read the ingredient list and nutrition facts.",
+    "question": "Which statement best expresses the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "All foods labeled 'natural' are unhealthy.",
+        "rationale": "The passage advises careful reading; it doesn't claim all 'natural' foods are unhealthy.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 07 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Because 'natural' has no consistent definition, shoppers should examine ingredients and nutrition labels rather than rely on marketing.",
+        "rationale": "Correct. It summarizes the caution and the recommended action.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Only organic foods can be called 'natural'.",
+        "rationale": "The passage does not equate 'natural' with 'organic'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Sugar and salt are banned in natural foods.",
+        "rationale": "The passage gives a counterexample: some 'natural' snacks contain high sugar or salt.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

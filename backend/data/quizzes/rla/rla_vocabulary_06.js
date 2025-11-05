@@ -177,182 +177,176 @@ module.exports = [
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 06 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 06 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "To reduce test anxiety, the counselor suggested deep-breathing exercises to help alleviate stress before the exam.",
+    "question": "As used in the passage, what does 'alleviate' mean?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "To make a problem less severe; ease",
+        "rationale": "Correct. The exercises are meant to lessen stress.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 06 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "To diagnose precisely",
+        "rationale": "Alleviate is about reducing severity, not diagnosing.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "To ignore deliberately",
+        "rationale": "Ignoring is not alleviating.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "To prolong intentionally",
+        "rationale": "Alleviate means the opposite—reduce or ease.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 06 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 06 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "Hard hats are mandatory on the construction site. No one may enter without wearing one.",
+    "question": "What does 'mandatory' mean in this context?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Required by rule",
+        "rationale": "Correct. A mandatory item is required, not optional.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 06 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Recommended but optional",
+        "rationale": "Mandatory means not optional.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Discouraged",
+        "rationale": "This is the opposite of required.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Recently updated",
+        "rationale": "Mandatory refers to requirement, not timing.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 06 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 06 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "Despite repeated calls for compromise, a small faction remained intransigent, refusing any changes to the proposal.",
+    "question": "As used in the passage, 'intransigent' most nearly means what?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Unwilling to change one's views; uncompromising",
+        "rationale": "Correct. The faction refused any changes, showing an uncompromising stance.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 06 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Confused and undecided",
+        "rationale": "This describes uncertainty, not firm refusal.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Open-minded and flexible",
+        "rationale": "This is the opposite of intransigent.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Persuasive and articulate",
+        "rationale": "This describes communication, not willingness to compromise.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 06 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 06 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Given the tight budget, the manager favored a pragmatic solution that solved the problem without unnecessary expense.",
+    "question": "What does 'pragmatic' mean in this sentence?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Practical and focused on results",
+        "rationale": "Correct. Pragmatic approaches emphasize practical, workable outcomes.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 06 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Idealistic and theoretical",
+        "rationale": "This is the opposite of pragmatic.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Careless and rushed",
+        "rationale": "Pragmatic does not imply carelessness.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Secretive and cautious",
+        "rationale": "This describes manner, not practicality.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 06 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 06 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "With dark clouds gathering and the wind picking up, officials warned that a severe storm was imminent.",
+    "question": "What does 'imminent' most nearly mean in this context?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "About to happen very soon",
+        "rationale": "Correct. An imminent storm is expected shortly.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 06 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Unlikely to occur",
+        "rationale": "Imminent suggests high likelihood and urgency.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Already finished",
+        "rationale": "Imminent refers to the near future, not the past.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Happening regularly",
+        "rationale": "That's 'frequent,' not 'imminent.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 06 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 06 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The audit uncovered a discrepancy between the number of units reported sold and the inventory remaining in the warehouse.",
+    "question": "In the passage, the word 'discrepancy' most nearly means what?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A difference or inconsistency",
+        "rationale": "Correct. A discrepancy is a mismatch between two records or accounts.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 06 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "A slight delay",
+        "rationale": "A delay is about time, not mismatched information.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A complete explanation",
+        "rationale": "An explanation resolves a discrepancy; it is not the discrepancy itself.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A sudden improvement",
+        "rationale": "This is unrelated to a mismatch in records.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

@@ -264,92 +264,89 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 04 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 04 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "passage": "The community garden has improved the neighborhood in several ways. Volunteers maintain the plots, and on Saturdays, families gather for workshops on composting and healthy cooking. Since the garden opened last spring, the local clinic reports a 20% increase in patients saying they eat vegetables daily. Nearby, a once-vacant lot now hosts a weekly produce stand run by teens from the high school.",
+    "question": "Which detail from the passage best supports the claim that the community garden has improved neighborhood health behaviors?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 04 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Volunteers maintain the plots.",
+        "rationale": "This shows community involvement but not a direct change in health behavior.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 04 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Families gather for workshops on composting and cooking.",
+        "rationale": "This is a helpful activity, but the clinic statistic more directly shows behavior change.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The clinic reports a 20% increase in patients who eat vegetables daily.",
+        "rationale": "Correct. This is a concrete, measurable change in health-related behavior.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A vacant lot now hosts a weekly produce stand.",
+        "rationale": "This shows economic activity and access, but not directly a behavior change like the clinic report does.",
+        "isCorrect": false
       }
     ],
-    "difficulty": "medium",
-    "__autogen": true
+    "difficulty": "medium"
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 04 Case Study 11: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 04 practice question 11: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "passage": "A flyer claims the library is 'busier than ever.' To support this, it notes: extended evening hours, new teen programs, and that monthly visitor counts rose from 12,000 last year to 16,000 this year.",
+    "question": "Which detail best supports the claim that the library is 'busier than ever'?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 04 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Extended evening hours",
+        "rationale": "Longer hours may allow more visits, but do not prove the library is busier on their own.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 04 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "New teen programs",
+        "rationale": "Programs are a feature, not direct evidence of increased busyness.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Visitor counts rose from 12,000 to 16,000 per month",
+        "rationale": "Correct. The increase in monthly visitors directly supports 'busier than ever.'",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The flyer format",
+        "rationale": "The medium doesn't provide evidence about busyness.",
+        "isCorrect": false
       }
     ],
-    "difficulty": "easy",
-    "__autogen": true
+    "difficulty": "easy"
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 04 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 04 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "passage": "The town council argues that adding bike lanes has made downtown safer for commuters. Since installation, reported car-bike collisions on Main Street fell from 18 per year to 7, and average vehicle speeds during rush hour dropped by 6 mph.",
+    "question": "Which piece of evidence most directly supports the claim that downtown is safer for commuters?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 04 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Average vehicle speeds dropped by 6 mph during rush hour.",
+        "rationale": "Slower speeds can improve safety, but crash reduction is a more direct safety outcome.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 04 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "There were fewer reported car-bike collisions (from 18 to 7 per year).",
+        "rationale": "Correct. Fewer collisions directly indicate improved safety for commuters.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The council argues for bike lanes.",
+        "rationale": "An argument is not evidence of safety outcomes.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The lanes are located on Main Street.",
+        "rationale": "Location alone does not demonstrate improved safety.",
+        "isCorrect": false
       }
     ],
-    "difficulty": "medium",
-    "__autogen": true
+    "difficulty": "medium"
   }
 ]
 ;

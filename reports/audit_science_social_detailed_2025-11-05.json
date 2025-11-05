@@ -1,0 +1,338 @@
+{
+  "date": "2025-11-05",
+  "summary": {
+    "science": {
+      "files": 44,
+      "questions": 539,
+      "hitFiles": 0,
+      "hitCount": 0
+    },
+    "social-studies": {
+      "files": 18,
+      "questions": 216,
+      "hitFiles": 0,
+      "hitCount": 0
+    }
+  },
+  "files": {
+    "science": {
+      "sci_data_reasoning_1.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_data_reasoning_2.js": {
+        "ok": true,
+        "questions": 13,
+        "hits": []
+      },
+      "sci_data_reasoning_3.js": {
+        "ok": true,
+        "questions": 13,
+        "hits": []
+      },
+      "sci_data_reasoning_4.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_data_reasoning_5.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_earth_space_1.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_earth_space_2.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_earth_space_3.js": {
+        "ok": true,
+        "questions": 14,
+        "hits": []
+      },
+      "sci_earth_space_4.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_earth_space_5.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_earth_space_science_ecosystems_19.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_earth_space_science_geological_time_7.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_earth_space_science_rock_cycle_3.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_earth_space_science_weather_climate_11.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_earth_space_science_weather_climate_15.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_1.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_2.js": {
+        "ok": true,
+        "questions": 13,
+        "hits": []
+      },
+      "sci_life_science_3.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_4.js": {
+        "ok": true,
+        "questions": 14,
+        "hits": []
+      },
+      "sci_life_science_5.js": {
+        "ok": true,
+        "questions": 13,
+        "hits": []
+      },
+      "sci_life_science_6.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_cells_organelles_1.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_ecosystems_5.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_genetics_heredity_20.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_human_body_systems_16.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_human_body_systems_8.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_natural_selection_22.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_life_science_photosynthesis_respiration_12.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_1.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_2.js": {
+        "ok": true,
+        "questions": 13,
+        "hits": []
+      },
+      "sci_physical_science_3.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_4.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_5.js": {
+        "ok": true,
+        "questions": 14,
+        "hits": []
+      },
+      "sci_physical_science_6.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_chemical_reactions_17.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_chemistry_6.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_energy_transformations_14.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_forces_motion_21.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_matter_energy_2.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_physical_science_newtons_laws_10.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_scientific_practices_data_interpretation_18.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_scientific_practices_data_reasoning_9.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_scientific_practices_experimental_design_13.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "sci_scientific_practices_method_4.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      }
+    },
+    "social-studies": {
+      "ss_civics_bill_of_rights_15.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civics_citizen_rights_7.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civics_elections_17.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civics_federalism_6.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civics_gov_structure_16.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civics_lawmaking_10.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civics_separation_of_powers_5.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civics_supreme_court_18.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civil_rights_14.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civil_rights_4.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civil_war_11.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_civil_war_3.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_colonial_era_1.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_colonial_era_12.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_economics_geography_8.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_reading_sources_9.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_westward_expansion_13.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      },
+      "ss_westward_expansion_2.js": {
+        "ok": true,
+        "questions": 12,
+        "hits": []
+      }
+    }
+  },
+  "total": {
+    "files": 62,
+    "questions": 755,
+    "hits": 0
+  }
+}

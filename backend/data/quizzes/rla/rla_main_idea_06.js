@@ -177,182 +177,176 @@ module.exports = [
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 06 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 06 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "To cut waste sent to landfills, the city will pilot curbside compost collection in two neighborhoods. For the first three months, residents will receive free compost bins and weekly pickups. The city will host workshops on what can and cannot be composted, and will measure how much trash decreases over the pilot period before considering a citywide rollout.",
+    "question": "What is the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The city will force all residents to compost immediately.",
+        "rationale": "The passage describes a limited pilot, not a citywide mandate.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 06 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The city is testing curbside composting with education and measurement before expanding the program.",
+        "rationale": "Correct. It summarizes the pilot approach, education component, and evaluation prior to wider rollout.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Workshops are more important than pickups for composting.",
+        "rationale": "The passage doesn't weigh their relative importance; both are parts of the pilot.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Trash will decrease in every neighborhood by exactly the same amount.",
+        "rationale": "No specific decrease is guaranteed, and only two neighborhoods are in the pilot.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 06 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 06 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "The Saturday farmers' market is moving to the town square beginning next month. Hours will be 9 a.m. to 1 p.m., rain or shine. Local growers will offer produce, bread, and flowers. Families are encouraged to attend.",
+    "question": "Which sentence best states the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The farmers' market will now take place at the town square on Saturdays from 9 to 1.",
+        "rationale": "Correct. It captures the key change (location) and the schedule, which is the central announcement.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla main idea 06 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Local growers will sell bread and flowers.",
+        "rationale": "This is a detail about vendors, not the main idea.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Families are encouraged to attend.",
+        "rationale": "This is an invitation, not the core announcement.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The market will be held rain or shine.",
+        "rationale": "This is a condition, not the main point.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 06 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 06 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "Debate over a universal basic income (UBI) often reduces to slogans, but the reality is more complex. Proponents argue it could provide a safety net in an economy where automation displaces certain jobs; critics warn it might discourage work or prove fiscally unsustainable. Early pilots suggest some recipients use funds to stabilize housing or pursue training, but long-term effects depend on design choices like funding sources and whether UBI replaces or supplements existing programs.",
+    "question": "Which statement best captures the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "UBI always discourages people from working.",
+        "rationale": "The passage presents both potential benefits and risks; it does not claim an absolute outcome.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 06 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "UBI is a nuanced policy whose outcomes depend on program design, with pilots showing mixed but potentially stabilizing effects.",
+        "rationale": "Correct. It summarizes the balanced view and the importance of design and evidence.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Automation is the only reason to consider UBI.",
+        "rationale": "Automation is a factor mentioned, but not the sole reason discussed.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Pilots prove UBI should immediately replace all social programs.",
+        "rationale": "The passage does not advocate replacement and notes outcomes depend on design choices.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 06 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 06 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Microloans—small, short-term loans—can help entrepreneurs start or expand tiny businesses like kiosks or tailoring shops. Supporters say they empower people without collateral to invest in income-generating activities. Critics note that without training and stable markets, borrowers may struggle to repay, limiting long-term impact.",
+    "question": "What is the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Microloans always lift borrowers out of poverty.",
+        "rationale": "The passage presents both benefits and limitations, not a guaranteed outcome.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 06 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Microloans can enable small enterprises but their effectiveness depends on context such as training and market stability.",
+        "rationale": "Correct. This conveys the balanced perspective in the passage.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Only people with collateral should receive microloans.",
+        "rationale": "The passage highlights access for those without collateral.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Critics think microloans should be illegal.",
+        "rationale": "The passage does not claim critics want a ban; it notes concerns about impact and repayment.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 06 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 06 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Transit planners propose shifting bus resources from very long, infrequent routes to shorter routes with buses arriving every 10 minutes. While fewer streets would see service, most riders would wait less time and make faster connections. The plan aims to boost overall ridership by improving reliability.",
+    "question": "Which sentence best expresses the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Transit planners want to remove bus service from many streets permanently.",
+        "rationale": "The passage explains a trade-off to increase frequency and reliability, not a simple removal as the goal.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 06 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "By concentrating service on fewer routes, the plan seeks more frequent, reliable buses to attract more riders overall.",
+        "rationale": "Correct. It summarizes the trade-off and intended outcome.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Most riders dislike transfers and will oppose any changes.",
+        "rationale": "This claim is not stated; the focus is on frequency and reliability gains.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Long routes are always worse than short ones.",
+        "rationale": "The passage doesn't make an absolute claim; it describes a strategy for improvement.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 06 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 06 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Sleep researchers recommend consistent bedtimes, limiting late-night screens, and getting morning sunlight to reset the body clock. While no single habit fixes sleep for everyone, small, steady changes help many people fall asleep faster and wake up more refreshed.",
+    "question": "What is the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Morning sunlight is the only way to improve sleep.",
+        "rationale": "The passage lists multiple habits and says no single habit works for everyone.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 06 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Adopting several simple, consistent habits can gradually improve sleep quality.",
+        "rationale": "Correct. It captures the overall recommendation and gradual effect.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "People should stop using all screens forever.",
+        "rationale": "The passage suggests limiting late-night screens, not eliminating them entirely.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Most people already sleep enough and need no changes.",
+        "rationale": "The passage recommends changes to improve sleep; it doesn't claim changes are unnecessary.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
