@@ -74,35 +74,38 @@
       })();
         </script>
 
-        <!-- Theme toggle icon sync (sun for light, moon for dark). Safe if markup not present -->
-        <script>
-            (function() {
-                const btn = document.getElementById('themeToggleBtn');
-                const icon = document.getElementById('themeToggleIcon');
-                function updateThemeIcon() {
-                    const theme = document.documentElement.getAttribute('data-theme') || 'light';
-                    if (!icon) return;
-                    if (theme === 'light') {
-                        icon.classList.remove('fa-moon');
-                        icon.classList.add('fa-sun');
-                    } else {
-                        icon.classList.remove('fa-sun');
-                        icon.classList.add('fa-moon');
+                <!-- Theme toggle icon sync (runs after DOM ready) -->
+                <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const btn = document.getElementById('themeToggleBtn');
+                    const icon = document.getElementById('themeToggleIcon');
+
+                    function updateThemeIcon() {
+                        const theme = document.documentElement.getAttribute('data-theme') || 'light';
+                        if (!icon) return;
+                        if (theme === 'light') {
+                            icon.classList.remove('fa-moon');
+                            icon.classList.add('fa-sun');
+                        } else {
+                            icon.classList.remove('fa-sun');
+                            icon.classList.add('fa-moon');
+                        }
                     }
-                }
-                updateThemeIcon();
-                if (btn) {
-                    btn.addEventListener('click', () => {
-                        const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-                        const next = current === 'light' ? 'dark' : 'light';
-                        document.documentElement.setAttribute('data-theme', next);
-                        document.body.setAttribute('data-theme', next);
-                        try { localStorage.setItem('appTheme', next); } catch (_) {}
-                        updateThemeIcon();
-                    });
-                }
-            })();
-        </script>
+
+                    updateThemeIcon();
+
+                    if (btn) {
+                        btn.addEventListener('click', () => {
+                            const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+                            const next = current === 'light' ? 'dark' : 'light';
+                            document.documentElement.setAttribute('data-theme', next);
+                            document.body.setAttribute('data-theme', next);
+                            try { localStorage.setItem('appTheme', next); } catch (e) {}
+                            updateThemeIcon();
+                        });
+                    }
+                });
+                </script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
@@ -244,6 +247,10 @@
             --button-bg: #f0f0f0;
             --button-hover-bg: #e5e5e5;
             --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            /* tinted light surfaces */
+            --bg-page: #f4f6fb; /* soft blue-white */
+            --bg-surface: #ffffff;
+            --panel-bg: #ffffff;
         }
 
         :root:not([data-theme]) {
@@ -827,11 +834,11 @@
 
                 /* --- Premium dashboard skin (LIGHT) --- */
                 [data-theme="light"] body {
-                    /* gentle color wash behind everything */
+                    /* gentle color wash behind everything (tinted) */
                     background:
-                        radial-gradient(circle at 5% 0%, rgba(56,189,248,0.10) 0%, rgba(255,255,255,0) 35%),
-                        radial-gradient(circle at 95% 10%, rgba(236,72,153,0.08) 0%, rgba(255,255,255,0) 38%),
-                        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+                        radial-gradient(circle at 5% 0%, rgba(56,189,248,0.06) 0%, rgba(244,246,251,0) 35%),
+                        radial-gradient(circle at 95% 10%, rgba(236,72,153,0.045) 0%, rgba(244,246,251,0) 38%),
+                        linear-gradient(180deg, #f4f6fb 0%, #ffffff 100%);
                 }
 
                 /* main dashboard container */
@@ -842,6 +849,14 @@
                     -webkit-backdrop-filter: blur(10px);
                     border: 1px solid rgba(148,163,184,0.20);
                     box-shadow: 0 18px 32px rgba(15,23,42,0.04);
+                }
+
+                /* unify cards with a very light blue gradient */
+                [data-theme="light"] .content-card,
+                [data-theme="light"] .panel,
+                [data-theme="light"] .dashboard-row,
+                [data-theme="light"] .section {
+                    background: linear-gradient(135deg, #ffffff, #f1f5fb);
                 }
 
                 /* top bar / header strip */
@@ -869,11 +884,20 @@
                     box-shadow: 0 16px 36px rgba(15,23,42,0.06);
                 }
 
-                /* lock subject cards so they don't go glassy */
-                [data-theme="light"] .subject-card {
+                /* only flatten the small subject tiles in the lower dashboard, NOT the progress cards */
+                [data-theme="light"] .content-card #quizzes .subject-card,
+                [data-theme="light"] .content-card .subject-bar .subject-card {
                     background: unset !important;
                     box-shadow: none !important;
                     border: none !important;
+                }
+
+                /* restore the colored subject progress cards (the row with Social Studies, RLA, etc.) */
+                [data-theme="light"] .progress-subjects .subject-card,
+                [data-theme="light"] .dashboard-progress .subject-card {
+                    background: initial !important;
+                    box-shadow: initial !important;
+                    border: initial !important;
                 }
 
                 /* animated hero gradient title in light mode */
