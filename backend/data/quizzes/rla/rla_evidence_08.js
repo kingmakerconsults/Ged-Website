@@ -90,272 +90,263 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 08 Case Study 4: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 08 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A neighborhood community garden expanded from 22 to 35 plots this year. Last season, gardeners harvested 1,200 pounds of produce and donated 480 pounds to the local food pantry. The garden coordinator reported that the waiting list grew from 10 people last fall to 28 this spring.",
+    "question": "Which detail best supports the claim that the garden \"meets a community need\"?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Harvests reached 1,200 pounds last season.",
+        "rationale": "While impressive, harvest size speaks to output, not directly to unmet demand in the community.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 08 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The garden expanded from 22 to 35 plots.",
+        "rationale": "Expansion suggests growth, but it doesn't by itself show that demand exceeds supply.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The waiting list grew from 10 to 28 people.",
+        "rationale": "Correct. A longer waiting list is direct evidence that more residents want plots than are currently available, indicating need.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Gardeners donated 480 pounds to a food pantry.",
+        "rationale": "This is positive community impact, but the waiting list most directly evidences unmet demand.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 08 Case Study 5: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 08 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "After restoring Sunday hours, the public library saw monthly visits increase from 3,400 to 4,500. The average number of checkouts per visit stayed about the same.",
+    "question": "Which evidence best supports the claim that restoring Sunday hours increased overall library use?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Average checkouts per visit stayed the same.",
+        "rationale": "This shows no change in per-visit behavior and does not support increased overall use.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 08 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Monthly visits rose from 3,400 to 4,500.",
+        "rationale": "Correct. More visits overall indicate increased use of the library.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The library is open on Sundays.",
+        "rationale": "This states a policy change but not its impact on usage.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Some patrons prefer quiet hours.",
+        "rationale": "A general preference does not demonstrate increased overall use.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 08 Case Study 6: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 08 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "A high school piloted an attendance intervention. The chronic absence rate fell from 22% last year to 14% this year. Graduation remained at 86%. Average reading scores rose by 2 points, a change the district said was not statistically significant. Teacher referrals for unexcused absences declined by 18%.",
+    "question": "Which evidence most directly supports the claim that the intervention improved student attendance?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Graduation remained at 86%.",
+        "rationale": "Graduation did not change and is not a direct measure of attendance.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 08 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Reading scores rose by 2 points but were not significant.",
+        "rationale": "Scores are academic outcomes, not direct indicators of attendance.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Chronic absence fell from 22% to 14%.",
+        "rationale": "Correct. This is a direct, specific improvement in attendance.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Teacher referrals for unexcused absences declined by 18%.",
+        "rationale": "This supports improved attendance indirectly, but the chronic absence rate is the most direct evidence.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 08 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 08 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A neighborhood clinic launched a mobile vaccination unit. Child immunization coverage in the service area rose from 76% to 89% in six months. Adult flu shots increased from 2,100 to 2,250. The clinic also extended Thursday hours by one hour.",
+    "question": "Which detail best supports the claim that the mobile unit increased child immunization coverage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Adult flu shots increased from 2,100 to 2,250.",
+        "rationale": "This shows adult uptake but does not address child coverage.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 08 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Thursday hours were extended by one hour.",
+        "rationale": "A schedule change may help, but it is not evidence of increased coverage.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Child immunization coverage rose from 76% to 89%.",
+        "rationale": "Correct. This is a direct measure of improved child coverage.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The clinic launched a mobile unit.",
+        "rationale": "This states the action, not evidence of its impact.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 08 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 08 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "After dedicated bus lanes were added on two corridors, city transit reported on-time performance improved from 71% to 84%. Average travel time on Route 5 fell from 42 minutes to 34 minutes. Rider satisfaction surveys also improved.",
+    "question": "Which evidence best supports the claim that the bus lanes reduced delays?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Rider satisfaction surveys improved.",
+        "rationale": "Satisfaction can reflect many factors and is indirect.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 08 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Route 5 travel time fell from 42 to 34 minutes.",
+        "rationale": "This is strong evidence of faster trips on one route, but on-time performance captures delay reduction systemwide.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "On-time performance increased from 71% to 84%.",
+        "rationale": "Correct. On-time performance directly measures delay reduction across the network.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The city added bus lanes on two corridors.",
+        "rationale": "This states the action taken, not its effect on delays.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 08 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 08 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "The sanitation department began a cart-tagging program to reduce recycling contamination. In six months, the contamination rate dropped from 23% to 11%. Total tons recycled increased by 4%, and survey awareness of proper sorting rose. Collection schedules did not change.",
+    "question": "Which evidence most strongly supports the claim that cart-tagging reduced recycling contamination?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Total tons recycled increased by 4%.",
+        "rationale": "More tons may reflect participation, not necessarily lower contamination.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 08 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The contamination rate fell from 23% to 11%.",
+        "rationale": "Correct. This directly measures the targeted problem and shows a large reduction.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Survey awareness of sorting rose.",
+        "rationale": "Awareness is indirect and may not translate to behavior.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Collection schedules did not change.",
+        "rationale": "This is background information, not evidence of contamination reduction.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 08 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 08 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A county launched a wildfire preparedness campaign. The share of households reporting a ready-to-go emergency bag increased from 37% to 63%. Attendance at the evacuation drill was 410 this year, up from 180 last year. Firefighter staffing levels were unchanged.",
+    "question": "Which piece of evidence best supports the claim that the campaign improved household readiness?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Evacuation drill attendance increased from 180 to 410.",
+        "rationale": "Higher turnout is positive, but it may reflect interest rather than sustained readiness at home.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 08 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Firefighter staffing levels were unchanged.",
+        "rationale": "This is unrelated to household readiness.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Households with ready-to-go bags rose from 37% to 63%.",
+        "rationale": "Correct. Having a go-bag is a specific indicator of household readiness.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The county launched a preparedness campaign.",
+        "rationale": "This states the action, not evidence of its effect.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 08 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 08 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A job-training program added employer partnerships to help place graduates. The six-month employment rate among program completers rose from 58% to 72%. Average starting wage held steady at $18.40/hour. Enrollment stayed about the same.",
+    "question": "Which detail best supports the claim that partnerships improved employment outcomes for graduates?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Average starting wage held at $18.40/hour.",
+        "rationale": "Wages did not change and do not show improved employment rates.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 08 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Enrollment stayed about the same.",
+        "rationale": "Enrollment is not an outcome for employed graduates.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The six-month employment rate rose from 58% to 72%.",
+        "rationale": "Correct. This directly measures improved post-program employment.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The program added employer partnerships.",
+        "rationale": "This states the change, not its measured effect.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 08 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 08 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "An energy-efficiency retrofit program for apartments reported first-year electricity savings of 1.8 million kWh among participating buildings. For participating households, average monthly electric bills fell from $112 to $98. Citywide electricity use did not change.",
+    "question": "Which evidence best supports the claim that the retrofit program reduced energy use among participants?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Citywide electricity use did not change.",
+        "rationale": "This describes the broader grid, not participant outcomes.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 08 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Average bills fell from $112 to $98 for participating households.",
+        "rationale": "Lower bills suggest reduced use, but bills can reflect rates. Direct kWh savings is stronger evidence.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Participants saved 1.8 million kWh in the first year.",
+        "rationale": "Correct. This is a direct, quantified measure of reduced energy consumption among participants.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The program focused on apartments.",
+        "rationale": "This gives scope, not evidence of reduced energy use.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

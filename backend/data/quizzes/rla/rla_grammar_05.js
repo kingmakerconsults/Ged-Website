@@ -255,89 +255,86 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "question": "Rla Grammar 05 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence correctly uses a hyphenated compound modifier?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "She took a last minute decision to leave.",
+        "rationale": "When a compound modifier comes before a noun, it should usually be hyphenated: 'last-minute decision'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 05 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "She took a last-minute decision to leave.",
+        "rationale": "Correct. 'Last-minute' correctly modifies 'decision'.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "She took a last, minute decision to leave.",
+        "rationale": "A comma is incorrect here; use a hyphen to join the words as one modifier.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "She took a last minute-decision to leave.",
+        "rationale": "The hyphen is misplaced; it should connect 'last' and 'minute'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "question": "Rla Grammar 05 practice question 11: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "question": "Which sentence avoids a dangling modifier?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Walking to the bus stop, the rain soaked my jacket.",
+        "rationale": "This implies the rain was walking; the modifier dangles.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 05 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Walking to the bus stop, I got my jacket soaked by the rain.",
+        "rationale": "Correct. The subject 'I' performs the action in the modifier.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "While walking to the bus stop, the jacket was soaked by the rain.",
+        "rationale": "The subject of 'walking' is unclear; this still dangles.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Walking to the bus stop, it rained heavily on my jacket.",
+        "rationale": "'It' is vague and does not fix the dangling modifier.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "question": "Rla Grammar 05 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence correctly uses a comma after an introductory element?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "After finishing the report we met with the client.",
+        "rationale": "A comma is needed after the introductory clause 'After finishing the report'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 05 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "After finishing the report, we met with the client.",
+        "rationale": "Correct. The introductory clause is set off with a comma.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "After, finishing the report we met with the client.",
+        "rationale": "The comma is misplaced; it should follow the introductory clause.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "After finishing, the report we met with the client.",
+        "rationale": "This incorrectly splits the introductory clause and the main clause.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

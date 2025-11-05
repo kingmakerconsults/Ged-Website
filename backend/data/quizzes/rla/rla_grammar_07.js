@@ -87,263 +87,254 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "question": "Rla Grammar 07 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence uses apostrophes correctly?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Its a shame the dog lost it's collar.",
+        "rationale": "'It's' = 'it is'; possessive 'its' has no apostrophe. Both uses here are reversed.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 07 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "It's a shame the dog lost its collar.",
+        "rationale": "Correct. 'It's' means 'it is', and possessive 'its' takes no apostrophe.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Its' a shame the dog's lost its' collar.",
+        "rationale": "'Its'' is never correct. Apostrophes after 'its' are wrong.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Its a shame the dogs' lost it's collar.",
+        "rationale": "Multiple apostrophe errors remain.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "question": "Rla Grammar 07 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "question": "Which sentence correctly uses a comma after an introductory phrase?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "In the middle of the night the phone rang.",
+        "rationale": "A comma is needed after 'In the middle of the night'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 07 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "In the middle of the night, the phone rang.",
+        "rationale": "Correct. The introductory phrase is set off by a comma.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "In the middle, of the night the phone rang.",
+        "rationale": "Comma placement is incorrect and interrupts the phrase.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "In, the middle of the night the phone rang.",
+        "rationale": "The comma should not split the prepositional phrase.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "question": "Rla Grammar 07 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "question": "Which sentence uses 'who' and 'whom' correctly?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Who did you send the email to?",
+        "rationale": "In formal usage after a preposition, 'whom' is preferred: 'to whom'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 07 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Whom is going to present the report?",
+        "rationale": "'Whom' cannot serve as a subject; use 'who'.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "To whom did you send the email?",
+        "rationale": "Correct. 'Whom' is the object of the preposition 'to'.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Whom did you say will present the report?",
+        "rationale": "'Who' is correct as the subject of 'will present' within the clause.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "question": "Rla Grammar 07 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence places the adverb 'only' correctly?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "She only told me the truth yesterday.",
+        "rationale": "Ambiguous: does 'only' modify 'told', 'me', or 'yesterday'?",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 07 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Only yesterday did she tell me the truth.",
+        "rationale": "Correct. 'Only' clearly modifies 'yesterday'.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "She told only me yesterday the truth.",
+        "rationale": "Awkward and unclear placement of 'only'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "She told me the only truth yesterday.",
+        "rationale": "Changes the meaning to 'the only truth'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "question": "Rla Grammar 07 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "question": "Which sentence maintains a consistent verb tense?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We walked to the park and then sit on the bench.",
+        "rationale": "Verb tense shifts from past ('walked') to present ('sit').",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 07 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "We walk to the park and then sat on the bench.",
+        "rationale": "Verb tense shifts from present to past.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We walked to the park and then sat on the bench.",
+        "rationale": "Correct. Both verbs are in the past tense.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We had walked to the park and then sit on the bench.",
+        "rationale": "Inconsistent use of past perfect and present tense.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "question": "Rla Grammar 07 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "question": "Which revision best eliminates redundancy? Original: 'In my personal opinion, I think that we should postpone the meeting.'",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It is my personal opinion that we should postpone the meeting.",
+        "rationale": "Still redundant with 'personal opinion'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 07 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "In my opinion, we should postpone the meeting.",
+        "rationale": "Correct. Removes redundancies and keeps the meaning.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "I think that in my opinion we should postpone the meeting.",
+        "rationale": "Contains both 'I think' and 'in my opinion'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We should postpone the meeting, in my personal opinion.",
+        "rationale": "Retains unnecessary 'personal'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "question": "Rla Grammar 07 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence correctly joins two independent clauses?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The traffic was heavy, we arrived on time.",
+        "rationale": "Comma splice; use a semicolon, conjunction, or period.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 07 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The traffic was heavy; we arrived on time.",
+        "rationale": "Correct. A semicolon can join two closely related independent clauses.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The traffic was heavy: we arrived on time.",
+        "rationale": "A colon is not used simply to connect two clauses like this.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The traffic was heavy however we arrived on time.",
+        "rationale": "A comma is needed before 'however' when it introduces a contrast within a sentence, or use a semicolon before it.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "question": "Rla Grammar 07 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence correctly punctuates a nonessential appositive?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "My brother the engineer designed the bridge.",
+        "rationale": "'The engineer' is nonessential and should be set off by commas.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 07 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "My brother, the engineer, designed the bridge.",
+        "rationale": "Correct. The nonessential appositive is set off by commas.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "My brother the engineer, designed the bridge.",
+        "rationale": "This has only one comma and incorrectly splits the subject from the verb.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "My brother—the engineer designed the bridge.",
+        "rationale": "Punctuation is inconsistent; either use commas or em dashes on both sides.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "question": "Rla Grammar 07 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence uses comparative words correctly?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "There were less people at the second event than the first.",
+        "rationale": "Use 'fewer' with countable nouns like 'people'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 07 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "There were fewer people at the second event than at the first.",
+        "rationale": "Correct. 'Fewer' is used for countable nouns, and the parallel 'than at the first' avoids ambiguity.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "There was fewer people at the second event than the first.",
+        "rationale": "Subject-verb agreement error and incorrect use of 'fewer/less'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "There were less attendees at the second event than the first one had.",
+        "rationale": "'Attendees' are countable; use 'fewer'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

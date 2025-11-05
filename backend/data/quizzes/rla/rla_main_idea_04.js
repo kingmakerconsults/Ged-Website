@@ -264,92 +264,89 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 04 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 04 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "City council approved a pilot program to replace traditional streetlights with LED fixtures in two neighborhoods. The new lights use less electricity, last longer, and produce more focused illumination that reduces glare into windows. The city expects to cut maintenance costs and lower energy use by 40% in the pilot area. If successful, the program may expand citywide next year.",
+    "question": "What is the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 04 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "LED streetlights reduce glare into windows.",
+        "rationale": "This is one benefit, not the passage’s central point.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 04 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The city launched a pilot to test LED streetlights that save energy and maintenance, with a possible expansion.",
+        "rationale": "Correct. This captures the policy (pilot), the benefits, and the possible next step.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The program will expand citywide next year.",
+        "rationale": "Expansion is conditional; focusing only on it misses the main idea of the pilot and its goals.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The fixtures produce more focused illumination.",
+        "rationale": "This is a supporting detail, not the central idea.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 04 Case Study 11: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 04 practice question 11: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "A local animal shelter posted that it is currently full and cannot accept more animals until adoptions increase. The shelter encouraged residents to adopt or foster and highlighted a weekend event with waived adoption fees. Volunteers will be on-site to help families find a good match.",
+    "question": "Which sentence best states the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 04 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Volunteers will help families find a good match.",
+        "rationale": "This is a helpful detail, not the main idea.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 04 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The shelter is full and is urging adoptions, including a special weekend with waived fees.",
+        "rationale": "Correct. This captures the problem and the immediate solution being promoted.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The shelter cannot accept more animals.",
+        "rationale": "This states the situation but not the main message urging adoptions.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Adoption fees will be waived.",
+        "rationale": "This is a supporting detail about the event, not the overall message.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 04 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 04 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "An after-school tutoring program reported that average math grades among participating students rose from C to B over one semester. Attendance at the sessions averaged 92%. The program director emphasized that the goal is not only higher grades but also building students’ study habits and confidence.",
+    "question": "Which sentence best expresses the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 04 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Attendance at sessions averaged 92%.",
+        "rationale": "This is a supporting statistic, not the main idea.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 04 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The program aims to improve grades and foster study habits and confidence, and early results show academic gains.",
+        "rationale": "Correct. This captures the goals and the initial evidence of success.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Average math grades rose from C to B.",
+        "rationale": "This is one result, not the passage’s central message about aims and outcomes.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The director emphasized building confidence.",
+        "rationale": "This is part of the goal, but not the full main idea.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
