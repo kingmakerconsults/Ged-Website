@@ -3141,7 +3141,30 @@ function normalizeCoachDay(day) {
     out.task = out.task || out.label || out.type || 'Practice';
     out.label = out.label || out.task;
     out.minutes = out.minutes || 20;
+    if (!out.subject && day.subject) out.subject = day.subject;
+    if (!out.subjectId && day.subjectId) out.subjectId = day.subjectId;
+    if (!out.message && day.message) out.message = day.message;
     return out;
+}
+
+function coachSubjectId(subject) {
+    const key = String(subject || '').toLowerCase();
+    if (key.startsWith('math')) return 'math';
+    if (key.startsWith('science')) return 'science';
+    if (key === 'rla' || key.includes('language')) return 'rla';
+    if (key.includes('social')) return 'social_studies';
+    return key.replace(/[^a-z0-9]+/g, '_') || 'general';
+}
+
+function addDaysToISO(baseISO, offset = 0) {
+    if (!baseISO) return null;
+    try {
+        const base = new Date(`${baseISO}T00:00:00Z`);
+        const shifted = new Date(base.getTime() + offset * 24 * 60 * 60 * 1000);
+        return `${shifted.getFullYear()}-${String(shifted.getMonth() + 1).padStart(2, '0')}-${String(shifted.getDate()).padStart(2, '0')}`;
+    } catch (_) {
+        return null;
+    }
 }
 
 app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
@@ -3152,11 +3175,7 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         const userEmail = String(req.user?.email || '').toLowerCase();
         const isTester = userEmail === 'zacharysmith527@gmail.com';
 
-        // Respect subject passed flag, but allow tester and RLA to generate
         const subjectIsPassed = await isSubjectPassed(userId, subject);
-        if (subjectIsPassed && !isTester && subject !== 'RLA') {
-            return res.status(400).json({ ok: false, error: 'subject_passed', message: 'This subject has been marked as passed.' });
-        }
 
         // 1) enforce once per calendar week
         let latest = null;
@@ -3284,17 +3303,38 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         const inventory = loadPremadeQuizzesForSubjectSync(subject);
         const prioritized = prioritizeQuizzesByChallenges(inventory, challengeTags);
         const pick = (i) => prioritized.length ? prioritized[i % prioritized.length] : null;
+        const subjectId = coachSubjectId(subject);
         const days = [];
+        const maintenanceMessage = `You\'ve already passed ${subject}. Keep your skills sharp with light review.`;
+        const noChallengesMessage = `No specific challenges tagged yet for ${subject}. Pick any short review quiz to stay warm.`;
+        const hasPrioritizedQuizzes = prioritized.length > 0;
         for (let i = 0; i < 7; i++) {
-            const quiz = pick(i);
-            const label = quiz ? (quiz.title || 'Premade Quiz') : `Practice ${subject}`;
+            let quiz = null;
+            let label = '';
+            let type = 'premade-quiz';
+            let message = '';
+            if (subjectIsPassed) {
+                type = 'maintenance';
+                message = maintenanceMessage;
+                label = `${subject} — Maintenance`;
+            } else if (hasPrioritizedQuizzes) {
+                quiz = pick(i);
+                label = quiz ? (quiz.title || 'Premade Quiz') : `Practice ${subject}`;
+            } else {
+                type = 'warmup';
+                label = `${subject} — Light Practice`;
+                message = noChallengesMessage;
+            }
             const day = normalizeCoachDay({
                 day: i + 1,
-                type: 'premade-quiz',
+                type,
                 quizId: quiz ? quiz.id : null,
                 label,
-                minutes: 20,
-                focus: challengeTags.slice(0, 3)
+                minutes: subjectIsPassed ? 15 : 20,
+                focus: subjectIsPassed ? [] : challengeTags.slice(0, 3),
+                subject,
+                subjectId,
+                message
             });
             days.push(day);
         }
@@ -3302,7 +3342,9 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             days,
             notes: testDate
                 ? `Work through these daily items before your ${subject} test on ${testDate}.`
-                : `Work through one item per day to make steady progress in ${subject}.`
+                : subjectIsPassed
+                    ? `Maintain your ${subject} skills with quick daily refreshers.`
+                    : `Work through one item per day to make steady progress in ${subject}.`
         };
 
         // Persist plan
@@ -3471,12 +3513,26 @@ app.get('/api/coach/weekly', devAuth, ensureTestUserForNow, requireAuthInProd, a
 
         const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
         const subjects = [];
+        const aggregatedDays = Array.from({ length: 7 }).map((_, idx) => ({
+            day: idx + 1,
+            label: `Day ${idx + 1}`,
+            date: addDaysToISO(weekStart, idx),
+            tasks: []
+        }));
+        const aggregatedPlan = {
+            weekStart,
+            weekEnd,
+            days: aggregatedDays,
+            generatedAt: null,
+            subjects: {}
+        };
 
         for (const subj of SUBJECTS) {
             const latest = await latestWeeklyPlan(userId, subj);
             let expectedWeek = 0;
             let summary = '';
             let daysOut = [];
+            const subjectId = coachSubjectId(subj);
             if (latest && latest.plan_json && Array.isArray(latest.plan_json.days)) {
                 expectedWeek = latest.plan_json.days.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0);
                 daysOut = latest.plan_json.days || [];
@@ -3486,6 +3542,31 @@ app.get('/api/coach/weekly', devAuth, ensureTestUserForNow, requireAuthInProd, a
                     (Array.isArray(d.focus) ? d.focus : []).forEach(tag => { const t = String(tag||'').toLowerCase(); if (t && !f.includes(t) && f.length < 4) f.push(t); });
                 });
                 if (f.length) summary = `Focus: ${f.join(', ')}`;
+                aggregatedPlan.generatedAt = aggregatedPlan.generatedAt || (latest.generated_at instanceof Date ? latest.generated_at.toISOString() : (latest.generated_at || null));
+                aggregatedPlan.subjects[subjectId] = { label: subj, hasPlan: true };
+                latest.plan_json.days.forEach((day, idx) => {
+                    const numeric = Number(day.day);
+                    const dayIdx = Number.isFinite(numeric) && numeric >= 1 && numeric <= 7 ? numeric - 1 : idx;
+                    const targetIdx = Math.min(Math.max(dayIdx, 0), aggregatedDays.length - 1);
+                    const target = aggregatedDays[targetIdx];
+                    if (!target) return;
+                    const focus = Array.isArray(day.focus) ? day.focus : (day.focus ? [day.focus] : []);
+                    const taskId = day.id || `${subjectId}-${targetIdx}-${idx}`;
+                    target.tasks.push({
+                        id: taskId,
+                        subject: day.subjectId || coachSubjectId(day.subject || subj),
+                        subjectLabel: day.subject || subj,
+                        title: day.label || day.task || day.type || 'Practice',
+                        type: day.type || 'practice',
+                        minutes: Number(day.minutes) || 20,
+                        quizId: day.quizId ? String(day.quizId) : null,
+                        quizPath: day.quizPath || null,
+                        focus,
+                        message: day.message || null
+                    });
+                });
+            } else {
+                aggregatedPlan.subjects[subjectId] = aggregatedPlan.subjects[subjectId] || { label: subj, hasPlan: false };
             }
 
             // Completed minutes across week in coach_daily_progress
@@ -3503,7 +3584,7 @@ app.get('/api/coach/weekly', devAuth, ensureTestUserForNow, requireAuthInProd, a
             subjects.push({ subject: subj, expected_minutes_week: expectedWeek || 140, completed_minutes_week: completedWeek, summary, days: daysOut });
         }
 
-        return res.json({ ok: true, weekStart, subjects });
+        return res.json({ ok: true, weekStart, weekEnd, subjects, plan: aggregatedPlan });
     } catch (e) {
         console.error('GET /api/coach/weekly failed:', e);
         return res.status(500).json({ ok: false, error: 'coach_weekly_failed' });
