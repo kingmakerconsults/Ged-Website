@@ -90,272 +90,263 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 09 Case Study 4: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 09 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The teacher asked the class to infer the character’s motivation based on subtle clues in the dialogue.",
+    "question": "As used in the sentence, what does 'infer' most nearly mean?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Draw a conclusion from evidence",
+        "rationale": "Correct. 'Infer' means to deduce based on clues or evidence.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 09 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Memorize exact quotes",
+        "rationale": "Inferring involves reasoning, not memorization.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Write a summary",
+        "rationale": "Summarizing restates content; inferring adds a reasoned conclusion.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Translate into another language",
+        "rationale": "Translation is not the same as inference.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 09 Case Study 5: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 09 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "The museum guard was vigilant, watching the gallery carefully throughout his shift.",
+    "question": "What does 'vigilant' most nearly mean?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Watchful and alert",
+        "rationale": "Correct. 'Vigilant' means keeping careful watch for danger or difficulty.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 09 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Distracted and bored",
+        "rationale": "This is the opposite of vigilant.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Relaxed and friendly",
+        "rationale": "Vigilance is about alertness, not friendliness.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Confused and uncertain",
+        "rationale": "Vigilance implies clarity and focus.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 09 Case Study 6: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 09 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "Because the witness was equivocal, the judge asked several follow-up questions to clarify the testimony.",
+    "question": "In this context, 'equivocal' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Ambiguous or open to multiple interpretations",
+        "rationale": "Correct. 'Equivocal' suggests uncertainty or ambiguity.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 09 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Passionate and angry",
+        "rationale": "Emotion is not implied by 'equivocal.'",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Perfectly clear",
+        "rationale": "That is the opposite of equivocal.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Truthful under oath",
+        "rationale": "Equivocal speaks to clarity, not honesty.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 09 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 09 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The scientist postulated that the unusual readings were caused by a calibration error.",
+    "question": "As used here, 'postulated' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Hypothesized or proposed",
+        "rationale": "Correct. 'Postulate' means to suggest or assume as a basis for reasoning.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 09 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Proved conclusively",
+        "rationale": "A postulate is a proposal, not a proof.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Ignored deliberately",
+        "rationale": "Postulated is about proposing, not ignoring.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Measured precisely",
+        "rationale": "Measurement is different from proposing an explanation.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 09 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 09 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "After the storm, the streets were pristine, thanks to an early-morning cleanup crew.",
+    "question": "What does 'pristine' most nearly mean in this sentence?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Spotlessly clean and fresh",
+        "rationale": "Correct. 'Pristine' means in perfect condition, untouched or very clean.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 09 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Crowded with people",
+        "rationale": "Crowding is unrelated to cleanliness implied by 'pristine.'",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Blocked by debris",
+        "rationale": "That's the opposite of pristine.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Under construction",
+        "rationale": "Construction is unrelated to the meaning of 'pristine.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 09 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 09 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "The auditor’s report was replete with examples of wasteful spending across several departments.",
+    "question": "As used here, 'replete' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Filled or well-supplied with",
+        "rationale": "Correct. 'Replete with' indicates being full of something.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 09 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Lacking in",
+        "rationale": "This is the opposite of replete.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Brief about",
+        "rationale": "Replete does not mean brief.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Biased against",
+        "rationale": "Bias is unrelated to 'replete.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 09 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 09 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Her comments were germane to the topic and helped move the discussion forward.",
+    "question": "What does 'germane' most nearly mean here?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Relevant and appropriate",
+        "rationale": "Correct. 'Germane' means closely related to the matter at hand.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 09 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Outdated",
+        "rationale": "Outdated is unrelated to relevance.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Polite",
+        "rationale": "Politeness is not the meaning of 'germane.'",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Overly detailed",
+        "rationale": "Detail level is not implied by 'germane.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 09 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 09 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The spokesperson tried to placate the upset customers by offering refunds and sincere apologies.",
+    "question": "As used in the sentence, 'placate' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Calm or soothe",
+        "rationale": "Correct. 'Placate' means to make someone less angry or hostile.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 09 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Punish",
+        "rationale": "Punishment is not placation.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Ignore",
+        "rationale": "Ignoring does not placate; it may worsen conflict.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Challenge",
+        "rationale": "Challenging is not calming or soothing.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 09 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 09 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The mayor’s remarks were succinct but also unequivocal about the city’s commitment to public safety.",
+    "question": "What does 'unequivocal' most nearly mean in this context?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Clear and unambiguous",
+        "rationale": "Correct. 'Unequivocal' means leaving no doubt; unambiguous.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 09 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Tentative and uncertain",
+        "rationale": "That is the opposite of unequivocal.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Emotional and personal",
+        "rationale": "Emotion is not implied by 'unequivocal.'",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Critical of public safety",
+        "rationale": "The sentence indicates commitment, not criticism.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

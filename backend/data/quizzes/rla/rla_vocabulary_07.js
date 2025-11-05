@@ -90,272 +90,263 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 07 Case Study 4: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 07 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Despite the manager's genial manner, her feedback was candid and focused on results.",
+    "question": "As used in the sentence, what does 'candid' most nearly mean?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Honest and straightforward",
+        "rationale": "Correct. 'Candid' means frank, open, and truthful.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 07 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Overly critical",
+        "rationale": "Candid can include criticism, but it refers to honesty, not harshness.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Casual and friendly",
+        "rationale": "That's closer to 'genial,' not 'candid.'",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Vague and indirect",
+        "rationale": "Candid is the opposite of vague or evasive.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 07 Case Study 5: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 07 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "The teacher praised the student's diligent effort throughout the semester.",
+    "question": "What does 'diligent' most nearly mean?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Hard-working and careful",
+        "rationale": "Correct. 'Diligent' describes steady, earnest effort.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 07 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Naturally talented",
+        "rationale": "Talent is different from diligence, which is about effort.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Quick but careless",
+        "rationale": "Carelessness is the opposite of diligence.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Disinterested",
+        "rationale": "Disinterest is unrelated to diligence.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 07 Case Study 6: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 07 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "Although the data appeared robust at first glance, a more meticulous review revealed several anomalies.",
+    "question": "In this context, what does 'meticulous' most nearly mean?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Extremely careful and precise",
+        "rationale": "Correct. 'Meticulous' means paying great attention to detail.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 07 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Quick and efficient",
+        "rationale": "Speed and efficiency are not the meaning of 'meticulous.'",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Casual and relaxed",
+        "rationale": "The opposite of meticulous.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Biased and argumentative",
+        "rationale": "Unrelated to the meaning of 'meticulous.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 07 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 07 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The committee reached a tentative agreement, pending approval from the board.",
+    "question": "What does 'tentative' most nearly mean in this sentence?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Provisional or not yet final",
+        "rationale": "Correct. 'Tentative' means subject to change or confirmation.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 07 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Unanimous and final",
+        "rationale": "That would be the opposite of tentative.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Illegal",
+        "rationale": "Nothing in the sentence suggests illegality.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Overly generous",
+        "rationale": "Unrelated to the meaning of 'tentative.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 07 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 07 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "Her room was immaculate, with every book and pencil in its place.",
+    "question": "In this context, 'immaculate' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Perfectly clean and neat",
+        "rationale": "Correct. 'Immaculate' means spotless or extremely clean.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 07 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Stylishly decorated",
+        "rationale": "Decoration is not the focus; cleanliness is.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Poorly lit",
+        "rationale": "Lighting is unrelated to 'immaculate.'",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Very small",
+        "rationale": "Size is not implied by 'immaculate.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 07 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 07 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "Her explanation was so convoluted that even the experts asked her to simplify it.",
+    "question": "What does 'convoluted' most nearly mean in this sentence?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Complicated and difficult to follow",
+        "rationale": "Correct. 'Convoluted' means complex and hard to understand.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 07 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Brief and to the point",
+        "rationale": "This is the opposite of convoluted.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Polite and respectful",
+        "rationale": "Tone is unrelated to 'convoluted.'",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Partially correct",
+        "rationale": "Accuracy is not the meaning here; the sentence focuses on complexity.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 07 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 07 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The scientist refuted the claim with new evidence from a larger study.",
+    "question": "As used here, 'refuted' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Proved wrong",
+        "rationale": "Correct. To refute is to demonstrate that a claim is false.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 07 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Strongly supported",
+        "rationale": "That is the opposite of refuted.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Lightly edited",
+        "rationale": "Editing is unrelated to refuting.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Partially agreed with",
+        "rationale": "Refuting means showing something is false, not agreeing.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 07 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 07 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The supervisor admonished the team for missing the deadline and urged better planning.",
+    "question": "What does 'admonished' most nearly mean here?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Warned or scolded gently",
+        "rationale": "Correct. 'Admonished' means to caution or reprimand.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 07 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Rewarded",
+        "rationale": "Rewards are the opposite of admonishments.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Ignored",
+        "rationale": "Admonish implies direct attention, not neglect.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Consulted",
+        "rationale": "Consultation is not admonishment.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 07 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 07 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The spokesperson conceded that the rollout had flaws but emphasized the team's quick response.",
+    "question": "As used in the sentence, 'conceded' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Admitted as true",
+        "rationale": "Correct. To concede is to acknowledge or admit something.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 07 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Celebrated",
+        "rationale": "Conceding is not celebrating.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Denied",
+        "rationale": "The opposite of conceding is denying.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Ignored",
+        "rationale": "Conceding involves acknowledgment, not ignoring.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

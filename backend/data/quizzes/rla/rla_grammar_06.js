@@ -171,176 +171,170 @@ module.exports = [
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "question": "Rla Grammar 06 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence correctly uses a comma in a compound sentence?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We finished the project, and celebrated afterward.",
+        "rationale": "Correct. A comma before the coordinating conjunction joins two independent clauses.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla grammar 06 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "We finished the project and, celebrated afterward.",
+        "rationale": "The comma incorrectly splits the verb phrase.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We finished the project and celebrated, afterward.",
+        "rationale": "The comma is unnecessary and interrupts the sentence.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We finished the project; and celebrated afterward.",
+        "rationale": "A semicolon should not be followed by a coordinating conjunction here.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "question": "Rla Grammar 06 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "question": "Which option uses the correct pronoun case?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Her and me went to the store before class.",
+        "rationale": "Use subject pronouns 'she and I' as the compound subject.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 06 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "She and I went to the store before class.",
+        "rationale": "Correct. Subject pronouns are used as the subject of the sentence.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Her and I went to the store before class.",
+        "rationale": "'Her' is an object pronoun; use 'she'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "She and me went to the store before class.",
+        "rationale": "'Me' is an object pronoun; use 'I'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "question": "Rla Grammar 06 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "question": "Which sentence maintains parallel structure?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The job requires writing reports, to lead meetings, and problem-solving.",
+        "rationale": "The items are not in the same grammatical form.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 06 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The job requires writing reports, leading meetings, and solving problems.",
+        "rationale": "Correct. All items use the same gerund form for parallelism.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The job requires to write reports, leading meetings, and to solve problems.",
+        "rationale": "Mixed infinitives and gerunds break parallel structure.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The job requires to write reports, lead meetings, and solving problems.",
+        "rationale": "Mixed forms; keep items in the same form.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "question": "Rla Grammar 06 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Choose the sentence that correctly uses a colon or semicolon.",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "I brought three things: a notebook; a pen; and a charger.",
+        "rationale": "Use a colon before a list, then commas between items (unless items contain commas).",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 06 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "I brought three things: a notebook, a pen, and a charger.",
+        "rationale": "Correct. The colon introduces the list and commas separate items.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "I brought three things; a notebook, a pen, and a charger.",
+        "rationale": "A semicolon is not used to introduce a simple list.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "I brought: three things a notebook, a pen, and a charger.",
+        "rationale": "The colon is misplaced and the sentence is ungrammatical.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "question": "Rla Grammar 06 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence has correct subject-verb agreement?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The bouquet of roses were placed on the table.",
+        "rationale": "The subject is 'bouquet' (singular), so the verb should be 'was'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 06 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The bouquet of roses was placed on the table.",
+        "rationale": "Correct. The singular subject 'bouquet' takes the singular verb 'was'.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The roses in the bouquet was placed on the table.",
+        "rationale": "Here the subject is 'roses' (plural), so the verb should be 'were'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The bouquet, along with the roses, are on the table.",
+        "rationale": "The subject is 'bouquet' (singular); the phrase 'along with the roses' does not change agreement.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "question": "Rla Grammar 06 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence correctly punctuates a nonrestrictive clause?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "My sister who lives in Denver is visiting next week.",
+        "rationale": "If you have one sister, the clause is nonrestrictive and should be set off with commas.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 06 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "My sister, who lives in Denver, is visiting next week.",
+        "rationale": "Correct. The nonrestrictive clause is properly set off by commas.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "My sister—which lives in Denver—is visiting next week.",
+        "rationale": "Dashes can set off nonessential information, but 'which' incorrectly refers to a person; use 'who'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "My sister, who lives in Denver is visiting next week.",
+        "rationale": "Missing the closing comma after the nonrestrictive clause.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

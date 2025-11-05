@@ -90,272 +90,263 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 10 Case Study 4: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 10 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A regional transit agency explains that it will pilot all-door boarding on two bus lines. The change is expected to shorten dwell times at stops and improve on-time performance. To make the pilot work, the agency will deploy more fare inspectors and open rear-door validators. Results will be reviewed after three months.",
+    "question": "Which sentence best states the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The agency will increase fare inspections.",
+        "rationale": "This is a supporting implementation detail, not the central message.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 10 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The agency will pilot all-door boarding on select routes to speed up service and will evaluate results after three months.",
+        "rationale": "Correct. This summarizes the change, goal, and review plan.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Rear-door validators will be opened.",
+        "rationale": "One detail, not the main idea.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "On-time performance needs improvement.",
+        "rationale": "Motivation only; it does not express the full plan.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 10 Case Study 5: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 10 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "The community center posted that Saturday yoga will move from 9:00 AM to 10:30 AM starting next week. Class length and location remain the same.",
+    "question": "What is the main idea of this announcement?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The class location remains the same.",
+        "rationale": "A detail, not the main point.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 10 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Saturday yoga will start at 10:30 AM next week; nothing else is changing.",
+        "rationale": "Correct. This captures the time change and scope.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The class length is the same.",
+        "rationale": "A supporting detail only.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The community center offers yoga on weekends.",
+        "rationale": "Too general and not the announced change.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 10 Case Study 6: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 10 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "An editorial argues that expanding apprenticeship programs can address worker shortages in skilled trades while providing students with debt-free pathways to careers. The piece cites successful partnerships between unions and community colleges and calls for state incentives for employers that sponsor apprentices.",
+    "question": "Which statement best expresses the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Community colleges should partner with unions.",
+        "rationale": "A supporting approach, not the full thesis.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 10 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Expanding apprenticeships can solve skilled labor gaps and offer debt-free career paths, so states should encourage employer participation.",
+        "rationale": "Correct. This reflects the claim and policy recommendation.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "States should give incentives to employers.",
+        "rationale": "This is part of the recommendation, not the central argument.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "There are worker shortages in skilled trades.",
+        "rationale": "Problem statement only; not the main idea including solution.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 10 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 10 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A nonprofit newsletter says a new community fridge is now open 24/7 outside the rec center. Neighbors can take what they need and leave what they can. The newsletter explains that volunteers will check the fridge daily to keep it clean and stocked.",
+    "question": "What is the main idea of the newsletter?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Volunteers will check the fridge daily.",
+        "rationale": "A detail about operations, not the main message.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 10 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "A community fridge is now open at all hours for neighbors to share food.",
+        "rationale": "Correct. This captures the core announcement and purpose.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The fridge is outside the rec center.",
+        "rationale": "A location detail only.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Neighbors should donate food.",
+        "rationale": "An implied action, but not the central announcement.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 10 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 10 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "The library posted that the children’s room will be closed for renovations next week. Storytime will move to the meeting room. All other services will continue as usual.",
+    "question": "Which sentence best summarizes the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Storytime will move to the meeting room.",
+        "rationale": "A detail, not the central message.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 10 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Next week, the children’s room will be closed for renovations; services continue elsewhere.",
+        "rationale": "Correct. This captures the closure and continuity of services.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "All other services will continue as usual.",
+        "rationale": "Only part of the message.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The library is renovating.",
+        "rationale": "Too vague; lacks the specific impact and timing.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 10 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 10 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "A policy brief contends that universal pre-kindergarten yields long-term gains in reading and math and reduces later need for special education. The brief acknowledges upfront costs but argues that savings and higher earnings in adulthood produce a positive return on investment. It recommends phased implementation with quality standards.",
+    "question": "Which statement best reflects the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Universal pre-K has upfront costs.",
+        "rationale": "True but incomplete; not the main idea.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 10 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Universal pre-K produces long-term academic and economic benefits that justify investment when implemented with quality.",
+        "rationale": "Correct. This captures the benefits and the recommendation.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Quality standards are important for early childhood programs.",
+        "rationale": "A component, not the central thesis.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Pre-K reduces need for special education.",
+        "rationale": "One benefit, not the overall argument.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 10 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 10 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A campus email announces that the writing center will add evening hours during finals week. Appointments can be booked online, and walk-ins will be accommodated as space allows. The email encourages students to bring assignment prompts and drafts.",
+    "question": "What is the main idea of the email?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Students should bring prompts and drafts.",
+        "rationale": "A recommendation, not the central announcement.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 10 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The writing center is adding evening hours during finals week and offers online booking.",
+        "rationale": "Correct. This summarizes the service change and access.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Walk-ins will be accommodated as space allows.",
+        "rationale": "An operational detail only.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Appointments can be booked online.",
+        "rationale": "Partial information; not the main idea.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 10 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 10 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A press release states that a hospital has earned a national award for patient safety due to low infection rates and strong medication protocols. It credits staff training and continuous monitoring and notes that the hospital will share best practices with other facilities.",
+    "question": "Which option best captures the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The hospital will share best practices with others.",
+        "rationale": "A forward-looking detail, not the main point.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 10 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The hospital received a national safety award based on strong performance and systems.",
+        "rationale": "Correct. This summarizes the recognition and why it was earned.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Staff training is important for patient safety.",
+        "rationale": "A supporting claim, not the central message.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Medication protocols reduce infections.",
+        "rationale": "One mechanism, not the main idea about the award.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 10 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 10 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A university update explains that campus shuttles will switch to electric buses over the next two years. The change will cut emissions and lower fuel costs. The update says the first routes will transition this fall, with charging stations installed at two hubs.",
+    "question": "What is the main idea of the update?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Charging stations will be installed at two hubs.",
+        "rationale": "A detail about implementation, not the main message.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 10 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The shuttle system is transitioning to electric buses to reduce emissions and costs, starting with select routes this fall.",
+        "rationale": "Correct. This summarizes the plan, purpose, and timeline.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The change will lower fuel costs.",
+        "rationale": "One benefit, not the full main idea.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The transition will take two years.",
+        "rationale": "Timing alone is not the main idea.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

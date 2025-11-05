@@ -322,32 +322,31 @@ module.exports = [
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 03 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 03 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "passage": "A community center claims its youth mentorship program reduces students' risk of dropping out. In the most recent school year, 96% of participants finished the year 'on track' for graduation based on credits earned, compared to 82% of similar students who did not participate. Mentors and mentees also logged over 4,000 hours together, and the center offered monthly family workshops.",
+    "question": "Which statement best supports the center's claim?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 03 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Mentors and mentees logged over 4,000 hours together.",
+        "rationale": "This shows activity level, not outcomes related to dropping out.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla evidence 03 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The center offered monthly family workshops.",
+        "rationale": "This is an additional service, not direct evidence of reduced dropout risk.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "96% of participants were on track for graduation, compared to 82% of similar non-participants.",
+        "rationale": "Correct. This comparative outcome directly supports reduced dropout risk among participants.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The program is run by a community center.",
+        "rationale": "This is background information, not evidence of effectiveness.",
+        "isCorrect": false
       }
     ],
-    "difficulty": "medium",
-    "__autogen": true
+    "difficulty": "medium"
   }
 ]
 ;

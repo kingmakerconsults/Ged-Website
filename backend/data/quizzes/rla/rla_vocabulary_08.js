@@ -90,272 +90,263 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 08 Case Study 4: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 08 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Although the plan seemed feasible on paper, the timeline was overly optimistic given the limited staff.",
+    "question": "As used here, what does 'feasible' most nearly mean?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Possible or practicable",
+        "rationale": "Correct. 'Feasible' means capable of being done or achieved.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 08 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Guaranteed to succeed",
+        "rationale": "Feasible does not imply certainty of success.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Unnecessary",
+        "rationale": "Feasible relates to possibility, not necessity.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Fully funded",
+        "rationale": "Funding is not part of the definition of 'feasible.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 08 Case Study 5: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 08 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "Even with the windows closed, the aroma of fresh bread drifted from the bakery next door.",
+    "question": "What does 'aroma' most nearly mean in this sentence?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A pleasant smell",
+        "rationale": "Correct. 'Aroma' refers to a typically pleasant scent.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 08 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "A loud noise",
+        "rationale": "Noise is unrelated to aroma.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A bright light",
+        "rationale": "Aroma is not visual.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A sudden wind",
+        "rationale": "Aroma is not a wind or breeze.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 08 Case Study 6: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 08 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "Her remarks were succinct, yet they conveyed every critical point with clarity.",
+    "question": "What does 'succinct' most nearly mean here?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Brief and to the point",
+        "rationale": "Correct. 'Succinct' means expressed in a clear and concise manner.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 08 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Lengthy and detailed",
+        "rationale": "The opposite of succinct.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Confusing and vague",
+        "rationale": "Succinct speech is clear, not vague.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Funny and entertaining",
+        "rationale": "Humor is not implied by 'succinct.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 08 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 08 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The witness recanted his earlier statement after new video evidence emerged.",
+    "question": "What does 'recanted' most nearly mean in this sentence?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Withdrew or took back",
+        "rationale": "Correct. 'Recant' means to withdraw a previously stated belief or statement.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 08 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Repeated more loudly",
+        "rationale": "Recant means to retract, not to repeat.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Clarified with details",
+        "rationale": "Clarification differs from retraction.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Translated into another language",
+        "rationale": "Translation is unrelated to recanting.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 08 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 08 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "The toddler was reluctant to try the new food, pushing the plate away with a frown.",
+    "question": "In this context, 'reluctant' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Unwilling or hesitant",
+        "rationale": "Correct. 'Reluctant' means not eager or willing to do something.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 08 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Hungry and impatient",
+        "rationale": "That would make someone eager, not reluctant.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Polite and quiet",
+        "rationale": "Politeness is unrelated to reluctance.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Enthusiastic",
+        "rationale": "Enthusiasm is the opposite of reluctance.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 08 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 08 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "The attorney found the witness’s account credible, but the timeline still contained discrepancies that raised doubts.",
+    "question": "What does 'discrepancies' most nearly mean here?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Inconsistencies or differences",
+        "rationale": "Correct. 'Discrepancies' are conflicts or mismatches between accounts or facts.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 08 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Confirmations",
+        "rationale": "The sentence suggests doubts, not confirmations.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Guesses",
+        "rationale": "Discrepancies are not guesses; they are conflicts in information.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Summaries",
+        "rationale": "Summaries do not imply conflict or difference.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 08 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 08 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Because the results were anomalous, the research team repeated the experiment with stricter controls.",
+    "question": "As used in the sentence, 'anomalous' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Unusual or irregular",
+        "rationale": "Correct. 'Anomalous' indicates deviation from what is expected.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 08 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Perfectly predicted",
+        "rationale": "Anomalous is the opposite of expected or predicted.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Ethically questionable",
+        "rationale": "Anomalous refers to pattern irregularity, not ethics.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Statistically significant",
+        "rationale": "Significance is not implied by 'anomalous' alone.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 08 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 08 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "He gave a cursory glance at the instructions and then started assembling the shelf.",
+    "question": "What does 'cursory' most nearly mean in this sentence?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Quick and superficial",
+        "rationale": "Correct. 'Cursory' means hasty and not thorough.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 08 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Careful and methodical",
+        "rationale": "This is the opposite of cursory.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Creative and original",
+        "rationale": "Creativity is unrelated to 'cursory.'",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Skeptical and doubtful",
+        "rationale": "Skepticism is a stance, not a speed or depth of review.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 08 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 08 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The editor asked for a more cogent explanation in the article’s conclusion.",
+    "question": "As used here, 'cogent' most nearly means:",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 08 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Clear, logical, and convincing",
+        "rationale": "Correct. 'Cogent' arguments are persuasive due to clarity and logic.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 08 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Entertaining and humorous",
+        "rationale": "Humor is not part of the definition of 'cogent.'",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Lengthy and thorough",
+        "rationale": "Length does not guarantee cogency.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Technical and specialized",
+        "rationale": "Technicality is not equivalent to being cogent.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
