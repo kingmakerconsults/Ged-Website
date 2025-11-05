@@ -177,182 +177,176 @@ module.exports = [
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 06 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 06 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "At a school board meeting, Superintendent Lee argued that the universal breakfast program improved attendance at Riverside Middle School. She reported that average daily attendance rose from 89% before the program to 95% afterward, the cafeteria served 12,000 additional morning meals, nurse visits for dizziness dropped by 40%, and a local newspaper praised the program's community partnerships.",
+    "question": "Which detail best supports Superintendent Lee's claim that the breakfast program improved attendance?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Average daily attendance rose from 89% to 95% after the program began.",
+        "rationale": "Correct. This statistic directly measures attendance, the outcome the superintendent highlighted.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 06 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The cafeteria served 12,000 additional morning meals during the semester.",
+        "rationale": "More meals show participation but do not directly measure attendance.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Nurse visits for dizziness dropped by 40%.",
+        "rationale": "Fewer nurse visits suggest a health benefit but are not direct evidence about attendance.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A local newspaper praised the program's community partnerships.",
+        "rationale": "Positive press is encouraging, yet it does not demonstrate improved attendance.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 06 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 06 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "A neighborhood newsletter claims that the spring litter clean-up was more effective than last year's effort. Volunteers filled 18 bags of trash this year, compared with 42 bags collected during the previous clean-up. The article adds that the city delivered new recycling bins and that the mayor thanked volunteers on social media.",
+    "question": "Which fact best supports the claim that this year's clean-up was more effective?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Volunteers filled 18 bags of trash this year and 42 bags last year.",
+        "rationale": "Correct. Collecting far fewer bags of litter shows the area was cleaner after the recent event.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 06 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The city delivered new recycling bins to the neighborhood.",
+        "rationale": "New bins are a helpful resource but do not show how much litter was removed.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The mayor thanked volunteers on social media.",
+        "rationale": "A public thank-you is encouraging but not evidence that less litter remained.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The event took place in the spring instead of the fall.",
+        "rationale": "The season of the event does not demonstrate its effectiveness.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 06 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 06 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "An opinion column argues that a new reading app dramatically improves high school literacy. To back up the claim, the columnist cites a six-week pilot in which students using the app averaged a 20-point gain on comprehension quizzes, includes a screenshot of a five-star online review, repeats a teacher's remark that the interface is 'sleek,' and notes that the company recently won a design award.",
+    "question": "Which piece of evidence in the column is the weakest support for the claim?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A screenshot of a five-star online review.",
+        "rationale": "Correct. One anonymous review is anecdotal and far less reliable than the other evidence presented.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 06 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "A six-week pilot showing a 20-point gain on comprehension quizzes.",
+        "rationale": "This provides quantitative evidence directly related to literacy gains.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A teacher's remark that the interface is 'sleek.'",
+        "rationale": "The teacher's opinion relates to user experience but still comes from an educational professional.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The company's recent design award.",
+        "rationale": "An award lends credibility to the developer, though it is less direct than student score data.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 06 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 06 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "During a city council debate, Councilor Ortiz insisted that adding protected bike lanes has boosted local business revenue. She highlighted credit-card transaction data showing sales up 12% along the bike corridor, shared photos of cyclists waiting outside cafés, and mentioned that two new bike shops opened downtown this year.",
+    "question": "Which additional information would most strengthen Councilor Ortiz's claim?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Survey results from store owners on the corridor reporting that more cyclists are shopping at their businesses.",
+        "rationale": "Correct. Direct feedback from the affected businesses would connect the bike lanes to increased revenue.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 06 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "A list of other cities that have recently added bike lanes.",
+        "rationale": "Examples from other cities do not prove the impact in this city.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "An advertisement encouraging residents to ride bicycles downtown.",
+        "rationale": "Marketing materials promote cycling but do not document changes in revenue.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A statement noting that the bike lanes cost $400,000 to build.",
+        "rationale": "Cost information may be relevant to budgeting but does not address the revenue claim.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 06 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 06 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A grant proposal states that the community health van has expanded access to prenatal care in rural counties. The proposal notes that the van visited 27 towns last year, that 68% of patients reported the visit was their first prenatal appointment, and that social media posts about the van received 4,500 likes.",
+    "question": "Why is the social media statistic the least convincing evidence for the proposal's claim?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Likes do not show whether the van provided actual prenatal services to patients in rural counties.",
+        "rationale": "Correct. Online engagement is unrelated to the claim about expanding medical care.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 06 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The number of towns visited does not prove that any patients received checkups.",
+        "rationale": "Visiting towns demonstrates access to services, so this detail is more relevant than social media likes.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "First-time patient statistics usually come from unreliable surveys.",
+        "rationale": "The passage gives no reason to doubt the patient survey data.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The claim should focus on prenatal care only, not other health services.",
+        "rationale": "The claim already focuses on prenatal care; this does not explain why the evidence is weak.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 06 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 06 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "An environmental group responds to critics who say the city's tree-planting initiative wastes money. The group points out that utility data show summer energy use dropped 8% on tree-lined blocks, asthma-related ER visits fell by 15% in the same neighborhoods, and maintenance costs average only $30 per tree annually.",
+    "question": "Which detail most directly counters the critics' claim that the tree program is a waste of money?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 06 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Maintenance costs average only $30 per tree each year.",
+        "rationale": "Correct. Low maintenance costs address the financial concern raised by critics.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 06 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Asthma-related emergency room visits fell by 15% in shaded neighborhoods.",
+        "rationale": "This shows a health benefit, not a direct financial savings.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Utility data show summer energy use dropped 8% on tree-lined blocks.",
+        "rationale": "Lower energy use is a positive outcome but does not explicitly address program cost.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Residents enjoy the improved appearance of tree-lined streets.",
+        "rationale": "The passage does not mention aesthetics, and such opinions do not answer the money concern.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

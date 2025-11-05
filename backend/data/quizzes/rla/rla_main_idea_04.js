@@ -264,92 +264,89 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 04 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 04 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The robotics club sent an update to parents about its first competition of the season. The message explains that the team spent fall semester learning to code sensors, that mentors from a local engineering firm provided feedback, and that the students won the teamwork award at last weekend's regional meet. The coach writes that steady practice and community support are helping the club thrive.",
+    "question": "Which option states the main idea of the update?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 04 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Mentors from an engineering firm visited the club.",
+        "rationale": "This is a supporting detail, not the central message of the update.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 04 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Focused practice and community support are fueling the robotics club's success this season.",
+        "rationale": "Correct. This statement summarizes the key factors and results highlighted in the passage.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Students spent the fall semester learning to code sensors.",
+        "rationale": "This detail supports the main idea but does not capture the overall point on its own.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The team won the teamwork award at a regional meet.",
+        "rationale": "Winning an award is evidence of success, yet the main idea also emphasizes how the team achieved it.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 04 Case Study 11: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 04 practice question 11: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "A flyer promotes a weekend volunteer event at the city park. It invites residents to join the Saturday morning cleanup, notes that gloves and tools will be provided, and explains that volunteers will plant native flowers after picking up litter. The flyer ends by thanking participants for helping keep the park welcoming for everyone.",
+    "question": "What is the main idea of the flyer?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 04 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Volunteers will receive gloves and tools.",
+        "rationale": "Supplies are mentioned, but the main idea is about the event itself.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 04 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Residents are invited to join a Saturday park cleanup that includes planting native flowers.",
+        "rationale": "Correct. This sentence summarizes the purpose and activities of the event.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Planting native flowers helps local pollinators.",
+        "rationale": "The flyer does not mention pollinators; this statement goes beyond the passage.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The park is open every day for visitors.",
+        "rationale": "The flyer focuses on a volunteer event, not general park hours.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 04 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 04 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "In a reflective essay, a first-generation college student describes juggling a full course load, a part-time job, and family responsibilities. She explains that weekly check-ins with an academic advisor helped her plan study time, that her supervisor allowed flexible shifts during exams, and that her younger siblings cheered her on when she considered quitting. She concludes that persistence and a strong support network made graduation possible.",
+    "question": "Which statement best summarizes the essay?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 04 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Meeting with an academic advisor each week was the hardest part of college.",
+        "rationale": "Advisor meetings are mentioned as helpful, not as the main point or a hardship.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 04 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Balancing school, work, and family was challenging, but support systems helped the writer persist to graduation.",
+        "rationale": "Correct. This captures both the challenges and the key message about support leading to success.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Working part time during college is impossible without flexible hours.",
+        "rationale": "The essay describes one student's experience and does not make this broad claim.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Family members should not worry about college schedules.",
+        "rationale": "The passage never suggests this idea; it emphasizes encouragement from family.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
