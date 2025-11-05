@@ -72,7 +72,37 @@
         window.TextSanitizer.fixAllMathInText = fixAllMathInText;
         window.TextSanitizer.addMissingBackslashesInMath = fixAllMathInText; // backward-compat with your current call site
       })();
-    </script>
+        </script>
+
+        <!-- Theme toggle icon sync (sun for light, moon for dark). Safe if markup not present -->
+        <script>
+            (function() {
+                const btn = document.getElementById('themeToggleBtn');
+                const icon = document.getElementById('themeToggleIcon');
+                function updateThemeIcon() {
+                    const theme = document.documentElement.getAttribute('data-theme') || 'light';
+                    if (!icon) return;
+                    if (theme === 'light') {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                }
+                updateThemeIcon();
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+                        const next = current === 'light' ? 'dark' : 'light';
+                        document.documentElement.setAttribute('data-theme', next);
+                        document.body.setAttribute('data-theme', next);
+                        try { localStorage.setItem('appTheme', next); } catch (_) {}
+                        updateThemeIcon();
+                    });
+                }
+            })();
+        </script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
@@ -794,6 +824,79 @@
             box-shadow: var(--shadow, 0 1px 2px rgba(0,0,0,0.05));
             background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
         }
+
+                /* --- Premium dashboard skin (LIGHT) --- */
+                [data-theme="light"] body {
+                    /* gentle color wash behind everything */
+                    background:
+                        radial-gradient(circle at 5% 0%, rgba(56,189,248,0.10) 0%, rgba(255,255,255,0) 35%),
+                        radial-gradient(circle at 95% 10%, rgba(236,72,153,0.08) 0%, rgba(255,255,255,0) 38%),
+                        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+                }
+
+                /* main dashboard container */
+                [data-theme="light"] .content-card,
+                [data-theme="light"] .dashboard-sections {
+                    background: radial-gradient(circle at top, rgba(255,255,255,0.7) 0%, rgba(248,250,252,0.9) 40%, #ffffff 100%);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    border: 1px solid rgba(148,163,184,0.20);
+                    box-shadow: 0 18px 32px rgba(15,23,42,0.04);
+                }
+
+                /* top bar / header strip */
+                [data-theme="light"] .section-header,
+                [data-theme="light"] header.dashboard-header,
+                [data-theme="light"] .panel-header {
+                    background: linear-gradient(90deg, rgba(14,165,233,0.06), rgba(236,72,153,0.03));
+                    border-bottom: 1px solid rgba(148,163,184,0.15);
+                    backdrop-filter: blur(6px);
+                }
+
+                /* metric tiles on dashboard */
+                [data-theme="light"] .panel,
+                [data-theme="light"] .box,
+                [data-theme="light"] .scores-shell,
+                [data-theme="light"] .vocab-shell {
+                    background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(248,250,252,0.9));
+                    border: 1px solid rgba(148,163,184,0.12);
+                    box-shadow: 0 12px 30px rgba(15,23,42,0.04);
+                    transition: transform .15s ease, box-shadow .15s ease;
+                }
+                [data-theme="light"] .panel:hover,
+                [data-theme="light"] .box:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 16px 36px rgba(15,23,42,0.06);
+                }
+
+                /* lock subject cards so they don't go glassy */
+                [data-theme="light"] .subject-card {
+                    background: unset !important;
+                    box-shadow: none !important;
+                    border: none !important;
+                }
+
+                /* animated hero gradient title in light mode */
+                        [data-theme="light"] .dashboard-hero-title,
+                        [data-theme="light"] header.text-center h1 {
+                            background: linear-gradient(90deg, #0ea5e9, #6366f1 40%, #f97316 80%);
+                            background-clip: text;
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            color: transparent;
+                            font-weight: 800;
+                            letter-spacing: -0.01em;
+                        }
+
+                /* tiny ambient motion for highlighted cards in light mode */
+                @keyframes softFloat {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-1px); }
+                }
+                [data-theme="light"] .dashboard-sections > .panel.featured,
+                [data-theme="light"] .coach-panel {
+                    animation: softFloat 6s ease-in-out infinite;
+                }
 
                 /* 1) Generic dashboard section shells that still inherit the dark page bg */
                         [data-theme="light"] .card,
@@ -12365,6 +12468,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 if (data && data.ok && data.plan) setCoachPlan(data.plan);
                 // Refresh daily + weekly cards so Today and dashboard reflect the new plan immediately
                 await refreshCoachPanels();
+                // Also refresh the subject's own weekly panel explicitly
+                await loadCoachPlan();
             } else if (res.status === 429) {
                 const data = await res.json().catch(() => ({}));
                 setCoachError(data?.message || 'You already generated the weekly plan for this subject this week.');
@@ -13494,16 +13599,15 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         ) : (
                             <p className="text-center text-sm mt-2" style={heroMutedTextStyle}>No goals for today yet.</p>
                         )}
-                        {/* Ask Coach advice (subject-scoped) */}
-                        <div className="mt-4 border rounded-md p-3" style={{ borderColor: panelBorderColor, backgroundColor: isDarkMode ? 'rgba(15,23,42,0.5)' : 'rgba(255,255,255,0.7)' }}>
+                        {/* Ask Coach (parked) */}
+                        <div className="mt-4 border rounded-md p-3" style={{ borderColor: panelBorderColor, backgroundColor: isDarkMode ? 'rgba(15,23,42,0.5)' : 'rgba(255,255,255,0.7)', display: 'none' }}>
                             <div className="flex items-center gap-2 mb-2" style={{ color: heroTextColor }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 2a9 9 0 00-9 9c0 4.418 3.134 8.09 7.25 8.848V22l3.5-2H14a9 9 0 000-18z"/></svg>
                                 <span className="text-sm font-medium">Ask Coach for a {selectedSubject ? selectedSubject : 'subject'} tip</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <button
-                                    onClick={() => handleAskCoach(selectedSubject)}
-                                    disabled={adviceLoading}
+                                    disabled
                                     className="px-3 py-2 text-sm font-semibold rounded-md transition"
                                     style={{ backgroundColor: '#ffffff', color: '#0f172a', opacity: adviceLoading ? 0.6 : 1 }}
                                 >
@@ -14041,10 +14145,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                                     onClick={(e) => { e.stopPropagation(); startCoachQuizForSubject(subjectName, dailyForSubject.coach_quiz_source_id); }}
                                                 >Start</button>
                                             )}
-                                            <button
-                                                className="text-xs font-semibold px-2 py-1 rounded bg-white text-slate-900 hover:bg-white/90 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
-                                                onClick={(e) => { e.stopPropagation(); startDailyCompositeForSubject(subjectName, firstFocusTag); }}
-                                            >Ask Coach</button>
+                                            {/* Ask Coach button parked/hidden */}
                                         </div>
                                     </div>
                                 )}
