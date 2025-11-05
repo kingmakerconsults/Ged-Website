@@ -3134,6 +3134,16 @@ function prioritizeQuizzesByChallenges(quizzes, challengeTags) {
         .map(({ _score, ...rest }) => rest);
 }
 
+// Normalize a weekly-day object so frontends can reliably render
+function normalizeCoachDay(day) {
+    const out = { ...day };
+    out.focus = Array.isArray(out.focus) ? out.focus : (out.focus ? [out.focus] : []);
+    out.task = out.task || out.label || out.type || 'Practice';
+    out.label = out.label || out.task;
+    out.minutes = out.minutes || 20;
+    return out;
+}
+
 app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
     try {
         const userId = req.user?.id || req.user?.userId;
@@ -3277,16 +3287,14 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         for (let i = 0; i < 7; i++) {
             const quiz = pick(i);
             const label = quiz ? (quiz.title || 'Premade Quiz') : `Practice ${subject}`;
-            const day = {
+            const day = normalizeCoachDay({
                 day: i + 1,
                 type: 'premade-quiz',
                 quizId: quiz ? quiz.id : null,
                 label,
                 minutes: 20,
                 focus: challengeTags.slice(0, 3)
-            };
-            // Normalize for older frontends expecting `task`
-            day.task = day.task || day.label || day.type || 'Practice';
+            });
             days.push(day);
         }
         const aiPlan = {
@@ -3509,31 +3517,58 @@ app.post('/api/coach/:subject/daily-composite', devAuth, ensureTestUserForNow, r
         const { focusTag } = req.body || {};
         const today = todayISO();
 
-        // Build pool and filter by focus tag if present
-        let pool = getPremadeQuestions(subject, 60);
-        if (focusTag) {
-            const needle = String(focusTag).toLowerCase();
-            pool = pool.filter(q => Array.isArray(q?.challenge_tags) && q.challenge_tags.map(t => String(t).toLowerCase()).includes(needle));
-            if (pool.length < 12) {
-                // backfill with general pool if too few
-                const backfill = getPremadeQuestions(subject, 60).filter(q => !pool.includes(q));
-                pool = pool.concat(backfill);
+        // Throttle to 2/week unless tester email
+        let email = (req.user && (req.user.email || req.user.userEmail)) || null;
+        if (!email) email = await getUserEmailById(userId);
+        const testerByEmail = (String(email || '')).toLowerCase() === 'zacharysmith527@gmail.com';
+        const weekStartISO = getCurrentWeekStartISO();
+        if (!testerByEmail) {
+            const existing = await db.oneOrNone(
+                `SELECT used_count FROM coach_advice_usage WHERE user_id = $1 AND week_start_date = $2`,
+                [userId, weekStartISO]
+            );
+            const used = existing?.used_count || 0;
+            if (used >= 2) {
+                return res.status(429).json({ error: 'You\'ve reached your Ask Coach limit for this week (2/2). Try again next week.' });
             }
         }
 
-        if (!pool.length) return res.status(400).json({ ok: false, error: 'no_questions' });
-        // Shuffle
-        for (let i = pool.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [pool[i], pool[j]] = [pool[j], pool[i]];
+        // Build pool and filter by focus tag if present
+        let questionPool = getPremadeQuestions(subject, 60);
+        if (focusTag) {
+            const needle = String(focusTag).toLowerCase();
+            questionPool = questionPool.filter(q => Array.isArray(q?.challenge_tags) && q.challenge_tags.map(t => String(t).toLowerCase()).includes(needle));
+            if (questionPool.length < 12) {
+                // backfill with general pool if too few
+                const backfill = getPremadeQuestions(subject, 60).filter(q => !questionPool.includes(q));
+                questionPool = questionPool.concat(backfill);
+            }
         }
-        const questions = pool.slice(0, 12).map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
+
+        if (!questionPool.length) return res.status(400).json({ ok: false, error: 'no_questions' });
+        // Shuffle
+        for (let i = questionPool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [questionPool[i], questionPool[j]] = [questionPool[j], questionPool[i]];
+        }
+        const questions = questionPool.slice(0, 12).map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
         const quizCode = `${COACH_ASSIGNED_BY}:${subject}:${today}:composite`;
         const quiz = { id: quizCode, quizCode, title: 'Coach Daily Composite', type: 'premade-composite', questions, assignedBy: COACH_ASSIGNED_BY };
 
         // Save to today's daily row
-    const row = await findOrCreateDailyRow(userId, subject, today);
-    await pool.query(`UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_completed = FALSE, updated_at = NOW() WHERE user_id = $1 AND subject = $2 AND plan_date = $3`, [userId, subject, today, quizCode]);
+        await findOrCreateDailyRow(userId, subject, today);
+        await pool.query(`UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_completed = FALSE, updated_at = NOW() WHERE user_id = $1 AND subject = $2 AND plan_date = $3`, [userId, subject, today, quizCode]);
+
+        // Record usage (skip for tester email)
+        if (!testerByEmail) {
+            await db.query(
+                `INSERT INTO coach_advice_usage (user_id, week_start_date, used_count, last_used_at)
+                 VALUES ($1, $2, 1, now())
+                 ON CONFLICT (user_id, week_start_date)
+                 DO UPDATE SET used_count = coach_advice_usage.used_count + 1, last_used_at = now()`,
+                [userId, weekStartISO]
+            );
+        }
 
         return res.json({ ok: true, quiz });
     } catch (e) {
