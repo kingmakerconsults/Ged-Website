@@ -652,6 +652,88 @@ async function withRetry(fn, {
 }
 // --- end local retry helper ---
 
+// Run primary model first, then start fallback after a short delay.
+// Returns whichever succeeds first, along with the latency.
+async function raceGeminiWithDelayedFallback({
+    primaryFn,
+    fallbackFn,
+    primaryModelName = 'gemini',
+    fallbackModelName = 'chatgpt',
+    delayMs = 900
+}) {
+    if (typeof primaryFn !== 'function' || typeof fallbackFn !== 'function') {
+        throw new Error('raceGeminiWithDelayedFallback requires primaryFn and fallbackFn');
+    }
+
+    const startTime = Date.now();
+
+    let fallbackStarted = false;
+    let fallbackPromise;
+
+    // start primary immediately
+    const primaryPromise = (async () => {
+        try {
+            const data = await primaryFn();
+            const latencyMs = Date.now() - startTime;
+            return {
+                model: primaryModelName,
+                data,
+                latencyMs
+            };
+        } catch (err) {
+            // if primary fails early, make sure fallback is running
+            if (!fallbackStarted) {
+                fallbackStarted = true;
+                fallbackPromise = fallbackFn().then((data) => ({
+                    model: fallbackModelName,
+                    data,
+                    latencyMs: Date.now() - startTime
+                })).catch((fallbackErr) => ({
+                    model: `${fallbackModelName}-error`,
+                    error: fallbackErr,
+                    latencyMs: Date.now() - startTime
+                }));
+            }
+            return {
+                model: `${primaryModelName}-error`,
+                error: err,
+                latencyMs: Date.now() - startTime
+            };
+        }
+    })();
+
+    // start fallback after a delay
+    const delayPromise = new Promise((resolve) => setTimeout(resolve, delayMs));
+    const delayedFallbackPromise = (async () => {
+        await delayPromise;
+        if (!fallbackStarted) {
+            fallbackStarted = true;
+            return fallbackFn().then((data) => ({
+                model: fallbackModelName,
+                data,
+                latencyMs: Date.now() - startTime
+            })).catch((err) => ({
+                model: `${fallbackModelName}-error`,
+                error: err,
+                latencyMs: Date.now() - startTime
+            }));
+        }
+    })();
+
+    // whichever finishes first with a usable result wins
+    const winner = await Promise.race([
+        primaryPromise,
+        delayedFallbackPromise
+    ]);
+
+    // if the thing that finished first was an error version, just return it;
+    // the caller already has logic to throw if model is "...-error"
+    return {
+        winner,
+        latencyMs: winner.latencyMs
+    };
+}
+
 const GEOMETRY_FIGURES_ENABLED = String(process.env.GEOMETRY_FIGURES_ENABLED || '').toLowerCase() === 'true';
 const MATH_TWO_PASS_ENABLED = String(process.env.MATH_TWO_PASS_ENABLED || 'true').toLowerCase() === 'true';
 
