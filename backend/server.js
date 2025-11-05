@@ -3152,8 +3152,9 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         const userEmail = String(req.user?.email || '').toLowerCase();
         const isTester = userEmail === 'zacharysmith527@gmail.com';
 
-        // Respect subject passed flag
-        if (await isSubjectPassed(userId, subject)) {
+        // Respect subject passed flag, but allow tester and RLA to generate
+        const subjectIsPassed = await isSubjectPassed(userId, subject);
+        if (subjectIsPassed && !isTester && subject !== 'RLA') {
             return res.status(400).json({ ok: false, error: 'subject_passed', message: 'This subject has been marked as passed.' });
         }
 
@@ -3472,12 +3473,13 @@ app.get('/api/coach/weekly', devAuth, ensureTestUserForNow, requireAuthInProd, a
         const subjects = [];
 
         for (const subj of SUBJECTS) {
-            if (await isSubjectPassed(userId, subj)) continue;
             const latest = await latestWeeklyPlan(userId, subj);
             let expectedWeek = 0;
             let summary = '';
+            let daysOut = [];
             if (latest && latest.plan_json && Array.isArray(latest.plan_json.days)) {
                 expectedWeek = latest.plan_json.days.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0);
+                daysOut = latest.plan_json.days || [];
                 // Build a short focus summary using top 2 tags from first 3 days
                 const f = [];
                 latest.plan_json.days.slice(0,3).forEach(d => {
@@ -3498,7 +3500,7 @@ app.get('/api/coach/weekly', devAuth, ensureTestUserForNow, requireAuthInProd, a
                 completedWeek = Number(r?.rows?.[0]?.total) || 0;
             } catch (_) {}
 
-            subjects.push({ subject: subj, expected_minutes_week: expectedWeek || 140, completed_minutes_week: completedWeek, summary });
+            subjects.push({ subject: subj, expected_minutes_week: expectedWeek || 140, completed_minutes_week: completedWeek, summary, days: daysOut });
         }
 
         return res.json({ ok: true, weekStart, subjects });
