@@ -4199,12 +4199,32 @@ function MathText({ text, className, subject }) {
     return <span className={className} dangerouslySetInnerHTML={{ __html: formattedHtml }} />;
 }
 
+// formatMathText()
+// Apply both plain-text fraction wrapping and inline exponent superscripting
+// to already-sanitized HTML. This is intended for AI/dynamic (non-premade)
+// content that uses a/b and a^b without LaTeX delimiters.
+function formatMathText(html) {
+    if (typeof html !== 'string' || html.length === 0) return html;
+
+    // First, wrap a/b style fractions
+    let out = formatFractions(html);
+
+    // Then, convert a^b to a<sup>b</sup> for simple bases and integer exponents
+    // We avoid touching inside attributes; caret rarely appears there and the
+    // input has already been sanitized.
+    out = out.replace(/([A-Za-z0-9\)])\^(\d+)/g, (_m, base, exp) => `${base}<sup>${exp}</sup>`);
+
+    return out;
+}
+
 function renderQuestionTextForDisplay(text, isPremade) {
     const useKatex = Boolean(
         window.__APP_CONFIG__ && window.__APP_CONFIG__.premadeUsesKatex === true && isPremade === true
     );
     const html = useKatex ? renderStemWithKatex(text) : renderStem(text);
-    return { __html: html };
+    // For AI/dynamic content (non-premade), apply our plain-text math formatting
+    const finalHtml = useKatex ? html : formatMathText(html);
+    return { __html: finalHtml };
 }
 
 function normalizeLineBreaks(value) {
