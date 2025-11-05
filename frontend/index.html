@@ -1090,10 +1090,7 @@
                                     box-shadow: 0 12px 24px rgba(2,6,23,0.08);
                                 }
 
-                                /* Keep subject tiles/gradients untouched */
-                                [data-theme="light"] .subject-card,
-                                [data-theme="light"] .subject-gradient,
-                                [data-theme="light"] .stat { background: unset; box-shadow: none; border: none; }
+                                /* Keep subject tiles/gradients managed by component styles; do not globally override here */
 
                                 /* 2) Section headers feel “distinct” without dark bars */
                                 [data-theme="light"] .section-header,
