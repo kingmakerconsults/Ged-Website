@@ -87,263 +87,254 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "question": "Rla Grammar 09 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence correctly punctuates a nonessential clause?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The car that is red, needs new tires.",
+        "rationale": "'That is red' is essential to identify which car; it should not be set off with a comma before 'needs'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 09 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "My brother who lives in Denver is visiting next week.",
+        "rationale": "Without commas, this implies I have multiple brothers and need to specify which; the clause is nonessential here and should be set off by commas if I have only one brother.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "My brother, who lives in Denver, is visiting next week.",
+        "rationale": "Correct. The nonessential clause is properly set off with commas.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The students, who need laptops must check them out.",
+        "rationale": "A comma is missing after 'laptops' if the clause is nonessential, or both commas should be removed if it's essential.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "question": "Rla Grammar 09 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "question": "Which sentence uses apostrophes correctly?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The teachers lounge is on the second floor.",
+        "rationale": "It should be 'teachers' lounge' (plural possessive) or 'teacher's lounge' (singular possessive).",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 09 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Its time for the clubs meeting.",
+        "rationale": "'It's' should be 'It’s' (it is), and 'club's' needs an apostrophe to show possession.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It's time for the club's meeting.",
+        "rationale": "Correct. 'It's' = 'it is' and 'club's' shows possession.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The childrens' backpacks are heavy.",
+        "rationale": "'Children' is already plural irregular; the possessive is 'children's'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "question": "Rla Grammar 09 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "question": "Which sentence maintains parallel structure?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The job requires arriving on time, that you follow instructions, and working weekends.",
+        "rationale": "The list mixes a gerund ('arriving'), a clause ('that you follow'), and a gerund ('working').",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 09 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The job requires punctuality, following instructions, and to work weekends.",
+        "rationale": "The list mixes a noun, a gerund, and an infinitive.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The job requires arriving on time, following instructions, and working weekends.",
+        "rationale": "Correct. All items are gerunds, creating parallel structure.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The job requires to arrive on time, following instructions, and working weekends.",
+        "rationale": "Mixes an infinitive with gerunds; not parallel.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "question": "Rla Grammar 09 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence correctly places the modifier?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Running down the street, the backpack fell off Maya's shoulder.",
+        "rationale": "Dangling modifier: it sounds like the backpack was running.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 09 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Running down the street, Maya's backpack fell off her shoulder.",
+        "rationale": "Still suggests the backpack was running; the subject after the comma must be Maya.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Running down the street, Maya felt her backpack fall off her shoulder.",
+        "rationale": "Correct. The introductory participial phrase modifies the subject 'Maya.'",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Maya's backpack running down the street fell off her shoulder.",
+        "rationale": "Awkward and incorrect modification.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "question": "Rla Grammar 09 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "question": "Which sentence is free of a comma splice?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We finished the project, we celebrated with pizza.",
+        "rationale": "Comma splice joins two independent clauses with only a comma.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 09 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "We finished the project; we celebrated with pizza.",
+        "rationale": "Correct. The semicolon correctly joins closely related independent clauses.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We finished the project, and celebrated with pizza.",
+        "rationale": "Missing the subject after the coordinating conjunction; better is 'and we celebrated'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "We finished the project we celebrated with pizza.",
+        "rationale": "Run-on sentence without proper punctuation.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "question": "Rla Grammar 09 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "question": "Which option correctly uses the subjunctive mood?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "If I was you, I would apply early.",
+        "rationale": "With hypotheticals contrary to fact, use 'were' for all persons: 'If I were you'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 09 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "If I were you, I would apply early.",
+        "rationale": "Correct. The subjunctive 'were' is used for contrary-to-fact statements.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "If she was on time, we would start now.",
+        "rationale": "For conditions contrary to fact, 'were' is preferred: 'If she were on time'.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "I suggest that he goes to the workshop.",
+        "rationale": "After verbs like 'suggest', the base form is used: 'that he go'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "question": "Rla Grammar 09 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which revision best eliminates wordiness while keeping the original meaning? 'Due to the fact that the buses were late, many attendees did not arrive on time.'",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Because the buses were late, many attendees arrived late.",
+        "rationale": "Correct. 'Because' is concise, and 'arrived late' preserves the meaning.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla grammar 09 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Many attendees did not arrive on time, due to buses that were late in arriving.",
+        "rationale": "Still wordy and awkwardly punctuated.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Due to buses being late, many attendees, did not arrive on time.",
+        "rationale": "Comma error and unnecessary phrasing.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "As a consequence of the tardiness of the buses, many attendees were not punctual in their arrival.",
+        "rationale": "Verbose and redundant.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "question": "Rla Grammar 09 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence uses 'who' and 'whom' correctly?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Whom is going to the concert tonight?",
+        "rationale": "'Who' is the subject of the verb 'is going'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 09 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Who did you give the tickets to?",
+        "rationale": "Conversational but prescriptively the object form 'whom' is expected after the preposition.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "To whom did you give the tickets?",
+        "rationale": "Correct. 'Whom' is the object of the preposition 'to'.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The person whom called left a message.",
+        "rationale": "'Who' is needed because it is the subject of 'called'.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "question": "Rla Grammar 09 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "question": "Which sentence maintains consistent verb tense?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla grammar 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "As the sun set, the campers build a fire and told stories.",
+        "rationale": "'Build' should be past tense to match 'set' and 'told'.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla grammar 09 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "As the sun sets, the campers built a fire and tell stories.",
+        "rationale": "Tenses are mixed (present and past).",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "As the sun set, the campers built a fire and told stories.",
+        "rationale": "Correct. All verbs are in the past tense.",
+        "isCorrect": true
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "As the sun had set, the campers build a fire and told stories.",
+        "rationale": "Improper use of past perfect and mixed tenses.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
