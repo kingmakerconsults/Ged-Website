@@ -25,11 +25,7 @@
       list-style: none;
     }
 
-    /* Force IE-style default border behavior */
-    * {
-      border-style: solid;
-      border-width: 0;
-    }
+        /* Removed legacy global border reset to avoid forcing borders on all elements */
     </style>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -74,38 +70,7 @@
       })();
         </script>
 
-                <!-- Theme toggle icon sync (runs after DOM ready) -->
-                <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const btn = document.getElementById('themeToggleBtn');
-                    const icon = document.getElementById('themeToggleIcon');
 
-                    function updateThemeIcon() {
-                        const theme = document.documentElement.getAttribute('data-theme') || 'light';
-                        if (!icon) return;
-                        if (theme === 'light') {
-                            icon.classList.remove('fa-moon');
-                            icon.classList.add('fa-sun');
-                        } else {
-                            icon.classList.remove('fa-sun');
-                            icon.classList.add('fa-moon');
-                        }
-                    }
-
-                    updateThemeIcon();
-
-                    if (btn) {
-                        btn.addEventListener('click', () => {
-                            const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-                            const next = current === 'light' ? 'dark' : 'light';
-                            document.documentElement.setAttribute('data-theme', next);
-                            document.body.setAttribute('data-theme', next);
-                            try { localStorage.setItem('appTheme', next); } catch (e) {}
-                            updateThemeIcon();
-                        });
-                    }
-                });
-                </script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
@@ -239,18 +204,16 @@
         :root.fs-xl { font-size: 20px; }
 
         :root[data-theme="light"] {
-            --bg-color: #ffffff;
+            /* Premium tinted light palette */
+            --bg-page: #f4f6fb;   /* subtle blue */
+            --bg-surface: #ffffff;
             --panel-bg: #ffffff;
             --text-color: #222222;
             --subtext-color: #444444;
-            --border-color: #cccccc;
-            --button-bg: #f0f0f0;
-            --button-hover-bg: #e5e5e5;
-            --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            /* tinted light surfaces */
-            --bg-page: #f4f6fb; /* soft blue-white */
-            --bg-surface: #ffffff;
-            --panel-bg: #ffffff;
+            --border-color: #d1d9e6;
+            --button-bg: #f0f4fb;
+            --button-hover-bg: #e4e9f3;
+            --shadow: 0 2px 6px rgba(15,23,42,0.05);
         }
 
         :root:not([data-theme]) {
@@ -864,7 +827,7 @@
                 [data-theme="light"] .box,
                 [data-theme="light"] .scores-shell,
                 [data-theme="light"] .vocab-shell {
-                    background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(248,250,252,0.9));
+                    /* background handled by unified gradient / specific blocks */
                     border: 1px solid rgba(148,163,184,0.12);
                     box-shadow: 0 12px 30px rgba(15,23,42,0.04);
                     transition: transform .15s ease, box-shadow .15s ease;
@@ -1057,17 +1020,11 @@
                                 /* ------------------------------ */
                                 /* Light-mode polish: Dashboard & Settings (scoped) */
                                 /* 1) Card surfaces & elevation (subtle, white on white) */
-                                [data-theme="light"] .content-card,
-                                [data-theme="light"] .dashboard-row,
-                                [data-theme="light"] .panel,
-                                [data-theme="light"] .box,
-                                [data-theme="light"] .section,
                                 [data-theme="light"] .profile-block,
                                 [data-theme="light"] .vocabulary-ticker,
                                 [data-theme="light"] .settings-card,
                                 [data-theme="light"] .settings-section {
                                     position: relative;
-                                    /* background handled by premium skin/unified gradient */
                                     border: 1px solid rgba(148,163,184,0.2);
                                     border-radius: 1rem;
                                     box-shadow: 0 6px 14px rgba(2,6,23,0.05);
