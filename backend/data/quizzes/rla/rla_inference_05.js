@@ -264,92 +264,89 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Inference 05 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 05 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Organizers announced that the street festival scheduled for Saturday is canceled 'out of an abundance of caution' after the weather service issued an air quality alert due to wildfire smoke drifting into the area.",
+    "question": "What is the most reasonable inference about the reason for the cancellation?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Heavy rain is expected during the festival hours.",
+        "rationale": "The passage mentions air quality from wildfire smoke, not rain.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla inference 05 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Health concerns about poor air quality led organizers to cancel the event.",
+        "rationale": "Correct. The air quality alert and the phrase 'abundance of caution' point to health-related concerns.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Too few vendors signed up to participate.",
+        "rationale": "There's no information about vendor participation; the stated issue is air quality.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The festival was canceled because of a power outage downtown.",
+        "rationale": "Power outages aren't mentioned; the passage focuses on wildfire smoke.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Inference 05 Case Study 11: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 05 practice question 11: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "A calendar by the door has 'Dentist 3:00 p.m.' circled. A sticky note above the knob reads, 'Leave by 2:30 for parking.'",
+    "question": "What can you infer about the person's plan?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They intend to depart at 2:30 to arrive on time for the appointment.",
+        "rationale": "Correct. The note explicitly ties the departure time to allowing for parking before the 3:00 appointment.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 05 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "They plan to cancel the appointment.",
+        "rationale": "Nothing suggests cancellation; the notes show preparation to attend.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They have already gone and returned.",
+        "rationale": "The reminders indicate a future plan, not a completed task.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They will walk to the dentist's office in five minutes.",
+        "rationale": "Allowing 30 minutes for travel and parking suggests it's not a five-minute walk.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Inference 05 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 05 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The meeting agenda reads: 'Budget review 2:00–2:20; Staffing 2:20–2:35; Q&A 2:35–2:45; Hard stop at 2:45.'",
+    "question": "What is the best-supported inference about how the meeting will be run?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The organizer expects the meeting to be tightly timed with limited Q&A.",
+        "rationale": "Correct. The specific time blocks and 'hard stop' indicate a strict schedule and a short Q&A period.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 05 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The organizer plans to let the discussion run past 3:00 p.m.",
+        "rationale": "The 'hard stop at 2:45' indicates the opposite—ending on time.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Most of the meeting will be open-ended brainstorming.",
+        "rationale": "The detailed agenda and short Q&A don't suggest open-ended brainstorming.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "There will be no time to discuss staffing issues.",
+        "rationale": "Staffing is allocated 15 minutes on the agenda.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

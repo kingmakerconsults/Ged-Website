@@ -177,182 +177,176 @@ module.exports = [
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Inference 07 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 07 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The platform display flashed 'Delayed—signal issue.' Several commuters glanced at their watches. One typed a message: 'Train delayed—be there in 20, not 10.'",
+    "question": "What can you infer about the train's arrival time?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It will arrive earlier than scheduled.",
+        "rationale": "A delay means later, not earlier.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla inference 07 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "It will arrive later than scheduled.",
+        "rationale": "Correct. The posted delay and the commuter's message indicate a later arrival.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It has already been canceled.",
+        "rationale": "The sign says 'Delayed,' not 'Canceled.'",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It is on time, but people are confused.",
+        "rationale": "The display explicitly says 'Delayed.'",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Inference 07 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 07 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "A note on the fridge reads: 'Back at 1:30. Left soup in the fridge—microwave for 2 minutes.'",
+    "question": "What is the most reasonable inference from the note?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The writer will return around 1:30 p.m.",
+        "rationale": "Correct. The note states the expected return time.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 07 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The writer wants the soup thrown away.",
+        "rationale": "The instructions say to heat and eat it, not discard it.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The writer went to buy more soup.",
+        "rationale": "The note doesn't mention shopping; it gives heating instructions.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The microwave is broken.",
+        "rationale": "The note assumes the microwave works for heating.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Inference 07 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 07 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "A company press release stated, 'There is no evidence that our product causes harm.' The same day, a regulator ordered a temporary recall citing 'potential contamination in one manufacturing batch' pending investigation.",
+    "question": "What is the best-supported inference about the company's statement?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The company has proven the product is completely safe.",
+        "rationale": "'No evidence of harm' is not proof of safety; the regulator's recall shows concern remains.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla inference 07 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The company's language is carefully worded to avoid admitting fault while the investigation proceeds.",
+        "rationale": "Correct. The phrasing sidesteps causation, and the recall indicates an unresolved risk.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The regulator made a mistake and will reverse the recall immediately.",
+        "rationale": "There's no evidence the regulator erred; the investigation is ongoing.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The product will be discontinued permanently.",
+        "rationale": "A temporary recall doesn't imply permanent discontinuation.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Inference 07 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 07 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "When the bus doors opened, the umbrella stand near the driver was overflowing, and small puddles dotted the floor. On the radio, the dispatcher said, 'Use caution—reports of flooding on Elm and Oak.'",
+    "question": "What can you infer about the weather conditions?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It's hot and dry.",
+        "rationale": "Puddles, umbrellas, and flooding reports indicate rain, not dryness.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla inference 07 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "It's raining heavily in the area.",
+        "rationale": "Correct. The evidence strongly suggests heavy rain and possible flooding.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It's snowing lightly.",
+        "rationale": "No details suggest snow; umbrellas and puddles point to rain.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It's windy but clear.",
+        "rationale": "The presence of puddles contradicts clear weather.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Inference 07 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 07 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "After handing back the essays, Ms. Alvarez circled several examples on the board where two independent clauses were joined by a comma. 'Next week,' she said, 'we'll spend extra time on this.'",
+    "question": "What can you infer about the class's recent essays?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Most students forgot to include a title page.",
+        "rationale": "The passage focuses on sentence-level errors, not formatting like title pages.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla inference 07 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Many students wrote comma splices in their essays.",
+        "rationale": "Correct. The teacher's examples and planned review indicate a common error with comma splices.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Students struggled most with choosing topics.",
+        "rationale": "Topic selection is not mentioned; the emphasis is on punctuation errors.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "No one turned in an essay on time.",
+        "rationale": "There's no evidence about deadlines in the passage.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Inference 07 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 07 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The grocery store's bread aisle was nearly empty, and the bottled water shelves had handwritten signs limiting purchases to two per customer. A weather alert on a nearby TV read, 'Tropical storm warning for the county.'",
+    "question": "What is the most likely explanation for the empty shelves?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 07 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A delivery truck is stuck in traffic every day.",
+        "rationale": "While possible, the storm warning strongly points to unusual demand today, not a daily traffic issue.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla inference 07 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Customers are stocking up in preparation for the storm.",
+        "rationale": "Correct. The storm warning and purchase limits explain the scarcity of staples like bread and water.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The store decided to stop selling bread permanently.",
+        "rationale": "Temporary limits and a weather alert suggest a short-term situation, not a permanent change.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "There was a bake-off in the store earlier today.",
+        "rationale": "There's no mention of an event; the storm warning provides a more plausible reason.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;

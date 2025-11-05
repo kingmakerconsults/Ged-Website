@@ -177,182 +177,176 @@ module.exports = [
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 05 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 05 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The new community garden has quickly become more than a place to grow vegetables. Neighbors trade recipes next to the tomato vines, parents teach children to weed and water, and volunteers host weekend workshops on composting. While a few plots yield impressive harvests, the garden’s biggest success may be how it has brought residents together.",
+    "question": "Which sentence best states the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The garden produces impressive harvests of vegetables.",
+        "rationale": "This is a supporting detail; the passage emphasizes community connection more than yield.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 05 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The community garden strengthens neighborhood ties while providing a space to learn and grow food.",
+        "rationale": "Correct. This captures both the social and practical benefits highlighted in the passage.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Children should be the only ones allowed to use the garden.",
+        "rationale": "This idea is not in the passage and contradicts its inclusive tone.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Composting workshops are the most important part of the garden.",
+        "rationale": "Workshops are one example, not the central focus.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 05 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 05 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "City offices will be closed on Monday for the holiday. Regular hours will resume on Tuesday at 9:00 a.m. Online services remain available during the closure.",
+    "question": "What is the main idea of this notice?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Online services are available 24/7.",
+        "rationale": "This is a detail, not the overall purpose of the notice.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 05 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "City offices will be closed Monday and reopen Tuesday at 9:00 a.m.",
+        "rationale": "Correct. This summarizes the closure and reopening information.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "All holidays require the city to close for two days.",
+        "rationale": "The notice mentions only this Monday; it doesn't generalize to all holidays.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The city is reducing its hours permanently.",
+        "rationale": "The closure is temporary for a holiday, not permanent.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 05 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 05 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "Remote work has been hailed for increasing flexibility and, in some studies, productivity. Yet fully remote arrangements can intensify isolation and create unequal access to quiet workspaces and reliable internet. For many organizations, hybrid models offer promise—if leaders design them intentionally, with clear norms for collaboration and attention to equity so some employees are not left at a disadvantage.",
+    "question": "Which statement best captures the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Fully remote work is always more productive than in-person work.",
+        "rationale": "The passage does not make an absolute claim; it presents trade-offs.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 05 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Hybrid work can balance flexibility and fairness, but only if it's deliberately structured to address collaboration and equity concerns.",
+        "rationale": "Correct. This reflects the nuanced argument about hybrid models needing intentional design.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Remote work should be banned because it causes isolation.",
+        "rationale": "The passage acknowledges isolation risks but does not argue for banning remote work.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Most employees have identical access to quiet spaces and fast internet at home.",
+        "rationale": "The passage states the opposite—that access can be unequal.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 05 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 05 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Electric scooters have appeared on city streets promising cheap, convenient transportation. However, complaints about scooters blocking sidewalks and unsafe riding have risen just as quickly. Cities are experimenting with designated parking zones and safety rules to keep the benefits while reducing the problems.",
+    "question": "Which sentence best states the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Electric scooters are always unsafe and should be banned.",
+        "rationale": "The passage does not call for a ban; it discusses balancing benefits and problems through regulation.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 05 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Scooters offer advantages but require thoughtful rules to manage their downsides.",
+        "rationale": "Correct. This summarizes the passage's balanced view and the need for policy responses.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Scooters are the cheapest transportation option in every city.",
+        "rationale": "The passage says 'cheap' but doesn't compare to every option in every city.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Complaints about scooters are overblown and will disappear soon.",
+        "rationale": "The passage takes complaints seriously and mentions active policy responses.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 05 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 05 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Sleep is often treated as optional, squeezed out by work, screens, and stress. Yet chronic sleep loss harms memory, mood, and long-term health. The good news is that small habits—like consistent bedtimes and dimming lights before bed—can help people reclaim the rest their bodies need.",
+    "question": "What is the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "People should stop using screens entirely in the evening.",
+        "rationale": "The passage suggests dimming lights and consistent routines, not eliminating screens entirely.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 05 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Prioritizing sleep is critical for health, and simple routines can make meaningful improvements.",
+        "rationale": "Correct. This captures both the problem and the practical solution.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Only mood is affected by lack of sleep.",
+        "rationale": "The passage lists memory, mood, and long-term health—not only mood.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Most people already get enough sleep.",
+        "rationale": "The passage implies the opposite, noting that sleep is often treated as optional.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 05 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 05 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Urban trees do more than provide shade. They cool overheated neighborhoods, absorb pollution, and make streets more inviting. Maintaining a healthy canopy costs money, but cities that invest in trees often see returns in lower energy bills and improved public health.",
+    "question": "Which option best states the main idea?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Trees are expensive and therefore not worth planting in cities.",
+        "rationale": "The passage acknowledges costs but argues that benefits outweigh them.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 05 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Urban trees provide significant environmental and health benefits that justify the cost of maintaining them.",
+        "rationale": "Correct. This captures the benefits-versus-costs argument in the passage.",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Only shade matters when considering city trees.",
+        "rationale": "The passage lists multiple benefits beyond shade.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Trees should replace all buildings in cities.",
+        "rationale": "This extreme claim is not suggested by the passage.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
