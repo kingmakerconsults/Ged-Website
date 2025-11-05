@@ -322,32 +322,31 @@ module.exports = [
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Main Idea 03 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Main Idea 03 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "passage": "An article describes how a small-town newspaper survived the shift to digital news. Rather than competing with national outlets, the staff focused on in-depth coverage of local school board meetings, neighborhood events, and high school sports. They launched a weekly email digest that now reaches 4,000 subscribers and partnered with local businesses for sponsorships. The editor concludes that staying close to community stories has kept the paper relevant.",
+    "question": "Which sentence best states the main idea of the article?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla main idea 03 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The newspaper covers high school sports and neighborhood events.",
+        "rationale": "These are examples of coverage, but the main idea is about how the paper stayed relevant overall.",
+        "isCorrect": false
       },
       {
-        "text": "B. Connects the rla main idea 03 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "By focusing on hyperlocal reporting and community partnerships, the newspaper remained relevant in the digital age.",
+        "rationale": "Correct. This option captures the strategy (local focus and partnerships) and the result (remaining relevant).",
+        "isCorrect": true
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The staff created a weekly email digest for 4,000 subscribers.",
+        "rationale": "The email digest is one tactic, not the central idea of the article.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Local businesses sponsor several community events each year.",
+        "rationale": "Sponsorships are mentioned as part of the strategy, but the main idea emphasizes the paper's overall approach to survival.",
+        "isCorrect": false
       }
     ],
-    "difficulty": "medium",
-    "__autogen": true
+    "difficulty": "medium"
   }
 ]
 ;

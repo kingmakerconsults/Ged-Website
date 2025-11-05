@@ -90,272 +90,263 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 10 Case Study 4: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 10 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A city grant report claims that the Lakeside Youth Apprenticeship led more graduates into skilled trades. The report compares last year's cohort, where 64% secured full-time trade jobs within six months, to the previous class's 34%. It also highlights that participants completed 120 hours of paid training and that the program hosted a career fair with ten employers.",
+    "question": "Which detail best supports the report's claim?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Sixty-four percent of the latest cohort secured full-time trade jobs within six months, up from 34% the year before.",
+        "rationale": "Correct. This statistic directly measures graduate outcomes and shows improvement.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 10 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Each apprentice completed 120 hours of paid training.",
+        "rationale": "Training hours describe the program, but they do not show employment results.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The program hosted a career fair with ten employers.",
+        "rationale": "A career fair is an activity, not proof that more graduates entered trades.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Apprentices learned to operate advanced welding equipment.",
+        "rationale": "The passage does not mention equipment training; even if it did, that would be a program feature rather than evidence of job placement.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 10 Case Study 5: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 10 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "The community newsletter says the downtown night market is becoming more popular. Organizers counted 2,400 visitors during the August market compared with 1,300 last summer. The article also mentions that seven new food trucks joined and that a local band played on the main stage.",
+    "question": "Which fact best supports the claim that the night market is growing?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Attendance rose from 1,300 visitors last summer to 2,400 this August.",
+        "rationale": "Correct. The attendance numbers directly show growth.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 10 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Seven new food trucks joined the market this year.",
+        "rationale": "More vendors may help but do not prove that attendance increased.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A local band played on the main stage.",
+        "rationale": "Entertainment details do not measure overall popularity.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The market takes place on Friday nights.",
+        "rationale": "The schedule does not show whether more people attended.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 10 Case Study 6: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 10 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "An investigative article argues that a meal delivery company exaggerates its environmental benefits. The reporter references the company's glossy brochure promising a 'zero-waste kitchen,' a university study showing the service produced 35% less packaging waste than grocery shopping for the same meals, and a leaked email revealing that some leftover ingredients are discarded each week.",
+    "question": "Which piece of evidence is weakest for the reporter's argument?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The company's brochure promising a 'zero-waste kitchen.'",
+        "rationale": "Correct. A marketing brochure represents the company's claim, not independent evidence of environmental impact.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 10 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The university study showing 35% less packaging waste than traditional grocery shopping.",
+        "rationale": "This is strong, independent evidence relevant to the argument.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The leaked email revealing leftover ingredients are discarded each week.",
+        "rationale": "This insider information supports the reporter's claim about waste.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Customer testimonials praising the taste of the meals.",
+        "rationale": "This detail does not appear in the passage, so it cannot be considered part of the reporter's evidence.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 10 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 10 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A nonprofit leader claims a new literacy bus increased access to books in rural towns. She notes that library card sign-ups in those towns doubled over three months, that the bus held reading circles for 200 children, and that the group posted photos of smiling families on social media.",
+    "question": "Which additional information would most strengthen the leader's claim?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Survey data from families stating they borrowed books more often because of the literacy bus.",
+        "rationale": "Correct. Surveys from families would directly connect the bus to increased access.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 10 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "A list of titles added to the bus collection this year.",
+        "rationale": "Book lists show inventory, not evidence that access improved.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Statistics about urban library usage.",
+        "rationale": "Urban data does not address rural access.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A timeline of repairs the bus needed in winter.",
+        "rationale": "Maintenance issues are unrelated to proving increased access.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 10 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 10 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "A school newsletter reports that the fall blood drive surpassed its goal. Students and staff donated 165 pints of blood this year compared with 120 last year. The article also notes that the gym hosted a health fair and that volunteers baked cookies for donors.",
+    "question": "Which fact best supports the claim that the blood drive surpassed its goal?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Donations increased from 120 to 165 pints compared with last year's drive.",
+        "rationale": "Correct. The higher donation number directly supports the claim.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 10 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Volunteers baked cookies for donors.",
+        "rationale": "Snacks are a nice gesture but do not show that the goal was surpassed.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The gym also hosted a health fair.",
+        "rationale": "A health fair is an additional activity, not evidence of donation totals.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The event took place in the school gym.",
+        "rationale": "The location does not demonstrate success.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 10 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 10 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "During a policy debate, a council member argues that limiting short-term rentals has already improved neighborhood stability. She cites property records showing 38 former rentals converted back to long-term housing, an academic study linking short-term rentals to higher eviction rates, and a tourist blog praising the city's hotel scene.",
+    "question": "Which explanation best describes why one piece of evidence is weak?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The tourist blog is weak because it praises hotels rather than addressing neighborhood stability.",
+        "rationale": "Correct. The blog focuses on tourism, not the housing impact mentioned in the claim.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 10 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The property records are weak because they only cover one neighborhood.",
+        "rationale": "The passage does not limit the records to one neighborhood; they directly relate to housing conversions.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The academic study is weak because it relies on eviction data.",
+        "rationale": "Eviction data is relevant to stability, so the study supports the claim.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "All evidence is weak if it mentions housing conversions.",
+        "rationale": "Housing conversions address the claim, so this statement is inaccurate.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 10 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 10 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The director of a local animal shelter argues that their foster program keeps kennels from becoming overcrowded. She states that 95 foster volunteers cared for 180 animals last quarter, that the shelter avoided purchasing extra kennels, and that adoption wait times fell from 19 days to 11 days.",
+    "question": "Which additional detail would best support the director's argument?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Data showing the shelter would have exceeded its kennel capacity without the foster placements.",
+        "rationale": "Correct. This information would directly connect the foster program to reduced overcrowding.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 10 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "A photo of volunteers posing with foster animals.",
+        "rationale": "Photos demonstrate enthusiasm but not the program's impact on kennel space.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A chart comparing adoption fees with neighboring shelters.",
+        "rationale": "Fee comparisons do not address kennel capacity.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A list of veterinary clinics that support the shelter.",
+        "rationale": "Clinic partnerships are helpful but not direct evidence that overcrowding declined.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 10 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 10 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "An environmental coalition responds to critics who say restoring wetlands harms local jobs. The coalition cites state labor data showing employment in the fishing industry rose 6% after restoration began, tourism tax revenue increased by $1.2 million, and bird-watching groups scheduled 40 guided tours in the area.",
+    "question": "Which detail best counters the critics' claim about jobs?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Fishing industry employment rose 6% after restoration projects started.",
+        "rationale": "Correct. Job growth directly addresses the critics' concern about employment losses.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 10 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Tourism tax revenue increased by $1.2 million.",
+        "rationale": "Higher revenue is positive but focuses on tourism, not directly on jobs.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Bird-watching groups scheduled 40 guided tours.",
+        "rationale": "Tours show interest but do not directly respond to job concerns.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The coalition held a press conference near the marsh.",
+        "rationale": "The location of a press conference has no bearing on employment outcomes.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Evidence 10 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Evidence 10 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A budget presentation defends funding for a community solar garden by arguing it saves residents money. The presentation shows average electric bills for participating households dropped from $118 to $92 per month, that the installation cost was covered by federal grants, and that maintenance expenses are projected at $8 per household annually.",
+    "question": "Which fact most directly supports the claim that the solar garden saves residents money?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla evidence 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Participating households saw their average electric bills fall from $118 to $92 per month.",
+        "rationale": "Correct. Lower utility bills clearly demonstrate savings for residents.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla evidence 10 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The installation cost was covered by federal grants.",
+        "rationale": "Grant funding helps the project but does not show monthly savings for residents.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Maintenance expenses are projected at $8 per household annually.",
+        "rationale": "Low maintenance costs are helpful but do not explicitly quantify resident savings like the bill reduction does.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The solar garden uses panels manufactured in-state.",
+        "rationale": "The origin of the panels does not address resident savings.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
