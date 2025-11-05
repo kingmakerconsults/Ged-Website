@@ -3472,15 +3472,24 @@ app.get('/api/coach/weekly', devAuth, ensureTestUserForNow, requireAuthInProd, a
         const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
         const subjects = [];
 
+        // Build a consolidated 7-day plan with subject-tagged tasks
+        const consolidatedDays = Array.from({ length: 7 }).map((_, i) => ({
+            day: i + 1,
+            label: `Day ${i + 1}`,
+            date: new Date(d0.getTime() + i*24*60*60*1000).toISOString().slice(0,10),
+            tasks: []
+        }));
+
         for (const subj of SUBJECTS) {
             const latest = await latestWeeklyPlan(userId, subj);
+            const passed = await isSubjectPassed(userId, subj);
             let expectedWeek = 0;
             let summary = '';
             let daysOut = [];
             if (latest && latest.plan_json && Array.isArray(latest.plan_json.days)) {
                 expectedWeek = latest.plan_json.days.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0);
                 daysOut = latest.plan_json.days || [];
-                // Build a short focus summary using top 2 tags from first 3 days
+                // Build a short focus summary using top tags from first 3 days
                 const f = [];
                 latest.plan_json.days.slice(0,3).forEach(d => {
                     (Array.isArray(d.focus) ? d.focus : []).forEach(tag => { const t = String(tag||'').toLowerCase(); if (t && !f.includes(t) && f.length < 4) f.push(t); });
@@ -3500,10 +3509,51 @@ app.get('/api/coach/weekly', devAuth, ensureTestUserForNow, requireAuthInProd, a
                 completedWeek = Number(r?.rows?.[0]?.total) || 0;
             } catch (_) {}
 
+            // If subject is passed, set maintenance summary and expected minutes modestly
+            if (passed) {
+                summary = summary || 'Maintenance: Keep skills fresh with brief weekly practice.';
+                if (!expectedWeek) expectedWeek = 60; // 15min x 4
+            }
+
             subjects.push({ subject: subj, expected_minutes_week: expectedWeek || 140, completed_minutes_week: completedWeek, summary, days: daysOut });
+
+            // Consolidate tasks per day with subject metadata
+            for (let i = 0; i < 7; i++) {
+                const dayObj = consolidatedDays[i];
+                const srcDay = Array.isArray(daysOut) ? daysOut.find(d => Number(d.day) === (i + 1)) : null;
+                if (passed) {
+                    // Maintenance guidance task
+                    dayObj.tasks.push({
+                        id: `${subj.toLowerCase().replace(/\s+/g,'_')}-maint-${i+1}`,
+                        subject: subj,
+                        subjectLabel: subj,
+                        title: 'Maintenance: Light review',
+                        type: 'maintenance',
+                        minutes: 15,
+                        quizId: null,
+                        quizPath: null,
+                        focus: [],
+                        message: 'You\'ve passed this subject. Do a short review to keep skills fresh.'
+                    });
+                } else if (srcDay) {
+                    const focus = Array.isArray(srcDay.focus) ? srcDay.focus : (srcDay.focus ? [srcDay.focus] : []);
+                    dayObj.tasks.push({
+                        id: `${subj.toLowerCase().replace(/\s+/g,'_')}-${i+1}`,
+                        subject: subj,
+                        subjectLabel: subj,
+                        title: srcDay.label || srcDay.task || srcDay.type || 'Practice',
+                        type: srcDay.type || 'practice',
+                        minutes: Number(srcDay.minutes) || 20,
+                        quizId: srcDay.quizId || null,
+                        quizPath: srcDay.quizPath || null,
+                        focus,
+                        message: srcDay.message || null
+                    });
+                }
+            }
         }
 
-        return res.json({ ok: true, weekStart, subjects });
+        return res.json({ ok: true, weekStart, weekEnd, subjects, plan: { weekStart, weekEnd, days: consolidatedDays } });
     } catch (e) {
         console.error('GET /api/coach/weekly failed:', e);
         return res.status(500).json({ ok: false, error: 'coach_weekly_failed' });

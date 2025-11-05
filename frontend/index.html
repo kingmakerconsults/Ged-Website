@@ -12377,17 +12377,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     // weekly coach
-    const [coachPlan, setCoachPlan] = useState(null);
+    const [weeklyCoachPlan, setWeeklyCoachPlan] = useState(null);
     const [coachLoading, setCoachLoading] = useState(false);
     const [coachError, setCoachError] = useState('');
 
-    // daily coach
+    // daily coach progress snapshot
     const [dailyLoading, setDailyLoading] = useState(false);
     const [dailyError, setDailyError] = useState('');
-    const [dailyToday, setDailyToday] = useState('');
-    const [dailySubjects, setDailySubjects] = useState([]);
+    const [coachDailySubjects, setCoachDailySubjects] = useState([]);
     // weekly coach summary for dashboard
-    const [weeklySubjects, setWeeklySubjects] = useState([]);
+    const [weeklyCoachSummary, setWeeklyCoachSummary] = useState([]);
     const [generatingAll, setGeneratingAll] = useState(false);
     // Vocabulary collapsible
     const [vocabOpen, setVocabOpen] = useState(true);
@@ -12398,29 +12397,165 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const [adviceError, setAdviceError] = useState('');
 
     // Weekly coach helpers (top-level)
-    const loadCoachPlan = async () => {
+    const canonicalSubjectId = (value) => {
+        const str = (value || '').toString().toLowerCase();
+        if (!str) return '';
+        if (str.startsWith('math')) return 'math';
+        if (str.startsWith('science')) return 'science';
+        if (str === 'rla' || str.includes('language')) return 'rla';
+        if (str.includes('social')) return 'social_studies';
+        return str.replace(/[^a-z0-9]+/g, '_');
+    };
+
+    const displaySubjectName = (value) => {
+        const id = canonicalSubjectId(value);
+        if (id === 'rla') return 'Reasoning Through Language Arts (RLA)';
+        if (id === 'social_studies') return 'Social Studies';
+        if (id === 'math') return 'Math';
+        if (id === 'science') return 'Science';
+        return value || 'Subject';
+    };
+
+    const practiceSubjectParam = (value) => {
+        const id = canonicalSubjectId(value);
+        if (!id) return '';
+        if (id === 'math') return 'math';
+        if (id === 'science') return 'science';
+        if (id === 'rla') return 'rla';
+        return 'social-studies';
+    };
+
+    const addDaysToDate = (iso, offset = 0) => {
+        if (!iso) return null;
+        try {
+            const base = new Date(`${iso}T00:00:00`);
+            const shifted = new Date(base.getTime() + offset * 24 * 60 * 60 * 1000);
+            return shifted.toISOString().slice(0, 10);
+        } catch {
+            return null;
+        }
+    };
+
+    const normalizeCoachTask = (task = {}, dayFallback = {}, dayIndex = 0, taskIndex = 0) => {
+        const rawSubject = task.subject || dayFallback.subject || dayFallback.subjectLabel || '';
+        const subjectId = canonicalSubjectId(rawSubject);
+        const subjectLabel = task.subjectLabel || dayFallback.subjectLabel || displaySubjectName(rawSubject || subjectId);
+        const focus = Array.isArray(task.focus) ? task.focus : (task.focus ? [task.focus] : []);
+        const minutesFromTask = Number(task.minutes);
+        const minutesFallback = Number(dayFallback.minutes);
+        return {
+            id: task.id || `${subjectId || 'task'}-${dayIndex}-${taskIndex}`,
+            subject: subjectId,
+            subjectLabel,
+            title: task.title || task.label || dayFallback.label || dayFallback.task || task.type || 'Practice',
+            type: task.type || dayFallback.type || 'practice',
+            minutes: Number.isFinite(minutesFromTask) ? minutesFromTask : (Number.isFinite(minutesFallback) ? minutesFallback : 20),
+            quizId: task.quizId || task.quizCode || null,
+            quizPath: task.quizPath || null,
+            focus,
+            message: task.message || dayFallback.message || null,
+        };
+    };
+
+    const adaptWeeklyCoachResponse = (raw) => {
+        if (!raw) return { weekStart: null, weekEnd: null, days: [] };
+        const plan = raw.plan || raw;
+        const weekStart = plan.weekStart || raw.weekStart || null;
+        const weekEnd = plan.weekEnd || raw.weekEnd || null;
+        const daysInput = Array.isArray(plan.days) ? plan.days : [];
+        const normalizedDays = daysInput.map((day, idx) => {
+            const dayNumber = Number(day.day);
+            const resolvedIndex = Number.isFinite(dayNumber) && dayNumber >= 1 ? dayNumber - 1 : idx;
+            const label = day.label || `Day ${resolvedIndex + 1}`;
+            const date = day.date || addDaysToDate(weekStart, resolvedIndex);
+            const tasks = Array.isArray(day.tasks) ? day.tasks.map((task, taskIndex) => normalizeCoachTask(task, day, resolvedIndex, taskIndex)) : [];
+            return {
+                day: resolvedIndex + 1,
+                label,
+                date,
+                tasks,
+            };
+        });
+        return {
+            weekStart,
+            weekEnd,
+            generatedAt: plan.generatedAt || null,
+            subjects: plan.subjects || {},
+            days: normalizedDays,
+        };
+    };
+
+    const getTodayIndex = (weekStartISO) => {
+        if (!weekStartISO) return -1;
+        try {
+            const today = new Date();
+            const localToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const start = new Date(weekStartISO + 'T00:00:00');
+            const diff = Math.floor((localToday - start) / (24 * 60 * 60 * 1000));
+            if (diff < 0 || diff > 6) return -1;
+            return diff;
+        } catch {
+            return -1;
+        }
+    };
+
+    const fetchWeeklyCoachPlan = async () => {
         try {
             setCoachLoading(true);
             setCoachError('');
             const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-            if (!token) { setCoachPlan(null); return; }
-            const subjectParam = selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject;
-            if (!subjectParam) { setCoachPlan(null); return; }
-            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subjectParam)}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                if (data && data.ok && data.plan) setCoachPlan(data.plan);
-                else setCoachPlan(null);
-            } else {
-                setCoachPlan(null);
+            if (!token) {
+                setWeeklyCoachPlan(null);
+                setWeeklyCoachSummary([]);
+                return;
             }
+            const res = await fetch(`${API_BASE_URL}/api/coach/weekly`, { headers: { Authorization: `Bearer ${token}` } });
+            if (!res.ok) {
+                setWeeklyCoachPlan((prev) => prev || { weekStart: null, weekEnd: null, days: [] });
+                if (res.status !== 404) setCoachError('Unable to load weekly coach plan.');
+                return;
+            }
+            const data = await res.json();
+            const normalized = adaptWeeklyCoachResponse(data);
+            setWeeklyCoachPlan(normalized);
+            setWeeklyCoachSummary(Array.isArray(data?.subjects) ? data.subjects : []);
         } catch (e) {
-            setCoachError('Unable to load coach plan.');
+            setCoachError('Unable to load weekly coach plan.');
+            setWeeklyCoachPlan((prev) => prev || { weekStart: null, weekEnd: null, days: [] });
         } finally {
             setCoachLoading(false);
         }
+    };
+
+    const fetchCoachDailyProgress = async () => {
+        try {
+            setDailyLoading(true);
+            setDailyError('');
+            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+            if (!token) {
+                setCoachDailySubjects([]);
+                return;
+            }
+            const res = await fetch(`${API_BASE_URL}/api/coach/daily`, { headers: { Authorization: `Bearer ${token}` } });
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.ok) {
+                    setCoachDailySubjects(Array.isArray(data.subjects) ? data.subjects : []);
+                } else {
+                    setCoachDailySubjects([]);
+                }
+            } else {
+                setDailyError("Unable to load today's coach goals.");
+            }
+        } catch (e) {
+            setDailyError("Unable to load today's coach goals.");
+        } finally {
+            setDailyLoading(false);
+        }
+    };
+
+    const refreshCoachPanels = async () => {
+        await Promise.all([fetchWeeklyCoachPlan(), fetchCoachDailyProgress()]);
     };
     const generateCoachPlan = async () => {
         try {
@@ -12428,19 +12563,15 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             setCoachError('');
             const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
             if (!token) { alert('Please sign in to generate a weekly plan.'); return; }
-            const subjectParam = selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject;
+            const subjectParam = practiceSubjectParam(selectedSubject);
             if (!subjectParam) { alert('Pick a subject first.'); return; }
-            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subjectParam)}/generate-week`, {
+            const apiSubject = subjectParam === 'social-studies' ? 'Social Studies' : (subjectParam === 'rla' ? 'RLA' : subjectParam.charAt(0).toUpperCase() + subjectParam.slice(1));
+            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(apiSubject)}/generate-week`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             });
             if (res.ok) {
-                const data = await res.json();
-                if (data && data.ok && data.plan) setCoachPlan(data.plan);
-                // Refresh daily + weekly cards so Today and dashboard reflect the new plan immediately
                 await refreshCoachPanels();
-                // Also refresh the subject's own weekly panel explicitly
-                await loadCoachPlan();
             } else if (res.status === 429) {
                 const data = await res.json().catch(() => ({}));
                 setCoachError(data?.message || 'You already generated the weekly plan for this subject this week.');
@@ -12491,81 +12622,17 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             setGeneratingAll(false);
         }
     };
-    useEffect(() => { if (selectedSubject) loadCoachPlan(); }, [selectedSubject]);
+    // (removed subject-specific plan loader; we rely on consolidated weekly plan + daily progress)
 
-    // Daily coach loader (top-level) and weekly summary loader
+    // Load consolidated weekly plan and daily progress on mount
     useEffect(() => {
         (async () => {
-            try {
-                setDailyLoading(true);
-                setDailyError('');
-                const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-                if (!token) { setDailyToday(''); setDailySubjects([]); setWeeklySubjects([]); return; }
-                const res = await fetch(`${API_BASE_URL}/api/coach/daily`, { headers: { Authorization: `Bearer ${token}` } });
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.ok) {
-                        setDailyToday(data.today || '');
-                        setDailySubjects(Array.isArray(data.subjects) ? data.subjects : []);
-                    } else {
-                        setDailyToday('');
-                        setDailySubjects([]);
-                    }
-                } else {
-                    setDailyError("Unable to load today's coach goals.");
-                }
-                // Weekly
-                try {
-                    const rw = await fetch(`${API_BASE_URL}/api/coach/weekly`, { headers: { Authorization: `Bearer ${token}` } });
-                    if (rw.ok) {
-                        const dw = await rw.json();
-                        setWeeklySubjects(Array.isArray(dw?.subjects) ? dw.subjects : []);
-                    } else {
-                        setWeeklySubjects([]);
-                    }
-                } catch (_) {
-                    setWeeklySubjects([]);
-                }
-            } catch (e) {
-                setDailyError("Unable to load today's coach goals.");
-            } finally {
-                setDailyLoading(false);
-            }
+            await fetchWeeklyCoachPlan();
+            await fetchCoachDailyProgress();
         })();
     }, []);
 
-    // Shared helpers used by coach panels/buttons
-    const displaySubjectName = (s) => (s === 'RLA' ? 'Reasoning Through Language Arts (RLA)' : s);
-    const practiceSubjectParam = (s) => {
-        const key = (s || '').toLowerCase();
-        if (key.startsWith('math')) return 'math';
-        if (key.startsWith('science')) return 'science';
-        if (key === 'rla' || key.includes('language')) return 'rla';
-        return 'social-studies';
-    };
-
-    // Refresh both daily and weekly coach panels on demand
-    const refreshCoachPanels = async () => {
-        const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-        if (!token) return;
-        try {
-            const resDaily = await fetch(`${API_BASE_URL}/api/coach/daily`, { headers: { Authorization: `Bearer ${token}` } });
-            if (resDaily.ok) {
-                const d = await resDaily.json();
-                if (d && d.ok) {
-                    setDailyToday(d.today || '');
-                    setDailySubjects(Array.isArray(d.subjects) ? d.subjects : []);
-                }
-            }
-        } catch (_) {}
-        try {
-            const resWeekly = await fetch(`${API_BASE_URL}/api/coach/weekly`, { headers: { Authorization: `Bearer ${token}` } });
-            if (resWeekly.ok) {
-                const dw = await resWeekly.json();
-                setWeeklySubjects(Array.isArray(dw?.subjects) ? dw.subjects : []);
-            }
-        } catch (_) {}
-    };
+    // (helpers moved above; refreshCoachPanels now fetches both weekly plan and daily progress)
     // Resolve and launch a premade by quizCode for a subject (global helper)
     const launchPremadeByCodeGlobal = (subject, quizCode) => {
         try {
@@ -12627,6 +12694,68 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         } catch (e) {
             console.warn('launchPremadeByCodeGlobal failed', subject, quizCode, e);
             return false;
+        }
+    };
+
+    const todaysTasks = React.useMemo(() => {
+        if (!weeklyCoachPlan || !Array.isArray(weeklyCoachPlan?.days) || weeklyCoachPlan.days.length === 0) return [];
+        let idx = getTodayIndex(weeklyCoachPlan.weekStart);
+        if (idx < 0 || idx >= weeklyCoachPlan.days.length) idx = 0;
+        const day = weeklyCoachPlan.days[idx];
+        return Array.isArray(day.tasks) ? day.tasks : [];
+    }, [weeklyCoachPlan]);
+
+    const todaysTaskGroups = React.useMemo(() => {
+        const groups = new Map();
+        todaysTasks.forEach((task) => {
+            if (!task) return;
+            const subjectId = canonicalSubjectId(task.subject || task.subjectLabel || '');
+            const subjectLabel = displaySubjectName(task.subjectLabel || task.subject);
+            if (!groups.has(subjectId)) {
+                groups.set(subjectId, { subjectId, subjectLabel, tasks: [] });
+            }
+            groups.get(subjectId).tasks.push(task);
+        });
+        return Array.from(groups.values());
+    }, [todaysTasks]);
+
+    const dailyProgressMap = React.useMemo(() => {
+        const map = new Map();
+        (Array.isArray(coachDailySubjects) ? coachDailySubjects : []).forEach((entry) => {
+            if (!entry) return;
+            const id = canonicalSubjectId(entry.subject);
+            map.set(id, entry);
+        });
+        return map;
+    }, [coachDailySubjects]);
+
+    const openCoachTask = (task) => {
+        if (!task) return;
+        const subjectLabel = displaySubjectName(task.subjectLabel || task.subject);
+        const subjectId = canonicalSubjectId(task.subject || task.subjectLabel || '');
+        if (task.type === 'coach-quiz') {
+            const progress = dailyProgressMap.get(subjectId);
+            const sourceId = progress?.coach_quiz_source_id || task.quizId || null;
+            startCoachQuizForSubject(subjectLabel, sourceId);
+            return;
+        }
+        if (task.quizId) {
+            const launched = launchPremadeByCodeGlobal(subjectLabel, task.quizId);
+            if (!launched) {
+                if (task.quizPath) {
+                    window.location.href = task.quizPath;
+                } else {
+                    alert('Unable to open this quiz right now.');
+                }
+            }
+            return;
+        }
+        if (task.quizPath) {
+            window.location.href = task.quizPath;
+            return;
+        }
+        if (task.message) {
+            alert(task.message);
         }
     };
 
@@ -12998,7 +13127,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     const allSubjectsSelfDeclaredPassed = useMemo(() => {
         try {
             const required = ['math', 'rla', 'science', 'social_studies'];
-            return required.every((id) => profilePassedMap && profilePassedMap[id] === true);
+            if (!profilePassedMap || typeof profilePassedMap !== 'object') return false;
+            let count = 0;
+            for (const id of required) {
+                if (profilePassedMap[id] === true) count += 1;
+            }
+            return count === required.length;
         } catch {
             return false;
         }
@@ -13530,42 +13664,60 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             <p className="text-center text-sm mt-2" style={heroMutedTextStyle}>Loading…</p>
                         ) : dailyError ? (
                             <p className="text-center text-sm mt-2 text-red-600">{dailyError}</p>
-                        ) : Array.isArray(dailySubjects) && dailySubjects.length ? (
+                        ) : todaysTaskGroups.length ? (
                             <div className="mt-3 space-y-3">
-                                {dailySubjects.map((ds, idx) => (
-                                    <div key={idx} className="border rounded-md p-3" style={{ borderColor: panelBorderColor }}>
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <div className="font-semibold" style={{ color: heroTextColor }}>{displaySubjectName(ds.subject)}</div>
-                                                <div className="text-sm" style={heroMutedTextStyle}>
-                                                    {Math.max(0, ds.completed_minutes || 0)} / {ds.expected_minutes || 45} minutes
+                                {todaysTaskGroups.map((group) => {
+                                    const progress = dailyProgressMap.get(group.subjectId) || {};
+                                    return (
+                                        <div key={group.subjectId || group.subjectLabel} className="border rounded-md p-3" style={{ borderColor: panelBorderColor }}>
+                                            <div className="flex items-center justify-between gap-3">
+                                                <div>
+                                                    <div className="font-semibold" style={{ color: heroTextColor }}>{group.subjectLabel}</div>
+                                                    <div className="text-sm" style={heroMutedTextStyle}>
+                                                        {Math.max(0, progress.completed_minutes || 0)} / {progress.expected_minutes || 45} minutes
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="flex justify-end">
-                                                {ds.coach_quiz_id ? (
-                                                    ds.coach_quiz_completed ? (
+                                                {progress.coach_quiz_id && (
+                                                    progress.coach_quiz_completed ? (
                                                         <span className="text-sm px-3 py-1 rounded-full" style={{ backgroundColor: isDarkMode ? 'rgba(34,197,94,0.2)' : '#dcfce7', color: '#166534' }}>Coach Quiz Done</span>
-                                                    ) : (
-                                                        <button
-                                                            onClick={() => startCoachQuizForSubject(ds.subject, ds.coach_quiz_source_id)}
-                                                            className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 quiz-start-btn"
-                                                        >
-                                                            Take Today&apos;s Coach Smith Quiz
-                                                        </button>
-                                                    )
-                                                ) : null}
+                                                    ) : null
+                                                )}
+                                            </div>
+                                            <div className="mt-3 space-y-2">
+                                                {group.tasks.map((task) => {
+                                                    const focusText = Array.isArray(task.focus) && task.focus.length ? `Focus: ${task.focus.join(', ')}` : '';
+                                                    const buttonLabel = task.type === 'coach-quiz'
+                                                        ? `Start Coach Quiz`
+                                                        : task.quizId || task.quizPath
+                                                            ? `Start ${group.subjectLabel.split(' ')[0]} Practice`
+                                                            : '';
+                                                    return (
+                                                        <div key={task.id} className="rounded-md border px-3 py-2" style={{ borderColor: panelBorderColor }}>
+                                                            <div className="flex items-start justify-between gap-3">
+                                                                <div>
+                                                                    <div className="font-medium" style={{ color: heroTextColor }}>{task.title}</div>
+                                                                    {focusText ? <div className="text-xs" style={heroMutedTextStyle}>{focusText}</div> : null}
+                                                                    {task.message ? (
+                                                                        <p className="text-sm mt-1" style={heroMutedTextStyle}>{task.message}</p>
+                                                                    ) : null}
+                                                                </div>
+                                                                <span className="text-xs font-semibold" style={heroMutedTextStyle}>{task.minutes} min</span>
+                                                            </div>
+                                                            {buttonLabel && (
+                                                                <button
+                                                                    onClick={() => openCoachTask(task)}
+                                                                    className="mt-2 px-4 py-2 bg-purple-600 text-white text-sm font-semibold rounded-md shadow-sm hover:bg-purple-700 transition"
+                                                                >
+                                                                    {buttonLabel}
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })}
                                             </div>
                                         </div>
-                                        {Array.isArray(ds.tasks) && ds.tasks.length ? (
-                                            <ul className="mt-2 list-disc ml-5 text-sm" style={heroMutedTextStyle}>
-                                                {ds.tasks.map((t, i) => {
-                                                    const text = (t && typeof t === 'object') ? (t.label || t.type || '') : (t || '');
-                                                    return <li key={i}>{text}</li>;
-                                                })}
-                                            </ul>
-                                        ) : null}
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         ) : (
                             <p className="text-center text-sm mt-2" style={heroMutedTextStyle}>No goals for today yet.</p>
@@ -13600,15 +13752,25 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                             {(() => {
                                 const subj = selectedSubject;
-                                const subjectKey = (subj === 'Math') ? 'math' : (subj === 'Science' ? 'science' : (subj?.startsWith('Reasoning') ? 'rla' : 'social'));
-                                const match = Array.isArray(weeklySubjects)
-                                    ? weeklySubjects.find((ws) => (subj?.startsWith('Reasoning') ? (ws.subject === 'RLA' || ws.subject === subj) : ws.subject === subj))
+                                const subjectId = canonicalSubjectId(subj);
+                                const subjectKey = subjectId === 'science' ? 'science' : subjectId === 'math' ? 'math' : subjectId === 'rla' ? 'rla' : 'social';
+                                const match = Array.isArray(weeklyCoachSummary)
+                                    ? weeklyCoachSummary.find((ws) => canonicalSubjectId(ws.subject) === subjectId || (subjectId === 'rla' && canonicalSubjectId(ws.subject) === 'rla'))
                                     : null;
                                 const completed = Math.max(0, match?.completed_minutes_week || 0);
-                                const fallbackTarget = (coachPlan && coachPlan.plan_json && Array.isArray(coachPlan.plan_json.days))
-                                    ? coachPlan.plan_json.days.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0)
-                                    : 140;
+                                const subjectPlanDays = Array.isArray(weeklyCoachPlan?.days)
+                                    ? weeklyCoachPlan.days
+                                        .map((day) => ({
+                                            ...day,
+                                            tasks: Array.isArray(day.tasks)
+                                                ? day.tasks.filter((task) => canonicalSubjectId(task.subject || task.subjectLabel || '') === subjectId)
+                                                : []
+                                        }))
+                                        .filter((day) => day.tasks.length > 0)
+                                    : [];
+                                const fallbackTarget = subjectPlanDays.reduce((acc, day) => acc + day.tasks.reduce((sum, task) => sum + (Number(task.minutes) || 0), 0), 0) || 140;
                                 const target = match?.expected_minutes_week || fallbackTarget;
+                                const hasPlan = subjectPlanDays.length > 0;
                                 return (
                                     <div
                                         className={`coach-panel ${theme === 'dark' ? '' : 'coach-gold-light'} coach-subject-card subject-${subjectKey} rounded-lg p-4 flex flex-col justify-between shadow-md hover:shadow-lg transition-all`}
@@ -13629,16 +13791,17 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     </p>
                                     {coachLoading ? (
                                         <p className="text-center text-sm" style={heroMutedTextStyle}>Loading…</p>
-                                    ) : coachPlan && coachPlan.plan_json && Array.isArray(coachPlan.plan_json.days) ? (
+                                    ) : hasPlan ? (
                                         <div className="mt-2 max-h-48 overflow-y-auto space-y-1">
-                                            {coachPlan.plan_json.days.slice(0,7).map((d, idx) => {
-                                                const title = d?.label || d?.task || d?.type || 'Practice';
-                                                const focus = Array.isArray(d?.focus) ? d.focus.join(', ') : (d?.focus || '');
-                                                const minutes = d?.minutes || 20;
+                                            {subjectPlanDays.slice(0,7).map((d, idx) => {
+                                                const focusList = d.tasks.flatMap((task) => Array.isArray(task.focus) ? task.focus : []);
+                                                const focus = focusList.length ? Array.from(new Set(focusList)).join(', ') : '';
+                                                const minutes = d.tasks.reduce((sum, task) => sum + (Number(task.minutes) || 0), 0) || 0;
+                                                const titles = d.tasks.map((task) => task.title).join(' • ');
                                                 return (
-                                                    <div key={idx} className="text-sm flex items-start gap-2">
+                                                    <div key={`${d.day}-${idx}`} className="text-sm flex flex-col">
                                                         <span className="font-semibold">Day {d.day}:</span>
-                                                        <span>{focus ? `${focus} — ` : ''}{title} ({minutes}m)</span>
+                                                        <span>{focus ? `${focus} — ` : ''}{titles || 'Practice'} ({minutes}m)</span>
                                                     </div>
                                                 );
                                             })}
@@ -13656,7 +13819,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                         disabled={coachLoading}
                                         className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/70 disabled:text-slate-400"
                                     >
-                                        {coachPlan ? 'Generate / Refresh Plan' : 'Generate Plan'}
+                                        {hasPlan ? 'Generate / Refresh Plan' : 'Generate Plan'}
                                     </button>
                                 </div>
                                     </div>
@@ -13969,8 +14132,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {["Math", "Reasoning Through Language Arts (RLA)", "Science", "Social Studies"].map((label) => {
-                                    const match = Array.isArray(weeklySubjects)
-                                        ? weeklySubjects.find((ws) => {
+                                    const match = Array.isArray(weeklyCoachSummary)
+                                        ? weeklyCoachSummary.find((ws) => {
                                             if (label === 'Reasoning Through Language Arts (RLA)') {
                                                 return ws.subject === 'RLA' || ws.subject === label;
                                             }
@@ -14065,8 +14228,9 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             const expandedReady = (typeof window !== 'undefined' && window.ExpandedQuizData && Object.keys(window.ExpandedQuizData).length > 0);
                             const premadeLabel = (premadeTotal === 1 ? '1 premade quiz ready' : `${premadeTotal} premade quizzes ready`);
                             const subjectDataKey = SUBJECT_SHORT_LABELS[subjectName] || subjectName;
-                            // Find today's daily entry for this subject (if any)
-                            const dailyForSubject = Array.isArray(dailySubjects) ? dailySubjects.find(d => (d.subject === subjectName || (subjectName.includes('Language Arts') && d.subject === 'RLA'))) : null;
+                            // Find today's daily entry for this subject (if any) from consolidated daily progress map
+                            const subjectIdForDaily = (subjectName.includes('Language Arts') ? 'rla' : (subjectName === 'Science' ? 'science' : (subjectName === 'Math' ? 'math' : 'social_studies')));
+                            const dailyForSubject = dailyProgressMap.get(subjectIdForDaily) || null;
                             const firstFocusTag = (() => {
                                 if (!dailyForSubject || !Array.isArray(dailyForSubject.tasks)) return null;
                                 const coachTask = dailyForSubject.tasks.find(t => t && t.type === 'coach-quiz');
