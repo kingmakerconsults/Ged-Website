@@ -4,26 +4,27 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "In the scientific method, what is the first step?",
+    "passage": "A student claims that a new type of plant food makes bean plants grow taller than regular plant food. The student tests one plant with the new food and one plant with the regular food.",
+    "question": "What is the biggest weakness in this design?",
     "answerOptions": [
       {
-        "text": "Forming a hypothesis.",
-        "rationale": "This is a crucial step, but it comes after making an observation and asking a question.",
-        "isCorrect": false
-      },
-      {
-        "text": "Conducting an experiment.",
-        "rationale": "An experiment is designed to test a hypothesis, so it comes later.",
-        "isCorrect": false
-      },
-      {
-        "text": "Making an observation and asking a question.",
-        "rationale": "Correct. All scientific inquiry begins with observing the world and asking questions about it.",
+        "text": "Only one plant was tested in each group, so the sample size is too small.",
+        "rationale": "Correct. Reliable conclusions require multiple plants in each condition to reduce the influence of individual variation.",
         "isCorrect": true
       },
       {
-        "text": "Drawing a conclusion.",
-        "rationale": "A conclusion is drawn after analyzing the results of an experiment.",
+        "text": "Both plants received plant food.",
+        "rationale": "The issue is the small sample size, not that plant food was used.",
+        "isCorrect": false
+      },
+      {
+        "text": "The plants were grown in soil instead of water.",
+        "rationale": "Soil is appropriate for beans; the design flaw lies elsewhere.",
+        "isCorrect": false
+      },
+      {
+        "text": "The student measured plant height instead of leaf color.",
+        "rationale": "Height is a reasonable metric for growth; the problem is insufficient replication.",
         "isCorrect": false
       }
     ]
@@ -32,26 +33,27 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "A hypothesis is best described as a(n):",
+    "passage": "Researchers compare the speed of two computer programs by running each program on five identical computers and recording the time to complete the same task.",
+    "question": "What should the researchers do to increase confidence in the results?",
     "answerOptions": [
       {
-        "text": "Proven fact.",
-        "rationale": "A hypothesis is not yet proven; it is a proposal that needs to be tested.",
-        "isCorrect": false
-      },
-      {
-        "text": "Testable prediction or explanation.",
-        "rationale": "Correct. A hypothesis is a proposed explanation for an observation that can be tested through experimentation.",
+        "text": "Repeat the test multiple times and calculate the average time for each program.",
+        "rationale": "Correct. Repetition reduces the effect of random variation and strengthens the comparison.",
         "isCorrect": true
       },
       {
-        "text": "Detailed summary of the experiment's results.",
-        "rationale": "This is the results section, which comes after the experiment.",
+        "text": "Use different tasks for each program to see how they perform on unrelated work.",
+        "rationale": "Different tasks would introduce new variables and make comparison difficult.",
         "isCorrect": false
       },
       {
-        "text": "Question about the natural world.",
-        "rationale": "A hypothesis is a potential answer to a question, not the question itself.",
+        "text": "Allow the programs to run on computers with different hardware.",
+        "rationale": "Different hardware would bias the results and weaken the experiment.",
+        "isCorrect": false
+      },
+      {
+        "text": "Record only the fastest trial for each program.",
+        "rationale": "Focusing on the fastest trial ignores the rest of the data and can be misleading.",
         "isCorrect": false
       }
     ]
@@ -59,27 +61,28 @@ module.exports = [
   {
     "questionNumber": 3,
     "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "In a controlled experiment, what is the purpose of a control group?",
+    "difficulty": "easy",
+    "passage": "A class is analyzing a graph that shows a steady decrease in dissolved oxygen levels in a river over the past six months.",
+    "question": "Which question should they ask before concluding that the river is becoming polluted?",
     "answerOptions": [
       {
-        "text": "To receive the experimental treatment.",
-        "rationale": "The experimental group receives the treatment.",
-        "isCorrect": false
-      },
-      {
-        "text": "To have as many variables as possible.",
-        "rationale": "A good experiment limits variables, it does not multiply them.",
-        "isCorrect": false
-      },
-      {
-        "text": "To provide a baseline for comparison with the experimental group.",
-        "rationale": "Correct. The control group is identical to the experimental group in every way except for the variable being tested, allowing scientists to see the true effect of that variable.",
+        "text": "Were the oxygen readings taken at the same location and time of day each month?",
+        "rationale": "Correct. Consistent sampling methods are necessary to ensure the trend reflects real changes in the river and not differences in measurement conditions.",
         "isCorrect": true
       },
       {
-        "text": "To prove the hypothesis is correct.",
-        "rationale": "The purpose is to provide a valid comparison, which may end up supporting or refuting the hypothesis.",
+        "text": "What color were the data points used on the graph?",
+        "rationale": "Graph color does not affect the validity of the data.",
+        "isCorrect": false
+      },
+      {
+        "text": "How many fish species live in the river?",
+        "rationale": "Biodiversity is interesting but does not answer whether the sampling method was consistent.",
+        "isCorrect": false
+      },
+      {
+        "text": "Did the students hope to find pollution before they collected data?",
+        "rationale": "Researcher expectations matter, but verifying consistent sampling is the first step in evaluating the trend.",
         "isCorrect": false
       }
     ]
@@ -87,27 +90,28 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "The variable that is changed or manipulated by the researcher in an experiment is called the:",
+    "difficulty": "easy",
+    "passage": "A lab group records the pH of three soil samples. Two students misread the meter and record 8.5 instead of the correct value of 6.5.",
+    "question": "How should the group handle the incorrect readings?",
     "answerOptions": [
       {
-        "text": "Dependent variable.",
-        "rationale": "The dependent variable is what is measured in response to the change.",
-        "isCorrect": false
-      },
-      {
-        "text": "Independent variable.",
-        "rationale": "Correct. This is the factor that the scientist intentionally changes to see what effect it has.",
+        "text": "They should repeat the measurement, correct the mistake, and note the error in their lab report.",
+        "rationale": "Correct. Accurate reporting includes acknowledging and correcting errors.",
         "isCorrect": true
       },
       {
-        "text": "Controlled variable.",
-        "rationale": "Controlled variables (or constants) are factors that are kept the same for all groups.",
+        "text": "They should delete the entire data table because it now contains an error.",
+        "rationale": "Only the mistaken values need to be corrected, not the entire data set.",
         "isCorrect": false
       },
       {
-        "text": "Extraneous variable.",
-        "rationale": "Extraneous variables are unplanned factors that could influence the outcome.",
+        "text": "They should keep the incorrect numbers so the data will look more varied.",
+        "rationale": "Knowingly using incorrect data reduces the validity of the experiment.",
+        "isCorrect": false
+      },
+      {
+        "text": "They should average the incorrect numbers with the correct ones to split the difference.",
+        "rationale": "Averaging incorrect values with correct ones introduces additional error.",
         "isCorrect": false
       }
     ]
@@ -115,28 +119,28 @@ module.exports = [
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "A researcher wants to test the effect of a new fertilizer on plant growth. She takes 20 identical pea plants. She gives 10 plants plain water (Group A). She gives the other 10 plants water mixed with the new fertilizer (Group B). All other conditions (sunlight, soil, pot size) are kept the same for both groups. She measures the height of the plants after 4 weeks.",
-    "question": "In this experiment, what is the dependent variable?",
+    "difficulty": "medium",
+    "passage": "A nutrition study finds that people who eat more leafy greens also report exercising more frequently. The researchers caution that exercise might be the reason for improved health markers, not the greens alone.",
+    "question": "What does the researchers' caution highlight?",
     "answerOptions": [
       {
-        "text": "The type of fertilizer.",
-        "rationale": "The fertilizer is what the researcher is changing, making it the independent variable.",
-        "isCorrect": false
-      },
-      {
-        "text": "The amount of sunlight.",
-        "rationale": "The amount of sunlight is a controlled variable, kept the same for both groups.",
-        "isCorrect": false
-      },
-      {
-        "text": "The height of the plants.",
-        "rationale": "Correct. The height of the plants is what is being measured, and it 'depends' on the treatment (the fertilizer).",
+        "text": "Correlation does not necessarily mean one factor causes the other.",
+        "rationale": "Correct. Both leafy greens and exercise could contribute to the outcome, so causation cannot be assigned to a single factor.",
         "isCorrect": true
       },
       {
-        "text": "Group A.",
-        "rationale": "Group A is the control group.",
+        "text": "Leafy greens have no nutritional value.",
+        "rationale": "The study does not suggest that greens lack value; it emphasizes the limits of the data.",
+        "isCorrect": false
+      },
+      {
+        "text": "Exercise and diet cannot be studied together.",
+        "rationale": "They can be studied together, but researchers must be careful when interpreting their combined effects.",
+        "isCorrect": false
+      },
+      {
+        "text": "Health markers should be ignored in nutrition research.",
+        "rationale": "Health markers are important; the caution addresses drawing conclusions about causation.",
         "isCorrect": false
       }
     ]
@@ -144,28 +148,28 @@ module.exports = [
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "A researcher wants to test the effect of a new fertilizer on plant growth. She takes 20 identical pea plants. She gives 10 plants plain water (Group A). She gives the other 10 plants water mixed with the new fertilizer (Group B). All other conditions (sunlight, soil, pot size) are kept the same for both groups. She measures the height of the plants after 4 weeks.",
-    "question": "Which of the following is the control group?",
+    "difficulty": "medium",
+    "passage": "A school newspaper reports that 80% of students prefer reusable water bottles over disposable ones. The survey was conducted at the environmental club meeting.",
+    "question": "Why might this result not represent the entire student body?",
     "answerOptions": [
       {
-        "text": "Group B",
-        "rationale": "Group B receives the experimental treatment (the fertilizer), making it the experimental group.",
-        "isCorrect": false
-      },
-      {
-        "text": "Group A",
-        "rationale": "Correct. Group A does not receive the fertilizer and serves as the baseline for comparison.",
+        "text": "The sample is biased because the survey was given to students already interested in environmental issues.",
+        "rationale": "Correct. Surveying only environmental club members does not provide a representative sample of all students.",
         "isCorrect": true
       },
       {
-        "text": "The amount of water.",
-        "rationale": "The amount of water is a controlled variable.",
+        "text": "Reusable bottles are less popular than disposable ones.",
+        "rationale": "Popularity cannot be determined from a biased sample.",
         "isCorrect": false
       },
       {
-        "text": "The height of the plants after 4 weeks.",
-        "rationale": "This is the dependent variable.",
+        "text": "The survey should have been conducted by teachers, not students.",
+        "rationale": "Who conducts the survey is less important than sampling a broad range of students.",
+        "isCorrect": false
+      },
+      {
+        "text": "The results are invalid because they were reported in a school newspaper.",
+        "rationale": "The publication method is not the issue; sampling bias is the concern.",
         "isCorrect": false
       }
     ]
@@ -173,27 +177,28 @@ module.exports = [
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which of the following would be the best tool to measure the volume of a liquid?",
+    "difficulty": "medium",
+    "passage": "A data table shows the average test scores of four classes that used different science textbooks. The class using Textbook D scored highest, but it also had the smallest number of students.",
+    "question": "What additional information is needed before adopting Textbook D schoolwide?",
     "answerOptions": [
       {
-        "text": "A balance",
-        "rationale": "A balance is used to measure mass.",
-        "isCorrect": false
-      },
-      {
-        "text": "A thermometer",
-        "rationale": "A thermometer is used to measure temperature.",
-        "isCorrect": false
-      },
-      {
-        "text": "A graduated cylinder",
-        "rationale": "Correct. A graduated cylinder is marked with volume measurements for this purpose.",
+        "text": "Whether Textbook D was used with the same teaching methods and time as the other textbooks.",
+        "rationale": "Correct. To attribute higher scores to the textbook, other teaching conditions must be comparable.",
         "isCorrect": true
       },
       {
-        "text": "A ruler",
-        "rationale": "A ruler is used to measure length.",
+        "text": "What color cover Textbook D had.",
+        "rationale": "Cover color has no effect on academic outcomes.",
+        "isCorrect": false
+      },
+      {
+        "text": "Whether the class using Textbook D had more field trips.",
+        "rationale": "Field trips could affect learning, but confirming comparable instruction is the more direct question.",
+        "isCorrect": false
+      },
+      {
+        "text": "How many chapters Textbook D contained.",
+        "rationale": "Content length alone does not explain the higher scores; teaching conditions must be considered.",
         "isCorrect": false
       }
     ]
@@ -202,27 +207,27 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Data Table: The effect of temperature on the rate of a chemical reaction. Temperature (°C): 10, 20, 30, 40. Reaction Rate (grams/second): 2, 4, 8, 16.",
-    "question": "Based on the data, what is the relationship between temperature and reaction rate?",
+    "passage": "A biology class tests the claim that a specific music playlist helps seedlings grow faster. Half of the seedlings are exposed to the playlist for two hours each day, while the other half grows in silence.",
+    "question": "What should the students record to evaluate the claim accurately?",
     "answerOptions": [
       {
-        "text": "As temperature increases, the reaction rate decreases.",
-        "rationale": "The data shows the opposite trend.",
-        "isCorrect": false
-      },
-      {
-        "text": "As temperature increases, the reaction rate increases.",
-        "rationale": "Correct. For every 10°C increase in temperature, the reaction rate doubles.",
+        "text": "Consistent measurements of seedling height or mass over time for both groups.",
+        "rationale": "Correct. Quantitative measurements taken at set intervals allow comparison between the playlist and control groups.",
         "isCorrect": true
       },
       {
-        "text": "Temperature has no effect on the reaction rate.",
-        "rationale": "The data clearly shows a strong relationship.",
+        "text": "The students' opinions about the playlist.",
+        "rationale": "Opinions do not provide objective evidence about plant growth.",
         "isCorrect": false
       },
       {
-        "text": "The reaction rate is constant.",
-        "rationale": "The reaction rate changes significantly with temperature.",
+        "text": "The playlist's popularity on streaming services.",
+        "rationale": "Popularity is irrelevant to its effect on plants.",
+        "isCorrect": false
+      },
+      {
+        "text": "The brand of speakers used for the playlist.",
+        "rationale": "Speaker brand matters only if the equipment differs between groups; consistent measurements are the priority.",
         "isCorrect": false
       }
     ]
@@ -231,26 +236,27 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "A scientific theory is different from a hypothesis because a theory is:",
+    "passage": "A news headline states, 'Energy drink boosts memory by 50%.' The article reveals that the study compared memory scores of 12 volunteers before and after drinking the product. No control group was used, and participants knew they were drinking the energy drink.",
+    "question": "Which issue most undermines the study's conclusion?",
     "answerOptions": [
       {
-        "text": "An educated guess.",
-        "rationale": "This is a better description of a hypothesis.",
-        "isCorrect": false
-      },
-      {
-        "text": "A well-substantiated explanation of some aspect of the natural world that is based on a body of facts that have been repeatedly confirmed through observation and experiment.",
-        "rationale": "Correct. A theory is a much broader and more established explanation than a hypothesis.",
+        "text": "The lack of a control group and blinding makes it impossible to separate placebo effects from real changes.",
+        "rationale": "Correct. Without controls, improvements could result from expectations rather than the drink itself.",
         "isCorrect": true
       },
       {
-        "text": "A preliminary observation that has not been tested.",
-        "rationale": "A theory is based on extensive testing.",
+        "text": "The volunteers were adults rather than teenagers.",
+        "rationale": "Participant age matters less than experimental controls in this context.",
         "isCorrect": false
       },
       {
-        "text": "The same thing as a scientific law.",
-        "rationale": "A scientific law describes what happens under certain conditions, while a theory explains why it happens.",
+        "text": "The study occurred in a laboratory rather than at home.",
+        "rationale": "Location is not the primary flaw; lack of controls is.",
+        "isCorrect": false
+      },
+      {
+        "text": "The researchers did not ask volunteers whether they liked the flavor.",
+        "rationale": "Flavor preference does not determine memory improvement.",
         "isCorrect": false
       }
     ]
@@ -258,27 +264,28 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "When a scientist's experimental results do not support their hypothesis, what should they do?",
+    "difficulty": "hard",
+    "passage": "Meteorologists use two weather models to predict hurricane paths. The models generally agree, but one shows the storm shifting north on day three. The forecast ultimately follows the northern track.",
+    "question": "What does this outcome illustrate about using multiple models?",
     "answerOptions": [
       {
-        "text": "Change the results to fit the hypothesis.",
-        "rationale": "This is scientific misconduct.",
-        "isCorrect": false
-      },
-      {
-        "text": "Discard the results and start over with a new experiment.",
-        "rationale": "The results are still valuable data.",
-        "isCorrect": false
-      },
-      {
-        "text": "Revise the hypothesis or formulate a new one, and then design new experiments to test it.",
-        "rationale": "Correct. Science is a process of refining ideas based on evidence. A refuted hypothesis is a productive part of the process.",
+        "text": "Comparing several models can reveal possible scenarios and improve decision-making when forecasts diverge.",
+        "rationale": "Correct. Multiple models provide a range of outcomes that help forecasters prepare for different possibilities.",
         "isCorrect": true
       },
       {
-        "text": "Conclude that the experiment was a complete failure.",
-        "rationale": "An experiment that provides clear data, even if it refutes the hypothesis, is a successful experiment.",
+        "text": "Using more than one model always produces identical predictions.",
+        "rationale": "Different models often yield different outputs; comparing them helps assess uncertainty.",
+        "isCorrect": false
+      },
+      {
+        "text": "Only the model that predicts the northern track should be used in the future.",
+        "rationale": "Single events do not prove one model is always superior.",
+        "isCorrect": false
+      },
+      {
+        "text": "Models are unnecessary because storms always move north.",
+        "rationale": "Storm paths vary; models are essential for anticipating different possibilities.",
         "isCorrect": false
       }
     ]
@@ -286,27 +293,28 @@ module.exports = [
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "In science, what does the term 'inference' mean?",
+    "difficulty": "hard",
+    "passage": "A peer-reviewed article reports that a new vaccine was 92% effective in a trial with 10,000 participants. Another laboratory conducts a similar study with 12,000 participants and reports 91% effectiveness.",
+    "question": "How should scientists interpret the two studies?",
     "answerOptions": [
       {
-        "text": "A direct observation using the five senses.",
-        "rationale": "This is a simple observation, not an inference.",
-        "isCorrect": false
-      },
-      {
-        "text": "A conclusion or interpretation based on evidence and reasoning.",
-        "rationale": "Correct. An inference is a logical step that goes beyond direct observation. For example, observing smoke and inferring there is a fire.",
+        "text": "The similar effectiveness rates across large trials indicate the vaccine performs consistently.",
+        "rationale": "Correct. Comparable results in independent studies increase confidence in the finding.",
         "isCorrect": true
       },
       {
-        "text": "A measurement taken with a scientific tool.",
-        "rationale": "This is a form of data collection.",
+        "text": "The studies contradict each other because the percentages are not identical.",
+        "rationale": "Minor differences within similar ranges are expected and do not indicate contradiction.",
         "isCorrect": false
       },
       {
-        "text": "A variable that is kept constant in an experiment.",
-        "rationale": "This is a controlled variable.",
+        "text": "The first trial should be ignored because it had fewer participants.",
+        "rationale": "Both large trials provide valuable information; neither should be dismissed.",
+        "isCorrect": false
+      },
+      {
+        "text": "The vaccine should be considered ineffective until the percentages match exactly.",
+        "rationale": "Exact matches are unrealistic; consistent high effectiveness supports the vaccine's success.",
         "isCorrect": false
       }
     ]
@@ -314,27 +322,28 @@ module.exports = [
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "A student is investigating the dissolving rate of salt in water. What is one variable that should be controlled (kept constant) to ensure a fair test?",
+    "difficulty": "hard",
+    "passage": "A scientist reviewing a colleague's manuscript notices that the statistical analysis used is not appropriate for the type of data collected.",
+    "question": "What should happen before the study is published?",
     "answerOptions": [
       {
-        "text": "The amount of time it takes for the salt to dissolve.",
-        "rationale": "This is the dependent variable, what is being measured.",
-        "isCorrect": false
-      },
-      {
-        "text": "The temperature of the water.",
-        "rationale": "Correct. Water temperature affects dissolving rate, so it must be kept the same in all trials to isolate the effect of the variable being tested (e.g., stirring).",
+        "text": "The authors should reanalyze the data with the correct statistical test and revise their conclusions if necessary.",
+        "rationale": "Correct. Using appropriate statistics ensures the conclusions are supported by the data.",
         "isCorrect": true
       },
       {
-        "text": "The number of trials conducted.",
-        "rationale": "Conducting multiple trials is good practice, but not a variable within the experiment itself.",
+        "text": "The manuscript should be published immediately, and readers can decide whether the statistics were valid.",
+        "rationale": "Publishing flawed analysis without correction undermines scientific standards.",
         "isCorrect": false
       },
       {
-        "text": "The hypothesis of the experiment.",
-        "rationale": "The hypothesis is the idea being tested, not a condition of the experiment.",
+        "text": "The reviewer should ignore the issue because statistics are a matter of opinion.",
+        "rationale": "Statistical methods are not subjective; accuracy is crucial.",
+        "isCorrect": false
+      },
+      {
+        "text": "The authors should add more graphs to make the results appear clearer.",
+        "rationale": "Graphs do not fix an improper analysis; the statistics themselves must be corrected.",
         "isCorrect": false
       }
     ]

@@ -4,26 +4,27 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "Which of the following is the most important for laboratory safety?",
+    "passage": "Students investigate how the angle of a ramp affects the speed of a toy car. They test angles of 10°, 20°, and 30° while keeping the ramp length and car the same.",
+    "question": "What is the independent variable?",
     "answerOptions": [
       {
-        "text": "Memorizing the periodic table.",
-        "rationale": "While useful for chemistry, this is not a general safety rule.",
-        "isCorrect": false
-      },
-      {
-        "text": "Following all instructions and wearing appropriate personal protective equipment (PPE).",
-        "rationale": "Correct. Safety is the top priority, and this includes following procedures and using gear like goggles and gloves.",
+        "text": "The angle of the ramp",
+        "rationale": "Correct. The angle is the factor being deliberately changed in each trial.",
         "isCorrect": true
       },
       {
-        "text": "Working as quickly as possible.",
-        "rationale": "Rushing can lead to accidents and mistakes.",
+        "text": "The mass of the toy car",
+        "rationale": "The same car is used for every trial, so mass stays constant.",
         "isCorrect": false
       },
       {
-        "text": "Changing the steps of the experiment to see what happens.",
-        "rationale": "Unauthorized changes to a procedure can be dangerous and invalidate the results.",
+        "text": "The length of the ramp",
+        "rationale": "The ramp length does not change between trials.",
+        "isCorrect": false
+      },
+      {
+        "text": "The time it takes the car to reach the bottom",
+        "rationale": "Time is the measured outcome and therefore the dependent variable.",
         "isCorrect": false
       }
     ]
@@ -32,26 +33,27 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "A scientist uses a graph to present their data. What is the primary purpose of a graph in a scientific report?",
+    "passage": "A class wants to know if the amount of yeast affects how fast bread dough rises. They use the same recipe each time but change the amount of yeast added.",
+    "question": "Which factor should remain constant to keep the test fair?",
     "answerOptions": [
       {
-        "text": "To make the report look more colorful and interesting.",
-        "rationale": "While graphs can be visually appealing, their main purpose is to present data clearly.",
-        "isCorrect": false
-      },
-      {
-        "text": "To show a visual representation of the relationship between the variables.",
-        "rationale": "Correct. Graphs make it easier to see trends, patterns, and relationships in the data.",
+        "text": "The temperature at which the dough is allowed to rise",
+        "rationale": "Correct. Temperature must be controlled so that yeast amount is the only changing factor.",
         "isCorrect": true
       },
       {
-        "text": "To hide the results of the experiment.",
-        "rationale": "The purpose of a graph is to clarify the results, not to hide them.",
+        "text": "The amount of yeast added to the dough",
+        "rationale": "The amount of yeast is intentionally changed to test its effect.",
         "isCorrect": false
       },
       {
-        "text": "To prove that the hypothesis is correct.",
-        "rationale": "A graph presents the data, which can either support or refute a hypothesis, but it does not \"prove\" it.",
+        "text": "The shape of the mixing bowl",
+        "rationale": "Bowl shape is less critical than consistent temperature and ingredient amounts.",
+        "isCorrect": false
+      },
+      {
+        "text": "The time the dough is allowed to rest",
+        "rationale": "Resting time should also stay the same, but temperature is the best answer among the options because it directly affects yeast activity.",
         "isCorrect": false
       }
     ]
@@ -60,26 +62,27 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "What is a constant in a scientific experiment?",
+    "passage": "During a lab, students record the mass of a metal sample before and after it is heated in air. The mass increases.",
+    "question": "Which explanation best fits the observation?",
     "answerOptions": [
       {
-        "text": "The variable that is measured.",
-        "rationale": "This is the dependent variable.",
-        "isCorrect": false
-      },
-      {
-        "text": "The variable that is changed by the scientist.",
-        "rationale": "This is the independent variable.",
-        "isCorrect": false
-      },
-      {
-        "text": "A factor that is kept the same for all groups in the experiment.",
-        "rationale": "Correct. Constants are controlled to ensure that only the independent variable is affecting the outcome.",
+        "text": "The sample reacted with oxygen to form a compound that has greater mass.",
+        "rationale": "Correct. Heating metal in air often causes oxidation, increasing mass as oxygen atoms bond with the metal.",
         "isCorrect": true
       },
       {
-        "text": "The final conclusion of the experiment.",
-        "rationale": "A conclusion is an interpretation, not a constant.",
+        "text": "The balance used to measure the mass was broken.",
+        "rationale": "There is no evidence the balance malfunctioned; a chemical reaction is more plausible.",
+        "isCorrect": false
+      },
+      {
+        "text": "Heating metal removes atoms, so mass should decrease.",
+        "rationale": "Atoms were gained, not lost, during oxidation.",
+        "isCorrect": false
+      },
+      {
+        "text": "The mass increased because the metal cooled down.",
+        "rationale": "Cooling would not add mass; the increase is due to a reaction with oxygen.",
         "isCorrect": false
       }
     ]
@@ -88,26 +91,27 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "An educated guess that can be tested through an experiment is known as a(n):",
+    "passage": "A student describes a solution as 'cloudy and pale yellow.'",
+    "question": "What type of data has the student recorded?",
     "answerOptions": [
       {
-        "text": "Observation",
-        "rationale": "An observation is the act of gathering information.",
-        "isCorrect": false
-      },
-      {
-        "text": "Hypothesis",
-        "rationale": "Correct. This is the definition of a scientific hypothesis.",
+        "text": "Qualitative data",
+        "rationale": "Correct. Color and clarity are descriptive observations.",
         "isCorrect": true
       },
       {
-        "text": "Theory",
-        "rationale": "A theory is a well-supported explanation, not just an initial guess.",
+        "text": "Quantitative data",
+        "rationale": "Quantitative data involve numbers or measurements.",
         "isCorrect": false
       },
       {
-        "text": "Law",
-        "rationale": "A law describes a natural phenomenon, but does not explain why it happens.",
+        "text": "Inferential data",
+        "rationale": "The description does not interpret causes; it simply reports observations.",
+        "isCorrect": false
+      },
+      {
+        "text": "Modeled data",
+        "rationale": "Modeled data would come from simulations, not direct observation.",
         "isCorrect": false
       }
     ]
@@ -116,27 +120,27 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "An experiment was conducted to determine the boiling point of salt water. Four beakers, each containing 500 mL of water, were prepared. Beaker 1 had 0 g of salt, Beaker 2 had 10 g, Beaker 3 had 20 g, and Beaker 4 had 30 g. The beakers were heated, and the temperature at which the water boiled was recorded. The results were: Beaker 1 (0g salt): 100°C, Beaker 2 (10g salt): 101°C, Beaker 3 (20g salt): 102°C, Beaker 4 (30g salt): 103°C.",
-    "question": "What is the independent variable in this experiment?",
+    "passage": "A researcher measures the height of corn plants grown with three different irrigation schedules. The data are displayed on a bar graph with error bars showing variability.",
+    "question": "What do overlapping error bars between two treatments suggest?",
     "answerOptions": [
       {
-        "text": "The volume of water.",
-        "rationale": "The volume of water was kept constant at 500 mL.",
-        "isCorrect": false
-      },
-      {
-        "text": "The boiling point of the water.",
-        "rationale": "The boiling point is what was measured, making it the dependent variable.",
-        "isCorrect": false
-      },
-      {
-        "text": "The amount of salt dissolved in the water.",
-        "rationale": "Correct. This is the factor that the experimenter deliberately changed.",
+        "text": "The average heights of those treatments may not be significantly different.",
+        "rationale": "Correct. Overlapping error bars indicate the differences may be due to normal variation.",
         "isCorrect": true
       },
       {
-        "text": "The type of beaker used.",
-        "rationale": "It is assumed that the same type of beaker was used for all trials, making it a constant.",
+        "text": "The plants in those treatments were measured incorrectly.",
+        "rationale": "Overlap does not imply measurement error; it indicates similar results.",
+        "isCorrect": false
+      },
+      {
+        "text": "The irrigation schedule with taller plants must be the best option.",
+        "rationale": "Overlap suggests caution before declaring a best treatment.",
+        "isCorrect": false
+      },
+      {
+        "text": "The graph should be redrawn without error bars.",
+        "rationale": "Error bars convey important information about variability and should not be removed.",
         "isCorrect": false
       }
     ]
@@ -145,27 +149,27 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "An experiment was conducted to determine the boiling point of salt water. Four beakers, each containing 500 mL of water, were prepared. Beaker 1 had 0 g of salt, Beaker 2 had 10 g, Beaker 3 had 20 g, and Beaker 4 had 30 g. The beakers were heated, and the temperature at which the water boiled was recorded. The results were: Beaker 1 (0g salt): 100°C, Beaker 2 (10g salt): 101°C, Beaker 3 (20g salt): 102°C, Beaker 4 (30g salt): 103°C.",
-    "question": "What is a valid conclusion based on the results of this experiment?",
+    "passage": "A class calculates the mean, median, and mode of reaction times measured in seconds: 0.55, 0.63, 0.61, 0.58, 0.95.",
+    "question": "Which measure best represents the typical reaction time?",
     "answerOptions": [
       {
-        "text": "Adding salt to water does not affect its boiling point.",
-        "rationale": "The results clearly show that the boiling point increased as salt was added.",
-        "isCorrect": false
-      },
-      {
-        "text": "The more salt is added to water, the higher the boiling point.",
-        "rationale": "Correct. The data shows a direct, positive relationship between the amount of salt and the boiling point.",
+        "text": "The median, because it is less affected by the unusually slow trial at 0.95 seconds.",
+        "rationale": "Correct. The median of 0.61 seconds reflects the central tendency better when an outlier is present.",
         "isCorrect": true
       },
       {
-        "text": "The more salt is added to water, the lower the boiling point.",
-        "rationale": "The results show the opposite trend.",
+        "text": "The mean, because it uses every value, even the outlier.",
+        "rationale": "The mean is skewed by the outlier and may not represent most reaction times.",
         "isCorrect": false
       },
       {
-        "text": "Water boils at 100°C regardless of any dissolved substances.",
-        "rationale": "Beaker 1 (pure water) boiled at 100°C, but the others did not.",
+        "text": "The mode, because it equals the fastest reaction time.",
+        "rationale": "The data have no repeated value, so there is no mode.",
+        "isCorrect": false
+      },
+      {
+        "text": "None of the measures are helpful when data include an outlier.",
+        "rationale": "The median remains useful even with an outlier.",
         "isCorrect": false
       }
     ]
@@ -174,26 +178,27 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "Which of the following is a key component of a good scientific argument?",
+    "passage": "Two teams conduct identical experiments measuring how far a spring stretches under different forces. Team A reports results in centimeters, while Team B records in meters.",
+    "question": "What must the teams do before combining their data?",
     "answerOptions": [
       {
-        "text": "Making a claim based on personal opinion.",
-        "rationale": "Scientific arguments must be based on evidence, not opinion.",
-        "isCorrect": false
-      },
-      {
-        "text": "Ignoring data that contradicts the claim.",
-        "rationale": "A good scientific argument must account for all relevant data.",
-        "isCorrect": false
-      },
-      {
-        "text": "Using evidence and logical reasoning to support a claim.",
-        "rationale": "Correct. A scientific argument connects a claim to evidence using sound reasoning.",
+        "text": "Convert all measurements to the same unit",
+        "rationale": "Correct. Standardizing units ensures the data sets can be compared directly.",
         "isCorrect": true
       },
       {
-        "text": "Attacking the character of scientists who disagree with the claim.",
-        "rationale": "This is an ad hominem fallacy and is not a part of a scientific argument.",
+        "text": "Change the number of forces tested to match each other",
+        "rationale": "The number of trials does not need to match if units are consistent.",
+        "isCorrect": false
+      },
+      {
+        "text": "Repeat the experiment with a different spring",
+        "rationale": "A new spring is unnecessary as long as the original trials were valid.",
+        "isCorrect": false
+      },
+      {
+        "text": "Round all measurements to the nearest whole number",
+        "rationale": "Rounding may remove useful precision; unit conversion is the necessary step.",
         "isCorrect": false
       }
     ]
@@ -202,26 +207,27 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "What is the purpose of using a control in an experiment?",
+    "passage": "A double-blind study tests an over-the-counter cold remedy. Neither participants nor the nurses administering treatments know who receives the remedy or the placebo until the study ends.",
+    "question": "Why is a double-blind design valuable?",
     "answerOptions": [
       {
-        "text": "To have a standard of comparison to see if the independent variable has an effect.",
-        "rationale": "Correct. The control group provides a baseline against which the experimental group can be compared.",
+        "text": "It reduces bias in how symptoms are reported or evaluated.",
+        "rationale": "Correct. Blinding prevents expectations from influencing the results.",
         "isCorrect": true
       },
       {
-        "text": "To make sure the experiment gives the results the scientist wants.",
-        "rationale": "The purpose is to test a hypothesis objectively, not to force a desired result.",
+        "text": "It ensures every participant receives the real remedy.",
+        "rationale": "Half the participants receive the placebo; blinding does not guarantee treatment.",
         "isCorrect": false
       },
       {
-        "text": "To complicate the experiment.",
-        "rationale": "A control simplifies interpretation of the results.",
+        "text": "It shortens the length of the study.",
+        "rationale": "Blinding does not affect study length.",
         "isCorrect": false
       },
       {
-        "text": "To prove the hypothesis is correct.",
-        "rationale": "A control helps to fairly test the hypothesis, which may be supported or refuted.",
+        "text": "It allows researchers to skip analyzing the data statistically.",
+        "rationale": "Statistical analysis is still essential, even in double-blind designs.",
         "isCorrect": false
       }
     ]
@@ -230,26 +236,27 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "An explanation for a natural phenomenon that is supported by a vast body of evidence is called a:",
+    "passage": "A weather station records rainfall totals every hour. One sensor malfunctions and reports zero rainfall during a thunderstorm.",
+    "question": "How should meteorologists handle the faulty reading?",
     "answerOptions": [
       {
-        "text": "Hypothesis",
-        "rationale": "A hypothesis is a testable prediction, but it is not as well-supported as a theory.",
-        "isCorrect": false
-      },
-      {
-        "text": "Theory",
-        "rationale": "Correct. Scientific theories are broad explanations that have been repeatedly tested and confirmed.",
+        "text": "Investigate the malfunction, document the issue, and adjust the data set accordingly.",
+        "rationale": "Correct. Transparency about equipment errors keeps the data set trustworthy.",
         "isCorrect": true
       },
       {
-        "text": "Guess",
-        "rationale": "A guess is an opinion without evidence.",
+        "text": "Replace the zero with the highest rainfall recorded at another station.",
+        "rationale": "Substituting a value from another station could misrepresent local conditions.",
         "isCorrect": false
       },
       {
-        "text": "Law",
-        "rationale": "A law describes what happens, but a theory explains why it happens.",
+        "text": "Ignore the problem because most sensors worked correctly.",
+        "rationale": "Faulty data must be addressed to maintain accuracy.",
+        "isCorrect": false
+      },
+      {
+        "text": "Report the zero value to emphasize that equipment can fail.",
+        "rationale": "Highlighting a known false reading would mislead data users.",
         "isCorrect": false
       }
     ]
@@ -258,26 +265,27 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "Why is it important for a scientist to keep detailed and accurate records of their experiments?",
+    "passage": "A scientist collects sediment cores from a lake to study past droughts. Carbon-14 dating indicates one layer formed about 1,000 years ago during a period of low rainfall.",
+    "question": "Why is it important to include the dating method in the published results?",
     "answerOptions": [
       {
-        "text": "So they can remember what they had for lunch on the day of the experiment.",
-        "rationale": "Personal details are not relevant to the scientific record.",
-        "isCorrect": false
-      },
-      {
-        "text": "To allow other scientists to replicate the experiment and verify the results.",
-        "rationale": "Correct. Detailed records are essential for the verifiability and transparency of science.",
+        "text": "It allows other scientists to evaluate the reliability of the age estimate.",
+        "rationale": "Correct. Knowing the dating method helps readers assess the strength of the evidence.",
         "isCorrect": true
       },
       {
-        "text": "To make the experiment seem more complicated and impressive.",
-        "rationale": "The goal is clarity and accuracy, not to impress.",
+        "text": "It shows the scientist owns the necessary laboratory equipment.",
+        "rationale": "Ownership of equipment is not the key reason to report the method.",
         "isCorrect": false
       },
       {
-        "text": "To keep their discoveries secret from other scientists.",
-        "rationale": "The goal of scientific record-keeping is to share information, not to keep it secret.",
+        "text": "It proves that the drought was caused by volcanic eruptions.",
+        "rationale": "The dating method reveals age, not the cause of the drought.",
+        "isCorrect": false
+      },
+      {
+        "text": "It eliminates the need to share the actual data from the sediment cores.",
+        "rationale": "Data should still be shared; the method provides context for interpreting it.",
         "isCorrect": false
       }
     ]
@@ -286,26 +294,27 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "Which of the following is an example of an inference?",
+    "passage": "A regional health department surveys households about radon levels. Households volunteered to participate, and most respondents live in newer homes.",
+    "question": "What limitation should be noted when interpreting the survey?",
     "answerOptions": [
       {
-        "text": "The leaf is 5 cm long.",
-        "rationale": "This is a direct, quantitative observation.",
-        "isCorrect": false
-      },
-      {
-        "text": "The liquid in the beaker is clear and colorless.",
-        "rationale": "This is a direct, qualitative observation.",
-        "isCorrect": false
-      },
-      {
-        "text": "The fossilized bones are from a dinosaur that was a herbivore, based on the shape of its teeth.",
-        "rationale": "Correct. This is a conclusion based on evidence (the shape of the teeth) and prior knowledge. It is an interpretation, not a direct observation.",
+        "text": "The sample may not represent older homes or residents who did not volunteer.",
+        "rationale": "Correct. Volunteer bias limits how well the results apply to the entire region.",
         "isCorrect": true
       },
       {
-        "text": "The beaker contains 100 mL of water.",
-        "rationale": "This is a direct, quantitative observation.",
+        "text": "Radon gas cannot be measured accurately with household detectors.",
+        "rationale": "Radon detectors are reliable; the main issue is sample representativeness.",
+        "isCorrect": false
+      },
+      {
+        "text": "Newer homes never have radon problems.",
+        "rationale": "This statement is false and not supported by the survey.",
+        "isCorrect": false
+      },
+      {
+        "text": "Radon levels are unrelated to health concerns.",
+        "rationale": "Radon exposure is a health concern; the limitation concerns sampling bias.",
         "isCorrect": false
       }
     ]
@@ -314,26 +323,27 @@ module.exports = [
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "A scientist develops a new hypothesis. What is the next logical step in the scientific method?",
+    "passage": "An online post claims that a new herbal tea cures seasonal allergies, citing a small study of 12 volunteers conducted by the company that sells the tea.",
+    "question": "Which follow-up would best test the claim?",
     "answerOptions": [
       {
-        "text": "Immediately declare the hypothesis as a new theory.",
-        "rationale": "A hypothesis must be tested and supported by evidence before it can be considered for theory status.",
-        "isCorrect": false
-      },
-      {
-        "text": "Design and conduct an experiment to test the hypothesis.",
-        "rationale": "Correct. The next step is to gather data that will either support or refute the hypothesis.",
+        "text": "Conduct an independent, double-blind trial with a larger and more diverse group of participants.",
+        "rationale": "Correct. A rigorous, unbiased study is needed to verify the company's claim.",
         "isCorrect": true
       },
       {
-        "text": "Change the data from previous experiments to fit the new hypothesis.",
-        "rationale": "This is scientific fraud and is unethical.",
+        "text": "Ask the company for testimonials from satisfied customers.",
+        "rationale": "Testimonials are anecdotal and do not replace controlled testing.",
         "isCorrect": false
       },
       {
-        "text": "Ignore the hypothesis if it disagrees with their personal beliefs.",
-        "rationale": "Scientific inquiry should be objective and not influenced by personal beliefs.",
+        "text": "Check whether the tea is available in grocery stores nationwide.",
+        "rationale": "Availability does not prove effectiveness.",
+        "isCorrect": false
+      },
+      {
+        "text": "Find out if the tea has a pleasant flavor.",
+        "rationale": "Flavor preference does not establish medical benefits.",
         "isCorrect": false
       }
     ]

@@ -4,26 +4,27 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "What is the first step in the scientific method?",
+    "passage": "A science fair judge asks a student why she kept the size of the plant pots identical for all samples in her experiment.",
+    "question": "What is the best explanation the student should give?",
     "answerOptions": [
       {
-        "text": "Forming a hypothesis",
-        "rationale": "This comes after making an observation and asking a question.",
-        "isCorrect": false
-      },
-      {
-        "text": "Conducting an experiment",
-        "rationale": "This is done to test a hypothesis.",
-        "isCorrect": false
-      },
-      {
-        "text": "Making an observation and asking a question",
-        "rationale": "Correct. All scientific inquiry begins with an observation that leads to a question.",
+        "text": "Keeping the pots the same size prevents an extra variable from affecting plant growth.",
+        "rationale": "Correct. Controlling variables such as pot size allows the experiment to focus on the factor being tested.",
         "isCorrect": true
       },
       {
-        "text": "Analyzing data",
-        "rationale": "This comes after the experiment is conducted.",
+        "text": "Different pot sizes make the data easier to graph.",
+        "rationale": "Varied pot sizes would introduce additional variables rather than simplify graphing.",
+        "isCorrect": false
+      },
+      {
+        "text": "Identical pots guarantee that all plants will grow at the same rate.",
+        "rationale": "Controls help isolate variables but do not guarantee identical results.",
+        "isCorrect": false
+      },
+      {
+        "text": "Using different pot sizes would have doubled the sample size.",
+        "rationale": "Changing pot size would not change the number of plants, only the conditions they experience.",
         "isCorrect": false
       }
     ]
@@ -32,26 +33,27 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "A testable prediction or proposed explanation for an observation is a(n):",
+    "passage": "Before designing an investigation, a student scientist states, 'I think the amount of light a plant receives will affect how many flowers it produces.'",
+    "question": "Which part of the scientific method does this statement represent?",
     "answerOptions": [
       {
-        "text": "Theory",
-        "rationale": "A theory is a well-substantiated explanation, much broader than a single prediction.",
+        "text": "Hypothesis",
+        "rationale": "Correct. The statement predicts a relationship that can be tested.",
+        "isCorrect": true
+      },
+      {
+        "text": "Procedure",
+        "rationale": "A procedure describes experimental steps, not the expected outcome.",
         "isCorrect": false
       },
       {
         "text": "Conclusion",
-        "rationale": "A conclusion is drawn after an experiment is completed.",
+        "rationale": "Conclusions summarize findings after data are collected.",
         "isCorrect": false
       },
       {
-        "text": "Hypothesis",
-        "rationale": "Correct. A hypothesis must be testable through an experiment.",
-        "isCorrect": true
-      },
-      {
-        "text": "Variable",
-        "rationale": "A variable is a factor that can be changed or measured in an experiment.",
+        "text": "Observation",
+        "rationale": "An observation records what is directly perceived, not what is predicted.",
         "isCorrect": false
       }
     ]
@@ -59,27 +61,28 @@ module.exports = [
   {
     "questionNumber": 3,
     "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "In a controlled experiment, the factor that the scientist intentionally changes or manipulates is called the:",
+    "difficulty": "easy",
+    "passage": "Students designing an experiment to test fertilizer effectiveness decide to water all plants with 200 milliliters of water every other day.",
+    "question": "Why is using the same watering schedule important?",
     "answerOptions": [
       {
-        "text": "Dependent variable",
-        "rationale": "The dependent variable is what is measured in response to the change.",
-        "isCorrect": false
-      },
-      {
-        "text": "Independent variable",
-        "rationale": "Correct. This is the one and only factor that should be different between the experimental group and the control group.",
+        "text": "It ensures water is not the variable causing differences in plant growth.",
+        "rationale": "Correct. Keeping water constant isolates the effect of the fertilizer.",
         "isCorrect": true
       },
       {
-        "text": "Control variable",
-        "rationale": "Control variables (constants) are the factors that are kept the same for all groups.",
+        "text": "It makes the plants identical in height before the experiment starts.",
+        "rationale": "Plants may still vary; the constant watering keeps conditions fair but does not equalize height.",
         "isCorrect": false
       },
       {
-        "text": "Constant",
-        "rationale": "Constants (or control variables) are kept the same, not changed.",
+        "text": "It allows the students to skip recording water volume in their notes.",
+        "rationale": "Accurate notes are needed even when variables are controlled.",
+        "isCorrect": false
+      },
+      {
+        "text": "It proves the fertilizer will increase plant height by a set amount.",
+        "rationale": "Consistent watering makes comparisons fair but does not guarantee results.",
         "isCorrect": false
       }
     ]
@@ -88,55 +91,56 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "The group in an experiment that does not receive the experimental treatment and is used as a baseline for comparison is the:",
+    "passage": "A marine biologist conducts a field study to measure water temperature and dissolved oxygen levels in a coastal estuary every morning for four weeks.",
+    "question": "What is the purpose of collecting data at the same time each day?",
     "answerOptions": [
       {
-        "text": "Experimental group",
-        "rationale": "The experimental group is the one that receives the treatment.",
-        "isCorrect": false
-      },
-      {
-        "text": "Independent group",
-        "rationale": "This is not a standard term for a group in an experiment.",
-        "isCorrect": false
-      },
-      {
-        "text": "Dependent group",
-        "rationale": "This is not a standard term for a group in an experiment.",
-        "isCorrect": false
-      },
-      {
-        "text": "Control group",
-        "rationale": "Correct. The control group allows the researcher to see the effect of the independent variable.",
+        "text": "It reduces variation caused by daily temperature changes unrelated to the study question.",
+        "rationale": "Correct. Sampling at consistent times limits the influence of external fluctuations.",
         "isCorrect": true
+      },
+      {
+        "text": "It allows the biologist to skip recording the date of each sample.",
+        "rationale": "Dates and times should still be recorded for clarity.",
+        "isCorrect": false
+      },
+      {
+        "text": "It increases the chance that one of the days will show no oxygen in the water.",
+        "rationale": "Consistent sampling does not guarantee specific results.",
+        "isCorrect": false
+      },
+      {
+        "text": "It makes the equipment easier to transport.",
+        "rationale": "Sampling time does not affect equipment transport.",
+        "isCorrect": false
       }
     ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "A student wants to test the hypothesis that plants grow taller when given more sunlight. She places one plant on a sunny windowsill (Group A) and another identical plant in a dark closet (Group B). She gives both plants the same amount of water each day. She measures the height of each plant after two weeks.",
-    "question": "In this experiment, what is the dependent variable?",
+    "difficulty": "medium",
+    "passage": "A lab group wants to test whether a new insulation material reduces heat loss better than standard fiberglass insulation. They build two identical boxes, line one with the new material, and line the other with fiberglass. Each box contains the same type of lightbulb acting as a heat source.",
+    "question": "Which action makes this experimental design stronger?",
     "answerOptions": [
       {
-        "text": "The amount of sunlight",
-        "rationale": "The amount of sunlight is what the student is changing, making it the independent variable.",
-        "isCorrect": false
-      },
-      {
-        "text": "The amount of water",
-        "rationale": "The amount of water is a controlled variable (a constant).",
-        "isCorrect": false
-      },
-      {
-        "text": "The height of the plants",
-        "rationale": "Correct. The height is what is being measured, and it 'depends' on the amount of sunlight the plants receive.",
+        "text": "Measuring the temperature inside both boxes at regular intervals for the same length of time",
+        "rationale": "Correct. Collecting parallel data under identical conditions allows a fair comparison between materials.",
         "isCorrect": true
       },
       {
-        "text": "The type of plant",
-        "rationale": "The type of plant is a controlled variable.",
+        "text": "Changing the wattage of the lightbulb in the fiberglass box",
+        "rationale": "Altering the heat source would create an additional variable and invalidate the comparison.",
+        "isCorrect": false
+      },
+      {
+        "text": "Opening the lid on the experimental box every few minutes",
+        "rationale": "Opening the lid introduces heat loss unrelated to the insulation material.",
+        "isCorrect": false
+      },
+      {
+        "text": "Using different thermometers in each box without calibrating them",
+        "rationale": "Uncalibrated instruments could produce inconsistent readings and weaken the design.",
         "isCorrect": false
       }
     ]
@@ -144,28 +148,28 @@ module.exports = [
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "A student wants to test the hypothesis that plants grow taller when given more sunlight. She places one plant on a sunny windowsill (Group A) and another identical plant in a dark closet (Group B). She gives both plants the same amount of water each day. She measures the height of each plant after two weeks.",
-    "question": "Which of the following is an important controlled variable (constant) in this experiment?",
+    "difficulty": "medium",
+    "passage": "A research team notices that their data include one trial where the results are far outside the range of all other trials. They discover that a sensor malfunctioned during that trial.",
+    "question": "What should the team do?",
     "answerOptions": [
       {
-        "text": "The final height of the plants",
-        "rationale": "This is the dependent variable.",
-        "isCorrect": false
-      },
-      {
-        "text": "The location of the plants (windowsill vs. closet)",
-        "rationale": "This is the independent variable.",
-        "isCorrect": false
-      },
-      {
-        "text": "The amount of water given to each plant",
-        "rationale": "Correct. To ensure a fair test, all factors other than the independent variable must be kept the same.",
+        "text": "Document the sensor malfunction, exclude the faulty trial, and repeat the measurement if possible.",
+        "rationale": "Correct. Transparency and repetition maintain the integrity of the data set.",
         "isCorrect": true
       },
       {
-        "text": "The student's hypothesis",
-        "rationale": "The hypothesis is what is being tested, not a condition of the experiment itself.",
+        "text": "Keep the faulty trial because every data point is valuable.",
+        "rationale": "Using known faulty data can lead to incorrect conclusions.",
+        "isCorrect": false
+      },
+      {
+        "text": "Adjust the other trials to match the faulty result.",
+        "rationale": "Changing valid data to match an error introduces bias.",
+        "isCorrect": false
+      },
+      {
+        "text": "Throw out the entire experiment and start over.",
+        "rationale": "Only the faulty trial needs to be repeated, not the entire experiment.",
         "isCorrect": false
       }
     ]
@@ -173,27 +177,28 @@ module.exports = [
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "After conducting an experiment and analyzing the data, a scientist will form a(n):",
+    "difficulty": "hard",
+    "passage": "Two scientists design independent experiments to test the same chemical reaction. Scientist A uses 25 trials, while Scientist B uses 5 trials. Both follow the same procedure and obtain similar averages.",
+    "question": "Which experiment provides stronger evidence and why?",
     "answerOptions": [
       {
-        "text": "Hypothesis",
-        "rationale": "The hypothesis is formed before the experiment.",
-        "isCorrect": false
-      },
-      {
-        "text": "Observation",
-        "rationale": "The observation is the first step.",
-        "isCorrect": false
-      },
-      {
-        "text": "Conclusion",
-        "rationale": "Correct. The conclusion summarizes the findings and states whether the hypothesis was supported or refuted.",
+        "text": "Scientist A's experiment, because a larger number of trials reduces the influence of random error.",
+        "rationale": "Correct. More trials increase confidence that the observed result is reliable.",
         "isCorrect": true
       },
       {
-        "text": "Question",
-        "rationale": "The question is asked at the beginning of the process.",
+        "text": "Scientist B's experiment, because fewer trials prevent measurement fatigue.",
+        "rationale": "Fewer trials increase uncertainty; measurement fatigue can be managed with good practices.",
+        "isCorrect": false
+      },
+      {
+        "text": "Both experiments are equally strong because they used the same procedure.",
+        "rationale": "Using the same procedure is important, but the larger sample size in Scientist A's work strengthens the evidence.",
+        "isCorrect": false
+      },
+      {
+        "text": "Neither experiment is useful unless they produce identical data points.",
+        "rationale": "Data rarely match exactly; consistent averages across many trials provide solid evidence.",
         "isCorrect": false
       }
     ]
@@ -201,27 +206,28 @@ module.exports = [
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "A scientific theory is:",
+    "difficulty": "hard",
+    "passage": "A team studying stream pollution publishes its results and includes detailed descriptions of sampling locations, collection times, and testing procedures.",
+    "question": "Why is sharing detailed methods an essential part of the scientific process?",
     "answerOptions": [
       {
-        "text": "A guess or a hunch with little evidence.",
-        "rationale": "This is the common usage of 'theory', but not the scientific meaning. A scientific hypothesis is closer to this definition.",
-        "isCorrect": false
-      },
-      {
-        "text": "A well-substantiated explanation of some aspect of the natural world, based on a body of facts that have been repeatedly confirmed through observation and experiment.",
-        "rationale": "Correct. A theory is a high level of scientific understanding, like the theory of gravity or the theory of evolution.",
+        "text": "It allows other scientists to replicate the study and verify the findings.",
+        "rationale": "Correct. Reproducibility is fundamental to confirming scientific results.",
         "isCorrect": true
       },
       {
-        "text": "An initial idea that has not yet been tested.",
-        "rationale": "This describes a hypothesis.",
+        "text": "It guarantees that no one will ever question the results.",
+        "rationale": "Sharing methods invites scrutiny; it does not guarantee unquestioned acceptance.",
         "isCorrect": false
       },
       {
-        "text": "An unchangeable fact.",
-        "rationale": "All scientific knowledge, including theories, is subject to revision if new evidence emerges.",
+        "text": "It replaces the need to publish the actual data collected.",
+        "rationale": "Methods supplement, not replace, data.",
+        "isCorrect": false
+      },
+      {
+        "text": "It ensures the research team will receive a patent for their discoveries.",
+        "rationale": "Patents involve legal processes unrelated to describing scientific methods.",
         "isCorrect": false
       }
     ]
@@ -229,27 +235,28 @@ module.exports = [
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Why is it important for scientists to publish their findings?",
+    "difficulty": "hard",
+    "passage": "A newspaper headline reads, 'New study proves that eating chocolate every day causes weight loss.' The article reveals that the study involved 15 volunteers, lasted one week, and did not include a control group.",
+    "question": "What is the most significant flaw in the study design?",
     "answerOptions": [
       {
-        "text": "To become famous.",
-        "rationale": "While fame can be a result, it is not the scientific reason.",
-        "isCorrect": false
-      },
-      {
-        "text": "To allow other scientists to review and replicate their work.",
-        "rationale": "Correct. This process of peer review is crucial for verifying results and ensuring the reliability of scientific knowledge.",
+        "text": "Without a control group and with such a small sample, the study cannot establish cause and effect.",
+        "rationale": "Correct. The design lacks adequate controls and sample size to support the headline's claim.",
         "isCorrect": true
       },
       {
-        "text": "To keep their discoveries a secret.",
-        "rationale": "Publication is the opposite of secrecy.",
+        "text": "The study should have been conducted in a laboratory instead of with volunteers.",
+        "rationale": "Location is less important than proper controls and sufficient participants.",
         "isCorrect": false
       },
       {
-        "text": "To prove that their hypothesis is always correct.",
-        "rationale": "The goal is to share results, whether they support the hypothesis or not.",
+        "text": "The researchers should have measured each volunteer's favorite dessert.",
+        "rationale": "Favorite dessert is irrelevant to establishing causation.",
+        "isCorrect": false
+      },
+      {
+        "text": "The article should have included photographs of the volunteers.",
+        "rationale": "Photographs do not strengthen scientific evidence.",
         "isCorrect": false
       }
     ]
@@ -258,26 +265,27 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "If an experiment's results do not support the hypothesis, what is the most appropriate next step for a scientist?",
+    "passage": "During peer review, another research team points out that an important variable—the humidity level in a greenhouse experiment—was not reported.",
+    "question": "How should the original researchers respond?",
     "answerOptions": [
       {
-        "text": "Change the data to match the hypothesis.",
-        "rationale": "This is unethical and constitutes scientific fraud.",
-        "isCorrect": false
-      },
-      {
-        "text": "Discard the results and pretend the experiment never happened.",
-        "rationale": "Results that refute a hypothesis are still valuable scientific information.",
-        "isCorrect": false
-      },
-      {
-        "text": "Revise the hypothesis or formulate a new one, and then design a new experiment.",
-        "rationale": "Correct. Science is a process of refining ideas based on evidence. A refuted hypothesis leads to new questions and further investigation.",
+        "text": "They should acknowledge the omission, clarify whether humidity was controlled, and address how it might affect the results.",
+        "rationale": "Correct. Responding transparently to peer feedback improves the reliability of the published work.",
         "isCorrect": true
       },
       {
-        "text": "Conclude that the experiment was a failure.",
-        "rationale": "An experiment that provides a clear answer, even if it's 'no', is a successful experiment.",
+        "text": "They should ignore the comment because the peer review process is optional.",
+        "rationale": "Peer review is an integral part of scientific publication and should not be dismissed.",
+        "isCorrect": false
+      },
+      {
+        "text": "They should withdraw the study immediately and never publish it.",
+        "rationale": "Clarifying the methods is preferable to abandoning valid research.",
+        "isCorrect": false
+      },
+      {
+        "text": "They should insist that humidity could not possibly matter.",
+        "rationale": "Dismissing a potentially important variable without evidence weakens scientific credibility.",
         "isCorrect": false
       }
     ]
@@ -285,27 +293,28 @@ module.exports = [
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Information gathered during an experiment is called:",
+    "difficulty": "hard",
+    "passage": "A citizen science project asks volunteers to record bird sightings in their neighborhoods using a standardized app.",
+    "question": "Why is it important that all volunteers follow the same observation protocol?",
     "answerOptions": [
       {
-        "text": "Data",
-        "rationale": "Correct. Data can be quantitative (numbers) or qualitative (descriptions).",
+        "text": "Consistent protocols make the combined data set meaningful and comparable across locations.",
+        "rationale": "Correct. Using the same methods ensures that data from different observers can be combined reliably.",
         "isCorrect": true
       },
       {
-        "text": "Theory",
-        "rationale": "A theory is a broad explanation, not the raw information.",
+        "text": "Following the same protocol keeps volunteers from observing rare species.",
+        "rationale": "Protocols do not limit sightings; they standardize reporting.",
         "isCorrect": false
       },
       {
-        "text": "Inference",
-        "rationale": "An inference is a conclusion based on data, not the data itself.",
+        "text": "Using an app guarantees that every volunteer observes the same number of birds.",
+        "rationale": "The number of birds observed will naturally vary; the protocol standardizes how observations are made.",
         "isCorrect": false
       },
       {
-        "text": "Opinion",
-        "rationale": "Scientific data should be objective, not based on opinion.",
+        "text": "Standardized methods ensure that professional scientists no longer need to review the data.",
+        "rationale": "Scientists still review volunteer data; consistent methods simply make it more usable.",
         "isCorrect": false
       }
     ]
@@ -313,27 +322,28 @@ module.exports = [
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "A logical interpretation of an observation based on prior knowledge and experience is a(n):",
+    "difficulty": "hard",
+    "passage": "Two independent laboratories follow the same protocol to measure the melting point of a newly synthesized compound. Their results differ by 0.5°C, which is within the margin of error for the instruments used.",
+    "question": "What does this agreement suggest about the original protocol?",
     "answerOptions": [
       {
-        "text": "Observation",
-        "rationale": "An observation is the direct gathering of information.",
-        "isCorrect": false
-      },
-      {
-        "text": "Inference",
-        "rationale": "Correct. For example, if you see smoke, you might infer that there is a fire.",
+        "text": "The protocol is reliable because different labs produced nearly identical results.",
+        "rationale": "Correct. Consistent outcomes across labs support the validity of the method.",
         "isCorrect": true
       },
       {
-        "text": "Law",
-        "rationale": "A scientific law is a description of an observed phenomenon.",
+        "text": "The protocol should be rejected because the results were not identical down to the tenth of a degree.",
+        "rationale": "Minor differences within the margin of error are expected and acceptable.",
         "isCorrect": false
       },
       {
-        "text": "Hypothesis",
-        "rationale": "A hypothesis is a testable prediction, which is a type of inference but more specific.",
+        "text": "The instrument manuals should no longer be consulted.",
+        "rationale": "Instrument guidance remains essential regardless of consistency.",
+        "isCorrect": false
+      },
+      {
+        "text": "The laboratories must have used different compounds.",
+        "rationale": "A small difference within the error range does not imply different substances.",
         "isCorrect": false
       }
     ]
