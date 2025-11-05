@@ -265,6 +265,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "medium",
+<<<<<<< HEAD
     "passage": "City council approved a pilot program to replace traditional streetlights with LED fixtures in two neighborhoods. The new lights use less electricity, last longer, and produce more focused illumination that reduces glare into windows. The city expects to cut maintenance costs and lower energy use by 40% in the pilot area. If successful, the program may expand citywide next year.",
     "question": "What is the main idea of the passage?",
     "answerOptions": [
@@ -286,6 +287,29 @@ module.exports = [
       {
         "text": "The fixtures produce more focused illumination.",
         "rationale": "This is a supporting detail, not the central idea.",
+=======
+    "passage": "The robotics club sent an update to parents about its first competition of the season. The message explains that the team spent fall semester learning to code sensors, that mentors from a local engineering firm provided feedback, and that the students won the teamwork award at last weekend's regional meet. The coach writes that steady practice and community support are helping the club thrive.",
+    "question": "Which option states the main idea of the update?",
+    "answerOptions": [
+      {
+        "text": "Mentors from an engineering firm visited the club.",
+        "rationale": "This is a supporting detail, not the central message of the update.",
+        "isCorrect": false
+      },
+      {
+        "text": "Focused practice and community support are fueling the robotics club's success this season.",
+        "rationale": "Correct. This statement summarizes the key factors and results highlighted in the passage.",
+        "isCorrect": true
+      },
+      {
+        "text": "Students spent the fall semester learning to code sensors.",
+        "rationale": "This detail supports the main idea but does not capture the overall point on its own.",
+        "isCorrect": false
+      },
+      {
+        "text": "The team won the teamwork award at a regional meet.",
+        "rationale": "Winning an award is evidence of success, yet the main idea also emphasizes how the team achieved it.",
+>>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
     ]
@@ -294,6 +318,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "easy",
+<<<<<<< HEAD
     "passage": "A local animal shelter posted that it is currently full and cannot accept more animals until adoptions increase. The shelter encouraged residents to adopt or foster and highlighted a weekend event with waived adoption fees. Volunteers will be on-site to help families find a good match.",
     "question": "Which sentence best states the main idea?",
     "answerOptions": [
@@ -315,6 +340,29 @@ module.exports = [
       {
         "text": "Adoption fees will be waived.",
         "rationale": "This is a supporting detail about the event, not the overall message.",
+=======
+    "passage": "A flyer promotes a weekend volunteer event at the city park. It invites residents to join the Saturday morning cleanup, notes that gloves and tools will be provided, and explains that volunteers will plant native flowers after picking up litter. The flyer ends by thanking participants for helping keep the park welcoming for everyone.",
+    "question": "What is the main idea of the flyer?",
+    "answerOptions": [
+      {
+        "text": "Volunteers will receive gloves and tools.",
+        "rationale": "Supplies are mentioned, but the main idea is about the event itself.",
+        "isCorrect": false
+      },
+      {
+        "text": "Residents are invited to join a Saturday park cleanup that includes planting native flowers.",
+        "rationale": "Correct. This sentence summarizes the purpose and activities of the event.",
+        "isCorrect": true
+      },
+      {
+        "text": "Planting native flowers helps local pollinators.",
+        "rationale": "The flyer does not mention pollinators; this statement goes beyond the passage.",
+        "isCorrect": false
+      },
+      {
+        "text": "The park is open every day for visitors.",
+        "rationale": "The flyer focuses on a volunteer event, not general park hours.",
+>>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
     ]
@@ -323,6 +371,7 @@ module.exports = [
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "medium",
+<<<<<<< HEAD
     "passage": "An after-school tutoring program reported that average math grades among participating students rose from C to B over one semester. Attendance at the sessions averaged 92%. The program director emphasized that the goal is not only higher grades but also building students’ study habits and confidence.",
     "question": "Which sentence best expresses the main idea?",
     "answerOptions": [
@@ -344,6 +393,29 @@ module.exports = [
       {
         "text": "The director emphasized building confidence.",
         "rationale": "This is part of the goal, but not the full main idea.",
+=======
+    "passage": "In a reflective essay, a first-generation college student describes juggling a full course load, a part-time job, and family responsibilities. She explains that weekly check-ins with an academic advisor helped her plan study time, that her supervisor allowed flexible shifts during exams, and that her younger siblings cheered her on when she considered quitting. She concludes that persistence and a strong support network made graduation possible.",
+    "question": "Which statement best summarizes the essay?",
+    "answerOptions": [
+      {
+        "text": "Meeting with an academic advisor each week was the hardest part of college.",
+        "rationale": "Advisor meetings are mentioned as helpful, not as the main point or a hardship.",
+        "isCorrect": false
+      },
+      {
+        "text": "Balancing school, work, and family was challenging, but support systems helped the writer persist to graduation.",
+        "rationale": "Correct. This captures both the challenges and the key message about support leading to success.",
+        "isCorrect": true
+      },
+      {
+        "text": "Working part time during college is impossible without flexible hours.",
+        "rationale": "The essay describes one student's experience and does not make this broad claim.",
+        "isCorrect": false
+      },
+      {
+        "text": "Family members should not worry about college schedules.",
+        "rationale": "The passage never suggests this idea; it emphasizes encouragement from family.",
+>>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
     ]

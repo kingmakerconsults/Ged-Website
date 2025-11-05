@@ -4,26 +4,27 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "What is the variable that is measured in a scientific experiment?",
+    "passage": "During a class investigation, students predict that bean plants grown under blue light will grow taller than those under red light.",
+    "question": "What part of the scientific process is the students' prediction?",
     "answerOptions": [
       {
-        "text": "Independent variable",
-        "rationale": "The independent variable is the one that is changed or manipulated.",
-        "isCorrect": false
-      },
-      {
-        "text": "Dependent variable",
-        "rationale": "Correct. The dependent variable is the outcome that is measured to see the effect of the independent variable.",
+        "text": "A hypothesis",
+        "rationale": "Correct. A hypothesis is a testable statement that predicts how a change will affect an outcome.",
         "isCorrect": true
       },
       {
-        "text": "Control variable (Constant)",
-        "rationale": "A control variable is a factor that is kept the same.",
+        "text": "A procedure",
+        "rationale": "The procedure describes the steps in the experiment, not the prediction.",
         "isCorrect": false
       },
       {
-        "text": "Hypothesis",
-        "rationale": "A hypothesis is a testable prediction, not a variable to be measured.",
+        "text": "A conclusion",
+        "rationale": "A conclusion is written after the data are analyzed.",
+        "isCorrect": false
+      },
+      {
+        "text": "An observation",
+        "rationale": "Observations record what is seen or measured, not what is expected to happen.",
         "isCorrect": false
       }
     ]
@@ -32,26 +33,26 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "When a scientist repeats an experiment conducted by another scientist to verify the results, it is called:",
+    "question": "A student records that a solution turned from clear to bright pink during a reaction. What type of data did the student collect?",
     "answerOptions": [
       {
-        "text": "Replication",
-        "rationale": "Correct. Replication is a cornerstone of the scientific process, ensuring that results are reliable and not a one-time fluke.",
+        "text": "Quantitative data",
+        "rationale": "Quantitative data involve numbers or measurements.",
+        "isCorrect": false
+      },
+      {
+        "text": "Qualitative data",
+        "rationale": "Correct. A color change is a descriptive observation rather than a numerical measurement.",
         "isCorrect": true
       },
       {
-        "text": "Hypothesizing",
-        "rationale": "Hypothesizing is the act of forming a testable explanation.",
+        "text": "Inferential data",
+        "rationale": "An inference is a logical explanation, not a direct observation of color.",
         "isCorrect": false
       },
       {
-        "text": "Observation",
-        "rationale": "Observation is the act of gathering information.",
-        "isCorrect": false
-      },
-      {
-        "text": "Conclusion",
-        "rationale": "A conclusion is a summary of the experiment's findings.",
+        "text": "Modeled data",
+        "rationale": "Modeled data come from simulations rather than direct observation.",
         "isCorrect": false
       }
     ]
@@ -60,26 +61,27 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "Which of the following is an example of a quantitative observation?",
+    "passage": "Students track the number of birds visiting a feeder each day for two weeks.",
+    "question": "Which graph would best show how the number of birds changes over time?",
     "answerOptions": [
       {
-        "text": "The solution turned blue.",
-        "rationale": "This is a qualitative observation (describing a quality).",
-        "isCorrect": false
-      },
-      {
-        "text": "The plant has five leaves.",
-        "rationale": "Correct. This is a quantitative observation because it involves a specific, measurable number.",
+        "text": "A line graph with days on the x-axis",
+        "rationale": "Correct. A line graph highlights how a quantity changes over a continuous period of time.",
         "isCorrect": true
       },
       {
-        "text": "The rock feels smooth.",
-        "rationale": "This is a qualitative observation (describing a texture).",
+        "text": "A pie chart showing each day as a slice",
+        "rationale": "A pie chart is better suited to show parts of a whole, not trends over time.",
         "isCorrect": false
       },
       {
-        "text": "The gas has a strong odor.",
-        "rationale": "This is a qualitative observation (describing a quality).",
+        "text": "A scatter plot with random symbols",
+        "rationale": "Scatter plots are typically used to explore relationships between two quantitative variables.",
+        "isCorrect": false
+      },
+      {
+        "text": "A pictograph with bird icons",
+        "rationale": "Pictographs can be used, but they are less precise for showing daily changes compared with a line graph.",
         "isCorrect": false
       }
     ]
@@ -88,26 +90,27 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "The final step in the scientific method is often to:",
+    "passage": "A chemistry teacher gives students four different brands of hand warmers. The students measure how many minutes each hand warmer stays above 35°C.",
+    "question": "What is the dependent variable in this experiment?",
     "answerOptions": [
       {
-        "text": "Ask a question.",
-        "rationale": "This is the first step.",
+        "text": "The brand of hand warmer",
+        "rationale": "The brand is the factor that is changed, so it is the independent variable.",
         "isCorrect": false
       },
       {
-        "text": "Form a hypothesis.",
-        "rationale": "This is an early step.",
+        "text": "The temperature threshold of 35°C",
+        "rationale": "The temperature threshold is part of the procedure and stays the same for all trials.",
         "isCorrect": false
       },
       {
-        "text": "Communicate the results.",
-        "rationale": "Correct. After analyzing data and drawing conclusions, scientists share their findings with the scientific community.",
+        "text": "The number of minutes the hand warmer stays above 35°C",
+        "rationale": "Correct. The students measure the time, so it is the dependent variable.",
         "isCorrect": true
       },
       {
-        "text": "Design an experiment.",
-        "rationale": "This is done to test the hypothesis.",
+        "text": "The type of thermometer used",
+        "rationale": "The thermometer is a tool, not a variable in the investigation.",
         "isCorrect": false
       }
     ]
@@ -116,27 +119,27 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A researcher is testing the effectiveness of a new fertilizer on tomato plants. Group A consists of 50 plants that receive the new fertilizer. Group B consists of 50 plants that receive no fertilizer. Both groups are grown in the same type of soil, receive the same amount of sunlight, and are watered equally. The researcher measures the total weight of tomatoes produced by each plant.",
-    "question": "What is the purpose of Group B in this experiment?",
+    "passage": "A table shows the pH of a lake measured each month. The pH drops sharply from 7.2 in May to 6.0 in June and remains near 6.1 for the rest of the summer.",
+    "question": "Which inference is best supported by the data?",
     "answerOptions": [
       {
-        "text": "It is the experimental group.",
-        "rationale": "Group A is the experimental group because it receives the new fertilizer.",
-        "isCorrect": false
-      },
-      {
-        "text": "It serves as the control group.",
-        "rationale": "Correct. Group B provides a baseline for comparison to see if the fertilizer has a significant effect compared to no treatment.",
+        "text": "The lake water became more acidic in early summer and stayed at that level for several months.",
+        "rationale": "Correct. A lower pH indicates higher acidity, and the table shows the drop occurred in June and persisted.",
         "isCorrect": true
       },
       {
-        "text": "It is the independent variable.",
-        "rationale": "The presence or absence of fertilizer is the independent variable.",
+        "text": "The lake's pH bounced back to neutral by August.",
+        "rationale": "The table indicates the pH stayed around 6.1 through the summer, not back to neutral.",
         "isCorrect": false
       },
       {
-        "text": "It is the dependent variable.",
-        "rationale": "The weight of the tomatoes is the dependent variable.",
+        "text": "The pH measurements in May were recorded incorrectly.",
+        "rationale": "There is no evidence of an error; the data suggest a real change in the lake's chemistry.",
+        "isCorrect": false
+      },
+      {
+        "text": "The pH remained neutral throughout the entire study.",
+        "rationale": "A neutral pH is 7.0. The table shows values well below neutral after May.",
         "isCorrect": false
       }
     ]
@@ -145,27 +148,27 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A researcher is testing the effectiveness of a new fertilizer on tomato plants. Group A consists of 50 plants that receive the new fertilizer. Group B consists of 50 plants that receive no fertilizer. Both groups are grown in the same type of soil, receive the same amount of sunlight, and are watered equally. The researcher measures the total weight of tomatoes produced by each plant.",
-    "question": "What is the dependent variable in this experiment?",
+    "passage": "A biotechnology lab tests two strains of bacteria for growth rate. Both strains are incubated at 37°C, receive equal nutrients, and are grown for exactly 24 hours. The scientists record the mass of bacterial colonies produced by each strain.",
+    "question": "Which factor is intentionally varied to compare results?",
     "answerOptions": [
       {
-        "text": "The type of fertilizer.",
-        "rationale": "This is the independent variable.",
+        "text": "The incubation temperature",
+        "rationale": "Temperature is the same for both groups and is therefore controlled.",
         "isCorrect": false
       },
       {
-        "text": "The amount of sunlight.",
-        "rationale": "This is a constant (control variable).",
+        "text": "The nutrient supply",
+        "rationale": "Both strains receive the same nutrients, so this is not the variable being changed.",
         "isCorrect": false
       },
       {
-        "text": "The total weight of tomatoes produced.",
-        "rationale": "Correct. This is the outcome that is measured to assess the effect of the fertilizer.",
+        "text": "The type of bacteria being grown",
+        "rationale": "Correct. The two different bacterial strains are the independent variable.",
         "isCorrect": true
       },
       {
-        "text": "The type of soil.",
-        "rationale": "This is a constant (control variable).",
+        "text": "The length of the growth period",
+        "rationale": "Each strain is grown for 24 hours, so time is a controlled factor.",
         "isCorrect": false
       }
     ]
@@ -174,27 +177,27 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A graph shows the population of a species of fish in a lake over 10 years. The y-axis is \"Fish Population\" and the x-axis is \"Year\". The line on the graph starts at 1,000 in Year 1, increases to 5,000 in Year 5, and then decreases to 2,000 in Year 10.",
-    "question": "During which period did the fish population experience the fastest rate of growth?",
+    "passage": "A physics class measures the distance a toy car travels down a ramp. The students notice one trial in which the car stops halfway down the ramp because a pencil accidentally blocks the path.",
+    "question": "What should the students do with the data from the blocked trial?",
     "answerOptions": [
       {
-        "text": "Between Year 1 and Year 5",
-        "rationale": "Correct. The population increased by 4,000 over 4 years (1,000 per year), which is a faster growth rate than the decline seen later.",
+        "text": "Include it in the calculations to keep the sample size the same.",
+        "rationale": "Including flawed data would skew the results.",
+        "isCorrect": false
+      },
+      {
+        "text": "Record it as an outlier, note the error, and rerun the trial.",
+        "rationale": "Correct. Documenting the mistake and repeating the trial maintains the integrity of the data set.",
         "isCorrect": true
       },
       {
-        "text": "Between Year 5 and Year 10",
-        "rationale": "During this period, the population decreased, it did not grow.",
+        "text": "Change the hypothesis so the shorter distance becomes the expected outcome.",
+        "rationale": "Hypotheses are not changed mid-experiment to match accidental results.",
         "isCorrect": false
       },
       {
-        "text": "The population growth was constant.",
-        "rationale": "The graph shows a period of growth followed by a period of decline.",
-        "isCorrect": false
-      },
-      {
-        "text": "The population did not grow.",
-        "rationale": "The population grew significantly in the first five years.",
+        "text": "Delete all of the previous data and start over.",
+        "rationale": "Only the flawed trial needs to be repeated, not the entire experiment.",
         "isCorrect": false
       }
     ]
@@ -203,26 +206,27 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "A scientist makes a claim that a new diet pill helps people lose weight. Which of the following would be the most important factor in evaluating the validity of this claim?",
+    "passage": "An environmental scientist collects water samples from eight points along a river. She measures dissolved oxygen levels and records them in milligrams per liter (mg/L).",
+    "question": "Why is it important that she uses the same units for every sample?",
     "answerOptions": [
       {
-        "text": "The number of celebrities who endorse the pill.",
-        "rationale": "Endorsements are a form of advertising, not scientific evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "The results of a well-designed, controlled clinical trial published in a peer-reviewed journal.",
-        "rationale": "Correct. This represents the highest standard of scientific evidence.",
+        "text": "It allows her to average the values accurately and compare samples directly.",
+        "rationale": "Correct. Consistent units make the data comparable and the calculations meaningful.",
         "isCorrect": true
       },
       {
-        "text": "Testimonials from a few people who say the pill worked for them.",
-        "rationale": "Anecdotal evidence is not reliable as it can be biased and is not controlled for other factors.",
+        "text": "It lets her avoid plotting the data on a graph.",
+        "rationale": "Graphs can still be useful even when consistent units are used.",
         "isCorrect": false
       },
       {
-        "text": "The professional appearance of the packaging and website.",
-        "rationale": "Marketing and appearance have no bearing on the scientific validity of a product.",
+        "text": "It prevents the dissolved oxygen from changing in the sample bottles.",
+        "rationale": "Measurement units do not affect the actual chemical properties of the sample.",
+        "isCorrect": false
+      },
+      {
+        "text": "It eliminates the need to repeat the experiment in the future.",
+        "rationale": "Consistency improves current analysis but does not remove the value of future studies.",
         "isCorrect": false
       }
     ]
@@ -231,26 +235,27 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "What is the mean (average) of the following set of numbers: 10, 15, 20, 25, 30?",
+    "passage": "A double-blind study is set up to test a new allergy medication. Neither the participants nor the researchers who interact with them know who receives the medication or the placebo until after the data are collected.",
+    "question": "What is the main advantage of this study design?",
     "answerOptions": [
       {
-        "text": "15",
-        "rationale": "This is the second number in the set.",
-        "isCorrect": false
-      },
-      {
-        "text": "20",
-        "rationale": "Correct. The sum of the numbers is 100. 100 divided by 5 (the number of values) is 20.",
+        "text": "It prevents bias from influencing the way symptoms are reported or evaluated.",
+        "rationale": "Correct. When neither participants nor researchers know who has the treatment, expectations are less likely to affect the results.",
         "isCorrect": true
       },
       {
-        "text": "25",
-        "rationale": "This is the fourth number in the set.",
+        "text": "It guarantees the new medication will work.",
+        "rationale": "A double-blind design ensures fairness, not success.",
         "isCorrect": false
       },
       {
-        "text": "100",
-        "rationale": "This is the sum of the numbers, not the average.",
+        "text": "It allows the same participants to test multiple medications at once.",
+        "rationale": "Participants receive only one treatment or placebo during the trial.",
+        "isCorrect": false
+      },
+      {
+        "text": "It eliminates the need to use a placebo group.",
+        "rationale": "Double-blind studies still include a placebo so that results can be compared.",
         "isCorrect": false
       }
     ]
@@ -259,26 +264,27 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "A study finds a strong positive correlation between ice cream sales and the number of drownings in a city. What is the most likely explanation for this correlation?",
+    "passage": "The box-and-whisker plot below summarizes the daily high temperatures (°C) for City A and City B in July. City A has a median of 28°C with a narrow interquartile range (IQR). City B has a median of 30°C with a wider IQR and longer whiskers.",
+    "question": "What does the plot reveal about the temperature patterns in the two cities?",
     "answerOptions": [
       {
-        "text": "Eating ice cream causes people to be more likely to drown.",
-        "rationale": "This confuses correlation with causation.",
-        "isCorrect": false
-      },
-      {
-        "text": "A third factor, such as hot weather, is likely causing an increase in both ice cream sales and the number of people swimming.",
-        "rationale": "Correct. Hot weather is a lurking variable that explains the relationship. Correlation does not imply causation.",
+        "text": "City B experiences a greater spread in daily high temperatures than City A.",
+        "rationale": "Correct. The wider IQR and longer whiskers indicate more variability in City B's temperatures.",
         "isCorrect": true
       },
       {
-        "text": "Drowning incidents cause people to buy more ice cream.",
-        "rationale": "This is an illogical causal relationship.",
+        "text": "City A has more extreme high temperatures than City B.",
+        "rationale": "City A's whiskers are shorter, suggesting fewer extremes compared with City B.",
         "isCorrect": false
       },
       {
-        "text": "The correlation is purely coincidental and has no explanation.",
-        "rationale": "While some correlations can be coincidental, in this case, there is a very likely third factor explaining the relationship.",
+        "text": "Both cities have identical temperature distributions.",
+        "rationale": "The medians and spreads differ, so the distributions are not the same.",
+        "isCorrect": false
+      },
+      {
+        "text": "City A's temperatures fluctuate more widely than City B's.",
+        "rationale": "The narrow IQR for City A indicates less variation, not more.",
         "isCorrect": false
       }
     ]
@@ -287,26 +293,27 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "In order for a scientific theory to be valid, it must be:",
+    "passage": "A researcher tests a soil additive meant to increase crop yield. After one growing season, the treated field produces an average of 5.8 tons of corn per hectare, while the untreated field yields 5.6 tons per hectare. The difference is within the margin of measurement error.",
+    "question": "What should the researcher conclude about the soil additive?",
     "answerOptions": [
       {
-        "text": "Proven to be 100% correct without any doubt.",
-        "rationale": "Scientific theories are always open to revision in light of new evidence; they are not considered \"proven\" in the absolute sense.",
-        "isCorrect": false
-      },
-      {
-        "text": "Supported by a large body of evidence from multiple experiments and be falsifiable.",
-        "rationale": "Correct. A valid theory is well-supported and it must be possible to conceive of an observation or argument which could negate it.",
+        "text": "There is not enough evidence to show that the additive significantly increases yield.",
+        "rationale": "Correct. The small difference could be due to normal variation, so more testing is needed.",
         "isCorrect": true
       },
       {
-        "text": "Understood and accepted by the general public.",
-        "rationale": "Public acceptance is not a requirement for scientific validity.",
+        "text": "The additive clearly produces a dramatic improvement.",
+        "rationale": "The data show only a slight change within the error range, not a dramatic improvement.",
         "isCorrect": false
       },
       {
-        "text": "An educated guess that has not yet been tested.",
-        "rationale": "This describes a hypothesis, not a theory.",
+        "text": "The untreated field must have been measured incorrectly.",
+        "rationale": "No evidence of measurement error is provided; the results simply may not be significant.",
+        "isCorrect": false
+      },
+      {
+        "text": "The additive should be banned because it decreases production.",
+        "rationale": "The additive did not lower yields; the change was negligible.",
         "isCorrect": false
       }
     ]
@@ -315,26 +322,27 @@ module.exports = [
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "A student measures a block of wood and finds its length to be 10.5 cm, its width to be 5.2 cm, and its height to be 2.0 cm. What is the volume of the block, expressed with the correct number of significant figures?",
+    "passage": "A class calculates the mean, median, and mode of a data set representing the number of hours students studied for a test: 1, 2, 2, 3, 4, 12.",
+    "question": "Which measure of central tendency best represents the typical study time for the class?",
     "answerOptions": [
       {
-        "text": "109.2 cm³",
-        "rationale": "This is the exact calculated value, but it does not account for significant figures.",
+        "text": "The mean, because it uses every value in the data set.",
+        "rationale": "The mean is pulled upward by the outlier (12 hours) and does not reflect most students' study time.",
         "isCorrect": false
       },
       {
-        "text": "109 cm³",
-        "rationale": "This rounds to three significant figures, but the measurement with the fewest (2.0 cm) has only two.",
-        "isCorrect": false
-      },
-      {
-        "text": "110 cm³",
-        "rationale": "Correct. The measurement with the fewest significant figures is 2.0 cm (two significant figures). Therefore, the answer must be rounded to two significant figures. 109.2 rounded to two significant figures is 110.",
+        "text": "The median, because it is less affected by the outlier.",
+        "rationale": "Correct. The median of 2.5 hours gives a better sense of the typical student than the mean.",
         "isCorrect": true
       },
       {
-        "text": "100 cm³",
-        "rationale": "This rounds to only one significant figure.",
+        "text": "The mode, because it equals the highest value in the set.",
+        "rationale": "The mode is 2 hours, not 12, and does not capture the overall distribution as well as the median.",
+        "isCorrect": false
+      },
+      {
+        "text": "None of the measures are useful because the data set contains an outlier.",
+        "rationale": "The median still provides useful information even when an outlier is present.",
         "isCorrect": false
       }
     ]
@@ -342,27 +350,28 @@ module.exports = [
   {
     "questionNumber": 13,
     "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "A scientist is studying the effect of a new drug on mice. What is the best way to avoid bias in the experiment?",
+    "difficulty": "hard",
+    "passage": "In a newspaper article, a graph shows a sharp increase in flu cases during the first week of November. The sample includes 20 clinics that voluntarily reported their data.",
+    "question": "Which question should readers ask to evaluate the reliability of the conclusion that flu cases surged citywide?",
     "answerOptions": [
       {
-        "text": "The scientist should know which mice are getting the drug so they can observe them more closely.",
-        "rationale": "This would introduce observer bias.",
-        "isCorrect": false
-      },
-      {
-        "text": "The experiment should be designed as a double-blind study, where neither the researchers nor the participants know who is receiving the drug and who is receiving a placebo.",
-        "rationale": "Correct. This minimizes bias from both the researchers and the subjects.",
+        "text": "Do the 20 reporting clinics represent the entire city's population?",
+        "rationale": "Correct. If the sample is not representative, the conclusion may not apply to the whole city.",
         "isCorrect": true
       },
       {
-        "text": "Only healthy mice should be selected for the experiment.",
-        "rationale": "This could create a biased sample, not representative of a real-world population.",
+        "text": "Are there exactly 20 flu strains active in the city?",
+        "rationale": "The number of strains is unrelated to whether the sample reflects the city's clinics.",
         "isCorrect": false
       },
       {
-        "text": "The results should only be published if they support the scientist's hypothesis.",
-        "rationale": "This is a form of publication bias and is unethical.",
+        "text": "Were any of the clinics located near public transportation?",
+        "rationale": "Location may be interesting, but the key issue is whether the sample reflects the entire community.",
+        "isCorrect": false
+      },
+      {
+        "text": "Did the article include photos of patients waiting to be seen?",
+        "rationale": "Photographs do not indicate whether the data set is representative or reliable.",
         "isCorrect": false
       }
     ]
