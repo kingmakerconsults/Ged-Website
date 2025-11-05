@@ -90,272 +90,263 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "passage": "Rla Inference 10 Case Study 4: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 10 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A note on the elevator door reads, 'Out of service—maintenance in progress.' A steady stream of people uses the stairwell.",
+    "question": "What is the best inference?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The elevator is temporarily unavailable, so people must take the stairs.",
+        "rationale": "Correct. The sign and observed behavior support this.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 10 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The building has banned elevator use permanently.",
+        "rationale": "'Maintenance in progress' indicates a temporary issue, not a ban.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The stairwell is closed.",
+        "rationale": "People are using the stairs, so it is open.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "All tenants have moved out.",
+        "rationale": "There is no evidence of vacancy; people are present and moving.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "passage": "Rla Inference 10 Case Study 5: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 10 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "On a ninety-degree afternoon, the ice cream shop's line stretches out the door and down the block.",
+    "question": "What is the most reasonable inference?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Hot weather is driving unusually high demand for cold treats.",
+        "rationale": "Correct. The long line on a very hot day suggests heat-related demand.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 10 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The shop is giving away ice cream for free.",
+        "rationale": "No free promotion is mentioned; weather explains the crowd.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The shop is about to close forever.",
+        "rationale": "There's no evidence of a permanent closure.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Everyone in line works at the shop.",
+        "rationale": "They are customers waiting, not employees.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "passage": "Rla Inference 10 Case Study 6: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 10 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "A nonprofit's annual report states it 'diversified funding sources.' Charts show government grants fell from 55% to 25% of revenue, while corporate sponsorships rose from 10% to 40%. A new wing bears a corporation's name.",
+    "question": "Which inference is best supported?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The organization has shifted reliance away from government grants toward corporate sponsors.",
+        "rationale": "Correct. The percentages and naming rights indicate a substantial shift to corporate funding.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 10 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Government funding increased dramatically.",
+        "rationale": "It decreased from 55% to 25%.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The nonprofit eliminated all private donations.",
+        "rationale": "No evidence suggests elimination; the report shows growth in sponsorships.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The corporation runs the nonprofit now.",
+        "rationale": "Naming rights do not imply operational control.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Inference 10 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 10 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "An announcement on the platform reports a 'significant delay due to signal issues.' Commuters sigh, check ride-share apps, and some head toward the exit.",
+    "question": "What is the most reasonable inference about commuter behavior?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Some riders are seeking alternate transportation because of the delay.",
+        "rationale": "Correct. Checking apps and leaving the platform indicates looking for alternatives.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 10 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The trains are arriving on time.",
+        "rationale": "The announcement says there is a significant delay.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The station is closing permanently.",
+        "rationale": "Only a delay is mentioned; no closure is implied.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Everyone plans to sleep on the platform.",
+        "rationale": "Passengers are leaving to find other options, not staying overnight.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Inference 10 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 10 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "After two turnovers in a row, the coach pulls the point guard and speaks to them quietly on the sideline before sending them back in later.",
+    "question": "What is the best inference about the coach's action?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The coach benched the player briefly to correct mistakes before returning them to the game.",
+        "rationale": "Correct. The sequence indicates quick discipline and coaching, not a permanent benching.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 10 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The player was ejected by the referee.",
+        "rationale": "Ejections are not temporary and are done by officials, not coaches.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The player quit the team.",
+        "rationale": "The player re-enters the game later, so they did not quit.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The coach is ignoring the player's performance.",
+        "rationale": "The coach addressed the mistakes directly.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Inference 10 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 10 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "A university moves many lecture courses online, sells a large parking lot to a developer, and signs an agreement with a coworking company to host study spaces near transit.",
+    "question": "Which conclusion is best supported?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The university is reducing its physical footprint while shifting toward hybrid/online learning.",
+        "rationale": "Correct. Selling parking and partnering off-site align with fewer on-campus activities and more online delivery.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 10 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The university plans to build more on-campus parking.",
+        "rationale": "They sold parking space, which suggests the opposite.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The university is eliminating all study spaces.",
+        "rationale": "They are adding off-site study spaces, not eliminating them.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The university is banning online learning.",
+        "rationale": "They are increasing, not banning, online courses.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Inference 10 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 10 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The grocery store installed eight self-checkout kiosks and reduced the number of staffed lanes. Lines move faster, but there are fewer cashiers on duty.",
+    "question": "What inference best explains the change?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The store aims to increase checkout speed while lowering labor costs.",
+        "rationale": "Correct. Installing kiosks and reducing staff points to efficiency and cost reduction goals.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 10 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The store plans to close permanently.",
+        "rationale": "Investments in kiosks suggest continued operation, not closure.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The store will no longer accept credit cards.",
+        "rationale": "Payment methods are not mentioned; kiosks typically accept cards.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Customers demanded longer checkout times.",
+        "rationale": "The change produces shorter, not longer, lines.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Inference 10 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 10 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A sign in the emergency room explains triage: 'Patients with life-threatening conditions are treated first.' The waiting room is crowded with people holding minor injuries.",
+    "question": "What inference can be made about wait times?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Patients with non-urgent issues will likely wait longer when severe cases arrive.",
+        "rationale": "Correct. Triage prioritizes severity, increasing waits for minor cases during busy periods.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 10 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "All patients are seen strictly in order of arrival.",
+        "rationale": "Triage explicitly prioritizes severity, not arrival time alone.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Minor injuries will be treated immediately.",
+        "rationale": "Immediate care is reserved for life-threatening cases under triage.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The ER is closed to new patients.",
+        "rationale": "The room is crowded; there is no closure indicated.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Inference 10 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 10 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A museum launches 'Pay What You Can Fridays.' Attendance on Fridays doubles, and donation boxes are placed near the entrance.",
+    "question": "Which inference is most supported by these details?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 10 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Lowering the cost barrier increased attendance on Fridays.",
+        "rationale": "Correct. Attendance doubling after the policy change indicates reduced cost boosted visits.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 10 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The museum now charges more than before on Fridays.",
+        "rationale": "The policy reduces required payment, not increases it.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Visitors are required to donate a fixed amount.",
+        "rationale": "'Pay what you can' is not a fixed requirement; donation boxes suggest optional giving.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The museum is closed on Fridays.",
+        "rationale": "Attendance increased, meaning it's open and busier.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
