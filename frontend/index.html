@@ -12598,14 +12598,14 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         }
     };
 
-    // Ask Coach (subject): ad-hoc challenge-filtered 12Q quiz via new endpoint
+    // Ask Coach (subject): ad-hoc challenge-filtered 12Q quiz via daily-composite endpoint
     const startDailyCompositeForSubject = async (subject, focusTag) => {
         try {
             const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
             if (!token) { alert('Please sign in to start a composite quiz.'); return; }
             setIsLoading(true);
             setLoadingMessage(`Asking Coach for a custom ${subject} mix…`);
-            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(practiceSubjectParam(subject))}/ask`, {
+            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(practiceSubjectParam(subject))}/daily-composite`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
                 body: JSON.stringify({ focusTag })
@@ -12622,6 +12622,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             alert('Unable to start an Ask Coach quiz right now.');
         } finally {
             setIsLoading(false);
+            // make sure panels reflect the new coach quiz assignment
+            await refreshCoachPanels();
         }
     };
 
@@ -12630,27 +12632,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             setAdviceLoading(true);
             setAdviceError('');
             setAdviceText('');
-            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-            if (!token) { alert('Please sign in to ask Coach.'); return; }
-            const body = {};
-            if (subjectHint) {
-                body.subject = practiceSubjectParam(subjectHint);
-            } else if (selectedSubject) {
-                const subj = (selectedSubject === 'Reasoning Through Language Arts (RLA)' ? 'RLA' : selectedSubject);
-                body.subject = practiceSubjectParam(subj);
-            }
-            const res = await fetch(`${API_BASE_URL}/api/coach/advice`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-                body: JSON.stringify(body)
-            });
-            const data = await res.json().catch(() => ({}));
-            if (!res.ok) {
-                throw new Error(data?.error || `Unable to get advice (HTTP ${res.status})`);
-            }
-            setAdviceText(data?.advice || '');
+            const subj = subjectHint || selectedSubject;
+            if (!subj) { alert('Pick a subject first.'); return; }
+            await startDailyCompositeForSubject(subj);
         } catch (e) {
-            setAdviceError(e?.message || 'Unable to get advice right now.');
+            setAdviceError(e?.message || 'Unable to start coach quiz right now.');
         } finally {
             setAdviceLoading(false);
         }
