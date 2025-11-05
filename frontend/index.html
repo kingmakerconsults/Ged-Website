@@ -846,14 +846,6 @@
                     border: none !important;
                 }
 
-                /* restore the colored subject progress cards (the row with Social Studies, RLA, etc.) */
-                [data-theme="light"] .progress-subjects .subject-card,
-                [data-theme="light"] .dashboard-progress .subject-card {
-                    background: initial !important;
-                    box-shadow: initial !important;
-                    border: initial !important;
-                }
-
                 /* animated hero gradient title in light mode */
                         [data-theme="light"] .dashboard-hero-title,
                         [data-theme="light"] header.text-center h1 {
@@ -911,9 +903,7 @@
                     border-bottom: 1px solid var(--border-color);
                 }
 
-                /* 4) Scope resets AWAY from progress cards; only flatten lower subject grid tiles */
-                [data-theme="light"] .content-card #quizzes .subject-card,
-                [data-theme="light"] .subject-bar .subject-card { background: unset; border: none; box-shadow: none; }
+                /* 4) (deduped) Scope resets are defined earlier for lower subject grid tiles */
 
                         /* A) Make the primary dashboard wrapper truly white in LIGHT mode */
                                 [data-theme="light"] .content-card {
