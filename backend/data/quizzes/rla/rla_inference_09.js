@@ -90,272 +90,263 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "multipleChoice",
-    "passage": "Rla Inference 09 Case Study 4: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 09 practice question 4: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "By mid-morning, half the office wore sweaters and wrapped their hands around hot mugs. Two emails asked if facilities could 'bump the temperature up a bit.'",
+    "question": "What is the most reasonable inference about the office environment?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It is colder than employees find comfortable.",
+        "rationale": "Correct. Sweaters, hot drinks, and requests to increase the temperature suggest the office is too cold.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 09 concept to reasoning through language arts (rla) reasoning at question 4.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The air conditioning is completely broken.",
+        "rationale": "There's no evidence of a total failure, only that it's set too low.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The building has no heating system.",
+        "rationale": "Requests to change the temperature imply a working system.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Everyone is sick with a cold.",
+        "rationale": "The behavior is about temperature, not illness.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-    "passage": "Rla Inference 09 Case Study 5: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 09 practice question 5: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "When the first drops fell, everyone in line moved under the bus shelter. A moment later, the sound of steady drumming filled the sidewalk.",
+    "question": "What can you infer about the weather?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It started raining.",
+        "rationale": "Correct. People moved under shelter, and the 'steady drumming' suggests rain.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 09 concept to reasoning through language arts (rla) reasoning at question 5.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "It started snowing.",
+        "rationale": "Snow does not typically create a 'steady drumming' on sidewalks and shelters.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The wind stopped completely.",
+        "rationale": "Wind is not mentioned as changing.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The temperature rose sharply.",
+        "rationale": "No temperature change is described.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-    "passage": "Rla Inference 09 Case Study 6: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 09 practice question 6: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "A press release announced a 'strategic realignment' and 'operational efficiencies.' The next day, dozens of employees posted that they had been laid off. The company's stock price rose 6% by market close.",
+    "question": "Which inference best explains the market reaction?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Investors expect cost-cutting layoffs to improve short-term profits.",
+        "rationale": "Correct. Euphemistic language plus layoffs and a stock jump indicate anticipated profitability due to reduced expenses.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 09 concept to reasoning through language arts (rla) reasoning at question 6.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Investors assume the company hired more staff.",
+        "rationale": "The posts indicate layoffs, not hiring.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The company announced a new product launch.",
+        "rationale": "No product is mentioned; only restructuring.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Stock prices always rise after press releases.",
+        "rationale": "Market reactions vary; the details here point to cost-cutting as the cause.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-    "passage": "Rla Inference 09 Case Study 7: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 09 practice question 7: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "At the farmer's market, one stall sold tomatoes in identical plastic clamshells with barcodes. A sign read 'Farm Fresh!' The vendor wore a shirt with a regional distributor's logo.",
+    "question": "What is the best-supported inference about the tomatoes?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They were likely purchased from a distributor, not grown by the vendor.",
+        "rationale": "Correct. Barcoded clamshells and the distributor logo suggest resale rather than direct-from-farm produce.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 09 concept to reasoning through language arts (rla) reasoning at question 7.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "They are guaranteed organic.",
+        "rationale": "No evidence of organic certification is provided.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They were picked that morning from a nearby field.",
+        "rationale": "Packaging and barcodes make this less likely.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They are imported from overseas.",
+        "rationale": "The passage does not specify origin beyond the distributor clue.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-    "passage": "Rla Inference 09 Case Study 8: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 09 practice question 8: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "A sign on the library door reads: 'Closed 1–4 p.m. for staff training. Reopens at 4 p.m.' Several patrons check their watches and say they'll come back later.",
+    "question": "What can you infer about the library's hours today?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It will reopen after 4 p.m.",
+        "rationale": "Correct. The sign explicitly states the reopening time.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 09 concept to reasoning through language arts (rla) reasoning at question 8.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "It is closed all day.",
+        "rationale": "The sign indicates a temporary closure only.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It opens for the first time at 4 p.m.",
+        "rationale": "The library is already operating but temporarily closed for training.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "It will not open again this week.",
+        "rationale": "Nothing in the sign suggests a multi-day closure.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-    "passage": "Rla Inference 09 Case Study 9: Learners explore a hard-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 09 practice question 9: Which option best demonstrates a hard understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "hard",
+    "passage": "The city's budget reduced funding for parks maintenance by 20% this year. Neighbors have posted photos of overgrown fields and overflowing trash bins. A council member proposed a 'Friends of the Parks' volunteer program to help with upkeep.",
+    "question": "What is the best-supported conclusion?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Reduced maintenance funding has led to visible decline, prompting efforts to fill the gap with volunteers.",
+        "rationale": "Correct. The sequence of cuts, visible problems, and a volunteer proposal supports this conclusion.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 09 concept to reasoning through language arts (rla) reasoning at question 9.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The parks department secretly increased staff.",
+        "rationale": "Evidence shows reduced funding and deterioration, not expansion.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Trash increased because of a new festival every weekend.",
+        "rationale": "No events are mentioned; the budget cut better explains the decline.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The city plans to close all parks permanently.",
+        "rationale": "The proposal focuses on upkeep, not closure.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "hard",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Inference 09 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 09 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A restaurant posted 'Now Hiring—Servers' next to a sign that read 'Please be patient—short staffed.' Customers waited twenty minutes to be seated at half-empty tables.",
+    "question": "What inference best explains the wait?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "A staffing shortage limits how many tables can be served at once.",
+        "rationale": "Correct. The signs and the half-empty dining room point to insufficient staff, not lack of space.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 09 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The kitchen has been permanently closed.",
+        "rationale": "The restaurant is operating but understaffed, not closed.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Customers prefer to eat outside instead.",
+        "rationale": "Preference is not mentioned; staffing explains the wait.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "There is a health inspection happening in the kitchen.",
+        "rationale": "No inspection is mentioned; signs cite staffing.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Inference 09 Case Study 11: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 09 practice question 11: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "The instructor moved the exam from Friday to Wednesday and posted a detailed study guide and extra practice problems.",
+    "question": "What is the most reasonable inference?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The timeline was accelerated, but support materials were provided to help students prepare.",
+        "rationale": "Correct. Moving the date up with added resources suggests a faster schedule balanced with support.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 09 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "The exam was canceled.",
+        "rationale": "The exam still occurs, just earlier.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "No preparation materials will be available.",
+        "rationale": "Materials were posted; this contradicts the passage.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "The course is ending immediately.",
+        "rationale": "Only the exam date changed; no course cancellation is mentioned.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Inference 09 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Inference 09 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "A notice in the apartment lobby reads: 'Water shutoff Tuesday 9–11 a.m. for pipe repairs.' That morning, several tenants can be seen carrying buckets and pitchers filled with water into their units.",
+    "question": "What can you infer about the tenants' actions?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla inference 09 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They stored water in advance to use during the shutoff.",
+        "rationale": "Correct. Bringing full containers in before the shutoff indicates preparation.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla inference 09 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "They plan to take long showers during the shutoff.",
+        "rationale": "With no running water, long showers are not possible.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They are moving out that day.",
+        "rationale": "There is no evidence of moving; the context is water repairs.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "They are hosting a building-wide party.",
+        "rationale": "Buckets and pitchers suggest basic needs, not a party.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
