@@ -1,149 +1,148 @@
-// Deprecated demo content: tool-specific quizzes are no longer used.
-// Keeping an empty export to avoid accidental consumption if referenced.
+// Graphing concepts demo: replaced placeholders with real multiple-choice items.
 module.exports = [
   {
     "questionNumber": 1,
-    "question": "Math Graphing Tool Demo practice question 1: Which option best demonstrates a medium understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "question": "What is the slope of the line passing through (2, 3) and (5, 9)?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "2", "isCorrect": true, "rationale": "Slope = (9−3)/(5−2) = 6/3 = 2." },
+      { "text": "3/2", "isCorrect": false, "rationale": "Swapped rise/run; correct is 6/3, not 3/2." },
+      { "text": "1/2", "isCorrect": false, "rationale": "This would be 3/6, but rise/run is 6/3." },
+      { "text": "-2", "isCorrect": false, "rationale": "Rise and run are both positive, so slope is positive." }
+    ]
   },
   {
     "questionNumber": 2,
-    "question": "Math Graphing Tool Demo practice question 2: Which option best demonstrates a easy understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "easy",
+    "question": "What is the y-intercept of y = 4x − 7?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "-7", "isCorrect": true, "rationale": "In y = mx + b, the y-intercept is b = −7." },
+      { "text": "4", "isCorrect": false, "rationale": "4 is the slope (m), not the y-intercept." },
+      { "text": "7", "isCorrect": false, "rationale": "Sign matters; the intercept is −7." },
+      { "text": "0", "isCorrect": false, "rationale": "The graph crosses the y-axis at (0, −7)." }
+    ]
   },
   {
     "questionNumber": 3,
-    "question": "Math Graphing Tool Demo practice question 3: Which option best demonstrates a hard understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "question": "Which equation represents a line parallel to y = −(1/3)x + 2 and passing through (0, 5)?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "y = −(1/3)x + 5", "isCorrect": true, "rationale": "Parallel lines have the same slope (−1/3) and (0,5) implies b=5." },
+      { "text": "y = (1/3)x + 5", "isCorrect": false, "rationale": "This has the opposite slope; not parallel." },
+      { "text": "y = −3x + 5", "isCorrect": false, "rationale": "Slope −3 is not equal to −1/3." },
+      { "text": "y = −(1/3)x − 5", "isCorrect": false, "rationale": "This crosses the y-axis at −5, not at 5." }
+    ]
   },
   {
     "questionNumber": 4,
-    "question": "Math Graphing Tool Demo practice question 4: Which option best demonstrates a medium understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "question": "A line is perpendicular to y = 2x + 1 and has a y-intercept of 3. Which is its equation?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "y = −(1/2)x + 3", "isCorrect": true, "rationale": "Perpendicular slope is the negative reciprocal of 2, which is −1/2." },
+      { "text": "y = 2x + 3", "isCorrect": false, "rationale": "This would be parallel, not perpendicular." },
+      { "text": "y = (1/2)x + 3", "isCorrect": false, "rationale": "Reciprocal is correct but sign must be negative." },
+      { "text": "y = −2x + 3", "isCorrect": false, "rationale": "This uses the negative of the slope, not the negative reciprocal." }
+    ]
   },
   {
     "questionNumber": 5,
-    "question": "Math Graphing Tool Demo practice question 5: Which option best demonstrates a easy understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "question": "A line has slope 3 and passes through (1, 4). Which point lies on the line?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "(3, 10)", "isCorrect": true, "rationale": "y − 4 = 3(x − 1) ⇒ y = 3x + 1; at x=3, y=10." },
+      { "text": "(3, 7)", "isCorrect": false, "rationale": "Plugging x=3 into y=3x+1 gives 10, not 7." },
+      { "text": "(0, 1)", "isCorrect": false, "rationale": "(0,1) is on y=3x+1 but doesn’t pass through (1,4)." },
+      { "text": "(2, 4)", "isCorrect": false, "rationale": "At x=2, y should be 7, not 4." }
+    ]
   },
   {
     "questionNumber": 6,
-    "question": "Math Graphing Tool Demo practice question 6: Which option best demonstrates a hard understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "easy",
+    "question": "Which statement is true about y = −2x + 5?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "It has slope −2 and y-intercept 5.", "isCorrect": true, "rationale": "In slope-intercept form y=mx+b, m=−2 and b=5." },
+      { "text": "It has slope 5 and y-intercept −2.", "isCorrect": false, "rationale": "Swapped the slope and intercept." },
+      { "text": "It increases as x increases.", "isCorrect": false, "rationale": "Negative slope means the line decreases as x increases." },
+      { "text": "It crosses the y-axis at (5, 0).", "isCorrect": false, "rationale": "It crosses at (0,5), not (5,0)." }
+    ]
   },
   {
     "questionNumber": 7,
-    "question": "Math Graphing Tool Demo practice question 7: Which option best demonstrates a medium understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "easy",
+    "question": "For y = (1/2)x − 6, if x increases by 4, how does y change?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "+2", "isCorrect": true, "rationale": "Δy = m·Δx = (1/2)·4 = 2." },
+      { "text": "+8", "isCorrect": false, "rationale": "That would use slope 2, not 1/2." },
+      { "text": "−2", "isCorrect": false, "rationale": "Slope is positive, so y increases when x increases." },
+      { "text": "−8", "isCorrect": false, "rationale": "Both sign and magnitude are incorrect." }
+    ]
   },
   {
     "questionNumber": 8,
-    "question": "Math Graphing Tool Demo practice question 8: Which option best demonstrates a easy understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "question": "Find the equation of the line with slope 4 that passes through (0, −2).",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "y = 4x − 2", "isCorrect": true, "rationale": "Through (0,−2) means y-intercept −2; slope m=4." },
+      { "text": "y = 4x + 2", "isCorrect": false, "rationale": "This crosses the y-axis at (0,2), not (0,−2)." },
+      { "text": "y = −4x − 2", "isCorrect": false, "rationale": "The slope is wrong (−4 instead of 4)." },
+      { "text": "y = x − 2", "isCorrect": false, "rationale": "The slope is 1, not 4." }
+    ]
   },
   {
     "questionNumber": 9,
-    "question": "Math Graphing Tool Demo practice question 9: Which option best demonstrates a hard understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "easy",
+    "question": "Consider L1: y = 3x + 1 and L2: y = 3x − 5. What is their relationship?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "Parallel and distinct", "isCorrect": true, "rationale": "Same slope (3) but different intercepts ⇒ parallel distinct lines." },
+      { "text": "Perpendicular", "isCorrect": false, "rationale": "Perpendicular slopes are negative reciprocals, not equal." },
+      { "text": "Intersect at (0, 0)", "isCorrect": false, "rationale": "Different y-intercepts; they never intersect." },
+      { "text": "Coincident (same line)", "isCorrect": false, "rationale": "Intercepts differ, so they are not the same line." }
+    ]
   },
   {
     "questionNumber": 10,
-    "question": "Math Graphing Tool Demo practice question 10: Which option best demonstrates a medium understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "question": "What is the x-intercept of y = −5x + 10?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "2", "isCorrect": true, "rationale": "Set y=0: −5x + 10 = 0 ⇒ x = 2." },
+      { "text": "−2", "isCorrect": false, "rationale": "Sign error; solving gives x = 2." },
+      { "text": "10", "isCorrect": false, "rationale": "10 is the y-intercept when x=0." },
+      { "text": "−5", "isCorrect": false, "rationale": "−5 is the slope, not an intercept." }
+    ]
   },
   {
     "questionNumber": 11,
-    "question": "Math Graphing Tool Demo practice question 11: Which option best demonstrates a medium understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "question": "Which line has the greater rate of change?",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "y = 0.75x + 2", "isCorrect": true, "rationale": "Slope 0.75 is greater than 2/3 ≈ 0.666…." },
+      { "text": "y = (2/3)x − 1", "isCorrect": false, "rationale": "Slope 2/3 is smaller than 0.75." },
+      { "text": "They have equal slopes", "isCorrect": false, "rationale": "0.75 ≠ 2/3." },
+      { "text": "Cannot be determined", "isCorrect": false, "rationale": "Slopes are explicit; comparison is straightforward." }
+    ]
   },
   {
     "questionNumber": 12,
-    "question": "Math Graphing Tool Demo practice question 12: Which option best demonstrates a medium understanding of mathematical reasoning concepts for this quiz?",
+    "type": "multipleChoice",
+    "difficulty": "hard",
+    "question": "Find the equation of the line through (−2, 1) and (4, −11).",
     "answerOptions": [
-      "Highlights background context rather than the math graphing tool demo task.",
-      "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-      "Focuses on peripheral vocabulary from the scenario.",
-      "Discusses an unrelated concept outside the prompt."
-    ],
-    "correctAnswer": "Links the math graphing tool demo idea to core mathematical reasoning reasoning skills.",
-    "__autogen": true
+      { "text": "y = −2x − 3", "isCorrect": true, "rationale": "Slope = (−11−1)/(4−(−2)) = −12/6 = −2; solve b with 1 = −2(−2) + b ⇒ b = −3." },
+      { "text": "y = −2x + 3", "isCorrect": false, "rationale": "Slope correct, intercept sign is wrong (should be −3)." },
+      { "text": "y = 2x − 3", "isCorrect": false, "rationale": "Slope should be −2, not 2." },
+      { "text": "y = 2x + 3", "isCorrect": false, "rationale": "Both slope and intercept are incorrect." }
+    ]
   }
 ]
 ;

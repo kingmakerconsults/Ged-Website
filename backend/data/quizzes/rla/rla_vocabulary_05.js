@@ -264,92 +264,89 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 05 Case Study 10: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 05 practice question 10: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "Because the committee had already reached a consensus, the chair considered further debate superfluous.",
+    "question": "As used in the sentence, what does 'superfluous' most nearly mean?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Unnecessary or more than enough",
+        "rationale": "Correct. If consensus is reached, extra debate is unnecessary.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 05 concept to reasoning through language arts (rla) reasoning at question 10.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Urgent and unavoidable",
+        "rationale": "Superfluous is the opposite of urgent; it means not needed.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Polite but firm",
+        "rationale": "This describes tone, not necessity.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Complicated and technical",
+        "rationale": "Superfluous refers to excess, not complexity.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 05 Case Study 11: Learners explore a easy-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 05 practice question 11: Which option best demonstrates a easy understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "easy",
+    "passage": "The instructions were explicit about turning off the power before beginning any repairs.",
+    "question": "What does 'explicit' mean as used in the passage?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Clear and leaving no room for confusion",
+        "rationale": "Correct. Explicit instructions are very clear and specific.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 05 concept to reasoning through language arts (rla) reasoning at question 11.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Hidden or implied",
+        "rationale": "That would be 'implicit,' not 'explicit.'",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Optional or suggested",
+        "rationale": "Explicit instructions are not optional; they are direct.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Polite or friendly",
+        "rationale": "This refers to tone, not clarity.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "easy",
-    "__autogen": true
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-    "passage": "Rla Vocabulary 05 Case Study 12: Learners explore a medium-level scenario that highlights how reasoning through language arts (rla) principles influence decision-making.",
-    "question": "Rla Vocabulary 05 practice question 12: Which option best demonstrates a medium understanding of reasoning through language arts (rla) concepts for this quiz?",
+    "difficulty": "medium",
+    "passage": "After months of negotiations, the two sides finally reached a tentative agreement subject to member approval.",
+    "question": "In this sentence, what does 'tentative' most nearly mean?",
     "answerOptions": [
       {
-        "text": "A. Provides contextual detail but misses the rla vocabulary 05 focus.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Provisional or not yet final",
+        "rationale": "Correct. A tentative agreement is preliminary and may change.",
+        "isCorrect": true
       },
       {
-        "text": "B. Connects the rla vocabulary 05 concept to reasoning through language arts (rla) reasoning at question 12.",
-        "isCorrect": true,
-        "rationale": "This option aligns with the required analysis."
+        "text": "Binding and permanent",
+        "rationale": "That's the opposite of tentative.",
+        "isCorrect": false
       },
       {
-        "text": "C. Mentions a related idea yet overlooks the main analytical task.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Secret and confidential",
+        "rationale": "Tentative refers to certainty status, not secrecy.",
+        "isCorrect": false
       },
       {
-        "text": "D. Introduces an unrelated angle that does not solve the prompt.",
-        "isCorrect": false,
-        "rationale": "This choice does not address the key skill emphasized by the question."
+        "text": "Fair and balanced",
+        "rationale": "This speaks to quality, not the tentative nature of the deal.",
+        "isCorrect": false
       }
-    ],
-    "difficulty": "medium",
-    "__autogen": true
+    ]
   }
 ]
 ;
