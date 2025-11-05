@@ -15,6 +15,8 @@ const ensureQuizAttemptsTable = require('./db/initQuizAttempts');
 const ensureEssayScoresTable = require('./db/initEssayScores');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
+// Timeout for the explicit ChatGPT fallback attempt used in AI generation
+const FALLBACK_TIMEOUT_MS = Number(process.env.FALLBACK_TIMEOUT_MS) || 45000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
 
 // --- in-memory image metadata structures used by image loader section ---
@@ -1712,6 +1714,19 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
         items = parseGeminiResponse(winner.data);
     } else if (winner.model === 'chatgpt') {
         items = parseOpenAIResponse(winner.data);
+    }
+
+    // If the model that won the race gave us junk, try the explicit ChatGPT path once.
+    if (!Array.isArray(items)) {
+        console.warn('[AI] Winner returned non-array, trying explicit ChatGPT fallback...');
+        try {
+            const chatItems = await runChatGptFn();
+            if (Array.isArray(chatItems)) {
+                items = chatItems;
+            }
+        } catch (err) {
+            console.warn('[AI] Explicit ChatGPT fallback also failed:', err?.message || err);
+        }
     }
 
     if (!Array.isArray(items)) {
