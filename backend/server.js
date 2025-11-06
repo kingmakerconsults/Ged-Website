@@ -4540,7 +4540,7 @@ function buildSubjectPrompt({ subject, topic, examType, context = [], images = [
     const imagesJSON = JSON.stringify((images || []).map((im, i) => ({ id: im.id || `img${i+1}`, src: im.filePath, alt: im.altText || '', description: im.detailedDescription || '' })));
 
     const sharedSafety = [
-        'When constructing a passage or stimulus, FIRST try to use / adapt from the APPROVED PASSAGES section above. If no approved passage matches, write an original passage and label it clearly.',
+        'When constructing a passage or stimulus, FIRST try to use / adapt from the APPROVED PASSAGES section above. If no approved passage matches, write an original passage. Do NOT label it, do NOT prefix it with “Original Passage:” or similar — just write the passage.',
         'Do not attribute passages to real news outlets or paywalled sites unless they are listed above in APPROVED PASSAGES.'
     ].join('\n');
 
