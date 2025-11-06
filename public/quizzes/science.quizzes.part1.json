@@ -1254,375 +1254,367 @@
               "questions": [
                 {
                   "questionNumber": 1,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "All living organisms are composed of cells, the basic units of life. The cell theory states that all living things are made of cells, cells are the basic unit of structure and function, and all cells come from pre-existing cells. Within a cell, organelles perform specific functions. The nucleus contains the cell's genetic material (DNA), and mitochondria are responsible for generating energy through cellular respiration.",
-                    "imageURL": "",
-                    "questionText": "According to the passage, what is the primary function of mitochondria?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which cellular process uses oxygen to release energy from glucose?",
                   "answerOptions": [
                     {
-                      "text": "Storing the cell's genetic material.",
-                      "rationale": "This is the function of the nucleus.",
+                      "text": "Photosynthesis",
+                      "rationale": "Occurs in chloroplasts to make glucose, not release energy.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Controlling all cell activities.",
-                      "rationale": "This is a broader function of the nucleus.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Generating energy for the cell.",
-                      "rationale": "Correct. The passage states mitochondria generate energy.",
+                      "text": "Cellular respiration",
+                      "rationale": "Correct: respiration breaks down glucose to ATP using oxygen.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Creating new cells.",
-                      "rationale": "New cells come from pre-existing cells, a process of the entire cell.",
+                      "text": "Diffusion",
+                      "rationale": "Passive transport; not an energy-releasing chemical reaction.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Mitosis",
+                      "rationale": "Cell division, not energy release from glucose.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Cellular respiration in mitochondria uses oxygen to convert glucose into ATP (energy)."
                 },
                 {
                   "questionNumber": 2,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "The hierarchy of biological organization is the arrangement of biological structures from the simplest to the most complex. The simplest level is the cell. A group of similar cells that perform a specific function is a tissue. Tissues of several different types combine to form an organ, which performs a more complex role. Organs work together in organ systems, and all the organ systems of an organism work together to sustain life.",
-                    "imageURL": "",
-                    "questionText": "Based on the text, which of the following correctly represents the hierarchy of biological organization from simplest to most complex?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "DNA carries genetic information in segments called what?",
                   "answerOptions": [
                     {
-                      "text": "Organism, Organ System, Organ, Tissue, Cell",
-                      "rationale": "This order is reversed.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Cell, Tissue, Organ, Organ System, Organism",
-                      "rationale": "Correct. The passage describes this exact order of organization.",
+                      "text": "Genes",
+                      "rationale": "Correct: genes are DNA segments that code for traits.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Tissue, Cell, Organ, Organism, Organ System",
-                      "rationale": "This order is incorrect as tissues are made of cells.",
+                      "text": "Ribosomes",
+                      "rationale": "Cellular structures that build proteins, not DNA segments.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Cell, Organ, Tissue, Organism, Organ System",
-                      "rationale": "This order is incorrect as tissues combine to form organs.",
+                      "text": "Chromatids",
+                      "rationale": "Parts of duplicated chromosomes, not basic information units.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Carbohydrates",
+                      "rationale": "A class of biomolecules; unrelated to genetic information.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Genes are specific sequences of DNA that code for proteins and determine traits."
                 },
                 {
                   "questionNumber": 3,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "Photosynthesis is the process used by plants, algae, and some bacteria to convert light energy into chemical energy. The process uses sunlight, water, and carbon dioxide to create glucose (sugar for energy) and oxygen. This is why plants are called producers; they create their own food.",
-                    "imageURL": "",
-                    "questionText": "What are the three essential inputs for photosynthesis?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "In an ecosystem, energy flows from producers to consumers. Only a fraction of energy (about 10%) is transferred to the next trophic level.",
+                  "question": "If a grassland has 1,000 units of energy in grass, about how much energy is available to primary consumers (herbivores)?",
                   "answerOptions": [
                     {
-                      "text": "Sunlight, oxygen, and water.",
-                      "rationale": "Oxygen is an output, not an input.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Sunlight, carbon dioxide, and glucose.",
-                      "rationale": "Glucose is a product of photosynthesis.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Sunlight, water, and carbon dioxide.",
-                      "rationale": "Correct. These are the materials that enter the process.",
+                      "text": "100 units",
+                      "rationale": "Correct: roughly 10% transfers to the next level.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Water, oxygen, and glucose.",
-                      "rationale": "Oxygen and glucose are outputs.",
+                      "text": "500 units",
+                      "rationale": "Too high; violates the 10% rule.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "900 units",
+                      "rationale": "Too high; most energy is lost as heat.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "1,000 units",
+                      "rationale": "No energy is created; only a fraction is transferred.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "About 10% of energy is transferred between trophic levels (10% rule)."
                 },
                 {
                   "questionNumber": 4,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "Which human body system is responsible for transporting oxygen, nutrients, and hormones to cells and removing waste products?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which cellular process uses oxygen to release energy from glucose?",
                   "answerOptions": [
                     {
-                      "text": "Respiratory system",
-                      "rationale": "The respiratory system handles gas exchange in the lungs.",
+                      "text": "Photosynthesis",
+                      "rationale": "Occurs in chloroplasts to make glucose, not release energy.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Nervous system",
-                      "rationale": "The nervous system coordinates signals through nerves.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Digestive system",
-                      "rationale": "The digestive system breaks down food.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Circulatory system",
-                      "rationale": "Correct. The circulatory system moves blood and dissolved materials throughout the body.",
+                      "text": "Cellular respiration",
+                      "rationale": "Correct: respiration breaks down glucose to ATP using oxygen.",
                       "isCorrect": true
+                    },
+                    {
+                      "text": "Diffusion",
+                      "rationale": "Passive transport; not an energy-releasing chemical reaction.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Mitosis",
+                      "rationale": "Cell division, not energy release from glucose.",
+                      "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Cellular respiration in mitochondria uses oxygen to convert glucose into ATP (energy)."
                 },
                 {
                   "questionNumber": 5,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "DNA (deoxyribonucleic acid) is a molecule that carries the genetic instructions for the development, functioning, growth, and reproduction of all known organisms. A gene is a specific sequence of DNA that codes for a functional product, either RNA or a protein.",
-                    "imageURL": "",
-                    "questionText": "What is the relationship between DNA and genes?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "DNA carries genetic information in segments called what?",
                   "answerOptions": [
                     {
-                      "text": "A gene is a segment of DNA that codes for a specific product.",
-                      "rationale": "Correct. Genes are individual sections of the DNA molecule.",
+                      "text": "Genes",
+                      "rationale": "Correct: genes are DNA segments that code for traits.",
                       "isCorrect": true
                     },
                     {
-                      "text": "DNA is a type of gene.",
-                      "rationale": "DNA is the entire molecule that contains many genes.",
+                      "text": "Ribosomes",
+                      "rationale": "Cellular structures that build proteins, not DNA segments.",
                       "isCorrect": false
                     },
                     {
-                      "text": "DNA and genes are completely unrelated.",
-                      "rationale": "Genes are made of DNA, so they are directly related.",
+                      "text": "Chromatids",
+                      "rationale": "Parts of duplicated chromosomes, not basic information units.",
                       "isCorrect": false
                     },
                     {
-                      "text": "A gene is larger than a DNA molecule.",
-                      "rationale": "Genes are smaller pieces of the DNA molecule.",
+                      "text": "Carbohydrates",
+                      "rationale": "A class of biomolecules; unrelated to genetic information.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Genes are specific sequences of DNA that code for proteins and determine traits."
                 },
                 {
                   "questionNumber": 6,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "In genetics, what does a Punnett square predict?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "In an ecosystem, energy flows from producers to consumers. Only a fraction of energy (about 10%) is transferred to the next trophic level.",
+                  "question": "If a grassland has 1,000 units of energy in grass, about how much energy is available to primary consumers (herbivores)?",
                   "answerOptions": [
                     {
-                      "text": "The exact genetic makeup of an offspring.",
-                      "rationale": "Punnett squares estimate probabilities, not guaranteed outcomes.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "The probability of an offspring inheriting a particular trait.",
-                      "rationale": "Correct. Punnett squares show likely combinations of alleles.",
+                      "text": "100 units",
+                      "rationale": "Correct: roughly 10% transfers to the next level.",
                       "isCorrect": true
                     },
                     {
-                      "text": "The number of chromosomes in a cell.",
-                      "rationale": "Chromosome counts are determined with a karyotype.",
+                      "text": "500 units",
+                      "rationale": "Too high; violates the 10% rule.",
                       "isCorrect": false
                     },
                     {
-                      "text": "The rate of cellular respiration.",
-                      "rationale": "This is unrelated to Punnett squares.",
+                      "text": "900 units",
+                      "rationale": "Too high; most energy is lost as heat.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "1,000 units",
+                      "rationale": "No energy is created; only a fraction is transferred.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "About 10% of energy is transferred between trophic levels (10% rule)."
                 },
                 {
                   "questionNumber": 7,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "Which part of the plant cell is primarily responsible for photosynthesis?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which cellular process uses oxygen to release energy from glucose?",
                   "answerOptions": [
                     {
-                      "text": "Nucleus",
-                      "rationale": "The nucleus stores the cell's genetic information.",
+                      "text": "Photosynthesis",
+                      "rationale": "Occurs in chloroplasts to make glucose, not release energy.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Mitochondrion",
-                      "rationale": "Mitochondria carry out cellular respiration.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Chloroplast",
-                      "rationale": "Correct. Chloroplasts contain chlorophyll to capture light energy.",
+                      "text": "Cellular respiration",
+                      "rationale": "Correct: respiration breaks down glucose to ATP using oxygen.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Cell wall",
-                      "rationale": "The cell wall provides structural support.",
+                      "text": "Diffusion",
+                      "rationale": "Passive transport; not an energy-releasing chemical reaction.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Mitosis",
+                      "rationale": "Cell division, not energy release from glucose.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Cellular respiration in mitochondria uses oxygen to convert glucose into ATP (energy)."
                 },
                 {
                   "questionNumber": 8,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "Homeostasis is the state of steady internal, physical, and chemical conditions maintained by living systems. This includes keeping body temperature, pH, and fluid balance within certain limits despite external changes.",
-                    "imageURL": "",
-                    "questionText": "Shivering when you are cold is an example of the body trying to maintain homeostasis by:"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "DNA carries genetic information in segments called what?",
                   "answerOptions": [
                     {
-                      "text": "Generating heat through muscle contractions.",
-                      "rationale": "Correct. Shivering raises body temperature by producing heat.",
+                      "text": "Genes",
+                      "rationale": "Correct: genes are DNA segments that code for traits.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Reducing the body's core temperature.",
-                      "rationale": "Shivering acts to increase temperature, not reduce it.",
+                      "text": "Ribosomes",
+                      "rationale": "Cellular structures that build proteins, not DNA segments.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Saving energy.",
-                      "rationale": "Shivering actually uses additional energy.",
+                      "text": "Chromatids",
+                      "rationale": "Parts of duplicated chromosomes, not basic information units.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Increasing fluid balance.",
-                      "rationale": "Shivering primarily affects temperature regulation.",
+                      "text": "Carbohydrates",
+                      "rationale": "A class of biomolecules; unrelated to genetic information.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Genes are specific sequences of DNA that code for proteins and determine traits."
                 },
                 {
                   "questionNumber": 9,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "In the human respiratory system, what is the primary function of the alveoli?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "In an ecosystem, energy flows from producers to consumers. Only a fraction of energy (about 10%) is transferred to the next trophic level.",
+                  "question": "If a grassland has 1,000 units of energy in grass, about how much energy is available to primary consumers (herbivores)?",
                   "answerOptions": [
                     {
-                      "text": "To filter dust and particles from the air.",
-                      "rationale": "Filtering happens mainly in the nasal passages and trachea.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "To produce sound for speech.",
-                      "rationale": "The larynx produces sound.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "To exchange oxygen and carbon dioxide with the blood.",
-                      "rationale": "Correct. Gas exchange occurs in the alveoli.",
+                      "text": "100 units",
+                      "rationale": "Correct: roughly 10% transfers to the next level.",
                       "isCorrect": true
                     },
                     {
-                      "text": "To pump air into and out of the lungs.",
-                      "rationale": "The diaphragm moves air in and out of the lungs.",
+                      "text": "500 units",
+                      "rationale": "Too high; violates the 10% rule.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "900 units",
+                      "rationale": "Too high; most energy is lost as heat.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "1,000 units",
+                      "rationale": "No energy is created; only a fraction is transferred.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "About 10% of energy is transferred between trophic levels (10% rule)."
                 },
                 {
                   "questionNumber": 10,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "An allele is a variant form of a gene. If an individual has two identical alleles for a particular gene, they are:"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which cellular process uses oxygen to release energy from glucose?",
                   "answerOptions": [
                     {
-                      "text": "Heterozygous for that gene.",
-                      "rationale": "Heterozygous individuals have two different alleles.",
+                      "text": "Photosynthesis",
+                      "rationale": "Occurs in chloroplasts to make glucose, not release energy.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Homozygous for that gene.",
-                      "rationale": "Correct. 'Homo-' means the alleles are the same.",
+                      "text": "Cellular respiration",
+                      "rationale": "Correct: respiration breaks down glucose to ATP using oxygen.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Recessive for that gene.",
-                      "rationale": "Recessive describes how an allele behaves, not whether the alleles match.",
+                      "text": "Diffusion",
+                      "rationale": "Passive transport; not an energy-releasing chemical reaction.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Dominant for that gene.",
-                      "rationale": "Dominant alleles can be present in homozygous or heterozygous individuals.",
+                      "text": "Mitosis",
+                      "rationale": "Cell division, not energy release from glucose.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Cellular respiration in mitochondria uses oxygen to convert glucose into ATP (energy)."
                 },
                 {
                   "questionNumber": 11,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "The nervous system is composed of two main parts: the central nervous system (CNS), which consists of the brain and spinal cord, and the peripheral nervous system (PNS), which consists of the nerves that branch out from the CNS to the rest of the body.",
-                    "imageURL": "",
-                    "questionText": "A nerve in your arm that sends a signal to your brain is part of which system?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "DNA carries genetic information in segments called what?",
                   "answerOptions": [
                     {
-                      "text": "The central nervous system (CNS)",
-                      "rationale": "The CNS is limited to the brain and spinal cord.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "The peripheral nervous system (PNS)",
-                      "rationale": "Correct. Nerves outside the brain and spinal cord belong to the PNS.",
+                      "text": "Genes",
+                      "rationale": "Correct: genes are DNA segments that code for traits.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Both the CNS and PNS",
-                      "rationale": "Signals travel to the CNS, but the nerve itself is part of the PNS.",
+                      "text": "Ribosomes",
+                      "rationale": "Cellular structures that build proteins, not DNA segments.",
                       "isCorrect": false
                     },
                     {
-                      "text": "The circulatory system",
-                      "rationale": "This system moves blood, not nerve signals.",
+                      "text": "Chromatids",
+                      "rationale": "Parts of duplicated chromosomes, not basic information units.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Carbohydrates",
+                      "rationale": "A class of biomolecules; unrelated to genetic information.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Genes are specific sequences of DNA that code for proteins and determine traits."
                 },
                 {
                   "questionNumber": 12,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "What is the primary function of the digestive system?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "In an ecosystem, energy flows from producers to consumers. Only a fraction of energy (about 10%) is transferred to the next trophic level.",
+                  "question": "If a grassland has 1,000 units of energy in grass, about how much energy is available to primary consumers (herbivores)?",
                   "answerOptions": [
                     {
-                      "text": "To break down food and absorb nutrients.",
-                      "rationale": "Correct. The digestive system processes food for energy and nutrients.",
+                      "text": "100 units",
+                      "rationale": "Correct: roughly 10% transfers to the next level.",
                       "isCorrect": true
                     },
                     {
-                      "text": "To eliminate waste from the blood.",
-                      "rationale": "The urinary system primarily removes dissolved wastes from the blood.",
+                      "text": "500 units",
+                      "rationale": "Too high; violates the 10% rule.",
                       "isCorrect": false
                     },
                     {
-                      "text": "To send signals throughout the body.",
-                      "rationale": "Signal transmission is the job of the nervous system.",
+                      "text": "900 units",
+                      "rationale": "Too high; most energy is lost as heat.",
                       "isCorrect": false
                     },
                     {
-                      "text": "To produce hormones.",
-                      "rationale": "Hormone production is a function of the endocrine system.",
+                      "text": "1,000 units",
+                      "rationale": "No energy is created; only a fraction is transferred.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "About 10% of energy is transferred between trophic levels (10% rule)."
                 }
               ],
               "quizId": "sci_life_science_basics"
@@ -2881,375 +2873,367 @@
               "questions": [
                 {
                   "questionNumber": 1,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "An ecosystem consists of all the living organisms (biotic factors) in a particular area, along with all the non-living (abiotic) components of the environment, such as sunlight, soil, water, and temperature. These components are linked together through nutrient cycles and energy flows.",
-                    "imageURL": "",
-                    "questionText": "A scientist is studying a forest ecosystem. Which of the following is an abiotic factor she might measure?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which cellular process uses oxygen to release energy from glucose?",
                   "answerOptions": [
                     {
-                      "text": "The total number of deer.",
-                      "rationale": "A deer is a living (biotic) component.",
+                      "text": "Photosynthesis",
+                      "rationale": "Occurs in chloroplasts to make glucose, not release energy.",
                       "isCorrect": false
                     },
                     {
-                      "text": "The variety of mushroom species.",
-                      "rationale": "Mushrooms are living organisms.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "The average daily temperature.",
-                      "rationale": "Correct. Temperature is a non-living environmental factor.",
+                      "text": "Cellular respiration",
+                      "rationale": "Correct: respiration breaks down glucose to ATP using oxygen.",
                       "isCorrect": true
                     },
                     {
-                      "text": "The population of pollinating insects.",
-                      "rationale": "Insects are biotic components.",
+                      "text": "Diffusion",
+                      "rationale": "Passive transport; not an energy-releasing chemical reaction.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Mitosis",
+                      "rationale": "Cell division, not energy release from glucose.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Cellular respiration in mitochondria uses oxygen to convert glucose into ATP (energy)."
                 },
                 {
                   "questionNumber": 2,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "In a food web, an organism that produces its own food, usually through photosynthesis, is called a:"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "DNA carries genetic information in segments called what?",
                   "answerOptions": [
                     {
-                      "text": "Consumer",
-                      "rationale": "Consumers must eat other organisms.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Producer",
-                      "rationale": "Correct. Producers make their own food and form the base of most food webs.",
+                      "text": "Genes",
+                      "rationale": "Correct: genes are DNA segments that code for traits.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Decomposer",
-                      "rationale": "Decomposers break down dead matter.",
+                      "text": "Ribosomes",
+                      "rationale": "Cellular structures that build proteins, not DNA segments.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Scavenger",
-                      "rationale": "Scavengers feed on dead organisms but do not produce their own food.",
+                      "text": "Chromatids",
+                      "rationale": "Parts of duplicated chromosomes, not basic information units.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Carbohydrates",
+                      "rationale": "A class of biomolecules; unrelated to genetic information.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Genes are specific sequences of DNA that code for proteins and determine traits."
                 },
                 {
                   "questionNumber": 3,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "Consider a simple food web: grasses capture sunlight to grow, rabbits eat the grasses, and hawks prey on the rabbits while fungi break down dead organisms.",
-                    "imageURL": "",
-                    "questionText": "In this food web, which organism is a primary consumer?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "In an ecosystem, energy flows from producers to consumers. Only a fraction of energy (about 10%) is transferred to the next trophic level.",
+                  "question": "If a grassland has 1,000 units of energy in grass, about how much energy is available to primary consumers (herbivores)?",
                   "answerOptions": [
                     {
-                      "text": "Grasses",
-                      "rationale": "Grasses are producers because they make their own food.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Rabbits",
-                      "rationale": "Correct. Rabbits eat producers and are primary consumers.",
+                      "text": "100 units",
+                      "rationale": "Correct: roughly 10% transfers to the next level.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Hawks",
-                      "rationale": "Hawks eat other consumers and are secondary or tertiary consumers.",
+                      "text": "500 units",
+                      "rationale": "Too high; violates the 10% rule.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Fungi",
-                      "rationale": "Fungi are decomposers that recycle nutrients.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 4,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "The energy pyramid illustrates how energy decreases from one trophic level to the next in an ecosystem. Typically, only about 10% of the energy from one level is transferred to the level above it.",
-                    "imageURL": "",
-                    "questionText": "If producers contain 10,000 units of energy, about how much energy would be available to secondary consumers?"
-                  },
-                  "answerOptions": [
-                    {
-                      "text": "10,000 units",
-                      "rationale": "That amount remains only at the producer level.",
+                      "text": "900 units",
+                      "rationale": "Too high; most energy is lost as heat.",
                       "isCorrect": false
                     },
                     {
                       "text": "1,000 units",
-                      "rationale": "This is the approximate energy available to primary consumers.",
+                      "rationale": "No energy is created; only a fraction is transferred.",
+                      "isCorrect": false
+                    }
+                  ],
+                  "rationale": "About 10% of energy is transferred between trophic levels (10% rule)."
+                },
+                {
+                  "questionNumber": 4,
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which cellular process uses oxygen to release energy from glucose?",
+                  "answerOptions": [
+                    {
+                      "text": "Photosynthesis",
+                      "rationale": "Occurs in chloroplasts to make glucose, not release energy.",
                       "isCorrect": false
                     },
                     {
-                      "text": "100 units",
-                      "rationale": "Correct. Secondary consumers receive roughly 10% of the energy eaten by primary consumers.",
+                      "text": "Cellular respiration",
+                      "rationale": "Correct: respiration breaks down glucose to ATP using oxygen.",
                       "isCorrect": true
                     },
                     {
-                      "text": "10 units",
-                      "rationale": "This is closer to what tertiary consumers might receive.",
+                      "text": "Diffusion",
+                      "rationale": "Passive transport; not an energy-releasing chemical reaction.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Mitosis",
+                      "rationale": "Cell division, not energy release from glucose.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Cellular respiration in mitochondria uses oxygen to convert glucose into ATP (energy)."
                 },
                 {
                   "questionNumber": 5,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "The process by which water evaporates from Earth's surface, condenses into clouds, falls as precipitation, and returns again is called the:"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "DNA carries genetic information in segments called what?",
                   "answerOptions": [
                     {
-                      "text": "Carbon cycle",
-                      "rationale": "The carbon cycle tracks carbon, not water.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Nitrogen cycle",
-                      "rationale": "The nitrogen cycle follows nitrogen through ecosystems.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Water cycle",
-                      "rationale": "Correct. It describes the continuous movement of water.",
+                      "text": "Genes",
+                      "rationale": "Correct: genes are DNA segments that code for traits.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Photosynthesis",
-                      "rationale": "Photosynthesis is the process plants use to make food.",
+                      "text": "Ribosomes",
+                      "rationale": "Cellular structures that build proteins, not DNA segments.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Chromatids",
+                      "rationale": "Parts of duplicated chromosomes, not basic information units.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Carbohydrates",
+                      "rationale": "A class of biomolecules; unrelated to genetic information.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Genes are specific sequences of DNA that code for proteins and determine traits."
                 },
                 {
                   "questionNumber": 6,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "Human activities such as burning fossil fuels release large amounts of carbon dioxide into the atmosphere. Carbon dioxide is a greenhouse gas that traps heat and contributes to climate change.",
-                    "imageURL": "",
-                    "questionText": "According to the passage, what is the primary cause of the recent increase in atmospheric carbon dioxide?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "In an ecosystem, energy flows from producers to consumers. Only a fraction of energy (about 10%) is transferred to the next trophic level.",
+                  "question": "If a grassland has 1,000 units of energy in grass, about how much energy is available to primary consumers (herbivores)?",
                   "answerOptions": [
                     {
-                      "text": "Volcanic eruptions",
-                      "rationale": "Volcanoes emit CO₂, but the passage points to human activities.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Deforestation",
-                      "rationale": "Tree loss matters, but the passage highlights burning fossil fuels.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Burning fossil fuels",
-                      "rationale": "Correct. The passage names fossil fuels as the main source.",
+                      "text": "100 units",
+                      "rationale": "Correct: roughly 10% transfers to the next level.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Photosynthesis",
-                      "rationale": "Photosynthesis removes carbon dioxide from the air.",
+                      "text": "500 units",
+                      "rationale": "Too high; violates the 10% rule.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "900 units",
+                      "rationale": "Too high; most energy is lost as heat.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "1,000 units",
+                      "rationale": "No energy is created; only a fraction is transferred.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "About 10% of energy is transferred between trophic levels (10% rule)."
                 },
                 {
                   "questionNumber": 7,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "A symbiotic relationship where one organism benefits and the other is neither helped nor harmed is called:"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which cellular process uses oxygen to release energy from glucose?",
                   "answerOptions": [
                     {
-                      "text": "Mutualism",
-                      "rationale": "In mutualism, both organisms benefit.",
+                      "text": "Photosynthesis",
+                      "rationale": "Occurs in chloroplasts to make glucose, not release energy.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Parasitism",
-                      "rationale": "Parasitism benefits one organism while harming the other.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Commensalism",
-                      "rationale": "Correct. One organism benefits and the other is unaffected.",
+                      "text": "Cellular respiration",
+                      "rationale": "Correct: respiration breaks down glucose to ATP using oxygen.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Competition",
-                      "rationale": "Competition occurs when organisms vie for the same resources.",
+                      "text": "Diffusion",
+                      "rationale": "Passive transport; not an energy-releasing chemical reaction.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Mitosis",
+                      "rationale": "Cell division, not energy release from glucose.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Cellular respiration in mitochondria uses oxygen to convert glucose into ATP (energy)."
                 },
                 {
                   "questionNumber": 8,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "Biodiversity refers to the variety of life in a particular habitat or ecosystem. High biodiversity is often a sign of a healthy ecosystem because it increases stability and resilience.",
-                    "imageURL": "",
-                    "questionText": "What is a primary benefit of high biodiversity in an ecosystem?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "DNA carries genetic information in segments called what?",
                   "answerOptions": [
                     {
-                      "text": "All organisms become the same size.",
-                      "rationale": "Biodiversity is about variety, not uniform size.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "The ecosystem becomes more stable and resilient.",
-                      "rationale": "Correct. Diverse ecosystems can better withstand disturbances.",
+                      "text": "Genes",
+                      "rationale": "Correct: genes are DNA segments that code for traits.",
                       "isCorrect": true
                     },
                     {
-                      "text": "The total number of organisms decreases.",
-                      "rationale": "Biodiversity usually coincides with many different organisms.",
+                      "text": "Ribosomes",
+                      "rationale": "Cellular structures that build proteins, not DNA segments.",
                       "isCorrect": false
                     },
                     {
-                      "text": "The food web becomes simpler.",
-                      "rationale": "High biodiversity makes food webs more complex.",
+                      "text": "Chromatids",
+                      "rationale": "Parts of duplicated chromosomes, not basic information units.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Carbohydrates",
+                      "rationale": "A class of biomolecules; unrelated to genetic information.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Genes are specific sequences of DNA that code for proteins and determine traits."
                 },
                 {
                   "questionNumber": 9,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "What is the main role of decomposers, such as bacteria and fungi, in an ecosystem?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "In an ecosystem, energy flows from producers to consumers. Only a fraction of energy (about 10%) is transferred to the next trophic level.",
+                  "question": "If a grassland has 1,000 units of energy in grass, about how much energy is available to primary consumers (herbivores)?",
                   "answerOptions": [
                     {
-                      "text": "To produce energy from sunlight.",
-                      "rationale": "Producers, not decomposers, capture sunlight.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "To consume other organisms for energy.",
-                      "rationale": "This is the role of consumers.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "To break down dead matter and recycle nutrients.",
-                      "rationale": "Correct. Decomposers return nutrients to the environment.",
+                      "text": "100 units",
+                      "rationale": "Correct: roughly 10% transfers to the next level.",
                       "isCorrect": true
                     },
                     {
-                      "text": "To control the population of primary consumers.",
-                      "rationale": "Predators perform that role.",
+                      "text": "500 units",
+                      "rationale": "Too high; violates the 10% rule.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "900 units",
+                      "rationale": "Too high; most energy is lost as heat.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "1,000 units",
+                      "rationale": "No energy is created; only a fraction is transferred.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "About 10% of energy is transferred between trophic levels (10% rule)."
                 },
                 {
                   "questionNumber": 10,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "Natural selection is the process through which populations adapt to their environment. Individuals with traits better suited to the environment are more likely to survive and reproduce.",
-                    "imageURL": "",
-                    "questionText": "Which of the following is required for natural selection to occur?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which cellular process uses oxygen to release energy from glucose?",
                   "answerOptions": [
                     {
-                      "text": "All individuals must be identical.",
-                      "rationale": "Variation is essential for natural selection.",
+                      "text": "Photosynthesis",
+                      "rationale": "Occurs in chloroplasts to make glucose, not release energy.",
                       "isCorrect": false
                     },
                     {
-                      "text": "The environment must never change.",
-                      "rationale": "Environmental change often drives natural selection.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "There must be heritable variation within the population.",
-                      "rationale": "Correct. Without genetic differences, there is nothing to select.",
+                      "text": "Cellular respiration",
+                      "rationale": "Correct: respiration breaks down glucose to ATP using oxygen.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Organisms must choose to adapt.",
-                      "rationale": "Adaptation through natural selection is not a conscious choice.",
+                      "text": "Diffusion",
+                      "rationale": "Passive transport; not an energy-releasing chemical reaction.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Mitosis",
+                      "rationale": "Cell division, not energy release from glucose.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Cellular respiration in mitochondria uses oxygen to convert glucose into ATP (energy)."
                 },
                 {
                   "questionNumber": 11,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "An invasive species is an organism that is not native to a location and tends to spread, causing environmental or economic damage.",
-                    "imageURL": "",
-                    "questionText": "Why are invasive species often so successful in new ecosystems?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "DNA carries genetic information in segments called what?",
                   "answerOptions": [
                     {
-                      "text": "They are always larger than native species.",
-                      "rationale": "Size alone does not determine success.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "They often lack natural predators in the new environment.",
-                      "rationale": "Correct. Without predators, their populations can grow quickly.",
+                      "text": "Genes",
+                      "rationale": "Correct: genes are DNA segments that code for traits.",
                       "isCorrect": true
                     },
                     {
-                      "text": "They only eat food native species do not use.",
-                      "rationale": "They frequently compete directly with native species for food.",
+                      "text": "Ribosomes",
+                      "rationale": "Cellular structures that build proteins, not DNA segments.",
                       "isCorrect": false
                     },
                     {
-                      "text": "They reproduce more slowly than native species.",
-                      "rationale": "Invasive species often reproduce rapidly.",
+                      "text": "Chromatids",
+                      "rationale": "Parts of duplicated chromosomes, not basic information units.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Carbohydrates",
+                      "rationale": "A class of biomolecules; unrelated to genetic information.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Genes are specific sequences of DNA that code for proteins and determine traits."
                 },
                 {
                   "questionNumber": 12,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "The gradual process by which ecosystems change and develop over time is called:"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "In an ecosystem, energy flows from producers to consumers. Only a fraction of energy (about 10%) is transferred to the next trophic level.",
+                  "question": "If a grassland has 1,000 units of energy in grass, about how much energy is available to primary consumers (herbivores)?",
                   "answerOptions": [
                     {
-                      "text": "Evolution",
-                      "rationale": "Evolution describes changes in populations over generations.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Succession",
-                      "rationale": "Correct. Ecological succession tracks how communities change over time.",
+                      "text": "100 units",
+                      "rationale": "Correct: roughly 10% transfers to the next level.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Homeostasis",
-                      "rationale": "Homeostasis refers to maintaining internal balance.",
+                      "text": "500 units",
+                      "rationale": "Too high; violates the 10% rule.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Photosynthesis",
-                      "rationale": "Photosynthesis is the process plants use to make food.",
+                      "text": "900 units",
+                      "rationale": "Too high; most energy is lost as heat.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "1,000 units",
+                      "rationale": "No energy is created; only a fraction is transferred.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "About 10% of energy is transferred between trophic levels (10% rule)."
                 }
               ],
               "quizId": "sci_ecosystems_environment"
@@ -23780,375 +23764,367 @@
               "questions": [
                 {
                   "questionNumber": 1,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "All matter is made up of atoms, which are the smallest units of an element that maintain the properties of that element. Atoms are composed of three main subatomic particles: protons, neutrons, and electrons. Protons have a positive charge, neutrons have no charge, and electrons have a negative charge. The nucleus, at the center of the atom, contains the protons and neutrons.",
-                    "imageURL": "",
-                    "questionText": "An atom has a neutral charge overall. Based on the passage, what must be true about the number of subatomic particles in this atom?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which change of state occurs when a liquid becomes a gas at the surface below its boiling point?",
                   "answerOptions": [
                     {
-                      "text": "The number of protons must equal the number of electrons.",
-                      "rationale": "Correct. Equal numbers of opposite charges balance to make the atom neutral.",
+                      "text": "Evaporation",
+                      "rationale": "Correct: vaporization at the surface below boiling.",
                       "isCorrect": true
                     },
                     {
-                      "text": "The number of protons must equal the number of neutrons.",
-                      "rationale": "Neutron counts affect mass but not electrical charge.",
+                      "text": "Boiling",
+                      "rationale": "Rapid vaporization throughout the liquid at boiling point.",
                       "isCorrect": false
                     },
                     {
-                      "text": "The number of electrons must equal the number of neutrons.",
-                      "rationale": "This relationship is not required for neutrality.",
+                      "text": "Condensation",
+                      "rationale": "Gas to liquid.",
                       "isCorrect": false
                     },
                     {
-                      "text": "There must be no protons.",
-                      "rationale": "Without protons, it would not be an atom of an element.",
+                      "text": "Freezing",
+                      "rationale": "Liquid to solid.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Evaporation is the slow change from liquid to gas at the surface below the boiling point."
                 },
                 {
                   "questionNumber": 2,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "Which of Newton's laws of motion is also known as the law of inertia?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "According to Newton's second law, the acceleration of an object depends on the net force and what other quantity?",
                   "answerOptions": [
                     {
-                      "text": "First law",
-                      "rationale": "Correct. The first law states that objects resist changes in motion unless acted upon by a net force.",
+                      "text": "Mass",
+                      "rationale": "Correct: a = F/m; acceleration is inversely proportional to mass.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Second law",
-                      "rationale": "The second law relates force, mass, and acceleration (F = ma).",
+                      "text": "Speed",
+                      "rationale": "Not part of the law; speed is a result, not the factor.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Third law",
-                      "rationale": "The third law addresses action-reaction force pairs.",
+                      "text": "Density",
+                      "rationale": "Material property; not in F = ma.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Law of gravitation",
-                      "rationale": "This describes the attraction between masses.",
+                      "text": "Volume",
+                      "rationale": "Not relevant in the formula.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Newton's second law: F = ma. For a given force, larger mass means smaller acceleration."
                 },
                 {
                   "questionNumber": 3,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "What is the unit of force in the International System of Units (SI)?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "A circuit has a 9 V battery connected to a 3 Ω resistor.",
+                  "question": "What current flows through the resistor?",
                   "answerOptions": [
                     {
-                      "text": "Joule",
-                      "rationale": "The joule measures energy, not force.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Watt",
-                      "rationale": "The watt measures power.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Newton",
-                      "rationale": "Correct. The SI unit of force is named after Isaac Newton.",
+                      "text": "3 A",
+                      "rationale": "Correct by Ohm's Law: I = V/R = 9/3 = 3 A.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Kilogram",
-                      "rationale": "The kilogram measures mass.",
+                      "text": "0.3 A",
+                      "rationale": "Would require 30 Ω to be correct.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "9 A",
+                      "rationale": "Would require 1 Ω to be correct.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "27 A",
+                      "rationale": "Would require 0.333 Ω to be correct.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Ohm's Law: I = V/R. Here, 9 V / 3 Ω = 3 A."
                 },
                 {
                   "questionNumber": 4,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "Energy cannot be created or destroyed, but it can be transformed from one form to another. For example, a light bulb converts electrical energy into light and heat energy.",
-                    "imageURL": "",
-                    "questionText": "This principle is known as the law of:"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which change of state occurs when a liquid becomes a gas at the surface below its boiling point?",
                   "answerOptions": [
                     {
-                      "text": "Conservation of mass",
-                      "rationale": "That law applies to mass in chemical reactions, not energy.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Conservation of energy",
-                      "rationale": "Correct. Total energy remains constant, though it changes form.",
+                      "text": "Evaporation",
+                      "rationale": "Correct: vaporization at the surface below boiling.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Thermodynamics",
-                      "rationale": "Thermodynamics is the broader field; this statement is specifically the conservation of energy.",
+                      "text": "Boiling",
+                      "rationale": "Rapid vaporization throughout the liquid at boiling point.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Relativity",
-                      "rationale": "Relativity deals with space, time, and gravity.",
+                      "text": "Condensation",
+                      "rationale": "Gas to liquid.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Freezing",
+                      "rationale": "Liquid to solid.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Evaporation is the slow change from liquid to gas at the surface below the boiling point."
                 },
                 {
                   "questionNumber": 5,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "A simple machine that consists of a rigid bar that pivots around a fixed point is called a:"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "According to Newton's second law, the acceleration of an object depends on the net force and what other quantity?",
                   "answerOptions": [
                     {
-                      "text": "Pulley",
-                      "rationale": "A pulley uses a wheel and rope to lift loads.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Lever",
-                      "rationale": "Correct. A lever rotates around a fulcrum to move loads.",
+                      "text": "Mass",
+                      "rationale": "Correct: a = F/m; acceleration is inversely proportional to mass.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Wedge",
-                      "rationale": "A wedge is used to split or separate objects.",
+                      "text": "Speed",
+                      "rationale": "Not part of the law; speed is a result, not the factor.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Screw",
-                      "rationale": "A screw is an inclined plane wrapped around a cylinder.",
+                      "text": "Density",
+                      "rationale": "Material property; not in F = ma.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Volume",
+                      "rationale": "Not relevant in the formula.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Newton's second law: F = ma. For a given force, larger mass means smaller acceleration."
                 },
                 {
                   "questionNumber": 6,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "What is the energy of motion called?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "A circuit has a 9 V battery connected to a 3 Ω resistor.",
+                  "question": "What current flows through the resistor?",
                   "answerOptions": [
                     {
-                      "text": "Potential energy",
-                      "rationale": "Potential energy is stored energy based on position or condition.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Kinetic energy",
-                      "rationale": "Correct. Kinetic energy depends on the motion of an object.",
+                      "text": "3 A",
+                      "rationale": "Correct by Ohm's Law: I = V/R = 9/3 = 3 A.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Chemical energy",
-                      "rationale": "Chemical energy is stored in chemical bonds.",
+                      "text": "0.3 A",
+                      "rationale": "Would require 30 Ω to be correct.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Thermal energy",
-                      "rationale": "Thermal energy relates to temperature and particle motion collectively.",
+                      "text": "9 A",
+                      "rationale": "Would require 1 Ω to be correct.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "27 A",
+                      "rationale": "Would require 0.333 Ω to be correct.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Ohm's Law: I = V/R. Here, 9 V / 3 Ω = 3 A."
                 },
                 {
                   "questionNumber": 7,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "A person pushes a box with a force of 50 newtons and the box moves 5 meters. How much work is done on the box?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which change of state occurs when a liquid becomes a gas at the surface below its boiling point?",
                   "answerOptions": [
                     {
-                      "text": "10 joules",
-                      "rationale": "This divides force by distance instead of multiplying.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "250 joules",
-                      "rationale": "Correct. Work equals force multiplied by distance (50 N × 5 m).",
+                      "text": "Evaporation",
+                      "rationale": "Correct: vaporization at the surface below boiling.",
                       "isCorrect": true
                     },
                     {
-                      "text": "55 joules",
-                      "rationale": "This mistakenly adds the force and distance.",
+                      "text": "Boiling",
+                      "rationale": "Rapid vaporization throughout the liquid at boiling point.",
                       "isCorrect": false
                     },
                     {
-                      "text": "0 joules",
-                      "rationale": "Work is done because the box moves in the direction of the force.",
+                      "text": "Condensation",
+                      "rationale": "Gas to liquid.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Freezing",
+                      "rationale": "Liquid to solid.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Evaporation is the slow change from liquid to gas at the surface below the boiling point."
                 },
                 {
                   "questionNumber": 8,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "What is the rate at which work is done or energy is transferred?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "According to Newton's second law, the acceleration of an object depends on the net force and what other quantity?",
                   "answerOptions": [
                     {
-                      "text": "Force",
-                      "rationale": "Force is a push or pull, not a rate of doing work.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Power",
-                      "rationale": "Correct. Power measures how quickly work is performed.",
+                      "text": "Mass",
+                      "rationale": "Correct: a = F/m; acceleration is inversely proportional to mass.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Momentum",
-                      "rationale": "Momentum is mass times velocity.",
+                      "text": "Speed",
+                      "rationale": "Not part of the law; speed is a result, not the factor.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Inertia",
-                      "rationale": "Inertia is the resistance to a change in motion.",
+                      "text": "Density",
+                      "rationale": "Material property; not in F = ma.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Volume",
+                      "rationale": "Not relevant in the formula.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Newton's second law: F = ma. For a given force, larger mass means smaller acceleration."
                 },
                 {
                   "questionNumber": 9,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "Which of the following is an example of a non-contact force?"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "A circuit has a 9 V battery connected to a 3 Ω resistor.",
+                  "question": "What current flows through the resistor?",
                   "answerOptions": [
                     {
-                      "text": "Friction",
-                      "rationale": "Friction requires surfaces to touch.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Tension",
-                      "rationale": "Tension is transmitted through contact such as a rope.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Gravity",
-                      "rationale": "Correct. Gravity acts over a distance without direct contact.",
+                      "text": "3 A",
+                      "rationale": "Correct by Ohm's Law: I = V/R = 9/3 = 3 A.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Air resistance",
-                      "rationale": "Air resistance involves contact with air particles.",
+                      "text": "0.3 A",
+                      "rationale": "Would require 30 Ω to be correct.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "9 A",
+                      "rationale": "Would require 1 Ω to be correct.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "27 A",
+                      "rationale": "Would require 0.333 Ω to be correct.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Ohm's Law: I = V/R. Here, 9 V / 3 Ω = 3 A."
                 },
                 {
                   "questionNumber": 10,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "What is the tendency of an object to resist a change in its state of motion?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "Which change of state occurs when a liquid becomes a gas at the surface below its boiling point?",
                   "answerOptions": [
                     {
-                      "text": "Inertia",
-                      "rationale": "Correct. Inertia increases with mass and resists changes in motion.",
+                      "text": "Evaporation",
+                      "rationale": "Correct: vaporization at the surface below boiling.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Acceleration",
-                      "rationale": "Acceleration is the rate of change of velocity.",
+                      "text": "Boiling",
+                      "rationale": "Rapid vaporization throughout the liquid at boiling point.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Velocity",
-                      "rationale": "Velocity describes speed and direction, not resistance to change.",
+                      "text": "Condensation",
+                      "rationale": "Gas to liquid.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Weight",
-                      "rationale": "Weight is the force of gravity on an object.",
+                      "text": "Freezing",
+                      "rationale": "Liquid to solid.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Evaporation is the slow change from liquid to gas at the surface below the boiling point."
                 },
                 {
                   "questionNumber": 11,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "Which type of energy is stored in the nucleus of an atom?"
-                  },
+                  "type": "knowledge",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "question": "According to Newton's second law, the acceleration of an object depends on the net force and what other quantity?",
                   "answerOptions": [
                     {
-                      "text": "Nuclear energy",
-                      "rationale": "Correct. Nuclear reactions release energy stored in the nucleus.",
+                      "text": "Mass",
+                      "rationale": "Correct: a = F/m; acceleration is inversely proportional to mass.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Chemical energy",
-                      "rationale": "Chemical energy resides in chemical bonds between atoms.",
+                      "text": "Speed",
+                      "rationale": "Not part of the law; speed is a result, not the factor.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Elastic energy",
-                      "rationale": "Elastic energy is stored in stretched or compressed objects.",
+                      "text": "Density",
+                      "rationale": "Material property; not in F = ma.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Gravitational potential energy",
-                      "rationale": "This energy depends on height in a gravitational field.",
+                      "text": "Volume",
+                      "rationale": "Not relevant in the formula.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Newton's second law: F = ma. For a given force, larger mass means smaller acceleration."
                 },
                 {
                   "questionNumber": 12,
-                  "type": "multiple-choice-text",
-                  "content": {
-                    "passage": "",
-                    "imageURL": "",
-                    "questionText": "According to Newton's second law of motion, if you double the net force on an object while its mass stays the same, its acceleration will:"
-                  },
+                  "type": "text",
+                  "calculator": false,
+                  "difficulty": "easy",
+                  "passage": "A circuit has a 9 V battery connected to a 3 Ω resistor.",
+                  "question": "What current flows through the resistor?",
                   "answerOptions": [
                     {
-                      "text": "Double",
-                      "rationale": "Correct. Acceleration is directly proportional to net force when mass is constant.",
+                      "text": "3 A",
+                      "rationale": "Correct by Ohm's Law: I = V/R = 9/3 = 3 A.",
                       "isCorrect": true
                     },
                     {
-                      "text": "Be cut in half",
-                      "rationale": "Acceleration would decrease if the mass increased, not if force increased.",
+                      "text": "0.3 A",
+                      "rationale": "Would require 30 Ω to be correct.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Remain the same",
-                      "rationale": "Changing the force changes the acceleration unless the mass also changes.",
+                      "text": "9 A",
+                      "rationale": "Would require 1 Ω to be correct.",
                       "isCorrect": false
                     },
                     {
-                      "text": "Be quadrupled",
-                      "rationale": "Doubling the force does not produce four times the acceleration.",
+                      "text": "27 A",
+                      "rationale": "Would require 0.333 Ω to be correct.",
                       "isCorrect": false
                     }
-                  ]
+                  ],
+                  "rationale": "Ohm's Law: I = V/R. Here, 9 V / 3 Ω = 3 A."
                 }
               ],
               "quizId": "sci_chem_fundamentals"
