@@ -202,7 +202,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "The endocrine system uses chemical messengers called ___________ to regulate bodily functions.",
+  "question": "The endocrine system uses chemical messengers called what to regulate bodily functions?",
     "answerOptions": [
       {
         "text": "Neurons",

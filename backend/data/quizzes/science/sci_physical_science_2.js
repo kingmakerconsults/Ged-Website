@@ -342,7 +342,7 @@ module.exports = [
     "questionNumber": 13,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "An element is defined by the number of ________ in its nucleus.",
+  "question": "An element is defined by the number of what in its nucleus?",
     "answerOptions": [
       {
         "text": "Neutrons",

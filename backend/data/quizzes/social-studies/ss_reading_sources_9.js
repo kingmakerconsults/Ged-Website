@@ -65,6 +65,7 @@ module.exports = [
     "type": "multipleChoice",
     "difficulty": "medium",
     "passage": "A historian writing a book about the American Civil War is an example of what type of source?",
+    "question": "A historian writing a book about the American Civil War is an example of which type of source?",
     "answerOptions": [
       {
         "text": "A primary source",

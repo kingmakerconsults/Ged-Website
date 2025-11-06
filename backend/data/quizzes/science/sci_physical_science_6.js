@@ -4,7 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "Temperature is a measure of the average _____ of the particles in a substance.",
+  "question": "Temperature is a measure of the average what of the particles in a substance?",
     "answerOptions": [
       {
         "text": "Kinetic energy",

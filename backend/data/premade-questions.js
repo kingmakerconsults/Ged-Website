@@ -296,7 +296,7 @@ const ALL_QUIZZES = {
                                 content: {
                                     passage: "Homeostasis is the state of steady internal, physical, and chemical conditions maintained by living systems. This includes keeping body temperature, pH, and fluid balance within certain limits despite external changes.",
                                     imageURL: "",
-                                    questionText: "Shivering when you are cold is an example of the body trying to maintain homeostasis by:"
+                                    questionText: "Shivering when you are cold is an example of the body trying to maintain homeostasis by?"
                                 },
                                 answerOptions: [
                                     { text: "Generating heat through muscle contractions.", rationale: "Correct. Shivering raises body temperature by producing heat.", isCorrect: true },
@@ -326,7 +326,7 @@ const ALL_QUIZZES = {
                                 content: {
                                     passage: "",
                                     imageURL: "",
-                                    questionText: "An allele is a variant form of a gene. If an individual has two identical alleles for a particular gene, they are:"
+                                    questionText: "An allele is a variant form of a gene. If an individual has two identical alleles for a particular gene, they are?"
                                 },
                                 answerOptions: [
                                     { text: "Heterozygous for that gene.", rationale: "Heterozygous individuals have two different alleles.", isCorrect: false },
@@ -400,7 +400,7 @@ const ALL_QUIZZES = {
                                 content: {
                                     passage: "",
                                     imageURL: "",
-                                    questionText: "In a food web, an organism that produces its own food, usually through photosynthesis, is called a:"
+                                    questionText: "In a food web, an organism that produces its own food, usually through photosynthesis, is called a?"
                                 },
                                 answerOptions: [
                                     { text: "Consumer", rationale: "Consumers must eat other organisms.", isCorrect: false },
@@ -445,7 +445,7 @@ const ALL_QUIZZES = {
                                 content: {
                                     passage: "",
                                     imageURL: "",
-                                    questionText: "The process by which water evaporates from Earth's surface, condenses into clouds, falls as precipitation, and returns again is called the:"
+                                    questionText: "The process by which water evaporates from Earth's surface, condenses into clouds, falls as precipitation, and returns again is called the?"
                                 },
                                 answerOptions: [
                                     { text: "Carbon cycle", rationale: "The carbon cycle tracks carbon, not water.", isCorrect: false },
@@ -475,7 +475,7 @@ const ALL_QUIZZES = {
                                 content: {
                                     passage: "",
                                     imageURL: "",
-                                    questionText: "A symbiotic relationship where one organism benefits and the other is neither helped nor harmed is called:"
+                                    questionText: "A symbiotic relationship where one organism benefits and the other is neither helped nor harmed is called?"
                                 },
                                 answerOptions: [
                                     { text: "Mutualism", rationale: "In mutualism, both organisms benefit.", isCorrect: false },
@@ -550,7 +550,7 @@ const ALL_QUIZZES = {
                                 content: {
                                     passage: "",
                                     imageURL: "",
-                                    questionText: "The gradual process by which ecosystems change and develop over time is called:"
+                                    questionText: "The gradual process by which ecosystems change and develop over time is called?"
                                 },
                                 answerOptions: [
                                     { text: "Evolution", rationale: "Evolution describes changes in populations over generations.", isCorrect: false },
@@ -629,7 +629,7 @@ const ALL_QUIZZES = {
                                 content: {
                                     passage: "Energy cannot be created or destroyed, but it can be transformed from one form to another. For example, a light bulb converts electrical energy into light and heat energy.",
                                     imageURL: "",
-                                    questionText: "This principle is known as the law of:"
+                                    questionText: "This principle is known as the law of?"
                                 },
                                 answerOptions: [
                                     { text: "Conservation of mass", rationale: "That law applies to mass in chemical reactions, not energy.", isCorrect: false },
@@ -644,7 +644,7 @@ const ALL_QUIZZES = {
                                 content: {
                                     passage: "",
                                     imageURL: "",
-                                    questionText: "A simple machine that consists of a rigid bar that pivots around a fixed point is called a:"
+                                    questionText: "A simple machine that consists of a rigid bar that pivots around a fixed point is called a?"
                                 },
                                 answerOptions: [
                                     { text: "Pulley", rationale: "A pulley uses a wheel and rope to lift loads.", isCorrect: false },
@@ -749,7 +749,7 @@ const ALL_QUIZZES = {
                                 content: {
                                     passage: "",
                                     imageURL: "",
-                                    questionText: "According to Newton's second law of motion, if you double the net force on an object while its mass stays the same, its acceleration will:"
+                                    questionText: "According to Newton's second law of motion, if you double the net force on an object while its mass stays the same, its acceleration will?"
                                 },
                                 answerOptions: [
                                     { text: "Double", rationale: "Correct. Acceleration is directly proportional to net force when mass is constant.", isCorrect: true },

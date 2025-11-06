@@ -230,7 +230,7 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "question": "At the top of a roller coaster hill, a cart has its maximum amount of ________ energy. As it goes down the hill, this energy is converted into ________ energy.",
+  "question": "At the top of a roller coaster hill, a cart has its maximum amount of what type of energy? As it goes down the hill, this energy is converted into what type of energy?",
     "answerOptions": [
       {
         "text": "kinetic; potential",

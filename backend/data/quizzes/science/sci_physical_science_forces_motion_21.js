@@ -88,7 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "Newton's Third Law of Motion is often stated as: 'For every action, there is an equal and opposite _______.'",
+      "question": "Newton's Third Law of Motion is often stated as: 'For every action, there is an equal and opposite what?'",
     "answerOptions": [
       {
         "text": "Force",

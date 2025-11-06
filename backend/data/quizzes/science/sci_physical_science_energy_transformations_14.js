@@ -202,7 +202,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "A ball is held at the top of a hill. This is an example of stored ________ energy.",
+  "question": "A ball is held at the top of a hill. This is an example of stored what type of energy?",
     "answerOptions": [
       {
         "text": "Kinetic",
