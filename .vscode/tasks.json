@@ -61,6 +61,18 @@
 				"$eslint-stylish"
 			],
 			"group": "build"
+		},
+		{
+			"label": "validate-quizzes",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"validate-quizzes"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
 		}
 	]
 }
