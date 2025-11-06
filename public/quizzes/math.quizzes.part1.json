@@ -14391,7 +14391,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "easy",
-                  "question": "Which of the following is equivalent to $y cdot y cdot y cdot y$?",
+                  "question": "Which of the following is equivalent to $y \\cdot y \\cdot y \\cdot y$?",
                   "answerOptions": [
                     {
                       "text": "$4y$",
@@ -17514,7 +17514,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Which of the following is equivalent to $y cdot y cdot y cdot y$?",
+                "question": "Which of the following is equivalent to $y \\cdot y \\cdot y \\cdot y$?",
                 "answerOptions": [
                   {
                     "text": "$4y$",
