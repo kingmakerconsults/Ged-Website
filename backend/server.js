@@ -7151,6 +7151,15 @@ function ensureQuestionTags(subjectKey, categoryName, topic, question, idxForLog
 }
 
 // Expose ALL_QUIZZES for the frontend to build a unified catalog, including supplemental topics
+function chunkInto3(list = []) {
+    const out = [];
+    for (let i = 0; i < list.length; i += 3) {
+        const slice = list.slice(i, i + 3);
+        out.push({ title: `Set ${out.length + 1}`, quizzes: slice });
+    }
+    return out;
+}
+
 function buildAllQuizzesWithTags() {
     // Deep-ish clone with tag normalization; keep structure intact
     const out = {};
@@ -7158,17 +7167,34 @@ function buildAllQuizzesWithTags() {
         const subjCopy = { icon: subj.icon || null, categories: {} };
         for (const [catName, cat] of Object.entries(subj.categories || {})) {
             const catCopy = { description: cat.description || '', topics: [] };
+            const flatQuizzesForCategory = [];
             const topics = Array.isArray(cat.topics) ? cat.topics : [];
             topics.forEach((topic) => {
                 const tCopy = { ...topic };
+                // Normalize topic-level questions
                 if (Array.isArray(topic.questions)) {
                     tCopy.questions = topic.questions.map((q, i) => {
                         const cloned = q && typeof q === 'object' ? { ...q } : q;
                         return ensureQuestionTags(subjectKey, catName, topic, cloned, i);
                     });
                 }
+                // Preserve quizzes array if present and derive topic-level quizSets of 3
+                if (Array.isArray(topic.quizzes)) {
+                    tCopy.quizzes = topic.quizzes.map((q) => (q && typeof q === 'object' ? { ...q } : q));
+                    // accumulate into category-level flat list
+                    tCopy.quizzes.forEach((q) => flatQuizzesForCategory.push(q));
+                    // topic-level grouping for convenience
+                    tCopy.quizSets = chunkInto3(tCopy.quizzes);
+                }
                 catCopy.topics.push(tCopy);
             });
+            // Copy any category-level quizzes (rare) and include in flat list
+            if (Array.isArray(cat.quizzes)) {
+                catCopy.quizzes = cat.quizzes.map((q) => (q && typeof q === 'object' ? { ...q } : q));
+                catCopy.quizzes.forEach((q) => flatQuizzesForCategory.push(q));
+            }
+            // Derive category-level grouping into sets of 3
+            catCopy.quizSets = chunkInto3(flatQuizzesForCategory);
             subjCopy.categories[catName] = catCopy;
         }
         out[subjectKey] = subjCopy;
