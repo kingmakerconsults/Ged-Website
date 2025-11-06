@@ -18,6 +18,15 @@ const COMPREHENSIVE_TIMEOUT_MS = 480000;
 // Timeout for the explicit ChatGPT fallback attempt used in AI generation
 const FALLBACK_TIMEOUT_MS = Number(process.env.FALLBACK_TIMEOUT_MS) || 45000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { default: PQueue } = require("p-queue");
+const genAI = process.env.GOOGLE_AI_API_KEY
+    ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY)
+    : null;
+
+// limit to a few at a time so startup doesn’t explode
+const imageAnalysisQueue = new PQueue({ concurrency: 4 });
+const GEMINI_FILESTORE_NAME = process.env.GEMINI_FILESTORE_NAME || null; // optional file store for Gemini File Search
 
 // Rolling latency stats for AI generations
 // Keep this ABOVE any functions/routes that call AI_LATENCY
@@ -499,108 +508,253 @@ function readJsonSafe(filePath) {
     return null;
 }
 
-function loadAndAugmentImageMetadata() {
-    const primaryFile = path.join(__dirname, 'image_metadata_final.json');
-    const fallbackFile = path.join(__dirname, 'data', 'image_metadata_final.json');
+function fileToGenerativePart(filePath, mimeType) {
+    const data = fs.readFileSync(filePath);
+    return {
+        inlineData: {
+            data: data.toString("base64"),
+            mimeType
+        }
+    };
+}
+
+/**
+ * Ask Gemini for alt text and description for a local image.
+ * We pass subject and category to reduce wrong matches.
+ */
+async function generateImageMetadataFromGemini(imagePath, { subject = "", category = "" } = {}) {
+    if (!genAI) {
+        console.warn("[ImageDB-AI] Gemini not configured, skipping AI for", imagePath);
+        return { altText: "", detailedDescription: "" };
+    }
+
+    const ext = path.extname(imagePath).toLowerCase();
+    const mimeType =
+        ext === ".png" ? "image/png" :
+        ext === ".jpg" || ext === ".jpeg" ? "image/jpeg" :
+        null;
+
+    if (!mimeType) {
+        console.warn("[ImageDB-AI] Unsupported image type:", imagePath);
+        return { altText: "", detailedDescription: "" };
+    }
+
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const imagePart = fileToGenerativePart(imagePath, mimeType);
+
+    // IMPORTANT: we inject the subject/folder so it stays on-topic
+    const prompt = `
+You are cataloging images for a GED learning platform.
+The image came from subject: "${subject}" and folder/category: "${category}".
+Return ONLY valid JSON with:
+{
+  "altText": "<max 125 chars, literal description of what is in THIS image>",
+  "detailedDescription": "<2-4 sentences, objective, aligned to subject/folder>"
+}
+Do not invent a different scene than what you see. Do not output markdown.
+`;
+
+    try {
+        // Basic retry to handle flaky network/model hiccups
+        const result = await withRetry(
+            async () => model.generateContent([prompt, imagePart]),
+            {
+                retries: 2,
+                factor: 1.5,
+                minTimeout: 500,
+                maxTimeout: 2000,
+                onFailedAttempt: (err, attempt) => {
+                    try { console.warn(`[ImageDB-AI] Retry ${attempt} for`, imagePath, '-', err?.message || err); } catch {}
+                }
+            }
+        );
+        const text = result.response.text().trim();
+        const clean = text
+            .replace(/```json/gi, "")
+            .replace(/```/g, "")
+            .trim();
+        const parsed = JSON.parse(clean);
+
+        return {
+            altText: parsed.altText || "",
+            detailedDescription: parsed.detailedDescription || ""
+        };
+    } catch (err) {
+        console.error("[ImageDB-AI] Failed to analyze", imagePath, err.message);
+        return { altText: "", detailedDescription: "" };
+    }
+}
+
+async function loadAndAugmentImageMetadata() {
+    const primaryFile = path.join(__dirname, "image_metadata_final.json");
+    const fallbackFile = path.join(__dirname, "data", "image_metadata_final.json");
+
     let db = readJsonSafe(primaryFile) || readJsonSafe(fallbackFile) || [];
     if (!Array.isArray(db)) db = [];
 
-    // Build fast lookup
+    // We’ll dedupe by lowercased path and by sha1
     const byPath = new Set();
     const bySha1 = new Set();
     for (const im of db) {
-        const p = (im && (im.filePath || im.src || im.path)) || '';
+        const p = (im && (im.filePath || im.src || im.path)) || "";
         if (p) byPath.add(String(p).toLowerCase());
         if (im && im.sha1) bySha1.add(String(im.sha1).toLowerCase());
     }
 
-    const repoRoot = path.resolve(__dirname, '..');
-    const scienceRoot = path.join(repoRoot, 'frontend', 'Images', 'Science');
-    const socialRoot = path.join(repoRoot, 'frontend', 'Images', 'SocialStudies');
+    // root of repo (same as old code)
+    const repoRoot = path.resolve(__dirname, "..");
+    const imagesRoot = path.join(repoRoot, "frontend", "Images");
 
+    // collect candidates from ALL subject folders under frontend/Images
     const candidates = [];
-    for (const [root, subject] of [[scienceRoot, 'Science'], [socialRoot, 'Social Studies']]) {
-        const files = walkDir(root, []);
-        for (const f of files) {
-            const ext = path.extname(f).toLowerCase();
-            if (!['.png', '.jpg', '.jpeg'].includes(ext)) continue;
-            candidates.push({ abs: f, subject });
+    if (fs.existsSync(imagesRoot)) {
+        const subjectDirs = fs.readdirSync(imagesRoot, { withFileTypes: true });
+        for (const dir of subjectDirs) {
+            if (!dir.isDirectory()) continue;
+            const subjectName = dir.name; // e.g. "Science", "SocialStudies", "RLA"
+            const subjectPath = path.join(imagesRoot, subjectName);
+            const files = walkDir(subjectPath, []);
+            for (const f of files) {
+                const ext = path.extname(f).toLowerCase();
+                if (![".png", ".jpg", ".jpeg"].includes(ext)) continue;
+                candidates.push({ abs: f, subject: subjectName });
+            }
         }
     }
 
-    let added = 0;
     const nowIso = new Date().toISOString();
+    const processing = [];
+
     for (const c of candidates) {
         if (!fs.existsSync(c.abs)) continue;
+
         const filePathMeta = normalizePathForMetadata(c.abs, c.subject);
         const key = filePathMeta.toLowerCase();
         const sha1 = sha1OfFile(c.abs);
         const dup = byPath.has(key) || (sha1 && bySha1.has(sha1.toLowerCase()));
         if (dup) continue;
-        const dims = getImageDimensions(c.abs);
-        const fileName = path.basename(c.abs);
-        const category = detectCategory(c.abs, c.subject);
-        const entry = {
-            id: randomId(),
-            subject: c.subject,
-            fileName,
-            filePath: filePathMeta,
-            width: dims.width || 0,
-            height: dims.height || 0,
-            dominantType: 'photo',
-            altText: '',
-            detailedDescription: '',
-            keywords: [],
-            sourceUrl: '',
-            sourceTitle: '',
-            sourcePublished: '',
-            license: '',
-            collectedAt: nowIso,
-            category,
-            usageDirectives: '',
-            sha1
-        };
+
+        processing.push(
+            imageAnalysisQueue.add(async () => {
+                const dims = getImageDimensions(c.abs);
+                const fileName = path.basename(c.abs);
+                const category = detectCategory(c.abs, c.subject);
+
+                // ask Gemini
+                const { altText, detailedDescription } = await generateImageMetadataFromGemini(
+                    c.abs,
+                    { subject: c.subject, category }
+                );
+
+                const entry = {
+                    id: randomId(),
+                    subject: c.subject,
+                    fileName,
+                    filePath: filePathMeta,
+                    width: dims.width || 0,
+                    height: dims.height || 0,
+                    dominantType: "photo",
+                    altText,
+                    detailedDescription,
+                    keywords: [],
+                    sourceUrl: "",
+                    sourceTitle: "",
+                    sourcePublished: "",
+                    license: "",
+                    collectedAt: nowIso,
+                    category,
+                    usageDirectives: "",
+                    sha1
+                };
+
+                return { entry, key, sha1 };
+            })
+        );
+    }
+
+    const results = await Promise.all(processing);
+    let added = 0;
+    for (const r of results) {
+        if (!r) continue;
+        const { entry, key, sha1 } = r;
         db.push(entry);
         byPath.add(key);
         if (sha1) bySha1.add(sha1.toLowerCase());
         added++;
     }
 
-    // Sort by subject then by fileName
+    // sort like before
     db.sort((a, b) => {
-        const sa = String(a.subject || '').toLowerCase();
-        const sb = String(b.subject || '').toLowerCase();
-        if (sa < sb) return -1; if (sa > sb) return 1;
-        const fa = String(a.fileName || '');
-        const fb = String(b.fileName || '');
+        const sa = String(a.subject || "").toLowerCase();
+        const sb = String(b.subject || "").toLowerCase();
+        if (sa < sb) return -1;
+        if (sa > sb) return 1;
+        const fa = String(a.fileName || "");
+        const fb = String(b.fileName || "");
         return fa.localeCompare(fb);
     });
 
     try {
-        fs.writeFileSync(primaryFile, JSON.stringify(db, null, 2), 'utf8');
+        fs.writeFileSync(primaryFile, JSON.stringify(db, null, 2), "utf8");
     } catch (e) {
-        console.warn('[ImageDB] Failed to write image metadata file:', e.message);
+        console.warn("[ImageDB] Failed to write image metadata file:", e.message);
     }
 
     IMAGE_DB = db;
+    rebuildImagePathIndex();
+    console.info(`[ImageDB] Loaded ${db.length} total images (added ${added}).`);
 }
 
-loadAndAugmentImageMetadata();
+(async () => {
+    await loadAndAugmentImageMetadata();
+    (function logImageCounts() {
+        try {
+            const total = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
+            const bySubject = IMAGE_DB.reduce((acc, im) => {
+                const s = im && im.subject ? String(im.subject) : "Other";
+                acc[s] = (acc[s] || 0) + 1;
+                return acc;
+            }, {});
+            const parts = Object.entries(bySubject).map(([s, n]) => `${s}: ${n}`);
+            console.info(`[ImageDB] Loaded ${total} total images (${parts.join(", ")})`);
+        } catch {}
+    })();
+})();
 
-rebuildImagePathIndex();
-// Optional enhancement: log counts by subject
-(function logImageCounts() {
+// Expose the computed image metadata to the frontend
+app.get('/image_metadata_final.json', (req, res) => {
     try {
-        const total = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
-        const bySubject = IMAGE_DB.reduce((acc, im) => {
+        res.set('Content-Type', 'application/json');
+        // keep fresh; this file can be updated at startup only
+        res.set('Cache-Control', 'no-cache');
+    } catch {}
+    return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
+});
+
+// Allow on-demand rebuild of image metadata without restarting the server
+let imageRebuildInProgress = false;
+app.post('/api/images/rebuild', async (req, res) => {
+    if (imageRebuildInProgress) {
+        return res.status(409).json({ ok: false, error: 'Rebuild already in progress' });
+    }
+    imageRebuildInProgress = true;
+    try {
+        const before = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
+        await loadAndAugmentImageMetadata();
+        const after = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
+        const bySubject = (Array.isArray(IMAGE_DB) ? IMAGE_DB : []).reduce((acc, im) => {
             const s = im && im.subject ? String(im.subject) : 'Other';
             acc[s] = (acc[s] || 0) + 1;
             return acc;
         }, {});
-        const parts = Object.entries(bySubject).map(([s, n]) => `${s}: ${n}`);
-        console.info(`[ImageDB] Loaded ${total} total images (${parts.join(', ')})`);
-    } catch {}
-})();
+        return res.json({ ok: true, total: after, added: Math.max(0, after - before), bySubject });
+    } catch (err) {
+        console.error('[ImageDB] Rebuild failed:', err?.message || err);
+        return res.status(500).json({ ok: false, error: 'Rebuild failed', details: err?.message || String(err) });
+    } finally {
+        imageRebuildInProgress = false;
+    }
+});
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
@@ -5272,7 +5426,7 @@ const callAI = async (prompt, schema, options = {}) => {
         throw new Error('Server configuration error: GOOGLE_AI_API_KEY is not set.');
     }
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    const { parser, onParserMetadata, generationOverrides, timeoutMs, signal } = options;
+    const { parser, onParserMetadata, generationOverrides, fileSearchConfig, timeoutMs, signal } = options;
     const payload = {
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
@@ -5281,6 +5435,21 @@ const callAI = async (prompt, schema, options = {}) => {
             ...(generationOverrides || {})
         }
     };
+    // Optional Gemini File Search support (adds retrieval tools while keeping structured output)
+    if (fileSearchConfig) {
+        // tell Gemini that we want to use the file_search tool
+        payload.tools = [
+            {
+                file_search: {}
+            }
+        ];
+        // pass in the store / filters / max results
+        payload.tool_config = {
+            file_search: {
+                ...fileSearchConfig
+            }
+        };
+    }
     try {
         const requestConfig = {};
         if (timeoutMs) {
@@ -5486,30 +5655,57 @@ const generatePassageSet = async (topic, subject, numQuestions, options = {}) =>
 };
 
 
-const generateImageQuestion = async (topic, subject, imagePool, numQuestions, options = {}) => {
-    // Filter by subject AND the specific topic (category)
-    let relevantImages = imagePool.filter(img => img.subject === subject && img.category === topic);
-    let selectedImage;
+function scoreImageForTopic(img, subject, topic) {
+    if (!img) return -1;
+    const subjMatch = (img.subject || '').toLowerCase() === (subject || '').toLowerCase() ? 1 : 0;
 
-    if (relevantImages.length > 0) {
-        selectedImage = relevantImages[Math.floor(Math.random() * relevantImages.length)];
-    } else {
-        // Fallback to just subject if no images match the specific topic
-        const subjectImages = imagePool.filter(img => img.subject === subject);
-        if (subjectImages.length === 0) return null; // No images for this subject at all
-        selectedImage = subjectImages[Math.floor(Math.random() * subjectImages.length)];
+    const topicLc = (topic || '').toLowerCase();
+    const catLc = (img.category || '').toLowerCase();
+    const altLc = (img.altText || '').toLowerCase();
+    const descLc = (img.detailedDescription || '').toLowerCase();
+
+    // exact category match is strongest
+    if (subjMatch && catLc === topicLc) return 100;
+
+    // otherwise look for the topic in alt/description
+    let textHit = 0;
+    if (altLc && topicLc && altLc.includes(topicLc)) textHit += 10;
+    if (descLc && topicLc && descLc.includes(topicLc)) textHit += 10;
+
+    // base score from subject match + text hits
+    return subjMatch * 50 + textHit;
+}
+
+const generateImageQuestion = async (topic, subject, imagePool, numQuestions, options = {}) => {
+    // 1. score all images for this subject/topic
+    const scored = (imagePool || [])
+        .map(img => ({ img, score: scoreImageForTopic(img, subject, topic) }))
+        .filter(x => x.score > 0) // keep only reasonably on-topic images
+        .sort((a, b) => b.score - a.score);
+
+    // 2. if we have nothing good, STOP and let the caller fall back
+    if (scored.length === 0) {
+        console.warn(`[AI-IMG] No good image for subject=${subject}, topic=${topic} — skipping image question.`);
+        return null;
     }
 
-    if (!selectedImage) return null;
+    // pick the best image (we only ask AI about 1 image per call here)
+    const selectedImage = scored[0].img;
 
-    const imagePrompt = `You are a GED exam creator. This stimulus is for an IMAGE from the topic '${topic}'.
-Based on the following image context, generate a set of ${numQuestions} unique questions that require visual interpretation, asking about the main idea, symbolism, or specific details.
-
-**Image Context:**
-- **Description:** ${selectedImage.detailedDescription}
-- **Usage Directives:** ${selectedImage.usageDirectives || 'N/A'}
-
-Output a JSON array of the question objects, each including an 'imagePath' key with the value '${selectedImage.filePath}'.`;
+    const imagePrompt = `
+You are creating GED-level ${subject} questions that require students to interpret an image.
+You are given a JSON image record from our database:
+${JSON.stringify({
+    subject: selectedImage.subject,
+    filePath: selectedImage.filePath,
+    altText: selectedImage.altText,
+    detailedDescription: selectedImage.detailedDescription,
+    category: selectedImage.category
+  }, null, 2)}
+Based ONLY on THIS image and staying within the subject "${subject}" and topic "${topic}", create ${numQuestions} multiple-choice questions.
+Each question must mention or clearly imply the image (e.g. "Based on the image..." or "According to the chart...").
+Return valid JSON only.
+`;
 
     const imageQuestionSchema = {
         type: "ARRAY",
@@ -5526,12 +5722,15 @@ Output a JSON array of the question objects, each including an 'imagePath' key w
 
     try {
         const questions = await callAI(imagePrompt, imageQuestionSchema, options);
-        // Map imagePath to imageUrl and add type
-        return questions.map(q => enforceWordCapsOnItem({
-            ...q,
-            imageUrl: q.imagePath.replace(/^\/frontend/, ''), // Keep this transformation
-            type: 'image'
-        }, subject));
+        return questions.map(q =>
+            enforceWordCapsOnItem({
+                ...q,
+                // keep your existing path normalization
+                imageUrl: selectedImage.filePath.replace(/^\/frontend/, ''),
+                imagePath: selectedImage.filePath,
+                type: 'image'
+            }, subject)
+        );
     } catch (error) {
         console.error(`Error generating image question for topic ${topic}:`, error);
         return null; // Return null or empty array on error to not break Promise.all
@@ -6182,7 +6381,11 @@ app.post('/generate-quiz', async (req, res) => {
 
                 for (const [category, counts] of Object.entries(blueprint)) {
                     for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
-                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions));
+                    for (let i = 0; i < counts.images; i++) promises.push((async () => {
+                        const imgQs = await generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions);
+                        if (imgQs && imgQs.length) return imgQs;
+                        return await generateStandaloneQuestion(subject, category, aiOptions);
+                    })());
                     for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category, aiOptions));
                 }
 
@@ -6225,7 +6428,11 @@ app.post('/generate-quiz', async (req, res) => {
 
                 for (const [category, counts] of Object.entries(blueprint)) {
                     for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
-                    for (let i = 0; i < counts.images; i++) promises.push(generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions));
+                    for (let i = 0; i < counts.images; i++) promises.push((async () => {
+                        const imgQs = await generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions);
+                        if (imgQs && imgQs.length) return imgQs;
+                        return await generateStandaloneQuestion(subject, category, aiOptions);
+                    })());
                     for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category, aiOptions));
                 }
 
@@ -6463,7 +6670,11 @@ app.post('/generate-quiz', async (req, res) => {
                     promises.push(generatePassageSet(topic, subject, 2));
                 }
                 for (let i = 0; i < numImageSets; i++) {
-                    promises.push(generateImageQuestion(topic, subject, curatedImages, 2));
+                    promises.push((async () => {
+                        const imgQs = await generateImageQuestion(topic, subject, curatedImages, 2);
+                        if (imgQs && imgQs.length) return imgQs;
+                        return await generateStandaloneQuestion(subject, topic);
+                    })());
                 }
                  // Fill the rest with standalone questions to ensure we reach the total.
                  const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
@@ -6735,6 +6946,135 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
             overallScore: 0,
             overallFeedback: 'Temporary scoring outage. Your draft was not saved for scoring; please rescore later.',
         });
+    }
+});
+
+// NOTE: files for this store should be uploaded once via a separate script/tool,
+// then the store name is set in .env as GEMINI_FILESTORE_NAME
+app.post('/api/gemini/file-search-quiz', express.json(), async (req, res) => {
+    const { query, subject } = req.body || {};
+
+    if (!query) {
+        return res.status(400).json({ error: "Missing 'query' in body" });
+    }
+
+    // prompt stays small; we rely on retrieved files + schema
+    const prompt = `
+Generate GED-level ${subject || 'RLA'} questions.
+Use ONLY the retrieved documents from file search as your source.
+Return an array of question objects.
+Each question must be answerable from the retrieved content.
+`;
+
+    // this schema matches our usual quiz object style
+    const quizSchema = {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                id: { type: "string" },
+                questionText: { type: "string" },
+                questionType: { type: "string" },
+                answerOptions: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            text: { type: "string" },
+                            isCorrect: { type: "boolean" },
+                            rationale: { type: "string" }
+                        },
+                        required: ["text", "isCorrect"]
+                    }
+                },
+                // let the model tell us what file/chunk it used
+                source: { type: "string" }
+            },
+            required: ["questionText", "answerOptions"]
+        }
+    };
+
+    try {
+        // only enable file search if the store name is available
+        const useFileSearch = !!GEMINI_FILESTORE_NAME;
+
+        const aiResult = await callAI(prompt, quizSchema, {
+            fileSearchConfig: useFileSearch
+                ? {
+                    // NOTE: key name matches the current Gemini REST file-search doc
+                    file_store_names: [GEMINI_FILESTORE_NAME],
+                    max_num_results: 6
+                }
+                : undefined
+        });
+
+        return res.json({ ok: true, data: aiResult });
+    } catch (err) {
+        console.error('Error running file-search quiz:', err);
+        return res.status(500).json({
+            error: 'File search quiz failed',
+            details: err.message
+        });
+    }
+});
+
+app.post("/api/gemini/passages-quiz", express.json(), async (req, res) => {
+    const { query, subject } = req.body || {};
+    const fileId = process.env.GEMINI_PASSAGES_FILE_ID;
+
+    if (!query) {
+        return res.status(400).json({ error: "Missing 'query' in body" });
+    }
+    if (!fileId) {
+        return res.status(500).json({ error: "GEMINI_PASSAGES_FILE_ID is not set" });
+    }
+
+    const prompt = `
+Generate GED-level ${subject || "RLA"} questions.
+Use ONLY the material retrieved from the uploaded passages file.
+If the retrieved content does not match the topic, keep the question within the passage's scope.
+Return an array of question objects.
+`;
+
+    const quizSchema = {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                id: { type: "string" },
+                questionText: { type: "string" },
+                questionType: { type: "string" },
+                answerOptions: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            text: { type: "string" },
+                            isCorrect: { type: "boolean" },
+                            rationale: { type: "string" }
+                        },
+                        required: ["text", "isCorrect"]
+                    }
+                },
+                source: { type: "string" }
+            },
+            required: ["questionText", "answerOptions"]
+        }
+    };
+
+    try {
+        const data = await callAI(prompt, quizSchema, {
+            fileSearchConfig: {
+                // tell Gemini to search THIS file we uploaded
+                files: [{ file: fileId }],
+                max_num_results: 6
+            }
+        });
+
+        return res.json({ ok: true, data });
+    } catch (err) {
+        console.error("passages-quiz error:", err);
+        return res.status(500).json({ error: "Failed to generate quiz from passages", details: err.message });
     }
 });
 
