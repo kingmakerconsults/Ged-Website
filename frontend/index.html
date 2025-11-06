@@ -2379,12 +2379,24 @@
                                                                     Object.entries(srcCats).forEach(([catName, cat]) => {
                                                                         if (!targetCats[catName]) targetCats[catName] = { description: '', topics: [] };
                                                                         const outTopics = targetCats[catName].topics || (targetCats[catName].topics = []);
+                                                                        // Preserve backend-derived category-level quizSets (array of {title, quizzes})
+                                                                        if (Array.isArray(cat?.quizSets)) {
+                                                                            targetCats[catName].quizSets = cat.quizSets;
+                                                                        }
                                                                         const seen = new Set(outTopics.map(t => t && t.id));
                                                                         const srcTopics = Array.isArray(cat?.topics) ? cat.topics : [];
                                                                         srcTopics.forEach((t) => {
                                                                             if (!t || !t.id || seen.has(t.id)) return;
-                                                                            // Preserve id/title/questions/config used by UI
-                                                                            outTopics.push({ id: t.id, title: t.title || t.id, description: t.description || '', questions: Array.isArray(t.questions) ? t.questions : [], config: t.config || null });
+                                                                            // Preserve id/title/questions/config used by UI, plus quizzes and quizSets if present
+                                                                            outTopics.push({
+                                                                                id: t.id,
+                                                                                title: t.title || t.id,
+                                                                                description: t.description || '',
+                                                                                questions: Array.isArray(t.questions) ? t.questions : [],
+                                                                                quizzes: Array.isArray(t.quizzes) ? t.quizzes : undefined,
+                                                                                quizSets: Array.isArray(t.quizSets) ? t.quizSets : undefined,
+                                                                                config: t.config || null
+                                                                            });
                                                                             seen.add(t.id);
                                                                         });
                                                                     });
@@ -13291,7 +13303,19 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             };
         // Read category-level sets (grouped in 3s) if present
         const categoryObj = AppData[selectedSubject].categories[selectedCategory] || {};
-        const categorySetsMap = (categoryObj && categoryObj.sets) ? categoryObj.sets : {};
+        // Support both legacy "sets" map and backend-provided quizSets array
+        const categorySetsMap = (() => {
+            if (categoryObj && categoryObj.sets) return categoryObj.sets;
+            if (Array.isArray(categoryObj?.quizSets)) {
+                return categoryObj.quizSets.reduce((acc, s) => {
+                    const key = (s && s.title) ? String(s.title) : `Set ${Object.keys(acc).length + 1}`;
+                    const quizzes = Array.isArray(s?.quizzes) ? s.quizzes : [];
+                    acc[key] = quizzes;
+                    return acc;
+                }, {});
+            }
+            return {};
+        })();
         const orderedSetNames = Object.keys(categorySetsMap).sort((a, b) => {
             const na = parseInt(String(a).replace(/\D+/g, ''), 10) || 0;
             const nb = parseInt(String(b).replace(/\D+/g, ''), 10) || 0;
@@ -15812,6 +15836,7 @@ function EssayGuide({ onExit }) {
     const [selectedTopic, setSelectedTopic] = useState(0);
     const [timer, setTimer] = useState(45 * 60);
     const [timerActive, setTimerActive] = useState(false);
+    const [overtimeNotified, setOvertimeNotified] = useState(false);
     const [essayMode, setEssayMode] = useState('guided'); // 'guided' | 'freeform'
     const [essayText, setEssayText] = useState({ intro: '', body1: '', body2: '', body3: '', conclusion: '' });
     const [showModal, setShowModal] = useState(false);
@@ -16129,17 +16154,20 @@ const passagesData = [
 ];
 
     useEffect(() => {
-        if (timerActive && timer > 0) {
+        if (timerActive) {
             intervalRef.current = setInterval(() => {
-                setTimer(t => t - 1);
+                setTimer(prev => {
+                    const next = prev - 1;
+                    if (next <= 0 && !overtimeNotified) {
+                        // One-time notification when time runs out
+                        setOvertimeNotified(true);
+                    }
+                    return next;
+                });
             }, 1000);
-        } else if (timer <= 0) {
-            clearInterval(intervalRef.current);
-            setTimerActive(false);
-            finishPractice();
         }
         return () => clearInterval(intervalRef.current);
-    }, [timerActive, timer]);
+    }, [timerActive, overtimeNotified]);
 
     useEffect(() => {
         if (activeTab !== 'structure') {
@@ -16166,6 +16194,7 @@ const passagesData = [
         setTimer(45 * 60);
         setEssayText({ intro: '', body1: '', body2: '', body3: '', conclusion: '' });
         setScoreResult(null);
+        setOvertimeNotified(false);
     };
 
     const finishPractice = () => {
@@ -16234,7 +16263,14 @@ const passagesData = [
         }
     };
 
-    const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
+    const formatTime = (seconds) => {
+        // Show +MM:SS for overtime (seconds < 0), MM:SS otherwise
+        const sign = seconds < 0 ? '+' : '';
+        const abs = Math.abs(seconds);
+        const mm = Math.floor(abs / 60);
+        const ss = (abs % 60).toString().padStart(2, '0');
+        return `${sign}${mm}:${ss}`;
+    };
     const selectedPassage = passagesData[selectedTopic];
     const promptSummary = selectedPassage
         ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain which author presents the more convincing argument. Support your response with evidence from both passages and explain why the evidence you cite supports your evaluation.`
@@ -16363,10 +16399,15 @@ const passagesData = [
                             </div>
                             <div className="flex items-center space-x-2 sm:space-x-4">
                                 <button onClick={startPractice} disabled={timerActive} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition-colors disabled:opacity-50">Start</button>
-                                <div className={`text-3xl font-mono font-bold ${timer < 300 ? 'text-red-500' : 'text-gray-800'}`}>{formatTime(timer)}</div>
+                                <div className={`text-3xl font-mono font-bold ${timer <= 0 ? 'text-red-600' : (timer < 300 ? 'text-red-500' : 'text-gray-800')}`}>{formatTime(timer)}</div>
                                 <button onClick={finishPractice} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors">Finish & Review</button>
                                 <button onClick={resetPractice} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors">Reset</button>
                             </div>
+                            {overtimeNotified && (
+                                <div className="mt-3 w-full sm:w-auto bg-amber-50 border border-amber-200 text-amber-800 text-sm px-3 py-2 rounded">
+                                    Time is up, but you can still finish your work. The timer now shows overtime.
+                                </div>
+                            )}
                         </div>
 
                         <div className="bg-white p-3 rounded-lg shadow-sm border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
