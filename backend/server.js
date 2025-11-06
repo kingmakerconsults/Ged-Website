@@ -19,6 +19,32 @@ const COMPREHENSIVE_TIMEOUT_MS = 480000;
 const FALLBACK_TIMEOUT_MS = Number(process.env.FALLBACK_TIMEOUT_MS) || 45000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
 
+// Rolling latency stats for AI generations
+// Keep this ABOVE any functions/routes that call AI_LATENCY
+const AI_LATENCY = {
+    buf: [],
+    push(ms) {
+        this.buf.push(ms);
+        if (this.buf.length > 200) this.buf.shift();
+    },
+    stats() {
+        const arr = [...this.buf].sort((a, b) => a - b);
+        if (!arr.length) {
+            return { count: 0, p50: 0, p95: 0, p99: 0, avg: 0 };
+        }
+        const q = (p) =>
+            arr[Math.min(arr.length - 1, Math.floor((p / 100) * (arr.length - 1)))];
+        const sum = arr.reduce((s, v) => s + v, 0);
+        return {
+            count: arr.length,
+            p50: q(50),
+            p95: q(95),
+            p99: q(99),
+            avg: Math.round(sum / arr.length),
+        };
+    },
+};
+
 // --- in-memory image metadata structures used by image loader section ---
 let IMAGE_DB = [];
 const IMAGE_BY_PATH = new Map();
