@@ -1,0 +1,200 @@
+[
+  {
+    "id": "ss_lincoln_gettysburg",
+    "subject": "social_studies",
+    "topic": "Civil War",
+    "title": "Gettysburg Address",
+    "author": "Abraham Lincoln",
+    "year": 1863,
+    "content": "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battlefield of that war. We have come to dedicate a portion of that field as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this..."
+  },
+  {
+    "id": "ss_douglass_fourth_of_july",
+    "subject": "social_studies",
+    "topic": "Abolition and Freedom",
+    "title": "What to the Slave Is the Fourth of July?",
+    "author": "Frederick Douglass",
+    "year": 1852,
+    "content": "Fellow-citizens, pardon me, allow me to ask, why am I called upon to speak here today? What, to the American slave, is your Fourth of July? I answer; a day that reveals to him, more than all other days in the year, the gross injustice and cruelty to which he is the constant victim. Your celebration is a sham; your boasted liberty, an unholy license..."
+  },
+  {
+    "id": "ss_washington_farewell",
+    "subject": "social_studies",
+    "topic": "Founding Era",
+    "title": "Farewell Address (Excerpt)",
+    "author": "George Washington",
+    "year": 1796,
+    "content": "Observe good faith and justice toward all nations; cultivate peace and harmony with all. Religion and morality enjoin this conduct, and can it be that good policy does not equally enjoin it? It will be worthy of a free, enlightened, and, at no distant period, a great nation to give to mankind the magnanimous and too novel example of a people always guided by an exalted justice and benevolence..."
+  },
+  {
+    "id": "ss_jefferson_danbury",
+    "subject": "social_studies",
+    "topic": "Religious Freedom",
+    "title": "Letter to the Danbury Baptists",
+    "author": "Thomas Jefferson",
+    "year": 1802,
+    "content": "Believing with you that religion is a matter which lies solely between Man & his God, that he owes account to none other for his faith or his worship, that the legitimate powers of government reach actions only, & not opinions, I contemplate with sovereign reverence that act of the whole American people which declared that their legislature should 'make no law respecting an establishment of religion, or prohibiting the free exercise thereof,' thus building a wall of separation between Church & State."
+  },
+  {
+    "id": "ss_fdr_four_freedoms",
+    "subject": "social_studies",
+    "topic": "World War II",
+    "title": "The Four Freedoms (Excerpt)",
+    "author": "Franklin D. Roosevelt",
+    "year": 1941,
+    "content": "In the future days, which we seek to make secure, we look forward to a world founded upon four essential human freedoms. The first is freedom of speech and expression—everywhere in the world. The second is freedom of every person to worship God in his own way—everywhere in the world. The third is freedom from want, which means economic understandings which will secure to every nation a healthy peacetime life for its inhabitants. The fourth is freedom from fear..."
+  },
+  {
+    "id": "ss_susanb_trial",
+    "subject": "social_studies",
+    "topic": "Women's Rights",
+    "title": "Speech After Her Trial for Voting",
+    "author": "Susan B. Anthony",
+    "year": 1873,
+    "content": "Friends and fellow citizens: I stand before you tonight under indictment for the alleged crime of having voted at the last presidential election, without having a lawful right to vote. It shall be my work this evening to prove to you that in thus voting, I not only committed no crime, but, instead, simply exercised my citizen’s rights, guaranteed to me and all United States citizens by the National Constitution..."
+  },
+  {
+    "id": "ss_declaration_excerpt",
+    "subject": "social_studies",
+    "topic": "Independence",
+    "title": "Declaration of Independence (Excerpt)",
+    "author": "Thomas Jefferson et al.",
+    "year": 1776,
+    "content": "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness. That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed..."
+  },
+  {
+    "id": "ss_sojourner_aint_i",
+    "subject": "social_studies",
+    "topic": "Women's Rights and Abolition",
+    "title": "Ain’t I a Woman?",
+    "author": "Sojourner Truth",
+    "year": 1851,
+    "content": "That man over there says that women need to be helped into carriages, and lifted over ditches, and to have the best place everywhere. Nobody ever helps me into carriages, or over mud-puddles, or gives me any best place! And ain’t I a woman? Look at me! Look at my arm! I have ploughed and planted, and gathered into barns, and no man could head me..."
+  },
+  {
+    "id": "ss_franklin_constitution",
+    "subject": "social_studies",
+    "topic": "Constitutional Convention",
+    "title": "Speech at the Constitutional Convention (Excerpt)",
+    "author": "Benjamin Franklin",
+    "year": 1787,
+    "content": "I confess that I do not entirely approve of this Constitution at present; but, Sir, I am not sure I shall never approve it. For having lived long, I have experienced many instances of being obliged, by better information or fuller consideration, to change opinions even on important subjects, which I once thought right, but found to be otherwise..."
+  },
+  {
+    "id": "ss_mlk_dream_excerpt",
+    "subject": "social_studies",
+    "topic": "Civil Rights Movement",
+    "title": "I Have a Dream (Excerpt)",
+    "author": "Martin Luther King Jr.",
+    "year": 1963,
+    "content": "I have a dream that one day this nation will rise up and live out the true meaning of its creed: 'We hold these truths to be self-evident, that all men are created equal.' I have a dream that my four little children will one day live in a nation where they will not be judged by the color of their skin but by the content of their character..."
+  },
+  {
+    "id": "rla_gift_of_magi",
+    "subject": "rla",
+    "topic": "Narrative",
+    "title": "The Gift of the Magi (Excerpt)",
+    "author": "O. Henry",
+    "year": 1905,
+    "content": "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one's cheeks burned with silent imputation of parsimony that such close dealing implied. Three times Della counted it..."
+  },
+  {
+    "id": "rla_story_of_an_hour",
+    "subject": "rla",
+    "topic": "Narrative",
+    "title": "The Story of an Hour",
+    "author": "Kate Chopin",
+    "year": 1894,
+    "content": "Knowing that Mrs. Mallard was afflicted with heart trouble, great care was taken to break to her as gently as possible the news of her husband's death. She wept at once, with sudden, wild abandonment, in her sister’s arms. When the storm of grief had spent itself she went away to her room alone. There stood, facing the open window, a comfortable, roomy armchair..."
+  },
+  {
+    "id": "rla_tell_tale_heart",
+    "subject": "rla",
+    "topic": "Narrative",
+    "title": "The Tell-Tale Heart (Excerpt)",
+    "author": "Edgar Allan Poe",
+    "year": 1843,
+    "content": "True!—nervous—very, very dreadfully nervous I had been and am; but why will you say that I am mad? The disease had sharpened my senses—not destroyed—not dulled them. Above all was the sense of hearing acute. I heard all things in the heaven and in the earth. I heard many things in hell. How, then, am I mad?..."
+  },
+  {
+    "id": "rla_road_not_taken",
+    "subject": "rla",
+    "topic": "Poetry",
+    "title": "The Road Not Taken",
+    "author": "Robert Frost",
+    "year": 1916,
+    "content": "Two roads diverged in a yellow wood, And sorry I could not travel both And be one traveler, long I stood And looked down one as far as I could To where it bent in the undergrowth..."
+  },
+  {
+    "id": "rla_hughes_dreams",
+    "subject": "rla",
+    "topic": "Poetry",
+    "title": "Dreams",
+    "author": "Langston Hughes",
+    "year": 1922,
+    "content": "Hold fast to dreams For if dreams die Life is a broken-winged bird That cannot fly. Hold fast to dreams For when dreams go Life is a barren field Frozen with snow."
+  },
+  {
+    "id": "rla_dickinson_death",
+    "subject": "rla",
+    "topic": "Poetry",
+    "title": "Because I Could Not Stop for Death",
+    "author": "Emily Dickinson",
+    "year": 1863,
+    "content": "Because I could not stop for Death – He kindly stopped for me – The Carriage held but just Ourselves – And Immortality. We slowly drove – He knew no haste And I had put away My labor and my leisure too, For His Civility –"
+  },
+  {
+    "id": "rla_whitman_singing",
+    "subject": "rla",
+    "topic": "Poetry",
+    "title": "I Hear America Singing",
+    "author": "Walt Whitman",
+    "year": 1860,
+    "content": "I hear America singing, the varied carols I hear; Those of mechanics, each one singing his as it should be blithe and strong; The carpenter singing his as he measures his plank or beam, The mason singing his as he makes ready for work, or leaves off work..."
+  },
+  {
+    "id": "rla_dunbar_mask",
+    "subject": "rla",
+    "topic": "Poetry",
+    "title": "We Wear the Mask",
+    "author": "Paul Laurence Dunbar",
+    "year": 1896,
+    "content": "We wear the mask that grins and lies, It hides our cheeks and shades our eyes,— This debt we pay to human guile; With torn and bleeding hearts we smile, And mouth with myriad subtleties."
+  },
+  {
+    "id": "science_galileo_moons",
+    "subject": "science",
+    "topic": "Astronomy",
+    "title": "Galileo Observes Jupiter's Moons",
+    "author": "Galileo Galilei",
+    "year": 1610,
+    "content": "In January of 1610, I discovered four stars wandering around Jupiter, invisible before my observations. They moved as companions of the great planet, never departing far from it. Night after night, their changes confirmed that not all heavenly bodies revolve about the Earth. This discovery gave support to the Copernican idea that the planets circle the Sun."
+  },
+  {
+    "id": "science_newton_gravity",
+    "subject": "science",
+    "topic": "Physics",
+    "title": "Newton on Universal Gravitation",
+    "author": "Isaac Newton",
+    "year": 1687,
+    "content": "Every particle of matter in the universe attracts every other particle with a force that varies directly with the product of their masses and inversely with the square of the distance between their centers. This simple law, though invisible to our senses, binds the planets in their courses and holds the Moon in her path about the Earth."
+  },
+  {
+    "id": "science_pasteur_germs",
+    "subject": "science",
+    "topic": "Biology",
+    "title": "Pasteur’s Experiments on Germs",
+    "author": "Louis Pasteur",
+    "year": 1864,
+    "content": "In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation."
+  },
+  {
+    "id": "science_rachel_carson_sea",
+    "subject": "science",
+    "topic": "Environmental Science",
+    "title": "The Sea Around Us (Excerpt)",
+    "author": "Rachel Carson",
+    "year": 1951,
+    "content": "To stand at the shore is to witness eternity. The sea has shaped the land, governed the climate, and sustained the web of life. The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth. Man has begun to understand that he is linked to the sea, not above it."
+  }
+]

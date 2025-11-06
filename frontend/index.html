@@ -8412,6 +8412,11 @@ function App({ externalTheme, onThemeChange }) {
     const [currentUser, setCurrentUser] = useState(null);
     // Global navigation state for top-level views
     const [activeView, setActiveView] = useState('dashboard'); // 'dashboard' | 'quizzes' | 'progress' | 'profile' | 'settings'
+    // Lifted subject/category selection (was local to StartScreen) so navigation history can restore them
+    const [selectedSubject, setSelectedSubject] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    // Simple stack of prior navigation states for Back behavior
+    const [navHistory, setNavHistory] = useState([]);
     const [authToken, setAuthToken] = useState(() => {
         if (typeof window === 'undefined') {
             return null;
@@ -8769,37 +8774,68 @@ function App({ externalTheme, onThemeChange }) {
         }
     }, [authToken, nameDraft, preferences.fontSize, preferences.theme, subjectEdits, localProfile?.challengeOptions]);
 
-    // Centralized navigation handlers
-    const goToDashboard = useCallback(() => {
-        setActiveView('dashboard');
-        setPendingScrollTarget('__top');
+    // Unified navigation helper: push current state onto history then change view
+    const navigateTo = useCallback((nextActiveView, options = {}) => {
+        setNavHistory((prev) => [...prev, {
+            activeView,
+            view,
+            selectedSubject,
+            selectedCategory,
+        }]);
+        if (options.scrollTarget) {
+            setPendingScrollTarget(options.scrollTarget);
+        }
+        setActiveView(nextActiveView);
         setView('start');
+    }, [activeView, view, selectedSubject, selectedCategory]);
+
+    // Back navigation: pop history and restore prior state
+    const goBack = useCallback(() => {
+        setNavHistory((prev) => {
+            if (!prev.length) return prev; // nothing to do
+            const last = prev[prev.length - 1];
+            // Restore
+            setActiveView(last.activeView || 'dashboard');
+            setView(last.view || 'start');
+            setSelectedSubject(last.selectedSubject ?? null);
+            setSelectedCategory(last.selectedCategory ?? null);
+            return prev.slice(0, -1);
+        });
     }, []);
 
-    const goToQuizzes = useCallback(() => {
-        setActiveView('quizzes');
-        setPendingScrollTarget('quizzes');
-        setView('start');
-    }, []);
-
-    const goToProgress = useCallback(() => {
-        setActiveView('progress');
-        setPendingScrollTarget('progress');
-        setView('start');
-    }, []);
-
-    const goToProfile = useCallback(() => {
-        setActiveView('profile');
-        setView('start');
-    }, []);
-
+    // Top-level navigation shortcuts using navigateTo
+    const goToDashboard = useCallback(() => navigateTo('dashboard', { scrollTarget: '__top' }), [navigateTo]);
+    const goToQuizzes = useCallback(() => navigateTo('quizzes', { scrollTarget: 'quizzes' }), [navigateTo]);
+    const goToProgress = useCallback(() => navigateTo('progress', { scrollTarget: 'progress' }), [navigateTo]);
+    const goToProfile = useCallback(() => navigateTo('profile'), [navigateTo]);
     const goToSettings = useCallback(() => {
-        setActiveView('settings');
-        setView('start');
+        navigateTo('settings');
         if (!profileData) {
             loadProfileOnce();
         }
-    }, [loadProfileOnce, profileData]);
+    }, [navigateTo, loadProfileOnce, profileData]);
+
+    // Subject/category selection wrappers (record history before changing selection)
+    const selectSubject = useCallback((subject) => {
+        setNavHistory((prev) => [...prev, {
+            activeView,
+            view,
+            selectedSubject,
+            selectedCategory,
+        }]);
+        setSelectedSubject(subject);
+        setSelectedCategory(null);
+    }, [activeView, view, selectedSubject, selectedCategory]);
+
+    const selectCategory = useCallback((category) => {
+        setNavHistory((prev) => [...prev, {
+            activeView,
+            view,
+            selectedSubject,
+            selectedCategory,
+        }]);
+        setSelectedCategory(category);
+    }, [activeView, view, selectedSubject, selectedCategory]);
 
     // Navigate to a dashboard section (e.g., #quizzes or #progress) from anywhere
     const navigateToSection = useCallback((targetId) => {
@@ -10268,6 +10304,11 @@ function App({ externalTheme, onThemeChange }) {
                         setShowFormulaSheet={setShowFormulaSheet}
                         onOpenMathTools={openMathTools}
                         theme={preferences.theme}
+                        selectedSubject={selectedSubject}
+                        selectedCategory={selectedCategory}
+                        onSelectSubject={selectSubject}
+                        onSelectCategory={selectCategory}
+                        onBack={goBack}
                         onSelectGenerator={async (subject, topic, setIsLoading, setLoadingMessage) => {
                             if (!topic) {
                                 alert("Please select a topic first.");
@@ -12383,9 +12424,7 @@ function FormulaSheetModal({ onClose }) {
     );
 }
 
-function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, testDate, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools, theme = 'light', onRefreshProfile }) {
-    const [selectedSubject, setSelectedSubject] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+function StartScreen({ currentUser, onLogout, progress, profileBundle: profileData, testDate, onboardingComplete, onShowProfile, onSelectQuiz, vocabulary, onSelectGenerator, onStartPopQuiz, onStartComprehensiveExam, setIsLoading, setLoadingMessage, setShowFormulaSheet, onOpenMathTools, theme = 'light', onRefreshProfile, selectedSubject, selectedCategory, onSelectSubject, onSelectCategory, onBack }) {
     const [aiQuizTopic, setAiQuizTopic] = useState('');
     const [detailedViewSubject, setDetailedViewSubject] = useState(null);
     // weekly coach
@@ -13048,22 +13087,26 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     }, [normalizedProfileTestDate, nextUpcomingTest?.testDate, nextUpcomingTest?.daysUntil]);
 
     const handleSelectSubject = (subject) => {
-        setSelectedSubject(subject);
-        setSelectedCategory(null);
+        if (typeof onSelectSubject === 'function') {
+            onSelectSubject(subject);
+        }
         setAiQuizTopic('');
         setViewScienceFormulas(false);
     };
 
     const handleSelectCategory = (category) => {
-        setSelectedCategory(category);
+        if (typeof onSelectCategory === 'function') {
+            onSelectCategory(category);
+        }
     };
 
     const handleViewVocabulary = (subject) => {
         if (!subject) return;
         const words = vocabularyData[subject];
         if (Array.isArray(words) && words.length > 0) {
-            setSelectedSubject(subject);
-            setSelectedCategory(null);
+            if (typeof onSelectSubject === 'function') {
+                onSelectSubject(subject);
+            }
             setAiQuizTopic('');
             setTimeout(() => {
                 const section = document.getElementById('subject-vocabulary-section');
@@ -13075,15 +13118,18 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     };
 
     const handleBack = () => {
-        if (selectedCategory) {
-            setSelectedCategory(null);
+        if (typeof onBack === 'function') {
+            onBack();
+            return;
+        }
+        // Fallback behavior if onBack isn't provided
+        if (selectedCategory && typeof onSelectCategory === 'function') {
+            onSelectCategory(null);
             setAiQuizTopic('');
             return;
         }
-
-        if (selectedSubject) {
-            setSelectedSubject(null);
-            setSelectedCategory(null);
+        if (selectedSubject && typeof onSelectSubject === 'function') {
+            onSelectSubject(null);
             setAiQuizTopic('');
             setShowFormulaSheet?.(false);
             setViewScienceFormulas(false);
@@ -15057,16 +15103,132 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     const questions = quiz.questions || [];
     const [answers, setAnswers] = useState(Array(questions.length).fill(null));
 
+    // --- Math Answer Normalization & Equivalence Helpers (Fill-in-the-Blank) ---
+    // Lightweight parser supporting: fractions (a/b), mixed numbers (a b/c), ratios (a:b), percents (50%), currency ($1,050.25),
+    // comma-separated multi answers ("18,19"), decimals, integers, tolerating whitespace & leading zeros.
+    const MATH_EQUIV = {
+        // Configurable numeric tolerance for float comparisons
+        EPS: 1e-9,
+        // Percent → decimal conversion regex
+        PERCENT_RE: /^[-+]?\d+(?:\.\d+)?%$/,
+        // Currency detection
+        CURRENCY_RE: /^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/,
+        // Fraction (simple) a/b
+        FRACTION_RE: /^[-+]?\d+\s*\/\s*\d+$/,
+        // Mixed number: a b/c (allow sign on first part)
+        MIXED_RE: /^[-+]?\d+\s+\d+\s*\/\s*\d+$/,
+        // Ratio a:b (integers only)
+        RATIO_RE: /^[-+]?\d+\s*:\s*[-+]?\d+$/,
+        // Multi-answer list separated by comma
+        MULTI_SPLIT_RE: /\s*,\s*/,
+    };
+
+    const normalizeRaw = (val) => {
+        if (val === null || val === undefined) return '';
+        return String(val)
+            .replace(/\u00A0/g, ' ') // non-breaking space
+            .replace(/\s+/g, ' ') // collapse internal whitespace
+            .trim();
+    };
+
+    const stripCurrency = (s) => s.replace(/^\$/,'').replace(/,/g,'');
+    const parseFraction = (s) => {
+        const [a,b] = s.split('/').map(t=>t.trim());
+        const num = Number(a), den = Number(b);
+        if (!Number.isFinite(num) || !Number.isFinite(den) || den === 0) return null;
+        return num/den;
+    };
+    const parseMixed = (s) => {
+        const parts = s.split(/\s+/);
+        if (parts.length < 2) return null;
+        const whole = Number(parts[0]);
+        const frac = parseFraction(parts.slice(1).join(' '));
+        if (frac === null || !Number.isFinite(whole)) return null;
+        return (whole >= 0 ? whole + frac : whole - frac); // sign on whole applies
+    };
+    const parsePercent = (s) => {
+        const num = Number(s.replace('%',''));
+        return Number.isFinite(num) ? num/100 : null;
+    };
+    const parseCurrency = (s) => {
+        const num = Number(stripCurrency(s));
+        return Number.isFinite(num) ? num : null;
+    };
+    const parseRatio = (s) => {
+        const [a,b] = s.split(':').map(t=>t.trim());
+        const na = Number(a), nb = Number(b);
+        if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0) return null;
+        return na/nb;
+    };
+
+    const numericValue = (raw) => {
+        const s = normalizeRaw(raw);
+        if (!s) return null;
+        if (MATH_EQUIV.PERCENT_RE.test(s)) return parsePercent(s);
+        if (MATH_EQUIV.CURRENCY_RE.test(s)) return parseCurrency(s);
+        if (MATH_EQUIV.MIXED_RE.test(s)) return parseMixed(s);
+        if (MATH_EQUIV.FRACTION_RE.test(s)) return parseFraction(s);
+        if (MATH_EQUIV.RATIO_RE.test(s)) return parseRatio(s);
+        // plain number (allow commas)
+        const plain = s.replace(/,/g,'');
+        const num = Number(plain);
+        return Number.isFinite(num) ? num : null;
+    };
+
+    // Produce canonical string tokens for multi-answer sets (order-insensitive) or single answer.
+    const canonicalTokens = (raw) => {
+        const s = normalizeRaw(raw);
+        if (!s) return [];
+        // Multi-answer if comma present
+        if (s.includes(',')) {
+            return s.split(MATH_EQUIV.MULTI_SPLIT_RE).filter(Boolean).map(t => normalizeRaw(t));
+        }
+        return [s];
+    };
+
+    const areTokenSetsEqual = (expTokens, userTokens) => {
+        if (expTokens.length !== userTokens.length) return false;
+        const a = [...expTokens].sort();
+        const b = [...userTokens].sort();
+        return a.every((v,i)=>v===b[i]);
+    };
+
+    const isNumericEqual = (a, b) => {
+        const na = numericValue(a);
+        const nb = numericValue(b);
+        if (na === null || nb === null) return false;
+        return Math.abs(na - nb) < MATH_EQUIV.EPS;
+    };
+
+    const isEquivalentAnswer = (expected, user) => {
+        const e = normalizeRaw(expected);
+        const u = normalizeRaw(user);
+        if (!e || !u) return false;
+        if (e === u) return true; // exact match quick path
+        // Numeric equivalence (covers fraction/decimal/percent/ratio/currency)
+        if (isNumericEqual(e, u)) return true;
+        // Multi-answer comparison (e.g. "18,19" vs "19,18")
+        if (e.includes(',') || u.includes(',')) {
+            return areTokenSetsEqual(canonicalTokens(e), canonicalTokens(u));
+        }
+        // Ratio vs fraction equivalence: treat ratio numeric already handled by numericValue
+        return false;
+    };
+
     const handleComplete = (result) => {
         let score = 0;
         questions.forEach((q, i) => {
             const options = Array.isArray(q.answerOptions) ? q.answerOptions : [];
             const correctOption = options.find(opt => opt.isCorrect);
-            if (correctOption && result.answers[i] === correctOption.text) {
-                score++;
+            const userAns = result.answers[i];
+            if (correctOption) {
+                if (userAns === correctOption.text) score++;
+            } else if (q.type === 'fill-in-the-blank' || !options.length) {
+                // Fill-in-the-blank path: use equivalence logic against q.correctAnswer
+                if (isEquivalentAnswer(q.correctAnswer, userAns)) score++;
             }
         });
-        const percentage = (score / questions.length) * 100;
+        const percentage = questions.length ? (score / questions.length) * 100 : 0;
         const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
 
         onComplete({ score, totalQuestions: questions.length, scaledScore, answers: result.answers, subject: quiz.subject, marked: result.marked, confidence: result.confidence, quiz });
@@ -15114,40 +15276,42 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         const finalMarked = [...(p1.marked || []), ...(result.marked || [])];
         const finalConfidence = [...(p1.confidence || []), ...(result.confidence || [])];
 
-        // Normalization helpers to avoid crashes and tolerate light formatting
-        const normalizeAnswer = (val) => {
+        // Robust equivalence (match StandardQuizRunner helpers)
+        const normalizeRaw = (val) => {
             if (val === null || val === undefined) return '';
-            return String(val)
-                .replace(/^\$+|\$+$/g, '') // strip surrounding $
-                .replace(/\u00A0/g, ' ')     // non-breaking space to regular space if present
-                .replace(/\s+/g, ' ')
-                .trim();
+            return String(val).replace(/\u00A0/g,' ').replace(/\s+/g,' ').trim();
         };
-        const isNumericEqual = (a, b) => {
-            const na = Number(a);
-            const nb = Number(b);
-            if (!Number.isFinite(na) || !Number.isFinite(nb)) return false;
-            return Math.abs(na - nb) < 1e-9;
+        const numericValue = (raw) => {
+            const s = normalizeRaw(raw);
+            if (!s) return null;
+            if (/^[-+]?\d+(?:\.\d+)?%$/.test(s)) { const n = Number(s.replace('%','')); return Number.isFinite(n)? n/100 : null; }
+            if (/^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s)) { const n = Number(s.replace(/^\$/,'').replace(/,/g,'')); return Number.isFinite(n)? n : null; }
+            if (/^[-+]?\d+\s+\d+\s*\/\s*\d+$/.test(s)) { const parts = s.split(/\s+/); const whole = Number(parts[0]); const fracParts = parts.slice(1).join(' ').split('/'); const num = Number(fracParts[0]); const den = Number(fracParts[1]); if (!Number.isFinite(whole)||!Number.isFinite(num)||!Number.isFinite(den)||den===0) return null; const frac = num/den; return whole>=0? whole+frac : whole-frac; }
+            if (/^[-+]?\d+\s*\/\s*\d+$/.test(s)) { const [a,b]=s.split('/').map(t=>t.trim()); const num=Number(a), den=Number(b); if(!Number.isFinite(num)||!Number.isFinite(den)||den===0) return null; return num/den; }
+            if (/^[-+]?\d+\s*:\s*[-+]?\d+$/.test(s)) { const [a,b]=s.split(':').map(t=>t.trim()); const na=Number(a), nb=Number(b); if(!Number.isFinite(na)||!Number.isFinite(nb)||nb===0) return null; return na/nb; }
+            const plain = s.replace(/,/g,''); const num = Number(plain); return Number.isFinite(num)? num : null;
         };
+        const isNumericEqual = (a,b) => { const na=numericValue(a), nb=numericValue(b); return na!==null && nb!==null && Math.abs(na-nb) < 1e-9; };
+        const tokenize = (raw) => { const s = normalizeRaw(raw); if(!s) return []; if(s.includes(',')) return s.split(/\s*,\s*/).filter(Boolean).map(normalizeRaw); return [s]; };
+        const setsEqual = (a,b) => { if(a.length!==b.length) return false; const sa=[...a].sort(); const sb=[...b].sort(); return sa.every((v,i)=>v===sb[i]); };
 
         let score = 0;
         const missing = [];
         quiz.questions.forEach((q, i) => {
-            const isFillIn = !q.answerOptions || q.answerOptions.length === 0;
-            if (isFillIn) {
-                const user = normalizeAnswer(finalAnswers[i]);
-                const correct = normalizeAnswer(q.correctAnswer);
-                if (!user || !correct) {
-                    // Skip silently but track for a one-time log
-                    if (!correct) missing.push(i + 1);
-                    return;
-                }
-                if (user === correct || isNumericEqual(user, correct)) {
+            const isFillIn = !q.answerOptions || q.answerOptions.length === 0 || q.type === 'fill-in-the-blank';
+            if (!isFillIn) {
+                const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+                if (correctOption && finalAnswers[i] === correctOption.text) {
                     score++;
                 }
             } else {
-                const correctOption = q.answerOptions.find(opt => opt.isCorrect);
-                if (correctOption && finalAnswers[i] === correctOption.text) {
+                const user = normalizeRaw(finalAnswers[i]);
+                const correct = normalizeRaw(q.correctAnswer);
+                if (!user || !correct) {
+                    if (!correct) missing.push(i + 1);
+                    return;
+                }
+                if (user === correct || isNumericEqual(user, correct) || setsEqual(tokenize(user), tokenize(correct))) {
                     score++;
                 }
             }
@@ -15689,8 +15853,36 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 <div className="space-y-4 text-left">
                     {(quiz.questions || []).map((question, index) => {
                         const userAnswer = results.answers[index];
-                        const correctAnswer = (question.answerOptions || []).find(opt => opt.isCorrect);
-                        const isCorrect = correctAnswer && userAnswer === correctAnswer.text;
+                        const correctMC = (question.answerOptions || []).find(opt => opt.isCorrect);
+                        // Reuse lightweight equivalence logic (mirrors StandardQuizRunner) for display
+                        const normalizeRaw = (val) => {
+                            if (val === null || val === undefined) return '';
+                            return String(val).replace(/\u00A0/g,' ').replace(/\s+/g,' ').trim();
+                        };
+                        const numericValue = (raw) => {
+                            const s = normalizeRaw(raw);
+                            if (!s) return null;
+                            if (/^[-+]?\d+(?:\.\d+)?%$/.test(s)) { const n = Number(s.replace('%','')); return Number.isFinite(n)? n/100 : null; }
+                            if (/^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s)) { const n = Number(s.replace(/^\$/,'').replace(/,/g,'')); return Number.isFinite(n)? n : null; }
+                            if (/^[-+]?\d+\s+\d+\s*\/\s*\d+$/.test(s)) { const parts = s.split(/\s+/); const whole = Number(parts[0]); const fracParts = parts.slice(1).join(' ').split('/'); const num = Number(fracParts[0]); const den = Number(fracParts[1]); if (!Number.isFinite(whole)||!Number.isFinite(num)||!Number.isFinite(den)||den===0) return null; const frac = num/den; return whole>=0? whole+frac : whole-frac; }
+                            if (/^[-+]?\d+\s*\/\s*\d+$/.test(s)) { const [a,b]=s.split('/').map(t=>t.trim()); const num=Number(a), den=Number(b); if(!Number.isFinite(num)||!Number.isFinite(den)||den===0) return null; return num/den; }
+                            if (/^[-+]?\d+\s*:\s*[-+]?\d+$/.test(s)) { const [a,b]=s.split(':').map(t=>t.trim()); const na=Number(a), nb=Number(b); if(!Number.isFinite(na)||!Number.isFinite(nb)||nb===0) return null; return na/nb; }
+                            const plain = s.replace(/,/g,''); const num = Number(plain); return Number.isFinite(num)? num : null;
+                        };
+                        const isNumericEqual = (a,b) => { const na=numericValue(a), nb=numericValue(b); return na!==null && nb!==null && Math.abs(na-nb) < 1e-9; };
+                        const tokenize = (raw) => { const s = normalizeRaw(raw); if(!s) return []; if(s.includes(',')) return s.split(/\s*,\s*/).filter(Boolean).map(normalizeRaw); return [s]; };
+                        const setsEqual = (a,b) => { if(a.length!==b.length) return false; const sa=[...a].sort(); const sb=[...b].sort(); return sa.every((v,i)=>v===sb[i]); };
+                        let isCorrect;
+                        if (correctMC) {
+                            isCorrect = userAnswer === correctMC.text;
+                        } else if (question.type === 'fill-in-the-blank' || !(question.answerOptions||[]).length) {
+                            const expected = question.correctAnswer;
+                            const ue = normalizeRaw(userAnswer);
+                            const ex = normalizeRaw(expected);
+                            isCorrect = Boolean(ex) && Boolean(ue) && (ue === ex || isNumericEqual(ue, ex) || setsEqual(tokenize(ue), tokenize(ex)));
+                        } else {
+                            isCorrect = false;
+                        }
                         const confidenceLevel = results.confidence ? results.confidence[index] : null;
 
                         const getConfidenceColor = (level) => {
@@ -15717,15 +15909,15 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                 <p className={`mt-2 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
                                     Your answer: {userAnswer || "No answer"} {isCorrect ? '✔' : '✘'}
                                 </p>
-                                {!isCorrect && correctAnswer && (
+                                {!isCorrect && ((correctMC && correctMC.text) || question.correctAnswer) && (
                                     <p className="text-green-700 question-stem">
-                                        Correct answer: <span className="question-stem" dangerouslySetInnerHTML={renderQuestionTextForDisplay(correctAnswer.text, question.isPremade === true)} />
+                                        Correct answer: <span className="question-stem" dangerouslySetInnerHTML={renderQuestionTextForDisplay((correctMC && correctMC.text) || question.correctAnswer, question.isPremade === true)} />
                                     </p>
                                 )}
-                                {correctAnswer && correctAnswer.rationale && (
+                                {correctMC && correctMC.rationale && (
                                     <div className="explanation">
                                         <span className="font-semibold">Rationale:</span>{' '}
-                                        <span className="question-stem" dangerouslySetInnerHTML={renderQuestionTextForDisplay(correctAnswer.rationale, question.isPremade === true)} />
+                                        <span className="question-stem" dangerouslySetInnerHTML={renderQuestionTextForDisplay(correctMC.rationale, question.isPremade === true)} />
                                     </div>
                                 )}
                                 {confidenceLevel && (
