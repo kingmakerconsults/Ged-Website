@@ -721,15 +721,24 @@ async function loadAndAugmentImageMetadata() {
     })();
 })();
 
-// Expose the computed image metadata to the frontend
-app.get('/image_metadata_final.json', (req, res) => {
-    try {
-        res.set('Content-Type', 'application/json');
-        // keep fresh; this file can be updated at startup only
-        res.set('Cache-Control', 'no-cache');
-    } catch {}
-    return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
-});
+// (removed duplicate placement of these routes; canonical versions live near app setup)
+    
+    // Place lightweight JSON routes near core app setup
+    // Expose the computed image metadata to the frontend (two aliases)
+    app.get('/image_metadata_final.json', (req, res) => {
+        try {
+            res.set('Content-Type', 'application/json');
+            res.set('Cache-Control', 'no-cache');
+        } catch {}
+        return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
+    });
+    app.get('/image_metadata_final_json', (req, res) => {
+        try {
+            res.set('Content-Type', 'application/json');
+            res.set('Cache-Control', 'no-cache');
+        } catch {}
+        return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
+    });
 
 // Allow on-demand rebuild of image metadata without restarting the server
 let imageRebuildInProgress = false;
