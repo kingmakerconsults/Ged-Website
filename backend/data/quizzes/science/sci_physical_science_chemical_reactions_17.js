@@ -258,7 +258,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "A reaction in which two or more simple substances combine to form a more complex product is a _________ reaction.",
+  "question": "A reaction in which two or more simple substances combine to form a more complex product is what type of reaction?",
     "answerOptions": [
       {
         "text": "Decomposition",

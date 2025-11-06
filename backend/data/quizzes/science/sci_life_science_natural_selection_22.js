@@ -60,7 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "For natural selection to occur, there must be ________ within a population.",
+  "question": "For natural selection to occur, what must be present within a population?",
     "answerOptions": [
       {
         "text": "No competition",

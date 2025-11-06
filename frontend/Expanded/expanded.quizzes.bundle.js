@@ -16,7 +16,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for b: $b - 9 = 2$.",
+                "question": "Solve for b: $b - 9 = 2$?",
                 "correctAnswer": "11",
                 "rationale": "To solve for b, add 9 to both sides of the equation: 2 + 9 = 11."
               },
@@ -55,7 +55,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for z: $\\frac{z}{5} + 3 = 7$.",
+                "question": "Solve for z: $\\frac{z}{5} + 3 = 7$?",
                 "answerOptions": [
                   {
                     "text": "4",
@@ -85,7 +85,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Expand the expression: $(x - 4)(x + 4)$.",
+                "question": "Expand the expression: $(x - 4)(x + 4)$?",
                 "correctAnswer": "$x^2$ - 16",
                 "rationale": "This is a difference of squares. Using the FOIL method: First (x*x = $x^2$), Outer (x*4 = 4x), Inner (-4*x = -4x), Last (-4*4 = -16). The middle terms cancel out: $x^2$ + 4x - 4x - 16 = $x^2$ - 16."
               },
@@ -124,7 +124,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Solve the equation for x: $5(x - 2) = 2(x + 4)$.",
+                "question": "Solve the equation for x: $5(x - 2) = 2(x + 4)$?",
                 "answerOptions": [
                   {
                     "text": "2",
@@ -163,7 +163,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Solve the inequality: $-3x + 4 leq 16$.",
+                "question": "Solve the inequality: $-3x + 4 leq 16$?",
                 "answerOptions": [
                   {
                     "text": "x leq -4",
@@ -262,7 +262,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Translate the following sentence into an equation: 'A number increased by 10 is 25.'",
+                "question": "Translate the following sentence into an equation: 'A number increased by 10 is 25.'?",
                 "answerOptions": [
                   {
                     "text": "n - 10 = 25",
@@ -299,7 +299,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Evaluate the expression $x/3 + 2$ for $x = 12$.",
+                "question": "Evaluate the expression $x/3 + 2$ for $x = 12$?",
                 "correctAnswer": "6",
                 "rationale": "Substitute 12 for x: 12/3 + 2 = 4 + 2 = 6."
               },
@@ -308,7 +308,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for x: $7x = 42$.",
+                "question": "Solve for x: $7x = 42$?",
                 "answerOptions": [
                   {
                     "text": "6",
@@ -338,7 +338,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Simplify the expression: $4(x - 3) + 2(x + 1)$.",
+                "question": "Simplify the expression: $4(x - 3) + 2(x + 1)$?",
                 "answerOptions": [
                   {
                     "text": "6x - 11",
@@ -407,7 +407,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Solve for x: $3x + 8 = 5x - 6$.",
+                "question": "Solve for x: $3x + 8 = 5x - 6$?",
                 "answerOptions": [
                   {
                     "text": "1",
@@ -437,7 +437,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Factor the expression: $x^2 - 49$.",
+                "question": "Factor the expression: $x^2 - 49$?",
                 "correctAnswer": "(x - 7)(x + 7)",
                 "rationale": "This is a difference of squares, which factors into (a - b)(a + b). Here, a=x and b=7."
               },
@@ -476,7 +476,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "If $f(x) = 2x^2 - 3x + 1$, find $f(4)$.",
+                "question": "If $f(x) = 2x^2 - 3x + 1$, find $f(4)$?",
                 "correctAnswer": "21",
                 "rationale": "Substitute 4 for x: f(4) = 2(4)$^2$ - 3(4) + 1 = 2(16) - 12 + 1 = 32 - 12 + 1 = 21."
               },
@@ -515,7 +515,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Factor the trinomial: $x^2 + 8x + 15$.",
+                "question": "Factor the trinomial: $x^2 + 8x + 15$?",
                 "answerOptions": [
                   {
                     "text": "$(x + 8)(x + 15)$",
@@ -582,7 +582,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for y: $y + 12 = 20$.",
+                "question": "Solve for y: $y + 12 = 20$?",
                 "correctAnswer": "8",
                 "rationale": "Subtract 12 from both sides of the equation: 20 - 12 = 8."
               },
@@ -591,7 +591,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Evaluate $15 - 2b$ for $b = 6$.",
+                "question": "Evaluate $15 - 2b$ for $b = 6$?",
                 "answerOptions": [
                   {
                     "text": "3",
@@ -621,7 +621,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for x: $-5x - 4 = 11$.",
+                "question": "Solve for x: $-5x - 4 = 11$?",
                 "answerOptions": [
                   {
                     "text": "-3",
@@ -651,7 +651,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Simplify: $x(x + 5) - 3x$.",
+                "question": "Simplify: $x(x + 5) - 3x$?",
                 "correctAnswer": "$x^2$ + 2x",
                 "rationale": "First, distribute x: $x^2$ + 5x - 3x. Then, combine like terms: $x^2$ + 2x."
               },
@@ -690,7 +690,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Find the x-intercept of the line $5x - 3y = 15$.",
+                "question": "Find the x-intercept of the line $5x - 3y = 15$?",
                 "answerOptions": [
                   {
                     "text": "3",
@@ -720,7 +720,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Solve the inequality: $4x - 5 < 11$.",
+                "question": "Solve the inequality: $4x - 5 < 11$?",
                 "correctAnswer": "x < 4",
                 "rationale": "Add 5 to both sides: 4x < 16. Divide by 4: x < 4."
               },
@@ -828,7 +828,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Simplify: $\\frac{x^8}{x^2}$",
+                "question": "Simplify: $\\frac{x^8}{x^2}$?",
                 "answerOptions": [
                   {
                     "text": "$x^4$",
@@ -865,7 +865,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for n: $5n = 45$.",
+                "question": "Solve for n: $5n = 45$?",
                 "correctAnswer": "9",
                 "rationale": "To solve for n, divide both sides of the equation by 5. n = 45 / 5 = 9."
               },
@@ -874,7 +874,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Simplify the expression $10y - 4y + y$.",
+                "question": "Simplify the expression $10y - 4y + y$?",
                 "answerOptions": [
                   {
                     "text": "$6y$",
@@ -904,7 +904,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for a: $2(a + 5) = 16$.",
+                "question": "Solve for a: $2(a + 5) = 16$?",
                 "answerOptions": [
                   {
                     "text": "3",
@@ -943,7 +943,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Translate 'the product of a number and 6, increased by 3' into an algebraic expression.",
+                "question": "Translate 'the product of a number and 6, increased by 3' into an algebraic expression?",
                 "answerOptions": [
                   {
                     "text": "$6(n + 3)$",
@@ -973,7 +973,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Solve the inequality: $7 - 2x < 1$.",
+                "question": "Solve the inequality: $7 - 2x < 1$?",
                 "answerOptions": [
                   {
                     "text": "$x < 3$",
@@ -1081,7 +1081,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Solve the system of equations: $x + y = 10$ and $x - y = 4$.",
+                "question": "Solve the system of equations: $x + y = 10$ and $x - y = 4$?",
                 "answerOptions": [
                   {
                     "text": "$x=7, y=3$",
@@ -1148,7 +1148,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for x: $x - 7 = 11$.",
+                "question": "Solve for x: $x - 7 = 11$?",
                 "correctAnswer": "18",
                 "rationale": "Add 7 to both sides of the equation: 11 + 7 = 18."
               },
@@ -1157,7 +1157,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Evaluate $5c + 4$ for $c = 3$.",
+                "question": "Evaluate $5c + 4$ for $c = 3$?",
                 "answerOptions": [
                   {
                     "text": "12",
@@ -1187,7 +1187,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for p: $6p + 5 = 41$.",
+                "question": "Solve for p: $6p + 5 = 41$?",
                 "answerOptions": [
                   {
                     "text": "6",
@@ -1217,7 +1217,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Simplify the expression: $8(y - 2) - 3y$.",
+                "question": "Simplify the expression: $8(y - 2) - 3y$?",
                 "correctAnswer": "5y - 16",
                 "rationale": "First, distribute the 8: 8y - 16 - 3y. Then, combine like terms: (8y - 3y) - 16 = 5y - 16."
               },
@@ -1256,7 +1256,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Factor the expression: $2x^2 + 7x + 3$.",
+                "question": "Factor the expression: $2x^2 + 7x + 3$?",
                 "answerOptions": [
                   {
                     "text": "$(2x + 1)(x + 3)$",
@@ -1295,7 +1295,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Solve for x: $|x - 4| = 9$.",
+                "question": "Solve for x: $|x - 4| = 9$?",
                 "answerOptions": [
                   {
                     "text": "x = 13",
@@ -1325,7 +1325,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Given $f(x) = (x+2)^2$, find $f(4)$.",
+                "question": "Given $f(x) = (x+2)^2$, find $f(4)$?",
                 "correctAnswer": "36",
                 "rationale": "Substitute 4 for x: f(4) = (4 + 2)² = (6)² = 36."
               },
@@ -1431,7 +1431,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for k: $\\frac{k}{4} = 6$.",
+                "question": "Solve for k: $\\frac{k}{4} = 6$?",
                 "correctAnswer": "24",
                 "rationale": "To solve for k, multiply both sides of the equation by 4. k = 6 * 4 = 24."
               },
@@ -1470,7 +1470,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for x: $3(x - 4) = 15$.",
+                "question": "Solve for x: $3(x - 4) = 15$?",
                 "answerOptions": [
                   {
                     "text": "5",
@@ -1500,7 +1500,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the slope of a line that passes through (1, 6) and (3, 2).",
+                "question": "Find the slope of a line that passes through (1, 6) and (3, 2)?",
                 "correctAnswer": "-2",
                 "rationale": "Slope = (change in y) / (change in x) = (2 - 6) / (3 - 1) = -4 / 2 = -2."
               },
@@ -1569,7 +1569,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "If $f(x) = x^2 - 10$, find $f(3)$.",
+                "question": "If $f(x) = x^2 - 10$, find $f(3)$?",
                 "correctAnswer": "-1",
                 "rationale": "Substitute 3 for x: f(3) = (3)² - 10 = 9 - 10 = -1."
               },
@@ -1608,7 +1608,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for x: $x/2 - 5 = 3$.",
+                "question": "Solve for x: $x/2 - 5 = 3$?",
                 "correctAnswer": "16",
                 "rationale": "Add 5 to both sides: x/2 = 8. Multiply both sides by 2: x = 16."
               },
@@ -1714,7 +1714,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for m: $m + 11 = 30$.",
+                "question": "Solve for m: $m + 11 = 30$?",
                 "correctAnswer": "19",
                 "rationale": "Subtract 11 from both sides of the equation: 30 - 11 = 19."
               },
@@ -1723,7 +1723,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Evaluate $10 - 3x$ for $x = 2$.",
+                "question": "Evaluate $10 - 3x$ for $x = 2$?",
                 "answerOptions": [
                   {
                     "text": "1",
@@ -1753,7 +1753,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for y: $\\frac{y}{3} - 2 = 5$.",
+                "question": "Solve for y: $\\frac{y}{3} - 2 = 5$?",
                 "answerOptions": [
                   {
                     "text": "9",
@@ -1783,7 +1783,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Simplify the expression: $5a + 2b - 3a + 4b$.",
+                "question": "Simplify the expression: $5a + 2b - 3a + 4b$?",
                 "correctAnswer": "2a + 6b",
                 "rationale": "Combine the 'a' terms: 5a - 3a = 2a. Combine the 'b' terms: 2b + 4b = 6b. The result is 2a + 6b."
               },
@@ -1822,7 +1822,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Solve for x: $4(x + 1) = 2(x + 6)$.",
+                "question": "Solve for x: $4(x + 1) = 2(x + 6)$?",
                 "answerOptions": [
                   {
                     "text": "1",
@@ -1852,7 +1852,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Factor the expression $x^2 - 100$.",
+                "question": "Factor the expression $x^2 - 100$?",
                 "correctAnswer": "(x - 10)(x + 10)",
                 "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=x and b=10."
               },
@@ -1861,7 +1861,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Solve the inequality: $10 - x geq 15$.",
+                "question": "Solve the inequality: $10 - x geq 15$?",
                 "answerOptions": [
                   {
                     "text": "$x geq 5$",
@@ -1930,7 +1930,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Factor the trinomial: $x^2 - 3x - 10$.",
+                "question": "Factor the trinomial: $x^2 - 3x - 10$?",
                 "answerOptions": [
                   {
                     "text": "$(x - 5)(x + 2)$",
@@ -1997,7 +1997,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for x: $x + 9 = 17$.",
+                "question": "Solve for x: $x + 9 = 17$?",
                 "correctAnswer": "8",
                 "rationale": "Subtract 9 from both sides of the equation: 17 - 9 = 8."
               },
@@ -2006,7 +2006,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Evaluate $4w - 3$ for $w = 5$.",
+                "question": "Evaluate $4w - 3$ for $w = 5$?",
                 "answerOptions": [
                   {
                     "text": "1",
@@ -2036,7 +2036,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for z: $2z + 11 = 3$.",
+                "question": "Solve for z: $2z + 11 = 3$?",
                 "answerOptions": [
                   {
                     "text": "7",
@@ -2066,7 +2066,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Simplify the expression: $9x - (2x - 4)$.",
+                "question": "Simplify the expression: $9x - (2x - 4)$?",
                 "correctAnswer": "7x + 4",
                 "rationale": "Distribute the negative sign: 9x - 2x + 4. Then, combine like terms: 7x + 4."
               },
@@ -2105,7 +2105,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Solve for a: $a/4 + a/2 = 6$.",
+                "question": "Solve for a: $a/4 + a/2 = 6$?",
                 "answerOptions": [
                   {
                     "text": "3",
@@ -2135,7 +2135,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "If $f(x) = x^2 + x$, find $f(-5)$.",
+                "question": "If $f(x) = x^2 + x$, find $f(-5)$?",
                 "correctAnswer": "20",
                 "rationale": "Substitute -5 for x: f(-5) = (-5)² + (-5) = 25 - 5 = 20."
               },
@@ -2144,7 +2144,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "The graph of the line $y=3$ is a:",
+                "question": "The graph of the line $y=3$ is a?",
                 "answerOptions": [
                   {
                     "text": "Horizontal line",
@@ -2213,7 +2213,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Find the solutions to $x^2 + 2x - 8 = 0$.",
+                "question": "Find the solutions to $x^2 + 2x - 8 = 0$?",
                 "answerOptions": [
                   {
                     "text": "{2, -4}",
@@ -2243,7 +2243,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Simplify the expression $(2x)^3$.",
+                "question": "Simplify the expression $(2x)^3$?",
                 "answerOptions": [
                   {
                     "text": "$6x$",
@@ -2280,7 +2280,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for y: $y - 15 = 2$.",
+                "question": "Solve for y: $y - 15 = 2$?",
                 "correctAnswer": "17",
                 "rationale": "Add 15 to both sides of the equation: 2 + 15 = 17."
               },
@@ -2289,7 +2289,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Evaluate $a/4 + 1$ for $a = 16$.",
+                "question": "Evaluate $a/4 + 1$ for $a = 16$?",
                 "answerOptions": [
                   {
                     "text": "4",
@@ -2319,7 +2319,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for x: $10 - 2x = 4$.",
+                "question": "Solve for x: $10 - 2x = 4$?",
                 "answerOptions": [
                   {
                     "text": "-3",
@@ -2388,7 +2388,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Solve for x: $2(3x - 1) = 4(x + 3)$.",
+                "question": "Solve for x: $2(3x - 1) = 4(x + 3)$?",
                 "answerOptions": [
                   {
                     "text": "5",
@@ -2418,7 +2418,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Factor: $4x^2 - 25$.",
+                "question": "Factor: $4x^2 - 25$?",
                 "correctAnswer": "(2x - 5)(2x + 5)",
                 "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=2x and b=5."
               },
@@ -2457,7 +2457,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "If $f(x) = (x-4)^2 + 3$, find $f(1)$.",
+                "question": "If $f(x) = (x-4)^2 + 3$, find $f(1)$?",
                 "correctAnswer": "12",
                 "rationale": "f(1) = (1-4)² + 3 = (-3)² + 3 = 9 + 3 = 12."
               },
@@ -2563,7 +2563,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for x: $3x = 33$.",
+                "question": "Solve for x: $3x = 33$?",
                 "correctAnswer": "11",
                 "rationale": "Divide both sides by 3: x = 33 / 3 = 11."
               },
@@ -2572,7 +2572,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Evaluate $12 + 5x$ for $x = -2$.",
+                "question": "Evaluate $12 + 5x$ for $x = -2$?",
                 "answerOptions": [
                   {
                     "text": "2",
@@ -2602,7 +2602,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for y: $5y - 8 = 12$.",
+                "question": "Solve for y: $5y - 8 = 12$?",
                 "answerOptions": [
                   {
                     "text": "0.8",
@@ -2632,7 +2632,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Simplify the expression: $3(2x + 1) - 4x$.",
+                "question": "Simplify the expression: $3(2x + 1) - 4x$?",
                 "correctAnswer": "2x + 3",
                 "rationale": "Distribute the 3: 6x + 3 - 4x. Combine like terms: 2x + 3."
               },
@@ -2740,7 +2740,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve the inequality: $2x + 8 > 20$.",
+                "question": "Solve the inequality: $2x + 8 > 20$?",
                 "correctAnswer": "x > 6",
                 "rationale": "Subtract 8 from both sides: 2x > 12. Divide by 2: x > 6."
               },
@@ -2779,7 +2779,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Solve the system of equations: $y = x + 3$ and $2x + y = 9$.",
+                "question": "Solve the system of equations: $y = x + 3$ and $2x + y = 9$?",
                 "answerOptions": [
                   {
                     "text": "$x=2, y=5$",
@@ -2846,7 +2846,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for b: $b - 6 = 14$.",
+                "question": "Solve for b: $b - 6 = 14$?",
                 "correctAnswer": "20",
                 "rationale": "Add 6 to both sides of the equation: 14 + 6 = 20."
               },
@@ -2855,7 +2855,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Simplify: $8x - x + 3x$.",
+                "question": "Simplify: $8x - x + 3x$?",
                 "answerOptions": [
                   {
                     "text": "$10x$",
@@ -2885,7 +2885,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve for n: $4n + 7 = 35$.",
+                "question": "Solve for n: $4n + 7 = 35$?",
                 "answerOptions": [
                   {
                     "text": "7",
@@ -2915,7 +2915,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the slope of a line with the equation $2x + y = 5$.",
+                "question": "Find the slope of a line with the equation $2x + y = 5$?",
                 "correctAnswer": "-2",
                 "rationale": "Rewrite the equation in slope-intercept form (y = mx + b). y = -2x + 5. The slope is -2."
               },
@@ -2954,7 +2954,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Solve for x: $5x - 3 = 2x + 9$.",
+                "question": "Solve for x: $5x - 3 = 2x + 9$?",
                 "answerOptions": [
                   {
                     "text": "2",
@@ -3062,7 +3062,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Find the solutions to $x^2 = 81$.",
+                "question": "Find the solutions to $x^2 = 81$?",
                 "answerOptions": [
                   {
                     "text": "{9}",
@@ -3417,7 +3417,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "easy",
-                "question": "Find the mean of the numbers: 10, 15, 20, 25, 30.",
+                "question": "Find the mean of the numbers: 10, 15, 20, 25, 30?",
                 "answerOptions": [
                   {
                     "text": "15",
@@ -3700,7 +3700,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "easy",
-                "question": "Find the median of the following list of numbers: 10, 8, 14, 8, 12.",
+                "question": "Find the median of the following list of numbers: 10, 8, 14, 8, 12?",
                 "answerOptions": [
                   {
                     "text": "8",
@@ -3778,7 +3778,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the range of the temperatures: 5°C, -2°C, 8°C, 0°C, -5°C.",
+                "question": "Find the range of the temperatures: 5°C, -2°C, 8°C, 0°C, -5°C?",
                 "answerOptions": [
                   {
                     "text": "3°C",
@@ -3838,7 +3838,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the mode of the following set of data: red, blue, green, blue, red, blue.",
+                "question": "Find the mode of the following set of data: red, blue, green, blue, red, blue?",
                 "correctAnswer": "blue",
                 "rationale": "The mode is the value that appears most frequently. In this set, 'blue' appears 3 times, more than any other color."
               },
@@ -3886,7 +3886,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "The 'median' of a dataset is the:",
+                "question": "The 'median' of a dataset is the?",
                 "answerOptions": [
                   {
                     "text": "Average value",
@@ -4022,7 +4022,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the mean of the data set: 100, 110, 120, 130, 140.",
+                "question": "Find the mean of the data set: 100, 110, 120, 130, 140?",
                 "answerOptions": [
                   {
                     "text": "110",
@@ -4061,7 +4061,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the median of the data set: 25, 15, 20, 10, 30, 15.",
+                "question": "Find the median of the data set: 25, 15, 20, 10, 30, 15?",
                 "answerOptions": [
                   {
                     "text": "15",
@@ -4160,7 +4160,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "What is the mode of the following numbers? 1, 2, 2, 3, 3, 3, 4, 4, 5",
+                "question": "What is the mode of the following numbers? 1, 2, 2, 3, 3, 3, 4, 4, 5?",
                 "correctAnswer": "3",
                 "rationale": "The mode is the number that appears most frequently. The number 3 appears three times, which is more than any other number."
               },
@@ -4266,7 +4266,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "easy",
-                "question": "Find the range of the data set: 4, 12, 8, 20, 15, 8.",
+                "question": "Find the range of the data set: 4, 12, 8, 20, 15, 8?",
                 "answerOptions": [
                   {
                     "text": "8",
@@ -4335,7 +4335,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the mean of the numbers: 2.5, 3.5, 4.0, 5.0.",
+                "question": "Find the mean of the numbers: 2.5, 3.5, 4.0, 5.0?",
                 "correctAnswer": "3.75",
                 "rationale": "The sum of the numbers is 2.5 + 3.5 + 4.0 + 5.0 = 15.0. Divide by the count of the numbers (4): 15.0 / 4 = 3.75."
               },
@@ -4549,7 +4549,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "easy",
-                "question": "Find the median of the data set: 20, 25, 15, 30, 20.",
+                "question": "Find the median of the data set: 20, 25, 15, 30, 20?",
                 "answerOptions": [
                   {
                     "text": "15",
@@ -4618,7 +4618,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the mean of the following numbers: 12, 15, 18, 21, 24.",
+                "question": "Find the mean of the following numbers: 12, 15, 18, 21, 24?",
                 "correctAnswer": "18",
                 "rationale": "The sum of the numbers is 12+15+18+21+24 = 90. Divide by 5: 90/5 = 18. Since the numbers are evenly spaced, the mean is the middle number."
               },
@@ -4871,7 +4871,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the median of the following numbers: 19, 12, 16, 19, 24.",
+                "question": "Find the median of the following numbers: 19, 12, 16, 19, 24?",
                 "answerOptions": [
                   {
                     "text": "16",
@@ -4910,7 +4910,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the range of the temperatures: 34, 45, 29, 38, 31.",
+                "question": "Find the range of the temperatures: 34, 45, 29, 38, 31?",
                 "answerOptions": [
                   {
                     "text": "5",
@@ -5009,7 +5009,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the median of the data set: 10, 8, 12, 10, 14, 16.",
+                "question": "Find the median of the data set: 10, 8, 12, 10, 14, 16?",
                 "correctAnswer": "11",
                 "rationale": "Order the data: 8, 10, 10, 12, 14, 16. The median is the average of the two middle numbers: (10 + 12) / 2 = 11."
               },
@@ -5115,7 +5115,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "easy",
-                "question": "Find the mode of the data set: 1, 3, 5, 3, 1, 3, 4.",
+                "question": "Find the mode of the data set: 1, 3, 5, 3, 1, 3, 4?",
                 "answerOptions": [
                   {
                     "text": "1",
@@ -5154,7 +5154,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the mean of the numbers: 20, 30, 40, 50, 60.",
+                "question": "Find the mean of the numbers: 20, 30, 40, 50, 60?",
                 "answerOptions": [
                   {
                     "text": "30",
@@ -5331,7 +5331,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "A committee of 3 is to be selected from a group of 10 people. This is an example of a:",
+                "question": "A committee of 3 is to be selected from a group of 10 people. This is an example of a?",
                 "answerOptions": [
                   {
                     "text": "Permutation",
@@ -5398,7 +5398,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "easy",
-                "question": "Find the range of the data set: 100, 200, 150, 300, 250.",
+                "question": "Find the range of the data set: 100, 200, 150, 300, 250?",
                 "answerOptions": [
                   {
                     "text": "100",
@@ -5437,7 +5437,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the mean of the numbers: 7, 8, 8, 9, 13.",
+                "question": "Find the mean of the numbers: 7, 8, 8, 9, 13?",
                 "answerOptions": [
                   {
                     "text": "8",
@@ -5644,7 +5644,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "If an event has a probability of 0, it is:",
+                "question": "If an event has a probability of 0, it is?",
                 "answerOptions": [
                   {
                     "text": "Certain",
@@ -5681,7 +5681,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "easy",
-                "question": "Find the mean of the numbers: 2, 4, 6, 8, 10.",
+                "question": "Find the mean of the numbers: 2, 4, 6, 8, 10?",
                 "answerOptions": [
                   {
                     "text": "4",
@@ -5759,7 +5759,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the range of the data set: 50, 40, 60, 30, 70.",
+                "question": "Find the range of the data set: 50, 40, 60, 30, 70?",
                 "answerOptions": [
                   {
                     "text": "20",
@@ -6003,7 +6003,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the mean of the data set: 1, 1, 2, 3, 5, 8.",
+                "question": "Find the mean of the data set: 1, 1, 2, 3, 5, 8?",
                 "answerOptions": [
                   {
                     "text": "2.5",
@@ -6180,7 +6180,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Two events are independent if:",
+                "question": "Two events are independent if?",
                 "answerOptions": [
                   {
                     "text": "They have the same probability.",
@@ -6247,7 +6247,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "easy",
-                "question": "Find the mean of the data set: 5, 10, 5, 15, 5.",
+                "question": "Find the mean of the data set: 5, 10, 5, 15, 5?",
                 "answerOptions": [
                   {
                     "text": "5",
@@ -6604,7 +6604,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A circle has a radius of 5 meters. What is its circumference? Use 3.14 for $\\pi$.",
+                "question": "A circle has a radius of 5 meters. What is its circumference? Use 3.14 for $\\pi$?",
                 "correctAnswer": "31.4 meters",
                 "rationale": "The formula for circumference is C = 2 * pi * r. C = 2 * 3.14 * 5 = 31.4 meters."
               },
@@ -6682,7 +6682,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "What is the area of a circle with a diameter of 10 inches? Use 3.14 for $\\pi$.",
+                "question": "What is the area of a circle with a diameter of 10 inches? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "31.4 $in^2$",
@@ -6721,7 +6721,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A cylindrical can has a radius of 2 inches and a height of 6 inches. What is its volume? Use 3.14 for $\\pi$.",
+                "question": "A cylindrical can has a radius of 2 inches and a height of 6 inches. What is its volume? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "37.68 $in^3$",
@@ -6848,7 +6848,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A circle has a circumference of 50.24 cm. What is its radius? Use 3.14 for $\\pi$.",
+                "question": "A circle has a circumference of 50.24 cm. What is its radius? Use 3.14 for $\\pi$?",
                 "correctAnswer": "8 cm",
                 "rationale": "Circumference C = 2 * pi * r. So, 50.24 = 2 * 3.14 * r. 50.24 = 6.28 * r. Divide by 6.28 to find r = 8 cm."
               },
@@ -6857,7 +6857,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "What is the volume of a sphere with a radius of 3 inches? Use 3.14 for $\\pi$ and the formula V = $\\frac{4}{3}\\pi r^3$.",
+                "question": "What is the volume of a sphere with a radius of 3 inches? Use 3.14 for $\\pi$ and the formula V = $\\frac{4}{3}\\pi r^3$?",
                 "answerOptions": [
                   {
                     "text": "37.68 in³",
@@ -6896,7 +6896,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Two lines that intersect to form a right angle are called:",
+                "question": "Two lines that intersect to form a right angle are called?",
                 "answerOptions": [
                   {
                     "text": "Parallel lines",
@@ -7004,7 +7004,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the area of a trapezoid with bases of 10 cm and 14 cm and a height of 5 cm.",
+                "question": "Find the area of a trapezoid with bases of 10 cm and 14 cm and a height of 5 cm?",
                 "answerOptions": [
                   {
                     "text": "60 cm²",
@@ -7131,7 +7131,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "What is the area of a circle with a radius of 10 cm? Use 3.14 for $\\pi$.",
+                "question": "What is the area of a circle with a radius of 10 cm? Use 3.14 for $\\pi$?",
                 "correctAnswer": "314 $cm^2$",
                 "rationale": "Area of a circle is A = pi * $r^2$. So, A = 3.14 * (10 cm)$^2$ = 3.14 * 100 = 314 $cm^2$."
               },
@@ -7214,7 +7214,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A cylindrical container has a volume of 314 cubic inches and a height of 4 inches. What is its radius? Use 3.14 for $\\pi$.",
+                "question": "A cylindrical container has a volume of 314 cubic inches and a height of 4 inches. What is its radius? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "5 inches",
@@ -7253,7 +7253,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the surface area of a cube with a side length of 5 inches.",
+                "question": "Find the surface area of a cube with a side length of 5 inches?",
                 "answerOptions": [
                   {
                     "text": "25 $in^2$",
@@ -7322,7 +7322,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Complementary angles are two angles that add up to:",
+                "question": "Complementary angles are two angles that add up to?",
                 "answerOptions": [
                   {
                     "text": "45°",
@@ -7352,7 +7352,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A circular pizza has a diameter of 14 inches. What is its area? Use 3.14 for $\\pi$.",
+                "question": "A circular pizza has a diameter of 14 inches. What is its area? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "43.96 $in^2$",
@@ -7419,7 +7419,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the area of a triangle with a base of 15 cm and a height of 10 cm.",
+                "question": "Find the area of a triangle with a base of 15 cm and a height of 10 cm?",
                 "correctAnswer": "75 cm²",
                 "rationale": "The area of a triangle is A = 1/2 * b * h. So, A = 1/2 * 15 cm * 10 cm = 75 cm²."
               },
@@ -7428,7 +7428,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A circle has a diameter of 20 inches. What is its circumference? Use 3.14 for $\\pi$.",
+                "question": "A circle has a diameter of 20 inches. What is its circumference? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "31.4 inches",
@@ -7497,7 +7497,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A circular garden has a radius of 12 feet. If you want to put a fence around it, how many feet of fencing will you need? Use 3.14 for $\\pi$.",
+                "question": "A circular garden has a radius of 12 feet. If you want to put a fence around it, how many feet of fencing will you need? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "37.68 feet",
@@ -7605,7 +7605,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "If two parallel lines are cut by a transversal, the alternate interior angles are:",
+                "question": "If two parallel lines are cut by a transversal, the alternate interior angles are?",
                 "answerOptions": [
                   {
                     "text": "Complementary",
@@ -7635,7 +7635,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Find the surface area of a rectangular prism with length 6m, width 4m, and height 2m.",
+                "question": "Find the surface area of a rectangular prism with length 6m, width 4m, and height 2m?",
                 "answerOptions": [
                   {
                     "text": "48 m²",
@@ -7702,7 +7702,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the circumference of a circle with a radius of 4.5 inches. Use 3.14 for $\\pi$.",
+                "question": "Find the circumference of a circle with a radius of 4.5 inches. Use 3.14 for $\\pi$?",
                 "correctAnswer": "28.26 inches",
                 "rationale": "Circumference C = 2 * pi * r. So, C = 2 * 3.14 * 4.5 inches = 28.26 inches."
               },
@@ -7750,7 +7750,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "The sum of the interior angles of any triangle is:",
+                "question": "The sum of the interior angles of any triangle is?",
                 "answerOptions": [
                   {
                     "text": "90°",
@@ -7780,7 +7780,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "What is the volume of a cylinder with a diameter of 10 ft and a height of 8 ft? Use 3.14 for $\\pi$.",
+                "question": "What is the volume of a cylinder with a diameter of 10 ft and a height of 8 ft? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "251.2 $ft^3$",
@@ -7849,7 +7849,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A circular pool has an area of 200.96 square feet. What is its diameter? Use 3.14 for $\\pi$.",
+                "question": "A circular pool has an area of 200.96 square feet. What is its diameter? Use 3.14 for $\\pi$?",
                 "correctAnswer": "16 feet",
                 "rationale": "Area = pi * $r^2$. 200.96 = 3.14 * $r^2$. $r^2$ = 200.96 / 3.14 = 64. r = 8. The diameter is 2 * r = 16 feet."
               },
@@ -7888,7 +7888,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "If two angles are vertical angles, they are always:",
+                "question": "If two angles are vertical angles, they are always?",
                 "answerOptions": [
                   {
                     "text": "Supplementary",
@@ -7985,7 +7985,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A circle has a radius of 9 cm. What is its area? Use 3.14 for $\\pi$.",
+                "question": "A circle has a radius of 9 cm. What is its area? Use 3.14 for $\\pi$?",
                 "correctAnswer": "254.34 $cm^2$",
                 "rationale": "Area = pi * $r^2$. A = 3.14 * (9 cm)$^2$ = 3.14 * 81 = 254.34 $cm^2$."
               },
@@ -8063,7 +8063,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A globe has a diameter of 16 inches. What is its surface area? Use 3.14 for $\\pi$ and the formula SA = $4\\pi r^2$.",
+                "question": "A globe has a diameter of 16 inches. What is its surface area? Use 3.14 for $\\pi$ and the formula SA = $4\\pi r^2$?",
                 "answerOptions": [
                   {
                     "text": "200.96 $in^2$",
@@ -8171,7 +8171,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "A straight line is drawn through the center of a circle. This line is called the:",
+                "question": "A straight line is drawn through the center of a circle. This line is called the?",
                 "answerOptions": [
                   {
                     "text": "Radius",
@@ -8201,7 +8201,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A cone has a radius of 6 cm and a height of 10 cm. What is its volume? Use 3.14 for $\\pi$ and the formula V = $\\frac{1}{3}\\pi r^2 h$.",
+                "question": "A cone has a radius of 6 cm and a height of 10 cm. What is its volume? Use 3.14 for $\\pi$ and the formula V = $\\frac{1}{3}\\pi r^2 h$?",
                 "answerOptions": [
                   {
                     "text": "188.4 $cm^3$",
@@ -8268,7 +8268,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "What is the circumference of a circle with a diameter of 15 cm? Use 3.14 for $\\pi$.",
+                "question": "What is the circumference of a circle with a diameter of 15 cm? Use 3.14 for $\\pi$?",
                 "correctAnswer": "47.1 cm",
                 "rationale": "Circumference = pi * diameter. C = 3.14 * 15 cm = 47.1 cm."
               },
@@ -8277,7 +8277,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the volume of a rectangular prism with dimensions 2, 5, and 12.",
+                "question": "Find the volume of a rectangular prism with dimensions 2, 5, and 12?",
                 "answerOptions": [
                   {
                     "text": "19",
@@ -8346,7 +8346,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A right circular cone has a height of 12 cm and a radius of 5 cm. What is its volume? Use 3.14 for $\\pi$ and V = $\\frac{1}{3}\\pi r^2 h$.",
+                "question": "A right circular cone has a height of 12 cm and a radius of 5 cm. What is its volume? Use 3.14 for $\\pi$ and V = $\\frac{1}{3}\\pi r^2 h$?",
                 "answerOptions": [
                   {
                     "text": "314 cm³",
@@ -8385,7 +8385,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the hypotenuse of a right triangle with legs of length 7 and 24.",
+                "question": "Find the hypotenuse of a right triangle with legs of length 7 and 24?",
                 "answerOptions": [
                   {
                     "text": "25",
@@ -8484,7 +8484,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A circular track has a circumference of 400 meters. What is its radius, to the nearest meter? Use 3.14 for $\\pi$.",
+                "question": "A circular track has a circumference of 400 meters. What is its radius, to the nearest meter? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "64 meters",
@@ -8551,7 +8551,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the area of a circle with a diameter of 12 inches. Use 3.14 for $\\pi$.",
+                "question": "Find the area of a circle with a diameter of 12 inches. Use 3.14 for $\\pi$?",
                 "correctAnswer": "113.04 $in^2$",
                 "rationale": "The radius is half the diameter, so r = 6 inches. Area = pi * $r^2$ = 3.14 * $6^2$ = 113.04 $in^2$."
               },
@@ -8560,7 +8560,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "What is the volume of a sphere with a radius of 5 cm? Use 3.14 for $\\pi$ and the formula V = $\\frac{4}{3}\\pi r^3$.",
+                "question": "What is the volume of a sphere with a radius of 5 cm? Use 3.14 for $\\pi$ and the formula V = $\\frac{4}{3}\\pi r^3$?",
                 "answerOptions": [
                   {
                     "text": "314 $cm^2$",
@@ -8668,7 +8668,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the perimeter of a shape with sides of length 5, 7, 8, and 10.",
+                "question": "Find the perimeter of a shape with sides of length 5, 7, 8, and 10?",
                 "answerOptions": [
                   {
                     "text": "20",
@@ -8698,7 +8698,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A car's wheel has a diameter of 24 inches. How many feet does the car travel in one full rotation of the wheel? Use 3.14 for $\\pi$.",
+                "question": "A car's wheel has a diameter of 24 inches. How many feet does the car travel in one full rotation of the wheel? Use 3.14 for $\\pi$?",
                 "correctAnswer": "6.28 feet",
                 "rationale": "The distance of one rotation is the circumference. C = pi * d = 3.14 * 24 = 75.36 inches. To convert to feet, divide by 12: 75.36 / 12 = 6.28 feet."
               },
@@ -8834,7 +8834,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A circle has a radius of 20 meters. What is its circumference? Use 3.14 for $\\pi$.",
+                "question": "A circle has a radius of 20 meters. What is its circumference? Use 3.14 for $\\pi$?",
                 "correctAnswer": "125.6 meters",
                 "rationale": "Circumference = 2 * pi * r. C = 2 * 3.14 * 20 meters = 125.6 meters."
               },
@@ -8843,7 +8843,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the volume of a cylinder with radius 4 and height 10. Use 3.14 for $\\pi$.",
+                "question": "Find the volume of a cylinder with radius 4 and height 10. Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "125.6",
@@ -8951,7 +8951,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the length of a leg of a right triangle if the other leg is 9 and the hypotenuse is 41.",
+                "question": "Find the length of a leg of a right triangle if the other leg is 9 and the hypotenuse is 41?",
                 "answerOptions": [
                   {
                     "text": "32",
@@ -8981,7 +8981,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for $\\pi$.",
+                "question": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for $\\pi$?",
                 "correctAnswer": "560 rotations",
                 "rationale": "The circumference of the wheel is C = 2 * 3.14 * 1.5 = 9.42 feet. The number of rotations is the total distance divided by the circumference: 5280 / 9.42 ≈ 560.5. The number of full rotations is 560."
               },
@@ -9020,7 +9020,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "A line segment from the center of a circle to its perimeter is called a:",
+                "question": "A line segment from the center of a circle to its perimeter is called what?",
                 "answerOptions": [
                   {
                     "text": "Radius",
@@ -9050,7 +9050,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "What is the area of a regular hexagon with a side length of 6? Use the formula A = $\\frac{3\\sqrt{3}}{2}s^2$.",
+                "question": "What is the area of a regular hexagon with a side length of 6? Use the formula A = $\\frac{3\\sqrt{3}}{2}s^2$?",
                 "answerOptions": [
                   {
                     "text": "54",
@@ -9117,7 +9117,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A circle has a circumference of 31.4 inches. What is its radius? Use 3.14 for $\\pi$.",
+                "question": "A circle has a circumference of 31.4 inches. What is its radius? Use 3.14 for $\\pi$?",
                 "correctAnswer": "5 inches",
                 "rationale": "C = 2 * pi * r. 31.4 = 2 * 3.14 * r. 31.4 = 6.28 * r. r = 31.4 / 6.28 = 5."
               },
@@ -9195,7 +9195,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A wheel has a radius of 1 foot. How many feet does it travel in 10 rotations? Use 3.14 for $\\pi$.",
+                "question": "A wheel has a radius of 1 foot. How many feet does it travel in 10 rotations? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "31.4 feet",
@@ -9225,7 +9225,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the perimeter of a regular octagon with a side length of 5 cm.",
+                "question": "Find the perimeter of a regular octagon with a side length of 5 cm?",
                 "correctAnswer": "40 cm",
                 "rationale": "A regular octagon has 8 equal sides. The perimeter is 8 * 5 cm = 40 cm."
               },
@@ -9264,7 +9264,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "A cylindrical tank is 10 feet tall and has a radius of 3 feet. What is its volume? Use 3.14 for $\\pi$.",
+                "question": "A cylindrical tank is 10 feet tall and has a radius of 3 feet. What is its volume? Use 3.14 for $\\pi$?",
                 "correctAnswer": "282.6 cubic feet",
                 "rationale": "Volume = pi * r² * h = 3.14 * 3² * 10 = 282.6."
               },
@@ -9273,7 +9273,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "A quadrilateral with all four sides equal in length is a:",
+                "question": "A quadrilateral with all four sides equal in length is a?",
                 "answerOptions": [
                   {
                     "text": "Rectangle",
@@ -9303,7 +9303,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "If two parallel lines are cut by a transversal, then the corresponding angles are:",
+                "question": "If two parallel lines are cut by a transversal, then the corresponding angles are?",
                 "answerOptions": [
                   {
                     "text": "Congruent",
@@ -9400,7 +9400,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A circle has a diameter of 8. What is its area? Use 3.14 for $\\pi$.",
+                "question": "A circle has a diameter of 8. What is its area? Use 3.14 for $\\pi$?",
                 "correctAnswer": "50.24",
                 "rationale": "The radius is half the diameter, so r=4. Area = pi * $r^2$ = 3.14 * $4^2$ = 50.24."
               },
@@ -9517,7 +9517,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "What is the area of a circle with a circumference of 18.84? Use 3.14 for $\\pi$.",
+                "question": "What is the area of a circle with a circumference of 18.84? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "28.26",
@@ -9556,7 +9556,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "A triangle with all three sides of different lengths is called:",
+                "question": "A triangle with all three sides of different lengths is called what?",
                 "answerOptions": [
                   {
                     "text": "Equilateral",
@@ -9683,7 +9683,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A circle's area is 314 sq. units. What is its radius? Use 3.14 for $\\pi$.",
+                "question": "A circle's area is 314 sq. units. What is its radius? Use 3.14 for $\\pi$?",
                 "correctAnswer": "10",
                 "rationale": "Area = pi*$r^2$. 314 = 3.14 * $r^2$. $r^2$ = 100. r = 10."
               },
@@ -9692,7 +9692,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "What is the volume of a cylinder with r=3 and h=10? Use 3.14 for $\\pi$.",
+                "question": "What is the volume of a cylinder with r=3 and h=10? Use 3.14 for $\\pi$?",
                 "answerOptions": [
                   {
                     "text": "94.2",
@@ -9722,7 +9722,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "An angle of 180° is a ___ angle.",
+                "question": "An angle of 180° is a ___ angle?",
                 "correctAnswer": "straight",
                 "rationale": "A straight angle is an angle of 180°."
               },
@@ -9761,7 +9761,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "Find the surface area of a sphere with a diameter of 10. Use 3.14 for $\\pi$ and SA=$4\\pi r^2$.",
+                "question": "Find the surface area of a sphere with a diameter of 10. Use 3.14 for $\\pi$ and SA=$4\\pi r^2$?",
                 "answerOptions": [
                   {
                     "text": "31.4",
@@ -9830,7 +9830,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "How many feet are in half a mile? (1 mile = 5280 feet)",
+                "question": "How many feet are in half a mile? (1 mile = 5280 feet)?",
                 "correctAnswer": "2640 feet",
                 "rationale": "Half a mile is 5280 / 2 = 2640 feet."
               },
@@ -10010,7 +10010,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the slope of the line passing through the points (1, 2) and (3, 10).",
+                "question": "Find the slope of the line passing through the points (1, 2) and (3, 10)?",
                 "correctAnswer": "4",
                 "rationale": "The slope (m) is the change in y divided by the change in x. m = (10 - 2) / (3 - 1) = 8 / 2 = 4."
               },
@@ -10079,7 +10079,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Given $f(x) = x^2 + 3$, find $f(-2)$.",
+                "question": "Given $f(x) = x^2 + 3$, find $f(-2)$?",
                 "correctAnswer": "7",
                 "rationale": "Substitute -2 for x: f(-2) = $(-2)^2 + 3 = 4 + 3 = 7$."
               },
@@ -10088,7 +10088,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "The graph of a vertical line has a slope that is:",
+                "question": "The graph of a vertical line has a slope that is?",
                 "answerOptions": [
                   {
                     "text": "0",
@@ -10263,7 +10263,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the slope of the line that passes through the points (-1, 3) and (2, 9).",
+                "question": "Find the slope of the line that passes through the points (-1, 3) and (2, 9)?",
                 "answerOptions": [
                   {
                     "text": "1/2",
@@ -10401,7 +10401,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the value of $f(g(2))$ when $f(x) = 3x$ and $g(x) = x + 5$.",
+                "question": "Find the value of $f(g(2))$ when $f(x) = 3x$ and $g(x) = x + 5$?",
                 "correctAnswer": "21",
                 "rationale": "First, find g(2): g(2) = 2 + 5 = 7. Then, find f(7): f(7) = 3 * 7 = 21."
               },
@@ -10470,7 +10470,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "If a graph of a function is a straight line, the function is:",
+                "question": "If a graph of a function is a straight line, the function is?",
                 "answerOptions": [
                   {
                     "text": "Linear",
@@ -10684,7 +10684,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "For the function $h(t) = -16t^2 + 64t$, find the value of $h(2)$.",
+                "question": "For the function $h(t) = -16t^2 + 64t$, find the value of $h(2)$?",
                 "correctAnswer": "64",
                 "rationale": "Substitute 2 for t: h(2) = -16$(2)^2$ + 64(2) = -16(4) + 128 = -64 + 128 = 64."
               },
@@ -10937,7 +10937,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "The graph of a quadratic function is a:",
+                "question": "The graph of a quadratic function is a?",
                 "answerOptions": [
                   {
                     "text": "Straight line",
@@ -11211,7 +11211,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Given $f(x) = x^3 - 1$, find $f(2)$.",
+                "question": "Given $f(x) = x^3 - 1$, find $f(2)$?",
                 "correctAnswer": "7",
                 "rationale": "Substitute 2 for x: f(2) = $(2)^3$ - 1 = 8 - 1 = 7."
               },
@@ -11395,7 +11395,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the y-intercept of the line that passes through the points (2, 8) and (4, 2).",
+                "question": "Find the y-intercept of the line that passes through the points (2, 8) and (4, 2)?",
                 "answerOptions": [
                   {
                     "text": "14",
@@ -11533,7 +11533,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "For the function $f(x) = 100(2)^x$, find the value of $f(3)$.",
+                "question": "For the function $f(x) = 100(2)^x$, find the value of $f(3)$?",
                 "correctAnswer": "800",
                 "rationale": "Substitute 3 for x: f(3) = 100 * $(2)^3$ = 100 * 8 = 800."
               },
@@ -11602,7 +11602,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "The table shows a linear relationship between x and y. What is the slope? (x=2, y=5), (x=4, y=9)",
+                "question": "The table shows a linear relationship between x and y. What is the slope? (x=2, y=5), (x=4, y=9)?",
                 "answerOptions": [
                   {
                     "text": "1",
@@ -11777,7 +11777,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "If $f(x) = 2x$ and $g(x) = x - 1$, find $f(g(4))$.",
+                "question": "If $f(x) = 2x$ and $g(x) = x - 1$, find $f(g(4))$?",
                 "correctAnswer": "6",
                 "rationale": "First, find g(4): g(4) = 4 - 1 = 3. Then, find f(3): f(3) = 2 * 3 = 6."
               },
@@ -11952,7 +11952,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Given $f(x) = 20 - 3x$, find $f(5)$.",
+                "question": "Given $f(x) = 20 - 3x$, find $f(5)$?",
                 "correctAnswer": "5",
                 "rationale": "Substitute 5 for x: f(5) = 20 - 3(5) = 20 - 15 = 5."
               },
@@ -11991,7 +11991,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the x-intercept of the line $y = 2x - 10$.",
+                "question": "Find the x-intercept of the line $y = 2x - 10$?",
                 "correctAnswer": "5",
                 "rationale": "Set y=0: 0 = 2x - 10. 10 = 2x. x = 5."
               },
@@ -12060,7 +12060,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the value of $f(x) = x^2 - 3x$ when $x=-4$.",
+                "question": "Find the value of $f(x) = x^2 - 3x$ when $x=-4$?",
                 "correctAnswer": "28",
                 "rationale": "f(-4) = $(-4)^2$ - 3(-4) = 16 + 12 = 28."
               },
@@ -12108,7 +12108,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the distance between the points (-3, 2) and (3, 10).",
+                "question": "Find the distance between the points (-3, 2) and (3, 10)?",
                 "answerOptions": [
                   {
                     "text": "8",
@@ -12168,7 +12168,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "If a function has a constant slope, it is a:",
+                "question": "If a function has a constant slope, it is a?",
                 "answerOptions": [
                   {
                     "text": "Quadratic function",
@@ -12343,7 +12343,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the x-intercept of the line $y = -4x + 12$.",
+                "question": "Find the x-intercept of the line $y = -4x + 12$?",
                 "correctAnswer": "3",
                 "rationale": "Set y=0: 0 = -4x + 12. 4x = 12. x = 3."
               },
@@ -12391,7 +12391,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the vertex of the parabola $y = x^2 + 4x + 3$.",
+                "question": "Find the vertex of the parabola $y = x^2 + 4x + 3$?",
                 "answerOptions": [
                   {
                     "text": "(-2, -1)",
@@ -12488,7 +12488,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "What is the y-intercept of the line $y = x$? ",
+                "question": "What is the y-intercept of the line $y = x$?",
                 "answerOptions": [
                   {
                     "text": "1",
@@ -12527,7 +12527,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the slope of a line passing through the points (3, 7) and (5, 7).",
+                "question": "Find the slope of a line passing through the points (3, 7) and (5, 7)?",
                 "answerOptions": [
                   {
                     "text": "0",
@@ -12626,7 +12626,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the x-intercept for the line $5x + 2y = 20$.",
+                "question": "Find the x-intercept for the line $5x + 2y = 20$?",
                 "correctAnswer": "4",
                 "rationale": "To find the x-intercept, set y = 0. 5x + 2(0) = 20. 5x = 20. x = 4."
               },
@@ -13231,7 +13231,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "A gym membership costs $25 per month. Write a function C(m) for the total cost of 'm' months.",
+                "question": "A gym membership costs $25 per month. Write a function C(m) for the total cost of 'm' months?",
                 "correctAnswer": "C(m) = 25m",
                 "rationale": "The total cost is the monthly cost multiplied by the number of months."
               },
@@ -13240,7 +13240,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the equation of a line with slope -2 that passes through (1, 3).",
+                "question": "Find the equation of a line with slope -2 that passes through (1, 3)?",
                 "answerOptions": [
                   {
                     "text": "y = -2x + 1",
@@ -13270,7 +13270,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "The range of a function is:",
+                "question": "The range of a function is?",
                 "answerOptions": [
                   {
                     "text": "All possible x-values.",
@@ -13402,7 +13402,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate the expression: $12 + (5 - 2) \\times 3^2$.",
+                "question": "Evaluate the expression: $12 + (5 - 2) \\times 3^2$?",
                 "correctAnswer": "39",
                 "rationale": "Following the order of operations (PEMDAS): Parentheses (5-2=3), Exponents ($3^2$=9), Multiplication (3*9=27), Addition (12+27=39)."
               },
@@ -13480,7 +13480,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Simplify the expression: $5 \\times (4 + 2) - 10 \\div 2$.",
+                "question": "Simplify the expression: $5 \\times (4 + 2) - 10 \\div 2$?",
                 "answerOptions": [
                   {
                     "text": "10",
@@ -13588,7 +13588,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Estimate the result of $48.7 \\times 10.2$.",
+                "question": "Estimate the result of $48.7 \\times 10.2$?",
                 "answerOptions": [
                   {
                     "text": "50",
@@ -13664,7 +13664,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $5 - (-3) + 2$.",
+                "question": "Evaluate: $5 - (-3) + 2$?",
                 "answerOptions": [
                   {
                     "text": "0",
@@ -13763,7 +13763,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Order the following from least to greatest: 0.5, $\\frac{2}{5}$, 45%, 0.42.",
+                "question": "Order the following from least to greatest: 0.5, $\\frac{2}{5}$, 45%, 0.42?",
                 "correctAnswer": "2/5, 0.42, 45%, 0.5",
                 "rationale": "Convert all to decimals: 2/5 = 0.4, 45% = 0.45. The order is 0.4, 0.42, 0.45, 0.5. This corresponds to 2/5, 0.42, 45%, 0.5."
               },
@@ -13841,7 +13841,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Simplify: $\\sqrt{64} + \\sqrt{36}$.",
+                "question": "Simplify: $\\sqrt{64} + \\sqrt{36}$?",
                 "answerOptions": [
                   {
                     "text": "10",
@@ -13977,7 +13977,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $3^3 - 2 \\times 5$.",
+                "question": "Evaluate: $3^3 - 2 \\times 5$?",
                 "correctAnswer": "17",
                 "rationale": "Order of operations (PEMDAS): Exponents first ($3^3$ = 27), then multiplication (2*5 = 10), then subtraction (27 - 10 = 17)."
               },
@@ -14055,7 +14055,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Round 3.856 to the nearest tenth.",
+                "question": "Round 3.856 to the nearest tenth?",
                 "answerOptions": [
                   {
                     "text": "3.8",
@@ -14154,7 +14154,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Simplify the expression: $|-8| + |3 - 5|$.",
+                "question": "Simplify the expression: $|-8| + |3 - 5|$?",
                 "answerOptions": [
                   {
                     "text": "6",
@@ -14221,7 +14221,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Calculate: $100 - 35$.",
+                "question": "Calculate: $100 - 35$?",
                 "correctAnswer": "65",
                 "rationale": "This is a basic subtraction problem. 100 - 35 = 65."
               },
@@ -14260,7 +14260,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate the expression: $5 + 3 \\times (8 - 2)$.",
+                "question": "Evaluate the expression: $5 + 3 \\times (8 - 2)$?",
                 "correctAnswer": "23",
                 "rationale": "According to the order of operations (PEMDAS), first solve the parentheses: 8 - 2 = 6. Then, do the multiplication: 3 * 6 = 18. Finally, the addition: 5 + 18 = 23."
               },
@@ -14437,7 +14437,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Subtract: $\\frac{5}{6} - \\frac{1}{3}$.",
+                "question": "Subtract: $\\frac{5}{6} - \\frac{1}{3}$?",
                 "answerOptions": [
                   {
                     "text": "$\\frac{4}{3}$",
@@ -14543,7 +14543,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Convert the improper fraction $\\frac{11}{4}$ to a mixed number.",
+                "question": "Convert the improper fraction $\\frac{11}{4}$ to a mixed number?",
                 "correctAnswer": "2 3/4",
                 "rationale": "Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 3/4."
               },
@@ -14720,7 +14720,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the sum of $\\frac{1}{4}$ and $\\frac{2}{3}$.",
+                "question": "Find the sum of $\\frac{1}{4}$ and $\\frac{2}{3}$?",
                 "answerOptions": [
                   {
                     "text": "$\\frac{3}{7}$",
@@ -14787,7 +14787,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Convert 0.45 to a fraction in simplest form.",
+                "question": "Convert 0.45 to a fraction in simplest form?",
                 "correctAnswer": "9/20",
                 "rationale": "0.45 is 45/100. Both numbers are divisible by 5. 45/5 = 9 and 100/5 = 20. So, the fraction is 9/20."
               },
@@ -14826,7 +14826,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the least common multiple (LCM) of 8 and 10.",
+                "question": "Find the least common multiple (LCM) of 8 and 10?",
                 "correctAnswer": "40",
                 "rationale": "Multiples of 8 are 8, 16, 24, 32, 40... Multiples of 10 are 10, 20, 30, 40... The smallest number they have in common is 40."
               },
@@ -14934,7 +14934,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Evaluate: $(2^3 + 2)^2$.",
+                "question": "Evaluate: $(2^3 + 2)^2$?",
                 "correctAnswer": "100",
                 "rationale": "Follow the order of operations. Inside the parentheses: $2^3$ = 8, so 8+2 = 10. Then square the result: $10^2$ = 100."
               },
@@ -15070,7 +15070,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Find the product of 12 and 0.5.",
+                "question": "Find the product of 12 and 0.5?",
                 "correctAnswer": "6",
                 "rationale": "Multiplying by 0.5 is the same as dividing by 2. 12 * 0.5 = 6."
               },
@@ -15109,7 +15109,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $5 \times (6 - 2) + 3^2$.",
+                "question": "Evaluate: $5 \times (6 - 2) + 3^2$?",
                 "correctAnswer": "29",
                 "rationale": "Order of operations (PEMDAS): Parentheses (6-2=4), Exponents ($3^2$=9), Multiplication (5*4=20), Addition (20+9=29)."
               },
@@ -15353,7 +15353,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Convert 2.5 to a fraction.",
+                "question": "Convert 2.5 to a fraction?",
                 "correctAnswer": "5/2",
                 "rationale": "2.5 is two and a half, which can be written as the mixed number 2 1/2. As an improper fraction, this is (2*2+1)/2 = 5/2."
               },
@@ -15392,7 +15392,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $100 \\div 5^2$.",
+                "question": "Evaluate: $100 \\div 5^2$?",
                 "correctAnswer": "4",
                 "rationale": "Order of operations: Exponents first ($5^2$ = 25), then division (100 / 25 = 4)."
               },
@@ -15569,7 +15569,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $\\sqrt{81} \\times 2$.",
+                "question": "Evaluate: $\\sqrt{81} \\times 2$?",
                 "answerOptions": [
                   {
                     "text": "9",
@@ -15675,7 +15675,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $50 - (10 - 4)^2$.",
+                "question": "Evaluate: $50 - (10 - 4)^2$?",
                 "correctAnswer": "14",
                 "rationale": "Order of operations (PEMDAS): Parentheses first (10-4=6), then Exponents ($6^2$=36), then subtraction (50 - 36 = 14)."
               },
@@ -15753,7 +15753,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Estimate the product of 19.8 and 5.1.",
+                "question": "Estimate the product of 19.8 and 5.1?",
                 "answerOptions": [
                   {
                     "text": "25",
@@ -15958,7 +15958,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $2 \times (3+4)^2$.",
+                "question": "Evaluate: $2 \times (3+4)^2$?",
                 "correctAnswer": "98",
                 "rationale": "Order of operations: Parentheses (3+4=7), Exponents ($7^2$=49), Multiplication (2*49=98)."
               },
@@ -16027,7 +16027,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the least common multiple (LCM) of 9 and 15.",
+                "question": "Find the least common multiple (LCM) of 9 and 15?",
                 "correctAnswer": "45",
                 "rationale": "Multiples of 9: 9, 18, 27, 36, 45... Multiples of 15: 15, 30, 45... The LCM is 45."
               },
@@ -16135,7 +16135,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $|-3| \times |4 - 9|$.",
+                "question": "Evaluate: $|-3| \times |4 - 9|$?",
                 "answerOptions": [
                   {
                     "text": "-15",
@@ -16241,7 +16241,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $10 + 4 \\times 2^3$.",
+                "question": "Evaluate: $10 + 4 \\times 2^3$?",
                 "correctAnswer": "42",
                 "rationale": "Order of operations (PEMDAS): Exponents ($2^3$=8), Multiplication (4*8=32), Addition (10+32=42)."
               },
@@ -16524,7 +16524,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $60 \\div (5 \times 3) + 2$.",
+                "question": "Evaluate: $60 \\div (5 \times 3) + 2$?",
                 "correctAnswer": "6",
                 "rationale": "Order of operations (PEMDAS): Parentheses (5*3=15), Division (60/15=4), Addition (4+2=6)."
               },
@@ -16920,7 +16920,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Solve the proportion: $\\frac{x}{9} = \\frac{10}{15}$",
+                "question": "Solve the proportion: $\\frac{x}{9} = \\frac{10}{15}$?",
                 "correctAnswer": "6",
                 "rationale": "To solve for x, you can cross-multiply: 15 * x = 9 * 10, which gives 15x = 90. Divide by 15 to get x = 6. Alternatively, simplify 10/15 to 2/3 and solve x/9 = 2/3."
               },
@@ -17208,7 +17208,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Simplify the ratio 24:36.",
+                "question": "Simplify the ratio 24:36?",
                 "correctAnswer": "2:3",
                 "rationale": "The greatest common divisor of 24 and 36 is 12. Divide both parts of the ratio by 12: 24/12 = 2 and 36/12 = 3. The simplified ratio is 2:3."
               },
@@ -17774,7 +17774,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Solve the proportion: $\\frac{6}{x} = \\frac{18}{24}$",
+                "question": "Solve the proportion: $\\frac{6}{x} = \\frac{18}{24}$?",
                 "correctAnswer": "8",
                 "rationale": "Simplify the fraction 18/24 to 3/4. So, 6/x = 3/4. Cross-multiply: 3x = 24. Solve for x: x = 8."
               },
@@ -18310,7 +18310,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve the proportion: $\\frac{2}{3} = \\frac{x}{12}$",
+                "question": "Solve the proportion: $\\frac{2}{3} = \\frac{x}{12}$?",
                 "answerOptions": [
                   {
                     "text": "4",
@@ -18515,7 +18515,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve for y: $\\frac{5}{2} = \\frac{y}{10}$.",
+                "question": "Solve for y: $\\frac{5}{2} = \\frac{y}{10}$?",
                 "correctAnswer": "25",
                 "rationale": "To get from 2 to 10 in the denominator, you multiply by 5. So, multiply the numerator by 5 as well: 5 * 5 = 25."
               },
@@ -18876,7 +18876,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Simplify the ratio 45:60.",
+                "question": "Simplify the ratio 45:60?",
                 "answerOptions": [
                   {
                     "text": "3:4",
@@ -19159,7 +19159,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve the proportion: $\\frac{x}{4} = \\frac{9}{12}$.",
+                "question": "Solve the proportion: $\\frac{x}{4} = \\frac{9}{12}$?",
                 "answerOptions": [
                   {
                     "text": "1",
@@ -19442,7 +19442,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve the proportion: $\\frac{4}{5} = \\frac{20}{x}$.",
+                "question": "Solve the proportion: $\\frac{4}{5} = \\frac{20}{x}$?",
                 "answerOptions": [
                   {
                     "text": "16",
@@ -19755,7 +19755,7 @@ window.ExpandedQuizData = {
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Solve the proportion: $\\frac{7}{3} = \\frac{x}{9}$.",
+                "question": "Solve the proportion: $\\frac{7}{3} = \\frac{x}{9}$?",
                 "correctAnswer": "21",
                 "rationale": "To get from 3 to 9, you multiply by 3. So, multiply the numerator by 3: 7 * 3 = 21."
               },
@@ -20008,7 +20008,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Solve the proportion: $\\frac{1}{6} = \\frac{5}{x}$.",
+                "question": "Solve the proportion: $\\frac{1}{6} = \\frac{5}{x}$?",
                 "answerOptions": [
                   {
                     "text": "5",
@@ -20237,7 +20237,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A group of similar cells performing a specific function is called a(n):",
+                "question": "A group of similar cells performing a specific function is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Organ",
@@ -20526,7 +20526,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "An organism that produces its own food is called a(n):",
+                "question": "An organism that produces its own food is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Consumer",
@@ -20696,7 +20696,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A symbiotic relationship where both organisms benefit is called:",
+                "question": "A symbiotic relationship where both organisms benefit is called what?",
                 "answerOptions": [
                   {
                     "text": "Parasitism",
@@ -20752,7 +20752,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The process by which nitrogen gas from the atmosphere is converted into a form that plants can use is called:",
+                "question": "The process by which nitrogen gas from the atmosphere is converted into a form that plants can use is called what?",
                 "answerOptions": [
                   {
                     "text": "Denitrification",
@@ -20808,7 +20808,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A new species is introduced to an ecosystem. It has no natural predators and reproduces quickly. This species is likely to:",
+                "question": "A new species is introduced to an ecosystem. It has no natural predators and reproduces quickly. This species is likely to?",
                 "answerOptions": [
                   {
                     "text": "Become an invasive species and outcompete native species for resources.",
@@ -20955,7 +20955,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Muscles are attached to bones by tough, flexible bands of fibrous connective tissue called:",
+                "question": "Muscles are attached to bones by tough, flexible bands of fibrous connective tissue called?",
                 "answerOptions": [
                   {
                     "text": "Ligaments",
@@ -21097,7 +21097,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "In the human respiratory system, the actual exchange of gases (oxygen and carbon dioxide) occurs in the:",
+                "question": "In the human respiratory system, the actual exchange of gases (oxygen and carbon dioxide) occurs in the?",
                 "answerOptions": [
                   {
                     "text": "Trachea (windpipe)",
@@ -21181,7 +21181,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Vaccination helps protect the body against disease by:",
+                "question": "Vaccination helps protect the body against disease by?",
                 "answerOptions": [
                   {
                     "text": "Directly killing any pathogens that are currently in the body.",
@@ -21244,7 +21244,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "An organism that is made of only one cell is called:",
+                "question": "An organism that is made of only one cell is called what?",
                 "answerOptions": [
                   {
                     "text": "Multicellular",
@@ -21272,7 +21272,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The passing of traits from parents to offspring is known as:",
+                "question": "The passing of traits from parents to offspring is known as what?",
                 "answerOptions": [
                   {
                     "text": "Metabolism",
@@ -21358,7 +21358,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "medium",
                 "passage": "A population of deer lives in a forest ecosystem. Due to a series of unusually mild winters and an abundance of food, the deer population grows rapidly. As the deer population increases, they consume a large amount of the available vegetation, including young saplings.",
-                "question": "In this scenario, the availability of vegetation is an example of a:",
+                "question": "In this scenario, the availability of vegetation is an example of a?",
                 "answerOptions": [
                   {
                     "text": "Limiting factor",
@@ -21442,7 +21442,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The process of cell division that results in four daughter cells each with half the number of chromosomes of the parent cell, as in the production of gametes, is called:",
+                "question": "The process of cell division that results in four daughter cells each with half the number of chromosomes of the parent cell, as in the production of gametes, is called what?",
                 "answerOptions": [
                   {
                     "text": "Mitosis",
@@ -21470,7 +21470,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The theory of evolution by natural selection was proposed by:",
+                "question": "The theory of evolution by natural selection was proposed by?",
                 "answerOptions": [
                   {
                     "text": "Gregor Mendel",
@@ -21554,7 +21554,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 13,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Homologous structures, such as the forelimb of a human, the wing of a bat, and the flipper of a whale, are considered evidence for evolution because they:",
+                "question": "Homologous structures, such as the forelimb of a human, the wing of a bat, and the flipper of a whale, are considered evidence for evolution because they?",
                 "answerOptions": [
                   {
                     "text": "Perform the exact same function in each organism.",
@@ -21645,7 +21645,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "An organism that eats both plants and animals is called a(n):",
+                "question": "An organism that eats both plants and animals is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Herbivore",
@@ -21701,7 +21701,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The process by which organisms better adapted to their environment tend to survive and produce more offspring is known as:",
+                "question": "The process by which organisms better adapted to their environment tend to survive and produce more offspring is known as what?",
                 "answerOptions": [
                   {
                     "text": "Artificial selection",
@@ -21899,7 +21899,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "In a DNA molecule, the base adenine (A) always pairs with:",
+                "question": "In a DNA molecule, the base adenine (A) always pairs with?",
                 "answerOptions": [
                   {
                     "text": "Guanine (G)",
@@ -21990,7 +21990,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "All the living and nonliving things in a particular area make up a(n):",
+                "question": "All the living and nonliving things in a particular area make up a(n)?",
                 "answerOptions": [
                   {
                     "text": "Population",
@@ -22018,7 +22018,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "An organism that must consume other organisms for energy is called a(n):",
+                "question": "An organism that must consume other organisms for energy is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Producer",
@@ -22074,7 +22074,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A relationship between two species in which one species benefits and the other is harmed is called:",
+                "question": "A relationship between two species in which one species benefits and the other is harmed is called what?",
                 "answerOptions": [
                   {
                     "text": "Mutualism",
@@ -22132,7 +22132,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "medium",
                 "passage": "A certain pesticide is used on crops to kill insects. This pesticide is not biodegradable and accumulates in the tissues of organisms. The pesticide is present in the water, which is absorbed by algae. Small fish eat the algae, larger fish eat the small fish, and a bird of prey eats the larger fish.",
-                "question": "The process described in the passage, where the concentration of a toxin increases at higher trophic levels in a food web, is called:",
+                "question": "The process described in the passage, where the concentration of a toxin increases at higher trophic levels in a food web, is called what?",
                 "answerOptions": [
                   {
                     "text": "Eutrophication",
@@ -22188,7 +22188,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The variety of life within a particular habitat or ecosystem is known as:",
+                "question": "The variety of life within a particular habitat or ecosystem is known as what?",
                 "answerOptions": [
                   {
                     "text": "Biodiversity",
@@ -22419,7 +22419,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The genetic material within the nucleus of a cell is organized into structures called:",
+                "question": "The genetic material within the nucleus of a cell is organized into structures called?",
                 "answerOptions": [
                   {
                     "text": "Chromosomes",
@@ -22561,7 +22561,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Prokaryotic cells, such as bacteria, differ from eukaryotic cells (like plant and animal cells) in that they lack:",
+                "question": "Prokaryotic cells, such as bacteria, differ from eukaryotic cells (like plant and animal cells) in that they lack?",
                 "answerOptions": [
                   {
                     "text": "A cell membrane",
@@ -22617,7 +22617,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The basic unit of life is the:",
+                "question": "The basic unit of life is the?",
                 "answerOptions": [
                   {
                     "text": "Atom",
@@ -22680,7 +22680,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "All the living organisms in an area and their non-living environment are collectively known as a(n):",
+                "question": "All the living organisms in an area and their non-living environment are collectively known as a(n)?",
                 "answerOptions": [
                   {
                     "text": "Population",
@@ -22764,7 +22764,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A symbiotic relationship where one organism benefits and the other is harmed is called:",
+                "question": "A symbiotic relationship where one organism benefits and the other is harmed is called what?",
                 "answerOptions": [
                   {
                     "text": "Mutualism",
@@ -22822,7 +22822,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "hard",
                 "passage": "In a forest ecosystem, sunlight allows oak trees to produce acorns. Squirrels eat the acorns. Hawks, in turn, hunt and eat the squirrels. When a hawk dies, its body is broken down by bacteria and fungi, which return nutrients to the soil.",
-                "question": "The role of the bacteria and fungi in this ecosystem is to:",
+                "question": "The role of the bacteria and fungi in this ecosystem is to?",
                 "answerOptions": [
                   {
                     "text": "Serve as a food source for the squirrels.",
@@ -22850,7 +22850,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The primary source of energy for nearly all ecosystems on Earth is:",
+                "question": "The primary source of energy for nearly all ecosystems on Earth is?",
                 "answerOptions": [
                   {
                     "text": "The Earth's core (geothermal energy)",
@@ -22878,7 +22878,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The process by which an ecosystem gradually changes over time, such as a bare field becoming a forest, is called:",
+                "question": "The process by which an ecosystem gradually changes over time, such as a bare field becoming a forest, is called what?",
                 "answerOptions": [
                   {
                     "text": "Ecological succession",
@@ -22906,7 +22906,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "An organism's niche is best described as:",
+                "question": "An organism's niche is best described as?",
                 "answerOptions": [
                   {
                     "text": "The physical place where it lives.",
@@ -22934,7 +22934,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The maximum population size that an environment can sustain is known as its:",
+                "question": "The maximum population size that an environment can sustain is known as its?",
                 "answerOptions": [
                   {
                     "text": "Population density",
@@ -23053,7 +23053,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The main function of the respiratory system is to:",
+                "question": "The main function of the respiratory system is to?",
                 "answerOptions": [
                   {
                     "text": "Transport nutrients to cells.",
@@ -23195,7 +23195,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The skeletal system's functions include providing support, protecting organs, and...",
+                "question": "The skeletal system's functions include providing support, protecting organs, and..?",
                 "answerOptions": [
                   {
                     "text": "Digesting food.",
@@ -23223,7 +23223,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The endocrine system uses chemical messengers called ___________ to regulate bodily functions.",
+                "question": "The endocrine system uses chemical messengers called ___________ to regulate bodily functions?",
                 "answerOptions": [
                   {
                     "text": "Neurons",
@@ -23251,7 +23251,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The immune system's primary function is to:",
+                "question": "The immune system's primary function is to?",
                 "answerOptions": [
                   {
                     "text": "Defend the body against pathogens like bacteria and viruses.",
@@ -23279,7 +23279,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A person eats a large meal. Their blood sugar level rises. In response, the pancreas releases insulin, which causes cells to take up glucose from the blood, lowering blood sugar levels. This is an example of:",
+                "question": "A person eats a large meal. Their blood sugar level rises. In response, the pancreas releases insulin, which causes cells to take up glucose from the blood, lowering blood sugar levels. This is an example of?",
                 "answerOptions": [
                   {
                     "text": "The digestive system working alone.",
@@ -23335,7 +23335,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The interaction between the muscular and skeletal systems to create movement is best described as:",
+                "question": "The interaction between the muscular and skeletal systems to create movement is best described as?",
                 "answerOptions": [
                   {
                     "text": "Muscles pushing on bones.",
@@ -23512,7 +23512,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "hard",
                 "passage": "A scientist places two aquatic plants of the same species in two identical, sealed containers filled with water. Container 1 is placed in a sunny location, and Container 2 is placed in a dark closet. After 24 hours, the scientist measures the concentration of dissolved oxygen in the water in both containers.",
-                "question": "The process responsible for the decrease in oxygen in Container 2 is:",
+                "question": "The process responsible for the decrease in oxygen in Container 2 is?",
                 "answerOptions": [
                   {
                     "text": "Photosynthesis",
@@ -23596,7 +23596,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The green color of most plants is due to a pigment called:",
+                "question": "The green color of most plants is due to a pigment called?",
                 "answerOptions": [
                   {
                     "text": "Hemoglobin",
@@ -23743,7 +23743,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The main organs of the respiratory system, where gas exchange occurs, are the:",
+                "question": "The main organs of the respiratory system, where gas exchange occurs, are the?",
                 "answerOptions": [
                   {
                     "text": "Kidneys",
@@ -23799,7 +23799,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Hormones, which act as chemical messengers in the body, are produced by the:",
+                "question": "Hormones, which act as chemical messengers in the body, are produced by the?",
                 "answerOptions": [
                   {
                     "text": "Nervous System",
@@ -23913,7 +23913,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The central nervous system is composed of the:",
+                "question": "The central nervous system is composed of the?",
                 "answerOptions": [
                   {
                     "text": "Heart and blood vessels",
@@ -23941,7 +23941,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Antibodies, which are key components of the adaptive immune response, are produced by:",
+                "question": "Antibodies, which are key components of the adaptive immune response, are produced by?",
                 "answerOptions": [
                   {
                     "text": "Red blood cells",
@@ -23969,7 +23969,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The muscular system is responsible for:",
+                "question": "The muscular system is responsible for?",
                 "answerOptions": [
                   {
                     "text": "Producing hormones.",
@@ -24060,7 +24060,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The molecule that carries the genetic instructions for the development, functioning, growth, and reproduction of all known organisms is:",
+                "question": "The molecule that carries the genetic instructions for the development, functioning, growth, and reproduction of all known organisms is?",
                 "answerOptions": [
                   {
                     "text": "RNA (Ribonucleic acid)",
@@ -24088,7 +24088,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A specific sequence of DNA that codes for a functional product, such as a protein, is called a:",
+                "question": "A specific sequence of DNA that codes for a functional product, such as a protein, is called what?",
                 "answerOptions": [
                   {
                     "text": "Chromosome",
@@ -24116,7 +24116,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The observable physical properties of an organism, such as its appearance or behavior, are called its:",
+                "question": "The observable physical properties of an organism, such as its appearance or behavior, are called its?",
                 "answerOptions": [
                   {
                     "text": "Genotype",
@@ -24144,7 +24144,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "If an individual has two different alleles for a particular gene, they are said to be:",
+                "question": "If an individual has two different alleles for a particular gene, they are said to be?",
                 "answerOptions": [
                   {
                     "text": "Homozygous",
@@ -24230,7 +24230,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The passing of traits from parents to offspring is known as:",
+                "question": "The passing of traits from parents to offspring is known as what?",
                 "answerOptions": [
                   {
                     "text": "Metabolism",
@@ -24286,7 +24286,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A permanent alteration in the nucleotide sequence of DNA is called a(n):",
+                "question": "A permanent alteration in the nucleotide sequence of DNA is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Transcription",
@@ -24314,7 +24314,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "In most eukaryotic cells, the genetic material is found inside the:",
+                "question": "In most eukaryotic cells, the genetic material is found inside the?",
                 "answerOptions": [
                   {
                     "text": "Mitochondrion",
@@ -24342,7 +24342,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The shape of the DNA molecule is most accurately described as a:",
+                "question": "The shape of the DNA molecule is most accurately described as a?",
                 "answerOptions": [
                   {
                     "text": "Single strand",
@@ -24370,7 +24370,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Natural selection acts directly on an organism's:",
+                "question": "Natural selection acts directly on an organism's?",
                 "answerOptions": [
                   {
                     "text": "Genotype",
@@ -24405,7 +24405,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The process by which organisms better adapted to their environment tend to survive and produce more offspring is called:",
+                "question": "The process by which organisms better adapted to their environment tend to survive and produce more offspring is called what?",
                 "answerOptions": [
                   {
                     "text": "Artificial selection",
@@ -24433,7 +24433,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A trait that helps an organism survive and reproduce in its environment is called a(n):",
+                "question": "A trait that helps an organism survive and reproduce in its environment is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Mutation",
@@ -24461,7 +24461,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "For natural selection to occur, there must be ________ within a population.",
+                "question": "For natural selection to occur, there must be ________ within a population?",
                 "answerOptions": [
                   {
                     "text": "No competition",
@@ -24489,7 +24489,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The term 'survival of the fittest' means that the individuals that are best adapted to their environment will:",
+                "question": "The term 'survival of the fittest' means that the individuals that are best adapted to their environment will do what?",
                 "answerOptions": [
                   {
                     "text": "Live the longest life.",
@@ -24575,7 +24575,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The ultimate source of all new genetic variation is:",
+                "question": "The ultimate source of all new genetic variation is?",
                 "answerOptions": [
                   {
                     "text": "Natural selection",
@@ -24603,7 +24603,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Structures that are similar in different species because they were inherited from a common ancestor are called:",
+                "question": "Structures that are similar in different species because they were inherited from a common ancestor are called?",
                 "answerOptions": [
                   {
                     "text": "Analogous structures",
@@ -24631,7 +24631,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Speciation is the evolutionary process by which:",
+                "question": "Speciation is the evolutionary process by which?",
                 "answerOptions": [
                   {
                     "text": "An individual organism changes over its lifetime.",
@@ -24659,7 +24659,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The preserved remains or traces of ancient organisms provide evidence for evolution and are known as:",
+                "question": "The preserved remains or traces of ancient organisms provide evidence for evolution and are known as?",
                 "answerOptions": [
                   {
                     "text": "DNA",
@@ -24715,7 +24715,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Antibiotic resistance in bacteria is a modern example of natural selection because:",
+                "question": "Antibiotic resistance in bacteria is a modern example of natural selection because?",
                 "answerOptions": [
                   {
                     "text": "Bacteria learn to avoid antibiotics.",
@@ -24811,7 +24811,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A push or a pull on an object is known as a(n):",
+                "question": "A push or a pull on an object is known as a(n)?",
                 "answerOptions": [
                   {
                     "text": "Force",
@@ -24925,7 +24925,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The law of conservation of energy states that:",
+                "question": "The law of conservation of energy states that?",
                 "answerOptions": [
                   {
                     "text": "Energy can be created from nothing.",
@@ -24981,7 +24981,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A simple machine consisting of a wheel with a groove for a rope is called a:",
+                "question": "A simple machine consisting of a wheel with a groove for a rope is called what?",
                 "answerOptions": [
                   {
                     "text": "Lever",
@@ -25128,7 +25128,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The three states of matter are:",
+                "question": "The three states of matter are?",
                 "answerOptions": [
                   {
                     "text": "Solid, Liquid, and Gas",
@@ -25184,7 +25184,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The force that opposes motion between two surfaces in contact is called:",
+                "question": "The force that opposes motion between two surfaces in contact is called what?",
                 "answerOptions": [
                   {
                     "text": "Gravity",
@@ -25270,7 +25270,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "According to Newton's Second Law of Motion, if a constant force is applied to an object, its acceleration is:",
+                "question": "According to Newton's Second Law of Motion, if a constant force is applied to an object, its acceleration is?",
                 "answerOptions": [
                   {
                     "text": "Directly proportional to its mass.",
@@ -25298,7 +25298,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A sound wave is an example of a:",
+                "question": "A sound wave is an example of a?",
                 "answerOptions": [
                   {
                     "text": "Transverse wave",
@@ -25410,7 +25410,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Work is done on an object when:",
+                "question": "Work is done on an object when?",
                 "answerOptions": [
                   {
                     "text": "The object is held stationary.",
@@ -25438,7 +25438,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 13,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "An element is defined by the number of ________ in its nucleus.",
+                "question": "An element is defined by the number of ________ in its nucleus?",
                 "answerOptions": [
                   {
                     "text": "Neutrons",
@@ -25501,7 +25501,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A material that allows electric current to flow through it easily is called a(n):",
+                "question": "A material that allows electric current to flow through it easily is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Insulator",
@@ -25529,7 +25529,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The flow of electric charge is known as:",
+                "question": "The flow of electric charge is known as what?",
                 "answerOptions": [
                   {
                     "text": "Voltage",
@@ -25643,7 +25643,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "An electric generator works by converting:",
+                "question": "An electric generator works by converting?",
                 "answerOptions": [
                   {
                     "text": "Mechanical energy into electrical energy.",
@@ -25846,7 +25846,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The measure of the amount of matter in an object is its:",
+                "question": "The measure of the amount of matter in an object is its?",
                 "answerOptions": [
                   {
                     "text": "Weight",
@@ -25874,7 +25874,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A substance with a definite shape and a definite volume is a:",
+                "question": "A substance with a definite shape and a definite volume is a?",
                 "answerOptions": [
                   {
                     "text": "Solid",
@@ -25960,7 +25960,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "medium",
                 "passage": "A student investigates the rate of a reaction between a solid metal and an acid. To do this, they place a 5-gram strip of metal into a beaker containing 100 mL of acid and measure the amount of hydrogen gas produced over time. The student wants to see how surface area affects the reaction rate.",
-                "question": "In this experiment, the amount of hydrogen gas produced is the:",
+                "question": "In this experiment, the amount of hydrogen gas produced is the?",
                 "answerOptions": [
                   {
                     "text": "Independent variable",
@@ -25988,7 +25988,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The pH scale measures how acidic or basic a substance is. A substance with a pH of 7 is considered:",
+                "question": "The pH scale measures how acidic or basic a substance is. A substance with a pH of 7 is considered?",
                 "answerOptions": [
                   {
                     "text": "Strongly acidic",
@@ -26044,7 +26044,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The law of conservation of mass states that:",
+                "question": "The law of conservation of mass states that?",
                 "answerOptions": [
                   {
                     "text": "Mass can be created but not destroyed.",
@@ -26072,7 +26072,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "An atom that has gained or lost electrons and has an electrical charge is called a(n):",
+                "question": "An atom that has gained or lost electrons and has an electrical charge is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Isotope",
@@ -26128,7 +26128,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A catalyst is a substance that:",
+                "question": "A catalyst is a substance that?",
                 "answerOptions": [
                   {
                     "text": "Is a reactant in a chemical reaction.",
@@ -26191,7 +26191,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The transfer of heat through direct contact is called:",
+                "question": "The transfer of heat through direct contact is called what?",
                 "answerOptions": [
                   {
                     "text": "Convection",
@@ -26247,7 +26247,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A change in the state of matter from a gas to a liquid is called:",
+                "question": "A change in the state of matter from a gas to a liquid is called what?",
                 "answerOptions": [
                   {
                     "text": "Melting",
@@ -26305,7 +26305,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "medium",
                 "passage": "A student is trying to determine the density of a small, irregularly shaped rock. First, she measures the mass of the rock using a balance and finds it to be 60 grams. Then, she takes a graduated cylinder containing 50 mL of water and carefully places the rock inside. The water level rises to 70 mL.",
-                "question": "What is the density of the rock? (Density = Mass / Volume)",
+                "question": "What is the density of the rock? (Density = Mass / Volume)?",
                 "answerOptions": [
                   {
                     "text": "3.0 g/mL",
@@ -26389,7 +26389,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The pitch of a sound is determined by its:",
+                "question": "The pitch of a sound is determined by its?",
                 "answerOptions": [
                   {
                     "text": "Amplitude",
@@ -26501,7 +26501,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 13,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "An object is in equilibrium when:",
+                "question": "An object is in equilibrium when?",
                 "answerOptions": [
                   {
                     "text": "It is moving at a constant acceleration.",
@@ -26564,7 +26564,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Temperature is a measure of the average _____ of the particles in a substance.",
+                "question": "Temperature is a measure of the average _____ of the particles in a substance?",
                 "answerOptions": [
                   {
                     "text": "Kinetic energy",
@@ -26592,7 +26592,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The transfer of energy as electromagnetic waves is called:",
+                "question": "The transfer of energy as electromagnetic waves is called what?",
                 "answerOptions": [
                   {
                     "text": "Conduction",
@@ -26648,7 +26648,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "An object's resistance to a change in its state of motion is called:",
+                "question": "An object's resistance to a change in its state of motion is called what?",
                 "answerOptions": [
                   {
                     "text": "Force",
@@ -26734,7 +26734,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The Second Law of Thermodynamics states that the entropy (disorder) of an isolated system always:",
+                "question": "The Second Law of Thermodynamics states that the entropy (disorder) of an isolated system always?",
                 "answerOptions": [
                   {
                     "text": "Decreases",
@@ -26846,7 +26846,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The phenomenon where certain materials emit electrons when light shines on them is called the:",
+                "question": "The phenomenon where certain materials emit electrons when light shines on them is called the?",
                 "answerOptions": [
                   {
                     "text": "Photoelectric effect",
@@ -26874,7 +26874,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "In quantum mechanics, the principle of wave-particle duality means that:",
+                "question": "In quantum mechanics, the principle of wave-particle duality means that?",
                 "answerOptions": [
                   {
                     "text": "Particles are always waves, and never particles.",
@@ -26937,7 +26937,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The energy of motion is called:",
+                "question": "The energy of motion is called what?",
                 "answerOptions": [
                   {
                     "text": "Potential energy",
@@ -26965,7 +26965,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The law of conservation of energy states that:",
+                "question": "The law of conservation of energy states that?",
                 "answerOptions": [
                   {
                     "text": "Energy can be created from nothing.",
@@ -26993,7 +26993,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Heat transfer through direct contact is known as:",
+                "question": "Heat transfer through direct contact is known as what?",
                 "answerOptions": [
                   {
                     "text": "Conduction",
@@ -27079,7 +27079,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The three common states of matter are:",
+                "question": "The three common states of matter are?",
                 "answerOptions": [
                   {
                     "text": "Solid, liquid, and gas",
@@ -27107,7 +27107,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A substance's ability to be dissolved in another substance is called its:",
+                "question": "A substance's ability to be dissolved in another substance is called its?",
                 "answerOptions": [
                   {
                     "text": "Density",
@@ -27135,7 +27135,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "At the top of a roller coaster hill, a cart has its maximum amount of ________ energy. As it goes down the hill, this energy is converted into ________ energy.",
+                "question": "At the top of a roller coaster hill, a cart has its maximum amount of ________ energy. As it goes down the hill, this energy is converted into ________ energy?",
                 "answerOptions": [
                   {
                     "text": "kinetic; potential",
@@ -27191,7 +27191,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A chemical reaction that absorbs heat from its surroundings is called:",
+                "question": "A chemical reaction that absorbs heat from its surroundings is called what?",
                 "answerOptions": [
                   {
                     "text": "Exothermic",
@@ -27254,7 +27254,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The three fundamental particles that make up an atom are:",
+                "question": "The three fundamental particles that make up an atom are?",
                 "answerOptions": [
                   {
                     "text": "Protons, neutrons, and electrons",
@@ -27282,7 +27282,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A substance that cannot be broken down into simpler substances by chemical means is a(n):",
+                "question": "A substance that cannot be broken down into simpler substances by chemical means is a(n)?",
                 "answerOptions": [
                   {
                     "text": "Compound",
@@ -27310,7 +27310,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The atomic number of an element is determined by the number of:",
+                "question": "The atomic number of an element is determined by the number of?",
                 "answerOptions": [
                   {
                     "text": "Neutrons in its nucleus.",
@@ -27338,7 +27338,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A chemical bond formed by the sharing of electrons between atoms is called a(n):",
+                "question": "A chemical bond formed by the sharing of electrons between atoms is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Ionic bond",
@@ -27452,7 +27452,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A substance that speeds up a chemical reaction without being consumed by the reaction is a(n):",
+                "question": "A substance that speeds up a chemical reaction without being consumed by the reaction is a(n)?",
                 "answerOptions": [
                   {
                     "text": "Catalyst",
@@ -27536,7 +27536,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A homogeneous mixture of two or more substances is called a:",
+                "question": "A homogeneous mixture of two or more substances is called what?",
                 "answerOptions": [
                   {
                     "text": "Suspension",
@@ -27564,7 +27564,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Isotopes are atoms of the same element that have a different number of:",
+                "question": "Isotopes are atoms of the same element that have a different number of?",
                 "answerOptions": [
                   {
                     "text": "Protons",
@@ -27599,7 +27599,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Newton's First Law of Motion is also known as the law of:",
+                "question": "Newton's First Law of Motion is also known as the law of?",
                 "answerOptions": [
                   {
                     "text": "Action-Reaction",
@@ -27769,7 +27769,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Newton's Third Law of Motion states that for every action, there is an equal and opposite...",
+                "question": "Newton's Third Law of Motion states that for every action, there is an equal and opposite..?",
                 "answerOptions": [
                   {
                     "text": "Force",
@@ -27909,7 +27909,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A car suddenly stops, and the passengers lurch forward. This phenomenon is best explained by:",
+                "question": "A car suddenly stops, and the passengers lurch forward. This phenomenon is best explained by?",
                 "answerOptions": [
                   {
                     "text": "Newton's Second Law",
@@ -27944,7 +27944,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The law of conservation of energy states that energy:",
+                "question": "The law of conservation of energy states that energy?",
                 "answerOptions": [
                   {
                     "text": "Can be created but not destroyed.",
@@ -28000,7 +28000,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "When you rub your hands together on a cold day, you are converting:",
+                "question": "When you rub your hands together on a cold day, you are converting?",
                 "answerOptions": [
                   {
                     "text": "Chemical energy to thermal energy.",
@@ -28028,7 +28028,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A solar panel on a roof takes in light energy from the sun and transforms it primarily into:",
+                "question": "A solar panel on a roof takes in light energy from the sun and transforms it primarily into?",
                 "answerOptions": [
                   {
                     "text": "Chemical energy",
@@ -28086,7 +28086,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "medium",
                 "passage": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converted into light. An LED bulb passes electricity through a semiconductor to produce light, a much more direct process.",
-                "question": "The primary unwanted energy transformation in the incandescent light bulb is:",
+                "question": "The primary unwanted energy transformation in the incandescent light bulb is?",
                 "answerOptions": [
                   {
                     "text": "Electrical to light",
@@ -28142,7 +28142,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A ball is held at the top of a hill. This is an example of stored ________ energy.",
+                "question": "A ball is held at the top of a hill. This is an example of stored ________ energy?",
                 "answerOptions": [
                   {
                     "text": "Kinetic",
@@ -28198,7 +28198,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A toaster is designed to convert electrical energy primarily into:",
+                "question": "A toaster is designed to convert electrical energy primarily into?",
                 "answerOptions": [
                   {
                     "text": "Sound energy",
@@ -28254,7 +28254,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "In any energy transformation, the total amount of energy in a closed system:",
+                "question": "In any energy transformation, the total amount of energy in a closed system?",
                 "answerOptions": [
                   {
                     "text": "Increases",
@@ -28317,7 +28317,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "In the chemical equation 2H₂ + O₂ → 2H₂O, the substances on the left side (H₂ and O₂) are called:",
+                "question": "In the chemical equation 2H₂ + O₂ → 2H₂O, the substances on the left side (H₂ and O₂) are called?",
                 "answerOptions": [
                   {
                     "text": "Products",
@@ -28345,7 +28345,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The law of conservation of mass states that in a chemical reaction, mass is:",
+                "question": "The law of conservation of mass states that in a chemical reaction, mass is?",
                 "answerOptions": [
                   {
                     "text": "Lost",
@@ -28373,7 +28373,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A reaction that releases energy, usually in the form of heat, is called:",
+                "question": "A reaction that releases energy, usually in the form of heat, is called what?",
                 "answerOptions": [
                   {
                     "text": "Endothermic",
@@ -28402,7 +28402,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "hard",
                 "passage": "A student adds a white crystalline powder (baking soda) to a clear liquid (vinegar) in a beaker. The mixture immediately begins to bubble and fizz vigorously, and the beaker feels cold to the touch. After a few minutes, the bubbling stops.",
-                "question": "The fact that the beaker feels cold indicates that the reaction is:",
+                "question": "The fact that the beaker feels cold indicates that the reaction is?",
                 "answerOptions": [
                   {
                     "text": "Exothermic, releasing heat.",
@@ -28459,7 +28459,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Rust forming on an iron nail is an example of a chemical change called:",
+                "question": "Rust forming on an iron nail is an example of a chemical change called?",
                 "answerOptions": [
                   {
                     "text": "Combustion",
@@ -28543,7 +28543,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A reaction in which two or more simple substances combine to form a more complex product is a _________ reaction.",
+                "question": "A reaction in which two or more simple substances combine to form a more complex product is a _________ reaction?",
                 "answerOptions": [
                   {
                     "text": "Decomposition",
@@ -28599,7 +28599,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "When an acid and a base react, they typically form:",
+                "question": "When an acid and a base react, they typically form?",
                 "answerOptions": [
                   {
                     "text": "A stronger acid and a stronger base.",
@@ -28634,7 +28634,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A push or a pull on an object is known as a(n):",
+                "question": "A push or a pull on an object is known as a(n)?",
                 "answerOptions": [
                   {
                     "text": "Inertia",
@@ -28662,7 +28662,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Newton's First Law of Motion, the law of inertia, states that an object at rest will stay at rest unless:",
+                "question": "Newton's First Law of Motion, the law of inertia, states that an object at rest will stay at rest unless?",
                 "answerOptions": [
                   {
                     "text": "It is moved by a person.",
@@ -28690,7 +28690,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "According to Newton's Second Law of Motion, if you push two objects with the same force, the object with the lesser mass will:",
+                "question": "According to Newton's Second Law of Motion, if you push two objects with the same force, the object with the lesser mass will do what?",
                 "answerOptions": [
                   {
                     "text": "Accelerate less.",
@@ -28718,7 +28718,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Newton's Third Law of Motion is often stated as: 'For every action, there is an equal and opposite _______.'",
+                "question": "Newton's Third Law of Motion is often stated as: 'For every action, there is an equal and opposite _______.'?",
                 "answerOptions": [
                   {
                     "text": "Force",
@@ -28804,7 +28804,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The force that opposes motion between two surfaces that are in contact is called:",
+                "question": "The force that opposes motion between two surfaces that are in contact is called what?",
                 "answerOptions": [
                   {
                     "text": "Gravity",
@@ -28832,7 +28832,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "An object's speed in a particular direction is called its:",
+                "question": "An object's speed in a particular direction is called its?",
                 "answerOptions": [
                   {
                     "text": "Acceleration",
@@ -28888,7 +28888,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The rate at which an object's velocity changes is called:",
+                "question": "The rate at which an object's velocity changes is called what?",
                 "answerOptions": [
                   {
                     "text": "Speed",
@@ -28916,7 +28916,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The universal force of attraction acting between any two objects with mass is:",
+                "question": "The universal force of attraction acting between any two objects with mass is?",
                 "answerOptions": [
                   {
                     "text": "The strong nuclear force",
@@ -28944,7 +28944,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "If you are in a car that suddenly stops, your body continues to move forward. This is a demonstration of:",
+                "question": "If you are in a car that suddenly stops, your body continues to move forward. This is a demonstration of?",
                 "answerOptions": [
                   {
                     "text": "Newton's Second Law",
@@ -29012,7 +29012,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The process of water vapor turning into liquid water is called:",
+                "question": "The process of water vapor turning into liquid water is called what?",
                 "answerOptions": [
                   {
                     "text": "Evaporation",
@@ -29068,7 +29068,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The layer of the Earth that we live on is called the:",
+                "question": "The layer of the Earth that we live on is called the?",
                 "answerOptions": [
                   {
                     "text": "Core",
@@ -29266,7 +29266,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A lunar eclipse occurs when:",
+                "question": "A lunar eclipse occurs when?",
                 "answerOptions": [
                   {
                     "text": "The Sun passes between the Earth and the Moon.",
@@ -29357,7 +29357,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The movement of weathered rock and soil by wind, water, or ice is called:",
+                "question": "The movement of weathered rock and soil by wind, water, or ice is called what?",
                 "answerOptions": [
                   {
                     "text": "Weathering",
@@ -29471,7 +29471,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "medium",
                 "passage": "A scientist is analyzing climate data for a coastal city. The data table shows the average sea level in the city for the past 50 years. Year 1: 0 cm (baseline). Year 10: +2 cm. Year 20: +5 cm. Year 30: +8 cm. Year 40: +11 cm. Year 50: +15 cm.",
-                "question": "The primary cause of the trend shown in the data is most likely related to:",
+                "question": "The primary cause of the trend shown in the data is most likely related to?",
                 "answerOptions": [
                   {
                     "text": "An increase in the number of earthquakes.",
@@ -29499,7 +29499,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Rock that is formed from the cooling and solidification of magma or lava is called:",
+                "question": "Rock that is formed from the cooling and solidification of magma or lava is called what?",
                 "answerOptions": [
                   {
                     "text": "Sedimentary rock",
@@ -29527,7 +29527,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The boundary where two tectonic plates collide is called a:",
+                "question": "The boundary where two tectonic plates collide is called what?",
                 "answerOptions": [
                   {
                     "text": "Divergent boundary",
@@ -29674,7 +29674,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The layer of gases surrounding the Earth is known as the:",
+                "question": "The layer of gases surrounding the Earth is known as the what?",
                 "answerOptions": [
                   {
                     "text": "Hydrosphere",
@@ -29730,7 +29730,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The large-scale clearing of trees from forests is known as:",
+                "question": "The large-scale clearing of trees from forests is known as what?",
                 "answerOptions": [
                   {
                     "text": "Reforestation",
@@ -29758,7 +29758,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Resources that are consumed much faster than they can be naturally replaced are called:",
+                "question": "Resources that are consumed much faster than they can be naturally replaced are called?",
                 "answerOptions": [
                   {
                     "text": "Renewable resources",
@@ -29844,7 +29844,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The natural process that keeps the Earth warm enough for life to exist is called the:",
+                "question": "The natural process that keeps the Earth warm enough for life to exist is called the?",
                 "answerOptions": [
                   {
                     "text": "Water cycle",
@@ -29872,7 +29872,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The process of eutrophication in a lake is often caused by:",
+                "question": "The process of eutrophication in a lake is often caused by?",
                 "answerOptions": [
                   {
                     "text": "Acid rain.",
@@ -29928,7 +29928,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The term \"biodiversity\" refers to:",
+                "question": "The term \"biodiversity\" refers to what?",
                 "answerOptions": [
                   {
                     "text": "The total number of individual organisms in an ecosystem.",
@@ -30040,7 +30040,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 14,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The concept of a \"carbon footprint\" refers to:",
+                "question": "The concept of a \"carbon footprint\" refers to what?",
                 "answerOptions": [
                   {
                     "text": "The amount of carbon stored in fossil fuels in the ground.",
@@ -30131,7 +30131,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A sudden shaking of the ground caused by the movement of tectonic plates is called:",
+                "question": "A sudden shaking of the ground caused by the movement of tectonic plates is called what?",
                 "answerOptions": [
                   {
                     "text": "A volcano",
@@ -30273,7 +30273,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A light-year is a unit of:",
+                "question": "A light-year is a unit of?",
                 "answerOptions": [
                   {
                     "text": "Time",
@@ -30301,7 +30301,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The \"Ring of Fire\" is an area in the basin of the Pacific Ocean known for a high number of:",
+                "question": "The \"Ring of Fire\" is an area in the basin of the Pacific Ocean known for a high number of?",
                 "answerOptions": [
                   {
                     "text": "Hurricanes and typhoons",
@@ -30448,7 +30448,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The spinning of the Earth on its axis is called:",
+                "question": "The spinning of the Earth on its axis is called what?",
                 "answerOptions": [
                   {
                     "text": "Rotation",
@@ -30476,7 +30476,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A natural satellite that orbits a planet is called a:",
+                "question": "A natural satellite that orbits a planet is called what?",
                 "answerOptions": [
                   {
                     "text": "Star",
@@ -30504,7 +30504,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The continuous movement of water on, above, and below the surface of the Earth is called:",
+                "question": "The continuous movement of water on, above, and below the surface of the Earth is called what?",
                 "answerOptions": [
                   {
                     "text": "The rock cycle",
@@ -30618,7 +30618,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A geologist finds a rock with clear layers of sand, silt, and pebbles. This rock is most likely:",
+                "question": "A geologist finds a rock with clear layers of sand, silt, and pebbles. This rock is most likely?",
                 "answerOptions": [
                   {
                     "text": "Igneous",
@@ -30674,7 +30674,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A solar eclipse occurs when:",
+                "question": "A solar eclipse occurs when?",
                 "answerOptions": [
                   {
                     "text": "The Earth passes between the Sun and the Moon.",
@@ -30702,7 +30702,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The movement of the Earth's tectonic plates is driven by:",
+                "question": "The movement of the Earth's tectonic plates is driven by?",
                 "answerOptions": [
                   {
                     "text": "Convection currents in the mantle.",
@@ -30770,7 +30770,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "In a scientific experiment, the factor that is deliberately changed or manipulated by the researcher is called the:",
+                "question": "In a scientific experiment, the factor that is deliberately changed or manipulated by the researcher is called the?",
                 "answerOptions": [
                   {
                     "text": "Control group",
@@ -30826,7 +30826,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A proposed explanation for a phenomenon that can be tested through experimentation is called a:",
+                "question": "A proposed explanation for a phenomenon that can be tested through experimentation is called what?",
                 "answerOptions": [
                   {
                     "text": "Theory",
@@ -30854,7 +30854,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "In an experiment, the group that does not receive the experimental treatment and is used for comparison is called the:",
+                "question": "In an experiment, the group that does not receive the experimental treatment and is used for comparison is called the?",
                 "answerOptions": [
                   {
                     "text": "Experimental group",
@@ -31145,7 +31145,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "When a scientist repeats an experiment conducted by another scientist to verify the results, it is called:",
+                "question": "When a scientist repeats an experiment conducted by another scientist to verify the results, it is called what?",
                 "answerOptions": [
                   {
                     "text": "Replication",
@@ -31201,7 +31201,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The final step in the scientific method is often to:",
+                "question": "The final step in the scientific method is often to?",
                 "answerOptions": [
                   {
                     "text": "Ask a question.",
@@ -31400,7 +31400,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "In order for a scientific theory to be valid, it must be:",
+                "question": "In order for a scientific theory to be valid, it must be?",
                 "answerOptions": [
                   {
                     "text": "Proven to be 100% correct without any doubt.",
@@ -31491,7 +31491,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "In order for a scientific hypothesis to be valid, it must be:",
+                "question": "In order for a scientific hypothesis to be valid, it must be?",
                 "answerOptions": [
                   {
                     "text": "Complex",
@@ -31717,7 +31717,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "An inference is:",
+                "question": "An inference is?",
                 "answerOptions": [
                   {
                     "text": "A direct observation made using the five senses.",
@@ -31773,7 +31773,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A scientific model (like a model of the solar system or an atom) is useful because it can:",
+                "question": "A scientific model (like a model of the solar system or an atom) is useful because it can?",
                 "answerOptions": [
                   {
                     "text": "Perfectly represent every detail of the real object or system.",
@@ -31801,7 +31801,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A scientist is measuring the temperature of a liquid. The thermometer is not calibrated correctly and consistently reads 2°C higher than the actual temperature. This type of error is called:",
+                "question": "A scientist is measuring the temperature of a liquid. The thermometer is not calibrated correctly and consistently reads 2°C higher than the actual temperature. This type of error is called what?",
                 "answerOptions": [
                   {
                     "text": "Human error",
@@ -31948,7 +31948,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A scientific theory is:",
+                "question": "A scientific theory is?",
                 "answerOptions": [
                   {
                     "text": "A wild guess or an opinion.",
@@ -32090,7 +32090,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "An unproven statement that is temporarily accepted as the basis for further investigation is a(n):",
+                "question": "An unproven statement that is temporarily accepted as the basis for further investigation is a(n)?",
                 "answerOptions": [
                   {
                     "text": "Law",
@@ -32174,7 +32174,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "When drawing a line of best fit on a scatter plot, the line should:",
+                "question": "When drawing a line of best fit on a scatter plot, the line should?",
                 "answerOptions": [
                   {
                     "text": "Connect all the data points in order.",
@@ -32293,7 +32293,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "An educated guess that can be tested through an experiment is known as a(n):",
+                "question": "An educated guess that can be tested through an experiment is known as a(n)?",
                 "answerOptions": [
                   {
                     "text": "Observation",
@@ -32435,7 +32435,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "An explanation for a natural phenomenon that is supported by a vast body of evidence is called a:",
+                "question": "An explanation for a natural phenomenon that is supported by a vast body of evidence is called what?",
                 "answerOptions": [
                   {
                     "text": "Hypothesis",
@@ -32587,7 +32587,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The process by which rocks are broken down into smaller pieces by wind, water, or ice is called:",
+                "question": "The process by which rocks are broken down into smaller pieces by wind, water, or ice is called what?",
                 "answerOptions": [
                   {
                     "text": "Erosion",
@@ -32757,7 +32757,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Granite, an igneous rock with large crystals, is most likely formed from:",
+                "question": "Granite, an igneous rock with large crystals, is most likely formed from?",
                 "answerOptions": [
                   {
                     "text": "Magma that cooled slowly beneath the Earth's surface.",
@@ -32932,7 +32932,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The geological principle of superposition states that in an undisturbed sequence of rock layers:",
+                "question": "The geological principle of superposition states that in an undisturbed sequence of rock layers?",
                 "answerOptions": [
                   {
                     "text": "The oldest layers are at the top.",
@@ -32960,7 +32960,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Radiometric dating is a technique used to determine the absolute age of a rock or fossil by measuring the:",
+                "question": "Radiometric dating is a technique used to determine the absolute age of a rock or fossil by measuring the?",
                 "answerOptions": [
                   {
                     "text": "Ratio of a radioactive isotope to its stable decay product.",
@@ -32988,7 +32988,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The half-life of a radioactive isotope is the amount of time it takes for:",
+                "question": "The half-life of a radioactive isotope is the amount of time it takes for?",
                 "answerOptions": [
                   {
                     "text": "All of the isotope to decay.",
@@ -33102,7 +33102,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The theory that the Earth's continents have moved over geologic time relative to each other is known as:",
+                "question": "The theory that the Earth's continents have moved over geologic time relative to each other is known as what?",
                 "answerOptions": [
                   {
                     "text": "Continental drift",
@@ -33130,7 +33130,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A mass extinction is an event in which:",
+                "question": "A mass extinction is an event in which?",
                 "answerOptions": [
                   {
                     "text": "A single species becomes extinct.",
@@ -33186,7 +33186,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The age of the Earth is estimated to be approximately:",
+                "question": "The age of the Earth is estimated to be approximately?",
                 "answerOptions": [
                   {
                     "text": "6,000 years old",
@@ -33277,7 +33277,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The difference between weather and climate is that:",
+                "question": "The difference between weather and climate is that?",
                 "answerOptions": [
                   {
                     "text": "Weather is the condition of the atmosphere over a short period of time, while climate is the average weather over a long period of time.",
@@ -33333,7 +33333,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A large body of air with relatively uniform temperature and humidity is called a(n):",
+                "question": "A large body of air with relatively uniform temperature and humidity is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Front",
@@ -33419,7 +33419,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The process by which water vapor in the air is changed into liquid water is called:",
+                "question": "The process by which water vapor in the air is changed into liquid water is called what?",
                 "answerOptions": [
                   {
                     "text": "Evaporation",
@@ -33475,7 +33475,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Coastal regions tend to have more moderate climates than inland areas at the same latitude. This is primarily because:",
+                "question": "Coastal regions tend to have more moderate climates than inland areas at the same latitude. This is primarily because?",
                 "answerOptions": [
                   {
                     "text": "The soil near the coast is different.",
@@ -33622,7 +33622,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The long-term average of weather conditions in a region is known as its:",
+                "question": "The long-term average of weather conditions in a region is known as its?",
                 "answerOptions": [
                   {
                     "text": "Forecast",
@@ -33678,7 +33678,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A large body of air with relatively uniform temperature and humidity is called a(n):",
+                "question": "A large body of air with relatively uniform temperature and humidity is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Front",
@@ -33820,7 +33820,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Earth's seasons are caused by:",
+                "question": "Earth's seasons are caused by?",
                 "answerOptions": [
                   {
                     "text": "The changing distance between the Earth and the Sun.",
@@ -33848,7 +33848,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The process by which water vapor in the air turns into liquid water is called:",
+                "question": "The process by which water vapor in the air turns into liquid water is called what?",
                 "answerOptions": [
                   {
                     "text": "Evaporation",
@@ -33939,7 +33939,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "All the living and nonliving things interacting in a particular area form a(n):",
+                "question": "All the living and nonliving things interacting in a particular area form a(n)?",
                 "answerOptions": [
                   {
                     "text": "Population",
@@ -33967,7 +33967,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Organisms that make their own food, usually through photosynthesis, are called:",
+                "question": "Organisms that make their own food, usually through photosynthesis, are called?",
                 "answerOptions": [
                   {
                     "text": "Consumers",
@@ -34023,7 +34023,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The nonliving components of an ecosystem, such as sunlight, temperature, and water, are called:",
+                "question": "The nonliving components of an ecosystem, such as sunlight, temperature, and water, are called?",
                 "answerOptions": [
                   {
                     "text": "Biotic factors",
@@ -34052,7 +34052,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "hard",
                 "passage": "In a forest ecosystem, wolves were hunted to extinction. This led to a dramatic increase in the deer population. The large number of deer overgrazed the vegetation, eating most of the young saplings. This lack of young trees caused a decline in the population of songbirds that nested in them.",
-                "question": "This passage is an example of:",
+                "question": "This passage is an example of?",
                 "answerOptions": [
                   {
                     "text": "A stable ecosystem in equilibrium.",
@@ -34109,7 +34109,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The process by which bacteria and fungi break down dead organisms and return nutrients to the soil is called:",
+                "question": "The process by which bacteria and fungi break down dead organisms and return nutrients to the soil is called what?",
                 "answerOptions": [
                   {
                     "text": "Photosynthesis",
@@ -34137,7 +34137,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A relationship between two species where one benefits and the other is neither harmed nor helped is called:",
+                "question": "A relationship between two species where one benefits and the other is neither harmed nor helped is called what?",
                 "answerOptions": [
                   {
                     "text": "Mutualism",
@@ -34193,7 +34193,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The natural home or environment of an animal, plant, or other organism is its:",
+                "question": "The natural home or environment of an animal, plant, or other organism is its?",
                 "answerOptions": [
                   {
                     "text": "Niche",
@@ -34249,7 +34249,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Competition is most intense between:",
+                "question": "Competition is most intense between?",
                 "answerOptions": [
                   {
                     "text": "Two different species in different ecosystems.",
@@ -34317,7 +34317,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A testable prediction or proposed explanation for an observation is a(n):",
+                "question": "A testable prediction or proposed explanation for an observation is a(n)?",
                 "answerOptions": [
                   {
                     "text": "Theory",
@@ -34345,7 +34345,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "In a controlled experiment, the factor that the scientist intentionally changes or manipulates is called the:",
+                "question": "In a controlled experiment, the factor that the scientist intentionally changes or manipulates is called the?",
                 "answerOptions": [
                   {
                     "text": "Dependent variable",
@@ -34373,7 +34373,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The group in an experiment that does not receive the experimental treatment and is used as a baseline for comparison is the:",
+                "question": "The group in an experiment that does not receive the experimental treatment and is used as a baseline for comparison is the?",
                 "answerOptions": [
                   {
                     "text": "Experimental group",
@@ -34459,7 +34459,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "After conducting an experiment and analyzing the data, a scientist will form a(n):",
+                "question": "After conducting an experiment and analyzing the data, a scientist will form a(n)?",
                 "answerOptions": [
                   {
                     "text": "Hypothesis",
@@ -34487,7 +34487,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A scientific theory is:",
+                "question": "A scientific theory is?",
                 "answerOptions": [
                   {
                     "text": "A guess or a hunch with little evidence.",
@@ -34571,7 +34571,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Information gathered during an experiment is called:",
+                "question": "Information gathered during an experiment is called what?",
                 "answerOptions": [
                   {
                     "text": "Data",
@@ -34599,7 +34599,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A logical interpretation of an observation based on prior knowledge and experience is a(n):",
+                "question": "A logical interpretation of an observation based on prior knowledge and experience is a(n)?",
                 "answerOptions": [
                   {
                     "text": "Observation",
@@ -34662,7 +34662,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A hypothesis is best described as a(n):",
+                "question": "A hypothesis is best described as a(n)?",
                 "answerOptions": [
                   {
                     "text": "Proven fact.",
@@ -34718,7 +34718,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The variable that is changed or manipulated by the researcher in an experiment is called the:",
+                "question": "The variable that is changed or manipulated by the researcher in an experiment is called the?",
                 "answerOptions": [
                   {
                     "text": "Dependent variable.",
@@ -34861,7 +34861,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A scientific theory is different from a hypothesis because a theory is:",
+                "question": "A scientific theory is different from a hypothesis because a theory is?",
                 "answerOptions": [
                   {
                     "text": "An educated guess.",
@@ -34980,7 +34980,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A clear, testable statement that predicts the outcome of an experiment is a(n):",
+                "question": "A clear, testable statement that predicts the outcome of an experiment is a(n)?",
                 "answerOptions": [
                   {
                     "text": "Observation",
@@ -35008,7 +35008,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "In an experiment, the factor that a scientist observes or measures to see if it is affected by a change is the:",
+                "question": "In an experiment, the factor that a scientist observes or measures to see if it is affected by a change is the?",
                 "answerOptions": [
                   {
                     "text": "Independent variable",
@@ -35064,7 +35064,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The group in an experiment that does not receive the experimental treatment and is used as a standard for comparison is called the:",
+                "question": "The group in an experiment that does not receive the experimental treatment and is used as a standard for comparison is called the?",
                 "answerOptions": [
                   {
                     "text": "Experimental group",
@@ -35150,7 +35150,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Data that is descriptive and non-numerical (e.g., color, texture) is known as:",
+                "question": "Data that is descriptive and non-numerical (e.g., color, texture) is known as what?",
                 "answerOptions": [
                   {
                     "text": "Quantitative data",
@@ -35234,7 +35234,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A scientific conclusion should be based on:",
+                "question": "A scientific conclusion should be based on?",
                 "answerOptions": [
                   {
                     "text": "The scientist's personal opinion or belief.",
@@ -35497,7 +35497,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A statement that summarizes the results of an experiment and states whether the hypothesis was supported is a(n):",
+                "question": "A statement that summarizes the results of an experiment and states whether the hypothesis was supported is a(n)?",
                 "answerOptions": [
                   {
                     "text": "Question",
@@ -35553,7 +35553,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Making a prediction about a data point that lies between existing, measured data points is called:",
+                "question": "Making a prediction about a data point that lies between existing, measured data points is called what?",
                 "answerOptions": [
                   {
                     "text": "Extrapolation",
@@ -35609,7 +35609,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "An unexpected result or a data point that lies far outside the main trend of the data is called a(n):",
+                "question": "An unexpected result or a data point that lies far outside the main trend of the data is called a(n)?",
                 "answerOptions": [
                   {
                     "text": "Variable",
@@ -35682,7 +35682,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The first ten amendments to the U.S. Constitution are known as...",
+                "question": "The first ten amendments to the U.S. Constitution are known as..?",
                 "answerOptions": [
                   {
                     "text": "The Articles of Confederation",
@@ -35825,7 +35825,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "medium",
                 "passage": "The Fifth Amendment provides several protections for individuals accused of a crime. One of these is the protection against self-incrimination, which means that a person cannot be forced to testify against themselves.",
-                "question": "The right to 'plead the fifth' refers to the right to...",
+                "question": "The right to 'plead the fifth' refers to the right to..?",
                 "answerOptions": [
                   {
                     "text": "Demand a speedy trial.",
@@ -35938,7 +35938,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The concept of 'double jeopardy,' found in the Fifth Amendment, means that a person cannot be...",
+                "question": "The concept of 'double jeopardy,' found in the Fifth Amendment, means that a person cannot be..?",
                 "answerOptions": [
                   {
                     "text": "Tried twice for the same crime.",
@@ -35994,7 +35994,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The principle of 'eminent domain,' also found in the Fifth Amendment, allows the government to take private property for public use, but only if it provides...",
+                "question": "The principle of 'eminent domain,' also found in the Fifth Amendment, allows the government to take private property for public use, but only if it provides..?",
                 "answerOptions": [
                   {
                     "text": "A written apology to the owner.",
@@ -36115,7 +36115,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The process by which a person not born in the United States voluntarily becomes a U.S. citizen is called...",
+                "question": "The process by which a person not born in the United States voluntarily becomes a U.S. citizen is called..?",
                 "answerOptions": [
                   {
                     "text": "Naturalization",
@@ -36143,7 +36143,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 5,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The Fourth Amendment to the Constitution protects citizens from...",
+                "question": "The Fourth Amendment to the Constitution protects citizens from..?",
                 "answerOptions": [
                   {
                     "text": "Cruel and unusual punishment.",
@@ -36200,7 +36200,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The 'due process of law,' guaranteed by the Fifth and Fourteenth Amendments, ensures that...",
+                "question": "The 'due process of law,' guaranteed by the Fifth and Fourteenth Amendments, ensures that..?",
                 "answerOptions": [
                   {
                     "text": "A person can be imprisoned without a trial.",
@@ -36433,7 +36433,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "In the United States, a presidential election is held every...",
+                "question": "In the United States, a presidential election is held every..?",
                 "answerOptions": [
                   {
                     "text": "Two years",
@@ -36602,7 +36602,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A 'Political Action Committee' (PAC) is an organization that...",
+                "question": "A 'Political Action Committee' (PAC) is an organization that..?",
                 "answerOptions": [
                   {
                     "text": "Is an official part of a political party.",
@@ -36686,7 +36686,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A 'swing state' or 'battleground state' in a presidential election is a state where...",
+                "question": "A 'swing state' or 'battleground state' in a presidential election is a state where..?",
                 "answerOptions": [
                   {
                     "text": "The state always votes for the Republican candidate.",
@@ -36721,7 +36721,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The division of power between a central national government and smaller state governments is known as...",
+                "question": "The division of power between a central national government and smaller state governments is known as..?",
                 "answerOptions": [
                   {
                     "text": "Separation of powers",
@@ -36835,7 +36835,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 5,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A 'concurrent power' is a power that is...",
+                "question": "A 'concurrent power' is a power that is..?",
                 "answerOptions": [
                   {
                     "text": "Exercised only by the federal government.",
@@ -36921,7 +36921,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The primary weakness of the Articles of Confederation, the first government of the United States, was that...",
+                "question": "The primary weakness of the Articles of Confederation, the first government of the United States, was that..?",
                 "answerOptions": [
                   {
                     "text": "It gave too much power to the national government.",
@@ -36949,7 +36949,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The Supreme Court case McCulloch v. Maryland (1819) was significant because it...",
+                "question": "The Supreme Court case McCulloch v. Maryland (1819) was significant because it..?",
                 "answerOptions": [
                   {
                     "text": "Limited the power of the federal government to regulate the economy.",
@@ -37237,7 +37237,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The power to impeach the President or a federal judge belongs to...",
+                "question": "The power to impeach the President or a federal judge belongs to..?",
                 "answerOptions": [
                   {
                     "text": "The Supreme Court",
@@ -37526,7 +37526,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 5,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "An 'executive order' is a directive issued by the President that manages operations of the federal government. Executive orders have the force of law but do not require the approval of...",
+                "question": "An 'executive order' is a directive issued by the President that manages operations of the federal government. Executive orders have the force of law but do not require the approval of..?",
                 "answerOptions": [
                   {
                     "text": "The President's Cabinet.",
@@ -37639,7 +37639,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The process of 'gerrymandering' refers to...",
+                "question": "The process of 'gerrymandering' refers to..?",
                 "answerOptions": [
                   {
                     "text": "The way political parties select their presidential candidates.",
@@ -37668,7 +37668,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "hard",
                 "passage": "Public policy can be influenced by many factors. A major economic recession might lead to new government programs. A grassroots movement of citizens could pressure lawmakers to change a law. A landmark Supreme Court decision can reshape policy overnight.",
-                "question": "The passage suggests that the creation of public policy is...",
+                "question": "The passage suggests that the creation of public policy is..?",
                 "answerOptions": [
                   {
                     "text": "A simple, straightforward process controlled by one person.",
@@ -37845,7 +37845,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 4,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The President's power to veto a bill passed by Congress is an example of...",
+                "question": "The President's power to veto a bill passed by Congress is an example of..?",
                 "answerOptions": [
                   {
                     "text": "Checks and balances.",
@@ -38135,7 +38135,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The 1954 case of Brown v. Board of Education of Topeka is a landmark decision because it...",
+                "question": "The 1954 case of Brown v. Board of Education of Topeka is a landmark decision because it..?",
                 "answerOptions": [
                   {
                     "text": "Legalized segregation in public facilities.",
@@ -38220,7 +38220,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 5,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The Supreme Court's decision in Tinker v. Des Moines (1969), which involved students wearing black armbands to protest the Vietnam War, affirmed that...",
+                "question": "The Supreme Court's decision in Tinker v. Des Moines (1969), which involved students wearing black armbands to protest the Vietnam War, affirmed that..?",
                 "answerOptions": [
                   {
                     "text": "Schools can ban any form of student expression they disagree with.",
@@ -38276,7 +38276,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The case of McCulloch v. Maryland (1819) was important because it dealt with the relationship between federal and state power. The Court's decision...",
+                "question": "The case of McCulloch v. Maryland (1819) was important because it dealt with the relationship between federal and state power. The Court's decision..?",
                 "answerOptions": [
                   {
                     "text": "Greatly limited the power of the federal government.",
@@ -38486,7 +38486,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The landmark Civil Rights Act of 1964 sought to...",
+                "question": "The landmark Civil Rights Act of 1964 sought to..?",
                 "answerOptions": [
                   {
                     "text": "Guarantee the right to vote for all citizens.",
@@ -38514,7 +38514,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Cesar Chavez was a prominent figure in the mid-20th century who worked to improve the lives of...",
+                "question": "Cesar Chavez was a prominent figure in the mid-20th century who worked to improve the lives of..?",
                 "answerOptions": [
                   {
                     "text": "Factory workers in northern cities.",
@@ -38713,7 +38713,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The term 'Reaganomics' refers to the economic policies of President Ronald Reagan in the 1980s. A central pillar of these policies was...",
+                "question": "The term 'Reaganomics' refers to the economic policies of President Ronald Reagan in the 1980s. A central pillar of these policies was..?",
                 "answerOptions": [
                   {
                     "text": "Increasing government spending on social programs.",
@@ -38918,7 +38918,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 5,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The purpose of the march from Selma to Montgomery in 1965 was to campaign for...",
+                "question": "The purpose of the march from Selma to Montgomery in 1965 was to campaign for..?",
                 "answerOptions": [
                   {
                     "text": "Desegregation of schools.",
@@ -39003,7 +39003,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The 'Little Rock Nine' were a group of African American students who faced intense opposition when they...",
+                "question": "The 'Little Rock Nine' were a group of African American students who faced intense opposition when they..?",
                 "answerOptions": [
                   {
                     "text": "Organized a sit-in at a Woolworth's lunch counter.",
@@ -39088,7 +39088,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The March on Washington for Jobs and Freedom in 1963 is most famous for...",
+                "question": "The March on Washington for Jobs and Freedom in 1963 is most famous for..?",
                 "answerOptions": [
                   {
                     "text": "The bombing of the 16th Street Baptist Church.",
@@ -39297,7 +39297,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 6,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The New York City draft riots in 1863 were primarily a protest against...",
+                "question": "The New York City draft riots in 1863 were primarily a protest against..?",
                 "answerOptions": [
                   {
                     "text": "The Emancipation Proclamation.",
@@ -39439,7 +39439,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "General William T. Sherman's 'March to the Sea' was an example of...",
+                "question": "General William T. Sherman's 'March to the Sea' was an example of..?",
                 "answerOptions": [
                   {
                     "text": "A diplomatic mission to negotiate peace.",
@@ -39673,7 +39673,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "medium",
                 "passage": "The 'Black Codes' were restrictive laws passed by Southern states immediately after the Civil War. These laws were designed to restrict the freedom of African Americans and ensure their availability as a cheap labor force after slavery was abolished.",
-                "question": "The passage suggests that the Black Codes were an attempt to...",
+                "question": "The passage suggests that the Black Codes were an attempt to..?",
                 "answerOptions": [
                   {
                     "text": "Provide economic opportunities for African Americans.",
@@ -40028,7 +40028,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The Great Awakening was a period of...",
+                "question": "The Great Awakening was a period of..?",
                 "answerOptions": [
                   {
                     "text": "Increased interest in science and reason.",
@@ -40172,7 +40172,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Bacon's Rebellion in 1676 was a conflict primarily between...",
+                "question": "Bacon's Rebellion in 1676 was a conflict primarily between..?",
                 "answerOptions": [
                   {
                     "text": "American colonists and the French.",
@@ -40559,7 +40559,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 1,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "In economics, 'supply' refers to...",
+                "question": "In economics, 'supply' refers to..?",
                 "answerOptions": [
                   {
                     "text": "The amount of a product that consumers want to buy.",
@@ -40616,7 +40616,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A person who is actively looking for a job but is not currently employed is considered...",
+                "question": "A person who is actively looking for a job but is not currently employed is considered..?",
                 "answerOptions": [
                   {
                     "text": "Employed",
@@ -40729,7 +40729,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "A progressive tax system is one in which...",
+                "question": "A progressive tax system is one in which..?",
                 "answerOptions": [
                   {
                     "text": "Everyone pays the same percentage of their income in taxes.",
@@ -40844,7 +40844,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "A tariff is a tax on...",
+                "question": "A tariff is a tax on..?",
                 "answerOptions": [
                   {
                     "text": "Property",
@@ -40943,7 +40943,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "easy",
                 "passage": "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.",
-                "question": "The concept of 'unalienable Rights' means that these rights...",
+                "question": "The concept of 'unalienable Rights' means that these rights..?",
                 "answerOptions": [
                   {
                     "text": "Are granted by the government and can be taken away.",
@@ -40994,7 +40994,8 @@ window.ExpandedQuizData = {
                     "rationale": "While it could be official if published by a government body, its nature as an analysis of past events makes it a secondary source.",
                     "isCorrect": false
                   }
-                ]
+                ],
+                "question": "Select the best answer."
               },
               {
                 "questionNumber": 4,
@@ -41179,7 +41180,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 10,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "A political cartoon showing a politician being pulled in two different directions by a donkey and an elephant is most likely commenting on...",
+                "question": "A political cartoon showing a politician being pulled in two different directions by a donkey and an elephant is most likely commenting on..?",
                 "answerOptions": [
                   {
                     "text": "The politician's love for animals.",
@@ -41306,7 +41307,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 2,
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "The California Gold Rush in 1849 led to...",
+                "question": "The California Gold Rush in 1849 led to..?",
                 "answerOptions": [
                   {
                     "text": "A decrease in the population of California.",
@@ -41363,7 +41364,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "medium",
                 "passage": "The period from the 1870s to the early 1900s is often called the 'Gilded Age.' This era was characterized by rapid industrialization, the growth of large corporations, and a significant gap between the very wealthy and the working class.",
-                "question": "The term 'Gilded Age' suggests that this period was marked by...",
+                "question": "The term 'Gilded Age' suggests that this period was marked by..?",
                 "answerOptions": [
                   {
                     "text": "Widespread economic equality.",
@@ -41449,7 +41450,7 @@ window.ExpandedQuizData = {
                 "type": "multipleChoice",
                 "difficulty": "hard",
                 "passage": "The Battle of the Little Bighorn in 1876 was a significant event in the Great Sioux War. In this battle, Lakota Sioux and Cheyenne warriors defeated a U.S. Army force led by Lieutenant Colonel George Custer.",
-                "question": "From the perspective of the U.S. government, the Battle of the Little Bighorn was a disaster. From the perspective of the Lakota and Cheyenne, it was...",
+                "question": "From the perspective of the U.S. government, the Battle of the Little Bighorn was a disaster. From the perspective of the Lakota and Cheyenne, it was..?",
                 "answerOptions": [
                   {
                     "text": "A minor skirmish with no real significance.",
@@ -41477,7 +41478,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The term 'robber baron' was used in the late 19th century to describe industrialists and financiers who...",
+                "question": "The term 'robber baron' was used in the late 19th century to describe industrialists and financiers who..?",
                 "answerOptions": [
                   {
                     "text": "Donated most of their wealth to charitable causes.",
@@ -41505,7 +41506,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Frederick Jackson Turner's 'Frontier Thesis' argued that...",
+                "question": "Frederick Jackson Turner's 'Frontier Thesis' argued that..?",
                 "answerOptions": [
                   {
                     "text": "The American frontier was a myth that never existed.",
@@ -41561,7 +41562,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The rise of labor unions in the late 19th century was primarily a response to...",
+                "question": "The rise of labor unions in the late 19th century was primarily a response to..?",
                 "answerOptions": [
                   {
                     "text": "A shortage of workers.",
@@ -41589,7 +41590,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The Populist Party in the 1890s was a political movement that primarily represented the interests of...",
+                "question": "The Populist Party in the 1890s was a political movement that primarily represented the interests of..?",
                 "answerOptions": [
                   {
                     "text": "East Coast bankers and financiers.",
@@ -41768,7 +41769,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 6,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The Oregon Trail was primarily used by...",
+                "question": "The Oregon Trail was primarily used by..?",
                 "answerOptions": [
                   {
                     "text": "Gold prospectors heading to California.",
@@ -41824,7 +41825,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 8,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The Industrial Revolution in the United States was characterized by...",
+                "question": "The Industrial Revolution in the United States was characterized by..?",
                 "answerOptions": [
                   {
                     "text": "A decrease in the population of cities.",
@@ -41852,7 +41853,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 9,
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "The 'Lowell System' in the early 19th century was a labor and production model that primarily employed...",
+                "question": "The 'Lowell System' in the early 19th century was a labor and production model that primarily employed..?",
                 "answerOptions": [
                   {
                     "text": "Enslaved Africans",
@@ -41938,7 +41939,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "The concept of 'nullification,' famously advocated by John C. Calhoun of South Carolina, is the idea that...",
+                "question": "The concept of 'nullification,' famously advocated by John C. Calhoun of South Carolina, is the idea that..?",
                 "answerOptions": [
                   {
                     "text": "The Supreme Court has the final say on all laws.",
@@ -44744,7 +44745,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence provides the most effective revision for clarity and correctness? Original: 'The company's goal, it is to increase profits, and also improving customer satisfaction.'",
+                "question": "Which sentence provides the most effective revision for clarity and correctness? Original: 'The company's goal, it is to increase profits, and also improving customer satisfaction.'?",
                 "answerOptions": [
                   {
                     "text": "The company's goal is to increase profits and to also improve customer satisfaction.",
@@ -45059,7 +45060,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 6,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence provides the most effective revision for conciseness? 'It is absolutely essential that all employees be on time for the mandatory meeting.'",
+                "question": "Which sentence provides the most effective revision for conciseness? 'It is absolutely essential that all employees be on time for the mandatory meeting.'?",
                 "answerOptions": [
                   {
                     "text": "All employees must be on time for the meeting.",
@@ -45087,7 +45088,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 7,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence correctly combines the following two ideas? 'The company's profits have declined. The company must implement a new marketing strategy.'",
+                "question": "Which sentence correctly combines the following two ideas? 'The company's profits have declined. The company must implement a new marketing strategy.'?",
                 "answerOptions": [
                   {
                     "text": "The company's profits have declined, it must implement a new marketing strategy.",
@@ -45227,7 +45228,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 12,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence correctly combines these two ideas with the most sophisticated structure? 'The city is facing a budget crisis. Many public services may be cut.'",
+                "question": "Which sentence correctly combines these two ideas with the most sophisticated structure? 'The city is facing a budget crisis. Many public services may be cut.'?",
                 "answerOptions": [
                   {
                     "text": "The city is facing a budget crisis, so many public services may be cut.",
@@ -45402,7 +45403,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 6,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence provides the most effective revision for clarity? Original: 'The reason for the delay is because the train had mechanical problems.'",
+                "question": "Which sentence provides the most effective revision for clarity? Original: 'The reason for the delay is because the train had mechanical problems.'?",
                 "answerOptions": [
                   {
                     "text": "The reason for the delay is because of mechanical problems with the train.",
@@ -45542,7 +45543,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 11,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence provides the best revision for clarity? 'The car was being driven by a man with a broken headlight.'",
+                "question": "Which sentence provides the best revision for clarity? 'The car was being driven by a man with a broken headlight.'?",
                 "answerOptions": [
                   {
                     "text": "The car with a broken headlight was being driven by a man.",
@@ -45717,7 +45718,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 5,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence provides the best revision for clarity and conciseness? 'The fact of the matter is that the new software is not easy to use for our employees.'",
+                "question": "Which sentence provides the best revision for clarity and conciseness? 'The fact of the matter is that the new software is not easy to use for our employees.'?",
                 "answerOptions": [
                   {
                     "text": "The new software is not easy for our employees to use.",
@@ -45976,7 +45977,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 5,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence provides the most effective revision for clarity and conciseness? 'It is my hope that I will be able to attend the conference that is being held in Boston.'",
+                "question": "Which sentence provides the most effective revision for clarity and conciseness? 'It is my hope that I will be able to attend the conference that is being held in Boston.'?",
                 "answerOptions": [
                   {
                     "text": "I hope to attend the conference in Boston.",
@@ -46004,7 +46005,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 6,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence correctly places the modifier? Original: 'The waiter served a steak to the customer that was cooked medium-rare.'",
+                "question": "Which sentence correctly places the modifier? Original: 'The waiter served a steak to the customer that was cooked medium-rare.'?",
                 "answerOptions": [
                   {
                     "text": "The waiter served a steak to the customer that was cooked medium-rare.",
@@ -46620,7 +46621,7 @@ window.ExpandedQuizData = {
                 "questionNumber": 3,
                 "type": "multipleChoice",
                 "difficulty": "hard",
-                "question": "Which sentence provides the most effective revision for clarity and conciseness? 'The decision that was made by the committee was to postpone the meeting.'",
+                "question": "Which sentence provides the most effective revision for clarity and conciseness? 'The decision that was made by the committee was to postpone the meeting.'?",
                 "answerOptions": [
                   {
                     "text": "The committee made a decision, and it was to postpone the meeting.",
