@@ -13248,7 +13248,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         );
     };
 
-    // View 3: Topic Selection
+    // View 3: Topic Selection (with Category Sets)
     if (selectedSubject && selectedCategory) {
     const [variantExpanded, setVariantExpanded] = React.useState({});
     const rawTopics = AppData[selectedSubject].categories[selectedCategory].topics || [];
@@ -13289,6 +13289,66 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 color: heroAccentColor,
                 border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)'}`,
             };
+        // Read category-level sets (grouped in 3s) if present
+        const categoryObj = AppData[selectedSubject].categories[selectedCategory] || {};
+        const categorySetsMap = (categoryObj && categoryObj.sets) ? categoryObj.sets : {};
+        const orderedSetNames = Object.keys(categorySetsMap).sort((a, b) => {
+            const na = parseInt(String(a).replace(/\D+/g, ''), 10) || 0;
+            const nb = parseInt(String(b).replace(/\D+/g, ''), 10) || 0;
+            return na - nb;
+        });
+
+        const launchCategorySet = (setName) => {
+            if (typeof onSelectQuiz !== 'function') return;
+            const quizzes = Array.isArray(categorySetsMap[setName]) ? categorySetsMap[setName] : [];
+            if (!quizzes.length) return;
+
+            const subjectName = selectedSubject;
+            // Combine questions from each quiz in the set, normalizing assets and renumbering
+            const combinedQuestions = [];
+            quizzes.forEach((quiz) => {
+                if (!quiz || typeof quiz !== 'object') return;
+                const sourceTopic = quiz.questionSourceTopicId ? getTopicById(subjectName, quiz.questionSourceTopicId) : null;
+                const resolved = Array.isArray(quiz.questions) && quiz.questions.length
+                    ? quiz.questions
+                    : resolveQuizQuestions(subjectName, sourceTopic, quiz);
+                (resolved || []).forEach((q) => {
+                    const withNum = q && typeof q === 'object' ? { ...q } : q;
+                    combinedQuestions.push(normalizeQuestionAssets(withNum, subjectName));
+                });
+            });
+            // Ensure sequential numbering and a reasonable minimum length
+            const prepared = { questions: combinedQuestions.map((q, i) => (
+                q && typeof q === 'object' ? { ...q, questionNumber: q.questionNumber ?? (i + 1) } : q
+            )) };
+            ensureMinQuestions(prepared, subjectName, 12);
+
+            const setIndex = orderedSetNames.findIndex((n) => n === setName);
+            const setNumber = setIndex >= 0 ? (setIndex + 1) : 1;
+            const title = `${selectedSubject} — ${selectedCategory} Set ${setNumber}`;
+            const subjectSlug = sanitizeCodeSegment(selectedSubject, 'subject');
+            const categorySlug = sanitizeCodeSegment(selectedCategory, 'category');
+            const quizCode = [subjectSlug, categorySlug, `set-${setNumber}`].join('__');
+
+            const preparedQuiz = {
+                id: quizCode,
+                quizCode,
+                title,
+                topicId: null,
+                topicTitle: selectedCategory,
+                canonicalTopicTitle: selectedCategory,
+                description: `${selectedCategory} practice — combined set of 3 quizzes`,
+                type: 'quiz',
+                questions: prepared.questions,
+            };
+
+            if (!preparedQuiz.questions || !preparedQuiz.questions.length) {
+                alert('This set does not have any questions yet. Please try another set.');
+                return;
+            }
+            onSelectQuiz(preparedQuiz, subjectName);
+        };
+
         return (
             <>
                 <div
@@ -13303,6 +13363,29 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     <h2 className="hero-title text-3xl font-extrabold mb-4">
                         {selectedCategory}
                     </h2>
+                    {orderedSetNames.length > 0 && (
+                        <div className="mb-6 rounded-xl border bg-white/95 dark:bg-slate-900/80 dark:border-slate-700 p-5 shadow-lg">
+                            <h3 className="text-lg font-semibold mb-3" style={isDarkMode ? { color: heroTextColor } : { color: heroAccentColor }}>
+                                Practice Sets
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                {orderedSetNames.map((setName, idx) => (
+                                    <button
+                                        key={setName}
+                                        onClick={() => launchCategorySet(setName)}
+                                        className="w-full px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                                        style={{
+                                            backgroundColor: subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
+                                            color: subjectColors.accentText || '#ffffff',
+                                            borderColor: subjectColors.border || subjectColors.accent || DEFAULT_COLOR_SCHEME.accent,
+                                        }}
+                                    >
+                                        Start {`${selectedSubject} — ${selectedCategory} Set ${idx + 1}`}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {topics.length === 0 && (
                             <div className="col-span-full text-center text-sm text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-800/60 border border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6">
