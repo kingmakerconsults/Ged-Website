@@ -3436,10 +3436,10 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         const userEmail = String(req.user?.email || '').toLowerCase();
         const isTester = userEmail === 'zacharysmith527@gmail.com';
 
-        // Respect subject passed flag, but allow tester and RLA to generate
+        // Respect subject passed flag (no longer blocking): allow regeneration even if passed
         const subjectIsPassed = await isSubjectPassed(userId, subject);
-        if (subjectIsPassed && !isTester && subject !== 'RLA') {
-            return res.status(400).json({ ok: false, error: 'subject_passed', message: 'This subject has been marked as passed.' });
+        if (subjectIsPassed) {
+            console.log('Weekly coach: subject is marked passed but regenerating anyway for user', userId, subject);
         }
 
         // 1) enforce once per calendar week
@@ -3456,13 +3456,8 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
         if (latest && latest.valid_from) {
             const latestStart = (latest.valid_from instanceof Date) ? latest.valid_from.toISOString().slice(0,10) : String(latest.valid_from).slice(0,10);
             if (latestStart === weekStartISO) {
-                if (isTester) {
-                    upsertPlanId = latest.id; // tester can regenerate freely
-                } else if (subject === 'RLA') {
-                    upsertPlanId = latest.id; // allow regeneration for RLA by updating existing plan for the week
-                } else {
-                    return res.status(429).json({ ok: false, message: 'You already generated the weekly plan for this subject this week.' });
-                }
+                // New behavior: always upsert the existing plan for this week
+                upsertPlanId = latest.id;
             }
         }
 
@@ -3582,11 +3577,17 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             });
             days.push(day);
         }
+        let baseNotes = testDate
+            ? `Work through these daily items before your ${subject} test on ${testDate}.`
+            : `Work through one item per day to make steady progress in ${subject}.`;
+        if (subjectIsPassed) {
+            // Append a student-facing notice that they've already passed
+            baseNotes += ` You have already passed ${subject}; these tasks are for continued practice and skill maintenance.`;
+        }
         const aiPlan = {
             days,
-            notes: testDate
-                ? `Work through these daily items before your ${subject} test on ${testDate}.`
-                : `Work through one item per day to make steady progress in ${subject}.`
+            notes: baseNotes,
+            alreadyPassed: !!subjectIsPassed
         };
 
         // Persist plan
@@ -3634,7 +3635,7 @@ app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, req
             console.error('Could not sync weekly -> daily coach quiz', syncErr);
         }
 
-        return res.json({ ok: true, plan: saved });
+    return res.json({ ok: true, plan: saved, alreadyPassed: !!subjectIsPassed, message: subjectIsPassed ? `You have already passed ${subject}; this weekly plan is optional maintenance practice.` : undefined });
     } catch (e) {
         console.error('POST /api/coach/:subject/generate-week failed:', e);
         return res.status(500).json({ ok: false, error: 'coach_generate_failed' });
