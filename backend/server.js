@@ -273,6 +273,19 @@ function toMs(nsDiff) { return Number(nsDiff) / 1e6; }
 async function timed(label, fn) {
     const start = nowNs();
     try {
+        const data = await fn();
+        const ms = toMs(nowNs() - start);
+        if (process.env.NODE_ENV !== 'test') {
+            console.log(`[timed] ${label} ${ms.toFixed(1)}ms`);
+        }
+        return data;
+    } catch (e) {
+        if (process.env.NODE_ENV !== 'test') {
+            console.error(`[timed] ${label} failed:`, e?.message || e);
+        }
+        throw e;
+    }
+}
 // --- coach advice helpers (top level) ---
 function getCurrentWeekStartISO() {
     const now = new Date();
@@ -394,15 +407,6 @@ Return JSON as { "advice": "<single paragraph or short bullets>" }.`;
         return res.status(500).json({ error: 'Unable to fetch advice right now.' });
     }
 });
-
-        const data = await fn();
-        const ms = toMs(nowNs() - start);
-    
-        return JSON.parse(fs.readFileSync(file, 'utf8'));
-    } catch (e) {
-        return null;
-    }
-}
 
 function walkDir(dir, files = []) {
     try {
