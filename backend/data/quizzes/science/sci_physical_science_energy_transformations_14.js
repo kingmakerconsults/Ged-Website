@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converted into light. An LED bulb passes electricity through a semiconductor to produce light, a much more direct process.",
-    "question": "Based on the passage, why is an LED bulb more energy-efficient than an incandescent bulb?",
+    "question": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converted into light. An LED bulb passes electricity through a semiconductor to produce light, a much more direct process. Based on the passage, why is an LED bulb more energy-efficient than an incandescent bulb?",
     "answerOptions": [
       {
         "text": "The LED bulb converts most of the electrical energy into thermal energy (heat).",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converted into light. An LED bulb passes electricity through a semiconductor to produce light, a much more direct process.",
-    "question": "The primary unwanted energy transformation in the incandescent light bulb is:",
+    "question": "An incandescent light bulb works by passing electricity through a thin filament, causing it to glow brightly. However, a significant amount of the electrical energy is not converted into light. An LED bulb passes electricity through a semiconductor to produce light, a much more direct process. The primary unwanted energy transformation in the incandescent light bulb is:",
     "answerOptions": [
       {
         "text": "Electrical to light",
@@ -202,7 +200,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-  "question": "A ball is held at the top of a hill. This is an example of stored what type of energy?",
+    "question": "A ball is held at the top of a hill. This is an example of stored what type of energy?",
     "answerOptions": [
       {
         "text": "Kinetic",

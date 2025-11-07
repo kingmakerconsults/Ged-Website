@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "The pH scale measures how acidic or basic a substance is. The scale ranges from 0 to 14. A pH of 7 is neutral. A pH less than 7 indicates acidity, and a pH greater than 7 indicates a base. Pure water has a pH of 7. Lemon juice has a pH of 2, while bleach has a pH of 13.",
-    "question": "Which of the following statements is supported by the passage?",
+    "question": "The pH scale measures how acidic or basic a substance is. The scale ranges from 0 to 14. A pH of 7 is neutral. A pH less than 7 indicates acidity, and a pH greater than 7 indicates a base. Pure water has a pH of 7. Lemon juice has a pH of 2, while bleach has a pH of 13. Which of the following statements is supported by the passage?",
     "answerOptions": [
       {
         "text": "Lemon juice is a base.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "The pH scale measures how acidic or basic a substance is. The scale ranges from 0 to 14. A pH of 7 is neutral. A pH less than 7 indicates acidity, and a pH greater than 7 indicates a base. Pure water has a pH of 7. Lemon juice has a pH of 2, while bleach has a pH of 13.",
-    "question": "A neutralization reaction occurs when an acid and a base react. What would you expect the pH of the resulting solution to be close to?",
+    "question": "The pH scale measures how acidic or basic a substance is. The scale ranges from 0 to 14. A pH of 7 is neutral. A pH less than 7 indicates acidity, and a pH greater than 7 indicates a base. Pure water has a pH of 7. Lemon juice has a pH of 2, while bleach has a pH of 13. A neutralization reaction occurs when an acid and a base react. What would you expect the pH of the resulting solution to be close to?",
     "answerOptions": [
       {
         "text": "2",

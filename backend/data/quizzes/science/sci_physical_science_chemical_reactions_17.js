@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A student adds a white crystalline powder (baking soda) to a clear liquid (vinegar) in a beaker. The mixture immediately begins to bubble and fizz vigorously, and the beaker feels cold to the touch. After a few minutes, the bubbling stops.",
-    "question": "The fact that the beaker feels cold indicates that the reaction is:",
+    "question": "A student adds a white crystalline powder (baking soda) to a clear liquid (vinegar) in a beaker. The mixture immediately begins to bubble and fizz vigorously, and the beaker feels cold to the touch. After a few minutes, the bubbling stops. The fact that the beaker feels cold indicates that the reaction is:",
     "answerOptions": [
       {
         "text": "Exothermic, releasing heat.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student adds a white crystalline powder (baking soda) to a clear liquid (vinegar) in a beaker. The mixture immediately begins to bubble and fizz vigorously, and the beaker feels cold to the touch. After a few minutes, the bubbling stops.",
-    "question": "What evidence from the description suggests that a new substance (a gas) was formed?",
+    "question": "A student adds a white crystalline powder (baking soda) to a clear liquid (vinegar) in a beaker. The mixture immediately begins to bubble and fizz vigorously, and the beaker feels cold to the touch. After a few minutes, the bubbling stops. What evidence from the description suggests that a new substance (a gas) was formed?",
     "answerOptions": [
       {
         "text": "The beaker feels cold.",
@@ -258,7 +256,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "easy",
-  "question": "A reaction in which two or more simple substances combine to form a more complex product is what type of reaction?",
+    "question": "A reaction in which two or more simple substances combine to form a more complex product is what type of reaction?",
     "answerOptions": [
       {
         "text": "Decomposition",

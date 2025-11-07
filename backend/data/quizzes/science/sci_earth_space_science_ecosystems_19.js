@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "In a forest ecosystem, wolves were hunted to extinction. This led to a dramatic increase in the deer population. The large number of deer overgrazed the vegetation, eating most of the young saplings. This lack of young trees caused a decline in the population of songbirds that nested in them.",
-    "question": "This passage is an example of:",
+    "question": "In a forest ecosystem, wolves were hunted to extinction. This led to a dramatic increase in the deer population. The large number of deer overgrazed the vegetation, eating most of the young saplings. This lack of young trees caused a decline in the population of songbirds that nested in them. This passage is an example of:",
     "answerOptions": [
       {
         "text": "A stable ecosystem in equilibrium.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "In a forest ecosystem, wolves were hunted to extinction. This led to a dramatic increase in the deer population. The large number of deer overgrazed the vegetation, eating most of the young saplings. This lack of young trees caused a decline in the population of songbirds that nested in them.",
-    "question": "In this ecosystem, what was the role of the wolf?",
+    "question": "In a forest ecosystem, wolves were hunted to extinction. This led to a dramatic increase in the deer population. The large number of deer overgrazed the vegetation, eating most of the young saplings. This lack of young trees caused a decline in the population of songbirds that nested in them. In this ecosystem, what was the role of the wolf?",
     "answerOptions": [
       {
         "text": "Producer",

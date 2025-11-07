@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass.",
-    "question": "What type of weather can the city expect as this boundary passes?",
+    "question": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass. What type of weather can the city expect as this boundary passes?",
     "answerOptions": [
       {
         "text": "A long period of light, steady rain.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass.",
-    "question": "What is the name of the feature described in the passage?",
+    "question": "On a weather map, a line with blue triangles on one side is moving towards a city. This line represents a boundary where a cold, dense air mass is replacing a warmer air mass. What is the name of the feature described in the passage?",
     "answerOptions": [
       {
         "text": "A warm front",

@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A scientist presents a graph showing two trends from the year 1950 to 2020. The first line shows the concentration of atmospheric carbon dioxide (CO2), which rises steadily from 310 parts per million (ppm) to 415 ppm. The second line shows the average global temperature, which also shows a clear upward trend, closely following the rise in CO2.",
-    "question": "What is the most likely conclusion that can be drawn from this graph?",
+    "question": "A scientist presents a graph showing two trends from the year 1950 to 2020. The first line shows the concentration of atmospheric carbon dioxide (CO2), which rises steadily from 310 parts per million (ppm) to 415 ppm. The second line shows the average global temperature, which also shows a clear upward trend, closely following the rise in CO2. What is the most likely conclusion that can be drawn from this graph?",
     "answerOptions": [
       {
         "text": "Global temperatures are causing an increase in CO2.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A scientist presents a graph showing two trends from the year 1950 to 2020. The first line shows the concentration of atmospheric carbon dioxide (CO2), which rises steadily from 310 parts per million (ppm) to 415 ppm. The second line shows the average global temperature, which also shows a clear upward trend, closely following the rise in CO2.",
-    "question": "Which human activity is the most significant contributor to the increase in atmospheric CO2 shown in the data?",
+    "question": "A scientist presents a graph showing two trends from the year 1950 to 2020. The first line shows the concentration of atmospheric carbon dioxide (CO2), which rises steadily from 310 parts per million (ppm) to 415 ppm. The second line shows the average global temperature, which also shows a clear upward trend, closely following the rise in CO2. Which human activity is the most significant contributor to the increase in atmospheric CO2 shown in the data?",
     "answerOptions": [
       {
         "text": "Planting large forests (reforestation).",

@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A scientist places two aquatic plants of the same species in two identical, sealed containers filled with water. Container 1 is placed in a sunny location, and Container 2 is placed in a dark closet. After 24 hours, the scientist measures the concentration of dissolved oxygen in the water in both containers.",
-    "question": "What would be the most likely result of this experiment?",
+    "question": "A scientist places two aquatic plants of the same species in two identical, sealed containers filled with water. Container 1 is placed in a sunny location, and Container 2 is placed in a dark closet. After 24 hours, the scientist measures the concentration of dissolved oxygen in the water in both containers. What would be the most likely result of this experiment?",
     "answerOptions": [
       {
         "text": "The oxygen concentration will be higher in Container 2 than in Container 1.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A scientist places two aquatic plants of the same species in two identical, sealed containers filled with water. Container 1 is placed in a sunny location, and Container 2 is placed in a dark closet. After 24 hours, the scientist measures the concentration of dissolved oxygen in the water in both containers.",
-    "question": "The process responsible for the decrease in oxygen in Container 2 is:",
+    "question": "A scientist places two aquatic plants of the same species in two identical, sealed containers filled with water. Container 1 is placed in a sunny location, and Container 2 is placed in a dark closet. After 24 hours, the scientist measures the concentration of dissolved oxygen in the water in both containers. The process responsible for the decrease in oxygen in Container 2 is:",
     "answerOptions": [
       {
         "text": "Photosynthesis",

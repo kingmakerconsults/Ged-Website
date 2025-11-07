@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "In pea plants, the allele for tallness (T) is dominant over the allele for shortness (t). A plant that is homozygous dominant (TT) is crossed with a plant that is homozygous recessive (tt).",
-    "question": "What will be the genotype of all the offspring in the first generation (F1)?",
+    "question": "In pea plants, the allele for tallness (T) is dominant over the allele for shortness (t). A plant that is homozygous dominant (TT) is crossed with a plant that is homozygous recessive (tt). What will be the genotype of all the offspring in the first generation (F1)?",
     "answerOptions": [
       {
         "text": "All will be TT.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "In pea plants, the allele for tallness (T) is dominant over the allele for shortness (t). A plant that is homozygous dominant (TT) is crossed with a plant that is homozygous recessive (tt).",
-    "question": "Based on the cross described, what will be the phenotype of the first-generation offspring?",
+    "question": "In pea plants, the allele for tallness (T) is dominant over the allele for shortness (t). A plant that is homozygous dominant (TT) is crossed with a plant that is homozygous recessive (tt). Based on the cross described, what will be the phenotype of the first-generation offspring?",
     "answerOptions": [
       {
         "text": "All will be short.",

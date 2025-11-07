@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "In a forest ecosystem, grass is eaten by rabbits. The rabbits are eaten by foxes, and the foxes are eaten by owls. When any of these organisms die, they are broken down by fungi.",
-    "question": "In this food web, what is the role of the fungi?",
+    "question": "In a forest ecosystem, grass is eaten by rabbits. The rabbits are eaten by foxes, and the foxes are eaten by owls. When any of these organisms die, they are broken down by fungi. In this food web, what is the role of the fungi?",
     "answerOptions": [
       {
         "text": "Producer",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "In a forest ecosystem, grass is eaten by rabbits. The rabbits are eaten by foxes, and the foxes are eaten by owls. When any of these organisms die, they are broken down by fungi.",
-    "question": "If a disease were to suddenly wipe out the rabbit population, which organism would be most directly affected?",
+    "question": "In a forest ecosystem, grass is eaten by rabbits. The rabbits are eaten by foxes, and the foxes are eaten by owls. When any of these organisms die, they are broken down by fungi. If a disease were to suddenly wipe out the rabbit population, which organism would be most directly affected?",
     "answerOptions": [
       {
         "text": "The grass",

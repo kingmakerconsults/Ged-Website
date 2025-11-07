@@ -4,8 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A student claims that a new type of plant food makes bean plants grow taller than regular plant food. The student tests one plant with the new food and one plant with the regular food.",
-    "question": "What is the biggest weakness in this design?",
+    "question": "A student claims that a new type of plant food makes bean plants grow taller than regular plant food. The student tests one plant with the new food and one plant with the regular food. What is the biggest weakness in this design?",
     "answerOptions": [
       {
         "text": "Only one plant was tested in each group, so the sample size is too small.",
@@ -33,8 +32,7 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "Researchers compare the speed of two computer programs by running each program on five identical computers and recording the time to complete the same task.",
-    "question": "What should the researchers do to increase confidence in the results?",
+    "question": "Researchers compare the speed of two computer programs by running each program on five identical computers and recording the time to complete the same task. What should the researchers do to increase confidence in the results?",
     "answerOptions": [
       {
         "text": "Repeat the test multiple times and calculate the average time for each program.",
@@ -62,8 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A class is analyzing a graph that shows a steady decrease in dissolved oxygen levels in a river over the past six months.",
-    "question": "Which question should they ask before concluding that the river is becoming polluted?",
+    "question": "A class is analyzing a graph that shows a steady decrease in dissolved oxygen levels in a river over the past six months. Which question should they ask before concluding that the river is becoming polluted?",
     "answerOptions": [
       {
         "text": "Were the oxygen readings taken at the same location and time of day each month?",
@@ -91,8 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A lab group records the pH of three soil samples. Two students misread the meter and record 8.5 instead of the correct value of 6.5.",
-    "question": "How should the group handle the incorrect readings?",
+    "question": "A lab group records the pH of three soil samples. Two students misread the meter and record 8.5 instead of the correct value of 6.5. How should the group handle the incorrect readings?",
     "answerOptions": [
       {
         "text": "They should repeat the measurement, correct the mistake, and note the error in their lab report.",
@@ -120,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A nutrition study finds that people who eat more leafy greens also report exercising more frequently. The researchers caution that exercise might be the reason for improved health markers, not the greens alone.",
-    "question": "What does the researchers' caution highlight?",
+    "question": "A nutrition study finds that people who eat more leafy greens also report exercising more frequently. The researchers caution that exercise might be the reason for improved health markers, not the greens alone. What does the researchers' caution highlight?",
     "answerOptions": [
       {
         "text": "Correlation does not necessarily mean one factor causes the other.",
@@ -149,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A school newspaper reports that 80% of students prefer reusable water bottles over disposable ones. The survey was conducted at the environmental club meeting.",
-    "question": "Why might this result not represent the entire student body?",
+    "question": "A school newspaper reports that 80% of students prefer reusable water bottles over disposable ones. The survey was conducted at the environmental club meeting. Why might this result not represent the entire student body?",
     "answerOptions": [
       {
         "text": "The sample is biased because the survey was given to students already interested in environmental issues.",
@@ -178,8 +172,7 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A data table shows the average test scores of four classes that used different science textbooks. The class using Textbook D scored highest, but it also had the smallest number of students.",
-    "question": "What additional information is needed before adopting Textbook D schoolwide?",
+    "question": "A data table shows the average test scores of four classes that used different science textbooks. The class using Textbook D scored highest, but it also had the smallest number of students. What additional information is needed before adopting Textbook D schoolwide?",
     "answerOptions": [
       {
         "text": "Whether Textbook D was used with the same teaching methods and time as the other textbooks.",
@@ -207,8 +200,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A biology class tests the claim that a specific music playlist helps seedlings grow faster. Half of the seedlings are exposed to the playlist for two hours each day, while the other half grows in silence.",
-    "question": "What should the students record to evaluate the claim accurately?",
+    "question": "A biology class tests the claim that a specific music playlist helps seedlings grow faster. Half of the seedlings are exposed to the playlist for two hours each day, while the other half grows in silence. What should the students record to evaluate the claim accurately?",
     "answerOptions": [
       {
         "text": "Consistent measurements of seedling height or mass over time for both groups.",
@@ -236,8 +228,7 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A news headline states, 'Energy drink boosts memory by 50%.' The article reveals that the study compared memory scores of 12 volunteers before and after drinking the product. No control group was used, and participants knew they were drinking the energy drink.",
-    "question": "Which issue most undermines the study's conclusion?",
+    "question": "A news headline states, 'Energy drink boosts memory by 50%.' The article reveals that the study compared memory scores of 12 volunteers before and after drinking the product. No control group was used, and participants knew they were drinking the energy drink. Which issue most undermines the study's conclusion?",
     "answerOptions": [
       {
         "text": "The lack of a control group and blinding makes it impossible to separate placebo effects from real changes.",
@@ -265,8 +256,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "Meteorologists use two weather models to predict hurricane paths. The models generally agree, but one shows the storm shifting north on day three. The forecast ultimately follows the northern track.",
-    "question": "What does this outcome illustrate about using multiple models?",
+    "question": "Meteorologists use two weather models to predict hurricane paths. The models generally agree, but one shows the storm shifting north on day three. The forecast ultimately follows the northern track. What does this outcome illustrate about using multiple models?",
     "answerOptions": [
       {
         "text": "Comparing several models can reveal possible scenarios and improve decision-making when forecasts diverge.",
@@ -294,8 +284,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A peer-reviewed article reports that a new vaccine was 92% effective in a trial with 10,000 participants. Another laboratory conducts a similar study with 12,000 participants and reports 91% effectiveness.",
-    "question": "How should scientists interpret the two studies?",
+    "question": "A peer-reviewed article reports that a new vaccine was 92% effective in a trial with 10,000 participants. Another laboratory conducts a similar study with 12,000 participants and reports 91% effectiveness. How should scientists interpret the two studies?",
     "answerOptions": [
       {
         "text": "The similar effectiveness rates across large trials indicate the vaccine performs consistently.",
@@ -323,8 +312,7 @@ module.exports = [
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A scientist reviewing a colleague's manuscript notices that the statistical analysis used is not appropriate for the type of data collected.",
-    "question": "What should happen before the study is published?",
+    "question": "A scientist reviewing a colleague's manuscript notices that the statistical analysis used is not appropriate for the type of data collected. What should happen before the study is published?",
     "answerOptions": [
       {
         "text": "The authors should reanalyze the data with the correct statistical test and revise their conclusions if necessary.",

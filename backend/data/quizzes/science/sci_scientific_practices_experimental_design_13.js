@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A study was conducted to see if a new energy drink improves test performance. 100 students were randomly divided into two groups of 50. Group A was given the new energy drink 30 minutes before a math test. Group B was given a placebo (a drink that looked and tasted the same but had no active ingredients) 30 minutes before the same math test. The average test scores of the two groups were then compared.",
-    "question": "In this experiment, what is the independent variable?",
+    "question": "A study was conducted to see if a new energy drink improves test performance. 100 students were randomly divided into two groups of 50. Group A was given the new energy drink 30 minutes before a math test. Group B was given a placebo (a drink that looked and tasted the same but had no active ingredients) 30 minutes before the same math test. The average test scores of the two groups were then compared. In this experiment, what is the independent variable?",
     "answerOptions": [
       {
         "text": "The math test scores.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A study was conducted to see if a new energy drink improves test performance. 100 students were randomly divided into two groups of 50. Group A was given the new energy drink 30 minutes before a math test. Group B was given a placebo (a drink that looked and tasted the same but had no active ingredients) 30 minutes before the same math test. The average test scores of the two groups were then compared.",
-    "question": "What is the purpose of Group B in this study?",
+    "question": "A study was conducted to see if a new energy drink improves test performance. 100 students were randomly divided into two groups of 50. Group A was given the new energy drink 30 minutes before a math test. Group B was given a placebo (a drink that looked and tasted the same but had no active ingredients) 30 minutes before the same math test. The average test scores of the two groups were then compared. What is the purpose of Group B in this study?",
     "answerOptions": [
       {
         "text": "To see if the energy drink has any side effects.",

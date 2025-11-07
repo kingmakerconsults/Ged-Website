@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "The Rain Shadow Effect is a common phenomenon in mountainous regions. As moist air from an ocean moves inland and is forced to rise over a mountain range, it cools. This cooling causes the moisture to condense and fall as precipitation (rain or snow) on the windward side (the side facing the wind) of the mountains. The air that descends on the leeward side (the downwind side) is now much drier.",
-    "question": "What type of climate is typically found on the leeward side of a mountain range due to the rain shadow effect?",
+    "question": "The Rain Shadow Effect is a common phenomenon in mountainous regions. As moist air from an ocean moves inland and is forced to rise over a mountain range, it cools. This cooling causes the moisture to condense and fall as precipitation (rain or snow) on the windward side (the side facing the wind) of the mountains. The air that descends on the leeward side (the downwind side) is now much drier. What type of climate is typically found on the leeward side of a mountain range due to the rain shadow effect?",
     "answerOptions": [
       {
         "text": "Wet and tropical",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "The Rain Shadow Effect is a common phenomenon in mountainous regions. As moist air from an ocean moves inland and is forced to rise over a mountain range, it cools. This cooling causes the moisture to condense and fall as precipitation (rain or snow) on the windward side (the side facing the wind) of the mountains. The air that descends on the leeward side (the downwind side) is now much drier.",
-    "question": "According to the passage, why does precipitation fall on the windward side of the mountains?",
+    "question": "The Rain Shadow Effect is a common phenomenon in mountainous regions. As moist air from an ocean moves inland and is forced to rise over a mountain range, it cools. This cooling causes the moisture to condense and fall as precipitation (rain or snow) on the windward side (the side facing the wind) of the mountains. The air that descends on the leeward side (the downwind side) is now much drier. According to the passage, why does precipitation fall on the windward side of the mountains?",
     "answerOptions": [
       {
         "text": "The air warms up as it rises.",

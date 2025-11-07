@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A geologist is studying the rock cycle. She observes a sample of sedimentary rock, which is characterized by visible layers of sand and small pebbles. This rock is then subjected to intense heat and pressure deep within the Earth's crust, causing its mineral composition and texture to change. The original layers are no longer visible, and the new rock is much denser.",
-    "question": "What type of rock has the sedimentary rock become after being subjected to intense heat and pressure?",
+    "question": "A geologist is studying the rock cycle. She observes a sample of sedimentary rock, which is characterized by visible layers of sand and small pebbles. This rock is then subjected to intense heat and pressure deep within the Earth's crust, causing its mineral composition and texture to change. The original layers are no longer visible, and the new rock is much denser. What type of rock has the sedimentary rock become after being subjected to intense heat and pressure?",
     "answerOptions": [
       {
         "text": "Igneous rock",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A geologist is studying the rock cycle. She observes a sample of sedimentary rock, which is characterized by visible layers of sand and small pebbles. This rock is then subjected to intense heat and pressure deep within the Earth's crust, causing its mineral composition and texture to change. The original layers are no longer visible, and the new rock is much denser.",
-    "question": "How was the original sedimentary rock most likely formed?",
+    "question": "A geologist is studying the rock cycle. She observes a sample of sedimentary rock, which is characterized by visible layers of sand and small pebbles. This rock is then subjected to intense heat and pressure deep within the Earth's crust, causing its mineral composition and texture to change. The original layers are no longer visible, and the new rock is much denser. How was the original sedimentary rock most likely formed?",
     "answerOptions": [
       {
         "text": "By the cooling of lava on the Earth's surface.",

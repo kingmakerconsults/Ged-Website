@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student is observing waves in a water tank. She notices that 3 complete waves pass a certain point every second. The distance between two consecutive crests (the highest points of the waves) is measured to be 0.5 meters.",
-    "question": "What is the frequency of the waves?",
+    "question": "A student is observing waves in a water tank. She notices that 3 complete waves pass a certain point every second. The distance between two consecutive crests (the highest points of the waves) is measured to be 0.5 meters. What is the frequency of the waves?",
     "answerOptions": [
       {
         "text": "0.5 Hz",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student is observing waves in a water tank. She notices that 3 complete waves pass a certain point every second. The distance between two consecutive crests (the highest points of the waves) is measured to be 0.5 meters.",
-    "question": "What is the wavelength of the waves?",
+    "question": "A student is observing waves in a water tank. She notices that 3 complete waves pass a certain point every second. The distance between two consecutive crests (the highest points of the waves) is measured to be 0.5 meters. What is the wavelength of the waves?",
     "answerOptions": [
       {
         "text": "3 meters",
@@ -342,7 +340,7 @@ module.exports = [
     "questionNumber": 13,
     "type": "multipleChoice",
     "difficulty": "hard",
-  "question": "An element is defined by the number of what in its nucleus?",
+    "question": "An element is defined by the number of what in its nucleus?",
     "answerOptions": [
       {
         "text": "Neutrons",

@@ -60,7 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "medium",
-  "question": "For natural selection to occur, what must be present within a population?",
+    "question": "For natural selection to occur, what must be present within a population?",
     "answerOptions": [
       {
         "text": "No competition",
@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A population of moths lives in a forest with light-colored tree bark. Most of the moths are light-colored, which provides good camouflage from predatory birds. A small percentage of the moths are dark-colored. Due to industrial pollution, the tree bark in the forest becomes blackened with soot over several decades.",
-    "question": "What is the most likely outcome for the moth population over time?",
+    "question": "A population of moths lives in a forest with light-colored tree bark. Most of the moths are light-colored, which provides good camouflage from predatory birds. A small percentage of the moths are dark-colored. Due to industrial pollution, the tree bark in the forest becomes blackened with soot over several decades. What is the most likely outcome for the moth population over time?",
     "answerOptions": [
       {
         "text": "The entire moth population will die out.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A population of moths lives in a forest with light-colored tree bark. Most of the moths are light-colored, which provides good camouflage from predatory birds. A small percentage of the moths are dark-colored. Due to industrial pollution, the tree bark in the forest becomes blackened with soot over several decades.",
-    "question": "In this scenario, what is the primary selective pressure on the moths?",
+    "question": "A population of moths lives in a forest with light-colored tree bark. Most of the moths are light-colored, which provides good camouflage from predatory birds. A small percentage of the moths are dark-colored. Due to industrial pollution, the tree bark in the forest becomes blackened with soot over several decades. In this scenario, what is the primary selective pressure on the moths?",
     "answerOptions": [
       {
         "text": "The color of the tree bark.",

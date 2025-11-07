@@ -509,6 +509,11 @@ async function loadAndAugmentImageMetadata() {
     let db = readJsonSafe(primaryFile) || readJsonSafe(fallbackFile) || [];
     if (!Array.isArray(db)) db = [];
 
+    // 🔒 TEMP: disable Gemini image analysis — use existing metadata only
+    console.info("[ImageDB] AI image enrichment is disabled for now — using existing metadata only.");
+    IMAGE_DB = db;
+    return;
+
     // We’ll dedupe by lowercased path and by sha1
     const byPath = new Set();
     const bySha1 = new Set();
@@ -1805,8 +1810,28 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
         throw Object.assign(new Error('AI timed out'), { statusCode: 504, latencyMs: MODEL_HTTP_TIMEOUT_MS });
     }
 
+    // If the primary failed first, immediately try the fallback model instead of bailing.
     if (winner.model === `${raceConfig.primaryModelName}-error`) {
-        throw winner.error || new Error(`${raceConfig.primaryModelName} failed before fallback could start.`);
+        console.warn(`[AI] ${raceConfig.primaryModelName} failed first (${winner.error?.message || winner.error}), trying ${raceConfig.fallbackModelName} immediately...`);
+        try {
+            const fbData = await raceConfig.fallbackFn();
+            const itemsFromFb = raceConfig.fallbackModelName === 'chatgpt'
+                ? parseOpenAIResponse(fbData)
+                : parseGeminiResponse(fbData);
+            const roundedLatency = Math.round(latencyMs || 0);
+            AI_LATENCY.push(roundedLatency);
+            if (!Array.isArray(itemsFromFb)) {
+                throw new Error('Fallback model returned an invalid response format.');
+            }
+            return {
+                items: itemsFromFb,
+                model: raceConfig.fallbackModelName,
+                latencyMs: roundedLatency
+            };
+        } catch (fbErr) {
+            // both failed — now it’s a real error
+            throw fbErr;
+        }
     }
 
     let items = null;

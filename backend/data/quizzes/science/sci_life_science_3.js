@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "During vigorous exercise, a person's breathing rate and heart rate both increase. The lungs take in more oxygen from the air, and the heart pumps blood faster around the body. This coordinated response is crucial for supplying the body's muscles with the resources they need.",
-    "question": "What is the primary reason that the heart rate increases during exercise?",
+    "question": "During vigorous exercise, a person's breathing rate and heart rate both increase. The lungs take in more oxygen from the air, and the heart pumps blood faster around the body. This coordinated response is crucial for supplying the body's muscles with the resources they need. What is the primary reason that the heart rate increases during exercise?",
     "answerOptions": [
       {
         "text": "To remove excess heat from the body.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "During vigorous exercise, a person's breathing rate and heart rate both increase. The lungs take in more oxygen from the air, and the heart pumps blood faster around the body. This coordinated response is crucial for supplying the body's muscles with the resources they need.",
-    "question": "The interaction described in the passage is primarily between which two body systems?",
+    "question": "During vigorous exercise, a person's breathing rate and heart rate both increase. The lungs take in more oxygen from the air, and the heart pumps blood faster around the body. This coordinated response is crucial for supplying the body's muscles with the resources they need. The interaction described in the passage is primarily between which two body systems?",
     "answerOptions": [
       {
         "text": "Digestive and Skeletal Systems",

@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "In a certain species of plant, the allele for purple flowers (P) is dominant over the allele for white flowers (p). A botanist crosses a plant that is homozygous dominant (PP) with a plant that is homozygous recessive (pp).",
-    "question": "What will be the genotype of all the offspring in the first generation (F1)?",
+    "question": "In a certain species of plant, the allele for purple flowers (P) is dominant over the allele for white flowers (p). A botanist crosses a plant that is homozygous dominant (PP) with a plant that is homozygous recessive (pp). What will be the genotype of all the offspring in the first generation (F1)?",
     "answerOptions": [
       {
         "text": "PP",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "In a certain species of plant, the allele for purple flowers (P) is dominant over the allele for white flowers (p). A botanist crosses a plant that is homozygous dominant (PP) with a plant that is homozygous recessive (pp).",
-    "question": "What will be the phenotype (observable trait) of all the offspring in the first generation (F1)?",
+    "question": "In a certain species of plant, the allele for purple flowers (P) is dominant over the allele for white flowers (p). A botanist crosses a plant that is homozygous dominant (PP) with a plant that is homozygous recessive (pp). What will be the phenotype (observable trait) of all the offspring in the first generation (F1)?",
     "answerOptions": [
       {
         "text": "White flowers",

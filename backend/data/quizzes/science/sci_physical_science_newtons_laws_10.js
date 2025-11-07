@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A student is pushing two boxes across a frictionless floor. Box A has a mass of 5 kg and Box B has a mass of 10 kg. The student applies the exact same pushing force to each box.",
-    "question": "According to Newton's Second Law, which box will have the greater acceleration?",
+    "question": "A student is pushing two boxes across a frictionless floor. Box A has a mass of 5 kg and Box B has a mass of 10 kg. The student applies the exact same pushing force to each box. According to Newton's Second Law, which box will have the greater acceleration?",
     "answerOptions": [
       {
         "text": "Box A",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student is pushing two boxes across a frictionless floor. Box A has a mass of 5 kg and Box B has a mass of 10 kg. The student applies the exact same pushing force to each box.",
-    "question": "This scenario primarily demonstrates the inverse relationship between which two factors in Newton's Second Law?",
+    "question": "A student is pushing two boxes across a frictionless floor. Box A has a mass of 5 kg and Box B has a mass of 10 kg. The student applies the exact same pushing force to each box. This scenario primarily demonstrates the inverse relationship between which two factors in Newton's Second Law?",
     "answerOptions": [
       {
         "text": "Force and acceleration",

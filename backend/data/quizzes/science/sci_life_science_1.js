@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student is investigating cellular respiration, the process by which cells convert glucose (sugar) into ATP (energy). The student sets up two test tubes. Both contain yeast and a sugar solution. Test Tube A is sealed to prevent oxygen from entering. Test Tube B is left open to the air. The student observes that the yeast in Test Tube B produces significantly more ATP than the yeast in Test Tube A.",
-    "question": "Based on the scenario, what can the student conclude about the role of oxygen in cellular respiration?",
+    "question": "A student is investigating cellular respiration, the process by which cells convert glucose (sugar) into ATP (energy). The student sets up two test tubes. Both contain yeast and a sugar solution. Test Tube A is sealed to prevent oxygen from entering. Test Tube B is left open to the air. The student observes that the yeast in Test Tube B produces significantly more ATP than the yeast in Test Tube A. Based on the scenario, what can the student conclude about the role of oxygen in cellular respiration?",
     "answerOptions": [
       {
         "text": "Oxygen is not necessary for cellular respiration.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student is investigating cellular respiration, the process by which cells convert glucose (sugar) into ATP (energy). The student sets up two test tubes. Both contain yeast and a sugar solution. Test Tube A is sealed to prevent oxygen from entering. Test Tube B is left open to the air. The student observes that the yeast in Test Tube B produces significantly more ATP than the yeast in Test Tube A.",
-    "question": "The process occurring in Test Tube A is known as anaerobic respiration. What is the most likely byproduct of this process in yeast?",
+    "question": "A student is investigating cellular respiration, the process by which cells convert glucose (sugar) into ATP (energy). The student sets up two test tubes. Both contain yeast and a sugar solution. Test Tube A is sealed to prevent oxygen from entering. Test Tube B is left open to the air. The student observes that the yeast in Test Tube B produces significantly more ATP than the yeast in Test Tube A. The process occurring in Test Tube A is known as anaerobic respiration. What is the most likely byproduct of this process in yeast?",
     "answerOptions": [
       {
         "text": "Lactic acid",

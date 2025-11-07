@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A student places a metal spoon in a cup of hot soup. After a few minutes, the handle of the spoon, which was not in the soup, becomes warm.",
-    "question": "This is an example of which type of heat transfer?",
+    "question": "A student places a metal spoon in a cup of hot soup. After a few minutes, the handle of the spoon, which was not in the soup, becomes warm. This is an example of which type of heat transfer?",
     "answerOptions": [
       {
         "text": "Convection, because the heat is moving in a current.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student places a metal spoon in a cup of hot soup. After a few minutes, the handle of the spoon, which was not in the soup, becomes warm.",
-    "question": "Why does the metal spoon heat up quickly?",
+    "question": "A student places a metal spoon in a cup of hot soup. After a few minutes, the handle of the spoon, which was not in the soup, becomes warm. Why does the metal spoon heat up quickly?",
     "answerOptions": [
       {
         "text": "Because metals are good insulators.",
@@ -230,7 +228,7 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "hard",
-  "question": "At the top of a roller coaster hill, a cart has its maximum amount of what type of energy? As it goes down the hill, this energy is converted into what type of energy?",
+    "question": "At the top of a roller coaster hill, a cart has its maximum amount of what type of energy? As it goes down the hill, this energy is converted into what type of energy?",
     "answerOptions": [
       {
         "text": "kinetic; potential",

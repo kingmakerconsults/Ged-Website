@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student investigates the rate of a reaction between a solid metal and an acid. To do this, they place a 5-gram strip of metal into a beaker containing 100 mL of acid and measure the amount of hydrogen gas produced over time. The student wants to see how surface area affects the reaction rate.",
-    "question": "To test the effect of surface area, which of the following changes should the student make in their next experiment?",
+    "question": "A student investigates the rate of a reaction between a solid metal and an acid. To do this, they place a 5-gram strip of metal into a beaker containing 100 mL of acid and measure the amount of hydrogen gas produced over time. The student wants to see how surface area affects the reaction rate. To test the effect of surface area, which of the following changes should the student make in their next experiment?",
     "answerOptions": [
       {
         "text": "Use a more concentrated acid.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student investigates the rate of a reaction between a solid metal and an acid. To do this, they place a 5-gram strip of metal into a beaker containing 100 mL of acid and measure the amount of hydrogen gas produced over time. The student wants to see how surface area affects the reaction rate.",
-    "question": "In this experiment, the amount of hydrogen gas produced is the:",
+    "question": "A student investigates the rate of a reaction between a solid metal and an acid. To do this, they place a 5-gram strip of metal into a beaker containing 100 mL of acid and measure the amount of hydrogen gas produced over time. The student wants to see how surface area affects the reaction rate. In this experiment, the amount of hydrogen gas produced is the:",
     "answerOptions": [
       {
         "text": "Independent variable",
