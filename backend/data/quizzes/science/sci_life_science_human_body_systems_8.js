@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The liver has many functions, including detoxification and bile production, but it does not pump blood.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The heart is a muscular organ that pumps blood throughout the body."
   },
   {
     "questionNumber": 2,

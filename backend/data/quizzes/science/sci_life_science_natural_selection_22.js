@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Gene flow is the transfer of genetic material from one population to another.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: This is the primary mechanism of evolution, proposed by Charles Darwin."
   },
   {
     "questionNumber": 2,

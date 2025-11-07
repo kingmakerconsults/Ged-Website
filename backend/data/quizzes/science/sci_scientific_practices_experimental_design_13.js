@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "A theory is a broad explanation that has been repeatedly tested and confirmed.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: A hypothesis is a specific, predictive statement that can be tested."
   },
   {
     "questionNumber": 2,

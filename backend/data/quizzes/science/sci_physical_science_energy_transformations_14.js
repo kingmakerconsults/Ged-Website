@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Correct. This is the fundamental principle of the conservation of energy.",
         "isCorrect": true
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: This is the fundamental principle of the conservation of energy."
   },
   {
     "questionNumber": 2,

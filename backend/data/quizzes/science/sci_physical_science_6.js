@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Volume is the amount of space an object occupies.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Temperature is directly related to the average kinetic energy (motion) of atoms or molecules."
   },
   {
     "questionNumber": 2,

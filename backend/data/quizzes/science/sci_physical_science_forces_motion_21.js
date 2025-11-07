@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Mass is the amount of matter in an object.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: A force is any interaction that, when unopposed, will change the motion of an object."
   },
   {
     "questionNumber": 2,

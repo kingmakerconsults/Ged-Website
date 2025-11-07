@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Wind turbines capture energy from the wind; they do not create it.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The sun's energy heats the Earth's surface unevenly, creating temperature differences that drive winds and ocean currents."
   },
   {
     "questionNumber": 2,

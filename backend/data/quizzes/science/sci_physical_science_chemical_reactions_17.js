@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Creating a mixture is a physical change unless the substances react.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The formation of a new substance is the definition of a chemical change."
   },
   {
     "questionNumber": 2,

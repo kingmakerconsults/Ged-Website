@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "This is the function of the cell wall in plant cells.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The cell membrane is selectively permeable, regulating the passage of substances."
   },
   {
     "questionNumber": 2,
@@ -54,7 +55,8 @@ module.exports = [
         "rationale": "Prokaryotic cells lack a nucleus. While many prokaryotes are unicellular, this term describes the cell type, not the number of cells.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: \"Uni-\" means one."
   },
   {
     "questionNumber": 3,

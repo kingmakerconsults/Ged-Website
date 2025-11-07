@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "This law describes the force of gravity between two objects.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The First Law states that an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force."
   },
   {
     "questionNumber": 2,
@@ -54,7 +55,8 @@ module.exports = [
         "rationale": "Insulation is a material that reduces the rate of heat transfer.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: An example is the handle of a metal pot getting hot when the pot is on the stove."
   },
   {
     "questionNumber": 3,

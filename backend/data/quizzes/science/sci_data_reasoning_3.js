@@ -4,7 +4,11 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
+<<<<<<< HEAD
     "question": "A lab notebook entry states, 'When the magnet was moved closer to the coil, the needle on the galvanometer deflected more.'. What kind of statement is recorded in the notebook?",
+=======
+    "question": "A lab notebook entry states, 'When the magnet was moved closer to the coil, the needle on the galvanometer deflected more.' What kind of statement is recorded in the notebook?",
+>>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "An observation made during the experiment",
@@ -32,7 +36,11 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
+<<<<<<< HEAD
     "question": "Before investigating, a student writes, 'If plants are given light from LED bulbs instead of sunlight, then they will produce fewer flowers.'. Which part of the investigation does the student's sentence represent?",
+=======
+    "question": "Before investigating, a student writes, 'If plants are given light from LED bulbs instead of sunlight, then they will produce fewer flowers.' Which part of the investigation does the student's sentence represent?",
+>>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "The research question",

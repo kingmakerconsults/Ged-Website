@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "An atom is typically neutral, containing an equal number of protons and electrons.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Electrons are negatively charged particles that orbit the nucleus of an atom."
   },
   {
     "questionNumber": 2,
