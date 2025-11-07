@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Oxygen is a byproduct of photosynthesis, but the primary goal for the plant is to create food for itself.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Plants use sunlight, water, and carbon dioxide to create their own food (glucose)."
   },
   {
     "questionNumber": 2,

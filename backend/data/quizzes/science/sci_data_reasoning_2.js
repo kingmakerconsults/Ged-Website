@@ -4,8 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "During a class investigation, students predict that bean plants grown under blue light will grow taller than those under red light.",
-    "question": "What part of the scientific process is the students' prediction?",
+    "question": "During a class investigation, students predict that bean plants grown under blue light will grow taller than those under red light. What part of the scientific process is the students' prediction?",
     "answerOptions": [
       {
         "text": "A hypothesis",
@@ -61,8 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "Students track the number of birds visiting a feeder each day for two weeks.",
-    "question": "Which graph would best show how the number of birds changes over time?",
+    "question": "Students track the number of birds visiting a feeder each day for two weeks. Which graph would best show how the number of birds changes over time?",
     "answerOptions": [
       {
         "text": "A line graph with days on the x-axis",
@@ -90,8 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A chemistry teacher gives students four different brands of hand warmers. The students measure how many minutes each hand warmer stays above 35°C.",
-    "question": "What is the dependent variable in this experiment?",
+    "question": "A chemistry teacher gives students four different brands of hand warmers. The students measure how many minutes each hand warmer stays above 35°C. What is the dependent variable in this experiment?",
     "answerOptions": [
       {
         "text": "The brand of hand warmer",
@@ -177,8 +174,7 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A physics class measures the distance a toy car travels down a ramp. The students notice one trial in which the car stops halfway down the ramp because a pencil accidentally blocks the path.",
-    "question": "What should the students do with the data from the blocked trial?",
+    "question": "A physics class measures the distance a toy car travels down a ramp. The students notice one trial in which the car stops halfway down the ramp because a pencil accidentally blocks the path. What should the students do with the data from the blocked trial?",
     "answerOptions": [
       {
         "text": "Include it in the calculations to keep the sample size the same.",
@@ -206,8 +202,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "An environmental scientist collects water samples from eight points along a river. She measures dissolved oxygen levels and records them in milligrams per liter (mg/L).",
-    "question": "Why is it important that she uses the same units for every sample?",
+    "question": "An environmental scientist collects water samples from eight points along a river. She measures dissolved oxygen levels and records them in milligrams per liter (mg/L). Why is it important that she uses the same units for every sample?",
     "answerOptions": [
       {
         "text": "It allows her to average the values accurately and compare samples directly.",
@@ -264,8 +259,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "The box-and-whisker plot below summarizes the daily high temperatures (°C) for City A and City B in July. City A has a median of 28°C with a narrow interquartile range (IQR). City B has a median of 30°C with a wider IQR and longer whiskers.",
-    "question": "What does the plot reveal about the temperature patterns in the two cities?",
+    "question": "The box-and-whisker plot below summarizes the daily high temperatures (°C) for City A and City B in July. City A has a median of 28°C with a narrow interquartile range (IQR). City B has a median of 30°C with a wider IQR and longer whiskers. What does the plot reveal about the temperature patterns in the two cities?",
     "answerOptions": [
       {
         "text": "City B experiences a greater spread in daily high temperatures than City A.",
@@ -293,8 +287,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A researcher tests a soil additive meant to increase crop yield. After one growing season, the treated field produces an average of 5.8 tons of corn per hectare, while the untreated field yields 5.6 tons per hectare. The difference is within the margin of measurement error.",
-    "question": "What should the researcher conclude about the soil additive?",
+    "question": "A researcher tests a soil additive meant to increase crop yield. After one growing season, the treated field produces an average of 5.8 tons of corn per hectare, while the untreated field yields 5.6 tons per hectare. The difference is within the margin of measurement error. What should the researcher conclude about the soil additive?",
     "answerOptions": [
       {
         "text": "There is not enough evidence to show that the additive significantly increases yield.",

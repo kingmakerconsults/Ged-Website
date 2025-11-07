@@ -4,8 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A student claims that a new type of plant food makes bean plants grow taller than regular plant food. The student tests one plant with the new food and one plant with the regular food.",
-    "question": "What is the biggest weakness in this design?",
+    "question": "A student claims that a new type of plant food makes bean plants grow taller than regular plant food. The student tests one plant with the new food and one plant with the regular food. What is the biggest weakness in this design?",
     "answerOptions": [
       {
         "text": "Only one plant was tested in each group, so the sample size is too small.",
@@ -33,8 +32,7 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "Researchers compare the speed of two computer programs by running each program on five identical computers and recording the time to complete the same task.",
-    "question": "What should the researchers do to increase confidence in the results?",
+    "question": "Researchers compare the speed of two computer programs by running each program on five identical computers and recording the time to complete the same task. What should the researchers do to increase confidence in the results?",
     "answerOptions": [
       {
         "text": "Repeat the test multiple times and calculate the average time for each program.",
@@ -62,8 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A class is analyzing a graph that shows a steady decrease in dissolved oxygen levels in a river over the past six months.",
-    "question": "Which question should they ask before concluding that the river is becoming polluted?",
+    "question": "A class is analyzing a graph that shows a steady decrease in dissolved oxygen levels in a river over the past six months. Which question should they ask before concluding that the river is becoming polluted?",
     "answerOptions": [
       {
         "text": "Were the oxygen readings taken at the same location and time of day each month?",
@@ -91,8 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A lab group records the pH of three soil samples. Two students misread the meter and record 8.5 instead of the correct value of 6.5.",
-    "question": "How should the group handle the incorrect readings?",
+    "question": "A lab group records the pH of three soil samples. Two students misread the meter and record 8.5 instead of the correct value of 6.5. How should the group handle the incorrect readings?",
     "answerOptions": [
       {
         "text": "They should repeat the measurement, correct the mistake, and note the error in their lab report.",
@@ -178,8 +174,7 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A data table shows the average test scores of four classes that used different science textbooks. The class using Textbook D scored highest, but it also had the smallest number of students.",
-    "question": "What additional information is needed before adopting Textbook D schoolwide?",
+    "question": "A data table shows the average test scores of four classes that used different science textbooks. The class using Textbook D scored highest, but it also had the smallest number of students. What additional information is needed before adopting Textbook D schoolwide?",
     "answerOptions": [
       {
         "text": "Whether Textbook D was used with the same teaching methods and time as the other textbooks.",
@@ -207,8 +202,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A biology class tests the claim that a specific music playlist helps seedlings grow faster. Half of the seedlings are exposed to the playlist for two hours each day, while the other half grows in silence.",
-    "question": "What should the students record to evaluate the claim accurately?",
+    "question": "A biology class tests the claim that a specific music playlist helps seedlings grow faster. Half of the seedlings are exposed to the playlist for two hours each day, while the other half grows in silence. What should the students record to evaluate the claim accurately?",
     "answerOptions": [
       {
         "text": "Consistent measurements of seedling height or mass over time for both groups.",
@@ -265,8 +259,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "Meteorologists use two weather models to predict hurricane paths. The models generally agree, but one shows the storm shifting north on day three. The forecast ultimately follows the northern track.",
-    "question": "What does this outcome illustrate about using multiple models?",
+    "question": "Meteorologists use two weather models to predict hurricane paths. The models generally agree, but one shows the storm shifting north on day three. The forecast ultimately follows the northern track. What does this outcome illustrate about using multiple models?",
     "answerOptions": [
       {
         "text": "Comparing several models can reveal possible scenarios and improve decision-making when forecasts diverge.",
@@ -294,8 +287,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A peer-reviewed article reports that a new vaccine was 92% effective in a trial with 10,000 participants. Another laboratory conducts a similar study with 12,000 participants and reports 91% effectiveness.",
-    "question": "How should scientists interpret the two studies?",
+    "question": "A peer-reviewed article reports that a new vaccine was 92% effective in a trial with 10,000 participants. Another laboratory conducts a similar study with 12,000 participants and reports 91% effectiveness. How should scientists interpret the two studies?",
     "answerOptions": [
       {
         "text": "The similar effectiveness rates across large trials indicate the vaccine performs consistently.",

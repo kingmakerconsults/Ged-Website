@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "This is the function of lysosomes.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The nucleus is often called the \"brain\" or \"control center\" of the cell."
   },
   {
     "questionNumber": 2,
@@ -54,7 +55,8 @@ module.exports = [
         "rationale": "A producer makes its own food.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Humans, bears, and raccoons are examples of omnivores."
   },
   {
     "questionNumber": 3,

@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Creating a mixture is a physical change unless the substances react.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The formation of a new substance is the definition of a chemical change."
   },
   {
     "questionNumber": 2,
@@ -258,7 +259,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "easy",
-  "question": "A reaction in which two or more simple substances combine to form a more complex product is what type of reaction?",
+    "question": "A reaction in which two or more simple substances combine to form a more complex product is what type of reaction?",
     "answerOptions": [
       {
         "text": "Decomposition",

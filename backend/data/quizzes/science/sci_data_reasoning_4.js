@@ -4,8 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A science class labels a jar 'Sample A' and records that it contains 200 milliliters of pond water.",
-    "question": "What information is missing if someone else wants to repeat the investigation exactly?",
+    "question": "A science class labels a jar 'Sample A' and records that it contains 200 milliliters of pond water. What information is missing if someone else wants to repeat the investigation exactly?",
     "answerOptions": [
       {
         "text": "Where the pond water was collected and on what date",
@@ -33,8 +32,7 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "Students design an experiment to test whether cold water dissolves table salt more slowly than warm water.",
-    "question": "Which step ensures the investigation tests only the effect of temperature?",
+    "question": "Students design an experiment to test whether cold water dissolves table salt more slowly than warm water. Which step ensures the investigation tests only the effect of temperature?",
     "answerOptions": [
       {
         "text": "Using the same amount of salt, water volume, and stirring rate in every trial",
@@ -62,8 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A data table lists the heights of five identical plants grown with different amounts of fertilizer.",
-    "question": "What is the dependent variable?",
+    "question": "A data table lists the heights of five identical plants grown with different amounts of fertilizer. What is the dependent variable?",
     "answerOptions": [
       {
         "text": "The height of each plant",
@@ -91,8 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "During a lab, the teacher asks students to record the smell produced when a substance is heated.",
-    "question": "How should the students describe the observation?",
+    "question": "During a lab, the teacher asks students to record the smell produced when a substance is heated. How should the students describe the observation?",
     "answerOptions": [
       {
         "text": "By using sensory words such as 'sharp' or 'sweet'",
@@ -178,8 +174,7 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A scatter plot of study time versus test score shows points forming an upward trend with some variation.",
-    "question": "What can be concluded from the scatter plot?",
+    "question": "A scatter plot of study time versus test score shows points forming an upward trend with some variation. What can be concluded from the scatter plot?",
     "answerOptions": [
       {
         "text": "Students who study more tend to earn higher test scores.",
@@ -207,8 +202,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Two lab groups measure the speed of a toy car on a ramp. Group 1 records an average speed of 1.5 m/s, while Group 2 records 1.2 m/s. Both groups used the same ramp and timing device.",
-    "question": "Which follow-up question will help explain the different results?",
+    "question": "Two lab groups measure the speed of a toy car on a ramp. Group 1 records an average speed of 1.5 m/s, while Group 2 records 1.2 m/s. Both groups used the same ramp and timing device. Which follow-up question will help explain the different results?",
     "answerOptions": [
       {
         "text": "Did the groups start the car from the exact same position on the ramp?",
@@ -265,8 +259,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A box-and-whisker plot compares the number of books read by students in two schools. School X has a median of 8 books with a narrow interquartile range. School Y has a median of 6 books with a wider range and longer whiskers.",
-    "question": "What does the comparison suggest about student reading habits?",
+    "question": "A box-and-whisker plot compares the number of books read by students in two schools. School X has a median of 8 books with a narrow interquartile range. School Y has a median of 6 books with a wider range and longer whiskers. What does the comparison suggest about student reading habits?",
     "answerOptions": [
       {
         "text": "Students at School X typically read slightly more books, and their reading totals are more consistent.",
@@ -294,8 +287,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "Scientists testing a new vaccine run parallel clinical trials in two regions. One region reports a 90% effectiveness rate, while the other reports 88%. Both studies used thousands of participants.",
-    "question": "How should the scientists interpret the difference in effectiveness?",
+    "question": "Scientists testing a new vaccine run parallel clinical trials in two regions. One region reports a 90% effectiveness rate, while the other reports 88%. Both studies used thousands of participants. How should the scientists interpret the difference in effectiveness?",
     "answerOptions": [
       {
         "text": "The results are very similar, so the vaccine appears consistently effective across regions.",
