@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the rock) cuts through Layer A and Layer B, but not through Layer C. An igneous intrusion (a body of igneous rock) is shown to have pushed up through Layer A, B, and C.",
-    "question": "Based on the Principle of Superposition, which rock layer is the oldest?",
+    "question": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the rock) cuts through Layer A and Layer B, but not through Layer C. An igneous intrusion (a body of igneous rock) is shown to have pushed up through Layer A, B, and C. Based on the Principle of Superposition, which rock layer is the oldest?",
     "answerOptions": [
       {
         "text": "Layer A",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the rock) cuts through Layer A and Layer B, but not through Layer C. An igneous intrusion (a body of igneous rock) is shown to have pushed up through Layer A, B, and C.",
-    "question": "Which of the following events occurred most recently?",
+    "question": "A geological cross-section diagram shows several horizontal layers of sedimentary rock. Layer A is at the bottom, followed by Layer B, then Layer C on top. A fault (a crack in the rock) cuts through Layer A and Layer B, but not through Layer C. An igneous intrusion (a body of igneous rock) is shown to have pushed up through Layer A, B, and C. Which of the following events occurred most recently?",
     "answerOptions": [
       {
         "text": "The deposition of Layer A.",

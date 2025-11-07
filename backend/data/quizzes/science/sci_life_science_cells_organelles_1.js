@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A scientist is observing a cell under a microscope. The cell has a distinct, regular shape. It contains a large central vacuole that takes up a significant portion of the cell's volume. Green, oval-shaped organelles are visible throughout the cytoplasm. The cell is surrounded by a thick outer layer outside of its membrane.",
-    "question": "Based on these observations, what type of cell is the scientist most likely observing?",
+    "question": "A scientist is observing a cell under a microscope. The cell has a distinct, regular shape. It contains a large central vacuole that takes up a significant portion of the cell's volume. Green, oval-shaped organelles are visible throughout the cytoplasm. The cell is surrounded by a thick outer layer outside of its membrane. Based on these observations, what type of cell is the scientist most likely observing?",
     "answerOptions": [
       {
         "text": "A human red blood cell",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A scientist is observing a cell under a microscope. The cell has a distinct, regular shape. It contains a large central vacuole that takes up a significant portion of the cell's volume. Green, oval-shaped organelles are visible throughout the cytoplasm. The cell is surrounded by a thick outer layer outside of its membrane.",
-    "question": "What is the function of the green, oval-shaped organelles mentioned in the passage?",
+    "question": "A scientist is observing a cell under a microscope. The cell has a distinct, regular shape. It contains a large central vacuole that takes up a significant portion of the cell's volume. Green, oval-shaped organelles are visible throughout the cytoplasm. The cell is surrounded by a thick outer layer outside of its membrane. What is the function of the green, oval-shaped organelles mentioned in the passage?",
     "answerOptions": [
       {
         "text": "To store water and maintain turgor pressure.",

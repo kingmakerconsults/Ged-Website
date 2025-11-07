@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A paleontologist discovers a fossil in a layer of sedimentary rock. In a layer of volcanic ash above this sedimentary layer, the paleontologist uses radiometric dating and finds that the ash is 68 million years old. In a layer of volcanic ash below the sedimentary layer, the ash is dated to be 72 million years old.",
-    "question": "Based on this information, what is the approximate age of the fossil?",
+    "question": "A paleontologist discovers a fossil in a layer of sedimentary rock. In a layer of volcanic ash above this sedimentary layer, the paleontologist uses radiometric dating and finds that the ash is 68 million years old. In a layer of volcanic ash below the sedimentary layer, the ash is dated to be 72 million years old. Based on this information, what is the approximate age of the fossil?",
     "answerOptions": [
       {
         "text": "Younger than 68 million years.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A paleontologist discovers a fossil in a layer of sedimentary rock. In a layer of volcanic ash above this sedimentary layer, the paleontologist uses radiometric dating and finds that the ash is 68 million years old. In a layer of volcanic ash below the sedimentary layer, the ash is dated to be 72 million years old.",
-    "question": "Why can't the paleontologist use radiometric dating on the sedimentary rock directly?",
+    "question": "A paleontologist discovers a fossil in a layer of sedimentary rock. In a layer of volcanic ash above this sedimentary layer, the paleontologist uses radiometric dating and finds that the ash is 68 million years old. In a layer of volcanic ash below the sedimentary layer, the ash is dated to be 72 million years old. Why can't the paleontologist use radiometric dating on the sedimentary rock directly?",
     "answerOptions": [
       {
         "text": "Sedimentary rocks do not contain radioactive isotopes.",

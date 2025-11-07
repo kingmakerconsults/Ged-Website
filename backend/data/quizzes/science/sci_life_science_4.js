@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A population of deer lives in a forest ecosystem. Due to a series of unusually mild winters and an abundance of food, the deer population grows rapidly. As the deer population increases, they consume a large amount of the available vegetation, including young saplings.",
-    "question": "Which of the following is a likely long-term consequence of the rapid growth in the deer population?",
+    "question": "A population of deer lives in a forest ecosystem. Due to a series of unusually mild winters and an abundance of food, the deer population grows rapidly. As the deer population increases, they consume a large amount of the available vegetation, including young saplings. Which of the following is a likely long-term consequence of the rapid growth in the deer population?",
     "answerOptions": [
       {
         "text": "The population will continue to grow indefinitely.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A population of deer lives in a forest ecosystem. Due to a series of unusually mild winters and an abundance of food, the deer population grows rapidly. As the deer population increases, they consume a large amount of the available vegetation, including young saplings.",
-    "question": "In this scenario, the availability of vegetation is an example of a:",
+    "question": "A population of deer lives in a forest ecosystem. Due to a series of unusually mild winters and an abundance of food, the deer population grows rapidly. As the deer population increases, they consume a large amount of the available vegetation, including young saplings. In this scenario, the availability of vegetation is an example of a:",
     "answerOptions": [
       {
         "text": "Limiting factor",

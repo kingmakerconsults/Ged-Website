@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "The Earth is tilted on its axis at an angle of approximately 23.5 degrees. This tilt remains constant as the Earth revolves around the Sun. When the Northern Hemisphere is tilted towards the Sun, it receives more direct sunlight and experiences summer. When it is tilted away from the Sun, it receives less direct sunlight and experiences winter.",
-    "question": "What season is it in the Southern Hemisphere when the Northern Hemisphere is tilted towards the Sun?",
+    "question": "The Earth is tilted on its axis at an angle of approximately 23.5 degrees. This tilt remains constant as the Earth revolves around the Sun. When the Northern Hemisphere is tilted towards the Sun, it receives more direct sunlight and experiences summer. When it is tilted away from the Sun, it receives less direct sunlight and experiences winter. What season is it in the Southern Hemisphere when the Northern Hemisphere is tilted towards the Sun?",
     "answerOptions": [
       {
         "text": "Summer",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "The Earth is tilted on its axis at an angle of approximately 23.5 degrees. This tilt remains constant as the Earth revolves around the Sun. When the Northern Hemisphere is tilted towards the Sun, it receives more direct sunlight and experiences summer. When it is tilted away from the Sun, it receives less direct sunlight and experiences winter.",
-    "question": "If the Earth's axis were not tilted, what would be the most significant effect on the seasons?",
+    "question": "The Earth is tilted on its axis at an angle of approximately 23.5 degrees. This tilt remains constant as the Earth revolves around the Sun. When the Northern Hemisphere is tilted towards the Sun, it receives more direct sunlight and experiences summer. When it is tilted away from the Sun, it receives less direct sunlight and experiences winter. If the Earth's axis were not tilted, what would be the most significant effect on the seasons?",
     "answerOptions": [
       {
         "text": "The seasons would be much more extreme.",

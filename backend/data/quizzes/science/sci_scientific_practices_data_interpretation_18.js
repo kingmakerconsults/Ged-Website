@@ -60,8 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Data Table: The effect of fertilizer on plant height. Plant A (no fertilizer): Week 1 - 5cm, Week 2 - 7cm, Week 3 - 9cm. Plant B (with fertilizer): Week 1 - 6cm, Week 2 - 10cm, Week 3 - 14cm.",
-    "question": "Based on the data, what is a reasonable conclusion?",
+    "question": "Data Table: The effect of fertilizer on plant height. Plant A (no fertilizer): Week 1 - 5cm, Week 2 - 7cm, Week 3 - 9cm. Plant B (with fertilizer): Week 1 - 6cm, Week 2 - 10cm, Week 3 - 14cm. Based on the data, what is a reasonable conclusion?",
     "answerOptions": [
       {
         "text": "Fertilizer has no effect on plant growth.",
@@ -89,8 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Data Table: The effect of fertilizer on plant height. Plant A (no fertilizer): Week 1 - 5cm, Week 2 - 7cm, Week 3 - 9cm. Plant B (with fertilizer): Week 1 - 6cm, Week 2 - 10cm, Week 3 - 14cm.",
-    "question": "In this experiment, what is the dependent variable?",
+    "question": "Data Table: The effect of fertilizer on plant height. Plant A (no fertilizer): Week 1 - 5cm, Week 2 - 7cm, Week 3 - 9cm. Plant B (with fertilizer): Week 1 - 6cm, Week 2 - 10cm, Week 3 - 14cm. In this experiment, what is the dependent variable?",
     "answerOptions": [
       {
         "text": "The amount of fertilizer.",
@@ -118,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A graph shows the population of a species of fish in a lake over a 10-year period. The line on the graph starts at 500 fish, rises to a peak of 2000 fish at year 5, and then declines to 800 fish by year 10.",
-    "question": "What can be inferred from the graph?",
+    "question": "A graph shows the population of a species of fish in a lake over a 10-year period. The line on the graph starts at 500 fish, rises to a peak of 2000 fish at year 5, and then declines to 800 fish by year 10. What can be inferred from the graph?",
     "answerOptions": [
       {
         "text": "The fish population grew steadily for 10 years.",
@@ -147,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A graph shows the population of a species of fish in a lake over a 10-year period. The line on the graph starts at 500 fish, rises to a peak of 2000 fish at year 5, and then declines to 800 fish by year 10.",
-    "question": "During which period was the population growth rate the fastest?",
+    "question": "A graph shows the population of a species of fish in a lake over a 10-year period. The line on the graph starts at 500 fish, rises to a peak of 2000 fish at year 5, and then declines to 800 fish by year 10. During which period was the population growth rate the fastest?",
     "answerOptions": [
       {
         "text": "Between year 0 and year 5.",

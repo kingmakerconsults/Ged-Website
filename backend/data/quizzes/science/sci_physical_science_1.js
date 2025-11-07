@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "An experiment is conducted to test the effect of force on acceleration. A block with a mass of 5 kg is placed on a frictionless surface. A student applies different forces and records the resulting acceleration. The data is shown below: Force (Newtons): 10, 20, 30. Acceleration (m/s²): 2, 4, 6.",
-    "question": "Based on the data, what is the relationship between the force applied to the block and its resulting acceleration?",
+    "question": "An experiment is conducted to test the effect of force on acceleration. A block with a mass of 5 kg is placed on a frictionless surface. A student applies different forces and records the resulting acceleration. The data is shown below: Force (Newtons): 10, 20, 30. Acceleration (m/s²): 2, 4, 6. Based on the data, what is the relationship between the force applied to the block and its resulting acceleration?",
     "answerOptions": [
       {
         "text": "As the force increases, the acceleration decreases.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "An experiment is conducted to test the effect of force on acceleration. A block with a mass of 5 kg is placed on a frictionless surface. A student applies different forces and records the resulting acceleration. The data is shown below: Force (Newtons): 10, 20, 30. Acceleration (m/s²): 2, 4, 6.",
-    "question": "If the student applied a force of 40 Newtons to the 5 kg block, what would be the predicted acceleration?",
+    "question": "An experiment is conducted to test the effect of force on acceleration. A block with a mass of 5 kg is placed on a frictionless surface. A student applies different forces and records the resulting acceleration. The data is shown below: Force (Newtons): 10, 20, 30. Acceleration (m/s²): 2, 4, 6. If the student applied a force of 40 Newtons to the 5 kg block, what would be the predicted acceleration?",
     "answerOptions": [
       {
         "text": "6 m/s²",

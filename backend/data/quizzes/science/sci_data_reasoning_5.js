@@ -4,8 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "Students investigate how the angle of a ramp affects the speed of a toy car. They test angles of 10°, 20°, and 30° while keeping the ramp length and car the same.",
-    "question": "What is the independent variable?",
+    "question": "Students investigate how the angle of a ramp affects the speed of a toy car. They test angles of 10°, 20°, and 30° while keeping the ramp length and car the same. What is the independent variable?",
     "answerOptions": [
       {
         "text": "The angle of the ramp",
@@ -33,8 +32,7 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A class wants to know if the amount of yeast affects how fast bread dough rises. They use the same recipe each time but change the amount of yeast added.",
-    "question": "Which factor should remain constant to keep the test fair?",
+    "question": "A class wants to know if the amount of yeast affects how fast bread dough rises. They use the same recipe each time but change the amount of yeast added. Which factor should remain constant to keep the test fair?",
     "answerOptions": [
       {
         "text": "The temperature at which the dough is allowed to rise",
@@ -62,8 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "During a lab, students record the mass of a metal sample before and after it is heated in air. The mass increases.",
-    "question": "Which explanation best fits the observation?",
+    "question": "During a lab, students record the mass of a metal sample before and after it is heated in air. The mass increases. Which explanation best fits the observation?",
     "answerOptions": [
       {
         "text": "The sample reacted with oxygen to form a compound that has greater mass.",
@@ -91,8 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A student describes a solution as 'cloudy and pale yellow.'",
-    "question": "What type of data has the student recorded?",
+    "question": "A student describes a solution as 'cloudy and pale yellow.'. What type of data has the student recorded?",
     "answerOptions": [
       {
         "text": "Qualitative data",
@@ -120,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A researcher measures the height of corn plants grown with three different irrigation schedules. The data are displayed on a bar graph with error bars showing variability.",
-    "question": "What do overlapping error bars between two treatments suggest?",
+    "question": "A researcher measures the height of corn plants grown with three different irrigation schedules. The data are displayed on a bar graph with error bars showing variability. What do overlapping error bars between two treatments suggest?",
     "answerOptions": [
       {
         "text": "The average heights of those treatments may not be significantly different.",
@@ -149,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A class calculates the mean, median, and mode of reaction times measured in seconds: 0.55, 0.63, 0.61, 0.58, 0.95.",
-    "question": "Which measure best represents the typical reaction time?",
+    "question": "A class calculates the mean, median, and mode of reaction times measured in seconds: 0.55, 0.63, 0.61, 0.58, 0.95. Which measure best represents the typical reaction time?",
     "answerOptions": [
       {
         "text": "The median, because it is less affected by the unusually slow trial at 0.95 seconds.",
@@ -178,8 +172,7 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Two teams conduct identical experiments measuring how far a spring stretches under different forces. Team A reports results in centimeters, while Team B records in meters.",
-    "question": "What must the teams do before combining their data?",
+    "question": "Two teams conduct identical experiments measuring how far a spring stretches under different forces. Team A reports results in centimeters, while Team B records in meters. What must the teams do before combining their data?",
     "answerOptions": [
       {
         "text": "Convert all measurements to the same unit",
@@ -207,8 +200,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A double-blind study tests an over-the-counter cold remedy. Neither participants nor the nurses administering treatments know who receives the remedy or the placebo until the study ends.",
-    "question": "Why is a double-blind design valuable?",
+    "question": "A double-blind study tests an over-the-counter cold remedy. Neither participants nor the nurses administering treatments know who receives the remedy or the placebo until the study ends. Why is a double-blind design valuable?",
     "answerOptions": [
       {
         "text": "It reduces bias in how symptoms are reported or evaluated.",
@@ -236,8 +228,7 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A weather station records rainfall totals every hour. One sensor malfunctions and reports zero rainfall during a thunderstorm.",
-    "question": "How should meteorologists handle the faulty reading?",
+    "question": "A weather station records rainfall totals every hour. One sensor malfunctions and reports zero rainfall during a thunderstorm. How should meteorologists handle the faulty reading?",
     "answerOptions": [
       {
         "text": "Investigate the malfunction, document the issue, and adjust the data set accordingly.",
@@ -265,8 +256,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A scientist collects sediment cores from a lake to study past droughts. Carbon-14 dating indicates one layer formed about 1,000 years ago during a period of low rainfall.",
-    "question": "Why is it important to include the dating method in the published results?",
+    "question": "A scientist collects sediment cores from a lake to study past droughts. Carbon-14 dating indicates one layer formed about 1,000 years ago during a period of low rainfall. Why is it important to include the dating method in the published results?",
     "answerOptions": [
       {
         "text": "It allows other scientists to evaluate the reliability of the age estimate.",
@@ -294,8 +284,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A regional health department surveys households about radon levels. Households volunteered to participate, and most respondents live in newer homes.",
-    "question": "What limitation should be noted when interpreting the survey?",
+    "question": "A regional health department surveys households about radon levels. Households volunteered to participate, and most respondents live in newer homes. What limitation should be noted when interpreting the survey?",
     "answerOptions": [
       {
         "text": "The sample may not represent older homes or residents who did not volunteer.",
@@ -323,8 +312,7 @@ module.exports = [
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "An online post claims that a new herbal tea cures seasonal allergies, citing a small study of 12 volunteers conducted by the company that sells the tea.",
-    "question": "Which follow-up would best test the claim?",
+    "question": "An online post claims that a new herbal tea cures seasonal allergies, citing a small study of 12 volunteers conducted by the company that sells the tea. Which follow-up would best test the claim?",
     "answerOptions": [
       {
         "text": "Conduct an independent, double-blind trial with a larger and more diverse group of participants.",

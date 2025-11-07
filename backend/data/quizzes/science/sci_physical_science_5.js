@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student is trying to determine the density of a small, irregularly shaped rock. First, she measures the mass of the rock using a balance and finds it to be 60 grams. Then, she takes a graduated cylinder containing 50 mL of water and carefully places the rock inside. The water level rises to 70 mL.",
-    "question": "What is the volume of the rock?",
+    "question": "A student is trying to determine the density of a small, irregularly shaped rock. First, she measures the mass of the rock using a balance and finds it to be 60 grams. Then, she takes a graduated cylinder containing 50 mL of water and carefully places the rock inside. The water level rises to 70 mL. What is the volume of the rock?",
     "answerOptions": [
       {
         "text": "50 mL",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student is trying to determine the density of a small, irregularly shaped rock. First, she measures the mass of the rock using a balance and finds it to be 60 grams. Then, she takes a graduated cylinder containing 50 mL of water and carefully places the rock inside. The water level rises to 70 mL.",
-    "question": "What is the density of the rock? (Density = Mass / Volume)",
+    "question": "A student is trying to determine the density of a small, irregularly shaped rock. First, she measures the mass of the rock using a balance and finds it to be 60 grams. Then, she takes a graduated cylinder containing 50 mL of water and carefully places the rock inside. The water level rises to 70 mL. What is the density of the rock? (Density = Mass / Volume)",
     "answerOptions": [
       {
         "text": "3.0 g/mL",

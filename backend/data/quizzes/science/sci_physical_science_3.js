@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student builds a simple circuit consisting of a 6-volt battery, a switch, and a light bulb. When the switch is closed, the light bulb turns on. The student uses an ammeter to measure the current flowing through the circuit and finds it to be 2 amperes (A).",
-    "question": "According to Ohm's Law (Voltage = Current × Resistance), what is the resistance of the light bulb?",
+    "question": "A student builds a simple circuit consisting of a 6-volt battery, a switch, and a light bulb. When the switch is closed, the light bulb turns on. The student uses an ammeter to measure the current flowing through the circuit and finds it to be 2 amperes (A). According to Ohm's Law (Voltage = Current × Resistance), what is the resistance of the light bulb?",
     "answerOptions": [
       {
         "text": "12 ohms (Ω)",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A student builds a simple circuit consisting of a 6-volt battery, a switch, and a light bulb. When the switch is closed, the light bulb turns on. The student uses an ammeter to measure the current flowing through the circuit and finds it to be 2 amperes (A).",
-    "question": "If the student replaces the 6-volt battery with a 12-volt battery, what would be the expected current, assuming the resistance of the bulb stays the same?",
+    "question": "A student builds a simple circuit consisting of a 6-volt battery, a switch, and a light bulb. When the switch is closed, the light bulb turns on. The student uses an ammeter to measure the current flowing through the circuit and finds it to be 2 amperes (A). If the student replaces the 6-volt battery with a 12-volt battery, what would be the expected current, assuming the resistance of the bulb stays the same?",
     "answerOptions": [
       {
         "text": "2 A",

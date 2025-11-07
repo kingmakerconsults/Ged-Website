@@ -88,7 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "medium",
-      "question": "Newton's Third Law of Motion is often stated as: 'For every action, there is an equal and opposite what?'",
+    "question": "Newton's Third Law of Motion is often stated as: 'For every action, there is an equal and opposite what?'",
     "answerOptions": [
       {
         "text": "Force",
@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A car is traveling at a constant velocity of 50 mph on a straight highway. The force from the engine pushing the car forward is 1,000 Newtons. The combined forces of air resistance and friction acting against the car's motion are also 1,000 Newtons.",
-    "question": "What is the net force on the car?",
+    "question": "A car is traveling at a constant velocity of 50 mph on a straight highway. The force from the engine pushing the car forward is 1,000 Newtons. The combined forces of air resistance and friction acting against the car's motion are also 1,000 Newtons. What is the net force on the car?",
     "answerOptions": [
       {
         "text": "2,000 Newtons forward.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A car is traveling at a constant velocity of 50 mph on a straight highway. The force from the engine pushing the car forward is 1,000 Newtons. The combined forces of air resistance and friction acting against the car's motion are also 1,000 Newtons.",
-    "question": "If the driver suddenly takes their foot off the gas pedal, what will happen to the car's motion?",
+    "question": "A car is traveling at a constant velocity of 50 mph on a straight highway. The force from the engine pushing the car forward is 1,000 Newtons. The combined forces of air resistance and friction acting against the car's motion are also 1,000 Newtons. If the driver suddenly takes their foot off the gas pedal, what will happen to the car's motion?",
     "answerOptions": [
       {
         "text": "It will speed up.",

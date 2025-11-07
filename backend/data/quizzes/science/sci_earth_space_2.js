@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A scientist is analyzing climate data for a coastal city. The data table shows the average sea level in the city for the past 50 years. Year 1: 0 cm (baseline). Year 10: +2 cm. Year 20: +5 cm. Year 30: +8 cm. Year 40: +11 cm. Year 50: +15 cm.",
-    "question": "What trend does the data show regarding the sea level in this city?",
+    "question": "A scientist is analyzing climate data for a coastal city. The data table shows the average sea level in the city for the past 50 years. Year 1: 0 cm (baseline). Year 10: +2 cm. Year 20: +5 cm. Year 30: +8 cm. Year 40: +11 cm. Year 50: +15 cm. What trend does the data show regarding the sea level in this city?",
     "answerOptions": [
       {
         "text": "The sea level is decreasing over time.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A scientist is analyzing climate data for a coastal city. The data table shows the average sea level in the city for the past 50 years. Year 1: 0 cm (baseline). Year 10: +2 cm. Year 20: +5 cm. Year 30: +8 cm. Year 40: +11 cm. Year 50: +15 cm.",
-    "question": "The primary cause of the trend shown in the data is most likely related to:",
+    "question": "A scientist is analyzing climate data for a coastal city. The data table shows the average sea level in the city for the past 50 years. Year 1: 0 cm (baseline). Year 10: +2 cm. Year 20: +5 cm. Year 30: +8 cm. Year 40: +11 cm. Year 50: +15 cm. The primary cause of the trend shown in the data is most likely related to:",
     "answerOptions": [
       {
         "text": "An increase in the number of earthquakes.",

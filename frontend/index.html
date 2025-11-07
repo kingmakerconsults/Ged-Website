@@ -12214,39 +12214,25 @@ function DetailedProgressView({ subject, progressData, onBack, rlaEssayAvgDispla
                                                 <p className="font-semibold text-slate-800">{attempt.quizTitle || attempt.quizCode || `Exam ${index + 1}`}</p>
                                                 <p className="text-xs text-slate-500">Code: {attempt.quizCode || '—'}</p>
                                             </div>
-                                            <div className="text-right">
-                                                <p className="text-lg font-bold text-slate-900">{formatScore(attempt.scaledScore)}</p>
-                                                <p className={`text-xs font-semibold ${className}`}>{label}</p>
+                                            <div className="space-y-3">
+                                                {/* Recent attempt details go here (removed accidental option renderer) */}
                                             </div>
-                                        </div>
-                                        <div className="mt-2 flex flex-wrap justify-between text-xs text-slate-500">
-                                            <span>{formatDate(attempt.attemptedAt)}</span>
-                                            {typeof attempt.score === 'number' && typeof attempt.totalQuestions === 'number' && (
-                                                <span>{attempt.score} / {attempt.totalQuestions} correct</span>
-                                            )}
                                         </div>
                                     </li>
                                 );
                             })}
                         </ul>
                     ) : (
-                        <p className="text-sm text-slate-600">No attempts logged yet. Complete a premade exam to see detailed history.</p>
+                        <p className="text-sm text-slate-600">No recent attempts recorded yet.</p>
                     )}
                 </section>
+
             </div>
         </div>
     );
 }
 
-function ProgressDashboard({ progress, onSubjectClick, profilePassedMap: profilePassedFromProps, recentSummary }) {
-    // Local subject id + badge path maps (mirrors the main app maps)
-    const SUBJECT_ID_MAP = {
-        'Math': 'math',
-        'Science': 'science',
-        'Social Studies': 'social_studies',
-        'Reasoning Through Language Arts (RLA)': 'rla',
-        'RLA': 'rla',
-    };
+function DashboardProgressSummary({ progress, profilePassedFromProps, recentSummary }) {
     // Static base path for badges served by the backend
     const BADGE_BASE = '/badges';
     // Build passed set from profile only, plus optional localStorage overrides

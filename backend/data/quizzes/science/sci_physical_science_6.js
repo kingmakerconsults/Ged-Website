@@ -4,7 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-  "question": "Temperature is a measure of the average what of the particles in a substance?",
+    "question": "Temperature is a measure of the average what of the particles in a substance?",
     "answerOptions": [
       {
         "text": "Kinetic energy",
@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A person is holding a metal rod in a campfire. After a few moments, the end of the rod they are holding becomes hot. In a separate situation, the person warms their hands by holding them near, but not touching, the fire.",
-    "question": "How is heat transferred to the person's hand through the metal rod?",
+    "question": "A person is holding a metal rod in a campfire. After a few moments, the end of the rod they are holding becomes hot. In a separate situation, the person warms their hands by holding them near, but not touching, the fire. How is heat transferred to the person's hand through the metal rod?",
     "answerOptions": [
       {
         "text": "Through radiation",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A person is holding a metal rod in a campfire. After a few moments, the end of the rod they are holding becomes hot. In a separate situation, the person warms their hands by holding them near, but not touching, the fire.",
-    "question": "How is heat transferred to the person's hands when they hold them near the fire?",
+    "question": "A person is holding a metal rod in a campfire. After a few moments, the end of the rod they are holding becomes hot. In a separate situation, the person warms their hands by holding them near, but not touching, the fire. How is heat transferred to the person's hands when they hold them near the fire?",
     "answerOptions": [
       {
         "text": "Through conduction",

@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when you exercise, your body temperature rises. To cool down, your nervous system signals your sweat glands to produce sweat, which cools the skin as it evaporates. At the same time, your blood vessels dilate to release heat.",
-    "question": "This process of sweating and vasodilation to control temperature is an example of what kind of feedback loop?",
+    "question": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when you exercise, your body temperature rises. To cool down, your nervous system signals your sweat glands to produce sweat, which cools the skin as it evaporates. At the same time, your blood vessels dilate to release heat. This process of sweating and vasodilation to control temperature is an example of what kind of feedback loop?",
     "answerOptions": [
       {
         "text": "Positive feedback loop",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when you exercise, your body temperature rises. To cool down, your nervous system signals your sweat glands to produce sweat, which cools the skin as it evaporates. At the same time, your blood vessels dilate to release heat.",
-    "question": "Which two body systems are primarily interacting in this example of temperature regulation?",
+    "question": "Homeostasis is the body's ability to maintain a stable internal environment despite changes in external conditions. For example, when you exercise, your body temperature rises. To cool down, your nervous system signals your sweat glands to produce sweat, which cools the skin as it evaporates. At the same time, your blood vessels dilate to release heat. Which two body systems are primarily interacting in this example of temperature regulation?",
     "answerOptions": [
       {
         "text": "Digestive and respiratory systems",
@@ -202,7 +200,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-  "question": "The endocrine system uses chemical messengers called what to regulate bodily functions?",
+    "question": "The endocrine system uses chemical messengers called what to regulate bodily functions?",
     "answerOptions": [
       {
         "text": "Neurons",

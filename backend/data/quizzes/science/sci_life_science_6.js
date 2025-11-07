@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A certain pesticide is used on crops to kill insects. This pesticide is not biodegradable and accumulates in the tissues of organisms. The pesticide is present in the water, which is absorbed by algae. Small fish eat the algae, larger fish eat the small fish, and a bird of prey eats the larger fish.",
-    "question": "In which organism would the concentration of the pesticide be the highest?",
+    "question": "A certain pesticide is used on crops to kill insects. This pesticide is not biodegradable and accumulates in the tissues of organisms. The pesticide is present in the water, which is absorbed by algae. Small fish eat the algae, larger fish eat the small fish, and a bird of prey eats the larger fish. In which organism would the concentration of the pesticide be the highest?",
     "answerOptions": [
       {
         "text": "The algae",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A certain pesticide is used on crops to kill insects. This pesticide is not biodegradable and accumulates in the tissues of organisms. The pesticide is present in the water, which is absorbed by algae. Small fish eat the algae, larger fish eat the small fish, and a bird of prey eats the larger fish.",
-    "question": "The process described in the passage, where the concentration of a toxin increases at higher trophic levels in a food web, is called:",
+    "question": "A certain pesticide is used on crops to kill insects. This pesticide is not biodegradable and accumulates in the tissues of organisms. The pesticide is present in the water, which is absorbed by algae. Small fish eat the algae, larger fish eat the small fish, and a bird of prey eats the larger fish. The process described in the passage, where the concentration of a toxin increases at higher trophic levels in a food web, is called:",
     "answerOptions": [
       {
         "text": "Eutrophication",

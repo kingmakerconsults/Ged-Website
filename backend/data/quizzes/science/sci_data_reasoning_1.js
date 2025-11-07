@@ -4,8 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A gardening club sets up two identical planter boxes of lettuce. Box A receives the regular watering schedule. Box B receives the same watering schedule plus a weekly dose of liquid seaweed fertilizer.",
-    "question": "In this investigation, which factor is the independent variable?",
+    "question": "A gardening club sets up two identical planter boxes of lettuce. Box A receives the regular watering schedule. Box B receives the same watering schedule plus a weekly dose of liquid seaweed fertilizer. In this investigation, which factor is the independent variable?",
     "answerOptions": [
       {
         "text": "The variety of lettuce planted in each box.",
@@ -33,8 +32,7 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "The gardeners record the height of each lettuce plant once per week for six weeks.",
-    "question": "What is the dependent variable in this study?",
+    "question": "The gardeners record the height of each lettuce plant once per week for six weeks. What is the dependent variable in this study?",
     "answerOptions": [
       {
         "text": "Whether the plants receive fertilizer.",
@@ -118,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A lab group tested how different amounts of salt affect the boiling point of water. Their data table shows that adding 10 grams of salt raised the boiling point by 1.5°C, 20 grams raised it by 3.0°C, and 30 grams raised it by 4.6°C compared with plain water.",
-    "question": "Which conclusion is best supported by the data?",
+    "question": "A lab group tested how different amounts of salt affect the boiling point of water. Their data table shows that adding 10 grams of salt raised the boiling point by 1.5°C, 20 grams raised it by 3.0°C, and 30 grams raised it by 4.6°C compared with plain water. Which conclusion is best supported by the data?",
     "answerOptions": [
       {
         "text": "Salt lowers the boiling point of water.",
@@ -147,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A teacher provides students with two soil samples to test water absorption. Soil Sample 1 absorbs 40 milliliters of water in five minutes. Soil Sample 2 absorbs 25 milliliters of water in the same time period.",
-    "question": "What is the dependent variable in this investigation?",
+    "question": "A teacher provides students with two soil samples to test water absorption. Soil Sample 1 absorbs 40 milliliters of water in five minutes. Soil Sample 2 absorbs 25 milliliters of water in the same time period. What is the dependent variable in this investigation?",
     "answerOptions": [
       {
         "text": "The type of soil being tested.",
@@ -176,8 +172,7 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Students time how long it takes a pendulum to swing 20 times. They repeat the trial five times with the same string length and record very similar results each time.",
-    "question": "Why are repeated trials important in this investigation?",
+    "question": "Students time how long it takes a pendulum to swing 20 times. They repeat the trial five times with the same string length and record very similar results each time. Why are repeated trials important in this investigation?",
     "answerOptions": [
       {
         "text": "They allow students to change the length of the string each time.",
@@ -205,8 +200,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A class measures the mass of identical candles before and after burning them for 10 minutes. Most students observe a loss of about 3.8 grams. One group records a loss of only 1.2 grams.",
-    "question": "How should the class treat the data point reported by the one group that differs greatly from the others?",
+    "question": "A class measures the mass of identical candles before and after burning them for 10 minutes. Most students observe a loss of about 3.8 grams. One group records a loss of only 1.2 grams. How should the class treat the data point reported by the one group that differs greatly from the others?",
     "answerOptions": [
       {
         "text": "Exclude it automatically because it does not match the rest of the data.",
@@ -234,8 +228,7 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A scatter plot shows that as the amount of daily exercise increases, resting heart rate decreases for a group of adults.",
-    "question": "What does the scatter plot suggest about the relationship between exercise and resting heart rate?",
+    "question": "A scatter plot shows that as the amount of daily exercise increases, resting heart rate decreases for a group of adults. What does the scatter plot suggest about the relationship between exercise and resting heart rate?",
     "answerOptions": [
       {
         "text": "There is a negative correlation between exercise and resting heart rate.",
@@ -263,8 +256,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A meteorology team collects temperature readings from four weather stations positioned around a city. Station 1 is near the coast, Station 2 is downtown, Station 3 is in a forested park, and Station 4 is in an industrial area. On a summer afternoon, Stations 1 and 3 report cooler temperatures than Stations 2 and 4.",
-    "question": "Which explanation best fits the data?",
+    "question": "A meteorology team collects temperature readings from four weather stations positioned around a city. Station 1 is near the coast, Station 2 is downtown, Station 3 is in a forested park, and Station 4 is in an industrial area. On a summer afternoon, Stations 1 and 3 report cooler temperatures than Stations 2 and 4. Which explanation best fits the data?",
     "answerOptions": [
       {
         "text": "Urban heat islands in the downtown and industrial areas raise the local temperature.",
@@ -292,8 +284,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "Two medical researchers test the same new cold remedy. Team A enrolls 20 volunteers. Team B enrolls 400 volunteers. Both teams follow the same procedures and collect similar results.",
-    "question": "Why is Team B's data set considered more reliable?",
+    "question": "Two medical researchers test the same new cold remedy. Team A enrolls 20 volunteers. Team B enrolls 400 volunteers. Both teams follow the same procedures and collect similar results. Why is Team B's data set considered more reliable?",
     "answerOptions": [
       {
         "text": "Team B used more precise thermometers than Team A.",
@@ -321,8 +312,7 @@ module.exports = [
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A survey shows that students who bring homemade lunches tend to earn slightly higher science grades than students who buy lunch at school. The survey does not record what foods students actually eat, how much they study, or their access to tutoring.",
-    "question": "What is the best way to interpret this survey result?",
+    "question": "A survey shows that students who bring homemade lunches tend to earn slightly higher science grades than students who buy lunch at school. The survey does not record what foods students actually eat, how much they study, or their access to tutoring. What is the best way to interpret this survey result?",
     "answerOptions": [
       {
         "text": "Bringing homemade lunches directly causes students to earn higher science grades.",

@@ -116,8 +116,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "In a forest ecosystem, sunlight allows oak trees to produce acorns. Squirrels eat the acorns. Hawks, in turn, hunt and eat the squirrels. When a hawk dies, its body is broken down by bacteria and fungi, which return nutrients to the soil.",
-    "question": "In this food web, what would be the most likely immediate effect if a disease wiped out most of the squirrel population?",
+    "question": "In a forest ecosystem, sunlight allows oak trees to produce acorns. Squirrels eat the acorns. Hawks, in turn, hunt and eat the squirrels. When a hawk dies, its body is broken down by bacteria and fungi, which return nutrients to the soil. In this food web, what would be the most likely immediate effect if a disease wiped out most of the squirrel population?",
     "answerOptions": [
       {
         "text": "The oak tree population would decrease.",
@@ -145,8 +144,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "In a forest ecosystem, sunlight allows oak trees to produce acorns. Squirrels eat the acorns. Hawks, in turn, hunt and eat the squirrels. When a hawk dies, its body is broken down by bacteria and fungi, which return nutrients to the soil.",
-    "question": "The role of the bacteria and fungi in this ecosystem is to:",
+    "question": "In a forest ecosystem, sunlight allows oak trees to produce acorns. Squirrels eat the acorns. Hawks, in turn, hunt and eat the squirrels. When a hawk dies, its body is broken down by bacteria and fungi, which return nutrients to the soil. The role of the bacteria and fungi in this ecosystem is to:",
     "answerOptions": [
       {
         "text": "Serve as a food source for the squirrels.",
