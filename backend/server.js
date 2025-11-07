@@ -286,6 +286,18 @@ async function timed(label, fn) {
         throw e;
     }
 }
+
+// Logs how long AI/quiz generation took. Used by the quiz/exam routes.
+function logGenerationDuration(examType, subject, startMs, status = 'ok') {
+    try {
+        const dur = Date.now() - startMs;
+        console.log(
+            `[QuizGen] type=${examType} subject=${subject} status=${status} durationMs=${dur}`
+        );
+    } catch (e) {
+        console.warn('logGenerationDuration failed:', e?.message || e);
+    }
+}
 // --- coach advice helpers (top level) ---
 function getCurrentWeekStartISO() {
     const now = new Date();
@@ -1501,6 +1513,11 @@ Image rules:
 
 function buildTopicQuizPrompt(subject, topic, difficulty) {
     const baseHeader = STRICT_JSON_HEADER_SHARED;
+
+    // NEW: pull up to 3 relevant images from the in-memory image DB
+    const images = findImagesForSubjectTopic(subject, topic, 3);
+    const imageBlock = buildImageContextBlock(images);
+
     const typeHint = subject === 'Math'
         ? 'math problem-solving, algebra, geometry, word problems'
         : subject === 'RLA'
@@ -1515,16 +1532,18 @@ function buildTopicQuizPrompt(subject, topic, difficulty) {
 
     const difficultyLine = difficulty ? `\nAim overall difficulty toward a ${difficulty} level.` : '';
 
+    // IMPORTANT: imageBlock is injected BEFORE SHARED_IMAGE_RULES
     return `${baseHeader}
 Generate exactly 12 GED-level ${subject} questions on the topic "${topic}".
 Focus on variety and balance:
 
 * 4 passage-based (each <= 250 words)
-* 3 image or data-based (describe visuals in text)
+* 3 image or data-based (use provided local images if suitable)
 * 5 standalone conceptual questions.
 Vary difficulty (easy, medium, hard mix).${difficultyLine}
 Each question must match the subject focus: ${typeHint}.
 ${structure}
+${imageBlock}
 ${SHARED_IMAGE_RULES}`;
 }
 
@@ -1921,6 +1940,48 @@ async function applyMathCorrectnessPass(questions, options = {}) {
     }
 }
 
+// NEW: ensure every item has at least 3-4 options and exactly one correct
+function normalizeAnswerOptions(item) {
+    const out = { ...item };
+
+    // if no options at all, just return as-is (could be freeResponse)
+    if (!Array.isArray(out.answerOptions) || out.answerOptions.length === 0) {
+        return out;
+    }
+
+    // keep the first correct as the real correct
+    let correctIndex = out.answerOptions.findIndex(opt => opt && opt.isCorrect === true);
+    if (correctIndex === -1) {
+        // if model forgot to mark one correct, make the first one correct
+        correctIndex = 0;
+        if (out.answerOptions[0]) {
+            out.answerOptions[0].isCorrect = true;
+        } else {
+            out.answerOptions[0] = { text: 'Choice 1', isCorrect: true, rationale: 'This is the correct answer.' };
+        }
+    }
+
+    // make sure all others are false and fill missing text/rationale
+    out.answerOptions = out.answerOptions.map((opt, i) => ({
+        text: (opt && typeof opt.text === 'string' && opt.text.trim()) ? opt.text : `Choice ${i + 1}`,
+        isCorrect: i === correctIndex,
+        rationale: (opt && typeof opt.rationale === 'string')
+            ? opt.rationale
+            : (i === correctIndex ? 'This is the correct answer.' : 'This choice is not correct.')
+    }));
+
+    // pad to 4 options if we have fewer than 3
+    while (out.answerOptions.length < 4) {
+        out.answerOptions.push({
+            text: `Plausible but incorrect option ${out.answerOptions.length + 1}`,
+            isCorrect: false,
+            rationale: 'Plausible but not the best answer.'
+        });
+    }
+
+    return out;
+}
+
 async function generateExam(subject, promptBuilder, counts, options = {}) {
     const prompt = promptBuilder(counts, options);
 
@@ -1958,6 +2019,9 @@ async function generateExam(subject, promptBuilder, counts, options = {}) {
             console.warn('Repair batch failed; continuing with original items.', err?.message || err);
         }
     }
+
+    // normalize MC structure first
+    items = items.map((it) => normalizeAnswerOptions(it));
 
     const processed = items.map((it) => enforceWordCapsOnItem(it, subject));
     if (options?.fractionPlainTextMode) {
@@ -5036,7 +5100,9 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             items = validateAndFilterAiItems(items, subject, topic);
         }
 
-        // 6. Final cleanup and response
+    // 6. Final cleanup and response
+    // Normalize MC options to ensure exactly one correct and at least 4 options
+    items = items.map((it) => normalizeAnswerOptions(it));
         items = dedupeNearDuplicates(items, 0.85);
         items = groupedShuffle(items);
 
