@@ -7535,6 +7535,87 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         );
     };
 
+    // Build grouped/chunked stacks of 3 from flat topic list for categories with numbered quizzes
+    const buildStackedSetsFromTopics = (topics) => {
+        const list = Array.isArray(topics) ? topics : [];
+        const groups = new Map();
+        let sawVariantPattern = false;
+
+        const push = (baseTitle, topic) => {
+            const key = String(baseTitle || '').toLowerCase();
+            if (!groups.has(key)) groups.set(key, { baseTitle, items: [] });
+            groups.get(key).items.push(topic);
+        };
+
+        list.forEach((t) => {
+            if (!t || typeof t !== 'object') return;
+            const raw = String(t.title || t.id || '').trim();
+            const [left, right] = splitOnDivider(raw);
+            const looksVariant = (!!right && isVariantSuffix(right)) || /\b(quiz|set)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i.test(raw);
+            const base = deriveCanonicalTopicTitle(raw);
+            if (looksVariant || base !== raw) sawVariantPattern = true;
+            push(base || left || raw, t);
+        });
+
+        // Create chunks of up to 3 in original order per base group
+        const stackedSets = [];
+        groups.forEach(({ baseTitle, items }) => {
+            for (let i = 0; i < items.length; i += 3) {
+                const chunk = items.slice(i, i + 3);
+                stackedSets.push({ baseTitle, setIndex: Math.floor(i / 3) + 1, quizzes: chunk });
+            }
+        });
+
+        // Decide whether to use stacking or fall back: only use if we detected variant patterns
+        const shouldUse = sawVariantPattern && stackedSets.length > 0;
+        return { stackedSets, shouldUse };
+    };
+
+    // Launch handler that concatenates questions across the 1–3 quizzes in a stack
+    const launchStackedSet = (stackedSet) => {
+        if (!stackedSet || !Array.isArray(stackedSet.quizzes)) return;
+        let allQuestions = [];
+        stackedSet.quizzes.forEach((topicLike) => {
+            if (!topicLike) return;
+            let quizLike = null;
+            if (Array.isArray(topicLike.quizzes) && topicLike.quizzes.length) {
+                // Prefer first quiz variant that actually resolves to questions
+                const firstWithQs = topicLike.quizzes.find((q) => quizHasAvailableQuestions(subjectName, topicLike, q)) || topicLike.quizzes[0];
+                quizLike = firstWithQs || null;
+            }
+            const resolved = resolveQuizQuestions(subjectName, topicLike, quizLike || topicLike);
+            if (Array.isArray(resolved) && resolved.length) {
+                allQuestions = allQuestions.concat(resolved);
+            }
+        });
+
+        // Renumber sequentially
+        allQuestions = allQuestions.map((q, i) => {
+            if (q && typeof q === 'object') return { ...q, questionNumber: i + 1 };
+            return q;
+        });
+
+        if (!allQuestions.length) {
+            alert('This set does not have any questions yet. Please try another set.');
+            return;
+        }
+
+        const baseId = stackedSet.baseTitle.toLowerCase().replace(/\s+/g, '_');
+        const id = `${baseId}_set_${stackedSet.setIndex}`;
+        const preparedQuiz = {
+            id,
+            quizCode: id,
+            title: `${stackedSet.baseTitle} — Set ${stackedSet.setIndex}`,
+            topicTitle: stackedSet.baseTitle,
+            description: stackedSet.quizzes?.[0]?.description || 'Bundled practice set',
+            type: 'quiz',
+            questions: allQuestions,
+        };
+        if (typeof onSelectQuiz === 'function') {
+            onSelectQuiz(preparedQuiz, subjectName);
+        }
+    };
+
     const topicsForActive = Array.isArray(active?.topicIds)
         ? active.topicIds.map((tid) => getTopicById(subjectName, tid)).filter(Boolean)
         : [];
@@ -7572,6 +7653,45 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             ? active.topicIds.map((tid) => getTopicById(subjectName, tid)).filter(Boolean)
             : [];
         const filtered = sortItems(filterByControls(topicsForActive.map(t => ({ topic: t })))).map(x => x.topic);
+
+        // New: group and chunk into stacks of 3 where topics are numbered variants
+        const { stackedSets, shouldUse } = buildStackedSetsFromTopics(filtered);
+
+        const renderStackedCard = (set, idx) => (
+            <div
+                key={`stack_${set.baseTitle}_${set.setIndex}_${idx}`}
+                className="rounded-xl border bg-white/95 dark:bg-slate-900/80 dark:border-slate-700 p-4 flex flex-col justify-between shadow-md"
+                style={isDarkMode
+                    ? { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', color: subjectColors.text || '#f8fafc' }
+                    : { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', backgroundColor: '#ffffff', backgroundImage: lightCardBackground, color: cardTextColor }}
+            >
+                <div className="fade-in">
+                    <h3 className="text-lg font-bold" style={isDarkMode ? { color: subjectColors.text || '#f8fafc' } : { color: cardTextColor }}>
+                        {`${set.baseTitle}: Set ${set.setIndex}`}
+                    </h3>
+                    <p
+                        className="mt-2"
+                        title={set.quizzes?.[0]?.description || '3 quizzes bundled from this topic.'}
+                        style={{
+                            fontSize: '0.9rem',
+                            lineHeight: 1.4,
+                            opacity: 0.85,
+                            fontWeight: 500,
+                            color: isDarkMode ? 'var(--text-tertiary, rgba(226,232,240,0.78))' : 'var(--subtext-color, rgba(15,23,42,0.66))',
+                        }}
+                    >
+                        {set.quizzes?.[0]?.description || '3 quizzes bundled from this topic.'}
+                    </p>
+                </div>
+                <button
+                    onClick={() => launchStackedSet(set)}
+                    className="w-full mt-3 px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                    style={buttonStyle}
+                >
+                    Start Core Practice
+                </button>
+            </div>
+        );
         return (
             <>
                 <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" role="tablist" aria-label="Category clusters">
@@ -7655,7 +7775,9 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                         No topics available yet for this cluster.
                     </div>
                     )}
-                    {filtered.map((topic, idx) => renderTopicCard(topic, idx))}
+                    {shouldUse
+                        ? stackedSets.map((set, idx) => renderStackedCard(set, idx))
+                        : filtered.map((topic, idx) => renderTopicCard(topic, idx))}
                 </div>
             </>
         );
