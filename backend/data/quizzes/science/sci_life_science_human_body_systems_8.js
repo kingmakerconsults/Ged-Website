@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The liver has many functions, including detoxification and bile production, but it does not pump blood.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The heart is a muscular organ that pumps blood throughout the body."
   },
   {
     "questionNumber": 2,
@@ -202,7 +203,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-  "question": "The endocrine system uses chemical messengers called what to regulate bodily functions?",
+    "question": "The endocrine system uses chemical messengers called what to regulate bodily functions?",
     "answerOptions": [
       {
         "text": "Neurons",

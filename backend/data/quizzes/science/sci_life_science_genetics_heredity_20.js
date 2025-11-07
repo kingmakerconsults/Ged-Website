@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Correct. DNA is the fundamental hereditary material in nearly all living things.",
         "isCorrect": true
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: DNA is the fundamental hereditary material in nearly all living things."
   },
   {
     "questionNumber": 2,

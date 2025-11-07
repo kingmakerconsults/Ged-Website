@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The atmosphere is the layer of gases surrounding the Earth.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The crust is the thinnest and outermost layer of the Earth."
   },
   {
     "questionNumber": 2,

@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "An electron is a subatomic particle within an atom.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The atom is the basic building block of all matter."
   },
   {
     "questionNumber": 2,

@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Baking involves chemical reactions that change the ingredients.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: This is a change of state from solid to liquid, but the substance (water) remains the same."
   },
   {
     "questionNumber": 2,
@@ -230,7 +231,7 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "hard",
-  "question": "At the top of a roller coaster hill, a cart has its maximum amount of what type of energy? As it goes down the hill, this energy is converted into what type of energy?",
+    "question": "At the top of a roller coaster hill, a cart has its maximum amount of what type of energy? As it goes down the hill, this energy is converted into what type of energy?",
     "answerOptions": [
       {
         "text": "kinetic; potential",

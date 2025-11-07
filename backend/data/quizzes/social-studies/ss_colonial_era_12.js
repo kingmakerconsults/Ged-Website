@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The national government was too weak to maintain a large standing army.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "History textbook excerpt: The Articles created a weak national government that could not levy taxes, making it difficult to fund the government or pay war debts."
   },
   {
     "questionNumber": 2,

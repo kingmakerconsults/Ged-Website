@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Chloroplasts are the site of photosynthesis in plant cells.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Mitochondria are the sites of cellular respiration."
   },
   {
     "questionNumber": 2,

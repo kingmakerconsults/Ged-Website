@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The biosphere is the zone where all life exists.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The atmosphere is the envelope of gases that surrounds our planet."
   },
   {
     "questionNumber": 2,
@@ -54,7 +55,8 @@ module.exports = [
         "rationale": "Recycling helps to reduce pollution.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Burning coal, oil, and gas for energy releases pollutants like sulfur dioxide, nitrogen oxides, and particulate matter into the air."
   },
   {
     "questionNumber": 3,
