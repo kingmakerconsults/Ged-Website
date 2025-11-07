@@ -7227,6 +7227,40 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [subjectName]);
 
+    // track quiz progress per subject
+    const progressKey = `quizBrowserProgress:${sanitizeCodeSegment(subjectName)}`;
+    const [progress, setProgress] = React.useState(() => {
+        try {
+            const raw = window.localStorage?.getItem(progressKey);
+            return raw ? JSON.parse(raw) : {};
+        } catch {
+            return {};
+        }
+    });
+
+    // global helper for the quiz runner to call when a quiz is finished
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            window.recordQuizResult = (quizId, scorePct) => {
+                const passed = typeof scorePct === 'number' && scorePct >= 70;
+                setProgress(prev => {
+                    const next = {
+                        ...prev,
+                        [quizId]: {
+                            status: passed ? 'passed' : 'completed',
+                            score: scorePct ?? null,
+                            updatedAt: Date.now(),
+                        }
+                    };
+                    try {
+                        window.localStorage?.setItem(progressKey, JSON.stringify(next));
+                    } catch {}
+                    return next;
+                });
+            };
+        }
+    }, [progressKey]);
+
     // Derivers: topic access, tagging, filters, sorting
     const allTopics = React.useMemo(() => {
         const list = [];
@@ -7571,55 +7605,54 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         return { stackedSets, shouldUse };
     };
 
-    // Launch handler that just opens the first quiz in the stack (no merging)
-    const launchStackedSet = (stackedSet) => {
+    // open a specific quiz inside the stacked set (index 0,1,2)
+    const launchStackedSetAt = (stackedSet, quizIndex = 0) => {
         if (!stackedSet || !Array.isArray(stackedSet.quizzes) || !stackedSet.quizzes.length) return;
 
-        // pick the first topic/quiz in this stack
-        const firstTopicLike = stackedSet.quizzes[0];
+        const topicLike = stackedSet.quizzes[quizIndex] || stackedSet.quizzes[0];
 
-        // some topics have sub-quizzes; grab the first one with questions
+        // some topics have sub-quizzes
         let quizLike = null;
-        if (Array.isArray(firstTopicLike.quizzes) && firstTopicLike.quizzes.length) {
-            quizLike = firstTopicLike.quizzes.find((q) =>
-                quizHasAvailableQuestions(subjectName, firstTopicLike, q)
-            ) || firstTopicLike.quizzes[0];
+        if (Array.isArray(topicLike.quizzes) && topicLike.quizzes.length) {
+            quizLike = topicLike.quizzes.find((q) =>
+                quizHasAvailableQuestions(subjectName, topicLike, q)
+            ) || topicLike.quizzes[0];
         }
 
         const questions = resolveQuizQuestions(
             subjectName,
-            firstTopicLike,
-            quizLike || firstTopicLike
+            topicLike,
+            quizLike || topicLike
         );
 
         if (!Array.isArray(questions) || !questions.length) {
-            alert('This set does not have any questions yet. Please try another set.');
+            alert('This quiz does not have questions yet. Try another.');
             return;
         }
 
-        // renumber just these questions
-        const numbered = questions.map((q, i) => {
-            if (q && typeof q === 'object') return { ...q, questionNumber: i + 1 };
-            return q;
-        });
-
         const baseId = stackedSet.baseTitle.toLowerCase().replace(/\s+/g, '_');
-        const id = `${baseId}_set_${stackedSet.setIndex}`;
+        const id = `${baseId}_set_${stackedSet.setIndex}_quiz_${quizIndex + 1}`;
 
         const preparedQuiz = {
             id,
             quizCode: id,
-            title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex}`,
+            title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex} — Quiz ${quizIndex + 1}`,
             topicTitle: stackedSet.baseTitle,
-            description: firstTopicLike.description || 'Practice set from this topic.',
+            description: topicLike.description || 'Practice set from this topic.',
             type: 'quiz',
-            questions: numbered,
+            questions: questions.map((q, i) => {
+                if (q && typeof q === 'object') return { ...q, questionNumber: i + 1 };
+                return q;
+            }),
         };
 
         if (typeof onSelectQuiz === 'function') {
             onSelectQuiz(preparedQuiz, subjectName);
         }
     };
+
+    // main button = quiz 1
+    const launchStackedSet = (stackedSet) => launchStackedSetAt(stackedSet, 0);
 
     const topicsForActive = Array.isArray(active?.topicIds)
         ? active.topicIds.map((tid) => getTopicById(subjectName, tid)).filter(Boolean)
@@ -7662,41 +7695,105 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         // New: group and chunk into stacks of 3 where topics are numbered variants
         const { stackedSets, shouldUse } = buildStackedSetsFromTopics(filtered);
 
-        const renderStackedCard = (set, idx) => (
-            <div
-                key={`stack_${set.baseTitle}_${set.setIndex}_${idx}`}
-                className="rounded-xl border bg-white/95 dark:bg-slate-900/80 dark:border-slate-700 p-4 flex flex-col justify-between shadow-md"
-                style={isDarkMode
-                    ? { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', color: subjectColors.text || '#f8fafc' }
-                    : { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', backgroundColor: '#ffffff', backgroundImage: lightCardBackground, color: cardTextColor }}
-            >
-                <div className="fade-in">
-                    <h3 className="text-lg font-bold" style={isDarkMode ? { color: subjectColors.text || '#f8fafc' } : { color: cardTextColor }}>
-                        {`${set.baseTitle}: Set ${set.setIndex}`}
-                    </h3>
-                    <p
-                        className="mt-2"
-                        title={set.quizzes?.[0]?.description || '3 quizzes bundled from this topic.'}
-                        style={{
-                            fontSize: '0.9rem',
-                            lineHeight: 1.4,
-                            opacity: 0.85,
-                            fontWeight: 500,
-                            color: isDarkMode ? 'var(--text-tertiary, rgba(226,232,240,0.78))' : 'var(--subtext-color, rgba(15,23,42,0.66))',
-                        }}
-                    >
-                        {set.quizzes?.[0]?.description || '3 quizzes bundled from this topic.'}
-                    </p>
-                </div>
-                <button
-                    onClick={() => launchStackedSet(set)}
-                    className="w-full mt-3 px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
-                    style={buttonStyle}
+        const renderStackedCard = (set, idx) => {
+            // build ids for quiz 1/2/3 for this set
+            const baseId = set.baseTitle.toLowerCase().replace(/\s+/g, '_');
+            const quiz1Id = `${baseId}_set_${set.setIndex}_quiz_1`;
+            const quiz2Id = `${baseId}_set_${set.setIndex}_quiz_2`;
+            const quiz3Id = `${baseId}_set_${set.setIndex}_quiz_3`;
+
+            const quizCount = Array.isArray(set.quizzes) ? set.quizzes.length : 0;
+
+            // check stored status
+            const statusList = [
+                progress[quiz1Id]?.status,
+                progress[quiz2Id]?.status,
+                progress[quiz3Id]?.status,
+            ];
+            const isPassed = statusList.includes('passed');
+            const isCompleted = !isPassed && statusList.includes('completed');
+
+            // existing styles
+            const cardBaseStyle = isDarkMode
+                ? { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', color: subjectColors.text || '#f8fafc' }
+                : { borderColor: subjectColors.border || 'rgba(148,163,184,0.35)', backgroundImage: lightCardBackground, color: cardTextColor };
+
+            // add a tint when passed/completed
+            const passedStyle = isPassed
+                ? { backgroundColor: 'rgba(22,163,74,0.12)', borderColor: '#16a34a' }
+                : isCompleted
+                    ? { backgroundColor: 'rgba(59,130,246,0.09)' }
+                    : {};
+
+            return (
+                <div
+                    key={`stack_${set.baseTitle}_${set.setIndex}_${idx}`}
+                    className="rounded-xl border p-4 flex flex-col justify-between shadow-md"
+                    style={{
+                        ...cardBaseStyle,
+                        ...passedStyle,
+                        backgroundColor: isDarkMode ? undefined : (passedStyle.backgroundColor || '#ffffff')
+                    }}
                 >
-                    Start Core Practice
-                </button>
-            </div>
-        );
+                    <div className="fade-in">
+                        <h3
+                            className="text-lg font-bold"
+                            style={isDarkMode ? { color: subjectColors.text || '#f8fafc' } : { color: cardTextColor }}
+                        >
+                            {`${set.baseTitle}: Set ${set.setIndex}`}
+                        </h3>
+                        <p
+                            className="mt-2"
+                            title={set.quizzes?.[0]?.description || '3 quizzes bundled from this topic.'}
+                            style={{
+                                fontSize: '0.9rem',
+                                lineHeight: 1.4,
+                                opacity: 0.85,
+                                fontWeight: 500,
+                                color: isDarkMode
+                                    ? 'var(--text-tertiary, rgba(226,232,240,0.78))'
+                                    : 'var(--subtext-color, rgba(15,23,42,0.66))',
+                            }}
+                        >
+                            {set.quizzes?.[0]?.description || '3 quizzes bundled from this topic.'}
+                        </p>
+                    </div>
+
+                    <div className="mt-3 flex items-center gap-2">
+                        {/* main button opens quiz 1 */}
+                        <button
+                            onClick={() => launchStackedSetAt(set, 0)}
+                            className="flex-1 px-3 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95"
+                            style={buttonStyle}
+                        >
+                            Start Core Practice
+                        </button>
+
+                        {/* small buttons for quiz 2 and 3 */}
+                        {quizCount > 1 && (
+                            <button
+                                onClick={() => launchStackedSetAt(set, 1)}
+                                className="px-2 py-1 rounded-md text-sm font-semibold border transition hover:opacity-95"
+                                style={{ background: '#fff', borderColor: 'rgba(148,163,184,0.35)' }}
+                                title="Open quiz 2 in this set"
+                            >
+                                2
+                            </button>
+                        )}
+                        {quizCount > 2 && (
+                            <button
+                                onClick={() => launchStackedSetAt(set, 2)}
+                                className="px-2 py-1 rounded-md text-sm font-semibold border transition hover:opacity-95"
+                                style={{ background: '#fff', borderColor: 'rgba(148,163,184,0.35)' }}
+                                title="Open quiz 3 in this set"
+                            >
+                                3
+                            </button>
+                        )}
+                    </div>
+                </div>
+            );
+        };
         return (
             <>
                 <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" role="tablist" aria-label="Category clusters">
