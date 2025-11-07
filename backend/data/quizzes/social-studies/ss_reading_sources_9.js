@@ -34,8 +34,7 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.",
-    "question": "The concept of 'unalienable Rights' means that these rights...",
+    "question": "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness. The Declaration of Independence, 1776. The concept of 'unalienable Rights' means that these rights...",
     "answerOptions": [
       {
         "text": "Are granted by the government and can be taken away.",
@@ -57,15 +56,13 @@ module.exports = [
         "rationale": "The passage suggests these rights are endowed at creation, not earned.",
         "isCorrect": false
       }
-    ],
-    "source": "The Declaration of Independence, 1776."
+    ]
   },
   {
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A historian writing a book about the American Civil War is an example of what type of source?",
-    "question": "A historian writing a book about the American Civil War is an example of which type of source?",
+    "question": "A historian writing a book about the American Civil War is an example of what type of source? A historian writing a book about the American Civil War is an example of which type of source?",
     "answerOptions": [
       {
         "text": "A primary source",
@@ -153,8 +150,7 @@ module.exports = [
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "**Unemployment Rate by Year**\n        - 2008: 5.8%\n        - 2009: 9.3%\n        - 2010: 9.6%\n        - 2011: 8.9%\n        - 2012: 8.1%",
-    "question": "What was the general trend in the unemployment rate between 2010 and 2012?",
+    "question": "**Unemployment Rate by Year** - 2008: 5.8% - 2009: 9.3% - 2010: 9.6% - 2011: 8.9% - 2012: 8.1% Hypothetical economic data table. What was the general trend in the unemployment rate between 2010 and 2012?",
     "answerOptions": [
       {
         "text": "It was increasing rapidly.",
@@ -176,8 +172,7 @@ module.exports = [
         "rationale": "There was a clear downward trend after the 2010 peak.",
         "isCorrect": false
       }
-    ],
-    "source": "Hypothetical economic data table."
+    ]
   },
   {
     "questionNumber": 7,
@@ -213,8 +208,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A diary entry from a pioneer on the Oregon Trail in 1845 reads: 'June 10th. Crossed the Platte River today. The current was swift, and we nearly lost a wagon. Mary is sick with a fever. We are low on flour. I pray we reach the Willamette Valley before the snows come.'",
-    "question": "What does this primary source document best illustrate?",
+    "question": "A diary entry from a pioneer on the Oregon Trail in 1845 reads: 'June 10th. Crossed the Platte River today. The current was swift, and we nearly lost a wagon. Mary is sick with a fever. We are low on flour. I pray we reach the Willamette Valley before the snows come.' What does this primary source document best illustrate?",
     "answerOptions": [
       {
         "text": "The government's official policy on westward expansion.",
@@ -242,8 +236,7 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people.",
-    "question": "This text, the Tenth Amendment, is the basis for which principle of U.S. government?",
+    "question": "The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people. U.S. Constitution, Tenth Amendment. This text, the Tenth Amendment, is the basis for which principle of U.S. government?",
     "answerOptions": [
       {
         "text": "Checks and balances",
@@ -265,8 +258,7 @@ module.exports = [
         "rationale": "Separation of powers refers to the division of the government into three branches.",
         "isCorrect": false
       }
-    ],
-    "source": "U.S. Constitution, Tenth Amendment."
+    ]
   },
   {
     "questionNumber": 10,
@@ -300,8 +292,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Whereas it is the duty of all Nations to acknowledge the providence of Almighty God, to obey his will, to be grateful for his benefits, and humbly to implore his protection and favor... Now therefore I do recommend and assign Thursday the 26th day of November next to be devoted by the People of these States to the service of that great and glorious Being, who is the beneficent Author of all the good that was, that is, or that will be.",
-    "question": "This proclamation by George Washington is an example of what kind of primary source?",
+    "question": "Whereas it is the duty of all Nations to acknowledge the providence of Almighty God, to obey his will, to be grateful for his benefits, and humbly to implore his protection and favor... Now therefore I do recommend and assign Thursday the 26th day of November next to be devoted by the People of these States to the service of that great and glorious Being, who is the beneficent Author of all the good that was, that is, or that will be. George Washington, Thanksgiving Proclamation, 1789. This proclamation by George Washington is an example of what kind of primary source?",
     "answerOptions": [
       {
         "text": "A personal letter to a family member.",
@@ -323,15 +314,13 @@ module.exports = [
         "rationale": "It is a government document, not a commercial advertisement.",
         "isCorrect": false
       }
-    ],
-    "source": "George Washington, Thanksgiving Proclamation, 1789."
+    ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A historian notes that in the 1920s, sales of automobiles, radios, and household appliances soared. At the same time, she notes that consumer debt levels also rose significantly for the first time in American history.",
-    "question": "What conclusion can be drawn from the historian's observations?",
+    "question": "A historian notes that in the 1920s, sales of automobiles, radios, and household appliances soared. At the same time, she notes that consumer debt levels also rose significantly for the first time in American history. What conclusion can be drawn from the historian's observations?",
     "answerOptions": [
       {
         "text": "Americans in the 1920s were saving more money than ever before.",

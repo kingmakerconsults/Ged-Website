@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "ATP is the main energy currency of the cell.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: DNA is the molecule that contains the genetic code."
   },
   {
     "questionNumber": 2,
@@ -54,7 +55,8 @@ module.exports = [
         "rationale": "A herbivore is a type of consumer that eats plants.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Producers, like plants, create their own food, usually through photosynthesis."
   },
   {
     "questionNumber": 3,

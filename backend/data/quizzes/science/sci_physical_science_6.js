@@ -4,7 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-  "question": "Temperature is a measure of the average what of the particles in a substance?",
+    "question": "Temperature is a measure of the average what of the particles in a substance?",
     "answerOptions": [
       {
         "text": "Kinetic energy",
@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Volume is the amount of space an object occupies.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Temperature is directly related to the average kinetic energy (motion) of atoms or molecules."
   },
   {
     "questionNumber": 2,

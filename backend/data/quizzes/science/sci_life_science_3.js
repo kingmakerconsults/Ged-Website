@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The skeletal system provides structure and support.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The immune system is a complex network of cells, tissues, and organs that work together to defend the body against pathogens."
   },
   {
     "questionNumber": 2,
