@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "A kilogram is a unit of mass.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The Joule is the standard unit of energy in the International System of Units (SI)."
   },
   {
     "questionNumber": 2,
@@ -54,7 +55,8 @@ module.exports = [
         "rationale": "These are concepts in physics, not states of matter.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: These are the three common states of matter."
   },
   {
     "questionNumber": 3,
@@ -342,7 +344,7 @@ module.exports = [
     "questionNumber": 13,
     "type": "multipleChoice",
     "difficulty": "hard",
-  "question": "An element is defined by the number of what in its nucleus?",
+    "question": "An element is defined by the number of what in its nucleus?",
     "answerOptions": [
       {
         "text": "Neutrons",

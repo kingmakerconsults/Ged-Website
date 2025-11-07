@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Mass is the amount of matter in an object.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: A force is any interaction that, when unopposed, will change the motion of an object."
   },
   {
     "questionNumber": 2,
@@ -88,7 +89,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "medium",
-      "question": "Newton's Third Law of Motion is often stated as: 'For every action, there is an equal and opposite what?'",
+    "question": "Newton's Third Law of Motion is often stated as: 'For every action, there is an equal and opposite what?'",
     "answerOptions": [
       {
         "text": "Force",

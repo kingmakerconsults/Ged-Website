@@ -1,0 +1,180 @@
+{
+  "subject": "Social Studies",
+  "title": "Causes of the American Revolution",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multipleChoice",
+      "stem": "What was the primary purpose of the Stamp Act of 1765?",
+      "choices": [
+        "To restrict colonial trade with France.",
+        "To raise revenue from the colonies for Britain.",
+        "To pay for the housing of British soldiers.",
+        "To establish a colonial postal service."
+      ],
+      "answer": "To raise revenue from the colonies for Britain.",
+      "rationale": "The Stamp Act imposed direct taxes on paper goods in the colonies to help Britain cover debt from the French and Indian War."
+    },
+    {
+      "id": "q2",
+      "type": "multipleChoice",
+      "stem": "The Boston Tea Party was a protest against which British policy?",
+      "choices": [
+        "The Townshend Acts",
+        "The Intolerable Acts",
+        "The Tea Act",
+        "The Quartering Act"
+      ],
+      "answer": "The Tea Act",
+      "rationale": "Colonists destroyed British tea to protest the Tea Act, which gave the British East India Company a monopoly on tea sales."
+    },
+    {
+      "id": "q3",
+      "type": "multipleChoice",
+      "stem": "Read the excerpt from a 1765 colonial newspaper. According to the writer, why do the colonists oppose the new taxes?",
+      "choices": [
+        "They believe the taxes will stop westward expansion.",
+        "They want equal representation in Parliament before taxes are imposed.",
+        "They fear the taxes will lead to war with France.",
+        "They worry the taxes will end trade with the Caribbean."
+      ],
+      "answer": "They want equal representation in Parliament before taxes are imposed.",
+      "rationale": "The excerpt stresses that colonists should not be taxed without representatives in Parliament, echoing the slogan 'no taxation without representation.'",
+      "stimulus": {
+        "type": "source",
+        "text": "\"We cannot surrender our rights as Englishmen. If we are to pay duties, then we must have a voice in the body that levies them. Without representation, taxation is tyranny.\""
+      }
+    },
+    {
+      "id": "q4",
+      "type": "multipleChoice",
+      "stem": "Which colonial organization formed to help coordinate communication and resistance to British policies after the Stamp Act crisis?",
+      "choices": [
+        "Albany Congress",
+        "Committees of Correspondence",
+        "First Continental Congress",
+        "Sons of Liberty"
+      ],
+      "answer": "Committees of Correspondence",
+      "rationale": "Committees of Correspondence allowed colonists to share information and strategies for resisting British policies."
+    },
+    {
+      "id": "q5",
+      "type": "multipleChoice",
+      "stem": "Which event came first, helping to spark further conflict between colonists and British soldiers?",
+      "choices": [
+        "Battles of Lexington and Concord",
+        "Boston Massacre",
+        "Declaration of Independence",
+        "Second Continental Congress"
+      ],
+      "answer": "Boston Massacre",
+      "rationale": "The Boston Massacre occurred in 1770 and inflamed tensions years before open warfare at Lexington and Concord in 1775."
+    },
+    {
+      "id": "q6",
+      "type": "multipleChoice",
+      "stem": "Study the table. What conclusion can be drawn about British taxation of the colonies after 1763?",
+      "choices": [
+        "Britain reduced taxes because colonial trade declined.",
+        "Britain increased taxes to cover costs from recent wars.",
+        "Colonists paid fewer taxes once the war with France ended.",
+        "Parliament eliminated all duties on imported goods."
+      ],
+      "answer": "Britain increased taxes to cover costs from recent wars.",
+      "rationale": "The rising tax revenue after 1763 shows Britain demanded more money from the colonies to pay war debts.",
+      "stimulus": {
+        "type": "table",
+        "text": "British Revenue from Colonial Taxes (in thousands of pounds): 1762 - 45; 1764 - 82; 1766 - 95; 1768 - 110; 1770 - 118"
+      },
+      "imageSuggestion": "simple line graph showing rising British tax revenue from 1762 to 1770"
+    },
+    {
+      "id": "q7",
+      "type": "multipleChoice",
+      "stem": "What action did the British government take in response to the Boston Tea Party?",
+      "choices": [
+        "Passed the Intolerable Acts to punish Boston",
+        "Removed all taxes on colonial goods",
+        "Granted Massachusetts greater self-rule",
+        "Issued the Olive Branch Petition"
+      ],
+      "answer": "Passed the Intolerable Acts to punish Boston",
+      "rationale": "Britain retaliated by enacting the Intolerable Acts, which closed Boston Harbor and limited self-government."
+    },
+    {
+      "id": "q8",
+      "type": "multipleChoice",
+      "stem": "What was the British policy of salutary neglect?",
+      "choices": [
+        "Strict enforcement of trade laws on colonial merchants",
+        "Limited interference in colonial affairs as long as trade benefited Britain",
+        "A military alliance between Britain and colonial militias",
+        "A law that required colonists to house British troops"
+      ],
+      "answer": "Limited interference in colonial affairs as long as trade benefited Britain",
+      "rationale": "Salutary neglect described Britain\u2019s relaxed enforcement of trade laws when the colonies remained economically profitable."
+    },
+    {
+      "id": "q9",
+      "type": "multipleChoice",
+      "stem": "The map shows the Appalachian Mountains marked as a boundary line after the French and Indian War. What was the British goal in setting this boundary?",
+      "choices": [
+        "To encourage settlement west of the line",
+        "To protect Native American lands and limit colonial expansion",
+        "To divide the colonies into northern and southern regions",
+        "To create new colonies for loyalists"
+      ],
+      "answer": "To protect Native American lands and limit colonial expansion",
+      "rationale": "The Proclamation of 1763 barred colonists from settling west of the Appalachians to avoid conflicts with Native Americans.",
+      "stimulus": {
+        "type": "map",
+        "text": "Map description: A line along the Appalachian Mountains labeled 'Proclamation Line of 1763' separating colonial settlements to the east from reserved western territories."
+      },
+      "imageSuggestion": "map of eastern North America in 1763 showing the Proclamation Line along the Appalachians"
+    },
+    {
+      "id": "q10",
+      "type": "multipleChoice",
+      "stem": "How did the First Continental Congress respond to the Intolerable Acts in 1774?",
+      "choices": [
+        "It declared independence immediately.",
+        "It voted to boycott British goods and petition the king.",
+        "It sent troops to attack British forts.",
+        "It accepted the Acts to restore peace."
+      ],
+      "answer": "It voted to boycott British goods and petition the king.",
+      "rationale": "Delegates agreed to halt trade with Britain and petition for the repeal of the Intolerable Acts while still seeking reconciliation."
+    },
+    {
+      "id": "q11",
+      "type": "multipleChoice",
+      "stem": "Read the excerpt from Thomas Paine's pamphlet Common Sense. What does Paine argue the colonies should do?",
+      "choices": [
+        "Accept British rule and avoid further conflict.",
+        "Seek representation in Parliament while remaining colonies.",
+        "Establish an independent nation separate from Britain.",
+        "Return control of colonial affairs to royal governors."
+      ],
+      "answer": "Establish an independent nation separate from Britain.",
+      "rationale": "Paine's pamphlet urged colonists to declare independence and reject monarchy.",
+      "stimulus": {
+        "type": "source",
+        "text": "\"Tis time to part. The blood of the slain, the weeping voice of nature, cries, 'Tis time to part.' \""
+      }
+    },
+    {
+      "id": "q12",
+      "type": "multipleChoice",
+      "stem": "Which British policy forbade colonists from settling west of the Appalachian Mountains immediately after the French and Indian War?",
+      "choices": [
+        "Sugar Act",
+        "Proclamation of 1763",
+        "Declaratory Act",
+        "Quebec Act"
+      ],
+      "answer": "Proclamation of 1763",
+      "rationale": "The Proclamation of 1763 set the Appalachian Mountains as the western boundary for colonial settlement."
+    }
+  ]
+}
