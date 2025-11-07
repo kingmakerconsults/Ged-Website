@@ -12232,7 +12232,7 @@ function DetailedProgressView({ subject, progressData, onBack, rlaEssayAvgDispla
     );
 }
 
-function DashboardProgressSummary({ progress, profilePassedFromProps, recentSummary }) {
+function DashboardProgressSummary({ progress, profilePassedFromProps, recentSummary, onSubjectClick }) {
     // Static base path for badges served by the backend
     const BADGE_BASE = '/badges';
     // Build passed set from profile only, plus optional localStorage overrides
@@ -12406,6 +12406,18 @@ function DashboardProgressSummary({ progress, profilePassedFromProps, recentSumm
             })}
             </div>
         </section>
+    );
+}
+
+// Shim component expected elsewhere in the app
+function ProgressDashboard({ progress, onSubjectClick, profilePassedMap, recentSummary }) {
+    return (
+        <DashboardProgressSummary
+            progress={progress}
+            profilePassedFromProps={profilePassedMap}
+            recentSummary={recentSummary}
+            onSubjectClick={onSubjectClick}
+        />
     );
 }
 
