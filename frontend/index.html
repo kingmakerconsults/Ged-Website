@@ -8445,6 +8445,85 @@ function App({ externalTheme, onThemeChange }) {
     const lastAttemptsFetchRef = useRef(0);
     const pendingAttemptsFetchRef = useRef(null);
     const [pendingScrollTarget, setPendingScrollTarget] = useState(null);
+    // Browser history sync: ensure Back button returns to the previous app state (e.g., dashboard from quiz)
+    const suppressPushRef = useRef(false); // when true, skip pushing a new state (used during popstate-driven restores)
+    const didInitHistoryRef = useRef(false); // avoid pushing an entry on first render
+
+    // Initialize history state on mount and handle browser back/forward
+    useEffect(() => {
+        if (typeof window === 'undefined' || !window.history || typeof window.history.replaceState !== 'function') {
+            return undefined;
+        }
+        const initialSnapshot = {
+            appNav: true,
+            activeView,
+            view,
+            selectedSubject,
+            selectedCategory,
+        };
+        try {
+            window.history.replaceState(initialSnapshot, '');
+        } catch (e) {
+            // noop
+        }
+
+        const onPopState = (event) => {
+            const s = event && event.state ? event.state : null;
+            // Only handle states we created
+            if (s && s.appNav) {
+                suppressPushRef.current = true;
+                setActiveView(s.activeView || 'dashboard');
+                setView(s.view || 'start');
+                setSelectedSubject(Object.prototype.hasOwnProperty.call(s, 'selectedSubject') ? s.selectedSubject : null);
+                setSelectedCategory(Object.prototype.hasOwnProperty.call(s, 'selectedCategory') ? s.selectedCategory : null);
+                // Clear quiz context when leaving quiz/results views
+                if (s.view !== 'quiz' && s.view !== 'results') {
+                    setActiveQuiz(null);
+                    setQuizResults(null);
+                }
+            } else {
+                // If there's no app state, default back to dashboard
+                suppressPushRef.current = true;
+                setActiveView('dashboard');
+                setView('start');
+                setSelectedSubject(null);
+                setSelectedCategory(null);
+                setActiveQuiz(null);
+                setQuizResults(null);
+            }
+        };
+
+        window.addEventListener('popstate', onPopState);
+        return () => window.removeEventListener('popstate', onPopState);
+    }, []);
+
+    // Push a new browser history entry whenever our top-level navigation state changes (unless restoring)
+    useEffect(() => {
+        if (typeof window === 'undefined' || !window.history || typeof window.history.pushState !== 'function') {
+            return;
+        }
+        if (!didInitHistoryRef.current) {
+            didInitHistoryRef.current = true;
+            return;
+        }
+        if (suppressPushRef.current) {
+            suppressPushRef.current = false;
+            return;
+        }
+        const snapshot = {
+            appNav: true,
+            activeView,
+            view,
+            selectedSubject,
+            selectedCategory,
+        };
+        try {
+            // Keep URL stable; we only care about the state object for back/forward
+            window.history.pushState(snapshot, '');
+        } catch (e) {
+            // noop
+        }
+    }, [activeView, view, selectedSubject, selectedCategory]);
 
     useEffect(() => {
         currentUserRef.current = currentUser;

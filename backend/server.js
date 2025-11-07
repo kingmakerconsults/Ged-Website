@@ -1427,6 +1427,7 @@ Each item schema:
   "itemType"?: "passage" | "image" | "standalone",
   "difficulty"?: "easy" | "medium" | "hard",
   "stimulusImage"?: {"src":string,"alt"?:string},
+    "stimulusTable"?: {"headers": string[], "rows": string[][]},
   "groupId"?: string
 }
 Hard rules:
@@ -1517,6 +1518,35 @@ function buildTopicQuizPrompt(subject, topic, difficulty) {
     // NEW: pull up to 3 relevant images from the in-memory image DB
     const images = findImagesForSubjectTopic(subject, topic, 3);
     const imageBlock = buildImageContextBlock(images);
+
+    // Science-specific enhancement: include numeracy/table guidance and formula reference
+    if (subject === 'Science') {
+        const extraContext = `
+Include a mix of question types:
+• At least 2 questions that use a small table of data (up to 5 rows × 3 columns).
+• Include graph, chart, or table interpretation tasks.
+• Roughly 30% of the questions should involve scientific numeracy — using formulas, units, or calculations.
+• Provide the formula reference block at the end of the prompt so AI can link to it.
+`;
+        const formulaSheet = `
+Formula Reference:
+• Speed = Distance ÷ Time
+• Density = Mass ÷ Volume
+• Force = Mass × Acceleration
+• Work = Force × Distance
+• Power = Work ÷ Time
+• Ohm’s Law: V = I × R
+• Photosynthesis: 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂
+`;
+
+        return `${baseHeader}
+Generate exactly 12 GED-level Science questions on the topic "${topic}".
+Focus on a balance of life, physical, and earth science where appropriate.
+${extraContext}
+${imageBlock}
+${formulaSheet}
+${SHARED_IMAGE_RULES}`;
+    }
 
     const typeHint = subject === 'Math'
         ? 'math problem-solving, algebra, geometry, word problems'
@@ -5100,6 +5130,11 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             items = validateAndFilterAiItems(items, subject, topic);
         }
 
+        // NEW: Ensure at least ~1/3 of Science questions involve numeracy
+        if (subject === 'Science' && !isScientificNumeracy) {
+            items = await ensureScienceNumeracy(items, { requiredFraction: 1/3 });
+        }
+
     // 6. Final cleanup and response
     // Normalize MC options to ensure exactly one correct and at least 4 options
     items = items.map((it) => normalizeAnswerOptions(it));
@@ -5116,7 +5151,7 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
 
         res.set('X-Model', winnerModel || 'unknown');
         res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
-        res.json({
+        const response = {
             success: true,
             subject,
             topic,
@@ -5125,7 +5160,11 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             latencyMs: latencyMs ?? 0,
             source: 'aiGenerated',
             fraction_plain_text_mode: fractionPlainTextMode
-        });
+        };
+        if (subject === 'Science') {
+            response.formulaSheetUrl = '/frontend/assets/formula-sheet/science-formulas.pdf';
+        }
+        res.json(response);
 
     } catch (err) {
         console.error('[Variety Pack] Generation failed:', err);
@@ -6284,6 +6323,11 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
             items = validateAndFilterAiItems(items, subject, topic);
         }
 
+        // Ensure ~1/3 numeracy for Science topic generation
+        if (subject === 'Science') {
+            items = await ensureScienceNumeracy(items, { requiredFraction: 1/3 });
+        }
+
         items = dedupeNearDuplicates(items, 0.85);
         items = groupedShuffle(items);
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
@@ -6296,7 +6340,7 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
 
         res.set('X-Model', winnerModel || 'unknown');
         res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
-        res.json({
+        const response = {
             subject,
             topic,
             items,
@@ -6304,7 +6348,11 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
             latencyMs: latencyMs ?? 0,
             source: 'aiGenerated',
             fraction_plain_text_mode: fractionPlainTextMode
-        });
+        };
+        if (subject === 'Science') {
+            response.formulaSheetUrl = '/frontend/assets/formula-sheet/science-formulas.pdf';
+        }
+        res.json(response);
     } catch (err) {
         console.error('topic generation failed', err);
         const status = err?.statusCode === 504 ? 504 : 500;
@@ -6386,6 +6434,8 @@ app.post('/generate-quiz', async (req, res) => {
                 console.log("Social Studies draft complete. Sending for second pass review...");
                 const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
                 logGenerationDuration(examType, subject, generationStart);
+                // Attach formula sheet URL for Science comprehensive
+                try { finalQuiz.formulaSheetUrl = '/frontend/assets/formula-sheet/science-formulas.pdf'; } catch {}
                 res.json(finalQuiz);
 
             } catch (error) {
@@ -6600,7 +6650,8 @@ app.post('/generate-quiz', async (req, res) => {
         const finalQuiz = draftQuiz;
 
         logGenerationDuration(examType, subject, generationStart);
-        res.json(finalQuiz);
+    // Return comprehensive Math quiz as-is
+    res.json(finalQuiz);
 
     } catch (error) {
         console.error('Error generating comprehensive Math exam:', error);
