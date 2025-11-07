@@ -2483,6 +2483,22 @@ const SUBJECT_PROGRESS_KEYS = [
 
 const GED_PASSING_SCORE = 145;
 
+// global subject ids + badge paths so every component can share them
+const SUBJECT_ID_MAP = {
+    "Math": "math",
+    "Science": "science",
+    "Social Studies": "social_studies",
+    "Reasoning Through Language Arts (RLA)": "rla",
+    "RLA": "rla",
+};
+
+const BADGE_IMG_PATHS = {
+    math: "/badges/math.svg",
+    science: "/badges/science.svg",
+    social_studies: "/badges/social-studies.svg",
+    rla: "/badges/rla.svg",
+};
+
 // Global premade catalog; ensure it's on window to be shareable across late loaders
 let PREMADE_QUIZ_CATALOG = (typeof window !== 'undefined' && window.PREMADE_QUIZ_CATALOG) ? window.PREMADE_QUIZ_CATALOG : {};
 if (typeof window !== 'undefined') {
@@ -13467,20 +13483,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         }
     };
 
-    // --- Earned badges (passed subjects) ---
-    const SUBJECT_ID_MAP = {
-        'Math': 'math',
-        'Science': 'science',
-        'Social Studies': 'social_studies',
-        'Reasoning Through Language Arts (RLA)': 'rla',
-        'RLA': 'rla',
-    };
-    const BADGE_IMG_PATHS = {
-        math: '/badges/math.svg',
-        science: '/badges/science.svg',
-        social_studies: '/badges/social-studies.svg',
-        rla: '/badges/rla.svg',
-    };
+    // --- Earned badges (passed subjects) --- (uses global SUBJECT_ID_MAP / BADGE_IMG_PATHS)
     const profilePassedMap = useMemo(() => {
         const map = {};
         const plan = Array.isArray(profileData?.testPlan) ? profileData.testPlan : [];
