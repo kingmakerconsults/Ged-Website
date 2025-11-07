@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Newton's Second Law deals with acceleration (F=ma).",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: It states that an object at rest stays at rest and an object in motion stays in motion with the same speed and in the same direction unless acted upon by an unbalanced force."
   },
   {
     "questionNumber": 2,

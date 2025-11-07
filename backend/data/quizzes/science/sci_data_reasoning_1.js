@@ -4,8 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A gardening club sets up two identical planter boxes of lettuce. Box A receives the regular watering schedule. Box B receives the same watering schedule plus a weekly dose of liquid seaweed fertilizer.",
-    "question": "In this investigation, which factor is the independent variable?",
+    "question": "A gardening club sets up two identical planter boxes of lettuce. Box A receives the regular watering schedule. Box B receives the same watering schedule plus a weekly dose of liquid seaweed fertilizer. In this investigation, which factor is the independent variable?",
     "answerOptions": [
       {
         "text": "The variety of lettuce planted in each box.",
@@ -33,8 +32,7 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "The gardeners record the height of each lettuce plant once per week for six weeks.",
-    "question": "What is the dependent variable in this study?",
+    "question": "The gardeners record the height of each lettuce plant once per week for six weeks. What is the dependent variable in this study?",
     "answerOptions": [
       {
         "text": "Whether the plants receive fertilizer.",
@@ -176,8 +174,7 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Students time how long it takes a pendulum to swing 20 times. They repeat the trial five times with the same string length and record very similar results each time.",
-    "question": "Why are repeated trials important in this investigation?",
+    "question": "Students time how long it takes a pendulum to swing 20 times. They repeat the trial five times with the same string length and record very similar results each time. Why are repeated trials important in this investigation?",
     "answerOptions": [
       {
         "text": "They allow students to change the length of the string each time.",
@@ -205,8 +202,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A class measures the mass of identical candles before and after burning them for 10 minutes. Most students observe a loss of about 3.8 grams. One group records a loss of only 1.2 grams.",
-    "question": "How should the class treat the data point reported by the one group that differs greatly from the others?",
+    "question": "A class measures the mass of identical candles before and after burning them for 10 minutes. Most students observe a loss of about 3.8 grams. One group records a loss of only 1.2 grams. How should the class treat the data point reported by the one group that differs greatly from the others?",
     "answerOptions": [
       {
         "text": "Exclude it automatically because it does not match the rest of the data.",
@@ -234,8 +230,7 @@ module.exports = [
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A scatter plot shows that as the amount of daily exercise increases, resting heart rate decreases for a group of adults.",
-    "question": "What does the scatter plot suggest about the relationship between exercise and resting heart rate?",
+    "question": "A scatter plot shows that as the amount of daily exercise increases, resting heart rate decreases for a group of adults. What does the scatter plot suggest about the relationship between exercise and resting heart rate?",
     "answerOptions": [
       {
         "text": "There is a negative correlation between exercise and resting heart rate.",
@@ -292,8 +287,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "Two medical researchers test the same new cold remedy. Team A enrolls 20 volunteers. Team B enrolls 400 volunteers. Both teams follow the same procedures and collect similar results.",
-    "question": "Why is Team B's data set considered more reliable?",
+    "question": "Two medical researchers test the same new cold remedy. Team A enrolls 20 volunteers. Team B enrolls 400 volunteers. Both teams follow the same procedures and collect similar results. Why is Team B's data set considered more reliable?",
     "answerOptions": [
       {
         "text": "Team B used more precise thermometers than Team A.",

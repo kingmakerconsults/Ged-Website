@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The sit-ins in 1960 were an important tactic, but the movement had gained momentum with the bus boycott years earlier.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "History textbook excerpt: Sparked by Rosa Parks's arrest in 1955, the year-long boycott was the first major, successful protest of the modern Civil Rights Movement."
   },
   {
     "questionNumber": 2,
