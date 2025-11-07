@@ -9092,16 +9092,29 @@ function App({ externalTheme, onThemeChange }) {
         setView('start');
     }, [activeView, view, selectedSubject, selectedCategory]);
 
-    // Back navigation: pop history and restore prior state
+    // Back navigation: pop history and restore prior state; fallback to dashboard if empty
     const goBack = useCallback(() => {
         setNavHistory((prev) => {
-            if (!prev.length) return prev; // nothing to do
+            if (!prev.length) {
+                // Fallback: hard reset to dashboard
+                setActiveView('dashboard');
+                setView('start');
+                setSelectedSubject(null);
+                setSelectedCategory(null);
+                setActiveQuiz(null);
+                setQuizResults(null);
+                return prev;
+            }
             const last = prev[prev.length - 1];
-            // Restore
             setActiveView(last.activeView || 'dashboard');
             setView(last.view || 'start');
             setSelectedSubject(last.selectedSubject ?? null);
             setSelectedCategory(last.selectedCategory ?? null);
+            // If we're leaving quiz/results, ensure quiz context cleared unless returning to another quiz/results
+            if (last.view !== 'quiz' && last.view !== 'results') {
+                setActiveQuiz(null);
+                setQuizResults(null);
+            }
             return prev.slice(0, -1);
         });
     }, []);
@@ -10243,7 +10256,15 @@ function App({ externalTheme, onThemeChange }) {
             return;
         }
 
-    const preparedQuiz = { ...quizPayload, subject };
+        // Push current nav state so Back returns here
+        setNavHistory((prev) => [...prev, {
+            activeView,
+            view,
+            selectedSubject,
+            selectedCategory,
+        }]);
+
+        const preparedQuiz = { ...quizPayload, subject };
         preparedQuiz.quizCode = quizPayload.quizCode || quizPayload.code || quizPayload.id || preparedQuiz.quizCode || null;
         preparedQuiz.isPremade = Boolean(preparedQuiz.quizCode);
         let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
