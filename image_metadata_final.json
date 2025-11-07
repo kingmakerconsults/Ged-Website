@@ -949,9 +949,9 @@
     },
     {
         "id": "1abe3c00-98c6-43ed-9d69-d7e08cad3544",
-        "subject": "Science",
+    "subject": "Social Studies",
         "fileName": "ged-grsph-4.png",
-        "filePath": "/frontend/Images/Science/ged-grsph-4.png",
+    "filePath": "/frontend/Images/Social Studies/ged-grsph-4.png",
         "width": 960,
         "height": 772,
         "dominantType": "illustration",
@@ -966,7 +966,7 @@
         "sha1": "4c74a8ebeb2764972972cd6506bbedf376255112",
         "collectedAt": "2025-11-05T23:26:49.544Z",
         "groupId": "",
-        "category": "Science",
+    "category": "Civics & Government",
         "usageDirectives": "Prompt the learner to trace how voting rights broadened for different groups over time, citing at least two specific dates from the timeline to support the explanation."
     },
     {

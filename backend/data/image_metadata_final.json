@@ -2832,10 +2832,10 @@
     },
     {
         "fileName": "ged-grsph-4.png",
-        "filePath": "/frontend/Images/Science/ged-grsph-4.png",
+        "filePath": "/frontend/Images/Social Studies/ged-grsph-4.png",
         "altText": "This is an image related to: document.",
         "detailedDescription": "This image is a vertical timeline titled \"The Expansion of Voting Rights in the United States.\" It spans from 1776 to 2000, with major events marked chronologically along the vertical axis. The purpose of the timeline is to illustrate key milestones and legislative actions related to the expansion of voting rights to various demographic groups in U.S. history.\n\nThe timeline begins with the implicit period around 1776, although no specific event is listed. The first explicit event is in the \"1830s,\" noting that \"Many states expand voting rights to include non-property-owning white males.\"\n\nSubsequent entries include:\n- **1869:** \"Women activists form the National Woman Suffrage Association.\"\n- **1870:** \"Fifteenth Amendment gives right to vote to African American males.\"\n- **1890:** \"Wyoming becomes first state to give women right to vote.\"\n- **1920:** \"Nineteenth Amendment giving women the right to vote is ratified.\"\n- **1924:** \"Congress passes law recognizing Native Americans as citizens and thus giving them the right to vote (although some states banned them from voting).\"\n- **1943:** \"The Chinese Exclusion Act is repealed; Chinese persons are permitted to become citizens.\"\n- **1952:** \"Under the McCarran-Walter Act, first-generation Japanese Americans are permitted to become citizens.\"\n- **1964:** \"Twenty-Fourth Amendment, outlawing poll tax, is ratified.\"\n- **1965:** \"Congress passes Voting Rights Act to enforce voting rights for African Americans and Native Americans.\"\n- **1971:** \"Twenty-Sixth Amendment, lowering voting age from 21 to 18, is ratified.\"\n\nThe timeline shows a general trend of expanding suffrage from an initial restricted base (property-owning white males) to encompass more diverse groups, including non-property-owning white males, African American males, women, Native Americans, Chinese immigrants, Japanese immigrants, and younger citizens aged 18-20, over a period of approximately two centuries. It also highlights the role of constitutional amendments, federal legislation, and social movements in this process.",
-        "subject": "Science",
+        "subject": "Social Studies",
         "keywords": [
             "Document",
             "Data",
