@@ -7571,46 +7571,51 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         return { stackedSets, shouldUse };
     };
 
-    // Launch handler that concatenates questions across the 1–3 quizzes in a stack
+    // Launch handler that just opens the first quiz in the stack (no merging)
     const launchStackedSet = (stackedSet) => {
-        if (!stackedSet || !Array.isArray(stackedSet.quizzes)) return;
-        let allQuestions = [];
-        stackedSet.quizzes.forEach((topicLike) => {
-            if (!topicLike) return;
-            let quizLike = null;
-            if (Array.isArray(topicLike.quizzes) && topicLike.quizzes.length) {
-                // Prefer first quiz variant that actually resolves to questions
-                const firstWithQs = topicLike.quizzes.find((q) => quizHasAvailableQuestions(subjectName, topicLike, q)) || topicLike.quizzes[0];
-                quizLike = firstWithQs || null;
-            }
-            const resolved = resolveQuizQuestions(subjectName, topicLike, quizLike || topicLike);
-            if (Array.isArray(resolved) && resolved.length) {
-                allQuestions = allQuestions.concat(resolved);
-            }
-        });
+        if (!stackedSet || !Array.isArray(stackedSet.quizzes) || !stackedSet.quizzes.length) return;
 
-        // Renumber sequentially
-        allQuestions = allQuestions.map((q, i) => {
-            if (q && typeof q === 'object') return { ...q, questionNumber: i + 1 };
-            return q;
-        });
+        // pick the first topic/quiz in this stack
+        const firstTopicLike = stackedSet.quizzes[0];
 
-        if (!allQuestions.length) {
+        // some topics have sub-quizzes; grab the first one with questions
+        let quizLike = null;
+        if (Array.isArray(firstTopicLike.quizzes) && firstTopicLike.quizzes.length) {
+            quizLike = firstTopicLike.quizzes.find((q) =>
+                quizHasAvailableQuestions(subjectName, firstTopicLike, q)
+            ) || firstTopicLike.quizzes[0];
+        }
+
+        const questions = resolveQuizQuestions(
+            subjectName,
+            firstTopicLike,
+            quizLike || firstTopicLike
+        );
+
+        if (!Array.isArray(questions) || !questions.length) {
             alert('This set does not have any questions yet. Please try another set.');
             return;
         }
 
+        // renumber just these questions
+        const numbered = questions.map((q, i) => {
+            if (q && typeof q === 'object') return { ...q, questionNumber: i + 1 };
+            return q;
+        });
+
         const baseId = stackedSet.baseTitle.toLowerCase().replace(/\s+/g, '_');
         const id = `${baseId}_set_${stackedSet.setIndex}`;
+
         const preparedQuiz = {
             id,
             quizCode: id,
-            title: `${stackedSet.baseTitle} — Set ${stackedSet.setIndex}`,
+            title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex}`,
             topicTitle: stackedSet.baseTitle,
-            description: stackedSet.quizzes?.[0]?.description || 'Bundled practice set',
+            description: firstTopicLike.description || 'Practice set from this topic.',
             type: 'quiz',
-            questions: allQuestions,
+            questions: numbered,
         };
+
         if (typeof onSelectQuiz === 'function') {
             onSelectQuiz(preparedQuiz, subjectName);
         }
