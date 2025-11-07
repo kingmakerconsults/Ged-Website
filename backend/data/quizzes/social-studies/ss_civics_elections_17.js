@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "These are examples of third parties in the U.S., which are smaller than the two major parties.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "History textbook excerpt: These two parties have dominated the American political landscape for over a century."
   },
   {
     "questionNumber": 2,

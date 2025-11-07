@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "This describes the levels of government in federalism.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "History textbook excerpt: This is the bicameral legislature established by the Constitution."
   },
   {
     "questionNumber": 2,

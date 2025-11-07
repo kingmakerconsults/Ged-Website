@@ -4,8 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A lab notebook entry states, 'When the magnet was moved closer to the coil, the needle on the galvanometer deflected more.'",
-    "question": "What kind of statement is recorded in the notebook?",
+    "question": "A lab notebook entry states, 'When the magnet was moved closer to the coil, the needle on the galvanometer deflected more.' What kind of statement is recorded in the notebook?",
     "answerOptions": [
       {
         "text": "An observation made during the experiment",
@@ -33,8 +32,7 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "Before investigating, a student writes, 'If plants are given light from LED bulbs instead of sunlight, then they will produce fewer flowers.'",
-    "question": "Which part of the investigation does the student's sentence represent?",
+    "question": "Before investigating, a student writes, 'If plants are given light from LED bulbs instead of sunlight, then they will produce fewer flowers.' Which part of the investigation does the student's sentence represent?",
     "answerOptions": [
       {
         "text": "The research question",
@@ -62,8 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "Students measuring the density of liquids carefully rinse and dry their graduated cylinders between trials.",
-    "question": "Why is this step important?",
+    "question": "Students measuring the density of liquids carefully rinse and dry their graduated cylinders between trials. Why is this step important?",
     "answerOptions": [
       {
         "text": "It prevents residue from affecting the next measurement.",
@@ -91,8 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A class records the number of seeds that sprout in three identical trays kept at 10°C, 20°C, and 30°C.",
-    "question": "What is the independent variable?",
+    "question": "A class records the number of seeds that sprout in three identical trays kept at 10°C, 20°C, and 30°C. What is the independent variable?",
     "answerOptions": [
       {
         "text": "The number of seeds that sprout",
@@ -178,8 +174,7 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Students collecting rainfall data place identical rain gauges around the school grounds. One gauge is discovered tilted on its side after a storm.",
-    "question": "How should the students handle the measurement from the tilted gauge?",
+    "question": "Students collecting rainfall data place identical rain gauges around the school grounds. One gauge is discovered tilted on its side after a storm. How should the students handle the measurement from the tilted gauge?",
     "answerOptions": [
       {
         "text": "Average it with the other gauges so it still influences the results.",
@@ -207,8 +202,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A nutrition study tracks participants' daily fruit intake and their vitamin C blood levels. The scatter plot shows that higher fruit intake generally corresponds with higher vitamin C levels, though some points deviate from the trend.",
-    "question": "What does the scatter plot indicate?",
+    "question": "A nutrition study tracks participants' daily fruit intake and their vitamin C blood levels. The scatter plot shows that higher fruit intake generally corresponds with higher vitamin C levels, though some points deviate from the trend. What does the scatter plot indicate?",
     "answerOptions": [
       {
         "text": "There is a positive correlation between fruit intake and vitamin C levels.",
@@ -265,8 +259,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A marine biologist measures the mass of clams from two tidal zones. The data are displayed with overlapping box-and-whisker plots. The median mass in Zone 1 is higher, but the interquartile ranges overlap considerably.",
-    "question": "What do the box plots suggest about the clam populations?",
+    "question": "A marine biologist measures the mass of clams from two tidal zones. The data are displayed with overlapping box-and-whisker plots. The median mass in Zone 1 is higher, but the interquartile ranges overlap considerably. What do the box plots suggest about the clam populations?",
     "answerOptions": [
       {
         "text": "Clams in Zone 1 tend to be heavier, but there is significant overlap in the middle 50% of the data.",
@@ -294,8 +287,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A pharmaceutical company conducts a clinical trial with 40 volunteers. After reviewing the results, they repeat the trial with 400 volunteers and observe the same trends.",
-    "question": "How does increasing the sample size affect confidence in the results?",
+    "question": "A pharmaceutical company conducts a clinical trial with 40 volunteers. After reviewing the results, they repeat the trial with 400 volunteers and observe the same trends. How does increasing the sample size affect confidence in the results?",
     "answerOptions": [
       {
         "text": "It increases confidence because larger samples reduce the influence of chance variation.",

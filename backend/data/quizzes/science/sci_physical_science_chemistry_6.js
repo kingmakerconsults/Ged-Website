@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "These are states of matter.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Protons and neutrons are in the nucleus, and electrons orbit the nucleus."
   },
   {
     "questionNumber": 2,

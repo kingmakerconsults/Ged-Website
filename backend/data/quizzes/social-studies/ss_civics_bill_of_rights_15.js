@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "These were essays written to persuade people to support the ratification of the Constitution.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "History textbook excerpt: These first ten amendments were added to protect the basic rights of citizens."
   },
   {
     "questionNumber": 2,

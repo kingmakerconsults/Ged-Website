@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Reservations were established through treaties and other government actions, not the Homestead Act.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "History textbook excerpt: The act provided 160 acres of federal land to settlers who agreed to farm it for a number of years."
   },
   {
     "questionNumber": 2,

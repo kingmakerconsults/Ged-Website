@@ -4,8 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "A science fair judge asks a student why she kept the size of the plant pots identical for all samples in her experiment.",
-    "question": "What is the best explanation the student should give?",
+    "question": "A science fair judge asks a student why she kept the size of the plant pots identical for all samples in her experiment. What is the best explanation the student should give?",
     "answerOptions": [
       {
         "text": "Keeping the pots the same size prevents an extra variable from affecting plant growth.",
@@ -33,8 +32,7 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "Before designing an investigation, a student scientist states, 'I think the amount of light a plant receives will affect how many flowers it produces.'",
-    "question": "Which part of the scientific method does this statement represent?",
+    "question": "Before designing an investigation, a student scientist states, 'I think the amount of light a plant receives will affect how many flowers it produces.' Which part of the scientific method does this statement represent?",
     "answerOptions": [
       {
         "text": "Hypothesis",
@@ -62,8 +60,7 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "Students designing an experiment to test fertilizer effectiveness decide to water all plants with 200 milliliters of water every other day.",
-    "question": "Why is using the same watering schedule important?",
+    "question": "Students designing an experiment to test fertilizer effectiveness decide to water all plants with 200 milliliters of water every other day. Why is using the same watering schedule important?",
     "answerOptions": [
       {
         "text": "It ensures water is not the variable causing differences in plant growth.",
@@ -91,8 +88,7 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A marine biologist conducts a field study to measure water temperature and dissolved oxygen levels in a coastal estuary every morning for four weeks.",
-    "question": "What is the purpose of collecting data at the same time each day?",
+    "question": "A marine biologist conducts a field study to measure water temperature and dissolved oxygen levels in a coastal estuary every morning for four weeks. What is the purpose of collecting data at the same time each day?",
     "answerOptions": [
       {
         "text": "It reduces variation caused by daily temperature changes unrelated to the study question.",
@@ -178,8 +174,7 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "Two scientists design independent experiments to test the same chemical reaction. Scientist A uses 25 trials, while Scientist B uses 5 trials. Both follow the same procedure and obtain similar averages.",
-    "question": "Which experiment provides stronger evidence and why?",
+    "question": "Two scientists design independent experiments to test the same chemical reaction. Scientist A uses 25 trials, while Scientist B uses 5 trials. Both follow the same procedure and obtain similar averages. Which experiment provides stronger evidence and why?",
     "answerOptions": [
       {
         "text": "Scientist A's experiment, because a larger number of trials reduces the influence of random error.",
@@ -207,8 +202,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A team studying stream pollution publishes its results and includes detailed descriptions of sampling locations, collection times, and testing procedures.",
-    "question": "Why is sharing detailed methods an essential part of the scientific process?",
+    "question": "A team studying stream pollution publishes its results and includes detailed descriptions of sampling locations, collection times, and testing procedures. Why is sharing detailed methods an essential part of the scientific process?",
     "answerOptions": [
       {
         "text": "It allows other scientists to replicate the study and verify the findings.",
@@ -265,8 +259,7 @@ module.exports = [
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "During peer review, another research team points out that an important variable—the humidity level in a greenhouse experiment—was not reported.",
-    "question": "How should the original researchers respond?",
+    "question": "During peer review, another research team points out that an important variable—the humidity level in a greenhouse experiment—was not reported. How should the original researchers respond?",
     "answerOptions": [
       {
         "text": "They should acknowledge the omission, clarify whether humidity was controlled, and address how it might affect the results.",
@@ -294,8 +287,7 @@ module.exports = [
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "A citizen science project asks volunteers to record bird sightings in their neighborhoods using a standardized app.",
-    "question": "Why is it important that all volunteers follow the same observation protocol?",
+    "question": "A citizen science project asks volunteers to record bird sightings in their neighborhoods using a standardized app. Why is it important that all volunteers follow the same observation protocol?",
     "answerOptions": [
       {
         "text": "Consistent protocols make the combined data set meaningful and comparable across locations.",
