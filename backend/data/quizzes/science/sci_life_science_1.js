@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Organs are collections of tissues, which are made of cells. So, organs are at a higher level of organization.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The cell is the fundamental structural and functional unit of all known living organisms."
   },
   {
     "questionNumber": 2,

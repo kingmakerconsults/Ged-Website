@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Human activities can influence climate over the long term, but the sun is the primary energy source.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The sun's energy heats the Earth's surface and atmosphere unevenly, driving winds and ocean currents."
   },
   {
     "questionNumber": 2,

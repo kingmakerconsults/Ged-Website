@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The Moon's phases are caused by its position relative to the Earth and Sun, and they do not affect the Earth's seasons.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The 23.5-degree tilt of the Earth's axis causes different parts of the Earth to receive more direct sunlight at different times of the year."
   },
   {
     "questionNumber": 2,

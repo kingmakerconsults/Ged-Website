@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Speed is the rate at which an object is moving.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Mass is the measure of how much an object resists a change in its motion (inertia)."
   },
   {
     "questionNumber": 2,

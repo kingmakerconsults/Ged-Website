@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The nervous system is the body's command and communication center.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The digestive system, including the stomach and intestines, digests food and absorbs nutrients."
   },
   {
     "questionNumber": 2,

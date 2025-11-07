@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Baking involves chemical reactions that change the ingredients.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: This is a change of state from solid to liquid, but the substance (water) remains the same."
   },
   {
     "questionNumber": 2,

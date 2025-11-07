@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Fossils are almost exclusively found in sedimentary rock.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: The process of sediment layering gently buries organisms and allows for their preservation."
   },
   {
     "questionNumber": 2,

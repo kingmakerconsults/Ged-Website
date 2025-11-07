@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Fossils are found within rocks, usually sedimentary, but it is not a type of rock itself.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: 'Igneous' comes from the Latin word for fire."
   },
   {
     "questionNumber": 2,

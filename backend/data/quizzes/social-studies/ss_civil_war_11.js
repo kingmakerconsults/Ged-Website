@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Missouri was a border state that remained in the Union.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "History textbook excerpt: Texas seceded from the Union and joined the Confederacy."
   },
   {
     "questionNumber": 2,

@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Laurasia was the northern part of the supercontinent Pangaea.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Pangaea was a supercontinent that existed during the late Paleozoic and early Mesozoic eras."
   },
   {
     "questionNumber": 2,

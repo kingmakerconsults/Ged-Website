@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "This is the principle that the government's authority is created and sustained by the consent of its people.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "History textbook excerpt: Federalism is the system where power is shared between the national and state governments."
   },
   {
     "questionNumber": 2,

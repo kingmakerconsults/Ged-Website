@@ -32,7 +32,11 @@ module.exports = [
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
+<<<<<<< HEAD
     "question": "Before designing an investigation, a student scientist states, 'I think the amount of light a plant receives will affect how many flowers it produces.'. Which part of the scientific method does this statement represent?",
+=======
+    "question": "Before designing an investigation, a student scientist states, 'I think the amount of light a plant receives will affect how many flowers it produces.' Which part of the scientific method does this statement represent?",
+>>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "Hypothesis",

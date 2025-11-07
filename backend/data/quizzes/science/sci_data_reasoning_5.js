@@ -88,7 +88,11 @@ module.exports = [
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
+<<<<<<< HEAD
     "question": "A student describes a solution as 'cloudy and pale yellow.'. What type of data has the student recorded?",
+=======
+    "question": "A student describes a solution as 'cloudy and pale yellow.' What type of data has the student recorded?",
+>>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "Qualitative data",

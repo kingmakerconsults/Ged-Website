@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "This case guaranteed the right to an attorney for defendants in criminal cases.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "History textbook excerpt: This case established the Supreme Court's power to declare laws unconstitutional."
   },
   {
     "questionNumber": 2,

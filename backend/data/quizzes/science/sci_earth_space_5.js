@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "Proxima Centauri is the closest star to our sun.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: Our solar system is located in a spiral arm of the Milky Way galaxy."
   },
   {
     "questionNumber": 2,

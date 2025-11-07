@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The biosphere is the part of Earth where life exists.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: An ecosystem includes the community (biotic, or living, factors) and the physical environment (abiotic, or nonliving, factors)."
   },
   {
     "questionNumber": 2,

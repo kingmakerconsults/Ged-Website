@@ -26,7 +26,8 @@ module.exports = [
         "rationale": "The biosphere is the sum of all ecosystems on Earth.",
         "isCorrect": false
       }
-    ]
+    ],
+    "passage": "Science textbook excerpt: An ecosystem includes both biotic (living) and abiotic (non-living) factors."
   },
   {
     "questionNumber": 2,
