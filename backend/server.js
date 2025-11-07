@@ -2937,6 +2937,11 @@ async function ensureCoachDailyTables() {
             );
         `);
         await pool.query(`CREATE INDEX IF NOT EXISTS idx_coach_daily_user_date ON coach_daily_progress (user_id, plan_date DESC);`);
+                // make sure older DBs have the column we use in updates
+                await pool.query(`
+                    ALTER TABLE coach_daily_progress
+                    ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();
+                `);
     } catch (e) { console.warn('[ensure] coach_daily_progress', e?.code || e?.message || e); }
 
     // Per-subject status (passed)
@@ -7514,7 +7519,9 @@ function ensureQuestionTags(subjectKey, categoryName, topic, question, idxForLog
         // Log missing tag for later hand-tagging
         const topicId = topic?.id || topic?.title || 'topic';
         const qIndex = (idxForLog != null) ? `#${idxForLog + 1}` : '';
-        console.warn(`[challenge-tags] question ${subjectKey}/${topicId}${qIndex} has no challenge_tags and no subtopic mapping`);
+        if (process.env.NODE_ENV !== 'production') {
+            console.warn(`[challenge-tags] question ${subjectKey}/${topicId}${qIndex} has no challenge_tags and no subtopic mapping`);
+        }
         return question;
     } catch (e) {
         return question;
