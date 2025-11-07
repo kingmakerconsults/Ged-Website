@@ -9108,10 +9108,17 @@ function App({ externalTheme, onThemeChange }) {
             const last = prev[prev.length - 1];
             setActiveView(last.activeView || 'dashboard');
             setView(last.view || 'start');
-            setSelectedSubject(last.selectedSubject ?? null);
-            setSelectedCategory(last.selectedCategory ?? null);
-            // If we're leaving quiz/results, ensure quiz context cleared unless returning to another quiz/results
-            if (last.view !== 'quiz' && last.view !== 'results') {
+            setSelectedSubject(
+                Object.prototype.hasOwnProperty.call(last, 'selectedSubject') ? last.selectedSubject : null
+            );
+            setSelectedCategory(
+                Object.prototype.hasOwnProperty.call(last, 'selectedCategory') ? last.selectedCategory : null
+            );
+            // Restore quiz context for quiz-like screens; otherwise clear it
+            if (last.view === 'quiz' || last.view === 'results' || last.view === 'reading' || last.view === 'essay' || last.view === 'simulation') {
+                setActiveQuiz(last.activeQuiz ?? null);
+                setQuizResults(last.quizResults ?? null);
+            } else {
                 setActiveQuiz(null);
                 setQuizResults(null);
             }
@@ -10256,12 +10263,14 @@ function App({ externalTheme, onThemeChange }) {
             return;
         }
 
-        // Push current nav state so Back returns here
+        // Push current nav state so Back returns here (include quiz context)
         setNavHistory((prev) => [...prev, {
             activeView,
             view,
             selectedSubject,
             selectedCategory,
+            activeQuiz,
+            quizResults,
         }]);
 
         const preparedQuiz = { ...quizPayload, subject };
@@ -10491,11 +10500,11 @@ function App({ externalTheme, onThemeChange }) {
         }
         switch (view) {
             case 'quiz':
-                return <QuizRunner quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />;
+                return <QuizRunner quiz={activeQuiz} onComplete={onQuizComplete} onExit={goBack} />;
             case 'reading':
-                 return <ReadingPractice quiz={activeQuiz} onComplete={onQuizComplete} onExit={navigateHome} />;
+                 return <ReadingPractice quiz={activeQuiz} onComplete={onQuizComplete} onExit={goBack} />;
             case 'essay':
-                return <EssayGuide onExit={navigateHome} />;
+                return <EssayGuide onExit={goBack} />;
             case 'simulation':
                 return (
                     activeQuiz && (activeQuiz.id === 'sim_life' || activeQuiz.title === 'The Game of Life') ? (
@@ -10503,7 +10512,7 @@ function App({ externalTheme, onThemeChange }) {
                             <div className="rounded-2xl overflow-hidden shadow-xl mb-4" style={{ background: 'var(--subject-simulations-gradient)' }}>
                                 <header className="flex flex-wrap items-center justify-between gap-3 p-4 text-white">
                                     <div className="flex-none min-w-[120px]">
-                                        <button onClick={navigateHome} className="inline-flex items-center gap-2 text-sm font-semibold bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md">
+                                        <button onClick={goBack} className="inline-flex items-center gap-2 text-sm font-semibold bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md">
                                             <ArrowLeftIcon />
                                             <span>Back</span>
                                         </button>
@@ -10532,7 +10541,7 @@ function App({ externalTheme, onThemeChange }) {
                                     </p>
                                 </div>
                                 <button
-                                    onClick={navigateHome}
+                                    onClick={goBack}
                                     className="px-6 py-2.5 rounded-full bg-white text-orange-600 font-semibold shadow-lg transition hover:shadow-xl hover:bg-orange-50"
                                 >
                                     Back to Dashboard
