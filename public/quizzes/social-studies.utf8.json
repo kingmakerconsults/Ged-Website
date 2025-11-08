@@ -16,7 +16,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "Which early English settlement founded in 1607 became the first permanent colony in North America?",
+                  "question": "Which term best matches the following description: 1607 settlement that became the first permanent English colony in North America.?",
                   "answerOptions": [
                     {
                       "text": "Jamestown",
@@ -40,11 +40,11 @@
                     }
                   ],
                   "questionNumber": 1
-                  },
-                  {
+                },
+                {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "This description refers to which Native American alliance that initially traded with English settlers in Virginia?",
+                  "question": "Which term best matches the following description: Native American alliance in Virginia that initially traded with English settlers.?",
                   "answerOptions": [
                     {
                       "text": "Powhatan Confederacy",
@@ -72,7 +72,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "In 1619, Virginia colonists created what representative assembly to make local laws?",
+                  "question": "Which term best matches the following description: 1619 representative assembly that allowed colonists to make local laws in Virginia.?",
                   "answerOptions": [
                     {
                       "text": "House of Burgesses",
@@ -100,7 +100,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "Which category describes a laborer who agreed to work for a set time in exchange for passage to the colonies?",
+                  "question": "Which term best matches the following description: Laborer who worked for a set time in exchange for passage to the colonies.?",
                   "answerOptions": [
                     {
                       "text": "Indentured servant",
@@ -128,7 +128,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which document signed in 1620 established self-government for the Pilgrims at Plymouth Colony?",
+                  "question": "Which term best matches the following description: 1620 agreement creating self-government for Pilgrims in Plymouth Colony.?",
                   "answerOptions": [
                     {
                       "text": "Mayflower Compact",
@@ -156,7 +156,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "This description refers to which religious group that sought to 'purify' the Church of England in Massachusetts Bay?",
+                  "question": "Which term best matches the following description: Religious group seeking to purify the Church of England who settled Massachusetts Bay.?",
                   "answerOptions": [
                     {
                       "text": "Puritans",
@@ -184,7 +184,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which local institution in New England let male property owners vote directly on community issues?",
+                  "question": "Which term best matches the following description: Form of direct democracy in New England where male property owners voted on local issues.?",
                   "answerOptions": [
                     {
                       "text": "Town meeting",
@@ -212,7 +212,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which economic theory justified strict regulation of colonial trade to enrich the mother country?",
+                  "question": "Which term best matches the following description: Economic theory that colonies exist to enrich the mother country through controlled trade.?",
                   "answerOptions": [
                     {
                       "text": "Mercantilism",
@@ -240,7 +240,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which trade network linked Europe, Africa, and the Americas in exchanges of goods and enslaved people?",
+                  "question": "Which term best matches the following description: Exchange network connecting Europe, Africa, and the Americas with goods and enslaved people.?",
                   "answerOptions": [
                     {
                       "text": "Triangular trade",
@@ -268,7 +268,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which forced transatlantic voyage carried enslaved Africans to the Americas under brutal conditions?",
+                  "question": "Which term best matches the following description: Brutal transatlantic journey that transported enslaved Africans to the Americas.?",
                   "answerOptions": [
                     {
                       "text": "Middle Passage",
@@ -296,7 +296,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which 1692 episode in Massachusetts saw prosecutions fueled by panic over alleged witchcraft?",
+                  "question": "Which term best matches the following description: 1692 series of prosecutions in Massachusetts fueled by fear of witchcraft.?",
                   "answerOptions": [
                     {
                       "text": "Salem witch trials",
@@ -324,7 +324,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which British trade laws required colonial goods to move on English ships and through English ports?",
+                  "question": "Which term best matches the following description: British laws requiring colonial trade to pass through English ships and ports.?",
                   "answerOptions": [
                     {
                       "text": "Navigation Acts",
@@ -350,7 +350,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies — U.S. History Set 1"
+              "title": "Social Studies ΓÇö U.S. History Set 1"
             },
             {
               "quizId": "ss_us_hist_colonial_period_set2",
@@ -361,7 +361,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "A Quaker secured a charter and founded a colony promoting religious tolerance and elected assemblies. Which leader is described?",
+                  "question": "Which term best matches the following description: Quaker founder of Pennsylvania who promoted religious tolerance and representative government.?",
                   "answerOptions": [
                     {
                       "text": "William Penn",
@@ -389,7 +389,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which 1682 charter in Pennsylvania guaranteed religious liberty and an elected assembly?",
+                  "question": "Which term best matches the following description: 1682 charter granting religious freedom and elected assemblies in the colony.?",
                   "answerOptions": [
                     {
                       "text": "Pennsylvania Frame of Government",
@@ -417,7 +417,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "New York and Pennsylvania belonged to what regional grouping known for diversity and commerce?",
+                  "question": "Which term best matches the following description: Region including New York and Pennsylvania noted for diverse populations and commerce.?",
                   "answerOptions": [
                     {
                       "text": "Middle Colonies",
@@ -445,7 +445,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "The Dutch settlement captured in 1664 and renamed by the English became which city?",
+                  "question": "Which term best matches the following description: Dutch settlement later renamed New York after English conquest in 1664.?",
                   "answerOptions": [
                     {
                       "text": "New Amsterdam",
@@ -473,7 +473,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "A colony granted by the king to one or more owners who governed it was called what?",
+                  "question": "Which term best matches the following description: Territory granted by the king to individuals who governed it as owners.?",
                   "answerOptions": [
                     {
                       "text": "Proprietary colony",
@@ -501,7 +501,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "In 1676, frontier settlers in Virginia rose up over defense and leadership. What was this uprising called?",
+                  "question": "Which term best matches the following description: 1676 uprising of Virginia settlers protesting frontier defense and colonial leadership.?",
                   "answerOptions": [
                     {
                       "text": "Bacon's Rebellion",
@@ -529,7 +529,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What name was given to the 1730s–1740s religious revival that stressed personal faith across the colonies?",
+                  "question": "Which term best matches the following description: Religious revival movement of the 1730s and 1740s emphasizing personal faith.?",
                   "answerOptions": [
                     {
                       "text": "Great Awakening",
@@ -557,7 +557,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Whose sermon ‘Sinners in the Hands of an Angry God’ became a hallmark of revival preaching?",
+                  "question": "Which term best matches the following description: Influential preacher whose sermon 'Sinners in the Hands of an Angry God' fueled revivalism.?",
                   "answerOptions": [
                     {
                       "text": "Jonathan Edwards",
@@ -585,7 +585,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "For decades Britain loosely enforced trade rules in the colonies, fostering self-government. What policy describes this?",
+                  "question": "Which term best matches the following description: Period when Britain loosely enforced colonial trade laws, fostering self-government.?",
                   "answerOptions": [
                     {
                       "text": "Salutary neglect",
@@ -613,7 +613,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "Tobacco, rice, and indigo are examples of what type of agricultural products grown for profit?",
+                  "question": "Which term best matches the following description: Agricultural products grown for profit, such as tobacco, rice, or indigo.?",
                   "answerOptions": [
                     {
                       "text": "Cash crops",
@@ -641,7 +641,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Colonial laws that restricted the freedom and movement of enslaved people were known as what?",
+                  "question": "Which term best matches the following description: Colonial laws restricting the freedom and movement of enslaved people.?",
                   "answerOptions": [
                     {
                       "text": "Slave codes",
@@ -669,7 +669,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "The Appalachian frontier settled by many Scots-Irish and German immigrants was commonly called the what?",
+                  "question": "Which term best matches the following description: Frontier region along the Appalachian Mountains settled by Scots-Irish and German immigrants.?",
                   "answerOptions": [
                     {
                       "text": "Backcountry",
@@ -695,7 +695,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies — U.S. History Set 1"
+              "title": "Social Studies ΓÇö U.S. History Set 1"
             },
             {
               "quizId": "ss_us_hist_colonial_period_set3",
@@ -706,7 +706,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "From 1754–1763, Britain and its colonies fought France and Native allies. Name this conflict.",
+                  "question": "Which term best matches the following description: Conflict from 1754 to 1763 in which Britain and its colonies fought France and Native allies.?",
                   "answerOptions": [
                     {
                       "text": "French and Indian War",
@@ -734,7 +734,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "In 1754, Benjamin Franklin proposed a plan to coordinate colonial defense and governance. What was it called?",
+                  "question": "Which term best matches the following description: Benjamin Franklin's 1754 proposal to coordinate colonial defense and governance.?",
                   "answerOptions": [
                     {
                       "text": "Albany Plan of Union",
@@ -762,7 +762,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which treaty ended the French and Indian War and gave Britain control of Canada?",
+                  "question": "Which term best matches the following description: Agreement ending the French and Indian War and giving Britain control of Canada.?",
                   "answerOptions": [
                     {
                       "text": "Treaty of Paris 1763",
@@ -790,7 +790,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which royal order forbade colonists from settling west of the Appalachian Mountains?",
+                  "question": "Which term best matches the following description: Royal order forbidding colonists from settling west of the Appalachian Mountains.?",
                   "answerOptions": [
                     {
                       "text": "Proclamation of 1763",
@@ -818,7 +818,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which 1763 uprising by Native nations in the Great Lakes region resisted British rule?",
+                  "question": "Which term best matches the following description: 1763 Native American uprising resisting British rule in the Great Lakes region.?",
                   "answerOptions": [
                     {
                       "text": "Pontiac's Rebellion",
@@ -846,7 +846,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What intellectual movement stressed reason, natural rights, and social contracts?",
+                  "question": "Which term best matches the following description: Intellectual movement stressing reason, natural rights, and social contracts.?",
                   "answerOptions": [
                     {
                       "text": "Enlightenment",
@@ -874,7 +874,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which philosopher’s ideas about natural rights strongly influenced colonial leaders?",
+                  "question": "Which term best matches the following description: Philosopher whose ideas about natural rights influenced colonial leaders.?",
                   "answerOptions": [
                     {
                       "text": "John Locke",
@@ -902,7 +902,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What idea holds that governments derive their authority from the consent of the governed?",
+                  "question": "Which term best matches the following description: Theory that governments derive authority from the consent of the governed.?",
                   "answerOptions": [
                     {
                       "text": "Social contract",
@@ -930,7 +930,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Before the 1760s, Britain loosely enforced many colonial regulations. What was this policy called?",
+                  "question": "Which term best matches the following description: British policy of loosely enforcing colonial regulations before the 1760s.?",
                   "answerOptions": [
                     {
                       "text": "Salutary neglect",
@@ -958,7 +958,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What locally elected legislatures managed taxation and laws within many colonies?",
+                  "question": "Which term best matches the following description: Locally elected legislatures that managed taxation and laws within colonies.?",
                   "answerOptions": [
                     {
                       "text": "Colonial assemblies",
@@ -986,7 +986,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What requirement forced colonists to provide housing for British soldiers?",
+                  "question": "Which term best matches the following description: Requirement for colonists to provide housing for British soldiers.?",
                   "answerOptions": [
                     {
                       "text": "Quartering",
@@ -1014,7 +1014,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Illegal trading to avoid British restrictions or taxes was known as what?",
+                  "question": "Which term best matches the following description: Illegal trading to avoid British restrictions or taxes.?",
                   "answerOptions": [
                     {
                       "text": "Smuggling",
@@ -1040,7 +1040,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies — U.S. History Set 1"
+              "title": "Social Studies ΓÇö U.S. History Set 1"
             }
           ]
         },
@@ -1057,7 +1057,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "In 1765 Parliament taxed printed materials in the colonies, triggering widespread protest. What was this law called?",
+                  "question": "Which term best matches the following description: 1765 law taxing printed materials in the colonies, sparking widespread protest.?",
                   "answerOptions": [
                     {
                       "text": "Stamp Act",
@@ -1085,7 +1085,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Colonists formed a group that led boycotts and street demonstrations against British taxes. Which organization was this?",
+                  "question": "Which term best matches the following description: Colonial organization that resisted British policies through boycotts and demonstrations.?",
                   "answerOptions": [
                     {
                       "text": "Sons of Liberty",
@@ -1113,7 +1113,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "In 1770 British soldiers fired into a crowd, killing five colonists. This violent confrontation became known as what?",
+                  "question": "Which term best matches the following description: 1770 confrontation in which British soldiers killed five colonial protesters.?",
                   "answerOptions": [
                     {
                       "text": "Boston Massacre",
@@ -1141,7 +1141,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which 1773 act granted the British East India Company a tea monopoly and intensified colonial resentment?",
+                  "question": "Which term best matches the following description: 1773 law granting the British East India Company a monopoly, prompting colonial resentment.?",
                   "answerOptions": [
                     {
                       "text": "Tea Act",
@@ -1169,7 +1169,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "In December 1773 colonists destroyed taxed cargo to protest British policy. What dramatic event was this?",
+                  "question": "Which term best matches the following description: December 1773 protest where colonists dumped British tea into the harbor.?",
                   "answerOptions": [
                     {
                       "text": "Boston Tea Party",
@@ -1197,7 +1197,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "After the tea protest, Parliament closed Boston Harbor and rewrote Massachusetts' charter. What did colonists call these punitive laws?",
+                  "question": "Which term best matches the following description: 1774 punitive laws closing Boston Harbor and altering Massachusetts government.?",
                   "answerOptions": [
                     {
                       "text": "Intolerable Acts",
@@ -1225,7 +1225,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Delegates from most colonies met in 1774 to coordinate resistance to Britain. What was this gathering called?",
+                  "question": "Which term best matches the following description: 1774 meeting of colonial delegates coordinating resistance to British rule.?",
                   "answerOptions": [
                     {
                       "text": "First Continental Congress",
@@ -1253,7 +1253,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which April 1775 skirmishes signaled the start of open armed conflict between colonists and British troops?",
+                  "question": "Which term best matches the following description: April 1775 battles that marked the start of armed conflict between colonists and Britain.?",
                   "answerOptions": [
                     {
                       "text": "Lexington and Concord",
@@ -1281,7 +1281,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What governing body directed the colonial war effort and later adopted the Declaration of Independence?",
+                  "question": "Which term best matches the following description: Body that managed the war effort and eventually adopted the Declaration of Independence.?",
                   "answerOptions": [
                     {
                       "text": "Second Continental Congress",
@@ -1309,7 +1309,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "In mid-1775 colonial delegates sent one final plea to King George III to avoid full war. What was this petition called?",
+                  "question": "Which term best matches the following description: 1775 attempt by colonists to reconcile with King George III before full independence.?",
                   "answerOptions": [
                     {
                       "text": "Olive Branch Petition",
@@ -1337,7 +1337,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Thomas Paine published a 1776 pamphlet powerfully arguing for independence. Name the pamphlet.",
+                  "question": "Which term best matches the following description: 1776 pamphlet by Thomas Paine arguing for colonial independence.?",
                   "answerOptions": [
                     {
                       "text": "Common Sense",
@@ -1365,7 +1365,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "Which founding document proclaimed American independence and listed grievances against the Crown?",
+                  "question": "Which term best matches the following description: Document asserting colonial freedom and listing grievances against the British crown.?",
                   "answerOptions": [
                     {
                       "text": "Declaration of Independence",
@@ -1391,7 +1391,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies — U.S. History Set 2"
+              "title": "Social Studies ΓÇö U.S. History Set 2"
             },
             {
               "quizId": "ss_us_hist_american_revolution_set2",
@@ -1402,7 +1402,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "In 1775, a costly British victory showed the colonies could stand and fight. Which battle was this?",
+                  "question": "Which term best matches the following description: 1775 battle demonstrating colonial resolve despite a British victory.?",
                   "answerOptions": [
                     {
                       "text": "Bunker Hill",
@@ -1430,7 +1430,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "After crossing the icy Delaware in 1776, Washington surprised and captured Hessian troops. Name this battle.",
+                  "question": "Which term best matches the following description: 1776 surprise attack where Washington crossed the Delaware and captured Hessian forces.?",
                   "answerOptions": [
                     {
                       "text": "Trenton",
@@ -1458,7 +1458,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which 1777 American victory proved a turning point by persuading France to join the war as an ally?",
+                  "question": "Which term best matches the following description: 1777 American victory that convinced France to join the war as an ally.?",
                   "answerOptions": [
                     {
                       "text": "Saratoga",
@@ -1486,7 +1486,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "At which winter encampment did the Continental Army endure hardship yet emerge better trained?",
+                  "question": "Which term best matches the following description: Winter encampment where the Continental Army endured hardship but emerged better trained.?",
                   "answerOptions": [
                     {
                       "text": "Valley Forge",
@@ -1514,7 +1514,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which French nobleman offered crucial leadership and support to General Washington?",
+                  "question": "Which term best matches the following description: French nobleman who provided military leadership and support to Washington.?",
                   "answerOptions": [
                     {
                       "text": "Marquis de Lafayette",
@@ -1542,7 +1542,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Name the Prussian officer who professionalized the Continental Army’s drills at Valley Forge.",
+                  "question": "Which term best matches the following description: Prussian officer who trained American troops at Valley Forge.?",
                   "answerOptions": [
                     {
                       "text": "Friedrich von Steuben",
@@ -1570,7 +1570,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which 1781 siege by American and French forces forced Cornwallis’s surrender and ended major fighting?",
+                  "question": "Which term best matches the following description: 1781 siege where American and French forces defeated Cornwallis, ending major fighting.?",
                   "answerOptions": [
                     {
                       "text": "Yorktown",
@@ -1598,7 +1598,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which agreement recognized American independence and set the nation’s new boundaries?",
+                  "question": "Which term best matches the following description: Agreement recognizing American independence and setting new national boundaries.?",
                   "answerOptions": [
                     {
                       "text": "Treaty of Paris 1783",
@@ -1626,7 +1626,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "What name was given to the German soldiers Britain hired to fight in America?",
+                  "question": "Which term best matches the following description: German soldiers hired by Britain to fight against the colonists.?",
                   "answerOptions": [
                     {
                       "text": "Hessians",
@@ -1654,7 +1654,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Privately owned ships licensed to attack enemy vessels were known as what?",
+                  "question": "Which term best matches the following description: Privately owned ships authorized to attack enemy vessels during the war.?",
                   "answerOptions": [
                     {
                       "text": "Privateers",
@@ -1682,7 +1682,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What term describes the hit‑and‑run tactics used by Patriot militias in the southern campaign?",
+                  "question": "Which term best matches the following description: Hit-and-run fighting methods used by militias in the southern campaign.?",
                   "answerOptions": [
                     {
                       "text": "Guerrilla tactics",
@@ -1710,7 +1710,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "What was the army created by the Second Continental Congress to fight Britain called?",
+                  "question": "Which term best matches the following description: Military force established by the Second Continental Congress to fight Britain.?",
                   "answerOptions": [
                     {
                       "text": "Continental Army",
@@ -1736,7 +1736,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies — U.S. History Set 2"
+              "title": "Social Studies ΓÇö U.S. History Set 2"
             },
             {
               "quizId": "ss_us_hist_american_revolution_set3",
@@ -1747,7 +1747,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "Colonists who actively supported breaking away from Britain were called what?",
+                  "question": "Which term best matches the following description: Colonists who supported independence from Britain.?",
                   "answerOptions": [
                     {
                       "text": "Patriots",
@@ -1775,7 +1775,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "Colonists who stayed loyal to the Crown during the war were known as what?",
+                  "question": "Which term best matches the following description: Colonists who remained faithful to the British crown during the war.?",
                   "answerOptions": [
                     {
                       "text": "Loyalists",
@@ -1803,7 +1803,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which political philosophy stressed civic virtue and representation by elected officials?",
+                  "question": "Which term best matches the following description: Political philosophy emphasizing civic virtue and elected representation.?",
                   "answerOptions": [
                     {
                       "text": "Republicanism",
@@ -1831,7 +1831,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "The belief that people are born with inherent rights such as life and liberty refers to what concept?",
+                  "question": "Which term best matches the following description: Belief that all people are born with inherent rights such as life and liberty.?",
                   "answerOptions": [
                     {
                       "text": "Natural rights",
@@ -1859,7 +1859,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What idea insists governments draw legitimacy from the consent of the governed?",
+                  "question": "Which term best matches the following description: Idea that governments derive legitimacy from the consent of the governed.?",
                   "answerOptions": [
                     {
                       "text": "Social contract",
@@ -1887,7 +1887,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "What term describes formal acknowledgment by other nations of U.S. independence?",
+                  "question": "Which term best matches the following description: Formal acknowledgment by other nations of American independence.?",
                   "answerOptions": [
                     {
                       "text": "Diplomatic recognition",
@@ -1915,7 +1915,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What was the first U.S. governing document that created a deliberately weak central government?",
+                  "question": "Which term best matches the following description: First U.S. governing document creating a weak central government.?",
                   "answerOptions": [
                     {
                       "text": "Articles of Confederation",
@@ -1943,7 +1943,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Name the 1787 law that set rules for admitting new states and banned slavery north of the Ohio River.",
+                  "question": "Which term best matches the following description: 1787 law setting procedures for admitting new states and banning slavery north of the Ohio River.?",
                   "answerOptions": [
                     {
                       "text": "Northwest Ordinance",
@@ -1971,7 +1971,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which 1778 agreement secured French military support for the United States?",
+                  "question": "Which term best matches the following description: 1778 agreement between the United States and France providing military support.?",
                   "answerOptions": [
                     {
                       "text": "Treaty of Alliance",
@@ -1999,7 +1999,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "What economic problem emerged as Continental paper money rapidly lost value during the war?",
+                  "question": "Which term best matches the following description: Economic problem faced during the war as paper money lost value.?",
                   "answerOptions": [
                     {
                       "text": "Inflation",
@@ -2027,7 +2027,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "The contributions of Abigail Adams, camp followers, and others supporting the war effort reflect which broader theme?",
+                  "question": "Which term best matches the following description: Role of figures such as Abigail Adams or camp followers supporting the war effort.?",
                   "answerOptions": [
                     {
                       "text": "Women in the Revolution",
@@ -2055,7 +2055,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Individuals who fought on both sides hoping for freedom or expanded civil rights are grouped under what description?",
+                  "question": "Which term best matches the following description: Individuals who fought for both sides hoping to gain freedom or civil rights.?",
                   "answerOptions": [
                     {
                       "text": "Free African Americans",
@@ -2081,7 +2081,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies — U.S. History Set 2"
+              "title": "Social Studies ΓÇö U.S. History Set 2"
             }
           ]
         },
@@ -7883,69 +7883,6 @@
                 ],
                 "questionNumber": 12
               }
-                ,
-                {
-                  "type": "multiple-choice-text",
-                  "difficulty": "medium",
-                  "question": "Read the excerpt from the Declaration of Independence. Which principle of government is most directly expressed in this passage?",
-                  "content": {
-                    "passage": "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness. — That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed."
-                  },
-                  "answerOptions": [
-                    {
-                      "text": "Natural rights and the social contract",
-                      "isCorrect": true,
-                      "rationale": "The passage identifies unalienable (natural) rights and states that governments get their just powers from the consent of the governed—core ideas of natural rights and the social contract."
-                    },
-                    {
-                      "text": "Separation of powers",
-                      "isCorrect": false,
-                      "rationale": "Separation of powers divides authority among branches; the excerpt addresses rights and popular consent, not branch structure."
-                    },
-                    {
-                      "text": "Federalism",
-                      "isCorrect": false,
-                      "rationale": "Federalism is the division of power between national and state governments; it is not discussed in the excerpt."
-                    },
-                    {
-                      "text": "Judicial review",
-                      "isCorrect": false,
-                      "rationale": "Judicial review is the courts’ power to interpret laws; the passage focuses on natural rights and consent of the governed."
-                    }
-                  ],
-                  "questionNumber": 13
-                },
-                {
-                  "type": "multiple-choice-text",
-                  "difficulty": "medium",
-                  "question": "Read the excerpt from Thomas Paine’s Common Sense. What action did Paine urge colonists to support?",
-                  "content": {
-                    "passage": "’Tis time to part. Even the distance at which the Almighty hath placed England and America, is a strong and natural proof, that the authority of the one, over the other, was never the design of Heaven..."
-                  },
-                  "answerOptions": [
-                    {
-                      "text": "Declaring independence from Britain",
-                      "isCorrect": true,
-                      "rationale": "Common Sense argued that it was time for the colonies to break from Britain and establish independent self-government."
-                    },
-                    {
-                      "text": "Negotiating new lower taxes with Parliament",
-                      "isCorrect": false,
-                      "rationale": "Paine rejected compromise with Parliament and advocated full independence, not merely tax changes."
-                    },
-                    {
-                      "text": "Seeking colonial representation in Parliament",
-                      "isCorrect": false,
-                      "rationale": "Paine argued against continued connection to Britain, not for representation within its legislature."
-                    },
-                    {
-                      "text": "Swearing renewed loyalty to King George III",
-                      "isCorrect": false,
-                      "rationale": "Paine strongly criticized monarchy and rejected loyalty to the king."
-                    }
-                  ],
-                  "questionNumber": 14
-                }
             ],
             "title": "Social Studies ΓÇö U.S. History Set 2"
           },
@@ -30029,36 +29966,6 @@
                     }
                   ],
                   "questionNumber": 12
-                },
-                {
-                  "type": "multiple-choice-text",
-                  "questionNumber": 13,
-                  "content": {
-                    "passage": "",
-                    "imageURL": "frontend/Images/Social Studies/A map of the Triangular Trade routes..jpg",
-                    "questionText": "Using the map, which region marks the typical starting point of the Middle Passage?"
-                  },
-                  "answerOptions": [
-                    {"text": "West Africa", "isCorrect": true, "rationale": "The Middle Passage transported enslaved Africans from West Africa across the Atlantic to the Americas."},
-                    {"text": "New England", "isCorrect": false, "rationale": "New England was involved in trade, but the Middle Passage began in West Africa."},
-                    {"text": "India", "isCorrect": false, "rationale": "The triangular trade shown did not include India."},
-                    {"text": "Pacific Northwest", "isCorrect": false, "rationale": "This region is unrelated to the Atlantic triangular trade."}
-                  ]
-                },
-                {
-                  "type": "multiple-choice-text",
-                  "questionNumber": 14,
-                  "content": {
-                    "passage": "",
-                    "imageURL": "frontend/Images/Social Studies/political-map-of-world.jpg",
-                    "questionText": "On a world map, what is the name of the line at 0° latitude?"
-                  },
-                  "answerOptions": [
-                    {"text": "Equator", "isCorrect": true, "rationale": "0° latitude is the Equator."},
-                    {"text": "Prime Meridian", "isCorrect": false, "rationale": "The Prime Meridian is 0° longitude, not latitude."},
-                    {"text": "Tropic of Cancer", "isCorrect": false, "rationale": "The Tropic of Cancer is located at about 23.5° N latitude."},
-                    {"text": "Arctic Circle", "isCorrect": false, "rationale": "The Arctic Circle is near 66.5° N latitude."}
-                  ]
                 }
               ],
               "title": "Social Studies ΓÇö Geography and the World Set 1"
@@ -30077,7 +29984,7 @@
               {
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Which term best matches the following description: Imaginary lines measuring distance north or south of the Equator?",
+                "question": "Which term best matches the following description: Imaginary lines measuring distance north or south of the Equator.?",
                 "answerOptions": [
                   {
                     "text": "Latitude",
@@ -30105,7 +30012,7 @@
               {
                 "type": "multipleChoice",
                 "difficulty": "easy",
-                "question": "Which term best matches the following description: Imaginary lines measuring distance east or west of the Prime Meridian?",
+                "question": "Which term best matches the following description: Imaginary lines measuring distance east or west of the Prime Meridian.?",
                 "answerOptions": [
                   {
                     "text": "Longitude",
@@ -30133,7 +30040,7 @@
               {
                 "type": "multipleChoice",
                 "difficulty": "medium",
-                "question": "Which term best matches the following description: Relationship between distance on a map and the actual distance on Earth?",
+                "question": "Which term best matches the following description: Relationship between distance on a map and the actual distance on Earth.?",
                 "answerOptions": [
                   {
                     "text": "Scale",
@@ -31101,7 +31008,7 @@
                     },
                     {
                       "text": "The causes of the race riots in American cities in the mid-1960s.",
-                      "rationale": "Correct. The commission's report famously concluded that the nation was 'moving toward two societies, one black, one white—separate and unequal.'",
+                      "rationale": "Correct. The commission's report famously concluded that the nation was 'moving toward two societies, one black, one whiteΓÇöseparate and unequal.'",
                       "isCorrect": true
                     },
                     {
@@ -31797,7 +31704,7 @@
                   },
                   {
                     "text": "The causes of the race riots in American cities in the mid-1960s.",
-                    "rationale": "Correct. The commission's report famously concluded that the nation was 'moving toward two societies, one black, one white—separate and unequal.'",
+                    "rationale": "Correct. The commission's report famously concluded that the nation was 'moving toward two societies, one black, one whiteΓÇöseparate and unequal.'",
                     "isCorrect": true
                   },
                   {
@@ -37492,3 +37399,4 @@
     "averageQuizzesPerSet": 2
   }
 }
+
