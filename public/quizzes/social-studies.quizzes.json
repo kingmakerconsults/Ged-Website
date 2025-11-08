@@ -2098,7 +2098,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: First U.S. framework that created a weak central government with limited powers.?",
+                  "question": "Which document created a deliberately weak national government with no power to tax or enforce laws, convincing many leaders that a new convention was needed?",
                   "answerOptions": [
                     {
                       "text": "Articles of Confederation",
@@ -2126,7 +2126,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: 1786 uprising of Massachusetts farmers protesting debt and taxation, highlighting weaknesses of the Articles.?",
+                  "question": "Which 1786–1787 uprising by indebted Massachusetts farmers shutting down local courts alarmed national leaders and highlighted the Articles' weaknesses?",
                   "answerOptions": [
                     {
                       "text": "Shays' Rebellion",
@@ -2154,7 +2154,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: 1787 meeting in Philadelphia where delegates drafted the U.S. Constitution.?",
+                  "question": "At what 1787 gathering in Philadelphia did delegates decide to replace the Articles and draft a new Constitution?",
                   "answerOptions": [
                     {
                       "text": "Constitutional Convention",
@@ -2182,7 +2182,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Agreement creating a bicameral legislature with proportional representation in the House and equal representation in the Senate.?",
+                  "question": "Which compromise settled the dispute between large and small states by creating a bicameral Congress with proportional representation in one house and equal representation in the other?",
                   "answerOptions": [
                     {
                       "text": "Great Compromise",
@@ -2210,7 +2210,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: Decision to count enslaved individuals as partial population for representation and taxation.?",
+                  "question": "Which compromise determined that a fraction of the enslaved population would count toward both representation and taxation?",
                   "answerOptions": [
                     {
                       "text": "Three-Fifths Compromise",
@@ -2238,7 +2238,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Supporters of ratifying the Constitution and a stronger national government.?",
+                  "question": "What name was given to Americans who campaigned for ratifying the Constitution to create a stronger central government?",
                   "answerOptions": [
                     {
                       "text": "Federalists",
@@ -2266,7 +2266,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Opponents of the Constitution who demanded a Bill of Rights to protect liberties.?",
+                  "question": "Which group opposed the proposed Constitution unless individual liberties were protected explicitly by a Bill of Rights?",
                   "answerOptions": [
                     {
                       "text": "Anti-Federalists",
@@ -2294,7 +2294,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: Series of essays defending the Constitution written by Hamilton, Madison, and Jay.?",
+                  "question": "What series of persuasive essays, published under the pen name 'Publius', argued for ratification and explained constitutional principles?",
                   "answerOptions": [
                     {
                       "text": "Federalist Papers",
@@ -2322,7 +2322,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "Which term best matches the following description: First ten amendments to the Constitution guaranteeing individual freedoms.?",
+                  "question": "Which portion of the Constitution was added to satisfy concerns about protecting speech, religion, due process, and other individual rights?",
                   "answerOptions": [
                     {
                       "text": "Bill of Rights",
@@ -2350,7 +2350,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Formal approval by the states required to adopt the Constitution.?",
+                  "question": "What process—completed once nine states agreed—officially brought the new Constitution into effect?",
                   "answerOptions": [
                     {
                       "text": "Ratification",
@@ -2378,7 +2378,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Division of government authority among legislative, executive, and judicial branches.?",
+                  "question": "Which constitutional principle divides lawmaking, law-enforcing, and law-interpreting powers among three branches?",
                   "answerOptions": [
                     {
                       "text": "Separation of powers",
@@ -2406,7 +2406,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: System ensuring each branch can limit the powers of the others.?",
+                  "question": "What structural feature allows one branch to veto, review, or approve actions of another to prevent concentration of power?",
                   "answerOptions": [
                     {
                       "text": "Checks and balances",
@@ -2432,7 +2432,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö U.S. History Set 3"
+              "title": "Social Studies — U.S. History Set 3"
             },
             {
               "quizId": "ss_us_hist_early_republic_set2",
@@ -2443,7 +2443,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "easy",
-                  "question": "Which term best matches the following description: First president who established many precedents for the executive branch.?",
+                  "question": "Who set early presidential precedents such as forming a cabinet and stepping down after two terms?",
                   "answerOptions": [
                     {
                       "text": "George Washington",
@@ -2471,7 +2471,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Group of advisors heading executive departments who assist the president.?",
+                  "question": "What do we call the group of executive department leaders who advise the president?",
                   "answerOptions": [
                     {
                       "text": "Cabinet",
@@ -2499,7 +2499,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: Program to assume state debts, create a national bank, and support manufacturing.?",
+                  "question": "Which comprehensive plan proposed assuming state debts, chartering a national bank, and encouraging manufacturing?",
                   "answerOptions": [
                     {
                       "text": "Hamilton's financial plan",
@@ -2527,7 +2527,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Institution proposed by Hamilton to stabilize the economy and manage credit.?",
+                  "question": "Which Hamilton-backed institution was intended to stabilize the young nation's credit and finances?",
                   "answerOptions": [
                     {
                       "text": "National Bank",
@@ -2555,7 +2555,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: 1794 protest of a federal excise tax suppressed by Washington's militia, proving federal authority.?",
+                  "question": "Which 1794 uprising over a federal excise tax was quelled by militia, demonstrating federal authority under the new Constitution?",
                   "answerOptions": [
                     {
                       "text": "Whiskey Rebellion",
@@ -2583,7 +2583,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: 1793 statement declaring U.S. neutrality in the conflict between Britain and France.?",
+                  "question": "What 1793 announcement declared the United States would stay neutral in the war between Britain and France?",
                   "answerOptions": [
                     {
                       "text": "Neutrality Proclamation",
@@ -2611,7 +2611,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: 1794 agreement with Britain resolving outstanding issues from the Revolutionary War.?",
+                  "question": "Which 1794 agreement with Britain settled lingering disputes from the Revolutionary War and eased tensions?",
                   "answerOptions": [
                     {
                       "text": "Jay's Treaty",
@@ -2639,7 +2639,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: 1795 pact with Spain granting U.S. navigation rights on the Mississippi River.?",
+                  "question": "Which 1795 pact with Spain secured American navigation rights on the Mississippi River and access to New Orleans?",
                   "answerOptions": [
                     {
                       "text": "Pinckney's Treaty",
@@ -2667,7 +2667,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Organized groups such as Federalists and Democratic-Republicans competing for power.?",
+                  "question": "What name describes organizations like the Federalists and Democratic-Republicans that competed in elections and policy debates?",
                   "answerOptions": [
                     {
                       "text": "Political parties",
@@ -2695,7 +2695,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Second president who faced challenges such as the XYZ Affair and alien laws.?",
+                  "question": "Who was the second president of the United States, confronting the XYZ Affair and the Alien and Sedition Acts?",
                   "answerOptions": [
                     {
                       "text": "John Adams",
@@ -2723,7 +2723,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: 1797 diplomatic incident with France leading to calls for war.?",
+                  "question": "Which 1797 diplomatic scandal with France led to cries of 'Millions for defense, but not one cent for tribute'?",
                   "answerOptions": [
                     {
                       "text": "XYZ Affair",
@@ -2751,7 +2751,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: 1798 laws restricting immigration and limiting criticism of the government.?",
+                  "question": "Which 1798 laws expanded federal power to deport noncitizens and criminalized certain speech against the government?",
                   "answerOptions": [
                     {
                       "text": "Alien and Sedition Acts",
@@ -2777,7 +2777,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö U.S. History Set 3"
+              "title": "Social Studies — U.S. History Set 3"
             },
             {
               "quizId": "ss_us_hist_early_republic_set3",
@@ -2788,7 +2788,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Third president who championed agrarian democracy and limited government.?",
+                  "question": "Who, as the third president, promoted agrarian democracy and a limited federal government?",
                   "answerOptions": [
                     {
                       "text": "Thomas Jefferson",
@@ -2816,7 +2816,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: 1803 acquisition doubling U.S. territory by buying land from France.?",
+                  "question": "Which 1803 purchase from France doubled the size of the United States?",
                   "answerOptions": [
                     {
                       "text": "Louisiana Purchase",
@@ -2844,7 +2844,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Journey exploring the Louisiana Territory and mapping routes to the Pacific.?",
+                  "question": "What expedition explored the Louisiana Territory and mapped routes to the Pacific Ocean?",
                   "answerOptions": [
                     {
                       "text": "Lewis and Clark Expedition",
@@ -2872,7 +2872,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: 1807 law banning U.S. trade with foreign nations to avoid war.?",
+                  "question": "Which 1807 law halted most U.S. foreign trade in an attempt to avoid war?",
                   "answerOptions": [
                     {
                       "text": "Embargo Act",
@@ -2900,7 +2900,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Congressional leaders who pushed for war against Britain leading up to 1812.?",
+                  "question": "What were pro-war members of Congress, especially from the South and West, called in the run-up to 1812?",
                   "answerOptions": [
                     {
                       "text": "War Hawks",
@@ -2928,7 +2928,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Conflict between the United States and Britain over trade restrictions and impressment.?",
+                  "question": "Which conflict with Britain was fueled by trade restrictions and the impressment of American sailors?",
                   "answerOptions": [
                     {
                       "text": "War of 1812",
@@ -2956,7 +2956,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: 1814 agreement ending the War of 1812 without territorial changes.?",
+                  "question": "Which 1814 agreement ended the War of 1812 without changing prewar boundaries?",
                   "answerOptions": [
                     {
                       "text": "Treaty of Ghent",
@@ -2984,7 +2984,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: Meeting of New England Federalists opposing the war and discussing constitutional amendments.?",
+                  "question": "Which meeting of New England Federalists criticized the war effort and proposed constitutional amendments?",
                   "answerOptions": [
                     {
                       "text": "Hartford Convention",
@@ -3012,7 +3012,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: Period of national unity and one-party politics following the War of 1812.?",
+                  "question": "What label describes the post–War of 1812 stretch of relative political unity and one major national party?",
                   "answerOptions": [
                     {
                       "text": "Era of Good Feelings",
@@ -3040,7 +3040,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "medium",
-                  "question": "Which term best matches the following description: 1823 policy opposing European colonization in the Western Hemisphere.?",
+                  "question": "Which 1823 presidential doctrine warned European powers against further colonization in the Americas?",
                   "answerOptions": [
                     {
                       "text": "Monroe Doctrine",
@@ -3068,7 +3068,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: 1820 agreement admitting Missouri as a slave state and Maine as free while banning slavery north of 36┬░30'.?",
+                  "question": "Which 1820 compromise admitted Missouri as slave and Maine as free while banning slavery north of 36°30' in the Louisiana Territory?",
                   "answerOptions": [
                     {
                       "text": "Missouri Compromise",
@@ -3096,7 +3096,7 @@
                 {
                   "type": "multipleChoice",
                   "difficulty": "hard",
-                  "question": "Which term best matches the following description: Trend of Supreme Court decisions strengthening federal authority during the early 1800s.?",
+                  "question": "What trend in early 1800s Supreme Court rulings (e.g., McCulloch v. Maryland) expanded federal authority over the states?",
                   "answerOptions": [
                     {
                       "text": "Judicial nationalism",
@@ -3122,7 +3122,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö U.S. History Set 3"
+              "title": "Social Studies — U.S. History Set 3"
             }
           ]
         },
@@ -3473,7 +3473,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö U.S. History Set 4"
+              "title": "Social Studies — U.S. History Set 4"
             },
             {
               "quizId": "ss_us_hist_westward_expansion_set2",
@@ -3818,7 +3818,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö U.S. History Set 4"
+              "title": "Social Studies — U.S. History Set 4"
             },
             {
               "quizId": "ss_us_hist_westward_expansion_set3",
@@ -4163,7 +4163,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö U.S. History Set 4"
+              "title": "Social Studies — U.S. History Set 4"
             }
           ]
         },
@@ -4514,7 +4514,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö U.S. History Set 5"
+              "title": "Social Studies — U.S. History Set 5"
             },
             {
               "quizId": "ss_us_hist_civil_war_set2",
@@ -4859,7 +4859,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö U.S. History Set 5"
+              "title": "Social Studies — U.S. History Set 5"
             },
             {
               "quizId": "ss_us_hist_civil_war_set3",
@@ -5204,7 +5204,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö U.S. History Set 5"
+              "title": "Social Studies — U.S. History Set 5"
             }
           ]
         },
@@ -5213,7 +5213,7 @@
           "title": "Foundations (1491-1763)",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö U.S. History Set 6",
+              "title": "Social Studies — U.S. History Set 6",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -5565,7 +5565,7 @@
           "quizzes": [
             {
               "quizId": "us_history_revolution_quiz_1",
-              "title": "Social Studies ΓÇö U.S. History Set 6",
+              "title": "Social Studies — U.S. History Set 6",
               "questions": [
                 {
                   "question": "What was the primary purpose of the Stamp Act of 1765?",
@@ -5879,7 +5879,7 @@
           "quizzes": [
             {
               "quizId": "us_history_revolution_quiz_2",
-              "title": "Social Studies ΓÇö U.S. History Set 6",
+              "title": "Social Studies — U.S. History Set 6",
               "questions": [
                 {
                   "question": "Who was the primary author of the Declaration of Independence?",
@@ -6193,7 +6193,7 @@
           "quizzes": [
             {
               "quizId": "us_history_revolution_quiz_3",
-              "title": "Social Studies ΓÇö U.S. History Set 7",
+              "title": "Social Studies — U.S. History Set 7",
               "questions": [
                 {
                   "question": "Which Enlightenment philosopher's ideas of natural rights heavily influenced the Declaration of Independence?",
@@ -6847,7 +6847,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 1"
+            "title": "Social Studies — U.S. History Set 1"
           },
           {
             "quizId": "ss_us_hist_colonial_period_set2",
@@ -7192,7 +7192,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 1"
+            "title": "Social Studies — U.S. History Set 1"
           },
           {
             "quizId": "ss_us_hist_colonial_period_set3",
@@ -7537,7 +7537,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 1"
+            "title": "Social Studies — U.S. History Set 1"
           }
         ],
         "Set 2": [
@@ -7947,7 +7947,7 @@
                   "questionNumber": 14
                 }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 2"
+            "title": "Social Studies — U.S. History Set 2"
           },
           {
             "quizId": "ss_us_hist_american_revolution_set2",
@@ -8292,7 +8292,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 2"
+            "title": "Social Studies — U.S. History Set 2"
           },
           {
             "quizId": "ss_us_hist_american_revolution_set3",
@@ -8637,7 +8637,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 2"
+            "title": "Social Studies — U.S. History Set 2"
           }
         ],
         "Set 3": [
@@ -8984,7 +8984,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 3"
+            "title": "Social Studies — U.S. History Set 3"
           },
           {
             "quizId": "ss_us_hist_early_republic_set2",
@@ -9329,7 +9329,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 3"
+            "title": "Social Studies — U.S. History Set 3"
           },
           {
             "quizId": "ss_us_hist_early_republic_set3",
@@ -9674,7 +9674,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 3"
+            "title": "Social Studies — U.S. History Set 3"
           }
         ],
         "Set 4": [
@@ -10021,7 +10021,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 4"
+            "title": "Social Studies — U.S. History Set 4"
           },
           {
             "quizId": "ss_us_hist_westward_expansion_set2",
@@ -10366,7 +10366,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 4"
+            "title": "Social Studies — U.S. History Set 4"
           },
           {
             "quizId": "ss_us_hist_westward_expansion_set3",
@@ -10711,7 +10711,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 4"
+            "title": "Social Studies — U.S. History Set 4"
           }
         ],
         "Set 5": [
@@ -11058,7 +11058,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 5"
+            "title": "Social Studies — U.S. History Set 5"
           },
           {
             "quizId": "ss_us_hist_civil_war_set2",
@@ -11403,7 +11403,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 5"
+            "title": "Social Studies — U.S. History Set 5"
           },
           {
             "quizId": "ss_us_hist_civil_war_set3",
@@ -11748,12 +11748,12 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö U.S. History Set 5"
+            "title": "Social Studies — U.S. History Set 5"
           }
         ],
         "Set 6": [
           {
-            "title": "Social Studies ΓÇö U.S. History Set 6",
+            "title": "Social Studies — U.S. History Set 6",
             "questions": [
               {
                 "questionNumber": 1,
@@ -12099,7 +12099,7 @@
           },
           {
             "quizId": "us_history_revolution_quiz_1",
-            "title": "Social Studies ΓÇö U.S. History Set 6",
+            "title": "Social Studies — U.S. History Set 6",
             "questions": [
               {
                 "question": "What was the primary purpose of the Stamp Act of 1765?",
@@ -12407,7 +12407,7 @@
           },
           {
             "quizId": "us_history_revolution_quiz_2",
-            "title": "Social Studies ΓÇö U.S. History Set 6",
+            "title": "Social Studies — U.S. History Set 6",
             "questions": [
               {
                 "question": "Who was the primary author of the Declaration of Independence?",
@@ -12717,7 +12717,7 @@
         "Set 7": [
           {
             "quizId": "us_history_revolution_quiz_3",
-            "title": "Social Studies ΓÇö U.S. History Set 7",
+            "title": "Social Studies — U.S. History Set 7",
             "questions": [
               {
                 "question": "Which Enlightenment philosopher's ideas of natural rights heavily influenced the Declaration of Independence?",
@@ -13375,7 +13375,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 1"
+              "title": "Social Studies — Civics & Government Set 1"
             },
             {
               "quizId": "ss_civics_constitutional_principles_set2",
@@ -13720,7 +13720,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 1"
+              "title": "Social Studies — Civics & Government Set 1"
             },
             {
               "quizId": "ss_civics_constitutional_principles_set3",
@@ -14065,7 +14065,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 1"
+              "title": "Social Studies — Civics & Government Set 1"
             }
           ]
         },
@@ -14416,7 +14416,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 2"
+              "title": "Social Studies — Civics & Government Set 2"
             },
             {
               "quizId": "ss_civics_bill_of_rights_set2",
@@ -14761,7 +14761,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 2"
+              "title": "Social Studies — Civics & Government Set 2"
             },
             {
               "quizId": "ss_civics_bill_of_rights_set3",
@@ -15106,10 +15106,10 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 2"
+              "title": "Social Studies — Civics & Government Set 2"
             },
             {
-              "title": "Social Studies ΓÇö Civics & Government Set 3",
+              "title": "Social Studies — Civics & Government Set 3",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -15803,7 +15803,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 3"
+              "title": "Social Studies — Civics & Government Set 3"
             },
             {
               "quizId": "ss_civics_gov_structure_set2",
@@ -16148,7 +16148,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 3"
+              "title": "Social Studies — Civics & Government Set 3"
             },
             {
               "quizId": "ss_civics_gov_structure_set3",
@@ -16493,10 +16493,10 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 4"
+              "title": "Social Studies — Civics & Government Set 4"
             },
             {
-              "title": "Social Studies ΓÇö Civics & Government Set 4",
+              "title": "Social Studies — Civics & Government Set 4",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -17188,7 +17188,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 4"
+              "title": "Social Studies — Civics & Government Set 4"
             },
             {
               "quizId": "ss_civics_elections_set2",
@@ -17533,7 +17533,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 5"
+              "title": "Social Studies — Civics & Government Set 5"
             },
             {
               "quizId": "ss_civics_elections_set3",
@@ -17878,10 +17878,10 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 5"
+              "title": "Social Studies — Civics & Government Set 5"
             },
             {
-              "title": "Social Studies ΓÇö Civics & Government Set 5",
+              "title": "Social Studies — Civics & Government Set 5",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -18573,7 +18573,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 6"
+              "title": "Social Studies — Civics & Government Set 6"
             },
             {
               "quizId": "ss_civics_supreme_court_set2",
@@ -18918,7 +18918,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 6"
+              "title": "Social Studies — Civics & Government Set 6"
             },
             {
               "quizId": "ss_civics_supreme_court_set3",
@@ -19263,10 +19263,10 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Civics & Government Set 6"
+              "title": "Social Studies — Civics & Government Set 6"
             },
             {
-              "title": "Social Studies ΓÇö Civics & Government Set 7",
+              "title": "Social Studies — Civics & Government Set 7",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -19617,7 +19617,7 @@
           "title": "Rights and Responsibilities of Citizens",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Civics & Government Set 7",
+              "title": "Social Studies — Civics & Government Set 7",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -19969,7 +19969,7 @@
           "title": "Federal vs. State Powers",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Civics & Government Set 7",
+              "title": "Social Studies — Civics & Government Set 7",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -20321,7 +20321,7 @@
           "title": "How Laws and Policies are Made",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Civics & Government Set 8",
+              "title": "Social Studies — Civics & Government Set 8",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -20672,7 +20672,7 @@
           "title": "Separation of Powers and Checks & Balances",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Civics & Government Set 8",
+              "title": "Social Studies — Civics & Government Set 8",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -29327,7 +29327,7 @@
                   "questionNumber": 12
                 }
               ],
-              "title": "Social Studies ΓÇö Economics Set 1"
+              "title": "Social Studies — Economics Set 1"
             }
           ]
         }
@@ -29677,7 +29677,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö Economics Set 1"
+            "title": "Social Studies — Economics Set 1"
           }
         ]
       }
@@ -30061,7 +30061,7 @@
                   ]
                 }
               ],
-              "title": "Social Studies ΓÇö Geography and the World Set 1"
+              "title": "Social Studies — Geography and the World Set 1"
             }
           ]
         }
@@ -30411,7 +30411,7 @@
                 "questionNumber": 12
               }
             ],
-            "title": "Social Studies ΓÇö Geography and the World Set 1"
+            "title": "Social Studies — Geography and the World Set 1"
           }
         ]
       }
@@ -30423,7 +30423,7 @@
           "title": "Struggles for Equality in Modern America",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Civil Rights movement and modern era Set 1",
+              "title": "Social Studies — Civil Rights movement and modern era Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -30774,7 +30774,7 @@
           "title": "The Civil Rights Movement",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Civil Rights movement and modern era Set 1",
+              "title": "Social Studies — Civil Rights movement and modern era Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -31125,7 +31125,7 @@
       "sets": {
         "Set 1": [
           {
-            "title": "Social Studies ΓÇö Civil Rights movement and modern era Set 1",
+            "title": "Social Studies — Civil Rights movement and modern era Set 1",
             "questions": [
               {
                 "questionNumber": 1,
@@ -31470,7 +31470,7 @@
             "quizId": "ss_civil_rights_14"
           },
           {
-            "title": "Social Studies ΓÇö Civil Rights movement and modern era Set 1",
+            "title": "Social Studies — Civil Rights movement and modern era Set 1",
             "questions": [
               {
                 "questionNumber": 1,
@@ -31825,7 +31825,7 @@
           "title": "Key Aspects of the Civil War",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Civil War & Reconstruction Set 1",
+              "title": "Social Studies — Civil War & Reconstruction Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -32176,7 +32176,7 @@
           "title": "The Civil War and Reconstruction Era",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Civil War & Reconstruction Set 1",
+              "title": "Social Studies — Civil War & Reconstruction Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -32529,7 +32529,7 @@
       "sets": {
         "Set 1": [
           {
-            "title": "Social Studies ΓÇö Civil War & Reconstruction Set 1",
+            "title": "Social Studies — Civil War & Reconstruction Set 1",
             "questions": [
               {
                 "questionNumber": 1,
@@ -32874,7 +32874,7 @@
             "quizId": "ss_civil_war_11"
           },
           {
-            "title": "Social Studies ΓÇö Civil War & Reconstruction Set 1",
+            "title": "Social Studies — Civil War & Reconstruction Set 1",
             "questions": [
               {
                 "questionNumber": 1,
@@ -33231,7 +33231,7 @@
           "title": "Colonial Foundations and Early America",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Colonial era and early United States Set 1",
+              "title": "Social Studies — Colonial era and early United States Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -33587,7 +33587,7 @@
           "title": "The Early American Republic",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Colonial era and early United States Set 1",
+              "title": "Social Studies — Colonial era and early United States Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -33938,7 +33938,7 @@
       "sets": {
         "Set 1": [
           {
-            "title": "Social Studies ΓÇö Colonial era and early United States Set 1",
+            "title": "Social Studies — Colonial era and early United States Set 1",
             "questions": [
               {
                 "questionNumber": 1,
@@ -34288,7 +34288,7 @@
             "quizId": "ss_colonial_era_1"
           },
           {
-            "title": "Social Studies ΓÇö Colonial era and early United States Set 1",
+            "title": "Social Studies — Colonial era and early United States Set 1",
             "questions": [
               {
                 "questionNumber": 1,
@@ -34643,7 +34643,7 @@
           "title": "Economic Principles and Geographic Skills",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Economics / Geography Set 1",
+              "title": "Social Studies — Economics / Geography Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -34995,7 +34995,7 @@
       "sets": {
         "Set 1": [
           {
-            "title": "Social Studies ΓÇö Economics / Geography Set 1",
+            "title": "Social Studies — Economics / Geography Set 1",
             "questions": [
               {
                 "questionNumber": 1,
@@ -35351,7 +35351,7 @@
           "title": "Analyzing Primary and Secondary Sources",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Reading Primary / Secondary Sources Set 1",
+              "title": "Social Studies — Reading Primary / Secondary Sources Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -35716,7 +35716,7 @@
       "sets": {
         "Set 1": [
           {
-            "title": "Social Studies ΓÇö Reading Primary / Secondary Sources Set 1",
+            "title": "Social Studies — Reading Primary / Secondary Sources Set 1",
             "questions": [
               {
                 "questionNumber": 1,
@@ -36085,7 +36085,7 @@
           "title": "Growth and Change in the 19th Century",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Westward expansion / industrialization Set 1",
+              "title": "Social Studies — Westward expansion / industrialization Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -36436,7 +36436,7 @@
           "title": "Manifest Destiny and Industrialization",
           "quizzes": [
             {
-              "title": "Social Studies ΓÇö Westward expansion / industrialization Set 1",
+              "title": "Social Studies — Westward expansion / industrialization Set 1",
               "questions": [
                 {
                   "questionNumber": 1,
@@ -36789,7 +36789,7 @@
       "sets": {
         "Set 1": [
           {
-            "title": "Social Studies ΓÇö Westward expansion / industrialization Set 1",
+            "title": "Social Studies — Westward expansion / industrialization Set 1",
             "questions": [
               {
                 "questionNumber": 1,
@@ -37134,7 +37134,7 @@
             "quizId": "ss_westward_expansion_13"
           },
           {
-            "title": "Social Studies ΓÇö Westward expansion / industrialization Set 1",
+            "title": "Social Studies — Westward expansion / industrialization Set 1",
             "questions": [
               {
                 "questionNumber": 1,
