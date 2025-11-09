@@ -10645,7 +10645,9 @@ function App({ externalTheme, onThemeChange }) {
                     scaledScore: results.scaledScore,
                     passed: typeof results.scaledScore === 'number' ? results.scaledScore >= GED_PASSING_SCORE : undefined,
                     ...(responses.length ? { responses } : {}),
-                    ...(quizDetails && quizDetails.assignedBy ? { assigned_by: quizDetails.assignedBy } : {}),
+                    ...(quizDetails && (quizDetails.assigned_by || quizDetails.assignedBy)
+                        ? { assigned_by: (quizDetails.assigned_by || quizDetails.assignedBy) }
+                        : {}),
                 };
                 await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
                     method: 'POST',
@@ -13391,7 +13393,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 type: found.type || 'quiz',
                 questions: normalized,
                 isPremade: true,
-                assignedBy: 'coach-smith',
+                assigned_by: 'coach-smith',
             };
             startQuiz(payload, displaySubjectName(subject));
             return true;
@@ -13469,6 +13471,18 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             if (!token) { alert('Please sign in to take today\'s coach quiz.'); return; }
             setIsLoading(true);
             setLoadingMessage(`Loading Coach Smith quiz for ${subject}...`);
+            
+            // Try to use the server-assigned quiz for today first
+            if (!sourceId) {
+                const daily = await fetch(`${API_BASE_URL}/api/coach/daily?subject=${encodeURIComponent(subject)}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                }).then(r => r.ok ? r.json() : null).catch(() => null);
+                if (daily && daily.coach_quiz_source_id) {
+                    const launched = launchPremadeByCodeGlobal(subject, daily.coach_quiz_source_id);
+                    if (launched) return; // early exit; loader will be dismissed in finally
+                }
+            }
+            
             if (sourceId) {
                 // If a premade assignment exists, launch it directly
                 const launched = launchPremadeByCodeGlobal(subject, sourceId);
@@ -13497,7 +13511,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 title: 'Coach Smith Quiz',
                 type: 'coach-quiz',
                 questions: Array.isArray(session?.questions) ? session.questions : [],
-                assignedBy: 'coach-smith'
+                assigned_by: 'coach-smith'
             };
             startQuiz(quizPayload, displaySubject);
         } catch (e) {
@@ -13526,7 +13540,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             const quiz = data.quiz || null;
             if (!quiz || !Array.isArray(quiz.questions)) throw new Error('no_quiz');
             const displaySubject = displaySubjectName(subject);
-            startQuiz({ ...quiz, assignedBy: 'coach-smith' }, displaySubject);
+            startQuiz({ ...quiz, assigned_by: 'coach-smith' }, displaySubject);
         } catch (e) {
             alert('Unable to start an Ask Coach quiz right now.');
         } finally {
@@ -14540,16 +14554,17 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                         ) : (
                             <p className="text-center text-sm mt-2" style={heroMutedTextStyle}>No goals for today yet.</p>
                         )}
-                        {/* Ask Coach (parked) */}
-                        <div className="mt-4 border rounded-md p-3" style={{ borderColor: panelBorderColor, backgroundColor: isDarkMode ? 'rgba(15,23,42,0.5)' : 'rgba(255,255,255,0.7)', display: 'none' }}>
+                        {/* Ask Coach */}
+                        <div className="mt-4 border rounded-md p-3" style={{ borderColor: panelBorderColor, backgroundColor: isDarkMode ? 'rgba(15,23,42,0.5)' : 'rgba(255,255,255,0.7)' }}>
                             <div className="flex items-center gap-2 mb-2" style={{ color: heroTextColor }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 2a9 9 0 00-9 9c0 4.418 3.134 8.09 7.25 8.848V22l3.5-2H14a9 9 0 000-18z"/></svg>
                                 <span className="text-sm font-medium">Ask Coach for a {selectedSubject ? selectedSubject : 'subject'} tip</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <button
-                                    disabled
-                                    className="px-3 py-2 text-sm font-semibold rounded-md transition"
+                                    onClick={() => selectedSubject && startDailyCompositeForSubject(selectedSubject)}
+                                    disabled={!selectedSubject || adviceLoading}
+                                    className="px-3 py-2 text-sm font-semibold rounded-md transition hover:opacity-90"
                                     style={{ backgroundColor: '#ffffff', color: '#0f172a', opacity: adviceLoading ? 0.6 : 1 }}
                                 >
                                     {adviceLoading ? 'Asking…' : 'Ask Coach'}
@@ -15885,23 +15900,89 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         return false;
     };
 
+    // Helper: check if a fill-in question is correct
+    const checkFillInQuestionCorrect = (q, userAns) => {
+        return isEquivalentAnswer(q.correctAnswer, userAns);
+    };
+
     const handleComplete = (result) => {
-        let score = 0;
-        questions.forEach((q, i) => {
-            const options = Array.isArray(q.answerOptions) ? q.answerOptions : [];
-            const correctOption = options.find(opt => opt.isCorrect);
-            const userAns = result.answers[i];
-            if (correctOption) {
-                if (userAns === correctOption.text) score++;
-            } else if (q.type === 'fill-in-the-blank' || !options.length) {
-                // Fill-in-the-blank path: use equivalence logic against q.correctAnswer
-                if (isEquivalentAnswer(q.correctAnswer, userAns)) score++;
+        // 1) helper: normalize text
+        const normalizeText = (val) => (val ?? '').toString().trim().toLowerCase();
+
+        // 2) compute earned/possible with weights, all-or-nothing
+        let earnedPoints = 0;
+        let possiblePoints = 0;
+
+        (quiz.questions || []).forEach((q, idx) => {
+            const pts = typeof q.points === 'number' && q.points > 0 ? q.points : 1;
+            possiblePoints += pts;
+
+            const userAns = result.answers[idx];
+
+            let isCorrect = false;
+
+            if (Array.isArray(q.answerOptions) && q.answerOptions.length > 0) {
+                // multiple-choice / multi-select
+                const correctOpts = q.answerOptions.filter(o => o && o.isCorrect);
+                if (correctOpts.length === 1) {
+                    // single correct
+                    const correctText = normalizeText(correctOpts[0].text);
+                    const userText = normalizeText(userAns);
+                    isCorrect = userText === correctText;
+                } else if (correctOpts.length > 1) {
+                    // multi-correct, all-or-nothing
+                    const correctSet = correctOpts.map(o => normalizeText(o.text)).sort();
+                    const userSet = (Array.isArray(userAns) ? userAns : [userAns])
+                        .map(v => normalizeText(v))
+                        .filter(Boolean)
+                        .sort();
+                    if (userSet.length === correctSet.length) {
+                        isCorrect = userSet.every((val, i) => val === correctSet[i]);
+                    } else {
+                        isCorrect = false;
+                    }
+                }
+            } else {
+                // fall back to fill-in / math normalization
+                isCorrect = checkFillInQuestionCorrect(q, userAns);
+            }
+
+            if (isCorrect) {
+                earnedPoints += pts;
             }
         });
-        const percentage = questions.length ? (score / questions.length) * 100 : 0;
-        const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
 
-        onComplete({ score, totalQuestions: questions.length, scaledScore, answers: result.answers, subject: quiz.subject, marked: result.marked, confidence: result.confidence, quiz });
+        // 3) percentage from points
+        const percentage = possiblePoints > 0 ? (earnedPoints / possiblePoints) * 100 : 0;
+
+        // 4) GED-ish scaling: 3 segments
+        let scaledScore;
+        if (percentage <= 40) {
+            // 0–40% => 100–135
+            scaledScore = 100 + (percentage / 40) * 35;
+        } else if (percentage <= 65) {
+            // 40–65% => 135–145
+            scaledScore = 135 + ((percentage - 40) / 25) * 10;
+        } else {
+            // 65–100% => 145–200
+            scaledScore = 145 + ((percentage - 65) / 35) * 55;
+        }
+        scaledScore = Math.round(scaledScore);
+
+        // 5) pass is still 145
+        const passed = scaledScore >= 145;
+
+        onComplete({
+            score: earnedPoints,
+            totalQuestions: possiblePoints, // we're using points here
+            percentage,
+            scaledScore,
+            passed,
+            subject: quiz.subject,
+            marked: result.marked,
+            confidence: result.confidence,
+            quiz,
+        });
     };
 
     return <QuizInterface
@@ -15992,10 +16073,87 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
             console.warn(`[grader] ${missing.length} fill-in question(s) missing correctAnswer: #${missing.join(', ')}`);
         }
 
-        const percentage = (score / quiz.questions.length) * 100;
-        const scaledScore = Math.round(percentage < 65 ? 100 + (percentage / 65 * 44) : 145 + ((percentage - 65) / 35 * 55));
+        // New 3-segment scoring system
+        // 1) helper: normalize text for MC questions
+        const normalizeText = (val) => (val ?? '').toString().trim().toLowerCase();
 
-        onComplete({ score, totalQuestions: quiz.questions.length, scaledScore, answers: finalAnswers, subject: quiz.subject, marked: finalMarked, confidence: finalConfidence, quiz });
+        // 2) compute earned/possible with weights, all-or-nothing
+        let earnedPoints = 0;
+        let possiblePoints = 0;
+
+        quiz.questions.forEach((q, idx) => {
+            const pts = typeof q.points === 'number' && q.points > 0 ? q.points : 1;
+            possiblePoints += pts;
+
+            const userAns = finalAnswers[idx];
+            let isCorrect = false;
+
+            const isFillIn = !q.answerOptions || q.answerOptions.length === 0 || q.type === 'fill-in-the-blank';
+            
+            if (!isFillIn) {
+                // multiple-choice
+                const correctOpts = q.answerOptions.filter(o => o && o.isCorrect);
+                if (correctOpts.length === 1) {
+                    const correctText = normalizeText(correctOpts[0].text);
+                    const userText = normalizeText(userAns);
+                    isCorrect = userText === correctText;
+                } else if (correctOpts.length > 1) {
+                    // multi-correct, all-or-nothing
+                    const correctSet = correctOpts.map(o => normalizeText(o.text)).sort();
+                    const userSet = (Array.isArray(userAns) ? userAns : [userAns])
+                        .map(v => normalizeText(v))
+                        .filter(Boolean)
+                        .sort();
+                    if (userSet.length === correctSet.length) {
+                        isCorrect = userSet.every((val, i) => val === correctSet[i]);
+                    }
+                }
+            } else {
+                // fill-in: use existing equivalence logic
+                const user = normalizeRaw(userAns);
+                const correct = normalizeRaw(q.correctAnswer);
+                if (user && correct) {
+                    isCorrect = user === correct || isNumericEqual(user, correct) || setsEqual(tokenize(user), tokenize(correct));
+                }
+            }
+
+            if (isCorrect) {
+                earnedPoints += pts;
+            }
+        });
+
+        // 3) percentage from points
+        const percentage = possiblePoints > 0 ? (earnedPoints / possiblePoints) * 100 : 0;
+
+        // 4) GED-ish scaling: 3 segments
+        let scaledScore;
+        if (percentage <= 40) {
+            // 0–40% => 100–135
+            scaledScore = 100 + (percentage / 40) * 35;
+        } else if (percentage <= 65) {
+            // 40–65% => 135–145
+            scaledScore = 135 + ((percentage - 40) / 25) * 10;
+        } else {
+            // 65–100% => 145–200
+            scaledScore = 145 + ((percentage - 65) / 35) * 55;
+        }
+        scaledScore = Math.round(scaledScore);
+
+        // 5) pass is still 145
+        const passed = scaledScore >= 145;
+
+        onComplete({ 
+            score: earnedPoints, 
+            totalQuestions: possiblePoints, 
+            percentage,
+            scaledScore, 
+            passed,
+            answers: finalAnswers, 
+            subject: quiz.subject, 
+            marked: finalMarked, 
+            confidence: finalConfidence, 
+            quiz 
+        });
     };
 
     if (part === 1) {
