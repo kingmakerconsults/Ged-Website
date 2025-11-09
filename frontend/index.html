@@ -16579,16 +16579,19 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
-    // Defensive: if missing quiz or results, show error UI
-    if (!quiz || !results) {
+    // Hard guard so we don’t crash
+    if (!quiz || !results || !Array.isArray(quiz.questions)) {
         return (
             <div className="results-screen error">
                 <h2>Results Unavailable</h2>
-                <p>Sorry, we couldn't load your results. Please try again or return to the menu.</p>
+                <p>We saved your score, but couldn’t build the detailed breakdown.</p>
                 <button onClick={onHome}>Back to Menu</button>
             </div>
         );
     }
+
+    const safeMarked = Array.isArray(results.marked) ? results.marked : [];
+    const safeAnswers = Array.isArray(results.answers) ? results.answers : [];
 
     const [suggestions, setSuggestions] = useState([]);
     const [loadingSuggestions, setLoadingSuggestions] = useState(false);
@@ -16648,8 +16651,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         return { level: "Keep studying!", color: "text-amber-600" };
     };
 
-    const performance = getPerf(results.scaledScore);
-    const markedQuestions = quiz.questions.filter((_, index) => results.marked[index]);
+    const performance = getPerf(results.scaledScore || 0);
+    const markedQuestions = quiz.questions.filter((_, index) => !!safeMarked[index]);
 
     const performanceByCategory = quiz.questions.reduce((acc, question, index) => {
         const type = question.type || 'knowledge'; // Default type if not specified
@@ -16657,8 +16660,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             acc[type] = { correct: 0, total: 0 };
         }
         acc[type].total++;
-        const correctAnswer = question.answerOptions.find(opt => opt.isCorrect)?.text;
-        if (results.answers[index] === correctAnswer) {
+        const correctAnswer = question.answerOptions?.find(opt => opt.isCorrect)?.text;
+        if (safeAnswers[index] === correctAnswer) {
             acc[type].correct++;
         }
         return acc;
