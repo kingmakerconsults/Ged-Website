@@ -4570,6 +4570,9 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
         working = preprocessRawContent(working, { normalizeSpacing });
     }
 
+    // Convert any inline pipe tables (including compressed single-line with "||") into HTML tables
+    working = normalizeInlineTablesFront(working);
+
     const sanitizer = (window.DOMPurify && window.DOMPurify.sanitize) ? window.DOMPurify.sanitize : null;
     if (sanitizer) {
         return formatFractions(sanitizer(working, {
@@ -4582,6 +4585,37 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;'));
+}
+
+// Frontend safety: convert pipe-style tables to HTML so styles apply even if backend missed them
+function normalizeInlineTablesFront(html) {
+    if (typeof html !== 'string' || !html.trim()) return html;
+    if (/<table/i.test(html)) return html; // already fine
+    if (!html.includes('|')) return html;
+
+    let rows;
+    if (html.includes('||')) {
+        rows = html.split('||').map(r => r.trim()).filter(Boolean);
+    } else {
+        rows = html.split(/\r?\n/).filter(l => l.includes('|')).map(r => r.trim()).filter(Boolean);
+    }
+
+    if (!rows.length) return html;
+
+    const trs = [];
+    for (const r of rows) {
+        if (/^\|?\s*-{3,}/.test(r)) continue; // skip separator rows
+        const cells = r
+            .replace(/^\|/, '')
+            .replace(/\|$/, '')
+            .split('|')
+            .map(c => c.trim());
+        const tds = cells.map(c => `<td>${c}</td>`).join('');
+        trs.push(`<tr>${tds}</tr>`);
+    }
+
+    if (!trs.length) return html;
+    return `<table class="data-table"><tbody>${trs.join('')}</tbody></table>`;
 }
 
 // formatFractions()
