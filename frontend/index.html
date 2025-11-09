@@ -467,6 +467,17 @@
             font-weight: 600;
             text-decoration: underline;
         }
+        /* JS fallback for browsers that don't honor :has(...) */
+        .checkbox-row.is-checked {
+            background-color: #e0f2fe;
+            color: #0f172a;
+            box-shadow: 0 0 0 1px #38bdf8 inset;
+        }
+        [data-theme="dark"] .checkbox-row.is-checked {
+            background-color: #0c4a6e;
+            color: #f1f5f9;
+            box-shadow: 0 0 0 1px #38bdf8 inset;
+        }
 
         /* Badge strip (light defaults; neutral for dark as images are colored) */
         .badge-strip {
@@ -1139,14 +1150,11 @@
                                             background-color: #f0f0f0 !important;
                                         }
 
-                                        /* Settings page: force Font Size and Color Mode texts to black in BOTH themes */
-                                        #settingsView fieldset > legend,
-                                        #settingsView fieldset > p {
-                                            color: #000000 !important;
-                                        }
-                                        /* Option labels and their subtext (for both Font Size and Color Mode) */
-                                        #settingsView label span .font-semibold,
-                                        #settingsView label span .text-xs {
+                                        /* Settings page: force Font Size and Color Mode texts to black in LIGHT mode only */
+                                        [data-theme="light"] #settingsView fieldset > legend,
+                                        [data-theme="light"] #settingsView fieldset > p,
+                                        [data-theme="light"] #settingsView label span .font-semibold,
+                                        [data-theme="light"] #settingsView label span .text-xs {
                                             color: #000000 !important;
                                         }
 
@@ -2086,6 +2094,27 @@
             color: #ffffff !important;
         }
 
+        /* force the actual settings containers to go fully black in dark mode */
+        [data-theme="dark"] #settingsView .settings-panel,
+        [data-theme="dark"] #settingsView .settings-card,
+        [data-theme="dark"] #settingsView .settings-section {
+            background-color: #000000 !important;
+            border-color: rgba(148,163,184,0.45) !important;
+        }
+
+        /* radio/option “pills” in dark mode need the dark background too */
+        [data-theme="dark"] #settingsView .option-pill,
+        [data-theme="dark"] #settingsView label[for*="font"],
+        [data-theme="dark"] #settingsView label[for*="theme"] {
+            background-color: rgba(15,23,42,0.55) !important;
+            color: #ffffff !important;
+        }
+
+        /* stop the white page from showing behind settings in dark mode */
+        [data-theme="dark"] #settingsView {
+            background-color: #000000 !important;
+        }
+
         /* Profile: dark mode panels and text */
         [data-theme="dark"] #profileView article,
         [data-theme="dark"] #profileView form,
@@ -2100,10 +2129,21 @@
             color: #ffffff !important;
         }
 
-        /* Profile: Show all (challenges) button text black in LIGHT mode */
-        [data-theme="light"] #profileView .challenges-toggle-btn,
-        [data-theme="light"] #profileView .challenges-toggle-btn * {
-            color: #000 !important;
+        /* make the toggle (Show / Hide) consistent in both modes */
+        #profileView .challenges-toggle-btn {
+            transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+        }
+        /* light mode: keep it white with dark text */
+        [data-theme="light"] #profileView .challenges-toggle-btn {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #d1d5db !important;
+        }
+        /* dark mode: dark button with white text */
+        [data-theme="dark"] #profileView .challenges-toggle-btn {
+            background-color: rgba(15,23,42,0.8) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(148,163,184,0.45) !important;
         }
 
         /* FORM CONTROL NORMALIZATION */
@@ -2228,6 +2268,22 @@
                 }
     </style>
     <script src="lib/topic_map.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const rows = document.querySelectorAll('.checkbox-row input[type="checkbox"], .checkbox-row input[type="radio"]');
+      rows.forEach(function (input) {
+        input.addEventListener('change', function () {
+          const parent = input.closest('.checkbox-row');
+          if (!parent) return;
+          if (input.checked) {
+            parent.classList.add('is-checked');
+          } else {
+            parent.classList.remove('is-checked');
+          }
+        });
+      });
+    });
+    </script>
 </head>
 <body data-theme="light" style="background-color: var(--bg-page); color: var(--text-primary);">
     <div id="root"></div>
@@ -13842,25 +13898,40 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     const handleStartVocabularyQuiz = async (subject) => {
         if (!subject) return;
-        
+
+        // build a safe API base for this call
+        const apiBase =
+            (typeof window !== 'undefined' &&
+                window.__CLIENT_CONFIG__ &&
+                window.__CLIENT_CONFIG__.API_BASE_URL)
+                ? window.__CLIENT_CONFIG__.API_BASE_URL
+                : (typeof API_BASE_URL === 'string' && API_BASE_URL)
+                    ? API_BASE_URL
+                    : (typeof window !== 'undefined' ? window.location.origin : '');
+
         try {
-            const normalizedSubject = subject.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
-            const response = await fetch(`${API_BASE}/api/vocabulary-quiz/${normalizedSubject}`);
-            
-            if (!response.ok) {
-                throw new Error(`Failed to fetch vocabulary quiz: ${response.status}`);
+            const normalizedSubject = subject
+                .toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[()]/g, '');
+
+            const res = await fetch(`${apiBase}/api/vocabulary-quiz/${normalizedSubject}`);
+
+            if (!res.ok) {
+                throw new Error(`Failed to fetch vocabulary quiz: ${res.status}`);
             }
-            
-            const data = await response.json();
-            
+
+            const data = await res.json();
+
+            // backend returns { subject, count, quiz: [...] }
             if (data && data.quiz) {
                 onStartQuiz(data.quiz);
             } else {
                 console.error('Invalid vocabulary quiz response:', data);
                 alert('Failed to generate vocabulary quiz. Please try again.');
             }
-        } catch (error) {
-            console.error('Error starting vocabulary quiz:', error);
+        } catch (err) {
+            console.error('Error starting vocabulary quiz:', err);
             alert('Failed to start vocabulary quiz. Please try again.');
         }
     };

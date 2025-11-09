@@ -1260,6 +1260,7 @@ const QuestionSchema = {
         questionText: { type: 'string' },
         answerOptions: {
             type: 'array',
+            minItems: 1,
             items: {
                 type: 'object',
                 required: ['text'],
@@ -1268,6 +1269,13 @@ const QuestionSchema = {
                     isCorrect: { type: ['boolean', 'null'] },
                     rationale: { type: ['string', 'null'] }
                 }
+            },
+            contains: {
+                type: 'object',
+                properties: {
+                    isCorrect: { const: true }
+                },
+                required: ['isCorrect']
             },
             default: []
         }
@@ -1440,6 +1448,38 @@ function cloneQuestion(q) {
             ? q.answerOptions.map((opt) => ({ ...opt }))
             : q.answerOptions
     };
+}
+
+/**
+ * Validates and repairs a single question object.
+ * Ensures:
+ * - answerOptions is an array with at least one item
+ * - At least one option has isCorrect: true
+ * - Sanitizes with keepLatex
+ * Returns the repaired question and logs warnings if auto-fixed.
+ */
+function validateAndRepairQuestion(q) {
+    if (!q || typeof q !== 'object') {
+        console.warn('[validateAndRepairQuestion] Invalid question object:', q);
+        return null;
+    }
+
+    const question = sanitizeQuestionKeepLatex(cloneQuestion(q));
+
+    // Ensure answerOptions is an array
+    if (!Array.isArray(question.answerOptions) || question.answerOptions.length === 0) {
+        console.warn(`[validateAndRepairQuestion] Question "${question.id}" has no answer options. Adding placeholder.`);
+        question.answerOptions = [{ text: "No options generated", isCorrect: true, rationale: "" }];
+    }
+
+    // Ensure at least one correct answer
+    const hasCorrect = question.answerOptions.some(o => o.isCorrect === true);
+    if (!hasCorrect && question.answerOptions.length > 0) {
+        console.warn(`[validateAndRepairQuestion] Question "${question.id}" has no correct answer. Marking first option as correct.`);
+        question.answerOptions[0].isCorrect = true;
+    }
+
+    return question;
 }
 
 async function repairOneWithOpenAI(original) {
@@ -2008,8 +2048,19 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
             if (!Array.isArray(itemsFromFb)) {
                 throw new Error('Fallback model returned an invalid response format.');
             }
+            
+            // Validate and repair fallback items
+            const validatedFbItems = itemsFromFb.map((item, idx) => {
+                const repaired = validateAndRepairQuestion(item);
+                if (!repaired) {
+                    console.warn(`[generateQuizItemsWithFallback] Fallback question at index ${idx} could not be repaired. Skipping.`);
+                    return null;
+                }
+                return repaired;
+            }).filter(Boolean);
+            
             return {
-                items: itemsFromFb,
+                items: validatedFbItems,
                 model: raceConfig.fallbackModelName,
                 latencyMs: roundedLatency
             };
@@ -2030,7 +2081,8 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
     if (!Array.isArray(items)) {
         console.warn('[AI] Winner returned non-array, trying explicit ChatGPT fallback...');
         try {
-            const chatItems = await runChatGptFn();
+            const chatData = await runChatGptFn();
+            const chatItems = parseOpenAIResponse(chatData);
             if (Array.isArray(chatItems)) {
                 items = chatItems;
             }
@@ -2042,6 +2094,16 @@ async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions
     if (!Array.isArray(items)) {
         throw new Error('Model returned an invalid response format.');
     }
+
+    // Validate and repair each question immediately after parsing
+    items = items.map((item, idx) => {
+        const repaired = validateAndRepairQuestion(item);
+        if (!repaired) {
+            console.warn(`[generateQuizItemsWithFallback] Question at index ${idx} could not be repaired. Skipping.`);
+            return null;
+        }
+        return repaired;
+    }).filter(Boolean); // Remove any null items
 
     if (subject === 'Math') {
         items = await applyMathCorrectnessPass(items);
@@ -6130,65 +6192,133 @@ function scoreImageForTopic(img, subject, topic) {
     return subjMatch * 50 + textHit;
 }
 
-const generateImageQuestion = async (topic, subject, imagePool, numQuestions, options = {}) => {
-    // 1. score all images for this subject/topic
-    const scored = (imagePool || [])
-        .map(img => ({ img, score: scoreImageForTopic(img, subject, topic) }))
-        .filter(x => x.score > 0) // keep only reasonably on-topic images
-        .sort((a, b) => b.score - a.score);
+// NEW version – smarter image selection with cartoon support and reuse prevention
+const generateImageQuestion = async (
+  topic,
+  subject,
+  imagePool,
+  numQuestions,
+  options = {}
+) => {
+  const {
+    usedImages = new Set(),
+    mustBeCartoon = false
+  } = options;
 
-    // 2. if we have nothing good, STOP and let the caller fall back
-    if (scored.length === 0) {
-        console.warn(`[AI-IMG] No good image for subject=${subject}, topic=${topic} — skipping image question.`);
-        return null;
-    }
+  // start from the pool we were given
+  let pool = Array.isArray(imagePool) ? imagePool : [];
 
-    // pick the best image (we only ask AI about 1 image per call here)
-    const selectedImage = scored[0].img;
+  // if the caller wants a cartoon, narrow to cartoon-like images
+  if (mustBeCartoon) {
+    const CARTOON_RE = /cartoon|political cartoon|satire|caricature/i;
+    pool = pool.filter((img) => {
+      const bag = [
+        img.category,
+        img.altText,
+        img.detailedDescription,
+        Array.isArray(img.keywords) ? img.keywords.join(' ') : ''
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      return CARTOON_RE.test(bag);
+    });
+  }
 
-    const imagePrompt = `
+  // score for subject/topic and skip images already used in this run
+  const scored = (pool || [])
+    .map((img) => ({
+      img,
+      score: scoreImageForTopic(img, subject, topic)
+    }))
+    .filter(
+      (x) =>
+        x.score > 0 &&
+        !(x.img.filePath && usedImages.has(x.img.filePath))
+    )
+    .sort((a, b) => b.score - a.score);
+
+  if (!scored.length) {
+    console.warn(
+      `[AI-IMG] No image match for subject=${subject}, topic=${topic}, mustBeCartoon=${mustBeCartoon}`
+    );
+    return null;
+  }
+
+  // pick RANDOMLY from the top K so we don't always get the same 1–2 images
+  const TOP_K = Math.min(12, scored.length);
+  const pick = scored[Math.floor(Math.random() * TOP_K)].img;
+
+  // remember it for this quiz
+  if (pick.filePath) {
+    usedImages.add(pick.filePath);
+  }
+
+  const imagePrompt = `
 You are creating GED-level ${subject} questions that require students to interpret an image.
-You are given a JSON image record from our database:
-${JSON.stringify({
-    subject: selectedImage.subject,
-    filePath: selectedImage.filePath,
-    altText: selectedImage.altText,
-    detailedDescription: selectedImage.detailedDescription,
-    category: selectedImage.category
-  }, null, 2)}
+You are given an image record from our database:
+${JSON.stringify(
+  {
+    subject: pick.subject,
+    filePath: pick.filePath,
+    altText: pick.altText,
+    detailedDescription: pick.detailedDescription,
+    category: pick.category
+  },
+  null,
+  2
+)}
 Based ONLY on THIS image and staying within the subject "${subject}" and topic "${topic}", create ${numQuestions} multiple-choice questions.
-Each question must mention or clearly imply the image (e.g. "Based on the image..." or "According to the chart...").
+Each question must reference or rely on the image.
 Return valid JSON only.
 `;
 
-    const imageQuestionSchema = {
-        type: "ARRAY",
-        items: {
-            type: "OBJECT",
+  const imageQuestionSchema = {
+    type: 'ARRAY',
+    items: {
+      type: 'OBJECT',
+      properties: {
+        questionText: { type: 'STRING' },
+        answerOptions: {
+          type: 'ARRAY',
+          items: {
+            type: 'OBJECT',
             properties: {
-                questionText: { type: "STRING" },
-                answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } },
-                imagePath: { type: "STRING" }
+              text: { type: 'STRING' },
+              isCorrect: { type: 'BOOLEAN' },
+              rationale: { type: 'STRING' }
             },
-            required: ["questionText", "answerOptions", "imagePath"]
+            required: ['text', 'isCorrect', 'rationale']
+          }
+        },
+        stimulusImage: {
+          type: 'OBJECT',
+          properties: {
+            src: { type: 'STRING' },
+            alt: { type: 'STRING' }
+          },
+          required: ['src']
         }
-    };
-
-    try {
-        const questions = await callAI(imagePrompt, imageQuestionSchema, options);
-        return questions.map(q =>
-            enforceWordCapsOnItem({
-                ...q,
-                // keep your existing path normalization
-                imageUrl: selectedImage.filePath.replace(/^\/frontend/, ''),
-                imagePath: selectedImage.filePath,
-                type: 'image'
-            }, subject)
-        );
-    } catch (error) {
-        console.error(`Error generating image question for topic ${topic}:`, error);
-        return null; // Return null or empty array on error to not break Promise.all
+      },
+      required: ['questionText', 'answerOptions']
     }
+  };
+
+  try {
+    const aiRes = await callAI(imagePrompt, imageQuestionSchema, options);
+
+    return (Array.isArray(aiRes) ? aiRes : []).map((q) => ({
+      ...q,
+      itemType: 'image',
+      stimulusImage: {
+        src: pick.filePath,
+        alt: pick.altText || ''
+      }
+    }));
+  } catch (error) {
+    console.error(`Error generating image question for topic ${topic}:`, error);
+    return null;
+  }
 };
 
 const generateStandaloneQuestion = async (subject, topic, options = {}) => {
@@ -6863,6 +6993,8 @@ app.post('/generate-quiz', async (req, res) => {
             try {
                 const timeoutMs = selectModelTimeoutMs({ examType });
                 const aiOptions = { timeoutMs };
+                const usedImages = new Set(); // Track used images to prevent reuse
+                
                 const blueprint = {
                     'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
                     'U.S. History':           { passages: 3, images: 2, standalone: 1 },
@@ -6871,6 +7003,18 @@ app.post('/generate-quiz', async (req, res) => {
                 };
                 const TOTAL_QUESTIONS = 35;
                 let promises = [];
+
+                // Try to guarantee exactly 1 political cartoon
+                const cartoonQs = await generateImageQuestion(
+                    'political cartoon',
+                    subject,
+                    curatedImages,
+                    1,
+                    { ...aiOptions, usedImages, mustBeCartoon: true }
+                );
+                if (cartoonQs && cartoonQs.length) {
+                    promises.push(cartoonQs);
+                }
 
                 // Inject founding document passage set first
                 const foundingPassage = pickPassageFor('Social Studies', { topic: 'founding documents' });
@@ -6896,7 +7040,13 @@ PASSAGE:\n${foundingPassage.text}\n`;
                 for (const [category, counts] of Object.entries(blueprint)) {
                     for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
                     for (let i = 0; i < counts.images; i++) promises.push((async () => {
-                        const imgQs = await generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions);
+                        const imgQs = await generateImageQuestion(
+                            category,
+                            subject,
+                            curatedImages,
+                            Math.random() > 0.5 ? 2 : 1,
+                            { ...aiOptions, usedImages }
+                        );
                         if (imgQs && imgQs.length) return imgQs;
                         return await generateStandaloneQuestion(subject, category, aiOptions);
                     })());
