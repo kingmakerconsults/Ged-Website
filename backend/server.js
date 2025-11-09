@@ -4158,9 +4158,11 @@ app.post(
         : [];
 
       const days = [];
-      for (let i = 0; i < 7; i++) {
-        const chosenChallenge = selected[i % Math.max(selected.length, 1)] || null;
-        const focus = chosenChallenge ? [chosenChallenge.subtopic || chosenChallenge.label || chosenChallenge.id].filter(Boolean) : [];
+            for (let i = 0; i < 7; i++) {
+                const chosenChallenge = selected[i % Math.max(selected.length, 1)] || null;
+                const focus = chosenChallenge
+                    ? [chosenChallenge.subtopic || chosenChallenge.label || chosenChallenge.id].filter(Boolean)
+                    : ['general'];
         const quizCode = pickCoachQuizSourceId(subject, i);
         days.push({
           day: i + 1,
@@ -4179,7 +4181,7 @@ app.post(
               type: 'coach-quiz',
               minutes: 20,
               quizId: quizCode || null,
-              focus,
+                            focus,
             },
           ],
         });
@@ -4329,7 +4331,8 @@ app.get(
             const weekStart = getCurrentWeekStartISO();
             const weekEnd = addDaysISO(weekStart, 6);
 
-            const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
+            // Unified subject ordering (matches frontend generate-all sequence)
+            const SUBJECTS = ['Math', 'RLA', 'Science', 'Social Studies'];
             const subjects = [];
 
             // Build consolidated 7-day plan
@@ -4384,11 +4387,20 @@ app.get(
                     days: daysOut,
                 });
 
-                // Merge into consolidated days
+                // Merge into consolidated days with fallback task if tasks missing
                 (daysOut || []).forEach((day) => {
                     const idx = Number(day.day) - 1;
                     if (!Number.isFinite(idx) || idx < 0 || idx >= consolidatedDays.length) return;
-                    const tasks = Array.isArray(day.tasks) ? day.tasks : [];
+                    const tasks = Array.isArray(day.tasks) && day.tasks.length
+                        ? day.tasks
+                        : [{
+                            id: `${subj.toLowerCase()}-day-${day.day}`,
+                            title: day.label || 'Practice',
+                            type: 'coach-quiz',
+                            minutes: Number(day.minutes) || 20,
+                            quizId: day.quizId || null,
+                            focus: Array.isArray(day.focus) ? day.focus : (day.focus ? [day.focus] : [])
+                        }];
                     tasks.forEach((t) => {
                         consolidatedDays[idx].tasks.push({ ...t, subject: subj, subjectLabel: subj });
                     });
