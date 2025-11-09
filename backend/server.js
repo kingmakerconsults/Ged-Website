@@ -114,51 +114,52 @@ function countScienceNumeracy(items) {
     return Array.isArray(items) ? items.reduce((acc, it) => acc + (isScienceNumeracyItem(it) ? 1 : 0), 0) : 0;
 }
 
-// Normalize table markup: convert Markdown pipe tables to HTML and ensure consistent styling
+// Normalize table markup: robustly convert pipe tables (single-line or multiline) and style HTML tables
 function normalizeTables(html) {
     try {
         if (typeof html !== 'string' || !html.trim()) return html;
         let out = html;
 
-        // Convert simple Markdown pipe tables into basic HTML table if no <table> exists
-        if (!/<table/i.test(out) && /\|/.test(out)) {
-            const lines = out.split(/\r?\n/);
-            const tableLines = lines.filter((l) => /\|/.test(l)).map((l) => l.trim()).filter(Boolean);
-            if (tableLines.length >= 2) {
-                // optional header sep line like |---|---|
-                const rows = [];
-                for (const tl of tableLines) {
-                    if (/^\|?\s*-{3,}/.test(tl)) continue; // skip separator rows
-                    const cells = tl
-                        .replace(/^\|/, '')
-                        .replace(/\|$/, '')
-                        .split('|')
-                        .map((c) => c.trim());
-                    const tds = cells.map((c) => `<td>${c}</td>`).join('');
-                    rows.push(`<tr>${tds}</tr>`);
+        const ensureStyled = (str) => {
+            let s = str.replace(/<table\b(?![^>]*class=)/gi, '<table class="data-table"');
+            s = s.replace(/<th>(.*?)</g, '<th style="text-align:left;padding:4px;border:1px solid #ccc;">$1<');
+            s = s.replace(/<td>(.*?)</g, '<td style="text-align:center;padding:4px;border:1px solid #ccc;">$1<');
+            if (!/<thead>/i.test(s) && /<table/i.test(s)) {
+                s = s.replace(/<table([^>]*)>\s*<tbody>\s*<tr>([\s\S]*?)<\/tr>/i, (m, attrs, cells) => {
+                    return `<table${attrs}><thead><tr>${cells}</tr></thead><tbody>`;
+                });
+            }
+            return s;
+        };
+
+        if (/<table/i.test(out)) {
+            return ensureStyled(out);
+        }
+
+        if (/\|/.test(out)) {
+            let rows = [];
+            if (out.includes('||')) {
+                rows = out.split('||').map(r => r.trim()).filter(Boolean);
+            } else {
+                rows = out.split(/\r?\n/).filter(l => l.includes('|')).map(r => r.trim()).filter(Boolean);
+            }
+            if (rows.length) {
+                const htmlRows = [];
+                for (const r of rows) {
+                    if (/^\|?\s*-{3,}/.test(r)) continue;
+                    const cells = r.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+                    const tds = cells.map(c => `<td>${c}</td>`).join('');
+                    htmlRows.push(`<tr>${tds}</tr>`);
                 }
-                if (rows.length) {
-                    out = `<table class="data-table"><tbody>${rows.join('')}</tbody></table>`;
+                if (htmlRows.length) {
+                    out = `<table class="data-table"><tbody>${htmlRows.join('')}</tbody></table>`;
+                    return ensureStyled(out);
                 }
             }
         }
 
-        // Ensure <table> has a class
-        out = out.replace(/<table\b(?![^>]*class=)/gi, '<table class="data-table"');
-        // Add inline styles to th/td if not already explicitly styled
-        out = out
-            .replace(/<th>(.*?)</g, '<th style="text-align:left;padding:4px;border:1px solid #ccc;">$1<')
-            .replace(/<td>(.*?)</g, '<td style="text-align:center;padding:4px;border:1px solid #ccc;">$1<');
-
-        // If headers missing (no <thead>), promote the first row to thead when possible
-        if (!/<thead>/i.test(out) && /<table/i.test(out)) {
-            out = out.replace(/<table[^>]*>(\s*)(<tr>([\s\S]*?)<\/tr>)/i, (m) =>
-                m.replace(/<tr>([\s\S]*?)<\/tr>/i, `<thead><tr>$1</tr></thead>`)
-            );
-        }
-
-        return out;
-    } catch (_) {
+        return ensureStyled(out);
+    } catch (err) {
         return html;
     }
 }
