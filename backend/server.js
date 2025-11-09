@@ -2928,11 +2928,16 @@ const profileRouter = require('./routes/profile');
 ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
 ensureQuizAttemptsTable().catch((e) => console.error('Quiz attempt table init error:', e));
 ensureEssayScoresTable().catch((e) => console.error('Essay score table init error:', e));
-ensureQuestionBankTable().catch((e) => console.error('[init] failed to ensure ai_question_bank:', e));
+if (typeof ensureQuestionBankTable === 'function') {
+    ensureQuestionBankTable().catch((e) => {
+        console.error('Question bank init error:', e?.message || e);
+    });
+}
 ensureChallengeSystemTables().catch((e) => console.error('Challenge system init error:', e));
 ensureStudyPlansTable().catch((e) => console.error('Study plans table init error:', e));
 ensureCoachDailyTables().catch((e) => console.error('Coach daily tables init error:', e));
 ensureCoachAdviceUsageTable().catch((e) => console.error('Coach advice usage table init error:', e));
+ensureCoachCompositeUsageTable().catch((e) => console.error('Coach composite usage table init error:', e));
 
 const allowedOrigins = [
     'https://ezged.netlify.app',
@@ -3320,6 +3325,23 @@ async function ensureCoachAdviceUsageTable() {
     } catch (e) { console.warn('[ensure] coach_advice_usage', e?.code || e?.message || e); }
 }
 
+// Track per-user Coach Composite usage by week (separate from advice)
+async function ensureCoachCompositeUsageTable() {
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS coach_composite_usage (
+              id SERIAL PRIMARY KEY,
+              user_id INTEGER NOT NULL,
+              week_start_date DATE NOT NULL,
+              used_count INTEGER NOT NULL DEFAULT 0,
+              last_used_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+              UNIQUE (user_id, week_start_date)
+            );
+        `);
+        await pool.query(`CREATE INDEX IF NOT EXISTS idx_coach_composite_user_week ON coach_composite_usage (user_id, week_start_date);`);
+    } catch (e) { console.warn('[ensure] coach_composite_usage', e?.code || e?.message || e); }
+}
+
 // --- Challenge system helpers ---
 async function upsertChallengeStat(userId, challengeTag, gotCorrect, source) {
     if (!userId || !challengeTag) return;
@@ -3672,7 +3694,7 @@ async function findOrCreateDailyRow(userId, subject, planDateISO) {
         notes = 'No weekly plan found. Tap "Weekly Coach" to generate one.';
     }
 
-    const expected = 45;
+    const expected = 20;
     const coachQuizSource = planSource || pickCoachQuizSourceId(subject, dayIdx);
     const coachQuizId = coachQuizSource ? `${COACH_ASSIGNED_BY}:${subject}:${planDateISO}` : null;
 
@@ -4208,7 +4230,7 @@ app.post('/api/coach/:subject/daily-composite', devAuth, ensureTestUserForNow, r
         const weekStartISO = getCurrentWeekStartISO();
         if (!testerByEmail) {
             const existing = await db.oneOrNone(
-                `SELECT used_count FROM coach_advice_usage WHERE user_id = $1 AND week_start_date = $2`,
+                `SELECT used_count FROM coach_composite_usage WHERE user_id = $1 AND week_start_date = $2`,
                 [userId, weekStartISO]
             );
             const used = existing?.used_count || 0;
@@ -4246,10 +4268,10 @@ app.post('/api/coach/:subject/daily-composite', devAuth, ensureTestUserForNow, r
         // Record usage (skip for tester email)
         if (!testerByEmail) {
             await db.query(
-                `INSERT INTO coach_advice_usage (user_id, week_start_date, used_count, last_used_at)
+                `INSERT INTO coach_composite_usage (user_id, week_start_date, used_count, last_used_at)
                  VALUES ($1, $2, 1, now())
                  ON CONFLICT (user_id, week_start_date)
-                 DO UPDATE SET used_count = coach_advice_usage.used_count + 1, last_used_at = now()`,
+                 DO UPDATE SET used_count = coach_composite_usage.used_count + 1, last_used_at = now()`,
                 [userId, weekStartISO]
             );
         }
@@ -7973,6 +7995,17 @@ app.get('/api/admin/org-summary', requireAuth, requireOrgAdmin, async (req, res)
     }
 });
 
+// Helper: GED-ish 3-segment scaling function
+function toScaledFromPercent(pct) {
+    if (pct <= 40) {
+        return Math.round(100 + (pct / 40) * 35);
+    } else if (pct <= 65) {
+        return Math.round(135 + ((pct - 40) / 25) * 10);
+    } else {
+        return Math.round(145 + ((pct - 65) / 35) * 55);
+    }
+}
+
 app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
     try {
         const userId = req.user?.userId || req.user?.sub;
@@ -8012,7 +8045,14 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
 
         const numericScore = toRoundedNumber(score);
         const numericTotal = toRoundedNumber(totalQuestions);
-        const numericScaled = toRoundedNumber(scaledScore);
+        let numericScaled = toRoundedNumber(scaledScore);
+
+        // If client didn't send scaled but did send score/total, compute it
+        if ((numericScaled == null) && Number.isFinite(numericScore) && Number.isFinite(numericTotal) && numericTotal > 0) {
+            const pct = (numericScore / numericTotal) * 100;
+            numericScaled = toScaledFromPercent(pct);
+        }
+
         const normalizedPassed = typeof passed === 'boolean'
             ? passed
             : (numericScaled != null ? numericScaled >= 145 : null);

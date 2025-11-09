@@ -1,5 +1,5 @@
 // db/initQuestionBank.js
-const db = require('./index');
+const db = require('../db');
 
 async function ensureQuestionBankTable() {
   await db.none(`
