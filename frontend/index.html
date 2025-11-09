@@ -13252,7 +13252,6 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             setCoachLoading(true);
             setCoachError('');
             const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-            if (!token) { alert('Please sign in to generate a weekly plan.'); return; }
             const subjectParam = practiceSubjectParam(selectedSubject);
             if (!subjectParam) { alert('Pick a subject first.'); return; }
             const apiSubject = subjectParam === 'social-studies'
@@ -13262,16 +13261,17 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 : subjectParam === 'math'
                 ? 'Math'
                 : 'Science';
+            const headers = { 'Content-Type': 'application/json' };
+            if (token) headers.Authorization = `Bearer ${token}`;
             const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(apiSubject)}/generate-week`, {
                 method: 'POST',
-                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                headers,
                 body: JSON.stringify({})
             });
             if (!res.ok) {
                 setCoachError('Unable to generate weekly coach plan.');
                 return;
             }
-            // Refresh weekly + daily so today panel updates quiz immediately
             await refreshCoachPanels();
         } catch (e) {
             setCoachError('Unable to generate weekly coach plan.');
