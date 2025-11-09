@@ -2904,6 +2904,10 @@ app.get('/frontend/images/:subject/:file(*)', (req, res, next) => {
     tryPaths.push(`/frontend/Images/${subject.replace(/\/+/, '')}/${file.replace(/\/+/, '')}`);
     // 8. Remove leading/trailing spaces
     tryPaths.push(`/frontend/Images/${subject.trim()}/${file.trim()}`);
+    // 9. Replace underscores with spaces in subject
+    const subjectWithSpaces = subject.replace(/_/g, ' ');
+    tryPaths.push(`/frontend/Images/${subjectWithSpaces}/${file}`);
+    tryPaths.push(`/frontend/Images/${subjectWithSpaces.trim()}/${file.trim()}`);
     // Try all variants
     let found = null;
     for (const p of tryPaths) {
