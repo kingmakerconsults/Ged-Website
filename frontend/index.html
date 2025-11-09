@@ -45,179 +45,7 @@
             display: block;
         }
 
-        /* form elements inherit font everywhere */
-        input,
-        select,
-        textarea {
-            font: inherit;
-        }
-
-        /* Formula sheet styling (moved out of invalid nesting) */
-        #formulaSheetView .formula-sheet {
-            margin: 0 auto;
-            max-width: 700px;
-            padding: 2rem 1.5rem 1.5rem 1.5rem;
-            background: var(--panel-bg, #fff);
-            border-radius: 1.25rem;
-            box-shadow: var(--shadow-strong);
-            border: 1px solid var(--border-strong);
-        }
-        #formulaSheetView .formula-sheet .formula-sheet-card {
-            background: #f8fafc;
-            border-radius: 0.75rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-card);
-            border: 1px solid var(--border-strong);
-        }
-        #formulaSheetView .formula-sheet .formula-equation {
-            background: #fff;
-            border-radius: 0.5rem;
-            padding: 0.5rem 1rem;
-            margin: 0.5rem 0 1rem 0;
-            border: 1px solid var(--border-strong);
-            color: #0f172a;
-        }
-        #formulaSheetView .formula-sheet .formula-sheet-description {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        [data-theme="dark"] #formulaSheetView .formula-sheet {
-            background: #18181b;
-            border-color: rgba(148,163,184,0.25);
-        }
-        [data-theme="dark"] #formulaSheetView .formula-sheet .formula-sheet-card {
-            background: #23272f;
-            border-color: rgba(148,163,184,0.25);
-        }
-        [data-theme="dark"] #formulaSheetView .formula-sheet .formula-equation {
-            background: #000000;
-            border-color: rgba(148,163,184,0.55);
-            color: #ffffff;
-        }
-        [data-theme="light"] #formulaSheetView .science-formula-sheet .formula-sheet-card {
-            background-color: #f8fafc;
-        }
-        [data-theme="light"] #formulaSheetView .science-formula-sheet .formula-equation {
-            background-color: #ffffff;
-        }
-        [data-theme="dark"] #formulaSheetView .science-formula-sheet .formula-sheet-card {
-            background-color: #23272f;
-        }
-        [data-theme="dark"] #formulaSheetView .science-formula-sheet .formula-equation {
-            background-color: #000000;
-            border-color: rgba(148,163,184,0.55);
-            color: #ffffff;
-        }
-
-        /* make data-theme work the same even if the browser is weird about prefers-color-scheme */
-        html[data-theme="light"] {
-            background: #f3f4f6;
-            color: #0f172a;
-        }
-        html[data-theme="dark"] {
-            background: #020617;
-            color: #e2e8f0;
-        }
-
-        /* .btn-reset: force app-style buttons to look the same everywhere */
-        .btn-reset {
-            appearance: none;
-            -webkit-appearance: none;
-            border: none;
-            background: none;
-        }
-
-        :root {
-            --app-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        html, body {
-            font-family: var(--app-font);
-        }
         </style>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="lib/normalizeProse.js"></script>
-    <script src="lib/mathSanitizer.js"></script>
-    <script src="lib/sanitizeExamText.js"></script>
-    <script src="lib/topic_map.js"></script>
-    <script>
-      // Safe, cross-browser math fixer that ONLY edits text inside math delimiters.
-      // Supports $...$, $$...$$, \(...\), \[...\]
-      (function () {
-        // Insert a "\" before common LaTeX macros when missing, but don't use look-behind
-        const MACRO_FIX = /(^|[^\\])\b(frac|sqrt|times|div|cdot|le|ge|lt|gt|pi|sin|cos|tan|log|ln|pm|mp|neq|approx|theta|alpha|beta|gamma)\b(?=\s*[\[{(])/g;
-
-        function addMissingBackslashesInSegment(seg) {
-          return seg.replace(MACRO_FIX, (_m, p1, macro) => `${p1}\\${macro}`);
-        }
-
-        // Apply fix ONLY inside math segments
-        function fixAllMathInText(input) {
-          if (typeof input !== 'string' || input.length === 0) return input;
-
-          // $...$ and $$...$$
-          input = input.replace(/\$\$([\s\S]*?)\$\$|\$([\s\S]*?)\$/g, (m, m1, m2) => {
-            const body = m1 ?? m2;
-            const fixed = addMissingBackslashesInSegment(body);
-            return m1 != null ? `$$${fixed}$$` : `$${fixed}$`;
-          });
-
-          // \(...\)
-          input = input.replace(/\\\(([\s\S]*?)\\\)/g, (_m, body) => `\\(${addMissingBackslashesInSegment(body)}\\)`);
-
-          // \[...\]
-          input = input.replace(/\\\[([\s\S]*?)\\\]/g, (_m, body) => `\\[${addMissingBackslashesInSegment(body)}\\]`);
-
-          return input;
-        }
-
-        // Expose/override
-        window.TextSanitizer = window.TextSanitizer || {};
-        window.TextSanitizer.fixAllMathInText = fixAllMathInText;
-        window.TextSanitizer.addMissingBackslashesInMath = fixAllMathInText; // backward-compat with your current call site
-      })();
-        </script>
-
-
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Chart.js and JSXGraph are commented out to avoid always loading heavy libraries globally. Load them only when needed in feature views. -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-    <!-- <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" /> -->
-    <!-- <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script> -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
-
-    <script>
-        window.addEventListener('error', (event) => {
-            const detail = event.error || event.message;
-            console.error('Global error:', detail);
-        });
-        window.addEventListener('unhandledrejection', (event) => {
-            console.error('Unhandled promise rejection:', event.reason);
-        });
-    </script>
-
-    <script>
-        window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
-        // Hard-enable geometry figures
-        window.__APP_CONFIG__.geometryFiguresEnabled = true;
-
-        // Default math render
-        if (typeof window.__APP_CONFIG__.mathRenderMode === 'undefined') {
-            window.__APP_CONFIG__.mathRenderMode = 'plain';
-        }
-        if (typeof window.__APP_CONFIG__.premadeUsesKatex === 'undefined') {
-            window.__APP_CONFIG__.premadeUsesKatex = true;
-        }
-    </script>
     <script src="https://ged-website.onrender.com/client-config.js"></script>
     <script>
         // Re-assert geometry if remote config overwrote it
@@ -16651,7 +16479,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         return { level: "Keep studying!", color: "text-amber-600" };
     };
 
-    const performance = getPerf(results.scaledScore || 0);
+    const scaledScore = typeof results?.scaledScore === 'number' ? results.scaledScore : 0;
+    const performance = getPerf(scaledScore);
     const markedQuestions = quiz.questions.filter((_, index) => !!safeMarked[index]);
 
     const performanceByCategory = quiz.questions.reduce((acc, question, index) => {
@@ -16679,13 +16508,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     };
 
     return (
-        <div className="text-center fade-in results-screen" data-subject={quiz.subject}>
-            <h2 className="text-3xl font-bold subject-accent-heading">Results: {quiz.title}</h2>
+        <div className="text-center fade-in results-screen" data-subject={quiz?.subject || ''}>
+            <h2 className="text-3xl font-bold subject-accent-heading">Results: {quiz?.title || 'Completed Quiz'}</h2>
             <div className="my-6">
                 <p className="text-lg text-slate-600">Your estimated GED® Score is:</p>
-                <p className={`text-6xl font-bold my-2 ${performance.color}`}>{results.scaledScore}</p>
+                <p className={`text-6xl font-bold my-2 ${performance.color}`}>{scaledScore}</p>
                 <p className={`text-2xl font-semibold mb-2 ${performance.color}`}>{performance.level}</p>
-                <p className="text-lg text-slate-500">{results.score} / {results.totalQuestions} Correct</p>
+                <p className="text-lg text-slate-500">{(results?.score ?? 0)} / {(results?.totalQuestions ?? (quiz?.questions?.length || 0))} Correct</p>
             </div>
 
             {(loadingSuggestions || (suggestions && suggestions.length)) && (
@@ -16734,7 +16563,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
              <div className="mt-8 flex justify-center gap-4">
                  <button onClick={onHome} className="btn-reset px-6 py-2 bg-slate-600 text-white font-bold rounded-lg hover:bg-slate-700">Go Home</button>
                       {markedQuestions.length > 0 && (
-                          <button onClick={() => onReviewMarked(markedQuestions, quiz.subject)} className="px-6 py-2 bg-yellow-500 text-white font-bold rounded-lg hover:bg-yellow-600">
+                          <button onClick={() => onReviewMarked(markedQuestions, quiz?.subject)} className="px-6 py-2 bg-yellow-500 text-white font-bold rounded-lg hover:bg-yellow-600">
                         Review {markedQuestions.length} Marked
                     </button>
                  )}
@@ -16745,7 +16574,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 <h3 className="text-xl font-bold subject-accent-heading mb-4">Detailed Question Review</h3>
                 <div className="space-y-4 text-left">
                     {(quiz.questions || []).map((question, index) => {
-                        const userAnswer = results.answers[index];
+                        const userAnswer = (results.answers || [])[index];
                         const correctMC = (question.answerOptions || []).find(opt => opt.isCorrect);
                         // Reuse lightweight equivalence logic (mirrors StandardQuizRunner) for display
                         const normalizeRaw = (val) => {

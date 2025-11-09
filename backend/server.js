@@ -2881,22 +2881,20 @@ async function buildProfileBundle(userId) {
 }
 
 const app = express();
-// Custom route to handle lowercase or bad image paths for /frontend/images or /frontend/Images
+// Flexible image resolver with Netlify fallback
 app.get(
     ['/frontend/images/:subject/:file(*)', '/frontend/Images/:subject/:file(*)'],
-    (req, res, next) => {
+    (req, res) => {
         let { subject, file } = req.params;
         if (!subject || !file) return res.status(404).send('Not found');
 
-        // decode things like %20
+        // decode %20 etc.
         try {
             subject = decodeURIComponent(subject);
             file = decodeURIComponent(file);
         } catch (_) {}
 
-        const tryPaths = [];
-
-        // subject variants
+        // normalize subject variants
         const subjectCandidates = [
             subject,
             subject.replace(/_/g, ' '),
@@ -2905,52 +2903,39 @@ app.get(
             subject.charAt(0).toUpperCase() + subject.slice(1),
         ];
 
-        // build all subject-based paths
+        const repoRoot = path.resolve(__dirname, '..');
+        const frontendRoot = path.join(repoRoot, 'frontend');
+
+        // 1) try local disk under any subject variant
         for (const subj of subjectCandidates) {
-            tryPaths.push(`/frontend/Images/${subj}/${file}`);
-            tryPaths.push(`/frontend/Images/${subj.trim()}/${file.trim()}`);
-        }
-
-        // also try just the file at root Images
-        tryPaths.push(`/frontend/Images/${file}`);
-        tryPaths.push(`/frontend/Images/${file.trim()}`);
-
-        // try lowercased subject/file too
-        tryPaths.push(`/frontend/Images/${subject.toLowerCase()}/${file.toLowerCase()}`);
-
-        // look up in IMAGE_BY_PATH with and without /frontend prefix
-        let found = null;
-        for (const p of tryPaths) {
-            if (IMAGE_BY_PATH.has(p)) {
-                found = IMAGE_BY_PATH.get(p);
-                break;
-            }
-            const noFrontend = p.replace(/^\/frontend/i, '');
-            if (IMAGE_BY_PATH.has(noFrontend)) {
-                found = IMAGE_BY_PATH.get(noFrontend);
-                break;
-            }
-        }
-
-        // Fallback: search by filename anywhere in metadata
-        if (!found && Array.isArray(IMAGE_DB)) {
-            const target = String(file).trim().toLowerCase();
-            const byFile = IMAGE_DB.find(
-                (im) => im?.fileName && String(im.fileName).trim().toLowerCase() === target
-            );
-            if (byFile) found = byFile;
-        }
-
-        if (found && found.filePath) {
-            const repoRoot = path.resolve(__dirname, '..');
-            const absPath = path.join(repoRoot, found.filePath.replace(/^\/+/, ''));
-            if (fs.existsSync(absPath)) {
+            const localPath = path.join(frontendRoot, 'Images', subj, file);
+            if (fs.existsSync(localPath)) {
                 res.setHeader('Access-Control-Allow-Origin', '*');
-                return res.sendFile(absPath);
+                return res.sendFile(localPath);
             }
         }
 
-        return res.status(404).send('Image not found');
+        // 2) try just by filename anywhere under /frontend/Images
+        const imagesRoot = path.join(frontendRoot, 'Images');
+        if (fs.existsSync(imagesRoot)) {
+            try {
+                const allSubjects = fs.readdirSync(imagesRoot, { withFileTypes: true })
+                    .filter((d) => d.isDirectory())
+                    .map((d) => d.name);
+                for (const subj of allSubjects) {
+                    const candidate = path.join(imagesRoot, subj, file);
+                    if (fs.existsSync(candidate)) {
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+                        return res.sendFile(candidate);
+                    }
+                }
+            } catch (_) {}
+        }
+
+        // 3) final fallback: redirect to Netlify copy
+        const pickedSubject = subjectCandidates[1] || subject; // prefer the one with spaces
+        const netlifyUrl = `https://ezged.netlify.app/Images/${encodeURIComponent(pickedSubject)}/${encodeURIComponent(file)}`;
+        return res.redirect(302, netlifyUrl);
     }
 );
 // Use the configured port or default to 3002 locally
