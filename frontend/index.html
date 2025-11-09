@@ -2338,10 +2338,12 @@
                                                             // Also fetch backend-assembled premade topics (legacy + supplemental)
                                                             let backendAll = null;
                                                             try {
-                                                                const res = await fetch(`/api/all-quizzes`, { cache: 'no-cache' });
+                                                                const res = await fetch(`${API_BASE_URL}/api/all-quizzes`, { cache: 'no-cache' });
                                                                 if (res.ok) backendAll = await res.json();
+                                                                else backendAll = {};
                                                             } catch (e) {
                                                                 console.warn('[quizzes] backend ALL_QUIZZES unavailable', e?.message || e);
+                                                                backendAll = {};
                                                             }
                                                             if (!parts.length && (typeof window !== 'undefined' && window.__DEBUG_QUIZZES)) {
                                                                 console.warn('[quizzes] no quiz parts loaded — using empty catalog');
