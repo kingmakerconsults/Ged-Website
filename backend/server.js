@@ -3586,6 +3586,24 @@ async function ensureCoachDailyTables() {
                 `);
     } catch (e) { console.warn('[ensure] coach_daily_progress', e?.code || e?.message || e); }
 
+        // Weekly coach plans – one row per user + subject + week
+        try {
+                await pool.query(`
+                    CREATE TABLE IF NOT EXISTS coach_weekly_plans (
+                        id SERIAL PRIMARY KEY,
+                        user_id INTEGER NOT NULL,
+                        subject TEXT NOT NULL,
+                        valid_from DATE NOT NULL,
+                        valid_to DATE NOT NULL,
+                        plan_json JSONB NOT NULL,
+                        created_at TIMESTAMPTZ DEFAULT NOW(),
+                        updated_at TIMESTAMPTZ DEFAULT NOW(),
+                        UNIQUE (user_id, subject, valid_from)
+                    );
+                `);
+                await pool.query(`CREATE INDEX IF NOT EXISTS idx_coach_weekly_user_subject ON coach_weekly_plans (user_id, subject, valid_from DESC);`);
+        } catch (e) { console.warn('[ensure] coach_weekly_plans', e?.code || e?.message || e); }
+
     // Per-subject status (passed)
     try {
         await pool.query(`
@@ -3900,16 +3918,38 @@ async function isSubjectPassed(userId, subject) {
     return false;
 }
 
+function addDaysISO(baseISO, days) {
+    try {
+        const d = new Date(baseISO + 'T00:00:00');
+        d.setDate(d.getDate() + days);
+        return d.toISOString().slice(0, 10);
+    } catch {
+        return baseISO;
+    }
+}
+
 async function latestWeeklyPlan(userId, subject) {
     const { rows } = await pool.query(
-        `SELECT id, subject, valid_from, valid_to, plan_json, notes
-           FROM study_plans
+        `SELECT id, user_id, subject, valid_from, valid_to, plan_json
+           FROM coach_weekly_plans
           WHERE user_id = $1 AND subject = $2
-          ORDER BY generated_at DESC, id DESC
+          ORDER BY valid_from DESC, id DESC
           LIMIT 1`,
         [userId, subject]
     );
-    return rows && rows[0] ? rows[0] : null;
+    return rows?.[0] || null;
+}
+
+async function upsertWeeklyPlan(userId, subject, weekStartISO, weekEndISO, planJson) {
+    await pool.query(
+        `INSERT INTO coach_weekly_plans (user_id, subject, valid_from, valid_to, plan_json)
+         VALUES ($1, $2, $3, $4, $5)
+         ON CONFLICT (user_id, subject, valid_from)
+         DO UPDATE SET plan_json = EXCLUDED.plan_json,
+                       valid_to = EXCLUDED.valid_to,
+                       updated_at = NOW()`,
+        [userId, subject, weekStartISO, weekEndISO, planJson]
+    );
 }
 
 // Helper to get the start of the current ISO week (Monday) as a date string YYYY-MM-DD
@@ -4093,219 +4133,84 @@ function normalizeCoachDay(day) {
     return out;
 }
 
-app.post('/api/coach/:subject/generate-week', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+// Simplified weekly plan endpoint storing into coach_weekly_plans
+app.post(
+  '/api/coach/:subject/generate-week',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const subject = normalizeSubjectLabel(req.params.subject);
-        const userEmail = String(req.user?.email || '').toLowerCase();
-        const isTester = userEmail === 'zacharysmith527@gmail.com';
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ ok: false, error: 'not_authenticated' });
+      const rawSubject = req.params.subject;
+      const subject = normalizeSubjectLabel(rawSubject);
+      if (!subject) return res.status(400).json({ ok: false, error: 'bad_subject' });
 
-        // Respect subject passed flag (no longer blocking): allow regeneration even if passed
-        const subjectIsPassed = await isSubjectPassed(userId, subject);
-        if (subjectIsPassed) {
-            console.log('Weekly coach: subject is marked passed but regenerating anyway for user', userId, subject);
+      const weekStart = getCurrentWeekStartISO();
+      const weekEnd = addDaysISO(weekStart, 6);
+
+      const bundle = await buildProfileBundle(userId);
+      const selected = Array.isArray(bundle?.selectedChallenges)
+        ? bundle.selectedChallenges.filter((c) => normalizeSubjectLabel(c.subject) === subject)
+        : [];
+
+      const days = [];
+      for (let i = 0; i < 7; i++) {
+        const chosenChallenge = selected[i % Math.max(selected.length, 1)] || null;
+        const focus = chosenChallenge ? [chosenChallenge.subtopic || chosenChallenge.label || chosenChallenge.id].filter(Boolean) : [];
+        const quizCode = pickCoachQuizSourceId(subject, i);
+        days.push({
+          day: i + 1,
+          label: `Day ${i + 1}`,
+          date: addDaysISO(weekStart, i),
+          subject,
+          minutes: 20,
+          focus,
+          quizId: quizCode || null,
+          tasks: [
+            {
+              id: `${subject.toLowerCase()}-day-${i + 1}`,
+              subject,
+              subjectLabel: subject,
+              title: quizCode ? 'Coach quiz' : 'Practice',
+              type: 'coach-quiz',
+              minutes: 20,
+              quizId: quizCode || null,
+              focus,
+            },
+          ],
+        });
+      }
+
+      const plan = { weekStart, weekEnd, generatedAt: new Date().toISOString(), subject, days };
+      await upsertWeeklyPlan(userId, subject, weekStart, weekEnd, plan);
+
+      // Seed today's daily row with quiz assignment for immediate visibility
+      const today = todayISO();
+      try {
+        await findOrCreateDailyRow(userId, subject, today);
+        const todayDay = days.find((d) => d.date === today) || days[0];
+        const quizCode = todayDay?.quizId || null;
+        if (quizCode) {
+          await pool.query(
+            `UPDATE coach_daily_progress SET coach_quiz_source_id = $4, updated_at = NOW() WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
+            [userId, subject, today, quizCode]
+          );
         }
+      } catch (syncErr) {
+        console.error('Weekly->daily sync failed', syncErr);
+      }
 
-        // 1) enforce once per calendar week
-        let latest = null;
-        try {
-            const r = await pool.query(
-                `SELECT id, generated_at, valid_from, valid_to FROM study_plans WHERE user_id = $1 AND subject = $2 ORDER BY generated_at DESC, id DESC LIMIT 1`,
-                [userId, subject]
-            );
-            latest = r.rows && r.rows[0] ? r.rows[0] : null;
-        } catch (_) {}
-        const weekStartISO = getCurrentWeekStartISO();
-        let upsertPlanId = null;
-        if (latest && latest.valid_from) {
-            const latestStart = (latest.valid_from instanceof Date) ? latest.valid_from.toISOString().slice(0,10) : String(latest.valid_from).slice(0,10);
-            if (latestStart === weekStartISO) {
-                // New behavior: always upsert the existing plan for this week
-                upsertPlanId = latest.id;
-            }
-        }
-
-    // 2) inputs: test date
-        const testPlanTable = await getTestPlanTableName();
-        let testDate = null;
-        try {
-            const r = await db.query(`SELECT test_date, not_scheduled, passed FROM ${testPlanTable} WHERE user_id = $1 AND subject = $2 LIMIT 1`, [userId, subject]);
-            if (r.rows && r.rows[0]) {
-                testDate = normalizeTestDate(r.rows[0].test_date || null);
-            }
-        } catch (_) {}
-
-        // 3) recent attempts (last 5)
-        let recentAttempts = [];
-        try {
-            const r = await pool.query(
-                `SELECT quiz_title, score, total_questions, scaled_score, attempted_at
-                   FROM quiz_attempts
-                  WHERE user_id = $1 AND subject = $2
-                  ORDER BY attempted_at DESC, id DESC
-                  LIMIT 5`,
-                [userId, subject]
-            );
-            recentAttempts = (r.rows || []).map(row => ({
-                quiz: row.quiz_title || 'Practice Quiz',
-                score: (Number(row.score) && Number(row.total_questions)) ? Math.round((Number(row.score)/Number(row.total_questions))*100) : (Number(row.scaled_score) || null),
-                attempted_at: row.attempted_at
-            }));
-        } catch (_) {}
-
-        // 4) selected/self-declared challenges
-        const { optionTable, selectionTable } = await getChallengeTables();
-        let declaredTags = new Set();
-        try {
-            const sel = await db.query(`SELECT challenge_id FROM ${selectionTable} WHERE user_id = $1`, [userId]);
-            const ids = sel.rows.map(r => String(r.challenge_id));
-            if (ids.length) {
-                // try to map ids to tags using heuristics and options table
-                const optRows = await db.query(`SELECT id, subject, subtopic, label FROM ${optionTable}`);
-                const byId = new Map(optRows.rows.map(o => [String(o.id), o]));
-                const subjPrefixes = subjectTagPrefixes(subject);
-                for (const id of ids) {
-                    if (/:/.test(id)) {
-                        // already a tag-like id
-                        if (!subjPrefixes.length || subjPrefixes.some(p => id.startsWith(p))) declaredTags.add(id.toLowerCase());
-                        continue;
-                    }
-                    const opt = byId.get(id);
-                    if (opt && (!subject || opt.subject === subject)) {
-                        const subjKey = (subject === 'Social Studies') ? 'social' : subject.toLowerCase();
-                        const slug = (opt.subtopic || opt.label || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                        if (slug) {
-                            declaredTags.add(`${subjKey}:${slug}`);
-                        }
-                    }
-                }
-            }
-        } catch (_) {}
-
-    // 5) stats: compute priority per tag
-        const prefixes = subjectTagPrefixes(subject);
-        let topStats = [];
-        try {
-            const r = await pool.query(
-                `SELECT challenge_tag, correct_count, wrong_count
-                   FROM user_challenge_stats
-                  WHERE user_id = $1`,
-                [userId]
-            );
-            for (const row of r.rows || []) {
-                const tag = String(row.challenge_tag || '').toLowerCase();
-                if (prefixes.length && !prefixes.some(p => tag.startsWith(p))) continue;
-                const correct = Number(row.correct_count) || 0;
-                const wrong = Number(row.wrong_count) || 0;
-                const priority = wrong * 3 - correct;
-                if (priority > 0) {
-                    topStats.push({ tag, correct, wrong, priority });
-                }
-            }
-            topStats.sort((a,b) => b.priority - a.priority);
-        } catch (_) {}
-
-    const topFromStats = topStats.slice(0, 6).map(s => ({ tag: s.tag, reason: `Missed ${s.wrong}× recently` }));
-    const declaredList = Array.from(declaredTags).slice(0, 6).map(t => ({ tag: t, reason: 'Student declared this as a challenge' }));
-
-        // Merge, de-dup, keep 3–4
-        const merged = [];
-        const seen = new Set();
-        for (const item of [...topFromStats, ...declaredList]) {
-            const k = item.tag;
-            if (seen.has(k)) continue;
-            seen.add(k);
-            merged.push(item);
-            if (merged.length >= 4) break;
-        }
-        if (merged.length === 0 && declaredList.length) {
-            merged.push(declaredList[0]);
-        }
-
-        // Build a deterministic 7-day plan with premade quizzes prioritized by challenges
-        const challengeTags = merged.map(m => m.tag);
-        const inventory = loadPremadeQuizzesForSubjectSync(subject);
-        const prioritized = prioritizeQuizzesByChallenges(inventory, challengeTags);
-        const pick = (i) => prioritized.length ? prioritized[i % prioritized.length] : null;
-        const days = [];
-        for (let i = 0; i < 7; i++) {
-            const quiz = pick(i);
-            const label = quiz ? (quiz.title || 'Premade Quiz') : `Practice ${subject}`;
-            const day = normalizeCoachDay({
-                day: i + 1,
-                type: 'premade-quiz',
-                quizId: quiz ? quiz.id : null,
-                label,
-                minutes: 20,
-                focus: challengeTags.slice(0, 3)
-            });
-            days.push(day);
-        }
-        let baseNotes = testDate
-            ? `Work through these daily items before your ${subject} test on ${testDate}.`
-            : `Work through one item per day to make steady progress in ${subject}.`;
-        if (subjectIsPassed) {
-            // Append a student-facing notice that they've already passed
-            baseNotes += ` You have already passed ${subject}; these tasks are for continued practice and skill maintenance.`;
-        }
-        const aiPlan = {
-            days,
-            notes: baseNotes,
-            alreadyPassed: !!subjectIsPassed
-        };
-
-        // Persist plan
-    const validFrom = weekStartISO;
-    const d0 = new Date(`${weekStartISO}T00:00:00Z`);
-        const d6 = new Date(d0.getTime() + 6*24*60*60*1000);
-        const validTo = `${d6.getFullYear()}-${String(d6.getMonth()+1).padStart(2,'0')}-${String(d6.getDate()).padStart(2,'0')}`;
-
-        let saved;
-        if (upsertPlanId) {
-            const update = await pool.query(
-                `UPDATE study_plans
-                    SET generated_at = NOW(),
-                        valid_from = $3,
-                        valid_to = $4,
-                        plan_json = $5,
-                        notes = $6
-                  WHERE id = $1 AND user_id = $2 AND subject = $7
-                RETURNING id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes`,
-                [upsertPlanId, userId, validFrom, validTo, aiPlan, aiPlan?.notes || (testDate ? 'Generated weekly plan.' : 'Generated; no test date set.'), subject]
-            );
-            saved = update.rows[0];
-        } else {
-            const insert = await pool.query(
-                `INSERT INTO study_plans (user_id, subject, valid_from, valid_to, plan_json, notes)
-                 VALUES ($1, $2, $3, $4, $5, $6)
-                 RETURNING id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes`,
-                [userId, subject, validFrom, validTo, aiPlan, aiPlan?.notes || (testDate ? 'Generated weekly plan.' : 'Generated; no test date set.')]
-            );
-            saved = insert.rows[0];
-        }
-
-        // Sync today's daily row so the daily panel can immediately show the quiz
-        try {
-            const today = todayISO();
-            // Remove any stale daily row created earlier today before the weekly plan existed
-            await pool.query(
-                `DELETE FROM coach_daily_progress WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
-                [userId, subject, today]
-            );
-            // Recreate it so it pulls from the just-created weekly plan
-            const refreshed = await findOrCreateDailyRow(userId, subject, today);
-            console.log('[coach-sync] refreshed daily row', { userId, subject, today, hasRow: !!refreshed });
-        } catch (syncErr) {
-            console.error('Could not sync weekly -> daily coach quiz', syncErr);
-        }
-
-    return res.json({ ok: true, plan: saved, alreadyPassed: !!subjectIsPassed, message: subjectIsPassed ? `You have already passed ${subject}; this weekly plan is optional maintenance practice.` : undefined });
+      return res.json({ ok: true, plan });
     } catch (e) {
-        console.error('POST /api/coach/:subject/generate-week failed:', e);
-        return res.status(500).json({ ok: false, error: 'coach_generate_failed' });
+      console.error('POST /api/coach/:subject/generate-week failed:', e);
+      return res.status(500).json({ ok: false, error: 'weekly_plan_failed' });
     }
-});
+  }
+);
 
 // --- Daily Coach API ---
 // 1) GET /api/coach/daily — return or create today's plan per active subject
@@ -4410,105 +4315,93 @@ app.post('/api/coach/:subject/ask', devAuth, ensureTestUserForNow, requireAuthIn
 });
 
 // 1b) GET /api/coach/weekly — consolidated subject summaries for the current week
-app.get('/api/coach/weekly', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
-    try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const weekStart = getCurrentWeekStartISO();
-        const d0 = new Date(`${weekStart}T00:00:00Z`);
-        const d6 = new Date(d0.getTime() + 6*24*60*60*1000);
-        const weekEnd = `${d6.getFullYear()}-${String(d6.getMonth()+1).padStart(2,'0')}-${String(d6.getDate()).padStart(2,'0')}`;
+app.get(
+    '/api/coach/weekly',
+    devAuth,
+    ensureTestUserForNow,
+    requireAuthInProd,
+    authRequired,
+    async (req, res) => {
+        try {
+            const userId = req.user?.id || req.user?.userId;
+            if (!userId) return res.status(401).json({ error: 'Not authenticated' });
 
-        const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
-        const subjects = [];
+            const weekStart = getCurrentWeekStartISO();
+            const weekEnd = addDaysISO(weekStart, 6);
 
-        // Build a consolidated 7-day plan with subject-tagged tasks
-        const consolidatedDays = Array.from({ length: 7 }).map((_, i) => ({
-            day: i + 1,
-            label: `Day ${i + 1}`,
-            date: new Date(d0.getTime() + i*24*60*60*1000).toISOString().slice(0,10),
-            tasks: []
-        }));
+            const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
+            const subjects = [];
 
-        for (const subj of SUBJECTS) {
-            const latest = await latestWeeklyPlan(userId, subj);
-            const passed = await isSubjectPassed(userId, subj);
-            let expectedWeek = 0;
-            let summary = '';
-            let daysOut = [];
-            if (latest && latest.plan_json && Array.isArray(latest.plan_json.days)) {
-                expectedWeek = latest.plan_json.days.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0);
-                daysOut = latest.plan_json.days || [];
-                // Build a short focus summary using top tags from first 3 days
-                const f = [];
-                latest.plan_json.days.slice(0,3).forEach(d => {
-                    (Array.isArray(d.focus) ? d.focus : []).forEach(tag => { const t = String(tag||'').toLowerCase(); if (t && !f.includes(t) && f.length < 4) f.push(t); });
-                });
-                if (f.length) summary = `Focus: ${f.join(', ')}`;
-            }
+            // Build consolidated 7-day plan
+            const consolidatedDays = Array.from({ length: 7 }).map((_, i) => ({
+                day: i + 1,
+                label: `Day ${i + 1}`,
+                date: addDaysISO(weekStart, i),
+                tasks: [],
+            }));
 
-            // Completed minutes across week in coach_daily_progress
-            let completedWeek = 0;
-            try {
-                const r = await pool.query(
-                    `SELECT SUM(completed_minutes) AS total
-                       FROM coach_daily_progress
-                      WHERE user_id = $1 AND subject = $2 AND plan_date BETWEEN $3 AND $4`,
-                    [userId, subj, weekStart, weekEnd]
-                );
-                completedWeek = Number(r?.rows?.[0]?.total) || 0;
-            } catch (_) {}
-
-            // If subject is passed, set maintenance summary and expected minutes modestly
-            if (passed) {
-                summary = summary || 'Maintenance: Keep skills fresh with brief weekly practice.';
-                if (!expectedWeek) expectedWeek = 60; // 15min x 4
-            }
-
-            subjects.push({ subject: subj, expected_minutes_week: expectedWeek || 140, completed_minutes_week: completedWeek, summary, days: daysOut });
-
-            // Consolidate tasks per day with subject metadata
-            for (let i = 0; i < 7; i++) {
-                const dayObj = consolidatedDays[i];
-                const srcDay = Array.isArray(daysOut) ? daysOut.find(d => Number(d.day) === (i + 1)) : null;
-                if (passed) {
-                    // Maintenance guidance task
-                    dayObj.tasks.push({
-                        id: `${subj.toLowerCase().replace(/\s+/g,'_')}-maint-${i+1}`,
-                        subject: subj,
-                        subjectLabel: subj,
-                        title: 'Maintenance: Light review',
-                        type: 'maintenance',
-                        minutes: 15,
-                        quizId: null,
-                        quizPath: null,
-                        focus: [],
-                        message: 'You\'ve passed this subject. Do a short review to keep skills fresh.'
+            for (const subj of SUBJECTS) {
+                const latest = await latestWeeklyPlan(userId, subj);
+                const passed = await isSubjectPassed(userId, subj);
+                let expectedWeek = 0;
+                let summary = '';
+                let daysOut = [];
+                if (latest && latest.plan_json && Array.isArray(latest.plan_json.days)) {
+                    expectedWeek = latest.plan_json.days.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0);
+                    daysOut = latest.plan_json.days || [];
+                    const f = [];
+                    latest.plan_json.days.slice(0, 3).forEach((d) => {
+                        (Array.isArray(d.focus) ? d.focus : []).forEach((tag) => {
+                            const t = String(tag || '').toLowerCase();
+                            if (t && !f.includes(t) && f.length < 4) f.push(t);
+                        });
                     });
-                } else if (srcDay) {
-                    const focus = Array.isArray(srcDay.focus) ? srcDay.focus : (srcDay.focus ? [srcDay.focus] : []);
-                    dayObj.tasks.push({
-                        id: `${subj.toLowerCase().replace(/\s+/g,'_')}-${i+1}`,
-                        subject: subj,
-                        subjectLabel: subj,
-                        title: srcDay.label || srcDay.task || srcDay.type || 'Practice',
-                        type: srcDay.type || 'practice',
-                        minutes: Number(srcDay.minutes) || 20,
-                        quizId: srcDay.quizId || null,
-                        quizPath: srcDay.quizPath || null,
-                        focus,
-                        message: srcDay.message || null
-                    });
+                    if (f.length) summary = `Focus: ${f.join(', ')}`;
                 }
-            }
-        }
 
-        return res.json({ ok: true, weekStart, weekEnd, subjects, plan: { weekStart, weekEnd, days: consolidatedDays } });
-    } catch (e) {
-        console.error('GET /api/coach/weekly failed:', e);
-        return res.status(500).json({ ok: false, error: 'coach_weekly_failed' });
+                // Completed minutes across week
+                let completedWeek = 0;
+                try {
+                    const r = await pool.query(
+                        `SELECT SUM(completed_minutes) AS total
+                             FROM coach_daily_progress
+                            WHERE user_id = $1 AND subject = $2 AND plan_date BETWEEN $3 AND $4`,
+                        [userId, subj, weekStart, weekEnd]
+                    );
+                    completedWeek = Number(r?.rows?.[0]?.total) || 0;
+                } catch (_) {}
+
+                if (passed) {
+                    summary = summary || 'Maintenance: Keep skills fresh with brief weekly practice.';
+                    if (!expectedWeek) expectedWeek = 60;
+                }
+
+                subjects.push({
+                    subject: subj,
+                    expected_minutes_week: expectedWeek || 140,
+                    completed_minutes_week: completedWeek,
+                    summary,
+                    days: daysOut,
+                });
+
+                // Merge into consolidated days
+                (daysOut || []).forEach((day) => {
+                    const idx = Number(day.day) - 1;
+                    if (!Number.isFinite(idx) || idx < 0 || idx >= consolidatedDays.length) return;
+                    const tasks = Array.isArray(day.tasks) ? day.tasks : [];
+                    tasks.forEach((t) => {
+                        consolidatedDays[idx].tasks.push({ ...t, subject: subj, subjectLabel: subj });
+                    });
+                });
+            }
+
+            return res.json({ ok: true, weekStart, weekEnd, days: consolidatedDays, subjects });
+        } catch (e) {
+            console.error('GET /api/coach/weekly failed:', e);
+            return res.status(500).json({ ok: false, error: 'coach_weekly_failed' });
+        }
     }
-});
+);
 
 // 1c) POST /api/coach/:subject/daily-composite — build a single-subject composite from premades (optionally filtered by focusTag)
 app.post('/api/coach/:subject/daily-composite', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
