@@ -13206,6 +13206,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 return;
             }
             const data = await res.json();
+            // Debug: log weekly payload to verify structure coming from backend
+            try { console.log('Weekly coach data:', data); } catch (_) {}
             const normalized = adaptWeeklyCoachResponse(data);
             setWeeklyCoachPlan(normalized);
             setWeeklyCoachSummary(Array.isArray(data?.subjects) ? data.subjects : []);
@@ -13304,20 +13306,24 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     // Generate weekly plans for all subjects, then refresh weekly summary
     const generateAllWeeklyPlans = async () => {
+        // Early token check before toggling loading
+        const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
+        if (!token) { alert('Please sign in to generate weekly plans.'); return; }
+
+        setGeneratingAll(true);
+        setCoachError("");
+        const subjects = ['Math', 'RLA', 'Science', 'Social Studies'];
+        const results = [];
+
         try {
-            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-            if (!token) { alert('Please sign in to generate weekly plans.'); return; }
-            setGeneratingAll(true);
-            const subjects = ['Math', 'RLA', 'Science', 'Social Studies'];
-            const results = [];
             for (const subj of subjects) {
                 try {
                     const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(subj)}/generate-week`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                        body: JSON.stringify({})
                     });
                     if (res.status === 429) {
-                        const data = await res.json().catch(() => ({}));
                         results.push(`${subj}: already generated`);
                         continue;
                     }
@@ -13332,8 +13338,9 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             }
             // Refresh both daily and weekly so panels reflect new plans immediately
             await refreshCoachPanels();
-            // Optional toast via alert for now
             if (results.length) alert(results.join('\n'));
+        } catch (e) {
+            setCoachError('Unable to generate all weekly coach plans.');
         } finally {
             setGeneratingAll(false);
         }
@@ -14690,7 +14697,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                             })}
                                         </div>
                                     ) : (
-                                        <p className="text-center text-sm" style={heroMutedTextStyle}>No plan yet.</p>
+                                        <p className="text-center text-sm" style={heroMutedTextStyle}>Plan generated. Refreshing...</p>
                                     )}
                                     {coachError && (
                                         <p className="text-center text-xs text-red-600 mt-2">{coachError}</p>

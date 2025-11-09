@@ -4412,6 +4412,20 @@ app.get(
                 });
             }
 
+            // Ensure subjects array is populated even if initial collection was empty
+            // Keep a consistent shape (objects) so the frontend doesn't break on mixed types.
+            if (!Array.isArray(subjects) || subjects.length === 0) {
+                const distinctSubjects = [...new Set(consolidatedDays.flatMap(d => d.tasks.map(t => t.subject)).filter(Boolean))];
+                distinctSubjects.forEach((s) => {
+                    subjects.push({
+                        subject: s,
+                        expected_minutes_week: 140,
+                        completed_minutes_week: 0,
+                        summary: '',
+                        days: [],
+                    });
+                });
+            }
             return res.json({ ok: true, weekStart, weekEnd, days: consolidatedDays, subjects });
         } catch (e) {
             console.error('GET /api/coach/weekly failed:', e);
