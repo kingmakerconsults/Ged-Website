@@ -46,54 +46,76 @@
         }
 
         /* form elements inherit font everywhere */
-        button,
         input,
         select,
         textarea {
             font: inherit;
-            line-height: inherit;
-            color: inherit;
-            background-color: transparent;
         }
 
-        /* don’t let Firefox show oversized buttons */
-        button::-moz-focus-inner {
-            border: 0;
-            padding: 0;
+        /* Formula sheet styling (moved out of invalid nesting) */
+        #formulaSheetView .formula-sheet {
+            margin: 0 auto;
+            max-width: 700px;
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            background: var(--panel-bg, #fff);
+            border-radius: 1.25rem;
+            box-shadow: var(--shadow-strong);
+            border: 1px solid var(--border-strong);
         }
-
-        /* better focus ring for keyboard users, same across browsers */
-        :focus-visible {
-            outline: 2px solid #f97316;
-            outline-offset: 3px;
+        #formulaSheetView .formula-sheet .formula-sheet-card {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-strong);
         }
-
-        /* scrollbars: webkit-based (Edge/Chrome) */
-        *::-webkit-scrollbar {
-            width: 8px;
+        #formulaSheetView .formula-sheet .formula-equation {
+            background: #fff;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0 1rem 0;
+            border: 1px solid var(--border-strong);
+            color: #0f172a;
         }
-        *::-webkit-scrollbar-track {
-            background: rgba(148, 163, 184, 0.15);
+        #formulaSheetView .formula-sheet .formula-sheet-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
         }
-        *::-webkit-scrollbar-thumb {
-            background: rgba(100, 116, 139, 0.65);
-            border-radius: 9999px;
+        [data-theme="dark"] #formulaSheetView .formula-sheet {
+            background: #18181b;
+            border-color: rgba(148,163,184,0.25);
         }
-
-        /* scrollbars: Firefox */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(100,116,139,0.65) rgba(148,163,184,0.15);
+        [data-theme="dark"] #formulaSheetView .formula-sheet .formula-sheet-card {
+            background: #23272f;
+            border-color: rgba(148,163,184,0.25);
+        }
+        [data-theme="dark"] #formulaSheetView .formula-sheet .formula-equation {
+            background: #000000;
+            border-color: rgba(148,163,184,0.55);
+            color: #ffffff;
+        }
+        [data-theme="light"] #formulaSheetView .science-formula-sheet .formula-sheet-card {
+            background-color: #f8fafc;
+        }
+        [data-theme="light"] #formulaSheetView .science-formula-sheet .formula-equation {
+            background-color: #ffffff;
+        }
+        [data-theme="dark"] #formulaSheetView .science-formula-sheet .formula-sheet-card {
+            background-color: #23272f;
+        }
+        [data-theme="dark"] #formulaSheetView .science-formula-sheet .formula-equation {
+            background-color: #000000;
+            border-color: rgba(148,163,184,0.55);
+            color: #ffffff;
         }
 
         /* make data-theme work the same even if the browser is weird about prefers-color-scheme */
-        html[data-theme="light"],
-        body[data-theme="light"] {
+        html[data-theme="light"] {
             background: #f3f4f6;
             color: #0f172a;
         }
-        html[data-theme="dark"],
-        body[data-theme="dark"] {
+        html[data-theme="dark"] {
             background: #020617;
             color: #e2e8f0;
         }
@@ -118,6 +140,7 @@
     <script src="lib/normalizeProse.js"></script>
     <script src="lib/mathSanitizer.js"></script>
     <script src="lib/sanitizeExamText.js"></script>
+    <script src="lib/topic_map.js"></script>
     <script>
       // Safe, cross-browser math fixer that ONLY edits text inside math delimiters.
       // Supports $...$, $$...$$, \(...\), \[...\]
@@ -158,9 +181,10 @@
 
 
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
-    <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
+    <!-- Chart.js and JSXGraph are commented out to avoid always loading heavy libraries globally. Load them only when needed in feature views. -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" /> -->
+    <!-- <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
@@ -183,23 +207,23 @@
 
     <script>
         window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
-        // Hard-enable geometry figures for now; do not guard with undefined checks
+        // Hard-enable geometry figures
         window.__APP_CONFIG__.geometryFiguresEnabled = true;
-    </script>
-    <script>
-      window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
-      if (typeof window.__APP_CONFIG__.mathRenderMode === 'undefined') {
-        window.__APP_CONFIG__.mathRenderMode = 'plain'; // 'plain' now, 'math-lite' later
-      }
-            if (typeof window.__APP_CONFIG__.premadeUsesKatex === 'undefined') {
-                window.__APP_CONFIG__.premadeUsesKatex = true;
-            }
+
+        // Default math render
+        if (typeof window.__APP_CONFIG__.mathRenderMode === 'undefined') {
+            window.__APP_CONFIG__.mathRenderMode = 'plain';
+        }
+        if (typeof window.__APP_CONFIG__.premadeUsesKatex === 'undefined') {
+            window.__APP_CONFIG__.premadeUsesKatex = true;
+        }
     </script>
     <script src="https://ged-website.onrender.com/client-config.js"></script>
     <script>
-        // Ensure figures stay enabled even if remote client-config overrides it
-        window.__APP_CONFIG__ = window.__APP_CONFIG__ || {};
-        window.__APP_CONFIG__.geometryFiguresEnabled = true;
+        // Re-assert geometry if remote config overwrote it
+        if (window.__APP_CONFIG__) {
+            window.__APP_CONFIG__.geometryFiguresEnabled = true;
+        }
     </script>
 
     <script>
@@ -244,23 +268,9 @@
                 console.warn('theme preload failed', error);
             }
 
-                        const root = document.documentElement;
-                        root.setAttribute('data-theme', theme);
-                        root.classList.toggle('dark', theme === 'dark');
-
-                        const body = document.body;
-                        if (body) {
-                            body.setAttribute('data-theme', theme);
-                            body.classList.toggle('dark', theme === 'dark');
-                        } else {
-                            document.addEventListener('DOMContentLoaded', () => {
-                                const b = document.body;
-                                if (b) {
-                                    b.setAttribute('data-theme', theme);
-                                    b.classList.toggle('dark', theme === 'dark');
-                                }
-                            }, { once: true });
-                        }
+            const root = document.documentElement;
+            root.setAttribute('data-theme', theme);
+            root.classList.toggle('dark', theme === 'dark');
 
             try {
                 Object.defineProperty(window, '__START_THEME__', {
@@ -291,6 +301,27 @@
         :root.fs-md { font-size: 16px; }
         :root.fs-lg { font-size: 18px; }
         :root.fs-xl { font-size: 20px; }
+
+        /* Shared button styling - reusable class */
+        .app-btn {
+            border-radius: .6rem;
+            border: 1px solid rgba(148,163,184,0.25);
+            background: linear-gradient(180deg, #ffffff, #f3f6fb);
+            box-shadow: 0 1px 2px rgba(2,6,23,0.06);
+            font-weight: 600;
+            transition: background .2s ease, box-shadow .2s ease, transform .15s ease;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+        .app-btn:hover:not(:disabled) {
+            background: linear-gradient(180deg, #eef6ff, #e7f0ff);
+            box-shadow: 0 4px 10px rgba(37,99,235,0.15);
+            transform: translateY(-1px);
+        }
+        .app-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
 
         :root[data-theme="light"] {
             /* Premium tinted light palette */
@@ -673,36 +704,7 @@
             line-height: 1.7;
             color: var(--subtext-color, var(--text-tertiary));
         }
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: url('Logo.svg') center/105vmin no-repeat;
-            opacity: 0.12;
-            z-index: -1;
-            pointer-events: none;
-            animation: floatLogo 12s ease-in-out infinite alternate;
-        }
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 25% 25%, rgba(14,165,233,0.03) 0%, transparent 50%),
-                        radial-gradient(circle at 75% 75%, rgba(236,72,153,0.03) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -2;
-        }
-        @keyframes floatLogo {
-            0%, 100% { transform: translateY(0); opacity: 0.12; }
-            50% { transform: translateY(-10px); opacity: 0.15; }
-        }
-        .glass {
-            background-color: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--border-strong);
-            border-radius: 1rem;
-            box-shadow: var(--shadow-strong);
-            color: var(--text-primary);
-        }
+        /* Decorative background layer removed for UI simplification. */
         [data-theme="light"] .glass {
             background-color: #ffffff;
             color: #0f172a;
@@ -738,22 +740,19 @@
             z-index: 0;
             pointer-events: none;
         }
+        /* Quiz/question/passage containers - light mode text and backgrounds */
         [data-theme="light"] .quiz-panel,
         [data-theme="light"] .question-container,
         [data-theme="light"] .passage-section {
             color: var(--text-color);
-            background-color: var(--panel-bg);
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            box-shadow: none;
         }
         [data-theme="light"] .passage-section p,
         [data-theme="light"] .question-container p,
         [data-theme="light"] .quiz-panel p {
             color: var(--text-color);
-        }
-        [data-theme="light"] .quiz-panel,
-        [data-theme="light"] .content-card,
-        [data-theme="light"] .question-container {
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
         }
         .dashboard-row,
         .quiz-panel,
@@ -770,26 +769,7 @@
             background-color: var(--button-bg);
             border: 1px solid var(--border-color);
         }
-        [data-theme="light"] .quiz-panel button:hover,
-        [data-theme="light"] .quiz-nav button:hover,
-        [data-theme="light"] .start-btn:hover,
-        [data-theme="light"] .action-button:hover {
-            background-color: var(--button-hover-bg);
-        }
-        [data-theme="light"] .math-theme button,
-        [data-theme="light"] .science-theme button,
-        [data-theme="light"] .rla-theme button,
-        [data-theme="light"] .social-theme button {
-            color: #111111;
-        }
-        [data-theme="light"] .answer-option {
-            color: var(--text-color);
-            background-color: #f9f9f9;
-            border: 1px solid var(--border-color);
-        }
-        [data-theme="light"] .answer-option:hover {
-            background-color: #eaeaea;
-        }
+        /* All main app buttons should use .app-btn for consistent styling. */
         [data-theme="light"] .answer-option.correct {
             background-color: #d2f8d2;
             color: #111111;
@@ -960,30 +940,24 @@
         /* Removed older forced-white panel skin to avoid duplication with premium skin */
 
                 /* --- Premium dashboard skin (LIGHT) --- */
-                [data-theme="light"] body {
-                    /* gentle color wash behind everything (tinted) */
-                    background:
-                        radial-gradient(circle at 5% 0%, rgba(56,189,248,0.06) 0%, rgba(244,246,251,0) 35%),
-                        radial-gradient(circle at 95% 10%, rgba(236,72,153,0.045) 0%, rgba(244,246,251,0) 38%),
-                        linear-gradient(180deg, #f4f6fb 0%, #ffffff 100%);
-                }
+                /* Note: page background handled by html[data-theme="light"] above */
 
-                /* main dashboard container */
-                [data-theme="light"] .content-card,
-                [data-theme="light"] .dashboard-sections {
-                    background: radial-gradient(circle at top, rgba(255,255,255,0.7) 0%, rgba(248,250,252,0.9) 40%, #ffffff 100%);
-                    backdrop-filter: blur(10px);
-                    -webkit-backdrop-filter: blur(10px);
-                    border: 1px solid rgba(148,163,184,0.20);
-                    box-shadow: 0 18px 32px rgba(15,23,42,0.04);
-                }
-
-                /* unify cards with a very light blue gradient */
+                /* Unified light-mode card/panel recipe: single canonical definition */
                 [data-theme="light"] .content-card,
                 [data-theme="light"] .panel,
+                [data-theme="light"] .card,
+                [data-theme="light"] .box,
+                [data-theme="light"] .dashboard-sections,
                 [data-theme="light"] .dashboard-row,
-                [data-theme="light"] .section {
-                    background: linear-gradient(135deg, #ffffff, #f1f5fb);
+                [data-theme="light"] .section,
+                [data-theme="light"] .section-container,
+                [data-theme="light"] .quiz-section,
+                [data-theme="light"] .vocabulary-ticker {
+                    background-color: #ffffff;
+                    background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+                    border: 1px solid rgba(148,163,184,0.20);
+                    box-shadow: 0 12px 24px rgba(15,23,42,0.04);
+                    color: var(--text-color);
                 }
 
                 /* top bar / header strip */
@@ -1041,33 +1015,7 @@
                     animation: softFloat 6s ease-in-out infinite;
                 }
 
-                /* 1) Generic dashboard section shells that still inherit the dark page bg */
-                        [data-theme="light"] .card,
-                [data-theme="light"] .box,
-                [data-theme="light"] .quiz-section,
-                [data-theme="light"] .dashboard-row,
-                [data-theme="light"] .section,
-                [data-theme="light"] .section-container {
-                    background-color: #ffffff;
-                    border: 1px solid var(--border-color);
-                    box-shadow: var(--shadow);
-                    color: var(--text-color);
-                            background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-                }
-
-                /* 2) "Vocabulary Spotlight" bar uses its own wrapper; make its shell white */
-                        [data-theme="light"] .vocabulary-ticker {
-                    background-color: #ffffff;
-                    border: 1px solid var(--border-color);
-                    box-shadow: var(--shadow);
-                            background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-                }
-
-                /* Keep ticker chips as they are */
-                [data-theme="light"] .vocabulary-ticker-track,
-                [data-theme="light"] .vocabulary-chip { background-color: inherit; }
-
-                /* 3) Section headers that may still be using a dark strip */
+                /* Section headers: distinct from cards */
                 [data-theme="light"] .section-title,
                 [data-theme="light"] .section-header,
                 [data-theme="light"] .panel-header {
@@ -1076,37 +1024,14 @@
                     border-bottom: 1px solid var(--border-color);
                 }
 
-                /* 4) (deduped) Scope resets are defined earlier for lower subject grid tiles */
+                /* Keep ticker chips as they are */
+                [data-theme="light"] .vocabulary-ticker-track,
+                [data-theme="light"] .vocabulary-chip { background-color: inherit; }
 
-                        /* A) Make the primary dashboard wrapper truly white in LIGHT mode */
-                                [data-theme="light"] .content-card {
-                            background-color: #ffffff !important;
-                            /* ensure the white fills behind inner gaps */
-                            background-clip: padding-box;
-                                    background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-                        }
-
-                        /* B) Ensure inner shells don't re-expose the dark page bg */
-                                [data-theme="light"] .content-card .dashboard-sections,
-                        [data-theme="light"] .content-card .dashboard-row,
-                        [data-theme="light"] .content-card .section,
-                        [data-theme="light"] .content-card .section-container,
-                        [data-theme="light"] .content-card .section-header,
-                        [data-theme="light"] .content-card .panel-header,
-                        [data-theme="light"] .content-card .vocabulary-ticker {
-                            background-color: #ffffff !important;
-                            color: var(--text-color);
-                            /* keep our existing light borders/shadows */
-                            border: 1px solid var(--border-color);
-                            box-shadow: var(--shadow);
-                                    background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-                        }
-
-                                /* Make the welcome header and subtitle jet-black in LIGHT mode */
-                                [data-theme="light"] .content-card header.text-center h1,
-                                [data-theme="light"] .content-card header.text-center p {
-                                    color: #000000 !important;
-                                }
+                /* Text colors for specific views */
+                [data-theme="light"] .content-card header.text-center p {
+                    color: #000000 !important;
+                }
 
                                 /* Profile page: render text black in LIGHT mode except buttons */
                                 [data-theme="light"] #profileView h1,
@@ -1159,12 +1084,7 @@
                                         }
 
                         /* C) Scope the flattening to the lower subject grid only (not progress cards) */
-                        [data-theme="light"] .content-card #quizzes .subject-card,
-                        [data-theme="light"] .content-card .subject-bar .subject-card {
-                            background: unset !important;
-                            border: none !important;
-                            box-shadow: none !important;
-                        }
+                        /* Duplicate of earlier [data-theme="light"] .content-card #quizzes .subject-card removed */
 
                         /* D) If any 'glass' overlays are applied inside the content card, keep them light */
                         [data-theme="light"] .content-card .glass {
@@ -1173,7 +1093,7 @@
                         }
 
                         /* E) Guard against accidental dark variants leaking in light mode */
-                        html[data-theme="light"] body:not(.dark) .content-card [class*="dark:bg-"] {
+                        [data-theme="light"] .content-card [class*="dark:bg-"] {
                             background-color: inherit !important; /* neutralize dark:bg-* when not in dark */
                         }
 
@@ -1240,25 +1160,7 @@
                                     text-shadow: none;
                                 }
 
-                                /* 4) Buttons & controls: subtle lift, scoped to Dashboard & Settings containers */
-                                [data-theme="light"] .content-card button,
-                                [data-theme="light"] .content-card .action-button,
-                                [data-theme="light"] .settings-card button,
-                                [data-theme="light"] .settings-card .action-button {
-                                    border-radius: .6rem;
-                                    border: 1px solid rgba(148,163,184,0.25);
-                                    box-shadow: 0 2px 6px rgba(2,6,23,0.06);
-                                    transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease;
-                                }
-                                [data-theme="light"] .content-card button:hover,
-                                [data-theme="light"] .content-card .action-button:hover,
-                                [data-theme="light"] .settings-card button:hover,
-                                [data-theme="light"] .settings-card .action-button:hover {
-                                    transform: translateY(-1px);
-                                    box-shadow: 0 6px 14px rgba(2,6,23,0.09);
-                                }
-
-                                /* 5) Pills/chips (Vocabulary, Settings options) look premium */
+                                /* 4) Pills/chips (Vocabulary, Settings options) look premium */
                                 [data-theme="light"] .content-card .chip,
                                 [data-theme="light"] .content-card .vocabulary-chip,
                                 [data-theme="light"] .content-card .option-pill,
@@ -1288,7 +1190,7 @@
                                 [data-theme="light"] .settings-section { padding: 1.1rem 1.25rem; }
 
                                 /* 7) Guard rails: also for settings container */
-                                html[data-theme="light"] body:not(.dark) .settings-card [class*="dark:bg-"] {
+                                [data-theme="light"] .settings-card [class*="dark:bg-"] {
                                     background-color: transparent !important;
                                 }
 
@@ -2215,34 +2117,34 @@
         }
 
                         /* Essay practice: base */
-                        .essay-practice-shell .essay-argument-column {
+                        #essayPracticeView .essay-practice-shell .essay-argument-column {
                             border-radius: 0.75rem;
                             border: 1px solid rgba(148, 163, 184, 0.25);
                             overflow-y: auto;
                         }
 
                         /* LIGHT MODE: white box, dark text */
-                        [data-theme="light"] .essay-practice-shell .essay-argument-column {
+                        [data-theme="light"] #essayPracticeView .essay-practice-shell .essay-argument-column {
                             background: #ffffff !important;
                             color: #0f172a !important;
                         }
-                        [data-theme="light"] .essay-practice-shell .essay-argument-column :where(h1,h2,h3,h4,h5,h6,p,li,span,strong,em,a,blockquote) {
+                        [data-theme="light"] #essayPracticeView .essay-practice-shell .essay-argument-column :where(h1,h2,h3,h4,h5,h6,p,li,span,strong,em,a,blockquote) {
                             color: #0f172a !important;
                         }
 
                         /* DARK MODE: dark box, white text */
-                        [data-theme="dark"] .essay-practice-shell .essay-argument-column {
+                        [data-theme="dark"] #essayPracticeView .essay-practice-shell .essay-argument-column {
                             background: #0f172a !important;
                             color: #ffffff !important;
                             border-color: rgba(148,163,184,0.4) !important;
                         }
-                        [data-theme="dark"] .essay-practice-shell .essay-argument-column :where(h1,h2,h3,h4,h5,h6,p,li,span,strong,em,a,blockquote) {
+                        [data-theme="dark"] #essayPracticeView .essay-practice-shell .essay-argument-column :where(h1,h2,h3,h4,h5,h6,p,li,span,strong,em,a,blockquote) {
                             color: #ffffff !important;
                         }
 
                         /* Dark-mode controls for topic selector */
-                        [data-theme="dark"] .essay-practice-shell input,
-                        [data-theme="dark"] .essay-practice-shell select {
+                        [data-theme="dark"] #essayPracticeView .essay-practice-shell input,
+                        [data-theme="dark"] #essayPracticeView .essay-practice-shell select {
                             background: rgba(2,6,23,0.9);
                             color: #ffffff;
                             border: 1px solid rgba(148,163,184,0.45);
@@ -2267,7 +2169,6 @@
                     color: inherit !important;
                 }
     </style>
-    <script src="lib/topic_map.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       const rows = document.querySelectorAll('.checkbox-row input[type="checkbox"], .checkbox-row input[type="radio"]');
@@ -2285,7 +2186,7 @@
     });
     </script>
 </head>
-<body data-theme="light" style="background-color: var(--bg-page); color: var(--text-primary);">
+<body style="background-color: var(--bg-page); color: var(--text-primary);">
     <div id="root"></div>
 
                         <!-- Centralized JSON loader: build-time bundles only (no large runtime scripts) -->
@@ -18781,11 +18682,6 @@ function useThemeController() {
     const applyTheme = useCallback((nextTheme) => {
         const normalized = nextTheme === 'dark' ? 'dark' : 'light';
         if (typeof document !== 'undefined') {
-            const body = document.body;
-            if (body) {
-                body.classList.toggle('dark', normalized === 'dark');
-                body.setAttribute('data-theme', normalized);
-            }
             const root = document.documentElement;
             if (root) {
                 root.classList.toggle('dark', normalized === 'dark');
