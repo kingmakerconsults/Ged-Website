@@ -5573,10 +5573,52 @@ Subskills to rotate (RLA):
 - main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`
     };
 
-    return `${STRICT_JSON_HEADER_SHARED}
+        const smithAGuardrails = `
+You are generating a ${n}-question GED-style quiz for a single subject/topic. The output MUST be valid JSON that can be parsed directly by JSON.parse with no repairs.
+
+Important formatting rule for tables:
+If any question uses tabular data, you MUST render the table as HTML using <table>, <thead>, <tbody>, <tr>, <th>, and <td>.
+
+- Every row MUST have the same number of columns.
+- Do not use Markdown pipe tables.
+- Do not add extra text before or after the <table>.
+- Keep it clean: no line-breaking <br> inside cells unless it’s truly needed.
+- If a column has no data for a row, put an em dash — in that cell.
+
+Use this JSON shape exactly:
+{
+    "title": "${subject} Quiz: ${topic}",
+    "subject": "${subject}",
+    "questions": [
+        {
+            "questionNumber": 1,
+            "type": "multiple-choice",
+            "questionText": "...",
+            "passage": "<table>...</table>",
+            "answerOptions": [
+                { "text": "A ...", "isCorrect": false, "rationale": "..." },
+                { "text": "B ...", "isCorrect": true,  "rationale": "..." },
+                { "text": "C ...", "isCorrect": false, "rationale": "..." },
+                { "text": "D ...", "isCorrect": false, "rationale": "..." }
+            ]
+        }
+    ]
+}
+
+Rules:
+1. Exactly one correct option per question.
+2. Each option MUST have a short rationale.
+3. Keep questionText short and readable.
+4. If the question is data-driven, put the <table> in passage, not in questionText.
+5. Do not include comments, trailing commas, or extra keys.
+6. Do not output anything outside the JSON object.
+`;
+
+        return `${STRICT_JSON_HEADER_SHARED}
 SUBJECT STYLE: GED ${subject} — Topic Pack on "${topic}"
 Use only the CONTEXT and IMAGES provided (if any) for factual details. Do not fabricate specific data.
 ${MIX_RULES}
+${smithAGuardrails}
 ${SUBSKILLS[subject] || ''}
 CONTEXT:${contextJSON}
 IMAGES:${imagesJSON}
