@@ -1869,6 +1869,15 @@
             color: #000000 !important;
             border: 1px solid #d1d5db !important;
         }
+        /* ensure light-mode hide button text is dark even outside #profileView */
+        [data-theme="light"] .challenges-toggle-btn {
+            background-color: #ffffff !important;
+            color: #111827 !important; /* slate-900 */
+            border: 1px solid #d1d5db !important;
+        }
+        [data-theme="light"] .challenges-toggle-btn:hover {
+            background-color: #f3f4f6 !important; /* slate-100 */
+        }
         /* dark mode: dark button with white text */
         [data-theme="dark"] #profileView .challenges-toggle-btn {
             background-color: rgba(15,23,42,0.8) !important;
