@@ -13248,33 +13248,55 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         await Promise.all([fetchWeeklyCoachPlan(), fetchCoachDailyProgress()]);
     };
     const generateCoachPlan = async () => {
+        const token =
+            (typeof localStorage !== "undefined" && localStorage.getItem("appToken")) || null;
+        const subjectParam = practiceSubjectParam(selectedSubject);
+
+        // do the cheap checks BEFORE we ever set loading
+        if (!token) {
+            alert("Please sign in to generate a weekly plan.");
+            return;
+        }
+        if (!subjectParam) {
+            alert("Pick a subject first.");
+            return;
+        }
+
+        setCoachLoading(true);
+        setCoachError("");
+
+        // map what the API expects
+        const apiSubject =
+            subjectParam === "social-studies"
+                ? "Social Studies"
+                : subjectParam === "rla"
+                ? "RLA"
+                : subjectParam === "math"
+                ? "Math"
+                : "Science";
+
         try {
-            setCoachLoading(true);
-            setCoachError('');
-            const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
-            const subjectParam = practiceSubjectParam(selectedSubject);
-            if (!subjectParam) { alert('Pick a subject first.'); return; }
-            const apiSubject = subjectParam === 'social-studies'
-                ? 'Social Studies'
-                : subjectParam === 'rla'
-                ? 'RLA'
-                : subjectParam === 'math'
-                ? 'Math'
-                : 'Science';
-            const headers = { 'Content-Type': 'application/json' };
-            if (token) headers.Authorization = `Bearer ${token}`;
-            const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(apiSubject)}/generate-week`, {
-                method: 'POST',
-                headers,
-                body: JSON.stringify({})
-            });
+            const res = await fetch(
+                `${API_BASE_URL}/api/coach/${encodeURIComponent(apiSubject)}/generate-week`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({}),
+                }
+            );
+
             if (!res.ok) {
-                setCoachError('Unable to generate weekly coach plan.');
+                setCoachError("Unable to generate weekly coach plan.");
                 return;
             }
+
+            // reload weekly + today's goals so the panel gets the day’s quiz links
             await refreshCoachPanels();
         } catch (e) {
-            setCoachError('Unable to generate weekly coach plan.');
+            setCoachError("Unable to generate weekly coach plan.");
         } finally {
             setCoachLoading(false);
         }
