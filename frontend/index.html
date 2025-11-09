@@ -2475,8 +2475,21 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- HTML sanitizer for quiz/passages -->
+    <script src="https://unpkg.com/dompurify@3.1.6/dist/purify.min.js" crossorigin></script>
 
 <script type="text/babel" data-presets="env,react">
+// Safe HTML helper to avoid crashes if DOMPurify missing
+function safeHtml(html) {
+    if (!html) return { __html: '' };
+    const sanitizer = (window.DOMPurify && window.DOMPurify.sanitize) ? window.DOMPurify.sanitize : (v) => v;
+    try {
+        return { __html: sanitizer(html) };
+    } catch (e) {
+        console.warn('[safeHtml] sanitize failed, returning raw', e?.message || e);
+        return { __html: String(html) };
+    }
+}
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
 const SUBJECT_PROGRESS_KEYS = [
@@ -3665,7 +3678,8 @@ function renderStem(text) {
     }
 
     const combinedHtml = renderedParts.join('');
-    return DOMPurify.sanitize(combinedHtml, {
+    const sanitizer = (window.DOMPurify && window.DOMPurify.sanitize) ? window.DOMPurify.sanitize : (v) => v;
+    return sanitizer(combinedHtml, {
         ALLOWED_TAGS: [...ALLOWED_HTML_TAGS, 'span', 'sup', 'path', 'svg'],
         ALLOWED_ATTR: [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns']
     });
@@ -3685,9 +3699,9 @@ function renderStemWithKatex(text) {
     for (const seg of segments.length ? segments : [{ type: 'text', value: text }]) {
         if (seg.type !== 'math') {
             // Sanitize non-math text directly; keep allowed tags minimal
-            parts.push(typeof DOMPurify !== 'undefined'
-                ? DOMPurify.sanitize(seg.value, { ALLOWED_TAGS: ALLOWED_HTML_TAGS, ALLOWED_ATTR: ALLOWED_HTML_ATTR })
-                : escapeHtml(seg.value));
+            const sanitizer = (window.DOMPurify && window.DOMPurify.sanitize) ? window.DOMPurify.sanitize : null;
+            const cleaned = sanitizer ? sanitizer(seg.value, { ALLOWED_TAGS: ALLOWED_HTML_TAGS, ALLOWED_ATTR: ALLOWED_HTML_ATTR }) : escapeHtml(seg.value);
+            parts.push(cleaned);
             continue;
         }
 
@@ -3715,19 +3729,17 @@ function renderStemWithKatex(text) {
             const html = katex.renderToString(body, { throwOnError: false, displayMode: Boolean(seg.displayMode) });
             parts.push(html);
         } catch (e) {
-            // Fallback to plain sanitized text for this segment
-            const safe = typeof DOMPurify !== 'undefined'
-                ? DOMPurify.sanitize(body, { ALLOWED_TAGS: ALLOWED_HTML_TAGS, ALLOWED_ATTR: ALLOWED_HTML_ATTR })
-                : escapeHtml(body);
+            // Fallback to plain sanitized text for this segment (guard DOMPurify)
+            const _san = (window.DOMPurify && window.DOMPurify.sanitize) ? window.DOMPurify.sanitize : null;
+            const safe = _san ? _san(body, { ALLOWED_TAGS: ALLOWED_HTML_TAGS, ALLOWED_ATTR: ALLOWED_HTML_ATTR }) : escapeHtml(body);
             parts.push(`<span class="math-inline">${safe}</span>`);
         }
     }
 
     const combined = parts.join('');
-    // Final pass sanitize
-    return typeof DOMPurify !== 'undefined'
-        ? DOMPurify.sanitize(combined, { ALLOWED_TAGS: [...ALLOWED_HTML_TAGS, 'span', 'sup', 'svg', 'path'], ALLOWED_ATTR: [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns'] })
-        : combined;
+    // Final pass sanitize (guard DOMPurify)
+    const finalSan = (window.DOMPurify && window.DOMPurify.sanitize) ? window.DOMPurify.sanitize : null;
+    return finalSan ? finalSan(combined, { ALLOWED_TAGS: [...ALLOWED_HTML_TAGS, 'span', 'sup', 'svg', 'path'], ALLOWED_ATTR: [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns'] }) : combined;
 }
 
 const GEOMETRY_FIGURES_ENABLED = Boolean(
@@ -4227,13 +4239,14 @@ function MathText({ text, className, subject }) {
     if (subject === 'Math') {
         renderedHtml = renderStem(text);
     } else {
-        // For all other subjects, just sanitize the HTML and display it.
-        renderedHtml = DOMPurify.sanitize(text);
+        // For all other subjects, just sanitize the HTML and display it (guard if DOMPurify missing).
+        const san = (window.DOMPurify && window.DOMPurify.sanitize) ? window.DOMPurify.sanitize : (v) => v;
+        renderedHtml = san(text);
     }
 
     const formattedHtml = formatFractions(renderedHtml);
 
-    return <span className={className} dangerouslySetInnerHTML={{ __html: formattedHtml }} />;
+    return <span className={className} dangerouslySetInnerHTML={safeHtml(formattedHtml)} />;
 }
 
 // formatMathText()
@@ -4520,8 +4533,9 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
         working = preprocessRawContent(working, { normalizeSpacing });
     }
 
-    if (typeof DOMPurify !== 'undefined') {
-        return formatFractions(DOMPurify.sanitize(working, {
+    const sanitizer = (window.DOMPurify && window.DOMPurify.sanitize) ? window.DOMPurify.sanitize : null;
+    if (sanitizer) {
+        return formatFractions(sanitizer(working, {
             ALLOWED_TAGS: ALLOWED_HTML_TAGS,
             ALLOWED_ATTR: ALLOWED_HTML_ATTR
         }));
