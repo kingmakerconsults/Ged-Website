@@ -13,11 +13,13 @@ const { applyFractionPlainTextModeToItem, replaceLatexFractionsWithSlash } = req
 const ensureProfilePreferenceColumns = require('./db/initProfilePrefs');
 const ensureQuizAttemptsTable = require('./db/initQuizAttempts');
 const ensureEssayScoresTable = require('./db/initEssayScores');
+const ensureQuestionBankTable = require('./db/initQuestionBank');
 const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 // Timeout for the explicit ChatGPT fallback attempt used in AI generation
 const FALLBACK_TIMEOUT_MS = Number(process.env.FALLBACK_TIMEOUT_MS) || 45000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
+const AI_QUESTION_BANK_ENABLED = process.env.AI_QUESTION_BANK_ENABLED !== 'false';
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { default: PQueue } = require("p-queue");
 const genAI = process.env.GOOGLE_AI_API_KEY
@@ -412,6 +414,67 @@ function randomId() {
     return crypto.randomBytes(16).toString('hex');
 }
 
+// AI Question Bank helpers
+function buildQuestionFingerprint(q) {
+    // normalize fields that define uniqueness
+    const core = {
+        passage: q.passage || '',
+        questionText: q.questionText || '',
+        answerOptions: Array.isArray(q.answerOptions)
+            ? q.answerOptions.map(o => ({
+                text: o.text || '',
+                isCorrect: !!o.isCorrect
+            }))
+            : [],
+        stimulusImage: q.stimulusImage?.src || '',
+    };
+    const json = JSON.stringify(core);
+    return crypto.createHash('sha1').update(json).digest('hex');
+}
+
+async function persistQuestionsToBank(questions, {
+    subject,
+    topic,
+    sourceModel = null,
+    generatedForUserId = null,
+    originQuizId = null,
+} = {}) {
+    if (!Array.isArray(questions) || questions.length === 0) return;
+
+    for (const q of questions) {
+        try {
+            const fingerprint = buildQuestionFingerprint(q);
+
+            // attempt insert; if fingerprint exists, just skip
+            await db.none(
+                `
+                INSERT INTO ai_question_bank (
+                    fingerprint, subject, topic, source_model,
+                    generated_for_user_id, origin_quiz_id, question_json
+                )
+                VALUES ($1,$2,$3,$4,$5,$6,$7)
+                ON CONFLICT (fingerprint) DO NOTHING
+                `,
+                [
+                    fingerprint,
+                    subject || 'Unknown',
+                    topic || null,
+                    sourceModel,
+                    generatedForUserId,
+                    originQuizId,
+                    q // pg-promise will jsonb this
+                ]
+            );
+
+            // also push the bank id back to the question object returned to the client later
+            // so the front-end can report exposures in the future
+            q.bankFingerprint = fingerprint;
+        } catch (err) {
+            console.warn('[ai_question_bank] failed to insert question:', err.message);
+        }
+    }
+}
+
 // Safe JSON read utility used by image metadata loader
 function readJsonSafe(filePath) {
     try {
@@ -643,6 +706,128 @@ async function loadAndAugmentImageMetadata() {
         } catch {}
     })();
 })();
+// ------------------------------------------------------------
+// Passage / Word Problem Bank Loader (canonical local JSON)
+// ------------------------------------------------------------
+const PASSAGE_DB = {
+    rla: [],
+    social_studies: [],
+    science: [],
+    math_word_problems: []
+};
+
+function loadPassageBank() {
+    const base = __dirname;
+    // primary expected location (backend/data) with fallback to root /data
+    const rootData = path.resolve(__dirname, '..', 'data');
+    const rla = readJsonSafe(path.join(base, 'data', 'rla_passages.json')) || readJsonSafe(path.join(rootData, 'rla_passages.json')) || [];
+    const ss = readJsonSafe(path.join(base, 'data', 'social_studies_passages.json')) || readJsonSafe(path.join(rootData, 'social_studies_passages.json')) || [];
+    const sci = readJsonSafe(path.join(base, 'data', 'science_passages.json')) || readJsonSafe(path.join(rootData, 'science_passages.json')) || [];
+    const mathWP = readJsonSafe(path.join(base, 'data', 'math_word_problems.json')) || readJsonSafe(path.join(rootData, 'math_word_problems.json')) || [];
+
+    PASSAGE_DB.rla = Array.isArray(rla) ? rla : [];
+    PASSAGE_DB.social_studies = Array.isArray(ss) ? ss : [];
+    PASSAGE_DB.science = Array.isArray(sci) ? sci : [];
+    PASSAGE_DB.math_word_problems = Array.isArray(mathWP) ? mathWP : [];
+    try {
+        console.info('[Passages] RLA:', PASSAGE_DB.rla.length, 'SS:', PASSAGE_DB.social_studies.length, 'SCI:', PASSAGE_DB.science.length, 'MATH WP:', PASSAGE_DB.math_word_problems.length);
+    } catch {}
+}
+
+function pickPassageFor(subject, { topic = '', difficulty = '' } = {}) {
+    if (!subject) return null;
+    const sub = subject.toLowerCase();
+    let pool = [];
+    if (sub.includes('rla')) pool = PASSAGE_DB.rla;
+    else if (sub.includes('social')) pool = PASSAGE_DB.social_studies;
+    else if (sub.includes('science')) pool = PASSAGE_DB.science;
+    else return null;
+    if (!Array.isArray(pool) || !pool.length) return null;
+
+    const topicLc = topic ? topic.toLowerCase() : '';
+    let candidates = pool;
+    if (topicLc) {
+        const topicMatches = pool.filter(p =>
+            (p.topic && String(p.topic).toLowerCase().includes(topicLc)) ||
+            (p.area && String(p.area).toLowerCase().includes(topicLc)) ||
+            (p.label && String(p.label).toLowerCase().includes(topicLc))
+        );
+        if (topicMatches.length) candidates = topicMatches;
+    }
+    if (difficulty) {
+        const diffMatches = candidates.filter(p => String(p.difficulty || '').toLowerCase() === difficulty.toLowerCase());
+        if (diffMatches.length) candidates = diffMatches;
+    }
+    const idx = Math.floor(Math.random() * candidates.length);
+    const chosen = candidates[idx];
+    if (!chosen) return null;
+    return {
+        id: chosen.id || null,
+        title: chosen.title || chosen.label || '',
+        author: chosen.author || '',
+        year: chosen.year || '',
+        text: chosen.text || chosen.passage || chosen.problem || '',
+        topic: chosen.topic || chosen.area || ''
+    };
+}
+
+function pickMathWordProblemTemplate() {
+    const pool = PASSAGE_DB.math_word_problems;
+    if (!Array.isArray(pool) || !pool.length) return null;
+    return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function instantiateMathWordProblem(template) {
+    if (!template) return null;
+    // naive number jitter for uniqueness
+    let problem = String(template.problem || '');
+    const numbers = problem.match(/\b\d+(?:\.\d+)?\b/g) || [];
+    const usedMap = new Map();
+    numbers.forEach(num => {
+        if (usedMap.has(num)) return;
+        const base = parseFloat(num);
+        if (!isFinite(base)) return;
+        const factor = 0.8 + Math.random() * 0.6; // 0.8 - 1.4
+        let mutated = base;
+        // keep smaller integers stable more often
+        if (base > 5) mutated = Math.round(base * factor * 10) / 10;
+        const replacement = mutated === base ? base : mutated;
+        usedMap.set(num, replacement);
+        problem = problem.replace(new RegExp(`\b${num}\b`, 'g'), String(replacement));
+    });
+    // Build distractors heuristically
+    const correct = String(template.answer || '').trim();
+    const distractors = [];
+    function variantAnswer(ans) {
+        if (/\d/.test(ans)) {
+            const m = ans.match(/\d+(?:\.\d+)?/);
+            if (m) {
+                const val = parseFloat(m[0]);
+                const plus = val + (Math.abs(val) < 10 ? 1 : Math.round(val * 0.1));
+                const minus = Math.max(val - (Math.abs(val) < 10 ? 1 : Math.round(val * 0.1)), 0);
+                return [ans.replace(m[0], String(plus)), ans.replace(m[0], String(minus))];
+            }
+        }
+        return [ans + ' (approx.)', 'Not enough information'];
+    }
+    const varAns = variantAnswer(correct);
+    varAns.forEach(v => { if (v !== correct) distractors.push(v); });
+    if (distractors.length < 3) distractors.push('Cannot be determined');
+    const answerOptions = [
+        { text: correct, isCorrect: true, rationale: `Correct answer based on provided scenario; derived from original template '${template.label || template.id}'.` },
+        ...distractors.slice(0,3).map(d => ({ text: d, isCorrect: false, rationale: 'Plausible but incorrect.' }))
+    ];
+    return {
+        id: `math_wp_${template.id}_${Date.now()}`,
+        questionText: problem,
+        passage: '',
+        answerOptions,
+        type: 'standalone'
+    };
+}
+
+// Load passages immediately after images so they are ready for quiz generation
+loadPassageBank();
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
@@ -2743,6 +2928,7 @@ const profileRouter = require('./routes/profile');
 ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
 ensureQuizAttemptsTable().catch((e) => console.error('Quiz attempt table init error:', e));
 ensureEssayScoresTable().catch((e) => console.error('Essay score table init error:', e));
+ensureQuestionBankTable().catch((e) => console.error('[init] failed to ensure ai_question_bank:', e));
 ensureChallengeSystemTables().catch((e) => console.error('Challenge system init error:', e));
 ensureStudyPlansTable().catch((e) => console.error('Study plans table init error:', e));
 ensureCoachDailyTables().catch((e) => console.error('Coach daily tables init error:', e));
@@ -2828,6 +3014,16 @@ app.get('/presence/ping', devAuth, ensureTestUserForNow, requireAuthInProd, auth
 app.get('/image_metadata_final.json', (req, res) => {
     try {
         res.set('Content-Type', 'application/json');
+
+// Debug route for passage bank counts
+app.get('/api/passages/debug', (req, res) => {
+    res.json({
+        rla: PASSAGE_DB.rla.length,
+        social_studies: PASSAGE_DB.social_studies.length,
+        science: PASSAGE_DB.science.length,
+        math_word_problems: PASSAGE_DB.math_word_problems.length
+    });
+});
         res.set('Cache-Control', 'no-cache');
     } catch {}
     return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
@@ -2838,6 +3034,127 @@ app.get('/image_metadata_final_json', (req, res) => {
         res.set('Cache-Control', 'no-cache');
     } catch {}
     return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
+});
+
+// --- Vocabulary API ---
+function loadVocabularyDB() {
+    try {
+        const primary = path.join(__dirname, 'data', 'vocabulary.json');
+        const fallback = path.resolve(__dirname, '..', 'data', 'vocabulary.json');
+        const obj = readJsonSafe(primary) || readJsonSafe(fallback) || null;
+        if (obj && typeof obj === 'object') return obj;
+    } catch (e) {
+        console.warn('[vocabulary] failed to load:', e?.message || e);
+    }
+    return {};
+}
+
+function normalizeVocabularySubject(raw) {
+    if (!raw) return null;
+    const s = String(raw).trim().toLowerCase().replace(/_/g, ' ').replace(/-/g, ' ');
+    if (s === 'math') return 'Math';
+    if (s === 'science') return 'Science';
+    if (s === 'social studies' || s === 'social') return 'Social Studies';
+    if (s === 'rla' || s.startsWith('reasoning')) return 'Reasoning Through Language Arts (RLA)';
+    return null;
+}
+
+function dedupeVocabulary(list) {
+    const out = [];
+    const seen = new Set();
+    for (const it of Array.isArray(list) ? list : []) {
+        if (!it || typeof it !== 'object') continue;
+        const term = String(it.term || '').trim();
+        const def = String(it.definition || '').trim();
+        if (!term || !def) continue;
+        const key = term.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        out.push({ term, definition: def });
+    }
+    return out;
+}
+
+function shuffleInPlace(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function sampleUnique(arr, n) {
+    const copy = Array.isArray(arr) ? arr.slice() : [];
+    shuffleInPlace(copy);
+    return copy.slice(0, Math.max(0, Math.min(n, copy.length)));
+}
+
+app.get('/api/vocabulary/:subject', (req, res) => {
+    const db = loadVocabularyDB();
+    const subjectKey = normalizeVocabularySubject(req.params.subject);
+    if (!subjectKey) return res.status(400).json({ error: 'invalid_subject' });
+    const wordsRaw = Array.isArray(db[subjectKey]) ? db[subjectKey] : [];
+    const words = dedupeVocabulary(wordsRaw);
+    return res.json({ subject: subjectKey, count: words.length, words });
+});
+
+function buildVocabMCFromDefinition(target, pool) {
+    const correct = { text: target.term, isCorrect: true, rationale: 'Matches the definition.' };
+    const distractorsPool = pool.filter(w => w.term !== target.term);
+    const distractors = sampleUnique(distractorsPool, 3).map(w => ({ text: w.term, isCorrect: false, rationale: 'Not the best match.' }));
+    const options = shuffleInPlace([correct, ...distractors]);
+    return {
+        id: `vocab_def_${target.term.toLowerCase().replace(/[^a-z0-9]+/g,'_')}`,
+        questionType: 'multipleChoice',
+        questionText: `Which term matches this definition?\n\n“${target.definition}”`,
+        answerOptions: options
+    };
+}
+
+function buildVocabMCFromTerm(target, pool) {
+    const correct = { text: target.definition, isCorrect: true, rationale: 'This is the correct definition.' };
+    const distractorsPool = pool.filter(w => w.term !== target.term);
+    const distractors = sampleUnique(distractorsPool, 3).map(w => ({ text: w.definition, isCorrect: false, rationale: 'Definition of a different term.' }));
+    const options = shuffleInPlace([correct, ...distractors]);
+    return {
+        id: `vocab_term_${target.term.toLowerCase().replace(/[^a-z0-9]+/g,'_')}`,
+        questionType: 'multipleChoice',
+        questionText: `What is the best definition of “${target.term}”?`,
+        answerOptions: options
+    };
+}
+
+app.get('/api/vocabulary-quiz/:subject', (req, res) => {
+    const db = loadVocabularyDB();
+    const subjectKey = normalizeVocabularySubject(req.params.subject);
+    if (!subjectKey) return res.status(400).json({ error: 'invalid_subject' });
+    const words = dedupeVocabulary(Array.isArray(db[subjectKey]) ? db[subjectKey] : []);
+    if (!words.length) return res.status(404).json({ error: 'no_vocabulary' });
+
+    // target counts
+    const total = Math.min(15, Math.max(6, words.length));
+    const defCount = Math.min(10, Math.max(3, Math.floor(total * 2/3)));
+    const termCount = Math.min(total - defCount, words.length - defCount);
+
+    const poolShuffled = shuffleInPlace(words.slice());
+    const forDef = poolShuffled.slice(0, Math.min(defCount, poolShuffled.length));
+    const remaining = poolShuffled.slice(forDef.length);
+    const forTerm = remaining.slice(0, Math.min(termCount, remaining.length));
+
+    const questions = [];
+    for (const w of forDef) questions.push(buildVocabMCFromDefinition(w, words));
+    for (const w of forTerm) questions.push(buildVocabMCFromTerm(w, words));
+
+    // number items
+    questions.forEach((q, i) => { q.questionNumber = i + 1; });
+
+    const quiz = {
+        id: `vocabulary-${String(subjectKey).toLowerCase().replace(/[^a-z0-9]+/g,'-')}-${Date.now()}`,
+        title: `${subjectKey} — Vocabulary Quiz`,
+        type: 'quiz',
+        questions
+    };
+    return res.json({ subject: subjectKey, count: questions.length, quiz });
 });
 
 // Allow on-demand rebuild of image metadata without restarting the server
@@ -5673,9 +5990,33 @@ async function runMathTwoPassOnQuestions(questions, subject) {
 // Helper functions for generating different types of quiz content
 
 const generatePassageSet = async (topic, subject, numQuestions, options = {}) => {
-    const prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'.
-    Then, based ONLY on the passage, generate ${numQuestions} unique multiple-choice questions. VARY THE QUESTION TYPE: ask about main idea, details, vocabulary, or inferences. The question text MUST NOT repeat the passage.
-    Output a single valid JSON object with keys "passage" and "questions".`;
+    let prompt;
+    
+    if (subject === 'Science') {
+        // For Science, always create a data table/experiment stimulus
+        prompt = `You are creating a GED-level Science question.
+
+Create a small experiment or data table to serve as the stimulus. The table should be simple (3–5 rows, 2–4 columns) and clearly labeled.
+
+Then write ${numQuestions} questions that MUST require the student to interpret or analyze the table/experiment (not just recall facts). The questions should test data skills like identifying trends, making comparisons, or drawing conclusions.
+
+Topic: ${topic}
+
+IMPORTANT: Put the table in the "passage" field, formatted as clean Markdown. Include a brief title/context if needed.
+
+Example format:
+**Effect of Temperature on Enzyme Activity**
+| Temperature (°C) | Activity (units/min) |
+|---|---|
+| 10 | 15 |
+| 25 | 45 |
+| 37 | 78 |
+| 50 | 32 |
+
+Return only JSON.`;
+    } else {
+        prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'. At least ${numQuestions} multiple-choice questions should be based on the passage with varied types (main idea, details, inference, vocabulary). Return only JSON.`;
+    }
 
     const questionSchema = {
         type: "OBJECT",
@@ -5703,6 +6044,48 @@ const generatePassageSet = async (topic, subject, numQuestions, options = {}) =>
     }, subject));
 };
 
+// ------------------------------------------------------------
+// Stimulus-aware grouping & shuffling helpers
+// ------------------------------------------------------------
+function groupQuestionsByStimulus(questions) {
+    if (!Array.isArray(questions)) return [];
+    const groups = [];
+    const keyToGroupIdx = new Map();
+    questions.forEach(q => {
+        if (!q) return;
+        let key = null;
+        if (q.stimulusId) key = `stim:${q.stimulusId}`;
+        else if (typeof q.passage === 'string') {
+            const p = q.passage;
+            if (p && p.trim().length) key = `pass:${p.trim()}`;
+        }
+        else if (q.imageId) key = `img:${q.imageId}`;
+        else if (q.image) key = `img:${q.image}`;
+        if (key) {
+            if (keyToGroupIdx.has(key)) {
+                groups[keyToGroupIdx.get(key)].push(q);
+            } else {
+                const idx = groups.length;
+                keyToGroupIdx.set(key, idx);
+                groups.push([q]);
+            }
+        } else {
+            groups.push([q]);
+        }
+    });
+    return groups;
+}
+
+function shuffleQuestionsPreservingStimulus(questions) {
+    const groups = groupQuestionsByStimulus(questions);
+    shuffleArray(groups); // existing shuffleArray already defined earlier
+    const flattened = [];
+    for (const g of groups) for (const q of g) flattened.push(q);
+    return flattened;
+}
+
+// Science table stimulus helper for data-based questions
+// Science table stimulus functions removed - AI now generates tables dynamically
 
 function scoreImageForTopic(img, subject, topic) {
     if (!img) return -1;
@@ -5801,26 +6184,56 @@ Formatting notes:
 - CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
 - CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
         Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+    } else if (subject === 'Science') {
+        prompt = `You are creating a GED-level Science question.
+
+Create a small experiment or data table to serve as the stimulus. The table should be simple (3–5 rows, 2–4 columns) and clearly labeled.
+
+Topic: ${topic}
+
+The question MUST require the student to interpret or analyze the table/experiment (not just recall facts). Test data skills like identifying trends, making comparisons, or drawing conclusions.
+
+IMPORTANT: Put the table in the "passage" field, formatted as clean Markdown.
+
+Example format:
+**Effect of pH on Enzyme Activity**
+| pH Level | Activity (%) |
+|---|---|
+| 4 | 20 |
+| 7 | 100 |
+| 10 | 35 |
+
+Output a single valid JSON object with "passage" (containing the table), "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
     } else {
         prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
         The question should not require any external passage, chart, or image.
         Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
     }
 
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            questionText: { type: "STRING" },
-            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
-        },
-        required: ["questionText", "answerOptions"]
-    };
+    const schema = subject === 'Science' 
+        ? {
+            type: "OBJECT",
+            properties: {
+                passage: { type: "STRING" },
+                questionText: { type: "STRING" },
+                answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+            },
+            required: ["passage", "questionText", "answerOptions"]
+        }
+        : {
+            type: "OBJECT",
+            properties: {
+                questionText: { type: "STRING" },
+                answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+            },
+            required: ["questionText", "answerOptions"]
+        };
 
     const question = await callAI(prompt, schema, options);
     if (subject === 'Math') {
         applyFractionPlainTextModeToItem(question);
     }
-    question.type = 'standalone';
+    question.type = subject === 'Science' ? 'passage' : 'standalone';
     return enforceWordCapsOnItem(question, subject);
 };
 
@@ -6437,6 +6850,27 @@ app.post('/generate-quiz', async (req, res) => {
                 const TOTAL_QUESTIONS = 35;
                 let promises = [];
 
+                // Inject founding document passage set first
+                const foundingPassage = pickPassageFor('Social Studies', { topic: 'founding documents' });
+                if (foundingPassage) {
+                    console.log('[SS] Adding founding document passage set');
+                    promises.push((async () => {
+                        const passagePrompt = `You are creating GED-level Social Studies questions using ONLY the passage below. Vary question types. Return EXACTLY 3 questions.
+TITLE: ${foundingPassage.title}
+PASSAGE:\n${foundingPassage.text}\n`;
+                        try {
+                            const qSchema = { type: 'OBJECT', properties: { questionText: { type: 'STRING' }, answerOptions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { text: { type: 'STRING' }, isCorrect: { type: 'BOOLEAN' }, rationale: { type: 'STRING' } }, required: ['text','isCorrect','rationale'] } } }, required: ['questionText','answerOptions'] };
+                            const wrapperSchema = { type: 'OBJECT', properties: { questions: { type: 'ARRAY', items: qSchema } }, required: ['questions'] };
+                            const aiRes = await callAI(passagePrompt + 'Output JSON with {"questions": [...]}', wrapperSchema, aiOptions);
+                            const qs = Array.isArray(aiRes.questions) ? aiRes.questions.slice(0,3) : [];
+                            return qs.map(q => ({ ...q, passage: foundingPassage.text, stimulusId: foundingPassage.id, type: 'passage' }));
+                        } catch (e) {
+                            console.warn('[SS] Founding doc question generation failed, skipping.', e.message);
+                            return [];
+                        }
+                    })());
+                }
+
                 for (const [category, counts] of Object.entries(blueprint)) {
                     for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
                     for (let i = 0; i < counts.images; i++) promises.push((async () => {
@@ -6449,7 +6883,26 @@ app.post('/generate-quiz', async (req, res) => {
 
                 const results = await Promise.all(promises);
                 let allQuestions = results.flat().filter(q => q);
-                // The user wants to remove the shuffle to keep question sets grouped.
+
+                // Enforce 70% stimulus coverage for Social Studies
+                const stimulusItems = allQuestions.filter(q => q.passage || q.image || q.table || q.stimulusId);
+                const stimulusRatio = stimulusItems.length / allQuestions.length;
+                if (stimulusRatio < 0.7) {
+                    const needed = Math.ceil(allQuestions.length * 0.7) - stimulusItems.length;
+                    console.log(`[SS] Stimulus ratio ${(stimulusRatio*100).toFixed(1)}% < 70%, adding ${needed} more stimulus questions`);
+                    for (let i = 0; i < needed && allQuestions.length < 50; i++) {
+                        try {
+                            const category = ['Civics & Government', 'U.S. History'][i % 2];
+                            const stimQ = await generatePassageSet(category, subject, 1, aiOptions);
+                            if (Array.isArray(stimQ) && stimQ.length) allQuestions.push(...stimQ);
+                        } catch (e) {
+                            console.warn('[SS] Failed to add stimulus question:', e.message);
+                        }
+                    }
+                }
+
+                // Shuffle at stimulus-group level (keeps passage/image clusters together)
+                allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
                 const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
                 draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
@@ -6464,6 +6917,18 @@ app.post('/generate-quiz', async (req, res) => {
 
                 console.log("Social Studies draft complete. Sending for second pass review...");
                 const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
+                
+                // Persist to AI question bank (capture-only)
+                if (AI_QUESTION_BANK_ENABLED) {
+                    await persistQuestionsToBank(finalQuiz.questions || [], {
+                        subject,
+                        topic: null,
+                        sourceModel: finalQuiz.source || 'aiGenerated',
+                        generatedForUserId: req.user?.id || null,
+                        originQuizId: finalQuiz.id || null,
+                    });
+                }
+                
                 logGenerationDuration(examType, subject, generationStart);
                 // Attach formula sheet URL for Science comprehensive
                 try { finalQuiz.formulaSheetUrl = '/frontend/assets/formula-sheet/science-formulas.pdf'; } catch {}
@@ -6498,6 +6963,11 @@ app.post('/generate-quiz', async (req, res) => {
 
                 const results = await Promise.all(promises);
                 let allQuestions = results.flat().filter(q => q);
+                
+                // AI now generates tables automatically in passages and standalone questions
+                // No need to inject hardcoded tables
+
+                allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
                 let draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
 
                 // Enforce >= 1/3 numeracy post-processing
@@ -6519,6 +6989,18 @@ app.post('/generate-quiz', async (req, res) => {
 
                 console.log("Science draft complete. Sending for second pass review...");
                 const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
+                
+                // Persist to AI question bank (capture-only)
+                if (AI_QUESTION_BANK_ENABLED) {
+                    await persistQuestionsToBank(finalQuiz.questions || [], {
+                        subject,
+                        topic: null,
+                        sourceModel: finalQuiz.source || 'aiGenerated',
+                        generatedForUserId: req.user?.id || null,
+                        originQuizId: finalQuiz.id || null,
+                    });
+                }
+                
                 logGenerationDuration(examType, subject, generationStart);
                 res.json(finalQuiz);
 
@@ -6540,7 +7022,8 @@ app.post('/generate-quiz', async (req, res) => {
             generateRlaPart3(aiOptions)
         ]);
 
-        const allQuestions = [...part1Questions, ...part3Questions];
+        let allQuestions = [...part1Questions, ...part3Questions];
+        allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
         allQuestions.forEach((q, index) => {
             q.questionNumber = index + 1;
         });
@@ -6560,6 +7043,18 @@ app.post('/generate-quiz', async (req, res) => {
         };
 
         // RLA does not need a second review pass due to its complex, multi-part nature
+        
+        // Persist to AI question bank (capture-only)
+        if (AI_QUESTION_BANK_ENABLED) {
+            await persistQuestionsToBank(finalQuiz.questions || [], {
+                subject,
+                topic: null,
+                sourceModel: finalQuiz.source || 'aiGenerated',
+                generatedForUserId: req.user?.id || null,
+                originQuizId: finalQuiz.id || null,
+            });
+        }
+        
         logGenerationDuration(examType, subject, generationStart);
         res.json(finalQuiz);
 
@@ -6583,19 +7078,48 @@ app.post('/generate-quiz', async (req, res) => {
             return null;
         })));
 
-        // Part 2: Calculator-Permitted (41 questions)
+        // Part 2: Calculator-Permitted (41 questions with difficulty bands)
         const part2Promises = [];
-        // Add 8 Geometry questions
-        for (let i = 0; i < 8; i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math', 1, aiOptions));
-        // Add 4 Fill-in-the-Blank questions
-        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
-        // Add 10 Data/Graphing questions
-        for (let i = 0; i < 5; i++) part2Promises.push(generateDataQuestion(aiOptions));
-        for (let i = 0; i < 5; i++) part2Promises.push(generateGraphingQuestion(aiOptions));
-        // Add 15 Standalone Algebra/Quantitative questions
-        for (let i = 0; i < 10; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities', aiOptions));
-        for (let i = 0; i < 5; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents', aiOptions));
-        for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
+        
+        // Difficulty-stratified selection: 25% easy (10q), 55% medium (23q), 20% hard (8q)
+        const pickByDiff = (diff, count) => {
+            if (!PASSAGE_DB.math_word_problems) return [];
+            const pool = PASSAGE_DB.math_word_problems.filter(p => p.difficulty === diff);
+            const selected = [];
+            for (let i = 0; i < count && selected.length < count; i++) {
+                if (pool.length === 0) break;
+                const template = pool[Math.floor(Math.random() * pool.length)];
+                const wpQuestions = instantiateMathWordProblem(template, aiOptions);
+                if (wpQuestions) selected.push(wpQuestions);
+            }
+            return selected;
+        };
+
+        // Try difficulty bands first, fallback to original logic if insufficient templates
+        const easyQs = pickByDiff('easy', 10);
+        const mediumQs = pickByDiff('medium', 23);
+        const hardQs = pickByDiff('hard', 8);
+        const diffBandQuestions = [...easyQs, ...mediumQs, ...hardQs].flat().filter(q => q);
+        
+        if (diffBandQuestions.length >= 25) {
+            console.log(`[Math] Using difficulty bands: ${easyQs.flat().length} easy, ${mediumQs.flat().length} medium, ${hardQs.flat().length} hard`);
+            part2Promises.push(...diffBandQuestions.map(q => Promise.resolve(q)));
+            // Fill remaining with diverse question types
+            const remaining = 41 - diffBandQuestions.length;
+            for (let i = 0; i < Math.min(remaining, 8); i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math', 1, aiOptions));
+            for (let i = 0; i < Math.min(remaining - 8, 4); i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
+            for (let i = 0; i < Math.min(remaining - 12, 5); i++) part2Promises.push(generateDataQuestion(aiOptions));
+        } else {
+            console.log('[Math] Insufficient word problem templates, using original mixed logic');
+            // Original Part 2 generation logic
+            for (let i = 0; i < 8; i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math', 1, aiOptions));
+            for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
+            for (let i = 0; i < 5; i++) part2Promises.push(generateDataQuestion(aiOptions));
+            for (let i = 0; i < 5; i++) part2Promises.push(generateGraphingQuestion(aiOptions));
+            for (let i = 0; i < 10; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities', aiOptions));
+            for (let i = 0; i < 5; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents', aiOptions));
+            for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
+        }
 
         const part2Results = await Promise.all(part2Promises.map(p => p.catch(e => {
             console.error("A promise in the calculator math section failed:", e);
@@ -6611,7 +7135,19 @@ app.post('/generate-quiz', async (req, res) => {
         part2Questions = part2Questions.slice(0, 41);
 
 
-        const allQuestions = [...part1Questions, ...part2Questions].filter(q => q);
+        let allQuestions = [...part1Questions, ...part2Questions].filter(q => q);
+        
+        // Add numeric response type to ~15% of questions (7 out of 46)
+        const numericCount = Math.ceil(allQuestions.length * 0.15);
+        const indices = Array.from({length: allQuestions.length}, (_, i) => i)
+            .sort(() => Math.random() - 0.5)
+            .slice(0, numericCount);
+        indices.forEach(idx => {
+            if (allQuestions[idx]) allQuestions[idx].responseType = 'numeric';
+        });
+        console.log(`[Math] Marked ${numericCount} questions as numeric response type`);
+        
+        allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
         allQuestions.forEach((q, index) => {
             q.questionNumber = index + 1;
         });
@@ -6680,6 +7216,17 @@ app.post('/generate-quiz', async (req, res) => {
 
         const finalQuiz = draftQuiz;
 
+        // Persist to AI question bank (capture-only)
+        if (AI_QUESTION_BANK_ENABLED) {
+            await persistQuestionsToBank(finalQuiz.questions || [], {
+                subject,
+                topic: null,
+                sourceModel: finalQuiz.source || 'aiGenerated',
+                generatedForUserId: req.user?.id || null,
+                originQuizId: finalQuiz.id || null,
+            });
+        }
+
         logGenerationDuration(examType, subject, generationStart);
     // Return comprehensive Math quiz as-is
     res.json(finalQuiz);
@@ -6707,8 +7254,8 @@ app.post('/generate-quiz', async (req, res) => {
             let promises = []; // Single promises array for all logic paths.
 
             if (subject === 'Math') {
-                // --- MATH-SPECIFIC LOGIC ---
-                console.log("Generating Math quiz without passages.");
+                // --- MATH-SPECIFIC LOGIC WITH WORD PROBLEM TEMPLATES ---
+                console.log("Generating Math quiz (word problem templates preferred).");
                 let visualQuestionCount = 0;
                 if (topic.toLowerCase().includes('geometry')) {
                     console.log('Geometry topic detected. Generating 5 visual questions.');
@@ -6717,18 +7264,78 @@ app.post('/generate-quiz', async (req, res) => {
                 for (let i = 0; i < visualQuestionCount; i++) {
                     promises.push(generateGeometryQuestion(topic, subject));
                 }
-                const remainingQuestions = TOTAL_QUESTIONS - visualQuestionCount;
+                // Use up to 5 word problem templates if available
+                const templateSlots = Math.min(5, TOTAL_QUESTIONS - visualQuestionCount);
+                for (let i = 0; i < templateSlots; i++) {
+                    promises.push((async () => {
+                        const tpl = pickMathWordProblemTemplate();
+                        if (!tpl) return generateStandaloneQuestion(subject, topic);
+                        return instantiateMathWordProblem(tpl) || generateStandaloneQuestion(subject, topic);
+                    })());
+                }
+                const remainingQuestions = TOTAL_QUESTIONS - visualQuestionCount - templateSlots;
                 for (let i = 0; i < remainingQuestions; i++) {
                     promises.push(generateStandaloneQuestion(subject, topic));
                 }
             } else {
                 // --- LOGIC FOR OTHER SUBJECTS (Social Studies, Science, RLA) ---
-                console.log(`Generating ${subject} quiz with passages and other stimuli.`);
+                console.log(`Generating ${subject} quiz with passage preference.`);
                 const numPassageSets = 3; // e.g., 3 passages with 2 questions each = 6 questions
                 const numImageSets = 2;   // e.g., 2 images with 2 questions each = 4 questions
+                // Attempt to pick a predefined passage for ~40-60% of items
+                const picked = pickPassageFor(subject, { topic });
+                if (picked) {
+                    console.log('[Passages] Using predefined passage for subject/topic:', subject, topic);
+                    // Create 6 questions based on selected passage
+                    promises.push((async () => {
+                        let passagePrompt;
+                        if (subject === 'Science') {
+                            // For Science, tell AI to derive a table from the passage
+                            passagePrompt = `You are creating GED-level Science questions.
 
-                for (let i = 0; i < numPassageSets; i++) {
-                    promises.push(generatePassageSet(topic, subject, 2));
+Use the passage below as scientific context. Then create a small results/data table that could reasonably come from that context, and write 6 questions based on it. Keep the passage, but the questions should reference the table so they test data interpretation skills.
+
+IMPORTANT: Put BOTH the passage text AND the table together in the "passage" field. Format the table as clean Markdown.
+
+Example format:
+[Original passage text here]
+
+**Results from Study**
+| Temperature (°C) | Growth Rate (mm/day) |
+|---|---|
+| 10 | 2.3 |
+| 20 | 5.1 |
+| 30 | 3.8 |
+
+TITLE: ${picked.title}
+AUTHOR/YEAR: ${picked.author || 'Unknown'} ${picked.year || ''}
+PASSAGE:\n${picked.text}\n
+
+Return EXACTLY 6 questions that require interpreting the table.`;
+                        } else {
+                            passagePrompt = `You are creating GED-level ${subject} questions using ONLY the passage below. Vary question types (main idea, detail, inference, vocabulary). Return EXACTLY 6 questions.
+TITLE: ${picked.title}
+AUTHOR/YEAR: ${picked.author || 'Unknown'} ${picked.year || ''}
+PASSAGE:\n${picked.text}\n`;
+                        }
+                        try {
+                            const qSchema = { type: 'OBJECT', properties: { questionText: { type: 'STRING' }, answerOptions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { text: { type: 'STRING' }, isCorrect: { type: 'BOOLEAN' }, rationale: { type: 'STRING' } }, required: ['text','isCorrect','rationale'] } } }, required: ['questionText','answerOptions'] };
+                            const wrapperSchema = subject === 'Science' 
+                                ? { type: 'OBJECT', properties: { passage: { type: 'STRING' }, questions: { type: 'ARRAY', items: qSchema } }, required: ['passage', 'questions'] }
+                                : { type: 'OBJECT', properties: { questions: { type: 'ARRAY', items: qSchema } }, required: ['questions'] };
+                            const aiRes = await callAI(passagePrompt + 'Output JSON with ' + (subject === 'Science' ? '{"passage": "...", "questions": [...]}' : '{"questions": [...]}'), wrapperSchema);
+                            const qs = Array.isArray(aiRes.questions) ? aiRes.questions.slice(0,6) : [];
+                            const passageText = subject === 'Science' && aiRes.passage ? aiRes.passage : picked.text;
+                            return qs.map(q => ({ ...q, passage: passageText, type: 'passage' }));
+                        } catch (e) {
+                            console.warn('[Passages] AI passage question generation failed, falling back.', e.message);
+                            return [];
+                        }
+                    })());
+                } else {
+                    for (let i = 0; i < numPassageSets; i++) {
+                        promises.push(generatePassageSet(topic, subject, 2));
+                    }
                 }
                 for (let i = 0; i < numImageSets; i++) {
                     promises.push((async () => {
@@ -6749,15 +7356,11 @@ app.post('/generate-quiz', async (req, res) => {
             const results = await Promise.all(promises);
             let allQuestions = results.flat().filter(q => q); // Filter out any nulls from failed generations
 
-            // Shuffle the collected questions for variety
-            const shuffledQuestions = shuffleArray(allQuestions);
-
-            let finalQuestions = shuffledQuestions.slice(0, TOTAL_QUESTIONS);
+            // Shuffle groups by stimulus; keep grouped items together
+            let finalQuestions = shuffleQuestionsPreservingStimulus(allQuestions).slice(0, TOTAL_QUESTIONS);
 
             // Assign question numbers
-            finalQuestions.forEach((q, index) => {
-                q.questionNumber = index + 1;
-            });
+            finalQuestions = finalQuestions.map((q, index) => ({ ...q, questionNumber: index + 1 }));
 
             if (subject === 'Math' && MATH_TWO_PASS_ENABLED) {
                 console.log('Applying math two-pass linting pipeline to topic quiz...');
@@ -6778,9 +7381,21 @@ app.post('/generate-quiz', async (req, res) => {
                 // Enable formula sheet for Math & Science topic quizzes
                 config: { formulaSheet: subject === 'Math' || subject === 'Science' },
                 questions: finalQuestions,
+                passage_bank_used: !!pickPassageFor(subject, { topic })
             };
 
             const finalQuiz = draftQuiz;
+
+            // Persist to AI question bank (capture-only)
+            if (AI_QUESTION_BANK_ENABLED) {
+                await persistQuestionsToBank(finalQuiz.questions || [], {
+                    subject,
+                    topic,
+                    sourceModel: finalQuiz.source || 'aiGenerated',
+                    generatedForUserId: req.user?.id || null,
+                    originQuizId: finalQuiz.id || null,
+                });
+            }
 
             console.log("Quiz generation and post-processing complete.");
             logGenerationDuration(examType, subject, generationStart);

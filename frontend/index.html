@@ -26,7 +26,93 @@
     }
 
         /* Removed legacy global border reset to avoid forcing borders on all elements */
-    </style>
+        </style>
+
+        <style>
+        /* --- cross-browser UI normalize (Edge, Chrome, Firefox) --- */
+
+        /* make typography + layout consistent */
+        html, body {
+            min-height: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* make media scale the same everywhere */
+        img, video, canvas, svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* form elements inherit font everywhere */
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+            line-height: inherit;
+            color: inherit;
+            background-color: transparent;
+        }
+
+        /* don’t let Firefox show oversized buttons */
+        button::-moz-focus-inner {
+            border: 0;
+            padding: 0;
+        }
+
+        /* better focus ring for keyboard users, same across browsers */
+        :focus-visible {
+            outline: 2px solid #f97316;
+            outline-offset: 3px;
+        }
+
+        /* scrollbars: webkit-based (Edge/Chrome) */
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+        *::-webkit-scrollbar-track {
+            background: rgba(148, 163, 184, 0.15);
+        }
+        *::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.65);
+            border-radius: 9999px;
+        }
+
+        /* scrollbars: Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100,116,139,0.65) rgba(148,163,184,0.15);
+        }
+
+        /* make data-theme work the same even if the browser is weird about prefers-color-scheme */
+        html[data-theme="light"],
+        body[data-theme="light"] {
+            background: #f3f4f6;
+            color: #0f172a;
+        }
+        html[data-theme="dark"],
+        body[data-theme="dark"] {
+            background: #020617;
+            color: #e2e8f0;
+        }
+
+        /* .btn-reset: force app-style buttons to look the same everywhere */
+        .btn-reset {
+            appearance: none;
+            -webkit-appearance: none;
+            border: none;
+            background: none;
+        }
+
+        :root {
+            --app-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        html, body {
+            font-family: var(--app-font);
+        }
+        </style>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="lib/normalizeProse.js"></script>
@@ -158,20 +244,23 @@
                 console.warn('theme preload failed', error);
             }
 
-            const root = document.documentElement;
-            root.setAttribute('data-theme', theme);
-            root.classList.toggle('dark', theme === 'dark');
+                        const root = document.documentElement;
+                        root.setAttribute('data-theme', theme);
+                        root.classList.toggle('dark', theme === 'dark');
 
-            const applyToBody = () => {
-                const bodyEl = document.body || document.createElement('body');
-                bodyEl.setAttribute('data-theme', theme);
-                bodyEl.classList.toggle('dark', theme === 'dark');
-            };
-
-            applyToBody();
-            if (!document.body) {
-                document.addEventListener('DOMContentLoaded', applyToBody, { once: true });
-            }
+                        const body = document.body;
+                        if (body) {
+                            body.setAttribute('data-theme', theme);
+                            body.classList.toggle('dark', theme === 'dark');
+                        } else {
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const b = document.body;
+                                if (b) {
+                                    b.setAttribute('data-theme', theme);
+                                    b.classList.toggle('dark', theme === 'dark');
+                                }
+                            }, { once: true });
+                        }
 
             try {
                 Object.defineProperty(window, '__START_THEME__', {
@@ -784,6 +873,23 @@
             border: 1px solid var(--border-subtle);
             box-shadow: 0 1px 2px rgba(0,0,0,0.04);
         }
+
+            /* ensure review text is dark in light mode */
+            [data-theme="light"] .panel-surface,
+            [data-theme="light"] .panel-surface p,
+            [data-theme="light"] .panel-surface .question-stem,
+            [data-theme="light"] .panel-surface .explanation {
+                color: #0f172a;
+            }
+
+            /* small preference rows need dark text in dark mode */
+            [data-theme="dark"] .pref-row {
+                background-color: rgba(15,23,42,0.35);
+            }
+            [data-theme="dark"] .pref-row dt,
+            [data-theme="dark"] .pref-row dd {
+                color: #e2e8f0;
+            }
         /* Removed older forced-white panel skin to avoid duplication with premium skin */
 
                 /* --- Premium dashboard skin (LIGHT) --- */
@@ -1166,9 +1272,12 @@
         [data-theme="light"] [data-subject="Reasoning Through Language Arts (RLA)"] .subject-accent-heading {
             color: var(--subject-rla-accent) !important;
         }
-        /* Dark mode: always render these headers white for readability */
+        /* Dark mode: always render these headers white for readability, except Social Studies gets a lighter green */
         [data-theme="dark"] .subject-accent-heading {
             color: #ffffff !important;
+        }
+        [data-theme="dark"] [data-subject="Social Studies"] .subject-accent-heading {
+            color: #a7f3d0 !important; /* emerald-200 */
         }
         /* Settings: clearer selected state for Font Size and Theme bubbles */
         #settingsView label:has(input[type="radio"][name="fontSize"]:checked) {
@@ -1887,8 +1996,36 @@
                     box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset;
                 }
 
-        /* Settings: force all text to white in DARK mode */
-        [data-theme="dark"] #settingsView,
+                /* Settings: force all text to white in DARK mode */
+                [data-theme="dark"] #settingsView,
+
+                /* --- ADMIN PAGE LIGHT MODE FIX --- */
+                [data-theme="light"] .admin-shell,
+                [data-theme="light"] .admin-panel,
+                [data-theme="light"] .admin-header,
+                [data-theme="light"] .admin-table,
+                [data-theme="light"] .admin-card,
+                [data-theme="light"] .admin-summary {
+                    background-color: #ffffff !important;
+                    color: #0f172a !important;
+                }
+
+                [data-theme="light"] .admin-panel h1,
+                [data-theme="light"] .admin-panel h2,
+                [data-theme="light"] .admin-panel h3,
+                [data-theme="light"] .admin-panel p,
+                [data-theme="light"] .admin-panel th,
+                [data-theme="light"] .admin-panel td,
+                [data-theme="light"] .admin-table th,
+                [data-theme="light"] .admin-table td {
+                    color: #0f172a !important;
+                }
+
+                /* make the faint labels visible in light mode */
+                [data-theme="light"] .admin-muted,
+                [data-theme="light"] .text-admin-subtle {
+                    color: #475569 !important;
+                }
         [data-theme="dark"] #settingsView * {
             color: #ffffff !important;
         }
@@ -8657,6 +8794,8 @@ function App({ externalTheme, onThemeChange }) {
     const [selectedCategory, setSelectedCategory] = useState(null);
     // Simple stack of prior navigation states for Back behavior
     const [navHistory, setNavHistory] = useState([]);
+    // Track how many browser history entries we've pushed (for correct Back behavior)
+    const browserDepthRef = useRef(0);
     const [authToken, setAuthToken] = useState(() => {
         if (typeof window === 'undefined') {
             return null;
@@ -8706,6 +8845,7 @@ function App({ externalTheme, onThemeChange }) {
         } catch (e) {
             // noop
         }
+        browserDepthRef.current = 0;
 
         const onPopState = (event) => {
             const s = event && event.state ? event.state : null;
@@ -8730,6 +8870,7 @@ function App({ externalTheme, onThemeChange }) {
                 setSelectedCategory(null);
                 setActiveQuiz(null);
                 setQuizResults(null);
+                browserDepthRef.current = 0;
             }
         };
 
@@ -8760,6 +8901,7 @@ function App({ externalTheme, onThemeChange }) {
         try {
             // Keep URL stable; we only care about the state object for back/forward
             window.history.pushState(snapshot, '');
+            browserDepthRef.current += 1;
         } catch (e) {
             // noop
         }
@@ -9095,12 +9237,15 @@ function App({ externalTheme, onThemeChange }) {
 
     // Unified navigation helper: push current state onto history then change view
     const navigateTo = useCallback((nextActiveView, options = {}) => {
-        setNavHistory((prev) => [...prev, {
-            activeView,
-            view,
-            selectedSubject,
-            selectedCategory,
-        }]);
+        setNavHistory((prev) => [
+            ...prev,
+            {
+                activeView,
+                view,
+                selectedSubject,
+                selectedCategory,
+            },
+        ]);
         if (options.scrollTarget) {
             setPendingScrollTarget(options.scrollTarget);
         }
@@ -9108,8 +9253,40 @@ function App({ externalTheme, onThemeChange }) {
         setView('start');
     }, [activeView, view, selectedSubject, selectedCategory]);
 
+    // Hard jump: reset nav history and browser depth, replaceState, and go to top-level view
+    const hardJump = useCallback((nextActiveView, options = {}) => {
+        setNavHistory([]);
+        setActiveView(nextActiveView);
+        setView('start');
+        setSelectedSubject(null);
+        setSelectedCategory(null);
+        setActiveQuiz(null);
+        setQuizResults(null);
+        if (typeof window !== 'undefined' && window.history && typeof window.history.replaceState === 'function') {
+            const snapshot = {
+                appNav: true,
+                activeView: nextActiveView,
+                view: 'start',
+                selectedSubject: null,
+                selectedCategory: null,
+            };
+            try {
+                window.history.replaceState(snapshot, '');
+            } catch (e) {}
+        }
+        browserDepthRef.current = 0;
+        if (options.scrollTarget) {
+            setPendingScrollTarget(options.scrollTarget);
+        }
+    }, []);
+
     // Back navigation: pop history and restore prior state; fallback to dashboard if empty
     const goBack = useCallback(() => {
+        if (browserDepthRef.current > 0 && typeof window !== 'undefined' && window.history && typeof window.history.back === 'function') {
+            browserDepthRef.current -= 1;
+            window.history.back();
+            return;
+        }
         setNavHistory((prev) => {
             if (!prev.length) {
                 // Fallback: hard reset to dashboard
@@ -9142,11 +9319,11 @@ function App({ externalTheme, onThemeChange }) {
         });
     }, []);
 
-    // Top-level navigation shortcuts using navigateTo
-    const goToDashboard = useCallback(() => navigateTo('dashboard', { scrollTarget: '__top' }), [navigateTo]);
-    const goToQuizzes = useCallback(() => navigateTo('quizzes', { scrollTarget: 'quizzes' }), [navigateTo]);
-    const goToProgress = useCallback(() => navigateTo('progress', { scrollTarget: 'progress' }), [navigateTo]);
-    const goToProfile = useCallback(() => navigateTo('profile'), [navigateTo]);
+    // Top-level navigation shortcuts using hardJump (reset history and browser depth)
+    const goToDashboard = useCallback(() => hardJump('dashboard', { scrollTarget: '__top' }), [hardJump]);
+    const goToQuizzes = useCallback(() => hardJump('quizzes', { scrollTarget: 'quizzes' }), [hardJump]);
+    const goToProgress = useCallback(() => hardJump('progress', { scrollTarget: 'progress' }), [hardJump]);
+    const goToProfile = useCallback(() => hardJump('profile'), [hardJump]);
     const goToSettings = useCallback(() => {
         navigateTo('settings');
         if (!profileData) {
@@ -9156,23 +9333,29 @@ function App({ externalTheme, onThemeChange }) {
 
     // Subject/category selection wrappers (record history before changing selection)
     const selectSubject = useCallback((subject) => {
-        setNavHistory((prev) => [...prev, {
-            activeView,
-            view,
-            selectedSubject,
-            selectedCategory,
-        }]);
+        setNavHistory((prev) => [
+            ...prev,
+            {
+                activeView,
+                view,
+                selectedSubject,
+                selectedCategory,
+            },
+        ]);
         setSelectedSubject(subject);
         setSelectedCategory(null);
     }, [activeView, view, selectedSubject, selectedCategory]);
 
     const selectCategory = useCallback((category) => {
-        setNavHistory((prev) => [...prev, {
-            activeView,
-            view,
-            selectedSubject,
-            selectedCategory,
-        }]);
+        setNavHistory((prev) => [
+            ...prev,
+            {
+                activeView,
+                view,
+                selectedSubject,
+                selectedCategory,
+            },
+        ]);
         setSelectedCategory(category);
     }, [activeView, view, selectedSubject, selectedCategory]);
 
@@ -10280,14 +10463,17 @@ function App({ externalTheme, onThemeChange }) {
         }
 
         // Push current nav state so Back returns here (include quiz context)
-        setNavHistory((prev) => [...prev, {
-            activeView,
-            view,
-            selectedSubject,
-            selectedCategory,
-            activeQuiz,
-            quizResults,
-        }]);
+        setNavHistory((prev) => [
+            ...prev,
+            {
+                activeView,
+                view,
+                selectedSubject,
+                selectedCategory,
+                activeQuiz,
+                quizResults,
+            },
+        ]);
 
         const preparedQuiz = { ...quizPayload, subject };
         preparedQuiz.quizCode = quizPayload.quizCode || quizPayload.code || quizPayload.id || preparedQuiz.quizCode || null;
@@ -10603,7 +10789,7 @@ function App({ externalTheme, onThemeChange }) {
                             nameSaving={nameSaving}
                             nameStatus={nameStatus}
                             onRefresh={handleProfileRefresh}
-                            onBack={navigateHome}
+                            onBack={goToDashboard}
                             onSaveAll={handleSaveAllProfile}
                             savingAll={savingAll}
                             subjectEdits={subjectEdits}
@@ -10628,7 +10814,7 @@ function App({ externalTheme, onThemeChange }) {
                             onSave={handlePersistPreferences}
                             saving={settingsSaving}
                             status={settingsStatus}
-                            onBack={navigateHome}
+                            onBack={goToDashboard}
                             loading={profileLoading}
                         />
                     );
@@ -11035,12 +11221,12 @@ function ProfileView({
 
                 <form
                     onSubmit={onSubmitName}
-                    className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightName ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                    className={`rounded-2xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-5 shadow-sm space-y-4 ${highlightName ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
                     aria-labelledby="profile-name-heading"
                 >
                     <div>
-                        <h2 id="profile-name-heading" className="text-xl font-semibold text-slate-800">Display Name</h2>
-                        <p className="text-sm text-slate-500">This name appears across the app.</p>
+                        <h2 id="profile-name-heading" className="text-xl font-semibold text-slate-800 dark:text-slate-100">Display Name</h2>
+                        <p className="text-sm text-slate-500 dark:text-slate-300">This name appears across the app.</p>
                     </div>
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                         <label className="w-full sm:flex-1">
@@ -11073,7 +11259,7 @@ function ProfileView({
                 <div className="grid gap-4 md:grid-cols-2">
                 <section
                     id="testPlanCard"
-                    className={`rounded-2xl border bg-white/95 p-5 shadow-sm space-y-4 ${highlightTest ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
+                    className={`rounded-2xl border bg-white/95 dark:bg-slate-950 dark:border-slate-700 p-5 shadow-sm space-y-4 ${highlightTest ? 'border-rose-300 ring-1 ring-rose-200' : 'border-slate-200'}`}
                 >
                     <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Upcoming Tests</h2>
                     <div id="nextUpcomingSummary" className="note text-sm text-slate-600">
@@ -11184,21 +11370,21 @@ function ProfileView({
                     <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-3">
                         <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Preferences Snapshot</h2>
                         <dl className="space-y-2 text-sm text-slate-600">
-                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row">
-                                <dt className="font-medium text-slate-700">Font Size</dt>
-                                <dd className="capitalize">{profile.fontSize || 'md'}</dd>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row dark:bg-slate-900/70">
+                                <dt className="font-medium text-slate-700 dark:text-slate-100">Font Size</dt>
+                                <dd className="capitalize dark:text-slate-100">{profile.fontSize || 'md'}</dd>
                             </div>
-                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row">
-                                <dt className="font-medium text-slate-700">Color Contrast</dt>
-                                <dd className="capitalize">Automatic</dd>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row dark:bg-slate-900/70">
+                                <dt className="font-medium text-slate-700 dark:text-slate-100">Color Contrast</dt>
+                                <dd className="capitalize dark:text-slate-100">Automatic</dd>
                             </div>
-                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row">
-                                <dt className="font-medium text-slate-700">Timezone</dt>
-                                <dd>{timezoneLabel}</dd>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row dark:bg-slate-900/70">
+                                <dt className="font-medium text-slate-700 dark:text-slate-100">Timezone</dt>
+                                <dd className="dark:text-slate-100">{timezoneLabel}</dd>
                             </div>
-                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row">
-                                <dt className="font-medium text-slate-700">Test Reminders</dt>
-                                <dd>{reminderLabel}</dd>
+                            <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row dark:bg-slate-900/70">
+                                <dt className="font-medium text-slate-700 dark:text-slate-100">Test Reminders</dt>
+                                <dd className="dark:text-slate-100">{reminderLabel}</dd>
                             </div>
                         </dl>
                         <p className="text-xs text-slate-500">Adjust these settings anytime from the Settings panel.</p>
@@ -12088,12 +12274,12 @@ function OrgAdminDashboard({ user, token, onLogout }) {
     const organizationName = summary?.organization?.name || user?.organization_name || 'Your organization';
 
     return (
-        <div className="min-h-screen bg-slate-50 py-10 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+        <div className="admin-shell min-h-screen bg-slate-50 py-10 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
             <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4">
-                <header className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70 sm:flex-row sm:items-center sm:justify-between">
+                <header className="admin-panel flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{organizationName}</h1>
-                        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-300">
+                        <h1 className="text-2xl font-bold">{organizationName}</h1>
+                        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-admin-subtle admin-muted">
                             <AdminRoleBadge role={user?.role} />
                             <span>Organization dashboard</span>
                         </div>
@@ -12116,9 +12302,9 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                     </div>
                 </header>
 
-                <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+                <section className="admin-panel rounded-3xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-6">
                     {loading ? (
-                        <p className="text-sm text-slate-500 dark:text-slate-300">Loading organization summary…</p>
+                        <p className="text-sm text-admin-subtle admin-muted">Loading organization summary…</p>
                     ) : error ? (
                         <div className="space-y-3">
                             <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
@@ -12634,6 +12820,126 @@ function SubjectVocabularySection({ subject, words, theme = 'light' }) {
                     </div>
                 ))}
             </div>
+        </div>
+    );
+}
+
+function VocabularyBySubject({ vocabulary, onStartQuiz, theme = 'light' }) {
+    const [expandedSubjects, setExpandedSubjects] = React.useState({});
+    const isDarkMode = theme === 'dark';
+
+    const subjects = Object.entries(vocabulary || {}).filter(([, words]) => Array.isArray(words) && words.length > 0);
+
+    if (!subjects.length) {
+        return null;
+    }
+
+    const toggleSubject = (subjectName) => {
+        setExpandedSubjects(prev => ({
+            ...prev,
+            [subjectName]: !prev[subjectName]
+        }));
+    };
+
+    return (
+        <div className="space-y-4">
+            {subjects.map(([subjectName, words]) => {
+                const colorScheme = SUBJECT_COLORS[subjectName] || {};
+                const accentColor = colorScheme.accent || colorScheme.text || '#0f172a';
+                const textColor = colorScheme.text || '#0f172a';
+                const lightTint = SUBJECT_LIGHT_TINTS[subjectName] || 'rgba(148,163,184,0.28)';
+                const lightSurface = SUBJECT_LIGHT_SURFACE_GRADIENTS[subjectName];
+                const gradientBg = SUBJECT_BG_GRADIENTS[subjectName];
+                const isExpanded = expandedSubjects[subjectName];
+
+                const containerClasses = `animate-floatIn rounded-2xl border transition-all duration-300 ${isDarkMode ? 'bg-slate-900/60 border-slate-700/60' : 'bg-white shadow-lg'}`;
+                const containerStyle = isDarkMode
+                    ? undefined
+                    : {
+                        backgroundColor: '#ffffff',
+                        backgroundImage: lightSurface || undefined,
+                        borderColor: lightTint,
+                        boxShadow: '0 18px 38px -24px rgba(15,23,42,0.4)',
+                    };
+
+                const headerClasses = `flex items-center justify-between p-4 cursor-pointer rounded-t-2xl transition-all ${isDarkMode ? 'hover:bg-slate-800/40' : 'hover:bg-slate-50'}`;
+                const headerStyle = isDarkMode
+                    ? { backgroundImage: gradientBg }
+                    : {
+                        backgroundColor: '#f8fafc',
+                        borderBottom: `2px solid ${lightTint}`,
+                    };
+
+                const titleStyle = isDarkMode ? undefined : { color: accentColor };
+                const countStyle = isDarkMode ? undefined : { color: textColor, opacity: 0.7 };
+
+                const buttonClasses = `px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-sm ${isDarkMode ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'text-white hover:scale-105'}`;
+                const buttonStyle = isDarkMode
+                    ? undefined
+                    : {
+                        backgroundColor: accentColor,
+                        boxShadow: `0 4px 14px -6px ${accentColor}`,
+                    };
+
+                const cardClasses = `rounded-lg p-3 border transition-all ${isDarkMode ? 'bg-slate-900/60 border-slate-700/60' : 'bg-white'}`;
+                const cardStyle = isDarkMode
+                    ? undefined
+                    : {
+                        backgroundColor: '#ffffff',
+                        borderColor: lightTint,
+                        borderLeft: `3px solid ${accentColor}`,
+                        boxShadow: '0 10px 24px -20px rgba(15,23,42,0.3)',
+                    };
+
+                const termStyle = isDarkMode ? undefined : { color: textColor };
+                const definitionStyle = isDarkMode ? undefined : { color: textColor, opacity: 0.85 };
+
+                return (
+                    <div key={subjectName} className={containerClasses} style={containerStyle}>
+                        <div className={headerClasses} style={headerStyle} onClick={() => toggleSubject(subjectName)}>
+                            <div className="flex items-center gap-3">
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100" style={titleStyle}>
+                                    {subjectName}
+                                </h3>
+                                <span className="text-sm text-slate-600 dark:text-slate-300" style={countStyle}>
+                                    ({words.length} terms)
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onStartQuiz?.(subjectName);
+                                    }}
+                                    className={buttonClasses}
+                                    style={buttonStyle}
+                                >
+                                    📝 Vocabulary Quiz
+                                </button>
+                                <span className="text-slate-600 dark:text-slate-300 text-xl">
+                                    {isExpanded ? '▼' : '▶'}
+                                </span>
+                            </div>
+                        </div>
+                        {isExpanded && (
+                            <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
+                                {words.map((word) => (
+                                    <div key={word.term} className={cardClasses} style={cardStyle}>
+                                        <p className="text-base font-semibold text-slate-900 dark:text-slate-100" style={termStyle}>
+                                            {word.term}
+                                        </p>
+                                        {word.definition && (
+                                            <p className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed" style={definitionStyle}>
+                                                {word.definition}
+                                            </p>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                );
+            })}
         </div>
     );
 }
@@ -13464,6 +13770,31 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         }
     };
 
+    const handleStartVocabularyQuiz = async (subject) => {
+        if (!subject) return;
+        
+        try {
+            const normalizedSubject = subject.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
+            const response = await fetch(`${API_BASE}/api/vocabulary-quiz/${normalizedSubject}`);
+            
+            if (!response.ok) {
+                throw new Error(`Failed to fetch vocabulary quiz: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data && data.quiz) {
+                onStartQuiz(data.quiz);
+            } else {
+                console.error('Invalid vocabulary quiz response:', data);
+                alert('Failed to generate vocabulary quiz. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error starting vocabulary quiz:', error);
+            alert('Failed to start vocabulary quiz. Please try again.');
+        }
+    };
+
     const handleBack = () => {
         if (typeof onBack === 'function') {
             onBack();
@@ -13566,7 +13897,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             <DetailedProgressView
                 subject={detailedViewSubject}
                 progressData={progress[detailedViewSubject]}
-                onBack={() => setDetailedViewSubject(null)}
+                onBack={goBack}
                 rlaEssayAvgDisplay={rlaEssayAvgDisplayForDetails}
             />
         );
@@ -14450,7 +14781,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 className="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-sm font-semibold hover:bg-white/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
                                 aria-label="Hide onboarding reminder for now"
                             >
-                                Hide for now
+                                    Hide for now
                             </button>
                         </div>
                     </div>
@@ -14678,6 +15009,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             <div className="space-y-6">
                                 <VocabularyTicker vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
                                 <VocabularyOverview vocabulary={vocabularyData} onWordClick={handleViewVocabulary} />
+                                <VocabularyBySubject 
+                                    vocabulary={vocabularyData} 
+                                    onStartQuiz={handleStartVocabularyQuiz}
+                                    theme={themeMode}
+                                />
                             </div>
                         )}
                     </div>
@@ -16173,13 +16509,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             </div>
 
              <div className="mt-8 flex justify-center gap-4">
-                 <button onClick={onHome} className="px-6 py-2 bg-slate-600 text-white font-bold rounded-lg hover:bg-slate-700">Go Home</button>
+                 <button onClick={onHome} className="btn-reset px-6 py-2 bg-slate-600 text-white font-bold rounded-lg hover:bg-slate-700">Go Home</button>
                       {markedQuestions.length > 0 && (
                           <button onClick={() => onReviewMarked(markedQuestions, quiz.subject)} className="px-6 py-2 bg-yellow-500 text-white font-bold rounded-lg hover:bg-yellow-600">
                         Review {markedQuestions.length} Marked
                     </button>
                  )}
-                 <button onClick={onRestart} className="px-6 py-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700">Try Again</button>
+                 <button onClick={onRestart} className="btn-reset px-6 py-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700">Try Again</button>
             </div>
 
             <div className="mt-8 pt-6 border-t">
@@ -16227,7 +16563,10 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                         };
 
                         return (
-                            <div key={index} className={`p-4 rounded-lg border panel-surface ${isCorrect ? 'border-green-200' : 'border-red-200'}`}>
+                                                        <div
+                                                            key={index}
+                                                            className={`p-4 rounded-lg panel-surface ${isCorrect ? 'border-green-200' : 'border-red-200'} text-slate-900 dark:text-slate-100`}
+                                                        >
                                 <div className="mb-2 flex items-start gap-3">
                                     <span className="font-semibold question-stem leading-relaxed">{question.questionNumber}.</span>
                                     <Stem item={question} />
