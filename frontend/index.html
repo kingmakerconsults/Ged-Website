@@ -6762,12 +6762,41 @@ function cloneArticle(article) {
 }
 
 // --- Premade helpers: image, math, and question padding ---
-function normalizeImagePath(src) {
-    if (!src) return src;
-    let s = String(src).trim();
-    s = s.replace(/^frontend\//i, '');
-    if (!s.startsWith('/')) s = '/' + s;
-    return s;
+function normalizeImagePath(path) {
+    if (!path) return '';
+    let p = String(path).trim().replace(/\\+/g, '/').replace(/\/+/g, '/');
+    p = p.replace(/\/+/g, '/');
+    // Remove leading/trailing whitespace and slashes
+    p = p.replace(/^\s+|\s+$/g, '').replace(/^\/+|\/+$/g, '');
+    // Lowercase /frontend/images and /frontend/images/subject segments only
+    p = p.replace(/^frontend\//i, 'frontend/');
+    p = p.replace(/^frontend\/images\//i, 'frontend/Images/');
+    // If path starts with /frontend/images (any case), normalize to /frontend/Images
+    p = p.replace(/^frontend\/images/i, 'frontend/Images');
+    // Always ensure /frontend/Images/Subject/FileName.png format
+    const parts = p.split('/');
+    if (parts[0].toLowerCase() === 'frontend' && parts[1] && parts[1].toLowerCase() === 'images') {
+        // Capitalize subject if present
+        if (parts[2]) {
+            parts[2] = parts[2].charAt(0).toUpperCase() + parts[2].slice(1);
+        }
+        p = '/frontend/Images/' + parts.slice(2).join('/');
+    } else if (p.toLowerCase().startsWith('images/')) {
+        // If path starts with images/subject/file, normalize
+        const subparts = p.split('/');
+        if (subparts[1]) {
+            subparts[1] = subparts[1].charAt(0).toUpperCase() + subparts[1].slice(1);
+        }
+        p = '/frontend/Images/' + subparts.slice(1).join('/');
+    } else if (!p.startsWith('/frontend/Images/')) {
+        // Fallback: just ensure it starts with /frontend/Images/
+        p = '/frontend/Images/' + p.replace(/^\/+/, '');
+    } else {
+        p = '/' + p.replace(/^\/+/, '');
+    }
+    // Remove duplicate slashes
+    p = p.replace(/\/+/g, '/');
+    return p;
 }
 
 function normalizeMathText(text) {
@@ -16549,6 +16578,18 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 }
 
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
+
+    // Defensive: if missing quiz or results, show error UI
+    if (!quiz || !results) {
+        return (
+            <div className="results-screen error">
+                <h2>Results Unavailable</h2>
+                <p>Sorry, we couldn't load your results. Please try again or return to the menu.</p>
+                <button onClick={onHome}>Back to Menu</button>
+            </div>
+        );
+    }
+
     const [suggestions, setSuggestions] = useState([]);
     const [loadingSuggestions, setLoadingSuggestions] = useState(false);
 
