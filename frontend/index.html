@@ -13255,22 +13255,26 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             if (!token) { alert('Please sign in to generate a weekly plan.'); return; }
             const subjectParam = practiceSubjectParam(selectedSubject);
             if (!subjectParam) { alert('Pick a subject first.'); return; }
-            const apiSubject = subjectParam === 'social-studies' ? 'Social Studies' : (subjectParam === 'rla' ? 'RLA' : subjectParam.charAt(0).toUpperCase() + subjectParam.slice(1));
+            const apiSubject = subjectParam === 'social-studies'
+                ? 'Social Studies'
+                : subjectParam === 'rla'
+                ? 'RLA'
+                : subjectParam === 'math'
+                ? 'Math'
+                : 'Science';
             const res = await fetch(`${API_BASE_URL}/api/coach/${encodeURIComponent(apiSubject)}/generate-week`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({})
             });
-            if (res.ok) {
-                await refreshCoachPanels();
-            } else if (res.status === 429) {
-                const data = await res.json().catch(() => ({}));
-                setCoachError(data?.message || 'You already generated the weekly plan for this subject this week.');
-                alert(data?.message || 'You already generated the weekly plan for this subject this week.');
-            } else {
-                setCoachError('Failed to generate plan.');
+            if (!res.ok) {
+                setCoachError('Unable to generate weekly coach plan.');
+                return;
             }
+            // Refresh weekly + daily so today panel updates quiz immediately
+            await refreshCoachPanels();
         } catch (e) {
-            setCoachError('Failed to generate plan.');
+            setCoachError('Unable to generate weekly coach plan.');
         } finally {
             setCoachLoading(false);
         }
@@ -13385,6 +13389,16 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             console.warn('launchPremadeByCodeGlobal failed', subject, quizCode, e);
             return false;
         }
+    };
+
+    // Open a coach-assigned premade quiz by code (search across subjects)
+    const openQuizFromCoach = (quizCode) => {
+        if (!quizCode) return;
+        const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
+        for (const subj of SUBJECTS) {
+            if (launchPremadeByCodeGlobal(subj, quizCode)) return; // stop on first successful launch
+        }
+        alert('Unable to open today\'s quiz right now.');
     };
 
     const todaysTasks = React.useMemo(() => {
@@ -14540,7 +14554,28 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 })}
                             </div>
                         ) : (
-                            <p className="text-center text-sm mt-2" style={heroMutedTextStyle}>No goals for today yet.</p>
+                            <div className="mt-3 space-y-2">
+                                {Array.isArray(coachDailySubjects) && coachDailySubjects.some(s => s && s.coach_quiz_id && !s.coach_quiz_completed && s.coach_quiz_source_id) ? (
+                                    (coachDailySubjects || []).map((entry) => {
+                                        if (!entry || !entry.coach_quiz_id || entry.coach_quiz_completed || !entry.coach_quiz_source_id) return null;
+                                        const subjLabel = displaySubjectName(entry.subject);
+                                        return (
+                                            <div key={`daily-fallback-${entry.subject}`} className="rounded-md border px-3 py-2 flex items-center justify-between" style={{ borderColor: panelBorderColor }}>
+                                                <div>
+                                                    <div className="font-medium" style={{ color: heroTextColor }}>{subjLabel}</div>
+                                                    <div className="text-xs" style={heroMutedTextStyle}>Today’s Coach Quiz is ready</div>
+                                                </div>
+                                                <button
+                                                    onClick={() => startCoachQuizForSubject(subjLabel, entry.coach_quiz_source_id)}
+                                                    className="px-3 py-1 bg-purple-600 text-white text-xs font-semibold rounded-md hover:bg-purple-700 transition"
+                                                >Open today’s quiz</button>
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <p className="text-center text-sm" style={heroMutedTextStyle}>No goals for today yet.</p>
+                                )}
+                            </div>
                         )}
                         {/* Ask Coach */}
                         <div className="mt-4 border rounded-md p-3" style={{ borderColor: panelBorderColor, backgroundColor: isDarkMode ? 'rgba(15,23,42,0.5)' : 'rgba(255,255,255,0.7)' }}>
