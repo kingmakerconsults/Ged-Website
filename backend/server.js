@@ -2806,6 +2806,11 @@ function authRequired(req, res, next) {
     return next();
 }
 
+// Development-friendly auth gate: in production, require auth; in other envs allow pass-through
+const maybeAuth = (process.env.NODE_ENV === 'production')
+    ? authRequired
+    : (req, _res, next) => next();
+
 // Allowlist for profile onboarding routes that should not enforce "active user/org" checks
 const PROFILE_ALLOW = new Set([
     '/api/profile/me',
@@ -4139,7 +4144,7 @@ app.post(
   devAuth,
   ensureTestUserForNow,
   requireAuthInProd,
-  authRequired,
+    maybeAuth,
   express.json(),
   async (req, res) => {
     try {
@@ -4216,7 +4221,7 @@ app.post(
 
 // --- Daily Coach API ---
 // 1) GET /api/coach/daily — return or create today's plan per active subject
-app.get('/api/coach/daily', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+app.get('/api/coach/daily', devAuth, ensureTestUserForNow, requireAuthInProd, maybeAuth, async (req, res) => {
     try {
         const userId = req.user?.id || req.user?.userId;
         if (!userId) return res.status(401).json({ error: 'Not authenticated' });
@@ -4322,7 +4327,7 @@ app.get(
     devAuth,
     ensureTestUserForNow,
     requireAuthInProd,
-    authRequired,
+    maybeAuth,
     async (req, res) => {
         try {
             const userId = req.user?.id || req.user?.userId;
