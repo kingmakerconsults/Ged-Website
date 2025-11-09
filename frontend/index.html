@@ -175,6 +175,26 @@
             --shadow: 0 2px 6px rgba(15,23,42,0.05);
         }
 
+        /* Unified data table styling */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+            font-size: 0.95rem;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid var(--border-color);
+            padding: 6px 10px;
+        }
+        [data-theme="dark"] .data-table th, [data-theme="dark"] .data-table td {
+            border-color: rgba(255,255,255,0.25);
+        }
+        .data-table th {
+            background: var(--accent-soft);
+            text-align: left;
+            font-weight: 600;
+        }
+
         :root:not([data-theme]) {
             --bg-color: #ffffff;
             --panel-bg: #ffffff;
