@@ -122,10 +122,22 @@ function textWordCount(item) {
 async function generateScienceNumeracyQuestion(category, options = {}) {
     const prompt = `You are a GED Science exam creator. Generate a single numeracy-focused question in the category "${category}".
 Requirements:
-- Provide a short context using a small HTML <table> (2–4 columns, 3–5 rows) OR a concise calculation setup that uses measurement units (e.g., density, speed, rate, force, energy).
-- The question MUST require interpreting the data or performing a short calculation with units.
-- Use clear, plain language; keep the table small and directly relevant.
-Return one JSON object with keys "questionText" and "answerOptions" (array of {text, isCorrect, rationale}).`;
+- Include a small, cleanly formatted HTML <table> (use <thead> and <tbody> if possible) with 2–4 columns and 3–5 rows.
+- Always include column headers (use concise labels; avoid vague headers like Data1).
+- Keep numeric values aligned by putting each in its own <td> with no extra spaces; avoid random spacing or HTML entities for alignment.
+- Use plain numbers and units (e.g., 10 cm, 2.5 g/cm³, 12 m/s). Prefer realistic lab / measurement data.
+- Follow this structure (adapt headers to the scenario):
+
+<table class="data-table">
+  <thead><tr><th>Header1</th><th>Header2</th></tr></thead>
+  <tbody>
+    <tr><td>...</td><td>...</td></tr>
+  </tbody>
+</table>
+
+- After the table, write a concise question stem requiring interpretation of the table OR a short calculation (one or two steps). Do NOT ask the student to copy the table.
+- Do NOT wrap JSON in markdown fences.
+Return one JSON object with "questionText" and "answerOptions" (array of {text, isCorrect, rationale}).`;
     const schema = {
         type: 'OBJECT',
         properties: {
@@ -135,6 +147,21 @@ Return one JSON object with keys "questionText" and "answerOptions" (array of {t
         required: ['questionText', 'answerOptions']
     };
     const q = await callAI(prompt, schema, options);
+    // Sanitize and normalize any returned table markup for consistency
+    if (q && q.questionText) {
+        q.questionText = q.questionText
+            // ensure a data-table class on any <table> lacking one
+            .replace(/<table\b(?![^>]*class=)/gi, '<table class="data-table"')
+            // add inline styles to th/td if not already present (avoid duplicating style=)
+            .replace(/<th>(.*?)</g, '<th style="text-align:left;padding:4px;border:1px solid #ccc;">$1<')
+            .replace(/<td>(.*?)</g, '<td style="text-align:center;padding:4px;border:1px solid #ccc;">$1<');
+        // If headers missing (no <thead> but there is a first row), attempt heuristic promotion
+        if (!/<thead>/i.test(q.questionText) && /<table/i.test(q.questionText)) {
+            q.questionText = q.questionText.replace(/<table[^>]*>(\s*)(<tr>([\s\S]*?)<\/tr>)/i, (m, ws, firstRow) => {
+                return m.replace(/<tr>([\s\S]*?)<\/tr>/i, `<thead><tr>$1</tr></thead>`);
+            });
+        }
+    }
     return enforceWordCapsOnItem(q, 'Science');
 }
 
@@ -7237,6 +7264,44 @@ PASSAGE:\n${foundingPassage.text}\n`;
                 // Enforce >= 1/3 numeracy post-processing
                 const categoryList = Object.keys(blueprint);
                 draftQuestionSet = await ensureScienceNumeracy(draftQuestionSet, { requiredFraction: 1/3, categories: categoryList, aiOptions });
+
+                // Mix in a few readable science passages from the local passage bank so not all items are purely data-driven
+                try {
+                    let injected = 0;
+                    for (let i = 0; i < draftQuestionSet.length && injected < 3; i++) {
+                        const q = draftQuestionSet[i];
+                        // Prefer items without any existing passage/stimulus
+                        const hasPassage = typeof q?.passage === 'string' && q.passage.trim().length > 0;
+                        if (!hasPassage) {
+                            const p = pickPassageFor('science');
+                            if (p && p.text) {
+                                q.passage = p.text;
+                                if (p.id) q.stimulusId = p.id;
+                                injected++;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    try { console.warn('[Science][Passages] Failed to inject bank passages:', e?.message || e); } catch {}
+                }
+
+                // Normalize any raw HTML tables that may appear in questionText/passage
+                const normalizeTables = (html) => {
+                    if (typeof html !== 'string' || !html) return html;
+                    let out = html;
+                    out = out.replace(/<table\b(?![^>]*class=)/gi, '<table class="data-table"');
+                    out = out.replace(/<th>(.*?)</g, '<th style="text-align:left;padding:4px;border:1px solid #ccc;">$1<');
+                    out = out.replace(/<td>(.*?)</g, '<td style="text-align:center;padding:4px;border:1px solid #ccc;">$1<');
+                    if (!/<thead>/i.test(out) && /<table/i.test(out)) {
+                        out = out.replace(/<table[^>]*>(\s*)(<tr>([\s\S]*?)<\/tr>)/i, (m) => m.replace(/<tr>([\s\S]*?)<\/tr>/i, `<thead><tr>$1</tr></thead>`));
+                    }
+                    return out;
+                };
+                draftQuestionSet = draftQuestionSet.map((q) => ({
+                    ...q,
+                    questionText: normalizeTables(q?.questionText),
+                    passage: normalizeTables(q?.passage)
+                }));
 
                 draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
