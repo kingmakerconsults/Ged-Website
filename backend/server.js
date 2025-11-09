@@ -26,6 +26,53 @@ const genAI = process.env.GOOGLE_AI_API_KEY
     ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY)
     : null;
 
+// Shared prompt add-on to enforce strict table output that our frontend/backends can render reliably
+const TABLE_INTEGRITY_RULES = `
+TABLE INTEGRITY RULES (NON-NEGOTIABLE)
+When a question or passage includes data in a table, you must output the table in one of these two formats:
+
+1. Preferred: real HTML table
+
+<table>
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>…</td>
+            <td>…</td>
+            <td>…</td>
+        </tr>
+    </tbody>
+</table>
+
+- Use no colspan, no rowspan, and no inline styles.
+- Every <tr> in <tbody> must have the exact same number of <td> elements as there are <th> elements in the header.
+- If a value is missing, put — in that cell (do not omit the cell).
+
+2. Fallback/compact format (the frontend converts this):
+- First row is the header.
+- Each additional row is separated by ||.
+- Every row must have the same number of | cells as the header.
+Example:
+
+Planet | Distance from Sun (AU) | Orbital Period (Earth years) ||
+Mercury | 0.39 | 0.24 ||
+Venus | 0.72 | 0.62 ||
+Earth | 1.00 | 1.00 ||
+Mars | 1.52 | 1.88
+
+Things you must NOT do:
+- Do not output tables where one data row has fewer cells than the header.
+- Do not merge the title with the first column (no single big cell above the table). Put the title outside the table if needed, like: **Boiling Points of Common Liquids** (newline) <table>…
+- Do not put extra | characters for decoration.
+
+If you are unsure whether a row has all cells, pad it with — so the frontend always gets a complete rectangle.`;
+
 // limit to a few at a time so startup doesn’t explode
 const imageAnalysisQueue = new PQueue({ concurrency: 4 });
 const GEMINI_FILESTORE_NAME = process.env.GEMINI_FILESTORE_NAME || null; // optional file store for Gemini File Search
@@ -187,7 +234,9 @@ Requirements:
 
 - After the table, write a concise question stem requiring interpretation of the table OR a short calculation (one or two steps). Do NOT ask the student to copy the table.
 - Do NOT wrap JSON in markdown fences.
-Return one JSON object with "questionText" and "answerOptions" (array of {text, isCorrect, rationale}).`;
+Return one JSON object with "questionText" and "answerOptions" (array of {text, isCorrect, rationale}).
+
+${TABLE_INTEGRITY_RULES}`;
     const schema = {
         type: 'OBJECT',
         properties: {
@@ -201,6 +250,8 @@ Return one JSON object with "questionText" and "answerOptions" (array of {text, 
     if (q) {
         if (q.questionText) q.questionText = normalizeTables(q.questionText);
         if (q.passage) q.passage = normalizeTables(q.passage);
+        // Tag source for downstream UI grouping
+        if (!q.source) q.source = 'numeracy';
     }
     return enforceWordCapsOnItem(q, 'Science');
 }
@@ -876,7 +927,8 @@ PASSAGE:\n"""${passage.text}"""`;
             passage: normalizeTables(passage.text),
             questionText: normalizeTables(q.questionText || ''),
             type: 'passage',
-            qaProfileKey: 'literacy'
+            qaProfileKey: 'literacy',
+            source: 'literacy'
         }));
     } catch (e) {
         try { console.warn('[Science-Literacy] generation failed:', e?.message || e); } catch {}
@@ -5352,6 +5404,7 @@ function buildSubjectPrompt({ subject, topic, examType, context = [], images = [
                 `Ensure variety of stimuli: passages, data tables/graphs, and diagrams.`,
                 `Ensure that at least one-third (1/3) of all questions require scientific numeracy — interpreting data tables, reading charts, working with units/measurements, using or reading formulas, or doing a short calculation.`
             );
+            base.push(TABLE_INTEGRITY_RULES);
         } else if (isRlaSubject(subject)) {
             base.push(`RLA comprehensive: keep the existing 3-part flow as-is (reading comprehension, extended response prompt, and language/grammar).`);
         }
@@ -5368,6 +5421,7 @@ function buildSubjectPrompt({ subject, topic, examType, context = [], images = [
                 `Generate ${questionCount} GED-style Science questions focused entirely on the topic "${topic}". Do not mix in Life/Earth/Space strands that are unrelated to the topic. Prefer data-driven science questions (tables, charts, labeled diagrams) that match this topic.`,
                 `Keep the variety of stimuli, and prefer data tables/graphs and short experiment setups tied to the topic.`
             );
+            base.push(TABLE_INTEGRITY_RULES);
         } else if (isRlaSubject(subject)) {
             base.push(
                 `Generate ${questionCount} GED-style RLA questions focused on the skill area "${topic}" (for example, Grammar, Usage, Conventions, Reading Comprehension, or Vocabulary). Do not enforce the 75% informational / 25% literary split here unless the topic explicitly asks for it.`,
@@ -6288,7 +6342,9 @@ Example format:
 | 37 | 78 |
 | 50 | 32 |
 
-Return only JSON.`;
+Return only JSON.
+
+${TABLE_INTEGRITY_RULES}`;
     } else {
         prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'. At least ${numQuestions} multiple-choice questions should be based on the passage with varied types (main idea, details, inference, vocabulary). Return only JSON.`;
     }
@@ -6546,7 +6602,9 @@ Example format:
 | 7 | 100 |
 | 10 | 35 |
 
-Output a single valid JSON object with "passage" (containing the table), "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
+Output a single valid JSON object with "passage" (containing the table), "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").
+
+${TABLE_INTEGRITY_RULES}`;
     } else {
         prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
         The question should not require any external passage, chart, or image.
@@ -7380,6 +7438,11 @@ PASSAGE:\n${foundingPassage.text}\n`;
                 }
 
                 draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
+                // Ensure every science question has a source label; numeracy detection heuristic adds 'numeracy' earlier but backfill if missing
+                draftQuestionSet = draftQuestionSet.map(q => ({
+                    ...q,
+                    source: q.source || (isScienceNumeracyItem(q) ? 'numeracy' : 'literacy')
+                }));
 
                 const draftQuiz = {
                     id: `ai_comp_sci_draft_${new Date().getTime()}`,
