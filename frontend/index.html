@@ -13440,6 +13440,11 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         if (task.type === 'coach-quiz') {
             const progress = dailyProgressMap.get(subjectId);
             const sourceId = progress?.coach_quiz_source_id || task.quizId || null;
+            if (!sourceId && !task.quizPath && !task.message) {
+                // If we truly have nothing actionable, show a friendly notice
+                alert('Coach quiz not available yet. Please regenerate your Weekly Coach plan or try again later.');
+                return;
+            }
             startCoachQuizForSubject(subjectLabel, sourceId);
             return;
         }
