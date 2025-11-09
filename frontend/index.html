@@ -2490,6 +2490,23 @@ function safeHtml(html) {
         return { __html: String(html) };
     }
 }
+
+// Normalize quiz/stimulus image asset URLs to always hit backend domain
+function resolveAssetUrl(src) {
+    if (!src) return null;
+    if (typeof src !== 'string') { try { src = String(src); } catch { return null; } }
+    // Keep fully-qualified URLs
+    if (/^https?:\/\//i.test(src)) return src;
+    const base = (typeof window !== 'undefined' && window.API_BASE_URL) ? window.API_BASE_URL : 'https://ged-website.onrender.com';
+    // Common canonical quiz images folder
+    if (src.startsWith('/frontend/Images')) return `${base}${src}`;
+    // Legacy lowercase path variant (normalize to Images)
+    if (src.startsWith('/frontend/images')) return `${base}${src}`;
+    // If it's a leading slash but some other path, still serve from backend
+    if (src.startsWith('/')) return `${base}${src}`;
+    // Bare filename or relative segment -> assume images root
+    return `${base}/frontend/Images/${src}`;
+}
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
 const SUBJECT_PROGRESS_KEYS = [
@@ -15092,14 +15109,20 @@ function Stem({ item }) {
     return (
         <div className="stem space-y-4">
             {item.stimulusImage?.src && (
-                <div className="mb-3">
-                    <img
-                        src={item.stimulusImage.src}
-                        alt={item.stimulusImage.alt || 'stimulus'}
-                        className="max-w-full rounded-md shadow"
-                        loading="lazy"
-                    />
-                </div>
+                (() => {
+                    const resolved = resolveAssetUrl(item.stimulusImage.src);
+                    return resolved ? (
+                        <div className="mb-3">
+                            <img
+                                src={resolved}
+                                alt={item.stimulusImage.alt || 'stimulus'}
+                                className="max-w-full rounded-md shadow"
+                                loading="lazy"
+                                style={{ border: '1px solid var(--border-subtle)' }}
+                            />
+                        </div>
+                    ) : null;
+                })()
             )}
 
             {passageContent && (
@@ -15481,13 +15504,18 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                                         dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(article.title, { normalizeSpacing: true }) }}
                                     />
                                 )}
-                                {(article.imageUrl || articleImage) && (
-                                    <img
-                                        src={article.imageUrl || articleImage}
-                                        alt={article.imageAlt || article.title || 'Reading passage illustration'}
-                                        className="max-h-40 w-full rounded-lg object-cover"
-                                    />
-                                )}
+                                {(article.imageUrl || articleImage) && (() => {
+                                    const rawImg = article.imageUrl || articleImage;
+                                    const imgSrc = resolveAssetUrl(rawImg);
+                                    return imgSrc ? (
+                                        <img
+                                            src={imgSrc}
+                                            alt={article.imageAlt || article.title || 'Reading passage illustration'}
+                                            className="max-h-40 w-full rounded-lg object-cover"
+                                            style={{ border: '1px solid var(--border-subtle)' }}
+                                        />
+                                    ) : null;
+                                })()}
                                 {(article.text || []).map((paragraph, index) => (
                                     <p
                                         key={index}
@@ -15545,14 +15573,18 @@ function QuizInterface({ questions, answers, setAnswers, onComplete, buttonText,
                             <Stem item={currentQ} />
                         </div>
                     </div>
-                    {currentQ.imageUrl && !currentQ.stimulusImage?.src && (
-                        <img
-                            src={currentQ.imageUrl}
-                            alt={`Visual for question ${currentQ.questionNumber}`}
-                            className="my-4 h-auto max-w-full rounded-md"
-                            style={{ border: `1px solid ${scheme.surfaceBorder}` }}
-                        />
-                    )}
+                    {(() => {
+                        const rawImgSrc = (!currentQ.stimulusImage?.src && currentQ.imageUrl) ? currentQ.imageUrl : null;
+                        const imgSrc = resolveAssetUrl(rawImgSrc);
+                        return imgSrc ? (
+                            <img
+                                src={imgSrc}
+                                alt={`Visual for question ${currentQ.questionNumber}`}
+                                className="my-4 h-auto max-w-full rounded-md"
+                                style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+                            />
+                        ) : null;
+                    })()}
                     {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
                         <div
                             className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100"
@@ -16662,9 +16694,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                                     <span className="font-semibold question-stem leading-relaxed">{question.questionNumber}.</span>
                                     <Stem item={question} />
                                 </div>
-                                {question.imageUrl && !question.stimulusImage?.src && (
-                                    <img src={question.imageUrl} alt={`Visual for question ${question.questionNumber}`} className="my-2 rounded-md border max-w-xs h-auto" />
-                                )}
+                                {(() => {
+                                    const rawImg = (!question.stimulusImage?.src && question.imageUrl) ? question.imageUrl : null;
+                                    const imgSrc = resolveAssetUrl(rawImg);
+                                    return imgSrc ? (
+                                        <img src={imgSrc} alt={`Visual for question ${question.questionNumber}`} className="my-2 rounded-md border max-w-xs h-auto" />
+                                    ) : null;
+                                })()}
                                 {GEOMETRY_FIGURES_ENABLED && question.geometrySpec && (
                                     <div className="my-3 max-w-md">
                                         <GeometryFigure spec={question.geometrySpec} className="w-full h-auto" />
@@ -16739,7 +16775,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
             <article className="prose passage-section max-w-none">
                 <h3 className="text-2xl font-bold question-stem" dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(quiz.article.title, { normalizeSpacing: true }) }}></h3>
                 <p className="text-sm italic text-slate-500">{quiz.article.genre}</p>
-                {quiz.imageUrl && <img src={quiz.imageUrl} alt="Article supplemental image" className="my-4 mx-auto rounded-md border" />}
+                {(() => { const imgSrc = resolveAssetUrl(quiz.imageUrl); return imgSrc ? <img src={imgSrc} alt="Article supplemental image" className="my-4 mx-auto rounded-md border" /> : null; })()}
                 {quiz.article.text.map((p, i) => <p key={i} dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(p, { normalizeSpacing: true }) }}></p>)}
             </article>
             <section className="mt-8 pt-6 border-t">
@@ -16747,9 +16783,13 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 <div className="space-y-6">
                     {quiz.questions.map((q, i) => (
                         <div key={i} className={`question-container p-4 rounded-lg transition-colors ${isSubmitted ? (answers[i] === (q.answerOptions || []).find(o=>o.isCorrect)?.text ? 'bg-green-50' : 'bg-red-50') : 'bg-slate-50'}`}>
-                            {q.imageUrl && !(q.stimulusImage && q.stimulusImage.src) && (
-                                <img src={q.imageUrl} alt={`Visual for question ${i + 1}`} className="my-2 rounded-md border max-w-xs h-auto" />
-                            )}
+                            {(() => {
+                                const rawImg = (!(q.stimulusImage && q.stimulusImage.src) && q.imageUrl) ? q.imageUrl : null;
+                                const imgSrc = resolveAssetUrl(rawImg);
+                                return imgSrc ? (
+                                    <img src={imgSrc} alt={`Visual for question ${i + 1}`} className="my-2 rounded-md border max-w-xs h-auto" />
+                                ) : null;
+                            })()}
                             {GEOMETRY_FIGURES_ENABLED && q.geometrySpec && (
                                 <div className="my-3 max-w-md">
                                     <GeometryFigure spec={q.geometrySpec} className="w-full h-auto" />
