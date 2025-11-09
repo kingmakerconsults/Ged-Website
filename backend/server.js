@@ -4056,6 +4056,7 @@ async function findOrCreateDailyRow(userId, subject, planDateISO) {
     return sel2.rowCount ? sel2.rows[0] : null;
 }
 
+// Legacy study plan fetch (kept for backward compatibility) -- moved below weekly route so it doesn't shadow /api/coach/weekly
 app.get('/api/coach/:subject', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
     try {
         const userId = req.user?.id || req.user?.userId;
