@@ -4211,7 +4211,8 @@ app.post(
         console.error('Weekly->daily sync failed', syncErr);
       }
 
-      return res.json({ ok: true, plan });
+            res.set('Cache-Control', 'no-store');
+            return res.json({ ok: true, plan });
     } catch (e) {
       console.error('POST /api/coach/:subject/generate-week failed:', e);
       return res.status(500).json({ ok: false, error: 'weekly_plan_failed' });
@@ -4263,6 +4264,7 @@ app.get('/api/coach/daily', devAuth, ensureTestUserForNow, requireAuthInProd, ma
             });
         }
 
+        res.set('Cache-Control', 'no-store');
         return res.json({ ok: true, today, subjects });
     } catch (e) {
         console.error('GET /api/coach/daily failed:', e);
@@ -4426,6 +4428,7 @@ app.get(
                     });
                 });
             }
+            res.set('Cache-Control', 'no-store');
             return res.json({ ok: true, weekStart, weekEnd, days: consolidatedDays, subjects });
         } catch (e) {
             console.error('GET /api/coach/weekly failed:', e);
