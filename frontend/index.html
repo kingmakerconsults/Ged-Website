@@ -47,6 +47,17 @@
 
         </style>
     <script src="https://ged-website.onrender.com/client-config.js"></script>
+        <script>
+            // ensure backend base exists even if remote config fails
+            (function ensureApiBase(){
+                try {
+                    const base = (window.__APP_CONFIG__ && window.__APP_CONFIG__.apiBaseUrl) || 'https://ged-website.onrender.com';
+                    window.API_BASE_URL = base;
+                } catch (_) {
+                    window.API_BASE_URL = 'https://ged-website.onrender.com';
+                }
+            })();
+        </script>
     <script>
         // Re-assert geometry if remote config overwrote it
         if (window.__APP_CONFIG__) {
@@ -8311,35 +8322,33 @@ function canCompleteOnboarding(p) {
 async function fetchJSON(url, options = {}) {
     const { headers, ...rest } = options || {};
     const finalHeaders = headers ? { ...headers } : undefined;
-    const isAbsolute = typeof url === 'string' && /^(https?:)?\/\//i.test(url);
-    const BASE = (typeof window !== 'undefined' && window.__CLIENT_CONFIG__ && window.__CLIENT_CONFIG__.API_BASE_URL)
-        ? window.__CLIENT_CONFIG__.API_BASE_URL
-        : (typeof API_BASE_URL === 'string' && API_BASE_URL) || (typeof window !== 'undefined' ? window.location.origin : '');
-    const targetUrl = isAbsolute
-        ? url
-        : (typeof url === 'string' && url.startsWith('/') ? `${BASE}${url}` : url);
-    const response = await fetch(targetUrl, {
-        credentials: 'include',
-        ...rest,
-        headers: finalHeaders,
-    });
-
-    if (!response.ok) {
-        let message = `Request failed (${response.status})`;
-        try {
-            const text = await response.text();
-            message = text || message;
-        } catch (error) {
-            // ignore parse failure
+    try {
+        const isAbsolute = typeof url === 'string' && /^(https?:)?\/\//i.test(url);
+        const BASE = (typeof API_BASE_URL === 'string' && API_BASE_URL)
+            || (typeof window !== 'undefined' && window.__CLIENT_CONFIG__ && window.__CLIENT_CONFIG__.API_BASE_URL)
+            || (typeof window !== 'undefined' ? window.location.origin : '');
+        const targetUrl = isAbsolute
+            ? url
+            : (typeof url === 'string' && url.startsWith('/') ? `${BASE}${url}` : url);
+        const response = await fetch(targetUrl, {
+            credentials: 'include',
+            ...rest,
+            headers: finalHeaders,
+        });
+        if (!response.ok) {
+            // Graceful failure: return null so callers can decide fallback
+            console.warn('[fetchJSON] non-ok response', response.status, 'for', targetUrl);
+            return null;
         }
-        throw new Error(message);
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+            return response.json();
+        }
+        return null;
+    } catch (err) {
+        console.warn('[fetchJSON] request failed', err?.message || err);
+        return null; // never throw on startup critical fetches
     }
-
-    const contentType = response.headers.get('content-type') || '';
-    if (contentType.includes('application/json')) {
-        return response.json();
-    }
-    return null;
 }
 
 // --- App Structure Components ---
