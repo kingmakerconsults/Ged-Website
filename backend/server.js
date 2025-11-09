@@ -2881,6 +2881,49 @@ async function buildProfileBundle(userId) {
 }
 
 const app = express();
+// Custom route to handle lowercase or bad image paths for /frontend/images/:subject/:file
+app.get('/frontend/images/:subject/:file(*)', (req, res, next) => {
+    // Try to find the correct image in IMAGE_BY_PATH using a normalized path
+    let { subject, file } = req.params;
+    if (!subject || !file) return res.status(404).send('Not found');
+    // Try various normalizations
+    const tryPaths = [];
+    // 1. As requested
+    tryPaths.push(`/frontend/Images/${subject}/${file}`);
+    // 2. Capitalize subject
+    tryPaths.push(`/frontend/Images/${subject.charAt(0).toUpperCase() + subject.slice(1)}/${file}`);
+    // 3. Lowercase subject
+    tryPaths.push(`/frontend/Images/${subject.charAt(0).toLowerCase() + subject.slice(1)}/${file}`);
+    // 4. Just file
+    tryPaths.push(`/frontend/Images/${file}`);
+    // 5. Lowercase everything
+    tryPaths.push(`/frontend/Images/${subject.toLowerCase()}/${file.toLowerCase()}`);
+    // 6. Uppercase subject
+    tryPaths.push(`/frontend/Images/${subject.toUpperCase()}/${file}`);
+    // 7. Remove duplicate slashes
+    tryPaths.push(`/frontend/Images/${subject.replace(/\/+/, '')}/${file.replace(/\/+/, '')}`);
+    // 8. Remove leading/trailing spaces
+    tryPaths.push(`/frontend/Images/${subject.trim()}/${file.trim()}`);
+    // Try all variants
+    let found = null;
+    for (const p of tryPaths) {
+        if (IMAGE_BY_PATH.has(p)) {
+            found = IMAGE_BY_PATH.get(p);
+            break;
+        }
+    }
+    if (found && found.filePath) {
+        // Serve the file from disk
+        const repoRoot = path.resolve(__dirname, '..');
+        const absPath = path.join(repoRoot, found.filePath.replace(/^\/+/, ''));
+        if (fs.existsSync(absPath)) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            return res.sendFile(absPath);
+        }
+    }
+    // Not found, fallback to next handler
+    return res.status(404).send('Image not found');
+});
 // Use the configured port or default to 3002 locally
 let port = Number(process.env.PORT || 3002);
 const net = require('net');
