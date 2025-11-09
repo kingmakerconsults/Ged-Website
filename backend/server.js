@@ -7044,16 +7044,42 @@ Generate the Language and Grammar section of a GED RLA exam. Create 7 short pass
 }
 
 async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
-    const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam. Your task is to review and improve it based on these rules:
-    1.  **IMPROVE QUESTION VARIETY:** The top priority. If you see repetitive question phrasing, rewrite some questions to ask about specific details, inferences, or data points.
-    2.  **ENSURE CLARITY:** Fix any grammatical errors or awkward phrasing.
-    3.  **MAINTAIN JSON STRUCTURE:** The final output MUST be a perfectly valid JSON object that strictly adheres to the original schema. Do not change any field names.
+        const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam.
 
-    Here is the draft quiz JSON:
-    ---
-    ${JSON.stringify(draftQuiz, null, 2)}
-    ---
-    Return the corrected and improved quiz as a single, valid JSON object.`;
+CRITICAL RULES (DO NOT IGNORE):
+1. MAINTAIN JSON STRUCTURE: The final output MUST be a single valid JSON object with the SAME top-level shape and field names as the input. Do NOT wrap it in backticks or code fences. Do NOT add commentary.
+2. SAFE TEXT ONLY: All string fields must be plain text or very simple HTML. Do NOT include inline CSS (no style="..."), no width/height attributes, no class attributes.
+3. TABLES: If a question or passage contains a table, output it ONLY in one of these two safe formats:
+
+     A. Simple HTML:
+     <table>
+         <thead>
+             <tr><th>Header 1</th><th>Header 2</th></tr>
+         </thead>
+         <tbody>
+             <tr><td>Row 1 col 1</td><td>Row 1 col 2</td></tr>
+             <tr><td>Row 2 col 1</td><td>Row 2 col 2</td></tr>
+         </tbody>
+     </table>
+     - No inline styles.
+     - Every <tr> in <tbody> must have the EXACT same number of <td> cells as there are <th> cells in the header.
+     - If a value is missing, put "—" in that cell.
+
+     B. Compact pipe format (the frontend will normalize this):
+     Header 1 | Header 2 | Header 3 ||
+     Value 1  | Value 2  | Value 3  ||
+     Value 4  | Value 5  | Value 6
+     - Every row must have the same number of cells as the header.
+     - Do NOT add decorative pipes.
+
+4. NO EXTRA MARKUP: Do NOT add \`\`\` or \`\`\`json, markdown fences, or comments.
+5. KEEP PASSAGES SIMPLE: Passages should be plain text paragraphs or the simple table above.
+
+Here is the draft quiz JSON:
+---
+${JSON.stringify(draftQuiz, null, 2)}
+---
+Return ONLY the corrected quiz JSON object.`;
         const correctedQuiz = await callAI(prompt, quizSchema, options);
         return correctedQuiz;
     }
