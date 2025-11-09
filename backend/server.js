@@ -575,6 +575,10 @@ async function loadAndAugmentImageMetadata() {
     // 🔒 TEMP: disable Gemini image analysis — use existing metadata only
     console.info("[ImageDB] AI image enrichment is disabled for now — using existing metadata only.");
     IMAGE_DB = db;
+
+    // even if we skip Gemini enrichment, we still need the in-memory lookup map
+    rebuildImagePathIndex();
+
     return;
 
     // We’ll dedupe by lowercased path and by sha1
@@ -5495,6 +5499,14 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         const imgs = subjectNeedsImages ? findImagesForSubjectTopic(subject, topic, 6) : [];
         console.log(`[Variety Pack] Found ${imgs.length} candidate images.`);
 
+        // --- Economics prompt tightening for Social Studies ---
+        let promptEconomicsTightening = '';
+        if (subject === 'Social Studies') {
+            const topicLc = (topic || '').toLowerCase();
+            if (topicLc.includes('economics') || topicLc.includes('economic')) {
+                promptEconomicsTightening = `\nFocus specifically on economics reasoning, data interpretation, and real-world application.\nQuestions should assess understanding of:\n- Supply and demand\n- Opportunity cost\n- Market structures\n- Fiscal and monetary policy\n- Trade and GDP\nDo NOT produce a general reading passage about economics; it must test an economic concept.\nUse tables, charts, or short policy scenarios when possible.\n`;
+            }
+        }
         // 3. Build the topic prompt (new behavior for non-Math) with approved passages section
         let winnerModel = 'unknown';
         let latencyMs = 0;
