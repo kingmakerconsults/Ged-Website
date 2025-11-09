@@ -114,6 +114,55 @@ function countScienceNumeracy(items) {
     return Array.isArray(items) ? items.reduce((acc, it) => acc + (isScienceNumeracyItem(it) ? 1 : 0), 0) : 0;
 }
 
+// Normalize table markup: convert Markdown pipe tables to HTML and ensure consistent styling
+function normalizeTables(html) {
+    try {
+        if (typeof html !== 'string' || !html.trim()) return html;
+        let out = html;
+
+        // Convert simple Markdown pipe tables into basic HTML table if no <table> exists
+        if (!/<table/i.test(out) && /\|/.test(out)) {
+            const lines = out.split(/\r?\n/);
+            const tableLines = lines.filter((l) => /\|/.test(l)).map((l) => l.trim()).filter(Boolean);
+            if (tableLines.length >= 2) {
+                // optional header sep line like |---|---|
+                const rows = [];
+                for (const tl of tableLines) {
+                    if (/^\|?\s*-{3,}/.test(tl)) continue; // skip separator rows
+                    const cells = tl
+                        .replace(/^\|/, '')
+                        .replace(/\|$/, '')
+                        .split('|')
+                        .map((c) => c.trim());
+                    const tds = cells.map((c) => `<td>${c}</td>`).join('');
+                    rows.push(`<tr>${tds}</tr>`);
+                }
+                if (rows.length) {
+                    out = `<table class="data-table"><tbody>${rows.join('')}</tbody></table>`;
+                }
+            }
+        }
+
+        // Ensure <table> has a class
+        out = out.replace(/<table\b(?![^>]*class=)/gi, '<table class="data-table"');
+        // Add inline styles to th/td if not already explicitly styled
+        out = out
+            .replace(/<th>(.*?)</g, '<th style="text-align:left;padding:4px;border:1px solid #ccc;">$1<')
+            .replace(/<td>(.*?)</g, '<td style="text-align:center;padding:4px;border:1px solid #ccc;">$1<');
+
+        // If headers missing (no <thead>), promote the first row to thead when possible
+        if (!/<thead>/i.test(out) && /<table/i.test(out)) {
+            out = out.replace(/<table[^>]*>(\s*)(<tr>([\s\S]*?)<\/tr>)/i, (m) =>
+                m.replace(/<tr>([\s\S]*?)<\/tr>/i, `<thead><tr>$1</tr></thead>`)
+            );
+        }
+
+        return out;
+    } catch (_) {
+        return html;
+    }
+}
+
 function textWordCount(item) {
     const toCount = (s) => (typeof s === 'string' ? s.trim().split(/\s+/).filter(Boolean).length : 0);
     return toCount(item?.questionText) + toCount(item?.passage);
@@ -148,19 +197,9 @@ Return one JSON object with "questionText" and "answerOptions" (array of {text, 
     };
     const q = await callAI(prompt, schema, options);
     // Sanitize and normalize any returned table markup for consistency
-    if (q && q.questionText) {
-        q.questionText = q.questionText
-            // ensure a data-table class on any <table> lacking one
-            .replace(/<table\b(?![^>]*class=)/gi, '<table class="data-table"')
-            // add inline styles to th/td if not already present (avoid duplicating style=)
-            .replace(/<th>(.*?)</g, '<th style="text-align:left;padding:4px;border:1px solid #ccc;">$1<')
-            .replace(/<td>(.*?)</g, '<td style="text-align:center;padding:4px;border:1px solid #ccc;">$1<');
-        // If headers missing (no <thead> but there is a first row), attempt heuristic promotion
-        if (!/<thead>/i.test(q.questionText) && /<table/i.test(q.questionText)) {
-            q.questionText = q.questionText.replace(/<table[^>]*>(\s*)(<tr>([\s\S]*?)<\/tr>)/i, (m, ws, firstRow) => {
-                return m.replace(/<tr>([\s\S]*?)<\/tr>/i, `<thead><tr>$1</tr></thead>`);
-            });
-        }
+    if (q) {
+        if (q.questionText) q.questionText = normalizeTables(q.questionText);
+        if (q.passage) q.passage = normalizeTables(q.passage);
     }
     return enforceWordCapsOnItem(q, 'Science');
 }
@@ -810,6 +849,38 @@ function pickPassageFor(subject, { topic = '', difficulty = '' } = {}) {
         text: chosen.text || chosen.passage || chosen.problem || '',
         topic: chosen.topic || chosen.area || ''
     };
+}
+
+// Generate a set of science literacy (reading comprehension) questions from a bank passage
+async function generateScienceLiteracySet(numQuestions = 5, aiOptions = {}) {
+    try {
+        const passage = pickPassageFor('science');
+        if (!passage || !passage.text) return [];
+        const capped = Math.max(1, Math.min(8, numQuestions));
+        const prompt = `You are a GED Science exam creator.
+Using ONLY the passage below, create ${capped} multiple-choice Science literacy questions.
+Focus on comprehension, inference, author's purpose, interpretation of scientific claims, and evaluation of evidence.
+Do NOT create numeracy/calculation questions. Avoid asking for formula application.
+Each question must have 4 answer options with exactly one correct marked.
+Return JSON ONLY with {"questions": [ {"questionText": "...", "answerOptions": [ {"text": "...", "isCorrect": true, "rationale": "..." }, {"text": "...", "isCorrect": false, "rationale": "..."} ] } ] }.
+Do not wrap JSON in markdown fences.
+
+PASSAGE:\n"""${passage.text}"""`;
+
+        const schema = { type: 'OBJECT', properties: { questions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { questionText: { type: 'STRING' }, answerOptions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { text: { type: 'STRING' }, isCorrect: { type: 'BOOLEAN' }, rationale: { type: 'STRING' } }, required: ['text','isCorrect','rationale'] } } }, required: ['questionText','answerOptions'] } } }, required: ['questions'] };
+        const res = await callAI(prompt, schema, aiOptions);
+        const qs = Array.isArray(res?.questions) ? res.questions : [];
+        return qs.map(q => ({
+            ...q,
+            passage: normalizeTables(passage.text),
+            questionText: normalizeTables(q.questionText || ''),
+            type: 'passage',
+            qaProfileKey: 'literacy'
+        }));
+    } catch (e) {
+        try { console.warn('[Science-Literacy] generation failed:', e?.message || e); } catch {}
+        return [];
+    }
 }
 
 function pickMathWordProblemTemplate() {
@@ -7285,23 +7356,27 @@ PASSAGE:\n${foundingPassage.text}\n`;
                     try { console.warn('[Science][Passages] Failed to inject bank passages:', e?.message || e); } catch {}
                 }
 
-                // Normalize any raw HTML tables that may appear in questionText/passage
-                const normalizeTables = (html) => {
-                    if (typeof html !== 'string' || !html) return html;
-                    let out = html;
-                    out = out.replace(/<table\b(?![^>]*class=)/gi, '<table class="data-table"');
-                    out = out.replace(/<th>(.*?)</g, '<th style="text-align:left;padding:4px;border:1px solid #ccc;">$1<');
-                    out = out.replace(/<td>(.*?)</g, '<td style="text-align:center;padding:4px;border:1px solid #ccc;">$1<');
-                    if (!/<thead>/i.test(out) && /<table/i.test(out)) {
-                        out = out.replace(/<table[^>]*>(\s*)(<tr>([\s\S]*?)<\/tr>)/i, (m) => m.replace(/<tr>([\s\S]*?)<\/tr>/i, `<thead><tr>$1</tr></thead>`));
-                    }
-                    return out;
-                };
+                // Normalize tables via shared helper
                 draftQuestionSet = draftQuestionSet.map((q) => ({
                     ...q,
                     questionText: normalizeTables(q?.questionText),
                     passage: normalizeTables(q?.passage)
                 }));
+
+                // Append two reading-focused (science literacy) passage sets
+                try {
+                    const literacySets = [];
+                    for (let i = 0; i < 2; i++) {
+                        const set = await generateScienceLiteracySet(5, aiOptions);
+                        if (Array.isArray(set) && set.length) literacySets.push(...set);
+                    }
+                    if (literacySets.length) {
+                        draftQuestionSet.push(...literacySets);
+                        console.log(`[Science][Literacy] Added ${literacySets.length} passage-based literacy questions.`);
+                    }
+                } catch (e) {
+                    try { console.warn('[Science][Literacy] Unable to append literacy sets:', e?.message || e); } catch {}
+                }
 
                 draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
 
