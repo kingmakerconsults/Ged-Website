@@ -3491,6 +3491,10 @@ class ErrorBoundary extends React.Component {
 const { tokenizeMathSegments, restoreMathSegments, normalizeCurrencyOutsideMath, normalizeLatexMacrosInMath, stripTextMacroInPlain, applyPhraseSpacingRepairs, addMissingBackslashesInMath, fixAllMathInText, collapseUnderscoredLatexMacros } = window.TextSanitizer || {};
 
 const API_BASE_URL = 'https://ged-website.onrender.com';
+// Fallback alias for API_BASE for legacy code safety
+const API_BASE = (typeof window !== 'undefined' && window.__CLIENT_CONFIG__?.API_BASE_URL)
+    ? window.__CLIENT_CONFIG__.API_BASE_URL
+    : API_BASE_URL;
 const SCORE_FETCH_INTERVAL_MS = 45000;
 
 async function generateTopicQuiz(subjectParam, topic, difficulty) {
@@ -13799,24 +13803,13 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     const handleStartVocabularyQuiz = async (subject) => {
         if (!subject) return;
-
-        // build a safe API base for this call
-        const apiBase =
-            (typeof window !== 'undefined' &&
-                window.__CLIENT_CONFIG__ &&
-                window.__CLIENT_CONFIG__.API_BASE_URL)
-                ? window.__CLIENT_CONFIG__.API_BASE_URL
-                : (typeof API_BASE_URL === 'string' && API_BASE_URL)
-                    ? API_BASE_URL
-                    : (typeof window !== 'undefined' ? window.location.origin : '');
-
         try {
             const normalizedSubject = subject
                 .toLowerCase()
                 .replace(/\s+/g, '-')
                 .replace(/[()]/g, '');
-
-            const res = await fetch(`${apiBase}/api/vocabulary-quiz/${normalizedSubject}`);
+            // Use API_BASE_URL for all vocabulary quiz fetches
+            const res = await fetch(`${API_BASE_URL}/api/vocabulary-quiz/${normalizedSubject}`);
 
             if (!res.ok) {
                 throw new Error(`Failed to fetch vocabulary quiz: ${res.status}`);

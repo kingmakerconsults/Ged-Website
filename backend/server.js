@@ -570,7 +570,17 @@ async function loadAndAugmentImageMetadata() {
     const fallbackFile = path.join(__dirname, "data", "image_metadata_final.json");
 
     let db = readJsonSafe(primaryFile) || readJsonSafe(fallbackFile) || [];
+
     if (!Array.isArray(db)) db = [];
+
+    // Normalize filePath for each image
+    db = db.map((img) => {
+        if (!img.filePath) {
+            const subjectPart = (img.subject || 'Misc').replace(/\s+/g, ' ');
+            img.filePath = `/frontend/Images/${subjectPart}/${img.fileName}`;
+        }
+        return img;
+    });
 
     // 🔒 TEMP: disable Gemini image analysis — use existing metadata only
     console.info("[ImageDB] AI image enrichment is disabled for now — using existing metadata only.");
@@ -2887,6 +2897,17 @@ try {
             res.setHeader('Access-Control-Allow-Origin', '*');
         }
     }));
+    // Serve images from /frontend/Images with CORS headers
+    app.use(
+        '/frontend/Images',
+        express.static(path.join(frontendDir, 'Images'), {
+            maxAge: '1h',
+            setHeaders(res) {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+            },
+        })
+    );
+// ...existing code...
     // Log quiz requests to verify the frontend is hitting this endpoint
     app.use('/quizzes', (req, _res, next) => {
         try { console.log('[QUIZZES] request:', req.method, req.url); } catch {}
@@ -3650,6 +3671,7 @@ const COACH_DAILY_QUIZZES = {
 };
 const COACH_ASSIGNED_BY = 'coach-smith';
 const COACH_QUIZ_MINUTES = 15; // minutes credited when coach quiz is completed
+const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
 
 function todayISO() {
     return new Date().toISOString().slice(0, 10);
@@ -5165,7 +5187,8 @@ function buildSubjectPrompt({ subject, topic, examType, context = [], images = [
         if (subject === 'Social Studies') {
             base.push(
                 `STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.`,
-                `Ensure variety of stimuli: passages, historical quotes, charts/graphs, and images when appropriate.`
+                `Ensure variety of stimuli: passages, historical quotes, charts/graphs, and images when appropriate.`,
+                `\nECONOMICS SUBSECTION RULES:\n- Economics items must be concise (aim for <= 120 words of setup).\n- Prefer data-based, chart-based, or policy-scenario questions over long explanatory passages.\n- Tie each economics item to an actual concept (scarcity, opportunity cost, supply/demand, government role, fiscal/monetary policy, trade).\n- If IMAGE_CONTEXT provides an economics-relevant image/table, use it and make the student interpret it.`
             );
         } else if (subject === 'Science') {
             base.push(
@@ -7010,7 +7033,7 @@ app.post('/generate-quiz', async (req, res) => {
                 const blueprint = {
                     'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
                     'U.S. History':           { passages: 3, images: 2, standalone: 1 },
-                    'Economics':              { passages: 3, images: 1, standalone: 0 },
+                    'Economics':              { passages: 1, images: 2, standalone: 1 },
                     'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
                 };
                 const TOTAL_QUESTIONS = 35;
