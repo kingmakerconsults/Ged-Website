@@ -13235,6 +13235,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
             );
             if (res.ok) {
                 const data = await res.json();
+                try { console.log('Daily coach data:', data); } catch (_) {}
                 if (data && data.ok) {
                     setCoachDailySubjects(Array.isArray(data.subjects) ? data.subjects : []);
                 } else {

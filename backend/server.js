@@ -4138,6 +4138,12 @@ function normalizeCoachDay(day) {
     return out;
 }
 
+// Ensure all coach endpoints are uncached by browsers/CDNs
+app.use('/api/coach', (req, res, next) => {
+        try { res.set('Cache-Control', 'no-store'); } catch (_) {}
+        next();
+});
+
 // Simplified weekly plan endpoint storing into coach_weekly_plans
 app.post(
   '/api/coach/:subject/generate-week',
