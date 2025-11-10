@@ -13200,7 +13200,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 return;
             }
             const res = await fetch(`${API_BASE_URL}/api/coach/weekly?t=${Date.now()}`,
-                { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
+                { method: 'GET', headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
             );
             if (!res.ok) {
                 setWeeklyCoachPlan((prev) => prev || { weekStart: null, weekEnd: null, days: [] });
@@ -13231,7 +13231,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                 return;
             }
             const res = await fetch(`${API_BASE_URL}/api/coach/daily?t=${Date.now()}`,
-                { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
+                { method: 'GET', headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
             );
             if (res.ok) {
                 const data = await res.json();
