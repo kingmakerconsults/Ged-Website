@@ -1381,311 +1381,344 @@
                 },
                 {
                   "questionNumber": 2,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A recipe calls for 2 1/3 cups of flour, but Jason only has a 1/4 cup measuring cup.",
+                    "imageURL": "",
+                    "questionText": "How many 1/4 cup measurements does Jason need?"
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
+                      "text": "9",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This divides 2 1/3 by 1/3 instead of 1/4."
                     },
                     {
-                      "text": "B. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "C. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "D. Math practice placeholder",
+                      "text": "9 1/3",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. 2 1/3 = 7/3 cups. Dividing by 1/4 gives (7/3) ÷ (1/4) = 28/3 = 9 1/3."
+                    },
+                    {
+                      "text": "7",
+                      "isCorrect": false,
+                      "rationale": "This multiplies instead of dividing."
+                    },
+                    {
+                      "text": "10",
+                      "isCorrect": false,
+                      "rationale": "This rounds up incorrectly."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 3,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A carpenter needs to cut a 10-foot board into pieces that are each 1.25 feet long.",
+                    "imageURL": "",
+                    "questionText": "How many pieces can be cut from the board?"
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
+                      "text": "7",
+                      "isCorrect": false,
+                      "rationale": "This doesn't account for all available length."
+                    },
+                    {
+                      "text": "8",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. 10 ÷ 1.25 = 8 pieces exactly."
                     },
                     {
-                      "text": "B. Math practice placeholder",
+                      "text": "9",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This would require more than 10 feet of board."
                     },
                     {
-                      "text": "C. Math practice placeholder",
+                      "text": "6",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "D. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This leaves 2.5 feet unused."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 4,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A swimming pool holds 18,000 gallons of water. It is currently 2/3 full and needs to be filled to 5/6 full.",
+                    "imageURL": "",
+                    "questionText": "How many gallons of water need to be added?"
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "B. Math practice placeholder",
+                      "text": "3,000 gallons",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. 5/6 - 2/3 = 5/6 - 4/6 = 1/6. Then 1/6 of 18,000 = 3,000 gallons."
                     },
                     {
-                      "text": "C. Math practice placeholder",
+                      "text": "6,000 gallons",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This is 1/3 of the pool, not 1/6."
                     },
                     {
-                      "text": "D. Math practice placeholder",
+                      "text": "12,000 gallons",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This is 2/3 of the pool."
+                    },
+                    {
+                      "text": "15,000 gallons",
+                      "isCorrect": false,
+                      "rationale": "This is 5/6 of the pool, not the difference."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 5,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A parking meter costs $0.25 for every 15 minutes. Sarah needs to park for 1 hour.",
+                    "imageURL": "",
+                    "questionText": "How much will Sarah need to pay?"
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
+                      "text": "$0.50",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This is only for 30 minutes."
                     },
                     {
-                      "text": "B. Math practice placeholder",
+                      "text": "$0.75",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This is only for 45 minutes."
                     },
                     {
-                      "text": "C. Math practice placeholder",
+                      "text": "$1.00",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. 1 hour = 60 minutes = 4 periods of 15 minutes. 4 × $0.25 = $1.00."
                     },
                     {
-                      "text": "D. Math practice placeholder",
+                      "text": "$1.50",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This calculates for 90 minutes instead of 60."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 6,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A train travels at an average speed of 75 miles per hour. If the trip takes 3.5 hours, how far does the train travel?",
+                    "imageURL": "",
+                    "questionText": "Calculate the distance traveled."
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
+                      "text": "225 miles",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This uses only 3 hours instead of 3.5."
                     },
                     {
-                      "text": "B. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "C. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "D. Math practice placeholder",
+                      "text": "262.5 miles",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. Distance = speed × time = 75 × 3.5 = 262.5 miles."
+                    },
+                    {
+                      "text": "300 miles",
+                      "isCorrect": false,
+                      "rationale": "This uses 4 hours instead of 3.5."
+                    },
+                    {
+                      "text": "250 miles",
+                      "isCorrect": false,
+                      "rationale": "This miscalculates the product."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 7,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A store sells notebooks for $3.25 each. Tom buys 4 notebooks.",
+                    "imageURL": "",
+                    "questionText": "What is the total cost before tax?"
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
+                      "text": "$12.75",
+                      "isCorrect": false,
+                      "rationale": "This adds $3.25 four times incorrectly."
+                    },
+                    {
+                      "text": "$13.00",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. $3.25 × 4 = $13.00."
                     },
                     {
-                      "text": "B. Math practice placeholder",
+                      "text": "$12.00",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This uses $3.00 instead of $3.25."
                     },
                     {
-                      "text": "C. Math practice placeholder",
+                      "text": "$16.00",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "D. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This uses $4.00 per notebook."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 8,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A factory produces 450 widgets per hour. If the factory operates 16 hours per day, 5 days per week, how many widgets are produced in one week?",
+                    "imageURL": "",
+                    "questionText": "Calculate the total weekly production."
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
+                      "text": "7,200 widgets",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This is only one day's production (450 × 16)."
                     },
                     {
-                      "text": "B. Math practice placeholder",
+                      "text": "36,000 widgets",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. 450 × 16 = 7,200 per day. 7,200 × 5 = 36,000 widgets per week."
                     },
                     {
-                      "text": "C. Math practice placeholder",
+                      "text": "22,500 widgets",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This uses only 5 hours per day instead of 16."
                     },
                     {
-                      "text": "D. Math practice placeholder",
+                      "text": "3,600 widgets",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This is only for 8 hours total, not per day."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 9,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A restaurant bill comes to $48.60. If you want to leave a 20% tip, what is the tip amount?",
+                    "imageURL": "",
+                    "questionText": "Calculate the tip."
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
+                      "text": "$9.60",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This miscalculates 20% of 48.60."
                     },
                     {
-                      "text": "B. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "C. Math practice placeholder",
+                      "text": "$9.72",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. $48.60 × 0.20 = $9.72."
                     },
                     {
-                      "text": "D. Math practice placeholder",
+                      "text": "$10.00",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This rounds up too much."
+                    },
+                    {
+                      "text": "$8.60",
+                      "isCorrect": false,
+                      "rationale": "This subtracts 20 from 48.60 instead of calculating 20%."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 10,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A box contains 36 markers. If the markers are divided equally among 9 students, how many markers does each student receive?",
+                    "imageURL": "",
+                    "questionText": "How many markers per student?"
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
+                      "text": "3 markers",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This divides 9 by 3 instead."
                     },
                     {
-                      "text": "B. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "C. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "D. Math practice placeholder",
+                      "text": "4 markers",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. 36 ÷ 9 = 4 markers per student."
+                    },
+                    {
+                      "text": "5 markers",
+                      "isCorrect": false,
+                      "rationale": "This would require 45 markers total."
+                    },
+                    {
+                      "text": "6 markers",
+                      "isCorrect": false,
+                      "rationale": "This would require 54 markers total."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 11,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "Maria needs to convert 3/4 to a decimal to enter it into a calculator.",
+                    "imageURL": "",
+                    "questionText": "What is 3/4 expressed as a decimal?"
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
+                      "text": "0.75",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. Dividing 3 by 4 gives 0.75."
                     },
                     {
-                      "text": "B. Math practice placeholder",
+                      "text": "0.34",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This incorrectly places the digits side by side."
                     },
                     {
-                      "text": "C. Math practice placeholder",
+                      "text": "1.33",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This is 4/3, the reciprocal."
                     },
                     {
-                      "text": "D. Math practice placeholder",
+                      "text": "0.43",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This reverses the division."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 },
                 {
                   "questionNumber": 12,
-                  "question": "Which option best answers this practice item for Number Sense & Operations?",
+                  "type": "multiple-choice-text",
+                  "content": {
+                    "passage": "A grocery store is running a promotion. If you buy 3 cans of soup at $2.50 each, you get a 15% discount on the total.",
+                    "imageURL": "",
+                    "questionText": "What is the final cost after the discount?"
+                  },
                   "answerOptions": [
                     {
-                      "text": "A. Math practice placeholder",
-                      "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                    },
-                    {
-                      "text": "B. Math practice placeholder",
+                      "text": "$6.38",
                       "isCorrect": true,
-                      "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                      "rationale": "Correct. 3 × $2.50 = $7.50, then $7.50 × 0.85 = $6.375, rounded to $6.38."
                     },
                     {
-                      "text": "C. Math practice placeholder",
+                      "text": "$7.50",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This is the cost before the discount is applied."
                     },
                     {
-                      "text": "D. Math practice placeholder",
+                      "text": "$1.13",
                       "isCorrect": false,
-                      "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                      "rationale": "This is the discount amount, not the final cost."
+                    },
+                    {
+                      "text": "$5.63",
+                      "isCorrect": false,
+                      "rationale": "This subtracts 15% from each can separately instead of the total."
                     }
-                  ],
-                  "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                  "__autogen": true
+                  ]
                 }
               ],
               "quizId": "math_quant_numbers"
@@ -4365,311 +4398,344 @@
               },
               {
                 "questionNumber": 2,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A grocery store is running a promotion. If you buy 3 cans of soup at $2.50 each, you get a 15% discount on the total.",
+                  "imageURL": "",
+                  "questionText": "What is the final cost after the discount?"
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "B. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "C. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "D. Math practice placeholder",
+                    "text": "$6.38",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. 3 × $2.50 = $7.50, then $7.50 × 0.85 = $6.375, rounded to $6.38."
+                  },
+                  {
+                    "text": "$7.50",
+                    "isCorrect": false,
+                    "rationale": "This is the cost before the discount is applied."
+                  },
+                  {
+                    "text": "$1.13",
+                    "isCorrect": false,
+                    "rationale": "This is the discount amount, not the final cost."
+                  },
+                  {
+                    "text": "$5.63",
+                    "isCorrect": false,
+                    "rationale": "This subtracts 15% from each can separately instead of the total."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 3,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "Maria needs to convert 3/4 to a decimal to enter it into a calculator.",
+                  "imageURL": "",
+                  "questionText": "What is 3/4 expressed as a decimal?"
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
+                    "text": "0.75",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. Dividing 3 by 4 gives 0.75."
                   },
                   {
-                    "text": "B. Math practice placeholder",
+                    "text": "0.34",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This incorrectly places the digits side by side."
                   },
                   {
-                    "text": "C. Math practice placeholder",
+                    "text": "1.33",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This is 4/3, the reciprocal."
                   },
                   {
-                    "text": "D. Math practice placeholder",
+                    "text": "0.43",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This reverses the division."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 4,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A recipe calls for 2 1/3 cups of flour, but Jason only has a 1/4 cup measuring cup.",
+                  "imageURL": "",
+                  "questionText": "How many 1/4 cup measurements does Jason need?"
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
+                    "text": "9",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This divides 2 1/3 by 1/3 instead of 1/4."
                   },
                   {
-                    "text": "B. Math practice placeholder",
+                    "text": "9 1/3",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. 2 1/3 = 7/3 cups. Dividing by 1/4 gives (7/3) ÷ (1/4) = 28/3 = 9 1/3."
                   },
                   {
-                    "text": "C. Math practice placeholder",
+                    "text": "7",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This multiplies instead of dividing."
                   },
                   {
-                    "text": "D. Math practice placeholder",
+                    "text": "10",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This rounds up incorrectly."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 5,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A factory produces 450 widgets per hour. If the factory operates 16 hours per day, 5 days per week, how many widgets are produced in one week?",
+                  "imageURL": "",
+                  "questionText": "Calculate the total weekly production."
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
+                    "text": "7,200 widgets",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This is only one day's production (450 × 16)."
                   },
                   {
-                    "text": "B. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "C. Math practice placeholder",
+                    "text": "36,000 widgets",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. 450 × 16 = 7,200 per day. 7,200 × 5 = 36,000 widgets per week."
                   },
                   {
-                    "text": "D. Math practice placeholder",
+                    "text": "22,500 widgets",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This uses only 5 hours per day instead of 16."
+                  },
+                  {
+                    "text": "3,600 widgets",
+                    "isCorrect": false,
+                    "rationale": "This is only for 8 hours total, not per day."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 6,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A box contains 36 markers. If the markers are divided equally among 9 students, how many markers does each student receive?",
+                  "imageURL": "",
+                  "questionText": "How many markers per student?"
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
+                    "text": "3 markers",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This divides 9 by 3 instead."
                   },
                   {
-                    "text": "B. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "C. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "D. Math practice placeholder",
+                    "text": "4 markers",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. 36 ÷ 9 = 4 markers per student."
+                  },
+                  {
+                    "text": "5 markers",
+                    "isCorrect": false,
+                    "rationale": "This would require 45 markers total."
+                  },
+                  {
+                    "text": "6 markers",
+                    "isCorrect": false,
+                    "rationale": "This would require 54 markers total."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 7,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A restaurant bill comes to $48.60. If you want to leave a 20% tip, what is the tip amount?",
+                  "imageURL": "",
+                  "questionText": "Calculate the tip."
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
+                    "text": "$9.60",
+                    "isCorrect": false,
+                    "rationale": "This miscalculates 20% of 48.60."
+                  },
+                  {
+                    "text": "$9.72",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. $48.60 × 0.20 = $9.72."
                   },
                   {
-                    "text": "B. Math practice placeholder",
+                    "text": "$10.00",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This rounds up too much."
                   },
                   {
-                    "text": "C. Math practice placeholder",
+                    "text": "$8.60",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "D. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This subtracts 20 from 48.60 instead of calculating 20%."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 8,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A train travels at an average speed of 75 miles per hour. If the trip takes 3.5 hours, how far does the train travel?",
+                  "imageURL": "",
+                  "questionText": "Calculate the distance traveled."
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
+                    "text": "225 miles",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This uses only 3 hours instead of 3.5."
                   },
                   {
-                    "text": "B. Math practice placeholder",
+                    "text": "262.5 miles",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. Distance = speed × time = 75 × 3.5 = 262.5 miles."
                   },
                   {
-                    "text": "C. Math practice placeholder",
+                    "text": "300 miles",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This uses 4 hours instead of 3.5."
                   },
                   {
-                    "text": "D. Math practice placeholder",
+                    "text": "250 miles",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This miscalculates the product."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 9,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A parking meter costs $0.25 for every 15 minutes. Sarah needs to park for 1 hour.",
+                  "imageURL": "",
+                  "questionText": "How much will Sarah need to pay?"
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
+                    "text": "$0.50",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This is only for 30 minutes."
                   },
                   {
-                    "text": "B. Math practice placeholder",
+                    "text": "$0.75",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This is only for 45 minutes."
                   },
                   {
-                    "text": "C. Math practice placeholder",
+                    "text": "$1.00",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. 1 hour = 60 minutes = 4 periods of 15 minutes. 4 × $0.25 = $1.00."
                   },
                   {
-                    "text": "D. Math practice placeholder",
+                    "text": "$1.50",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This calculates for 90 minutes instead of 60."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 10,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A carpenter needs to cut a 10-foot board into pieces that are each 1.25 feet long.",
+                  "imageURL": "",
+                  "questionText": "How many pieces can be cut from the board?"
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
+                    "text": "7",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This doesn't account for all available length."
                   },
                   {
-                    "text": "B. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "C. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "D. Math practice placeholder",
+                    "text": "8",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. 10 ÷ 1.25 = 8 pieces exactly."
+                  },
+                  {
+                    "text": "9",
+                    "isCorrect": false,
+                    "rationale": "This would require more than 10 feet of board."
+                  },
+                  {
+                    "text": "6",
+                    "isCorrect": false,
+                    "rationale": "This leaves 2.5 feet unused."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 11,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A store sells notebooks for $3.25 each. Tom buys 4 notebooks.",
+                  "imageURL": "",
+                  "questionText": "What is the total cost before tax?"
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
+                    "text": "$12.75",
+                    "isCorrect": false,
+                    "rationale": "This adds $3.25 four times incorrectly."
+                  },
+                  {
+                    "text": "$13.00",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. $3.25 × 4 = $13.00."
                   },
                   {
-                    "text": "B. Math practice placeholder",
+                    "text": "$12.00",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This uses $3.00 instead of $3.25."
                   },
                   {
-                    "text": "C. Math practice placeholder",
+                    "text": "$16.00",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "D. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This uses $4.00 per notebook."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               },
               {
                 "questionNumber": 12,
-                "question": "Which option best answers this practice item for Number Sense & Operations?",
+                "type": "multiple-choice-text",
+                "content": {
+                  "passage": "A swimming pool holds 18,000 gallons of water. It is currently 2/3 full and needs to be filled to 5/6 full.",
+                  "imageURL": "",
+                  "questionText": "How many gallons of water need to be added?"
+                },
                 "answerOptions": [
                   {
-                    "text": "A. Math practice placeholder",
-                    "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
-                  },
-                  {
-                    "text": "B. Math practice placeholder",
+                    "text": "3,000 gallons",
                     "isCorrect": true,
-                    "rationale": "Correct. This choice aligns with the intended computation or reasoning."
+                    "rationale": "Correct. 5/6 - 2/3 = 5/6 - 4/6 = 1/6. Then 1/6 of 18,000 = 3,000 gallons."
                   },
                   {
-                    "text": "C. Math practice placeholder",
+                    "text": "6,000 gallons",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This is 1/3 of the pool, not 1/6."
                   },
                   {
-                    "text": "D. Math practice placeholder",
+                    "text": "12,000 gallons",
                     "isCorrect": false,
-                    "rationale": "Not the best choice. Review the intended arithmetic or reasoning."
+                    "rationale": "This is 2/3 of the pool."
+                  },
+                  {
+                    "text": "15,000 gallons",
+                    "isCorrect": false,
+                    "rationale": "This is 5/6 of the pool, not the difference."
                   }
-                ],
-                "explanation": "Practice placeholder. Replace with a vetted item when available.",
-                "__autogen": true
+                ]
               }
             ],
             "quizId": "math_quant_numbers"
