@@ -4153,13 +4153,13 @@ app.use('/api/coach', (req, res, next) => {
 
 // Simplified weekly plan endpoint storing into coach_weekly_plans
 app.post(
-  '/api/coach/:subject/generate-week',
-  devAuth,
-  ensureTestUserForNow,
-  requireAuthInProd,
-    maybeAuth,
-  express.json(),
-  async (req, res) => {
+    '/api/coach/:subject/generate-week',
+    devAuth,
+    ensureTestUserForNow,
+    requireAuthInProd,
+    authRequired,
+    express.json(),
+    async (req, res) => {
     try {
       const userId = req.user?.id || req.user?.userId;
       if (!userId) return res.status(401).json({ ok: false, error: 'not_authenticated' });
@@ -4170,16 +4170,16 @@ app.post(
       const weekStart = getCurrentWeekStartISO();
       const weekEnd = addDaysISO(weekStart, 6);
 
-      const bundle = await buildProfileBundle(userId);
-      const selected = Array.isArray(bundle?.selectedChallenges)
-        ? bundle.selectedChallenges.filter((c) => normalizeSubjectLabel(c.subject) === subject)
-        : [];
+            const bundle = await buildProfileBundle(userId);
+            // Use real challenge options; only selected and matching subject
+            const allChallenges = Array.isArray(bundle?.challengeOptions) ? bundle.challengeOptions : [];
+            const selected = allChallenges.filter((c) => c?.selected && normalizeSubjectLabel(c.subject) === subject);
 
       const days = [];
             for (let i = 0; i < 7; i++) {
-                const chosenChallenge = selected[i % Math.max(selected.length, 1)] || null;
+                                const chosenChallenge = selected.length ? selected[i % selected.length] : null;
                 const focus = chosenChallenge
-                    ? [chosenChallenge.subtopic || chosenChallenge.label || chosenChallenge.id].filter(Boolean)
+                                        ? [chosenChallenge.subtopic || chosenChallenge.label || chosenChallenge.name || chosenChallenge.displayName || chosenChallenge.id].filter(Boolean)
                     : ['general'];
         const quizCode = pickCoachQuizSourceId(subject, i);
         days.push({
@@ -4195,18 +4195,21 @@ app.post(
               id: `${subject.toLowerCase()}-day-${i + 1}`,
               subject,
               subjectLabel: subject,
-              title: quizCode ? 'Coach quiz' : 'Practice',
+                            title: chosenChallenge
+                                ? `Practice: ${chosenChallenge.name || chosenChallenge.displayName || chosenChallenge.label || 'Focus'}`
+                                : (quizCode ? 'Coach quiz' : 'Practice'),
               type: 'coach-quiz',
               minutes: 20,
               quizId: quizCode || null,
+                            challengeId: chosenChallenge ? (chosenChallenge.id || null) : null,
                             focus,
             },
           ],
         });
       }
 
-      const plan = { weekStart, weekEnd, generatedAt: new Date().toISOString(), subject, days };
-      await upsertWeeklyPlan(userId, subject, weekStart, weekEnd, plan);
+            const plan = { weekStart, weekEnd, generatedAt: new Date().toISOString(), subject, days };
+            await upsertWeeklyPlan(userId, subject, weekStart, weekEnd, plan);
 
       // Seed today's daily row with quiz assignment for immediate visibility
       const today = todayISO();
