@@ -20582,124 +20582,328 @@
               "title": "Math — Algebraic Problem Solving Set 1",
               "questions": [
                 {
-                  "type": "multiple_choice",
-                  "question": "Simplify the expression: 3x + 5x - 2x",
+                  "questionNumber": 1,
+                  "type": "knowledge",
+                  "question": "Simplify the expression: 3x + 5x − 2x.",
                   "answerOptions": [
-                    "4x",
-                    "5x",
-                    "6x",
-                    "8x"
-                  ],
-                  "correctAnswer": "6x",
-                  "difficulty": "easy"
+                    {
+                      "text": "4x",
+                      "rationale": "Adds only the first two terms.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "5x",
+                      "rationale": "Subtracts 5x from 3x.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "6x",
+                      "rationale": "Correct. Combine like terms: (3 + 5 − 2)x = 6x.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "8x",
+                      "rationale": "Doubles the expression before subtracting.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "fill_in_the_blank",
-                  "question": "Solve for x: x + 7 = 15",
-                  "correctAnswer": "8",
-                  "difficulty": "easy"
+                  "questionNumber": 2,
+                  "type": "knowledge",
+                  "question": "Solve for x: x + 7 = 15.",
+                  "answerOptions": [
+                    {
+                      "text": "7",
+                      "rationale": "Stops after subtracting 7 from 7.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "8",
+                      "rationale": "Correct. x = 15 − 7 = 8.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "9",
+                      "rationale": "Adds 7 instead of subtracting.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "22",
+                      "rationale": "Adds both sides instead of isolating x.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "multiple_choice",
+                  "questionNumber": 3,
+                  "type": "knowledge",
                   "question": "Evaluate the expression 2a + 3b for a = 4 and b = 2.",
                   "answerOptions": [
-                    "10",
-                    "12",
-                    "14",
-                    "16"
-                  ],
-                  "correctAnswer": "14",
-                  "difficulty": "easy"
+                    {
+                      "text": "10",
+                      "rationale": "Computes 2a + b.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "12",
+                      "rationale": "Evaluates only 2a.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "14",
+                      "rationale": "Correct. 2 × 4 + 3 × 2 = 8 + 6 = 14.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "16",
+                      "rationale": "Squares a before multiplying.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "multiple_choice",
-                  "question": "Solve for y: 3y - 5 = 16",
+                  "questionNumber": 4,
+                  "type": "knowledge",
+                  "question": "Solve for y: 3y − 5 = 16.",
                   "answerOptions": [
-                    "5",
-                    "6",
-                    "7",
-                    "8"
-                  ],
-                  "correctAnswer": "7",
-                  "difficulty": "medium"
+                    {
+                      "text": "5",
+                      "rationale": "Divides 16 by 3 without adding 5 back.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "6",
+                      "rationale": "Uses 3y = 11.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "7",
+                      "rationale": "Correct. 3y = 21 so y = 7.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "8",
+                      "rationale": "Adds 5 twice before dividing.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "fill_in_the_blank",
-                  "question": "Simplify the expression: 4(2x - 3) + 5",
-                  "correctAnswer": "8x - 7",
-                  "difficulty": "medium"
-                },
-                {
-                  "type": "multiple_choice",
-                  "question": "Solve for z: $\\frac{z}{4} + 2 = 5$",
+                  "questionNumber": 5,
+                  "type": "knowledge",
+                  "question": "Simplify the expression: 4(2x − 3) + 5.",
                   "answerOptions": [
-                    "8",
-                    "10",
-                    "12",
-                    "14"
-                  ],
-                  "correctAnswer": "12",
-                  "difficulty": "medium"
+                    {
+                      "text": "8x − 7",
+                      "rationale": "Correct. Distribute to get 8x − 12 and add 5 to get 8x − 7.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "8x + 5",
+                      "rationale": "Adds 5 before distributing.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "8x − 12",
+                      "rationale": "Distributes but forgets to add 5.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "2x − 7",
+                      "rationale": "Divides the entire expression by 2.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "multiple_choice",
+                  "questionNumber": 6,
+                  "type": "knowledge",
+                  "question": "Solve for z: z/4 + 2 = 5.",
+                  "answerOptions": [
+                    {
+                      "text": "8",
+                      "rationale": "Multiplies only the constant by 4.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "10",
+                      "rationale": "Adds 4 instead of multiplying.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "12",
+                      "rationale": "Correct. z/4 = 3 so z = 12.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "14",
+                      "rationale": "Subtracts 4 after isolating z/4.",
+                      "isCorrect": false
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 7,
+                  "type": "knowledge",
                   "question": "The sum of three consecutive integers is 45. What is the smallest of the three integers?",
                   "answerOptions": [
-                    "13",
-                    "14",
-                    "15",
-                    "16"
-                  ],
-                  "correctAnswer": "14",
-                  "difficulty": "medium"
+                    {
+                      "text": "13",
+                      "rationale": "Centers the numbers around 45 instead of dividing by 3.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "14",
+                      "rationale": "Correct. The integers are 14, 15, and 16.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "15",
+                      "rationale": "Gives the middle integer.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "16",
+                      "rationale": "Gives the largest integer.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "fill_in_the_blank",
-                  "question": "Solve for a: 5a + 9 = 2a + 24",
-                  "correctAnswer": "5",
-                  "difficulty": "medium"
+                  "questionNumber": 8,
+                  "type": "knowledge",
+                  "question": "Solve for a: 5a + 9 = 2a + 24.",
+                  "answerOptions": [
+                    {
+                      "text": "3",
+                      "rationale": "Divides 24 by 5.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "4",
+                      "rationale": "Subtracts 9 from 24 and stops.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "5",
+                      "rationale": "Correct. 3a = 15 so a = 5.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "11",
+                      "rationale": "Adds 9 to both sides before isolating a.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "multiple_choice",
+                  "questionNumber": 9,
+                  "type": "knowledge",
                   "question": "Write an algebraic expression for 'five less than twice a number x'.",
                   "answerOptions": [
-                    "5 - 2x",
-                    "2x - 5",
-                    "2(x - 5)",
-                    "2(5 - x)"
-                  ],
-                  "correctAnswer": "2x - 5",
-                  "difficulty": "medium"
+                    {
+                      "text": "x − 5",
+                      "rationale": "Represents five less than x, not twice x.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "2x − 5",
+                      "rationale": "Correct. Twice the number is 2x, then subtract 5.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "2(x − 5)",
+                      "rationale": "Subtracts 5 before doubling.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "x/2 − 5",
+                      "rationale": "Halves the number before subtracting 5.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "multiple_choice",
-                  "question": "Solve for x: 2(x + 3) - 3(x - 1) = 10",
+                  "questionNumber": 10,
+                  "type": "knowledge",
+                  "question": "Solve for x: 2(x + 3) − 3(x − 1) = 10.",
                   "answerOptions": [
-                    "-1",
-                    "0",
-                    "1",
-                    "2"
-                  ],
-                  "correctAnswer": "-1",
-                  "difficulty": "hard"
+                    {
+                      "text": "−4",
+                      "rationale": "Sets 2(x + 3) equal to 10.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "−1",
+                      "rationale": "Correct. Simplifying gives −x + 9 = 10 so x = −1.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "1",
+                      "rationale": "Assumes the terms combine to x + 9.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "4",
+                      "rationale": "Forgets to distribute the −3.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "fill_in_the_blank",
-                  "question": "Solve the inequality: 3x - 7 > 2x + 1",
-                  "correctAnswer": "x > 8",
-                  "difficulty": "hard"
+                  "questionNumber": 11,
+                  "type": "knowledge",
+                  "question": "Solve the inequality: 3x − 7 > 2x + 1.",
+                  "answerOptions": [
+                    {
+                      "text": "x > 8",
+                      "rationale": "Correct. Subtract 2x and add 7 to get x > 8.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "x > −8",
+                      "rationale": "Places the negative on the wrong side of the inequality.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "x < 8",
+                      "rationale": "Reverses the inequality symbol unnecessarily.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "x < −8",
+                      "rationale": "Solves for x < −8.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "multiple_choice",
+                  "questionNumber": 12,
+                  "type": "applied",
                   "question": "A rectangle has a perimeter of 40 cm. The length is 4 cm more than the width. What is the area of the rectangle?",
                   "answerOptions": [
-                    "84 cm$^2$",
-                    "96 cm$^2$",
-                    "100 cm$^2$",
-                    "108 cm$^2$"
-                  ],
-                  "correctAnswer": "96 cm$^2$",
-                  "difficulty": "hard"
+                    {
+                      "text": "64 cm²",
+                      "rationale": "Assumes the width and length are both 10 cm.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "80 cm²",
+                      "rationale": "Calculates the perimeter again instead of the area.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "96 cm²",
+                      "rationale": "Correct. Width = 8 cm, length = 12 cm, area = 8 × 12 = 96 cm².",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "112 cm²",
+                      "rationale": "Uses 14 cm as the width before multiplying.",
+                      "isCorrect": false
+                    }
+                  ]
                 }
               ],
               "quizId": "math_alg_expressions_quiz_1"
@@ -20709,124 +20913,328 @@
               "title": "Math — Algebraic Problem Solving Set 1",
               "questions": [
                 {
-                  "type": "multiple_choice",
-                  "question": "Simplify the expression: 7y - 2y + 4y",
+                  "questionNumber": 1,
+                  "type": "knowledge",
+                  "question": "Simplify the expression: 3x + 5x − 2x.",
                   "answerOptions": [
-                    "5y",
-                    "7y",
-                    "9y",
-                    "13y"
-                  ],
-                  "correctAnswer": "9y",
-                  "difficulty": "easy"
+                    {
+                      "text": "4x",
+                      "rationale": "Adds only the first two terms.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "5x",
+                      "rationale": "Subtracts 5x from 3x.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "6x",
+                      "rationale": "Correct. Combine like terms: (3 + 5 − 2)x = 6x.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "8x",
+                      "rationale": "Doubles the expression before subtracting.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "fill_in_the_blank",
-                  "question": "Solve for x: x - 5 = 12",
-                  "correctAnswer": "17",
-                  "difficulty": "easy"
-                },
-                {
-                  "type": "multiple_choice",
-                  "question": "Evaluate the expression 4c - 2d for c = 5 and d = 3.",
+                  "questionNumber": 2,
+                  "type": "knowledge",
+                  "question": "Solve for x: x + 7 = 15.",
                   "answerOptions": [
-                    "10",
-                    "12",
-                    "14",
-                    "16"
-                  ],
-                  "correctAnswer": "14",
-                  "difficulty": "easy"
+                    {
+                      "text": "7",
+                      "rationale": "Stops after subtracting 7 from 7.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "8",
+                      "rationale": "Correct. x = 15 − 7 = 8.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "9",
+                      "rationale": "Adds 7 instead of subtracting.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "22",
+                      "rationale": "Adds both sides instead of isolating x.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "multiple_choice",
-                  "question": "Solve for b: 4b + 7 = 31",
+                  "questionNumber": 3,
+                  "type": "knowledge",
+                  "question": "Evaluate the expression 2a + 3b for a = 4 and b = 2.",
                   "answerOptions": [
-                    "5",
-                    "6",
-                    "7",
-                    "8"
-                  ],
-                  "correctAnswer": "6",
-                  "difficulty": "medium"
+                    {
+                      "text": "10",
+                      "rationale": "Computes 2a + b.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "12",
+                      "rationale": "Evaluates only 2a.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "14",
+                      "rationale": "Correct. 2 × 4 + 3 × 2 = 8 + 6 = 14.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "16",
+                      "rationale": "Squares a before multiplying.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "fill_in_the_blank",
-                  "question": "Simplify the expression: 3(x + 5) - 8",
-                  "correctAnswer": "3x + 7",
-                  "difficulty": "medium"
-                },
-                {
-                  "type": "multiple_choice",
-                  "question": "Solve for m: $\\frac{m}{3} - 1 = 4$",
+                  "questionNumber": 4,
+                  "type": "knowledge",
+                  "question": "Solve for y: 3y − 5 = 16.",
                   "answerOptions": [
-                    "9",
-                    "12",
-                    "15",
-                    "18"
-                  ],
-                  "correctAnswer": "15",
-                  "difficulty": "medium"
+                    {
+                      "text": "5",
+                      "rationale": "Divides 16 by 3 without adding 5 back.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "6",
+                      "rationale": "Uses 3y = 11.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "7",
+                      "rationale": "Correct. 3y = 21 so y = 7.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "8",
+                      "rationale": "Adds 5 twice before dividing.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "multiple_choice",
-                  "question": "The perimeter of a square is 28 inches. What is the length of one side?",
+                  "questionNumber": 5,
+                  "type": "knowledge",
+                  "question": "Simplify the expression: 4(2x − 3) + 5.",
                   "answerOptions": [
-                    "5 inches",
-                    "6 inches",
-                    "7 inches",
-                    "8 inches"
-                  ],
-                  "correctAnswer": "7 inches",
-                  "difficulty": "medium"
+                    {
+                      "text": "8x − 7",
+                      "rationale": "Correct. Distribute to get 8x − 12 and add 5 to get 8x − 7.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "8x + 5",
+                      "rationale": "Adds 5 before distributing.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "8x − 12",
+                      "rationale": "Distributes but forgets to add 5.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "2x − 7",
+                      "rationale": "Divides the entire expression by 2.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "fill_in_the_blank",
-                  "question": "Solve for y: 7y - 11 = 3y + 5",
-                  "correctAnswer": "4",
-                  "difficulty": "medium"
-                },
-                {
-                  "type": "multiple_choice",
-                  "question": "Write an algebraic expression for 'the product of a number n and 8, increased by 3'.",
+                  "questionNumber": 6,
+                  "type": "knowledge",
+                  "question": "Solve for z: z/4 + 2 = 5.",
                   "answerOptions": [
-                    "8n + 3",
-                    "8(n + 3)",
-                    "3n + 8",
-                    "n + 8 + 3"
-                  ],
-                  "correctAnswer": "8n + 3",
-                  "difficulty": "medium"
+                    {
+                      "text": "8",
+                      "rationale": "Multiplies only the constant by 4.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "10",
+                      "rationale": "Adds 4 instead of multiplying.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "12",
+                      "rationale": "Correct. z/4 = 3 so z = 12.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "14",
+                      "rationale": "Subtracts 4 after isolating z/4.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "multiple_choice",
-                  "question": "Solve for x: $\\frac{2x + 1}{3} = 5$",
+                  "questionNumber": 7,
+                  "type": "knowledge",
+                  "question": "The sum of three consecutive integers is 45. What is the smallest of the three integers?",
                   "answerOptions": [
-                    "5",
-                    "6",
-                    "7",
-                    "8"
-                  ],
-                  "correctAnswer": "7",
-                  "difficulty": "hard"
+                    {
+                      "text": "13",
+                      "rationale": "Centers the numbers around 45 instead of dividing by 3.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "14",
+                      "rationale": "Correct. The integers are 14, 15, and 16.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "15",
+                      "rationale": "Gives the middle integer.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "16",
+                      "rationale": "Gives the largest integer.",
+                      "isCorrect": false
+                    }
+                  ]
                 },
                 {
-                  "type": "fill_in_the_blank",
-                  "question": "Solve the inequality: 2(x - 4) < 10",
-                  "correctAnswer": "x < 9",
-                  "difficulty": "hard"
-                },
-                {
-                  "type": "multiple_choice",
-                  "question": "A taxi service charges $2.50 as a flat fee plus $1.50 per mile. If a ride costs $14.50, how many miles was the ride?",
+                  "questionNumber": 8,
+                  "type": "knowledge",
+                  "question": "Solve for a: 5a + 9 = 2a + 24.",
                   "answerOptions": [
-                    "6 miles",
-                    "7 miles",
-                    "8 miles",
-                    "9 miles"
-                  ],
-                  "correctAnswer": "8 miles",
-                  "difficulty": "hard"
+                    {
+                      "text": "3",
+                      "rationale": "Divides 24 by 5.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "4",
+                      "rationale": "Subtracts 9 from 24 and stops.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "5",
+                      "rationale": "Correct. 3a = 15 so a = 5.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "11",
+                      "rationale": "Adds 9 to both sides before isolating a.",
+                      "isCorrect": false
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 9,
+                  "type": "knowledge",
+                  "question": "Write an algebraic expression for 'five less than twice a number x'.",
+                  "answerOptions": [
+                    {
+                      "text": "x − 5",
+                      "rationale": "Represents five less than x, not twice x.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "2x − 5",
+                      "rationale": "Correct. Twice the number is 2x, then subtract 5.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "2(x − 5)",
+                      "rationale": "Subtracts 5 before doubling.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "x/2 − 5",
+                      "rationale": "Halves the number before subtracting 5.",
+                      "isCorrect": false
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 10,
+                  "type": "knowledge",
+                  "question": "Solve for x: 2(x + 3) − 3(x − 1) = 10.",
+                  "answerOptions": [
+                    {
+                      "text": "−4",
+                      "rationale": "Sets 2(x + 3) equal to 10.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "−1",
+                      "rationale": "Correct. Simplifying gives −x + 9 = 10 so x = −1.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "1",
+                      "rationale": "Assumes the terms combine to x + 9.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "4",
+                      "rationale": "Forgets to distribute the −3.",
+                      "isCorrect": false
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 11,
+                  "type": "knowledge",
+                  "question": "Solve the inequality: 3x − 7 > 2x + 1.",
+                  "answerOptions": [
+                    {
+                      "text": "x > 8",
+                      "rationale": "Correct. Subtract 2x and add 7 to get x > 8.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "x > −8",
+                      "rationale": "Places the negative on the wrong side of the inequality.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "x < 8",
+                      "rationale": "Reverses the inequality symbol unnecessarily.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "x < −8",
+                      "rationale": "Solves for x < −8.",
+                      "isCorrect": false
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 12,
+                  "type": "applied",
+                  "question": "A rectangle has a perimeter of 40 cm. The length is 4 cm more than the width. What is the area of the rectangle?",
+                  "answerOptions": [
+                    {
+                      "text": "64 cm²",
+                      "rationale": "Assumes the width and length are both 10 cm.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "80 cm²",
+                      "rationale": "Calculates the perimeter again instead of the area.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "96 cm²",
+                      "rationale": "Correct. Width = 8 cm, length = 12 cm, area = 8 × 12 = 96 cm².",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "112 cm²",
+                      "rationale": "Uses 14 cm as the width before multiplying.",
+                      "isCorrect": false
+                    }
+                  ]
                 }
               ],
               "quizId": "math_alg_expressions_quiz_2"
@@ -20841,124 +21249,328 @@
             "title": "Math — Algebraic Problem Solving Set 1",
             "questions": [
               {
-                "type": "multiple_choice",
-                "question": "Simplify the expression: 3x + 5x - 2x",
+                "questionNumber": 1,
+                "type": "knowledge",
+                "question": "Simplify the expression: 3x + 5x − 2x.",
                 "answerOptions": [
-                  "4x",
-                  "5x",
-                  "6x",
-                  "8x"
-                ],
-                "correctAnswer": "6x",
-                "difficulty": "easy"
+                  {
+                    "text": "4x",
+                    "rationale": "Adds only the first two terms.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "5x",
+                    "rationale": "Subtracts 5x from 3x.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "6x",
+                    "rationale": "Correct. Combine like terms: (3 + 5 − 2)x = 6x.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "8x",
+                    "rationale": "Doubles the expression before subtracting.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "fill_in_the_blank",
-                "question": "Solve for x: x + 7 = 15",
-                "correctAnswer": "8",
-                "difficulty": "easy"
+                "questionNumber": 2,
+                "type": "knowledge",
+                "question": "Solve for x: x + 7 = 15.",
+                "answerOptions": [
+                  {
+                    "text": "7",
+                    "rationale": "Stops after subtracting 7 from 7.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "8",
+                    "rationale": "Correct. x = 15 − 7 = 8.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "9",
+                    "rationale": "Adds 7 instead of subtracting.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "22",
+                    "rationale": "Adds both sides instead of isolating x.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "multiple_choice",
+                "questionNumber": 3,
+                "type": "knowledge",
                 "question": "Evaluate the expression 2a + 3b for a = 4 and b = 2.",
                 "answerOptions": [
-                  "10",
-                  "12",
-                  "14",
-                  "16"
-                ],
-                "correctAnswer": "14",
-                "difficulty": "easy"
+                  {
+                    "text": "10",
+                    "rationale": "Computes 2a + b.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "12",
+                    "rationale": "Evaluates only 2a.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "14",
+                    "rationale": "Correct. 2 × 4 + 3 × 2 = 8 + 6 = 14.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "16",
+                    "rationale": "Squares a before multiplying.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "multiple_choice",
-                "question": "Solve for y: 3y - 5 = 16",
+                "questionNumber": 4,
+                "type": "knowledge",
+                "question": "Solve for y: 3y − 5 = 16.",
                 "answerOptions": [
-                  "5",
-                  "6",
-                  "7",
-                  "8"
-                ],
-                "correctAnswer": "7",
-                "difficulty": "medium"
+                  {
+                    "text": "5",
+                    "rationale": "Divides 16 by 3 without adding 5 back.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "6",
+                    "rationale": "Uses 3y = 11.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "7",
+                    "rationale": "Correct. 3y = 21 so y = 7.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "8",
+                    "rationale": "Adds 5 twice before dividing.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "fill_in_the_blank",
-                "question": "Simplify the expression: 4(2x - 3) + 5",
-                "correctAnswer": "8x - 7",
-                "difficulty": "medium"
-              },
-              {
-                "type": "multiple_choice",
-                "question": "Solve for z: $\\frac{z}{4} + 2 = 5$",
+                "questionNumber": 5,
+                "type": "knowledge",
+                "question": "Simplify the expression: 4(2x − 3) + 5.",
                 "answerOptions": [
-                  "8",
-                  "10",
-                  "12",
-                  "14"
-                ],
-                "correctAnswer": "12",
-                "difficulty": "medium"
+                  {
+                    "text": "8x − 7",
+                    "rationale": "Correct. Distribute to get 8x − 12 and add 5 to get 8x − 7.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "8x + 5",
+                    "rationale": "Adds 5 before distributing.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "8x − 12",
+                    "rationale": "Distributes but forgets to add 5.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "2x − 7",
+                    "rationale": "Divides the entire expression by 2.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "multiple_choice",
+                "questionNumber": 6,
+                "type": "knowledge",
+                "question": "Solve for z: z/4 + 2 = 5.",
+                "answerOptions": [
+                  {
+                    "text": "8",
+                    "rationale": "Multiplies only the constant by 4.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "10",
+                    "rationale": "Adds 4 instead of multiplying.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "12",
+                    "rationale": "Correct. z/4 = 3 so z = 12.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "14",
+                    "rationale": "Subtracts 4 after isolating z/4.",
+                    "isCorrect": false
+                  }
+                ]
+              },
+              {
+                "questionNumber": 7,
+                "type": "knowledge",
                 "question": "The sum of three consecutive integers is 45. What is the smallest of the three integers?",
                 "answerOptions": [
-                  "13",
-                  "14",
-                  "15",
-                  "16"
-                ],
-                "correctAnswer": "14",
-                "difficulty": "medium"
+                  {
+                    "text": "13",
+                    "rationale": "Centers the numbers around 45 instead of dividing by 3.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "14",
+                    "rationale": "Correct. The integers are 14, 15, and 16.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "15",
+                    "rationale": "Gives the middle integer.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "16",
+                    "rationale": "Gives the largest integer.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "fill_in_the_blank",
-                "question": "Solve for a: 5a + 9 = 2a + 24",
-                "correctAnswer": "5",
-                "difficulty": "medium"
+                "questionNumber": 8,
+                "type": "knowledge",
+                "question": "Solve for a: 5a + 9 = 2a + 24.",
+                "answerOptions": [
+                  {
+                    "text": "3",
+                    "rationale": "Divides 24 by 5.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "4",
+                    "rationale": "Subtracts 9 from 24 and stops.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "5",
+                    "rationale": "Correct. 3a = 15 so a = 5.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "11",
+                    "rationale": "Adds 9 to both sides before isolating a.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "multiple_choice",
+                "questionNumber": 9,
+                "type": "knowledge",
                 "question": "Write an algebraic expression for 'five less than twice a number x'.",
                 "answerOptions": [
-                  "5 - 2x",
-                  "2x - 5",
-                  "2(x - 5)",
-                  "2(5 - x)"
-                ],
-                "correctAnswer": "2x - 5",
-                "difficulty": "medium"
+                  {
+                    "text": "x − 5",
+                    "rationale": "Represents five less than x, not twice x.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "2x − 5",
+                    "rationale": "Correct. Twice the number is 2x, then subtract 5.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "2(x − 5)",
+                    "rationale": "Subtracts 5 before doubling.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "x/2 − 5",
+                    "rationale": "Halves the number before subtracting 5.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "multiple_choice",
-                "question": "Solve for x: 2(x + 3) - 3(x - 1) = 10",
+                "questionNumber": 10,
+                "type": "knowledge",
+                "question": "Solve for x: 2(x + 3) − 3(x − 1) = 10.",
                 "answerOptions": [
-                  "-1",
-                  "0",
-                  "1",
-                  "2"
-                ],
-                "correctAnswer": "-1",
-                "difficulty": "hard"
+                  {
+                    "text": "−4",
+                    "rationale": "Sets 2(x + 3) equal to 10.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "−1",
+                    "rationale": "Correct. Simplifying gives −x + 9 = 10 so x = −1.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "1",
+                    "rationale": "Assumes the terms combine to x + 9.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "4",
+                    "rationale": "Forgets to distribute the −3.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "fill_in_the_blank",
-                "question": "Solve the inequality: 3x - 7 > 2x + 1",
-                "correctAnswer": "x > 8",
-                "difficulty": "hard"
+                "questionNumber": 11,
+                "type": "knowledge",
+                "question": "Solve the inequality: 3x − 7 > 2x + 1.",
+                "answerOptions": [
+                  {
+                    "text": "x > 8",
+                    "rationale": "Correct. Subtract 2x and add 7 to get x > 8.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "x > −8",
+                    "rationale": "Places the negative on the wrong side of the inequality.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "x < 8",
+                    "rationale": "Reverses the inequality symbol unnecessarily.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "x < −8",
+                    "rationale": "Solves for x < −8.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "multiple_choice",
+                "questionNumber": 12,
+                "type": "applied",
                 "question": "A rectangle has a perimeter of 40 cm. The length is 4 cm more than the width. What is the area of the rectangle?",
                 "answerOptions": [
-                  "84 cm$^2$",
-                  "96 cm$^2$",
-                  "100 cm$^2$",
-                  "108 cm$^2$"
-                ],
-                "correctAnswer": "96 cm$^2$",
-                "difficulty": "hard"
+                  {
+                    "text": "64 cm²",
+                    "rationale": "Assumes the width and length are both 10 cm.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "80 cm²",
+                    "rationale": "Calculates the perimeter again instead of the area.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "96 cm²",
+                    "rationale": "Correct. Width = 8 cm, length = 12 cm, area = 8 × 12 = 96 cm².",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "112 cm²",
+                    "rationale": "Uses 14 cm as the width before multiplying.",
+                    "isCorrect": false
+                  }
+                ]
               }
             ],
             "quizId": "math_alg_expressions_quiz_1"
@@ -20968,124 +21580,328 @@
             "title": "Math — Algebraic Problem Solving Set 1",
             "questions": [
               {
-                "type": "multiple_choice",
-                "question": "Simplify the expression: 7y - 2y + 4y",
+                "questionNumber": 1,
+                "type": "knowledge",
+                "question": "Simplify the expression: 3x + 5x − 2x.",
                 "answerOptions": [
-                  "5y",
-                  "7y",
-                  "9y",
-                  "13y"
-                ],
-                "correctAnswer": "9y",
-                "difficulty": "easy"
+                  {
+                    "text": "4x",
+                    "rationale": "Adds only the first two terms.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "5x",
+                    "rationale": "Subtracts 5x from 3x.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "6x",
+                    "rationale": "Correct. Combine like terms: (3 + 5 − 2)x = 6x.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "8x",
+                    "rationale": "Doubles the expression before subtracting.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "fill_in_the_blank",
-                "question": "Solve for x: x - 5 = 12",
-                "correctAnswer": "17",
-                "difficulty": "easy"
-              },
-              {
-                "type": "multiple_choice",
-                "question": "Evaluate the expression 4c - 2d for c = 5 and d = 3.",
+                "questionNumber": 2,
+                "type": "knowledge",
+                "question": "Solve for x: x + 7 = 15.",
                 "answerOptions": [
-                  "10",
-                  "12",
-                  "14",
-                  "16"
-                ],
-                "correctAnswer": "14",
-                "difficulty": "easy"
+                  {
+                    "text": "7",
+                    "rationale": "Stops after subtracting 7 from 7.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "8",
+                    "rationale": "Correct. x = 15 − 7 = 8.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "9",
+                    "rationale": "Adds 7 instead of subtracting.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "22",
+                    "rationale": "Adds both sides instead of isolating x.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "multiple_choice",
-                "question": "Solve for b: 4b + 7 = 31",
+                "questionNumber": 3,
+                "type": "knowledge",
+                "question": "Evaluate the expression 2a + 3b for a = 4 and b = 2.",
                 "answerOptions": [
-                  "5",
-                  "6",
-                  "7",
-                  "8"
-                ],
-                "correctAnswer": "6",
-                "difficulty": "medium"
+                  {
+                    "text": "10",
+                    "rationale": "Computes 2a + b.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "12",
+                    "rationale": "Evaluates only 2a.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "14",
+                    "rationale": "Correct. 2 × 4 + 3 × 2 = 8 + 6 = 14.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "16",
+                    "rationale": "Squares a before multiplying.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "fill_in_the_blank",
-                "question": "Simplify the expression: 3(x + 5) - 8",
-                "correctAnswer": "3x + 7",
-                "difficulty": "medium"
-              },
-              {
-                "type": "multiple_choice",
-                "question": "Solve for m: $\\frac{m}{3} - 1 = 4$",
+                "questionNumber": 4,
+                "type": "knowledge",
+                "question": "Solve for y: 3y − 5 = 16.",
                 "answerOptions": [
-                  "9",
-                  "12",
-                  "15",
-                  "18"
-                ],
-                "correctAnswer": "15",
-                "difficulty": "medium"
+                  {
+                    "text": "5",
+                    "rationale": "Divides 16 by 3 without adding 5 back.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "6",
+                    "rationale": "Uses 3y = 11.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "7",
+                    "rationale": "Correct. 3y = 21 so y = 7.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "8",
+                    "rationale": "Adds 5 twice before dividing.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "multiple_choice",
-                "question": "The perimeter of a square is 28 inches. What is the length of one side?",
+                "questionNumber": 5,
+                "type": "knowledge",
+                "question": "Simplify the expression: 4(2x − 3) + 5.",
                 "answerOptions": [
-                  "5 inches",
-                  "6 inches",
-                  "7 inches",
-                  "8 inches"
-                ],
-                "correctAnswer": "7 inches",
-                "difficulty": "medium"
+                  {
+                    "text": "8x − 7",
+                    "rationale": "Correct. Distribute to get 8x − 12 and add 5 to get 8x − 7.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "8x + 5",
+                    "rationale": "Adds 5 before distributing.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "8x − 12",
+                    "rationale": "Distributes but forgets to add 5.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "2x − 7",
+                    "rationale": "Divides the entire expression by 2.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "fill_in_the_blank",
-                "question": "Solve for y: 7y - 11 = 3y + 5",
-                "correctAnswer": "4",
-                "difficulty": "medium"
-              },
-              {
-                "type": "multiple_choice",
-                "question": "Write an algebraic expression for 'the product of a number n and 8, increased by 3'.",
+                "questionNumber": 6,
+                "type": "knowledge",
+                "question": "Solve for z: z/4 + 2 = 5.",
                 "answerOptions": [
-                  "8n + 3",
-                  "8(n + 3)",
-                  "3n + 8",
-                  "n + 8 + 3"
-                ],
-                "correctAnswer": "8n + 3",
-                "difficulty": "medium"
+                  {
+                    "text": "8",
+                    "rationale": "Multiplies only the constant by 4.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "10",
+                    "rationale": "Adds 4 instead of multiplying.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "12",
+                    "rationale": "Correct. z/4 = 3 so z = 12.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "14",
+                    "rationale": "Subtracts 4 after isolating z/4.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "multiple_choice",
-                "question": "Solve for x: $\\frac{2x + 1}{3} = 5$",
+                "questionNumber": 7,
+                "type": "knowledge",
+                "question": "The sum of three consecutive integers is 45. What is the smallest of the three integers?",
                 "answerOptions": [
-                  "5",
-                  "6",
-                  "7",
-                  "8"
-                ],
-                "correctAnswer": "7",
-                "difficulty": "hard"
+                  {
+                    "text": "13",
+                    "rationale": "Centers the numbers around 45 instead of dividing by 3.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "14",
+                    "rationale": "Correct. The integers are 14, 15, and 16.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "15",
+                    "rationale": "Gives the middle integer.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "16",
+                    "rationale": "Gives the largest integer.",
+                    "isCorrect": false
+                  }
+                ]
               },
               {
-                "type": "fill_in_the_blank",
-                "question": "Solve the inequality: 2(x - 4) < 10",
-                "correctAnswer": "x < 9",
-                "difficulty": "hard"
-              },
-              {
-                "type": "multiple_choice",
-                "question": "A taxi service charges $2.50 as a flat fee plus $1.50 per mile. If a ride costs $14.50, how many miles was the ride?",
+                "questionNumber": 8,
+                "type": "knowledge",
+                "question": "Solve for a: 5a + 9 = 2a + 24.",
                 "answerOptions": [
-                  "6 miles",
-                  "7 miles",
-                  "8 miles",
-                  "9 miles"
-                ],
-                "correctAnswer": "8 miles",
-                "difficulty": "hard"
+                  {
+                    "text": "3",
+                    "rationale": "Divides 24 by 5.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "4",
+                    "rationale": "Subtracts 9 from 24 and stops.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "5",
+                    "rationale": "Correct. 3a = 15 so a = 5.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "11",
+                    "rationale": "Adds 9 to both sides before isolating a.",
+                    "isCorrect": false
+                  }
+                ]
+              },
+              {
+                "questionNumber": 9,
+                "type": "knowledge",
+                "question": "Write an algebraic expression for 'five less than twice a number x'.",
+                "answerOptions": [
+                  {
+                    "text": "x − 5",
+                    "rationale": "Represents five less than x, not twice x.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "2x − 5",
+                    "rationale": "Correct. Twice the number is 2x, then subtract 5.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "2(x − 5)",
+                    "rationale": "Subtracts 5 before doubling.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "x/2 − 5",
+                    "rationale": "Halves the number before subtracting 5.",
+                    "isCorrect": false
+                  }
+                ]
+              },
+              {
+                "questionNumber": 10,
+                "type": "knowledge",
+                "question": "Solve for x: 2(x + 3) − 3(x − 1) = 10.",
+                "answerOptions": [
+                  {
+                    "text": "−4",
+                    "rationale": "Sets 2(x + 3) equal to 10.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "−1",
+                    "rationale": "Correct. Simplifying gives −x + 9 = 10 so x = −1.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "1",
+                    "rationale": "Assumes the terms combine to x + 9.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "4",
+                    "rationale": "Forgets to distribute the −3.",
+                    "isCorrect": false
+                  }
+                ]
+              },
+              {
+                "questionNumber": 11,
+                "type": "knowledge",
+                "question": "Solve the inequality: 3x − 7 > 2x + 1.",
+                "answerOptions": [
+                  {
+                    "text": "x > 8",
+                    "rationale": "Correct. Subtract 2x and add 7 to get x > 8.",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "x > −8",
+                    "rationale": "Places the negative on the wrong side of the inequality.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "x < 8",
+                    "rationale": "Reverses the inequality symbol unnecessarily.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "x < −8",
+                    "rationale": "Solves for x < −8.",
+                    "isCorrect": false
+                  }
+                ]
+              },
+              {
+                "questionNumber": 12,
+                "type": "applied",
+                "question": "A rectangle has a perimeter of 40 cm. The length is 4 cm more than the width. What is the area of the rectangle?",
+                "answerOptions": [
+                  {
+                    "text": "64 cm²",
+                    "rationale": "Assumes the width and length are both 10 cm.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "80 cm²",
+                    "rationale": "Calculates the perimeter again instead of the area.",
+                    "isCorrect": false
+                  },
+                  {
+                    "text": "96 cm²",
+                    "rationale": "Correct. Width = 8 cm, length = 12 cm, area = 8 × 12 = 96 cm².",
+                    "isCorrect": true
+                  },
+                  {
+                    "text": "112 cm²",
+                    "rationale": "Uses 14 cm as the width before multiplying.",
+                    "isCorrect": false
+                  }
+                ]
               }
             ],
             "quizId": "math_alg_expressions_quiz_2"

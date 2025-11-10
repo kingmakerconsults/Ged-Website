@@ -1,0 +1,144 @@
+**CODEx DIRECTIVE: audit and repair premade quizzes (math focus)**
+
+You are working in this project:
+
+* **Root (frontend):** `Ged-Website/`
+* **Quiz folder (current files):** `Ged-Website/public/quizzes/`
+
+The folder currently contains files like:
+
+* `math.quizzes.part1.json`
+* `math.quizzes.part2.json`
+* `rla.quizzes.part1.json`
+* `rla.quizzes.part2.json`
+* `science.quizzes.part1.json`
+* `science.quizzes.part2.json`
+* `social-studies.extras.json`
+* `social-studies.quizzes.json`
+* `social-studies.quizzes.bak.json`
+* `social-studies.utf8.json`
+
+(They are JSON source files even if the name doesn’t end with `.json`.)
+
+Your task right now is **not** to refactor the whole quiz system. Your task is to **open these quiz files and review them question-by-question** and fix any gaps.
+
+---
+
+### CORE GOALS (do these in order)
+
+1. **Every premade quiz must have at least 12 real questions.**
+
+   * If a quiz has fewer than 12, create new questions to reach 12.
+   * New questions must match the subject/topic of the quiz they’re added to.
+   * Do **not** delete good existing questions just to hit 12.
+
+2. **No placeholder / blank / broken questions.**
+   Scan every question in every quiz in these files and fix/remove placeholders. Treat these as placeholders/bad items:
+
+   * text is `""` or `null`
+   * text says `"placeholder"`, `"TBD"`, `"coming soon"`, `"auto-generated"`, `"AI failed"`, or similar
+   * options are empty or missing
+   * a question object exists but has no `question`/`answerOptions`
+     For each placeholder, **replace it with a real, unique, GED-appropriate question for that subject.** Don’t leave any blanks.
+
+3. **Answer keys must be correct.**
+
+   * For math especially, read the stem and recompute the answer.
+   * Make sure the option marked as correct actually matches the computed result.
+   * If the correct answer is wrong, fix the option text **or** move the `isCorrect: true` to the right option.
+   * If the problem statement is ambiguous, clarify it so the answer is unambiguous.
+
+---
+
+### VERY IMPORTANT MATH NOTE
+
+* **Do NOT convert the math questions to “plain text only.”**
+* If the current question already uses a nicer math form (fraction markup, inline math-ish text, or structured wording), **keep that style.**
+* When you create new math questions, match the existing style in that file (same wording style, same way numbers/fractions/expressions are shown).
+* Make sure the math problems “come out well” in the UI: no half-finished fractions, no missing denominators, no “x = ?” without the expression.
+
+---
+
+### HOW TO AUDIT EACH FILE
+
+For each of these files in `public/quizzes/`:
+
+1. **Open the file.**
+
+2. Identify the quiz objects (some files group by subject/topic — keep that structure).
+
+3. For each quiz:
+
+   * Count the questions.
+   * If `< 12`, generate enough **unique** questions to reach 12.
+   * Loop through each question object and check:
+
+     * `question` (or `questionText`) is non-empty and meaningful.
+     * `answerOptions` (or whatever the file uses) exists and has at least 3–4 options.
+     * Exactly **one** option is the correct answer.
+     * No option text is blank.
+     * For math: rework any bad formatting so it’s readable in the app.
+   * If a question is just a copied template, rewrite it so it’s distinct.
+
+4. Save the file **with the same name and structure** the app expects.
+
+---
+
+### WHEN YOU HAVE TO CREATE A NEW QUESTION
+
+* Match the subject/file you’re in.
+
+  * `math.quizzes.part1.json` / `part2.json`: arithmetic, ratios, algebra basics, geometry/perimeter/area, data. Use the same range of difficulty the file already has.
+  * Keep the tone consistent with existing questions.
+* Provide 4 options.
+* Mark exactly 1 as correct.
+* Make the distractors plausible (same units, same order of magnitude, common computation mistakes).
+* Example (for math, style only):
+
+```
+{
+  "questionNumber": 9,
+  "type": "multipleChoice",
+  "question": "Solve for x: 3(x - 2) = 15",
+  "answerOptions": [
+    { "text": "x = 5", "isCorrect": true },
+    { "text": "x = 3", "isCorrect": false },
+    { "text": "x = 7", "isCorrect": false },
+    { "text": "x = -5", "isCorrect": false }
+  ]
+}
+```
+
+Adjust to the exact key names the file is using — don’t invent a totally new schema if the file is already consistent.
+
+---
+
+### WHAT TO FIX IF “QUIZ QUESTIONS COME UP BLANK”
+
+* That usually means the question text or options were missing or null.
+* Replace those question objects in-place with real content.
+* Do not leave any dummy objects in the array.
+
+---
+
+### DO NOT
+
+* Do **not** strip out formatting from math problems.
+* Do **not** rewrite the entire file into a new format that the frontend doesn’t use.
+* Do **not** change folder paths — keep everything in `public/quizzes/`.
+* Do **not** reduce any quiz below 12.
+
+---
+
+### DELIVERABLE
+
+Updated versions of the same files in `public/quizzes/`, each quiz inspected and:
+
+* ≥ 12 questions
+* 0 placeholders/blanks
+* math rendered in good form
+* correct answer marked
+
+---
+
+Give that to Codex and it should walk the actual files you showed in the screenshot and just harden them, not redesign them.
