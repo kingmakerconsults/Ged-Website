@@ -4140,9 +4140,15 @@ function normalizeCoachDay(day) {
 }
 
 // Ensure all coach endpoints are uncached by browsers/CDNs
+// Place this BEFORE any /api/coach routes are defined
 app.use('/api/coach', (req, res, next) => {
-        try { res.set('Cache-Control', 'no-store'); } catch (_) {}
-        next();
+    try {
+        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        res.set('Pragma', 'no-cache');
+        res.set('Expires', '0');
+        res.set('Surrogate-Control', 'no-store');
+    } catch (_) {}
+    next();
 });
 
 // Simplified weekly plan endpoint storing into coach_weekly_plans
