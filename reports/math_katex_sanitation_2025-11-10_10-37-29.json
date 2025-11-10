@@ -1,0 +1,2170 @@
+{
+  "startedAt": "2025-11-10T15:37:29.414Z",
+  "files": [
+    {
+      "input": "C:\\Users\\Zacha\\Ged-Website\\public\\quizzes\\math.quizzes.part1.json",
+      "output": "C:\\Users\\Zacha\\Ged-Website\\public\\quizzes\\sanitized\\math.quizzes.part1.sanitized.json",
+      "changesCount": 320,
+      "changes": [
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[7].question",
+          "before": "Evaluate 3/4 + 1/2.",
+          "after": "Evaluate $\\frac{3}{4}$ + 1/2."
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[8].question",
+          "before": "Express 2 3/5 as an improper fraction.",
+          "after": "Express $2\\tfrac{3}{5}$ as an improper fraction."
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[9].question",
+          "before": "A recipe requires 2/3 cup of sugar. If the recipe is doubled, how much sugar is needed?",
+          "after": "A recipe requires $\\frac{2}{3}$ cup of sugar. If the recipe is doubled, how much sugar is needed?"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[1].questions.[2].question",
+          "before": "Which ratio is equivalent to 4/5 in simplest terms?",
+          "after": "Which ratio is equivalent to $\\frac{4}{5}$ in simplest terms?"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[1].questions.[8].question",
+          "before": "Express 7/20 as a percentage.",
+          "after": "Express $\\frac{7}{20}$ as a percentage."
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 4.[0].questions.[9].question",
+          "before": "Divide the fractions: $\\frac{5}{6} div \\frac{2}{3}$",
+          "after": "Divide the fractions: $\\frac{5}{6} \\div \\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 4.[1].questions.[3].question",
+          "before": "Divide the fractions: $\\frac{3}{4} div \\frac{1}{2}$",
+          "after": "Divide the fractions: $\\frac{3}{4} \\div \\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[0].questions.[11].question",
+          "before": "Combine like terms: 1/2x + 3/4x.",
+          "after": "Combine like terms: $\\frac{1}{2}$x + $\\frac{3}{4}$x."
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[1].questions.[2].question",
+          "before": "Solve for x: 1/2x - 4 = 2.",
+          "after": "Solve for x: $\\frac{1}{2}$x - 4 = 2."
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[1].questions.[6].question",
+          "before": "Solve for x: 2/3x + 1 = 7.",
+          "after": "Solve for x: $\\frac{2}{3}$x + 1 = 7."
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 2.[0].questions.[2].question",
+          "before": "What is the slope of the line y = (-1/2)x + 6?",
+          "after": "What is the slope of the line y = ($-\\frac{1}{2}$)x + 6?"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[0].questions.[8].question",
+          "before": "Are the lines y = 2x + 1 and y = (-1/2)x + 4 perpendicular?",
+          "after": "Are the lines y = 2x + 1 and y = ($-\\frac{1}{2}$)x + 4 perpendicular?"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[1].questions.[3].correctAnswer",
+          "before": "A = 1/2 * b * h",
+          "after": "A = $\\frac{1}{2}$ * b * h"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[2].questions.[3].correctAnswer",
+          "before": "A = 1/2 * (b1 + b2) * h",
+          "after": "A = $\\frac{1}{2}$ * (b1 + b2) * h"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[2].questions.[4].correctAnswer",
+          "before": "V = 1/3 * pi * r^2 * h",
+          "after": "V = $\\frac{1}{3}$ * pi * r^2 * h"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[2].questions.[9].correctAnswer",
+          "before": "V = 4/3 * pi * r^3",
+          "after": "V = $\\frac{4}{3}$ * pi * r^3"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 1.[2].questions.[8].correctAnswer",
+          "before": "-1/2",
+          "after": "-$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 4.[0].questions.[9].question",
+          "before": "What is the equation of a line with a slope of 1/2 and a y-intercept of 4?",
+          "after": "What is the equation of a line with a slope of $\\frac{1}{2}$ and a y-intercept of 4?"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[1].questions.[1].correctAnswer",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[1].correctAnswer",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[0].questions.[3].correctAnswer",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[1].questions.[1].correctAnswer",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[2].questions.[8].correctAnswer",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[0].questions.[1].correctAnswer",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[0].questions.[6].correctAnswer",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[1].questions.[1].correctAnswer",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[1].questions.[8].correctAnswer",
+          "before": "1/8",
+          "after": "$\\frac{1}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[2].questions.[1].correctAnswer",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[2].questions.[4].question",
+          "before": "A bag contains 20 marbles. If the probability of drawing a red marble is 1/4, how many red marbles are in the bag?",
+          "after": "A bag contains 20 marbles. If the probability of drawing a red marble is $\\frac{1}{4}$, how many red marbles are in the bag?"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[0].questions.[3].correctAnswer",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[0].questions.[11].question",
+          "before": "If the probability of an event is 3/8, what is the probability that the event will NOT happen?",
+          "after": "If the probability of an event is $\\frac{3}{8}$, what is the probability that the event will NOT happen?"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[1].questions.[1].correctAnswer",
+          "before": "3/10",
+          "after": "$\\frac{3}{10}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[2].questions.[1].correctAnswer",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[7].question",
+          "before": "Evaluate 3/4 + 1/2.",
+          "after": "Evaluate $\\frac{3}{4}$ + 1/2."
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[8].question",
+          "before": "Express 2 3/5 as an improper fraction.",
+          "after": "Express $2\\tfrac{3}{5}$ as an improper fraction."
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[9].question",
+          "before": "A recipe requires 2/3 cup of sugar. If the recipe is doubled, how much sugar is needed?",
+          "after": "A recipe requires $\\frac{2}{3}$ cup of sugar. If the recipe is doubled, how much sugar is needed?"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[1].questions.[2].question",
+          "before": "Which ratio is equivalent to 4/5 in simplest terms?",
+          "after": "Which ratio is equivalent to $\\frac{4}{5}$ in simplest terms?"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[1].questions.[8].question",
+          "before": "Express 7/20 as a percentage.",
+          "after": "Express $\\frac{7}{20}$ as a percentage."
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[4].quizzes.[0].questions.[9].question",
+          "before": "Divide the fractions: $\\frac{5}{6} div \\frac{2}{3}$",
+          "after": "Divide the fractions: $\\frac{5}{6} \\div \\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[4].quizzes.[1].questions.[3].question",
+          "before": "Divide the fractions: $\\frac{3}{4} div \\frac{1}{2}$",
+          "after": "Divide the fractions: $\\frac{3}{4} \\div \\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[0].questions.[11].question",
+          "before": "Combine like terms: 1/2x + 3/4x.",
+          "after": "Combine like terms: $\\frac{1}{2}$x + $\\frac{3}{4}$x."
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[1].questions.[2].question",
+          "before": "Solve for x: 1/2x - 4 = 2.",
+          "after": "Solve for x: $\\frac{1}{2}$x - 4 = 2."
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[1].questions.[6].question",
+          "before": "Solve for x: 2/3x + 1 = 7.",
+          "after": "Solve for x: $\\frac{2}{3}$x + 1 = 7."
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[3].questions.[2].question",
+          "before": "What is the slope of the line y = (-1/2)x + 6?",
+          "after": "What is the slope of the line y = ($-\\frac{1}{2}$)x + 6?"
+        },
+        {
+          "path": "categories.Geometry.topics.[0].quizzes.[3].questions.[8].question",
+          "before": "Are the lines y = 2x + 1 and y = (-1/2)x + 4 perpendicular?",
+          "after": "Are the lines y = 2x + 1 and y = ($-\\frac{1}{2}$)x + 4 perpendicular?"
+        },
+        {
+          "path": "categories.Geometry.topics.[1].quizzes.[0].questions.[3].correctAnswer",
+          "before": "A = 1/2 * b * h",
+          "after": "A = $\\frac{1}{2}$ * b * h"
+        },
+        {
+          "path": "categories.Geometry.topics.[1].quizzes.[1].questions.[3].correctAnswer",
+          "before": "A = 1/2 * (b1 + b2) * h",
+          "after": "A = $\\frac{1}{2}$ * (b1 + b2) * h"
+        },
+        {
+          "path": "categories.Geometry.topics.[1].quizzes.[1].questions.[4].correctAnswer",
+          "before": "V = 1/3 * pi * r^2 * h",
+          "after": "V = $\\frac{1}{3}$ * pi * r^2 * h"
+        },
+        {
+          "path": "categories.Geometry.topics.[1].quizzes.[1].questions.[9].correctAnswer",
+          "before": "V = 4/3 * pi * r^3",
+          "after": "V = $\\frac{4}{3}$ * pi * r^3"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[2].quizzes.[0].questions.[8].correctAnswer",
+          "before": "-1/2",
+          "after": "-$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[9].quizzes.[0].questions.[9].question",
+          "before": "What is the equation of a line with a slope of 1/2 and a y-intercept of 4?",
+          "after": "What is the equation of a line with a slope of $\\frac{1}{2}$ and a y-intercept of 4?"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[1].quizzes.[0].questions.[1].correctAnswer",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[1].correctAnswer",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[3].quizzes.[0].questions.[3].correctAnswer",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[4].quizzes.[0].questions.[1].correctAnswer",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[5].quizzes.[0].questions.[8].correctAnswer",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[6].quizzes.[0].questions.[1].correctAnswer",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[6].quizzes.[0].questions.[6].correctAnswer",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[7].quizzes.[0].questions.[1].correctAnswer",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[7].quizzes.[0].questions.[8].correctAnswer",
+          "before": "1/8",
+          "after": "$\\frac{1}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[8].quizzes.[0].questions.[1].correctAnswer",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[8].quizzes.[0].questions.[4].question",
+          "before": "A bag contains 20 marbles. If the probability of drawing a red marble is 1/4, how many red marbles are in the bag?",
+          "after": "A bag contains 20 marbles. If the probability of drawing a red marble is $\\frac{1}{4}$, how many red marbles are in the bag?"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[9].quizzes.[0].questions.[3].correctAnswer",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[9].quizzes.[0].questions.[11].question",
+          "before": "If the probability of an event is 3/8, what is the probability that the event will NOT happen?",
+          "after": "If the probability of an event is $\\frac{3}{8}$, what is the probability that the event will NOT happen?"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[10].quizzes.[0].questions.[1].correctAnswer",
+          "before": "3/10",
+          "after": "$\\frac{3}{10}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[11].quizzes.[0].questions.[1].correctAnswer",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[7].answerOptions.[0].text",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[7].answerOptions.[1].text",
+          "before": "5/4",
+          "after": "$\\frac{5}{4}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[7].answerOptions.[2].text",
+          "before": "4/6",
+          "after": "$\\frac{4}{6}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[7].answerOptions.[3].text",
+          "before": "7/4",
+          "after": "$\\frac{7}{4}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[8].answerOptions.[0].text",
+          "before": "7/5",
+          "after": "$\\frac{7}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[8].answerOptions.[1].text",
+          "before": "8/5",
+          "after": "$\\frac{8}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[8].answerOptions.[2].text",
+          "before": "10/5",
+          "after": "$\\frac{10}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[8].answerOptions.[3].text",
+          "before": "13/5",
+          "after": "$\\frac{13}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[9].answerOptions.[0].text",
+          "before": "2/3 cup",
+          "after": "$\\frac{2}{3}$ cup"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[9].answerOptions.[1].text",
+          "before": "4/3 cup",
+          "after": "$\\frac{4}{3}$ cup"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[9].answerOptions.[2].text",
+          "before": "5/3 cup",
+          "after": "$\\frac{5}{3}$ cup"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[0].questions.[9].answerOptions.[3].text",
+          "before": "8/3 cup",
+          "after": "$\\frac{8}{3}$ cup"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[2].questions.[8].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[2].questions.[8].answerOptions.[1].text",
+          "before": "3/4",
+          "after": "$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[2].questions.[8].answerOptions.[2].text",
+          "before": "4/5",
+          "after": "$\\frac{4}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.sets.Set 1.[2].questions.[8].answerOptions.[3].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[0].questions.[11].answerOptions.[0].text",
+          "before": "5/4x",
+          "after": "$\\frac{5}{4}$x"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[0].questions.[11].answerOptions.[1].text",
+          "before": "3/8x",
+          "after": "$\\frac{3}{8}$x"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[0].questions.[11].answerOptions.[2].text",
+          "before": "1/4x",
+          "after": "$\\frac{1}{4}$x"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[0].questions.[11].answerOptions.[3].text",
+          "before": "7/4x",
+          "after": "$\\frac{7}{4}$x"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[1].questions.[0].answerOptions.[2].text",
+          "before": "x = 15/3",
+          "after": "x = $\\frac{15}{3}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[1].questions.[0].answerOptions.[3].text",
+          "before": "x = 5/3",
+          "after": "x = $\\frac{5}{3}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[1].questions.[11].answerOptions.[3].text",
+          "before": "x = 9/2",
+          "after": "x = $\\frac{9}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[2].questions.[3].answerOptions.[0].text",
+          "before": "x = 2 or x = -1/2",
+          "after": "x = 2 or x = -$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[2].questions.[3].answerOptions.[1].text",
+          "before": "x = -2 or x = 1/2",
+          "after": "x = -2 or x = $\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 1.[2].questions.[3].answerOptions.[2].text",
+          "before": "x = 3 or x = -3/4",
+          "after": "x = 3 or x = -$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 2.[0].questions.[2].answerOptions.[0].text",
+          "before": "-1/2",
+          "after": "-$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.sets.Set 2.[0].questions.[2].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[0].questions.[5].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[0].questions.[6].answerOptions.[0].text",
+          "before": "-4/3",
+          "after": "-$\\frac{4}{3}$"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[0].questions.[6].answerOptions.[1].text",
+          "before": "4/3",
+          "after": "$\\frac{4}{3}$"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[0].questions.[6].answerOptions.[2].text",
+          "before": "-3/4",
+          "after": "-$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Geometry.sets.Set 2.[0].questions.[6].answerOptions.[3].text",
+          "before": "3/4",
+          "after": "$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 1.[0].questions.[10].answerOptions.[0].text",
+          "before": "-2/3",
+          "after": "-$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 1.[0].questions.[10].answerOptions.[1].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 1.[0].questions.[10].answerOptions.[2].text",
+          "before": "-3/2",
+          "after": "-$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 1.[0].questions.[10].answerOptions.[3].text",
+          "before": "3/2",
+          "after": "$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 2.[1].questions.[4].answerOptions.[2].text",
+          "before": "$y = (1/2)x + 1$",
+          "after": "$y = (\\frac{1}{2})x + 1$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 3.[0].questions.[4].answerOptions.[2].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 3.[0].questions.[4].answerOptions.[3].text",
+          "before": "-1/3",
+          "after": "-$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 4.[0].questions.[9].answerOptions.[0].text",
+          "before": "$y = 4x + 1/2$",
+          "after": "$y = 4x + \\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 4.[0].questions.[9].answerOptions.[1].text",
+          "before": "$y = 1/2x + 4$",
+          "after": "$y = \\frac{1}{2}x + 4$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 4.[0].questions.[9].answerOptions.[2].text",
+          "before": "$y = 1/2x - 4$",
+          "after": "$y = \\frac{1}{2}x - 4$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.sets.Set 4.[0].questions.[9].answerOptions.[3].text",
+          "before": "$x = 1/2y + 4$",
+          "after": "$x = \\frac{1}{2}y + 4$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[4].answerOptions.[0].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[4].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[4].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[4].answerOptions.[3].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[5].answerOptions.[0].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[5].answerOptions.[1].text",
+          "before": "1/5",
+          "after": "$\\frac{1}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[5].answerOptions.[2].text",
+          "before": "4/15",
+          "after": "$\\frac{4}{15}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[5].answerOptions.[3].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/8",
+          "after": "$\\frac{1}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[7].answerOptions.[2].text",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[7].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[11].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[0].questions.[11].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[1].questions.[7].answerOptions.[0].text",
+          "before": "1/52",
+          "after": "$\\frac{1}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[1].questions.[7].answerOptions.[1].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[1].questions.[7].answerOptions.[2].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[1].questions.[7].answerOptions.[3].text",
+          "before": "1/26",
+          "after": "$\\frac{1}{26}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[1].questions.[11].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[1].questions.[11].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[1].questions.[11].answerOptions.[2].text",
+          "before": "3/4",
+          "after": "$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[5].answerOptions.[0].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[5].answerOptions.[1].text",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[5].answerOptions.[2].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[5].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[7].answerOptions.[0].text",
+          "before": "1/12",
+          "after": "$\\frac{1}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[7].answerOptions.[1].text",
+          "before": "1/8",
+          "after": "$\\frac{1}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[7].answerOptions.[2].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[7].answerOptions.[3].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[11].answerOptions.[0].text",
+          "before": "1/5",
+          "after": "$\\frac{1}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[11].answerOptions.[1].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[11].answerOptions.[2].text",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 1.[2].questions.[11].answerOptions.[3].text",
+          "before": "4/5",
+          "after": "$\\frac{4}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[0].questions.[7].answerOptions.[2].text",
+          "before": "3/4",
+          "after": "$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[0].questions.[10].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[0].questions.[10].answerOptions.[1].text",
+          "before": "2/9",
+          "after": "$\\frac{2}{9}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[0].questions.[10].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[0].questions.[10].answerOptions.[3].text",
+          "before": "5/9",
+          "after": "$\\frac{5}{9}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[1].questions.[4].answerOptions.[0].text",
+          "before": "1/52",
+          "after": "$\\frac{1}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[1].questions.[4].answerOptions.[1].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[1].questions.[4].answerOptions.[2].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[1].questions.[4].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[1].questions.[7].answerOptions.[0].text",
+          "before": "1/12",
+          "after": "$\\frac{1}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[1].questions.[7].answerOptions.[1].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[1].questions.[7].answerOptions.[2].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[1].questions.[7].answerOptions.[3].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[2].questions.[4].answerOptions.[0].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[2].questions.[4].answerOptions.[1].text",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[2].questions.[4].answerOptions.[2].text",
+          "before": "1/10",
+          "after": "$\\frac{1}{10}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[2].questions.[4].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[2].questions.[10].answerOptions.[0].text",
+          "before": "1/36",
+          "after": "$\\frac{1}{36}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[2].questions.[10].answerOptions.[1].text",
+          "before": "1/12",
+          "after": "$\\frac{1}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[2].questions.[10].answerOptions.[2].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 2.[2].questions.[10].answerOptions.[3].text",
+          "before": "7/36",
+          "after": "$\\frac{7}{36}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[1].questions.[4].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[1].questions.[4].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[1].questions.[4].answerOptions.[2].text",
+          "before": "7/12",
+          "after": "$\\frac{7}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[1].questions.[4].answerOptions.[3].text",
+          "before": "5/12",
+          "after": "$\\frac{5}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[2].questions.[7].answerOptions.[0].text",
+          "before": "3/52",
+          "after": "$\\frac{3}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[2].questions.[7].answerOptions.[1].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[2].questions.[7].answerOptions.[2].text",
+          "before": "3/13",
+          "after": "$\\frac{3}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 3.[2].questions.[7].answerOptions.[3].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[0].questions.[7].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[0].questions.[7].answerOptions.[3].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[0].questions.[11].answerOptions.[0].text",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[0].questions.[11].answerOptions.[1].text",
+          "before": "5/8",
+          "after": "$\\frac{5}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[0].questions.[11].answerOptions.[2].text",
+          "before": "8/3",
+          "after": "$\\frac{8}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[1].questions.[7].answerOptions.[0].text",
+          "before": "1/52",
+          "after": "$\\frac{1}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[1].questions.[7].answerOptions.[1].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[1].questions.[7].answerOptions.[2].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[1].questions.[7].answerOptions.[3].text",
+          "before": "4/13",
+          "after": "$\\frac{4}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[2].questions.[7].answerOptions.[0].text",
+          "before": "1/52",
+          "after": "$\\frac{1}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[2].questions.[7].answerOptions.[1].text",
+          "before": "1/26",
+          "after": "$\\frac{1}{26}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[2].questions.[7].answerOptions.[2].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[2].questions.[7].answerOptions.[3].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[2].questions.[10].answerOptions.[0].text",
+          "before": "25/64",
+          "after": "$\\frac{25}{64}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[2].questions.[10].answerOptions.[1].text",
+          "before": "5/14",
+          "after": "$\\frac{5}{14}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[2].questions.[10].answerOptions.[2].text",
+          "before": "15/56",
+          "after": "$\\frac{15}{56}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.sets.Set 4.[2].questions.[10].answerOptions.[3].text",
+          "before": "9/64",
+          "after": "$\\frac{9}{64}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "5/4",
+          "after": "$\\frac{5}{4}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "4/6",
+          "after": "$\\frac{4}{6}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[7].answerOptions.[3].text",
+          "before": "7/4",
+          "after": "$\\frac{7}{4}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[8].answerOptions.[0].text",
+          "before": "7/5",
+          "after": "$\\frac{7}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[8].answerOptions.[1].text",
+          "before": "8/5",
+          "after": "$\\frac{8}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[8].answerOptions.[2].text",
+          "before": "10/5",
+          "after": "$\\frac{10}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[8].answerOptions.[3].text",
+          "before": "13/5",
+          "after": "$\\frac{13}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[9].answerOptions.[0].text",
+          "before": "2/3 cup",
+          "after": "$\\frac{2}{3}$ cup"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[9].answerOptions.[1].text",
+          "before": "4/3 cup",
+          "after": "$\\frac{4}{3}$ cup"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[9].answerOptions.[2].text",
+          "before": "5/3 cup",
+          "after": "$\\frac{5}{3}$ cup"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[0].questions.[9].answerOptions.[3].text",
+          "before": "8/3 cup",
+          "after": "$\\frac{8}{3}$ cup"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[2].questions.[8].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[2].questions.[8].answerOptions.[1].text",
+          "before": "3/4",
+          "after": "$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[2].questions.[8].answerOptions.[2].text",
+          "before": "4/5",
+          "after": "$\\frac{4}{5}$"
+        },
+        {
+          "path": "categories.Quantitative Problem Solving.topics.[0].quizzes.[2].questions.[8].answerOptions.[3].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[0].questions.[11].answerOptions.[0].text",
+          "before": "5/4x",
+          "after": "$\\frac{5}{4}$x"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[0].questions.[11].answerOptions.[1].text",
+          "before": "3/8x",
+          "after": "$\\frac{3}{8}$x"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[0].questions.[11].answerOptions.[2].text",
+          "before": "1/4x",
+          "after": "$\\frac{1}{4}$x"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[0].questions.[11].answerOptions.[3].text",
+          "before": "7/4x",
+          "after": "$\\frac{7}{4}$x"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[1].questions.[0].answerOptions.[2].text",
+          "before": "x = 15/3",
+          "after": "x = $\\frac{15}{3}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[1].questions.[0].answerOptions.[3].text",
+          "before": "x = 5/3",
+          "after": "x = $\\frac{5}{3}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[1].questions.[11].answerOptions.[3].text",
+          "before": "x = 9/2",
+          "after": "x = $\\frac{9}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[2].questions.[3].answerOptions.[0].text",
+          "before": "x = 2 or x = -1/2",
+          "after": "x = 2 or x = -$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[2].questions.[3].answerOptions.[1].text",
+          "before": "x = -2 or x = 1/2",
+          "after": "x = -2 or x = $\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[2].questions.[3].answerOptions.[2].text",
+          "before": "x = 3 or x = -3/4",
+          "after": "x = 3 or x = -$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[3].questions.[2].answerOptions.[0].text",
+          "before": "-1/2",
+          "after": "-$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebraic Reasoning.topics.[0].quizzes.[3].questions.[2].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Geometry.topics.[0].quizzes.[3].questions.[5].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Geometry.topics.[0].quizzes.[3].questions.[6].answerOptions.[0].text",
+          "before": "-4/3",
+          "after": "-$\\frac{4}{3}$"
+        },
+        {
+          "path": "categories.Geometry.topics.[0].quizzes.[3].questions.[6].answerOptions.[1].text",
+          "before": "4/3",
+          "after": "$\\frac{4}{3}$"
+        },
+        {
+          "path": "categories.Geometry.topics.[0].quizzes.[3].questions.[6].answerOptions.[2].text",
+          "before": "-3/4",
+          "after": "-$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Geometry.topics.[0].quizzes.[3].questions.[6].answerOptions.[3].text",
+          "before": "3/4",
+          "after": "$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[0].quizzes.[0].questions.[10].answerOptions.[0].text",
+          "before": "-2/3",
+          "after": "-$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[0].quizzes.[0].questions.[10].answerOptions.[1].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[0].quizzes.[0].questions.[10].answerOptions.[2].text",
+          "before": "-3/2",
+          "after": "-$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[0].quizzes.[0].questions.[10].answerOptions.[3].text",
+          "before": "3/2",
+          "after": "$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[4].quizzes.[0].questions.[4].answerOptions.[2].text",
+          "before": "$y = (1/2)x + 1$",
+          "after": "$y = (\\frac{1}{2})x + 1$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[6].quizzes.[0].questions.[4].answerOptions.[2].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[6].quizzes.[0].questions.[4].answerOptions.[3].text",
+          "before": "-1/3",
+          "after": "-$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[9].quizzes.[0].questions.[9].answerOptions.[0].text",
+          "before": "$y = 4x + 1/2$",
+          "after": "$y = 4x + \\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[9].quizzes.[0].questions.[9].answerOptions.[1].text",
+          "before": "$y = 1/2x + 4$",
+          "after": "$y = \\frac{1}{2}x + 4$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[9].quizzes.[0].questions.[9].answerOptions.[2].text",
+          "before": "$y = 1/2x - 4$",
+          "after": "$y = \\frac{1}{2}x - 4$"
+        },
+        {
+          "path": "categories.Algebra & Linear Equations.topics.[9].quizzes.[0].questions.[9].answerOptions.[3].text",
+          "before": "$x = 1/2y + 4$",
+          "after": "$x = \\frac{1}{2}y + 4$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[4].answerOptions.[0].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[4].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[4].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[4].answerOptions.[3].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[5].answerOptions.[0].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[5].answerOptions.[1].text",
+          "before": "1/5",
+          "after": "$\\frac{1}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[5].answerOptions.[2].text",
+          "before": "4/15",
+          "after": "$\\frac{4}{15}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[5].answerOptions.[3].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/8",
+          "after": "$\\frac{1}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[7].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[11].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[0].quizzes.[0].questions.[11].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[1].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/52",
+          "after": "$\\frac{1}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[1].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[1].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[1].quizzes.[0].questions.[7].answerOptions.[3].text",
+          "before": "1/26",
+          "after": "$\\frac{1}{26}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[1].quizzes.[0].questions.[11].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[1].quizzes.[0].questions.[11].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[1].quizzes.[0].questions.[11].answerOptions.[2].text",
+          "before": "3/4",
+          "after": "$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[5].answerOptions.[0].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[5].answerOptions.[1].text",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[5].answerOptions.[2].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[5].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/12",
+          "after": "$\\frac{1}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/8",
+          "after": "$\\frac{1}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[7].answerOptions.[3].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[11].answerOptions.[0].text",
+          "before": "1/5",
+          "after": "$\\frac{1}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[11].answerOptions.[1].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[11].answerOptions.[2].text",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[2].quizzes.[0].questions.[11].answerOptions.[3].text",
+          "before": "4/5",
+          "after": "$\\frac{4}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[3].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[3].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[3].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "3/4",
+          "after": "$\\frac{3}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[3].quizzes.[0].questions.[10].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[3].quizzes.[0].questions.[10].answerOptions.[1].text",
+          "before": "2/9",
+          "after": "$\\frac{2}{9}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[3].quizzes.[0].questions.[10].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[3].quizzes.[0].questions.[10].answerOptions.[3].text",
+          "before": "5/9",
+          "after": "$\\frac{5}{9}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[4].quizzes.[0].questions.[4].answerOptions.[0].text",
+          "before": "1/52",
+          "after": "$\\frac{1}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[4].quizzes.[0].questions.[4].answerOptions.[1].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[4].quizzes.[0].questions.[4].answerOptions.[2].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[4].quizzes.[0].questions.[4].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[4].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/12",
+          "after": "$\\frac{1}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[4].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[4].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[4].quizzes.[0].questions.[7].answerOptions.[3].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[5].quizzes.[0].questions.[4].answerOptions.[0].text",
+          "before": "2/5",
+          "after": "$\\frac{2}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[5].quizzes.[0].questions.[4].answerOptions.[1].text",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[5].quizzes.[0].questions.[4].answerOptions.[2].text",
+          "before": "1/10",
+          "after": "$\\frac{1}{10}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[5].quizzes.[0].questions.[4].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[5].quizzes.[0].questions.[10].answerOptions.[0].text",
+          "before": "1/36",
+          "after": "$\\frac{1}{36}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[5].quizzes.[0].questions.[10].answerOptions.[1].text",
+          "before": "1/12",
+          "after": "$\\frac{1}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[5].quizzes.[0].questions.[10].answerOptions.[2].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[5].quizzes.[0].questions.[10].answerOptions.[3].text",
+          "before": "7/36",
+          "after": "$\\frac{7}{36}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[7].quizzes.[0].questions.[4].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[7].quizzes.[0].questions.[4].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[7].quizzes.[0].questions.[4].answerOptions.[2].text",
+          "before": "7/12",
+          "after": "$\\frac{7}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[7].quizzes.[0].questions.[4].answerOptions.[3].text",
+          "before": "5/12",
+          "after": "$\\frac{5}{12}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[8].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "3/52",
+          "after": "$\\frac{3}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[8].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[8].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "3/13",
+          "after": "$\\frac{3}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[8].quizzes.[0].questions.[7].answerOptions.[3].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[9].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[9].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[9].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[9].quizzes.[0].questions.[7].answerOptions.[3].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[9].quizzes.[0].questions.[11].answerOptions.[0].text",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[9].quizzes.[0].questions.[11].answerOptions.[1].text",
+          "before": "5/8",
+          "after": "$\\frac{5}{8}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[9].quizzes.[0].questions.[11].answerOptions.[2].text",
+          "before": "8/3",
+          "after": "$\\frac{8}{3}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[10].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/52",
+          "after": "$\\frac{1}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[10].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[10].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[10].quizzes.[0].questions.[7].answerOptions.[3].text",
+          "before": "4/13",
+          "after": "$\\frac{4}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[11].quizzes.[0].questions.[7].answerOptions.[0].text",
+          "before": "1/52",
+          "after": "$\\frac{1}{52}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[11].quizzes.[0].questions.[7].answerOptions.[1].text",
+          "before": "1/26",
+          "after": "$\\frac{1}{26}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[11].quizzes.[0].questions.[7].answerOptions.[2].text",
+          "before": "1/13",
+          "after": "$\\frac{1}{13}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[11].quizzes.[0].questions.[7].answerOptions.[3].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[11].quizzes.[0].questions.[10].answerOptions.[0].text",
+          "before": "25/64",
+          "after": "$\\frac{25}{64}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[11].quizzes.[0].questions.[10].answerOptions.[1].text",
+          "before": "5/14",
+          "after": "$\\frac{5}{14}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[11].quizzes.[0].questions.[10].answerOptions.[2].text",
+          "before": "15/56",
+          "after": "$\\frac{15}{56}$"
+        },
+        {
+          "path": "categories.Data, Statistics & Probability.topics.[11].quizzes.[0].questions.[10].answerOptions.[3].text",
+          "before": "9/64",
+          "after": "$\\frac{9}{64}$"
+        }
+      ]
+    },
+    {
+      "input": "C:\\Users\\Zacha\\Ged-Website\\public\\quizzes\\math.quizzes.part2.json",
+      "output": "C:\\Users\\Zacha\\Ged-Website\\public\\quizzes\\sanitized\\math.quizzes.part2.sanitized.json",
+      "changesCount": 110,
+      "changes": [
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[1].questions.[2].question",
+          "before": "What is the equation of a line with slope 1/3 that passes through the point (3, 2)?",
+          "after": "What is the equation of a line with slope $\\frac{1}{3}$ that passes through the point (3, 2)?"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[2].questions.[5].question",
+          "before": "A line passes through (1, -1) and is perpendicular to the line $y = (1/2)x + 5$. What is its equation?",
+          "after": "A line passes through (1, -1) and is perpendicular to the line $y = (\\frac{1}{2})x + 5$. What is its equation?"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[2].questions.[5].question",
+          "before": "A line is parallel to $y = (2/3)x + 1$ and passes through (6, 2). What is its equation?",
+          "after": "A line is parallel to $y = (\\frac{2}{3})x + 1$ and passes through (6, 2). What is its equation?"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 4.[1].questions.[6].question",
+          "before": "What is the slope of a line perpendicular to $y = -1/5x + 2$?",
+          "after": "What is the slope of a line perpendicular to $y = \\frac{-1}{5}x + 2$?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 1.[1].questions.[4].question",
+          "before": "What is the result of $\\frac{2}{3} \\div \\frac{1}{4}$?",
+          "after": "What is the result of $\\frac{2}{3} \\\\div \\frac{1}{4}$?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 1.[1].questions.[6].correctAnswer",
+          "before": "2/5, 0.42, 45%, 0.5",
+          "after": "$\\frac{2}{5}$, 0.42, 45%, 0.5"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 2.[0].questions.[8].question",
+          "before": "A recipe requires 3/4 cup of sugar. If you are making 2.5 times the recipe, how many cups of sugar do you need?",
+          "after": "A recipe requires $\\frac{3}{4}$ cup of sugar. If you are making 2.5 times the recipe, how many cups of sugar do you need?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 2.[1].questions.[3].correctAnswer",
+          "before": "2 3/4",
+          "after": "$2\\tfrac{3}{4}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 2.[2].questions.[1].correctAnswer",
+          "before": "9/20",
+          "after": "$\\frac{9}{20}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 3.[0].questions.[10].question",
+          "before": "You have 3/4 of a pizza left. If you eat 1/3 of the leftover pizza, what fraction of the original pizza did you eat?",
+          "after": "You have $\\frac{3}{4}$ of a pizza left. If you eat $\\frac{1}{3}$ of the leftover pizza, what fraction of the original pizza did you eat?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 3.[1].questions.[1].correctAnswer",
+          "before": "5/2",
+          "after": "$\\frac{5}{2}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 4.[1].questions.[6].question",
+          "before": "What is the result of $1/2 - 1/3$?",
+          "after": "What is the result of $1/2 - $\\frac{1}{3}$$?$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 4.[1].questions.[6].correctAnswer",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 4.[2].questions.[6].question",
+          "before": "What is the result of multiplying 1/2 by 3/4?",
+          "after": "What is the result of multiplying $\\frac{1}{2}$ by $\\frac{3}{4}$?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 4.[2].questions.[6].correctAnswer",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[4].quizzes.[0].questions.[2].question",
+          "before": "What is the equation of a line with slope 1/3 that passes through the point (3, 2)?",
+          "after": "What is the equation of a line with slope $\\frac{1}{3}$ that passes through the point (3, 2)?"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[5].quizzes.[0].questions.[5].question",
+          "before": "A line passes through (1, -1) and is perpendicular to the line $y = (1/2)x + 5$. What is its equation?",
+          "after": "A line passes through (1, -1) and is perpendicular to the line $y = (\\frac{1}{2})x + 5$. What is its equation?"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[8].quizzes.[0].questions.[5].question",
+          "before": "A line is parallel to $y = (2/3)x + 1$ and passes through (6, 2). What is its equation?",
+          "after": "A line is parallel to $y = (\\frac{2}{3})x + 1$ and passes through (6, 2). What is its equation?"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[10].quizzes.[0].questions.[6].question",
+          "before": "What is the slope of a line perpendicular to $y = -1/5x + 2$?",
+          "after": "What is the slope of a line perpendicular to $y = \\frac{-1}{5}x + 2$?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[1].quizzes.[0].questions.[4].question",
+          "before": "What is the result of $\\frac{2}{3} \\div \\frac{1}{4}$?",
+          "after": "What is the result of $\\frac{2}{3} \\\\div \\frac{1}{4}$?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[1].quizzes.[0].questions.[6].correctAnswer",
+          "before": "2/5, 0.42, 45%, 0.5",
+          "after": "$\\frac{2}{5}$, 0.42, 45%, 0.5"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[3].quizzes.[0].questions.[8].question",
+          "before": "A recipe requires 3/4 cup of sugar. If you are making 2.5 times the recipe, how many cups of sugar do you need?",
+          "after": "A recipe requires $\\frac{3}{4}$ cup of sugar. If you are making 2.5 times the recipe, how many cups of sugar do you need?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[4].quizzes.[0].questions.[3].correctAnswer",
+          "before": "2 3/4",
+          "after": "$2\\tfrac{3}{4}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[5].quizzes.[0].questions.[1].correctAnswer",
+          "before": "9/20",
+          "after": "$\\frac{9}{20}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[6].quizzes.[0].questions.[10].question",
+          "before": "You have 3/4 of a pizza left. If you eat 1/3 of the leftover pizza, what fraction of the original pizza did you eat?",
+          "after": "You have $\\frac{3}{4}$ of a pizza left. If you eat $\\frac{1}{3}$ of the leftover pizza, what fraction of the original pizza did you eat?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[7].quizzes.[0].questions.[1].correctAnswer",
+          "before": "5/2",
+          "after": "$\\frac{5}{2}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[10].quizzes.[0].questions.[6].question",
+          "before": "What is the result of $1/2 - 1/3$?",
+          "after": "What is the result of $1/2 - $\\frac{1}{3}$$?$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[10].quizzes.[0].questions.[6].correctAnswer",
+          "before": "1/6",
+          "after": "$\\frac{1}{6}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[11].quizzes.[0].questions.[6].question",
+          "before": "What is the result of multiplying 1/2 by 3/4?",
+          "after": "What is the result of multiplying $\\frac{1}{2}$ by $\\frac{3}{4}$?"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[11].quizzes.[0].questions.[6].correctAnswer",
+          "before": "3/8",
+          "after": "$\\frac{3}{8}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 1.[0].questions.[5].answerOptions.[1].text",
+          "before": "y = -1/3x + 5",
+          "after": "y = -$\\frac{1}{3}$x + 5"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 1.[0].questions.[10].answerOptions.[0].text",
+          "before": "-1/4",
+          "after": "-$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 1.[0].questions.[10].answerOptions.[1].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 1.[1].questions.[2].answerOptions.[0].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[0].questions.[2].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[1].questions.[2].answerOptions.[0].text",
+          "before": "y = (1/3)x + 1",
+          "after": "y = ($\\frac{1}{3}$)x + 1"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[1].questions.[2].answerOptions.[2].text",
+          "before": "y = (1/3)x + 3",
+          "after": "y = ($\\frac{1}{3}$)x + 3"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[1].questions.[2].answerOptions.[3].text",
+          "before": "y = (1/3)x - 1",
+          "after": "y = ($\\frac{1}{3}$)x - 1"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[1].questions.[5].answerOptions.[1].text",
+          "before": "y = (1/3)x - 1",
+          "after": "y = ($\\frac{1}{3}$)x - 1"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[1].questions.[5].answerOptions.[3].text",
+          "before": "y = (-1/3)x + 4",
+          "after": "y = ($-\\frac{1}{3}$)x + 4"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[1].questions.[11].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[1].questions.[11].answerOptions.[3].text",
+          "before": "-1/2",
+          "after": "-$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 2.[2].questions.[5].answerOptions.[1].text",
+          "before": "$y = (1/2)x - 1.5$",
+          "after": "$y = (\\frac{1}{2})x - 1.5$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[0].questions.[4].answerOptions.[2].text",
+          "before": "$y = (1/4)x - 1$",
+          "after": "$y = (\\frac{1}{4})x - 1$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[1].questions.[2].answerOptions.[0].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[1].questions.[2].answerOptions.[1].text",
+          "before": "3/2",
+          "after": "$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[1].questions.[2].answerOptions.[2].text",
+          "before": "-2/3",
+          "after": "-$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[1].questions.[5].answerOptions.[1].text",
+          "before": "$y = (-1/4)x + 4$",
+          "after": "$y = (\\frac{-1}{4})x + 4$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[1].questions.[5].answerOptions.[2].text",
+          "before": "$y = (1/4)x$",
+          "after": "$y = (\\frac{1}{4})x$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[1].questions.[5].answerOptions.[3].text",
+          "before": "$y = (1/4)x + 2$",
+          "after": "$y = (\\frac{1}{4})x + 2$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[2].questions.[2].answerOptions.[1].text",
+          "before": "-1/3",
+          "after": "-$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[2].questions.[2].answerOptions.[3].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[2].questions.[5].answerOptions.[0].text",
+          "before": "$y = (2/3)x - 2$",
+          "after": "$y = (\\frac{2}{3})x - 2$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[2].questions.[5].answerOptions.[1].text",
+          "before": "$y = (-3/2)x + 11$",
+          "after": "$y = (\\frac{-3}{2})x + 11$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[2].questions.[5].answerOptions.[2].text",
+          "before": "$y = (2/3)x + 2$",
+          "after": "$y = (\\frac{2}{3})x + 2$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 3.[2].questions.[5].answerOptions.[3].text",
+          "before": "$y = (2/3)x + 6$",
+          "after": "$y = (\\frac{2}{3})x + 6$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 4.[1].questions.[0].answerOptions.[0].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 4.[1].questions.[0].answerOptions.[1].text",
+          "before": "-2/3",
+          "after": "-$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 4.[1].questions.[0].answerOptions.[2].text",
+          "before": "3/2",
+          "after": "$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 4.[1].questions.[0].answerOptions.[3].text",
+          "before": "-3/2",
+          "after": "-$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 4.[1].questions.[2].answerOptions.[3].text",
+          "before": "y = 1/2x + 0.5",
+          "after": "y = $\\frac{1}{2}$x + 0.5"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 4.[2].questions.[0].answerOptions.[2].text",
+          "before": "-1/5",
+          "after": "-$\\frac{1}{5}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.sets.Set 4.[2].questions.[11].answerOptions.[3].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 3.[0].questions.[10].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 3.[0].questions.[10].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 3.[0].questions.[10].answerOptions.[2].text",
+          "before": "5/12",
+          "after": "$\\frac{5}{12}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 3.[0].questions.[10].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 3.[1].questions.[9].answerOptions.[2].text",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 3.[1].questions.[9].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.sets.Set 4.[2].questions.[4].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[0].quizzes.[0].questions.[5].answerOptions.[1].text",
+          "before": "y = -1/3x + 5",
+          "after": "y = -$\\frac{1}{3}$x + 5"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[0].quizzes.[0].questions.[10].answerOptions.[0].text",
+          "before": "-1/4",
+          "after": "-$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[0].quizzes.[0].questions.[10].answerOptions.[1].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[1].quizzes.[0].questions.[2].answerOptions.[0].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[3].quizzes.[0].questions.[2].answerOptions.[1].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[4].quizzes.[0].questions.[2].answerOptions.[0].text",
+          "before": "y = (1/3)x + 1",
+          "after": "y = ($\\frac{1}{3}$)x + 1"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[4].quizzes.[0].questions.[2].answerOptions.[2].text",
+          "before": "y = (1/3)x + 3",
+          "after": "y = ($\\frac{1}{3}$)x + 3"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[4].quizzes.[0].questions.[2].answerOptions.[3].text",
+          "before": "y = (1/3)x - 1",
+          "after": "y = ($\\frac{1}{3}$)x - 1"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[4].quizzes.[0].questions.[5].answerOptions.[1].text",
+          "before": "y = (1/3)x - 1",
+          "after": "y = ($\\frac{1}{3}$)x - 1"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[4].quizzes.[0].questions.[5].answerOptions.[3].text",
+          "before": "y = (-1/3)x + 4",
+          "after": "y = ($-\\frac{1}{3}$)x + 4"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[4].quizzes.[0].questions.[11].answerOptions.[2].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[4].quizzes.[0].questions.[11].answerOptions.[3].text",
+          "before": "-1/2",
+          "after": "-$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[5].quizzes.[0].questions.[5].answerOptions.[1].text",
+          "before": "$y = (1/2)x - 1.5$",
+          "after": "$y = (\\frac{1}{2})x - 1.5$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[6].quizzes.[0].questions.[4].answerOptions.[2].text",
+          "before": "$y = (1/4)x - 1$",
+          "after": "$y = (\\frac{1}{4})x - 1$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[7].quizzes.[0].questions.[2].answerOptions.[0].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[7].quizzes.[0].questions.[2].answerOptions.[1].text",
+          "before": "3/2",
+          "after": "$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[7].quizzes.[0].questions.[2].answerOptions.[2].text",
+          "before": "-2/3",
+          "after": "-$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[7].quizzes.[0].questions.[5].answerOptions.[1].text",
+          "before": "$y = (-1/4)x + 4$",
+          "after": "$y = (\\frac{-1}{4})x + 4$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[7].quizzes.[0].questions.[5].answerOptions.[2].text",
+          "before": "$y = (1/4)x$",
+          "after": "$y = (\\frac{1}{4})x$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[7].quizzes.[0].questions.[5].answerOptions.[3].text",
+          "before": "$y = (1/4)x + 2$",
+          "after": "$y = (\\frac{1}{4})x + 2$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[8].quizzes.[0].questions.[2].answerOptions.[1].text",
+          "before": "-1/3",
+          "after": "-$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[8].quizzes.[0].questions.[2].answerOptions.[3].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[8].quizzes.[0].questions.[5].answerOptions.[0].text",
+          "before": "$y = (2/3)x - 2$",
+          "after": "$y = (\\frac{2}{3})x - 2$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[8].quizzes.[0].questions.[5].answerOptions.[1].text",
+          "before": "$y = (-3/2)x + 11$",
+          "after": "$y = (\\frac{-3}{2})x + 11$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[8].quizzes.[0].questions.[5].answerOptions.[2].text",
+          "before": "$y = (2/3)x + 2$",
+          "after": "$y = (\\frac{2}{3})x + 2$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[8].quizzes.[0].questions.[5].answerOptions.[3].text",
+          "before": "$y = (2/3)x + 6$",
+          "after": "$y = (\\frac{2}{3})x + 6$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[10].quizzes.[0].questions.[0].answerOptions.[0].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[10].quizzes.[0].questions.[0].answerOptions.[1].text",
+          "before": "-2/3",
+          "after": "-$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[10].quizzes.[0].questions.[0].answerOptions.[2].text",
+          "before": "3/2",
+          "after": "$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[10].quizzes.[0].questions.[0].answerOptions.[3].text",
+          "before": "-3/2",
+          "after": "-$\\frac{3}{2}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[10].quizzes.[0].questions.[2].answerOptions.[3].text",
+          "before": "y = 1/2x + 0.5",
+          "after": "y = $\\frac{1}{2}$x + 0.5"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[11].quizzes.[0].questions.[0].answerOptions.[2].text",
+          "before": "-1/5",
+          "after": "-$\\frac{1}{5}$"
+        },
+        {
+          "path": "categories.Graphs & Functions.topics.[11].quizzes.[0].questions.[11].answerOptions.[3].text",
+          "before": "2/3",
+          "after": "$\\frac{2}{3}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[6].quizzes.[0].questions.[10].answerOptions.[0].text",
+          "before": "1/4",
+          "after": "$\\frac{1}{4}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[6].quizzes.[0].questions.[10].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[6].quizzes.[0].questions.[10].answerOptions.[2].text",
+          "before": "5/12",
+          "after": "$\\frac{5}{12}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[6].quizzes.[0].questions.[10].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[7].quizzes.[0].questions.[9].answerOptions.[2].text",
+          "before": "3/5",
+          "after": "$\\frac{3}{5}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[7].quizzes.[0].questions.[9].answerOptions.[3].text",
+          "before": "1/2",
+          "after": "$\\frac{1}{2}$"
+        },
+        {
+          "path": "categories.Number Sense & Operations.topics.[11].quizzes.[0].questions.[4].answerOptions.[1].text",
+          "before": "1/3",
+          "after": "$\\frac{1}{3}$"
+        }
+      ]
+    }
+  ],
+  "finishedAt": "2025-11-10T15:37:29.543Z"
+}
