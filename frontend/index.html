@@ -6,8 +6,9 @@
     <title>Mr. Smith's Learning Canvas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Global feature flag: disable coach features (panels, network calls, Ask Coach UI) while preserving quiz loader.
-        window.__COACH_ENABLED__ = false;
+        // Feature flags: enable Weekly/Daily Coach; keep Ask Coach (ad-hoc composite) disabled
+        window.__COACH_ENABLED__ = true;
+        window.__ASK_COACH_ENABLED__ = false;
     </script>
     <style>
     /* Cross-browser baseline: match IE/Edge spacing */
@@ -62,12 +63,28 @@
                 }
             })();
         </script>
+        <script>
+            // Ensure KaTeX is used only for premade content by default
+            (function ensurePremadeKatexFlag(){
+                try {
+                    if (!window.__APP_CONFIG__) window.__APP_CONFIG__ = {};
+                    // Default to true so premade items render with KaTeX; AI/dynamic content stays plain text
+                    if (typeof window.__APP_CONFIG__.premadeUsesKatex === 'undefined') {
+                        window.__APP_CONFIG__.premadeUsesKatex = true;
+                    }
+                } catch (e) {}
+            })();
+        </script>
     <script>
         // Re-assert geometry if remote config overwrote it
         if (window.__APP_CONFIG__) {
             window.__APP_CONFIG__.geometryFiguresEnabled = true;
         }
     </script>
+
+    <!-- KaTeX for rendering premade math content only (AI/dynamic remains plain text) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
 
     <script>
         (function preloadPreferences() {
@@ -4309,12 +4326,17 @@ function formatMathText(html) {
 }
 
 function renderQuestionTextForDisplay(text, isPremade) {
+    // Only allow KaTeX rendering for premade items; AI/dynamic stay plain text (fractions a/b, exponents a^b)
     const useKatex = Boolean(
         window.__APP_CONFIG__ && window.__APP_CONFIG__.premadeUsesKatex === true && isPremade === true
     );
-    const html = useKatex ? renderStemWithKatex(text) : renderStem(text);
-    // For AI/dynamic content (non-premade), apply our plain-text math formatting
-    const finalHtml = useKatex ? html : formatMathText(html);
+    // Premade path: keep original raw math delimiters and render with KaTeX
+    if (useKatex) {
+        return { __html: renderStemWithKatex(text) };
+    }
+    // Non-premade path: basic math formatting only (plain text fractions & exponents)
+    const html = renderStem(text);
+    const finalHtml = formatMathText(html);
     return { __html: finalHtml };
 }
 
@@ -10465,7 +10487,10 @@ function App({ externalTheme, onThemeChange }) {
 
         const preparedQuiz = { ...quizPayload, subject };
         preparedQuiz.quizCode = quizPayload.quizCode || quizPayload.code || quizPayload.id || preparedQuiz.quizCode || null;
-        preparedQuiz.isPremade = Boolean(preparedQuiz.quizCode);
+        // Preserve incoming isPremade if explicitly provided; otherwise infer from presence of a quizCode
+        if (typeof preparedQuiz.isPremade !== 'boolean') {
+            preparedQuiz.isPremade = Boolean(preparedQuiz.quizCode);
+        }
         let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
 
         if (quizPayload.type === 'multi-part-math') {
@@ -10485,8 +10510,8 @@ function App({ externalTheme, onThemeChange }) {
                 return;
             }
 
-            preparedQuiz.part1_non_calculator = part1.map(q => ({ ...q, isPremade: preparedQuiz.isPremade }));
-            preparedQuiz.part2_calculator = part2.map(q => ({ ...q, isPremade: preparedQuiz.isPremade }));
+            preparedQuiz.part1_non_calculator = part1.map(q => ({ ...q, isPremade: (q.isPremade === true) || preparedQuiz.isPremade }));
+            preparedQuiz.part2_calculator = part2.map(q => ({ ...q, isPremade: (q.isPremade === true) || preparedQuiz.isPremade }));
             normalizedQuestions = [...part1, ...part2];
         } else if (quizPayload.type === 'multi-part-rla') {
             const part1 = normalizeQuestionList(quizPayload.part1_reading);
@@ -10501,8 +10526,8 @@ function App({ externalTheme, onThemeChange }) {
                 return;
             }
 
-            preparedQuiz.part1_reading = part1.map(q => ({ ...q, isPremade: preparedQuiz.isPremade }));
-            preparedQuiz.part3_language = part3.map(q => ({ ...q, isPremade: preparedQuiz.isPremade }));
+            preparedQuiz.part1_reading = part1.map(q => ({ ...q, isPremade: (q.isPremade === true) || preparedQuiz.isPremade }));
+            preparedQuiz.part3_language = part3.map(q => ({ ...q, isPremade: (q.isPremade === true) || preparedQuiz.isPremade }));
             preparedQuiz.part2_essay = essay;
             normalizedQuestions = [...part1, ...part3];
         }
@@ -10513,7 +10538,7 @@ function App({ externalTheme, onThemeChange }) {
             return;
         }
 
-    preparedQuiz.questions = normalizedQuestions.map(q => ({ ...q, isPremade: preparedQuiz.isPremade }));
+    preparedQuiz.questions = normalizedQuestions.map(q => ({ ...q, isPremade: (q.isPremade === true) || preparedQuiz.isPremade }));
 
         setActiveQuiz(preparedQuiz);
         // For any multi-part quiz, the view should be 'quiz' so the main QuizRunner can handle routing.
@@ -10955,7 +10980,9 @@ function App({ externalTheme, onThemeChange }) {
                             const practiceQuiz = {
                                 id: 'practice_' + Date.now(),
                                 title: 'Practice Session',
-                                questions: resp.questions.map((q, i) => ({ ...q, questionNumber: i + 1 })),
+                                // Mark practice session questions as premade so sanitized math renders with KaTeX
+                                isPremade: true,
+                                questions: resp.questions.map((q, i) => ({ ...q, isPremade: true, questionNumber: i + 1 })),
                                 timeLimit: Number(resp.durationMinutes || durationMinutes) * 60,
                             };
                             startQuiz(practiceQuiz, 'Practice Session');
@@ -13567,7 +13594,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     // Ask Coach (subject): ad-hoc challenge-filtered 12Q quiz via daily-composite endpoint
     const startDailyCompositeForSubject = async (subject, focusTag) => {
-        if (!window.__COACH_ENABLED__) return;
+        if (!window.__ASK_COACH_ENABLED__) return;
         try {
             const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
             if (!token) { alert('Please sign in to start a composite quiz.'); return; }
@@ -13596,7 +13623,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     };
 
     const handleAskCoach = async (subjectHint) => {
-        if (!window.__COACH_ENABLED__) return;
+        if (!window.__ASK_COACH_ENABLED__) return;
         try {
             setAdviceLoading(true);
             setAdviceError('');
@@ -14640,12 +14667,15 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => selectedSubject && startDailyCompositeForSubject(selectedSubject)}
-                                    disabled={!selectedSubject || adviceLoading}
+                                    disabled={!selectedSubject || adviceLoading || !window.__ASK_COACH_ENABLED__}
                                     className="px-3 py-2 text-sm font-semibold rounded-md transition hover:opacity-90"
                                     style={{ backgroundColor: '#ffffff', color: '#0f172a', opacity: adviceLoading ? 0.6 : 1 }}
                                 >
                                     {adviceLoading ? 'Asking…' : 'Ask Coach'}
                                 </button>
+                                {!window.__ASK_COACH_ENABLED__ && (
+                                    <span className="text-xs" style={heroMutedTextStyle}>Ask Coach is currently disabled.</span>
+                                )}
                                 {adviceError && <span className="text-xs text-red-600">{adviceError}</span>}
                             </div>
                             {adviceText && (
