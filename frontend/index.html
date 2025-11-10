@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mr. Smith's Learning Canvas</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Global feature flag: disable coach features (panels, network calls, Ask Coach UI) while preserving quiz loader.
+        window.__COACH_ENABLED__ = false;
+    </script>
     <style>
     /* Cross-browser baseline: match IE/Edge spacing */
     *, *::before, *::after {
@@ -13190,6 +13194,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     };
 
     const fetchWeeklyCoachPlan = async () => {
+        // Coach feature disabled guard
+        if (!window.__COACH_ENABLED__) return;
         try {
             setCoachLoading(true);
             setCoachError('');
@@ -13222,6 +13228,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     };
 
     const fetchCoachDailyProgress = async () => {
+        // Coach feature disabled guard
+        if (!window.__COACH_ENABLED__) return;
         try {
             setDailyLoading(true);
             setDailyError('');
@@ -13255,6 +13263,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         await Promise.all([fetchWeeklyCoachPlan(), fetchCoachDailyProgress()]);
     };
     const generateCoachPlan = async () => {
+        if (!window.__COACH_ENABLED__) return;
         const token =
             (typeof localStorage !== "undefined" && localStorage.getItem("appToken")) || null;
         const subjectParam = practiceSubjectParam(selectedSubject);
@@ -13311,6 +13320,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     // Generate weekly plans for all subjects, then refresh weekly summary
     const generateAllWeeklyPlans = async () => {
+        if (!window.__COACH_ENABLED__) return;
         // Early token check before toggling loading
         const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
         if (!token) { alert('Please sign in to generate weekly plans.'); return; }
@@ -13354,6 +13364,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     // Load consolidated weekly plan and daily progress on mount
     useEffect(() => {
+        if (!window.__COACH_ENABLED__) return; // Coach feature disabled: skip loading
         (async () => {
             await fetchWeeklyCoachPlan();
             await fetchCoachDailyProgress();
@@ -13498,6 +13509,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     };
 
     const startCoachQuizForSubject = async (subject, sourceId) => {
+        if (!window.__COACH_ENABLED__) return;
         try {
             const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
             if (!token) { alert('Please sign in to take today\'s coach quiz.'); return; }
@@ -13555,6 +13567,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
 
     // Ask Coach (subject): ad-hoc challenge-filtered 12Q quiz via daily-composite endpoint
     const startDailyCompositeForSubject = async (subject, focusTag) => {
+        if (!window.__COACH_ENABLED__) return;
         try {
             const token = (typeof localStorage !== 'undefined' && localStorage.getItem('appToken')) || null;
             if (!token) { alert('Please sign in to start a composite quiz.'); return; }
@@ -13583,6 +13596,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
     };
 
     const handleAskCoach = async (subjectHint) => {
+        if (!window.__COACH_ENABLED__) return;
         try {
             setAdviceLoading(true);
             setAdviceError('');
@@ -14522,7 +14536,8 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             theme={theme}
                         />
                     )}
-                    {/* Daily Coach goals (across subjects) */}
+                    {/* Daily Coach goals (across subjects) - COACH FEATURE DISABLED */}
+                    {window.__COACH_ENABLED__ && (
                     <div className={`coach-panel rounded-lg p-4 mt-4 shadow-md ${isDarkMode ? '' : 'coach-gold-light'}`}>
                         <div className="flex items-center justify-center gap-2" style={{ color: heroAccentColor }}>
                             <CalendarIcon className="h-8 w-8" />
@@ -14639,6 +14654,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             <p className="mt-2 text-xs" style={heroMutedTextStyle}>2 tips per week per student. Tester account is unlimited.</p>
                         </div>
                     </div>
+                    )}
 
                     {/* New clustered quiz browser */}
                     <SubjectQuizBrowser subjectName={selectedSubject} onSelectQuiz={onSelectQuiz} theme={theme} />
@@ -14667,6 +14683,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 const target = match?.expected_minutes_week || fallbackTarget;
                                 const hasPlan = subjectPlanDays.length > 0;
                                 return (
+                                    window.__COACH_ENABLED__ && (
                                     <div
                                         className={`coach-panel ${theme === 'dark' ? '' : 'coach-gold-light'} coach-subject-card subject-${subjectKey} rounded-lg p-4 flex flex-col justify-between shadow-md hover:shadow-lg transition-all`}
                                     >
@@ -14716,8 +14733,9 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                     >
                                         {hasPlan ? 'Generate / Refresh Plan' : 'Generate Plan'}
                                     </button>
-                                </div>
                                     </div>
+                                    </div>
+                                    )
                                 );
                             })()}
                             {selectedSubject === 'Reasoning Through Language Arts (RLA)' && (
@@ -15008,7 +15026,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                     </div>
                 )}
                 {/* Coach Smith — This Week (4 subject cards) */}
-                {currentUser && (
+                {window.__COACH_ENABLED__ && currentUser && (
                     <div className={`mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${theme === 'dark' ? '' : 'coach-gold-light'}`}>
                         <div className="flex items-center justify-between mb-3">
                             <h2 className={`text-lg font-semibold ${homePanelPrimaryTextClass}`}>Coach Smith — This Week</h2>
@@ -15163,7 +15181,7 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                                 >
                                     {premadeLabel}
                                 </span>
-                                {dailyForSubject && (
+                                {window.__COACH_ENABLED__ && dailyForSubject && (
                                     <div className={`w-full mt-3 coach-subject-card coach-gold-card subject-${subjectKey} rounded-md border p-2 text-left`} onClick={(e) => e.stopPropagation()}>
                                         <div className="flex items-center justify-between">
                                             <span className="subject-pill text-xs font-semibold uppercase tracking-wide" style={{ borderRadius: '9999px', padding: '2px 10px' }}>
