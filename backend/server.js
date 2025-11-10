@@ -4056,29 +4056,6 @@ async function findOrCreateDailyRow(userId, subject, planDateISO) {
     return sel2.rowCount ? sel2.rows[0] : null;
 }
 
-// Legacy study plan fetch (kept for backward compatibility) -- moved below weekly route so it doesn't shadow /api/coach/weekly
-app.get('/api/coach/:subject', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
-    try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const subject = normalizeSubjectLabel(req.params.subject);
-        const { rows } = await pool.query(
-            `SELECT id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes
-               FROM study_plans
-              WHERE user_id = $1 AND subject = $2
-              ORDER BY generated_at DESC, id DESC
-              LIMIT 1`,
-            [userId, subject]
-        );
-        if (!rows || rows.length === 0) {
-            return res.json({ ok: false, reason: 'no_plan' });
-        }
-        return res.json({ ok: true, plan: rows[0] });
-    } catch (e) {
-        console.error('GET /api/coach/:subject failed:', e);
-        return res.status(500).json({ ok: false, error: 'coach_fetch_failed' });
-    }
-});
 
 // Build a premade quiz inventory for a subject from ALL_QUIZZES
 function loadPremadeQuizzesForSubjectSync(subject) {
@@ -4519,6 +4496,30 @@ app.post('/api/coach/:subject/daily-composite', devAuth, ensureTestUserForNow, r
     } catch (e) {
         console.error('POST /api/coach/:subject/daily-composite failed:', e);
         return res.status(500).json({ ok: false, error: 'daily_composite_failed' });
+    }
+});
+
+// Legacy study plan fetch (kept for backward compatibility) — must come AFTER specific /api/coach routes
+app.get('/api/coach/:subject', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+    try {
+        const userId = req.user?.id || req.user?.userId;
+        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+        const subject = normalizeSubjectLabel(req.params.subject);
+        const { rows } = await pool.query(
+            `SELECT id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes
+               FROM study_plans
+              WHERE user_id = $1 AND subject = $2
+              ORDER BY generated_at DESC, id DESC
+              LIMIT 1`,
+            [userId, subject]
+        );
+        if (!rows || rows.length === 0) {
+            return res.json({ ok: false, reason: 'no_plan' });
+        }
+        return res.json({ ok: true, plan: rows[0] });
+    } catch (e) {
+        console.error('GET /api/coach/:subject failed:', e);
+        return res.status(500).json({ ok: false, error: 'coach_fetch_failed' });
     }
 });
 
