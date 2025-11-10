@@ -1,14 +1,35 @@
 {
+  // Format everything on save
   "editor.formatOnSave": true,
+
+  // Use Prettier as the global default
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Run ESLint fixes on save when available
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
+
+  // Tell VS Code how to treat our files
   "files.associations": {
-    "*.css": "tailwindcss",
-    "*.jsx": "javascriptreact"
+    // frontend CSS should get Tailwind IntelliSense
+    "style.css": "tailwindcss",
+    // any JSX file we add to frontend (like app.jsx)
+    "*.jsx": "javascriptreact",
+    // env files for backend
+    ".env*": "dotenv"
   },
-  "tailwindCSS.experimental.classRegex": [
-    ["className\\s*=\\s*[\"']([^\"']*)[\"']", "([a-zA-Z0-9\\-:]+)"]
+
+  // Enable Tailwind extension in this workspace
+  "tailwindCSS.includeLanguages": {
+    "html": "html",
+    "javascript": "javascript",
+    "javascriptreact": "javascriptreact"
+  },
+
+  // ESLint: use workspace version, not global
+  "eslint.workingDirectories": [
+    { "directory": "frontend", "changeProcessCWD": true },
+    { "directory": "backend", "changeProcessCWD": true }
   ]
 }
