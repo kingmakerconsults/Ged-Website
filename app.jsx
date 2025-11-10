@@ -25579,7 +25579,9 @@ function App({ externalTheme, onThemeChange }) {
           subject,
           quizCode,
           quizTitle:
-            quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
+            quizDetails.title ||
+            quizDetails.topicTitle ||
+            'GED® Practice Exam',
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -30364,7 +30366,9 @@ function StartScreen({
                     }}
                   >
                     Start{' '}
-                    {`${selectedSubject} €” ${selectedCategory} Set ${idx + 1}`}
+                    {`${selectedSubject} €” ${selectedCategory} Set ${
+                      idx + 1
+                    }`}
                   </button>
                 ))}
               </div>
@@ -34559,7 +34563,9 @@ function EssayGuide({ onExit }) {
     let text = html
       .replace(/<\s*br\s*\/?>/gi, '\n')
       .replace(/<\s*\/?p[^>]*>/gi, '\n\n')
-      .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' €¢ '))
+      .replace(/<\s*\/?li[^>]*>/gi, (m) =>
+        m.startsWith('</') ? '\n' : ' €¢ '
+      )
       .replace(
         /<\s*\/?(strong|em|b|i|u|span|div|h\d|section|article|blockquote)[^>]*>/gi,
         ''
