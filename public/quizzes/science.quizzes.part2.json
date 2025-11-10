@@ -13615,7 +13615,7 @@
                   "questionNumber": 6,
                   "qaProfileKey": "numeracy",
                   "type": "knowledge",
-                  "passage": "<p>A 2 kg cart accelerates at 3 m/s².</p>",
+                  "passage": "<p>Newton's second law states that force equals mass times acceleration (F = ma). This relationship is fundamental in physics for calculating the net force acting on an object. For example, a 2 kg cart accelerates at 3 m/s².</p>",
                   "question": "What net force is acting on the cart?",
                   "answerOptions": [
                     {
@@ -13974,7 +13974,7 @@
                 "questionNumber": 6,
                 "qaProfileKey": "numeracy",
                 "type": "knowledge",
-                "passage": "<p>A 2 kg cart accelerates at 3 m/s².</p>",
+                "passage": "<p>Newton's second law states that force equals mass times acceleration (F = ma). This relationship is fundamental in physics for calculating the net force acting on an object. For example, a 2 kg cart accelerates at 3 m/s².</p>",
                 "question": "What net force is acting on the cart?",
                 "answerOptions": [
                   {
