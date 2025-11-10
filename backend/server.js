@@ -9,22 +9,27 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const db = require('./db');
-const { applyFractionPlainTextModeToItem, replaceLatexFractionsWithSlash } = require('./utils/fractionPlainText');
+const {
+  applyFractionPlainTextModeToItem,
+  replaceLatexFractionsWithSlash,
+} = require('./utils/fractionPlainText');
 const ensureProfilePreferenceColumns = require('./db/initProfilePrefs');
 const ensureQuizAttemptsTable = require('./db/initQuizAttempts');
 const ensureEssayScoresTable = require('./db/initEssayScores');
 const ensureQuestionBankTable = require('./db/initQuestionBank');
-const MODEL_HTTP_TIMEOUT_MS = Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
+const MODEL_HTTP_TIMEOUT_MS =
+  Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
 // Timeout for the explicit ChatGPT fallback attempt used in AI generation
 const FALLBACK_TIMEOUT_MS = Number(process.env.FALLBACK_TIMEOUT_MS) || 45000;
 const http = axios.create({ timeout: MODEL_HTTP_TIMEOUT_MS });
-const AI_QUESTION_BANK_ENABLED = process.env.AI_QUESTION_BANK_ENABLED !== 'false';
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { default: PQueue } = require("p-queue");
+const AI_QUESTION_BANK_ENABLED =
+  process.env.AI_QUESTION_BANK_ENABLED !== 'false';
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { default: PQueue } = require('p-queue');
 const genAI = process.env.GOOGLE_AI_API_KEY
-    ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY)
-    : null;
+  ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY)
+  : null;
 
 // Shared prompt add-on to enforce strict table output that our frontend/backends can render reliably
 const TABLE_INTEGRITY_RULES = `
@@ -80,27 +85,27 @@ const GEMINI_FILESTORE_NAME = process.env.GEMINI_FILESTORE_NAME || null; // opti
 // Rolling latency stats for AI generations
 // Keep this ABOVE any functions/routes that call AI_LATENCY
 const AI_LATENCY = {
-    buf: [],
-    push(ms) {
-        this.buf.push(ms);
-        if (this.buf.length > 200) this.buf.shift();
-    },
-    stats() {
-        const arr = [...this.buf].sort((a, b) => a - b);
-        if (!arr.length) {
-            return { count: 0, p50: 0, p95: 0, p99: 0, avg: 0 };
-        }
-        const q = (p) =>
-            arr[Math.min(arr.length - 1, Math.floor((p / 100) * (arr.length - 1)))];
-        const sum = arr.reduce((s, v) => s + v, 0);
-        return {
-            count: arr.length,
-            p50: q(50),
-            p95: q(95),
-            p99: q(99),
-            avg: Math.round(sum / arr.length),
-        };
-    },
+  buf: [],
+  push(ms) {
+    this.buf.push(ms);
+    if (this.buf.length > 200) this.buf.shift();
+  },
+  stats() {
+    const arr = [...this.buf].sort((a, b) => a - b);
+    if (!arr.length) {
+      return { count: 0, p50: 0, p95: 0, p99: 0, avg: 0 };
+    }
+    const q = (p) =>
+      arr[Math.min(arr.length - 1, Math.floor((p / 100) * (arr.length - 1)))];
+    const sum = arr.reduce((s, v) => s + v, 0);
+    return {
+      count: arr.length,
+      p50: q(50),
+      p95: q(95),
+      p99: q(99),
+      avg: Math.round(sum / arr.length),
+    };
+  },
 };
 
 // --- in-memory image metadata structures used by image loader section ---
@@ -108,116 +113,155 @@ let IMAGE_DB = [];
 const IMAGE_BY_PATH = new Map();
 
 function rebuildImagePathIndex() {
-    IMAGE_BY_PATH.clear();
-    const list = Array.isArray(IMAGE_DB) ? IMAGE_DB : [];
-    for (const im of list) {
-        if (!im || typeof im !== 'object') continue;
-        const rawPath = im.filePath || im.src || im.path;
-        if (!rawPath) continue;
-        const clean = String(rawPath).replace(/^\/frontend/i, '');
-        const normalized = clean.startsWith('/') ? clean : `/${clean}`;
-        IMAGE_BY_PATH.set(normalized, im);
-        IMAGE_BY_PATH.set(normalized.slice(1), im);
-        IMAGE_BY_PATH.set(rawPath, im);
-    }
+  IMAGE_BY_PATH.clear();
+  const list = Array.isArray(IMAGE_DB) ? IMAGE_DB : [];
+  for (const im of list) {
+    if (!im || typeof im !== 'object') continue;
+    const rawPath = im.filePath || im.src || im.path;
+    if (!rawPath) continue;
+    const clean = String(rawPath).replace(/^\/frontend/i, '');
+    const normalized = clean.startsWith('/') ? clean : `/${clean}`;
+    IMAGE_BY_PATH.set(normalized, im);
+    IMAGE_BY_PATH.set(normalized.slice(1), im);
+    IMAGE_BY_PATH.set(rawPath, im);
+  }
 }
 
 async function findUserIdByGoogleSub(sub) {
-    return db.oneOrNone(
-        `SELECT u.id AS user_id
+  return db.oneOrNone(
+    `SELECT u.id AS user_id
            FROM auth_identities ai
            JOIN users u ON u.id = ai.user_id
           WHERE ai.provider = $1 AND ai.provider_user_id = $2`,
-        ['google', sub]
-    );
+    ['google', sub]
+  );
 }
 
 // Heuristic: determine whether a Science item requires scientific numeracy
 function isScienceNumeracyItem(item) {
-    try {
-        const text = [item?.questionText || '', item?.passage || ''].join(' ').toLowerCase();
-        if (!text.trim()) return false;
+  try {
+    const text = [item?.questionText || '', item?.passage || '']
+      .join(' ')
+      .toLowerCase();
+    if (!text.trim()) return false;
 
-        // HTML table, chart, graph, or explicit data words
-        if (/<table[\s\S]*?>/i.test(text)) return true;
-        if (/(chart|graph|table|dataset|data|figure)/i.test(text)) return true;
+    // HTML table, chart, graph, or explicit data words
+    if (/<table[\s\S]*?>/i.test(text)) return true;
+    if (/(chart|graph|table|dataset|data|figure)/i.test(text)) return true;
 
-        // Contains numbers plus measurement units or symbols
-        const hasNumber = /\d/.test(text);
-        const hasUnit = /(\bcm\b|\bmm\b|\bm\b|\bkm\b|\bg\b|\bkg\b|\bmg\b|\bl\b|\bml\b|\bn\b|\bj\b|\bw\b|\bpa\b|\batm\b|\bmol\b|\bs\b|\bsec\b|\bsecond(s)?\b|\bmin(ute)?(s)?\b|\bh(our)?(s)?\b|m\/s|km\/h|mph|°c|°f|\bkelvin\b|%)/i.test(text);
-        const hasEquationLike = /(=|\+|-|\*|\/)/.test(text) && /[a-z]/i.test(text) && /\d/.test(text);
-        if (hasNumber && (hasUnit || hasEquationLike)) return true;
+    // Contains numbers plus measurement units or symbols
+    const hasNumber = /\d/.test(text);
+    const hasUnit =
+      /(\bcm\b|\bmm\b|\bm\b|\bkm\b|\bg\b|\bkg\b|\bmg\b|\bl\b|\bml\b|\bn\b|\bj\b|\bw\b|\bpa\b|\batm\b|\bmol\b|\bs\b|\bsec\b|\bsecond(s)?\b|\bmin(ute)?(s)?\b|\bh(our)?(s)?\b|m\/s|km\/h|mph|°c|°f|\bkelvin\b|%)/i.test(
+        text
+      );
+    const hasEquationLike =
+      /(=|\+|-|\*|\/)/.test(text) && /[a-z]/i.test(text) && /\d/.test(text);
+    if (hasNumber && (hasUnit || hasEquationLike)) return true;
 
-        // Common numeracy keywords
-        if (/(density|rate|speed|velocity|acceleration|force|work|power|energy|mass|volume|pressure|concentration|ohm|voltage|current|calculate|using the formula|use the formula|according to the formula)/i.test(text)) return true;
+    // Common numeracy keywords
+    if (
+      /(density|rate|speed|velocity|acceleration|force|work|power|energy|mass|volume|pressure|concentration|ohm|voltage|current|calculate|using the formula|use the formula|according to the formula)/i.test(
+        text
+      )
+    )
+      return true;
 
-        return false;
-    } catch (_) {
-        return false;
-    }
+    return false;
+  } catch (_) {
+    return false;
+  }
 }
 
 function countScienceNumeracy(items) {
-    return Array.isArray(items) ? items.reduce((acc, it) => acc + (isScienceNumeracyItem(it) ? 1 : 0), 0) : 0;
+  return Array.isArray(items)
+    ? items.reduce((acc, it) => acc + (isScienceNumeracyItem(it) ? 1 : 0), 0)
+    : 0;
 }
 
 // Normalize table markup: robustly convert pipe tables (single-line or multiline) and style HTML tables
 function normalizeTables(html) {
-    try {
-        if (typeof html !== 'string' || !html.trim()) return html;
-        let out = html;
+  try {
+    if (typeof html !== 'string' || !html.trim()) return html;
+    let out = html;
 
-        const ensureStyled = (str) => {
-            let s = str.replace(/<table\b(?![^>]*class=)/gi, '<table class="data-table"');
-            s = s.replace(/<th>(.*?)</g, '<th style="text-align:left;padding:4px;border:1px solid #ccc;">$1<');
-            s = s.replace(/<td>(.*?)</g, '<td style="text-align:center;padding:4px;border:1px solid #ccc;">$1<');
-            if (!/<thead>/i.test(s) && /<table/i.test(s)) {
-                s = s.replace(/<table([^>]*)>\s*<tbody>\s*<tr>([\s\S]*?)<\/tr>/i, (m, attrs, cells) => {
-                    return `<table${attrs}><thead><tr>${cells}</tr></thead><tbody>`;
-                });
-            }
-            return s;
-        };
+    const ensureStyled = (str) => {
+      let s = str.replace(
+        /<table\b(?![^>]*class=)/gi,
+        '<table class="data-table"'
+      );
+      s = s.replace(
+        /<th>(.*?)</g,
+        '<th style="text-align:left;padding:4px;border:1px solid #ccc;">$1<'
+      );
+      s = s.replace(
+        /<td>(.*?)</g,
+        '<td style="text-align:center;padding:4px;border:1px solid #ccc;">$1<'
+      );
+      if (!/<thead>/i.test(s) && /<table/i.test(s)) {
+        s = s.replace(
+          /<table([^>]*)>\s*<tbody>\s*<tr>([\s\S]*?)<\/tr>/i,
+          (m, attrs, cells) => {
+            return `<table${attrs}><thead><tr>${cells}</tr></thead><tbody>`;
+          }
+        );
+      }
+      return s;
+    };
 
-        if (/<table/i.test(out)) {
-            return ensureStyled(out);
-        }
-
-        if (/\|/.test(out)) {
-            let rows = [];
-            if (out.includes('||')) {
-                rows = out.split('||').map(r => r.trim()).filter(Boolean);
-            } else {
-                rows = out.split(/\r?\n/).filter(l => l.includes('|')).map(r => r.trim()).filter(Boolean);
-            }
-            if (rows.length) {
-                const htmlRows = [];
-                for (const r of rows) {
-                    if (/^\|?\s*-{3,}/.test(r)) continue;
-                    const cells = r.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
-                    const tds = cells.map(c => `<td>${c}</td>`).join('');
-                    htmlRows.push(`<tr>${tds}</tr>`);
-                }
-                if (htmlRows.length) {
-                    out = `<table class="data-table"><tbody>${htmlRows.join('')}</tbody></table>`;
-                    return ensureStyled(out);
-                }
-            }
-        }
-
-        return ensureStyled(out);
-    } catch (err) {
-        return html;
+    if (/<table/i.test(out)) {
+      return ensureStyled(out);
     }
+
+    if (/\|/.test(out)) {
+      let rows = [];
+      if (out.includes('||')) {
+        rows = out
+          .split('||')
+          .map((r) => r.trim())
+          .filter(Boolean);
+      } else {
+        rows = out
+          .split(/\r?\n/)
+          .filter((l) => l.includes('|'))
+          .map((r) => r.trim())
+          .filter(Boolean);
+      }
+      if (rows.length) {
+        const htmlRows = [];
+        for (const r of rows) {
+          if (/^\|?\s*-{3,}/.test(r)) continue;
+          const cells = r
+            .replace(/^\|/, '')
+            .replace(/\|$/, '')
+            .split('|')
+            .map((c) => c.trim());
+          const tds = cells.map((c) => `<td>${c}</td>`).join('');
+          htmlRows.push(`<tr>${tds}</tr>`);
+        }
+        if (htmlRows.length) {
+          out = `<table class="data-table"><tbody>${htmlRows.join(
+            ''
+          )}</tbody></table>`;
+          return ensureStyled(out);
+        }
+      }
+    }
+
+    return ensureStyled(out);
+  } catch (err) {
+    return html;
+  }
 }
 
 function textWordCount(item) {
-    const toCount = (s) => (typeof s === 'string' ? s.trim().split(/\s+/).filter(Boolean).length : 0);
-    return toCount(item?.questionText) + toCount(item?.passage);
+  const toCount = (s) =>
+    typeof s === 'string' ? s.trim().split(/\s+/).filter(Boolean).length : 0;
+  return toCount(item?.questionText) + toCount(item?.passage);
 }
 
 async function generateScienceNumeracyQuestion(category, options = {}) {
-    const prompt = `You are a GED Science exam creator. Generate a single numeracy-focused question in the category "${category}".
+  const prompt = `You are a GED Science exam creator. Generate a single numeracy-focused question in the category "${category}".
 Requirements:
 - Include a small, cleanly formatted HTML <table> (use <thead> and <tbody> if possible) with 2–4 columns and 3–5 rows.
 - Always include column headers (use concise labels; avoid vague headers like Data1).
@@ -237,97 +281,131 @@ Requirements:
 Return one JSON object with "questionText" and "answerOptions" (array of {text, isCorrect, rationale}).
 
 ${TABLE_INTEGRITY_RULES}`;
-    const schema = {
-        type: 'OBJECT',
-        properties: {
-            questionText: { type: 'STRING' },
-            answerOptions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { text: { type: 'STRING' }, isCorrect: { type: 'BOOLEAN' }, rationale: { type: 'STRING' } }, required: ['text', 'isCorrect', 'rationale'] } }
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      questionText: { type: 'STRING' },
+      answerOptions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            text: { type: 'STRING' },
+            isCorrect: { type: 'BOOLEAN' },
+            rationale: { type: 'STRING' },
+          },
+          required: ['text', 'isCorrect', 'rationale'],
         },
-        required: ['questionText', 'answerOptions']
-    };
-    const q = await callAI(prompt, schema, options);
-    // Sanitize and normalize any returned table markup for consistency
-    if (q) {
-        if (q.questionText) q.questionText = normalizeTables(q.questionText);
-        if (q.passage) q.passage = normalizeTables(q.passage);
-        // Tag source for downstream UI grouping
-        if (!q.source) q.source = 'numeracy';
-    }
-    return enforceWordCapsOnItem(q, 'Science');
+      },
+    },
+    required: ['questionText', 'answerOptions'],
+  };
+  const q = await callAI(prompt, schema, options);
+  // Sanitize and normalize any returned table markup for consistency
+  if (q) {
+    if (q.questionText) q.questionText = normalizeTables(q.questionText);
+    if (q.passage) q.passage = normalizeTables(q.passage);
+    // Tag source for downstream UI grouping
+    if (!q.source) q.source = 'numeracy';
+  }
+  return enforceWordCapsOnItem(q, 'Science');
 }
 
-async function ensureScienceNumeracy(items, { requiredFraction = 1/3, categories = ['Life Science', 'Physical Science', 'Earth & Space Science'], aiOptions = {} } = {}) {
-    if (!Array.isArray(items) || !items.length) return items;
-    const total = items.length;
-    const required = Math.max(1, Math.ceil(total * requiredFraction));
-    let count = countScienceNumeracy(items);
-    if (count >= required) return items;
+async function ensureScienceNumeracy(
+  items,
+  {
+    requiredFraction = 1 / 3,
+    categories = ['Life Science', 'Physical Science', 'Earth & Space Science'],
+    aiOptions = {},
+  } = {}
+) {
+  if (!Array.isArray(items) || !items.length) return items;
+  const total = items.length;
+  const required = Math.max(1, Math.ceil(total * requiredFraction));
+  let count = countScienceNumeracy(items);
+  if (count >= required) return items;
 
-    const deficit = required - count;
-    try { console.warn(`[Science][Numeracy] Found ${count}/${total} numeracy items; need ${required}. Attempting to add ${deficit}.`); } catch {}
+  const deficit = required - count;
+  try {
+    console.warn(
+      `[Science][Numeracy] Found ${count}/${total} numeracy items; need ${required}. Attempting to add ${deficit}.`
+    );
+  } catch {}
 
-    // Pick non-numeracy items with lowest text to replace
-    const nonNumeric = items.map((it, idx) => ({ it, idx, wc: textWordCount(it) })).filter(x => !isScienceNumeracyItem(x.it));
-    nonNumeric.sort((a, b) => a.wc - b.wc);
+  // Pick non-numeracy items with lowest text to replace
+  const nonNumeric = items
+    .map((it, idx) => ({ it, idx, wc: textWordCount(it) }))
+    .filter((x) => !isScienceNumeracyItem(x.it));
+  nonNumeric.sort((a, b) => a.wc - b.wc);
 
-    const toReplace = nonNumeric.slice(0, deficit);
-    if (!toReplace.length) return items;
+  const toReplace = nonNumeric.slice(0, deficit);
+  if (!toReplace.length) return items;
 
-    const replacements = [];
-    for (let i = 0; i < toReplace.length; i++) {
-        const cat = categories[i % categories.length];
-        try {
-            const q = await generateScienceNumeracyQuestion(cat, aiOptions);
-            if (q && q.questionText && Array.isArray(q.answerOptions)) {
-                replacements.push(q);
-            }
-        } catch (e) {
-            // skip failed gen
-        }
+  const replacements = [];
+  for (let i = 0; i < toReplace.length; i++) {
+    const cat = categories[i % categories.length];
+    try {
+      const q = await generateScienceNumeracyQuestion(cat, aiOptions);
+      if (q && q.questionText && Array.isArray(q.answerOptions)) {
+        replacements.push(q);
+      }
+    } catch (e) {
+      // skip failed gen
     }
+  }
 
-    if (!replacements.length) {
-        try { console.warn('[Science][Numeracy] Unable to generate replacements; proceeding without changes.'); } catch {}
-        return items;
-    }
+  if (!replacements.length) {
+    try {
+      console.warn(
+        '[Science][Numeracy] Unable to generate replacements; proceeding without changes.'
+      );
+    } catch {}
+    return items;
+  }
 
-    const cloned = items.slice();
-    for (let i = 0; i < replacements.length && i < toReplace.length; i++) {
-        cloned[toReplace[i].idx] = replacements[i];
-    }
-    const newCount = countScienceNumeracy(cloned);
-    try { console.log(`[Science][Numeracy] After replacement: ${newCount}/${total} numeracy items.`); } catch {}
-    return cloned;
+  const cloned = items.slice();
+  for (let i = 0; i < replacements.length && i < toReplace.length; i++) {
+    cloned[toReplace[i].idx] = replacements[i];
+  }
+  const newCount = countScienceNumeracy(cloned);
+  try {
+    console.log(
+      `[Science][Numeracy] After replacement: ${newCount}/${total} numeracy items.`
+    );
+  } catch {}
+  return cloned;
 }
 
 async function findUserByEmail(email) {
-    return db.oneOrNone(`SELECT id, email, name FROM users WHERE email = $1`, [email]);
+  return db.oneOrNone(`SELECT id, email, name FROM users WHERE email = $1`, [
+    email,
+  ]);
 }
 
 async function createUser(email, name) {
-    return db.oneOrNone(
-        `INSERT INTO users (email, name) VALUES ($1, $2) RETURNING id, email, name`,
-        [email, name]
-    );
+  return db.oneOrNone(
+    `INSERT INTO users (email, name) VALUES ($1, $2) RETURNING id, email, name`,
+    [email, name]
+  );
 }
 
 async function bindGoogleIdentity(userId, sub) {
-    await db.query(
-        `INSERT INTO auth_identities (user_id, provider, provider_user_id)
+  await db.query(
+    `INSERT INTO auth_identities (user_id, provider, provider_user_id)
          VALUES ($1, $2, $3)
          ON CONFLICT (provider, provider_user_id) DO NOTHING`,
-        [userId, 'google', sub]
-    );
+    [userId, 'google', sub]
+  );
 }
 
 const SUPER_ADMIN_EMAIL = 'kingmakerconsults@gmail.com';
 
 async function loadUserWithRole(userId) {
-    if (!userId) {
-        return null;
-    }
-    return db.oneOrNone(
-        `SELECT
+  if (!userId) {
+    return null;
+  }
+  return db.oneOrNone(
+    `SELECT
             u.id,
             u.email,
             u.name,
@@ -338,234 +416,250 @@ async function loadUserWithRole(userId) {
          FROM users u
          LEFT JOIN organizations o ON o.id = u.organization_id
          WHERE u.id = $1`,
-        [userId]
-    );
+    [userId]
+  );
 }
 
 function normalizeRole(role) {
-    switch (role) {
-        case 'super_admin':
-        case 'org_admin':
-        case 'student':
-            return role;
-        default:
-            return 'student';
-    }
+  switch (role) {
+    case 'super_admin':
+    case 'org_admin':
+    case 'student':
+      return role;
+    default:
+      return 'student';
+  }
 }
 
 function buildAuthPayloadFromUserRow(row) {
-    if (!row) {
-        throw new Error('User row is required');
-    }
-    const role = normalizeRole(row.role);
-    return {
-        sub: row.id,
-        userId: row.id,
-        email: row.email,
-        role,
-        organization_id: row.organization_id ?? null,
-        name: row.name || null,
-    };
+  if (!row) {
+    throw new Error('User row is required');
+  }
+  const role = normalizeRole(row.role);
+  return {
+    sub: row.id,
+    userId: row.id,
+    email: row.email,
+    role,
+    organization_id: row.organization_id ?? null,
+    name: row.name || null,
+  };
 }
 
 function buildUserResponse(row, fallbackPicture = null) {
-    if (!row) {
-        return null;
-    }
-    return {
-        id: row.id,
-        email: row.email,
-        name: row.name,
-        role: normalizeRole(row.role),
-        organization_id: row.organization_id ?? null,
-        organization_name: row.organization_name || null,
-        picture: row.picture_url || fallbackPicture || null,
-    };
+  if (!row) {
+    return null;
+  }
+  return {
+    id: row.id,
+    email: row.email,
+    name: row.name,
+    role: normalizeRole(row.role),
+    organization_id: row.organization_id ?? null,
+    organization_name: row.organization_name || null,
+    picture: row.picture_url || fallbackPicture || null,
+  };
 }
 
 function selectModelTimeoutMs({ examType } = {}) {
-    return examType === 'comprehensive' ? COMPREHENSIVE_TIMEOUT_MS : MODEL_HTTP_TIMEOUT_MS;
+  return examType === 'comprehensive'
+    ? COMPREHENSIVE_TIMEOUT_MS
+    : MODEL_HTTP_TIMEOUT_MS;
 }
 
-function nowNs() { return process.hrtime.bigint(); }
-function toMs(nsDiff) { return Number(nsDiff) / 1e6; }
+function nowNs() {
+  return process.hrtime.bigint();
+}
+function toMs(nsDiff) {
+  return Number(nsDiff) / 1e6;
+}
 
 async function timed(label, fn) {
-    const start = nowNs();
-    try {
-        const data = await fn();
-        const ms = toMs(nowNs() - start);
-        if (process.env.NODE_ENV !== 'test') {
-            console.log(`[timed] ${label} ${ms.toFixed(1)}ms`);
-        }
-        return data;
-    } catch (e) {
-        if (process.env.NODE_ENV !== 'test') {
-            console.error(`[timed] ${label} failed:`, e?.message || e);
-        }
-        throw e;
+  const start = nowNs();
+  try {
+    const data = await fn();
+    const ms = toMs(nowNs() - start);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(`[timed] ${label} ${ms.toFixed(1)}ms`);
     }
+    return data;
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'test') {
+      console.error(`[timed] ${label} failed:`, e?.message || e);
+    }
+    throw e;
+  }
 }
 
 // Logs how long AI/quiz generation took. Used by the quiz/exam routes.
 function logGenerationDuration(examType, subject, startMs, status = 'ok') {
-    try {
-        const dur = Date.now() - startMs;
-        console.log(
-            `[QuizGen] type=${examType} subject=${subject} status=${status} durationMs=${dur}`
-        );
-    } catch (e) {
-        console.warn('logGenerationDuration failed:', e?.message || e);
-    }
+  try {
+    const dur = Date.now() - startMs;
+    console.log(
+      `[QuizGen] type=${examType} subject=${subject} status=${status} durationMs=${dur}`
+    );
+  } catch (e) {
+    console.warn('logGenerationDuration failed:', e?.message || e);
+  }
 }
 // --- coach advice helpers (top level) ---
 function getCurrentWeekStartISO() {
-    const now = new Date();
-    const day = now.getDay(); // 0=Sun,1=Mon,...
-    const diffToMonday = (day === 0 ? -6 : 1) - day; // move to Monday
-    const monday = new Date(now);
-    monday.setDate(now.getDate() + diffToMonday);
-    monday.setHours(0, 0, 0, 0);
-    return monday.toISOString().slice(0, 10);
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun,1=Mon,...
+  const diffToMonday = (day === 0 ? -6 : 1) - day; // move to Monday
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + diffToMonday);
+  monday.setHours(0, 0, 0, 0);
+  return monday.toISOString().slice(0, 10);
 }
 
 async function getUserEmailById(userId) {
-    if (!userId) return null;
-    try {
-        const row = await db.oneOrNone(`SELECT email FROM users WHERE id = $1`, [userId]);
-        return row?.email || null;
-    } catch (_) {
-        return null;
-    }
+  if (!userId) return null;
+  try {
+    const row = await db.oneOrNone(`SELECT email FROM users WHERE id = $1`, [
+      userId,
+    ]);
+    return row?.email || null;
+  } catch (_) {
+    return null;
+  }
 }
 
 // (moved) /api/coach/advice route is defined below app initialization
 
 function walkDir(dir, files = []) {
-    try {
-        const entries = fs.readdirSync(dir, { withFileTypes: true });
-        for (const ent of entries) {
-            const full = path.join(dir, ent.name);
-            if (ent.isDirectory()) {
-                walkDir(full, files);
-            } else {
-                files.push(full);
-            }
-        }
-    } catch {}
-    return files;
+  try {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const ent of entries) {
+      const full = path.join(dir, ent.name);
+      if (ent.isDirectory()) {
+        walkDir(full, files);
+      } else {
+        files.push(full);
+      }
+    }
+  } catch {}
+  return files;
 }
 
 function sha1OfFile(filePath) {
-    try {
-        const hash = crypto.createHash('sha1');
-        const data = fs.readFileSync(filePath);
-        hash.update(data);
-        return hash.digest('hex');
-    } catch {
-        return '';
-    }
+  try {
+    const hash = crypto.createHash('sha1');
+    const data = fs.readFileSync(filePath);
+    hash.update(data);
+    return hash.digest('hex');
+  } catch {
+    return '';
+  }
 }
 
 function getImageDimensions(filePath) {
-    // Minimal PNG and JPEG dimension readers to avoid external deps
-    try {
-        const fd = fs.openSync(filePath, 'r');
-        const header = Buffer.alloc(32);
-        fs.readSync(fd, header, 0, 32, 0);
-        // PNG signature
-        if (header[0] === 0x89 && header.toString('ascii', 1, 4) === 'PNG') {
-            // IHDR width/height at bytes 16..23 (big-endian)
-            const buf = Buffer.alloc(24);
-            fs.readSync(fd, buf, 0, 24, 0);
-            const width = buf.readUInt32BE(16);
-            const height = buf.readUInt32BE(20);
-            fs.closeSync(fd);
-            return { width, height };
-        }
-        // JPEG: scan markers for SOFn
-        const stat = fs.fstatSync(fd);
-        const buf = Buffer.alloc(stat.size);
-        fs.readSync(fd, buf, 0, stat.size, 0);
-        fs.closeSync(fd);
-        let i = 2; // skip SOI 0xFFD8
-        while (i < buf.length) {
-            if (buf[i] !== 0xFF) { i++; continue; }
-            const marker = buf[i+1];
-            const size = buf.readUInt16BE(i+2);
-            if (marker >= 0xC0 && marker <= 0xC3) {
-                const height = buf.readUInt16BE(i+5);
-                const width = buf.readUInt16BE(i+7);
-                return { width, height };
-            }
-            i += 2 + size;
-        }
-    } catch {}
-    return { width: 0, height: 0 };
+  // Minimal PNG and JPEG dimension readers to avoid external deps
+  try {
+    const fd = fs.openSync(filePath, 'r');
+    const header = Buffer.alloc(32);
+    fs.readSync(fd, header, 0, 32, 0);
+    // PNG signature
+    if (header[0] === 0x89 && header.toString('ascii', 1, 4) === 'PNG') {
+      // IHDR width/height at bytes 16..23 (big-endian)
+      const buf = Buffer.alloc(24);
+      fs.readSync(fd, buf, 0, 24, 0);
+      const width = buf.readUInt32BE(16);
+      const height = buf.readUInt32BE(20);
+      fs.closeSync(fd);
+      return { width, height };
+    }
+    // JPEG: scan markers for SOFn
+    const stat = fs.fstatSync(fd);
+    const buf = Buffer.alloc(stat.size);
+    fs.readSync(fd, buf, 0, stat.size, 0);
+    fs.closeSync(fd);
+    let i = 2; // skip SOI 0xFFD8
+    while (i < buf.length) {
+      if (buf[i] !== 0xff) {
+        i++;
+        continue;
+      }
+      const marker = buf[i + 1];
+      const size = buf.readUInt16BE(i + 2);
+      if (marker >= 0xc0 && marker <= 0xc3) {
+        const height = buf.readUInt16BE(i + 5);
+        const width = buf.readUInt16BE(i + 7);
+        return { width, height };
+      }
+      i += 2 + size;
+    }
+  } catch {}
+  return { width: 0, height: 0 };
 }
 
 function normalizePathForMetadata(absPath, subject) {
-    // Build /frontend/Images/<Subject>/<relative...>
-    const parts = absPath.split(path.sep);
-    const idx = parts.lastIndexOf('Images');
-    if (idx >= 0) {
-        const rel = parts.slice(idx).join('/');
-        return '/' + ['frontend', rel].join('/');
-    }
-    // fallback: prefix subject
-    const fname = path.basename(absPath);
-    return `/frontend/Images/${subject}/${fname}`;
+  // Build /frontend/Images/<Subject>/<relative...>
+  const parts = absPath.split(path.sep);
+  const idx = parts.lastIndexOf('Images');
+  if (idx >= 0) {
+    const rel = parts.slice(idx).join('/');
+    return '/' + ['frontend', rel].join('/');
+  }
+  // fallback: prefix subject
+  const fname = path.basename(absPath);
+  return `/frontend/Images/${subject}/${fname}`;
 }
 
 function detectCategory(absPath, subject) {
-    // Category = first folder under subject if present
-    const parts = absPath.split(path.sep);
-    const sIdx = parts.findIndex(p => p.toLowerCase() === subject.toLowerCase());
-    if (sIdx >= 0 && parts.length > sIdx + 2) {
-        return parts[sIdx + 1];
-    }
-    return '';
+  // Category = first folder under subject if present
+  const parts = absPath.split(path.sep);
+  const sIdx = parts.findIndex(
+    (p) => p.toLowerCase() === subject.toLowerCase()
+  );
+  if (sIdx >= 0 && parts.length > sIdx + 2) {
+    return parts[sIdx + 1];
+  }
+  return '';
 }
 
 function randomId() {
-    if (crypto.randomUUID) return crypto.randomUUID();
-    return crypto.randomBytes(16).toString('hex');
+  if (crypto.randomUUID) return crypto.randomUUID();
+  return crypto.randomBytes(16).toString('hex');
 }
 
 // AI Question Bank helpers
 function buildQuestionFingerprint(q) {
-    // normalize fields that define uniqueness
-    const core = {
-        passage: q.passage || '',
-        questionText: q.questionText || '',
-        answerOptions: Array.isArray(q.answerOptions)
-            ? q.answerOptions.map(o => ({
-                text: o.text || '',
-                isCorrect: !!o.isCorrect
-            }))
-            : [],
-        stimulusImage: q.stimulusImage?.src || '',
-    };
-    const json = JSON.stringify(core);
-    return crypto.createHash('sha1').update(json).digest('hex');
+  // normalize fields that define uniqueness
+  const core = {
+    passage: q.passage || '',
+    questionText: q.questionText || '',
+    answerOptions: Array.isArray(q.answerOptions)
+      ? q.answerOptions.map((o) => ({
+          text: o.text || '',
+          isCorrect: !!o.isCorrect,
+        }))
+      : [],
+    stimulusImage: q.stimulusImage?.src || '',
+  };
+  const json = JSON.stringify(core);
+  return crypto.createHash('sha1').update(json).digest('hex');
 }
 
-async function persistQuestionsToBank(questions, {
+async function persistQuestionsToBank(
+  questions,
+  {
     subject,
     topic,
     sourceModel = null,
     generatedForUserId = null,
     originQuizId = null,
-} = {}) {
-    if (!Array.isArray(questions) || questions.length === 0) return;
+  } = {}
+) {
+  if (!Array.isArray(questions) || questions.length === 0) return;
 
-    for (const q of questions) {
-        try {
-            const fingerprint = buildQuestionFingerprint(q);
+  for (const q of questions) {
+    try {
+      const fingerprint = buildQuestionFingerprint(q);
 
-            // attempt insert; if fingerprint exists, just skip
-            await db.none(
-                `
+      // attempt insert; if fingerprint exists, just skip
+      await db.none(
+        `
                 INSERT INTO ai_question_bank (
                     fingerprint, subject, topic, source_model,
                     generated_for_user_id, origin_quiz_id, question_json
@@ -573,75 +667,86 @@ async function persistQuestionsToBank(questions, {
                 VALUES ($1,$2,$3,$4,$5,$6,$7)
                 ON CONFLICT (fingerprint) DO NOTHING
                 `,
-                [
-                    fingerprint,
-                    subject || 'Unknown',
-                    topic || null,
-                    sourceModel,
-                    generatedForUserId,
-                    originQuizId,
-                    q // pg-promise will jsonb this
-                ]
-            );
+        [
+          fingerprint,
+          subject || 'Unknown',
+          topic || null,
+          sourceModel,
+          generatedForUserId,
+          originQuizId,
+          q, // pg-promise will jsonb this
+        ]
+      );
 
-            // also push the bank id back to the question object returned to the client later
-            // so the front-end can report exposures in the future
-            q.bankFingerprint = fingerprint;
-        } catch (err) {
-            console.warn('[ai_question_bank] failed to insert question:', err.message);
-        }
+      // also push the bank id back to the question object returned to the client later
+      // so the front-end can report exposures in the future
+      q.bankFingerprint = fingerprint;
+    } catch (err) {
+      console.warn(
+        '[ai_question_bank] failed to insert question:',
+        err.message
+      );
     }
+  }
 }
 
 // Safe JSON read utility used by image metadata loader
 function readJsonSafe(filePath) {
-    try {
-        if (fs.existsSync(filePath)) {
-            const raw = fs.readFileSync(filePath, 'utf8');
-            return JSON.parse(raw);
-        }
-    } catch (err) {
-        console.warn('readJsonSafe failed for', filePath, err?.message || err);
+  try {
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, 'utf8');
+      return JSON.parse(raw);
     }
-    return null;
+  } catch (err) {
+    console.warn('readJsonSafe failed for', filePath, err?.message || err);
+  }
+  return null;
 }
 
 function fileToGenerativePart(filePath, mimeType) {
-    const data = fs.readFileSync(filePath);
-    return {
-        inlineData: {
-            data: data.toString("base64"),
-            mimeType
-        }
-    };
+  const data = fs.readFileSync(filePath);
+  return {
+    inlineData: {
+      data: data.toString('base64'),
+      mimeType,
+    },
+  };
 }
 
 /**
  * Ask Gemini for alt text and description for a local image.
  * We pass subject and category to reduce wrong matches.
  */
-async function generateImageMetadataFromGemini(imagePath, { subject = "", category = "" } = {}) {
-    if (!genAI) {
-        console.warn("[ImageDB-AI] Gemini not configured, skipping AI for", imagePath);
-        return { altText: "", detailedDescription: "" };
-    }
+async function generateImageMetadataFromGemini(
+  imagePath,
+  { subject = '', category = '' } = {}
+) {
+  if (!genAI) {
+    console.warn(
+      '[ImageDB-AI] Gemini not configured, skipping AI for',
+      imagePath
+    );
+    return { altText: '', detailedDescription: '' };
+  }
 
-    const ext = path.extname(imagePath).toLowerCase();
-    const mimeType =
-        ext === ".png" ? "image/png" :
-        ext === ".jpg" || ext === ".jpeg" ? "image/jpeg" :
-        null;
+  const ext = path.extname(imagePath).toLowerCase();
+  const mimeType =
+    ext === '.png'
+      ? 'image/png'
+      : ext === '.jpg' || ext === '.jpeg'
+      ? 'image/jpeg'
+      : null;
 
-    if (!mimeType) {
-        console.warn("[ImageDB-AI] Unsupported image type:", imagePath);
-        return { altText: "", detailedDescription: "" };
-    }
+  if (!mimeType) {
+    console.warn('[ImageDB-AI] Unsupported image type:', imagePath);
+    return { altText: '', detailedDescription: '' };
+  }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-    const imagePart = fileToGenerativePart(imagePath, mimeType);
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+  const imagePart = fileToGenerativePart(imagePath, mimeType);
 
-    // IMPORTANT: we inject the subject/folder so it stays on-topic
-    const prompt = `
+  // IMPORTANT: we inject the subject/folder so it stays on-topic
+  const prompt = `
 You are cataloging images for a GED learning platform.
 The image came from subject: "${subject}" and folder/category: "${category}".
 Return ONLY valid JSON with:
@@ -652,264 +757,305 @@ Return ONLY valid JSON with:
 Do not invent a different scene than what you see. Do not output markdown.
 `;
 
-    try {
-        // Basic retry to handle flaky network/model hiccups
-        const result = await withRetry(
-            async () => model.generateContent([prompt, imagePart]),
-            {
-                retries: 2,
-                factor: 1.5,
-                minTimeout: 500,
-                maxTimeout: 2000,
-                onFailedAttempt: (err, attempt) => {
-                    try { console.warn(`[ImageDB-AI] Retry ${attempt} for`, imagePath, '-', err?.message || err); } catch {}
-                }
-            }
-        );
-        const text = result.response.text().trim();
-        const clean = text
-            .replace(/```json/gi, "")
-            .replace(/```/g, "")
-            .trim();
-        const parsed = JSON.parse(clean);
+  try {
+    // Basic retry to handle flaky network/model hiccups
+    const result = await withRetry(
+      async () => model.generateContent([prompt, imagePart]),
+      {
+        retries: 2,
+        factor: 1.5,
+        minTimeout: 500,
+        maxTimeout: 2000,
+        onFailedAttempt: (err, attempt) => {
+          try {
+            console.warn(
+              `[ImageDB-AI] Retry ${attempt} for`,
+              imagePath,
+              '-',
+              err?.message || err
+            );
+          } catch {}
+        },
+      }
+    );
+    const text = result.response.text().trim();
+    const clean = text
+      .replace(/```json/gi, '')
+      .replace(/```/g, '')
+      .trim();
+    const parsed = JSON.parse(clean);
 
-        return {
-            altText: parsed.altText || "",
-            detailedDescription: parsed.detailedDescription || ""
-        };
-    } catch (err) {
-        console.error("[ImageDB-AI] Failed to analyze", imagePath, err.message);
-        return { altText: "", detailedDescription: "" };
-    }
+    return {
+      altText: parsed.altText || '',
+      detailedDescription: parsed.detailedDescription || '',
+    };
+  } catch (err) {
+    console.error('[ImageDB-AI] Failed to analyze', imagePath, err.message);
+    return { altText: '', detailedDescription: '' };
+  }
 }
 
 async function loadAndAugmentImageMetadata() {
-    const primaryFile = path.join(__dirname, "image_metadata_final.json");
-    const fallbackFile = path.join(__dirname, "data", "image_metadata_final.json");
+  const primaryFile = path.join(__dirname, 'image_metadata_final.json');
+  const fallbackFile = path.join(
+    __dirname,
+    'data',
+    'image_metadata_final.json'
+  );
 
-    let db = readJsonSafe(primaryFile) || readJsonSafe(fallbackFile) || [];
+  let db = readJsonSafe(primaryFile) || readJsonSafe(fallbackFile) || [];
 
-    if (!Array.isArray(db)) db = [];
+  if (!Array.isArray(db)) db = [];
 
-    // Normalize filePath for each image
-    db = db.map((img) => {
-        if (!img.filePath) {
-            const subjectPart = (img.subject || 'Misc').replace(/\s+/g, ' ');
-            img.filePath = `/frontend/Images/${subjectPart}/${img.fileName}`;
-        }
-        return img;
-    });
-
-    // 🔒 TEMP: disable Gemini image analysis — use existing metadata only
-    console.info("[ImageDB] AI image enrichment is disabled for now — using existing metadata only.");
-    IMAGE_DB = db;
-
-    // even if we skip Gemini enrichment, we still need the in-memory lookup map
-    rebuildImagePathIndex();
-
-    return;
-
-    // We’ll dedupe by lowercased path and by sha1
-    const byPath = new Set();
-    const bySha1 = new Set();
-    for (const im of db) {
-        const p = (im && (im.filePath || im.src || im.path)) || "";
-        if (p) byPath.add(String(p).toLowerCase());
-        if (im && im.sha1) bySha1.add(String(im.sha1).toLowerCase());
+  // Normalize filePath for each image
+  db = db.map((img) => {
+    if (!img.filePath) {
+      const subjectPart = (img.subject || 'Misc').replace(/\s+/g, ' ');
+      img.filePath = `/frontend/Images/${subjectPart}/${img.fileName}`;
     }
+    return img;
+  });
 
-    // root of repo (same as old code)
-    const repoRoot = path.resolve(__dirname, "..");
-    const imagesRoot = path.join(repoRoot, "frontend", "Images");
+  // 🔒 TEMP: disable Gemini image analysis — use existing metadata only
+  console.info(
+    '[ImageDB] AI image enrichment is disabled for now — using existing metadata only.'
+  );
+  IMAGE_DB = db;
 
-    // collect candidates from ALL subject folders under frontend/Images
-    const candidates = [];
-    if (fs.existsSync(imagesRoot)) {
-        const subjectDirs = fs.readdirSync(imagesRoot, { withFileTypes: true });
-        for (const dir of subjectDirs) {
-            if (!dir.isDirectory()) continue;
-            const subjectName = dir.name; // e.g. "Science", "SocialStudies", "RLA"
-            const subjectPath = path.join(imagesRoot, subjectName);
-            const files = walkDir(subjectPath, []);
-            for (const f of files) {
-                const ext = path.extname(f).toLowerCase();
-                if (![".png", ".jpg", ".jpeg"].includes(ext)) continue;
-                candidates.push({ abs: f, subject: subjectName });
-            }
-        }
+  // even if we skip Gemini enrichment, we still need the in-memory lookup map
+  rebuildImagePathIndex();
+
+  return;
+
+  // We’ll dedupe by lowercased path and by sha1
+  const byPath = new Set();
+  const bySha1 = new Set();
+  for (const im of db) {
+    const p = (im && (im.filePath || im.src || im.path)) || '';
+    if (p) byPath.add(String(p).toLowerCase());
+    if (im && im.sha1) bySha1.add(String(im.sha1).toLowerCase());
+  }
+
+  // root of repo (same as old code)
+  const repoRoot = path.resolve(__dirname, '..');
+  const imagesRoot = path.join(repoRoot, 'frontend', 'Images');
+
+  // collect candidates from ALL subject folders under frontend/Images
+  const candidates = [];
+  if (fs.existsSync(imagesRoot)) {
+    const subjectDirs = fs.readdirSync(imagesRoot, { withFileTypes: true });
+    for (const dir of subjectDirs) {
+      if (!dir.isDirectory()) continue;
+      const subjectName = dir.name; // e.g. "Science", "SocialStudies", "RLA"
+      const subjectPath = path.join(imagesRoot, subjectName);
+      const files = walkDir(subjectPath, []);
+      for (const f of files) {
+        const ext = path.extname(f).toLowerCase();
+        if (!['.png', '.jpg', '.jpeg'].includes(ext)) continue;
+        candidates.push({ abs: f, subject: subjectName });
+      }
     }
+  }
 
-    const nowIso = new Date().toISOString();
-    const processing = [];
+  const nowIso = new Date().toISOString();
+  const processing = [];
 
-    for (const c of candidates) {
-        if (!fs.existsSync(c.abs)) continue;
+  for (const c of candidates) {
+    if (!fs.existsSync(c.abs)) continue;
 
-        const filePathMeta = normalizePathForMetadata(c.abs, c.subject);
-        const key = filePathMeta.toLowerCase();
-        const sha1 = sha1OfFile(c.abs);
-        const dup = byPath.has(key) || (sha1 && bySha1.has(sha1.toLowerCase()));
-        if (dup) continue;
+    const filePathMeta = normalizePathForMetadata(c.abs, c.subject);
+    const key = filePathMeta.toLowerCase();
+    const sha1 = sha1OfFile(c.abs);
+    const dup = byPath.has(key) || (sha1 && bySha1.has(sha1.toLowerCase()));
+    if (dup) continue;
 
-        processing.push(
-            imageAnalysisQueue.add(async () => {
-                const dims = getImageDimensions(c.abs);
-                const fileName = path.basename(c.abs);
-                const category = detectCategory(c.abs, c.subject);
+    processing.push(
+      imageAnalysisQueue.add(async () => {
+        const dims = getImageDimensions(c.abs);
+        const fileName = path.basename(c.abs);
+        const category = detectCategory(c.abs, c.subject);
 
-                // ask Gemini
-                const { altText, detailedDescription } = await generateImageMetadataFromGemini(
-                    c.abs,
-                    { subject: c.subject, category }
-                );
+        // ask Gemini
+        const { altText, detailedDescription } =
+          await generateImageMetadataFromGemini(c.abs, {
+            subject: c.subject,
+            category,
+          });
 
-                const entry = {
-                    id: randomId(),
-                    subject: c.subject,
-                    fileName,
-                    filePath: filePathMeta,
-                    width: dims.width || 0,
-                    height: dims.height || 0,
-                    dominantType: "photo",
-                    altText,
-                    detailedDescription,
-                    keywords: [],
-                    sourceUrl: "",
-                    sourceTitle: "",
-                    sourcePublished: "",
-                    license: "",
-                    collectedAt: nowIso,
-                    category,
-                    usageDirectives: "",
-                    sha1
-                };
+        const entry = {
+          id: randomId(),
+          subject: c.subject,
+          fileName,
+          filePath: filePathMeta,
+          width: dims.width || 0,
+          height: dims.height || 0,
+          dominantType: 'photo',
+          altText,
+          detailedDescription,
+          keywords: [],
+          sourceUrl: '',
+          sourceTitle: '',
+          sourcePublished: '',
+          license: '',
+          collectedAt: nowIso,
+          category,
+          usageDirectives: '',
+          sha1,
+        };
 
-                return { entry, key, sha1 };
-            })
-        );
-    }
+        return { entry, key, sha1 };
+      })
+    );
+  }
 
-    const results = await Promise.all(processing);
-    let added = 0;
-    for (const r of results) {
-        if (!r) continue;
-        const { entry, key, sha1 } = r;
-        db.push(entry);
-        byPath.add(key);
-        if (sha1) bySha1.add(sha1.toLowerCase());
-        added++;
-    }
+  const results = await Promise.all(processing);
+  let added = 0;
+  for (const r of results) {
+    if (!r) continue;
+    const { entry, key, sha1 } = r;
+    db.push(entry);
+    byPath.add(key);
+    if (sha1) bySha1.add(sha1.toLowerCase());
+    added++;
+  }
 
-    // sort like before
-    db.sort((a, b) => {
-        const sa = String(a.subject || "").toLowerCase();
-        const sb = String(b.subject || "").toLowerCase();
-        if (sa < sb) return -1;
-        if (sa > sb) return 1;
-        const fa = String(a.fileName || "");
-        const fb = String(b.fileName || "");
-        return fa.localeCompare(fb);
-    });
+  // sort like before
+  db.sort((a, b) => {
+    const sa = String(a.subject || '').toLowerCase();
+    const sb = String(b.subject || '').toLowerCase();
+    if (sa < sb) return -1;
+    if (sa > sb) return 1;
+    const fa = String(a.fileName || '');
+    const fb = String(b.fileName || '');
+    return fa.localeCompare(fb);
+  });
 
-    try {
-        fs.writeFileSync(primaryFile, JSON.stringify(db, null, 2), "utf8");
-    } catch (e) {
-        console.warn("[ImageDB] Failed to write image metadata file:", e.message);
-    }
+  try {
+    fs.writeFileSync(primaryFile, JSON.stringify(db, null, 2), 'utf8');
+  } catch (e) {
+    console.warn('[ImageDB] Failed to write image metadata file:', e.message);
+  }
 
-    IMAGE_DB = db;
-    rebuildImagePathIndex();
-    console.info(`[ImageDB] Loaded ${db.length} total images (added ${added}).`);
+  IMAGE_DB = db;
+  rebuildImagePathIndex();
+  console.info(`[ImageDB] Loaded ${db.length} total images (added ${added}).`);
 }
 
 // (startup) kick off initial image metadata load; routes are attached after app init
 (async () => {
-    await loadAndAugmentImageMetadata();
-    (function logImageCounts() {
-        try {
-            const total = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
-            const bySubject = IMAGE_DB.reduce((acc, im) => {
-                const s = im && im.subject ? String(im.subject) : "Other";
-                acc[s] = (acc[s] || 0) + 1;
-                return acc;
-            }, {});
-            const parts = Object.entries(bySubject).map(([s, n]) => `${s}: ${n}`);
-            console.info(`[ImageDB] Loaded ${total} total images (${parts.join(", ")})`);
-        } catch {}
-    })();
+  await loadAndAugmentImageMetadata();
+  (function logImageCounts() {
+    try {
+      const total = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
+      const bySubject = IMAGE_DB.reduce((acc, im) => {
+        const s = im && im.subject ? String(im.subject) : 'Other';
+        acc[s] = (acc[s] || 0) + 1;
+        return acc;
+      }, {});
+      const parts = Object.entries(bySubject).map(([s, n]) => `${s}: ${n}`);
+      console.info(
+        `[ImageDB] Loaded ${total} total images (${parts.join(', ')})`
+      );
+    } catch {}
+  })();
 })();
 // ------------------------------------------------------------
 // Passage / Word Problem Bank Loader (canonical local JSON)
 // ------------------------------------------------------------
 const PASSAGE_DB = {
-    rla: [],
-    social_studies: [],
-    science: [],
-    math_word_problems: []
+  rla: [],
+  social_studies: [],
+  science: [],
+  math_word_problems: [],
 };
 
 function loadPassageBank() {
-    const base = __dirname;
-    // primary expected location (backend/data) with fallback to root /data
-    const rootData = path.resolve(__dirname, '..', 'data');
-    const rla = readJsonSafe(path.join(base, 'data', 'rla_passages.json')) || readJsonSafe(path.join(rootData, 'rla_passages.json')) || [];
-    const ss = readJsonSafe(path.join(base, 'data', 'social_studies_passages.json')) || readJsonSafe(path.join(rootData, 'social_studies_passages.json')) || [];
-    const sci = readJsonSafe(path.join(base, 'data', 'science_passages.json')) || readJsonSafe(path.join(rootData, 'science_passages.json')) || [];
-    const mathWP = readJsonSafe(path.join(base, 'data', 'math_word_problems.json')) || readJsonSafe(path.join(rootData, 'math_word_problems.json')) || [];
+  const base = __dirname;
+  // primary expected location (backend/data) with fallback to root /data
+  const rootData = path.resolve(__dirname, '..', 'data');
+  const rla =
+    readJsonSafe(path.join(base, 'data', 'rla_passages.json')) ||
+    readJsonSafe(path.join(rootData, 'rla_passages.json')) ||
+    [];
+  const ss =
+    readJsonSafe(path.join(base, 'data', 'social_studies_passages.json')) ||
+    readJsonSafe(path.join(rootData, 'social_studies_passages.json')) ||
+    [];
+  const sci =
+    readJsonSafe(path.join(base, 'data', 'science_passages.json')) ||
+    readJsonSafe(path.join(rootData, 'science_passages.json')) ||
+    [];
+  const mathWP =
+    readJsonSafe(path.join(base, 'data', 'math_word_problems.json')) ||
+    readJsonSafe(path.join(rootData, 'math_word_problems.json')) ||
+    [];
 
-    PASSAGE_DB.rla = Array.isArray(rla) ? rla : [];
-    PASSAGE_DB.social_studies = Array.isArray(ss) ? ss : [];
-    PASSAGE_DB.science = Array.isArray(sci) ? sci : [];
-    PASSAGE_DB.math_word_problems = Array.isArray(mathWP) ? mathWP : [];
-    try {
-        console.info('[Passages] RLA:', PASSAGE_DB.rla.length, 'SS:', PASSAGE_DB.social_studies.length, 'SCI:', PASSAGE_DB.science.length, 'MATH WP:', PASSAGE_DB.math_word_problems.length);
-    } catch {}
+  PASSAGE_DB.rla = Array.isArray(rla) ? rla : [];
+  PASSAGE_DB.social_studies = Array.isArray(ss) ? ss : [];
+  PASSAGE_DB.science = Array.isArray(sci) ? sci : [];
+  PASSAGE_DB.math_word_problems = Array.isArray(mathWP) ? mathWP : [];
+  try {
+    console.info(
+      '[Passages] RLA:',
+      PASSAGE_DB.rla.length,
+      'SS:',
+      PASSAGE_DB.social_studies.length,
+      'SCI:',
+      PASSAGE_DB.science.length,
+      'MATH WP:',
+      PASSAGE_DB.math_word_problems.length
+    );
+  } catch {}
 }
 
 function pickPassageFor(subject, { topic = '', difficulty = '' } = {}) {
-    if (!subject) return null;
-    const sub = subject.toLowerCase();
-    let pool = [];
-    if (sub.includes('rla')) pool = PASSAGE_DB.rla;
-    else if (sub.includes('social')) pool = PASSAGE_DB.social_studies;
-    else if (sub.includes('science')) pool = PASSAGE_DB.science;
-    else return null;
-    if (!Array.isArray(pool) || !pool.length) return null;
+  if (!subject) return null;
+  const sub = subject.toLowerCase();
+  let pool = [];
+  if (sub.includes('rla')) pool = PASSAGE_DB.rla;
+  else if (sub.includes('social')) pool = PASSAGE_DB.social_studies;
+  else if (sub.includes('science')) pool = PASSAGE_DB.science;
+  else return null;
+  if (!Array.isArray(pool) || !pool.length) return null;
 
-    const topicLc = topic ? topic.toLowerCase() : '';
-    let candidates = pool;
-    if (topicLc) {
-        const topicMatches = pool.filter(p =>
-            (p.topic && String(p.topic).toLowerCase().includes(topicLc)) ||
-            (p.area && String(p.area).toLowerCase().includes(topicLc)) ||
-            (p.label && String(p.label).toLowerCase().includes(topicLc))
-        );
-        if (topicMatches.length) candidates = topicMatches;
-    }
-    if (difficulty) {
-        const diffMatches = candidates.filter(p => String(p.difficulty || '').toLowerCase() === difficulty.toLowerCase());
-        if (diffMatches.length) candidates = diffMatches;
-    }
-    const idx = Math.floor(Math.random() * candidates.length);
-    const chosen = candidates[idx];
-    if (!chosen) return null;
-    return {
-        id: chosen.id || null,
-        title: chosen.title || chosen.label || '',
-        author: chosen.author || '',
-        year: chosen.year || '',
-        text: chosen.text || chosen.passage || chosen.problem || '',
-        topic: chosen.topic || chosen.area || ''
-    };
+  const topicLc = topic ? topic.toLowerCase() : '';
+  let candidates = pool;
+  if (topicLc) {
+    const topicMatches = pool.filter(
+      (p) =>
+        (p.topic && String(p.topic).toLowerCase().includes(topicLc)) ||
+        (p.area && String(p.area).toLowerCase().includes(topicLc)) ||
+        (p.label && String(p.label).toLowerCase().includes(topicLc))
+    );
+    if (topicMatches.length) candidates = topicMatches;
+  }
+  if (difficulty) {
+    const diffMatches = candidates.filter(
+      (p) =>
+        String(p.difficulty || '').toLowerCase() === difficulty.toLowerCase()
+    );
+    if (diffMatches.length) candidates = diffMatches;
+  }
+  const idx = Math.floor(Math.random() * candidates.length);
+  const chosen = candidates[idx];
+  if (!chosen) return null;
+  return {
+    id: chosen.id || null,
+    title: chosen.title || chosen.label || '',
+    author: chosen.author || '',
+    year: chosen.year || '',
+    text: chosen.text || chosen.passage || chosen.problem || '',
+    topic: chosen.topic || chosen.area || '',
+  };
 }
 
 // Generate a set of science literacy (reading comprehension) questions from a bank passage
 async function generateScienceLiteracySet(numQuestions = 5, aiOptions = {}) {
-    try {
-        const passage = pickPassageFor('science');
-        if (!passage || !passage.text) return [];
-        const capped = Math.max(1, Math.min(8, numQuestions));
-        const prompt = `You are a GED Science exam creator.
+  try {
+    const passage = pickPassageFor('science');
+    if (!passage || !passage.text) return [];
+    const capped = Math.max(1, Math.min(8, numQuestions));
+    const prompt = `You are a GED Science exam creator.
 Using ONLY the passage below, create ${capped} multiple-choice Science literacy questions.
 Focus on comprehension, inference, author's purpose, interpretation of scientific claims, and evaluation of evidence.
 Do NOT create numeracy/calculation questions. Avoid asking for formula application.
@@ -919,76 +1065,128 @@ Do not wrap JSON in markdown fences.
 
 PASSAGE:\n"""${passage.text}"""`;
 
-        const schema = { type: 'OBJECT', properties: { questions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { questionText: { type: 'STRING' }, answerOptions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { text: { type: 'STRING' }, isCorrect: { type: 'BOOLEAN' }, rationale: { type: 'STRING' } }, required: ['text','isCorrect','rationale'] } } }, required: ['questionText','answerOptions'] } } }, required: ['questions'] };
-        const res = await callAI(prompt, schema, aiOptions);
-        const qs = Array.isArray(res?.questions) ? res.questions : [];
-        return qs.map(q => ({
-            ...q,
-            passage: normalizeTables(passage.text),
-            questionText: normalizeTables(q.questionText || ''),
-            type: 'passage',
-            qaProfileKey: 'literacy',
-            source: 'literacy'
-        }));
-    } catch (e) {
-        try { console.warn('[Science-Literacy] generation failed:', e?.message || e); } catch {}
-        return [];
-    }
+    const schema = {
+      type: 'OBJECT',
+      properties: {
+        questions: {
+          type: 'ARRAY',
+          items: {
+            type: 'OBJECT',
+            properties: {
+              questionText: { type: 'STRING' },
+              answerOptions: {
+                type: 'ARRAY',
+                items: {
+                  type: 'OBJECT',
+                  properties: {
+                    text: { type: 'STRING' },
+                    isCorrect: { type: 'BOOLEAN' },
+                    rationale: { type: 'STRING' },
+                  },
+                  required: ['text', 'isCorrect', 'rationale'],
+                },
+              },
+            },
+            required: ['questionText', 'answerOptions'],
+          },
+        },
+      },
+      required: ['questions'],
+    };
+    const res = await callAI(prompt, schema, aiOptions);
+    const qs = Array.isArray(res?.questions) ? res.questions : [];
+    return qs.map((q) => ({
+      ...q,
+      passage: normalizeTables(passage.text),
+      questionText: normalizeTables(q.questionText || ''),
+      type: 'passage',
+      qaProfileKey: 'literacy',
+      source: 'literacy',
+    }));
+  } catch (e) {
+    try {
+      console.warn('[Science-Literacy] generation failed:', e?.message || e);
+    } catch {}
+    return [];
+  }
 }
 
 function pickMathWordProblemTemplate() {
-    const pool = PASSAGE_DB.math_word_problems;
-    if (!Array.isArray(pool) || !pool.length) return null;
-    return pool[Math.floor(Math.random() * pool.length)];
+  const pool = PASSAGE_DB.math_word_problems;
+  if (!Array.isArray(pool) || !pool.length) return null;
+  return pool[Math.floor(Math.random() * pool.length)];
 }
 
 function instantiateMathWordProblem(template) {
-    if (!template) return null;
-    // naive number jitter for uniqueness
-    let problem = String(template.problem || '');
-    const numbers = problem.match(/\b\d+(?:\.\d+)?\b/g) || [];
-    const usedMap = new Map();
-    numbers.forEach(num => {
-        if (usedMap.has(num)) return;
-        const base = parseFloat(num);
-        if (!isFinite(base)) return;
-        const factor = 0.8 + Math.random() * 0.6; // 0.8 - 1.4
-        let mutated = base;
-        // keep smaller integers stable more often
-        if (base > 5) mutated = Math.round(base * factor * 10) / 10;
-        const replacement = mutated === base ? base : mutated;
-        usedMap.set(num, replacement);
-        problem = problem.replace(new RegExp(`\b${num}\b`, 'g'), String(replacement));
-    });
-    // Build distractors heuristically
-    const correct = String(template.answer || '').trim();
-    const distractors = [];
-    function variantAnswer(ans) {
-        if (/\d/.test(ans)) {
-            const m = ans.match(/\d+(?:\.\d+)?/);
-            if (m) {
-                const val = parseFloat(m[0]);
-                const plus = val + (Math.abs(val) < 10 ? 1 : Math.round(val * 0.1));
-                const minus = Math.max(val - (Math.abs(val) < 10 ? 1 : Math.round(val * 0.1)), 0);
-                return [ans.replace(m[0], String(plus)), ans.replace(m[0], String(minus))];
-            }
-        }
-        return [ans + ' (approx.)', 'Not enough information'];
+  if (!template) return null;
+  // naive number jitter for uniqueness
+  let problem = String(template.problem || '');
+  const numbers = problem.match(/\b\d+(?:\.\d+)?\b/g) || [];
+  const usedMap = new Map();
+  numbers.forEach((num) => {
+    if (usedMap.has(num)) return;
+    const base = parseFloat(num);
+    if (!isFinite(base)) return;
+    const factor = 0.8 + Math.random() * 0.6; // 0.8 - 1.4
+    let mutated = base;
+    // keep smaller integers stable more often
+    if (base > 5) mutated = Math.round(base * factor * 10) / 10;
+    const replacement = mutated === base ? base : mutated;
+    usedMap.set(num, replacement);
+    problem = problem.replace(
+      new RegExp(`\b${num}\b`, 'g'),
+      String(replacement)
+    );
+  });
+  // Build distractors heuristically
+  const correct = String(template.answer || '').trim();
+  const distractors = [];
+  function variantAnswer(ans) {
+    if (/\d/.test(ans)) {
+      const m = ans.match(/\d+(?:\.\d+)?/);
+      if (m) {
+        const val = parseFloat(m[0]);
+        const plus = val + (Math.abs(val) < 10 ? 1 : Math.round(val * 0.1));
+        const minus = Math.max(
+          val - (Math.abs(val) < 10 ? 1 : Math.round(val * 0.1)),
+          0
+        );
+        return [
+          ans.replace(m[0], String(plus)),
+          ans.replace(m[0], String(minus)),
+        ];
+      }
     }
-    const varAns = variantAnswer(correct);
-    varAns.forEach(v => { if (v !== correct) distractors.push(v); });
-    if (distractors.length < 3) distractors.push('Cannot be determined');
-    const answerOptions = [
-        { text: correct, isCorrect: true, rationale: `Correct answer based on provided scenario; derived from original template '${template.label || template.id}'.` },
-        ...distractors.slice(0,3).map(d => ({ text: d, isCorrect: false, rationale: 'Plausible but incorrect.' }))
-    ];
-    return {
-        id: `math_wp_${template.id}_${Date.now()}`,
-        questionText: problem,
-        passage: '',
-        answerOptions,
-        type: 'standalone'
-    };
+    return [ans + ' (approx.)', 'Not enough information'];
+  }
+  const varAns = variantAnswer(correct);
+  varAns.forEach((v) => {
+    if (v !== correct) distractors.push(v);
+  });
+  if (distractors.length < 3) distractors.push('Cannot be determined');
+  const answerOptions = [
+    {
+      text: correct,
+      isCorrect: true,
+      rationale: `Correct answer based on provided scenario; derived from original template '${
+        template.label || template.id
+      }'.`,
+    },
+    ...distractors
+      .slice(0, 3)
+      .map((d) => ({
+        text: d,
+        isCorrect: false,
+        rationale: 'Plausible but incorrect.',
+      })),
+  ];
+  return {
+    id: `math_wp_${template.id}_${Date.now()}`,
+    questionText: problem,
+    passage: '',
+    answerOptions,
+    type: 'standalone',
+  };
 }
 
 // Load passages immediately after images so they are ready for quiz generation
@@ -1000,533 +1198,586 @@ const bcrypt = require('bcryptjs');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const OpenAI = require('openai');
-const { buildGeometrySchema, SUPPORTED_SHAPES } = require('./schemas/geometrySchema');
 const {
-    GeometryJsonError,
-    parseGeometryJson,
-    SANITIZER_FEATURE_ENABLED,
-    DEFAULT_MAX_DECIMALS
+  buildGeometrySchema,
+  SUPPORTED_SHAPES,
+} = require('./schemas/geometrySchema');
+const {
+  GeometryJsonError,
+  parseGeometryJson,
+  SANITIZER_FEATURE_ENABLED,
+  DEFAULT_MAX_DECIMALS,
 } = require('./utils/geometryJson');
 const normalizeLatex = (text) => text;
 const { fetchApproved } = require('./src/fetch/fetcher');
 const { requireAuth, setAuthCookie } = require('./src/middleware/auth');
-const { requireSuperAdmin, requireOrgAdmin } = require('./middleware/adminRoles');
-const { assertUserIsActive } = require('./utils/userPresence');
-const { sanitizeExamObject, sanitizeField } = require('./src/lib/sanitizeExamText');
 const {
-    generateMathExamTwoPass,
-    VALIDATOR_SYSTEM_PROMPT,
-    VALIDATOR_USER_PROMPT
+  requireSuperAdmin,
+  requireOrgAdmin,
+} = require('./middleware/adminRoles');
+const { assertUserIsActive } = require('./utils/userPresence');
+const {
+  sanitizeExamObject,
+  sanitizeField,
+} = require('./src/lib/sanitizeExamText');
+const {
+  generateMathExamTwoPass,
+  VALIDATOR_SYSTEM_PROMPT,
+  VALIDATOR_USER_PROMPT,
 } = require('./src/services/mathTwoPass');
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
 
 const openaiClient = process.env.OPENAI_API_KEY
-    ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-    : null;
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  : null;
 
 function isTimeoutError(err) {
-    if (!err) return false;
-    if (err.name === 'AbortError') return true;
-    if (err.code === 'ECONNABORTED') return true;
-    if (err.code === 'ECONNRESET') return true;
-    const message = String(err.message || err).toLowerCase();
-    return message.includes('timeout') || message.includes('socket hang up');
+  if (!err) return false;
+  if (err.name === 'AbortError') return true;
+  if (err.code === 'ECONNABORTED') return true;
+  if (err.code === 'ECONNRESET') return true;
+  const message = String(err.message || err).toLowerCase();
+  return message.includes('timeout') || message.includes('socket hang up');
 }
 
 // --- begin local retry helper ---
-async function withRetry(fn, {
+async function withRetry(
+  fn,
+  {
     retries = 3,
     factor = 2,
-    minTimeout = 600,   // ms
-    maxTimeout = 5000,  // ms
-    onFailedAttempt = () => {}
-} = {}) {
-    let attempt = 0;
-    let delay = minTimeout;
-    while (true) {
-        try {
-            return await fn();
-        } catch (err) {
-            attempt++;
-            await onFailedAttempt(err, attempt);
-            if (attempt > retries) throw err;
+    minTimeout = 600, // ms
+    maxTimeout = 5000, // ms
+    onFailedAttempt = () => {},
+  } = {}
+) {
+  let attempt = 0;
+  let delay = minTimeout;
+  while (true) {
+    try {
+      return await fn();
+    } catch (err) {
+      attempt++;
+      await onFailedAttempt(err, attempt);
+      if (attempt > retries) throw err;
 
-            let adjustedDelay = delay;
-            if (isTimeoutError(err)) {
-                adjustedDelay = Math.min(delay * 1.5, maxTimeout);
-            }
+      let adjustedDelay = delay;
+      if (isTimeoutError(err)) {
+        adjustedDelay = Math.min(delay * 1.5, maxTimeout);
+      }
 
-            const boundedDelay = Math.min(Math.max(adjustedDelay, minTimeout), maxTimeout);
-            const jitterFactor = 0.8 + Math.random() * 0.4; // jitter between 80% and 120%
-            const waitMs = Math.min(
-                Math.max(Math.round(boundedDelay * jitterFactor), minTimeout),
-                maxTimeout
-            );
+      const boundedDelay = Math.min(
+        Math.max(adjustedDelay, minTimeout),
+        maxTimeout
+      );
+      const jitterFactor = 0.8 + Math.random() * 0.4; // jitter between 80% and 120%
+      const waitMs = Math.min(
+        Math.max(Math.round(boundedDelay * jitterFactor), minTimeout),
+        maxTimeout
+      );
 
-            await new Promise((r) => setTimeout(r, waitMs));
-            delay = Math.min(Math.max(adjustedDelay * factor, minTimeout), maxTimeout);
-        }
+      await new Promise((r) => setTimeout(r, waitMs));
+      delay = Math.min(
+        Math.max(adjustedDelay * factor, minTimeout),
+        maxTimeout
+      );
     }
+  }
 }
 // --- end local retry helper ---
 
 // Run primary model first, then start fallback after a short delay.
 // Returns whichever succeeds first, along with the latency.
 async function raceGeminiWithDelayedFallback({
-    primaryFn,
-    fallbackFn,
-    primaryModelName = 'gemini',
-    fallbackModelName = 'chatgpt',
-    delayMs = 900
+  primaryFn,
+  fallbackFn,
+  primaryModelName = 'gemini',
+  fallbackModelName = 'chatgpt',
+  delayMs = 900,
 }) {
-    if (typeof primaryFn !== 'function' || typeof fallbackFn !== 'function') {
-        throw new Error('raceGeminiWithDelayedFallback requires primaryFn and fallbackFn');
+  if (typeof primaryFn !== 'function' || typeof fallbackFn !== 'function') {
+    throw new Error(
+      'raceGeminiWithDelayedFallback requires primaryFn and fallbackFn'
+    );
+  }
+
+  const startTime = Date.now();
+
+  let fallbackStarted = false;
+  let fallbackPromise;
+
+  // start primary immediately
+  const primaryPromise = (async () => {
+    try {
+      const data = await primaryFn();
+      const latencyMs = Date.now() - startTime;
+      return {
+        model: primaryModelName,
+        data,
+        latencyMs,
+      };
+    } catch (err) {
+      // if primary fails early, make sure fallback is running
+      if (!fallbackStarted) {
+        fallbackStarted = true;
+        fallbackPromise = fallbackFn()
+          .then((data) => ({
+            model: fallbackModelName,
+            data,
+            latencyMs: Date.now() - startTime,
+          }))
+          .catch((fallbackErr) => ({
+            model: `${fallbackModelName}-error`,
+            error: fallbackErr,
+            latencyMs: Date.now() - startTime,
+          }));
+      }
+      return {
+        model: `${primaryModelName}-error`,
+        error: err,
+        latencyMs: Date.now() - startTime,
+      };
     }
+  })();
 
-    const startTime = Date.now();
+  // start fallback after a delay
+  const delayPromise = new Promise((resolve) => setTimeout(resolve, delayMs));
+  const delayedFallbackPromise = (async () => {
+    await delayPromise;
+    if (!fallbackStarted) {
+      fallbackStarted = true;
+      return fallbackFn()
+        .then((data) => ({
+          model: fallbackModelName,
+          data,
+          latencyMs: Date.now() - startTime,
+        }))
+        .catch((err) => ({
+          model: `${fallbackModelName}-error`,
+          error: err,
+          latencyMs: Date.now() - startTime,
+        }));
+    }
+  })();
 
-    let fallbackStarted = false;
-    let fallbackPromise;
+  // whichever finishes first with a usable result wins
+  const winner = await Promise.race([primaryPromise, delayedFallbackPromise]);
 
-    // start primary immediately
-    const primaryPromise = (async () => {
-        try {
-            const data = await primaryFn();
-            const latencyMs = Date.now() - startTime;
-            return {
-                model: primaryModelName,
-                data,
-                latencyMs
-            };
-        } catch (err) {
-            // if primary fails early, make sure fallback is running
-            if (!fallbackStarted) {
-                fallbackStarted = true;
-                fallbackPromise = fallbackFn().then((data) => ({
-                    model: fallbackModelName,
-                    data,
-                    latencyMs: Date.now() - startTime
-                })).catch((fallbackErr) => ({
-                    model: `${fallbackModelName}-error`,
-                    error: fallbackErr,
-                    latencyMs: Date.now() - startTime
-                }));
-            }
-            return {
-                model: `${primaryModelName}-error`,
-                error: err,
-                latencyMs: Date.now() - startTime
-            };
-        }
-    })();
-
-    // start fallback after a delay
-    const delayPromise = new Promise((resolve) => setTimeout(resolve, delayMs));
-    const delayedFallbackPromise = (async () => {
-        await delayPromise;
-        if (!fallbackStarted) {
-            fallbackStarted = true;
-            return fallbackFn().then((data) => ({
-                model: fallbackModelName,
-                data,
-                latencyMs: Date.now() - startTime
-            })).catch((err) => ({
-                model: `${fallbackModelName}-error`,
-                error: err,
-                latencyMs: Date.now() - startTime
-            }));
-        }
-    })();
-
-    // whichever finishes first with a usable result wins
-    const winner = await Promise.race([
-        primaryPromise,
-        delayedFallbackPromise
-    ]);
-
-    // if the thing that finished first was an error version, just return it;
-    // the caller already has logic to throw if model is "...-error"
-    return {
-        winner,
-        latencyMs: winner.latencyMs
-    };
+  // if the thing that finished first was an error version, just return it;
+  // the caller already has logic to throw if model is "...-error"
+  return {
+    winner,
+    latencyMs: winner.latencyMs,
+  };
 }
 
-const GEOMETRY_FIGURES_ENABLED = String(process.env.GEOMETRY_FIGURES_ENABLED || '').toLowerCase() === 'true';
-const MATH_TWO_PASS_ENABLED = String(process.env.MATH_TWO_PASS_ENABLED || 'true').toLowerCase() === 'true';
+const GEOMETRY_FIGURES_ENABLED =
+  String(process.env.GEOMETRY_FIGURES_ENABLED || '').toLowerCase() === 'true';
+const MATH_TWO_PASS_ENABLED =
+  String(process.env.MATH_TWO_PASS_ENABLED || 'true').toLowerCase() === 'true';
 
 if (!GEOMETRY_FIGURES_ENABLED) {
-    console.info('Geometry figures disabled (GEOMETRY_FIGURES_ENABLED=false); using text-only diagram descriptions.');
+  console.info(
+    'Geometry figures disabled (GEOMETRY_FIGURES_ENABLED=false); using text-only diagram descriptions.'
+  );
 }
 
 function sanitizeAIJSONString(raw) {
-    if (typeof raw !== 'string') return '';
+  if (typeof raw !== 'string') return '';
 
-    let s = raw.trim();
+  let s = raw.trim();
 
-    s = s.replace(/\\n(\\t|\\n){2,}/g, ' ');
-    s = s.replace(/(\\t){2,}/g, ' ');
-    s = s.replace(/(\\n){2,}/g, '\\n');
-    s = s.replace(/\\frac\s*\{\s*([^}]+)\s*\}\s*\{\s*([^}]+)\s*\}/g, '($1/$2)');
+  s = s.replace(/\\n(\\t|\\n){2,}/g, ' ');
+  s = s.replace(/(\\t){2,}/g, ' ');
+  s = s.replace(/(\\n){2,}/g, '\\n');
+  s = s.replace(/\\frac\s*\{\s*([^}]+)\s*\}\s*\{\s*([^}]+)\s*\}/g, '($1/$2)');
 
-    const lastBracket = s.lastIndexOf(']');
-    if (lastBracket !== -1) {
-        s = s.slice(0, lastBracket + 1);
-    }
+  const lastBracket = s.lastIndexOf(']');
+  if (lastBracket !== -1) {
+    s = s.slice(0, lastBracket + 1);
+  }
 
-    return s.trim();
+  return s.trim();
 }
 
 function extractJSONArray(raw, { sanitize = false, logLabel } = {}) {
-    if (typeof raw !== 'string') return null;
-    const bs = raw.indexOf('<BEGIN_JSON>');
-    const es = raw.lastIndexOf('<END_JSON>');
-    let body = (bs !== -1 && es !== -1) ? raw.slice(bs + 12, es) : raw;
-    const first = body.indexOf('[');
-    const last = body.lastIndexOf(']');
-    if (first === -1 || last === -1 || last <= first) return null;
+  if (typeof raw !== 'string') return null;
+  const bs = raw.indexOf('<BEGIN_JSON>');
+  const es = raw.lastIndexOf('<END_JSON>');
+  let body = bs !== -1 && es !== -1 ? raw.slice(bs + 12, es) : raw;
+  const first = body.indexOf('[');
+  const last = body.lastIndexOf(']');
+  if (first === -1 || last === -1 || last <= first) return null;
 
-    let jsonText = body.slice(first, last + 1);
-    jsonText = sanitize ? sanitizeAIJSONString(jsonText) : jsonText.trim();
+  let jsonText = body.slice(first, last + 1);
+  jsonText = sanitize ? sanitizeAIJSONString(jsonText) : jsonText.trim();
 
-    if (!jsonText) return null;
+  if (!jsonText) return null;
 
-    try {
-        const parsed = JSON.parse(jsonText);
-        return Array.isArray(parsed) ? parsed : [parsed];
-    } catch (error) {
-        if (sanitize) {
-            const snippet = jsonText.slice(0, 1000);
-            console.error('Failed to parse sanitized AI JSON response.', {
-                error: error.message,
-                snippet,
-                ...(logLabel ? { stage: logLabel } : {})
-            });
-        }
-        return null;
+  try {
+    const parsed = JSON.parse(jsonText);
+    return Array.isArray(parsed) ? parsed : [parsed];
+  } catch (error) {
+    if (sanitize) {
+      const snippet = jsonText.slice(0, 1000);
+      console.error('Failed to parse sanitized AI JSON response.', {
+        error: error.message,
+        snippet,
+        ...(logLabel ? { stage: logLabel } : {}),
+      });
     }
+    return null;
+  }
 }
 
 function parseGeminiResponse(data) {
-    if (!data) return null;
-    const parts = data?.candidates?.[0]?.content?.parts;
-    let text = '';
-    if (Array.isArray(parts)) {
-        text = parts.map((part) => (typeof part?.text === 'string' ? part.text : '')).join('').trim();
-    }
-    if (!text && typeof data?.candidates?.[0]?.content?.parts?.[0]?.text === 'string') {
-        text = data.candidates[0].content.parts[0].text;
-    }
-    if (typeof text !== 'string' || !text.trim()) return null;
-    return extractJSONArray(text, { sanitize: true, logLabel: 'gemini' });
+  if (!data) return null;
+  const parts = data?.candidates?.[0]?.content?.parts;
+  let text = '';
+  if (Array.isArray(parts)) {
+    text = parts
+      .map((part) => (typeof part?.text === 'string' ? part.text : ''))
+      .join('')
+      .trim();
+  }
+  if (
+    !text &&
+    typeof data?.candidates?.[0]?.content?.parts?.[0]?.text === 'string'
+  ) {
+    text = data.candidates[0].content.parts[0].text;
+  }
+  if (typeof text !== 'string' || !text.trim()) return null;
+  return extractJSONArray(text, { sanitize: true, logLabel: 'gemini' });
 }
 
 function parseOpenAIResponse(data) {
-    if (!data) return null;
-    let text = typeof data?.output_text === 'string' ? data.output_text : '';
-    if (!text && Array.isArray(data?.output)) {
-        const msg = data.output.find((entry) => Array.isArray(entry?.content));
-        if (msg) {
-            text = msg.content
-                .map((chunk) => (typeof chunk?.text === 'string' ? chunk.text : ''))
-                .join('')
-                .trim();
-        }
+  if (!data) return null;
+  let text = typeof data?.output_text === 'string' ? data.output_text : '';
+  if (!text && Array.isArray(data?.output)) {
+    const msg = data.output.find((entry) => Array.isArray(entry?.content));
+    if (msg) {
+      text = msg.content
+        .map((chunk) => (typeof chunk?.text === 'string' ? chunk.text : ''))
+        .join('')
+        .trim();
     }
-    if (!text && Array.isArray(data?.choices)) {
-        text = data.choices
-            .map((choice) => choice?.message?.content)
-            .filter((val) => typeof val === 'string')
-            .join('')
-            .trim();
-    }
-    if (typeof text !== 'string' || !text.trim()) return null;
-    const json = extractJSONArray(text, { sanitize: true, logLabel: 'openai-extract' });
-    if (json) return json;
-    try {
-        const sanitized = sanitizeAIJSONString(text);
-        const parsed = JSON.parse(sanitized);
-        const questionsArray = Array.isArray(parsed)
-            ? parsed
-            : Array.isArray(parsed?.items)
-                ? parsed.items
-                : Array.isArray(parsed?.questions)
-                    ? parsed.questions
-                    : Array.isArray(parsed?.data)
-                        ? parsed.data
-                        : parsed;
-        return Array.isArray(questionsArray) ? questionsArray : [questionsArray];
-    } catch (err) {
-        const sanitized = sanitizeAIJSONString(text);
-        console.error('Failed to parse sanitized OpenAI JSON response.', {
-            error: err.message,
-            snippet: sanitized.slice(0, 1000)
-        });
-        return null;
-    }
+  }
+  if (!text && Array.isArray(data?.choices)) {
+    text = data.choices
+      .map((choice) => choice?.message?.content)
+      .filter((val) => typeof val === 'string')
+      .join('')
+      .trim();
+  }
+  if (typeof text !== 'string' || !text.trim()) return null;
+  const json = extractJSONArray(text, {
+    sanitize: true,
+    logLabel: 'openai-extract',
+  });
+  if (json) return json;
+  try {
+    const sanitized = sanitizeAIJSONString(text);
+    const parsed = JSON.parse(sanitized);
+    const questionsArray = Array.isArray(parsed)
+      ? parsed
+      : Array.isArray(parsed?.items)
+      ? parsed.items
+      : Array.isArray(parsed?.questions)
+      ? parsed.questions
+      : Array.isArray(parsed?.data)
+      ? parsed.data
+      : parsed;
+    return Array.isArray(questionsArray) ? questionsArray : [questionsArray];
+  } catch (err) {
+    const sanitized = sanitizeAIJSONString(text);
+    console.error('Failed to parse sanitized OpenAI JSON response.', {
+      error: err.message,
+      snippet: sanitized.slice(0, 1000),
+    });
     return null;
+  }
+  return null;
 }
 
 // Count words and clamp politely at boundary (keeps punctuation)
 function limitWords(text, max = 250) {
-    if (typeof text !== 'string') return text;
-    const words = text.trim().split(/\s+/);
-    if (words.length <= max) return text.trim();
-    const clipped = words.slice(0, max).join(' ');
-    return /[.?!]$/.test(clipped) ? clipped : clipped + '…';
+  if (typeof text !== 'string') return text;
+  const words = text.trim().split(/\s+/);
+  if (words.length <= max) return text.trim();
+  const clipped = words.slice(0, max).join(' ');
+  return /[.?!]$/.test(clipped) ? clipped : clipped + '…';
 }
 
 // Apply to any fields that can contain long prose (e.g., passage/stem)
 function enforceWordCapsOnItem(item, subject) {
-    const out = JSON.parse(JSON.stringify(item));
+  const out = JSON.parse(JSON.stringify(item));
 
-    if (isRlaSubject(subject)) {
-        if (out.passage) out.passage = limitWords(out.passage, 250);
-    }
-
+  if (isRlaSubject(subject)) {
     if (out.passage) out.passage = limitWords(out.passage, 250);
-    if (out.questionText) out.questionText = limitWords(out.questionText, 250);
+  }
 
-    return out;
+  if (out.passage) out.passage = limitWords(out.passage, 250);
+  if (out.questionText) out.questionText = limitWords(out.questionText, 250);
+
+  return out;
 }
 
 function humanizeSource(value) {
-    if (typeof value !== 'string') {
-        if (value == null) return '';
-        value = String(value);
+  if (typeof value !== 'string') {
+    if (value == null) return '';
+    value = String(value);
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    try {
+      const url = new URL(trimmed);
+      return url.hostname.replace(/^www\./i, '');
+    } catch (err) {
+      return trimmed;
     }
+  }
 
-    const trimmed = value.trim();
-    if (!trimmed) return '';
+  if (trimmed.length > 80) {
+    return `${trimmed.slice(0, 77)}…`;
+  }
 
-    if (/^https?:\/\//i.test(trimmed)) {
-        try {
-            const url = new URL(trimmed);
-            return url.hostname.replace(/^www\./i, '');
-        } catch (err) {
-            return trimmed;
-        }
-    }
-
-    if (trimmed.length > 80) {
-        return `${trimmed.slice(0, 77)}…`;
-    }
-
-    return trimmed;
+  return trimmed;
 }
 
 function imageDisplayCredit(filePathOrKey) {
-    if (!filePathOrKey) return '';
-    const key = String(filePathOrKey).replace(/^\s+|\s+$/g, '').replace(/^\/frontend/i, '');
-    if (!key) return '';
+  if (!filePathOrKey) return '';
+  const key = String(filePathOrKey)
+    .replace(/^\s+|\s+$/g, '')
+    .replace(/^\/frontend/i, '');
+  if (!key) return '';
 
-    const normalized = key.startsWith('/') ? key : `/${key}`;
-    const meta = IMAGE_BY_PATH.get(normalized)
-        || IMAGE_BY_PATH.get(normalized.slice(1))
-        || IMAGE_BY_PATH.get(String(filePathOrKey))
-        || null;
+  const normalized = key.startsWith('/') ? key : `/${key}`;
+  const meta =
+    IMAGE_BY_PATH.get(normalized) ||
+    IMAGE_BY_PATH.get(normalized.slice(1)) ||
+    IMAGE_BY_PATH.get(String(filePathOrKey)) ||
+    null;
 
-    if (!meta || typeof meta !== 'object') return '';
+  if (!meta || typeof meta !== 'object') return '';
 
-    const creditCandidate = meta.credit
-        || meta.source
-        || meta.attribution
-        || meta.origin
-        || meta.title
-        || meta.altText
-        || meta.license
-        || meta.licenseUrl
-        || '';
+  const creditCandidate =
+    meta.credit ||
+    meta.source ||
+    meta.attribution ||
+    meta.origin ||
+    meta.title ||
+    meta.altText ||
+    meta.license ||
+    meta.licenseUrl ||
+    '';
 
-    return humanizeSource(creditCandidate);
+  return humanizeSource(creditCandidate);
 }
 
 function normalizeStimulusAndSource(item) {
-    if (!item || typeof item !== 'object') return item;
+  if (!item || typeof item !== 'object') return item;
 
-    const out = {
-        ...item,
-        stimulusImage: item?.stimulusImage && typeof item.stimulusImage === 'object'
-            ? { ...item.stimulusImage }
-            : item?.stimulusImage
+  const out = {
+    ...item,
+    stimulusImage:
+      item?.stimulusImage && typeof item.stimulusImage === 'object'
+        ? { ...item.stimulusImage }
+        : item?.stimulusImage,
+  };
+
+  const rawSrc = (
+    out?.stimulusImage?.src ||
+    out?.imageUrl ||
+    out?.imageURL ||
+    ''
+  ).trim();
+
+  if (rawSrc) {
+    const cleanSrc = rawSrc.replace(/^\/frontend/i, '');
+    const normalizedSrc = cleanSrc
+      ? cleanSrc.startsWith('/')
+        ? cleanSrc
+        : `/${cleanSrc}`
+      : '';
+    out.imageUrl = normalizedSrc;
+    out.stimulusImage = {
+      ...(out.stimulusImage || {}),
+      src: normalizedSrc,
     };
 
-    const rawSrc = (out?.stimulusImage?.src || out?.imageUrl || out?.imageURL || '').trim();
+    const assetBase =
+      out.asset && typeof out.asset === 'object' ? { ...out.asset } : {};
+    assetBase.imagePath = normalizedSrc;
 
-    if (rawSrc) {
-        const cleanSrc = rawSrc.replace(/^\/frontend/i, '');
-        const normalizedSrc = cleanSrc
-            ? (cleanSrc.startsWith('/') ? cleanSrc : `/${cleanSrc}`)
-            : '';
-        out.imageUrl = normalizedSrc;
-        out.stimulusImage = {
-            ...(out.stimulusImage || {}),
-            src: normalizedSrc
-        };
-
-        const assetBase = (out.asset && typeof out.asset === 'object') ? { ...out.asset } : {};
-        assetBase.imagePath = normalizedSrc;
-
-        const credit = imageDisplayCredit(rawSrc);
-        if (credit) {
-            assetBase.displaySource = credit;
-            out.source = credit;
-            out.displaySource = credit;
-        }
-
-        const currentSource = typeof out.source === 'string' ? out.source.trim() : '';
-        const sourceLooksLikePath = currentSource && /^\/?(frontend\/)?images?/i.test(currentSource);
-        if (!credit && sourceLooksLikePath) {
-            delete out.source;
-        }
-
-        out.asset = assetBase;
+    const credit = imageDisplayCredit(rawSrc);
+    if (credit) {
+      assetBase.displaySource = credit;
+      out.source = credit;
+      out.displaySource = credit;
     }
 
-    if (!rawSrc && typeof out.source === 'string') {
-        const sourceTrimmed = out.source.trim();
-        const credit = imageDisplayCredit(sourceTrimmed);
-        const looksLikePath = /^\/?(frontend\/)?images?/i.test(sourceTrimmed);
-        if (credit) {
-            out.source = credit;
-            out.displaySource = credit;
-            const assetBase = (out.asset && typeof out.asset === 'object') ? { ...out.asset } : {};
-            assetBase.displaySource = credit;
-            out.asset = assetBase;
-        } else if (looksLikePath) {
-            delete out.source;
-        }
+    const currentSource =
+      typeof out.source === 'string' ? out.source.trim() : '';
+    const sourceLooksLikePath =
+      currentSource && /^\/?(frontend\/)?images?/i.test(currentSource);
+    if (!credit && sourceLooksLikePath) {
+      delete out.source;
     }
 
-    if (out.asset && out.displaySource && !out.asset.displaySource) {
-        out.asset.displaySource = out.displaySource;
-    }
+    out.asset = assetBase;
+  }
 
-    if (out.source) {
-        const friendlyExisting = humanizeSource(out.source);
-        if (friendlyExisting) {
-            out.source = friendlyExisting;
-        } else {
-            delete out.source;
-        }
+  if (!rawSrc && typeof out.source === 'string') {
+    const sourceTrimmed = out.source.trim();
+    const credit = imageDisplayCredit(sourceTrimmed);
+    const looksLikePath = /^\/?(frontend\/)?images?/i.test(sourceTrimmed);
+    if (credit) {
+      out.source = credit;
+      out.displaySource = credit;
+      const assetBase =
+        out.asset && typeof out.asset === 'object' ? { ...out.asset } : {};
+      assetBase.displaySource = credit;
+      out.asset = assetBase;
+    } else if (looksLikePath) {
+      delete out.source;
     }
+  }
 
-    return out;
+  if (out.asset && out.displaySource && !out.asset.displaySource) {
+    out.asset.displaySource = out.displaySource;
+  }
+
+  if (out.source) {
+    const friendlyExisting = humanizeSource(out.source);
+    if (friendlyExisting) {
+      out.source = friendlyExisting;
+    } else {
+      delete out.source;
+    }
+  }
+
+  return out;
 }
 
 const QuestionSchema = {
-    type: 'object',
-    required: ['id', 'questionType', 'questionText'],
-    properties: {
-        id: { type: ['string', 'number'] },
-        questionType: { enum: ['standalone', 'freeResponse', 'multipleChoice'] },
-        questionText: { type: 'string' },
-        answerOptions: {
-            type: 'array',
-            minItems: 1,
-            items: {
-                type: 'object',
-                required: ['text'],
-                properties: {
-                    text: { type: 'string' },
-                    isCorrect: { type: ['boolean', 'null'] },
-                    rationale: { type: ['string', 'null'] }
-                }
-            },
-            contains: {
-                type: 'object',
-                properties: {
-                    isCorrect: { const: true }
-                },
-                required: ['isCorrect']
-            },
-            default: []
-        }
+  type: 'object',
+  required: ['id', 'questionType', 'questionText'],
+  properties: {
+    id: { type: ['string', 'number'] },
+    questionType: { enum: ['standalone', 'freeResponse', 'multipleChoice'] },
+    questionText: { type: 'string' },
+    answerOptions: {
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'object',
+        required: ['text'],
+        properties: {
+          text: { type: 'string' },
+          isCorrect: { type: ['boolean', 'null'] },
+          rationale: { type: ['string', 'null'] },
+        },
+      },
+      contains: {
+        type: 'object',
+        properties: {
+          isCorrect: { const: true },
+        },
+        required: ['isCorrect'],
+      },
+      default: [],
     },
-    additionalProperties: true
+  },
+  additionalProperties: true,
 };
 
 const validateQuestion = ajv.compile(QuestionSchema);
 
 const OPENAI_QUESTION_JSON_SCHEMA = {
-    name: 'Question',
-    schema: {
-        type: 'object',
-        required: ['id', 'questionType', 'questionText'],
-        additionalProperties: true,
-        properties: {
-            id: { type: ['string', 'number'] },
-            questionType: { type: 'string', enum: ['standalone', 'freeResponse', 'multipleChoice'] },
-            questionText: { type: 'string' },
-            answerOptions: {
-                type: 'array',
-                items: {
-                    type: 'object',
-                    required: ['text'],
-                    properties: {
-                        text: { type: 'string' },
-                        isCorrect: { type: ['boolean', 'null'] },
-                        rationale: { type: ['string', 'null'] }
-                    }
-                },
-                default: []
-            }
-        }
-    }
+  name: 'Question',
+  schema: {
+    type: 'object',
+    required: ['id', 'questionType', 'questionText'],
+    additionalProperties: true,
+    properties: {
+      id: { type: ['string', 'number'] },
+      questionType: {
+        type: 'string',
+        enum: ['standalone', 'freeResponse', 'multipleChoice'],
+      },
+      questionText: { type: 'string' },
+      answerOptions: {
+        type: 'array',
+        items: {
+          type: 'object',
+          required: ['text'],
+          properties: {
+            text: { type: 'string' },
+            isCorrect: { type: ['boolean', 'null'] },
+            rationale: { type: ['string', 'null'] },
+          },
+        },
+        default: [],
+      },
+    },
+  },
 };
 
 const SIMPLE_CHOICE_JSON_SCHEMA = {
-    type: 'object',
-    additionalProperties: true,
-    required: ['text'],
-    properties: {
-        text: { type: 'string' },
-        isCorrect: { type: ['boolean', 'null'] },
-        rationale: { type: ['string', 'null'] }
-    }
+  type: 'object',
+  additionalProperties: true,
+  required: ['text'],
+  properties: {
+    text: { type: 'string' },
+    isCorrect: { type: ['boolean', 'null'] },
+    rationale: { type: ['string', 'null'] },
+  },
 };
 
 const MATH_CORRECTNESS_JSON_SCHEMA = {
-    name: 'MathCorrectness',
-    schema: {
-        type: 'object',
-        required: ['fixes'],
-        additionalProperties: false,
-        properties: {
-            fixes: {
-                type: 'array',
-                default: [],
-                items: {
-                    type: 'object',
-                    required: ['index', 'question'],
-                    additionalProperties: true,
-                    properties: {
-                        index: { type: 'integer', minimum: 0 },
-                        reason: { type: 'string' },
-                        question: {
-                            type: 'object',
-                            additionalProperties: true,
-                            required: ['questionText'],
-                            properties: {
-                                questionText: { type: 'string' },
-                                answerOptions: {
-                                    type: 'array',
-                                    items: SIMPLE_CHOICE_JSON_SCHEMA,
-                                    default: []
-                                },
-                                correctAnswer: { type: ['string', 'number', 'null'] },
-                                calculator: { type: ['boolean', 'null'] },
-                                questionNumber: { type: ['integer', 'string', 'null'] },
-                                type: { type: 'string' }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+  name: 'MathCorrectness',
+  schema: {
+    type: 'object',
+    required: ['fixes'],
+    additionalProperties: false,
+    properties: {
+      fixes: {
+        type: 'array',
+        default: [],
+        items: {
+          type: 'object',
+          required: ['index', 'question'],
+          additionalProperties: true,
+          properties: {
+            index: { type: 'integer', minimum: 0 },
+            reason: { type: 'string' },
+            question: {
+              type: 'object',
+              additionalProperties: true,
+              required: ['questionText'],
+              properties: {
+                questionText: { type: 'string' },
+                answerOptions: {
+                  type: 'array',
+                  items: SIMPLE_CHOICE_JSON_SCHEMA,
+                  default: [],
+                },
+                correctAnswer: { type: ['string', 'number', 'null'] },
+                calculator: { type: ['boolean', 'null'] },
+                questionNumber: { type: ['integer', 'string', 'null'] },
+                type: { type: 'string' },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 const MATH_CORRECTNESS_SYSTEM_PROMPT = `You are an expert GED math reviewer.
@@ -1538,32 +1789,33 @@ Return a JSON object with a "fixes" array. Each element must include:
 Do not include entries for questions that are already correct.`;
 
 function createLimiter(limit) {
-    const queue = [];
-    let activeCount = 0;
+  const queue = [];
+  let activeCount = 0;
 
-    const next = () => {
-        if (!queue.length || activeCount >= limit) {
-            return;
-        }
-        const { task, resolve, reject } = queue.shift();
-        activeCount += 1;
-        Promise.resolve()
-            .then(() => task())
-            .then((value) => {
-                resolve(value);
-            })
-            .catch((error) => {
-                reject(error);
-            })
-            .finally(() => {
-                activeCount -= 1;
-                next();
-            });
-    };
-
-    return (task) => new Promise((resolve, reject) => {
-        queue.push({ task, resolve, reject });
+  const next = () => {
+    if (!queue.length || activeCount >= limit) {
+      return;
+    }
+    const { task, resolve, reject } = queue.shift();
+    activeCount += 1;
+    Promise.resolve()
+      .then(() => task())
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((error) => {
+        reject(error);
+      })
+      .finally(() => {
+        activeCount -= 1;
         next();
+      });
+  };
+
+  return (task) =>
+    new Promise((resolve, reject) => {
+      queue.push({ task, resolve, reject });
+      next();
     });
 }
 
@@ -1579,40 +1831,41 @@ Rules:
 - No HTML or markdown in questionText/rationales.`;
 
 function sanitizeTextKeepLatex(value) {
-    if (typeof value !== 'string') {
-        return value;
-    }
+  if (typeof value !== 'string') {
+    return value;
+  }
 
-    const normalized = normalizeLatex(value);
-    return sanitizeField(normalized, 'latex');
+  const normalized = normalizeLatex(value);
+  return sanitizeField(normalized, 'latex');
 }
 
 function sanitizeQuestionKeepLatex(q) {
-    if (!q || typeof q !== 'object') return q;
+  if (!q || typeof q !== 'object') return q;
 
-    const base = {
-        ...q,
-        answerOptions: Array.isArray(q.answerOptions) ? q.answerOptions.map((opt) => ({ ...opt })) : []
-    };
+  const base = {
+    ...q,
+    answerOptions: Array.isArray(q.answerOptions)
+      ? q.answerOptions.map((opt) => ({ ...opt }))
+      : [],
+  };
 
-    const sanitized = sanitizeExamObject(base, 'latex');
+  const sanitized = sanitizeExamObject(base, 'latex');
 
-    if (!Array.isArray(sanitized.answerOptions)) {
-        sanitized.answerOptions = [];
-    }
+  if (!Array.isArray(sanitized.answerOptions)) {
+    sanitized.answerOptions = [];
+  }
 
-    return sanitized;
+  return sanitized;
 }
 
-
 function cloneQuestion(q) {
-    if (!q || typeof q !== 'object') return q;
-    return {
-        ...q,
-        answerOptions: Array.isArray(q.answerOptions)
-            ? q.answerOptions.map((opt) => ({ ...opt }))
-            : q.answerOptions
-    };
+  if (!q || typeof q !== 'object') return q;
+  return {
+    ...q,
+    answerOptions: Array.isArray(q.answerOptions)
+      ? q.answerOptions.map((opt) => ({ ...opt }))
+      : q.answerOptions,
+  };
 }
 
 /**
@@ -1624,114 +1877,126 @@ function cloneQuestion(q) {
  * Returns the repaired question and logs warnings if auto-fixed.
  */
 function validateAndRepairQuestion(q) {
-    if (!q || typeof q !== 'object') {
-        console.warn('[validateAndRepairQuestion] Invalid question object:', q);
-        return null;
-    }
+  if (!q || typeof q !== 'object') {
+    console.warn('[validateAndRepairQuestion] Invalid question object:', q);
+    return null;
+  }
 
-    const question = sanitizeQuestionKeepLatex(cloneQuestion(q));
+  const question = sanitizeQuestionKeepLatex(cloneQuestion(q));
 
-    // Ensure answerOptions is an array
-    if (!Array.isArray(question.answerOptions) || question.answerOptions.length === 0) {
-        console.warn(`[validateAndRepairQuestion] Question "${question.id}" has no answer options. Adding placeholder.`);
-        question.answerOptions = [{ text: "No options generated", isCorrect: true, rationale: "" }];
-    }
+  // Ensure answerOptions is an array
+  if (
+    !Array.isArray(question.answerOptions) ||
+    question.answerOptions.length === 0
+  ) {
+    console.warn(
+      `[validateAndRepairQuestion] Question "${question.id}" has no answer options. Adding placeholder.`
+    );
+    question.answerOptions = [
+      { text: 'No options generated', isCorrect: true, rationale: '' },
+    ];
+  }
 
-    // Ensure at least one correct answer
-    const hasCorrect = question.answerOptions.some(o => o.isCorrect === true);
-    if (!hasCorrect && question.answerOptions.length > 0) {
-        console.warn(`[validateAndRepairQuestion] Question "${question.id}" has no correct answer. Marking first option as correct.`);
-        question.answerOptions[0].isCorrect = true;
-    }
+  // Ensure at least one correct answer
+  const hasCorrect = question.answerOptions.some((o) => o.isCorrect === true);
+  if (!hasCorrect && question.answerOptions.length > 0) {
+    console.warn(
+      `[validateAndRepairQuestion] Question "${question.id}" has no correct answer. Marking first option as correct.`
+    );
+    question.answerOptions[0].isCorrect = true;
+  }
 
-    return question;
+  return question;
 }
 
 async function repairOneWithOpenAI(original) {
-    if (!openaiClient) throw new Error('OPENAI_API_KEY not configured.');
+  if (!openaiClient) throw new Error('OPENAI_API_KEY not configured.');
 
-    const run = async () => {
-        const resp = await openaiClient.chat.completions.create({
-            model: 'gpt-4o-mini',
-            messages: [
-                { role: 'system', content: SINGLE_ITEM_REPAIR_SYSTEM },
-                { role: 'user', content: JSON.stringify(original) }
-            ],
-            response_format: { type: 'json_object' },
-            temperature: 0.1
-        });
-
-        const text = resp.choices[0].message.content;
-        return JSON.parse(text);
-    };
-
-    return withRetry(run, {
-        retries: 2,
-        minTimeout: 500,
-        maxTimeout: 1500,
-        onFailedAttempt: (err, n) => console.warn(`[retry ${n}] OpenAI single-item repair failed: ${err?.message || err}`)
+  const run = async () => {
+    const resp = await openaiClient.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: SINGLE_ITEM_REPAIR_SYSTEM },
+        { role: 'user', content: JSON.stringify(original) },
+      ],
+      response_format: { type: 'json_object' },
+      temperature: 0.1,
     });
+
+    const text = resp.choices[0].message.content;
+    return JSON.parse(text);
+  };
+
+  return withRetry(run, {
+    retries: 2,
+    minTimeout: 500,
+    maxTimeout: 1500,
+    onFailedAttempt: (err, n) =>
+      console.warn(
+        `[retry ${n}] OpenAI single-item repair failed: ${err?.message || err}`
+      ),
+  });
 }
 
 function hasForbiddenContent(q) {
-    const textBits = [q?.questionText || ''];
-    if (Array.isArray(q?.answerOptions)) {
-        for (const opt of q.answerOptions) {
-            textBits.push(opt?.text || '');
-        }
+  const textBits = [q?.questionText || ''];
+  if (Array.isArray(q?.answerOptions)) {
+    for (const opt of q.answerOptions) {
+      textBits.push(opt?.text || '');
     }
-    const s = textBits.join(' ');
-    if (/[<](?:table|tr|td|th|thead|tbody|caption)\b/i.test(s)) return true;
-    if (/\$\$|\\\[|\\\]|\$(?!\d)/.test(s)) return true;
-    if (/\$\s*\d/.test(s)) return true;
-    return false;
+  }
+  const s = textBits.join(' ');
+  if (/[<](?:table|tr|td|th|thead|tbody|caption)\b/i.test(s)) return true;
+  if (/\$\$|\\\[|\\\]|\$(?!\d)/.test(s)) return true;
+  if (/\$\s*\d/.test(s)) return true;
+  return false;
 }
 
 function needsRepairLegacy(q) {
-    if (!validateQuestion(q)) return true;
-    if (hasForbiddenContent(q)) return true;
-    const sanitized = sanitizeQuestionKeepLatex(cloneQuestion(q));
-    return JSON.stringify(sanitized) !== JSON.stringify(q);
+  if (!validateQuestion(q)) return true;
+  if (hasForbiddenContent(q)) return true;
+  const sanitized = sanitizeQuestionKeepLatex(cloneQuestion(q));
+  return JSON.stringify(sanitized) !== JSON.stringify(q);
 }
 
 async function repairSubset(questions = []) {
-    const out = questions.map((q) => cloneQuestion(q));
-    const badIdxs = [];
+  const out = questions.map((q) => cloneQuestion(q));
+  const badIdxs = [];
 
-    questions.forEach((q, i) => {
-        if (needsRepairLegacy(q)) badIdxs.push(i);
-    });
+  questions.forEach((q, i) => {
+    if (needsRepairLegacy(q)) badIdxs.push(i);
+  });
 
-    if (!badIdxs.length) {
-        return { fixed: out, repaired: 0, failures: [] };
-    }
+  if (!badIdxs.length) {
+    return { fixed: out, repaired: 0, failures: [] };
+  }
 
-    const failures = [];
+  const failures = [];
 
-    await Promise.all(
-        badIdxs.map((i) =>
-            repairLimit(async () => {
-                const original = questions[i];
-                try {
-                    const payload = JSON.parse(JSON.stringify(original));
-                    let fixed = await repairOneWithOpenAI(payload);
+  await Promise.all(
+    badIdxs.map((i) =>
+      repairLimit(async () => {
+        const original = questions[i];
+        try {
+          const payload = JSON.parse(JSON.stringify(original));
+          let fixed = await repairOneWithOpenAI(payload);
 
-                    if (!validateQuestion(fixed)) {
-                        throw new Error('Ajv validation failed after repair.');
-                    }
+          if (!validateQuestion(fixed)) {
+            throw new Error('Ajv validation failed after repair.');
+          }
 
-                    fixed = sanitizeQuestionKeepLatex(cloneQuestion(fixed));
-                    out[i] = fixed;
-                } catch (err) {
-                    console.error('Repair failed for index', i, err?.message || err);
-                    failures.push({ index: i, id: original?.id });
-                    out[i] = sanitizeQuestionKeepLatex(cloneQuestion(original));
-                }
-            })
-        )
-    );
+          fixed = sanitizeQuestionKeepLatex(cloneQuestion(fixed));
+          out[i] = fixed;
+        } catch (err) {
+          console.error('Repair failed for index', i, err?.message || err);
+          failures.push({ index: i, id: original?.id });
+          out[i] = sanitizeQuestionKeepLatex(cloneQuestion(original));
+        }
+      })
+    )
+  );
 
-    return { fixed: out, repaired: badIdxs.length - failures.length, failures };
+  return { fixed: out, repaired: badIdxs.length - failures.length, failures };
 }
 
 const NON_CALC_COUNT = 12;
@@ -1751,54 +2016,55 @@ NEVER wrap a fraction in $, $$, \(:, or [.
 
 Everything else (exponents, square roots, inequality symbols like ≤ and ≥, etc.) can be written normally the way you usually would for math class.`;
 
-
-
 function buildStrictJsonHeaderMath({ fractionPlainTextMode } = {}) {
-    const questionTextGuidance = fractionPlainTextMode
-        ? '- questionText: Plain English with math notation allowed (e.g., exponents like x^2, roots like \\sqrt{9}, inequality symbols like \\le or \\ge). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.'
-        : '- questionText: Plain English with LaTeX commands allowed (e.g., \\sqrt{9}, \\le, \\ge, \\pi). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.';
+  const questionTextGuidance = fractionPlainTextMode
+    ? '- questionText: Plain English with math notation allowed (e.g., exponents like x^2, roots like \\sqrt{9}, inequality symbols like \\le or \\ge). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.'
+    : '- questionText: Plain English with LaTeX commands allowed (e.g., \\sqrt{9}, \\le, \\ge, \\pi). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.';
 
-    const answerOptionsGuidance = '- answerOptions: Provide multiple choices; each must include "text", "isCorrect", and "rationale". Exactly one answerOption must have isCorrect=true.';
+  const answerOptionsGuidance =
+    '- answerOptions: Provide multiple choices; each must include "text", "isCorrect", and "rationale". Exactly one answerOption must have isCorrect=true.';
 
-    const fractionRuleBlock = fractionPlainTextMode ? `\n${FRACTION_PLAIN_TEXT_RULE}\n` : '';
+  const fractionRuleBlock = fractionPlainTextMode
+    ? `\n${FRACTION_PLAIN_TEXT_RULE}\n`
+    : '';
 
-    const formattingRulesBlock = [
-        '* "Return ONLY a JSON array of question objects between <BEGIN_JSON> and <END_JSON>. Do not wrap it in any other object. Do not include keys like \'questions\', \'metadata\', \'notes\', \'reasoning\', or anything else. Only the array."',
-        '',
-        '* "Each question object must use this shape exactly:',
-        '  {',
-        '  "id": "string",',
-        '  "questionText": "string",',
-        '  "answerOptions": [',
-        '  {',
-        '  "text": "string",',
-        '  "isCorrect": true/false,',
-        '  "rationale": "string"',
-        '  }',
-        '  ],',
-        '  "questionType": "multipleChoice"',
-        '  }"',
-        '',
-        '* "Do NOT include giant indentation blocks made of tab or newline spam. You may use normal short `\n` for formatting, but you MUST NOT repeat `\n` or `\t` more than two times in a row. Never output a huge run of `\\n\\t\\t\\t\\t...`."',
-        '',
-        '* "If you want to show a formula with a fraction, ALWAYS use plain text slash style like 3/4 or (2x+1)/3. NEVER use \\frac{...}{...}. NEVER use $...$, $$...$$, \\( ... \\), or \\[ ... \\] around a fraction."',
-        '',
-        '* "Other math formatting (exponents like x^2, √, ≤, ≥, tables, etc.) is allowed."',
-        '',
-        '* "Do NOT write any text after </END_JSON> and do not write any explanations before <BEGIN_JSON>."'
-    ].join('\\n');
+  const formattingRulesBlock = [
+    "* \"Return ONLY a JSON array of question objects between <BEGIN_JSON> and <END_JSON>. Do not wrap it in any other object. Do not include keys like 'questions', 'metadata', 'notes', 'reasoning', or anything else. Only the array.\"",
+    '',
+    '* "Each question object must use this shape exactly:',
+    '  {',
+    '  "id": "string",',
+    '  "questionText": "string",',
+    '  "answerOptions": [',
+    '  {',
+    '  "text": "string",',
+    '  "isCorrect": true/false,',
+    '  "rationale": "string"',
+    '  }',
+    '  ],',
+    '  "questionType": "multipleChoice"',
+    '  }"',
+    '',
+    '* "Do NOT include giant indentation blocks made of tab or newline spam. You may use normal short `\n` for formatting, but you MUST NOT repeat `\n` or `\t` more than two times in a row. Never output a huge run of `\\n\\t\\t\\t\\t...`."',
+    '',
+    '* "If you want to show a formula with a fraction, ALWAYS use plain text slash style like 3/4 or (2x+1)/3. NEVER use \\frac{...}{...}. NEVER use $...$, $$...$$, \\( ... \\), or \\[ ... \\] around a fraction."',
+    '',
+    '* "Other math formatting (exponents like x^2, √, ≤, ≥, tables, etc.) is allowed."',
+    '',
+    '* "Do NOT write any text after </END_JSON> and do not write any explanations before <BEGIN_JSON>."',
+  ].join('\\n');
 
-    const hardRuleLines = [
-        '- LaTeX commands allowed (\\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).',
-        '- Fractions must use plain-text slash notation (e.g., 3/4, (2x+1)/3).',
-        '- Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.',
-        '- No HTML or markdown tables. Describe any table verbally in questionText.',
-        '- Ensure braces balance in \\sqrt{...}. No custom macros.',
-        '- If a passage/stimulus is used, it MUST be <= 250 words.',
-        '- Exactly N items; top-level is a JSON array only.'
-    ].join('\\n');
+  const hardRuleLines = [
+    '- LaTeX commands allowed (\\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).',
+    '- Fractions must use plain-text slash notation (e.g., 3/4, (2x+1)/3).',
+    '- Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.',
+    '- No HTML or markdown tables. Describe any table verbally in questionText.',
+    '- Ensure braces balance in \\sqrt{...}. No custom macros.',
+    '- If a passage/stimulus is used, it MUST be <= 250 words.',
+    '- Exactly N items; top-level is a JSON array only.',
+  ].join('\\n');
 
-    return `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
+  return `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
 Each item schema:
 {
   "id": "<unique string>",
@@ -1830,7 +2096,12 @@ Hard rules:
 - Keep any passage <= 250 words and questionText <= 250 words.
 - Ensure exactly one answer option has isCorrect=true when multiple-choice.`;
 
-const TOPIC_STIMULUS_SUBJECTS = new Set(['Science', 'Social Studies', 'Reasoning Through Language Arts (RLA)', 'RLA']);
+const TOPIC_STIMULUS_SUBJECTS = new Set([
+  'Science',
+  'Social Studies',
+  'Reasoning Through Language Arts (RLA)',
+  'RLA',
+]);
 
 const STRICT_JSON_HEADER_RLA = `SYSTEM: Output ONLY a compact JSON array of N items (no extra text).
 Item schema: {"id":string|number,"questionType":"standalone"|"freeResponse","passage":string?,"questionText":string,"answerOptions":[{"text":string,"isCorrect":boolean,"rationale":string}]}
@@ -1842,61 +2113,67 @@ Rules:
 const norm = (s) => (s || '').toLowerCase();
 
 function findImagesForSubjectTopic(subject, topic, limit = 5) {
-    const s = norm(subject);
-    const t = norm(topic);
+  const s = norm(subject);
+  const t = norm(topic);
 
-    // First, try a strict match on both subject and category (topic)
-    let pool = IMAGE_DB.filter(img => norm(img.subject).includes(s) && norm(img.category).includes(t));
+  // First, try a strict match on both subject and category (topic)
+  let pool = IMAGE_DB.filter(
+    (img) => norm(img.subject).includes(s) && norm(img.category).includes(t)
+  );
 
-    // If no strict matches, fall back to searching keywords within the correct subject
-    if (pool.length < limit) {
-        const subjectPool = IMAGE_DB.filter(img => norm(img.subject).includes(s));
-        const keywordMatches = subjectPool.filter(img => {
-            const bag = [
-                norm(img.altText),
-                norm((img.keywords || []).join(' ')),
-                norm(img.detailedDescription),
-                norm(img.category)
-            ].join(' ');
-            // Check if any part of the topic name is in the keyword bag
-            return t.split(/[\s,&/|]+/g).some(tok => tok && bag.includes(tok));
-        });
-        // Combine strict matches with keyword matches, avoiding duplicates
-        const existingIds = new Set(pool.map(p => p.id));
-        keywordMatches.forEach(match => {
-            if (!existingIds.has(match.id)) {
-                pool.push(match);
-            }
-        });
-    }
-    
-    // If still nothing, return empty to let the prompt handle it
-    if (pool.length === 0) {
-        console.warn(`No relevant images found for subject "${subject}" and topic "${topic}".`);
-        return [];
-    }
+  // If no strict matches, fall back to searching keywords within the correct subject
+  if (pool.length < limit) {
+    const subjectPool = IMAGE_DB.filter((img) => norm(img.subject).includes(s));
+    const keywordMatches = subjectPool.filter((img) => {
+      const bag = [
+        norm(img.altText),
+        norm((img.keywords || []).join(' ')),
+        norm(img.detailedDescription),
+        norm(img.category),
+      ].join(' ');
+      // Check if any part of the topic name is in the keyword bag
+      return t.split(/[\s,&/|]+/g).some((tok) => tok && bag.includes(tok));
+    });
+    // Combine strict matches with keyword matches, avoiding duplicates
+    const existingIds = new Set(pool.map((p) => p.id));
+    keywordMatches.forEach((match) => {
+      if (!existingIds.has(match.id)) {
+        pool.push(match);
+      }
+    });
+  }
 
-    const seen = new Set();
-    const out = [];
-    for (const img of pool) {
-        const key = (img.fileName || '').split('.')[0];
-        if (seen.has(key)) continue;
-        seen.add(key);
-        out.push(img);
-        if (out.length >= limit) break;
-    }
-    return out;
+  // If still nothing, return empty to let the prompt handle it
+  if (pool.length === 0) {
+    console.warn(
+      `No relevant images found for subject "${subject}" and topic "${topic}".`
+    );
+    return [];
+  }
+
+  const seen = new Set();
+  const out = [];
+  for (const img of pool) {
+    const key = (img.fileName || '').split('.')[0];
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(img);
+    if (out.length >= limit) break;
+  }
+  return out;
 }
 
 function buildImageContextBlock(images = []) {
-    if (!images.length) return '';
-    const payload = images.map((im, i) => ({
-        id: `img${i + 1}`,
-        src: im.filePath,
-        alt: im.altText || '',
-        description: im.detailedDescription || ''
-    }));
-    return `\nIMAGE_CONTEXT (local files you MUST reference): ${JSON.stringify(payload)}\n`;
+  if (!images.length) return '';
+  const payload = images.map((im, i) => ({
+    id: `img${i + 1}`,
+    src: im.filePath,
+    alt: im.altText || '',
+    description: im.detailedDescription || '',
+  }));
+  return `\nIMAGE_CONTEXT (local files you MUST reference): ${JSON.stringify(
+    payload
+  )}\n`;
 }
 
 const SHARED_IMAGE_RULES = `
@@ -1908,22 +2185,22 @@ Image rules:
 `;
 
 function buildTopicQuizPrompt(subject, topic, difficulty) {
-    const baseHeader = STRICT_JSON_HEADER_SHARED;
+  const baseHeader = STRICT_JSON_HEADER_SHARED;
 
-    // NEW: pull up to 3 relevant images from the in-memory image DB
-    const images = findImagesForSubjectTopic(subject, topic, 3);
-    const imageBlock = buildImageContextBlock(images);
+  // NEW: pull up to 3 relevant images from the in-memory image DB
+  const images = findImagesForSubjectTopic(subject, topic, 3);
+  const imageBlock = buildImageContextBlock(images);
 
-    // Science-specific enhancement: include numeracy/table guidance and formula reference
-    if (subject === 'Science') {
-        const extraContext = `
+  // Science-specific enhancement: include numeracy/table guidance and formula reference
+  if (subject === 'Science') {
+    const extraContext = `
 Include a mix of question types:
 • At least 2 questions that use a small table of data (up to 5 rows × 3 columns).
 • Include graph, chart, or table interpretation tasks.
 • Roughly 30% of the questions should involve scientific numeracy — using formulas, units, or calculations.
 • Provide the formula reference block at the end of the prompt so AI can link to it.
 `;
-        const formulaSheet = `
+    const formulaSheet = `
 Formula Reference:
 • Speed = Distance ÷ Time
 • Density = Mass ÷ Volume
@@ -1934,31 +2211,35 @@ Formula Reference:
 • Photosynthesis: 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂
 `;
 
-        return `${baseHeader}
+    return `${baseHeader}
 Generate exactly 12 GED-level Science questions on the topic "${topic}".
 Focus on a balance of life, physical, and earth science where appropriate.
 ${extraContext}
 ${imageBlock}
 ${formulaSheet}
 ${SHARED_IMAGE_RULES}`;
-    }
+  }
 
-    const typeHint = subject === 'Math'
-        ? 'math problem-solving, algebra, geometry, word problems'
-        : subject === 'RLA'
-            ? 'reading comprehension, main idea, inference, tone, grammar'
-            : subject === 'Science'
-                ? 'data interpretation, experiments, cause and effect, life/earth/physical sciences'
-                : 'history, civics, economics, geography, map or chart interpretation';
+  const typeHint =
+    subject === 'Math'
+      ? 'math problem-solving, algebra, geometry, word problems'
+      : subject === 'RLA'
+      ? 'reading comprehension, main idea, inference, tone, grammar'
+      : subject === 'Science'
+      ? 'data interpretation, experiments, cause and effect, life/earth/physical sciences'
+      : 'history, civics, economics, geography, map or chart interpretation';
 
-    const structure = subject === 'Math'
-        ? 'a mix of numeric and text-based problems; describe any visuals in text'
-        : 'include a 150-250 word passage for at least 4 of the 12 questions; the rest may reference short stimuli or stand-alone questions.';
+  const structure =
+    subject === 'Math'
+      ? 'a mix of numeric and text-based problems; describe any visuals in text'
+      : 'include a 150-250 word passage for at least 4 of the 12 questions; the rest may reference short stimuli or stand-alone questions.';
 
-    const difficultyLine = difficulty ? `\nAim overall difficulty toward a ${difficulty} level.` : '';
+  const difficultyLine = difficulty
+    ? `\nAim overall difficulty toward a ${difficulty} level.`
+    : '';
 
-    // IMPORTANT: imageBlock is injected BEFORE SHARED_IMAGE_RULES
-    return `${baseHeader}
+  // IMPORTANT: imageBlock is injected BEFORE SHARED_IMAGE_RULES
+  return `${baseHeader}
 Generate exactly 12 GED-level ${subject} questions on the topic "${topic}".
 Focus on variety and balance:
 
@@ -1973,119 +2254,133 @@ ${SHARED_IMAGE_RULES}`;
 }
 
 const SUBJECT_PARAM_ALIASES = new Map([
-    ['math', 'Math'],
-    ['science', 'Science'],
-    ['social studies', 'Social Studies'],
-    ['social-studies', 'Social Studies'],
-    ['socialstudies', 'Social Studies'],
-    ['rla', 'RLA'],
-    ['reasoning through language arts', 'RLA'],
-    ['reasoning through language arts (rla)', 'RLA'],
-    ['reasoning-through-language-arts', 'RLA'],
-    ['reasoning-through-language-arts-(rla)', 'RLA']
+  ['math', 'Math'],
+  ['science', 'Science'],
+  ['social studies', 'Social Studies'],
+  ['social-studies', 'Social Studies'],
+  ['socialstudies', 'Social Studies'],
+  ['rla', 'RLA'],
+  ['reasoning through language arts', 'RLA'],
+  ['reasoning through language arts (rla)', 'RLA'],
+  ['reasoning-through-language-arts', 'RLA'],
+  ['reasoning-through-language-arts-(rla)', 'RLA'],
 ]);
 
 const RLA_SUBJECT_LABEL = 'Reasoning Through Language Arts (RLA)';
 const RLA_SUBJECT_ALIAS = 'RLA';
 
 function isRlaSubject(subject) {
-    return subject === RLA_SUBJECT_ALIAS || subject === RLA_SUBJECT_LABEL;
+  return subject === RLA_SUBJECT_ALIAS || subject === RLA_SUBJECT_LABEL;
 }
 
 function normalizeSubjectParam(rawSubject) {
-    if (!rawSubject) return null;
-    const lower = String(rawSubject).trim().toLowerCase();
-    const variants = [
-        lower,
-        lower.replace(/%20/g, ' '),
-        lower.replace(/-/g, ' '),
-        lower.replace(/_/g, ' ')
-    ];
+  if (!rawSubject) return null;
+  const lower = String(rawSubject).trim().toLowerCase();
+  const variants = [
+    lower,
+    lower.replace(/%20/g, ' '),
+    lower.replace(/-/g, ' '),
+    lower.replace(/_/g, ' '),
+  ];
 
-    for (const variant of variants) {
-        const normalized = SUBJECT_PARAM_ALIASES.get(variant);
-        if (normalized) return normalized;
-    }
+  for (const variant of variants) {
+    const normalized = SUBJECT_PARAM_ALIASES.get(variant);
+    if (normalized) return normalized;
+  }
 
-    return SUBJECT_PARAM_ALIASES.get(lower) || null;
+  return SUBJECT_PARAM_ALIASES.get(lower) || null;
 }
 
 const SMITH_A_SKILL_ENTRIES = {
-    Math: {
-        "Quantitative Problem Solving": "Fractions, decimals, percentages, ratios, and data analysis."
-    },
-    Science: {
-        "Life Science": "Cell structure, genetics, ecosystems, and human body systems.",
-        "Physical Science": "Matter, energy, motion, chemistry, and basic physics principles.",
-        "Earth & Space Science": "Earth systems, weather, geology, astronomy, and the solar system.",
-        "Scientific Numeracy": "Unit conversions, rate/density calculations, interpreting tables and lab data."
-    },
-    "Social Studies": {
-        "U.S. History": "Foundations of the United States, government, civics, and historical analysis."
-    },
-    [RLA_SUBJECT_LABEL]: {
-        "Language & Grammar": "Standard English conventions, grammar, punctuation, and usage.",
-        "Reading Comprehension: Informational Texts": "Determine main ideas, evaluate arguments, interpret charts, and understand structure.",
-        "Poetry & Figurative Language": "Interpret poetry for theme, tone, figurative language, and structure."
-    }
+  Math: {
+    'Quantitative Problem Solving':
+      'Fractions, decimals, percentages, ratios, and data analysis.',
+  },
+  Science: {
+    'Life Science':
+      'Cell structure, genetics, ecosystems, and human body systems.',
+    'Physical Science':
+      'Matter, energy, motion, chemistry, and basic physics principles.',
+    'Earth & Space Science':
+      'Earth systems, weather, geology, astronomy, and the solar system.',
+    'Scientific Numeracy':
+      'Unit conversions, rate/density calculations, interpreting tables and lab data.',
+  },
+  'Social Studies': {
+    'U.S. History':
+      'Foundations of the United States, government, civics, and historical analysis.',
+  },
+  [RLA_SUBJECT_LABEL]: {
+    'Language & Grammar':
+      'Standard English conventions, grammar, punctuation, and usage.',
+    'Reading Comprehension: Informational Texts':
+      'Determine main ideas, evaluate arguments, interpret charts, and understand structure.',
+    'Poetry & Figurative Language':
+      'Interpret poetry for theme, tone, figurative language, and structure.',
+  },
 };
 
 const SMITH_A_SKILL_MAP = {
-    ...SMITH_A_SKILL_ENTRIES,
-    [RLA_SUBJECT_ALIAS]: SMITH_A_SKILL_ENTRIES[RLA_SUBJECT_LABEL]
+  ...SMITH_A_SKILL_ENTRIES,
+  [RLA_SUBJECT_ALIAS]: SMITH_A_SKILL_ENTRIES[RLA_SUBJECT_LABEL],
 };
 
 const SMITH_A_SUBTOPICS = Object.fromEntries(
-    Object.entries(SMITH_A_SKILL_MAP).map(([subject, skills]) => [
-        subject,
-        Object.keys(skills || {})
-    ])
+  Object.entries(SMITH_A_SKILL_MAP).map(([subject, skills]) => [
+    subject,
+    Object.keys(skills || {}),
+  ])
 );
 
 const SMITH_A_ALLOWED_SUBJECTS = new Set(Object.keys(SMITH_A_SKILL_MAP));
 
-const GEMINI_API_KEY = process.env.GOOGLE_API_KEY || process.env.GOOGLE_AI_API_KEY;
+const GEMINI_API_KEY =
+  process.env.GOOGLE_API_KEY || process.env.GOOGLE_AI_API_KEY;
 const GEMINI_URL = GEMINI_API_KEY
-    ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`
-    : null;
+  ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`
+  : null;
 const OPENAI_URL = 'https://api.openai.com/v1/responses';
 
 async function callGemini(payload, { signal, timeoutMs } = {}) {
-    if (!GEMINI_API_KEY || !GEMINI_URL) {
-        throw new Error('GOOGLE_API_KEY is not configured.');
-    }
+  if (!GEMINI_API_KEY || !GEMINI_URL) {
+    throw new Error('GOOGLE_API_KEY is not configured.');
+  }
 
-    const config = { signal };
-    if (timeoutMs) {
-        config.timeout = timeoutMs;
-    }
-    const response = await http.post(GEMINI_URL, payload, config);
-    return response.data;
+  const config = { signal };
+  if (timeoutMs) {
+    config.timeout = timeoutMs;
+  }
+  const response = await http.post(GEMINI_URL, payload, config);
+  return response.data;
 }
 
 async function callChatGPT(payload, { signal, timeoutMs } = {}) {
-    if (!process.env.OPENAI_API_KEY) {
-        throw new Error('ChatGPT fallback unavailable: OPENAI_API_KEY not configured.');
-    }
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error(
+      'ChatGPT fallback unavailable: OPENAI_API_KEY not configured.'
+    );
+  }
 
-    const config = {
-        signal,
-        timeout: timeoutMs,
-        headers: {
-            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-            'Content-Type': 'application/json'
-        }
-    };
+  const config = {
+    signal,
+    timeout: timeoutMs,
+    headers: {
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+  };
 
-    const response = await http.post(OPENAI_URL, payload, config);
-    return response.data;
+  const response = await http.post(OPENAI_URL, payload, config);
+  return response.data;
 }
 
 function buildCombinedPrompt_Math(totalCounts, { fractionPlainTextMode } = {}) {
-    const { NON_CALC_COUNT, GEOMETRY_COUNT, ALGEBRA_COUNT } = totalCounts;
-    const header = buildStrictJsonHeaderMath({ fractionPlainTextMode });
-    return `${header}
-Create ONE flat JSON array with ${NON_CALC_COUNT + GEOMETRY_COUNT + ALGEBRA_COUNT} math questions in random order:
+  const { NON_CALC_COUNT, GEOMETRY_COUNT, ALGEBRA_COUNT } = totalCounts;
+  const header = buildStrictJsonHeaderMath({ fractionPlainTextMode });
+  return `${header}
+Create ONE flat JSON array with ${
+    NON_CALC_COUNT + GEOMETRY_COUNT + ALGEBRA_COUNT
+  } math questions in random order:
 - Non-calculator: ${NON_CALC_COUNT}
 - Geometry/measurement (describe visuals in text; no images): ${GEOMETRY_COUNT}
 - Algebra/functions/data (describe any graph/table in text): ${ALGEBRA_COUNT}
@@ -2095,206 +2390,250 @@ Do NOT include section labels or headings.`;
 }
 
 async function generateWithGemini_OneCall(subject, prompt) {
-    return generationLimit(async () => {
-        const payload = { contents: [{ parts: [{ text: prompt }] }] };
-        const raw = await callGemini(payload);
-        const arr = parseGeminiResponse(raw);
-        if (!Array.isArray(arr)) throw new Error('Invalid JSON from Gemini');
-        return arr;
-    });
+  return generationLimit(async () => {
+    const payload = { contents: [{ parts: [{ text: prompt }] }] };
+    const raw = await callGemini(payload);
+    const arr = parseGeminiResponse(raw);
+    if (!Array.isArray(arr)) throw new Error('Invalid JSON from Gemini');
+    return arr;
+  });
 }
 
-const CHATGPT_FALLBACK_SYSTEM_PROMPT = 'You generate GED-style quiz items. Always respond with ONLY a valid JSON array of question objects. Do not include commentary.';
+const CHATGPT_FALLBACK_SYSTEM_PROMPT =
+  'You generate GED-style quiz items. Always respond with ONLY a valid JSON array of question objects. Do not include commentary.';
 
 async function generateWithChatGPT_Fallback(subject, prompt, { signal } = {}) {
-    return generationLimit(async () => {
-        const payload = {
-            model: 'gpt-4o-mini',
-            temperature: 0.4,
-            input: [
-                { role: 'system', content: CHATGPT_FALLBACK_SYSTEM_PROMPT },
-                { role: 'user', content: prompt }
-            ]
-        };
+  return generationLimit(async () => {
+    const payload = {
+      model: 'gpt-4o-mini',
+      temperature: 0.4,
+      input: [
+        { role: 'system', content: CHATGPT_FALLBACK_SYSTEM_PROMPT },
+        { role: 'user', content: prompt },
+      ],
+    };
 
-        const raw = await callChatGPT(payload, { signal });
-        const arr = parseOpenAIResponse(raw);
-        if (!Array.isArray(arr)) {
-            throw new Error('Invalid JSON from ChatGPT fallback');
-        }
-        return arr;
-    });
+    const raw = await callChatGPT(payload, { signal });
+    const arr = parseOpenAIResponse(raw);
+    if (!Array.isArray(arr)) {
+      throw new Error('Invalid JSON from ChatGPT fallback');
+    }
+    return arr;
+  });
 }
 
-async function generateQuizItemsWithFallback(subject, prompt, geminiRetryOptions = {}, fallbackRetryOptions = {}) {
-    const geminiPayload = { contents: [{ parts: [{ text: prompt }] }] };
-    const chatgptPayload = {
-        model: 'gpt-4o-mini',
-        temperature: 0.4,
-        input: [
-            { role: 'system', content: CHATGPT_FALLBACK_SYSTEM_PROMPT },
-            { role: 'user', content: prompt }
-        ]
+async function generateQuizItemsWithFallback(
+  subject,
+  prompt,
+  geminiRetryOptions = {},
+  fallbackRetryOptions = {}
+) {
+  const geminiPayload = { contents: [{ parts: [{ text: prompt }] }] };
+  const chatgptPayload = {
+    model: 'gpt-4o-mini',
+    temperature: 0.4,
+    input: [
+      { role: 'system', content: CHATGPT_FALLBACK_SYSTEM_PROMPT },
+      { role: 'user', content: prompt },
+    ],
+  };
+
+  const geminiOptions = {
+    retries: geminiRetryOptions?.retries ?? 1,
+    factor: geminiRetryOptions?.factor ?? 2,
+    minTimeout: geminiRetryOptions?.minTimeout ?? 600,
+    maxTimeout: geminiRetryOptions?.maxTimeout ?? 3000,
+    onFailedAttempt:
+      geminiRetryOptions?.onFailedAttempt ||
+      ((error, attempt) =>
+        console.warn(
+          `[retry ${attempt}] Gemini topic generation failed: ${
+            error?.message || error
+          }`
+        )),
+  };
+
+  const fallbackOptions = {
+    retries: fallbackRetryOptions?.retries ?? 1,
+    factor: fallbackRetryOptions?.factor ?? 2,
+    minTimeout: fallbackRetryOptions?.minTimeout ?? geminiOptions.minTimeout,
+    maxTimeout: fallbackRetryOptions?.maxTimeout ?? geminiOptions.maxTimeout,
+    onFailedAttempt:
+      fallbackRetryOptions?.onFailedAttempt ||
+      ((error, attempt) =>
+        console.warn(
+          `[retry ${attempt}] ChatGPT fallback failed: ${
+            error?.message || error
+          }`
+        )),
+  };
+
+  const runGeminiFn = async () => {
+    return await withRetry(
+      () => generationLimit(() => callGemini(geminiPayload)),
+      geminiOptions
+    );
+  };
+
+  const runChatGptFn = async () => {
+    return await withRetry(() => {
+      const controller = new AbortController();
+      const timeout = setTimeout(
+        () => controller.abort('fallback-timeout'),
+        FALLBACK_TIMEOUT_MS
+      );
+      return generationLimit(() =>
+        callChatGPT(chatgptPayload, { signal: controller.signal })
+      ).finally(() => clearTimeout(timeout));
+    }, fallbackOptions);
+  };
+
+  let raceConfig;
+
+  if (subject === 'Math') {
+    console.log('[AI Strategy] Using OpenAI as primary for Math.');
+    raceConfig = {
+      primaryFn: runChatGptFn,
+      fallbackFn: runGeminiFn,
+      primaryModelName: 'chatgpt',
+      fallbackModelName: 'gemini',
     };
-
-    const geminiOptions = {
-        retries: geminiRetryOptions?.retries ?? 1,
-        factor: geminiRetryOptions?.factor ?? 2,
-        minTimeout: geminiRetryOptions?.minTimeout ?? 600,
-        maxTimeout: geminiRetryOptions?.maxTimeout ?? 3000,
-        onFailedAttempt: geminiRetryOptions?.onFailedAttempt
-            || ((error, attempt) => console.warn(`[retry ${attempt}] Gemini topic generation failed: ${error?.message || error}`))
+  } else {
+    console.log(`[AI Strategy] Using Gemini as primary for ${subject}.`);
+    raceConfig = {
+      primaryFn: runGeminiFn,
+      fallbackFn: runChatGptFn,
+      primaryModelName: 'gemini',
+      fallbackModelName: 'chatgpt',
     };
+  }
 
-    const fallbackOptions = {
-        retries: fallbackRetryOptions?.retries ?? 1,
-        factor: fallbackRetryOptions?.factor ?? 2,
-        minTimeout: fallbackRetryOptions?.minTimeout ?? geminiOptions.minTimeout,
-        maxTimeout: fallbackRetryOptions?.maxTimeout ?? geminiOptions.maxTimeout,
-        onFailedAttempt: fallbackRetryOptions?.onFailedAttempt
-            || ((error, attempt) => console.warn(`[retry ${attempt}] ChatGPT fallback failed: ${error?.message || error}`))
-    };
+  const { winner, latencyMs } = await raceGeminiWithDelayedFallback(raceConfig);
 
-    const runGeminiFn = async () => {
-        return await withRetry(
-            () => generationLimit(() => callGemini(geminiPayload)),
-            geminiOptions
-        );
-    };
+  if (winner.model === 'timeout') {
+    throw Object.assign(new Error('AI timed out'), {
+      statusCode: 504,
+      latencyMs: MODEL_HTTP_TIMEOUT_MS,
+    });
+  }
 
-    const runChatGptFn = async () => {
-        return await withRetry(
-            () => {
-                const controller = new AbortController();
-                const timeout = setTimeout(() => controller.abort('fallback-timeout'), FALLBACK_TIMEOUT_MS);
-                return generationLimit(() => callChatGPT(chatgptPayload, { signal: controller.signal }))
-                    .finally(() => clearTimeout(timeout));
-            },
-            fallbackOptions
-        );
-    };
+  // If the primary failed first, immediately try the fallback model instead of bailing.
+  if (winner.model === `${raceConfig.primaryModelName}-error`) {
+    console.warn(
+      `[AI] ${raceConfig.primaryModelName} failed first (${
+        winner.error?.message || winner.error
+      }), trying ${raceConfig.fallbackModelName} immediately...`
+    );
+    try {
+      const fbData = await raceConfig.fallbackFn();
+      const itemsFromFb =
+        raceConfig.fallbackModelName === 'chatgpt'
+          ? parseOpenAIResponse(fbData)
+          : parseGeminiResponse(fbData);
+      const roundedLatency = Math.round(latencyMs || 0);
+      AI_LATENCY.push(roundedLatency);
+      if (!Array.isArray(itemsFromFb)) {
+        throw new Error('Fallback model returned an invalid response format.');
+      }
 
-    let raceConfig;
-
-    if (subject === 'Math') {
-        console.log('[AI Strategy] Using OpenAI as primary for Math.');
-        raceConfig = {
-            primaryFn: runChatGptFn,
-            fallbackFn: runGeminiFn,
-            primaryModelName: 'chatgpt',
-            fallbackModelName: 'gemini'
-        };
-    } else {
-        console.log(`[AI Strategy] Using Gemini as primary for ${subject}.`);
-        raceConfig = {
-            primaryFn: runGeminiFn,
-            fallbackFn: runChatGptFn,
-            primaryModelName: 'gemini',
-            fallbackModelName: 'chatgpt'
-        };
-    }
-
-    const { winner, latencyMs } = await raceGeminiWithDelayedFallback(raceConfig);
-
-    if (winner.model === 'timeout') {
-        throw Object.assign(new Error('AI timed out'), { statusCode: 504, latencyMs: MODEL_HTTP_TIMEOUT_MS });
-    }
-
-    // If the primary failed first, immediately try the fallback model instead of bailing.
-    if (winner.model === `${raceConfig.primaryModelName}-error`) {
-        console.warn(`[AI] ${raceConfig.primaryModelName} failed first (${winner.error?.message || winner.error}), trying ${raceConfig.fallbackModelName} immediately...`);
-        try {
-            const fbData = await raceConfig.fallbackFn();
-            const itemsFromFb = raceConfig.fallbackModelName === 'chatgpt'
-                ? parseOpenAIResponse(fbData)
-                : parseGeminiResponse(fbData);
-            const roundedLatency = Math.round(latencyMs || 0);
-            AI_LATENCY.push(roundedLatency);
-            if (!Array.isArray(itemsFromFb)) {
-                throw new Error('Fallback model returned an invalid response format.');
-            }
-            
-            // Validate and repair fallback items
-            const validatedFbItems = itemsFromFb.map((item, idx) => {
-                const repaired = validateAndRepairQuestion(item);
-                if (!repaired) {
-                    console.warn(`[generateQuizItemsWithFallback] Fallback question at index ${idx} could not be repaired. Skipping.`);
-                    return null;
-                }
-                return repaired;
-            }).filter(Boolean);
-            
-            return {
-                items: validatedFbItems,
-                model: raceConfig.fallbackModelName,
-                latencyMs: roundedLatency
-            };
-        } catch (fbErr) {
-            // both failed — now it’s a real error
-            throw fbErr;
-        }
-    }
-
-    let items = null;
-    if (winner.model === 'gemini') {
-        items = parseGeminiResponse(winner.data);
-    } else if (winner.model === 'chatgpt') {
-        items = parseOpenAIResponse(winner.data);
-    }
-
-    // If the model that won the race gave us junk, try the explicit ChatGPT path once.
-    if (!Array.isArray(items)) {
-        console.warn('[AI] Winner returned non-array, trying explicit ChatGPT fallback...');
-        try {
-            const chatData = await runChatGptFn();
-            const chatItems = parseOpenAIResponse(chatData);
-            if (Array.isArray(chatItems)) {
-                items = chatItems;
-            }
-        } catch (err) {
-            console.warn('[AI] Explicit ChatGPT fallback also failed:', err?.message || err);
-        }
-    }
-
-    if (!Array.isArray(items)) {
-        throw new Error('Model returned an invalid response format.');
-    }
-
-    // Validate and repair each question immediately after parsing
-    items = items.map((item, idx) => {
-        const repaired = validateAndRepairQuestion(item);
-        if (!repaired) {
-            console.warn(`[generateQuizItemsWithFallback] Question at index ${idx} could not be repaired. Skipping.`);
+      // Validate and repair fallback items
+      const validatedFbItems = itemsFromFb
+        .map((item, idx) => {
+          const repaired = validateAndRepairQuestion(item);
+          if (!repaired) {
+            console.warn(
+              `[generateQuizItemsWithFallback] Fallback question at index ${idx} could not be repaired. Skipping.`
+            );
             return null;
-        }
-        return repaired;
-    }).filter(Boolean); // Remove any null items
+          }
+          return repaired;
+        })
+        .filter(Boolean);
 
-    if (subject === 'Math') {
-        items = await applyMathCorrectnessPass(items);
+      return {
+        items: validatedFbItems,
+        model: raceConfig.fallbackModelName,
+        latencyMs: roundedLatency,
+      };
+    } catch (fbErr) {
+      // both failed — now it’s a real error
+      throw fbErr;
     }
+  }
 
-    const roundedLatency = Math.round(latencyMs || 0);
-    AI_LATENCY.push(roundedLatency);
+  let items = null;
+  if (winner.model === 'gemini') {
+    items = parseGeminiResponse(winner.data);
+  } else if (winner.model === 'chatgpt') {
+    items = parseOpenAIResponse(winner.data);
+  }
 
-    return { items, model: winner.model, latencyMs: roundedLatency };
+  // If the model that won the race gave us junk, try the explicit ChatGPT path once.
+  if (!Array.isArray(items)) {
+    console.warn(
+      '[AI] Winner returned non-array, trying explicit ChatGPT fallback...'
+    );
+    try {
+      const chatData = await runChatGptFn();
+      const chatItems = parseOpenAIResponse(chatData);
+      if (Array.isArray(chatItems)) {
+        items = chatItems;
+      }
+    } catch (err) {
+      console.warn(
+        '[AI] Explicit ChatGPT fallback also failed:',
+        err?.message || err
+      );
+    }
+  }
+
+  if (!Array.isArray(items)) {
+    throw new Error('Model returned an invalid response format.');
+  }
+
+  // Validate and repair each question immediately after parsing
+  items = items
+    .map((item, idx) => {
+      const repaired = validateAndRepairQuestion(item);
+      if (!repaired) {
+        console.warn(
+          `[generateQuizItemsWithFallback] Question at index ${idx} could not be repaired. Skipping.`
+        );
+        return null;
+      }
+      return repaired;
+    })
+    .filter(Boolean); // Remove any null items
+
+  if (subject === 'Math') {
+    items = await applyMathCorrectnessPass(items);
+  }
+
+  const roundedLatency = Math.round(latencyMs || 0);
+  AI_LATENCY.push(roundedLatency);
+
+  return { items, model: winner.model, latencyMs: roundedLatency };
 }
 
 function hasSchemaIssues(item) {
-    const hasOptions = Array.isArray(item?.answerOptions) && item.answerOptions.length >= 3;
-    const oneCorrect = hasOptions && item.answerOptions.filter((o) => o && o.isCorrect === true).length === 1;
-    return !(item && item.questionText && hasOptions && oneCorrect);
+  const hasOptions =
+    Array.isArray(item?.answerOptions) && item.answerOptions.length >= 3;
+  const oneCorrect =
+    hasOptions &&
+    item.answerOptions.filter((o) => o && o.isCorrect === true).length === 1;
+  return !(item && item.questionText && hasOptions && oneCorrect);
 }
 
 function needsRepair(item, subject) {
-    if (hasSchemaIssues(item)) return true;
+  if (hasSchemaIssues(item)) return true;
 
-    const wordCount = (s) => (typeof s === 'string' ? s.trim().split(/\s+/).length : 0);
-    if (subject === 'RLA' && wordCount(item?.passage) > 250) return true;
-    if (item?.passage && wordCount(item.passage) > 250) return true;
-    if (wordCount(item?.questionText) > 250) return true;
+  const wordCount = (s) =>
+    typeof s === 'string' ? s.trim().split(/\s+/).length : 0;
+  if (subject === 'RLA' && wordCount(item?.passage) > 250) return true;
+  if (item?.passage && wordCount(item.passage) > 250) return true;
+  if (wordCount(item?.questionText) > 250) return true;
 
-    return false;
+  return false;
 }
 
 const REPAIR_SYSTEM = `You receive an array of quiz items. Fix ONLY schema/format issues:
@@ -2304,212 +2643,254 @@ const REPAIR_SYSTEM = `You receive an array of quiz items. Fix ONLY schema/forma
 Return ONLY the fixed JSON array in the same order.`;
 
 async function repairBatchWithChatGPT_once(itemsNeedingFix) {
-    if (!openaiClient) {
-        console.warn('OpenAI client not configured; skipping repair.');
-        return itemsNeedingFix;
-    }
+  if (!openaiClient) {
+    console.warn('OpenAI client not configured; skipping repair.');
+    return itemsNeedingFix;
+  }
 
-    const input = JSON.stringify(itemsNeedingFix);
-    const resp = await withRetry(
-        () => openaiClient.chat.completions.create({
-            model: 'gpt-4o-mini',
-            messages: [
-                { role: 'system', content: REPAIR_SYSTEM },
-                { role: 'user', content: input }
-            ],
-            response_format: { type: 'json_object' }
-        }),
-        {
-            retries: 2,
-            minTimeout: 800,
-            onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT batch repair failed: ${err?.message || err}`)
-        }
-    );
-    const text = resp.choices[0].message.content;
-    const parsed = JSON.parse(text);
-    return Array.isArray(parsed) ? parsed : (parsed.items || parsed.data || parsed.questions || parsed.value || parsed);
+  const input = JSON.stringify(itemsNeedingFix);
+  const resp = await withRetry(
+    () =>
+      openaiClient.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: REPAIR_SYSTEM },
+          { role: 'user', content: input },
+        ],
+        response_format: { type: 'json_object' },
+      }),
+    {
+      retries: 2,
+      minTimeout: 800,
+      onFailedAttempt: (err, n) =>
+        console.warn(
+          `[retry ${n}] ChatGPT batch repair failed: ${err?.message || err}`
+        ),
+    }
+  );
+  const text = resp.choices[0].message.content;
+  const parsed = JSON.parse(text);
+  return Array.isArray(parsed)
+    ? parsed
+    : parsed.items || parsed.data || parsed.questions || parsed.value || parsed;
 }
 
 async function chatgptCorrectnessCheck(questions, { timeoutMs } = {}) {
-    if (!openaiClient) {
-        console.warn('ChatGPT correctness check skipped: OPENAI_API_KEY not configured.');
-        return questions;
+  if (!openaiClient) {
+    console.warn(
+      'ChatGPT correctness check skipped: OPENAI_API_KEY not configured.'
+    );
+    return questions;
+  }
+
+  if (!Array.isArray(questions) || !questions.length) {
+    return questions;
+  }
+
+  const payload = JSON.stringify({ questions });
+
+  try {
+    const response = await openaiClient.chat.completions.create({
+      model: 'gpt-4o-mini',
+      temperature: 0.1,
+      messages: [
+        { role: 'system', content: MATH_CORRECTNESS_SYSTEM_PROMPT },
+        { role: 'user', content: payload },
+      ],
+      response_format: { type: 'json_object' },
+    });
+
+    const text = response.choices[0].message.content;
+    const parsed = JSON.parse(text);
+    if (!parsed || !Array.isArray(parsed.fixes) || !parsed.fixes.length) {
+      return questions;
     }
 
-    if (!Array.isArray(questions) || !questions.length) {
-        return questions;
-    }
+    const updated = questions.map((q) => cloneQuestion(q));
 
-    const payload = JSON.stringify({ questions });
+    parsed.fixes.forEach((fix) => {
+      const idx = Number.isInteger(fix?.index) ? fix.index : -1;
+      if (idx < 0 || idx >= updated.length) {
+        return;
+      }
 
-    try {
-        const response = await openaiClient.chat.completions.create({
-            model: 'gpt-4o-mini',
-            temperature: 0.1,
-            messages: [
-                { role: 'system', content: MATH_CORRECTNESS_SYSTEM_PROMPT },
-                { role: 'user', content: payload }
-            ],
-            response_format: { type: 'json_object' }
-        });
+      const replacement = fix?.question;
+      if (!replacement || typeof replacement !== 'object') {
+        return;
+      }
 
-        const text = response.choices[0].message.content;
-        const parsed = JSON.parse(text);
-        if (!parsed || !Array.isArray(parsed.fixes) || !parsed.fixes.length) {
-            return questions;
-        }
+      if (typeof fix?.reason === 'string' && fix.reason.trim()) {
+        console.log(
+          `ChatGPT corrected math question ${idx}: ${fix.reason.trim()}`
+        );
+      }
 
-        const updated = questions.map((q) => cloneQuestion(q));
+      const base = cloneQuestion(updated[idx]);
+      const merged = {
+        ...base,
+        ...replacement,
+        answerOptions: Array.isArray(replacement.answerOptions)
+          ? replacement.answerOptions.map((opt) => ({ ...opt }))
+          : base.answerOptions,
+      };
+      updated[idx] = merged;
+    });
 
-        parsed.fixes.forEach((fix) => {
-            const idx = Number.isInteger(fix?.index) ? fix.index : -1;
-            if (idx < 0 || idx >= updated.length) {
-                return;
-            }
-
-            const replacement = fix?.question;
-            if (!replacement || typeof replacement !== 'object') {
-                return;
-            }
-
-            if (typeof fix?.reason === 'string' && fix.reason.trim()) {
-                console.log(`ChatGPT corrected math question ${idx}: ${fix.reason.trim()}`);
-            }
-
-            const base = cloneQuestion(updated[idx]);
-            const merged = {
-                ...base,
-                ...replacement,
-                answerOptions: Array.isArray(replacement.answerOptions)
-                    ? replacement.answerOptions.map((opt) => ({ ...opt }))
-                    : base.answerOptions
-            };
-            updated[idx] = merged;
-        });
-
-        return updated;
-    } catch (error) {
-        console.error('ChatGPT math correctness check failed:', error.message || error);
-        return questions;
-    }
+    return updated;
+  } catch (error) {
+    console.error(
+      'ChatGPT math correctness check failed:',
+      error.message || error
+    );
+    return questions;
+  }
 }
 
 async function applyMathCorrectnessPass(questions, options = {}) {
-    if (!Array.isArray(questions) || questions.length <= 5) {
-        return questions;
-    }
+  if (!Array.isArray(questions) || questions.length <= 5) {
+    return questions;
+  }
 
-    try {
-        return await chatgptCorrectnessCheck(questions, options);
-    } catch (error) {
-        console.error('Math correctness pass failed:', error.message || error);
-        return questions;
-    }
+  try {
+    return await chatgptCorrectnessCheck(questions, options);
+  } catch (error) {
+    console.error('Math correctness pass failed:', error.message || error);
+    return questions;
+  }
 }
 
 // NEW: ensure every item has at least 3-4 options and exactly one correct
 function normalizeAnswerOptions(item) {
-    const out = { ...item };
+  const out = { ...item };
 
-    // if no options at all, just return as-is (could be freeResponse)
-    if (!Array.isArray(out.answerOptions) || out.answerOptions.length === 0) {
-        return out;
-    }
-
-    // keep the first correct as the real correct
-    let correctIndex = out.answerOptions.findIndex(opt => opt && opt.isCorrect === true);
-    if (correctIndex === -1) {
-        // if model forgot to mark one correct, make the first one correct
-        correctIndex = 0;
-        if (out.answerOptions[0]) {
-            out.answerOptions[0].isCorrect = true;
-        } else {
-            out.answerOptions[0] = { text: 'Choice 1', isCorrect: true, rationale: 'This is the correct answer.' };
-        }
-    }
-
-    // make sure all others are false and fill missing text/rationale
-    out.answerOptions = out.answerOptions.map((opt, i) => ({
-        text: (opt && typeof opt.text === 'string' && opt.text.trim()) ? opt.text : `Choice ${i + 1}`,
-        isCorrect: i === correctIndex,
-        rationale: (opt && typeof opt.rationale === 'string')
-            ? opt.rationale
-            : (i === correctIndex ? 'This is the correct answer.' : 'This choice is not correct.')
-    }));
-
-    // pad to 4 options if we have fewer than 3
-    while (out.answerOptions.length < 4) {
-        out.answerOptions.push({
-            text: `Plausible but incorrect option ${out.answerOptions.length + 1}`,
-            isCorrect: false,
-            rationale: 'Plausible but not the best answer.'
-        });
-    }
-
+  // if no options at all, just return as-is (could be freeResponse)
+  if (!Array.isArray(out.answerOptions) || out.answerOptions.length === 0) {
     return out;
+  }
+
+  // keep the first correct as the real correct
+  let correctIndex = out.answerOptions.findIndex(
+    (opt) => opt && opt.isCorrect === true
+  );
+  if (correctIndex === -1) {
+    // if model forgot to mark one correct, make the first one correct
+    correctIndex = 0;
+    if (out.answerOptions[0]) {
+      out.answerOptions[0].isCorrect = true;
+    } else {
+      out.answerOptions[0] = {
+        text: 'Choice 1',
+        isCorrect: true,
+        rationale: 'This is the correct answer.',
+      };
+    }
+  }
+
+  // make sure all others are false and fill missing text/rationale
+  out.answerOptions = out.answerOptions.map((opt, i) => ({
+    text:
+      opt && typeof opt.text === 'string' && opt.text.trim()
+        ? opt.text
+        : `Choice ${i + 1}`,
+    isCorrect: i === correctIndex,
+    rationale:
+      opt && typeof opt.rationale === 'string'
+        ? opt.rationale
+        : i === correctIndex
+        ? 'This is the correct answer.'
+        : 'This choice is not correct.',
+  }));
+
+  // pad to 4 options if we have fewer than 3
+  while (out.answerOptions.length < 4) {
+    out.answerOptions.push({
+      text: `Plausible but incorrect option ${out.answerOptions.length + 1}`,
+      isCorrect: false,
+      rationale: 'Plausible but not the best answer.',
+    });
+  }
+
+  return out;
 }
 
 async function generateExam(subject, promptBuilder, counts, options = {}) {
-    const prompt = promptBuilder(counts, options);
+  const prompt = promptBuilder(counts, options);
 
-    const { items: generatedItems } = await generateQuizItemsWithFallback(
-        subject,
-        prompt,
+  const { items: generatedItems } = await generateQuizItemsWithFallback(
+    subject,
+    prompt,
+    {
+      retries: 2,
+      minTimeout: 800,
+      onFailedAttempt: (err, n) =>
+        console.warn(
+          `[retry ${n}] Gemini exam generation failed: ${err?.message || err}`
+        ),
+    }
+  );
+  let items = generatedItems.map((i) => enforceWordCapsOnItem(i, subject));
+
+  const badIdxs = [];
+  items.forEach((it, idx) => {
+    if (needsRepair(it, subject)) badIdxs.push(idx);
+  });
+
+  if (badIdxs.length) {
+    try {
+      const toFix = badIdxs.map((i) => items[i]);
+      const fixedSubset = await withRetry(
+        () => repairBatchWithChatGPT_once(toFix),
         {
-            retries: 2,
-            minTimeout: 800,
-            onFailedAttempt: (err, n) => console.warn(`[retry ${n}] Gemini exam generation failed: ${err?.message || err}`)
+          retries: 2,
+          minTimeout: 800,
+          onFailedAttempt: (err, n) =>
+            console.warn(
+              `[retry ${n}] ChatGPT repair batch failed: ${err?.message || err}`
+            ),
         }
-    );
-    let items = generatedItems.map((i) => enforceWordCapsOnItem(i, subject));
-
-    const badIdxs = [];
-    items.forEach((it, idx) => {
-        if (needsRepair(it, subject)) badIdxs.push(idx);
-    });
-
-    if (badIdxs.length) {
-        try {
-            const toFix = badIdxs.map((i) => items[i]);
-            const fixedSubset = await withRetry(
-                () => repairBatchWithChatGPT_once(toFix),
-                {
-                    retries: 2,
-                    minTimeout: 800,
-                    onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT repair batch failed: ${err?.message || err}`)
-                }
-            );
-            fixedSubset.forEach((fixed, j) => {
-                items[badIdxs[j]] = enforceWordCapsOnItem(fixed, subject);
-            });
-        } catch (err) {
-            console.warn('Repair batch failed; continuing with original items.', err?.message || err);
-        }
+      );
+      fixedSubset.forEach((fixed, j) => {
+        items[badIdxs[j]] = enforceWordCapsOnItem(fixed, subject);
+      });
+    } catch (err) {
+      console.warn(
+        'Repair batch failed; continuing with original items.',
+        err?.message || err
+      );
     }
+  }
 
-    // normalize MC structure first
-    items = items.map((it) => normalizeAnswerOptions(it));
+  // normalize MC structure first
+  items = items.map((it) => normalizeAnswerOptions(it));
 
-    const processed = items.map((it) => enforceWordCapsOnItem(it, subject));
-    if (options?.fractionPlainTextMode) {
-        return processed.map((it) => applyFractionPlainTextModeToItem(it));
-    }
-    return processed;
+  const processed = items.map((it) => enforceWordCapsOnItem(it, subject));
+  if (options?.fractionPlainTextMode) {
+    return processed.map((it) => applyFractionPlainTextModeToItem(it));
+  }
+  return processed;
 }
 
 async function runExam() {
-    const counts = { NON_CALC_COUNT, GEOMETRY_COUNT, ALGEBRA_COUNT };
-    const generated = await generateExam('Math', buildCombinedPrompt_Math, counts, { fractionPlainTextMode: true });
+  const counts = { NON_CALC_COUNT, GEOMETRY_COUNT, ALGEBRA_COUNT };
+  const generated = await generateExam(
+    'Math',
+    buildCombinedPrompt_Math,
+    counts,
+    { fractionPlainTextMode: true }
+  );
 
-    const cleaned = [];
-    for (const q of generated) {
-        const sanitized = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(q)), 'Math');
-        if (validateQuestion(sanitized)) {
-            cleaned.push(applyFractionPlainTextModeToItem(sanitized));
-        }
+  const cleaned = [];
+  for (const q of generated) {
+    const sanitized = enforceWordCapsOnItem(
+      sanitizeQuestionKeepLatex(cloneQuestion(q)),
+      'Math'
+    );
+    if (validateQuestion(sanitized)) {
+      cleaned.push(applyFractionPlainTextModeToItem(sanitized));
     }
+  }
 
-    return cleaned;
+  return cleaned;
 }
 
 const pool = db;
@@ -2518,118 +2899,132 @@ const SALT_ROUNDS = 10;
 const USER_TOKEN_TTL = '12h';
 
 function formatUserRow(row) {
-    if (!row) return null;
-    const email = row.email || '';
-    const fallbackName = email.includes('@') ? email.split('@')[0] : (email || 'Learner');
-    return {
-        id: row.id,
-        email,
-        name: row.name || fallbackName,
-        createdAt: row.created_at || null,
-        picture: row.picture || null,
-    };
+  if (!row) return null;
+  const email = row.email || '';
+  const fallbackName = email.includes('@')
+    ? email.split('@')[0]
+    : email || 'Learner';
+  return {
+    id: row.id,
+    email,
+    name: row.name || fallbackName,
+    createdAt: row.created_at || null,
+    picture: row.picture || null,
+  };
 }
 
 function formatScoreRow(row) {
-    if (!row) return null;
-    return {
-        id: row.id,
-        userId: row.user_id,
-        subject: row.subject,
-        score: typeof row.score === 'number' ? row.score : Number(row.score),
-        takenAt: row.taken_at,
-    };
+  if (!row) return null;
+  return {
+    id: row.id,
+    userId: row.user_id,
+    subject: row.subject,
+    score: typeof row.score === 'number' ? row.score : Number(row.score),
+    takenAt: row.taken_at,
+  };
 }
 
 function formatQuizAttemptRow(row) {
-    if (!row) return null;
-    const scaledScore = row.scaled_score != null ? Number(row.scaled_score) : null;
-    return {
-        id: row.id,
-        userId: row.user_id,
-        subject: row.subject,
-        quizCode: row.quiz_code,
-        quizTitle: row.quiz_title,
-        quizType: row.quiz_type,
-        score: row.score != null ? Number(row.score) : null,
-        totalQuestions: row.total_questions != null ? Number(row.total_questions) : null,
-        scaledScore,
-        passed: typeof row.passed === 'boolean' ? row.passed : (scaledScore != null ? scaledScore >= 145 : null),
-        attemptedAt: row.attempted_at,
-    };
+  if (!row) return null;
+  const scaledScore =
+    row.scaled_score != null ? Number(row.scaled_score) : null;
+  return {
+    id: row.id,
+    userId: row.user_id,
+    subject: row.subject,
+    quizCode: row.quiz_code,
+    quizTitle: row.quiz_title,
+    quizType: row.quiz_type,
+    score: row.score != null ? Number(row.score) : null,
+    totalQuestions:
+      row.total_questions != null ? Number(row.total_questions) : null,
+    scaledScore,
+    passed:
+      typeof row.passed === 'boolean'
+        ? row.passed
+        : scaledScore != null
+        ? scaledScore >= 145
+        : null,
+    attemptedAt: row.attempted_at,
+  };
 }
 
 function authenticateBearerToken(req, res, next) {
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-        console.error('JWT_SECRET is not configured; authentication endpoints are unavailable.');
-        return res.status(500).json({ error: 'Authentication unavailable' });
-    }
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    console.error(
+      'JWT_SECRET is not configured; authentication endpoints are unavailable.'
+    );
+    return res.status(500).json({ error: 'Authentication unavailable' });
+  }
 
-    const authorization = req.headers.authorization || '';
-    const token = authorization.startsWith('Bearer ')
-        ? authorization.slice('Bearer '.length).trim()
-        : null;
+  const authorization = req.headers.authorization || '';
+  const token = authorization.startsWith('Bearer ')
+    ? authorization.slice('Bearer '.length).trim()
+    : null;
 
-    if (!token) {
-        return res.status(401).json({ error: 'Unauthorized' });
-    }
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
-    try {
-        const payload = jwt.verify(token, secret);
-        const normalizedId = payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
-        const normalizedRole = payload?.role || 'student';
-        const normalizedOrg = payload?.organization_id ?? null;
-        const normalizedEmail = payload?.email || null;
+  try {
+    const payload = jwt.verify(token, secret);
+    const normalizedId =
+      payload?.sub ?? payload?.userId ?? payload?.user_id ?? null;
+    const normalizedRole = payload?.role || 'student';
+    const normalizedOrg = payload?.organization_id ?? null;
+    const normalizedEmail = payload?.email || null;
 
-        req.user = {
-            ...(req.user || {}),
-            ...payload,
-            id: normalizedId,
-            userId: normalizedId,
-            role: normalizedRole,
-            organization_id: normalizedOrg,
-            email: normalizedEmail,
-        };
-        return next();
-    } catch (error) {
-        return res.status(401).json({ error: 'Unauthorized' });
-    }
+    req.user = {
+      ...(req.user || {}),
+      ...payload,
+      id: normalizedId,
+      userId: normalizedId,
+      role: normalizedRole,
+      organization_id: normalizedOrg,
+      email: normalizedEmail,
+    };
+    return next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 }
 
 async function createUserToken(userId) {
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-        throw new Error('JWT_SECRET is not configured');
-    }
-    const userRow = await loadUserWithRole(userId);
-    if (!userRow) {
-        throw new Error('User not found');
-    }
-    if (!userRow.role) {
-        await pool.query(`UPDATE users SET role = 'student' WHERE id = $1`, [userId]);
-        userRow.role = 'student';
-    }
-    const payload = buildAuthPayloadFromUserRow(userRow);
-    return jwt.sign(payload, secret, { expiresIn: USER_TOKEN_TTL });
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+  const userRow = await loadUserWithRole(userId);
+  if (!userRow) {
+    throw new Error('User not found');
+  }
+  if (!userRow.role) {
+    await pool.query(`UPDATE users SET role = 'student' WHERE id = $1`, [
+      userId,
+    ]);
+    userRow.role = 'student';
+  }
+  const payload = buildAuthPayloadFromUserRow(userRow);
+  return jwt.sign(payload, secret, { expiresIn: USER_TOKEN_TTL });
 }
 
 function requireAuthInProd(req, res, next) {
-    if (process.env.NODE_ENV === 'production') {
-        if (req.user && req.user.id) {
-            return next();
-        }
-
-        // If a previous middleware already populated req.user, we can skip the
-        // strict token check. This lets devAuth / ensureTestUserForNow provide a
-        // fallback user so profile routes keep working while auth is sorted out.
-        if (ensureRequestUser(req)) {
-            return next();
-        }
-
-        return requireAuth(req, res, next);
+  if (process.env.NODE_ENV === 'production') {
+    if (req.user && req.user.id) {
+      return next();
     }
-    return next();
+
+    // If a previous middleware already populated req.user, we can skip the
+    // strict token check. This lets devAuth / ensureTestUserForNow provide a
+    // fallback user so profile routes keep working while auth is sorted out.
+    if (ensureRequestUser(req)) {
+      return next();
+    }
+
+    return requireAuth(req, res, next);
+  }
+  return next();
 }
 
 let cachedTestPlanTableName = null;
@@ -2639,460 +3034,644 @@ let cachedProfileNameColumn = null;
 // Expanded in-memory fallback list for profile challenges by subject/subtopic
 // Used when the DB challenge catalog is unavailable or empty
 const FALLBACK_PROFILE_CHALLENGES = [
-    // MATH (algebra, geometry, data)
-    { id: 'math-1', subject: 'Math', subject_alias: 'Math', subtopic: 'Number Sense & Fluency', label: 'Fractions, decimals, %' },
-    { id: 'math-2', subject: 'Math', subject_alias: 'Math', subtopic: 'Algebra Foundations', label: 'Writing and solving 1-step equations' },
-    { id: 'math-3', subject: 'Math', subject_alias: 'Math', subtopic: 'Algebra Foundations', label: '2-step equations & inequalities' },
-    { id: 'math-4', subject: 'Math', subject_alias: 'Math', subtopic: 'Word Problems', label: 'Translating real situations to expressions' },
-    { id: 'math-5', subject: 'Math', subject_alias: 'Math', subtopic: 'Geometry & Measurement', label: 'Perimeter, area, and volume' },
-    { id: 'math-6', subject: 'Math', subject_alias: 'Math', subtopic: 'Data & Graphs', label: 'Reading tables, charts, and graphs' },
-    { id: 'math-7', subject: 'Math', subject_alias: 'Math', subtopic: 'Scientific Calculator', label: 'Using the calculator efficiently' },
-    { id: 'math-8', subject: 'Math', subject_alias: 'Math', subtopic: 'Test Skills', label: 'Multi-step GED-style math items' },
+  // MATH (algebra, geometry, data)
+  {
+    id: 'math-1',
+    subject: 'Math',
+    subject_alias: 'Math',
+    subtopic: 'Number Sense & Fluency',
+    label: 'Fractions, decimals, %',
+  },
+  {
+    id: 'math-2',
+    subject: 'Math',
+    subject_alias: 'Math',
+    subtopic: 'Algebra Foundations',
+    label: 'Writing and solving 1-step equations',
+  },
+  {
+    id: 'math-3',
+    subject: 'Math',
+    subject_alias: 'Math',
+    subtopic: 'Algebra Foundations',
+    label: '2-step equations & inequalities',
+  },
+  {
+    id: 'math-4',
+    subject: 'Math',
+    subject_alias: 'Math',
+    subtopic: 'Word Problems',
+    label: 'Translating real situations to expressions',
+  },
+  {
+    id: 'math-5',
+    subject: 'Math',
+    subject_alias: 'Math',
+    subtopic: 'Geometry & Measurement',
+    label: 'Perimeter, area, and volume',
+  },
+  {
+    id: 'math-6',
+    subject: 'Math',
+    subject_alias: 'Math',
+    subtopic: 'Data & Graphs',
+    label: 'Reading tables, charts, and graphs',
+  },
+  {
+    id: 'math-7',
+    subject: 'Math',
+    subject_alias: 'Math',
+    subtopic: 'Scientific Calculator',
+    label: 'Using the calculator efficiently',
+  },
+  {
+    id: 'math-8',
+    subject: 'Math',
+    subject_alias: 'Math',
+    subtopic: 'Test Skills',
+    label: 'Multi-step GED-style math items',
+  },
 
-    // RLA (reading, grammar, extended response)
-    { id: 'rla-1', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Reading Comprehension', label: 'Main idea and supporting details' },
-    { id: 'rla-2', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Reading Comprehension', label: 'Author’s purpose & tone' },
-    { id: 'rla-3', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Informational Text', label: 'Reading charts / text together' },
-    { id: 'rla-4', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Language & Editing', label: 'Grammar, usage, and mechanics' },
-    { id: 'rla-5', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Language & Editing', label: 'Punctuation and sentence boundaries' },
-    { id: 'rla-6', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Writing', label: 'Organizing ideas for responses' },
-    { id: 'rla-7', subject: 'RLA', subject_alias: 'RLA', subtopic: 'Writing', label: 'Citing evidence from the passage' },
+  // RLA (reading, grammar, extended response)
+  {
+    id: 'rla-1',
+    subject: 'RLA',
+    subject_alias: 'RLA',
+    subtopic: 'Reading Comprehension',
+    label: 'Main idea and supporting details',
+  },
+  {
+    id: 'rla-2',
+    subject: 'RLA',
+    subject_alias: 'RLA',
+    subtopic: 'Reading Comprehension',
+    label: 'Author’s purpose & tone',
+  },
+  {
+    id: 'rla-3',
+    subject: 'RLA',
+    subject_alias: 'RLA',
+    subtopic: 'Informational Text',
+    label: 'Reading charts / text together',
+  },
+  {
+    id: 'rla-4',
+    subject: 'RLA',
+    subject_alias: 'RLA',
+    subtopic: 'Language & Editing',
+    label: 'Grammar, usage, and mechanics',
+  },
+  {
+    id: 'rla-5',
+    subject: 'RLA',
+    subject_alias: 'RLA',
+    subtopic: 'Language & Editing',
+    label: 'Punctuation and sentence boundaries',
+  },
+  {
+    id: 'rla-6',
+    subject: 'RLA',
+    subject_alias: 'RLA',
+    subtopic: 'Writing',
+    label: 'Organizing ideas for responses',
+  },
+  {
+    id: 'rla-7',
+    subject: 'RLA',
+    subject_alias: 'RLA',
+    subtopic: 'Writing',
+    label: 'Citing evidence from the passage',
+  },
 
-    // SCIENCE (data, life, physical, reasoning)
-    { id: 'science-1', subject: 'Science', subject_alias: 'Science', subtopic: 'Data Interpretation', label: 'Reading charts and graphs' },
-    { id: 'science-2', subject: 'Science', subject_alias: 'Science', subtopic: 'Physical Science', label: 'Forces, motion, and energy' },
-    { id: 'science-3', subject: 'Science', subject_alias: 'Science', subtopic: 'Life Science', label: 'Cells and human body systems' },
-    { id: 'science-4', subject: 'Science', subject_alias: 'Science', subtopic: 'Earth & Space', label: 'Weather, climate, earth systems' },
-    { id: 'science-5', subject: 'Science', subject_alias: 'Science', subtopic: 'Scientific Practice', label: 'Experimental design & variables' },
-    { id: 'science-6', subject: 'Science', subject_alias: 'Science', subtopic: 'Reasoning in Science', label: 'Cause-and-effect in passages' },
+  // SCIENCE (data, life, physical, reasoning)
+  {
+    id: 'science-1',
+    subject: 'Science',
+    subject_alias: 'Science',
+    subtopic: 'Data Interpretation',
+    label: 'Reading charts and graphs',
+  },
+  {
+    id: 'science-2',
+    subject: 'Science',
+    subject_alias: 'Science',
+    subtopic: 'Physical Science',
+    label: 'Forces, motion, and energy',
+  },
+  {
+    id: 'science-3',
+    subject: 'Science',
+    subject_alias: 'Science',
+    subtopic: 'Life Science',
+    label: 'Cells and human body systems',
+  },
+  {
+    id: 'science-4',
+    subject: 'Science',
+    subject_alias: 'Science',
+    subtopic: 'Earth & Space',
+    label: 'Weather, climate, earth systems',
+  },
+  {
+    id: 'science-5',
+    subject: 'Science',
+    subject_alias: 'Science',
+    subtopic: 'Scientific Practice',
+    label: 'Experimental design & variables',
+  },
+  {
+    id: 'science-6',
+    subject: 'Science',
+    subject_alias: 'Science',
+    subtopic: 'Reasoning in Science',
+    label: 'Cause-and-effect in passages',
+  },
 
-    // SOCIAL STUDIES (civics, history, econ, reading graphs)
-    { id: 'social-1', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Civics', label: 'Government and civics concepts' },
-    { id: 'social-2', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Geography', label: 'Interpreting maps and data' },
-    { id: 'social-3', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'History', label: 'Remembering historical events' },
-    { id: 'social-4', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'US History', label: 'Colonial → Civil War sequence' },
-    { id: 'social-5', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Economics', label: 'Basic economics and graphs' },
-    { id: 'social-6', subject: 'Social Studies', subject_alias: 'Social Studies', subtopic: 'Document Literacy', label: 'Reading primary/secondary sources' },
+  // SOCIAL STUDIES (civics, history, econ, reading graphs)
+  {
+    id: 'social-1',
+    subject: 'Social Studies',
+    subject_alias: 'Social Studies',
+    subtopic: 'Civics',
+    label: 'Government and civics concepts',
+  },
+  {
+    id: 'social-2',
+    subject: 'Social Studies',
+    subject_alias: 'Social Studies',
+    subtopic: 'Geography',
+    label: 'Interpreting maps and data',
+  },
+  {
+    id: 'social-3',
+    subject: 'Social Studies',
+    subject_alias: 'Social Studies',
+    subtopic: 'History',
+    label: 'Remembering historical events',
+  },
+  {
+    id: 'social-4',
+    subject: 'Social Studies',
+    subject_alias: 'Social Studies',
+    subtopic: 'US History',
+    label: 'Colonial → Civil War sequence',
+  },
+  {
+    id: 'social-5',
+    subject: 'Social Studies',
+    subject_alias: 'Social Studies',
+    subtopic: 'Economics',
+    label: 'Basic economics and graphs',
+  },
+  {
+    id: 'social-6',
+    subject: 'Social Studies',
+    subject_alias: 'Social Studies',
+    subtopic: 'Document Literacy',
+    label: 'Reading primary/secondary sources',
+  },
 ];
 
 async function getTestPlanTableName() {
-    if (cachedTestPlanTableName) {
-        return cachedTestPlanTableName;
-    }
-
-    // Prefer the known real table name first
-    const candidates = ['test_plans', 'test_plan'];
-    for (const tableName of candidates) {
-        try {
-            await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
-            cachedTestPlanTableName = tableName;
-            return cachedTestPlanTableName;
-        } catch (err) {
-            if (err && err.code === '42P01') {
-                continue;
-            }
-            console.warn(`Failed to probe table ${tableName}`, err?.message || err);
-        }
-    }
-
-    cachedTestPlanTableName = candidates[candidates.length - 1];
+  if (cachedTestPlanTableName) {
     return cachedTestPlanTableName;
+  }
+
+  // Prefer the known real table name first
+  const candidates = ['test_plans', 'test_plan'];
+  for (const tableName of candidates) {
+    try {
+      await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
+      cachedTestPlanTableName = tableName;
+      return cachedTestPlanTableName;
+    } catch (err) {
+      if (err && err.code === '42P01') {
+        continue;
+      }
+      console.warn(`Failed to probe table ${tableName}`, err?.message || err);
+    }
+  }
+
+  cachedTestPlanTableName = candidates[candidates.length - 1];
+  return cachedTestPlanTableName;
 }
 
 async function getChallengeTables() {
-    if (cachedChallengeTables) {
-        return cachedChallengeTables;
-    }
-
-    const optionCandidates = ['challenge_options', 'challenge_catalog'];
-    const selectionCandidates = [
-        'user_selected_challenges',
-        'user_challenge_tags',
-        'profile_challenges'
-    ];
-
-    let optionTable = null;
-    for (const tableName of optionCandidates) {
-        try {
-            await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
-            optionTable = tableName;
-            break;
-        } catch (err) {
-            if (err && err.code === '42P01') {
-                continue;
-            }
-            console.warn(`Failed to probe table ${tableName}`, err?.message || err);
-        }
-    }
-    if (!optionTable) {
-        optionTable = optionCandidates[optionCandidates.length - 1];
-    }
-
-    let selectionTable = null;
-    for (const tableName of selectionCandidates) {
-        try {
-            await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
-            selectionTable = tableName;
-            break;
-        } catch (err) {
-            if (err && err.code === '42P01') {
-                continue;
-            }
-            console.warn(`Failed to probe table ${tableName}`, err?.message || err);
-        }
-    }
-    if (!selectionTable) {
-        selectionTable = selectionCandidates[selectionCandidates.length - 1];
-    }
-
-    cachedChallengeTables = { optionTable, selectionTable };
+  if (cachedChallengeTables) {
     return cachedChallengeTables;
+  }
+
+  const optionCandidates = ['challenge_options', 'challenge_catalog'];
+  const selectionCandidates = [
+    'user_selected_challenges',
+    'user_challenge_tags',
+    'profile_challenges',
+  ];
+
+  let optionTable = null;
+  for (const tableName of optionCandidates) {
+    try {
+      await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
+      optionTable = tableName;
+      break;
+    } catch (err) {
+      if (err && err.code === '42P01') {
+        continue;
+      }
+      console.warn(`Failed to probe table ${tableName}`, err?.message || err);
+    }
+  }
+  if (!optionTable) {
+    optionTable = optionCandidates[optionCandidates.length - 1];
+  }
+
+  let selectionTable = null;
+  for (const tableName of selectionCandidates) {
+    try {
+      await db.query(`SELECT 1 FROM ${tableName} LIMIT 1`);
+      selectionTable = tableName;
+      break;
+    } catch (err) {
+      if (err && err.code === '42P01') {
+        continue;
+      }
+      console.warn(`Failed to probe table ${tableName}`, err?.message || err);
+    }
+  }
+  if (!selectionTable) {
+    selectionTable = selectionCandidates[selectionCandidates.length - 1];
+  }
+
+  cachedChallengeTables = { optionTable, selectionTable };
+  return cachedChallengeTables;
 }
 
 async function profilesHasNameColumn() {
-    if (cachedProfileNameColumn !== null) {
-        return cachedProfileNameColumn;
-    }
-
-    try {
-        const result = await db.query(
-            `SELECT 1 FROM information_schema.columns WHERE table_name = $1 AND column_name = $2 LIMIT 1`,
-            ['profiles', 'name']
-        );
-        cachedProfileNameColumn = result.rowCount > 0;
-    } catch (err) {
-        console.warn('Unable to determine if profiles.name exists', err?.message || err);
-        cachedProfileNameColumn = false;
-    }
-
+  if (cachedProfileNameColumn !== null) {
     return cachedProfileNameColumn;
+  }
+
+  try {
+    const result = await db.query(
+      `SELECT 1 FROM information_schema.columns WHERE table_name = $1 AND column_name = $2 LIMIT 1`,
+      ['profiles', 'name']
+    );
+    cachedProfileNameColumn = result.rowCount > 0;
+  } catch (err) {
+    console.warn(
+      'Unable to determine if profiles.name exists',
+      err?.message || err
+    );
+    cachedProfileNameColumn = false;
+  }
+
+  return cachedProfileNameColumn;
 }
 
 function ensureRequestUser(req) {
-    if (!req.user) {
-        req.user = {};
+  if (!req.user) {
+    req.user = {};
+  }
+
+  if (req.user.id) {
+    return true;
+  }
+
+  const candidates = [
+    req.user.userId,
+    req.user.sub,
+    req.user.user_id,
+    req.userId,
+    req.user.id,
+  ];
+
+  for (const candidate of candidates) {
+    if (candidate === undefined || candidate === null) continue;
+    const normalized =
+      typeof candidate === 'string' && /^[0-9]+$/.test(candidate)
+        ? Number(candidate)
+        : candidate;
+    if (normalized !== undefined && normalized !== null && normalized !== '') {
+      req.user.id = normalized;
+      return true;
     }
+  }
 
-    if (req.user.id) {
-        return true;
-    }
-
-    const candidates = [
-        req.user.userId,
-        req.user.sub,
-        req.user.user_id,
-        req.userId,
-        req.user.id
-    ];
-
-    for (const candidate of candidates) {
-        if (candidate === undefined || candidate === null) continue;
-        const normalized = typeof candidate === 'string' && /^[0-9]+$/.test(candidate)
-            ? Number(candidate)
-            : candidate;
-        if (normalized !== undefined && normalized !== null && normalized !== '') {
-            req.user.id = normalized;
-            return true;
-        }
-    }
-
-    return false;
+  return false;
 }
 
 function authRequired(req, res, next) {
-    if (!ensureRequestUser(req)) {
-        return res.status(401).json({ error: 'Not authenticated' });
-    }
-    return next();
+  if (!ensureRequestUser(req)) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+  return next();
 }
 
 // Development-friendly auth gate: in production, require auth; in other envs allow pass-through
-const maybeAuth = (process.env.NODE_ENV === 'production')
+const maybeAuth =
+  process.env.NODE_ENV === 'production'
     ? authRequired
     : (req, _res, next) => next();
 
 // Allowlist for profile onboarding routes that should not enforce "active user/org" checks
 const PROFILE_ALLOW = new Set([
-    '/api/profile/me',
-    '/api/profile/test',
-    '/api/profile/tests', // alias some clients might use
-    '/api/profile/name',
-    '/api/profile/save',  // future unified save endpoint
-    '/api/profile/challenges/tags',
-    '/api/challenges/tags',
-    '/api/whoami',
-    // presence + quiz attempts should not be blocked by active-user gating
-    '/presence/ping',
-    '/api/quiz/attempts',
-    '/api/quiz-attempts'
+  '/api/profile/me',
+  '/api/profile/test',
+  '/api/profile/tests', // alias some clients might use
+  '/api/profile/name',
+  '/api/profile/save', // future unified save endpoint
+  '/api/profile/challenges/tags',
+  '/api/challenges/tags',
+  '/api/whoami',
+  // presence + quiz attempts should not be blocked by active-user gating
+  '/presence/ping',
+  '/api/quiz/attempts',
+  '/api/quiz-attempts',
 ]);
 
 function isProfileAllowlistedPath(pathname) {
-    try {
-        return PROFILE_ALLOW.has(pathname);
-    } catch (e) {
-        return false;
-    }
+  try {
+    return PROFILE_ALLOW.has(pathname);
+  } catch (e) {
+    return false;
+  }
 }
 
 async function buildScoreSummary(userId) {
-    try {
-        const { loadScoresSafe } = require('./services/profileData');
-        if (typeof loadScoresSafe === 'function') {
-            const scoreData = await loadScoresSafe(userId);
-            const recentScoresDashboard =
-                scoreData && typeof scoreData.recentScoresDashboard === 'object' && scoreData.recentScoresDashboard !== null
-                    ? scoreData.recentScoresDashboard
-                    : {};
+  try {
+    const { loadScoresSafe } = require('./services/profileData');
+    if (typeof loadScoresSafe === 'function') {
+      const scoreData = await loadScoresSafe(userId);
+      const recentScoresDashboard =
+        scoreData &&
+        typeof scoreData.recentScoresDashboard === 'object' &&
+        scoreData.recentScoresDashboard !== null
+          ? scoreData.recentScoresDashboard
+          : {};
 
-            const legacyScores = {};
-            if (Array.isArray(scoreData?.bySubject)) {
-                legacyScores.bySubject = scoreData.bySubject;
-            }
-            if (Array.isArray(scoreData?.bySubtopic)) {
-                legacyScores.bySubtopic = scoreData.bySubtopic;
-            }
+      const legacyScores = {};
+      if (Array.isArray(scoreData?.bySubject)) {
+        legacyScores.bySubject = scoreData.bySubject;
+      }
+      if (Array.isArray(scoreData?.bySubtopic)) {
+        legacyScores.bySubtopic = scoreData.bySubtopic;
+      }
 
-            return {
-                recentScoresDashboard,
-                legacyScores
-            };
-        }
-    } catch (err) {
-        console.warn('buildScoreSummary fallback', err?.message || err);
+      return {
+        recentScoresDashboard,
+        legacyScores,
+      };
     }
+  } catch (err) {
+    console.warn('buildScoreSummary fallback', err?.message || err);
+  }
 
-    return {
-        recentScoresDashboard: {},
-        legacyScores: {}
-    };
+  return {
+    recentScoresDashboard: {},
+    legacyScores: {},
+  };
 }
 
 function normalizeTestDate(value) {
-    if (!value) {
-        return '';
+  if (!value) {
+    return '';
+  }
+  if (value instanceof Date) {
+    return value.toISOString().slice(0, 10);
+  }
+  if (typeof value === 'string') {
+    return value;
+  }
+  try {
+    const asDate = new Date(value);
+    if (!Number.isNaN(asDate.getTime())) {
+      return asDate.toISOString().slice(0, 10);
     }
-    if (value instanceof Date) {
-        return value.toISOString().slice(0, 10);
-    }
-    if (typeof value === 'string') {
-        return value;
-    }
-    try {
-        const asDate = new Date(value);
-        if (!Number.isNaN(asDate.getTime())) {
-            return asDate.toISOString().slice(0, 10);
-        }
-    } catch (err) {
-        // ignore
-    }
-    return String(value);
+  } catch (err) {
+    // ignore
+  }
+  return String(value);
 }
 
 async function buildProfileBundle(userId) {
-    if (!userId) {
-        throw new Error('buildProfileBundle requires a userId');
-    }
+  if (!userId) {
+    throw new Error('buildProfileBundle requires a userId');
+  }
 
-    const hasNameColumn = await profilesHasNameColumn();
+  const hasNameColumn = await profilesHasNameColumn();
 
-    let profileRow = null;
+  let profileRow = null;
+  try {
+    const columnList = hasNameColumn
+      ? 'user_id, name, timezone, reminder_enabled, font_size, onboarding_complete'
+      : 'user_id, timezone, reminder_enabled, font_size, onboarding_complete';
+    const result = await db.query(
+      `SELECT ${columnList} FROM profiles WHERE user_id = $1`,
+      [userId]
+    );
+    profileRow = result.rows[0] || null;
+  } catch (err) {
+    console.error('Failed to load profile row', err?.message || err);
+  }
+
+  let displayName = null;
+  if (hasNameColumn) {
+    displayName = profileRow?.name ?? null;
+  }
+
+  if (!displayName) {
     try {
-        const columnList = hasNameColumn
-            ? 'user_id, name, timezone, reminder_enabled, font_size, onboarding_complete'
-            : 'user_id, timezone, reminder_enabled, font_size, onboarding_complete';
-        const result = await db.query(
-            `SELECT ${columnList} FROM profiles WHERE user_id = $1`,
-            [userId]
-        );
-        profileRow = result.rows[0] || null;
+      const userRow = await db.oneOrNone(
+        `SELECT name FROM users WHERE id = $1`,
+        [userId]
+      );
+      displayName = userRow?.name ?? null;
     } catch (err) {
-        console.error('Failed to load profile row', err?.message || err);
+      console.warn('Failed to load user name', err?.message || err);
     }
+  }
 
-    let displayName = null;
-    if (hasNameColumn) {
-        displayName = profileRow?.name ?? null;
-    }
+  const profileData = profileRow || {
+    user_id: userId,
+    timezone: 'America/New_York',
+    reminder_enabled: true,
+    font_size: null,
+    onboarding_complete: false,
+  };
 
-    if (!displayName) {
-        try {
-            const userRow = await db.oneOrNone(`SELECT name FROM users WHERE id = $1`, [userId]);
-            displayName = userRow?.name ?? null;
-        } catch (err) {
-            console.warn('Failed to load user name', err?.message || err);
-        }
-    }
+  const testPlanTable = await getTestPlanTableName();
+  let planRows = [];
+  try {
+    const result = await db.query(
+      `SELECT subject, test_date, test_location, passed, not_scheduled FROM ${testPlanTable} WHERE user_id = $1 ORDER BY subject`,
+      [userId]
+    );
+    planRows = result.rows;
+  } catch (err) {
+    console.error('Failed to load test plan rows', err?.message || err);
+  }
 
-    const profileData = profileRow || {
-        user_id: userId,
-        timezone: 'America/New_York',
-        reminder_enabled: true,
-        font_size: null,
-        onboarding_complete: false
-    };
+  const testPlan = planRows.map((r) => ({
+    subject: r.subject,
+    testDate: normalizeTestDate(r.test_date),
+    testLocation: r.test_location || '',
+    passed: !!r.passed,
+    notScheduled: !!r.not_scheduled,
+  }));
 
-    const testPlanTable = await getTestPlanTableName();
-    let planRows = [];
+  const { optionTable, selectionTable } = await getChallengeTables();
+
+  let allChallenges = [];
+  try {
+    const result = await db.query(
+      `SELECT id, subject, subtopic, label FROM ${optionTable} ORDER BY subject, subtopic, id`
+    );
+    allChallenges = result.rows;
+  } catch (err) {
+    console.error('Failed to load challenge options', err?.message || err);
+  }
+
+  // Determine whether to use DB catalog or fallback list
+  // - Use env ALWAYS_USE_FALLBACK_CHALLENGES=true to force fallback
+  // - Otherwise require a minimum catalog size (default 20) before trusting DB
+  const alwaysUseFallback =
+    String(process.env.ALWAYS_USE_FALLBACK_CHALLENGES || '').toLowerCase() ===
+    'true';
+  const minSize = (() => {
+    const n = Number(process.env.MIN_CHALLENGE_CATALOG_SIZE || 20);
+    return Number.isFinite(n) && n > 0 ? Math.floor(n) : 20;
+  })();
+  const hasSufficientCatalog =
+    Array.isArray(allChallenges) && allChallenges.length >= minSize;
+  const effectiveAllChallenges = alwaysUseFallback
+    ? FALLBACK_PROFILE_CHALLENGES
+    : hasSufficientCatalog
+    ? allChallenges
+    : FALLBACK_PROFILE_CHALLENGES;
+
+  let chosen = [];
+  try {
+    const result = await db.query(
+      `SELECT challenge_id FROM ${selectionTable} WHERE user_id = $1`,
+      [userId]
+    );
+    chosen = result.rows;
+  } catch (err) {
+    console.error('Failed to load selected challenges', err?.message || err);
+  }
+
+  const chosenSet = new Set(chosen.map((r) => String(r.challenge_id)));
+
+  let challengeOptions = effectiveAllChallenges.map((opt) => ({
+    id: String(opt.id),
+    subject: opt.subject || opt.subject_alias || opt.subject,
+    subtopic: opt.subtopic,
+    label: opt.label,
+    selected: chosenSet.has(String(opt.id)),
+  }));
+
+  // Safety: if the query probes or mapping above produced an empty list,
+  // always fall back to the in-memory catalog so the UI has options.
+  if (!Array.isArray(challengeOptions) || challengeOptions.length === 0) {
     try {
-        const result = await db.query(
-            `SELECT subject, test_date, test_location, passed, not_scheduled FROM ${testPlanTable} WHERE user_id = $1 ORDER BY subject`,
-            [userId]
-        );
-        planRows = result.rows;
-    } catch (err) {
-        console.error('Failed to load test plan rows', err?.message || err);
-    }
-
-    const testPlan = planRows.map((r) => ({
-        subject: r.subject,
-        testDate: normalizeTestDate(r.test_date),
-        testLocation: r.test_location || '',
-        passed: !!r.passed,
-        notScheduled: !!r.not_scheduled
-    }));
-
-    const { optionTable, selectionTable } = await getChallengeTables();
-
-    let allChallenges = [];
-    try {
-        const result = await db.query(
-            `SELECT id, subject, subtopic, label FROM ${optionTable} ORDER BY subject, subtopic, id`
-        );
-        allChallenges = result.rows;
-    } catch (err) {
-        console.error('Failed to load challenge options', err?.message || err);
-    }
-
-    // Determine whether to use DB catalog or fallback list
-    // - Use env ALWAYS_USE_FALLBACK_CHALLENGES=true to force fallback
-    // - Otherwise require a minimum catalog size (default 20) before trusting DB
-    const alwaysUseFallback = String(process.env.ALWAYS_USE_FALLBACK_CHALLENGES || '').toLowerCase() === 'true';
-    const minSize = (() => {
-        const n = Number(process.env.MIN_CHALLENGE_CATALOG_SIZE || 20);
-        return Number.isFinite(n) && n > 0 ? Math.floor(n) : 20;
-    })();
-    const hasSufficientCatalog = Array.isArray(allChallenges) && allChallenges.length >= minSize;
-    const effectiveAllChallenges = alwaysUseFallback
-        ? FALLBACK_PROFILE_CHALLENGES
-        : (hasSufficientCatalog ? allChallenges : FALLBACK_PROFILE_CHALLENGES);
-
-    let chosen = [];
-    try {
-        const result = await db.query(
-            `SELECT challenge_id FROM ${selectionTable} WHERE user_id = $1`,
-            [userId]
-        );
-        chosen = result.rows;
-    } catch (err) {
-        console.error('Failed to load selected challenges', err?.message || err);
-    }
-
-    const chosenSet = new Set(chosen.map((r) => String(r.challenge_id)));
-
-    let challengeOptions = effectiveAllChallenges.map((opt) => ({
+      challengeOptions = FALLBACK_PROFILE_CHALLENGES.map((opt) => ({
         id: String(opt.id),
         subject: opt.subject || opt.subject_alias || opt.subject,
         subtopic: opt.subtopic,
         label: opt.label,
-        selected: chosenSet.has(String(opt.id))
-    }));
-
-    // Safety: if the query probes or mapping above produced an empty list,
-    // always fall back to the in-memory catalog so the UI has options.
-    if (!Array.isArray(challengeOptions) || challengeOptions.length === 0) {
-        try {
-            challengeOptions = FALLBACK_PROFILE_CHALLENGES.map((opt) => ({
-                id: String(opt.id),
-                subject: opt.subject || opt.subject_alias || opt.subject,
-                subtopic: opt.subtopic,
-                label: opt.label,
-                selected: chosenSet.has(String(opt.id))
-            }));
-        } catch (_) {
-            challengeOptions = [];
-        }
+        selected: chosenSet.has(String(opt.id)),
+      }));
+    } catch (_) {
+      challengeOptions = [];
     }
+  }
 
-    const { recentScoresDashboard, legacyScores } = await buildScoreSummary(userId);
+  const { recentScoresDashboard, legacyScores } = await buildScoreSummary(
+    userId
+  );
 
-    return {
-        profile: {
-            id: userId,
-            name: displayName,
-            timezone: profileData.timezone || 'America/New_York',
-            reminderEnabled: profileData.reminder_enabled !== undefined && profileData.reminder_enabled !== null
-                ? !!profileData.reminder_enabled
-                : true,
-            fontSize: profileData.font_size,
-            onboardingComplete: !!profileData.onboarding_complete
-        },
-        // Both testPlan (normalized for UI) and raw tests for debugging/compat
-        testPlan,
-        tests: planRows,
-        challengeOptions,
-        recentScoresDashboard: recentScoresDashboard || {},
-        scores: legacyScores || {}
-    };
+  return {
+    profile: {
+      id: userId,
+      name: displayName,
+      timezone: profileData.timezone || 'America/New_York',
+      reminderEnabled:
+        profileData.reminder_enabled !== undefined &&
+        profileData.reminder_enabled !== null
+          ? !!profileData.reminder_enabled
+          : true,
+      fontSize: profileData.font_size,
+      onboardingComplete: !!profileData.onboarding_complete,
+    },
+    // Both testPlan (normalized for UI) and raw tests for debugging/compat
+    testPlan,
+    tests: planRows,
+    challengeOptions,
+    recentScoresDashboard: recentScoresDashboard || {},
+    scores: legacyScores || {},
+  };
 }
 
 const app = express();
 // Flexible image resolver with Netlify fallback
 app.get(
-    ['/frontend/images/:subject/:file(*)', '/frontend/Images/:subject/:file(*)'],
-    (req, res) => {
-        let { subject, file } = req.params;
-        if (!subject || !file) return res.status(404).send('Not found');
+  ['/frontend/images/:subject/:file(*)', '/frontend/Images/:subject/:file(*)'],
+  (req, res) => {
+    let { subject, file } = req.params;
+    if (!subject || !file) return res.status(404).send('Not found');
 
-        // decode %20 etc.
-        try {
-            subject = decodeURIComponent(subject);
-            file = decodeURIComponent(file);
-        } catch (_) {}
+    // decode %20 etc.
+    try {
+      subject = decodeURIComponent(subject);
+      file = decodeURIComponent(file);
+    } catch (_) {}
 
-        // normalize subject variants
-        const subjectCandidates = [
-            subject,
-            subject.replace(/_/g, ' '),
-            subject.replace(/-/g, ' '),
-            subject.replace(/\s+/g, ' ').trim(),
-            subject.charAt(0).toUpperCase() + subject.slice(1),
-        ];
+    // normalize subject variants
+    const subjectCandidates = [
+      subject,
+      subject.replace(/_/g, ' '),
+      subject.replace(/-/g, ' '),
+      subject.replace(/\s+/g, ' ').trim(),
+      subject.charAt(0).toUpperCase() + subject.slice(1),
+    ];
 
-        const repoRoot = path.resolve(__dirname, '..');
-        const frontendRoot = path.join(repoRoot, 'frontend');
+    const repoRoot = path.resolve(__dirname, '..');
+    const frontendRoot = path.join(repoRoot, 'frontend');
 
-        // 1) try local disk under any subject variant
-        for (const subj of subjectCandidates) {
-            const localPath = path.join(frontendRoot, 'Images', subj, file);
-            if (fs.existsSync(localPath)) {
-                res.setHeader('Access-Control-Allow-Origin', '*');
-                return res.sendFile(localPath);
-            }
-        }
-
-        // 2) try just by filename anywhere under /frontend/Images
-        const imagesRoot = path.join(frontendRoot, 'Images');
-        if (fs.existsSync(imagesRoot)) {
-            try {
-                const allSubjects = fs.readdirSync(imagesRoot, { withFileTypes: true })
-                    .filter((d) => d.isDirectory())
-                    .map((d) => d.name);
-                for (const subj of allSubjects) {
-                    const candidate = path.join(imagesRoot, subj, file);
-                    if (fs.existsSync(candidate)) {
-                        res.setHeader('Access-Control-Allow-Origin', '*');
-                        return res.sendFile(candidate);
-                    }
-                }
-            } catch (_) {}
-        }
-
-        // 3) final fallback: redirect to Netlify copy
-        const pickedSubject = subjectCandidates[1] || subject; // prefer the one with spaces
-        const netlifyUrl = `https://ezged.netlify.app/Images/${encodeURIComponent(pickedSubject)}/${encodeURIComponent(file)}`;
-        return res.redirect(302, netlifyUrl);
+    // 1) try local disk under any subject variant
+    for (const subj of subjectCandidates) {
+      const localPath = path.join(frontendRoot, 'Images', subj, file);
+      if (fs.existsSync(localPath)) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        return res.sendFile(localPath);
+      }
     }
+
+    // 2) try just by filename anywhere under /frontend/Images
+    const imagesRoot = path.join(frontendRoot, 'Images');
+    if (fs.existsSync(imagesRoot)) {
+      try {
+        const allSubjects = fs
+          .readdirSync(imagesRoot, { withFileTypes: true })
+          .filter((d) => d.isDirectory())
+          .map((d) => d.name);
+        for (const subj of allSubjects) {
+          const candidate = path.join(imagesRoot, subj, file);
+          if (fs.existsSync(candidate)) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            return res.sendFile(candidate);
+          }
+        }
+      } catch (_) {}
+    }
+
+    // 3) final fallback: redirect to Netlify copy
+    const pickedSubject = subjectCandidates[1] || subject; // prefer the one with spaces
+    const netlifyUrl = `https://ezged.netlify.app/Images/${encodeURIComponent(
+      pickedSubject
+    )}/${encodeURIComponent(file)}`;
+    return res.redirect(302, netlifyUrl);
+  }
 );
 // Use the configured port or default to 3002 locally
 let port = Number(process.env.PORT || 3002);
@@ -3101,148 +3680,223 @@ const net = require('net');
 // Serve static quiz bundles so the frontend JSON loader can fetch them reliably
 // We expose both /public (full folder) and a convenience /quizzes path.
 try {
-    const repoRoot = path.resolve(__dirname, '..');
-    const publicDir = path.join(repoRoot, 'public');
-    const frontendDir = path.join(repoRoot, 'frontend');
-    app.use('/public', express.static(publicDir, {
-        maxAge: '1h',
-        setHeaders(res) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
+  const repoRoot = path.resolve(__dirname, '..');
+  const publicDir = path.join(repoRoot, 'public');
+  const frontendDir = path.join(repoRoot, 'frontend');
+  app.use(
+    '/public',
+    express.static(publicDir, {
+      maxAge: '1h',
+      setHeaders(res, filePath) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        // Force UTF-8 for text assets
+        if (filePath.endsWith('.json') || filePath.endsWith('.txt')) {
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
         }
-    }));
-    // Serve images from /frontend/Images with CORS headers
-    app.use(
-        '/frontend/Images',
-        express.static(path.join(frontendDir, 'Images'), {
-            maxAge: '1h',
-            setHeaders(res) {
-                res.setHeader('Access-Control-Allow-Origin', '*');
-            },
-        })
-    );
-// ...existing code...
-    // Log quiz requests to verify the frontend is hitting this endpoint
-    app.use('/quizzes', (req, _res, next) => {
-        try { console.log('[QUIZZES] request:', req.method, req.url); } catch {}
-        next();
-    });
-    // Prefer repository public/quizzes (canonical built files),
-    // but allow backend-local overrides if needed.
-    app.use('/quizzes', express.static(path.join(publicDir, 'quizzes'), {
-        maxAge: '1h',
-        setHeaders(res) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
+      },
+    })
+  );
+  // Serve images from /frontend/Images with CORS headers
+  app.use(
+    '/frontend/Images',
+    express.static(path.join(frontendDir, 'Images'), {
+      maxAge: '1h',
+      setHeaders(res) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+      },
+    })
+  );
+  // ...existing code...
+  // Log quiz requests to verify the frontend is hitting this endpoint
+  app.use('/quizzes', (req, _res, next) => {
+    try {
+      console.log('[QUIZZES] request:', req.method, req.url);
+    } catch {}
+    next();
+  });
+  // Prefer repository public/quizzes (canonical built files),
+  // but allow backend-local overrides if needed.
+  app.use(
+    '/quizzes',
+    express.static(path.join(publicDir, 'quizzes'), {
+      maxAge: '1h',
+      setHeaders(res, filePath) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        // Force UTF-8 for quiz JSON files
+        if (filePath.endsWith('.json')) {
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
         }
-    }));
-    app.use('/quizzes', express.static(path.join(__dirname, 'quizzes'), {
-        maxAge: '1h',
-        setHeaders(res) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
+      },
+    })
+  );
+  app.use(
+    '/quizzes',
+    express.static(path.join(__dirname, 'quizzes'), {
+      maxAge: '1h',
+      setHeaders(res, filePath) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        // Force UTF-8 for quiz JSON files
+        if (filePath.endsWith('.json')) {
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
         }
-    }));
-    // Serve subject badge assets at a stable path
-    app.use('/badges', express.static(path.join(publicDir, 'badges'), {
-        maxAge: '1h',
-        setHeaders(res) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
+      },
+    })
+  );
+  // Serve subject badge assets at a stable path
+  app.use(
+    '/badges',
+    express.static(path.join(publicDir, 'badges'), {
+      maxAge: '1h',
+      setHeaders(res) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+      },
+    })
+  );
+  // Fallback to frontend/badges for local development
+  app.use(
+    '/badges',
+    express.static(path.join(frontendDir, 'badges'), {
+      maxAge: '1h',
+      setHeaders(res) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+      },
+    })
+  );
+  // Serve interactive math tools for quiz runner at exact import paths
+  app.get('/graphing/GraphCanvas.js', (req, res) => {
+    try {
+      res.set('Content-Type', 'application/javascript');
+    } catch {}
+    res.sendFile(path.join(__dirname, 'GraphCanvas.js'));
+  });
+  app.get('/geometry/GeometryCanvas.js', (req, res) => {
+    try {
+      res.set('Content-Type', 'application/javascript');
+    } catch {}
+    res.sendFile(path.join(__dirname, 'GeometryCanvas.js'));
+  });
+  // Serve frontend static assets at root (JS, images, etc.)
+  app.use(
+    '/',
+    express.static(frontendDir, {
+      index: false,
+      maxAge: '1h',
+      setHeaders(res, filePath) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        // Force UTF-8 for text assets
+        if (filePath.endsWith('.html')) {
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        } else if (filePath.endsWith('.js') || filePath.endsWith('.jsx')) {
+          res.setHeader(
+            'Content-Type',
+            'application/javascript; charset=utf-8'
+          );
+        } else if (filePath.endsWith('.css')) {
+          res.setHeader('Content-Type', 'text/css; charset=utf-8');
+        } else if (filePath.endsWith('.json') || filePath.endsWith('.txt')) {
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
         }
-    }));
-    // Fallback to frontend/badges for local development
-    app.use('/badges', express.static(path.join(frontendDir, 'badges'), {
-        maxAge: '1h',
-        setHeaders(res) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-        }
-    }));
-    // Serve interactive math tools for quiz runner at exact import paths
-    app.get('/graphing/GraphCanvas.js', (req, res) => {
-        try { res.set('Content-Type', 'application/javascript'); } catch {}
-        res.sendFile(path.join(__dirname, 'GraphCanvas.js'));
-    });
-    app.get('/geometry/GeometryCanvas.js', (req, res) => {
-        try { res.set('Content-Type', 'application/javascript'); } catch {}
-        res.sendFile(path.join(__dirname, 'GeometryCanvas.js'));
-    });
-    // Serve frontend static assets at root (JS, images, etc.)
-    app.use('/', express.static(frontendDir, {
-        index: false,
-        maxAge: '1h',
-        setHeaders(res) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-        }
-    }));
-    // SPA shell at '/' — send with no-store to avoid stale HTML caching during development
-    app.get(['/', '/index.html'], (req, res) => {
-        try {
-            res.set('Cache-Control', 'no-store');
-        } catch {}
-        res.sendFile(path.join(frontendDir, 'index.html'));
-    });
-    console.log('[static] Serving /public and /quizzes from', publicDir);
-    console.log('[static] Serving SPA and assets from', frontendDir);
+      },
+    })
+  );
+  // SPA shell at '/' — send with no-store to avoid stale HTML caching during development
+  app.get(['/', '/index.html'], (req, res) => {
+    try {
+      res.set('Cache-Control', 'no-store');
+    } catch {}
+    res.sendFile(path.join(frontendDir, 'index.html'));
+  });
+  console.log('[static] Serving /public and /quizzes from', publicDir);
+  console.log('[static] Serving SPA and assets from', frontendDir);
 } catch (e) {
-    console.warn('[static] Failed to initialize static serving for /public:', e?.message || e);
+  console.warn(
+    '[static] Failed to initialize static serving for /public:',
+    e?.message || e
+  );
 }
 
 async function isPortBusy(p) {
-    return new Promise((resolve) => {
-        const tester = net.createServer()
-            .once('error', (err) => {
-                if (err && err.code === 'EADDRINUSE') {
-                    resolve(true);
-                } else {
-                    resolve(false);
-                }
-            })
-            .once('listening', () => {
-                tester.close(() => resolve(false));
-            })
-            .listen(p, '0.0.0.0');
-    });
+  return new Promise((resolve) => {
+    const tester = net
+      .createServer()
+      .once('error', (err) => {
+        if (err && err.code === 'EADDRINUSE') {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .once('listening', () => {
+        tester.close(() => resolve(false));
+      })
+      .listen(p, '0.0.0.0');
+  });
 }
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const devAuth = require('./middleware/devAuth');
 
 function ensureTestUserForNow(req, res, next) {
-    // If a prior middleware already populated the user, just normalise and move on.
-    if (ensureRequestUser(req)) {
-        if (req.user && req.user.id && !req.user.userId) {
-            req.user.userId = req.user.id;
-        }
-        return next();
+  // If a prior middleware already populated the user, just normalise and move on.
+  if (ensureRequestUser(req)) {
+    if (req.user && req.user.id && !req.user.userId) {
+      req.user.userId = req.user.id;
     }
-
-    // TEMPORARY FALLBACK:
-    // Force a known user ID so onboarding/profile can work while auth is fixed.
-    const fallbackIdRaw = process.env.FALLBACK_USER_ID || process.env.TEST_USER_ID || '1';
-    const fallbackId = /^[0-9]+$/.test(String(fallbackIdRaw)) ? Number(fallbackIdRaw) : fallbackIdRaw;
-
-    req.user = { ...(req.user || {}), id: fallbackId, userId: fallbackId };
-
-    console.log('[ensureTestUserForNow] Using fallback req.user.id =', req.user.id);
-
     return next();
+  }
+
+  // TEMPORARY FALLBACK:
+  // Force a known user ID so onboarding/profile can work while auth is fixed.
+  const fallbackIdRaw =
+    process.env.FALLBACK_USER_ID || process.env.TEST_USER_ID || '1';
+  const fallbackId = /^[0-9]+$/.test(String(fallbackIdRaw))
+    ? Number(fallbackIdRaw)
+    : fallbackIdRaw;
+
+  req.user = { ...(req.user || {}), id: fallbackId, userId: fallbackId };
+
+  console.log(
+    '[ensureTestUserForNow] Using fallback req.user.id =',
+    req.user.id
+  );
+
+  return next();
 }
 const profileRouter = require('./routes/profile');
 
-ensureProfilePreferenceColumns().catch((e) => console.error('Pref column init error:', e));
-ensureQuizAttemptsTable().catch((e) => console.error('Quiz attempt table init error:', e));
-ensureEssayScoresTable().catch((e) => console.error('Essay score table init error:', e));
+ensureProfilePreferenceColumns().catch((e) =>
+  console.error('Pref column init error:', e)
+);
+ensureQuizAttemptsTable().catch((e) =>
+  console.error('Quiz attempt table init error:', e)
+);
+ensureEssayScoresTable().catch((e) =>
+  console.error('Essay score table init error:', e)
+);
 if (typeof ensureQuestionBankTable === 'function') {
-    ensureQuestionBankTable().catch((e) => {
-        console.error('Question bank init error:', e?.message || e);
-    });
+  ensureQuestionBankTable().catch((e) => {
+    console.error('Question bank init error:', e?.message || e);
+  });
 }
-ensureChallengeSystemTables().catch((e) => console.error('Challenge system init error:', e));
-ensureStudyPlansTable().catch((e) => console.error('Study plans table init error:', e));
-ensureCoachDailyTables().catch((e) => console.error('Coach daily tables init error:', e));
-ensureCoachAdviceUsageTable().catch((e) => console.error('Coach advice usage table init error:', e));
-ensureCoachCompositeUsageTable().catch((e) => console.error('Coach composite usage table init error:', e));
+ensureChallengeSystemTables().catch((e) =>
+  console.error('Challenge system init error:', e)
+);
+ensureStudyPlansTable().catch((e) =>
+  console.error('Study plans table init error:', e)
+);
+ensureCoachDailyTables().catch((e) =>
+  console.error('Coach daily tables init error:', e)
+);
+ensureCoachAdviceUsageTable().catch((e) =>
+  console.error('Coach advice usage table init error:', e)
+);
+ensureCoachCompositeUsageTable().catch((e) =>
+  console.error('Coach composite usage table init error:', e)
+);
 
 const allowedOrigins = [
-    'https://ezged.netlify.app',
-    'https://quiz.ez-ged.com',
-    'http://localhost:8000' // For local testing
+  'https://ezged.netlify.app',
+  'https://quiz.ez-ged.com',
+  'http://localhost:8000', // For local testing
 ];
 
 const corsOptions = {
@@ -3250,13 +3904,14 @@ const corsOptions = {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      const msg =
+        'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
     return callback(null, true);
   },
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 
@@ -3265,232 +3920,292 @@ app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all rou
 app.use(express.json());
 app.use(cookieParser());
 
-app.post('/presence/ping', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+app.post(
+  '/presence/ping',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
+      const userId = req.user?.id || req.user?.userId;
 
-        if (!userId) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
 
-        await db.query(
-            `UPDATE users
+      await db.query(
+        `UPDATE users
                 SET last_seen_at = NOW()
               WHERE id = $1`,
-            [userId]
-        );
+        [userId]
+      );
 
-        return res.json({ ok: true });
+      return res.json({ ok: true });
     } catch (err) {
-        console.error('presence/ping failed:', err?.message || err);
-        return res.status(500).json({ error: 'presence_update_failed' });
+      console.error('presence/ping failed:', err?.message || err);
+      return res.status(500).json({ error: 'presence_update_failed' });
     }
-});
+  }
+);
 
 // Also support GET pings so callers that use fetch GET won't 404
-app.get('/presence/ping', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+app.get(
+  '/presence/ping',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
+      const userId = req.user?.id || req.user?.userId;
 
-        if (!userId) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
 
-        try {
-            await db.query(
-                `UPDATE users
+      try {
+        await db.query(
+          `UPDATE users
                     SET last_seen_at = NOW()
                   WHERE id = $1`,
-                [userId]
-            );
-        } catch (e) {
-            console.warn('[presence/ping] failed to update last_seen_at', e?.message || e);
-        }
+          [userId]
+        );
+      } catch (e) {
+        console.warn(
+          '[presence/ping] failed to update last_seen_at',
+          e?.message || e
+        );
+      }
 
-        return res.json({ ok: true });
+      return res.json({ ok: true });
     } catch (err) {
-        console.error('presence/ping (GET) failed:', err?.message || err);
-        return res.status(500).json({ error: 'presence_update_failed' });
+      console.error('presence/ping (GET) failed:', err?.message || err);
+      return res.status(500).json({ error: 'presence_update_failed' });
     }
-});
+  }
+);
 
 // Image metadata endpoints and rebuild — placed after app init and middleware
 // Expose the computed image metadata to the frontend (two aliases)
 app.get('/image_metadata_final.json', (req, res) => {
-    try {
-        res.set('Content-Type', 'application/json');
+  try {
+    res.set('Content-Type', 'application/json');
 
-// Debug route for passage bank counts
-app.get('/api/passages/debug', (req, res) => {
-    res.json({
+    // Debug route for passage bank counts
+    app.get('/api/passages/debug', (req, res) => {
+      res.json({
         rla: PASSAGE_DB.rla.length,
         social_studies: PASSAGE_DB.social_studies.length,
         science: PASSAGE_DB.science.length,
-        math_word_problems: PASSAGE_DB.math_word_problems.length
+        math_word_problems: PASSAGE_DB.math_word_problems.length,
+      });
     });
-});
-        res.set('Cache-Control', 'no-cache');
-    } catch {}
-    return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
+    res.set('Cache-Control', 'no-cache');
+  } catch {}
+  return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
 });
 app.get('/image_metadata_final_json', (req, res) => {
-    try {
-        res.set('Content-Type', 'application/json');
-        res.set('Cache-Control', 'no-cache');
-    } catch {}
-    return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
+  try {
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache');
+  } catch {}
+  return res.json(Array.isArray(IMAGE_DB) ? IMAGE_DB : []);
 });
 
 // --- Vocabulary API ---
 function loadVocabularyDB() {
-    try {
-        const primary = path.join(__dirname, 'data', 'vocabulary.json');
-        const fallback = path.resolve(__dirname, '..', 'data', 'vocabulary.json');
-        const obj = readJsonSafe(primary) || readJsonSafe(fallback) || null;
-        if (obj && typeof obj === 'object') return obj;
-    } catch (e) {
-        console.warn('[vocabulary] failed to load:', e?.message || e);
-    }
-    return {};
+  try {
+    const primary = path.join(__dirname, 'data', 'vocabulary.json');
+    const fallback = path.resolve(__dirname, '..', 'data', 'vocabulary.json');
+    const obj = readJsonSafe(primary) || readJsonSafe(fallback) || null;
+    if (obj && typeof obj === 'object') return obj;
+  } catch (e) {
+    console.warn('[vocabulary] failed to load:', e?.message || e);
+  }
+  return {};
 }
 
 function normalizeVocabularySubject(raw) {
-    if (!raw) return null;
-    const s = String(raw).trim().toLowerCase().replace(/_/g, ' ').replace(/-/g, ' ');
-    if (s === 'math') return 'Math';
-    if (s === 'science') return 'Science';
-    if (s === 'social studies' || s === 'social') return 'Social Studies';
-    if (s === 'rla' || s.startsWith('reasoning')) return 'Reasoning Through Language Arts (RLA)';
-    return null;
+  if (!raw) return null;
+  const s = String(raw)
+    .trim()
+    .toLowerCase()
+    .replace(/_/g, ' ')
+    .replace(/-/g, ' ');
+  if (s === 'math') return 'Math';
+  if (s === 'science') return 'Science';
+  if (s === 'social studies' || s === 'social') return 'Social Studies';
+  if (s === 'rla' || s.startsWith('reasoning'))
+    return 'Reasoning Through Language Arts (RLA)';
+  return null;
 }
 
 function dedupeVocabulary(list) {
-    const out = [];
-    const seen = new Set();
-    for (const it of Array.isArray(list) ? list : []) {
-        if (!it || typeof it !== 'object') continue;
-        const term = String(it.term || '').trim();
-        const def = String(it.definition || '').trim();
-        if (!term || !def) continue;
-        const key = term.toLowerCase();
-        if (seen.has(key)) continue;
-        seen.add(key);
-        out.push({ term, definition: def });
-    }
-    return out;
+  const out = [];
+  const seen = new Set();
+  for (const it of Array.isArray(list) ? list : []) {
+    if (!it || typeof it !== 'object') continue;
+    const term = String(it.term || '').trim();
+    const def = String(it.definition || '').trim();
+    if (!term || !def) continue;
+    const key = term.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ term, definition: def });
+  }
+  return out;
 }
 
 function shuffleInPlace(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 function sampleUnique(arr, n) {
-    const copy = Array.isArray(arr) ? arr.slice() : [];
-    shuffleInPlace(copy);
-    return copy.slice(0, Math.max(0, Math.min(n, copy.length)));
+  const copy = Array.isArray(arr) ? arr.slice() : [];
+  shuffleInPlace(copy);
+  return copy.slice(0, Math.max(0, Math.min(n, copy.length)));
 }
 
 app.get('/api/vocabulary/:subject', (req, res) => {
-    const db = loadVocabularyDB();
-    const subjectKey = normalizeVocabularySubject(req.params.subject);
-    if (!subjectKey) return res.status(400).json({ error: 'invalid_subject' });
-    const wordsRaw = Array.isArray(db[subjectKey]) ? db[subjectKey] : [];
-    const words = dedupeVocabulary(wordsRaw);
-    return res.json({ subject: subjectKey, count: words.length, words });
+  const db = loadVocabularyDB();
+  const subjectKey = normalizeVocabularySubject(req.params.subject);
+  if (!subjectKey) return res.status(400).json({ error: 'invalid_subject' });
+  const wordsRaw = Array.isArray(db[subjectKey]) ? db[subjectKey] : [];
+  const words = dedupeVocabulary(wordsRaw);
+  return res.json({ subject: subjectKey, count: words.length, words });
 });
 
 function buildVocabMCFromDefinition(target, pool) {
-    const correct = { text: target.term, isCorrect: true, rationale: 'Matches the definition.' };
-    const distractorsPool = pool.filter(w => w.term !== target.term);
-    const distractors = sampleUnique(distractorsPool, 3).map(w => ({ text: w.term, isCorrect: false, rationale: 'Not the best match.' }));
-    const options = shuffleInPlace([correct, ...distractors]);
-    return {
-        id: `vocab_def_${target.term.toLowerCase().replace(/[^a-z0-9]+/g,'_')}`,
-        questionType: 'multipleChoice',
-        questionText: `Which term matches this definition?\n\n“${target.definition}”`,
-        answerOptions: options
-    };
+  const correct = {
+    text: target.term,
+    isCorrect: true,
+    rationale: 'Matches the definition.',
+  };
+  const distractorsPool = pool.filter((w) => w.term !== target.term);
+  const distractors = sampleUnique(distractorsPool, 3).map((w) => ({
+    text: w.term,
+    isCorrect: false,
+    rationale: 'Not the best match.',
+  }));
+  const options = shuffleInPlace([correct, ...distractors]);
+  return {
+    id: `vocab_def_${target.term.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
+    questionType: 'multipleChoice',
+    questionText: `Which term matches this definition?\n\n“${target.definition}”`,
+    answerOptions: options,
+  };
 }
 
 function buildVocabMCFromTerm(target, pool) {
-    const correct = { text: target.definition, isCorrect: true, rationale: 'This is the correct definition.' };
-    const distractorsPool = pool.filter(w => w.term !== target.term);
-    const distractors = sampleUnique(distractorsPool, 3).map(w => ({ text: w.definition, isCorrect: false, rationale: 'Definition of a different term.' }));
-    const options = shuffleInPlace([correct, ...distractors]);
-    return {
-        id: `vocab_term_${target.term.toLowerCase().replace(/[^a-z0-9]+/g,'_')}`,
-        questionType: 'multipleChoice',
-        questionText: `What is the best definition of “${target.term}”?`,
-        answerOptions: options
-    };
+  const correct = {
+    text: target.definition,
+    isCorrect: true,
+    rationale: 'This is the correct definition.',
+  };
+  const distractorsPool = pool.filter((w) => w.term !== target.term);
+  const distractors = sampleUnique(distractorsPool, 3).map((w) => ({
+    text: w.definition,
+    isCorrect: false,
+    rationale: 'Definition of a different term.',
+  }));
+  const options = shuffleInPlace([correct, ...distractors]);
+  return {
+    id: `vocab_term_${target.term.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
+    questionType: 'multipleChoice',
+    questionText: `What is the best definition of “${target.term}”?`,
+    answerOptions: options,
+  };
 }
 
 app.get('/api/vocabulary-quiz/:subject', (req, res) => {
-    const db = loadVocabularyDB();
-    const subjectKey = normalizeVocabularySubject(req.params.subject);
-    if (!subjectKey) return res.status(400).json({ error: 'invalid_subject' });
-    const words = dedupeVocabulary(Array.isArray(db[subjectKey]) ? db[subjectKey] : []);
-    if (!words.length) return res.status(404).json({ error: 'no_vocabulary' });
+  const db = loadVocabularyDB();
+  const subjectKey = normalizeVocabularySubject(req.params.subject);
+  if (!subjectKey) return res.status(400).json({ error: 'invalid_subject' });
+  const words = dedupeVocabulary(
+    Array.isArray(db[subjectKey]) ? db[subjectKey] : []
+  );
+  if (!words.length) return res.status(404).json({ error: 'no_vocabulary' });
 
-    // target counts
-    const total = Math.min(15, Math.max(6, words.length));
-    const defCount = Math.min(10, Math.max(3, Math.floor(total * 2/3)));
-    const termCount = Math.min(total - defCount, words.length - defCount);
+  // target counts
+  const total = Math.min(15, Math.max(6, words.length));
+  const defCount = Math.min(10, Math.max(3, Math.floor((total * 2) / 3)));
+  const termCount = Math.min(total - defCount, words.length - defCount);
 
-    const poolShuffled = shuffleInPlace(words.slice());
-    const forDef = poolShuffled.slice(0, Math.min(defCount, poolShuffled.length));
-    const remaining = poolShuffled.slice(forDef.length);
-    const forTerm = remaining.slice(0, Math.min(termCount, remaining.length));
+  const poolShuffled = shuffleInPlace(words.slice());
+  const forDef = poolShuffled.slice(0, Math.min(defCount, poolShuffled.length));
+  const remaining = poolShuffled.slice(forDef.length);
+  const forTerm = remaining.slice(0, Math.min(termCount, remaining.length));
 
-    const questions = [];
-    for (const w of forDef) questions.push(buildVocabMCFromDefinition(w, words));
-    for (const w of forTerm) questions.push(buildVocabMCFromTerm(w, words));
+  const questions = [];
+  for (const w of forDef) questions.push(buildVocabMCFromDefinition(w, words));
+  for (const w of forTerm) questions.push(buildVocabMCFromTerm(w, words));
 
-    // number items
-    questions.forEach((q, i) => { q.questionNumber = i + 1; });
+  // number items
+  questions.forEach((q, i) => {
+    q.questionNumber = i + 1;
+  });
 
-    const quiz = {
-        id: `vocabulary-${String(subjectKey).toLowerCase().replace(/[^a-z0-9]+/g,'-')}-${Date.now()}`,
-        title: `${subjectKey} — Vocabulary Quiz`,
-        type: 'quiz',
-        questions
-    };
-    return res.json({ subject: subjectKey, count: questions.length, quiz });
+  const quiz = {
+    id: `vocabulary-${String(subjectKey)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`,
+    title: `${subjectKey} — Vocabulary Quiz`,
+    type: 'quiz',
+    questions,
+  };
+  return res.json({ subject: subjectKey, count: questions.length, quiz });
 });
 
 // Allow on-demand rebuild of image metadata without restarting the server
 let imageRebuildInProgress = false;
 app.post('/api/images/rebuild', async (req, res) => {
-    if (imageRebuildInProgress) {
-        return res.status(409).json({ ok: false, error: 'Rebuild already in progress' });
-    }
-    imageRebuildInProgress = true;
-    try {
-        const before = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
-        await loadAndAugmentImageMetadata();
-        const after = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
-        const bySubject = (Array.isArray(IMAGE_DB) ? IMAGE_DB : []).reduce((acc, im) => {
-            const s = im && im.subject ? String(im.subject) : 'Other';
-            acc[s] = (acc[s] || 0) + 1;
-            return acc;
-        }, {});
-        return res.json({ ok: true, total: after, added: Math.max(0, after - before), bySubject });
-    } catch (err) {
-        console.error('[ImageDB] Rebuild failed:', err?.message || err);
-        return res.status(500).json({ ok: false, error: 'Rebuild failed', details: err?.message || String(err) });
-    } finally {
-        imageRebuildInProgress = false;
-    }
+  if (imageRebuildInProgress) {
+    return res
+      .status(409)
+      .json({ ok: false, error: 'Rebuild already in progress' });
+  }
+  imageRebuildInProgress = true;
+  try {
+    const before = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
+    await loadAndAugmentImageMetadata();
+    const after = Array.isArray(IMAGE_DB) ? IMAGE_DB.length : 0;
+    const bySubject = (Array.isArray(IMAGE_DB) ? IMAGE_DB : []).reduce(
+      (acc, im) => {
+        const s = im && im.subject ? String(im.subject) : 'Other';
+        acc[s] = (acc[s] || 0) + 1;
+        return acc;
+      },
+      {}
+    );
+    return res.json({
+      ok: true,
+      total: after,
+      added: Math.max(0, after - before),
+      bySubject,
+    });
+  } catch (err) {
+    console.error('[ImageDB] Rebuild failed:', err?.message || err);
+    return res
+      .status(500)
+      .json({
+        ok: false,
+        error: 'Rebuild failed',
+        details: err?.message || String(err),
+      });
+  } finally {
+    imageRebuildInProgress = false;
+  }
 });
 
 // --- Challenge system table ensure (best-effort, complements migrations) ---
 async function ensureChallengeSystemTables() {
-    try {
-        await pool.query(`
+  try {
+    await pool.query(`
             CREATE TABLE IF NOT EXISTS challenge_tag_catalog (
               challenge_tag TEXT PRIMARY KEY,
               subject TEXT,
@@ -3498,9 +4213,11 @@ async function ensureChallengeSystemTables() {
               created_at TIMESTAMPTZ DEFAULT NOW()
             );
         `);
-    } catch (e) { console.warn('[ensure] challenge_tag_catalog', e?.code || e?.message || e); }
-    try {
-        await pool.query(`
+  } catch (e) {
+    console.warn('[ensure] challenge_tag_catalog', e?.code || e?.message || e);
+  }
+  try {
+    await pool.query(`
             CREATE TABLE IF NOT EXISTS user_challenge_stats (
               user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
               challenge_tag TEXT NOT NULL,
@@ -3512,9 +4229,11 @@ async function ensureChallengeSystemTables() {
               PRIMARY KEY (user_id, challenge_tag)
             );
         `);
-    } catch (e) { console.warn('[ensure] user_challenge_stats', e?.code || e?.message || e); }
-    try {
-        await pool.query(`
+  } catch (e) {
+    console.warn('[ensure] user_challenge_stats', e?.code || e?.message || e);
+  }
+  try {
+    await pool.query(`
             CREATE TABLE IF NOT EXISTS user_challenge_suggestions (
               id SERIAL PRIMARY KEY,
               user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -3526,9 +4245,14 @@ async function ensureChallengeSystemTables() {
               resolved_at TIMESTAMPTZ
             );
         `);
-    } catch (e) { console.warn('[ensure] user_challenge_suggestions', e?.code || e?.message || e); }
-    try {
-        await pool.query(`
+  } catch (e) {
+    console.warn(
+      '[ensure] user_challenge_suggestions',
+      e?.code || e?.message || e
+    );
+  }
+  try {
+    await pool.query(`
             CREATE TABLE IF NOT EXISTS essay_challenge_log (
               id SERIAL PRIMARY KEY,
               user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -3538,13 +4262,15 @@ async function ensureChallengeSystemTables() {
               created_at TIMESTAMPTZ DEFAULT NOW()
             );
         `);
-    } catch (e) { console.warn('[ensure] essay_challenge_log', e?.code || e?.message || e); }
+  } catch (e) {
+    console.warn('[ensure] essay_challenge_log', e?.code || e?.message || e);
+  }
 }
 
 // --- Study plans table ensure ---
 async function ensureStudyPlansTable() {
-    try {
-        await pool.query(`
+  try {
+    await pool.query(`
             CREATE TABLE IF NOT EXISTS study_plans (
               id SERIAL PRIMARY KEY,
               user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -3556,18 +4282,22 @@ async function ensureStudyPlansTable() {
               notes TEXT
             );
         `);
-        await pool.query(`CREATE INDEX IF NOT EXISTS idx_study_plans_user_subject ON study_plans (user_id, subject);`);
-        await pool.query(`CREATE INDEX IF NOT EXISTS idx_study_plans_generated_at ON study_plans (generated_at DESC);`);
-    } catch (e) {
-        console.warn('[ensure] study_plans', e?.code || e?.message || e);
-    }
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_study_plans_user_subject ON study_plans (user_id, subject);`
+    );
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_study_plans_generated_at ON study_plans (generated_at DESC);`
+    );
+  } catch (e) {
+    console.warn('[ensure] study_plans', e?.code || e?.message || e);
+  }
 }
 
 // --- Daily Coach tables ensure ---
 async function ensureCoachDailyTables() {
-    // Per-day progress per subject
-    try {
-        await pool.query(`
+  // Per-day progress per subject
+  try {
+    await pool.query(`
             CREATE TABLE IF NOT EXISTS coach_daily_progress (
               user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
               subject TEXT NOT NULL,
@@ -3583,17 +4313,21 @@ async function ensureCoachDailyTables() {
               PRIMARY KEY (user_id, subject, plan_date)
             );
         `);
-        await pool.query(`CREATE INDEX IF NOT EXISTS idx_coach_daily_user_date ON coach_daily_progress (user_id, plan_date DESC);`);
-                // make sure older DBs have the column we use in updates
-                await pool.query(`
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_coach_daily_user_date ON coach_daily_progress (user_id, plan_date DESC);`
+    );
+    // make sure older DBs have the column we use in updates
+    await pool.query(`
                     ALTER TABLE coach_daily_progress
                     ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();
                 `);
-    } catch (e) { console.warn('[ensure] coach_daily_progress', e?.code || e?.message || e); }
+  } catch (e) {
+    console.warn('[ensure] coach_daily_progress', e?.code || e?.message || e);
+  }
 
-        // Weekly coach plans – one row per user + subject + week
-        try {
-                await pool.query(`
+  // Weekly coach plans – one row per user + subject + week
+  try {
+    await pool.query(`
                     CREATE TABLE IF NOT EXISTS coach_weekly_plans (
                         id SERIAL PRIMARY KEY,
                         user_id INTEGER NOT NULL,
@@ -3606,12 +4340,16 @@ async function ensureCoachDailyTables() {
                         UNIQUE (user_id, subject, valid_from)
                     );
                 `);
-                await pool.query(`CREATE INDEX IF NOT EXISTS idx_coach_weekly_user_subject ON coach_weekly_plans (user_id, subject, valid_from DESC);`);
-        } catch (e) { console.warn('[ensure] coach_weekly_plans', e?.code || e?.message || e); }
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_coach_weekly_user_subject ON coach_weekly_plans (user_id, subject, valid_from DESC);`
+    );
+  } catch (e) {
+    console.warn('[ensure] coach_weekly_plans', e?.code || e?.message || e);
+  }
 
-    // Per-subject status (passed)
-    try {
-        await pool.query(`
+  // Per-subject status (passed)
+  try {
+    await pool.query(`
             CREATE TABLE IF NOT EXISTS user_subject_status (
               user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
               subject TEXT NOT NULL,
@@ -3622,14 +4360,18 @@ async function ensureCoachDailyTables() {
               PRIMARY KEY (user_id, subject)
             );
         `);
-        await pool.query(`CREATE INDEX IF NOT EXISTS idx_subject_status_user ON user_subject_status (user_id);`);
-    } catch (e) { console.warn('[ensure] user_subject_status', e?.code || e?.message || e); }
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_subject_status_user ON user_subject_status (user_id);`
+    );
+  } catch (e) {
+    console.warn('[ensure] user_subject_status', e?.code || e?.message || e);
+  }
 }
 
 // Track per-user Ask Coach advice usage by week
 async function ensureCoachAdviceUsageTable() {
-    try {
-        await pool.query(`
+  try {
+    await pool.query(`
             CREATE TABLE IF NOT EXISTS coach_advice_usage (
               id SERIAL PRIMARY KEY,
               user_id INTEGER NOT NULL,
@@ -3639,14 +4381,18 @@ async function ensureCoachAdviceUsageTable() {
               UNIQUE (user_id, week_start_date)
             );
         `);
-        await pool.query(`CREATE INDEX IF NOT EXISTS idx_coach_advice_usage_user_week ON coach_advice_usage (user_id, week_start_date);`);
-    } catch (e) { console.warn('[ensure] coach_advice_usage', e?.code || e?.message || e); }
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_coach_advice_usage_user_week ON coach_advice_usage (user_id, week_start_date);`
+    );
+  } catch (e) {
+    console.warn('[ensure] coach_advice_usage', e?.code || e?.message || e);
+  }
 }
 
 // Track per-user Coach Composite usage by week (separate from advice)
 async function ensureCoachCompositeUsageTable() {
-    try {
-        await pool.query(`
+  try {
+    await pool.query(`
             CREATE TABLE IF NOT EXISTS coach_composite_usage (
               id SERIAL PRIMARY KEY,
               user_id INTEGER NOT NULL,
@@ -3656,18 +4402,23 @@ async function ensureCoachCompositeUsageTable() {
               UNIQUE (user_id, week_start_date)
             );
         `);
-        await pool.query(`CREATE INDEX IF NOT EXISTS idx_coach_composite_user_week ON coach_composite_usage (user_id, week_start_date);`);
-    } catch (e) { console.warn('[ensure] coach_composite_usage', e?.code || e?.message || e); }
+    await pool.query(
+      `CREATE INDEX IF NOT EXISTS idx_coach_composite_user_week ON coach_composite_usage (user_id, week_start_date);`
+    );
+  } catch (e) {
+    console.warn('[ensure] coach_composite_usage', e?.code || e?.message || e);
+  }
 }
 
 // --- Challenge system helpers ---
 async function upsertChallengeStat(userId, challengeTag, gotCorrect, source) {
-    if (!userId || !challengeTag) return;
-    const now = new Date();
-    const incCorrect = gotCorrect ? 1 : 0;
-    const incWrong = gotCorrect ? 0 : 1;
-    const lastWrong = gotCorrect ? null : now;
-    await pool.query(`
+  if (!userId || !challengeTag) return;
+  const now = new Date();
+  const incCorrect = gotCorrect ? 1 : 0;
+  const incWrong = gotCorrect ? 0 : 1;
+  const lastWrong = gotCorrect ? null : now;
+  await pool.query(
+    `
         INSERT INTO user_challenge_stats
           (user_id, challenge_tag, correct_count, wrong_count, last_seen, last_wrong_at, source)
         VALUES ($1, $2, $3, $4, $5, $6, COALESCE($7, 'quiz'))
@@ -3678,486 +4429,671 @@ async function upsertChallengeStat(userId, challengeTag, gotCorrect, source) {
           last_seen = EXCLUDED.last_seen,
           last_wrong_at = CASE WHEN EXCLUDED.last_wrong_at IS NOT NULL THEN EXCLUDED.last_wrong_at ELSE user_challenge_stats.last_wrong_at END,
           source = COALESCE(user_challenge_stats.source, EXCLUDED.source);
-    `, [userId, challengeTag, incCorrect, incWrong, now, lastWrong, source || null]);
+    `,
+    [userId, challengeTag, incCorrect, incWrong, now, lastWrong, source || null]
+  );
 }
 
 async function userHasActiveChallenge(userId, challengeTag) {
-    const { selectionTable } = await getChallengeTables();
-    try {
-        const r = await db.oneOrNone(`SELECT 1 FROM ${selectionTable} WHERE user_id = $1 AND challenge_id = $2 LIMIT 1`, [userId, challengeTag]);
-        return !!r;
-    } catch (_) { return false; }
+  const { selectionTable } = await getChallengeTables();
+  try {
+    const r = await db.oneOrNone(
+      `SELECT 1 FROM ${selectionTable} WHERE user_id = $1 AND challenge_id = $2 LIMIT 1`,
+      [userId, challengeTag]
+    );
+    return !!r;
+  } catch (_) {
+    return false;
+  }
 }
 
 async function createSuggestion(userId, challengeTag, type, source, reason) {
-    try {
-        await pool.query(
-            `INSERT INTO user_challenge_suggestions (user_id, challenge_tag, suggestion_type, source, reason)
+  try {
+    await pool.query(
+      `INSERT INTO user_challenge_suggestions (user_id, challenge_tag, suggestion_type, source, reason)
              VALUES ($1, $2, $3, $4, $5)`,
-            [userId, challengeTag, type, source || null, reason || null]
-        );
-    } catch (e) {
-        console.warn('[suggestion] insert failed', e?.message || e);
-    }
+      [userId, challengeTag, type, source || null, reason || null]
+    );
+  } catch (e) {
+    console.warn('[suggestion] insert failed', e?.message || e);
+  }
 }
 
 async function runPromotionDemotionRules(userId, tag) {
-    // Load stats
-    const { rows } = await pool.query(`SELECT correct_count, wrong_count, last_seen, last_wrong_at FROM user_challenge_stats WHERE user_id = $1 AND challenge_tag = $2`, [userId, tag]);
-    if (!rows || rows.length === 0) return;
-    const s = rows[0];
-    const correct = Number(s.correct_count) || 0;
-    const wrong = Number(s.wrong_count) || 0;
-    const lastSeen = s.last_seen ? new Date(s.last_seen) : null;
-    const lastWrongAt = s.last_wrong_at ? new Date(s.last_wrong_at) : null;
+  // Load stats
+  const { rows } = await pool.query(
+    `SELECT correct_count, wrong_count, last_seen, last_wrong_at FROM user_challenge_stats WHERE user_id = $1 AND challenge_tag = $2`,
+    [userId, tag]
+  );
+  if (!rows || rows.length === 0) return;
+  const s = rows[0];
+  const correct = Number(s.correct_count) || 0;
+  const wrong = Number(s.wrong_count) || 0;
+  const lastSeen = s.last_seen ? new Date(s.last_seen) : null;
+  const lastWrongAt = s.last_wrong_at ? new Date(s.last_wrong_at) : null;
 
-    // PROMOTE (suggest add)
-    if (wrong >= 3 && wrong >= correct + 2) {
-        const active = await userHasActiveChallenge(userId, tag);
-        if (!active) {
-            await createSuggestion(userId, tag, 'add', 'quiz', 'Missed several questions tied to this challenge');
-        }
-    }
-
-    // DEMOTE (suggest remove)
+  // PROMOTE (suggest add)
+  if (wrong >= 3 && wrong >= correct + 2) {
     const active = await userHasActiveChallenge(userId, tag);
-    if (active && correct >= 4) {
-        // "no new wrongs since last_seen" approximation: last_wrong_at older than last_seen or null
-        const noNewWrongs = !lastWrongAt || (lastSeen && lastWrongAt < lastSeen);
-        if (noNewWrongs) {
-            await createSuggestion(userId, tag, 'remove', 'quiz', 'You are consistently answering this challenge correctly');
-        }
+    if (!active) {
+      await createSuggestion(
+        userId,
+        tag,
+        'add',
+        'quiz',
+        'Missed several questions tied to this challenge'
+      );
     }
+  }
+
+  // DEMOTE (suggest remove)
+  const active = await userHasActiveChallenge(userId, tag);
+  if (active && correct >= 4) {
+    // "no new wrongs since last_seen" approximation: last_wrong_at older than last_seen or null
+    const noNewWrongs = !lastWrongAt || (lastSeen && lastWrongAt < lastSeen);
+    if (noNewWrongs) {
+      await createSuggestion(
+        userId,
+        tag,
+        'remove',
+        'quiz',
+        'You are consistently answering this challenge correctly'
+      );
+    }
+  }
 }
 
 // Minimal quiz attempts endpoints to satisfy frontend calls
-app.get('/api/quiz/attempts', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+app.get(
+  '/api/quiz/attempts',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
     // later: SELECT * FROM quiz_attempts WHERE user_id = $1 ORDER BY created_at DESC
     return res.json({ ok: true, attempts: [] });
-});
+  }
+);
 
-app.post('/api/quiz/attempts', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.post(
+  '/api/quiz/attempts',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     // for now just ACK
     return res.json({ ok: true });
-});
+  }
+);
 
 // Simple endpoint to debug the resolved identity and profile presence
-app.get('/api/whoami', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+app.get(
+  '/api/whoami',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) {
-            return res.status(401).json({ ok: false, error: 'unauthorized' });
-        }
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) {
+        return res.status(401).json({ ok: false, error: 'unauthorized' });
+      }
 
-        let userRow = null;
+      let userRow = null;
+      try {
+        userRow = await loadUserWithRole(userId);
+      } catch (e) {
+        // ignore
+      }
+
+      let profileRow = null;
+      let profileExists = false;
+      try {
+        const result = await db.query(
+          `SELECT user_id, timezone, onboarding_complete, font_size FROM profiles WHERE user_id = $1`,
+          [userId]
+        );
+        profileRow = result.rows[0] || null;
+        profileExists = !!profileRow;
+      } catch (_) {
+        // profiles table/columns may vary; fall back to existence check only
         try {
-            userRow = await loadUserWithRole(userId);
-        } catch (e) {
-            // ignore
-        }
+          const result = await db.query(
+            `SELECT 1 FROM profiles WHERE user_id = $1 LIMIT 1`,
+            [userId]
+          );
+          profileExists = result.rowCount > 0;
+        } catch (__) {}
+      }
 
-        let profileRow = null;
-        let profileExists = false;
-        try {
-            const result = await db.query(`SELECT user_id, timezone, onboarding_complete, font_size FROM profiles WHERE user_id = $1`, [userId]);
-            profileRow = result.rows[0] || null;
-            profileExists = !!profileRow;
-        } catch (_) {
-            // profiles table/columns may vary; fall back to existence check only
-            try {
-                const result = await db.query(`SELECT 1 FROM profiles WHERE user_id = $1 LIMIT 1`, [userId]);
-                profileExists = result.rowCount > 0;
-            } catch (__) {}
-        }
-
-        const minimalReqUser = req.user ? {
+      const minimalReqUser = req.user
+        ? {
             id: req.user.id,
             email: req.user.email || null,
             role: req.user.role || null,
-            organization_id: req.user.organization_id ?? null
-        } : null;
+            organization_id: req.user.organization_id ?? null,
+          }
+        : null;
 
-        return res.json({
-            ok: true,
-            user: userRow ? buildUserResponse(userRow) : minimalReqUser,
-            profile: {
-                exists: profileExists,
-                row: profileRow || null
-            }
-        });
+      return res.json({
+        ok: true,
+        user: userRow ? buildUserResponse(userRow) : minimalReqUser,
+        profile: {
+          exists: profileExists,
+          row: profileRow || null,
+        },
+      });
     } catch (err) {
-        return res.status(500).json({ ok: false, error: 'whoami_failed', details: err?.message || String(err) });
+      return res
+        .status(500)
+        .json({
+          ok: false,
+          error: 'whoami_failed',
+          details: err?.message || String(err),
+        });
     }
-});
+  }
+);
 
-app.get('/api/profile/me', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+app.get(
+  '/api/profile/me',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
     console.log('[/api/profile/me] req.user =', req.user);
     try {
-        const bundle = await buildProfileBundle(req.user.id);
-        return res.json(bundle);
+      const bundle = await buildProfileBundle(req.user.id);
+      return res.json(bundle);
     } catch (err) {
-        console.error('[/api/profile/me] ERROR:', err);
-        return res.status(500).json({ error: 'Unable to load profile' });
+      console.error('[/api/profile/me] ERROR:', err);
+      return res.status(500).json({ error: 'Unable to load profile' });
     }
-});
+  }
+);
 
 // Read-only endpoint to inspect the default challenge catalog (useful for QA)
-app.get('/api/challenges/defaults', devAuth, requireAuthInProd, authRequired, async (_req, res) => {
+app.get(
+  '/api/challenges/defaults',
+  devAuth,
+  requireAuthInProd,
+  authRequired,
+  async (_req, res) => {
     res.json({ items: FALLBACK_PROFILE_CHALLENGES });
-});
+  }
+);
 
 // Return unresolved challenge suggestions for the current user
-app.get('/api/challenges/suggestions', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+app.get(
+  '/api/challenges/suggestions',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const { rows } = await pool.query(`
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const { rows } = await pool.query(
+        `
             SELECT s.id, s.challenge_tag, s.suggestion_type, s.source, s.reason, s.created_at,
                    c.subject, c.label
               FROM user_challenge_suggestions s
               LEFT JOIN challenge_tag_catalog c ON c.challenge_tag = s.challenge_tag
              WHERE s.user_id = $1 AND s.resolved_at IS NULL
              ORDER BY s.created_at DESC, s.id DESC
-        `, [userId]);
-        return res.json({ items: rows.map(r => ({
-            id: r.id,
-            challenge_tag: r.challenge_tag,
-            suggestion_type: r.suggestion_type,
-            source: r.source,
-            reason: r.reason,
-            created_at: r.created_at,
-            subject: r.subject || null,
-            label: r.label || null,
-        }))});
+        `,
+        [userId]
+      );
+      return res.json({
+        items: rows.map((r) => ({
+          id: r.id,
+          challenge_tag: r.challenge_tag,
+          suggestion_type: r.suggestion_type,
+          source: r.source,
+          reason: r.reason,
+          created_at: r.created_at,
+          subject: r.subject || null,
+          label: r.label || null,
+        })),
+      });
     } catch (e) {
-        console.error('GET /api/challenges/suggestions failed:', e);
-        return res.status(500).json({ error: 'failed_to_load_suggestions' });
+      console.error('GET /api/challenges/suggestions failed:', e);
+      return res.status(500).json({ error: 'failed_to_load_suggestions' });
     }
-});
+  }
+);
 
 // Ingest per-question responses (no quiz_attempt row). Intended for Practice Sessions / Pop Quiz.
-app.post('/api/challenges/ingest-responses', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.post(
+  '/api/challenges/ingest-responses',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const { responses = [], source = 'practice' } = req.body || {};
-        if (!Array.isArray(responses) || responses.length === 0) {
-            return res.status(400).json({ error: 'responses_required' });
-        }
-        let processed = 0;
-        for (const item of responses) {
-            if (!item || !Array.isArray(item.challenge_tags)) continue;
-            const gotCorrect = !!item.correct;
-            for (const tag of item.challenge_tags) {
-                if (!tag || typeof tag !== 'string') continue;
-                const clean = tag.trim().toLowerCase();
-                if (!clean) continue;
-                try {
-                    const exists = await db.oneOrNone('SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1', [clean]);
-                    if (!exists) {
-                        console.warn('[challenge-tag] Missing in catalog:', clean);
-                    }
-                } catch (_) {}
-                await upsertChallengeStat(userId, clean, gotCorrect, source === 'pop_quiz' ? 'pop_quiz' : 'practice');
-                await runPromotionDemotionRules(userId, clean);
-                processed++;
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const { responses = [], source = 'practice' } = req.body || {};
+      if (!Array.isArray(responses) || responses.length === 0) {
+        return res.status(400).json({ error: 'responses_required' });
+      }
+      let processed = 0;
+      for (const item of responses) {
+        if (!item || !Array.isArray(item.challenge_tags)) continue;
+        const gotCorrect = !!item.correct;
+        for (const tag of item.challenge_tags) {
+          if (!tag || typeof tag !== 'string') continue;
+          const clean = tag.trim().toLowerCase();
+          if (!clean) continue;
+          try {
+            const exists = await db.oneOrNone(
+              'SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1',
+              [clean]
+            );
+            if (!exists) {
+              console.warn('[challenge-tag] Missing in catalog:', clean);
             }
+          } catch (_) {}
+          await upsertChallengeStat(
+            userId,
+            clean,
+            gotCorrect,
+            source === 'pop_quiz' ? 'pop_quiz' : 'practice'
+          );
+          await runPromotionDemotionRules(userId, clean);
+          processed++;
         }
-        return res.json({ ok: true, processed });
+      }
+      return res.json({ ok: true, processed });
     } catch (e) {
-        console.error('POST /api/challenges/ingest-responses failed:', e);
-        return res.status(500).json({ error: 'failed_to_ingest' });
+      console.error('POST /api/challenges/ingest-responses failed:', e);
+      return res.status(500).json({ error: 'failed_to_ingest' });
     }
-});
+  }
+);
 
 // --- Weekly Study Coach ---
 function normalizeSubjectLabel(subj) {
-    const s = String(subj || '').trim();
-    if (!s) return '';
-    // Accept a variety of labels from UI
-    if (/^math$/i.test(s)) return 'Math';
-    if (/^science$/i.test(s)) return 'Science';
-    if (/^(rla|language|reasoning\s+through)/i.test(s)) return 'RLA';
-    if (/^social(\s*studies)?$/i.test(s)) return 'Social Studies';
-    if (/^social\-studies$/i.test(s)) return 'Social Studies';
-    return s;
+  const s = String(subj || '').trim();
+  if (!s) return '';
+  // Accept a variety of labels from UI
+  if (/^math$/i.test(s)) return 'Math';
+  if (/^science$/i.test(s)) return 'Science';
+  if (/^(rla|language|reasoning\s+through)/i.test(s)) return 'RLA';
+  if (/^social(\s*studies)?$/i.test(s)) return 'Social Studies';
+  if (/^social\-studies$/i.test(s)) return 'Social Studies';
+  return s;
 }
 function subjectTagPrefixes(label) {
-    const l = normalizeSubjectLabel(label);
-    switch (l) {
-        case 'Math': return ['math:'];
-        case 'Science': return ['science:'];
-        case 'RLA': return ['rla:'];
-        case 'Social Studies': return ['social:', 'social-studies:'];
-        default: return [];
-    }
+  const l = normalizeSubjectLabel(label);
+  switch (l) {
+    case 'Math':
+      return ['math:'];
+    case 'Science':
+      return ['science:'];
+    case 'RLA':
+      return ['rla:'];
+    case 'Social Studies':
+      return ['social:', 'social-studies:'];
+    default:
+      return [];
+  }
 }
 
 // --- Daily Coach constants & helpers ---
 const COACH_DAILY_QUIZZES = {
-    'Math': ['math.fractions.01', 'math.mixed.02', 'math.algebra.01'],
-    'Science': ['science.reading.01', 'science.data.01'],
-    'RLA': ['rla.reading.01', 'rla.grammar.01'],
-    'Social Studies': ['social.civics.01', 'social.history.01']
+  Math: ['math.fractions.01', 'math.mixed.02', 'math.algebra.01'],
+  Science: ['science.reading.01', 'science.data.01'],
+  RLA: ['rla.reading.01', 'rla.grammar.01'],
+  'Social Studies': ['social.civics.01', 'social.history.01'],
 };
 const COACH_ASSIGNED_BY = 'coach-smith';
 const COACH_QUIZ_MINUTES = 15; // minutes credited when coach quiz is completed
 const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
 
 function todayISO() {
-    return new Date().toISOString().slice(0, 10);
+  return new Date().toISOString().slice(0, 10);
 }
 
 async function isSubjectPassed(userId, subject) {
-    try {
-        // Check explicit status table first
-        const r = await pool.query(`SELECT passed FROM user_subject_status WHERE user_id = $1 AND subject = $2 LIMIT 1`, [userId, subject]);
-        if (r.rowCount && r.rows[0] && r.rows[0].passed === true) return true;
-    } catch (_) {}
-    // Fallback: also respect test plan 'passed' if present
-    try {
-        const testPlanTable = await getTestPlanTableName();
-        const r2 = await pool.query(`SELECT passed FROM ${testPlanTable} WHERE user_id = $1 AND subject = $2 LIMIT 1`, [userId, subject]);
-        if (r2.rowCount && r2.rows[0] && r2.rows[0].passed === true) return true;
-    } catch (_) {}
-    return false;
+  try {
+    // Check explicit status table first
+    const r = await pool.query(
+      `SELECT passed FROM user_subject_status WHERE user_id = $1 AND subject = $2 LIMIT 1`,
+      [userId, subject]
+    );
+    if (r.rowCount && r.rows[0] && r.rows[0].passed === true) return true;
+  } catch (_) {}
+  // Fallback: also respect test plan 'passed' if present
+  try {
+    const testPlanTable = await getTestPlanTableName();
+    const r2 = await pool.query(
+      `SELECT passed FROM ${testPlanTable} WHERE user_id = $1 AND subject = $2 LIMIT 1`,
+      [userId, subject]
+    );
+    if (r2.rowCount && r2.rows[0] && r2.rows[0].passed === true) return true;
+  } catch (_) {}
+  return false;
 }
 
 function addDaysISO(baseISO, days) {
-    try {
-        const d = new Date(baseISO + 'T00:00:00');
-        d.setDate(d.getDate() + days);
-        return d.toISOString().slice(0, 10);
-    } catch {
-        return baseISO;
-    }
+  try {
+    const d = new Date(baseISO + 'T00:00:00');
+    d.setDate(d.getDate() + days);
+    return d.toISOString().slice(0, 10);
+  } catch {
+    return baseISO;
+  }
 }
 
 async function latestWeeklyPlan(userId, subject) {
-    const { rows } = await pool.query(
-        `SELECT id, user_id, subject, valid_from, valid_to, plan_json
+  const { rows } = await pool.query(
+    `SELECT id, user_id, subject, valid_from, valid_to, plan_json
            FROM coach_weekly_plans
           WHERE user_id = $1 AND subject = $2
           ORDER BY valid_from DESC, id DESC
           LIMIT 1`,
-        [userId, subject]
-    );
-    return rows?.[0] || null;
+    [userId, subject]
+  );
+  return rows?.[0] || null;
 }
 
-async function upsertWeeklyPlan(userId, subject, weekStartISO, weekEndISO, planJson) {
-    await pool.query(
-        `INSERT INTO coach_weekly_plans (user_id, subject, valid_from, valid_to, plan_json)
+async function upsertWeeklyPlan(
+  userId,
+  subject,
+  weekStartISO,
+  weekEndISO,
+  planJson
+) {
+  await pool.query(
+    `INSERT INTO coach_weekly_plans (user_id, subject, valid_from, valid_to, plan_json)
          VALUES ($1, $2, $3, $4, $5)
          ON CONFLICT (user_id, subject, valid_from)
          DO UPDATE SET plan_json = EXCLUDED.plan_json,
                        valid_to = EXCLUDED.valid_to,
                        updated_at = NOW()`,
-        [userId, subject, weekStartISO, weekEndISO, planJson]
-    );
+    [userId, subject, weekStartISO, weekEndISO, planJson]
+  );
 }
 
 // Helper to get the start of the current ISO week (Monday) as a date string YYYY-MM-DD
 function getCurrentWeekStartISO() {
-    const now = new Date();
-    const day = now.getDay(); // 0=Sun,1=Mon,...
-    const diffToMonday = (day === 0 ? -6 : 1) - day; // move to Monday
-    const monday = new Date(now);
-    monday.setDate(now.getDate() + diffToMonday);
-    monday.setHours(0, 0, 0, 0);
-    return monday.toISOString().slice(0, 10);
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun,1=Mon,...
+  const diffToMonday = (day === 0 ? -6 : 1) - day; // move to Monday
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + diffToMonday);
+  monday.setHours(0, 0, 0, 0);
+  return monday.toISOString().slice(0, 10);
 }
 
 async function getUserEmailById(userId) {
-    if (!userId) return null;
-    try {
-        const row = await db.oneOrNone(`SELECT email FROM users WHERE id = $1`, [userId]);
-        return row?.email || null;
-    } catch (_) {
-        return null;
-    }
+  if (!userId) return null;
+  try {
+    const row = await db.oneOrNone(`SELECT email FROM users WHERE id = $1`, [
+      userId,
+    ]);
+    return row?.email || null;
+  } catch (_) {
+    return null;
+  }
 }
 
 function dateDiffDays(aISO, bISO) {
-    try {
-        const a = new Date(aISO);
-        const b = new Date(bISO);
-        return Math.floor((a - b) / (1000 * 60 * 60 * 24));
-    } catch {
-        return 0;
-    }
+  try {
+    const a = new Date(aISO);
+    const b = new Date(bISO);
+    return Math.floor((a - b) / (1000 * 60 * 60 * 24));
+  } catch {
+    return 0;
+  }
 }
 
 function pickCoachQuizSourceId(subject, dayIndex = 0) {
-    const list = COACH_DAILY_QUIZZES[subject] || [];
-    if (!list.length) return null;
-    const idx = Math.abs(dayIndex) % list.length;
-    return list[idx];
+  const list = COACH_DAILY_QUIZZES[subject] || [];
+  if (!list.length) return null;
+  const idx = Math.abs(dayIndex) % list.length;
+  return list[idx];
 }
 
 async function findOrCreateDailyRow(userId, subject, planDateISO) {
-    // Try existing row
-    const sel = await pool.query(
-        `SELECT user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
+  // Try existing row
+  const sel = await pool.query(
+    `SELECT user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
            FROM coach_daily_progress
           WHERE user_id = $1 AND subject = $2 AND plan_date = $3
           LIMIT 1`,
-        [userId, subject, planDateISO]
-    );
-    if (sel.rowCount) return sel.rows[0];
+    [userId, subject, planDateISO]
+  );
+  if (sel.rowCount) return sel.rows[0];
 
-    // Seed from weekly plan if available
-    const weekly = await latestWeeklyPlan(userId, subject);
-    let notes = '';
-    let dayIdx = 0;
-    let needsRefresh = false;
-    let planSource = null; // quizCode from weekly plan day if any
-    if (weekly) {
-        const vf = weekly.valid_from instanceof Date ? weekly.valid_from.toISOString().slice(0, 10) : String(weekly.valid_from).slice(0, 10);
-        const vt = weekly.valid_to instanceof Date ? weekly.valid_to.toISOString().slice(0, 10) : String(weekly.valid_to).slice(0, 10);
-        const dFrom = dateDiffDays(planDateISO, vf);
-        const dTo = dateDiffDays(planDateISO, vt);
-        if (dFrom >= 0 && dTo <= 0) {
-            dayIdx = dFrom;
-            const day = Array.isArray(weekly.plan_json?.days) ? weekly.plan_json.days.find((d) => Number(d.day) === (dayIdx + 1)) : null;
-            if (day) {
-                const focus = Array.isArray(day.focus) ? day.focus.join(', ') : '';
-                const taskText = day.label || day.task || day.type || '';
-                notes = `Focus: ${focus}\nTask: ${taskText}\nPlanned: ${day.minutes || 0} min`;
-                // Prefer premade quiz assignment from weekly plan day
-                if (day.quizId) planSource = String(day.quizId);
-            }
-        } else {
-            needsRefresh = true;
-            notes = 'Outside weekly plan window. Please refresh your Weekly Coach plan.';
-        }
+  // Seed from weekly plan if available
+  const weekly = await latestWeeklyPlan(userId, subject);
+  let notes = '';
+  let dayIdx = 0;
+  let needsRefresh = false;
+  let planSource = null; // quizCode from weekly plan day if any
+  if (weekly) {
+    const vf =
+      weekly.valid_from instanceof Date
+        ? weekly.valid_from.toISOString().slice(0, 10)
+        : String(weekly.valid_from).slice(0, 10);
+    const vt =
+      weekly.valid_to instanceof Date
+        ? weekly.valid_to.toISOString().slice(0, 10)
+        : String(weekly.valid_to).slice(0, 10);
+    const dFrom = dateDiffDays(planDateISO, vf);
+    const dTo = dateDiffDays(planDateISO, vt);
+    if (dFrom >= 0 && dTo <= 0) {
+      dayIdx = dFrom;
+      const day = Array.isArray(weekly.plan_json?.days)
+        ? weekly.plan_json.days.find((d) => Number(d.day) === dayIdx + 1)
+        : null;
+      if (day) {
+        const focus = Array.isArray(day.focus) ? day.focus.join(', ') : '';
+        const taskText = day.label || day.task || day.type || '';
+        notes = `Focus: ${focus}\nTask: ${taskText}\nPlanned: ${
+          day.minutes || 0
+        } min`;
+        // Prefer premade quiz assignment from weekly plan day
+        if (day.quizId) planSource = String(day.quizId);
+      }
     } else {
-        notes = 'No weekly plan found. Tap "Weekly Coach" to generate one.';
+      needsRefresh = true;
+      notes =
+        'Outside weekly plan window. Please refresh your Weekly Coach plan.';
     }
+  } else {
+    notes = 'No weekly plan found. Tap "Weekly Coach" to generate one.';
+  }
 
-    const expected = 20;
-    const coachQuizSource = planSource || pickCoachQuizSourceId(subject, dayIdx);
-    const coachQuizId = coachQuizSource ? `${COACH_ASSIGNED_BY}:${subject}:${planDateISO}` : null;
+  const expected = 20;
+  const coachQuizSource = planSource || pickCoachQuizSourceId(subject, dayIdx);
+  const coachQuizId = coachQuizSource
+    ? `${COACH_ASSIGNED_BY}:${subject}:${planDateISO}`
+    : null;
 
-    await pool.query(
-        `INSERT INTO coach_daily_progress (user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes, updated_at)
+  await pool.query(
+    `INSERT INTO coach_daily_progress (user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes, updated_at)
          VALUES ($1, $2, $3, $4, 0, $5, $6, false, $7, NOW())
          ON CONFLICT (user_id, subject, plan_date) DO NOTHING`,
-        [userId, subject, planDateISO, expected, coachQuizId, coachQuizSource, notes]
-    );
+    [
+      userId,
+      subject,
+      planDateISO,
+      expected,
+      coachQuizId,
+      coachQuizSource,
+      notes,
+    ]
+  );
 
-    const sel2 = await pool.query(
-        `SELECT user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
+  const sel2 = await pool.query(
+    `SELECT user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
            FROM coach_daily_progress
           WHERE user_id = $1 AND subject = $2 AND plan_date = $3
           LIMIT 1`,
-        [userId, subject, planDateISO]
-    );
-    return sel2.rowCount ? sel2.rows[0] : null;
+    [userId, subject, planDateISO]
+  );
+  return sel2.rowCount ? sel2.rows[0] : null;
 }
-
 
 // Build a premade quiz inventory for a subject from ALL_QUIZZES
 function loadPremadeQuizzesForSubjectSync(subject) {
-    const out = [];
-    const subj = ALL_QUIZZES?.[subject];
-    if (!subj || !subj.categories) return out;
-    for (const [catName, cat] of Object.entries(subj.categories)) {
-        const topics = Array.isArray(cat?.topics) ? cat.topics : [];
-        for (const t of topics) {
-            const quizzes = Array.isArray(t?.quizzes) ? t.quizzes : [];
-            for (const q of quizzes) {
-                if (!q) continue;
-                // Aggregate tags from attached questions if present
-                let tags = [];
-                if (Array.isArray(q.questions)) {
-                    q.questions.forEach((qq, i) => {
-                        const norm = ensureQuestionTags(subject, catName, t, qq, i);
-                        if (Array.isArray(norm?.challenge_tags)) tags.push(...norm.challenge_tags);
-                    });
-                }
-                const id = q.quizCode || q.quizId || `${subject}:${(q.title || q.name || 'quiz').toLowerCase().replace(/[^a-z0-9]+/g,'-')}`;
-                out.push({ id, title: q.title || q.name || 'Quiz', challenge_tags: Array.from(new Set(tags)) });
-            }
-            // If a topic has questions but no quiz objects, treat topic as one premade
-            if (!Array.isArray(t?.quizzes) && Array.isArray(t?.questions) && t.questions.length > 0) {
-                let tags = [];
-                t.questions.forEach((qq, i) => {
-                    const norm = ensureQuestionTags(subject, catName, t, qq, i);
-                    if (Array.isArray(norm?.challenge_tags)) tags.push(...norm.challenge_tags);
-                });
-                const id = `${subject}:${(t.title || 'topic').toLowerCase().replace(/[^a-z0-9]+/g,'-')}`;
-                out.push({ id, title: t.title || 'Topic Quiz', challenge_tags: Array.from(new Set(tags)) });
-            }
+  const out = [];
+  const subj = ALL_QUIZZES?.[subject];
+  if (!subj || !subj.categories) return out;
+  for (const [catName, cat] of Object.entries(subj.categories)) {
+    const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+    for (const t of topics) {
+      const quizzes = Array.isArray(t?.quizzes) ? t.quizzes : [];
+      for (const q of quizzes) {
+        if (!q) continue;
+        // Aggregate tags from attached questions if present
+        let tags = [];
+        if (Array.isArray(q.questions)) {
+          q.questions.forEach((qq, i) => {
+            const norm = ensureQuestionTags(subject, catName, t, qq, i);
+            if (Array.isArray(norm?.challenge_tags))
+              tags.push(...norm.challenge_tags);
+          });
         }
+        const id =
+          q.quizCode ||
+          q.quizId ||
+          `${subject}:${(q.title || q.name || 'quiz')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')}`;
+        out.push({
+          id,
+          title: q.title || q.name || 'Quiz',
+          challenge_tags: Array.from(new Set(tags)),
+        });
+      }
+      // If a topic has questions but no quiz objects, treat topic as one premade
+      if (
+        !Array.isArray(t?.quizzes) &&
+        Array.isArray(t?.questions) &&
+        t.questions.length > 0
+      ) {
+        let tags = [];
+        t.questions.forEach((qq, i) => {
+          const norm = ensureQuestionTags(subject, catName, t, qq, i);
+          if (Array.isArray(norm?.challenge_tags))
+            tags.push(...norm.challenge_tags);
+        });
+        const id = `${subject}:${(t.title || 'topic')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')}`;
+        out.push({
+          id,
+          title: t.title || 'Topic Quiz',
+          challenge_tags: Array.from(new Set(tags)),
+        });
+      }
     }
-    return out;
+  }
+  return out;
 }
 
 function prioritizeQuizzesByChallenges(quizzes, challengeTags) {
-    const wanted = new Set((challengeTags || []).map(t => String(t).toLowerCase()));
-    return quizzes
-        .map(q => {
-            const tags = (q.challenge_tags || []).map(t => String(t).toLowerCase());
-            const overlap = tags.filter(t => wanted.has(t)).length;
-            return { ...q, _score: overlap };
-        })
-        .sort((a,b) => (b._score - a._score) || (a.title || '').localeCompare(b.title || ''))
-        .map(({ _score, ...rest }) => rest);
+  const wanted = new Set(
+    (challengeTags || []).map((t) => String(t).toLowerCase())
+  );
+  return quizzes
+    .map((q) => {
+      const tags = (q.challenge_tags || []).map((t) => String(t).toLowerCase());
+      const overlap = tags.filter((t) => wanted.has(t)).length;
+      return { ...q, _score: overlap };
+    })
+    .sort(
+      (a, b) =>
+        b._score - a._score || (a.title || '').localeCompare(b.title || '')
+    )
+    .map(({ _score, ...rest }) => rest);
 }
 
 // Normalize a weekly-day object so frontends can reliably render
 function normalizeCoachDay(day) {
-    const out = { ...day };
-    out.focus = Array.isArray(out.focus) ? out.focus : (out.focus ? [out.focus] : []);
-    out.task = out.task || out.label || out.type || 'Practice';
-    out.label = out.label || out.task;
-    out.minutes = out.minutes || 20;
-    return out;
+  const out = { ...day };
+  out.focus = Array.isArray(out.focus)
+    ? out.focus
+    : out.focus
+    ? [out.focus]
+    : [];
+  out.task = out.task || out.label || out.type || 'Practice';
+  out.label = out.label || out.task;
+  out.minutes = out.minutes || 20;
+  return out;
 }
 
 // Ensure all coach endpoints are uncached by browsers/CDNs
 // Place this BEFORE any /api/coach routes are defined
 app.use('/api/coach', (req, res, next) => {
-    try {
-        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-        res.set('Pragma', 'no-cache');
-        res.set('Expires', '0');
-        res.set('Surrogate-Control', 'no-store');
-    } catch (_) {}
-    next();
+  try {
+    res.set(
+      'Cache-Control',
+      'no-store, no-cache, must-revalidate, proxy-revalidate'
+    );
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    res.set('Surrogate-Control', 'no-store');
+  } catch (_) {}
+  next();
 });
 
 // Simplified weekly plan endpoint storing into coach_weekly_plans
 app.post(
-    '/api/coach/:subject/generate-week',
-    devAuth,
-    ensureTestUserForNow,
-    requireAuthInProd,
-    authRequired,
-    express.json(),
-    async (req, res) => {
+  '/api/coach/:subject/generate-week',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     try {
       const userId = req.user?.id || req.user?.userId;
-      if (!userId) return res.status(401).json({ ok: false, error: 'not_authenticated' });
+      if (!userId)
+        return res.status(401).json({ ok: false, error: 'not_authenticated' });
       const rawSubject = req.params.subject;
       const subject = normalizeSubjectLabel(rawSubject);
-      if (!subject) return res.status(400).json({ ok: false, error: 'bad_subject' });
+      if (!subject)
+        return res.status(400).json({ ok: false, error: 'bad_subject' });
 
       const weekStart = getCurrentWeekStartISO();
       const weekEnd = addDaysISO(weekStart, 6);
 
-            const bundle = await buildProfileBundle(userId);
-            // Use real challenge options; only selected and matching subject
-            const allChallenges = Array.isArray(bundle?.challengeOptions) ? bundle.challengeOptions : [];
-            const selected = allChallenges.filter((c) => c?.selected && normalizeSubjectLabel(c.subject) === subject);
+      const bundle = await buildProfileBundle(userId);
+      // Use real challenge options; only selected and matching subject
+      const allChallenges = Array.isArray(bundle?.challengeOptions)
+        ? bundle.challengeOptions
+        : [];
+      const selected = allChallenges.filter(
+        (c) => c?.selected && normalizeSubjectLabel(c.subject) === subject
+      );
 
       const days = [];
-            for (let i = 0; i < 7; i++) {
-                                const chosenChallenge = selected.length ? selected[i % selected.length] : null;
-                const focus = chosenChallenge
-                                        ? [chosenChallenge.subtopic || chosenChallenge.label || chosenChallenge.name || chosenChallenge.displayName || chosenChallenge.id].filter(Boolean)
-                    : ['general'];
+      for (let i = 0; i < 7; i++) {
+        const chosenChallenge = selected.length
+          ? selected[i % selected.length]
+          : null;
+        const focus = chosenChallenge
+          ? [
+              chosenChallenge.subtopic ||
+                chosenChallenge.label ||
+                chosenChallenge.name ||
+                chosenChallenge.displayName ||
+                chosenChallenge.id,
+            ].filter(Boolean)
+          : ['general'];
         const quizCode = pickCoachQuizSourceId(subject, i);
         days.push({
           day: i + 1,
@@ -4172,21 +5108,34 @@ app.post(
               id: `${subject.toLowerCase()}-day-${i + 1}`,
               subject,
               subjectLabel: subject,
-                            title: chosenChallenge
-                                ? `Practice: ${chosenChallenge.name || chosenChallenge.displayName || chosenChallenge.label || 'Focus'}`
-                                : (quizCode ? 'Coach quiz' : 'Practice'),
+              title: chosenChallenge
+                ? `Practice: ${
+                    chosenChallenge.name ||
+                    chosenChallenge.displayName ||
+                    chosenChallenge.label ||
+                    'Focus'
+                  }`
+                : quizCode
+                ? 'Coach quiz'
+                : 'Practice',
               type: 'coach-quiz',
               minutes: 20,
               quizId: quizCode || null,
-                            challengeId: chosenChallenge ? (chosenChallenge.id || null) : null,
-                            focus,
+              challengeId: chosenChallenge ? chosenChallenge.id || null : null,
+              focus,
             },
           ],
         });
       }
 
-            const plan = { weekStart, weekEnd, generatedAt: new Date().toISOString(), subject, days };
-            await upsertWeeklyPlan(userId, subject, weekStart, weekEnd, plan);
+      const plan = {
+        weekStart,
+        weekEnd,
+        generatedAt: new Date().toISOString(),
+        subject,
+        days,
+      };
+      await upsertWeeklyPlan(userId, subject, weekStart, weekEnd, plan);
 
       // Seed today's daily row with quiz assignment for immediate visibility
       const today = todayISO();
@@ -4204,8 +5153,8 @@ app.post(
         console.error('Weekly->daily sync failed', syncErr);
       }
 
-            res.set('Cache-Control', 'no-store');
-            return res.json({ ok: true, plan });
+      res.set('Cache-Control', 'no-store');
+      return res.json({ ok: true, plan });
     } catch (e) {
       console.error('POST /api/coach/:subject/generate-week failed:', e);
       return res.status(500).json({ ok: false, error: 'weekly_plan_failed' });
@@ -4215,438 +5164,640 @@ app.post(
 
 // --- Daily Coach API ---
 // 1) GET /api/coach/daily — return or create today's plan per active subject
-app.get('/api/coach/daily', devAuth, ensureTestUserForNow, requireAuthInProd, maybeAuth, async (req, res) => {
+app.get(
+  '/api/coach/daily',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  maybeAuth,
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const today = todayISO();
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const today = todayISO();
 
-        const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
-        const subjects = [];
+      const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
+      const subjects = [];
 
-        for (const subj of SUBJECTS) {
-            if (await isSubjectPassed(userId, subj)) continue; // skip passed subjects
-            const row = await findOrCreateDailyRow(userId, subj, today);
-            if (!row) continue;
-            // Build structured task list
-            const tasks = [];
-            let focusTag = null;
-            if (row.notes) {
-                const lines = row.notes.split(/\n+/).map(s => s.trim()).filter(Boolean);
-                // Try to parse Focus: a, b from first line
-                const focusLine = lines.find(ln => /^focus\s*:/i.test(ln));
-                if (focusLine) {
-                    const tags = focusLine.split(':').slice(1).join(':').split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
-                    focusTag = tags[0] || null;
-                }
-                lines.forEach((ln) => tasks.push({ type: 'note', label: ln }));
-            }
-            if (row.coach_quiz_id && !row.coach_quiz_completed && row.coach_quiz_source_id) {
-                tasks.push({ type: 'premade-quiz', label: 'Today\'s premade', quizId: row.coach_quiz_source_id, focusTag: focusTag || null });
-            } else if (row.coach_quiz_id && !row.coach_quiz_completed) {
-                tasks.push({ type: 'coach-quiz', label: 'Do coach quiz', quizId: null, focusTag: focusTag || null });
-            }
-            subjects.push({
-                subject: subj,
-                expected_minutes: Number(row.expected_minutes) || 45,
-                completed_minutes: Math.max(0, Number(row.completed_minutes) || 0),
-                coach_quiz_id: row.coach_quiz_id || null,
-                coach_quiz_completed: !!row.coach_quiz_completed,
-                coach_quiz_source_id: row.coach_quiz_source_id || null,
-                tasks
-            });
+      for (const subj of SUBJECTS) {
+        if (await isSubjectPassed(userId, subj)) continue; // skip passed subjects
+        const row = await findOrCreateDailyRow(userId, subj, today);
+        if (!row) continue;
+        // Build structured task list
+        const tasks = [];
+        let focusTag = null;
+        if (row.notes) {
+          const lines = row.notes
+            .split(/\n+/)
+            .map((s) => s.trim())
+            .filter(Boolean);
+          // Try to parse Focus: a, b from first line
+          const focusLine = lines.find((ln) => /^focus\s*:/i.test(ln));
+          if (focusLine) {
+            const tags = focusLine
+              .split(':')
+              .slice(1)
+              .join(':')
+              .split(',')
+              .map((t) => t.trim().toLowerCase())
+              .filter(Boolean);
+            focusTag = tags[0] || null;
+          }
+          lines.forEach((ln) => tasks.push({ type: 'note', label: ln }));
         }
+        if (
+          row.coach_quiz_id &&
+          !row.coach_quiz_completed &&
+          row.coach_quiz_source_id
+        ) {
+          tasks.push({
+            type: 'premade-quiz',
+            label: "Today's premade",
+            quizId: row.coach_quiz_source_id,
+            focusTag: focusTag || null,
+          });
+        } else if (row.coach_quiz_id && !row.coach_quiz_completed) {
+          tasks.push({
+            type: 'coach-quiz',
+            label: 'Do coach quiz',
+            quizId: null,
+            focusTag: focusTag || null,
+          });
+        }
+        subjects.push({
+          subject: subj,
+          expected_minutes: Number(row.expected_minutes) || 45,
+          completed_minutes: Math.max(0, Number(row.completed_minutes) || 0),
+          coach_quiz_id: row.coach_quiz_id || null,
+          coach_quiz_completed: !!row.coach_quiz_completed,
+          coach_quiz_source_id: row.coach_quiz_source_id || null,
+          tasks,
+        });
+      }
 
-        res.set('Cache-Control', 'no-store');
-        return res.json({ ok: true, today, subjects });
+      res.set('Cache-Control', 'no-store');
+      return res.json({ ok: true, today, subjects });
     } catch (e) {
-        console.error('GET /api/coach/daily failed:', e);
-        return res.status(500).json({ ok: false, error: 'coach_daily_failed' });
+      console.error('GET /api/coach/daily failed:', e);
+      return res.status(500).json({ ok: false, error: 'coach_daily_failed' });
     }
-});
+  }
+);
 // Ask Coach (subject) — ad-hoc 12Q mixed quiz filtered by user challenge tags
-app.post('/api/coach/:subject/ask', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.post(
+  '/api/coach/:subject/ask',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const subject = normalizeSubjectLabel(req.params.subject);
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const subject = normalizeSubjectLabel(req.params.subject);
 
-        // Gather challenge tags for this subject
-        const { optionTable, selectionTable } = await getChallengeTables();
-        const prefixes = subjectTagPrefixes(subject);
-        let userTags = new Set();
-        try {
-            const sel = await db.query(`SELECT challenge_id FROM ${selectionTable} WHERE user_id = $1`, [userId]);
-            const ids = sel.rows.map(r => String(r.challenge_id));
-            if (ids.length) {
-                const optRows = await db.query(`SELECT id, subject, subtopic, label FROM ${optionTable}`);
-                const byId = new Map(optRows.rows.map(o => [String(o.id), o]));
-                for (const id of ids) {
-                    if (/:/.test(id)) {
-                        const tag = String(id).toLowerCase();
-                        if (!prefixes.length || prefixes.some(p => tag.startsWith(p))) userTags.add(tag);
-                        continue;
-                    }
-                    const opt = byId.get(id);
-                    if (opt && (!subject || opt.subject === subject)) {
-                        const subjKey = (subject === 'Social Studies') ? 'social' : subject.toLowerCase();
-                        const slug = (opt.subtopic || opt.label || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                        if (slug) userTags.add(`${subjKey}:${slug}`);
-                    }
-                }
+      // Gather challenge tags for this subject
+      const { optionTable, selectionTable } = await getChallengeTables();
+      const prefixes = subjectTagPrefixes(subject);
+      let userTags = new Set();
+      try {
+        const sel = await db.query(
+          `SELECT challenge_id FROM ${selectionTable} WHERE user_id = $1`,
+          [userId]
+        );
+        const ids = sel.rows.map((r) => String(r.challenge_id));
+        if (ids.length) {
+          const optRows = await db.query(
+            `SELECT id, subject, subtopic, label FROM ${optionTable}`
+          );
+          const byId = new Map(optRows.rows.map((o) => [String(o.id), o]));
+          for (const id of ids) {
+            if (/:/.test(id)) {
+              const tag = String(id).toLowerCase();
+              if (!prefixes.length || prefixes.some((p) => tag.startsWith(p)))
+                userTags.add(tag);
+              continue;
             }
-        } catch (_) {}
-
-        // Build pool of questions for subject
-        let pool = getPremadeQuestions(subject, 200);
-        const wanted = Array.from(userTags);
-        let filtered = pool.filter(q => Array.isArray(q?.challenge_tags) && q.challenge_tags.some(t => wanted.includes(String(t).toLowerCase())));
-        if (filtered.length < 10) filtered = pool;
-
-        // Shuffle and take 12
-        for (let i = filtered.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+            const opt = byId.get(id);
+            if (opt && (!subject || opt.subject === subject)) {
+              const subjKey =
+                subject === 'Social Studies' ? 'social' : subject.toLowerCase();
+              const slug = (opt.subtopic || opt.label || '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-');
+              if (slug) userTags.add(`${subjKey}:${slug}`);
+            }
+          }
         }
-        const questions = filtered.slice(0, 12).map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
-        return res.json({ ok: true, subject, quiz: { id: `coach-${subject.toLowerCase()}-${Date.now()}`, title: `Coach Smith — ${subject} Check`, questions } });
+      } catch (_) {}
+
+      // Build pool of questions for subject
+      let pool = getPremadeQuestions(subject, 200);
+      const wanted = Array.from(userTags);
+      let filtered = pool.filter(
+        (q) =>
+          Array.isArray(q?.challenge_tags) &&
+          q.challenge_tags.some((t) => wanted.includes(String(t).toLowerCase()))
+      );
+      if (filtered.length < 10) filtered = pool;
+
+      // Shuffle and take 12
+      for (let i = filtered.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+      }
+      const questions = filtered
+        .slice(0, 12)
+        .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
+      return res.json({
+        ok: true,
+        subject,
+        quiz: {
+          id: `coach-${subject.toLowerCase()}-${Date.now()}`,
+          title: `Coach Smith — ${subject} Check`,
+          questions,
+        },
+      });
     } catch (e) {
-        console.error('POST /api/coach/:subject/ask failed:', e);
-        return res.status(500).json({ ok: false, error: 'ask_failed' });
+      console.error('POST /api/coach/:subject/ask failed:', e);
+      return res.status(500).json({ ok: false, error: 'ask_failed' });
     }
-});
+  }
+);
 
 // 1b) GET /api/coach/weekly — consolidated subject summaries for the current week
 app.get(
-    '/api/coach/weekly',
-    devAuth,
-    ensureTestUserForNow,
-    requireAuthInProd,
-    maybeAuth,
-    async (req, res) => {
+  '/api/coach/weekly',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  maybeAuth,
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+
+      const weekStart = getCurrentWeekStartISO();
+      const weekEnd = addDaysISO(weekStart, 6);
+
+      // Unified subject ordering (matches frontend generate-all sequence)
+      const SUBJECTS = ['Math', 'RLA', 'Science', 'Social Studies'];
+      const subjects = [];
+
+      // Build consolidated 7-day plan
+      const consolidatedDays = Array.from({ length: 7 }).map((_, i) => ({
+        day: i + 1,
+        label: `Day ${i + 1}`,
+        date: addDaysISO(weekStart, i),
+        tasks: [],
+      }));
+
+      for (const subj of SUBJECTS) {
+        const latest = await latestWeeklyPlan(userId, subj);
+        const passed = await isSubjectPassed(userId, subj);
+        let expectedWeek = 0;
+        let summary = '';
+        let daysOut = [];
+        if (
+          latest &&
+          latest.plan_json &&
+          Array.isArray(latest.plan_json.days)
+        ) {
+          expectedWeek = latest.plan_json.days.reduce(
+            (acc, d) => acc + (Number(d.minutes) || 0),
+            0
+          );
+          daysOut = latest.plan_json.days || [];
+          const f = [];
+          latest.plan_json.days.slice(0, 3).forEach((d) => {
+            (Array.isArray(d.focus) ? d.focus : []).forEach((tag) => {
+              const t = String(tag || '').toLowerCase();
+              if (t && !f.includes(t) && f.length < 4) f.push(t);
+            });
+          });
+          if (f.length) summary = `Focus: ${f.join(', ')}`;
+        }
+
+        // Completed minutes across week
+        let completedWeek = 0;
         try {
-            const userId = req.user?.id || req.user?.userId;
-            if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-
-            const weekStart = getCurrentWeekStartISO();
-            const weekEnd = addDaysISO(weekStart, 6);
-
-            // Unified subject ordering (matches frontend generate-all sequence)
-            const SUBJECTS = ['Math', 'RLA', 'Science', 'Social Studies'];
-            const subjects = [];
-
-            // Build consolidated 7-day plan
-            const consolidatedDays = Array.from({ length: 7 }).map((_, i) => ({
-                day: i + 1,
-                label: `Day ${i + 1}`,
-                date: addDaysISO(weekStart, i),
-                tasks: [],
-            }));
-
-            for (const subj of SUBJECTS) {
-                const latest = await latestWeeklyPlan(userId, subj);
-                const passed = await isSubjectPassed(userId, subj);
-                let expectedWeek = 0;
-                let summary = '';
-                let daysOut = [];
-                if (latest && latest.plan_json && Array.isArray(latest.plan_json.days)) {
-                    expectedWeek = latest.plan_json.days.reduce((acc, d) => acc + (Number(d.minutes) || 0), 0);
-                    daysOut = latest.plan_json.days || [];
-                    const f = [];
-                    latest.plan_json.days.slice(0, 3).forEach((d) => {
-                        (Array.isArray(d.focus) ? d.focus : []).forEach((tag) => {
-                            const t = String(tag || '').toLowerCase();
-                            if (t && !f.includes(t) && f.length < 4) f.push(t);
-                        });
-                    });
-                    if (f.length) summary = `Focus: ${f.join(', ')}`;
-                }
-
-                // Completed minutes across week
-                let completedWeek = 0;
-                try {
-                    const r = await pool.query(
-                        `SELECT SUM(completed_minutes) AS total
+          const r = await pool.query(
+            `SELECT SUM(completed_minutes) AS total
                              FROM coach_daily_progress
                             WHERE user_id = $1 AND subject = $2 AND plan_date BETWEEN $3 AND $4`,
-                        [userId, subj, weekStart, weekEnd]
-                    );
-                    completedWeek = Number(r?.rows?.[0]?.total) || 0;
-                } catch (_) {}
+            [userId, subj, weekStart, weekEnd]
+          );
+          completedWeek = Number(r?.rows?.[0]?.total) || 0;
+        } catch (_) {}
 
-                if (passed) {
-                    summary = summary || 'Maintenance: Keep skills fresh with brief weekly practice.';
-                    if (!expectedWeek) expectedWeek = 60;
-                }
-
-                subjects.push({
-                    subject: subj,
-                    expected_minutes_week: expectedWeek || 140,
-                    completed_minutes_week: completedWeek,
-                    summary,
-                    days: daysOut,
-                });
-
-                // Merge into consolidated days with fallback task if tasks missing
-                (daysOut || []).forEach((day) => {
-                    const idx = Number(day.day) - 1;
-                    if (!Number.isFinite(idx) || idx < 0 || idx >= consolidatedDays.length) return;
-                    const tasks = Array.isArray(day.tasks) && day.tasks.length
-                        ? day.tasks
-                        : [{
-                            id: `${subj.toLowerCase()}-day-${day.day}`,
-                            title: day.label || 'Practice',
-                            type: 'coach-quiz',
-                            minutes: Number(day.minutes) || 20,
-                            quizId: day.quizId || null,
-                            focus: Array.isArray(day.focus) ? day.focus : (day.focus ? [day.focus] : [])
-                        }];
-                    tasks.forEach((t) => {
-                        consolidatedDays[idx].tasks.push({ ...t, subject: subj, subjectLabel: subj });
-                    });
-                });
-            }
-
-            // Ensure subjects array is populated even if initial collection was empty
-            // Keep a consistent shape (objects) so the frontend doesn't break on mixed types.
-            if (!Array.isArray(subjects) || subjects.length === 0) {
-                const distinctSubjects = [...new Set(consolidatedDays.flatMap(d => d.tasks.map(t => t.subject)).filter(Boolean))];
-                distinctSubjects.forEach((s) => {
-                    subjects.push({
-                        subject: s,
-                        expected_minutes_week: 140,
-                        completed_minutes_week: 0,
-                        summary: '',
-                        days: [],
-                    });
-                });
-            }
-            res.set('Cache-Control', 'no-store');
-            return res.json({ ok: true, weekStart, weekEnd, days: consolidatedDays, subjects });
-        } catch (e) {
-            console.error('GET /api/coach/weekly failed:', e);
-            return res.status(500).json({ ok: false, error: 'coach_weekly_failed' });
+        if (passed) {
+          summary =
+            summary ||
+            'Maintenance: Keep skills fresh with brief weekly practice.';
+          if (!expectedWeek) expectedWeek = 60;
         }
+
+        subjects.push({
+          subject: subj,
+          expected_minutes_week: expectedWeek || 140,
+          completed_minutes_week: completedWeek,
+          summary,
+          days: daysOut,
+        });
+
+        // Merge into consolidated days with fallback task if tasks missing
+        (daysOut || []).forEach((day) => {
+          const idx = Number(day.day) - 1;
+          if (
+            !Number.isFinite(idx) ||
+            idx < 0 ||
+            idx >= consolidatedDays.length
+          )
+            return;
+          const tasks =
+            Array.isArray(day.tasks) && day.tasks.length
+              ? day.tasks
+              : [
+                  {
+                    id: `${subj.toLowerCase()}-day-${day.day}`,
+                    title: day.label || 'Practice',
+                    type: 'coach-quiz',
+                    minutes: Number(day.minutes) || 20,
+                    quizId: day.quizId || null,
+                    focus: Array.isArray(day.focus)
+                      ? day.focus
+                      : day.focus
+                      ? [day.focus]
+                      : [],
+                  },
+                ];
+          tasks.forEach((t) => {
+            consolidatedDays[idx].tasks.push({
+              ...t,
+              subject: subj,
+              subjectLabel: subj,
+            });
+          });
+        });
+      }
+
+      // Ensure subjects array is populated even if initial collection was empty
+      // Keep a consistent shape (objects) so the frontend doesn't break on mixed types.
+      if (!Array.isArray(subjects) || subjects.length === 0) {
+        const distinctSubjects = [
+          ...new Set(
+            consolidatedDays
+              .flatMap((d) => d.tasks.map((t) => t.subject))
+              .filter(Boolean)
+          ),
+        ];
+        distinctSubjects.forEach((s) => {
+          subjects.push({
+            subject: s,
+            expected_minutes_week: 140,
+            completed_minutes_week: 0,
+            summary: '',
+            days: [],
+          });
+        });
+      }
+      res.set('Cache-Control', 'no-store');
+      return res.json({
+        ok: true,
+        weekStart,
+        weekEnd,
+        days: consolidatedDays,
+        subjects,
+      });
+    } catch (e) {
+      console.error('GET /api/coach/weekly failed:', e);
+      return res.status(500).json({ ok: false, error: 'coach_weekly_failed' });
     }
+  }
 );
 
 // 1c) POST /api/coach/:subject/daily-composite — build a single-subject composite from premades (optionally filtered by focusTag)
-app.post('/api/coach/:subject/daily-composite', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.post(
+  '/api/coach/:subject/daily-composite',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const subject = normalizeSubjectLabel(req.params.subject);
-        const { focusTag } = req.body || {};
-        const today = todayISO();
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const subject = normalizeSubjectLabel(req.params.subject);
+      const { focusTag } = req.body || {};
+      const today = todayISO();
 
-        // Throttle to 2/week unless tester email
-        let email = (req.user && (req.user.email || req.user.userEmail)) || null;
-        if (!email) email = await getUserEmailById(userId);
-        const testerByEmail = (String(email || '')).toLowerCase() === 'zacharysmith527@gmail.com';
-        const weekStartISO = getCurrentWeekStartISO();
-        if (!testerByEmail) {
-            const existing = await db.oneOrNone(
-                `SELECT used_count FROM coach_composite_usage WHERE user_id = $1 AND week_start_date = $2`,
-                [userId, weekStartISO]
-            );
-            const used = existing?.used_count || 0;
-            if (used >= 2) {
-                return res.status(429).json({ error: 'You\'ve reached your Ask Coach limit for this week (2/2). Try again next week.' });
-            }
+      // Throttle to 2/week unless tester email
+      let email = (req.user && (req.user.email || req.user.userEmail)) || null;
+      if (!email) email = await getUserEmailById(userId);
+      const testerByEmail =
+        String(email || '').toLowerCase() === 'zacharysmith527@gmail.com';
+      const weekStartISO = getCurrentWeekStartISO();
+      if (!testerByEmail) {
+        const existing = await db.oneOrNone(
+          `SELECT used_count FROM coach_composite_usage WHERE user_id = $1 AND week_start_date = $2`,
+          [userId, weekStartISO]
+        );
+        const used = existing?.used_count || 0;
+        if (used >= 2) {
+          return res
+            .status(429)
+            .json({
+              error:
+                "You've reached your Ask Coach limit for this week (2/2). Try again next week.",
+            });
         }
+      }
 
-        // Build pool and filter by focus tag if present
-        let questionPool = getPremadeQuestions(subject, 60);
-        if (focusTag) {
-            const needle = String(focusTag).toLowerCase();
-            questionPool = questionPool.filter(q => Array.isArray(q?.challenge_tags) && q.challenge_tags.map(t => String(t).toLowerCase()).includes(needle));
-            if (questionPool.length < 12) {
-                // backfill with general pool if too few
-                const backfill = getPremadeQuestions(subject, 60).filter(q => !questionPool.includes(q));
-                questionPool = questionPool.concat(backfill);
-            }
+      // Build pool and filter by focus tag if present
+      let questionPool = getPremadeQuestions(subject, 60);
+      if (focusTag) {
+        const needle = String(focusTag).toLowerCase();
+        questionPool = questionPool.filter(
+          (q) =>
+            Array.isArray(q?.challenge_tags) &&
+            q.challenge_tags
+              .map((t) => String(t).toLowerCase())
+              .includes(needle)
+        );
+        if (questionPool.length < 12) {
+          // backfill with general pool if too few
+          const backfill = getPremadeQuestions(subject, 60).filter(
+            (q) => !questionPool.includes(q)
+          );
+          questionPool = questionPool.concat(backfill);
         }
+      }
 
-        if (!questionPool.length) return res.status(400).json({ ok: false, error: 'no_questions' });
-        // Shuffle
-        for (let i = questionPool.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [questionPool[i], questionPool[j]] = [questionPool[j], questionPool[i]];
-        }
-        const questions = questionPool.slice(0, 12).map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
-        const quizCode = `${COACH_ASSIGNED_BY}:${subject}:${today}:composite`;
-        const quiz = { id: quizCode, quizCode, title: 'Coach Daily Composite', type: 'premade-composite', questions, assignedBy: COACH_ASSIGNED_BY };
+      if (!questionPool.length)
+        return res.status(400).json({ ok: false, error: 'no_questions' });
+      // Shuffle
+      for (let i = questionPool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questionPool[i], questionPool[j]] = [questionPool[j], questionPool[i]];
+      }
+      const questions = questionPool
+        .slice(0, 12)
+        .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
+      const quizCode = `${COACH_ASSIGNED_BY}:${subject}:${today}:composite`;
+      const quiz = {
+        id: quizCode,
+        quizCode,
+        title: 'Coach Daily Composite',
+        type: 'premade-composite',
+        questions,
+        assignedBy: COACH_ASSIGNED_BY,
+      };
 
-        // Save to today's daily row
-        await findOrCreateDailyRow(userId, subject, today);
-        await pool.query(`UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_completed = FALSE, updated_at = NOW() WHERE user_id = $1 AND subject = $2 AND plan_date = $3`, [userId, subject, today, quizCode]);
+      // Save to today's daily row
+      await findOrCreateDailyRow(userId, subject, today);
+      await pool.query(
+        `UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_completed = FALSE, updated_at = NOW() WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
+        [userId, subject, today, quizCode]
+      );
 
-        // Record usage (skip for tester email)
-        if (!testerByEmail) {
-            await db.query(
-                `INSERT INTO coach_composite_usage (user_id, week_start_date, used_count, last_used_at)
+      // Record usage (skip for tester email)
+      if (!testerByEmail) {
+        await db.query(
+          `INSERT INTO coach_composite_usage (user_id, week_start_date, used_count, last_used_at)
                  VALUES ($1, $2, 1, now())
                  ON CONFLICT (user_id, week_start_date)
                  DO UPDATE SET used_count = coach_composite_usage.used_count + 1, last_used_at = now()`,
-                [userId, weekStartISO]
-            );
-        }
+          [userId, weekStartISO]
+        );
+      }
 
-        return res.json({ ok: true, quiz });
+      return res.json({ ok: true, quiz });
     } catch (e) {
-        console.error('POST /api/coach/:subject/daily-composite failed:', e);
-        return res.status(500).json({ ok: false, error: 'daily_composite_failed' });
+      console.error('POST /api/coach/:subject/daily-composite failed:', e);
+      return res
+        .status(500)
+        .json({ ok: false, error: 'daily_composite_failed' });
     }
-});
+  }
+);
 
 // Legacy study plan fetch (kept for backward compatibility) — must come AFTER specific /api/coach routes
-app.get('/api/coach/:subject', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+app.get(
+  '/api/coach/:subject',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const subject = normalizeSubjectLabel(req.params.subject);
-        const { rows } = await pool.query(
-            `SELECT id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const subject = normalizeSubjectLabel(req.params.subject);
+      const { rows } = await pool.query(
+        `SELECT id, user_id, subject, generated_at, valid_from, valid_to, plan_json, notes
                FROM study_plans
               WHERE user_id = $1 AND subject = $2
               ORDER BY generated_at DESC, id DESC
               LIMIT 1`,
-            [userId, subject]
-        );
-        if (!rows || rows.length === 0) {
-            return res.json({ ok: false, reason: 'no_plan' });
-        }
-        return res.json({ ok: true, plan: rows[0] });
+        [userId, subject]
+      );
+      if (!rows || rows.length === 0) {
+        return res.json({ ok: false, reason: 'no_plan' });
+      }
+      return res.json({ ok: true, plan: rows[0] });
     } catch (e) {
-        console.error('GET /api/coach/:subject failed:', e);
-        return res.status(500).json({ ok: false, error: 'coach_fetch_failed' });
+      console.error('GET /api/coach/:subject failed:', e);
+      return res.status(500).json({ ok: false, error: 'coach_fetch_failed' });
     }
-});
+  }
+);
 
 // 2) POST /api/coach/complete — add minutes and optionally mark coach quiz done
-app.post('/api/coach/complete', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.post(
+  '/api/coach/complete',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        let { subject, plan_date, activity, minutes } = req.body || {};
-        subject = normalizeSubjectLabel(subject);
-        const dateISO = (typeof plan_date === 'string' && plan_date.trim()) ? plan_date.trim().slice(0,10) : todayISO();
-        const inc = Number(minutes);
-        const add = Number.isFinite(inc) ? inc : 0;
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      let { subject, plan_date, activity, minutes } = req.body || {};
+      subject = normalizeSubjectLabel(subject);
+      const dateISO =
+        typeof plan_date === 'string' && plan_date.trim()
+          ? plan_date.trim().slice(0, 10)
+          : todayISO();
+      const inc = Number(minutes);
+      const add = Number.isFinite(inc) ? inc : 0;
 
-        // Ensure row exists
-        const row = await findOrCreateDailyRow(userId, subject, dateISO);
-        if (!row) return res.status(500).json({ ok: false, error: 'create_daily_failed' });
+      // Ensure row exists
+      const row = await findOrCreateDailyRow(userId, subject, dateISO);
+      if (!row)
+        return res
+          .status(500)
+          .json({ ok: false, error: 'create_daily_failed' });
 
-        const markQuiz = (activity || '').toString().toLowerCase() === 'coach-quiz';
-        await pool.query(
-            `UPDATE coach_daily_progress
+      const markQuiz =
+        (activity || '').toString().toLowerCase() === 'coach-quiz';
+      await pool.query(
+        `UPDATE coach_daily_progress
                 SET completed_minutes = GREATEST(0, completed_minutes + $4),
                     coach_quiz_completed = CASE WHEN $5 THEN TRUE ELSE coach_quiz_completed END,
                     updated_at = NOW()
               WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
-            [userId, subject, dateISO, add, markQuiz]
-        );
+        [userId, subject, dateISO, add, markQuiz]
+      );
 
-        const { rows } = await pool.query(
-            `SELECT user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
+      const { rows } = await pool.query(
+        `SELECT user_id, subject, plan_date, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
                FROM coach_daily_progress
               WHERE user_id = $1 AND subject = $2 AND plan_date = $3
               LIMIT 1`,
-            [userId, subject, dateISO]
-        );
-        const out = rows && rows[0] ? rows[0] : null;
-        return res.json({ ok: true, day: out });
+        [userId, subject, dateISO]
+      );
+      const out = rows && rows[0] ? rows[0] : null;
+      return res.json({ ok: true, day: out });
     } catch (e) {
-        console.error('POST /api/coach/complete failed:', e);
-        return res.status(500).json({ ok: false, error: 'coach_complete_failed' });
+      console.error('POST /api/coach/complete failed:', e);
+      return res
+        .status(500)
+        .json({ ok: false, error: 'coach_complete_failed' });
     }
-});
+  }
+);
 
 // 3) POST /api/coach/subject-passed — mark/unmark subject as passed
-app.post('/api/coach/subject-passed', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.post(
+  '/api/coach/subject-passed',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const { subject, passed } = req.body || {};
-        const subj = normalizeSubjectLabel(subject);
-        if (!subj) return res.status(400).json({ ok: false, error: 'subject_required' });
-        const flag = !!passed;
-        await pool.query(
-            `INSERT INTO user_subject_status (user_id, subject, passed, passed_at, updated_at)
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const { subject, passed } = req.body || {};
+      const subj = normalizeSubjectLabel(subject);
+      if (!subj)
+        return res.status(400).json({ ok: false, error: 'subject_required' });
+      const flag = !!passed;
+      await pool.query(
+        `INSERT INTO user_subject_status (user_id, subject, passed, passed_at, updated_at)
              VALUES ($1, $2, $3, CASE WHEN $3 THEN NOW() ELSE NULL END, NOW())
              ON CONFLICT (user_id, subject)
              DO UPDATE SET passed = EXCLUDED.passed,
                            passed_at = CASE WHEN EXCLUDED.passed THEN NOW() ELSE NULL END,
                            updated_at = NOW()`,
-            [userId, subj, flag]
-        );
-        return res.json({ ok: true, subject: subj, passed: flag });
+        [userId, subj, flag]
+      );
+      return res.json({ ok: true, subject: subj, passed: flag });
     } catch (e) {
-        console.error('POST /api/coach/subject-passed failed:', e);
-        return res.status(500).json({ ok: false, error: 'subject_pass_update_failed' });
+      console.error('POST /api/coach/subject-passed failed:', e);
+      return res
+        .status(500)
+        .json({ ok: false, error: 'subject_pass_update_failed' });
     }
-});
+  }
+);
 
 // Ask Coach advice endpoint with weekly throttle (2/week) and challenge selection requirement
-app.post('/api/coach/advice', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.post(
+  '/api/coach/advice',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     try {
-        const userId = req.user.id;
-        let email = (req.user && (req.user.email || req.user.userEmail)) || null;
-        if (!email) {
-            email = await getUserEmailById(userId);
+      const userId = req.user.id;
+      let email = (req.user && (req.user.email || req.user.userEmail)) || null;
+      if (!email) {
+        email = await getUserEmailById(userId);
+      }
+
+      const testerByEmail =
+        String(email || '').toLowerCase() === 'zacharysmith527@gmail.com';
+
+      // Build profile bundle to inspect selected challenges and test plan
+      const bundle = await buildProfileBundle(userId);
+      const challengeOptions = Array.isArray(bundle?.challengeOptions)
+        ? bundle.challengeOptions
+        : [];
+      const selected = challengeOptions.filter((c) => c && c.selected);
+
+      if (!Array.isArray(selected) || selected.length === 0) {
+        return res
+          .status(400)
+          .json({
+            error:
+              'Pick at least one challenge in your profile so Coach can tailor advice.',
+          });
+      }
+
+      // Subject hint is optional; if provided, narrow the selected challenges
+      const subjectHintRaw =
+        req.body && req.body.subject ? String(req.body.subject) : '';
+      const subjectHint = subjectHintRaw
+        ? subjectHintRaw.toLowerCase() === 'rla'
+          ? 'RLA'
+          : subjectHintRaw.toLowerCase().startsWith('social')
+          ? 'Social Studies'
+          : subjectHintRaw.charAt(0).toUpperCase() + subjectHintRaw.slice(1)
+        : '';
+
+      const bySubject = subjectHint
+        ? selected.filter((s) => (s.subject || '').toString() === subjectHint)
+        : selected;
+
+      // Throttle: 2 per week per user, unless tester email
+      const weekStartISO = getCurrentWeekStartISO();
+      if (!testerByEmail) {
+        const existing = await db.oneOrNone(
+          `SELECT used_count FROM coach_advice_usage WHERE user_id = $1 AND week_start_date = $2`,
+          [userId, weekStartISO]
+        );
+        const used = existing?.used_count || 0;
+        if (used >= 2) {
+          return res
+            .status(429)
+            .json({
+              error:
+                "You've reached your Ask Coach limit for this week (2/2). Try again next week.",
+            });
         }
+      }
 
-        const testerByEmail = (String(email || '')).toLowerCase() === 'zacharysmith527@gmail.com';
+      // Gather test date context for the hinted subject (or nearest upcoming)
+      const testPlan = Array.isArray(bundle?.testPlan) ? bundle.testPlan : [];
+      let subjectTestDate = '';
+      if (subjectHint) {
+        const match = testPlan.find(
+          (t) => t && t.subject === subjectHint && t.testDate
+        );
+        subjectTestDate = match?.testDate || '';
+      } else {
+        const upcoming = testPlan.find((t) => t && t.testDate);
+        subjectTestDate = upcoming?.testDate || '';
+      }
 
-        // Build profile bundle to inspect selected challenges and test plan
-        const bundle = await buildProfileBundle(userId);
-        const challengeOptions = Array.isArray(bundle?.challengeOptions) ? bundle.challengeOptions : [];
-        const selected = challengeOptions.filter((c) => c && c.selected);
-
-        if (!Array.isArray(selected) || selected.length === 0) {
-            return res.status(400).json({ error: 'Pick at least one challenge in your profile so Coach can tailor advice.' });
-        }
-
-        // Subject hint is optional; if provided, narrow the selected challenges
-        const subjectHintRaw = (req.body && req.body.subject) ? String(req.body.subject) : '';
-        const subjectHint = subjectHintRaw
-            ? (subjectHintRaw.toLowerCase() === 'rla' ? 'RLA' : (subjectHintRaw.toLowerCase().startsWith('social') ? 'Social Studies' : subjectHintRaw.charAt(0).toUpperCase() + subjectHintRaw.slice(1)))
-            : '';
-
-        const bySubject = subjectHint
-            ? selected.filter((s) => (s.subject || '').toString() === subjectHint)
-            : selected;
-
-        // Throttle: 2 per week per user, unless tester email
-        const weekStartISO = getCurrentWeekStartISO();
-        if (!testerByEmail) {
-            const existing = await db.oneOrNone(
-                `SELECT used_count FROM coach_advice_usage WHERE user_id = $1 AND week_start_date = $2`,
-                [userId, weekStartISO]
-            );
-            const used = existing?.used_count || 0;
-            if (used >= 2) {
-                return res.status(429).json({ error: 'You\'ve reached your Ask Coach limit for this week (2/2). Try again next week.' });
-            }
-        }
-
-        // Gather test date context for the hinted subject (or nearest upcoming)
-        const testPlan = Array.isArray(bundle?.testPlan) ? bundle.testPlan : [];
-        let subjectTestDate = '';
-        if (subjectHint) {
-            const match = testPlan.find((t) => t && t.subject === subjectHint && t.testDate);
-            subjectTestDate = match?.testDate || '';
-        } else {
-            const upcoming = testPlan.find((t) => t && t.testDate);
-            subjectTestDate = upcoming?.testDate || '';
-        }
-
-        // Compose prompt for AI
-        const tagList = bySubject.map((c) => `${c.subject}: ${c.subtopic} — ${c.label}`).slice(0, 10).join('\n- ');
-        const subjForPrompt = subjectHint || 'your GED subjects';
-        const dateForPrompt = subjectTestDate ? `Target test date: ${subjectTestDate}.` : 'No test date saved yet.';
-        const prompt = `You are Coach Smith, a concise GED study coach.
+      // Compose prompt for AI
+      const tagList = bySubject
+        .map((c) => `${c.subject}: ${c.subtopic} — ${c.label}`)
+        .slice(0, 10)
+        .join('\n- ');
+      const subjForPrompt = subjectHint || 'your GED subjects';
+      const dateForPrompt = subjectTestDate
+        ? `Target test date: ${subjectTestDate}.`
+        : 'No test date saved yet.';
+      const prompt = `You are Coach Smith, a concise GED study coach.
 Provide 3-5 specific, encouraging tips tailored to ${subjForPrompt}.
 Focus on 45-minute sessions and include one quick practice idea.
 Ground your advice in these selected challenges (if present):
@@ -4654,248 +5805,347 @@ Ground your advice in these selected challenges (if present):
 ${dateForPrompt}
 Return JSON as { "advice": "<single paragraph or short bullets>" }.`;
 
-        const SCHEMA = { type: 'OBJECT', properties: { advice: { type: 'STRING' } }, required: ['advice'] };
+      const SCHEMA = {
+        type: 'OBJECT',
+        properties: { advice: { type: 'STRING' } },
+        required: ['advice'],
+      };
 
-        let adviceText = '';
-        try {
-            const ai = await callAI(prompt, SCHEMA, { generationOverrides: { temperature: 0.7 } });
-            adviceText = (ai && ai.advice) ? String(ai.advice) : '';
-        } catch (e) {
-            // Fallback to simple templated guidance
-            const firstTag = bySubject[0] || selected[0];
-            const tagStr = firstTag ? `${firstTag.subject}: ${firstTag.subtopic.toLowerCase()}` : 'your weakest areas';
-            adviceText = `Spend 45 minutes today focused on ${tagStr}. Start with 10 minutes reviewing notes, then 25 minutes of practice (2-3 short passages or 8-10 problems), and finish with a 10-minute reflection to write down one mistake pattern and how you\'ll fix it next time.`;
-            if (subjectTestDate) {
-                adviceText += ` You\'ve saved a test date (${subjectTestDate}) — aim for 3 focused sessions this week.`;
-            }
+      let adviceText = '';
+      try {
+        const ai = await callAI(prompt, SCHEMA, {
+          generationOverrides: { temperature: 0.7 },
+        });
+        adviceText = ai && ai.advice ? String(ai.advice) : '';
+      } catch (e) {
+        // Fallback to simple templated guidance
+        const firstTag = bySubject[0] || selected[0];
+        const tagStr = firstTag
+          ? `${firstTag.subject}: ${firstTag.subtopic.toLowerCase()}`
+          : 'your weakest areas';
+        adviceText = `Spend 45 minutes today focused on ${tagStr}. Start with 10 minutes reviewing notes, then 25 minutes of practice (2-3 short passages or 8-10 problems), and finish with a 10-minute reflection to write down one mistake pattern and how you\'ll fix it next time.`;
+        if (subjectTestDate) {
+          adviceText += ` You\'ve saved a test date (${subjectTestDate}) — aim for 3 focused sessions this week.`;
         }
+      }
 
-        // Record usage (skip for tester email)
-        if (!testerByEmail) {
-            await db.query(
-                `INSERT INTO coach_advice_usage (user_id, week_start_date, used_count, last_used_at)
+      // Record usage (skip for tester email)
+      if (!testerByEmail) {
+        await db.query(
+          `INSERT INTO coach_advice_usage (user_id, week_start_date, used_count, last_used_at)
                  VALUES ($1, $2, 1, now())
                  ON CONFLICT (user_id, week_start_date)
                  DO UPDATE SET used_count = coach_advice_usage.used_count + 1, last_used_at = now()`,
-                [userId, weekStartISO]
-            );
-        }
+          [userId, weekStartISO]
+        );
+      }
 
-        return res.json({ ok: true, advice: adviceText, weekStart: weekStartISO });
+      return res.json({
+        ok: true,
+        advice: adviceText,
+        weekStart: weekStartISO,
+      });
     } catch (e) {
-        console.error('POST /api/coach/advice failed:', e?.message || e);
-        return res.status(500).json({ error: 'Unable to fetch advice right now.' });
+      console.error('POST /api/coach/advice failed:', e?.message || e);
+      return res
+        .status(500)
+        .json({ error: 'Unable to fetch advice right now.' });
     }
-});
+  }
+);
 
 // Resolve a suggestion: accept or reject
-app.post('/api/challenges/resolve', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.post(
+  '/api/challenges/resolve',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     try {
-        const userId = req.user?.id || req.user?.userId;
-        if (!userId) return res.status(401).json({ error: 'Not authenticated' });
-        const { suggestion_id, action } = req.body || {};
-        if (!suggestion_id) return res.status(400).json({ error: 'suggestion_id_required' });
-        const srow = await db.oneOrNone(`SELECT id, user_id, challenge_tag, suggestion_type FROM user_challenge_suggestions WHERE id = $1 AND user_id = $2`, [suggestion_id, userId]);
-        if (!srow) return res.status(404).json({ error: 'not_found' });
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const { suggestion_id, action } = req.body || {};
+      if (!suggestion_id)
+        return res.status(400).json({ error: 'suggestion_id_required' });
+      const srow = await db.oneOrNone(
+        `SELECT id, user_id, challenge_tag, suggestion_type FROM user_challenge_suggestions WHERE id = $1 AND user_id = $2`,
+        [suggestion_id, userId]
+      );
+      if (!srow) return res.status(404).json({ error: 'not_found' });
 
-        const act = (action || '').toString().toLowerCase();
-        const now = new Date();
+      const act = (action || '').toString().toLowerCase();
+      const now = new Date();
 
-        if (act === 'accept') {
-            if (srow.suggestion_type === 'add') {
-                // Ensure tag present in catalog with basic label if missing
-                try {
-                    const tag = srow.challenge_tag;
-                    const subjKey = tag.split(':')[0] || '';
-                    const subjectMap = { math: 'Math', science: 'Science', rla: 'RLA', 'social': 'Social Studies', 'social-studies': 'Social Studies' };
-                    const subject = subjectMap[subjKey] || null;
-                    const pretty = tag.replace(/[:_-]/g, ' ');
-                    await pool.query(`INSERT INTO challenge_tag_catalog (challenge_tag, subject, label) VALUES ($1, $2, $3) ON CONFLICT (challenge_tag) DO NOTHING`, [tag, subject, pretty]);
-                } catch (_) {}
-                // Add to user's active list via selectionTable, using tag as challenge_id
-                try {
-                    const { selectionTable } = await getChallengeTables();
-                    await db.query(`INSERT INTO ${selectionTable} (user_id, challenge_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, [userId, srow.challenge_tag]);
-                } catch (e) { console.warn('[resolve] add selection failed', e?.message || e); }
-            } else if (srow.suggestion_type === 'remove') {
-                try {
-                    const { selectionTable } = await getChallengeTables();
-                    await db.query(`DELETE FROM ${selectionTable} WHERE user_id = $1 AND challenge_id = $2`, [userId, srow.challenge_tag]);
-                } catch (e) { console.warn('[resolve] remove selection failed', e?.message || e); }
-            }
-            await pool.query(`UPDATE user_challenge_suggestions SET resolved_at = $2 WHERE id = $1`, [srow.id, now]);
-            return res.json({ ok: true, resolved: true });
-        } else if (act === 'reject') {
-            await pool.query(`UPDATE user_challenge_suggestions SET resolved_at = $2 WHERE id = $1`, [srow.id, now]);
-            return res.json({ ok: true, resolved: true });
+      if (act === 'accept') {
+        if (srow.suggestion_type === 'add') {
+          // Ensure tag present in catalog with basic label if missing
+          try {
+            const tag = srow.challenge_tag;
+            const subjKey = tag.split(':')[0] || '';
+            const subjectMap = {
+              math: 'Math',
+              science: 'Science',
+              rla: 'RLA',
+              social: 'Social Studies',
+              'social-studies': 'Social Studies',
+            };
+            const subject = subjectMap[subjKey] || null;
+            const pretty = tag.replace(/[:_-]/g, ' ');
+            await pool.query(
+              `INSERT INTO challenge_tag_catalog (challenge_tag, subject, label) VALUES ($1, $2, $3) ON CONFLICT (challenge_tag) DO NOTHING`,
+              [tag, subject, pretty]
+            );
+          } catch (_) {}
+          // Add to user's active list via selectionTable, using tag as challenge_id
+          try {
+            const { selectionTable } = await getChallengeTables();
+            await db.query(
+              `INSERT INTO ${selectionTable} (user_id, challenge_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`,
+              [userId, srow.challenge_tag]
+            );
+          } catch (e) {
+            console.warn('[resolve] add selection failed', e?.message || e);
+          }
+        } else if (srow.suggestion_type === 'remove') {
+          try {
+            const { selectionTable } = await getChallengeTables();
+            await db.query(
+              `DELETE FROM ${selectionTable} WHERE user_id = $1 AND challenge_id = $2`,
+              [userId, srow.challenge_tag]
+            );
+          } catch (e) {
+            console.warn('[resolve] remove selection failed', e?.message || e);
+          }
         }
-        return res.status(400).json({ error: 'invalid_action' });
+        await pool.query(
+          `UPDATE user_challenge_suggestions SET resolved_at = $2 WHERE id = $1`,
+          [srow.id, now]
+        );
+        return res.json({ ok: true, resolved: true });
+      } else if (act === 'reject') {
+        await pool.query(
+          `UPDATE user_challenge_suggestions SET resolved_at = $2 WHERE id = $1`,
+          [srow.id, now]
+        );
+        return res.json({ ok: true, resolved: true });
+      }
+      return res.status(400).json({ error: 'invalid_action' });
     } catch (e) {
-        console.error('POST /api/challenges/resolve failed:', e);
-        return res.status(500).json({ error: 'failed_to_resolve' });
+      console.error('POST /api/challenges/resolve failed:', e);
+      return res.status(500).json({ error: 'failed_to_resolve' });
     }
-});
+  }
+);
 
 // Admin seed endpoint: create/populate the challenge catalog table from the fallback list
-app.post('/api/admin/challenges/seed', devAuth, requireAuthInProd, requireSuperAdmin, async (_req, res) => {
+app.post(
+  '/api/admin/challenges/seed',
+  devAuth,
+  requireAuthInProd,
+  requireSuperAdmin,
+  async (_req, res) => {
     try {
-        const { optionTable } = await getChallengeTables();
-        // Ensure table exists with a minimal schema compatible with our reads
-        try {
-            await db.query(`
+      const { optionTable } = await getChallengeTables();
+      // Ensure table exists with a minimal schema compatible with our reads
+      try {
+        await db.query(`
                 CREATE TABLE IF NOT EXISTS ${optionTable} (
                     id TEXT PRIMARY KEY,
                     subject TEXT NOT NULL,
                     subtopic TEXT NOT NULL,
                     label TEXT NOT NULL
                 )`);
-        } catch (e) {
-            console.warn(`[seed] create table ${optionTable} skipped/failed:`, e?.message || e);
-        }
+      } catch (e) {
+        console.warn(
+          `[seed] create table ${optionTable} skipped/failed:`,
+          e?.message || e
+        );
+      }
 
-        let inserted = 0;
-        for (const item of FALLBACK_PROFILE_CHALLENGES) {
-            try {
-                await db.query(
-                    `INSERT INTO ${optionTable} (id, subject, subtopic, label)
+      let inserted = 0;
+      for (const item of FALLBACK_PROFILE_CHALLENGES) {
+        try {
+          await db.query(
+            `INSERT INTO ${optionTable} (id, subject, subtopic, label)
                      VALUES ($1, $2, $3, $4)
                      ON CONFLICT (id) DO NOTHING`,
-                    [String(item.id), item.subject || item.subject_alias || 'Unknown', item.subtopic, item.label]
-                );
-                inserted++;
-            } catch (e) {
-                console.warn('[seed] insert failed for', item.id, e?.message || e);
-            }
+            [
+              String(item.id),
+              item.subject || item.subject_alias || 'Unknown',
+              item.subtopic,
+              item.label,
+            ]
+          );
+          inserted++;
+        } catch (e) {
+          console.warn('[seed] insert failed for', item.id, e?.message || e);
         }
-        return res.json({ ok: true, table: optionTable, attempted: FALLBACK_PROFILE_CHALLENGES.length, inserted });
+      }
+      return res.json({
+        ok: true,
+        table: optionTable,
+        attempted: FALLBACK_PROFILE_CHALLENGES.length,
+        inserted,
+      });
     } catch (err) {
-        console.error('[/api/admin/challenges/seed] ERROR:', err);
-        return res.status(500).json({ ok: false, error: 'seed_failed', details: err?.message || String(err) });
+      console.error('[/api/admin/challenges/seed] ERROR:', err);
+      return res
+        .status(500)
+        .json({
+          ok: false,
+          error: 'seed_failed',
+          details: err?.message || String(err),
+        });
     }
-});
+  }
+);
 
-app.patch('/api/profile/name', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.patch(
+  '/api/profile/name',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     console.log('[/api/profile/name] req.user =', req.user);
     console.log('[/api/profile/name] req.body =', req.body);
 
     const userId = req.user?.id || req.user?.userId;
 
     if (!userId) {
-        return res.status(401).json({ error: 'Not authenticated' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    if (!isProfileAllowlistedPath(req.path) && !(await assertUserIsActive(userId))) {
-        return res.status(403).json({ error: 'user_not_active' });
+    if (
+      !isProfileAllowlistedPath(req.path) &&
+      !(await assertUserIsActive(userId))
+    ) {
+      return res.status(403).json({ error: 'user_not_active' });
     }
     const { name } = req.body || {};
-    const trimmed = typeof name === 'string' ? name.trim() : String(name || '').trim();
+    const trimmed =
+      typeof name === 'string' ? name.trim() : String(name || '').trim();
 
     if (!trimmed) {
-        return res.status(400).json({ error: 'Name is required' });
+      return res.status(400).json({ error: 'Name is required' });
     }
 
     try {
-        await db.query(
-            'INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING',
-            [userId]
-        );
+      await db.query(
+        'INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING',
+        [userId]
+      );
 
-        const hasNameColumn = await profilesHasNameColumn();
-        if (hasNameColumn) {
-            try {
-                await db.query(
-                    `INSERT INTO profiles (user_id, name)
+      const hasNameColumn = await profilesHasNameColumn();
+      if (hasNameColumn) {
+        try {
+          await db.query(
+            `INSERT INTO profiles (user_id, name)
                      VALUES ($1, $2)
                      ON CONFLICT (user_id)
                      DO UPDATE SET name = EXCLUDED.name`,
-                    [userId, trimmed]
-                );
-            } catch (err) {
-                if (err?.code !== '42703' && err?.code !== '42P01') {
-                    throw err;
-                }
-            }
-        }
-
-        try {
-            await db.query('UPDATE users SET name = $2 WHERE id = $1', [userId, trimmed]);
+            [userId, trimmed]
+          );
         } catch (err) {
-            console.warn('Unable to sync name into users table', err?.message || err);
+          if (err?.code !== '42703' && err?.code !== '42P01') {
+            throw err;
+          }
         }
+      }
 
-        return res.json({ name: trimmed });
+      try {
+        await db.query('UPDATE users SET name = $2 WHERE id = $1', [
+          userId,
+          trimmed,
+        ]);
+      } catch (err) {
+        console.warn(
+          'Unable to sync name into users table',
+          err?.message || err
+        );
+      }
+
+      return res.json({ name: trimmed });
     } catch (err) {
-        console.error('[/api/profile/name] ERROR:', err);
-        return res.status(500).json({ error: 'Unable to save name' });
+      console.error('[/api/profile/name] ERROR:', err);
+      return res.status(500).json({ error: 'Unable to save name' });
     }
-});
+  }
+);
 
 // Shared handler for saving a single subject test plan row
 async function handleSaveTestPlan(req, res) {
-    console.log('[/api/profile/test] req.user =', req.user);
-    console.log('[/api/profile/test] req.body =', req.body);
-    console.log('[/api/profile/test] HIT');
+  console.log('[/api/profile/test] req.user =', req.user);
+  console.log('[/api/profile/test] req.body =', req.body);
+  console.log('[/api/profile/test] HIT');
 
-    const userId = req.user?.id || req.user?.userId;
+  const userId = req.user?.id || req.user?.userId;
 
-    if (!userId) {
-        return res.status(401).json({ ok: false, error: 'Not authenticated' });
-    }
+  if (!userId) {
+    return res.status(401).json({ ok: false, error: 'Not authenticated' });
+  }
 
-    if (!isProfileAllowlistedPath(req.path) && !(await assertUserIsActive(userId))) {
-        return res.status(403).json({ ok: false, error: 'user_not_active' });
-    }
-    const { subject, testDate, testLocation, passed, notScheduled } = req.body || {};
-    const subj = typeof subject === 'string' ? subject.trim() : '';
+  if (
+    !isProfileAllowlistedPath(req.path) &&
+    !(await assertUserIsActive(userId))
+  ) {
+    return res.status(403).json({ ok: false, error: 'user_not_active' });
+  }
+  const { subject, testDate, testLocation, passed, notScheduled } =
+    req.body || {};
+  const subj = typeof subject === 'string' ? subject.trim() : '';
 
-    console.log('[/api/profile/test] parsed payload:', {
-        subject: subj,
-        testDate,
-        testLocation,
-        passed,
-    });
+  console.log('[/api/profile/test] parsed payload:', {
+    subject: subj,
+    testDate,
+    testLocation,
+    passed,
+  });
 
-    if (!subj) {
-        return res.status(400).json({ ok: false, error: 'Subject is required' });
-    }
+  if (!subj) {
+    return res.status(400).json({ ok: false, error: 'Subject is required' });
+  }
 
-    let normalizedDate = null;
-    if (typeof testDate === 'string') {
-        const trimmedDate = testDate.trim();
-        // Prefer ISO with dashes; normalize any slashes to dashes
-        const dashed = trimmedDate.replace(/\//g, '-');
-        normalizedDate = dashed || null;
-    } else if (testDate instanceof Date) {
-        normalizedDate = testDate.toISOString().slice(0, 10);
-    } else if (testDate !== undefined && testDate !== null) {
-        const coerced = String(testDate).trim();
-        normalizedDate = coerced ? coerced : null;
-    }
+  let normalizedDate = null;
+  if (typeof testDate === 'string') {
+    const trimmedDate = testDate.trim();
+    // Prefer ISO with dashes; normalize any slashes to dashes
+    const dashed = trimmedDate.replace(/\//g, '-');
+    normalizedDate = dashed || null;
+  } else if (testDate instanceof Date) {
+    normalizedDate = testDate.toISOString().slice(0, 10);
+  } else if (testDate !== undefined && testDate !== null) {
+    const coerced = String(testDate).trim();
+    normalizedDate = coerced ? coerced : null;
+  }
 
-    const normalizedNotScheduled = !!notScheduled;
-    if (normalizedNotScheduled) {
-        // If the user marks not scheduled, clear date and passed
-        normalizedDate = null;
-    }
+  const normalizedNotScheduled = !!notScheduled;
+  if (normalizedNotScheduled) {
+    // If the user marks not scheduled, clear date and passed
+    normalizedDate = null;
+  }
 
-    let normalizedLocation = null;
-    if (typeof testLocation === 'string') {
-        const trimmedLocation = testLocation.trim();
-        normalizedLocation = trimmedLocation ? trimmedLocation : null;
-    } else if (testLocation !== undefined && testLocation !== null) {
-        const coerced = String(testLocation).trim();
-        normalizedLocation = coerced ? coerced : null;
-    }
+  let normalizedLocation = null;
+  if (typeof testLocation === 'string') {
+    const trimmedLocation = testLocation.trim();
+    normalizedLocation = trimmedLocation ? trimmedLocation : null;
+  } else if (testLocation !== undefined && testLocation !== null) {
+    const coerced = String(testLocation).trim();
+    normalizedLocation = coerced ? coerced : null;
+  }
 
-    try {
-        // Ensure a profile row exists for this user (onboarding-safe)
-        await db.query(
-            'INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING',
-            [userId]
-        );
-        const tableName = await getTestPlanTableName();
-        const saved = await db.query(
-            `INSERT INTO ${tableName} (user_id, subject, test_date, test_location, passed, not_scheduled, updated_at)
+  try {
+    // Ensure a profile row exists for this user (onboarding-safe)
+    await db.query(
+      'INSERT INTO profiles (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING',
+      [userId]
+    );
+    const tableName = await getTestPlanTableName();
+    const saved = await db.query(
+      `INSERT INTO ${tableName} (user_id, subject, test_date, test_location, passed, not_scheduled, updated_at)
              VALUES ($1, $2, $3, $4, $5, $6, NOW())
              ON CONFLICT (user_id, subject)
              DO UPDATE SET
@@ -4905,286 +6155,344 @@ async function handleSaveTestPlan(req, res) {
                not_scheduled = EXCLUDED.not_scheduled,
                updated_at = NOW()
              RETURNING user_id, subject, test_date, test_location, passed, not_scheduled`,
-            [
-                userId,
-                subj,
-                normalizedDate,
-                normalizedLocation,
-                !!passed && !normalizedNotScheduled,
-                normalizedNotScheduled
-            ]
-        );
+      [
+        userId,
+        subj,
+        normalizedDate,
+        normalizedLocation,
+        !!passed && !normalizedNotScheduled,
+        normalizedNotScheduled,
+      ]
+    );
 
-        const savedRow = saved?.rows?.[0] || null;
-        if (savedRow) {
-            const savedShape = {
-                subject: savedRow.subject,
-                testDate: normalizeTestDate(savedRow.test_date),
-                testLocation: savedRow.test_location || '',
-                passed: !!savedRow.passed,
-                notScheduled: !!savedRow.not_scheduled
-            };
-            console.log('[profile/test] saved =>', savedShape);
-        }
-
-        const bundle = await buildProfileBundle(userId);
-        console.log('[/api/profile/test] SUCCESS for subject:', subj);
-
-        return res.json({
-            ok: true,
-            success: true,
-            message: 'Saved test info.',
-            test: (saved?.rows?.[0]
-                ? {
-                    subject: saved.rows[0].subject,
-                    testDate: normalizeTestDate(saved.rows[0].test_date),
-                    testLocation: saved.rows[0].test_location || '',
-                    passed: !!saved.rows[0].passed,
-                    notScheduled: !!saved.rows[0].not_scheduled
-                  }
-                : null),
-            // Spread the bundle at top-level to preserve FE expectations
-            ...bundle,
-        });
-    } catch (err) {
-        console.error('[/api/profile/test] ERROR:', err);
-
-        return res.status(500).json({
-            ok: false,
-            error: 'Server failed to save test info.',
-            details: err?.message || String(err),
-        });
+    const savedRow = saved?.rows?.[0] || null;
+    if (savedRow) {
+      const savedShape = {
+        subject: savedRow.subject,
+        testDate: normalizeTestDate(savedRow.test_date),
+        testLocation: savedRow.test_location || '',
+        passed: !!savedRow.passed,
+        notScheduled: !!savedRow.not_scheduled,
+      };
+      console.log('[profile/test] saved =>', savedShape);
     }
+
+    const bundle = await buildProfileBundle(userId);
+    console.log('[/api/profile/test] SUCCESS for subject:', subj);
+
+    return res.json({
+      ok: true,
+      success: true,
+      message: 'Saved test info.',
+      test: saved?.rows?.[0]
+        ? {
+            subject: saved.rows[0].subject,
+            testDate: normalizeTestDate(saved.rows[0].test_date),
+            testLocation: saved.rows[0].test_location || '',
+            passed: !!saved.rows[0].passed,
+            notScheduled: !!saved.rows[0].not_scheduled,
+          }
+        : null,
+      // Spread the bundle at top-level to preserve FE expectations
+      ...bundle,
+    });
+  } catch (err) {
+    console.error('[/api/profile/test] ERROR:', err);
+
+    return res.status(500).json({
+      ok: false,
+      error: 'Server failed to save test info.',
+      details: err?.message || String(err),
+    });
+  }
 }
 
-app.patch('/api/profile/test', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), handleSaveTestPlan);
+app.patch(
+  '/api/profile/test',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  handleSaveTestPlan
+);
 // Accept legacy/alternate route as POST
-app.post('/api/profile/tests', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), handleSaveTestPlan);
+app.post(
+  '/api/profile/tests',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  handleSaveTestPlan
+);
 
-app.patch('/api/profile/challenges/tags', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, express.json(), async (req, res) => {
+app.patch(
+  '/api/profile/challenges/tags',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
     console.log('[/api/profile/challenges/tags] req.user =', req.user);
     console.log('[/api/profile/challenges/tags] req.body =', req.body);
 
     const userId = req.user?.id || req.user?.userId;
 
     if (!userId) {
-        return res.status(401).json({ error: 'Not authenticated' });
+      return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    if (!isProfileAllowlistedPath(req.path) && !(await assertUserIsActive(userId))) {
-        return res.status(403).json({ error: 'user_not_active' });
+    if (
+      !isProfileAllowlistedPath(req.path) &&
+      !(await assertUserIsActive(userId))
+    ) {
+      return res.status(403).json({ error: 'user_not_active' });
     }
     const { selectedIds } = req.body || {};
-    const ids = Array.isArray(selectedIds) ? selectedIds.map((id) => String(id)) : [];
+    const ids = Array.isArray(selectedIds)
+      ? selectedIds.map((id) => String(id))
+      : [];
 
     try {
-        const { selectionTable } = await getChallengeTables();
+      const { selectionTable } = await getChallengeTables();
 
-        await db.query(`DELETE FROM ${selectionTable} WHERE user_id = $1`, [userId]);
+      await db.query(`DELETE FROM ${selectionTable} WHERE user_id = $1`, [
+        userId,
+      ]);
 
-        for (const id of ids) {
-            await db.query(
-                `INSERT INTO ${selectionTable} (user_id, challenge_id)
+      for (const id of ids) {
+        await db.query(
+          `INSERT INTO ${selectionTable} (user_id, challenge_id)
                  VALUES ($1, $2)
                  ON CONFLICT DO NOTHING`,
-                [userId, id]
-            );
-        }
+          [userId, id]
+        );
+      }
 
-        const bundle = await buildProfileBundle(userId);
-        return res.json(bundle);
+      const bundle = await buildProfileBundle(userId);
+      return res.json(bundle);
     } catch (err) {
-        console.error('[/api/profile/challenges/tags] ERROR:', err);
-        return res.status(500).json({
-            ok: false,
-            error: 'Unable to save challenges',
-            details: err?.message || err,
-        });
+      console.error('[/api/profile/challenges/tags] ERROR:', err);
+      return res.status(500).json({
+        ok: false,
+        error: 'Unable to save challenges',
+        details: err?.message || err,
+      });
     }
-});
+  }
+);
 
-app.post('/api/profile/complete-onboarding', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, async (req, res) => {
+app.post(
+  '/api/profile/complete-onboarding',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
     console.log('[/api/profile/complete-onboarding] req.user =', req.user);
 
     const userId = req.user?.id || req.user?.userId;
 
     if (!userId) {
-        return res.status(401).json({ ok: false, error: 'Not authenticated' });
+      return res.status(401).json({ ok: false, error: 'Not authenticated' });
     }
 
     if (!(await assertUserIsActive(userId))) {
-        return res.status(403).json({ ok: false, error: 'user_not_active' });
+      return res.status(403).json({ ok: false, error: 'user_not_active' });
     }
 
     try {
-        const bundle = await buildProfileBundle(userId);
+      const bundle = await buildProfileBundle(userId);
 
-        const hasName = typeof bundle?.profile?.name === 'string'
-            ? bundle.profile.name.trim() !== ''
-            : false;
+      const hasName =
+        typeof bundle?.profile?.name === 'string'
+          ? bundle.profile.name.trim() !== ''
+          : false;
 
-        const hasAnyTestProgress = Array.isArray(bundle?.testPlan)
-            ? bundle.testPlan.some((row) => row && (row.passed || (row.testDate && String(row.testDate).trim() !== '')))
-            : false;
+      const hasAnyTestProgress = Array.isArray(bundle?.testPlan)
+        ? bundle.testPlan.some(
+            (row) =>
+              row &&
+              (row.passed ||
+                (row.testDate && String(row.testDate).trim() !== ''))
+          )
+        : false;
 
-        const hasChallenges = Array.isArray(bundle?.challengeOptions)
-            ? bundle.challengeOptions.some((opt) => opt && opt.selected)
-            : false;
+      const hasChallenges = Array.isArray(bundle?.challengeOptions)
+        ? bundle.challengeOptions.some((opt) => opt && opt.selected)
+        : false;
 
-        const ok = hasName && hasAnyTestProgress && hasChallenges;
+      const ok = hasName && hasAnyTestProgress && hasChallenges;
 
-        if (ok) {
-            await db.query(
-                `INSERT INTO profiles (user_id, onboarding_complete)
+      if (ok) {
+        await db.query(
+          `INSERT INTO profiles (user_id, onboarding_complete)
                  VALUES ($1, TRUE)
                  ON CONFLICT (user_id)
                  DO UPDATE SET onboarding_complete = TRUE`,
-                [userId]
-            );
-        }
+          [userId]
+        );
+      }
 
-        return res.json({ ok });
+      return res.json({ ok });
     } catch (err) {
-        console.error('[/api/profile/complete-onboarding] ERROR:', err);
-        return res.status(500).json({
-            ok: false,
-            error: 'Unable to complete onboarding',
-            details: err?.message || err,
-        });
+      console.error('[/api/profile/complete-onboarding] ERROR:', err);
+      return res.status(500).json({
+        ok: false,
+        error: 'Unable to complete onboarding',
+        details: err?.message || err,
+      });
     }
-});
+  }
+);
 
-app.use('/api/profile', devAuth, ensureTestUserForNow, requireAuthInProd, authRequired, profileRouter);
+app.use(
+  '/api/profile',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  profileRouter
+);
 
 app.post('/api/register', async (req, res) => {
-    const { email, password } = req.body || {};
+  const { email, password } = req.body || {};
 
-    if (typeof email !== 'string' || typeof password !== 'string') {
-        return res.status(400).json({ error: 'Email and password are required' });
+  if (typeof email !== 'string' || typeof password !== 'string') {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  if (!process.env.JWT_SECRET) {
+    console.error('Registration attempted without JWT_SECRET configured.');
+    return res.status(500).json({ error: 'Registration unavailable' });
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!normalizedEmail) {
+    return res.status(400).json({ error: 'A valid email address is required' });
+  }
+
+  if (password.length < 6) {
+    return res
+      .status(400)
+      .json({ error: 'Password must be at least 6 characters long' });
+  }
+
+  try {
+    const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+    const result = await pool.query(
+      'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at',
+      [normalizedEmail, passwordHash]
+    );
+
+    const user = formatUserRow(result.rows[0]);
+    const token = await createUserToken(user.id);
+    return res
+      .status(201)
+      .json({ message: 'Registration successful', user, token });
+  } catch (error) {
+    if (error?.code === '23505') {
+      return res.status(409).json({ error: 'Email already in use' });
     }
-
-    if (!process.env.JWT_SECRET) {
-        console.error('Registration attempted without JWT_SECRET configured.');
-        return res.status(500).json({ error: 'Registration unavailable' });
-    }
-
-    const normalizedEmail = email.trim().toLowerCase();
-    if (!normalizedEmail) {
-        return res.status(400).json({ error: 'A valid email address is required' });
-    }
-
-    if (password.length < 6) {
-        return res.status(400).json({ error: 'Password must be at least 6 characters long' });
-    }
-
-    try {
-        const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-        const result = await pool.query(
-            'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at',
-            [normalizedEmail, passwordHash]
-        );
-
-        const user = formatUserRow(result.rows[0]);
-        const token = await createUserToken(user.id);
-        return res.status(201).json({ message: 'Registration successful', user, token });
-    } catch (error) {
-        if (error?.code === '23505') {
-            return res.status(409).json({ error: 'Email already in use' });
-        }
-        console.error('Registration failed:', error);
-        return res.status(500).json({ error: 'Registration failed' });
-    }
+    console.error('Registration failed:', error);
+    return res.status(500).json({ error: 'Registration failed' });
+  }
 });
 
 app.post('/api/login', async (req, res) => {
-    const { email, password } = req.body || {};
+  const { email, password } = req.body || {};
 
-    if (typeof email !== 'string' || typeof password !== 'string') {
-        return res.status(400).json({ error: 'Email and password are required' });
+  if (typeof email !== 'string' || typeof password !== 'string') {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  if (!process.env.JWT_SECRET) {
+    console.error('Login attempted without JWT_SECRET configured.');
+    return res.status(500).json({ error: 'Login unavailable' });
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!normalizedEmail) {
+    return res.status(400).json({ error: 'A valid email address is required' });
+  }
+
+  try {
+    const result = await pool.query(
+      'SELECT id, email, password_hash, created_at FROM users WHERE email = $1',
+      [normalizedEmail]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    if (!process.env.JWT_SECRET) {
-        console.error('Login attempted without JWT_SECRET configured.');
-        return res.status(500).json({ error: 'Login unavailable' });
+    const userRow = result.rows[0];
+    const valid = await bcrypt.compare(password, userRow.password_hash);
+    if (!valid) {
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
-    if (!normalizedEmail) {
-        return res.status(400).json({ error: 'A valid email address is required' });
-    }
-
-    try {
-        const result = await pool.query(
-            'SELECT id, email, password_hash, created_at FROM users WHERE email = $1',
-            [normalizedEmail]
-        );
-
-        if (result.rowCount === 0) {
-            return res.status(401).json({ error: 'Invalid credentials' });
-        }
-
-        const userRow = result.rows[0];
-        const valid = await bcrypt.compare(password, userRow.password_hash);
-        if (!valid) {
-            return res.status(401).json({ error: 'Invalid credentials' });
-        }
-
-        const user = formatUserRow(userRow);
-        const token = await createUserToken(user.id);
-        return res.status(200).json({ message: 'Login successful', user, token });
-    } catch (error) {
-        console.error('Login failed:', error);
-        return res.status(500).json({ error: 'Login failed' });
-    }
+    const user = formatUserRow(userRow);
+    const token = await createUserToken(user.id);
+    return res.status(200).json({ message: 'Login successful', user, token });
+  } catch (error) {
+    console.error('Login failed:', error);
+    return res.status(500).json({ error: 'Login failed' });
+  }
 });
 
 app.post('/api/scores', authenticateBearerToken, async (req, res) => {
-    const { subject, score } = req.body || {};
+  const { subject, score } = req.body || {};
 
-    if (typeof subject !== 'string' || !subject.trim()) {
-        return res.status(400).json({ error: 'Subject is required' });
-    }
+  if (typeof subject !== 'string' || !subject.trim()) {
+    return res.status(400).json({ error: 'Subject is required' });
+  }
 
-    const numericScore = Number(score);
-    if (!Number.isFinite(numericScore)) {
-        return res.status(400).json({ error: 'Score must be a number' });
-    }
+  const numericScore = Number(score);
+  if (!Number.isFinite(numericScore)) {
+    return res.status(400).json({ error: 'Score must be a number' });
+  }
 
-    try {
-        const result = await pool.query(
-            'INSERT INTO scores (user_id, subject, score) VALUES ($1, $2, $3) RETURNING id, user_id, subject, score, taken_at',
-            [req.user.userId, subject.trim(), Math.round(numericScore)]
-        );
+  try {
+    const result = await pool.query(
+      'INSERT INTO scores (user_id, subject, score) VALUES ($1, $2, $3) RETURNING id, user_id, subject, score, taken_at',
+      [req.user.userId, subject.trim(), Math.round(numericScore)]
+    );
 
-        return res.status(201).json(formatScoreRow(result.rows[0]));
-    } catch (error) {
-        console.error('Failed to save score:', error);
-        return res.status(500).json({ error: 'Failed to save score' });
-    }
+    return res.status(201).json(formatScoreRow(result.rows[0]));
+  } catch (error) {
+    console.error('Failed to save score:', error);
+    return res.status(500).json({ error: 'Failed to save score' });
+  }
 });
 
 app.get('/api/scores', authenticateBearerToken, async (req, res) => {
-    try {
-        const result = await pool.query(
-            'SELECT id, user_id, subject, score, taken_at FROM scores WHERE user_id = $1 ORDER BY taken_at ASC',
-            [req.user.userId]
-        );
+  try {
+    const result = await pool.query(
+      'SELECT id, user_id, subject, score, taken_at FROM scores WHERE user_id = $1 ORDER BY taken_at ASC',
+      [req.user.userId]
+    );
 
-        return res.status(200).json(result.rows.map(formatScoreRow));
-    } catch (error) {
-        console.error('Failed to fetch scores:', error);
-        return res.status(500).json({ error: 'Failed to fetch scores' });
-    }
+    return res.status(200).json(result.rows.map(formatScoreRow));
+  } catch (error) {
+    console.error('Failed to fetch scores:', error);
+    return res.status(500).json({ error: 'Failed to fetch scores' });
+  }
 });
 
 app.get('/client-config.js', (req, res) => {
-    // Compute external origin (Render forwards proto)
-    const xfProto = (req.headers['x-forwarded-proto'] || '').toString().split(',')[0].trim();
-    const proto = xfProto || req.protocol || 'https';
-    const host = req.get('host');
-    const origin = `${proto}://${host}`;
+  // Compute external origin (Render forwards proto)
+  const xfProto = (req.headers['x-forwarded-proto'] || '')
+    .toString()
+    .split(',')[0]
+    .trim();
+  const proto = xfProto || req.protocol || 'https';
+  const host = req.get('host');
+  const origin = `${proto}://${host}`;
 
-    const js = `
+  const js = `
         // Merge app config flags
         (function(){
             try {
@@ -5193,248 +6501,327 @@ app.get('/client-config.js', (req, res) => {
             } catch (e) {}
             try {
                 var cfg = (typeof window.__CLIENT_CONFIG__ === 'object' && window.__CLIENT_CONFIG__) ? window.__CLIENT_CONFIG__ : {};
-                cfg.API_BASE_URL = cfg.API_BASE_URL || ${JSON.stringify(origin)};
+                cfg.API_BASE_URL = cfg.API_BASE_URL || ${JSON.stringify(
+                  origin
+                )};
                 window.__CLIENT_CONFIG__ = cfg;
             } catch (e) {}
         })();
     `;
-    res.type('application/javascript').send(js);
+  res.type('application/javascript').send(js);
 });
 
 let curatedImages = [];
 // Load the new, structured image repository from the local file system.
-const imageRepositoryPath = path.join(__dirname, 'data', 'image_metadata_final.json');
+const imageRepositoryPath = path.join(
+  __dirname,
+  'data',
+  'image_metadata_final.json'
+);
 
 try {
-    const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
-    curatedImages = JSON.parse(imageData);
-    console.log(`Successfully loaded and parsed ${curatedImages.length} images from the local repository.`);
+  const imageData = fs.readFileSync(imageRepositoryPath, 'utf8');
+  curatedImages = JSON.parse(imageData);
+  console.log(
+    `Successfully loaded and parsed ${curatedImages.length} images from the local repository.`
+  );
 } catch (error) {
-    console.error('Failed to load or parse image_metadata.json:', error);
+  console.error('Failed to load or parse image_metadata.json:', error);
 }
 
 function pickCandidateUrls(subject, topic) {
-    if (subject === 'Social Studies') {
-        return [
-            `https://www.britannica.com/search?query=${encodeURIComponent(topic)}`,
-            `https://www.loc.gov/search/?q=${encodeURIComponent(topic)}&all=true`,
-            `https://www.archives.gov/search?query=${encodeURIComponent(topic)}`,
-            `https://www.presidency.ucsb.edu/documents?field-keywords=${encodeURIComponent(topic)}`
-        ];
+  if (subject === 'Social Studies') {
+    return [
+      `https://www.britannica.com/search?query=${encodeURIComponent(topic)}`,
+      `https://www.loc.gov/search/?q=${encodeURIComponent(topic)}&all=true`,
+      `https://www.archives.gov/search?query=${encodeURIComponent(topic)}`,
+      `https://www.presidency.ucsb.edu/documents?field-keywords=${encodeURIComponent(
+        topic
+      )}`,
+    ];
+  }
+  if (subject === 'Science') {
+    const seeds = [
+      `https://www.nasa.gov/search/?q=${encodeURIComponent(topic)}`,
+      `https://www.noaa.gov/search?s=${encodeURIComponent(topic)}`,
+      `https://oceanservice.noaa.gov/search.html?q=${encodeURIComponent(
+        topic
+      )}`,
+    ];
+    if (/climate|weather|atmosphere|carbon|warming/i.test(topic)) {
+      seeds.splice(1, 0, 'https://climate.nasa.gov/');
     }
-    if (subject === 'Science') {
-        const seeds = [
-            `https://www.nasa.gov/search/?q=${encodeURIComponent(topic)}`,
-            `https://www.noaa.gov/search?s=${encodeURIComponent(topic)}`,
-            `https://oceanservice.noaa.gov/search.html?q=${encodeURIComponent(topic)}`
-        ];
-        if (/climate|weather|atmosphere|carbon|warming/i.test(topic)) {
-            seeds.splice(1, 0, 'https://climate.nasa.gov/');
-        }
-        return seeds;
-    }
-    if (subject === 'Reasoning Through Language Arts (RLA)' || subject === 'RLA') {
-        return [
-            `https://www.britannica.com/search?query=${encodeURIComponent(topic)}`,
-            `https://www.loc.gov/search/?q=${encodeURIComponent(topic)}&all=true`
-        ];
-    }
-    return [];
+    return seeds;
+  }
+  if (
+    subject === 'Reasoning Through Language Arts (RLA)' ||
+    subject === 'RLA'
+  ) {
+    return [
+      `https://www.britannica.com/search?query=${encodeURIComponent(topic)}`,
+      `https://www.loc.gov/search/?q=${encodeURIComponent(topic)}&all=true`,
+    ];
+  }
+  return [];
 }
 
 function compactText(s, maxWords = 300) {
-    if (!s) return '';
-    const words = s.trim().split(/\s+/);
-    return words.slice(0, maxWords).join(' ');
+  if (!s) return '';
+  const words = s.trim().split(/\s+/);
+  return words.slice(0, maxWords).join(' ');
 }
 
 async function retrieveSnippets(subject, topic) {
-    const seeds = pickCandidateUrls(subject, topic);
-    const out = [];
-    for (const url of seeds) {
-        try {
-            const page = await fetchApproved(url);
-            out.push({
-                url: page.url,
-                title: page.title,
-                text: compactText(page.text, 320),
-                table: page.tables?.[0] || null
-            });
-            if (out.length >= 3) break;
-        } catch (e) {
-            // ignore individual fetch failures
-        }
+  const seeds = pickCandidateUrls(subject, topic);
+  const out = [];
+  for (const url of seeds) {
+    try {
+      const page = await fetchApproved(url);
+      out.push({
+        url: page.url,
+        title: page.title,
+        text: compactText(page.text, 320),
+        table: page.tables?.[0] || null,
+      });
+      if (out.length >= 3) break;
+    } catch (e) {
+      // ignore individual fetch failures
     }
-    return out;
+  }
+  return out;
 }
 
 // Build an APPROVED PASSAGES section by fetching a few allowlisted sources for the subject/topic
 async function buildApprovedPassagesSection(subject, topic) {
-    try {
-        const seeds = pickCandidateUrls(subject, topic);
-        const results = [];
-        for (const url of seeds) {
-            try {
-                const page = await fetchApproved(url);
-                results.push({
-                    url: page.url,
-                    title: page.title,
-                    text: compactText(page.text, 320),
-                    table: Array.isArray(page.tables) && page.tables.length ? page.tables[0] : null
-                });
-                if (results.length >= 3) break;
-            } catch (_) {
-                // skip failed URL
-            }
-        }
-
-        if (!results.length) return '';
-        return `APPROVED PASSAGES (use these first, do not fabricate sources):\n${JSON.stringify(results, null, 2)}\n`;
-    } catch (e) {
-        return '';
+  try {
+    const seeds = pickCandidateUrls(subject, topic);
+    const results = [];
+    for (const url of seeds) {
+      try {
+        const page = await fetchApproved(url);
+        results.push({
+          url: page.url,
+          title: page.title,
+          text: compactText(page.text, 320),
+          table:
+            Array.isArray(page.tables) && page.tables.length
+              ? page.tables[0]
+              : null,
+        });
+        if (results.length >= 3) break;
+      } catch (_) {
+        // skip failed URL
+      }
     }
+
+    if (!results.length) return '';
+    return `APPROVED PASSAGES (use these first, do not fabricate sources):\n${JSON.stringify(
+      results,
+      null,
+      2
+    )}\n`;
+  } catch (e) {
+    return '';
+  }
 }
 
 // Allowed question types across subjects (non-Math)
 const ALLOWED_QUESTION_TYPES = new Set([
-    'multiple_choice_single',
-    'multiple_select',
-    'drag_drop_ordering',
-    'short_constructed_response'
+  'multiple_choice_single',
+  'multiple_select',
+  'drag_drop_ordering',
+  'short_constructed_response',
 ]);
 
 // Unified prompt builder per subject and exam type
-function buildSubjectPrompt({ subject, topic, examType, context = [], images = [], questionCount = 12, approvedPassagesSection = '' }) {
-    const isComprehensive = examType === 'comprehensive';
+function buildSubjectPrompt({
+  subject,
+  topic,
+  examType,
+  context = [],
+  images = [],
+  questionCount = 12,
+  approvedPassagesSection = '',
+}) {
+  const isComprehensive = examType === 'comprehensive';
 
-    const contextJSON = JSON.stringify(context.map(c => ({ url: c.url, title: c.title, text: c.text, table: c.table || null })));
-    const imagesJSON = JSON.stringify((images || []).map((im, i) => ({ id: im.id || `img${i+1}`, src: im.filePath, alt: im.altText || '', description: im.detailedDescription || '' })));
+  const contextJSON = JSON.stringify(
+    context.map((c) => ({
+      url: c.url,
+      title: c.title,
+      text: c.text,
+      table: c.table || null,
+    }))
+  );
+  const imagesJSON = JSON.stringify(
+    (images || []).map((im, i) => ({
+      id: im.id || `img${i + 1}`,
+      src: im.filePath,
+      alt: im.altText || '',
+      description: im.detailedDescription || '',
+    }))
+  );
 
-    const sharedSafety = [
-        'When constructing a passage or stimulus, FIRST try to use / adapt from the APPROVED PASSAGES section above. If no approved passage matches, write an original passage. Do NOT label it, do NOT prefix it with “Original Passage:” or similar — just write the passage.',
-        'Do not attribute passages to real news outlets or paywalled sites unless they are listed above in APPROVED PASSAGES.'
-    ].join('\n');
+  const sharedSafety = [
+    'When constructing a passage or stimulus, FIRST try to use / adapt from the APPROVED PASSAGES section above. If no approved passage matches, write an original passage. Do NOT label it, do NOT prefix it with “Original Passage:” or similar — just write the passage.',
+    'Do not attribute passages to real news outlets or paywalled sites unless they are listed above in APPROVED PASSAGES.',
+  ].join('\n');
 
-    const questionTypesBlock = `QUESTION TYPES ALLOWED (choose appropriately):\n- multiple_choice_single\n- multiple_select (2 correct; MUST specify number of correct choices)\n- drag_drop_ordering (only if clearly described)\n- short_constructed_response (1–2 sentences, only when the stimulus clearly requires it)`;
+  const questionTypesBlock = `QUESTION TYPES ALLOWED (choose appropriately):\n- multiple_choice_single\n- multiple_select (2 correct; MUST specify number of correct choices)\n- drag_drop_ordering (only if clearly described)\n- short_constructed_response (1–2 sentences, only when the stimulus clearly requires it)`;
 
-    const majorityStimulusRule = 'A majority (at least 60%) of questions must use a proper stimulus (passage, chart, table, quote, diagram, or image reference). A question with no stimulus is allowed only when the skill being tested is simple (e.g., grammar fix, vocabulary in context, or a straightforward recall from the topic).';
+  const majorityStimulusRule =
+    'A majority (at least 60%) of questions must use a proper stimulus (passage, chart, table, quote, diagram, or image reference). A question with no stimulus is allowed only when the skill being tested is simple (e.g., grammar fix, vocabulary in context, or a straightforward recall from the topic).';
 
-    const schemaReminder = `Return ONE compact JSON array. Each item MUST have:\n- "questionText"\n- "options" (array) for choice questions\n- "correctAnswer" OR "correctAnswers"\n- "questionType" (must be one of the allowed types above)\n- "stimulus" or "passage" or "asset" when the question uses a stimulus\n- "subject": ${JSON.stringify(subject)}\n- "topic": ${JSON.stringify(topic)}`;
+  const schemaReminder = `Return ONE compact JSON array. Each item MUST have:\n- "questionText"\n- "options" (array) for choice questions\n- "correctAnswer" OR "correctAnswers"\n- "questionType" (must be one of the allowed types above)\n- "stimulus" or "passage" or "asset" when the question uses a stimulus\n- "subject": ${JSON.stringify(
+    subject
+  )}\n- "topic": ${JSON.stringify(topic)}`;
 
-    let header = `${STRICT_JSON_HEADER_SHARED}\n`;
-    if (approvedPassagesSection) {
-        header += `${approvedPassagesSection}\n`;
+  let header = `${STRICT_JSON_HEADER_SHARED}\n`;
+  if (approvedPassagesSection) {
+    header += `${approvedPassagesSection}\n`;
+  }
+
+  const base = [
+    header,
+    `SUBJECT STYLE: GED ${subject} — ${
+      isComprehensive ? 'Comprehensive Exam' : `Topic Quiz on "${topic}"`
+    }`,
+    `Use only the CONTEXT and IMAGES provided (if any) for factual details. Do not fabricate specific data.`,
+    questionTypesBlock,
+    majorityStimulusRule,
+    sharedSafety,
+  ];
+
+  if (isComprehensive) {
+    if (subject === 'Social Studies') {
+      base.push(
+        `STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.`,
+        `Ensure variety of stimuli: passages, historical quotes, charts/graphs, and images when appropriate.`,
+        `\nECONOMICS SUBSECTION RULES:\n- Economics items must be concise (aim for <= 120 words of setup).\n- Prefer data-based, chart-based, or policy-scenario questions over long explanatory passages.\n- Tie each economics item to an actual concept (scarcity, opportunity cost, supply/demand, government role, fiscal/monetary policy, trade).\n- If IMAGE_CONTEXT provides an economics-relevant image/table, use it and make the student interpret it.`
+      );
+    } else if (subject === 'Science') {
+      base.push(
+        `STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 40% Life Science, 40% Physical Science, 20% Earth & Space.`,
+        `Ensure variety of stimuli: passages, data tables/graphs, and diagrams.`,
+        `Ensure that at least one-third (1/3) of all questions require scientific numeracy — interpreting data tables, reading charts, working with units/measurements, using or reading formulas, or doing a short calculation.`
+      );
+      base.push(TABLE_INTEGRITY_RULES);
+    } else if (isRlaSubject(subject)) {
+      base.push(
+        `RLA comprehensive: keep the existing 3-part flow as-is (reading comprehension, extended response prompt, and language/grammar).`
+      );
     }
-
-    const base = [
-        header,
-        `SUBJECT STYLE: GED ${subject} — ${isComprehensive ? 'Comprehensive Exam' : `Topic Quiz on "${topic}"`}`,
-        `Use only the CONTEXT and IMAGES provided (if any) for factual details. Do not fabricate specific data.`,
-        questionTypesBlock,
-        majorityStimulusRule,
-        sharedSafety
-    ];
-
-    if (isComprehensive) {
-        if (subject === 'Social Studies') {
-            base.push(
-                `STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.`,
-                `Ensure variety of stimuli: passages, historical quotes, charts/graphs, and images when appropriate.`,
-                `\nECONOMICS SUBSECTION RULES:\n- Economics items must be concise (aim for <= 120 words of setup).\n- Prefer data-based, chart-based, or policy-scenario questions over long explanatory passages.\n- Tie each economics item to an actual concept (scarcity, opportunity cost, supply/demand, government role, fiscal/monetary policy, trade).\n- If IMAGE_CONTEXT provides an economics-relevant image/table, use it and make the student interpret it.`
-            );
-        } else if (subject === 'Science') {
-            base.push(
-                `STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 40% Life Science, 40% Physical Science, 20% Earth & Space.`,
-                `Ensure variety of stimuli: passages, data tables/graphs, and diagrams.`,
-                `Ensure that at least one-third (1/3) of all questions require scientific numeracy — interpreting data tables, reading charts, working with units/measurements, using or reading formulas, or doing a short calculation.`
-            );
-            base.push(TABLE_INTEGRITY_RULES);
-        } else if (isRlaSubject(subject)) {
-            base.push(`RLA comprehensive: keep the existing 3-part flow as-is (reading comprehension, extended response prompt, and language/grammar).`);
-        }
-    } else {
-        if (subject === 'Social Studies') {
-            base.push(
-                `This is a TOPIC-FOCUSED quiz. Stay strictly on "${topic}" or its immediate historical/civic context. Do NOT apply or rebalance to comprehensive percentages (e.g., 50/20/15/15).`,
-                `Generate ${questionCount} GED-style Social Studies questions focused entirely on the topic "${topic}" (e.g., Constitution, founding documents, branches of government, key amendments). Do not introduce unrelated economics or geography content unless it is clearly and explicitly tied to the topic.`,
-                `Prefer primary-source style stimuli: speeches, letters, founding-era documents, short legal excerpts, and historically grounded encyclopedia entries (use approved sources when possible).`,
-                `Keep the variety of stimuli, but tie all stimuli directly to the topic.`
-            );
-        } else if (subject === 'Science') {
-            base.push(
-                `Generate ${questionCount} GED-style Science questions focused entirely on the topic "${topic}". Do not mix in Life/Earth/Space strands that are unrelated to the topic. Prefer data-driven science questions (tables, charts, labeled diagrams) that match this topic.`,
-                `Keep the variety of stimuli, and prefer data tables/graphs and short experiment setups tied to the topic.`
-            );
-            base.push(TABLE_INTEGRITY_RULES);
-        } else if (isRlaSubject(subject)) {
-            base.push(
-                `Generate ${questionCount} GED-style RLA questions focused on the skill area "${topic}" (for example, Grammar, Usage, Conventions, Reading Comprehension, or Vocabulary). Do not enforce the 75% informational / 25% literary split here unless the topic explicitly asks for it.`,
-                `Keep a variety of stimuli appropriate for the skill, and prefer short passages for reading items.`
-            );
-        }
-        base.push(
-            `Prioritize attaching a stimulus to the question. For Social Studies, prefer historical quotes, short excerpts from founding documents, charts on population/voting, or image descriptions from the approved list. For Science, prefer data tables, experiment setups, labeled diagrams. For RLA, prefer short passages.`
-        );
+  } else {
+    if (subject === 'Social Studies') {
+      base.push(
+        `This is a TOPIC-FOCUSED quiz. Stay strictly on "${topic}" or its immediate historical/civic context. Do NOT apply or rebalance to comprehensive percentages (e.g., 50/20/15/15).`,
+        `Generate ${questionCount} GED-style Social Studies questions focused entirely on the topic "${topic}" (e.g., Constitution, founding documents, branches of government, key amendments). Do not introduce unrelated economics or geography content unless it is clearly and explicitly tied to the topic.`,
+        `Prefer primary-source style stimuli: speeches, letters, founding-era documents, short legal excerpts, and historically grounded encyclopedia entries (use approved sources when possible).`,
+        `Keep the variety of stimuli, but tie all stimuli directly to the topic.`
+      );
+    } else if (subject === 'Science') {
+      base.push(
+        `Generate ${questionCount} GED-style Science questions focused entirely on the topic "${topic}". Do not mix in Life/Earth/Space strands that are unrelated to the topic. Prefer data-driven science questions (tables, charts, labeled diagrams) that match this topic.`,
+        `Keep the variety of stimuli, and prefer data tables/graphs and short experiment setups tied to the topic.`
+      );
+      base.push(TABLE_INTEGRITY_RULES);
+    } else if (isRlaSubject(subject)) {
+      base.push(
+        `Generate ${questionCount} GED-style RLA questions focused on the skill area "${topic}" (for example, Grammar, Usage, Conventions, Reading Comprehension, or Vocabulary). Do not enforce the 75% informational / 25% literary split here unless the topic explicitly asks for it.`,
+        `Keep a variety of stimuli appropriate for the skill, and prefer short passages for reading items.`
+      );
     }
-
     base.push(
-        `CONTEXT:${contextJSON}`,
-        `IMAGES:${imagesJSON}`,
-        `Return ONE compact JSON array with exactly ${questionCount} items.`,
-        schemaReminder
+      `Prioritize attaching a stimulus to the question. For Social Studies, prefer historical quotes, short excerpts from founding documents, charts on population/voting, or image descriptions from the approved list. For Science, prefer data tables, experiment setups, labeled diagrams. For RLA, prefer short passages.`
     );
+  }
 
-    return base.join('\n');
+  base.push(
+    `CONTEXT:${contextJSON}`,
+    `IMAGES:${imagesJSON}`,
+    `Return ONE compact JSON array with exactly ${questionCount} items.`,
+    schemaReminder
+  );
+
+  return base.join('\n');
 }
 
 function hasStimulus(item) {
-    return Boolean(
-        (typeof item?.stimulus === 'string' && item.stimulus.trim()) ||
-        (typeof item?.passage === 'string' && item.passage.trim()) ||
-        (item && typeof item.asset === 'object' && item.asset !== null) ||
-        (item && item.stimulusImage && typeof item.stimulusImage.src === 'string')
-    );
+  return Boolean(
+    (typeof item?.stimulus === 'string' && item.stimulus.trim()) ||
+      (typeof item?.passage === 'string' && item.passage.trim()) ||
+      (item && typeof item.asset === 'object' && item.asset !== null) ||
+      (item && item.stimulusImage && typeof item.stimulusImage.src === 'string')
+  );
 }
 
 // Drop items without allowed questionType; warn if insufficient stimulus usage
 function validateAndFilterAiItems(items, subject, topic) {
-    if (!Array.isArray(items)) return [];
-    const filtered = items.filter((it) => {
-        const qt = typeof it?.questionType === 'string' ? it.questionType : '';
-        return ALLOWED_QUESTION_TYPES.has(qt);
-    }).map((it) => ({
-        ...it,
-        subject: subject,
-        topic: topic
+  if (!Array.isArray(items)) return [];
+  const filtered = items
+    .filter((it) => {
+      const qt = typeof it?.questionType === 'string' ? it.questionType : '';
+      return ALLOWED_QUESTION_TYPES.has(qt);
+    })
+    .map((it) => ({
+      ...it,
+      subject: subject,
+      topic: topic,
     }));
 
-    const withStim = filtered.filter((it) => hasStimulus(it)).length;
-    const ratio = filtered.length ? (withStim / filtered.length) : 0;
-    if (ratio < 0.6) {
-        try { console.warn('[AI][QUIZ] insufficient stimulus-bearing questions for topic', subject, topic); } catch {}
-    }
-    return filtered;
+  const withStim = filtered.filter((it) => hasStimulus(it)).length;
+  const ratio = filtered.length ? withStim / filtered.length : 0;
+  if (ratio < 0.6) {
+    try {
+      console.warn(
+        '[AI][QUIZ] insufficient stimulus-bearing questions for topic',
+        subject,
+        topic
+      );
+    } catch {}
+  }
+  return filtered;
 }
 
 // START: New Helper Functions for Variety Pack Generation
 
-function buildTopicPrompt_VarietyPack(subject, topic, n = 12, ctx = [], imgs = []) {
-    const contextJSON = JSON.stringify(ctx.map(c => ({
-        url: c.url, title: c.title, text: c.text, table: c.table || null
-    })));
+function buildTopicPrompt_VarietyPack(
+  subject,
+  topic,
+  n = 12,
+  ctx = [],
+  imgs = []
+) {
+  const contextJSON = JSON.stringify(
+    ctx.map((c) => ({
+      url: c.url,
+      title: c.title,
+      text: c.text,
+      table: c.table || null,
+    }))
+  );
 
-    const imagesJSON = JSON.stringify((imgs || []).map((im, i) => ({
-        id: im.id || `img${i+1}`, src: im.filePath, alt: im.altText || '', description: im.detailedDescription || ''
-    })));
+  const imagesJSON = JSON.stringify(
+    (imgs || []).map((im, i) => ({
+      id: im.id || `img${i + 1}`,
+      src: im.filePath,
+      alt: im.altText || '',
+      description: im.detailedDescription || '',
+    }))
+  );
 
-    const canonicalSubject = isRlaSubject(subject) ? RLA_SUBJECT_LABEL : subject;
-    const skillDescription = (SMITH_A_SKILL_MAP[subject] || SMITH_A_SKILL_MAP[canonicalSubject])?.[topic];
-    const skillFocusLine = skillDescription ? `Skill focus: ${skillDescription}\n` : '';
-    const isScientificNumeracy = subject === 'Science' && /scientific\s+numeracy/i.test(topic);
+  const canonicalSubject = isRlaSubject(subject) ? RLA_SUBJECT_LABEL : subject;
+  const skillDescription = (SMITH_A_SKILL_MAP[subject] ||
+    SMITH_A_SKILL_MAP[canonicalSubject])?.[topic];
+  const skillFocusLine = skillDescription
+    ? `Skill focus: ${skillDescription}\n`
+    : '';
+  const isScientificNumeracy =
+    subject === 'Science' && /scientific\s+numeracy/i.test(topic);
 
-    let MIX_RULES;
-    if (isScientificNumeracy) {
-        MIX_RULES = `
+  let MIX_RULES;
+  if (isScientificNumeracy) {
+    MIX_RULES = `
 ${skillFocusLine}Mix (exactly ${n} items):
 - Generate exactly ${n} standalone GED Science numeracy questions grounded in short lab-style setups, tables, or simple graphs.
 - Keep each context concise (no more than 2–3 sentences) or provide a small HTML <table>. Avoid long reading passages or argumentative analysis.
@@ -5449,8 +6836,8 @@ Variety rules:
 - Rotate scenarios (rates, density, lab measurements, household budgets, etc.).
 - When using tables, keep them small (≤4 rows) and directly tied to the required computation.
 `;
-    } else if (subject === 'Math') {
-        MIX_RULES = `
+  } else if (subject === 'Math') {
+    MIX_RULES = `
 ${skillFocusLine}Mix (exactly ${n} items):
 - Generate exactly 12 standalone GED Math problems. Each item MUST be fully standalone and must not rely on any shared passages or images.
 - Absolutely DO NOT create passages or request/use any images for these questions.
@@ -5474,8 +6861,8 @@ Formatting notes:
 - Do not wrap mathematical expressions in $, $$, \(:, or \[.
 - Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
 `;
-    } else {
-        MIX_RULES = `
+  } else {
+    MIX_RULES = `
 ${skillFocusLine}Mix (exactly ${n} items):
 - Create 2 passages. Generate 2 questions for each passage (total 4 passage questions).
 - Use 2 images. Generate 2 questions for the first image and 1 question for the second image (total 3 image questions).
@@ -5496,28 +6883,28 @@ Citations:
 Word caps:
 - Any passage ≤ 250 words. Keep questionText concise.
 `;
-    }
+  }
 
-    const SUBSKILLS = {
-        "Science": `
+  const SUBSKILLS = {
+    Science: `
 Subskills to rotate (Science):
 - data interpretation (tables, rates, units), variables & controls, cause/effect, model reading, basic calc (percent, ratio), experimental design, claims vs evidence.
 Prefer plain text; use small <table> only when essential.`,
-        "Social Studies": `
+    'Social Studies': `
 Subskills to rotate (Social Studies):
 - civics processes, document interpretation (quotes), economic reasoning (supply/demand, inflation, unemployment), map/graph reading, chronology/timeline, main idea/inference, rights & responsibilities.`,
-        "Math": `
+    Math: `
 Subskills to rotate (Math):
 - number operations, fractions/decimals/percents, ratios/proportions, linear equations/inequalities, functions/graphs (described in text), geometry/measurement, data & probability. Fractions must use slash notation (e.g., 3/4, (2x+1)/3). Keep notation inline and avoid $$ display math. CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.`,
-        "Reasoning Through Language Arts (RLA)": `
+    'Reasoning Through Language Arts (RLA)': `
 Subskills to rotate (RLA):
 - main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`,
-        "RLA": `
+    RLA: `
 Subskills to rotate (RLA):
-- main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`
-    };
+- main idea, inference, text structure, tone/purpose, evidence selection, vocabulary-in-context, grammar/usage/clarity edits. Passages short and clear.`,
+  };
 
-        const smithAGuardrails = `
+  const smithAGuardrails = `
 You are generating a ${n}-question GED-style quiz for a single subject/topic. The output MUST be valid JSON that can be parsed directly by JSON.parse with no repairs.
 
 Important formatting rule for tables:
@@ -5558,7 +6945,7 @@ Rules:
 6. Do not output anything outside the JSON object.
 `;
 
-        return `${STRICT_JSON_HEADER_SHARED}
+  return `${STRICT_JSON_HEADER_SHARED}
 SUBJECT STYLE: GED ${subject} — Topic Pack on "${topic}"
 Use only the CONTEXT and IMAGES provided (if any) for factual details. Do not fabricate specific data.
 ${MIX_RULES}
@@ -5572,37 +6959,45 @@ Return ONE compact JSON array with exactly ${n} items.`;
 // Add this new prompt library to server.js
 
 const promptLibrary = {
-    "Social Studies": {
-        topic: (topic) => `Generate a 15-question GED-style Social Studies quiz focused on "${topic}".
+  'Social Studies': {
+    topic: (
+      topic
+    ) => `Generate a 15-question GED-style Social Studies quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 50% Civics & Government, 20% U.S. History, 15% Economics, 15% Geography & the World.
         STRICT STIMULUS REQUIREMENTS: A variety of stimuli MUST be used. Include at least 2 questions based on a chart/graph, 2 questions based on a historical quote, and 2 questions based on an image from the provided descriptions. The rest should be text passages.
         NO REDUNDANCY RULE: All 15 questions must feature distinct scenarios, time periods, data sets, and stimulus materials. Do not reuse wording, answer choices, or prompts across questions.`,
-        comprehensive: `Generate a 35-question comprehensive GED Social Studies exam.
+    comprehensive: `Generate a 35-question comprehensive GED Social Studies exam.
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 50% Civics & Government, 20% U.S. History, 15% Economics, and 15% Geography & the World.
-        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.`
-    },
-    "Science": {
-        topic: (topic) => `Generate a 15-question GED-style Science quiz focused on "${topic}".
+        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, historical quotes, charts, graphs, and images from the provided descriptions.`,
+  },
+  Science: {
+    topic: (
+      topic
+    ) => `Generate a 15-question GED-style Science quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages AS CLOSELY AS POSSIBLE: 40% Life Science, 40% Physical Science, 20% Earth and Space Science.
         STRICT STIMULUS REQUIREMENTS: Ensure a mix of stimuli, including text passages, data tables/graphs, and diagrams from the provided descriptions. Questions should test reading comprehension of scientific texts and scientific reasoning.
         NO REDUNDANCY RULE: All 15 questions must cover different experimental setups, phenomena, or data sets. Do not repeat question wording, contexts, or answer choices.
         IMAGE ALIGNMENT RULE: Any requested image must directly represent the scientific concept in the question (e.g., cell diagrams for biology, circuit diagrams for physical science, climate charts for Earth science). Avoid generic or tangential imagery and never request illustrations unrelated to the prompt.`,
-        comprehensive: `Generate a 38-question comprehensive GED Science exam.
+    comprehensive: `Generate a 38-question comprehensive GED Science exam.
         STRICT CONTENT REQUIREMENTS: Adhere to these content percentages EXACTLY: 40% Life Science, 40% Physical Science, 20% Earth and Space Science.
-        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, data tables formatted as HTML, charts, and scientific diagrams from the provided descriptions.`
-    },
-"Reasoning Through Language Arts (RLA)": {
-    topic: (topic) => `Generate a 15-question GED-style RLA quiz focused on "${topic}".
+        STRICT STIMULUS REQUIREMENTS: The quiz must include a diverse mix of stimuli, including text passages, data tables formatted as HTML, charts, and scientific diagrams from the provided descriptions.`,
+  },
+  'Reasoning Through Language Arts (RLA)': {
+    topic: (
+      topic
+    ) => `Generate a 15-question GED-style RLA quiz focused on "${topic}".
         STRICT CONTENT REQUIREMENTS: The quiz must be 75% Informational Text (non-fiction, workplace documents) and 25% Literary Text. It must include a mix of reading comprehension questions and language/grammar questions. DO NOT generate Social Studies questions; generate RLA questions using passages ABOUT "${topic}".
         CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.`,
     comprehensive: {
-    part1: `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, and each passage MUST have a concise, engaging title wrapped in <strong> tags. The passages must be formatted with <p> tags for each paragraph. The passage breakdown must be 3 informational texts and 1 literary text. For EACH of the 4 passages, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions.`,
-    part2: `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two short, opposing passages that you create. The passages should be 3-4 paragraphs each and formatted with <p> tags. Each of the two passages MUST have its own title. The output should be a JSON object with two keys: "passages" (an array of two objects, each with a "title" and "content") and "prompt" (the essay question).`,
-    part3: `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each) formatted with <p> tags. The passages should contain a mix of grammatical errors, awkward phrasing, and organizational issues. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences, improving word choice, and identifying errors. This should total 25 questions.`
-}
-},
-    "Math": {
-        topic: (topic) => `You are a GED Math exam creator. Maintain precise, readable notation for every problem.
+      part1: `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, and each passage MUST have a concise, engaging title wrapped in <strong> tags. The passages must be formatted with <p> tags for each paragraph. The passage breakdown must be 3 informational texts and 1 literary text. For EACH of the 4 passages, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions.`,
+      part2: `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two short, opposing passages that you create. The passages should be 3-4 paragraphs each and formatted with <p> tags. Each of the two passages MUST have its own title. The output should be a JSON object with two keys: "passages" (an array of two objects, each with a "title" and "content") and "prompt" (the essay question).`,
+      part3: `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each) formatted with <p> tags. The passages should contain a mix of grammatical errors, awkward phrasing, and organizational issues. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences, improving word choice, and identifying errors. This should total 25 questions.`,
+    },
+  },
+  Math: {
+    topic: (
+      topic
+    ) => `You are a GED Math exam creator. Maintain precise, readable notation for every problem.
 
 ${FRACTION_PLAIN_TEXT_RULE}
 
@@ -5615,7 +7010,7 @@ Additional formatting rules:
 
 With those rules in mind, generate a 15-question GED-style Math quiz focused on "${topic}".
 STRICT CONTENT REQUIREMENTS: The questions must be approximately 45% Quantitative Problems and 55% Algebraic Problems.`,
-        comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
+    comprehensive: `Generate a 46-question comprehensive GED Mathematical Reasoning exam.
 ${FRACTION_PLAIN_TEXT_RULE}
 
 Additional formatting rules:
@@ -5626,25 +7021,28 @@ Additional formatting rules:
 - CRITICAL FORMATTING RULE: Do NOT wrap single variables or simple numbers in dollar signs. Write expressions like 5x + 3 = 10. Avoid incorrect forms like 5$x$ + 3 = 10.
 - Include word problems and questions based on data charts.
 
-STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems.`
-    }
+STRICT CONTENT REQUIREMENTS: The quiz must be EXACTLY 45% Quantitative Problems and 55% Algebraic Problems.`,
+  },
 };
 
 promptLibrary[RLA_SUBJECT_ALIAS] = promptLibrary[RLA_SUBJECT_LABEL];
 
 function existingTopicPrompt(subject, topic, count = 15) {
-    const entry = promptLibrary?.[subject];
-    if (entry && typeof entry.topic === 'function') {
-        try {
-            if (entry.topic.length >= 2) {
-                return entry.topic(topic, count);
-            }
-            return entry.topic(topic);
-        } catch (err) {
-            console.warn('Error building legacy topic prompt, using fallback:', err?.message || err);
-        }
+  const entry = promptLibrary?.[subject];
+  if (entry && typeof entry.topic === 'function') {
+    try {
+      if (entry.topic.length >= 2) {
+        return entry.topic(topic, count);
+      }
+      return entry.topic(topic);
+    } catch (err) {
+      console.warn(
+        'Error building legacy topic prompt, using fallback:',
+        err?.message || err
+      );
     }
-    return `Generate ${count} GED-style ${subject} questions focused on "${topic}".`;
+  }
+  return `Generate ${count} GED-style ${subject} questions focused on "${topic}".`;
 }
 
 app.get('/', (req, res) => {
@@ -5653,663 +7051,756 @@ app.get('/', (req, res) => {
 
 // NEW FEATURE: Endpoint to define a word, as used in your index.html
 app.post('/define-word', async (req, res) => {
-    const { word } = req.body;
-    if (!word) {
-        return res.status(400).json({ error: 'A word is required.' });
-    }
+  const { word } = req.body;
+  if (!word) {
+    return res.status(400).json({ error: 'A word is required.' });
+  }
 
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-     if (!apiKey) {
-        console.error('API key not configured on the server.');
-        return res.status(500).json({ error: 'Server configuration error.' });
-    }
+  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  if (!apiKey) {
+    console.error('API key not configured on the server.');
+    return res.status(500).json({ error: 'Server configuration error.' });
+  }
 
-    const prompt = `Provide a concise, GED-level definition for the word: "${word}".`;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-    };
+  const prompt = `Provide a concise, GED-level definition for the word: "${word}".`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+  };
 
-    try {
-        const response = await http.post(apiUrl, payload);
-        const definition = response.data.candidates[0].content.parts[0].text;
-        res.json({ definition });
-    } catch (error) {
-        console.error('Error calling Google AI API for definition:', error.response ? error.response.data : error.message);
-        res.status(500).json({ error: 'Failed to get definition from AI service.' });
-    }
+  try {
+    const response = await http.post(apiUrl, payload);
+    const definition = response.data.candidates[0].content.parts[0].text;
+    res.json({ definition });
+  } catch (error) {
+    console.error(
+      'Error calling Google AI API for definition:',
+      error.response ? error.response.data : error.message
+    );
+    res
+      .status(500)
+      .json({ error: 'Failed to get definition from AI service.' });
+  }
 });
-
 
 // =================================================================
 // REPLACED ROUTE: This now uses the "Variety Pack" logic.
 // =================================================================
 app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
-    const rawSubject = req.params.subject;
-    const subject = normalizeSubjectParam(rawSubject);
-    const { topic, difficulty } = req.body || {};
-    const QUIZ_COUNT = 12;
+  const rawSubject = req.params.subject;
+  const subject = normalizeSubjectParam(rawSubject);
+  const { topic, difficulty } = req.body || {};
+  const QUIZ_COUNT = 12;
 
-    if (!subject || !SMITH_A_ALLOWED_SUBJECTS.has(subject)) {
-        return res.status(400).json({ success: false, error: 'Invalid subject' });
+  if (!subject || !SMITH_A_ALLOWED_SUBJECTS.has(subject)) {
+    return res.status(400).json({ success: false, error: 'Invalid subject' });
+  }
+  if (!topic || typeof topic !== 'string') {
+    return res
+      .status(400)
+      .json({ success: false, error: 'Missing or invalid topic' });
+  }
+
+  const isScientificNumeracy =
+    subject === 'Science' && /scientific\s+numeracy/i.test(topic);
+
+  try {
+    console.log(
+      `[Variety Pack] Starting generation for Subject: ${subject}, Topic: ${topic}`
+    );
+
+    // 1. Retrieve web context for relevant subjects
+    let subjectNeedsRetrieval = [
+      'Science',
+      'Social Studies',
+      'RLA',
+      'Reasoning Through Language Arts (RLA)',
+    ].includes(subject);
+    if (isScientificNumeracy) {
+      subjectNeedsRetrieval = false;
     }
-    if (!topic || typeof topic !== 'string') {
-        return res.status(400).json({ success: false, error: 'Missing or invalid topic' });
+    const ctx = subjectNeedsRetrieval
+      ? await retrieveSnippets(subject, topic)
+      : [];
+    console.log(`[Variety Pack] Retrieved ${ctx.length} context snippets.`);
+
+    // 2. Find relevant images for Science and Social Studies only
+    let subjectNeedsImages = ['Science', 'Social Studies'].includes(subject);
+    if (isScientificNumeracy) {
+      subjectNeedsImages = false;
+    }
+    const imgs = subjectNeedsImages
+      ? findImagesForSubjectTopic(subject, topic, 6)
+      : [];
+    console.log(`[Variety Pack] Found ${imgs.length} candidate images.`);
+
+    // --- Economics prompt tightening for Social Studies ---
+    let promptEconomicsTightening = '';
+    if (subject === 'Social Studies') {
+      const topicLc = (topic || '').toLowerCase();
+      if (topicLc.includes('economics') || topicLc.includes('economic')) {
+        promptEconomicsTightening = `\nFocus specifically on economics reasoning, data interpretation, and real-world application.\nQuestions should assess understanding of:\n- Supply and demand\n- Opportunity cost\n- Market structures\n- Fiscal and monetary policy\n- Trade and GDP\nDo NOT produce a general reading passage about economics; it must test an economic concept.\nUse tables, charts, or short policy scenarios when possible.\n`;
+      }
+    }
+    // 3. Build the topic prompt (new behavior for non-Math) with approved passages section
+    let winnerModel = 'unknown';
+    let latencyMs = 0;
+    let generatedItems = [];
+
+    if (subject === 'Math' || isScientificNumeracy) {
+      // Preserve existing Math and scientific numeracy flow
+      const prompt = buildTopicPrompt_VarietyPack(
+        subject,
+        topic,
+        QUIZ_COUNT,
+        ctx,
+        imgs
+      );
+      const result = await generateWithGemini_OneCall(subject, prompt)
+        .then((items) => ({ items, model: 'gemini', latencyMs: 0 }))
+        .catch(async (geminiErr) => {
+          console.warn(
+            `[Variety Pack] Gemini call failed: ${geminiErr.message}. Attempting ChatGPT fallback.`
+          );
+          const items = await generateWithChatGPT_Fallback(subject, prompt);
+          return { items, model: 'chatgpt-fallback', latencyMs: 0 };
+        });
+      generatedItems = result.items;
+      winnerModel = result.model;
+      latencyMs = result.latencyMs || 0;
+    } else {
+      const approvedSection = await buildApprovedPassagesSection(
+        subject,
+        topic
+      );
+      const prompt = buildSubjectPrompt({
+        subject,
+        topic,
+        examType: 'topic',
+        context: ctx,
+        images: imgs,
+        questionCount: QUIZ_COUNT,
+        approvedPassagesSection: approvedSection,
+      });
+
+      const result = await generateQuizItemsWithFallback(
+        subject,
+        prompt,
+        { retries: 1 },
+        { retries: 1 }
+      );
+      generatedItems = Array.isArray(result.items) ? result.items : [];
+      winnerModel = result.model || 'unknown';
+      latencyMs = result.latencyMs || 0;
     }
 
-    const isScientificNumeracy = subject === 'Science' && /scientific\s+numeracy/i.test(topic);
+    console.log(
+      `[TopicGen] Received ${generatedItems.length} items from AI model: ${winnerModel}.`
+    );
 
-    try {
-        console.log(`[Variety Pack] Starting generation for Subject: ${subject}, Topic: ${topic}`);
+    // 4. Post-processing and validation
+    let items = generatedItems.map((it) => enforceWordCapsOnItem(it, subject));
+    items = items.map(tagMissingItemType).map(tagMissingDifficulty);
 
-        // 1. Retrieve web context for relevant subjects
-        let subjectNeedsRetrieval = ['Science', 'Social Studies', 'RLA', 'Reasoning Through Language Arts (RLA)'].includes(subject);
-        if (isScientificNumeracy) {
-            subjectNeedsRetrieval = false;
-        }
-        const ctx = subjectNeedsRetrieval ? await retrieveSnippets(subject, topic) : [];
-        console.log(`[Variety Pack] Retrieved ${ctx.length} context snippets.`);
-
-        // 2. Find relevant images for Science and Social Studies only
-        let subjectNeedsImages = ['Science', 'Social Studies'].includes(subject);
-        if (isScientificNumeracy) {
-            subjectNeedsImages = false;
-        }
-        const imgs = subjectNeedsImages ? findImagesForSubjectTopic(subject, topic, 6) : [];
-        console.log(`[Variety Pack] Found ${imgs.length} candidate images.`);
-
-        // --- Economics prompt tightening for Social Studies ---
-        let promptEconomicsTightening = '';
-        if (subject === 'Social Studies') {
-            const topicLc = (topic || '').toLowerCase();
-            if (topicLc.includes('economics') || topicLc.includes('economic')) {
-                promptEconomicsTightening = `\nFocus specifically on economics reasoning, data interpretation, and real-world application.\nQuestions should assess understanding of:\n- Supply and demand\n- Opportunity cost\n- Market structures\n- Fiscal and monetary policy\n- Trade and GDP\nDo NOT produce a general reading passage about economics; it must test an economic concept.\nUse tables, charts, or short policy scenarios when possible.\n`;
-            }
-        }
-        // 3. Build the topic prompt (new behavior for non-Math) with approved passages section
-        let winnerModel = 'unknown';
-        let latencyMs = 0;
-        let generatedItems = [];
-
-        if (subject === 'Math' || isScientificNumeracy) {
-            // Preserve existing Math and scientific numeracy flow
-            const prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
-            const result = await generateWithGemini_OneCall(subject, prompt)
-                .then(items => ({ items, model: 'gemini', latencyMs: 0 }))
-                .catch(async (geminiErr) => {
-                    console.warn(`[Variety Pack] Gemini call failed: ${geminiErr.message}. Attempting ChatGPT fallback.`);
-                    const items = await generateWithChatGPT_Fallback(subject, prompt);
-                    return { items, model: 'chatgpt-fallback', latencyMs: 0 };
-                });
-            generatedItems = result.items;
-            winnerModel = result.model;
-            latencyMs = result.latencyMs || 0;
-        } else {
-            const approvedSection = await buildApprovedPassagesSection(subject, topic);
-            const prompt = buildSubjectPrompt({
-                subject,
-                topic,
-                examType: 'topic',
-                context: ctx,
-                images: imgs,
-                questionCount: QUIZ_COUNT,
-                approvedPassagesSection: approvedSection
-            });
-
-            const result = await generateQuizItemsWithFallback(
-                subject,
-                prompt,
-                { retries: 1 },
-                { retries: 1 }
-            );
-            generatedItems = Array.isArray(result.items) ? result.items : [];
-            winnerModel = result.model || 'unknown';
-            latencyMs = result.latencyMs || 0;
-        }
-
-        console.log(`[TopicGen] Received ${generatedItems.length} items from AI model: ${winnerModel}.`);
-
-        // 4. Post-processing and validation
-        let items = generatedItems.map((it) => enforceWordCapsOnItem(it, subject));
+    const bad = [];
+    items.forEach((it, i) => {
+      if (hasSchemaIssues(it)) bad.push(i);
+    });
+    if (bad.length) {
+      console.log(
+        `[TopicGen] Repairing ${bad.length} items with schema issues...`
+      );
+      const toFix = bad.map((i) => items[i]);
+      const fixedSubset = await repairBatchWithChatGPT_once(toFix);
+      if (Array.isArray(fixedSubset)) {
+        fixedSubset.forEach((f, j) => {
+          const originalIndex = bad[j];
+          items[originalIndex] = enforceWordCapsOnItem(f, subject);
+        });
         items = items.map(tagMissingItemType).map(tagMissingDifficulty);
+      }
+    }
 
-        const bad = [];
-        items.forEach((it, i) => { if (hasSchemaIssues(it)) bad.push(i); });
-        if (bad.length) {
-            console.log(`[TopicGen] Repairing ${bad.length} items with schema issues...`);
-            const toFix = bad.map(i => items[i]);
-            const fixedSubset = await repairBatchWithChatGPT_once(toFix);
-            if (Array.isArray(fixedSubset)) {
-                fixedSubset.forEach((f, j) => {
-                    const originalIndex = bad[j];
-                    items[originalIndex] = enforceWordCapsOnItem(f, subject);
-                });
-                items = items.map(tagMissingItemType).map(tagMissingDifficulty);
-            }
-        }
+    // 5. If non-Math, enforce new validator rules (questionType + stimulus ratio)
+    if (subject !== 'Math' && !isScientificNumeracy) {
+      items = validateAndFilterAiItems(items, subject, topic);
+    }
 
-        // 5. If non-Math, enforce new validator rules (questionType + stimulus ratio)
-        if (subject !== 'Math' && !isScientificNumeracy) {
-            items = validateAndFilterAiItems(items, subject, topic);
-        }
-
-        // NEW: Ensure at least ~1/3 of Science questions involve numeracy
-        if (subject === 'Science' && !isScientificNumeracy) {
-            items = await ensureScienceNumeracy(items, { requiredFraction: 1/3 });
-        }
+    // NEW: Ensure at least ~1/3 of Science questions involve numeracy
+    if (subject === 'Science' && !isScientificNumeracy) {
+      items = await ensureScienceNumeracy(items, { requiredFraction: 1 / 3 });
+    }
 
     // 6. Final cleanup and response
     // Normalize MC options to ensure exactly one correct and at least 4 options
     items = items.map((it) => normalizeAnswerOptions(it));
-        items = dedupeNearDuplicates(items, 0.85);
-        items = groupedShuffle(items);
+    items = dedupeNearDuplicates(items, 0.85);
+    items = groupedShuffle(items);
 
-        let finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...normalizeStimulusAndSource(item), questionNumber: idx + 1 }));
-        const fractionPlainTextMode = subject === 'Math';
-        if (fractionPlainTextMode) {
-            finalItems = finalItems.map(applyFractionPlainTextModeToItem);
-        }
-
-        console.log(`[TopicGen] Successfully generated and processed ${finalItems.length} questions.`);
-
-        res.set('X-Model', winnerModel || 'unknown');
-        res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
-        const response = {
-            success: true,
-            subject,
-            topic,
-            items: finalItems,
-            model: winnerModel || 'unknown',
-            latencyMs: latencyMs ?? 0,
-            source: 'aiGenerated',
-            fraction_plain_text_mode: fractionPlainTextMode
-        };
-        if (subject === 'Science') {
-            response.formulaSheetUrl = '/frontend/assets/formula-sheet/science-formulas.pdf';
-        }
-        res.json(response);
-
-    } catch (err) {
-        console.error('[Variety Pack] Generation failed:', err);
-        const status = err?.statusCode || 500;
-        res.status(status).json({ success: false, error: err.message || 'Failed to generate topic quiz.' });
+    let finalItems = items
+      .slice(0, QUIZ_COUNT)
+      .map((item, idx) => ({
+        ...normalizeStimulusAndSource(item),
+        questionNumber: idx + 1,
+      }));
+    const fractionPlainTextMode = subject === 'Math';
+    if (fractionPlainTextMode) {
+      finalItems = finalItems.map(applyFractionPlainTextModeToItem);
     }
+
+    console.log(
+      `[TopicGen] Successfully generated and processed ${finalItems.length} questions.`
+    );
+
+    res.set('X-Model', winnerModel || 'unknown');
+    res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
+    const response = {
+      success: true,
+      subject,
+      topic,
+      items: finalItems,
+      model: winnerModel || 'unknown',
+      latencyMs: latencyMs ?? 0,
+      source: 'aiGenerated',
+      fraction_plain_text_mode: fractionPlainTextMode,
+    };
+    if (subject === 'Science') {
+      response.formulaSheetUrl =
+        '/frontend/assets/formula-sheet/science-formulas.pdf';
+    }
+    res.json(response);
+  } catch (err) {
+    console.error('[Variety Pack] Generation failed:', err);
+    const status = err?.statusCode || 500;
+    res
+      .status(status)
+      .json({
+        success: false,
+        error: err.message || 'Failed to generate topic quiz.',
+      });
+  }
 });
 
-
 app.post('/api/math-autogen', async (_req, res) => {
-    try {
-        const items = await runExam();
-        const fractionPlainTextMode = true;
-        res.json({
-            items,
-            source: 'aiGenerated',
-            fraction_plain_text_mode: fractionPlainTextMode
-        });
-    } catch (error) {
-        console.error('Failed to generate math autogen batch:', error.message || error);
-        res.status(500).json({ error: 'Failed to generate math autogen batch.' });
-    }
+  try {
+    const items = await runExam();
+    const fractionPlainTextMode = true;
+    res.json({
+      items,
+      source: 'aiGenerated',
+      fraction_plain_text_mode: fractionPlainTextMode,
+    });
+  } catch (error) {
+    console.error(
+      'Failed to generate math autogen batch:',
+      error.message || error
+    );
+    res.status(500).json({ error: 'Failed to generate math autogen batch.' });
+  }
 });
 
 app.post('/api/exam/repair', express.json(), async (req, res) => {
-    try {
-        const items = Array.isArray(req.body?.items) ? req.body.items : [];
-        const { fixed, repaired, failures } = await repairSubset(items);
-        res.json({ items: fixed, repaired, failures });
-    } catch (e) {
-        res.status(500).json({ error: e?.message || 'repair failed' });
-    }
+  try {
+    const items = Array.isArray(req.body?.items) ? req.body.items : [];
+    const { fixed, repaired, failures } = await repairSubset(items);
+    res.json({ items: fixed, repaired, failures });
+  } catch (e) {
+    res.status(500).json({ error: e?.message || 'repair failed' });
+  }
 });
 
-
 function fixStr(value) {
-    if (typeof value !== 'string') {
-        return value;
-    }
-    let cleaned = value
-        .replace(/\\\$/g, '$')
-        .replace(new RegExp('\\\\`', 'g'), '`')
-        .replace(/\$\$(?=\d)/g, '$');
+  if (typeof value !== 'string') {
+    return value;
+  }
+  let cleaned = value
+    .replace(/\\\$/g, '$')
+    .replace(new RegExp('\\\\`', 'g'), '`')
+    .replace(/\$\$(?=\d)/g, '$');
 
-    if (/\\+frac/.test(cleaned)) {
-        cleaned = cleaned
-            .replace(/\$\\\(/g, '\\(')
-            .replace(/\\\)\$/g, '\\)')
-            .replace(/\\{2,}frac/g, '\\frac');
-    }
+  if (/\\+frac/.test(cleaned)) {
+    cleaned = cleaned
+      .replace(/\$\\\(/g, '\\(')
+      .replace(/\\\)\$/g, '\\)')
+      .replace(/\\{2,}frac/g, '\\frac');
+  }
 
-    return cleaned;
+  return cleaned;
 }
 
 function cleanupQuizData(quiz) {
-    return quiz;
+  return quiz;
 }
 
 function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 function deriveStimulusGroupKey(x, idx = 0) {
-    if (!x || typeof x !== 'object') return `solo:${idx}`;
-    if (x.groupId && typeof x.groupId === 'string') return `gid:${x.groupId}`;
-    if (x.stimulusImage?.src) return `img:${x.stimulusImage.src}`;
-    if (x.passage && typeof x.passage === 'string') {
-        const text = x.passage.trim();
-        if (text.length) {
-            const len = text.length;
-            const first = text.charCodeAt(0);
-            const last = text.charCodeAt(text.length - 1);
-            const h = (len ^ (first << 5) ^ (last << 2)) >>> 0;
-            return `p:${h}`;
-        }
+  if (!x || typeof x !== 'object') return `solo:${idx}`;
+  if (x.groupId && typeof x.groupId === 'string') return `gid:${x.groupId}`;
+  if (x.stimulusImage?.src) return `img:${x.stimulusImage.src}`;
+  if (x.passage && typeof x.passage === 'string') {
+    const text = x.passage.trim();
+    if (text.length) {
+      const len = text.length;
+      const first = text.charCodeAt(0);
+      const last = text.charCodeAt(text.length - 1);
+      const h = (len ^ (first << 5) ^ (last << 2)) >>> 0;
+      return `p:${h}`;
     }
-    return `solo:${idx}`;
+  }
+  return `solo:${idx}`;
 }
 
 function groupedShuffle(items) {
-    const groups = new Map();
+  const groups = new Map();
 
-    items.forEach((it, idx) => {
-        const k = deriveStimulusGroupKey(it, idx);
-        if (!groups.has(k)) groups.set(k, []);
-        groups.get(k).push(it);
-    });
+  items.forEach((it, idx) => {
+    const k = deriveStimulusGroupKey(it, idx);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(it);
+  });
 
-    const groupKeys = Array.from(groups.keys());
-    for (let i = groupKeys.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [groupKeys[i], groupKeys[j]] = [groupKeys[j], groupKeys[i]];
+  const groupKeys = Array.from(groups.keys());
+  for (let i = groupKeys.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [groupKeys[i], groupKeys[j]] = [groupKeys[j], groupKeys[i]];
+  }
+
+  const out = [];
+  for (const k of groupKeys) {
+    const g = groups.get(k);
+    for (let i = g.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [g[i], g[j]] = [g[j], g[i]];
     }
-
-    const out = [];
-    for (const k of groupKeys) {
-        const g = groups.get(k);
-        for (let i = g.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [g[i], g[j]] = [g[j], g[i]];
-        }
-        out.push(...g);
-    }
-    return out;
+    out.push(...g);
+  }
+  return out;
 }
 
-function tagMissingItemType(x){
-    const it = { ...x };
-    if (!it.itemType) {
-        if (it.passage) it.itemType = 'passage';
-        else if (it.stimulusImage?.src) it.itemType = 'image';
-        else it.itemType = 'standalone';
-    }
-    return it;
+function tagMissingItemType(x) {
+  const it = { ...x };
+  if (!it.itemType) {
+    if (it.passage) it.itemType = 'passage';
+    else if (it.stimulusImage?.src) it.itemType = 'image';
+    else it.itemType = 'standalone';
+  }
+  return it;
 }
 
-function tagMissingDifficulty(x){
-    const it = { ...x };
-    const level = typeof it.difficulty === 'string' ? it.difficulty.toLowerCase() : '';
-    if (level === 'easy' || level === 'medium' || level === 'hard') {
-        it.difficulty = level;
-    } else {
-        it.difficulty = 'medium';
-    }
-    return it;
+function tagMissingDifficulty(x) {
+  const it = { ...x };
+  const level =
+    typeof it.difficulty === 'string' ? it.difficulty.toLowerCase() : '';
+  if (level === 'easy' || level === 'medium' || level === 'hard') {
+    it.difficulty = level;
+  } else {
+    it.difficulty = 'medium';
+  }
+  return it;
 }
 
-function enforceVarietyMix(items, wanted){
-    const out = [];
-    const byType = { passage: [], image: [], standalone: [] };
-    for (const it of items) (byType[it.itemType] ? byType[it.itemType] : byType.standalone).push(it);
+function enforceVarietyMix(items, wanted) {
+  const out = [];
+  const byType = { passage: [], image: [], standalone: [] };
+  for (const it of items)
+    (byType[it.itemType] ? byType[it.itemType] : byType.standalone).push(it);
 
-    const take = (arr, n) => arr.slice(0, Math.max(0, n));
-    out.push(...take(byType.passage, wanted.passage));
-    out.push(...take(byType.image, wanted.image));
-    out.push(...take(byType.standalone, wanted.standalone));
+  const take = (arr, n) => arr.slice(0, Math.max(0, n));
+  out.push(...take(byType.passage, wanted.passage));
+  out.push(...take(byType.image, wanted.image));
+  out.push(...take(byType.standalone, wanted.standalone));
 
-    const need = 12 - out.length;
-    if (need > 0) {
-        const pool = items.filter(it => !out.includes(it));
-        out.push(...pool.slice(0, need));
-    }
-    return out.slice(0, 12);
+  const need = 12 - out.length;
+  if (need > 0) {
+    const pool = items.filter((it) => !out.includes(it));
+    out.push(...pool.slice(0, need));
+  }
+  return out.slice(0, 12);
 }
 
-function enforceDifficultySpread(items, target){
-    const buckets = { easy:[], medium:[], hard:[], other:[] };
-    for (const it of items) (buckets[it.difficulty] || buckets.other).push(it);
+function enforceDifficultySpread(items, target) {
+  const buckets = { easy: [], medium: [], hard: [], other: [] };
+  for (const it of items) (buckets[it.difficulty] || buckets.other).push(it);
 
-    const pick = [];
-    const take = (arr, n) => arr.splice(0, Math.max(0, n));
-    pick.push(...take(buckets.easy, target.easy));
-    pick.push(...take(buckets.medium, target.medium));
-    pick.push(...take(buckets.hard, target.hard));
+  const pick = [];
+  const take = (arr, n) => arr.splice(0, Math.max(0, n));
+  pick.push(...take(buckets.easy, target.easy));
+  pick.push(...take(buckets.medium, target.medium));
+  pick.push(...take(buckets.hard, target.hard));
 
-    const rest = [...buckets.easy, ...buckets.medium, ...buckets.hard, ...buckets.other];
-    while (pick.length < 12 && rest.length) pick.push(rest.shift());
-    return pick.slice(0, 12);
+  const rest = [
+    ...buckets.easy,
+    ...buckets.medium,
+    ...buckets.hard,
+    ...buckets.other,
+  ];
+  while (pick.length < 12 && rest.length) pick.push(rest.shift());
+  return pick.slice(0, 12);
 }
 
-function stemText(it){
-    return (it.questionText || it.stem || '').toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+function stemText(it) {
+  return (it.questionText || it.stem || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
-function jaccard(a,b){
-    const A = new Set(a.split(' ').filter(Boolean));
-    const B = new Set(b.split(' ').filter(Boolean));
-    const inter = [...A].filter(x=>B.has(x)).length;
-    const uni = new Set([...A,...B]).size || 1;
-    return inter/uni;
+function jaccard(a, b) {
+  const A = new Set(a.split(' ').filter(Boolean));
+  const B = new Set(b.split(' ').filter(Boolean));
+  const inter = [...A].filter((x) => B.has(x)).length;
+  const uni = new Set([...A, ...B]).size || 1;
+  return inter / uni;
 }
-function dedupeNearDuplicates(items, threshold=0.85){
-    const kept = [];
-    for (const it of items) {
-        const t = stemText(it);
-        const dup = kept.some(k => jaccard(t, stemText(k)) >= threshold);
-        if (!dup) kept.push(it);
-    }
-    const need = 12 - kept.length;
-    if (need>0){
-        const pool = items.filter(x => !kept.includes(x));
-        kept.push(...pool.slice(0, need));
-    }
-    return kept.slice(0, 12);
+function dedupeNearDuplicates(items, threshold = 0.85) {
+  const kept = [];
+  for (const it of items) {
+    const t = stemText(it);
+    const dup = kept.some((k) => jaccard(t, stemText(k)) >= threshold);
+    if (!dup) kept.push(it);
+  }
+  const need = 12 - kept.length;
+  if (need > 0) {
+    const pool = items.filter((x) => !kept.includes(x));
+    kept.push(...pool.slice(0, need));
+  }
+  return kept.slice(0, 12);
 }
 // END: New Helper Functions
 
 const singleQuestionSchema = {
-    type: "OBJECT",
-    properties: {
-        type: { type: "STRING" },
-        passage: { type: "STRING" },
-        chartDescription: { type: "STRING" },
-        questionText: { type: "STRING" },
-        imageDescriptionForMatch: { type: "STRING" }, // For matching URLs
-        answerOptions: {
-            type: "ARRAY",
-            items: {
-                type: "OBJECT",
-                properties: {
-                    text: { type: "STRING" },
-                    isCorrect: { type: "BOOLEAN" },
-                    rationale: { type: "STRING" }
-                },
-                required: ["text", "isCorrect", "rationale"]
-            }
-        }
+  type: 'OBJECT',
+  properties: {
+    type: { type: 'STRING' },
+    passage: { type: 'STRING' },
+    chartDescription: { type: 'STRING' },
+    questionText: { type: 'STRING' },
+    imageDescriptionForMatch: { type: 'STRING' }, // For matching URLs
+    answerOptions: {
+      type: 'ARRAY',
+      items: {
+        type: 'OBJECT',
+        properties: {
+          text: { type: 'STRING' },
+          isCorrect: { type: 'BOOLEAN' },
+          rationale: { type: 'STRING' },
+        },
+        required: ['text', 'isCorrect', 'rationale'],
+      },
     },
-    required: ["questionText", "answerOptions"]
+  },
+  required: ['questionText', 'answerOptions'],
 };
 
 const finalQuestionSchema = {
-    type: "OBJECT",
-    properties: {
-        questionNumber: { type: "NUMBER" },
-        type: { type: "STRING" },
-        passage: { type: "STRING" },
-        imageUrl: { type: "STRING" },
-        questionText: { type: "STRING" },
-        answerOptions: {
-            type: "ARRAY",
-            items: {
-                type: "OBJECT",
-                properties: {
-                    text: { type: "STRING" },
-                    isCorrect: { type: "BOOLEAN" },
-                    rationale: { type: "STRING" }
-                },
-                required: ["text", "isCorrect", "rationale"]
-            }
-        }
+  type: 'OBJECT',
+  properties: {
+    questionNumber: { type: 'NUMBER' },
+    type: { type: 'STRING' },
+    passage: { type: 'STRING' },
+    imageUrl: { type: 'STRING' },
+    questionText: { type: 'STRING' },
+    answerOptions: {
+      type: 'ARRAY',
+      items: {
+        type: 'OBJECT',
+        properties: {
+          text: { type: 'STRING' },
+          isCorrect: { type: 'BOOLEAN' },
+          rationale: { type: 'STRING' },
+        },
+        required: ['text', 'isCorrect', 'rationale'],
+      },
     },
-    required: ["questionNumber", "type", "questionText", "answerOptions"]
+  },
+  required: ['questionNumber', 'type', 'questionText', 'answerOptions'],
 };
 
 const quizSchema = {
-    type: "OBJECT",
-    properties: {
-        id: { type: "STRING" },
-        title: { type: "STRING" },
-        subject: { type: "STRING" },
-        questions: {
-            type: "ARRAY",
-            items: finalQuestionSchema
-        }
+  type: 'OBJECT',
+  properties: {
+    id: { type: 'STRING' },
+    title: { type: 'STRING' },
+    subject: { type: 'STRING' },
+    questions: {
+      type: 'ARRAY',
+      items: finalQuestionSchema,
     },
-    required: ["id", "title", "subject", "questions"]
+  },
+  required: ['id', 'title', 'subject', 'questions'],
 };
 
 const MATH_VALIDATOR_SCHEMA = {
-    type: "ARRAY",
-    items: {
-        type: "OBJECT",
-        properties: {
-            qid: { type: "STRING" },
-            field: { type: "STRING" },
-            corrected: { type: "STRING" },
-            notes: { type: "STRING" }
-        },
-        required: ["qid", "field", "corrected"],
-        additionalProperties: true
-    }
+  type: 'ARRAY',
+  items: {
+    type: 'OBJECT',
+    properties: {
+      qid: { type: 'STRING' },
+      field: { type: 'STRING' },
+      corrected: { type: 'STRING' },
+      notes: { type: 'STRING' },
+    },
+    required: ['qid', 'field', 'corrected'],
+    additionalProperties: true,
+  },
 };
 
 function repairIllegalJsonEscapes(s) {
-    if (typeof s !== 'string') return s;
-    return s.replace(/\\(?!["\\\/bfnrtu])/g, '\\\\');
+  if (typeof s !== 'string') return s;
+  return s.replace(/\\(?!["\\\/bfnrtu])/g, '\\\\');
 }
 
 const callAI = async (prompt, schema, options = {}) => {
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    if (!apiKey) {
-        console.error('API key not configured on the server.');
-        throw new Error('Server configuration error: GOOGLE_AI_API_KEY is not set.');
-    }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    const { parser, onParserMetadata, generationOverrides, fileSearchConfig, timeoutMs, signal } = options;
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-            responseMimeType: "application/json",
-            responseSchema: schema,
-            ...(generationOverrides || {})
-        }
+  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  if (!apiKey) {
+    console.error('API key not configured on the server.');
+    throw new Error(
+      'Server configuration error: GOOGLE_AI_API_KEY is not set.'
+    );
+  }
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const {
+    parser,
+    onParserMetadata,
+    generationOverrides,
+    fileSearchConfig,
+    timeoutMs,
+    signal,
+  } = options;
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      responseSchema: schema,
+      ...(generationOverrides || {}),
+    },
+  };
+  // Optional Gemini File Search support (adds retrieval tools while keeping structured output)
+  if (fileSearchConfig) {
+    // tell Gemini that we want to use the file_search tool
+    payload.tools = [
+      {
+        file_search: {},
+      },
+    ];
+    // pass in the store / filters / max results
+    payload.tool_config = {
+      file_search: {
+        ...fileSearchConfig,
+      },
     };
-    // Optional Gemini File Search support (adds retrieval tools while keeping structured output)
-    if (fileSearchConfig) {
-        // tell Gemini that we want to use the file_search tool
-        payload.tools = [
-            {
-                file_search: {}
-            }
-        ];
-        // pass in the store / filters / max results
-        payload.tool_config = {
-            file_search: {
-                ...fileSearchConfig
-            }
-        };
+  }
+  try {
+    const requestConfig = {};
+    if (timeoutMs) {
+      requestConfig.timeout = timeoutMs;
     }
+    if (signal) {
+      requestConfig.signal = signal;
+    }
+
+    const response = await http.post(apiUrl, payload, requestConfig);
+    const rawText = response.data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (typeof rawText !== 'string') {
+      throw new Error('AI response did not include text content.');
+    }
+
+    const cleanedText = rawText
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+
+    if (typeof parser === 'function') {
+      const parsedResult = parser(cleanedText);
+      if (
+        parsedResult &&
+        typeof parsedResult === 'object' &&
+        Object.prototype.hasOwnProperty.call(parsedResult, 'value')
+      ) {
+        onParserMetadata?.(parsedResult);
+        return parsedResult.value;
+      }
+      onParserMetadata?.({ stage: 'custom-parser' });
+      return parsedResult;
+    }
+
     try {
-        const requestConfig = {};
-        if (timeoutMs) {
-            requestConfig.timeout = timeoutMs;
-        }
-        if (signal) {
-            requestConfig.signal = signal;
-        }
-
-        const response = await http.post(apiUrl, payload, requestConfig);
-        const rawText = response.data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-        if (typeof rawText !== 'string') {
-            throw new Error('AI response did not include text content.');
-        }
-
-        const cleanedText = rawText
-            .replace(/```json/g, '')
-            .replace(/```/g, '')
-            .trim();
-
-        if (typeof parser === 'function') {
-            const parsedResult = parser(cleanedText);
-            if (parsedResult && typeof parsedResult === 'object' && Object.prototype.hasOwnProperty.call(parsedResult, 'value')) {
-                onParserMetadata?.(parsedResult);
-                return parsedResult.value;
-            }
-            onParserMetadata?.({ stage: 'custom-parser' });
-            return parsedResult;
-        }
-
-        try {
-            return JSON.parse(cleanedText);
-        } catch (initialParseError) {
-            const repairedText = repairIllegalJsonEscapes(cleanedText);
-            try {
-                const parsed = JSON.parse(repairedText);
-                console.warn('Successfully repaired AI JSON response after initial parse failure.');
-                return parsed;
-            } catch (reparseError) {
-                const snippet = repairedText.slice(0, 5000);
-                console.error('Failed to parse AI JSON response after repair attempt.', {
-                    initialError: initialParseError.message,
-                    repairError: reparseError.message,
-                    snippet,
-                });
-                throw reparseError;
-            }
-        }
-    } catch (error) {
-        console.error('Error calling Google AI API in callAI:', error.response ? error.response.data : error.message);
-        throw error;
+      return JSON.parse(cleanedText);
+    } catch (initialParseError) {
+      const repairedText = repairIllegalJsonEscapes(cleanedText);
+      try {
+        const parsed = JSON.parse(repairedText);
+        console.warn(
+          'Successfully repaired AI JSON response after initial parse failure.'
+        );
+        return parsed;
+      } catch (reparseError) {
+        const snippet = repairedText.slice(0, 5000);
+        console.error(
+          'Failed to parse AI JSON response after repair attempt.',
+          {
+            initialError: initialParseError.message,
+            repairError: reparseError.message,
+            snippet,
+          }
+        );
+        throw reparseError;
+      }
     }
+  } catch (error) {
+    console.error(
+      'Error calling Google AI API in callAI:',
+      error.response ? error.response.data : error.message
+    );
+    throw error;
+  }
 };
 
 async function callMathValidator(payload) {
-    if (!MATH_TWO_PASS_ENABLED) {
-        return [];
-    }
+  if (!MATH_TWO_PASS_ENABLED) {
+    return [];
+  }
 
-    const system = payload?.system || VALIDATOR_SYSTEM_PROMPT;
-    const user = payload?.user || VALIDATOR_USER_PROMPT;
-    const prompt = `SYSTEM:\n${system}\n\nUSER:\n${user}`;
+  const system = payload?.system || VALIDATOR_SYSTEM_PROMPT;
+  const user = payload?.user || VALIDATOR_USER_PROMPT;
+  const prompt = `SYSTEM:\n${system}\n\nUSER:\n${user}`;
 
-    try {
-        return await callAI(prompt, MATH_VALIDATOR_SCHEMA, {
-            generationOverrides: { temperature: 0.2 }
-        });
-    } catch (error) {
-        console.error('Math validator call failed; continuing with auto-fixed text.', error.message || error);
-        return [];
-    }
+  try {
+    return await callAI(prompt, MATH_VALIDATOR_SCHEMA, {
+      generationOverrides: { temperature: 0.2 },
+    });
+  } catch (error) {
+    console.error(
+      'Math validator call failed; continuing with auto-fixed text.',
+      error.message || error
+    );
+    return [];
+  }
 }
 
 async function runMathTwoPassOnQuestions(questions, subject) {
-    if (!MATH_TWO_PASS_ENABLED) {
-        return;
+  if (!MATH_TWO_PASS_ENABLED) {
+    return;
+  }
+
+  if (!Array.isArray(questions) || !questions.length) {
+    return;
+  }
+
+  const exam = {
+    subject: subject || '',
+    questions: [],
+  };
+
+  const questionMap = new Map();
+
+  questions.forEach((question, index) => {
+    if (!question || typeof question !== 'object') {
+      return;
     }
 
-    if (!Array.isArray(questions) || !questions.length) {
-        return;
-    }
+    const qid = String(
+      question.id != null
+        ? question.id
+        : question.questionNumber != null
+        ? question.questionNumber
+        : `math-${index}`
+    );
 
-    const exam = {
-        subject: subject || '',
-        questions: []
-    };
+    const choiceMap = new Map();
+    const choices = Array.isArray(question.answerOptions)
+      ? question.answerOptions.map((opt, idx) => {
+          const choiceId = String(opt && opt.id != null ? opt.id : idx);
+          if (opt) {
+            choiceMap.set(choiceId, opt);
+          }
+          return {
+            id: choiceId,
+            text: typeof (opt && opt.text) === 'string' ? opt.text : '',
+          };
+        })
+      : [];
 
-    const questionMap = new Map();
-
-    questions.forEach((question, index) => {
-        if (!question || typeof question !== 'object') {
-            return;
-        }
-
-        const qid = String(
-            question.id != null
-                ? question.id
-                : question.questionNumber != null
-                    ? question.questionNumber
-                    : `math-${index}`
-        );
-
-        const choiceMap = new Map();
-        const choices = Array.isArray(question.answerOptions)
-            ? question.answerOptions.map((opt, idx) => {
-                const choiceId = String(opt && opt.id != null ? opt.id : idx);
-                if (opt) {
-                    choiceMap.set(choiceId, opt);
-                }
-                return {
-                    id: choiceId,
-                    text: typeof (opt && opt.text) === 'string' ? opt.text : ''
-                };
-            })
-            : [];
-
-        questionMap.set(qid, {
-            original: question,
-            choices: choiceMap
-        });
-
-        exam.questions.push({
-            id: qid,
-            stem: typeof question.questionText === 'string' ? question.questionText : '',
-            choices,
-            explanation: typeof question.rationale === 'string' ? question.rationale : undefined
-        });
+    questionMap.set(qid, {
+      original: question,
+      choices: choiceMap,
     });
 
-    if (!exam.questions.length) {
-        return;
-    }
-
-    const processed = await generateMathExamTwoPass(() => Promise.resolve(exam), callMathValidator);
-
-    if (!processed || !Array.isArray(processed.questions)) {
-        return;
-    }
-
-    processed.questions.forEach((processedQuestion) => {
-        const entry = questionMap.get(String(processedQuestion.id));
-        if (!entry) {
-            return;
-        }
-
-        const { original, choices } = entry;
-
-        if (typeof processedQuestion.stem === 'string') {
-            original.questionText = processedQuestion.stem;
-        }
-
-        if (Array.isArray(processedQuestion.choices)) {
-            processedQuestion.choices.forEach((choice) => {
-                const target = choices.get(String(choice.id));
-                if (target && typeof choice.text === 'string') {
-                    target.text = choice.text;
-                }
-            });
-        }
-
-        if (typeof processedQuestion.explanation === 'string') {
-            if (original.rationale !== undefined) {
-                original.rationale = processedQuestion.explanation;
-            } else if (processedQuestion.explanation.length) {
-                original.rationale = processedQuestion.explanation;
-            }
-        }
+    exam.questions.push({
+      id: qid,
+      stem:
+        typeof question.questionText === 'string' ? question.questionText : '',
+      choices,
+      explanation:
+        typeof question.rationale === 'string' ? question.rationale : undefined,
     });
+  });
+
+  if (!exam.questions.length) {
+    return;
+  }
+
+  const processed = await generateMathExamTwoPass(
+    () => Promise.resolve(exam),
+    callMathValidator
+  );
+
+  if (!processed || !Array.isArray(processed.questions)) {
+    return;
+  }
+
+  processed.questions.forEach((processedQuestion) => {
+    const entry = questionMap.get(String(processedQuestion.id));
+    if (!entry) {
+      return;
+    }
+
+    const { original, choices } = entry;
+
+    if (typeof processedQuestion.stem === 'string') {
+      original.questionText = processedQuestion.stem;
+    }
+
+    if (Array.isArray(processedQuestion.choices)) {
+      processedQuestion.choices.forEach((choice) => {
+        const target = choices.get(String(choice.id));
+        if (target && typeof choice.text === 'string') {
+          target.text = choice.text;
+        }
+      });
+    }
+
+    if (typeof processedQuestion.explanation === 'string') {
+      if (original.rationale !== undefined) {
+        original.rationale = processedQuestion.explanation;
+      } else if (processedQuestion.explanation.length) {
+        original.rationale = processedQuestion.explanation;
+      }
+    }
+  });
 }
 
 // Helper functions for generating different types of quiz content
 
-const generatePassageSet = async (topic, subject, numQuestions, options = {}) => {
-    let prompt;
-    
-    if (subject === 'Science') {
-        // For Science, always create a data table/experiment stimulus
-        prompt = `You are creating a GED-level Science question.
+const generatePassageSet = async (
+  topic,
+  subject,
+  numQuestions,
+  options = {}
+) => {
+  let prompt;
+
+  if (subject === 'Science') {
+    // For Science, always create a data table/experiment stimulus
+    prompt = `You are creating a GED-level Science question.
 
 Create a small experiment or data table to serve as the stimulus. The table should be simple (3–5 rows, 2–4 columns) and clearly labeled.
 
@@ -6331,98 +7822,114 @@ Example format:
 Return only JSON.
 
 ${TABLE_INTEGRITY_RULES}`;
-    } else {
-        prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'. At least ${numQuestions} multiple-choice questions should be based on the passage with varied types (main idea, details, inference, vocabulary). Return only JSON.`;
-    }
+  } else {
+    prompt = `You are a GED exam creator. Generate a short, GED-style reading passage (150-250 words) on the topic of '${topic}'. The content MUST be strictly related to the subject of '${subject}'. At least ${numQuestions} multiple-choice questions should be based on the passage with varied types (main idea, details, inference, vocabulary). Return only JSON.`;
+  }
 
-    const questionSchema = {
-        type: "OBJECT",
-        properties: {
-            questionText: { type: "STRING" },
-            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+  const questionSchema = {
+    type: 'OBJECT',
+    properties: {
+      questionText: { type: 'STRING' },
+      answerOptions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            text: { type: 'STRING' },
+            isCorrect: { type: 'BOOLEAN' },
+            rationale: { type: 'STRING' },
+          },
+          required: ['text', 'isCorrect', 'rationale'],
         },
-        required: ["questionText", "answerOptions"]
-    };
+      },
+    },
+    required: ['questionText', 'answerOptions'],
+  };
 
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            passage: { type: "STRING" },
-            questions: { type: "ARRAY", items: questionSchema }
-        },
-        required: ["passage", "questions"]
-    };
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      passage: { type: 'STRING' },
+      questions: { type: 'ARRAY', items: questionSchema },
+    },
+    required: ['passage', 'questions'],
+  };
 
-    const result = await callAI(prompt, schema, options);
-    return result.questions.map(q => enforceWordCapsOnItem({
+  const result = await callAI(prompt, schema, options);
+  return result.questions.map((q) =>
+    enforceWordCapsOnItem(
+      {
         ...q,
         passage: result.passage,
-        type: 'passage'
-    }, subject));
+        type: 'passage',
+      },
+      subject
+    )
+  );
 };
 
 // ------------------------------------------------------------
 // Stimulus-aware grouping & shuffling helpers
 // ------------------------------------------------------------
 function groupQuestionsByStimulus(questions) {
-    if (!Array.isArray(questions)) return [];
-    const groups = [];
-    const keyToGroupIdx = new Map();
-    questions.forEach(q => {
-        if (!q) return;
-        let key = null;
-        if (q.stimulusId) key = `stim:${q.stimulusId}`;
-        else if (typeof q.passage === 'string') {
-            const p = q.passage;
-            if (p && p.trim().length) key = `pass:${p.trim()}`;
-        }
-        else if (q.imageId) key = `img:${q.imageId}`;
-        else if (q.image) key = `img:${q.image}`;
-        if (key) {
-            if (keyToGroupIdx.has(key)) {
-                groups[keyToGroupIdx.get(key)].push(q);
-            } else {
-                const idx = groups.length;
-                keyToGroupIdx.set(key, idx);
-                groups.push([q]);
-            }
-        } else {
-            groups.push([q]);
-        }
-    });
-    return groups;
+  if (!Array.isArray(questions)) return [];
+  const groups = [];
+  const keyToGroupIdx = new Map();
+  questions.forEach((q) => {
+    if (!q) return;
+    let key = null;
+    if (q.stimulusId) key = `stim:${q.stimulusId}`;
+    else if (typeof q.passage === 'string') {
+      const p = q.passage;
+      if (p && p.trim().length) key = `pass:${p.trim()}`;
+    } else if (q.imageId) key = `img:${q.imageId}`;
+    else if (q.image) key = `img:${q.image}`;
+    if (key) {
+      if (keyToGroupIdx.has(key)) {
+        groups[keyToGroupIdx.get(key)].push(q);
+      } else {
+        const idx = groups.length;
+        keyToGroupIdx.set(key, idx);
+        groups.push([q]);
+      }
+    } else {
+      groups.push([q]);
+    }
+  });
+  return groups;
 }
 
 function shuffleQuestionsPreservingStimulus(questions) {
-    const groups = groupQuestionsByStimulus(questions);
-    shuffleArray(groups); // existing shuffleArray already defined earlier
-    const flattened = [];
-    for (const g of groups) for (const q of g) flattened.push(q);
-    return flattened;
+  const groups = groupQuestionsByStimulus(questions);
+  shuffleArray(groups); // existing shuffleArray already defined earlier
+  const flattened = [];
+  for (const g of groups) for (const q of g) flattened.push(q);
+  return flattened;
 }
 
 // Science table stimulus helper for data-based questions
 // Science table stimulus functions removed - AI now generates tables dynamically
 
 function scoreImageForTopic(img, subject, topic) {
-    if (!img) return -1;
-    const subjMatch = (img.subject || '').toLowerCase() === (subject || '').toLowerCase() ? 1 : 0;
+  if (!img) return -1;
+  const subjMatch =
+    (img.subject || '').toLowerCase() === (subject || '').toLowerCase() ? 1 : 0;
 
-    const topicLc = (topic || '').toLowerCase();
-    const catLc = (img.category || '').toLowerCase();
-    const altLc = (img.altText || '').toLowerCase();
-    const descLc = (img.detailedDescription || '').toLowerCase();
+  const topicLc = (topic || '').toLowerCase();
+  const catLc = (img.category || '').toLowerCase();
+  const altLc = (img.altText || '').toLowerCase();
+  const descLc = (img.detailedDescription || '').toLowerCase();
 
-    // exact category match is strongest
-    if (subjMatch && catLc === topicLc) return 100;
+  // exact category match is strongest
+  if (subjMatch && catLc === topicLc) return 100;
 
-    // otherwise look for the topic in alt/description
-    let textHit = 0;
-    if (altLc && topicLc && altLc.includes(topicLc)) textHit += 10;
-    if (descLc && topicLc && descLc.includes(topicLc)) textHit += 10;
+  // otherwise look for the topic in alt/description
+  let textHit = 0;
+  if (altLc && topicLc && altLc.includes(topicLc)) textHit += 10;
+  if (descLc && topicLc && descLc.includes(topicLc)) textHit += 10;
 
-    // base score from subject match + text hits
-    return subjMatch * 50 + textHit;
+  // base score from subject match + text hits
+  return subjMatch * 50 + textHit;
 }
 
 // NEW version – smarter image selection with cartoon support and reuse prevention
@@ -6433,10 +7940,7 @@ const generateImageQuestion = async (
   numQuestions,
   options = {}
 ) => {
-  const {
-    usedImages = new Set(),
-    mustBeCartoon = false
-  } = options;
+  const { usedImages = new Set(), mustBeCartoon = false } = options;
 
   // start from the pool we were given
   let pool = Array.isArray(imagePool) ? imagePool : [];
@@ -6449,7 +7953,7 @@ const generateImageQuestion = async (
         img.category,
         img.altText,
         img.detailedDescription,
-        Array.isArray(img.keywords) ? img.keywords.join(' ') : ''
+        Array.isArray(img.keywords) ? img.keywords.join(' ') : '',
       ]
         .filter(Boolean)
         .join(' ')
@@ -6462,12 +7966,10 @@ const generateImageQuestion = async (
   const scored = (pool || [])
     .map((img) => ({
       img,
-      score: scoreImageForTopic(img, subject, topic)
+      score: scoreImageForTopic(img, subject, topic),
     }))
     .filter(
-      (x) =>
-        x.score > 0 &&
-        !(x.img.filePath && usedImages.has(x.img.filePath))
+      (x) => x.score > 0 && !(x.img.filePath && usedImages.has(x.img.filePath))
     )
     .sort((a, b) => b.score - a.score);
 
@@ -6496,7 +7998,7 @@ ${JSON.stringify(
     filePath: pick.filePath,
     altText: pick.altText,
     detailedDescription: pick.detailedDescription,
-    category: pick.category
+    category: pick.category,
   },
   null,
   2
@@ -6519,22 +8021,22 @@ Return valid JSON only.
             properties: {
               text: { type: 'STRING' },
               isCorrect: { type: 'BOOLEAN' },
-              rationale: { type: 'STRING' }
+              rationale: { type: 'STRING' },
             },
-            required: ['text', 'isCorrect', 'rationale']
-          }
+            required: ['text', 'isCorrect', 'rationale'],
+          },
         },
         stimulusImage: {
           type: 'OBJECT',
           properties: {
             src: { type: 'STRING' },
-            alt: { type: 'STRING' }
+            alt: { type: 'STRING' },
           },
-          required: ['src']
-        }
+          required: ['src'],
+        },
       },
-      required: ['questionText', 'answerOptions']
-    }
+      required: ['questionText', 'answerOptions'],
+    },
   };
 
   try {
@@ -6545,8 +8047,8 @@ Return valid JSON only.
       itemType: 'image',
       stimulusImage: {
         src: pick.filePath,
-        alt: pick.altText || ''
-      }
+        alt: pick.altText || '',
+      },
     }));
   } catch (error) {
     console.error(`Error generating image question for topic ${topic}:`, error);
@@ -6555,10 +8057,10 @@ Return valid JSON only.
 };
 
 const generateStandaloneQuestion = async (subject, topic, options = {}) => {
-    let prompt;
-    // Conditional prompt based on the subject
-    if (subject === 'Math') {
-        prompt = `Generate a single, standalone, GED-style math word problem or calculation problem for the topic "${topic}".
+  let prompt;
+  // Conditional prompt based on the subject
+  if (subject === 'Math') {
+    prompt = `Generate a single, standalone, GED-style math word problem or calculation problem for the topic "${topic}".
         STRICT REQUIREMENT: The question MUST be a math problem that requires mathematical reasoning to solve.
         DO NOT generate a reading passage or a reading comprehension question (e.g., "What is the main idea...").
 ${FRACTION_PLAIN_TEXT_RULE}
@@ -6569,8 +8071,8 @@ Formatting notes:
 - CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.
 - CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
         Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
-    } else if (subject === 'Science') {
-        prompt = `You are creating a GED-level Science question.
+  } else if (subject === 'Science') {
+    prompt = `You are creating a GED-level Science question.
 
 Create a small experiment or data table to serve as the stimulus. The table should be simple (3–5 rows, 2–4 columns) and clearly labeled.
 
@@ -6591,45 +8093,68 @@ Example format:
 Output a single valid JSON object with "passage" (containing the table), "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").
 
 ${TABLE_INTEGRITY_RULES}`;
-    } else {
-        prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
+  } else {
+    prompt = `Generate a single, standalone, GED-style multiple-choice question for the subject "${subject}" on the topic of "${topic}".
         The question should not require any external passage, chart, or image.
         Output a single valid JSON object for the question, including "questionText", and "answerOptions" (an array of objects with "text", "isCorrect", and "rationale").`;
-    }
+  }
 
-    const schema = subject === 'Science' 
-        ? {
-            type: "OBJECT",
-            properties: {
-                passage: { type: "STRING" },
-                questionText: { type: "STRING" },
-                answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+  const schema =
+    subject === 'Science'
+      ? {
+          type: 'OBJECT',
+          properties: {
+            passage: { type: 'STRING' },
+            questionText: { type: 'STRING' },
+            answerOptions: {
+              type: 'ARRAY',
+              items: {
+                type: 'OBJECT',
+                properties: {
+                  text: { type: 'STRING' },
+                  isCorrect: { type: 'BOOLEAN' },
+                  rationale: { type: 'STRING' },
+                },
+                required: ['text', 'isCorrect', 'rationale'],
+              },
             },
-            required: ["passage", "questionText", "answerOptions"]
+          },
+          required: ['passage', 'questionText', 'answerOptions'],
         }
-        : {
-            type: "OBJECT",
-            properties: {
-                questionText: { type: "STRING" },
-                answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+      : {
+          type: 'OBJECT',
+          properties: {
+            questionText: { type: 'STRING' },
+            answerOptions: {
+              type: 'ARRAY',
+              items: {
+                type: 'OBJECT',
+                properties: {
+                  text: { type: 'STRING' },
+                  isCorrect: { type: 'BOOLEAN' },
+                  rationale: { type: 'STRING' },
+                },
+                required: ['text', 'isCorrect', 'rationale'],
+              },
             },
-            required: ["questionText", "answerOptions"]
+          },
+          required: ['questionText', 'answerOptions'],
         };
 
-    const question = await callAI(prompt, schema, options);
-    if (subject === 'Math') {
-        applyFractionPlainTextModeToItem(question);
-    }
-    question.type = subject === 'Science' ? 'passage' : 'standalone';
-    return enforceWordCapsOnItem(question, subject);
+  const question = await callAI(prompt, schema, options);
+  if (subject === 'Math') {
+    applyFractionPlainTextModeToItem(question);
+  }
+  question.type = subject === 'Science' ? 'passage' : 'standalone';
+  return enforceWordCapsOnItem(question, subject);
 };
 
 const buildGeometryPrompt = (topic, attempt) => {
-    const decimalLimit = DEFAULT_MAX_DECIMALS;
-    const sharedConstraints = `Return a single JSON object only.\nAll numeric values must be JSON numbers with at most ${decimalLimit} decimal places (no strings).\nDo not use scientific notation.\nValidate that your JSON is syntactically correct before returning it.`;
+  const decimalLimit = DEFAULT_MAX_DECIMALS;
+  const sharedConstraints = `Return a single JSON object only.\nAll numeric values must be JSON numbers with at most ${decimalLimit} decimal places (no strings).\nDo not use scientific notation.\nValidate that your JSON is syntactically correct before returning it.`;
 
-    if (!GEOMETRY_FIGURES_ENABLED) {
-        const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
+  if (!GEOMETRY_FIGURES_ENABLED) {
+    const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
     The problem should clearly rely on a diagram that would normally accompany the question.
     IMPORTANT: Do NOT return any images, SVG markup, or geometry specifications. Instead, append a concise, human-readable description of the required diagram (1–3 sentences) at the end of the question stem. Use plain text or simple Markdown only.
     ${sharedConstraints}
@@ -6651,19 +8176,21 @@ Formatting notes:
     • Ensure "choices" are unique and relevant to the problem context.
     • Keep all numeric entries as JSON numbers with at most ${decimalLimit} decimal places.
     • Keep the language consistent with GED Geometry expectations.
-    • Focus on standard GED geometry figures such as ${SUPPORTED_SHAPES.join(', ')} when relevant to the problem.
+    • Focus on standard GED geometry figures such as ${SUPPORTED_SHAPES.join(
+      ', '
+    )} when relevant to the problem.
 
     Respond with JSON only—no commentary before or after the object.`;
 
-        if (attempt > 1) {
-            return `${basePrompt}\nDouble-check that the diagram description is appended and that no SVG or geometry specification is returned.`;
-        }
-
-        return basePrompt;
+    if (attempt > 1) {
+      return `${basePrompt}\nDouble-check that the diagram description is appended and that no SVG or geometry specification is returned.`;
     }
 
-    const shapesList = SUPPORTED_SHAPES.join(', ');
-    const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
+    return basePrompt;
+  }
+
+  const shapesList = SUPPORTED_SHAPES.join(', ');
+  const basePrompt = `You are a GED exam creator. Generate a single, unique, GED-style multiple-choice geometry word problem related to "${topic}".
     The problem MUST require a visual diagram to be solved and should stay aligned with GED Geometry expectations.
     IMPORTANT: Keep mathematical expressions clear and inline.
 ${FRACTION_PLAIN_TEXT_RULE}
@@ -6701,112 +8228,138 @@ ${FRACTION_PLAIN_TEXT_RULE}
 
     Respond with JSON only—no commentary before or after the object.`;
 
-    if (attempt > 1) {
-        return `${basePrompt}\nDouble-check every number for the decimal rule before returning the JSON.`;
-    }
+  if (attempt > 1) {
+    return `${basePrompt}\nDouble-check every number for the decimal rule before returning the JSON.`;
+  }
 
-    return basePrompt;
+  return basePrompt;
 };
 
-async function generateGeometryQuestion(topic, subject, attempt = 1, options = {}) {
-    const MAX_ATTEMPTS = 2;
-    const prompt = buildGeometryPrompt(topic, attempt);
-    const schema = buildGeometrySchema(GEOMETRY_FIGURES_ENABLED);
-    const parseMeta = { stage: null, hash: null };
-    const recordStage = (stage, details = {}) => {
-        parseMeta.stage = stage;
-        if (details.hash) {
-            parseMeta.hash = details.hash;
+async function generateGeometryQuestion(
+  topic,
+  subject,
+  attempt = 1,
+  options = {}
+) {
+  const MAX_ATTEMPTS = 2;
+  const prompt = buildGeometryPrompt(topic, attempt);
+  const schema = buildGeometrySchema(GEOMETRY_FIGURES_ENABLED);
+  const parseMeta = { stage: null, hash: null };
+  const recordStage = (stage, details = {}) => {
+    parseMeta.stage = stage;
+    if (details.hash) {
+      parseMeta.hash = details.hash;
+    }
+  };
+
+  try {
+    const callOptions = GEOMETRY_FIGURES_ENABLED
+      ? {
+          parser: (raw) =>
+            parseGeometryJson(raw, {
+              maxDecimals: DEFAULT_MAX_DECIMALS,
+              featureEnabled: SANITIZER_FEATURE_ENABLED,
+              onStage: recordStage,
+            }),
+          onParserMetadata: (meta) => {
+            if (meta.stage) {
+              parseMeta.stage = meta.stage;
+            }
+            if (meta.hash) {
+              parseMeta.hash = meta.hash;
+            }
+          },
+          generationOverrides: attempt > 1 ? { temperature: 0.1 } : undefined,
         }
+      : attempt > 1
+      ? { generationOverrides: { temperature: 0.1 } }
+      : {};
+
+    const mergedOptions = {
+      ...callOptions,
+      ...options,
+    };
+    if (callOptions?.generationOverrides || options?.generationOverrides) {
+      mergedOptions.generationOverrides = {
+        ...(callOptions?.generationOverrides || {}),
+        ...(options?.generationOverrides || {}),
+      };
+    }
+
+    const aiResponse = await callAI(prompt, schema, mergedOptions);
+
+    if (GEOMETRY_FIGURES_ENABLED && parseMeta.stage) {
+      console.info(
+        `Geometry JSON parsed via ${parseMeta.stage}. hash=${
+          parseMeta.hash || 'n/a'
+        }`
+      );
+    }
+
+    const { question, choices, answerIndex } = aiResponse;
+    const choiceRationales = Array.isArray(aiResponse.choiceRationales)
+      ? aiResponse.choiceRationales
+      : [];
+    const geometrySpec = GEOMETRY_FIGURES_ENABLED
+      ? aiResponse.geometrySpec
+      : undefined;
+
+    const answerOptions = (choices || []).map((text, index) => ({
+      text,
+      isCorrect: index === answerIndex,
+      rationale: (choiceRationales && choiceRationales[index]) || '',
+    }));
+
+    const questionPayload = {
+      type: 'geometry',
+      questionText: question,
+      answerOptions,
     };
 
-    try {
-        const callOptions = GEOMETRY_FIGURES_ENABLED
-            ? {
-                  parser: raw => parseGeometryJson(raw, {
-                      maxDecimals: DEFAULT_MAX_DECIMALS,
-                      featureEnabled: SANITIZER_FEATURE_ENABLED,
-                      onStage: recordStage
-                  }),
-                  onParserMetadata: meta => {
-                      if (meta.stage) {
-                          parseMeta.stage = meta.stage;
-                      }
-                      if (meta.hash) {
-                          parseMeta.hash = meta.hash;
-                      }
-                  },
-                  generationOverrides: attempt > 1 ? { temperature: 0.1 } : undefined
-              }
-            : attempt > 1
-                ? { generationOverrides: { temperature: 0.1 } }
-                : {};
+    // Attach geometrySpec explicitly (null when absent) and a clear flag
+    questionPayload.geometrySpec =
+      GEOMETRY_FIGURES_ENABLED && geometrySpec ? geometrySpec : null;
+    questionPayload.useGeometryTool = Boolean(questionPayload.geometrySpec);
 
-        const mergedOptions = {
-            ...callOptions,
-            ...options
-        };
-        if (callOptions?.generationOverrides || options?.generationOverrides) {
-            mergedOptions.generationOverrides = {
-                ...(callOptions?.generationOverrides || {}),
-                ...(options?.generationOverrides || {})
-            };
-        }
-
-        const aiResponse = await callAI(prompt, schema, mergedOptions);
-
-        if (GEOMETRY_FIGURES_ENABLED && parseMeta.stage) {
-            console.info(`Geometry JSON parsed via ${parseMeta.stage}. hash=${parseMeta.hash || 'n/a'}`);
-        }
-
-        const { question, choices, answerIndex } = aiResponse;
-        const choiceRationales = Array.isArray(aiResponse.choiceRationales)
-            ? aiResponse.choiceRationales
-            : [];
-        const geometrySpec = GEOMETRY_FIGURES_ENABLED ? aiResponse.geometrySpec : undefined;
-
-        const answerOptions = (choices || []).map((text, index) => ({
-            text,
-            isCorrect: index === answerIndex,
-            rationale: (choiceRationales && choiceRationales[index]) || ''
-        }));
-
-        const questionPayload = {
-            type: 'geometry',
-            questionText: question,
-            answerOptions
-        };
-
-        // Attach geometrySpec explicitly (null when absent) and a clear flag
-        questionPayload.geometrySpec = GEOMETRY_FIGURES_ENABLED && geometrySpec ? geometrySpec : null;
-        questionPayload.useGeometryTool = Boolean(questionPayload.geometrySpec);
-
-        applyFractionPlainTextModeToItem(questionPayload);
-        return questionPayload;
-    } catch (error) {
-        if (error instanceof GeometryJsonError && error.needRegen) {
-            console.warn(`Geometry JSON parsing failed at stage ${error.stage}. hash=${error.hash || 'n/a'}`);
-            if (attempt < MAX_ATTEMPTS) {
-                console.log(`Retrying geometry question generation with strict prompt (attempt ${attempt + 1})...`);
-                return generateGeometryQuestion(topic, subject, attempt + 1, options);
-            }
-        }
-
-        console.error(`Error generating geometry question on attempt ${attempt}.`, error.message);
-        if (error.response && error.response.data) {
-            console.error('Geometry generation API error payload (redacted).');
-        }
-
-        if (attempt >= MAX_ATTEMPTS) {
-            console.error('Max retries reached for geometry question generation. Returning null.');
-        }
-
-        return null;
+    applyFractionPlainTextModeToItem(questionPayload);
+    return questionPayload;
+  } catch (error) {
+    if (error instanceof GeometryJsonError && error.needRegen) {
+      console.warn(
+        `Geometry JSON parsing failed at stage ${error.stage}. hash=${
+          error.hash || 'n/a'
+        }`
+      );
+      if (attempt < MAX_ATTEMPTS) {
+        console.log(
+          `Retrying geometry question generation with strict prompt (attempt ${
+            attempt + 1
+          })...`
+        );
+        return generateGeometryQuestion(topic, subject, attempt + 1, options);
+      }
     }
+
+    console.error(
+      `Error generating geometry question on attempt ${attempt}.`,
+      error.message
+    );
+    if (error.response && error.response.data) {
+      console.error('Geometry generation API error payload (redacted).');
+    }
+
+    if (attempt >= MAX_ATTEMPTS) {
+      console.error(
+        'Max retries reached for geometry question generation. Returning null.'
+      );
+    }
+
+    return null;
+  }
 }
 
 async function generateNonCalculatorQuestion(options = {}) {
-    const prompt = `You are a GED Math exam creator specializing in non-calculator questions.
+  const prompt = `You are a GED Math exam creator specializing in non-calculator questions.
     Generate a single, high-quality question from the "Number Sense & Operations" domain (GED Indicator Q.1 or Q.2).
     The question must be solvable without a calculator, focusing on concepts like number properties, estimation, or basic arithmetic with integers, fractions, and decimals.
     CRITICAL: Do NOT generate a question that requires complex calculations.
@@ -6817,23 +8370,34 @@ Formatting notes:
 - Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
 - CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
     Output a single valid JSON object for the question.`;
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            questionText: { type: "STRING" },
-            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      questionText: { type: 'STRING' },
+      answerOptions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            text: { type: 'STRING' },
+            isCorrect: { type: 'BOOLEAN' },
+            rationale: { type: 'STRING' },
+          },
+          required: ['text', 'isCorrect', 'rationale'],
         },
-        required: ["questionText", "answerOptions"]
-    };
-    const question = await callAI(prompt, schema, options);
-    applyFractionPlainTextModeToItem(question);
-    question.type = 'standalone';
-    question.calculator = false; // Explicitly mark as non-calculator
-    return enforceWordCapsOnItem(question, 'Math');
+      },
+    },
+    required: ['questionText', 'answerOptions'],
+  };
+  const question = await callAI(prompt, schema, options);
+  applyFractionPlainTextModeToItem(question);
+  question.type = 'standalone';
+  question.calculator = false; // Explicitly mark as non-calculator
+  return enforceWordCapsOnItem(question, 'Math');
 }
 
 async function generateDataQuestion(options = {}) {
-    const prompt = `You are a GED Math exam creator.
+  const prompt = `You are a GED Math exam creator.
     Generate a single, high-quality, data-based question.
     FIRST, create a simple HTML table with a caption, 2-4 columns, and 3-5 rows of numerical data.
     SECOND, write a question that requires interpreting that table to find the mean, median, mode, or range.
@@ -6845,23 +8409,34 @@ Formatting notes:
 - Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
 - CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
     Output a single valid JSON object containing the 'questionText' (which INCLUDES the HTML table) and 'answerOptions'.`;
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            questionText: { type: "STRING" },
-            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      questionText: { type: 'STRING' },
+      answerOptions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            text: { type: 'STRING' },
+            isCorrect: { type: 'BOOLEAN' },
+            rationale: { type: 'STRING' },
+          },
+          required: ['text', 'isCorrect', 'rationale'],
         },
-        required: ["questionText", "answerOptions"]
-    };
-    const question = await callAI(prompt, schema, options);
-    applyFractionPlainTextModeToItem(question);
-    question.type = 'standalone'; // The table is part of the question text
-    question.calculator = true;
-    return enforceWordCapsOnItem(question, 'Math');
+      },
+    },
+    required: ['questionText', 'answerOptions'],
+  };
+  const question = await callAI(prompt, schema, options);
+  applyFractionPlainTextModeToItem(question);
+  question.type = 'standalone'; // The table is part of the question text
+  question.calculator = true;
+  return enforceWordCapsOnItem(question, 'Math');
 }
 
 async function generateGraphingQuestion(options = {}) {
-    const prompt = `You are a GED Math exam creator.
+  const prompt = `You are a GED Math exam creator.
     Generate a single, high-quality, GED-style question about functions or interpreting graphs (GED Indicators A.5, A.6, A.7).
     The question should focus on one of these concepts:
     - Determining the slope of a line from a graph or equation.
@@ -6875,47 +8450,62 @@ Formatting notes:
 - Use clear inline notation for exponents, radicals, and symbols (e.g., x^2, \\sqrt{9}, \\le, \\ge).
 - CRITICAL RULE FOR ANSWERS: For all answer options, provide ONLY the numerical value or expression. Do NOT prefix answers with $$. For currency, use a single dollar sign like $10.50.
     Output a single valid JSON object for the question.`;
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            questionText: { type: "STRING" },
-            answerOptions: { type: "ARRAY", items: { type: "OBJECT", properties: { text: { type: "STRING" }, isCorrect: { type: "BOOLEAN" }, rationale: { type: "STRING" } }, required: ["text", "isCorrect", "rationale"] } }
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      questionText: { type: 'STRING' },
+      answerOptions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            text: { type: 'STRING' },
+            isCorrect: { type: 'BOOLEAN' },
+            rationale: { type: 'STRING' },
+          },
+          required: ['text', 'isCorrect', 'rationale'],
         },
-        required: ["questionText", "answerOptions"]
+      },
+    },
+    required: ['questionText', 'answerOptions'],
+  };
+  const question = await callAI(prompt, schema, options);
+  applyFractionPlainTextModeToItem(question);
+  question.type = 'standalone';
+  question.calculator = true;
+  // Provide a minimal graph spec so the canvas has data to draw
+  if (!question.graphSpec) {
+    question.graphSpec = {
+      type: 'line',
+      points: [
+        { x: 0, y: 10 },
+        { x: 10, y: 5 },
+      ],
+      xLabel: 'x',
+      yLabel: 'y',
     };
-    const question = await callAI(prompt, schema, options);
-    applyFractionPlainTextModeToItem(question);
-    question.type = 'standalone';
-    question.calculator = true;
-    // Provide a minimal graph spec so the canvas has data to draw
-    if (!question.graphSpec) {
-        question.graphSpec = {
-            type: 'line',
-            points: [
-                { x: 0, y: 10 },
-                { x: 10, y: 5 }
-            ],
-            xLabel: 'x',
-            yLabel: 'y'
-        };
-    }
-    // Flag for the tool panel
-    question.useGraphTool = Boolean(question.graphSpec);
-    return enforceWordCapsOnItem(question, 'Math');
+  }
+  // Flag for the tool panel
+  question.useGraphTool = Boolean(question.graphSpec);
+  return enforceWordCapsOnItem(question, 'Math');
 }
 
 // Extra helper to auto-flag obvious graph items if used elsewhere
 function autoMarkGraph(questionText, item) {
-    try {
-        const t = String(questionText || '').toLowerCase();
-        if (t.includes('the graph below') || t.includes('coordinate plane') || t.includes('linearly ')) {
-            item.useGraphTool = true;
-        }
-    } catch {}
+  try {
+    const t = String(questionText || '').toLowerCase();
+    if (
+      t.includes('the graph below') ||
+      t.includes('coordinate plane') ||
+      t.includes('linearly ')
+    ) {
+      item.useGraphTool = true;
+    }
+  } catch {}
 }
 
 async function generateMath_FillInTheBlank(options = {}) {
-    const prompt = `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is precise and readable.
+  const prompt = `You are a GED Math exam creator. Your single most important task is to ensure all mathematical notation is precise and readable.
 ${FRACTION_PLAIN_TEXT_RULE}
 
 With those rules in mind, generate a single, high-quality, GED-style math question (from any topic area) that requires a single numerical or simple fractional answer (e.g., 25, -10, 5/8).
@@ -6928,23 +8518,23 @@ Output a single valid JSON object with three keys:
 1. "type": a string with the value "fill-in-the-blank".
 2. "questionText": a string containing the full question.
 3. "correctAnswer": a NUMBER or STRING containing the exact correct answer.`;
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            type: { type: "STRING", enum: ["fill-in-the-blank"] },
-            questionText: { type: "STRING" },
-            correctAnswer: { type: 'STRING' }
-        },
-        required: ["type", "questionText", "correctAnswer"]
-    };
-    const question = await callAI(prompt, schema, options);
-    applyFractionPlainTextModeToItem(question);
-    question.calculator = true; // Most fill-in-the-blank will be calculator-permitted
-    return enforceWordCapsOnItem(question, 'Math');
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      type: { type: 'STRING', enum: ['fill-in-the-blank'] },
+      questionText: { type: 'STRING' },
+      correctAnswer: { type: 'STRING' },
+    },
+    required: ['type', 'questionText', 'correctAnswer'],
+  };
+  const question = await callAI(prompt, schema, options);
+  applyFractionPlainTextModeToItem(question);
+  question.calculator = true; // Most fill-in-the-blank will be calculator-permitted
+  return enforceWordCapsOnItem(question, 'Math');
 }
 
 async function generateRlaPart1(options = {}) {
-    const prompt = `${STRICT_JSON_HEADER_RLA}
+  const prompt = `${STRICT_JSON_HEADER_RLA}
 Create the Reading Comprehension section of a GED RLA exam.
 Produce exactly 4 passages:
 - 3 informational / nonfiction passages (science/society/history topics are fine),
@@ -6952,85 +8542,113 @@ Produce exactly 4 passages:
 Use concise titles in <strong> tags and <p> tags for paragraphs. Each passage must be 150-230 words and NEVER above 250 words.
 For EACH passage, generate exactly 5 reading comprehension questions (total 20).
 Return the JSON array of question objects only.`;
-    const schema = { type: "ARRAY", items: singleQuestionSchema };
-    const questions = await callAI(prompt, schema, options);
-    const cappedQuestions = Array.isArray(questions)
-        ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
-        : [];
-    // Group questions by passage
-    const passages = {};
-    let passageCounter = 0;
-    let currentPassageTitle = '';
-    cappedQuestions.forEach(q => {
-        if (q.passage && q.passage !== currentPassageTitle) {
-            currentPassageTitle = q.passage;
-            passageCounter++;
-        }
-        const passageKey = `Passage ${passageCounter}`;
-        if (!passages[passageKey]) passages[passageKey] = { passage: q.passage, questions: [] };
-        passages[passageKey].questions.push(q);
-    });
+  const schema = { type: 'ARRAY', items: singleQuestionSchema };
+  const questions = await callAI(prompt, schema, options);
+  const cappedQuestions = Array.isArray(questions)
+    ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
+    : [];
+  // Group questions by passage
+  const passages = {};
+  let passageCounter = 0;
+  let currentPassageTitle = '';
+  cappedQuestions.forEach((q) => {
+    if (q.passage && q.passage !== currentPassageTitle) {
+      currentPassageTitle = q.passage;
+      passageCounter++;
+    }
+    const passageKey = `Passage ${passageCounter}`;
+    if (!passages[passageKey])
+      passages[passageKey] = { passage: q.passage, questions: [] };
+    passages[passageKey].questions.push(q);
+  });
 
-    let groupedQuestions = [];
-    Object.values(passages).forEach(p => {
-        p.questions.forEach(q => groupedQuestions.push(enforceWordCapsOnItem({ ...q, passage: p.passage, type: 'passage' }, 'RLA')));
-    });
-    return groupedQuestions;
+  let groupedQuestions = [];
+  Object.values(passages).forEach((p) => {
+    p.questions.forEach((q) =>
+      groupedQuestions.push(
+        enforceWordCapsOnItem(
+          { ...q, passage: p.passage, type: 'passage' },
+          'RLA'
+        )
+      )
+    );
+  });
+  return groupedQuestions;
 }
 
 async function generateRlaPart2(options = {}) {
-    const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each, 150-230 words and never above 250 words). Each passage MUST have: "title", "author" (a plausible human name), and "content". Output a JSON object with keys "passages" (an array of two objects, each with "title", "author", and "content") and "prompt" (the essay question, <= 250 words).`;
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            passages: { type: "ARRAY", items: { type: "OBJECT", properties: { title: { type: "STRING" }, author: { type: "STRING" }, content: { type: "STRING" } } } },
-            prompt: { type: "STRING" }
+  const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each, 150-230 words and never above 250 words). Each passage MUST have: "title", "author" (a plausible human name), and "content". Output a JSON object with keys "passages" (an array of two objects, each with "title", "author", and "content") and "prompt" (the essay question, <= 250 words).`;
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      passages: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            title: { type: 'STRING' },
+            author: { type: 'STRING' },
+            content: { type: 'STRING' },
+          },
         },
-        required: ["passages", "prompt"]
-    };
-    const result = await callAI(prompt, schema, options);
-    if (Array.isArray(result?.passages)) {
-        result.passages = result.passages.map((p) => ({
-            ...p,
-            content: limitWords(p?.content || '', 250)
-        }));
-    }
-    if (typeof result?.prompt === 'string') {
-        result.prompt = limitWords(result.prompt, 250);
-    }
-    return result;
+      },
+      prompt: { type: 'STRING' },
+    },
+    required: ['passages', 'prompt'],
+  };
+  const result = await callAI(prompt, schema, options);
+  if (Array.isArray(result?.passages)) {
+    result.passages = result.passages.map((p) => ({
+      ...p,
+      content: limitWords(p?.content || '', 250),
+    }));
+  }
+  if (typeof result?.prompt === 'string') {
+    result.prompt = limitWords(result.prompt, 250);
+  }
+  return result;
 }
 
 async function generateRlaPart3(options = {}) {
-    const prompt = `${STRICT_JSON_HEADER_RLA}
+  const prompt = `${STRICT_JSON_HEADER_RLA}
 Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each, keep each passage <= 250 words). The passages should contain a mix of grammatical errors and/or awkward phrasing. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences and improving word choice. This should total 25 questions. Return only the JSON array of the 25 question objects.`;
-    const schema = { type: "ARRAY", items: singleQuestionSchema };
-    const questions = await callAI(prompt, schema, options);
-    const cappedQuestions = Array.isArray(questions)
-        ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
-        : [];
-    // Group questions by passage
-    const passages = {};
-    let passageCounter = 0;
-    let currentPassageTitle = '';
-    cappedQuestions.forEach(q => {
-        if (q.passage && q.passage !== currentPassageTitle) {
-            currentPassageTitle = q.passage;
-            passageCounter++;
-        }
-        const passageKey = `Passage ${passageCounter}`;
-        if (!passages[passageKey]) passages[passageKey] = { passage: q.passage, questions: [] };
-        passages[passageKey].questions.push(q);
-    });
-     let groupedQuestions = [];
-    Object.values(passages).forEach(p => {
-        p.questions.forEach(q => groupedQuestions.push(enforceWordCapsOnItem({ ...q, passage: p.passage, type: 'passage' }, 'RLA')));
-    });
-    return groupedQuestions;
+  const schema = { type: 'ARRAY', items: singleQuestionSchema };
+  const questions = await callAI(prompt, schema, options);
+  const cappedQuestions = Array.isArray(questions)
+    ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
+    : [];
+  // Group questions by passage
+  const passages = {};
+  let passageCounter = 0;
+  let currentPassageTitle = '';
+  cappedQuestions.forEach((q) => {
+    if (q.passage && q.passage !== currentPassageTitle) {
+      currentPassageTitle = q.passage;
+      passageCounter++;
+    }
+    const passageKey = `Passage ${passageCounter}`;
+    if (!passages[passageKey])
+      passages[passageKey] = { passage: q.passage, questions: [] };
+    passages[passageKey].questions.push(q);
+  });
+  let groupedQuestions = [];
+  Object.values(passages).forEach((p) => {
+    p.questions.forEach((q) =>
+      groupedQuestions.push(
+        enforceWordCapsOnItem(
+          { ...q, passage: p.passage, type: 'passage' },
+          'RLA'
+        )
+      )
+    );
+  });
+  return groupedQuestions;
 }
 
 async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
-        const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${draftQuiz.questions.length}-question ${draftQuiz.subject} exam.
+  const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${
+    draftQuiz.questions.length
+  }-question ${draftQuiz.subject} exam.
 
 CRITICAL RULES (DO NOT IGNORE):
 1. MAINTAIN JSON STRUCTURE: The final output MUST be a single valid JSON object with the SAME top-level shape and field names as the input. Do NOT wrap it in backticks or code fences. Do NOT add commentary.
@@ -7066,12 +8684,12 @@ Here is the draft quiz JSON:
 ${JSON.stringify(draftQuiz, null, 2)}
 ---
 Return ONLY the corrected quiz JSON object.`;
-        const correctedQuiz = await callAI(prompt, quizSchema, options);
-        return correctedQuiz;
-    }
+  const correctedQuiz = await callAI(prompt, quizSchema, options);
+  return correctedQuiz;
+}
 
 async function reviewAndCorrectMathQuestion(questionObject, options = {}) {
-    const prompt = `You are an expert GED math editor. Your ONLY job is to fix formatting in the following JSON object. **Aggressively correct all syntax errors.**
+  const prompt = `You are an expert GED math editor. Your ONLY job is to fix formatting in the following JSON object. **Aggressively correct all syntax errors.**
 **CRITICAL RULES:**
 1.  **FIX FRACTIONS:** Convert any LaTeX-style fractions (e.g., \`$\frac{1}{2}$\`) into plain-text slash notation (e.g., \`1/2\` or \`(2x+1)/3\`). Remove dollar-sign delimiters around fractions.
 2.  **FIX DELIMITERS:** Ensure math expressions are not wrapped in double dollar signs and avoid using $, $$, \(:, or \[ for fractions.
@@ -7085,551 +8703,785 @@ Faulty JSON:
 ${JSON.stringify(questionObject)}
 `;
 
-    // CORRECTED SCHEMA
-    const schema = {
-        type: "OBJECT",
-        properties: {
-            questionText: { type: "STRING" },
-            answerOptions: {
-                type: "ARRAY",
-                items: {
-                    type: "OBJECT",
-                    properties: {
-                        text: { type: "STRING" },
-                        isCorrect: { type: "BOOLEAN" },
-                        rationale: { type: "STRING" }
-                    },
-                    required: ["text", "isCorrect", "rationale"]
-                }
-            },
-            questionType: { type: "STRING" }, // Renamed from "type"
-            calculator: { type: "BOOLEAN" },
-            questionNumber: { type: "NUMBER" },
-            imageUrl: { type: "STRING" },
-            correctAnswer: { type: "STRING" } // Changed from list to single type
+  // CORRECTED SCHEMA
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      questionText: { type: 'STRING' },
+      answerOptions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            text: { type: 'STRING' },
+            isCorrect: { type: 'BOOLEAN' },
+            rationale: { type: 'STRING' },
+          },
+          required: ['text', 'isCorrect', 'rationale'],
         },
-        required: ["questionText"]
-    };
+      },
+      questionType: { type: 'STRING' }, // Renamed from "type"
+      calculator: { type: 'BOOLEAN' },
+      questionNumber: { type: 'NUMBER' },
+      imageUrl: { type: 'STRING' },
+      correctAnswer: { type: 'STRING' }, // Changed from list to single type
+    },
+    required: ['questionText'],
+  };
 
-    try {
-        const correctedQuestion = await callAI(prompt, schema, options);
-        // Preserve original properties that might not be in the schema
-        return { ...questionObject, ...correctedQuestion };
-    } catch (error) {
-        console.error("Error correcting math question, returning original:", error);
-        return questionObject; // Return original on failure
-    }
+  try {
+    const correctedQuestion = await callAI(prompt, schema, options);
+    // Preserve original properties that might not be in the schema
+    return { ...questionObject, ...correctedQuestion };
+  } catch (error) {
+    console.error('Error correcting math question, returning original:', error);
+    return questionObject; // Return original on failure
+  }
 }
 
-
 app.post('/api/generate/topic', express.json(), async (req, res) => {
-    const { subject = 'Science', topic = 'Ecosystems' } = req.body || {};
-    const QUIZ_COUNT = 12;
-    try {
-        const subjectNeedsRetrieval = TOPIC_STIMULUS_SUBJECTS.has(subject);
-        const subjectNeedsImages = TOPIC_STIMULUS_SUBJECTS.has(subject);
+  const { subject = 'Science', topic = 'Ecosystems' } = req.body || {};
+  const QUIZ_COUNT = 12;
+  try {
+    const subjectNeedsRetrieval = TOPIC_STIMULUS_SUBJECTS.has(subject);
+    const subjectNeedsImages = TOPIC_STIMULUS_SUBJECTS.has(subject);
 
-        const ctx = subjectNeedsRetrieval ? await retrieveSnippets(subject, topic) : [];
-        const imgs = subjectNeedsImages ? findImagesForSubjectTopic(subject, topic, 6) : [];
+    const ctx = subjectNeedsRetrieval
+      ? await retrieveSnippets(subject, topic)
+      : [];
+    const imgs = subjectNeedsImages
+      ? findImagesForSubjectTopic(subject, topic, 6)
+      : [];
 
-        let prompt;
-        let winnerModel = 'unknown';
-        let latencyMs = 0;
+    let prompt;
+    let winnerModel = 'unknown';
+    let latencyMs = 0;
 
-        if (subject === 'Math') {
-            // Keep legacy variety pack for Math
-            prompt = buildTopicPrompt_VarietyPack(subject, topic, QUIZ_COUNT, ctx, imgs);
-        } else {
-            const approvedSection = await buildApprovedPassagesSection(subject, topic);
-            prompt = buildSubjectPrompt({ subject, topic, examType: 'topic', context: ctx, images: imgs, questionCount: QUIZ_COUNT, approvedPassagesSection: approvedSection });
-        }
-
-        const result = await generateQuizItemsWithFallback(
-            subject,
-            prompt,
-            {
-                retries: 2,
-                minTimeout: 800,
-                onFailedAttempt: (err, n) => console.warn(`[retry ${n}] topic generation failed: ${err?.message || err}`)
-            }
-        );
-        winnerModel = result.model || 'unknown';
-        latencyMs = result.latencyMs || 0;
-
-        let items = (Array.isArray(result.items) ? result.items : []).map((it) => enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(it)), subject));
-        items = items.map(tagMissingItemType).map(tagMissingDifficulty);
-
-        const bad = [];
-        items.forEach((it, i) => { if (!validateQuestion(it)) bad.push(i); });
-        if (bad.length) {
-            const fixed = await withRetry(
-                () => repairBatchWithChatGPT_once(bad.map(i => items[i])),
-                {
-                    retries: 2,
-                    minTimeout: 800,
-                    onFailedAttempt: (err, n) => console.warn(`[retry ${n}] ChatGPT topic repair failed: ${err?.message || err}`)
-                }
-            );
-            fixed.forEach((f, j) => {
-                items[bad[j]] = enforceWordCapsOnItem(sanitizeQuestionKeepLatex(cloneQuestion(f)), subject);
-            });
-            items = items.map(tagMissingItemType).map(tagMissingDifficulty);
-        }
-
-        if (subject !== 'Math') {
-            items = validateAndFilterAiItems(items, subject, topic);
-        }
-
-        // Ensure ~1/3 numeracy for Science topic generation
-        if (subject === 'Science') {
-            items = await ensureScienceNumeracy(items, { requiredFraction: 1/3 });
-        }
-
-        items = dedupeNearDuplicates(items, 0.85);
-        items = groupedShuffle(items);
-        items = items.map(tagMissingItemType).map(tagMissingDifficulty);
-        items = items.slice(0, QUIZ_COUNT).map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
-
-        const fractionPlainTextMode = subject === 'Math';
-        if (fractionPlainTextMode) {
-            items = items.map(applyFractionPlainTextModeToItem);
-        }
-
-        res.set('X-Model', winnerModel || 'unknown');
-        res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
-        const response = {
-            subject,
-            topic,
-            items,
-            model: winnerModel || 'unknown',
-            latencyMs: latencyMs ?? 0,
-            source: 'aiGenerated',
-            fraction_plain_text_mode: fractionPlainTextMode
-        };
-        if (subject === 'Science') {
-            response.formulaSheetUrl = '/frontend/assets/formula-sheet/science-formulas.pdf';
-        }
-        res.json(response);
-    } catch (err) {
-        console.error('topic generation failed', err);
-        const status = err?.statusCode === 504 ? 504 : 500;
-        const body = err?.statusCode === 504
-            ? { error: 'AI timed out', model: 'timeout', latencyMs: err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS }
-            : { error: 'Failed to generate topic quiz.' };
-        if (status === 504) {
-            res.set('X-Model', 'timeout');
-            res.set('X-Model-Latency-Ms', String(err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS));
-        }
-        res.status(status).json(body);
+    if (subject === 'Math') {
+      // Keep legacy variety pack for Math
+      prompt = buildTopicPrompt_VarietyPack(
+        subject,
+        topic,
+        QUIZ_COUNT,
+        ctx,
+        imgs
+      );
+    } else {
+      const approvedSection = await buildApprovedPassagesSection(
+        subject,
+        topic
+      );
+      prompt = buildSubjectPrompt({
+        subject,
+        topic,
+        examType: 'topic',
+        context: ctx,
+        images: imgs,
+        questionCount: QUIZ_COUNT,
+        approvedPassagesSection: approvedSection,
+      });
     }
+
+    const result = await generateQuizItemsWithFallback(subject, prompt, {
+      retries: 2,
+      minTimeout: 800,
+      onFailedAttempt: (err, n) =>
+        console.warn(
+          `[retry ${n}] topic generation failed: ${err?.message || err}`
+        ),
+    });
+    winnerModel = result.model || 'unknown';
+    latencyMs = result.latencyMs || 0;
+
+    let items = (Array.isArray(result.items) ? result.items : []).map((it) =>
+      enforceWordCapsOnItem(
+        sanitizeQuestionKeepLatex(cloneQuestion(it)),
+        subject
+      )
+    );
+    items = items.map(tagMissingItemType).map(tagMissingDifficulty);
+
+    const bad = [];
+    items.forEach((it, i) => {
+      if (!validateQuestion(it)) bad.push(i);
+    });
+    if (bad.length) {
+      const fixed = await withRetry(
+        () => repairBatchWithChatGPT_once(bad.map((i) => items[i])),
+        {
+          retries: 2,
+          minTimeout: 800,
+          onFailedAttempt: (err, n) =>
+            console.warn(
+              `[retry ${n}] ChatGPT topic repair failed: ${err?.message || err}`
+            ),
+        }
+      );
+      fixed.forEach((f, j) => {
+        items[bad[j]] = enforceWordCapsOnItem(
+          sanitizeQuestionKeepLatex(cloneQuestion(f)),
+          subject
+        );
+      });
+      items = items.map(tagMissingItemType).map(tagMissingDifficulty);
+    }
+
+    if (subject !== 'Math') {
+      items = validateAndFilterAiItems(items, subject, topic);
+    }
+
+    // Ensure ~1/3 numeracy for Science topic generation
+    if (subject === 'Science') {
+      items = await ensureScienceNumeracy(items, { requiredFraction: 1 / 3 });
+    }
+
+    items = dedupeNearDuplicates(items, 0.85);
+    items = groupedShuffle(items);
+    items = items.map(tagMissingItemType).map(tagMissingDifficulty);
+    items = items
+      .slice(0, QUIZ_COUNT)
+      .map((item, idx) => ({ ...item, questionNumber: idx + 1 }));
+
+    const fractionPlainTextMode = subject === 'Math';
+    if (fractionPlainTextMode) {
+      items = items.map(applyFractionPlainTextModeToItem);
+    }
+
+    res.set('X-Model', winnerModel || 'unknown');
+    res.set('X-Model-Latency-Ms', String(latencyMs ?? 0));
+    const response = {
+      subject,
+      topic,
+      items,
+      model: winnerModel || 'unknown',
+      latencyMs: latencyMs ?? 0,
+      source: 'aiGenerated',
+      fraction_plain_text_mode: fractionPlainTextMode,
+    };
+    if (subject === 'Science') {
+      response.formulaSheetUrl =
+        '/frontend/assets/formula-sheet/science-formulas.pdf';
+    }
+    res.json(response);
+  } catch (err) {
+    console.error('topic generation failed', err);
+    const status = err?.statusCode === 504 ? 504 : 500;
+    const body =
+      err?.statusCode === 504
+        ? {
+            error: 'AI timed out',
+            model: 'timeout',
+            latencyMs: err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS,
+          }
+        : { error: 'Failed to generate topic quiz.' };
+    if (status === 504) {
+      res.set('X-Model', 'timeout');
+      res.set(
+        'X-Model-Latency-Ms',
+        String(err?.latencyMs ?? MODEL_HTTP_TIMEOUT_MS)
+      );
+    }
+    res.status(status).json(body);
+  }
 });
 
 app.get('/metrics/ai', (_req, res) => {
-    const stats = AI_LATENCY.stats();
-    const toSec = (value) => Math.round((value || 0) / 1000);
-    res.json({
-        model: 'gemini+chatgpt-fallback',
-        count: stats.count,
-        p50s: toSec(stats.p50),
-        p95s: toSec(stats.p95),
-        p99s: toSec(stats.p99),
-        avgs: toSec(stats.avg)
-    });
+  const stats = AI_LATENCY.stats();
+  const toSec = (value) => Math.round((value || 0) / 1000);
+  res.json({
+    model: 'gemini+chatgpt-fallback',
+    count: stats.count,
+    p50s: toSec(stats.p50),
+    p95s: toSec(stats.p95),
+    p99s: toSec(stats.p99),
+    avgs: toSec(stats.avg),
+  });
 });
 
-
 app.post('/generate-quiz', async (req, res) => {
-    const { subject, topic, comprehensive } = req.body;
+  const { subject, topic, comprehensive } = req.body;
 
-    if (subject === undefined || comprehensive === undefined) {
-        return res.status(400).json({ error: 'Subject and comprehensive flag are required.' });
-    }
+  if (subject === undefined || comprehensive === undefined) {
+    return res
+      .status(400)
+      .json({ error: 'Subject and comprehensive flag are required.' });
+  }
 
-    const examType = comprehensive ? 'comprehensive' : 'standard';
-    const generationStart = Date.now();
+  const examType = comprehensive ? 'comprehensive' : 'standard';
+  const generationStart = Date.now();
 
-    if (comprehensive) {
-        // --- COMPREHENSIVE EXAM LOGIC ---
-        if (subject === 'Social Studies') {
-            try {
-                const timeoutMs = selectModelTimeoutMs({ examType });
-                const aiOptions = { timeoutMs };
-                const usedImages = new Set(); // Track used images to prevent reuse
-                
-                const blueprint = {
-                    'Civics & Government':    { passages: 3, images: 2, standalone: 3 },
-                    'U.S. History':           { passages: 3, images: 2, standalone: 1 },
-                    'Economics':              { passages: 1, images: 2, standalone: 1 },
-                    'Geography & the World':  { passages: 3, images: 1, standalone: 0 }
-                };
-                const TOTAL_QUESTIONS = 35;
-                let promises = [];
+  if (comprehensive) {
+    // --- COMPREHENSIVE EXAM LOGIC ---
+    if (subject === 'Social Studies') {
+      try {
+        const timeoutMs = selectModelTimeoutMs({ examType });
+        const aiOptions = { timeoutMs };
+        const usedImages = new Set(); // Track used images to prevent reuse
 
-                // Try to guarantee exactly 1 political cartoon
-                const cartoonQs = await generateImageQuestion(
-                    'political cartoon',
-                    subject,
-                    curatedImages,
-                    1,
-                    { ...aiOptions, usedImages, mustBeCartoon: true }
-                );
-                if (cartoonQs && cartoonQs.length) {
-                    promises.push(cartoonQs);
-                }
+        const blueprint = {
+          'Civics & Government': { passages: 3, images: 2, standalone: 3 },
+          'U.S. History': { passages: 3, images: 2, standalone: 1 },
+          Economics: { passages: 1, images: 2, standalone: 1 },
+          'Geography & the World': { passages: 3, images: 1, standalone: 0 },
+        };
+        const TOTAL_QUESTIONS = 35;
+        let promises = [];
 
-                // Inject founding document passage set first
-                const foundingPassage = pickPassageFor('Social Studies', { topic: 'founding documents' });
-                if (foundingPassage) {
-                    console.log('[SS] Adding founding document passage set');
-                    promises.push((async () => {
-                        const passagePrompt = `You are creating GED-level Social Studies questions using ONLY the passage below. Vary question types. Return EXACTLY 3 questions.
+        // Try to guarantee exactly 1 political cartoon
+        const cartoonQs = await generateImageQuestion(
+          'political cartoon',
+          subject,
+          curatedImages,
+          1,
+          { ...aiOptions, usedImages, mustBeCartoon: true }
+        );
+        if (cartoonQs && cartoonQs.length) {
+          promises.push(cartoonQs);
+        }
+
+        // Inject founding document passage set first
+        const foundingPassage = pickPassageFor('Social Studies', {
+          topic: 'founding documents',
+        });
+        if (foundingPassage) {
+          console.log('[SS] Adding founding document passage set');
+          promises.push(
+            (async () => {
+              const passagePrompt = `You are creating GED-level Social Studies questions using ONLY the passage below. Vary question types. Return EXACTLY 3 questions.
 TITLE: ${foundingPassage.title}
 PASSAGE:\n${foundingPassage.text}\n`;
-                        try {
-                            const qSchema = { type: 'OBJECT', properties: { questionText: { type: 'STRING' }, answerOptions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { text: { type: 'STRING' }, isCorrect: { type: 'BOOLEAN' }, rationale: { type: 'STRING' } }, required: ['text','isCorrect','rationale'] } } }, required: ['questionText','answerOptions'] };
-                            const wrapperSchema = { type: 'OBJECT', properties: { questions: { type: 'ARRAY', items: qSchema } }, required: ['questions'] };
-                            const aiRes = await callAI(passagePrompt + 'Output JSON with {"questions": [...]}', wrapperSchema, aiOptions);
-                            const qs = Array.isArray(aiRes.questions) ? aiRes.questions.slice(0,3) : [];
-                            return qs.map(q => ({ ...q, passage: foundingPassage.text, stimulusId: foundingPassage.id, type: 'passage' }));
-                        } catch (e) {
-                            console.warn('[SS] Founding doc question generation failed, skipping.', e.message);
-                            return [];
-                        }
-                    })());
-                }
-
-                for (const [category, counts] of Object.entries(blueprint)) {
-                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
-                    for (let i = 0; i < counts.images; i++) promises.push((async () => {
-                        const imgQs = await generateImageQuestion(
-                            category,
-                            subject,
-                            curatedImages,
-                            Math.random() > 0.5 ? 2 : 1,
-                            { ...aiOptions, usedImages }
-                        );
-                        if (imgQs && imgQs.length) return imgQs;
-                        return await generateStandaloneQuestion(subject, category, aiOptions);
-                    })());
-                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category, aiOptions));
-                }
-
-                const results = await Promise.all(promises);
-                let allQuestions = results.flat().filter(q => q);
-
-                // Enforce 70% stimulus coverage for Social Studies
-                const stimulusItems = allQuestions.filter(q => q.passage || q.image || q.table || q.stimulusId);
-                const stimulusRatio = stimulusItems.length / allQuestions.length;
-                if (stimulusRatio < 0.7) {
-                    const needed = Math.ceil(allQuestions.length * 0.7) - stimulusItems.length;
-                    console.log(`[SS] Stimulus ratio ${(stimulusRatio*100).toFixed(1)}% < 70%, adding ${needed} more stimulus questions`);
-                    for (let i = 0; i < needed && allQuestions.length < 50; i++) {
-                        try {
-                            const category = ['Civics & Government', 'U.S. History'][i % 2];
-                            const stimQ = await generatePassageSet(category, subject, 1, aiOptions);
-                            if (Array.isArray(stimQ) && stimQ.length) allQuestions.push(...stimQ);
-                        } catch (e) {
-                            console.warn('[SS] Failed to add stimulus question:', e.message);
-                        }
-                    }
-                }
-
-                // Shuffle at stimulus-group level (keeps passage/image clusters together)
-                allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
-                const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
-                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
-
-                const draftQuiz = {
-                    id: `ai_comp_ss_draft_${new Date().getTime()}`,
-                    title: `Comprehensive Social Studies Exam`,
-                    subject: subject,
-                    source: 'aiGenerated',
-                    fraction_plain_text_mode: false,
-                    questions: draftQuestionSet,
+              try {
+                const qSchema = {
+                  type: 'OBJECT',
+                  properties: {
+                    questionText: { type: 'STRING' },
+                    answerOptions: {
+                      type: 'ARRAY',
+                      items: {
+                        type: 'OBJECT',
+                        properties: {
+                          text: { type: 'STRING' },
+                          isCorrect: { type: 'BOOLEAN' },
+                          rationale: { type: 'STRING' },
+                        },
+                        required: ['text', 'isCorrect', 'rationale'],
+                      },
+                    },
+                  },
+                  required: ['questionText', 'answerOptions'],
                 };
+                const wrapperSchema = {
+                  type: 'OBJECT',
+                  properties: { questions: { type: 'ARRAY', items: qSchema } },
+                  required: ['questions'],
+                };
+                const aiRes = await callAI(
+                  passagePrompt + 'Output JSON with {"questions": [...]}',
+                  wrapperSchema,
+                  aiOptions
+                );
+                const qs = Array.isArray(aiRes.questions)
+                  ? aiRes.questions.slice(0, 3)
+                  : [];
+                return qs.map((q) => ({
+                  ...q,
+                  passage: foundingPassage.text,
+                  stimulusId: foundingPassage.id,
+                  type: 'passage',
+                }));
+              } catch (e) {
+                console.warn(
+                  '[SS] Founding doc question generation failed, skipping.',
+                  e.message
+                );
+                return [];
+              }
+            })()
+          );
+        }
 
-                console.log("Social Studies draft complete. Sending for second pass review...");
-                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
-                
-                // Persist to AI question bank (capture-only)
-                if (AI_QUESTION_BANK_ENABLED) {
-                    await persistQuestionsToBank(finalQuiz.questions || [], {
-                        subject,
-                        topic: null,
-                        sourceModel: finalQuiz.source || 'aiGenerated',
-                        generatedForUserId: req.user?.id || null,
-                        originQuizId: finalQuiz.id || null,
-                    });
-                }
-                
-                logGenerationDuration(examType, subject, generationStart);
-                // Attach formula sheet URL for Science comprehensive
-                try { finalQuiz.formulaSheetUrl = '/frontend/assets/formula-sheet/science-formulas.pdf'; } catch {}
-                res.json(finalQuiz);
+        for (const [category, counts] of Object.entries(blueprint)) {
+          for (let i = 0; i < counts.passages; i++)
+            promises.push(
+              generatePassageSet(
+                category,
+                subject,
+                Math.random() > 0.5 ? 2 : 1,
+                aiOptions
+              )
+            );
+          for (let i = 0; i < counts.images; i++)
+            promises.push(
+              (async () => {
+                const imgQs = await generateImageQuestion(
+                  category,
+                  subject,
+                  curatedImages,
+                  Math.random() > 0.5 ? 2 : 1,
+                  { ...aiOptions, usedImages }
+                );
+                if (imgQs && imgQs.length) return imgQs;
+                return await generateStandaloneQuestion(
+                  subject,
+                  category,
+                  aiOptions
+                );
+              })()
+            );
+          for (let i = 0; i < counts.standalone; i++)
+            promises.push(
+              generateStandaloneQuestion(subject, category, aiOptions)
+            );
+        }
 
-            } catch (error) {
-                console.error('Error generating Social Studies exam:', error);
-                logGenerationDuration(examType, subject, generationStart, 'failed');
-                res.status(500).json({ error: 'Failed to generate Social Studies exam.' });
-            }
-        } else if (subject === 'Science') {
+        const results = await Promise.all(promises);
+        let allQuestions = results.flat().filter((q) => q);
+
+        // Enforce 70% stimulus coverage for Social Studies
+        const stimulusItems = allQuestions.filter(
+          (q) => q.passage || q.image || q.table || q.stimulusId
+        );
+        const stimulusRatio = stimulusItems.length / allQuestions.length;
+        if (stimulusRatio < 0.7) {
+          const needed =
+            Math.ceil(allQuestions.length * 0.7) - stimulusItems.length;
+          console.log(
+            `[SS] Stimulus ratio ${(stimulusRatio * 100).toFixed(
+              1
+            )}% < 70%, adding ${needed} more stimulus questions`
+          );
+          for (let i = 0; i < needed && allQuestions.length < 50; i++) {
             try {
-                const timeoutMs = selectModelTimeoutMs({ examType });
-                const aiOptions = { timeoutMs };
-                const blueprint = {
-                    'Life Science': { passages: 3, images: 3, standalone: 6 },
-                    'Physical Science': { passages: 3, images: 2, standalone: 6 },
-                    'Earth & Space Science': { passages: 2, images: 1, standalone: 2 }
-                };
-                const TOTAL_QUESTIONS = 38;
-                let promises = [];
-
-                for (const [category, counts] of Object.entries(blueprint)) {
-                    for (let i = 0; i < counts.passages; i++) promises.push(generatePassageSet(category, subject, Math.random() > 0.5 ? 2 : 1, aiOptions));
-                    for (let i = 0; i < counts.images; i++) promises.push((async () => {
-                        const imgQs = await generateImageQuestion(category, subject, curatedImages, Math.random() > 0.5 ? 2 : 1, aiOptions);
-                        if (imgQs && imgQs.length) return imgQs;
-                        return await generateStandaloneQuestion(subject, category, aiOptions);
-                    })());
-                    for (let i = 0; i < counts.standalone; i++) promises.push(generateStandaloneQuestion(subject, category, aiOptions));
-                }
-
-                const results = await Promise.all(promises);
-                let allQuestions = results.flat().filter(q => q);
-                
-                // AI now generates tables automatically in passages and standalone questions
-                // No need to inject hardcoded tables
-
-                allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
-                let draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
-
-                // Enforce >= 1/3 numeracy post-processing
-                const categoryList = Object.keys(blueprint);
-                draftQuestionSet = await ensureScienceNumeracy(draftQuestionSet, { requiredFraction: 1/3, categories: categoryList, aiOptions });
-
-                // Mix in a few readable science passages from the local passage bank so not all items are purely data-driven
-                try {
-                    let injected = 0;
-                    for (let i = 0; i < draftQuestionSet.length && injected < 3; i++) {
-                        const q = draftQuestionSet[i];
-                        // Prefer items without any existing passage/stimulus
-                        const hasPassage = typeof q?.passage === 'string' && q.passage.trim().length > 0;
-                        if (!hasPassage) {
-                            const p = pickPassageFor('science');
-                            if (p && p.text) {
-                                q.passage = p.text;
-                                if (p.id) q.stimulusId = p.id;
-                                injected++;
-                            }
-                        }
-                    }
-                } catch (e) {
-                    try { console.warn('[Science][Passages] Failed to inject bank passages:', e?.message || e); } catch {}
-                }
-
-                // Normalize tables via shared helper
-                draftQuestionSet = draftQuestionSet.map((q) => ({
-                    ...q,
-                    questionText: normalizeTables(q?.questionText),
-                    passage: normalizeTables(q?.passage)
-                }));
-
-                // Append two reading-focused (science literacy) passage sets
-                try {
-                    const literacySets = [];
-                    for (let i = 0; i < 2; i++) {
-                        const set = await generateScienceLiteracySet(5, aiOptions);
-                        if (Array.isArray(set) && set.length) literacySets.push(...set);
-                    }
-                    if (literacySets.length) {
-                        draftQuestionSet.push(...literacySets);
-                        console.log(`[Science][Literacy] Added ${literacySets.length} passage-based literacy questions.`);
-                    }
-                } catch (e) {
-                    try { console.warn('[Science][Literacy] Unable to append literacy sets:', e?.message || e); } catch {}
-                }
-
-                draftQuestionSet.forEach((q, index) => { q.questionNumber = index + 1; });
-                // Ensure every science question has a source label; numeracy detection heuristic adds 'numeracy' earlier but backfill if missing
-                draftQuestionSet = draftQuestionSet.map(q => ({
-                    ...q,
-                    source: q.source || (isScienceNumeracyItem(q) ? 'numeracy' : 'literacy')
-                }));
-
-                const draftQuiz = {
-                    id: `ai_comp_sci_draft_${new Date().getTime()}`,
-                    title: `Comprehensive Science Exam`,
-                    subject: subject,
-                    source: 'aiGenerated',
-                    fraction_plain_text_mode: false,
-                    // Enable formula sheet in frontend header
-                    config: { formulaSheet: true },
-                    questions: draftQuestionSet,
-                };
-
-                console.log("Science draft complete. Sending for second pass review...");
-                const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
-                
-                // Persist to AI question bank (capture-only)
-                if (AI_QUESTION_BANK_ENABLED) {
-                    await persistQuestionsToBank(finalQuiz.questions || [], {
-                        subject,
-                        topic: null,
-                        sourceModel: finalQuiz.source || 'aiGenerated',
-                        generatedForUserId: req.user?.id || null,
-                        originQuizId: finalQuiz.id || null,
-                    });
-                }
-                
-                logGenerationDuration(examType, subject, generationStart);
-                res.json(finalQuiz);
-
-            } catch (error) {
-                console.error('Error generating Science exam:', error);
-                logGenerationDuration(examType, subject, generationStart, 'failed');
-                res.status(500).json({ error: 'Failed to generate Science exam.' });
+              const category = ['Civics & Government', 'U.S. History'][i % 2];
+              const stimQ = await generatePassageSet(
+                category,
+                subject,
+                1,
+                aiOptions
+              );
+              if (Array.isArray(stimQ) && stimQ.length)
+                allQuestions.push(...stimQ);
+            } catch (e) {
+              console.warn('[SS] Failed to add stimulus question:', e.message);
             }
-        } else if (isRlaSubject(subject)) {
-    try {
-        console.log("Generating comprehensive RLA exam...");
+          }
+        }
+
+        // Shuffle at stimulus-group level (keeps passage/image clusters together)
+        allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
+        const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
+        draftQuestionSet.forEach((q, index) => {
+          q.questionNumber = index + 1;
+        });
+
+        const draftQuiz = {
+          id: `ai_comp_ss_draft_${new Date().getTime()}`,
+          title: `Comprehensive Social Studies Exam`,
+          subject: subject,
+          source: 'aiGenerated',
+          fraction_plain_text_mode: false,
+          questions: draftQuestionSet,
+        };
+
+        console.log(
+          'Social Studies draft complete. Sending for second pass review...'
+        );
+        const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
+
+        // Persist to AI question bank (capture-only)
+        if (AI_QUESTION_BANK_ENABLED) {
+          await persistQuestionsToBank(finalQuiz.questions || [], {
+            subject,
+            topic: null,
+            sourceModel: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            originQuizId: finalQuiz.id || null,
+          });
+        }
+
+        logGenerationDuration(examType, subject, generationStart);
+        // Attach formula sheet URL for Science comprehensive
+        try {
+          finalQuiz.formulaSheetUrl =
+            '/frontend/assets/formula-sheet/science-formulas.pdf';
+        } catch {}
+        res.json(finalQuiz);
+      } catch (error) {
+        console.error('Error generating Social Studies exam:', error);
+        logGenerationDuration(examType, subject, generationStart, 'failed');
+        res
+          .status(500)
+          .json({ error: 'Failed to generate Social Studies exam.' });
+      }
+    } else if (subject === 'Science') {
+      try {
+        const timeoutMs = selectModelTimeoutMs({ examType });
+        const aiOptions = { timeoutMs };
+        const blueprint = {
+          'Life Science': { passages: 3, images: 3, standalone: 6 },
+          'Physical Science': { passages: 3, images: 2, standalone: 6 },
+          'Earth & Space Science': { passages: 2, images: 1, standalone: 2 },
+        };
+        const TOTAL_QUESTIONS = 38;
+        let promises = [];
+
+        for (const [category, counts] of Object.entries(blueprint)) {
+          for (let i = 0; i < counts.passages; i++)
+            promises.push(
+              generatePassageSet(
+                category,
+                subject,
+                Math.random() > 0.5 ? 2 : 1,
+                aiOptions
+              )
+            );
+          for (let i = 0; i < counts.images; i++)
+            promises.push(
+              (async () => {
+                const imgQs = await generateImageQuestion(
+                  category,
+                  subject,
+                  curatedImages,
+                  Math.random() > 0.5 ? 2 : 1,
+                  aiOptions
+                );
+                if (imgQs && imgQs.length) return imgQs;
+                return await generateStandaloneQuestion(
+                  subject,
+                  category,
+                  aiOptions
+                );
+              })()
+            );
+          for (let i = 0; i < counts.standalone; i++)
+            promises.push(
+              generateStandaloneQuestion(subject, category, aiOptions)
+            );
+        }
+
+        const results = await Promise.all(promises);
+        let allQuestions = results.flat().filter((q) => q);
+
+        // AI now generates tables automatically in passages and standalone questions
+        // No need to inject hardcoded tables
+
+        allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
+        let draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
+
+        // Enforce >= 1/3 numeracy post-processing
+        const categoryList = Object.keys(blueprint);
+        draftQuestionSet = await ensureScienceNumeracy(draftQuestionSet, {
+          requiredFraction: 1 / 3,
+          categories: categoryList,
+          aiOptions,
+        });
+
+        // Mix in a few readable science passages from the local passage bank so not all items are purely data-driven
+        try {
+          let injected = 0;
+          for (let i = 0; i < draftQuestionSet.length && injected < 3; i++) {
+            const q = draftQuestionSet[i];
+            // Prefer items without any existing passage/stimulus
+            const hasPassage =
+              typeof q?.passage === 'string' && q.passage.trim().length > 0;
+            if (!hasPassage) {
+              const p = pickPassageFor('science');
+              if (p && p.text) {
+                q.passage = p.text;
+                if (p.id) q.stimulusId = p.id;
+                injected++;
+              }
+            }
+          }
+        } catch (e) {
+          try {
+            console.warn(
+              '[Science][Passages] Failed to inject bank passages:',
+              e?.message || e
+            );
+          } catch {}
+        }
+
+        // Normalize tables via shared helper
+        draftQuestionSet = draftQuestionSet.map((q) => ({
+          ...q,
+          questionText: normalizeTables(q?.questionText),
+          passage: normalizeTables(q?.passage),
+        }));
+
+        // Append two reading-focused (science literacy) passage sets
+        try {
+          const literacySets = [];
+          for (let i = 0; i < 2; i++) {
+            const set = await generateScienceLiteracySet(5, aiOptions);
+            if (Array.isArray(set) && set.length) literacySets.push(...set);
+          }
+          if (literacySets.length) {
+            draftQuestionSet.push(...literacySets);
+            console.log(
+              `[Science][Literacy] Added ${literacySets.length} passage-based literacy questions.`
+            );
+          }
+        } catch (e) {
+          try {
+            console.warn(
+              '[Science][Literacy] Unable to append literacy sets:',
+              e?.message || e
+            );
+          } catch {}
+        }
+
+        draftQuestionSet.forEach((q, index) => {
+          q.questionNumber = index + 1;
+        });
+        // Ensure every science question has a source label; numeracy detection heuristic adds 'numeracy' earlier but backfill if missing
+        draftQuestionSet = draftQuestionSet.map((q) => ({
+          ...q,
+          source:
+            q.source || (isScienceNumeracyItem(q) ? 'numeracy' : 'literacy'),
+        }));
+
+        const draftQuiz = {
+          id: `ai_comp_sci_draft_${new Date().getTime()}`,
+          title: `Comprehensive Science Exam`,
+          subject: subject,
+          source: 'aiGenerated',
+          fraction_plain_text_mode: false,
+          // Enable formula sheet in frontend header
+          config: { formulaSheet: true },
+          questions: draftQuestionSet,
+        };
+
+        console.log(
+          'Science draft complete. Sending for second pass review...'
+        );
+        const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
+
+        // Persist to AI question bank (capture-only)
+        if (AI_QUESTION_BANK_ENABLED) {
+          await persistQuestionsToBank(finalQuiz.questions || [], {
+            subject,
+            topic: null,
+            sourceModel: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            originQuizId: finalQuiz.id || null,
+          });
+        }
+
+        logGenerationDuration(examType, subject, generationStart);
+        res.json(finalQuiz);
+      } catch (error) {
+        console.error('Error generating Science exam:', error);
+        logGenerationDuration(examType, subject, generationStart, 'failed');
+        res.status(500).json({ error: 'Failed to generate Science exam.' });
+      }
+    } else if (isRlaSubject(subject)) {
+      try {
+        console.log('Generating comprehensive RLA exam...');
 
         const timeoutMs = selectModelTimeoutMs({ examType });
         const aiOptions = { timeoutMs };
 
         const [part1Questions, part2Essay, part3Questions] = await Promise.all([
-            generateRlaPart1(aiOptions),
-            generateRlaPart2(aiOptions),
-            generateRlaPart3(aiOptions)
+          generateRlaPart1(aiOptions),
+          generateRlaPart2(aiOptions),
+          generateRlaPart3(aiOptions),
         ]);
 
         let allQuestions = [...part1Questions, ...part3Questions];
         allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
         allQuestions.forEach((q, index) => {
-            q.questionNumber = index + 1;
+          q.questionNumber = index + 1;
         });
 
         const finalQuiz = {
-            id: `ai_comp_rla_${new Date().getTime()}`,
-            title: `Comprehensive RLA Exam`,
-            subject: subject,
-            type: 'multi-part-rla', // Special type for the frontend
-            totalTime: 150 * 60, // 150 minutes
-            part1_reading: part1Questions,
-            part2_essay: part2Essay,
-            part3_language: part3Questions,
-            questions: allQuestions, // Keep this for compatibility with results screen
-            source: 'aiGenerated',
-            fraction_plain_text_mode: false
+          id: `ai_comp_rla_${new Date().getTime()}`,
+          title: `Comprehensive RLA Exam`,
+          subject: subject,
+          type: 'multi-part-rla', // Special type for the frontend
+          totalTime: 150 * 60, // 150 minutes
+          part1_reading: part1Questions,
+          part2_essay: part2Essay,
+          part3_language: part3Questions,
+          questions: allQuestions, // Keep this for compatibility with results screen
+          source: 'aiGenerated',
+          fraction_plain_text_mode: false,
         };
 
         // RLA does not need a second review pass due to its complex, multi-part nature
-        
+
         // Persist to AI question bank (capture-only)
         if (AI_QUESTION_BANK_ENABLED) {
-            await persistQuestionsToBank(finalQuiz.questions || [], {
-                subject,
-                topic: null,
-                sourceModel: finalQuiz.source || 'aiGenerated',
-                generatedForUserId: req.user?.id || null,
-                originQuizId: finalQuiz.id || null,
-            });
+          await persistQuestionsToBank(finalQuiz.questions || [], {
+            subject,
+            topic: null,
+            sourceModel: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            originQuizId: finalQuiz.id || null,
+          });
         }
-        
+
         logGenerationDuration(examType, subject, generationStart);
         res.json(finalQuiz);
-
-    } catch (error) {
+      } catch (error) {
         console.error('Error generating comprehensive RLA exam:', error);
         logGenerationDuration(examType, subject, generationStart, 'failed');
         res.status(500).json({ error: 'Failed to generate RLA exam.' });
-    }
-} else if (subject === 'Math' && comprehensive) {
-    try {
-        console.log("Generating comprehensive Math exam with two-part structure...");
-        console.log("Request received for comprehensive Math exam."); // Added for debugging
+      }
+    } else if (subject === 'Math' && comprehensive) {
+      try {
+        console.log(
+          'Generating comprehensive Math exam with two-part structure...'
+        );
+        console.log('Request received for comprehensive Math exam.'); // Added for debugging
 
         const timeoutMs = selectModelTimeoutMs({ examType });
         const aiOptions = { timeoutMs };
 
         // Part 1: Non-Calculator (5 questions)
-        const part1Promises = Array(5).fill().map(() => generateNonCalculatorQuestion(aiOptions));
-        const part1Questions = await Promise.all(part1Promises.map(p => p.catch(e => {
-            console.error("A promise in the non-calculator math section failed:", e);
-            return null;
-        })));
+        const part1Promises = Array(5)
+          .fill()
+          .map(() => generateNonCalculatorQuestion(aiOptions));
+        const part1Questions = await Promise.all(
+          part1Promises.map((p) =>
+            p.catch((e) => {
+              console.error(
+                'A promise in the non-calculator math section failed:',
+                e
+              );
+              return null;
+            })
+          )
+        );
 
         // Part 2: Calculator-Permitted (41 questions with difficulty bands)
         const part2Promises = [];
-        
+
         // Difficulty-stratified selection: 25% easy (10q), 55% medium (23q), 20% hard (8q)
         const pickByDiff = (diff, count) => {
-            if (!PASSAGE_DB.math_word_problems) return [];
-            const pool = PASSAGE_DB.math_word_problems.filter(p => p.difficulty === diff);
-            const selected = [];
-            for (let i = 0; i < count && selected.length < count; i++) {
-                if (pool.length === 0) break;
-                const template = pool[Math.floor(Math.random() * pool.length)];
-                const wpQuestions = instantiateMathWordProblem(template, aiOptions);
-                if (wpQuestions) selected.push(wpQuestions);
-            }
-            return selected;
+          if (!PASSAGE_DB.math_word_problems) return [];
+          const pool = PASSAGE_DB.math_word_problems.filter(
+            (p) => p.difficulty === diff
+          );
+          const selected = [];
+          for (let i = 0; i < count && selected.length < count; i++) {
+            if (pool.length === 0) break;
+            const template = pool[Math.floor(Math.random() * pool.length)];
+            const wpQuestions = instantiateMathWordProblem(template, aiOptions);
+            if (wpQuestions) selected.push(wpQuestions);
+          }
+          return selected;
         };
 
         // Try difficulty bands first, fallback to original logic if insufficient templates
         const easyQs = pickByDiff('easy', 10);
         const mediumQs = pickByDiff('medium', 23);
         const hardQs = pickByDiff('hard', 8);
-        const diffBandQuestions = [...easyQs, ...mediumQs, ...hardQs].flat().filter(q => q);
-        
+        const diffBandQuestions = [...easyQs, ...mediumQs, ...hardQs]
+          .flat()
+          .filter((q) => q);
+
         if (diffBandQuestions.length >= 25) {
-            console.log(`[Math] Using difficulty bands: ${easyQs.flat().length} easy, ${mediumQs.flat().length} medium, ${hardQs.flat().length} hard`);
-            part2Promises.push(...diffBandQuestions.map(q => Promise.resolve(q)));
-            // Fill remaining with diverse question types
-            const remaining = 41 - diffBandQuestions.length;
-            for (let i = 0; i < Math.min(remaining, 8); i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math', 1, aiOptions));
-            for (let i = 0; i < Math.min(remaining - 8, 4); i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
-            for (let i = 0; i < Math.min(remaining - 12, 5); i++) part2Promises.push(generateDataQuestion(aiOptions));
+          console.log(
+            `[Math] Using difficulty bands: ${easyQs.flat().length} easy, ${
+              mediumQs.flat().length
+            } medium, ${hardQs.flat().length} hard`
+          );
+          part2Promises.push(
+            ...diffBandQuestions.map((q) => Promise.resolve(q))
+          );
+          // Fill remaining with diverse question types
+          const remaining = 41 - diffBandQuestions.length;
+          for (let i = 0; i < Math.min(remaining, 8); i++)
+            part2Promises.push(
+              generateGeometryQuestion('Geometry', 'Math', 1, aiOptions)
+            );
+          for (let i = 0; i < Math.min(remaining - 8, 4); i++)
+            part2Promises.push(generateMath_FillInTheBlank(aiOptions));
+          for (let i = 0; i < Math.min(remaining - 12, 5); i++)
+            part2Promises.push(generateDataQuestion(aiOptions));
         } else {
-            console.log('[Math] Insufficient word problem templates, using original mixed logic');
-            // Original Part 2 generation logic
-            for (let i = 0; i < 8; i++) part2Promises.push(generateGeometryQuestion('Geometry', 'Math', 1, aiOptions));
-            for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
-            for (let i = 0; i < 5; i++) part2Promises.push(generateDataQuestion(aiOptions));
-            for (let i = 0; i < 5; i++) part2Promises.push(generateGraphingQuestion(aiOptions));
-            for (let i = 0; i < 10; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Expressions, Equations, and Inequalities', aiOptions));
-            for (let i = 0; i < 5; i++) part2Promises.push(generateStandaloneQuestion('Math', 'Ratios, Proportions, and Percents', aiOptions));
-            for (let i = 0; i < 4; i++) part2Promises.push(generateMath_FillInTheBlank(aiOptions));
+          console.log(
+            '[Math] Insufficient word problem templates, using original mixed logic'
+          );
+          // Original Part 2 generation logic
+          for (let i = 0; i < 8; i++)
+            part2Promises.push(
+              generateGeometryQuestion('Geometry', 'Math', 1, aiOptions)
+            );
+          for (let i = 0; i < 4; i++)
+            part2Promises.push(generateMath_FillInTheBlank(aiOptions));
+          for (let i = 0; i < 5; i++)
+            part2Promises.push(generateDataQuestion(aiOptions));
+          for (let i = 0; i < 5; i++)
+            part2Promises.push(generateGraphingQuestion(aiOptions));
+          for (let i = 0; i < 10; i++)
+            part2Promises.push(
+              generateStandaloneQuestion(
+                'Math',
+                'Expressions, Equations, and Inequalities',
+                aiOptions
+              )
+            );
+          for (let i = 0; i < 5; i++)
+            part2Promises.push(
+              generateStandaloneQuestion(
+                'Math',
+                'Ratios, Proportions, and Percents',
+                aiOptions
+              )
+            );
+          for (let i = 0; i < 4; i++)
+            part2Promises.push(generateMath_FillInTheBlank(aiOptions));
         }
 
-        const part2Results = await Promise.all(part2Promises.map(p => p.catch(e => {
-            console.error("A promise in the calculator math section failed:", e);
-            return null;
-        })));
+        const part2Results = await Promise.all(
+          part2Promises.map((p) =>
+            p.catch((e) => {
+              console.error(
+                'A promise in the calculator math section failed:',
+                e
+              );
+              return null;
+            })
+          )
+        );
 
-        let part2Questions = part2Results.flat().filter(q => q);
+        let part2Questions = part2Results.flat().filter((q) => q);
         // Ensure we have exactly 41 questions for Part 2, even if some promises failed
         while (part2Questions.length < 41) {
-            console.log("A question generation failed, adding a fallback question.");
-            part2Questions.push(await generateStandaloneQuestion('Math', 'General Problem Solving', aiOptions));
+          console.log(
+            'A question generation failed, adding a fallback question.'
+          );
+          part2Questions.push(
+            await generateStandaloneQuestion(
+              'Math',
+              'General Problem Solving',
+              aiOptions
+            )
+          );
         }
         part2Questions = part2Questions.slice(0, 41);
 
+        let allQuestions = [...part1Questions, ...part2Questions].filter(
+          (q) => q
+        );
 
-        let allQuestions = [...part1Questions, ...part2Questions].filter(q => q);
-        
         // Add numeric response type to ~15% of questions (7 out of 46)
         const numericCount = Math.ceil(allQuestions.length * 0.15);
-        const indices = Array.from({length: allQuestions.length}, (_, i) => i)
-            .sort(() => Math.random() - 0.5)
-            .slice(0, numericCount);
-        indices.forEach(idx => {
-            if (allQuestions[idx]) allQuestions[idx].responseType = 'numeric';
+        const indices = Array.from({ length: allQuestions.length }, (_, i) => i)
+          .sort(() => Math.random() - 0.5)
+          .slice(0, numericCount);
+        indices.forEach((idx) => {
+          if (allQuestions[idx]) allQuestions[idx].responseType = 'numeric';
         });
-        console.log(`[Math] Marked ${numericCount} questions as numeric response type`);
-        
+        console.log(
+          `[Math] Marked ${numericCount} questions as numeric response type`
+        );
+
         allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
         allQuestions.forEach((q, index) => {
-            q.questionNumber = index + 1;
+          q.questionNumber = index + 1;
         });
 
         // --- NEW: Second Pass Correction for Math ---
@@ -7638,140 +9490,174 @@ PASSAGE:\n${foundingPassage.text}\n`;
         let correctedAllQuestions;
 
         if (MATH_TWO_PASS_ENABLED) {
-            console.log("Applying math two-pass linting pipeline...");
-            correctedPart1 = part1Questions.filter(q => q);
-            correctedPart2 = part2Questions.filter(q => q);
-            correctedAllQuestions = [...correctedPart1, ...correctedPart2];
-            await runMathTwoPassOnQuestions(correctedAllQuestions, subject);
+          console.log('Applying math two-pass linting pipeline...');
+          correctedPart1 = part1Questions.filter((q) => q);
+          correctedPart2 = part2Questions.filter((q) => q);
+          correctedAllQuestions = [...correctedPart1, ...correctedPart2];
+          await runMathTwoPassOnQuestions(correctedAllQuestions, subject);
         } else {
-            console.log("Applying legacy math correction pipeline...");
-            correctedPart1 = await Promise.all(part1Questions.filter(q => q).map(q => reviewAndCorrectMathQuestion(q, aiOptions)));
-            correctedPart2 = await Promise.all(part2Questions.map(q => reviewAndCorrectMathQuestion(q, aiOptions)));
-            correctedAllQuestions = [...correctedPart1, ...correctedPart2];
+          console.log('Applying legacy math correction pipeline...');
+          correctedPart1 = await Promise.all(
+            part1Questions
+              .filter((q) => q)
+              .map((q) => reviewAndCorrectMathQuestion(q, aiOptions))
+          );
+          correctedPart2 = await Promise.all(
+            part2Questions.map((q) =>
+              reviewAndCorrectMathQuestion(q, aiOptions)
+            )
+          );
+          correctedAllQuestions = [...correctedPart1, ...correctedPart2];
         }
 
-        correctedAllQuestions = await applyMathCorrectnessPass(correctedAllQuestions, aiOptions);
+        correctedAllQuestions = await applyMathCorrectnessPass(
+          correctedAllQuestions,
+          aiOptions
+        );
         if (Array.isArray(correctedAllQuestions)) {
-            const part1Count = correctedPart1.length;
-            correctedPart1 = correctedAllQuestions.slice(0, part1Count);
-            correctedPart2 = correctedAllQuestions.slice(part1Count);
+          const part1Count = correctedPart1.length;
+          correctedPart1 = correctedAllQuestions.slice(0, part1Count);
+          correctedPart2 = correctedAllQuestions.slice(part1Count);
         }
 
         // --- NEW: Final Server-Side Sanitization ---
-        correctedAllQuestions.forEach(q => {
-            if (q.questionText) {
-                // Fix the most common LaTeX error
-                q.questionText = q.questionText.replace(/\\rac/g, '\\frac');
-                // Remove any inline CSS from tables to help the frontend
-                q.questionText = q.questionText.replace(/style="[^"]*"/g, '');
-            }
-            if (q.answerOptions) {
-                q.answerOptions.forEach(opt => {
-                    if (opt.text) {
-                        opt.text = opt.text.replace(/\\rac/g, '\\frac');
-                    }
-                });
-            }
+        correctedAllQuestions.forEach((q) => {
+          if (q.questionText) {
+            // Fix the most common LaTeX error
+            q.questionText = q.questionText.replace(/\\rac/g, '\\frac');
+            // Remove any inline CSS from tables to help the frontend
+            q.questionText = q.questionText.replace(/style="[^"]*"/g, '');
+          }
+          if (q.answerOptions) {
+            q.answerOptions.forEach((opt) => {
+              if (opt.text) {
+                opt.text = opt.text.replace(/\\rac/g, '\\frac');
+              }
+            });
+          }
         });
         // --- End of Sanitization ---
 
         correctedAllQuestions.forEach((q, index) => {
-            q.questionNumber = index + 1;
+          q.questionNumber = index + 1;
         });
         // --- End of Second Pass Correction ---
 
         const draftQuiz = {
-            id: `ai_comp_math_${new Date().getTime()}`,
-            title: `Comprehensive Mathematical Reasoning Exam`,
-            subject: subject,
-            type: 'multi-part-math',
-            source: 'aiGenerated',
-            fraction_plain_text_mode: true,
-            // Enable formula sheet in frontend header
-            config: { formulaSheet: true },
-            part1_non_calculator: correctedPart1,
-            part2_calculator: correctedPart2,
-            questions: correctedAllQuestions
+          id: `ai_comp_math_${new Date().getTime()}`,
+          title: `Comprehensive Mathematical Reasoning Exam`,
+          subject: subject,
+          type: 'multi-part-math',
+          source: 'aiGenerated',
+          fraction_plain_text_mode: true,
+          // Enable formula sheet in frontend header
+          config: { formulaSheet: true },
+          part1_non_calculator: correctedPart1,
+          part2_calculator: correctedPart2,
+          questions: correctedAllQuestions,
         };
 
         const finalQuiz = draftQuiz;
 
         // Persist to AI question bank (capture-only)
         if (AI_QUESTION_BANK_ENABLED) {
-            await persistQuestionsToBank(finalQuiz.questions || [], {
-                subject,
-                topic: null,
-                sourceModel: finalQuiz.source || 'aiGenerated',
-                generatedForUserId: req.user?.id || null,
-                originQuizId: finalQuiz.id || null,
-            });
+          await persistQuestionsToBank(finalQuiz.questions || [], {
+            subject,
+            topic: null,
+            sourceModel: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            originQuizId: finalQuiz.id || null,
+          });
         }
 
         logGenerationDuration(examType, subject, generationStart);
-    // Return comprehensive Math quiz as-is
-    res.json(finalQuiz);
-
-    } catch (error) {
+        // Return comprehensive Math quiz as-is
+        res.json(finalQuiz);
+      } catch (error) {
         console.error('Error generating comprehensive Math exam:', error);
         logGenerationDuration(examType, subject, generationStart, 'failed');
         res.status(500).json({ error: 'Failed to generate Math exam.' });
+      }
+    } else {
+      // This handles comprehensive requests for subjects without that logic yet.
+      logGenerationDuration(examType, subject, generationStart, 'failed');
+      res
+        .status(400)
+        .json({
+          error: `Comprehensive exams for ${subject} are not yet available.`,
+        });
     }
-} else {
-            // This handles comprehensive requests for subjects without that logic yet.
-            logGenerationDuration(examType, subject, generationStart, 'failed');
-            res.status(400).json({ error: `Comprehensive exams for ${subject} are not yet available.` });
+  } else {
+    // --- CORRECTED TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
+    try {
+      const { subject, topic } = req.body;
+      if (!topic) {
+        return res
+          .status(400)
+          .json({ error: 'Topic is required for non-comprehensive quizzes.' });
+      }
+      console.log(
+        `Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`
+      );
+
+      const TOTAL_QUESTIONS = 15;
+      let promises = []; // Single promises array for all logic paths.
+
+      if (subject === 'Math') {
+        // --- MATH-SPECIFIC LOGIC WITH WORD PROBLEM TEMPLATES ---
+        console.log('Generating Math quiz (word problem templates preferred).');
+        let visualQuestionCount = 0;
+        if (topic.toLowerCase().includes('geometry')) {
+          console.log(
+            'Geometry topic detected. Generating 5 visual questions.'
+          );
+          visualQuestionCount = 5;
         }
-} else {
-        // --- CORRECTED TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
-        try {
-            const { subject, topic } = req.body;
-            if (!topic) {
-                return res.status(400).json({ error: 'Topic is required for non-comprehensive quizzes.' });
-            }
-            console.log(`Generating topic-specific quiz for Subject: ${subject}, Topic: ${topic}`);
-
-            const TOTAL_QUESTIONS = 15;
-            let promises = []; // Single promises array for all logic paths.
-
-            if (subject === 'Math') {
-                // --- MATH-SPECIFIC LOGIC WITH WORD PROBLEM TEMPLATES ---
-                console.log("Generating Math quiz (word problem templates preferred).");
-                let visualQuestionCount = 0;
-                if (topic.toLowerCase().includes('geometry')) {
-                    console.log('Geometry topic detected. Generating 5 visual questions.');
-                    visualQuestionCount = 5;
-                }
-                for (let i = 0; i < visualQuestionCount; i++) {
-                    promises.push(generateGeometryQuestion(topic, subject));
-                }
-                // Use up to 5 word problem templates if available
-                const templateSlots = Math.min(5, TOTAL_QUESTIONS - visualQuestionCount);
-                for (let i = 0; i < templateSlots; i++) {
-                    promises.push((async () => {
-                        const tpl = pickMathWordProblemTemplate();
-                        if (!tpl) return generateStandaloneQuestion(subject, topic);
-                        return instantiateMathWordProblem(tpl) || generateStandaloneQuestion(subject, topic);
-                    })());
-                }
-                const remainingQuestions = TOTAL_QUESTIONS - visualQuestionCount - templateSlots;
-                for (let i = 0; i < remainingQuestions; i++) {
-                    promises.push(generateStandaloneQuestion(subject, topic));
-                }
-            } else {
-                // --- LOGIC FOR OTHER SUBJECTS (Social Studies, Science, RLA) ---
-                console.log(`Generating ${subject} quiz with passage preference.`);
-                const numPassageSets = 3; // e.g., 3 passages with 2 questions each = 6 questions
-                const numImageSets = 2;   // e.g., 2 images with 2 questions each = 4 questions
-                // Attempt to pick a predefined passage for ~40-60% of items
-                const picked = pickPassageFor(subject, { topic });
-                if (picked) {
-                    console.log('[Passages] Using predefined passage for subject/topic:', subject, topic);
-                    // Create 6 questions based on selected passage
-                    promises.push((async () => {
-                        let passagePrompt;
-                        if (subject === 'Science') {
-                            // For Science, tell AI to derive a table from the passage
-                            passagePrompt = `You are creating GED-level Science questions.
+        for (let i = 0; i < visualQuestionCount; i++) {
+          promises.push(generateGeometryQuestion(topic, subject));
+        }
+        // Use up to 5 word problem templates if available
+        const templateSlots = Math.min(
+          5,
+          TOTAL_QUESTIONS - visualQuestionCount
+        );
+        for (let i = 0; i < templateSlots; i++) {
+          promises.push(
+            (async () => {
+              const tpl = pickMathWordProblemTemplate();
+              if (!tpl) return generateStandaloneQuestion(subject, topic);
+              return (
+                instantiateMathWordProblem(tpl) ||
+                generateStandaloneQuestion(subject, topic)
+              );
+            })()
+          );
+        }
+        const remainingQuestions =
+          TOTAL_QUESTIONS - visualQuestionCount - templateSlots;
+        for (let i = 0; i < remainingQuestions; i++) {
+          promises.push(generateStandaloneQuestion(subject, topic));
+        }
+      } else {
+        // --- LOGIC FOR OTHER SUBJECTS (Social Studies, Science, RLA) ---
+        console.log(`Generating ${subject} quiz with passage preference.`);
+        const numPassageSets = 3; // e.g., 3 passages with 2 questions each = 6 questions
+        const numImageSets = 2; // e.g., 2 images with 2 questions each = 4 questions
+        // Attempt to pick a predefined passage for ~40-60% of items
+        const picked = pickPassageFor(subject, { topic });
+        if (picked) {
+          console.log(
+            '[Passages] Using predefined passage for subject/topic:',
+            subject,
+            topic
+          );
+          // Create 6 questions based on selected passage
+          promises.push(
+            (async () => {
+              let passagePrompt;
+              if (subject === 'Science') {
+                // For Science, tell AI to derive a table from the passage
+                passagePrompt = `You are creating GED-level Science questions.
 
 Use the passage below as scientific context. Then create a small results/data table that could reasonably come from that context, and write 6 questions based on it. Keep the passage, but the questions should reference the table so they test data interpretation skills.
 
@@ -7792,118 +9678,185 @@ AUTHOR/YEAR: ${picked.author || 'Unknown'} ${picked.year || ''}
 PASSAGE:\n${picked.text}\n
 
 Return EXACTLY 6 questions that require interpreting the table.`;
-                        } else {
-                            passagePrompt = `You are creating GED-level ${subject} questions using ONLY the passage below. Vary question types (main idea, detail, inference, vocabulary). Return EXACTLY 6 questions.
+              } else {
+                passagePrompt = `You are creating GED-level ${subject} questions using ONLY the passage below. Vary question types (main idea, detail, inference, vocabulary). Return EXACTLY 6 questions.
 TITLE: ${picked.title}
 AUTHOR/YEAR: ${picked.author || 'Unknown'} ${picked.year || ''}
 PASSAGE:\n${picked.text}\n`;
-                        }
-                        try {
-                            const qSchema = { type: 'OBJECT', properties: { questionText: { type: 'STRING' }, answerOptions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { text: { type: 'STRING' }, isCorrect: { type: 'BOOLEAN' }, rationale: { type: 'STRING' } }, required: ['text','isCorrect','rationale'] } } }, required: ['questionText','answerOptions'] };
-                            const wrapperSchema = subject === 'Science' 
-                                ? { type: 'OBJECT', properties: { passage: { type: 'STRING' }, questions: { type: 'ARRAY', items: qSchema } }, required: ['passage', 'questions'] }
-                                : { type: 'OBJECT', properties: { questions: { type: 'ARRAY', items: qSchema } }, required: ['questions'] };
-                            const aiRes = await callAI(passagePrompt + 'Output JSON with ' + (subject === 'Science' ? '{"passage": "...", "questions": [...]}' : '{"questions": [...]}'), wrapperSchema);
-                            const qs = Array.isArray(aiRes.questions) ? aiRes.questions.slice(0,6) : [];
-                            const passageText = subject === 'Science' && aiRes.passage ? aiRes.passage : picked.text;
-                            return qs.map(q => ({ ...q, passage: passageText, type: 'passage' }));
-                        } catch (e) {
-                            console.warn('[Passages] AI passage question generation failed, falling back.', e.message);
-                            return [];
-                        }
-                    })());
-                } else {
-                    for (let i = 0; i < numPassageSets; i++) {
-                        promises.push(generatePassageSet(topic, subject, 2));
-                    }
-                }
-                for (let i = 0; i < numImageSets; i++) {
-                    promises.push((async () => {
-                        const imgQs = await generateImageQuestion(topic, subject, curatedImages, 2);
-                        if (imgQs && imgQs.length) return imgQs;
-                        return await generateStandaloneQuestion(subject, topic);
-                    })());
-                }
-                 // Fill the rest with standalone questions to ensure we reach the total.
-                 const questionsSoFar = (numPassageSets * 2) + (numImageSets * 2);
-                 const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
-                 for (let i = 0; i < remainingQuestions; i++) {
-                     promises.push(generateStandaloneQuestion(subject, topic));
-                 }
-            }
-
-            // --- Execute all promises, assemble, shuffle, and finalize the quiz ---
-            const results = await Promise.all(promises);
-            let allQuestions = results.flat().filter(q => q); // Filter out any nulls from failed generations
-
-            // Shuffle groups by stimulus; keep grouped items together
-            let finalQuestions = shuffleQuestionsPreservingStimulus(allQuestions).slice(0, TOTAL_QUESTIONS);
-
-            // Assign question numbers
-            finalQuestions = finalQuestions.map((q, index) => ({ ...q, questionNumber: index + 1 }));
-
-            if (subject === 'Math' && MATH_TWO_PASS_ENABLED) {
-                console.log('Applying math two-pass linting pipeline to topic quiz...');
-                await runMathTwoPassOnQuestions(finalQuestions, subject);
-                finalQuestions = await applyMathCorrectnessPass(finalQuestions);
-            }
-
-            if (subject === 'Math') {
-                finalQuestions = finalQuestions.map(applyFractionPlainTextModeToItem);
-            }
-
-            let draftQuiz = {
-                id: `ai_topic_${new Date().getTime()}`,
-                title: `${subject}: ${topic}`,
-                subject: subject,
-                source: 'aiGenerated',
-                fraction_plain_text_mode: subject === 'Math',
-                // Enable formula sheet for Math & Science topic quizzes
-                config: { formulaSheet: subject === 'Math' || subject === 'Science' },
-                questions: finalQuestions,
-                passage_bank_used: !!pickPassageFor(subject, { topic })
-            };
-
-            const finalQuiz = draftQuiz;
-
-            // Persist to AI question bank (capture-only)
-            if (AI_QUESTION_BANK_ENABLED) {
-                await persistQuestionsToBank(finalQuiz.questions || [], {
-                    subject,
-                    topic,
-                    sourceModel: finalQuiz.source || 'aiGenerated',
-                    generatedForUserId: req.user?.id || null,
-                    originQuizId: finalQuiz.id || null,
-                });
-            }
-
-            console.log("Quiz generation and post-processing complete.");
-            logGenerationDuration(examType, subject, generationStart);
-            res.json(finalQuiz); // Send the cleaned quiz directly to the user
-
-        } catch (error) {
-            // Use topic and subject in the error log if they are available
-            const errorMessage = req.body.topic ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}` : 'Error generating topic-specific quiz';
-            console.error(errorMessage, error);
-            logGenerationDuration(examType, subject, generationStart, 'failed');
-            res.status(500).json({ error: 'Failed to generate topic-specific quiz.' });
+              }
+              try {
+                const qSchema = {
+                  type: 'OBJECT',
+                  properties: {
+                    questionText: { type: 'STRING' },
+                    answerOptions: {
+                      type: 'ARRAY',
+                      items: {
+                        type: 'OBJECT',
+                        properties: {
+                          text: { type: 'STRING' },
+                          isCorrect: { type: 'BOOLEAN' },
+                          rationale: { type: 'STRING' },
+                        },
+                        required: ['text', 'isCorrect', 'rationale'],
+                      },
+                    },
+                  },
+                  required: ['questionText', 'answerOptions'],
+                };
+                const wrapperSchema =
+                  subject === 'Science'
+                    ? {
+                        type: 'OBJECT',
+                        properties: {
+                          passage: { type: 'STRING' },
+                          questions: { type: 'ARRAY', items: qSchema },
+                        },
+                        required: ['passage', 'questions'],
+                      }
+                    : {
+                        type: 'OBJECT',
+                        properties: {
+                          questions: { type: 'ARRAY', items: qSchema },
+                        },
+                        required: ['questions'],
+                      };
+                const aiRes = await callAI(
+                  passagePrompt +
+                    'Output JSON with ' +
+                    (subject === 'Science'
+                      ? '{"passage": "...", "questions": [...]}'
+                      : '{"questions": [...]}'),
+                  wrapperSchema
+                );
+                const qs = Array.isArray(aiRes.questions)
+                  ? aiRes.questions.slice(0, 6)
+                  : [];
+                const passageText =
+                  subject === 'Science' && aiRes.passage
+                    ? aiRes.passage
+                    : picked.text;
+                return qs.map((q) => ({
+                  ...q,
+                  passage: passageText,
+                  type: 'passage',
+                }));
+              } catch (e) {
+                console.warn(
+                  '[Passages] AI passage question generation failed, falling back.',
+                  e.message
+                );
+                return [];
+              }
+            })()
+          );
+        } else {
+          for (let i = 0; i < numPassageSets; i++) {
+            promises.push(generatePassageSet(topic, subject, 2));
+          }
         }
+        for (let i = 0; i < numImageSets; i++) {
+          promises.push(
+            (async () => {
+              const imgQs = await generateImageQuestion(
+                topic,
+                subject,
+                curatedImages,
+                2
+              );
+              if (imgQs && imgQs.length) return imgQs;
+              return await generateStandaloneQuestion(subject, topic);
+            })()
+          );
+        }
+        // Fill the rest with standalone questions to ensure we reach the total.
+        const questionsSoFar = numPassageSets * 2 + numImageSets * 2;
+        const remainingQuestions = TOTAL_QUESTIONS - questionsSoFar;
+        for (let i = 0; i < remainingQuestions; i++) {
+          promises.push(generateStandaloneQuestion(subject, topic));
+        }
+      }
+
+      // --- Execute all promises, assemble, shuffle, and finalize the quiz ---
+      const results = await Promise.all(promises);
+      let allQuestions = results.flat().filter((q) => q); // Filter out any nulls from failed generations
+
+      // Shuffle groups by stimulus; keep grouped items together
+      let finalQuestions = shuffleQuestionsPreservingStimulus(
+        allQuestions
+      ).slice(0, TOTAL_QUESTIONS);
+
+      // Assign question numbers
+      finalQuestions = finalQuestions.map((q, index) => ({
+        ...q,
+        questionNumber: index + 1,
+      }));
+
+      if (subject === 'Math' && MATH_TWO_PASS_ENABLED) {
+        console.log('Applying math two-pass linting pipeline to topic quiz...');
+        await runMathTwoPassOnQuestions(finalQuestions, subject);
+        finalQuestions = await applyMathCorrectnessPass(finalQuestions);
+      }
+
+      if (subject === 'Math') {
+        finalQuestions = finalQuestions.map(applyFractionPlainTextModeToItem);
+      }
+
+      let draftQuiz = {
+        id: `ai_topic_${new Date().getTime()}`,
+        title: `${subject}: ${topic}`,
+        subject: subject,
+        source: 'aiGenerated',
+        fraction_plain_text_mode: subject === 'Math',
+        // Enable formula sheet for Math & Science topic quizzes
+        config: { formulaSheet: subject === 'Math' || subject === 'Science' },
+        questions: finalQuestions,
+        passage_bank_used: !!pickPassageFor(subject, { topic }),
+      };
+
+      const finalQuiz = draftQuiz;
+
+      // Persist to AI question bank (capture-only)
+      if (AI_QUESTION_BANK_ENABLED) {
+        await persistQuestionsToBank(finalQuiz.questions || [], {
+          subject,
+          topic,
+          sourceModel: finalQuiz.source || 'aiGenerated',
+          generatedForUserId: req.user?.id || null,
+          originQuizId: finalQuiz.id || null,
+        });
+      }
+
+      console.log('Quiz generation and post-processing complete.');
+      logGenerationDuration(examType, subject, generationStart);
+      res.json(finalQuiz); // Send the cleaned quiz directly to the user
+    } catch (error) {
+      // Use topic and subject in the error log if they are available
+      const errorMessage = req.body.topic
+        ? `Error generating topic-specific quiz for ${req.body.subject}: ${req.body.topic}`
+        : 'Error generating topic-specific quiz';
+      console.error(errorMessage, error);
+      logGenerationDuration(examType, subject, generationStart, 'failed');
+      res
+        .status(500)
+        .json({ error: 'Failed to generate topic-specific quiz.' });
     }
+  }
 });
 
 app.post('/score-essay', async (req, res) => {
-    const { essayText, completion } = req.body; // Get completion data
-    if (!essayText) {
-        return res.status(400).json({ error: 'Essay text is required.' });
-    }
+  const { essayText, completion } = req.body; // Get completion data
+  if (!essayText) {
+    return res.status(400).json({ error: 'Essay text is required.' });
+  }
 
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    if (!apiKey) {
-        console.error('API key not configured on the server.');
-        return res.status(500).json({ error: 'Server configuration error.' });
-    }
+  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  if (!apiKey) {
+    console.error('API key not configured on the server.');
+    return res.status(500).json({ error: 'Server configuration error.' });
+  }
 
-    const prompt = `Act as a GED RLA essay evaluator. The student was asked to write a 5-paragraph essay.
+  const prompt = `Act as a GED RLA essay evaluator. The student was asked to write a 5-paragraph essay.
 
         IMPORTANT CONTEXT: The student's level of completion for this draft was ${completion} sections. Factor this completion level into your feedback and scores, especially for Trait 3. An incomplete essay cannot score a 2 on Trait 3.
 
@@ -7914,371 +9867,446 @@ app.post('/score-essay', async (req, res) => {
 
         Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores. "overallFeedback" should be a summary.`;
 
-    const schema = {
-        type: "OBJECT",
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      trait1: {
+        type: 'OBJECT',
         properties: {
-            trait1: {
-                type: "OBJECT",
-                properties: {
-                    score: { type: "NUMBER" },
-                    feedback: { type: "STRING" }
-                }
-            },
-            trait2: {
-                type: "OBJECT",
-                properties: {
-                    score: { type: "NUMBER" },
-                    feedback: { type: "STRING" }
-                }
-            },
-            trait3: {
-                type: "OBJECT",
-                properties: {
-                    score: { type: "NUMBER" },
-                    feedback: { type: "STRING" }
-                }
-            },
-            overallScore: { type: "NUMBER" },
-            overallFeedback: { type: "STRING" }
+          score: { type: 'NUMBER' },
+          feedback: { type: 'STRING' },
         },
-        required: ["trait1", "trait2", "trait3", "overallScore", "overallFeedback"]
-    };
-
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-            responseMimeType: "application/json",
-            responseSchema: schema,
+      },
+      trait2: {
+        type: 'OBJECT',
+        properties: {
+          score: { type: 'NUMBER' },
+          feedback: { type: 'STRING' },
         },
-    };
+      },
+      trait3: {
+        type: 'OBJECT',
+        properties: {
+          score: { type: 'NUMBER' },
+          feedback: { type: 'STRING' },
+        },
+      },
+      overallScore: { type: 'NUMBER' },
+      overallFeedback: { type: 'STRING' },
+    },
+    required: ['trait1', 'trait2', 'trait3', 'overallScore', 'overallFeedback'],
+  };
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      responseSchema: schema,
+    },
+  };
 
-    try {
-        const response = await http.post(apiUrl, payload);
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error calling Google AI API for essay scoring:', error.response ? error.response.data : error.message);
-        res.status(500).json({ error: 'Failed to score essay from AI service.' });
-    }
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+  try {
+    const response = await http.post(apiUrl, payload);
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      'Error calling Google AI API for essay scoring:',
+      error.response ? error.response.data : error.message
+    );
+    res.status(500).json({ error: 'Failed to score essay from AI service.' });
+  }
 });
 
 // New, auth-protected essay scoring endpoint used by the SPA
 // Persists ONLY the total (0-6) score for the authenticated user.
 app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
-    const userId = req.user?.userId || req.user?.sub;
-    if (!userId) {
-        return res.status(401).json({ error: 'Unauthorized' });
-    }
+  const userId = req.user?.userId || req.user?.sub;
+  if (!userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
-    const { essayText, completion, promptId } = req.body || {};
-    if (!essayText || typeof essayText !== 'string' || !essayText.trim()) {
-        return res.status(400).json({ error: 'Essay text is required.' });
-    }
+  const { essayText, completion, promptId } = req.body || {};
+  if (!essayText || typeof essayText !== 'string' || !essayText.trim()) {
+    return res.status(400).json({ error: 'Essay text is required.' });
+  }
 
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    if (!apiKey) {
-        console.error('[ESSAY-SCORE] API key not configured on the server.');
-        return res.status(500).json({ error: 'Server configuration error.' });
-    }
+  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  if (!apiKey) {
+    console.error('[ESSAY-SCORE] API key not configured on the server.');
+    return res.status(500).json({ error: 'Server configuration error.' });
+  }
 
-    const prompt = `Act as a GED RLA essay evaluator. The student was asked to write a 5-paragraph essay.\n\n` +
-        `IMPORTANT CONTEXT: The student's level of completion for this draft was ${completion ?? 'unknown'} sections. ` +
-        `Factor this completion level into your feedback and scores, especially for Trait 3. An incomplete essay cannot score a 2 on Trait 3.\n\n` +
-        `Here is the student's essay:\n---\n${essayText}\n---\n\n` +
-        `Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". ` +
-        `For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores (0..6). ` +
-        `"overallFeedback" should be a short summary. ` +
-        `After scoring the essay, also output a field \"challenge_tags\" which is an array of zero or more of the following strings: ` +
-        `\"writing:thesis\", \"writing:evidence\", \"writing:organization\", \"writing:grammar-mechanics\", \"writing:addressing-prompt\". ` +
-        `Only include a tag if the essay showed that specific weakness. Return JSON.`;
+  const prompt =
+    `Act as a GED RLA essay evaluator. The student was asked to write a 5-paragraph essay.\n\n` +
+    `IMPORTANT CONTEXT: The student's level of completion for this draft was ${
+      completion ?? 'unknown'
+    } sections. ` +
+    `Factor this completion level into your feedback and scores, especially for Trait 3. An incomplete essay cannot score a 2 on Trait 3.\n\n` +
+    `Here is the student's essay:\n---\n${essayText}\n---\n\n` +
+    `Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". ` +
+    `For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores (0..6). ` +
+    `"overallFeedback" should be a short summary. ` +
+    `After scoring the essay, also output a field \"challenge_tags\" which is an array of zero or more of the following strings: ` +
+    `\"writing:thesis\", \"writing:evidence\", \"writing:organization\", \"writing:grammar-mechanics\", \"writing:addressing-prompt\". ` +
+    `Only include a tag if the essay showed that specific weakness. Return JSON.`;
 
-    const schema = {
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      trait1: {
         type: 'OBJECT',
-        properties: {
-            trait1: { type: 'OBJECT', properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } } },
-            trait2: { type: 'OBJECT', properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } } },
-            trait3: { type: 'OBJECT', properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } } },
-            overallScore: { type: 'NUMBER' },
-            overallFeedback: { type: 'STRING' },
-            challenge_tags: { type: 'ARRAY', items: { type: 'STRING' } },
-        },
-        required: ['trait1', 'trait2', 'trait3', 'overallScore', 'overallFeedback'],
-    };
+        properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } },
+      },
+      trait2: {
+        type: 'OBJECT',
+        properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } },
+      },
+      trait3: {
+        type: 'OBJECT',
+        properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } },
+      },
+      overallScore: { type: 'NUMBER' },
+      overallFeedback: { type: 'STRING' },
+      challenge_tags: { type: 'ARRAY', items: { type: 'STRING' } },
+    },
+    required: ['trait1', 'trait2', 'trait3', 'overallScore', 'overallFeedback'],
+  };
 
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-            responseMimeType: 'application/json',
-            responseSchema: schema,
-        },
-    };
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      responseSchema: schema,
+    },
+  };
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
-    const normalizeResponse = (raw) => {
-        try {
-            // If the model returned the structured object, prefer it
-            if (raw && typeof raw === 'object' && raw.trait1 && raw.trait2 && raw.trait3) {
-                return raw;
-            }
-            // Otherwise, attempt to peel the Google response format
-            const txt = raw?.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (typeof txt === 'string') {
-                const parsed = JSON.parse(txt);
-                return parsed;
-            }
-        } catch (e) {
-            // fall through to fallback
-        }
-        return null;
-    };
+  const normalizeResponse = (raw) => {
+    try {
+      // If the model returned the structured object, prefer it
+      if (
+        raw &&
+        typeof raw === 'object' &&
+        raw.trait1 &&
+        raw.trait2 &&
+        raw.trait3
+      ) {
+        return raw;
+      }
+      // Otherwise, attempt to peel the Google response format
+      const txt = raw?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (typeof txt === 'string') {
+        const parsed = JSON.parse(txt);
+        return parsed;
+      }
+    } catch (e) {
+      // fall through to fallback
+    }
+    return null;
+  };
 
-    console.log('[ESSAY-SCORE] Scoring request received', {
-        userId,
-        completion: completion ?? null,
-        hasText: !!essayText,
-        promptId: promptId || null,
-    });
+  console.log('[ESSAY-SCORE] Scoring request received', {
+    userId,
+    completion: completion ?? null,
+    hasText: !!essayText,
+    promptId: promptId || null,
+  });
+
+  try {
+    const response = await http.post(apiUrl, payload);
+    const normalized = normalizeResponse(response.data);
+    if (!normalized) {
+      throw new Error('AI response was not parseable');
+    }
+
+    // Clamp and normalize the total score to 0..6, integer
+    const total = Math.max(
+      0,
+      Math.min(6, Math.round(Number(normalized.overallScore)))
+    );
 
     try {
-        const response = await http.post(apiUrl, payload);
-        const normalized = normalizeResponse(response.data);
-        if (!normalized) {
-            throw new Error('AI response was not parseable');
-        }
-
-        // Clamp and normalize the total score to 0..6, integer
-        const total = Math.max(0, Math.min(6, Math.round(Number(normalized.overallScore))));
-
-        try {
-            await pool.query(
-                `INSERT INTO essay_scores (user_id, total_score, prompt_id) VALUES ($1, $2, $3)`,
-                [userId, total, promptId || null]
-            );
-            console.log('[ESSAY-SCORE] Saved total score', { userId, total, promptId: promptId || null });
-        } catch (dbErr) {
-            console.warn('[ESSAY-SCORE] Failed to persist total score:', dbErr?.message || dbErr);
-        }
-
-        // Challenge tags integration
-        try {
-            const tags = Array.isArray(normalized.challenge_tags) ? normalized.challenge_tags : [];
-            for (const rawTag of tags) {
-                if (!rawTag || typeof rawTag !== 'string') continue;
-                const t = rawTag.trim().toLowerCase();
-                if (!t) continue;
-                // Audit log
-                try { await pool.query(`INSERT INTO essay_challenge_log (user_id, challenge_tag, essay_id, source) VALUES ($1, $2, $3, 'essay')`, [userId, t, promptId || null]); } catch (_e) {}
-                // Upsert stats: essays count as "wrong" to trigger practice
-                await upsertChallengeStat(userId, t, false, 'essay');
-                // Suggest add if not active
-                const active = await userHasActiveChallenge(userId, t);
-                if (!active) {
-                    await createSuggestion(userId, t, 'add', 'essay', 'AI grader found this in your writing');
-                }
-            }
-        } catch (e) {
-            console.warn('[ESSAY-SCORE] challenge tag processing failed:', e?.message || e);
-        }
-
-        // Return normalized structure directly to the client
-        return res.json({
-            trait1: normalized.trait1,
-            trait2: normalized.trait2,
-            trait3: normalized.trait3,
-            overallScore: total,
-            overallFeedback: normalized.overallFeedback || '',
-            challenge_tags: Array.isArray(normalized.challenge_tags) ? normalized.challenge_tags : [],
-        });
-    } catch (error) {
-        const errMsg = error?.response ? JSON.stringify(error.response.data) : (error?.message || String(error));
-        console.error('[ESSAY-SCORE] AI scoring failed:', errMsg);
-        // Safe fallback response: do not persist, but return a neutral evaluation
-        return res.status(200).json({
-            trait1: { score: 0, feedback: 'We could not evaluate this draft right now. Try again shortly.' },
-            trait2: { score: 0, feedback: 'We could not evaluate this draft right now. Try again shortly.' },
-            trait3: { score: 0, feedback: 'We could not evaluate this draft right now. Try again shortly.' },
-            overallScore: 0,
-            overallFeedback: 'Temporary scoring outage. Your draft was not saved for scoring; please rescore later.',
-        });
+      await pool.query(
+        `INSERT INTO essay_scores (user_id, total_score, prompt_id) VALUES ($1, $2, $3)`,
+        [userId, total, promptId || null]
+      );
+      console.log('[ESSAY-SCORE] Saved total score', {
+        userId,
+        total,
+        promptId: promptId || null,
+      });
+    } catch (dbErr) {
+      console.warn(
+        '[ESSAY-SCORE] Failed to persist total score:',
+        dbErr?.message || dbErr
+      );
     }
+
+    // Challenge tags integration
+    try {
+      const tags = Array.isArray(normalized.challenge_tags)
+        ? normalized.challenge_tags
+        : [];
+      for (const rawTag of tags) {
+        if (!rawTag || typeof rawTag !== 'string') continue;
+        const t = rawTag.trim().toLowerCase();
+        if (!t) continue;
+        // Audit log
+        try {
+          await pool.query(
+            `INSERT INTO essay_challenge_log (user_id, challenge_tag, essay_id, source) VALUES ($1, $2, $3, 'essay')`,
+            [userId, t, promptId || null]
+          );
+        } catch (_e) {}
+        // Upsert stats: essays count as "wrong" to trigger practice
+        await upsertChallengeStat(userId, t, false, 'essay');
+        // Suggest add if not active
+        const active = await userHasActiveChallenge(userId, t);
+        if (!active) {
+          await createSuggestion(
+            userId,
+            t,
+            'add',
+            'essay',
+            'AI grader found this in your writing'
+          );
+        }
+      }
+    } catch (e) {
+      console.warn(
+        '[ESSAY-SCORE] challenge tag processing failed:',
+        e?.message || e
+      );
+    }
+
+    // Return normalized structure directly to the client
+    return res.json({
+      trait1: normalized.trait1,
+      trait2: normalized.trait2,
+      trait3: normalized.trait3,
+      overallScore: total,
+      overallFeedback: normalized.overallFeedback || '',
+      challenge_tags: Array.isArray(normalized.challenge_tags)
+        ? normalized.challenge_tags
+        : [],
+    });
+  } catch (error) {
+    const errMsg = error?.response
+      ? JSON.stringify(error.response.data)
+      : error?.message || String(error);
+    console.error('[ESSAY-SCORE] AI scoring failed:', errMsg);
+    // Safe fallback response: do not persist, but return a neutral evaluation
+    return res.status(200).json({
+      trait1: {
+        score: 0,
+        feedback:
+          'We could not evaluate this draft right now. Try again shortly.',
+      },
+      trait2: {
+        score: 0,
+        feedback:
+          'We could not evaluate this draft right now. Try again shortly.',
+      },
+      trait3: {
+        score: 0,
+        feedback:
+          'We could not evaluate this draft right now. Try again shortly.',
+      },
+      overallScore: 0,
+      overallFeedback:
+        'Temporary scoring outage. Your draft was not saved for scoring; please rescore later.',
+    });
+  }
 });
 
 // NOTE: files for this store should be uploaded once via a separate script/tool,
 // then the store name is set in .env as GEMINI_FILESTORE_NAME
 app.post('/api/gemini/file-search-quiz', express.json(), async (req, res) => {
-    const { query, subject } = req.body || {};
+  const { query, subject } = req.body || {};
 
-    if (!query) {
-        return res.status(400).json({ error: "Missing 'query' in body" });
-    }
+  if (!query) {
+    return res.status(400).json({ error: "Missing 'query' in body" });
+  }
 
-    // prompt stays small; we rely on retrieved files + schema
-    const prompt = `
+  // prompt stays small; we rely on retrieved files + schema
+  const prompt = `
 Generate GED-level ${subject || 'RLA'} questions.
 Use ONLY the retrieved documents from file search as your source.
 Return an array of question objects.
 Each question must be answerable from the retrieved content.
 `;
 
-    // this schema matches our usual quiz object style
-    const quizSchema = {
-        type: "array",
-        items: {
-            type: "object",
+  // this schema matches our usual quiz object style
+  const quizSchema = {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        questionText: { type: 'string' },
+        questionType: { type: 'string' },
+        answerOptions: {
+          type: 'array',
+          items: {
+            type: 'object',
             properties: {
-                id: { type: "string" },
-                questionText: { type: "string" },
-                questionType: { type: "string" },
-                answerOptions: {
-                    type: "array",
-                    items: {
-                        type: "object",
-                        properties: {
-                            text: { type: "string" },
-                            isCorrect: { type: "boolean" },
-                            rationale: { type: "string" }
-                        },
-                        required: ["text", "isCorrect"]
-                    }
-                },
-                // let the model tell us what file/chunk it used
-                source: { type: "string" }
+              text: { type: 'string' },
+              isCorrect: { type: 'boolean' },
+              rationale: { type: 'string' },
             },
-            required: ["questionText", "answerOptions"]
-        }
-    };
+            required: ['text', 'isCorrect'],
+          },
+        },
+        // let the model tell us what file/chunk it used
+        source: { type: 'string' },
+      },
+      required: ['questionText', 'answerOptions'],
+    },
+  };
 
-    try {
-        // only enable file search if the store name is available
-        const useFileSearch = !!GEMINI_FILESTORE_NAME;
+  try {
+    // only enable file search if the store name is available
+    const useFileSearch = !!GEMINI_FILESTORE_NAME;
 
-        const aiResult = await callAI(prompt, quizSchema, {
-            fileSearchConfig: useFileSearch
-                ? {
-                    // NOTE: key name matches the current Gemini REST file-search doc
-                    file_store_names: [GEMINI_FILESTORE_NAME],
-                    max_num_results: 6
-                }
-                : undefined
-        });
+    const aiResult = await callAI(prompt, quizSchema, {
+      fileSearchConfig: useFileSearch
+        ? {
+            // NOTE: key name matches the current Gemini REST file-search doc
+            file_store_names: [GEMINI_FILESTORE_NAME],
+            max_num_results: 6,
+          }
+        : undefined,
+    });
 
-        return res.json({ ok: true, data: aiResult });
-    } catch (err) {
-        console.error('Error running file-search quiz:', err);
-        return res.status(500).json({
-            error: 'File search quiz failed',
-            details: err.message
-        });
-    }
+    return res.json({ ok: true, data: aiResult });
+  } catch (err) {
+    console.error('Error running file-search quiz:', err);
+    return res.status(500).json({
+      error: 'File search quiz failed',
+      details: err.message,
+    });
+  }
 });
 
-app.post("/api/gemini/passages-quiz", express.json(), async (req, res) => {
-    const { query, subject } = req.body || {};
-    const fileId = process.env.GEMINI_PASSAGES_FILE_ID;
+app.post('/api/gemini/passages-quiz', express.json(), async (req, res) => {
+  const { query, subject } = req.body || {};
+  const fileId = process.env.GEMINI_PASSAGES_FILE_ID;
 
-    if (!query) {
-        return res.status(400).json({ error: "Missing 'query' in body" });
-    }
-    if (!fileId) {
-        return res.status(500).json({ error: "GEMINI_PASSAGES_FILE_ID is not set" });
-    }
+  if (!query) {
+    return res.status(400).json({ error: "Missing 'query' in body" });
+  }
+  if (!fileId) {
+    return res
+      .status(500)
+      .json({ error: 'GEMINI_PASSAGES_FILE_ID is not set' });
+  }
 
-    const prompt = `
-Generate GED-level ${subject || "RLA"} questions.
+  const prompt = `
+Generate GED-level ${subject || 'RLA'} questions.
 Use ONLY the material retrieved from the uploaded passages file.
 If the retrieved content does not match the topic, keep the question within the passage's scope.
 Return an array of question objects.
 `;
 
-    const quizSchema = {
-        type: "array",
-        items: {
-            type: "object",
+  const quizSchema = {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        questionText: { type: 'string' },
+        questionType: { type: 'string' },
+        answerOptions: {
+          type: 'array',
+          items: {
+            type: 'object',
             properties: {
-                id: { type: "string" },
-                questionText: { type: "string" },
-                questionType: { type: "string" },
-                answerOptions: {
-                    type: "array",
-                    items: {
-                        type: "object",
-                        properties: {
-                            text: { type: "string" },
-                            isCorrect: { type: "boolean" },
-                            rationale: { type: "string" }
-                        },
-                        required: ["text", "isCorrect"]
-                    }
-                },
-                source: { type: "string" }
+              text: { type: 'string' },
+              isCorrect: { type: 'boolean' },
+              rationale: { type: 'string' },
             },
-            required: ["questionText", "answerOptions"]
-        }
-    };
+            required: ['text', 'isCorrect'],
+          },
+        },
+        source: { type: 'string' },
+      },
+      required: ['questionText', 'answerOptions'],
+    },
+  };
 
-    try {
-        const data = await callAI(prompt, quizSchema, {
-            fileSearchConfig: {
-                // tell Gemini to search THIS file we uploaded
-                files: [{ file: fileId }],
-                max_num_results: 6
-            }
-        });
+  try {
+    const data = await callAI(prompt, quizSchema, {
+      fileSearchConfig: {
+        // tell Gemini to search THIS file we uploaded
+        files: [{ file: fileId }],
+        max_num_results: 6,
+      },
+    });
 
-        return res.json({ ok: true, data });
-    } catch (err) {
-        console.error("passages-quiz error:", err);
-        return res.status(500).json({ error: "Failed to generate quiz from passages", details: err.message });
-    }
+    return res.json({ ok: true, data });
+  } catch (err) {
+    console.error('passages-quiz error:', err);
+    return res
+      .status(500)
+      .json({
+        error: 'Failed to generate quiz from passages',
+        details: err.message,
+      });
+  }
 });
 
 app.post('/api/auth/google', async (req, res) => {
-    try {
-        const { credential } = req.body;
-        const ticket = await client.verifyIdToken({
-            idToken: credential,
-            audience: process.env.GOOGLE_CLIENT_ID,
-        });
-        const payload = ticket.getPayload();
-        if (!payload || !payload.sub) {
-            console.error('Google payload missing subject identifier.');
-            return res.status(400).json({ error: 'Invalid Google credential.' });
-        }
+  try {
+    const { credential } = req.body;
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    if (!payload || !payload.sub) {
+      console.error('Google payload missing subject identifier.');
+      return res.status(400).json({ error: 'Invalid Google credential.' });
+    }
 
-        const sub = String(payload.sub);
-        const email = String(payload.email || '').toLowerCase();
-        if (!email) {
-            console.error('Google payload missing email.');
-            return res.status(400).json({ error: 'Unable to determine Google account email.' });
-        }
+    const sub = String(payload.sub);
+    const email = String(payload.email || '').toLowerCase();
+    if (!email) {
+      console.error('Google payload missing email.');
+      return res
+        .status(400)
+        .json({ error: 'Unable to determine Google account email.' });
+    }
 
-        const name = payload.name || null;
-        const picture = payload.picture || null;
+    const name = payload.name || null;
+    const picture = payload.picture || null;
 
-        let userId;
-        const identityRow = await findUserIdByGoogleSub(sub);
-        if (identityRow && identityRow.user_id) {
-            userId = identityRow.user_id;
-        } else {
-            let user = await findUserByEmail(email);
-            if (!user) {
-                user = await createUser(email, name);
-            }
-            if (!user || !user.id) {
-                console.error('Failed to create or locate user for Google login.');
-                return res.status(500).json({ error: 'Authentication or database error.' });
-            }
-            userId = user.id;
-            await bindGoogleIdentity(userId, sub);
-        }
+    let userId;
+    const identityRow = await findUserIdByGoogleSub(sub);
+    if (identityRow && identityRow.user_id) {
+      userId = identityRow.user_id;
+    } else {
+      let user = await findUserByEmail(email);
+      if (!user) {
+        user = await createUser(email, name);
+      }
+      if (!user || !user.id) {
+        console.error('Failed to create or locate user for Google login.');
+        return res
+          .status(500)
+          .json({ error: 'Authentication or database error.' });
+      }
+      userId = user.id;
+      await bindGoogleIdentity(userId, sub);
+    }
 
-        const now = new Date();
-        const updateParams = [userId, name, email, picture, now];
-        if (email === SUPER_ADMIN_EMAIL) {
-            await pool.query(
-                `UPDATE users
+    const now = new Date();
+    const updateParams = [userId, name, email, picture, now];
+    if (email === SUPER_ADMIN_EMAIL) {
+      await pool.query(
+        `UPDATE users
                     SET name = $2,
                         email = $3,
                         picture_url = $4,
@@ -8286,59 +10314,73 @@ app.post('/api/auth/google', async (req, res) => {
                         role = 'super_admin',
                         organization_id = NULL
                   WHERE id = $1`,
-                updateParams
-            );
-        } else {
-            await pool.query(
-                `UPDATE users
+        updateParams
+      );
+    } else {
+      await pool.query(
+        `UPDATE users
                     SET name = $2,
                         email = $3,
                         picture_url = $4,
                         last_login = $5,
                         role = COALESCE(role, 'student')
                   WHERE id = $1`,
-                updateParams
-            );
-        }
-
-        const userRow = await loadUserWithRole(userId);
-        if (!userRow) {
-            console.error('User record missing after Google login.');
-            return res.status(500).json({ error: 'Authentication or database error.' });
-        }
-
-        if (!userRow.role) {
-            await pool.query(`UPDATE users SET role = 'student' WHERE id = $1`, [userId]);
-            userRow.role = 'student';
-        }
-
-        if (!process.env.JWT_SECRET) {
-            console.error('JWT_SECRET is not configured for Google authentication.');
-            return res.status(500).json({ error: 'Authentication unavailable.' });
-        }
-
-        const authPayload = buildAuthPayloadFromUserRow(userRow);
-        const token = jwt.sign(authPayload, process.env.JWT_SECRET, { expiresIn: '1d' });
-        setAuthCookie(res, token, 24 * 60 * 60 * 1000);
-
-        const responseUser = buildUserResponse(userRow, picture);
-        console.log(`User ${responseUser?.name || name || email} (${email}) logged in as ${authPayload.role}.`);
-
-        res.status(200).json({
-            user: responseUser,
-            token,
-        });
-    } catch (error) {
-        console.error('Google Auth or DB Error:', error);
-        res.status(500).json({ error: 'Authentication or database error.' });
+        updateParams
+      );
     }
+
+    const userRow = await loadUserWithRole(userId);
+    if (!userRow) {
+      console.error('User record missing after Google login.');
+      return res
+        .status(500)
+        .json({ error: 'Authentication or database error.' });
+    }
+
+    if (!userRow.role) {
+      await pool.query(`UPDATE users SET role = 'student' WHERE id = $1`, [
+        userId,
+      ]);
+      userRow.role = 'student';
+    }
+
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not configured for Google authentication.');
+      return res.status(500).json({ error: 'Authentication unavailable.' });
+    }
+
+    const authPayload = buildAuthPayloadFromUserRow(userRow);
+    const token = jwt.sign(authPayload, process.env.JWT_SECRET, {
+      expiresIn: '1d',
+    });
+    setAuthCookie(res, token, 24 * 60 * 60 * 1000);
+
+    const responseUser = buildUserResponse(userRow, picture);
+    console.log(
+      `User ${responseUser?.name || name || email} (${email}) logged in as ${
+        authPayload.role
+      }.`
+    );
+
+    res.status(200).json({
+      user: responseUser,
+      token,
+    });
+  } catch (error) {
+    console.error('Google Auth or DB Error:', error);
+    res.status(500).json({ error: 'Authentication or database error.' });
+  }
 });
 
 // --- API ENDPOINT TO SAVE A QUIZ ATTEMPT ---
-app.get('/api/admin/organizations', requireAuth, requireSuperAdmin, async (req, res) => {
+app.get(
+  '/api/admin/organizations',
+  requireAuth,
+  requireSuperAdmin,
+  async (req, res) => {
     try {
-        const rows = await db.many(
-            `SELECT
+      const rows = await db.many(
+        `SELECT
                 o.id,
                 o.name,
                 COUNT(u.id) AS user_count,
@@ -8348,58 +10390,63 @@ app.get('/api/admin/organizations', requireAuth, requireSuperAdmin, async (req, 
              LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
              GROUP BY o.id, o.name
              ORDER BY o.name ASC`
-        );
+      );
 
-        const organizations = rows.map((row) => ({
-            id: row.id,
-            name: row.name,
-            userCount: Number(row.user_count) || 0,
-            recentActivity: row.recent_activity || null,
-        }));
+      const organizations = rows.map((row) => ({
+        id: row.id,
+        name: row.name,
+        userCount: Number(row.user_count) || 0,
+        recentActivity: row.recent_activity || null,
+      }));
 
-        return res.json({ organizations });
+      return res.json({ organizations });
     } catch (error) {
-        console.error('Failed to load organizations:', error);
-        return res.status(500).json({ error: 'Unable to load organizations' });
+      console.error('Failed to load organizations:', error);
+      return res.status(500).json({ error: 'Unable to load organizations' });
     }
-});
+  }
+);
 
-app.get('/api/admin/org-summary', requireAuth, requireOrgAdmin, async (req, res) => {
+app.get(
+  '/api/admin/org-summary',
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
     try {
-        let targetOrgId;
-        if (req.user.role === 'super_admin' && req.query.organization_id) {
-            const parsed = Number.parseInt(String(req.query.organization_id), 10);
-            if (!Number.isInteger(parsed) || parsed <= 0) {
-                return res.status(400).json({ error: 'Invalid organization_id' });
-            }
-            targetOrgId = parsed;
-        } else {
-            targetOrgId = req.user.organization_id;
+      let targetOrgId;
+      if (req.user.role === 'super_admin' && req.query.organization_id) {
+        const parsed = Number.parseInt(String(req.query.organization_id), 10);
+        if (!Number.isInteger(parsed) || parsed <= 0) {
+          return res.status(400).json({ error: 'Invalid organization_id' });
         }
+        targetOrgId = parsed;
+      } else {
+        targetOrgId = req.user.organization_id;
+      }
 
-        if (!targetOrgId) {
-            return res.status(400).json({ error: 'No organization scope' });
-        }
+      if (!targetOrgId) {
+        return res.status(400).json({ error: 'No organization scope' });
+      }
 
-        const organization = await db.oneOrNone(
-            `SELECT id, name FROM organizations WHERE id = $1`,
-            [targetOrgId]
-        );
+      const organization = await db.oneOrNone(
+        `SELECT id, name FROM organizations WHERE id = $1`,
+        [targetOrgId]
+      );
 
-        if (!organization) {
-            return res.status(404).json({ error: 'Organization not found' });
-        }
+      if (!organization) {
+        return res.status(404).json({ error: 'Organization not found' });
+      }
 
-        const userRows = await db.many(
-            `SELECT id, name, email, last_login
+      const userRows = await db.many(
+        `SELECT id, name, email, last_login
                FROM users
               WHERE organization_id = $1
               ORDER BY name NULLS LAST, email ASC`,
-            [targetOrgId]
-        );
+        [targetOrgId]
+      );
 
-        const attemptRows = await db.many(
-            `SELECT
+      const attemptRows = await db.many(
+        `SELECT
                 ranked.user_id,
                 ranked.subject,
                 ranked.quiz_type,
@@ -8420,377 +10467,433 @@ app.get('/api/admin/org-summary', requireAuth, requireOrgAdmin, async (req, res)
              ) ranked
              WHERE ranked.rn <= 5
              ORDER BY ranked.user_id, ranked.attempted_at DESC, ranked.id DESC`,
-            [targetOrgId]
-        );
+        [targetOrgId]
+      );
 
-        const attemptsByUser = new Map();
-        for (const row of attemptRows) {
-            const entry = attemptsByUser.get(row.user_id) || [];
-            entry.push({
-                subject: row.subject,
-                quiz_type: row.quiz_type,
-                scaled_score: row.scaled_score != null ? Number(row.scaled_score) : null,
-                attempted_at: row.attempted_at,
-            });
-            attemptsByUser.set(row.user_id, entry);
-        }
-
-        const users = userRows.map((row) => ({
-            id: row.id,
-            name: row.name,
-            email: row.email,
-            last_login: row.last_login || null,
-            quizAttempts: attemptsByUser.get(row.id) || [],
-        }));
-
-        return res.json({
-            organization,
-            users,
+      const attemptsByUser = new Map();
+      for (const row of attemptRows) {
+        const entry = attemptsByUser.get(row.user_id) || [];
+        entry.push({
+          subject: row.subject,
+          quiz_type: row.quiz_type,
+          scaled_score:
+            row.scaled_score != null ? Number(row.scaled_score) : null,
+          attempted_at: row.attempted_at,
         });
+        attemptsByUser.set(row.user_id, entry);
+      }
+
+      const users = userRows.map((row) => ({
+        id: row.id,
+        name: row.name,
+        email: row.email,
+        last_login: row.last_login || null,
+        quizAttempts: attemptsByUser.get(row.id) || [],
+      }));
+
+      return res.json({
+        organization,
+        users,
+      });
     } catch (error) {
-        console.error('Failed to load organization summary:', error);
-        return res.status(500).json({ error: 'Unable to load organization summary' });
+      console.error('Failed to load organization summary:', error);
+      return res
+        .status(500)
+        .json({ error: 'Unable to load organization summary' });
     }
-});
+  }
+);
 
 // Helper: GED-ish 3-segment scaling function
 function toScaledFromPercent(pct) {
-    if (pct <= 40) {
-        return Math.round(100 + (pct / 40) * 35);
-    } else if (pct <= 65) {
-        return Math.round(135 + ((pct - 40) / 25) * 10);
-    } else {
-        return Math.round(145 + ((pct - 65) / 35) * 55);
-    }
+  if (pct <= 40) {
+    return Math.round(100 + (pct / 40) * 35);
+  } else if (pct <= 65) {
+    return Math.round(135 + ((pct - 40) / 25) * 10);
+  } else {
+    return Math.round(145 + ((pct - 65) / 35) * 55);
+  }
 }
 
 app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
-    try {
-        const userId = req.user?.userId || req.user?.sub;
-        if (!userId) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+  try {
+    const userId = req.user?.userId || req.user?.sub;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
 
-        const {
-            subject,
-            quizCode,
-            quizTitle,
-            quizType = null,
-            score,
-            totalQuestions,
-            scaledScore,
-            passed,
-        } = req.body || {};
+    const {
+      subject,
+      quizCode,
+      quizTitle,
+      quizType = null,
+      score,
+      totalQuestions,
+      scaledScore,
+      passed,
+    } = req.body || {};
 
-        const normalizedSubject = typeof subject === 'string' ? subject.trim() : '';
-        const normalizedQuizCode = typeof quizCode === 'string' ? quizCode.trim() : '';
-        const normalizedQuizTitle = typeof quizTitle === 'string' ? quizTitle.trim() : '';
+    const normalizedSubject = typeof subject === 'string' ? subject.trim() : '';
+    const normalizedQuizCode =
+      typeof quizCode === 'string' ? quizCode.trim() : '';
+    const normalizedQuizTitle =
+      typeof quizTitle === 'string' ? quizTitle.trim() : '';
 
-        if (!normalizedSubject) {
-            return res.status(400).json({ error: 'Subject is required' });
-        }
-        if (!normalizedQuizCode) {
-            return res.status(400).json({ error: 'quizCode is required' });
-        }
-        if (!normalizedQuizTitle) {
-            return res.status(400).json({ error: 'quizTitle is required' });
-        }
+    if (!normalizedSubject) {
+      return res.status(400).json({ error: 'Subject is required' });
+    }
+    if (!normalizedQuizCode) {
+      return res.status(400).json({ error: 'quizCode is required' });
+    }
+    if (!normalizedQuizTitle) {
+      return res.status(400).json({ error: 'quizTitle is required' });
+    }
 
-        const toRoundedNumber = (value) => {
-            const num = Number(value);
-            return Number.isFinite(num) ? Math.round(num) : null;
-        };
+    const toRoundedNumber = (value) => {
+      const num = Number(value);
+      return Number.isFinite(num) ? Math.round(num) : null;
+    };
 
-        const numericScore = toRoundedNumber(score);
-        const numericTotal = toRoundedNumber(totalQuestions);
-        let numericScaled = toRoundedNumber(scaledScore);
+    const numericScore = toRoundedNumber(score);
+    const numericTotal = toRoundedNumber(totalQuestions);
+    let numericScaled = toRoundedNumber(scaledScore);
 
-        // If client didn't send scaled but did send score/total, compute it
-        if ((numericScaled == null) && Number.isFinite(numericScore) && Number.isFinite(numericTotal) && numericTotal > 0) {
-            const pct = (numericScore / numericTotal) * 100;
-            numericScaled = toScaledFromPercent(pct);
-        }
+    // If client didn't send scaled but did send score/total, compute it
+    if (
+      numericScaled == null &&
+      Number.isFinite(numericScore) &&
+      Number.isFinite(numericTotal) &&
+      numericTotal > 0
+    ) {
+      const pct = (numericScore / numericTotal) * 100;
+      numericScaled = toScaledFromPercent(pct);
+    }
 
-        const normalizedPassed = typeof passed === 'boolean'
-            ? passed
-            : (numericScaled != null ? numericScaled >= 145 : null);
+    const normalizedPassed =
+      typeof passed === 'boolean'
+        ? passed
+        : numericScaled != null
+        ? numericScaled >= 145
+        : null;
 
-        const insertQuery = `
+    const insertQuery = `
             INSERT INTO quiz_attempts (user_id, subject, quiz_code, quiz_title, quiz_type, score, total_questions, scaled_score, passed)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING id, user_id, subject, quiz_code, quiz_title, quiz_type, score, total_questions, scaled_score, passed, attempted_at;
         `;
 
-        const params = [
-            userId,
-            normalizedSubject,
-            normalizedQuizCode,
-            normalizedQuizTitle,
-            quizType || null,
-            numericScore,
-            numericTotal,
-            numericScaled,
-            normalizedPassed,
-        ];
+    const params = [
+      userId,
+      normalizedSubject,
+      normalizedQuizCode,
+      normalizedQuizTitle,
+      quizType || null,
+      numericScore,
+      numericTotal,
+      numericScaled,
+      normalizedPassed,
+    ];
 
     const result = await pool.query(insertQuery, params);
 
-        console.log(`Saved quiz attempt ${normalizedQuizCode} for user ${userId} in subject ${normalizedSubject}`);
-        // Process optional per-question responses for challenge tags
-        try {
-            const { responses } = req.body || {};
-            if (Array.isArray(responses)) {
-                for (const item of responses) {
-                    if (!item || !Array.isArray(item.challenge_tags)) continue;
-                    const gotCorrect = !!item.correct;
-                    for (const tag of item.challenge_tags) {
-                        if (!tag || typeof tag !== 'string') continue;
-                        const clean = tag.trim().toLowerCase();
-                        if (!clean) continue;
-                        // Warn if tag not present in catalog
-                        try {
-                            const exists = await db.oneOrNone('SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1', [clean]);
-                            if (!exists) {
-                                console.warn('[challenge-tag] Missing in catalog:', clean);
-                            }
-                        } catch (_) {}
-                        await upsertChallengeStat(userId, clean, gotCorrect, 'quiz');
-                        await runPromotionDemotionRules(userId, clean);
-                    }
-                }
-            }
-        } catch (e) {
-            console.warn('[quiz-attempts] response processing failed:', e?.message || e);
+    console.log(
+      `Saved quiz attempt ${normalizedQuizCode} for user ${userId} in subject ${normalizedSubject}`
+    );
+    // Process optional per-question responses for challenge tags
+    try {
+      const { responses } = req.body || {};
+      if (Array.isArray(responses)) {
+        for (const item of responses) {
+          if (!item || !Array.isArray(item.challenge_tags)) continue;
+          const gotCorrect = !!item.correct;
+          for (const tag of item.challenge_tags) {
+            if (!tag || typeof tag !== 'string') continue;
+            const clean = tag.trim().toLowerCase();
+            if (!clean) continue;
+            // Warn if tag not present in catalog
+            try {
+              const exists = await db.oneOrNone(
+                'SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1',
+                [clean]
+              );
+              if (!exists) {
+                console.warn('[challenge-tag] Missing in catalog:', clean);
+              }
+            } catch (_) {}
+            await upsertChallengeStat(userId, clean, gotCorrect, 'quiz');
+            await runPromotionDemotionRules(userId, clean);
+          }
         }
+      }
+    } catch (e) {
+      console.warn(
+        '[quiz-attempts] response processing failed:',
+        e?.message || e
+      );
+    }
 
-        // If this was a coach-assigned quiz, mark daily completion and credit minutes
-        try {
-            const { assigned_by } = req.body || {};
-            const by = (assigned_by || '').toString().toLowerCase().replace(/_/g, '-');
-            if (by === COACH_ASSIGNED_BY) {
-                const subj = normalizeSubjectLabel(normalizedSubject);
-                const dateISO = todayISO();
-                await findOrCreateDailyRow(userId, subj, dateISO);
-                await pool.query(
-                    `UPDATE coach_daily_progress
+    // If this was a coach-assigned quiz, mark daily completion and credit minutes
+    try {
+      const { assigned_by } = req.body || {};
+      const by = (assigned_by || '')
+        .toString()
+        .toLowerCase()
+        .replace(/_/g, '-');
+      if (by === COACH_ASSIGNED_BY) {
+        const subj = normalizeSubjectLabel(normalizedSubject);
+        const dateISO = todayISO();
+        await findOrCreateDailyRow(userId, subj, dateISO);
+        await pool.query(
+          `UPDATE coach_daily_progress
                         SET completed_minutes = GREATEST(0, completed_minutes + $4),
                             coach_quiz_completed = TRUE,
                             updated_at = NOW()
                       WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
-                    [userId, subj, dateISO, COACH_QUIZ_MINUTES]
-                );
-            }
-        } catch (e) {
-            console.warn('[quiz-attempts] coach completion credit failed:', e?.message || e);
-        }
-
-        res.status(201).json(formatQuizAttemptRow(result.rows[0]));
-
-    } catch (error) {
-        console.error('Error saving quiz attempt:', error);
-        res.status(500).json({ error: 'Failed to save quiz attempt.' });
+          [userId, subj, dateISO, COACH_QUIZ_MINUTES]
+        );
+      }
+    } catch (e) {
+      console.warn(
+        '[quiz-attempts] coach completion credit failed:',
+        e?.message || e
+      );
     }
-});
 
+    res.status(201).json(formatQuizAttemptRow(result.rows[0]));
+  } catch (error) {
+    console.error('Error saving quiz attempt:', error);
+    res.status(500).json({ error: 'Failed to save quiz attempt.' });
+  }
+});
 
 // --- API ENDPOINT TO GET ALL QUIZ ATTEMPTS FOR A USER ---
 app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
-    try {
-        const userId = req.user?.userId || req.user?.sub;
-        if (!userId) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+  try {
+    const userId = req.user?.userId || req.user?.sub;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
 
-        const selectQuery = `
+    const selectQuery = `
             SELECT id, user_id, subject, quiz_code, quiz_title, quiz_type, score, total_questions, scaled_score, passed, attempted_at
             FROM quiz_attempts
             WHERE user_id = $1
             ORDER BY attempted_at DESC, id DESC;
         `;
 
-        const { rows } = await pool.query(selectQuery, [userId]);
+    const { rows } = await pool.query(selectQuery, [userId]);
 
-        res.status(200).json(rows.map(formatQuizAttemptRow));
-
-    } catch (error) {
-        console.error('Error fetching quiz attempts:', error);
-        res.status(500).json({ error: 'Failed to fetch quiz attempts.' });
-    }
+    res.status(200).json(rows.map(formatQuizAttemptRow));
+  } catch (error) {
+    console.error('Error fetching quiz attempts:', error);
+    res.status(500).json({ error: 'Failed to fetch quiz attempts.' });
+  }
 });
-
 
 // Load quizzes from dynamic index which merges legacy and supplemental topics
 const { ALL_QUIZZES } = require('./data/quizzes');
 
 // Subtopic → challenge tag mapping for auto-derivation when questions lack explicit tags
 const SUBTOPIC_TO_CHALLENGE = {
-    'Fractions': ['math:fraction'],
-    'Decimals': ['math:decimals'],
-    'Ratios, Proportions & Percents': ['math:ratio-percent'],
-    'Scientific Numeracy': ['science:numeracy'],
-    'Reading for Meaning': ['rla:inference'],
-    'Main Idea': ['rla:main-idea'],
+  Fractions: ['math:fraction'],
+  Decimals: ['math:decimals'],
+  'Ratios, Proportions & Percents': ['math:ratio-percent'],
+  'Scientific Numeracy': ['science:numeracy'],
+  'Reading for Meaning': ['rla:inference'],
+  'Main Idea': ['rla:main-idea'],
 };
 
 function deriveTagsFromContext(subjectKey, categoryName, topic) {
-    // Prefer topic title mapping first
-    const tTitle = (topic && (topic.title || topic.id)) ? String(topic.title || topic.id) : '';
-    if (tTitle && SUBTOPIC_TO_CHALLENGE[tTitle]) return SUBTOPIC_TO_CHALLENGE[tTitle];
-    // Fallback to category mapping
-    const cName = categoryName ? String(categoryName) : '';
-    if (cName && SUBTOPIC_TO_CHALLENGE[cName]) return SUBTOPIC_TO_CHALLENGE[cName];
-    return [];
+  // Prefer topic title mapping first
+  const tTitle =
+    topic && (topic.title || topic.id) ? String(topic.title || topic.id) : '';
+  if (tTitle && SUBTOPIC_TO_CHALLENGE[tTitle])
+    return SUBTOPIC_TO_CHALLENGE[tTitle];
+  // Fallback to category mapping
+  const cName = categoryName ? String(categoryName) : '';
+  if (cName && SUBTOPIC_TO_CHALLENGE[cName])
+    return SUBTOPIC_TO_CHALLENGE[cName];
+  return [];
 }
 
-function ensureQuestionTags(subjectKey, categoryName, topic, question, idxForLog = null) {
-    try {
-        const hasExplicit = Array.isArray(question?.challenge_tags) && question.challenge_tags.length > 0;
-        if (hasExplicit) {
-            // Respect explicit tags
-            return question;
-        }
-        const derived = deriveTagsFromContext(subjectKey, categoryName, topic);
-        if (Array.isArray(derived) && derived.length > 0) {
-            question.challenge_tags = derived.slice();
-            return question;
-        }
-        // Log missing tag for later hand-tagging
-        const topicId = topic?.id || topic?.title || 'topic';
-        const qIndex = (idxForLog != null) ? `#${idxForLog + 1}` : '';
-        if (process.env.NODE_ENV !== 'production') {
-            console.warn(`[challenge-tags] question ${subjectKey}/${topicId}${qIndex} has no challenge_tags and no subtopic mapping`);
-        }
-        return question;
-    } catch (e) {
-        return question;
+function ensureQuestionTags(
+  subjectKey,
+  categoryName,
+  topic,
+  question,
+  idxForLog = null
+) {
+  try {
+    const hasExplicit =
+      Array.isArray(question?.challenge_tags) &&
+      question.challenge_tags.length > 0;
+    if (hasExplicit) {
+      // Respect explicit tags
+      return question;
     }
+    const derived = deriveTagsFromContext(subjectKey, categoryName, topic);
+    if (Array.isArray(derived) && derived.length > 0) {
+      question.challenge_tags = derived.slice();
+      return question;
+    }
+    // Log missing tag for later hand-tagging
+    const topicId = topic?.id || topic?.title || 'topic';
+    const qIndex = idxForLog != null ? `#${idxForLog + 1}` : '';
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(
+        `[challenge-tags] question ${subjectKey}/${topicId}${qIndex} has no challenge_tags and no subtopic mapping`
+      );
+    }
+    return question;
+  } catch (e) {
+    return question;
+  }
 }
 
 // Expose ALL_QUIZZES for the frontend to build a unified catalog, including supplemental topics
 function chunkInto3(list = []) {
-    const out = [];
-    for (let i = 0; i < list.length; i += 3) {
-        const slice = list.slice(i, i + 3);
-        out.push({ title: `Set ${out.length + 1}`, quizzes: slice });
-    }
-    return out;
+  const out = [];
+  for (let i = 0; i < list.length; i += 3) {
+    const slice = list.slice(i, i + 3);
+    out.push({ title: `Set ${out.length + 1}`, quizzes: slice });
+  }
+  return out;
 }
 
 function buildAllQuizzesWithTags() {
-    // Deep-ish clone with tag normalization; keep structure intact
-    const out = {};
-    for (const [subjectKey, subj] of Object.entries(ALL_QUIZZES || {})) {
-        const subjCopy = { icon: subj.icon || null, categories: {} };
-        for (const [catName, cat] of Object.entries(subj.categories || {})) {
-            const catCopy = { description: cat.description || '', topics: [] };
-            const flatQuizzesForCategory = [];
-            const topics = Array.isArray(cat.topics) ? cat.topics : [];
-            topics.forEach((topic) => {
-                const tCopy = { ...topic };
-                // Normalize topic-level questions
-                if (Array.isArray(topic.questions)) {
-                    tCopy.questions = topic.questions.map((q, i) => {
-                        const cloned = q && typeof q === 'object' ? { ...q } : q;
-                        return ensureQuestionTags(subjectKey, catName, topic, cloned, i);
-                    });
-                }
-                // Preserve quizzes array if present and derive topic-level quizSets of 3
-                if (Array.isArray(topic.quizzes)) {
-                    tCopy.quizzes = topic.quizzes.map((q) => (q && typeof q === 'object' ? { ...q } : q));
-                    // accumulate into category-level flat list
-                    tCopy.quizzes.forEach((q) => flatQuizzesForCategory.push(q));
-                    // topic-level grouping for convenience
-                    tCopy.quizSets = chunkInto3(tCopy.quizzes);
-                }
-                catCopy.topics.push(tCopy);
-            });
-            // Copy any category-level quizzes (rare) and include in flat list
-            if (Array.isArray(cat.quizzes)) {
-                catCopy.quizzes = cat.quizzes.map((q) => (q && typeof q === 'object' ? { ...q } : q));
-                catCopy.quizzes.forEach((q) => flatQuizzesForCategory.push(q));
-            }
-            // Derive category-level grouping into sets of 3
-            catCopy.quizSets = chunkInto3(flatQuizzesForCategory);
-            subjCopy.categories[catName] = catCopy;
+  // Deep-ish clone with tag normalization; keep structure intact
+  const out = {};
+  for (const [subjectKey, subj] of Object.entries(ALL_QUIZZES || {})) {
+    const subjCopy = { icon: subj.icon || null, categories: {} };
+    for (const [catName, cat] of Object.entries(subj.categories || {})) {
+      const catCopy = { description: cat.description || '', topics: [] };
+      const flatQuizzesForCategory = [];
+      const topics = Array.isArray(cat.topics) ? cat.topics : [];
+      topics.forEach((topic) => {
+        const tCopy = { ...topic };
+        // Normalize topic-level questions
+        if (Array.isArray(topic.questions)) {
+          tCopy.questions = topic.questions.map((q, i) => {
+            const cloned = q && typeof q === 'object' ? { ...q } : q;
+            return ensureQuestionTags(subjectKey, catName, topic, cloned, i);
+          });
         }
-        out[subjectKey] = subjCopy;
+        // Preserve quizzes array if present and derive topic-level quizSets of 3
+        if (Array.isArray(topic.quizzes)) {
+          tCopy.quizzes = topic.quizzes.map((q) =>
+            q && typeof q === 'object' ? { ...q } : q
+          );
+          // accumulate into category-level flat list
+          tCopy.quizzes.forEach((q) => flatQuizzesForCategory.push(q));
+          // topic-level grouping for convenience
+          tCopy.quizSets = chunkInto3(tCopy.quizzes);
+        }
+        catCopy.topics.push(tCopy);
+      });
+      // Copy any category-level quizzes (rare) and include in flat list
+      if (Array.isArray(cat.quizzes)) {
+        catCopy.quizzes = cat.quizzes.map((q) =>
+          q && typeof q === 'object' ? { ...q } : q
+        );
+        catCopy.quizzes.forEach((q) => flatQuizzesForCategory.push(q));
+      }
+      // Derive category-level grouping into sets of 3
+      catCopy.quizSets = chunkInto3(flatQuizzesForCategory);
+      subjCopy.categories[catName] = catCopy;
     }
-    return out;
+    out[subjectKey] = subjCopy;
+  }
+  return out;
 }
 
 app.get('/api/all-quizzes', (req, res) => {
-    try {
-        res.set('Cache-Control', 'no-store');
-        return res.json(buildAllQuizzesWithTags());
-    } catch (e) {
-        return res.json(ALL_QUIZZES);
-    }
+  try {
+    res.set('Cache-Control', 'no-store');
+    return res.json(buildAllQuizzesWithTags());
+  } catch (e) {
+    return res.json(ALL_QUIZZES);
+  }
 });
 
 // Helper function to get random questions from the premade data,
 // normalizing challenge_tags using subtopic/category mapping when absent.
 const getPremadeQuestions = (subject, count) => {
-    const allQuestions = [];
-    if (ALL_QUIZZES[subject] && ALL_QUIZZES[subject].categories) {
-        Object.entries(ALL_QUIZZES[subject].categories).forEach(([categoryName, category]) => {
-            if (category && Array.isArray(category.topics)) {
-                category.topics.forEach((topic) => {
-                    if (Array.isArray(topic?.questions)) {
-                        topic.questions.forEach((q, i) => {
-                            const cloned = q && typeof q === 'object' ? { ...q } : q;
-                            const normalized = ensureQuestionTags(subject, categoryName, topic, cloned, i);
-                            allQuestions.push(normalized);
-                        });
-                    }
-                });
+  const allQuestions = [];
+  if (ALL_QUIZZES[subject] && ALL_QUIZZES[subject].categories) {
+    Object.entries(ALL_QUIZZES[subject].categories).forEach(
+      ([categoryName, category]) => {
+        if (category && Array.isArray(category.topics)) {
+          category.topics.forEach((topic) => {
+            if (Array.isArray(topic?.questions)) {
+              topic.questions.forEach((q, i) => {
+                const cloned = q && typeof q === 'object' ? { ...q } : q;
+                const normalized = ensureQuestionTags(
+                  subject,
+                  categoryName,
+                  topic,
+                  cloned,
+                  i
+                );
+                allQuestions.push(normalized);
+              });
             }
-        });
-    }
-    const shuffled = allQuestions.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
+          });
+        }
+      }
+    );
+  }
+  const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
 };
 
 // Validate challenge tags present in premade catalog at startup (warn only)
 function validatePremadeChallengeTags() {
-    try {
-        const subjects = Object.keys(ALL_QUIZZES || {});
-        subjects.forEach((subj) => {
-            const categories = ALL_QUIZZES[subj]?.categories || {};
-            Object.values(categories).forEach((cat) => {
-                const topics = Array.isArray(cat?.topics) ? cat.topics : [];
-                topics.forEach((topic) => {
-                    const questions = Array.isArray(topic?.questions) ? topic.questions : [];
-                    questions.forEach((q) => {
-                        const tags = Array.isArray(q?.challenge_tags) ? q.challenge_tags : [];
-                        tags.forEach(async (t) => {
-                            const tag = (t || '').toString().trim().toLowerCase();
-                            if (!tag) return;
-                            try {
-                                const exists = await pool.query('SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1', [tag]);
-                                if (!exists || !exists.rowCount) {
-                                    console.warn('[challenge-tag] Not found in catalog:', tag);
-                                }
-                            } catch (_) {}
-                        });
-                    });
-                });
+  try {
+    const subjects = Object.keys(ALL_QUIZZES || {});
+    subjects.forEach((subj) => {
+      const categories = ALL_QUIZZES[subj]?.categories || {};
+      Object.values(categories).forEach((cat) => {
+        const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+        topics.forEach((topic) => {
+          const questions = Array.isArray(topic?.questions)
+            ? topic.questions
+            : [];
+          questions.forEach((q) => {
+            const tags = Array.isArray(q?.challenge_tags)
+              ? q.challenge_tags
+              : [];
+            tags.forEach(async (t) => {
+              const tag = (t || '').toString().trim().toLowerCase();
+              if (!tag) return;
+              try {
+                const exists = await pool.query(
+                  'SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1',
+                  [tag]
+                );
+                if (!exists || !exists.rowCount) {
+                  console.warn('[challenge-tag] Not found in catalog:', tag);
+                }
+              } catch (_) {}
             });
+          });
         });
-    } catch (e) {
-        console.warn('validatePremadeChallengeTags failed:', e?.message || e);
-    }
+      });
+    });
+  } catch (e) {
+    console.warn('validatePremadeChallengeTags failed:', e?.message || e);
+  }
 }
 validatePremadeChallengeTags();
 
 // Lightweight catalog endpoint for frontend to ingest merged legacy + supplemental topics
 app.get('/api/all-quizzes', (req, res) => {
-    try {
-        res.set('Cache-Control', 'no-store');
-        return res.json(buildAllQuizzesWithTags());
-    } catch (e) {
-        console.warn('[api] /api/all-quizzes failed:', e?.message || e);
-        return res.status(500).json({ error: 'Failed to load quiz catalog' });
-    }
+  try {
+    res.set('Cache-Control', 'no-store');
+    return res.json(buildAllQuizzesWithTags());
+  } catch (e) {
+    console.warn('[api] /api/all-quizzes failed:', e?.message || e);
+    return res.status(500).json({ error: 'Failed to load quiz catalog' });
+  }
 });
 
 // Practice Session helpers and endpoint
@@ -8798,288 +10901,332 @@ const PRACTICE_SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
 const VALID_DURATIONS = [10, 20, 30, 40, 50, 60];
 
 function clampDuration(mins) {
-    const n = Number(mins);
-    if (VALID_DURATIONS.includes(n)) return n;
-    // find nearest valid duration; default to 10 if invalid
-    const sorted = [...VALID_DURATIONS].sort((a, b) => Math.abs(a - n) - Math.abs(b - n));
-    return sorted[0] || 10;
+  const n = Number(mins);
+  if (VALID_DURATIONS.includes(n)) return n;
+  // find nearest valid duration; default to 10 if invalid
+  const sorted = [...VALID_DURATIONS].sort(
+    (a, b) => Math.abs(a - n) - Math.abs(b - n)
+  );
+  return sorted[0] || 10;
 }
 
 function shuffleArray(arr) {
-    const a = Array.isArray(arr) ? arr.slice() : [];
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
+  const a = Array.isArray(arr) ? arr.slice() : [];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function isValidMC(question) {
-    if (!question || typeof question !== 'object') return false;
-    const opts = Array.isArray(question.answerOptions) ? question.answerOptions : [];
-    if (opts.length < 2) return false;
-    return opts.some(o => o && o.isCorrect === true);
+  if (!question || typeof question !== 'object') return false;
+  const opts = Array.isArray(question.answerOptions)
+    ? question.answerOptions
+    : [];
+  if (opts.length < 2) return false;
+  return opts.some((o) => o && o.isCorrect === true);
 }
 
 function cloneQuestion(q) {
-    if (!q || typeof q !== 'object') return null;
-    const cloned = { ...q };
-    if (Array.isArray(q.answerOptions)) {
-        cloned.answerOptions = q.answerOptions.map(opt => ({ ...opt }));
-    }
-    return cloned;
+  if (!q || typeof q !== 'object') return null;
+  const cloned = { ...q };
+  if (Array.isArray(q.answerOptions)) {
+    cloned.answerOptions = q.answerOptions.map((opt) => ({ ...opt }));
+  }
+  return cloned;
 }
 
 function flattenSubjectQuestions(subjectKey) {
-    const out = [];
-    const subj = ALL_QUIZZES[subjectKey];
-    if (!subj || !subj.categories) return out;
-    Object.values(subj.categories).forEach(cat => {
-        const topics = Array.isArray(cat?.topics) ? cat.topics : [];
-        topics.forEach(topic => {
-            const questions = Array.isArray(topic?.questions) ? topic.questions : [];
-            questions.forEach(raw => {
-                const q = cloneQuestion(raw);
-                if (!isValidMC(q)) return;
-                // Ensure subject property present
-                if (!q.subject) q.subject = subjectKey;
-                out.push(q);
-            });
-        });
+  const out = [];
+  const subj = ALL_QUIZZES[subjectKey];
+  if (!subj || !subj.categories) return out;
+  Object.values(subj.categories).forEach((cat) => {
+    const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+    topics.forEach((topic) => {
+      const questions = Array.isArray(topic?.questions) ? topic.questions : [];
+      questions.forEach((raw) => {
+        const q = cloneQuestion(raw);
+        if (!isValidMC(q)) return;
+        // Ensure subject property present
+        if (!q.subject) q.subject = subjectKey;
+        out.push(q);
+      });
     });
-    return out;
+  });
+  return out;
 }
 
 function assembleBalancedPool(requiredCount) {
-    // Collect per-subject pools
-    const bySubject = PRACTICE_SUBJECTS.map(s => ({ subject: s, pool: shuffleArray(flattenSubjectQuestions(s)) }));
-    const totalAvailable = bySubject.reduce((acc, s) => acc + s.pool.length, 0);
-    const take = Math.min(requiredCount, totalAvailable);
-    if (take <= 0) return [];
+  // Collect per-subject pools
+  const bySubject = PRACTICE_SUBJECTS.map((s) => ({
+    subject: s,
+    pool: shuffleArray(flattenSubjectQuestions(s)),
+  }));
+  const totalAvailable = bySubject.reduce((acc, s) => acc + s.pool.length, 0);
+  const take = Math.min(requiredCount, totalAvailable);
+  if (take <= 0) return [];
 
-    // Base quota per subject
-    const base = Math.floor(take / PRACTICE_SUBJECTS.length);
-    let remainder = take % PRACTICE_SUBJECTS.length;
-    const selections = [];
+  // Base quota per subject
+  const base = Math.floor(take / PRACTICE_SUBJECTS.length);
+  let remainder = take % PRACTICE_SUBJECTS.length;
+  const selections = [];
 
-    bySubject.forEach(({ subject, pool }) => {
-        const extra = remainder > 0 ? 1 : 0;
-        const need = base + extra;
-        if (remainder > 0) remainder -= 1;
-        selections.push(...pool.slice(0, need).map(q => ({ ...q, subject })));
-    });
+  bySubject.forEach(({ subject, pool }) => {
+    const extra = remainder > 0 ? 1 : 0;
+    const need = base + extra;
+    if (remainder > 0) remainder -= 1;
+    selections.push(...pool.slice(0, need).map((q) => ({ ...q, subject })));
+  });
 
-    // If still short (because some pools were smaller), top up from any remaining
-    if (selections.length < take) {
-        const leftovers = shuffleArray(bySubject.flatMap(({ subject, pool }) => pool.slice(0))).filter(q => !selections.includes(q));
-        selections.push(...leftovers.slice(0, take - selections.length));
-    }
-    return shuffleArray(selections).slice(0, take);
+  // If still short (because some pools were smaller), top up from any remaining
+  if (selections.length < take) {
+    const leftovers = shuffleArray(
+      bySubject.flatMap(({ subject, pool }) => pool.slice(0))
+    ).filter((q) => !selections.includes(q));
+    selections.push(...leftovers.slice(0, take - selections.length));
+  }
+  return shuffleArray(selections).slice(0, take);
 }
 
 function assembleSingleSubject(subjectKey, requiredCount) {
-    const pool = shuffleArray(flattenSubjectQuestions(subjectKey));
-    return pool.slice(0, Math.min(pool.length, requiredCount));
+  const pool = shuffleArray(flattenSubjectQuestions(subjectKey));
+  return pool.slice(0, Math.min(pool.length, requiredCount));
 }
 
 // Practice Session builder (placed after getPremadeQuestions)
 app.post(
-    '/api/practice-session',
-    devAuth,
-    ensureTestUserForNow,
-    requireAuthInProd,
-    authRequired,
-    express.json(),
-    (req, res) => {
-        try {
-            let { durationMinutes, mode, subject } = req.body || {};
+  '/api/practice-session',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  (req, res) => {
+    try {
+      let { durationMinutes, mode, subject } = req.body || {};
 
-            // Normalize inputs
-            const VALID_MINUTES = [10, 20, 30, 40, 50, 60];
-            durationMinutes = Number(durationMinutes);
-            if (!VALID_MINUTES.includes(durationMinutes)) {
-                durationMinutes = 10;
-            }
+      // Normalize inputs
+      const VALID_MINUTES = [10, 20, 30, 40, 50, 60];
+      durationMinutes = Number(durationMinutes);
+      if (!VALID_MINUTES.includes(durationMinutes)) {
+        durationMinutes = 10;
+      }
 
-            const questionsNeeded = Math.max(1, Math.round((durationMinutes / 10) * 5));
+      const questionsNeeded = Math.max(
+        1,
+        Math.round((durationMinutes / 10) * 5)
+      );
 
-            const SUBJECT_LABELS = {
-                math: 'Math',
-                science: 'Science',
-                rla: 'Reasoning Through Language Arts (RLA)',
-                social: 'Social Studies',
-                'social-studies': 'Social Studies',
-                ss: 'Social Studies',
-            };
+      const SUBJECT_LABELS = {
+        math: 'Math',
+        science: 'Science',
+        rla: 'Reasoning Through Language Arts (RLA)',
+        social: 'Social Studies',
+        'social-studies': 'Social Studies',
+        ss: 'Social Studies',
+      };
 
-            // Accept both the new spec and legacy simplified modes for compatibility
-            const m = (mode || '').toString().toLowerCase();
-            let subjectList = [];
-            switch (m) {
-                case 'single-subject': {
-                    const subjKey = (subject || '').toString().toLowerCase();
-                    const key = SUBJECT_LABELS[subjKey] || SUBJECT_LABELS[(SUBJECT_LABELS[(subject || '').toString()]) ? (subject || '').toString() : ''] || null;
-                    if (!key) {
-                        return res.status(400).json({ error: 'subject_required' });
-                    }
-                    subjectList = [key];
-                    break;
-                }
-                case 'math-rla':
-                    subjectList = [SUBJECT_LABELS.math, SUBJECT_LABELS.rla];
-                    break;
-                case 'science-social':
-                    subjectList = [SUBJECT_LABELS.science, SUBJECT_LABELS.social];
-                    break;
-                case 'full-random':
-                case 'balanced-4':
-                    subjectList = [SUBJECT_LABELS.math, SUBJECT_LABELS.science, SUBJECT_LABELS.rla, SUBJECT_LABELS.social];
-                    mode = 'balanced-4';
-                    break;
-                // Legacy/simple modes: map to single-subject or balanced
-                case 'math':
-                    subjectList = [SUBJECT_LABELS.math];
-                    mode = 'single-subject';
-                    subject = 'math';
-                    break;
-                case 'rla':
-                    subjectList = [SUBJECT_LABELS.rla];
-                    mode = 'single-subject';
-                    subject = 'rla';
-                    break;
-                case 'science':
-                    subjectList = [SUBJECT_LABELS.science];
-                    mode = 'single-subject';
-                    subject = 'science';
-                    break;
-                case 'social-studies':
-                case 'social_studies':
-                case 'socialstudies':
-                case 'ss':
-                    subjectList = [SUBJECT_LABELS['social-studies']];
-                    mode = 'single-subject';
-                    subject = 'social';
-                    break;
-                case 'balanced':
-                default:
-                    subjectList = [SUBJECT_LABELS.math, SUBJECT_LABELS.science, SUBJECT_LABELS.rla, SUBJECT_LABELS.social];
-                    mode = 'balanced-4';
-                    break;
-            }
-
-            // Pull questions from selected subjects
-            let pool = [];
-            subjectList.forEach((subj) => {
-                const pulled = getPremadeQuestions(subj, questionsNeeded * 2); // pull extra to allow shuffle
-                if (Array.isArray(pulled)) {
-                    pulled.forEach((q) => {
-                        pool.push({
-                            ...q,
-                            subject: q.subject || subj,
-                        });
-                    });
-                }
-            });
-
-            if (!pool.length) {
-                return res.json({
-                    title: 'Practice Session',
-                    durationMinutes,
-                    mode,
-                    questionCount: 0,
-                    questions: [],
-                });
-            }
-
-            // shuffle
-            for (let i = pool.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [pool[i], pool[j]] = [pool[j], pool[i]];
-            }
-
-            const questions = pool.slice(0, questionsNeeded).map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
-            return res.json({
-                title: 'Practice Session',
-                durationMinutes,
-                mode,
-                questionCount: questions.length,
-                questions,
-            });
-        } catch (e) {
-            console.error('practice-session error:', e);
-            return res.status(500).json({ error: 'Failed to build practice session' });
+      // Accept both the new spec and legacy simplified modes for compatibility
+      const m = (mode || '').toString().toLowerCase();
+      let subjectList = [];
+      switch (m) {
+        case 'single-subject': {
+          const subjKey = (subject || '').toString().toLowerCase();
+          const key =
+            SUBJECT_LABELS[subjKey] ||
+            SUBJECT_LABELS[
+              SUBJECT_LABELS[(subject || '').toString()]
+                ? (subject || '').toString()
+                : ''
+            ] ||
+            null;
+          if (!key) {
+            return res.status(400).json({ error: 'subject_required' });
+          }
+          subjectList = [key];
+          break;
         }
+        case 'math-rla':
+          subjectList = [SUBJECT_LABELS.math, SUBJECT_LABELS.rla];
+          break;
+        case 'science-social':
+          subjectList = [SUBJECT_LABELS.science, SUBJECT_LABELS.social];
+          break;
+        case 'full-random':
+        case 'balanced-4':
+          subjectList = [
+            SUBJECT_LABELS.math,
+            SUBJECT_LABELS.science,
+            SUBJECT_LABELS.rla,
+            SUBJECT_LABELS.social,
+          ];
+          mode = 'balanced-4';
+          break;
+        // Legacy/simple modes: map to single-subject or balanced
+        case 'math':
+          subjectList = [SUBJECT_LABELS.math];
+          mode = 'single-subject';
+          subject = 'math';
+          break;
+        case 'rla':
+          subjectList = [SUBJECT_LABELS.rla];
+          mode = 'single-subject';
+          subject = 'rla';
+          break;
+        case 'science':
+          subjectList = [SUBJECT_LABELS.science];
+          mode = 'single-subject';
+          subject = 'science';
+          break;
+        case 'social-studies':
+        case 'social_studies':
+        case 'socialstudies':
+        case 'ss':
+          subjectList = [SUBJECT_LABELS['social-studies']];
+          mode = 'single-subject';
+          subject = 'social';
+          break;
+        case 'balanced':
+        default:
+          subjectList = [
+            SUBJECT_LABELS.math,
+            SUBJECT_LABELS.science,
+            SUBJECT_LABELS.rla,
+            SUBJECT_LABELS.social,
+          ];
+          mode = 'balanced-4';
+          break;
+      }
+
+      // Pull questions from selected subjects
+      let pool = [];
+      subjectList.forEach((subj) => {
+        const pulled = getPremadeQuestions(subj, questionsNeeded * 2); // pull extra to allow shuffle
+        if (Array.isArray(pulled)) {
+          pulled.forEach((q) => {
+            pool.push({
+              ...q,
+              subject: q.subject || subj,
+            });
+          });
+        }
+      });
+
+      if (!pool.length) {
+        return res.json({
+          title: 'Practice Session',
+          durationMinutes,
+          mode,
+          questionCount: 0,
+          questions: [],
+        });
+      }
+
+      // shuffle
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+
+      const questions = pool
+        .slice(0, questionsNeeded)
+        .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
+      return res.json({
+        title: 'Practice Session',
+        durationMinutes,
+        mode,
+        questionCount: questions.length,
+        questions,
+      });
+    } catch (e) {
+      console.error('practice-session error:', e);
+      return res
+        .status(500)
+        .json({ error: 'Failed to build practice session' });
     }
+  }
 );
 
 // Helper function to generate AI questions
 const generateAIContent = async (prompt, schema) => {
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-            responseMimeType: "application/json",
-            responseSchema: schema,
-        },
-    };
-    const response = await http.post(apiUrl, payload);
-    const jsonText = response.data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
-    return JSON.parse(jsonText);
+  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      responseSchema: schema,
+    },
+  };
+  const response = await http.post(apiUrl, payload);
+  const jsonText = response.data.candidates[0].content.parts[0].text
+    .replace(/```json/g, '')
+    .replace(/```/g, '')
+    .trim();
+  return JSON.parse(jsonText);
 };
-
-
 
 // The '0.0.0.0' is important for containerized environments like Render.
 if (require.main === module) {
-    (async () => {
-        const desiredPort = port;
-        if (await isPortBusy(desiredPort)) {
-            if (!process.env.PORT && desiredPort === 3002) {
-                const fallback = 3003;
-                if (await isPortBusy(fallback)) {
-                    console.log(`Port ${desiredPort} and fallback ${fallback} are already in use. If another backend is running, stop it or set PORT to a free port.`);
-                    process.exit(0);
-                } else {
-                    console.log(`Port ${desiredPort} is in use. Starting backend on ${fallback} instead.`);
-                    port = fallback;
-                }
-            } else {
-                console.log(`Port ${desiredPort} is already in use. If another backend is running on this port, stop it or choose a different PORT.`);
-                process.exit(0);
-            }
+  (async () => {
+    const desiredPort = port;
+    if (await isPortBusy(desiredPort)) {
+      if (!process.env.PORT && desiredPort === 3002) {
+        const fallback = 3003;
+        if (await isPortBusy(fallback)) {
+          console.log(
+            `Port ${desiredPort} and fallback ${fallback} are already in use. If another backend is running, stop it or set PORT to a free port.`
+          );
+          process.exit(0);
+        } else {
+          console.log(
+            `Port ${desiredPort} is in use. Starting backend on ${fallback} instead.`
+          );
+          port = fallback;
         }
+      } else {
+        console.log(
+          `Port ${desiredPort} is already in use. If another backend is running on this port, stop it or choose a different PORT.`
+        );
+        process.exit(0);
+      }
+    }
 
-        const server = app.listen(port, '0.0.0.0', () => {
-            console.log(`Your service is live 🚀`);
-            console.log(`Server listening on port ${port}`);
-        });
+    const server = app.listen(port, '0.0.0.0', () => {
+      console.log(`Your service is live 🚀`);
+      console.log(`Server listening on port ${port}`);
+    });
 
-        server.on('error', (err) => {
-            if (err && err.code === 'EADDRINUSE') {
-                if (!process.env.PORT && port === 3002) {
-                    const fallback = 3003;
-                    console.log(`EADDRINUSE on ${port}. Attempting fallback port ${fallback}...`);
-                    server.close(() => {
-                        app.listen(fallback, '0.0.0.0', () => {
-                            port = fallback;
-                            console.log(`Server listening on fallback port ${port}`);
-                        });
-                    });
-                } else {
-                    console.log(`EADDRINUSE: address already in use 0.0.0.0:${port}. Not restarting task. Stop the other process or set PORT to a different value.`);
-                    process.exit(0);
-                }
-            } else {
-                console.error('Server error:', err);
-                process.exit(1);
-            }
-        });
-    })();
+    server.on('error', (err) => {
+      if (err && err.code === 'EADDRINUSE') {
+        if (!process.env.PORT && port === 3002) {
+          const fallback = 3003;
+          console.log(
+            `EADDRINUSE on ${port}. Attempting fallback port ${fallback}...`
+          );
+          server.close(() => {
+            app.listen(fallback, '0.0.0.0', () => {
+              port = fallback;
+              console.log(`Server listening on fallback port ${port}`);
+            });
+          });
+        } else {
+          console.log(
+            `EADDRINUSE: address already in use 0.0.0.0:${port}. Not restarting task. Stop the other process or set PORT to a different value.`
+          );
+          process.exit(0);
+        }
+      } else {
+        console.error('Server error:', err);
+        process.exit(1);
+      }
+    });
+  })();
 }
 
 module.exports = {
-    normalizeLatex,
-    applyFractionPlainTextModeToItem,
-    replaceLatexFractionsWithSlash
+  normalizeLatex,
+  applyFractionPlainTextModeToItem,
+  replaceLatexFractionsWithSlash,
 };
