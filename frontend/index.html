@@ -13472,14 +13472,9 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
         const subjectLabel = displaySubjectName(task.subjectLabel || task.subject);
         const subjectId = canonicalSubjectId(task.subject || task.subjectLabel || '');
         if (task.type === 'coach-quiz') {
-            const progress = dailyProgressMap.get(subjectId);
-            const sourceId = progress?.coach_quiz_source_id || task.quizId || null;
-            if (!sourceId && !task.quizPath && !task.message) {
-                // If we truly have nothing actionable, show a friendly notice
-                alert('Coach quiz not available yet. Please regenerate your Weekly Coach plan or try again later.');
-                return;
-            }
-            startCoachQuizForSubject(subjectLabel, sourceId);
+            // Launch the AI composite quiz instead of looking up a premade by code
+            const focusTag = (Array.isArray(task.focus) && task.focus.length > 0) ? task.focus[0] : null;
+            startDailyCompositeForSubject(subjectLabel, focusTag);
             return;
         }
         if (task.quizId) {
@@ -14539,7 +14534,12 @@ function StartScreen({ currentUser, onLogout, progress, profileBundle: profileDa
                             <p className="text-center text-sm mt-2 text-red-600">{dailyError}</p>
                         ) : todaysTaskGroups.length ? (
                             <div className="mt-3 space-y-3">
-                                {todaysTaskGroups.map((group) => {
+                                {todaysTaskGroups.filter(group => {
+                                    // Only show the group for the currently selected subject
+                                    const groupSubjectId = canonicalSubjectId(group.subjectId || group.subjectLabel);
+                                    const selectedSubjectId = canonicalSubjectId(selectedSubject);
+                                    return groupSubjectId === selectedSubjectId;
+                                }).map((group) => {
                                     const progress = dailyProgressMap.get(group.subjectId) || {};
                                     return (
                                         <div key={group.subjectId || group.subjectLabel} className="border rounded-md p-3" style={{ borderColor: panelBorderColor }}>
