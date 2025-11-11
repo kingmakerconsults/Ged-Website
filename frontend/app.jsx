@@ -2312,6 +2312,39 @@ function MathText({ text, className, subject }) {
 // Apply both plain-text fraction wrapping and inline exponent superscripting
 // to already-sanitized HTML. This is intended for AI/dynamic (non-premade)
 // content that uses a/b and a^b without LaTeX delimiters.
+// upgrades very simple plain-text math to our display-friendly form before HTML formatting
+// This is intentionally conservative and runs ONLY for generated Math items.
+function upgradePlainMathForDisplay(text) {
+  if (!text || typeof text !== 'string') return text;
+
+  let upgraded = text;
+
+  // 0. Convert common LaTeX-y macros to plain tokens that our formatter understands
+  // \frac{a}{b} -> a/b
+  upgraded = upgraded.replace(
+    /\\frac\s*{\s*([^}]+)\s*}\s*{\s*([^}]+)\s*}/g,
+    (_m, num, den) => {
+      return `${num}/${den}`;
+    }
+  );
+  // \sqrt{...} -> sqrt(...)
+  upgraded = upgraded.replace(
+    /\\sqrt\s*{\s*([^}]+)\s*}/g,
+    (_m, inner) => `sqrt(${inner})`
+  );
+  // x^{2} -> x^2 (simple integer exponents)
+  upgraded = upgraded.replace(
+    /(\S)\s*\^\s*{\s*([0-9]+)\s*}/g,
+    (_m, base, exp) => `${base}^${exp}`
+  );
+
+  // 1. Normalize spaces around slash and caret for short tokens: a / b -> a/b, x ^ 2 -> x^2
+  upgraded = upgraded.replace(/([\w)\]])\s*\/\s*([\w(])/g, '$1/$2');
+  upgraded = upgraded.replace(/([\w)\]])\s*\^\s*([\d(])/g, '$1^$2');
+
+  return upgraded;
+}
+
 function formatMathText(html) {
   if (typeof html !== 'string' || html.length === 0) return html;
 
@@ -2329,7 +2362,7 @@ function formatMathText(html) {
   return out;
 }
 
-function renderQuestionTextForDisplay(text, isPremade) {
+function renderQuestionTextForDisplay(text, isPremade, questionCtx = null) {
   // Only allow KaTeX rendering for premade items; AI/dynamic stay plain text (fractions a/b, exponents a^b)
   const useKatex = Boolean(
     window.__APP_CONFIG__ &&
@@ -2341,7 +2374,16 @@ function renderQuestionTextForDisplay(text, isPremade) {
     return { __html: renderStemWithKatex(text) };
   }
   // Non-premade path: basic math formatting only (plain text fractions & exponents)
-  const html = renderStem(text);
+  // NEW: For generated Math items, normalize any stray LaTeX into plain tokens first
+  const isMath =
+    questionCtx && typeof questionCtx.subject === 'string'
+      ? String(questionCtx.subject).toLowerCase() === 'math'
+      : false;
+  const isGenerated = !isPremade && !(questionCtx && questionCtx.isStatic);
+
+  const prepped =
+    isMath && isGenerated ? upgradePlainMathForDisplay(text) : text;
+  const html = renderStem(prepped);
   const finalHtml = formatMathText(html);
   return { __html: finalHtml };
 }
@@ -32506,7 +32548,8 @@ function Stem({ item }) {
           className="question-stem block"
           dangerouslySetInnerHTML={renderQuestionTextForDisplay(
             passageContent,
-            item.isPremade === true
+            item.isPremade === true,
+            { subject: item.subject, isPremade: item.isPremade }
           )}
         />
       )}
@@ -32517,7 +32560,8 @@ function Stem({ item }) {
             className="question-stem block font-bold text-slate-900"
             dangerouslySetInnerHTML={renderQuestionTextForDisplay(
               questionContent,
-              item.isPremade === true
+              item.isPremade === true,
+              { subject: item.subject, isPremade: item.isPremade }
             )}
           />
         </div>
@@ -33212,7 +33256,8 @@ function QuizInterface({
                         className="question-stem"
                         dangerouslySetInnerHTML={renderQuestionTextForDisplay(
                           cleanedOptionText,
-                          currentQ.isPremade === true
+                          currentQ.isPremade === true,
+                          currentQ
                         )}
                       />
                     </span>
@@ -34737,7 +34782,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                         dangerouslySetInnerHTML={renderQuestionTextForDisplay(
                           (correctMC && correctMC.text) ||
                             question.correctAnswer,
-                          question.isPremade === true
+                          question.isPremade === true,
+                          question
                         )}
                       />
                     </p>
@@ -34749,7 +34795,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       className="question-stem"
                       dangerouslySetInnerHTML={renderQuestionTextForDisplay(
                         correctMC.rationale,
-                        question.isPremade === true
+                        question.isPremade === true,
+                        question
                       )}
                     />
                   </div>
@@ -34973,7 +35020,8 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                           className="question-stem"
                           dangerouslySetInnerHTML={renderQuestionTextForDisplay(
                             opt.text,
-                            q.isPremade === true
+                            q.isPremade === true,
+                            q
                           )}
                         />
                       </span>
