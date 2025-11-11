@@ -1172,13 +1172,11 @@ function instantiateMathWordProblem(template) {
         template.label || template.id
       }'.`,
     },
-    ...distractors
-      .slice(0, 3)
-      .map((d) => ({
-        text: d,
-        isCorrect: false,
-        rationale: 'Plausible but incorrect.',
-      })),
+    ...distractors.slice(0, 3).map((d) => ({
+      text: d,
+      isCorrect: false,
+      rationale: 'Plausible but incorrect.',
+    })),
   ];
   return {
     id: `math_wp_${template.id}_${Date.now()}`,
@@ -4190,13 +4188,11 @@ app.post('/api/images/rebuild', async (req, res) => {
     });
   } catch (err) {
     console.error('[ImageDB] Rebuild failed:', err?.message || err);
-    return res
-      .status(500)
-      .json({
-        ok: false,
-        error: 'Rebuild failed',
-        details: err?.message || String(err),
-      });
+    return res.status(500).json({
+      ok: false,
+      error: 'Rebuild failed',
+      details: err?.message || String(err),
+    });
   } finally {
     imageRebuildInProgress = false;
   }
@@ -4588,13 +4584,11 @@ app.get(
         },
       });
     } catch (err) {
-      return res
-        .status(500)
-        .json({
-          ok: false,
-          error: 'whoami_failed',
-          details: err?.message || String(err),
-        });
+      return res.status(500).json({
+        ok: false,
+        error: 'whoami_failed',
+        details: err?.message || String(err),
+      });
     }
   }
 );
@@ -5477,6 +5471,82 @@ app.get(
   }
 );
 
+// 1b) POST /api/coach/:subject/premade-composite — build a 20-question composite from premades for weekly coach (filtered by focusTag)
+app.post(
+  '/api/coach/:subject/premade-composite',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+      const subject = normalizeSubjectLabel(req.params.subject);
+      const { focusTag } = req.body || {};
+      const today = todayISO();
+
+      // Build pool and filter by focus tag if present
+      let questionPool = getPremadeQuestions(subject, 100); // Get more for 20Q quiz
+      if (focusTag) {
+        const needle = String(focusTag).toLowerCase();
+        questionPool = questionPool.filter(
+          (q) =>
+            Array.isArray(q?.challenge_tags) &&
+            q.challenge_tags
+              .map((t) => String(t).toLowerCase())
+              .includes(needle)
+        );
+        if (questionPool.length < 20) {
+          // backfill with general pool if too few
+          const backfill = getPremadeQuestions(subject, 100).filter(
+            (q) => !questionPool.includes(q)
+          );
+          questionPool = questionPool.concat(backfill);
+        }
+      }
+
+      if (!questionPool.length)
+        return res.status(400).json({ ok: false, error: 'no_questions' });
+
+      // Shuffle
+      for (let i = questionPool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questionPool[i], questionPool[j]] = [questionPool[j], questionPool[i]];
+      }
+
+      const questions = questionPool
+        .slice(0, 20) // 20 questions for weekly coach
+        .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
+
+      const quizCode = `${COACH_ASSIGNED_BY}:${subject}:${today}:premade`;
+      const quiz = {
+        id: quizCode,
+        quizCode,
+        title: `Coach ${subject} Practice`,
+        type: 'premade-composite',
+        questions,
+        assignedBy: COACH_ASSIGNED_BY,
+      };
+
+      // Save to today's daily row
+      await findOrCreateDailyRow(userId, subject, today);
+      await pool.query(
+        `UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_completed = FALSE, updated_at = NOW() WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
+        [userId, subject, today, quizCode]
+      );
+
+      return res.json({ ok: true, quiz });
+    } catch (e) {
+      console.error('POST /api/coach/:subject/premade-composite failed:', e);
+      return res
+        .status(500)
+        .json({ ok: false, error: 'premade_composite_failed' });
+    }
+  }
+);
+
 // 1c) POST /api/coach/:subject/daily-composite — build a single-subject composite from premades (optionally filtered by focusTag)
 app.post(
   '/api/coach/:subject/daily-composite',
@@ -5506,12 +5576,10 @@ app.post(
         );
         const used = existing?.used_count || 0;
         if (used >= 2) {
-          return res
-            .status(429)
-            .json({
-              error:
-                "You've reached your Ask Coach limit for this week (2/2). Try again next week.",
-            });
+          return res.status(429).json({
+            error:
+              "You've reached your Ask Coach limit for this week (2/2). Try again next week.",
+          });
         }
       }
 
@@ -5734,12 +5802,10 @@ app.post(
       const selected = challengeOptions.filter((c) => c && c.selected);
 
       if (!Array.isArray(selected) || selected.length === 0) {
-        return res
-          .status(400)
-          .json({
-            error:
-              'Pick at least one challenge in your profile so Coach can tailor advice.',
-          });
+        return res.status(400).json({
+          error:
+            'Pick at least one challenge in your profile so Coach can tailor advice.',
+        });
       }
 
       // Subject hint is optional; if provided, narrow the selected challenges
@@ -5766,12 +5832,10 @@ app.post(
         );
         const used = existing?.used_count || 0;
         if (used >= 2) {
-          return res
-            .status(429)
-            .json({
-              error:
-                "You've reached your Ask Coach limit for this week (2/2). Try again next week.",
-            });
+          return res.status(429).json({
+            error:
+              "You've reached your Ask Coach limit for this week (2/2). Try again next week.",
+          });
         }
       }
 
@@ -5991,13 +6055,11 @@ app.post(
       });
     } catch (err) {
       console.error('[/api/admin/challenges/seed] ERROR:', err);
-      return res
-        .status(500)
-        .json({
-          ok: false,
-          error: 'seed_failed',
-          details: err?.message || String(err),
-        });
+      return res.status(500).json({
+        ok: false,
+        error: 'seed_failed',
+        details: err?.message || String(err),
+      });
     }
   }
 );
@@ -7237,12 +7299,10 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
     items = dedupeNearDuplicates(items, 0.85);
     items = groupedShuffle(items);
 
-    let finalItems = items
-      .slice(0, QUIZ_COUNT)
-      .map((item, idx) => ({
-        ...normalizeStimulusAndSource(item),
-        questionNumber: idx + 1,
-      }));
+    let finalItems = items.slice(0, QUIZ_COUNT).map((item, idx) => ({
+      ...normalizeStimulusAndSource(item),
+      questionNumber: idx + 1,
+    }));
     const fractionPlainTextMode = subject === 'Math';
     if (fractionPlainTextMode) {
       finalItems = finalItems.map(applyFractionPlainTextModeToItem);
@@ -7272,12 +7332,10 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
   } catch (err) {
     console.error('[Variety Pack] Generation failed:', err);
     const status = err?.statusCode || 500;
-    res
-      .status(status)
-      .json({
-        success: false,
-        error: err.message || 'Failed to generate topic quiz.',
-      });
+    res.status(status).json({
+      success: false,
+      error: err.message || 'Failed to generate topic quiz.',
+    });
   }
 });
 
@@ -9581,11 +9639,9 @@ PASSAGE:\n${foundingPassage.text}\n`;
     } else {
       // This handles comprehensive requests for subjects without that logic yet.
       logGenerationDuration(examType, subject, generationStart, 'failed');
-      res
-        .status(400)
-        .json({
-          error: `Comprehensive exams for ${subject} are not yet available.`,
-        });
+      res.status(400).json({
+        error: `Comprehensive exams for ${subject} are not yet available.`,
+      });
     }
   } else {
     // --- CORRECTED TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
@@ -10249,12 +10305,10 @@ Return an array of question objects.
     return res.json({ ok: true, data });
   } catch (err) {
     console.error('passages-quiz error:', err);
-    return res
-      .status(500)
-      .json({
-        error: 'Failed to generate quiz from passages',
-        details: err.message,
-      });
+    return res.status(500).json({
+      error: 'Failed to generate quiz from passages',
+      details: err.message,
+    });
   }
 });
 
