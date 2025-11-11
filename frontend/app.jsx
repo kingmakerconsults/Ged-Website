@@ -25618,7 +25618,7 @@ function App({ externalTheme, onThemeChange }) {
     };
   }, []);
 
-  const normalizeQuestionList = (list) => {
+  const normalizeQuestionList = React.useCallback((list) => {
     if (!Array.isArray(list)) {
       return [];
     }
@@ -25630,155 +25630,170 @@ function App({ externalTheme, onThemeChange }) {
           Array.isArray(item.answerOptions) ? item.answerOptions : []
         ),
       }));
-  };
+  }, []);
 
-  const startQuiz = (quizPayload, subject) => {
-    console.log('Starting quiz with data:', quizPayload); // Debugging line
+  const startQuiz = React.useCallback(
+    (quizPayload, subject) => {
+      console.log('Starting quiz with data:', quizPayload); // Debugging line
 
-    if (!quizPayload || typeof quizPayload !== 'object') {
-      console.error('Received invalid quiz payload:', quizPayload);
-      alert('Sorry, the generated quiz data was invalid. Please try again.');
-      return;
-    }
-
-    if (quizPayload.type === 'essay') {
-      setActiveQuiz({ ...quizPayload, subject });
-      setView('essay');
-      return;
-    }
-
-    if (quizPayload.type === 'simulation') {
-      setActiveQuiz({ ...quizPayload, subject });
-      setView('simulation');
-      return;
-    }
-
-    if (
-      quizPayload.type === 'graphing_tool' ||
-      quizPayload.type === 'geometry_practice_tool'
-    ) {
-      openMathTools(
-        quizPayload.type === 'graphing_tool' ? 'graphing' : 'geometry'
-      );
-      setActiveQuiz(null);
-      setView('start');
-      return;
-    }
-
-    // Push current nav state so Back returns here (include quiz context)
-    setNavHistory((prev) => [
-      ...prev,
-      {
-        activeView,
-        view,
-        selectedSubject,
-        selectedCategory,
-        activeQuiz,
-        quizResults,
-      },
-    ]);
-
-    const preparedQuiz = { ...quizPayload, subject };
-    preparedQuiz.quizCode =
-      quizPayload.quizCode ||
-      quizPayload.code ||
-      quizPayload.id ||
-      preparedQuiz.quizCode ||
-      null;
-    // Preserve incoming isPremade if explicitly provided; otherwise infer from presence of a quizCode
-    if (typeof preparedQuiz.isPremade !== 'boolean') {
-      preparedQuiz.isPremade = Boolean(preparedQuiz.quizCode);
-    }
-    let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
-
-    if (quizPayload.type === 'multi-part-math') {
-      let part1 = normalizeQuestionList(quizPayload.part1_non_calculator);
-      let part2 = normalizeQuestionList(quizPayload.part2_calculator);
-
-      if (!part1.length && normalizedQuestions.length) {
-        part1 = normalizedQuestions.slice(0, 5);
-      }
-      if (!part2.length && normalizedQuestions.length) {
-        part2 = normalizedQuestions.slice(part1.length || 5);
-      }
-
-      if (!part1.length || !part2.length) {
-        console.error(
-          'Incomplete multi-part math payload received:',
-          quizPayload
-        );
-        alert('The generated math exam was incomplete. Please try again.');
+      if (!quizPayload || typeof quizPayload !== 'object') {
+        console.error('Received invalid quiz payload:', quizPayload);
+        alert('Sorry, the generated quiz data was invalid. Please try again.');
         return;
       }
 
-      preparedQuiz.part1_non_calculator = part1.map((q) => ({
-        ...q,
-        isPremade: q.isPremade === true || preparedQuiz.isPremade,
-      }));
-      preparedQuiz.part2_calculator = part2.map((q) => ({
-        ...q,
-        isPremade: q.isPremade === true || preparedQuiz.isPremade,
-      }));
-      normalizedQuestions = [...part1, ...part2];
-    } else if (quizPayload.type === 'multi-part-rla') {
-      const part1 = normalizeQuestionList(quizPayload.part1_reading);
-      const part3 = normalizeQuestionList(quizPayload.part3_language);
-      const essay = quizPayload.part2_essay;
-
-      const hasEssayContent =
-        essay &&
-        typeof essay === 'object' &&
-        Array.isArray(essay.passages) &&
-        essay.passages.length >= 2 &&
-        typeof essay.prompt === 'string';
-
-      if (!part1.length || !part3.length || !hasEssayContent) {
-        console.error(
-          'Incomplete multi-part RLA payload received:',
-          quizPayload
-        );
-        alert('The generated RLA exam was incomplete. Please try again.');
+      if (quizPayload.type === 'essay') {
+        setActiveQuiz({ ...quizPayload, subject });
+        setView('essay');
         return;
       }
 
-      preparedQuiz.part1_reading = part1.map((q) => ({
+      if (quizPayload.type === 'simulation') {
+        setActiveQuiz({ ...quizPayload, subject });
+        setView('simulation');
+        return;
+      }
+
+      if (
+        quizPayload.type === 'graphing_tool' ||
+        quizPayload.type === 'geometry_practice_tool'
+      ) {
+        openMathTools(
+          quizPayload.type === 'graphing_tool' ? 'graphing' : 'geometry'
+        );
+        setActiveQuiz(null);
+        setView('start');
+        return;
+      }
+
+      // Push current nav state so Back returns here (include quiz context)
+      setNavHistory((prev) => [
+        ...prev,
+        {
+          activeView,
+          view,
+          selectedSubject,
+          selectedCategory,
+          activeQuiz,
+          quizResults,
+        },
+      ]);
+
+      const preparedQuiz = { ...quizPayload, subject };
+      preparedQuiz.quizCode =
+        quizPayload.quizCode ||
+        quizPayload.code ||
+        quizPayload.id ||
+        preparedQuiz.quizCode ||
+        null;
+      // Preserve incoming isPremade if explicitly provided; otherwise infer from presence of a quizCode
+      if (typeof preparedQuiz.isPremade !== 'boolean') {
+        preparedQuiz.isPremade = Boolean(preparedQuiz.quizCode);
+      }
+      let normalizedQuestions = normalizeQuestionList(quizPayload.questions);
+
+      if (quizPayload.type === 'multi-part-math') {
+        let part1 = normalizeQuestionList(quizPayload.part1_non_calculator);
+        let part2 = normalizeQuestionList(quizPayload.part2_calculator);
+
+        if (!part1.length && normalizedQuestions.length) {
+          part1 = normalizedQuestions.slice(0, 5);
+        }
+        if (!part2.length && normalizedQuestions.length) {
+          part2 = normalizedQuestions.slice(part1.length || 5);
+        }
+
+        if (!part1.length || !part2.length) {
+          console.error(
+            'Incomplete multi-part math payload received:',
+            quizPayload
+          );
+          alert('The generated math exam was incomplete. Please try again.');
+          return;
+        }
+
+        preparedQuiz.part1_non_calculator = part1.map((q) => ({
+          ...q,
+          isPremade: q.isPremade === true || preparedQuiz.isPremade,
+        }));
+        preparedQuiz.part2_calculator = part2.map((q) => ({
+          ...q,
+          isPremade: q.isPremade === true || preparedQuiz.isPremade,
+        }));
+        normalizedQuestions = [...part1, ...part2];
+      } else if (quizPayload.type === 'multi-part-rla') {
+        const part1 = normalizeQuestionList(quizPayload.part1_reading);
+        const part3 = normalizeQuestionList(quizPayload.part3_language);
+        const essay = quizPayload.part2_essay;
+
+        const hasEssayContent =
+          essay &&
+          typeof essay === 'object' &&
+          Array.isArray(essay.passages) &&
+          essay.passages.length >= 2 &&
+          typeof essay.prompt === 'string';
+
+        if (!part1.length || !part3.length || !hasEssayContent) {
+          console.error(
+            'Incomplete multi-part RLA payload received:',
+            quizPayload
+          );
+          alert('The generated RLA exam was incomplete. Please try again.');
+          return;
+        }
+
+        preparedQuiz.part1_reading = part1.map((q) => ({
+          ...q,
+          isPremade: q.isPremade === true || preparedQuiz.isPremade,
+        }));
+        preparedQuiz.part3_language = part3.map((q) => ({
+          ...q,
+          isPremade: q.isPremade === true || preparedQuiz.isPremade,
+        }));
+        preparedQuiz.part2_essay = essay;
+        normalizedQuestions = [...part1, ...part3];
+      }
+
+      if (!normalizedQuestions.length) {
+        console.error(
+          'Quiz payload did not include any valid questions:',
+          quizPayload
+        );
+        alert(
+          'The generated quiz did not include any questions. Please try again.'
+        );
+        return;
+      }
+
+      preparedQuiz.questions = normalizedQuestions.map((q) => ({
         ...q,
         isPremade: q.isPremade === true || preparedQuiz.isPremade,
       }));
-      preparedQuiz.part3_language = part3.map((q) => ({
-        ...q,
-        isPremade: q.isPremade === true || preparedQuiz.isPremade,
-      }));
-      preparedQuiz.part2_essay = essay;
-      normalizedQuestions = [...part1, ...part3];
-    }
 
-    if (!normalizedQuestions.length) {
-      console.error(
-        'Quiz payload did not include any valid questions:',
-        quizPayload
-      );
-      alert(
-        'The generated quiz did not include any questions. Please try again.'
-      );
-      return;
-    }
-
-    preparedQuiz.questions = normalizedQuestions.map((q) => ({
-      ...q,
-      isPremade: q.isPremade === true || preparedQuiz.isPremade,
-    }));
-
-    setActiveQuiz(preparedQuiz);
-    // For any multi-part quiz, the view should be 'quiz' so the main QuizRunner can handle routing.
-    const requiresStandardView =
-      preparedQuiz.type === 'multi-part-rla' ||
-      preparedQuiz.type === 'multi-part-math';
-    const normalizedType =
-      preparedQuiz.type === 'reading' ? 'quiz' : preparedQuiz.type || 'quiz';
-    const viewType = requiresStandardView ? 'quiz' : normalizedType;
-    setView(viewType);
-  };
+      setActiveQuiz(preparedQuiz);
+      // For any multi-part quiz, the view should be 'quiz' so the main QuizRunner can handle routing.
+      const requiresStandardView =
+        preparedQuiz.type === 'multi-part-rla' ||
+        preparedQuiz.type === 'multi-part-math';
+      const normalizedType =
+        preparedQuiz.type === 'reading' ? 'quiz' : preparedQuiz.type || 'quiz';
+      const viewType = requiresStandardView ? 'quiz' : normalizedType;
+      setView(viewType);
+    },
+    [
+      normalizeQuestionList,
+      openMathTools,
+      setActiveQuiz,
+      setView,
+      setNavHistory,
+      activeView,
+      view,
+      selectedSubject,
+      selectedCategory,
+      activeQuiz,
+      quizResults,
+    ]
+  );
 
   // Expose quiz launcher so late coach helpers can always reach it
   React.useEffect(() => {
