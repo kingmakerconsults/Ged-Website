@@ -100,6 +100,116 @@
   --subject-simulations-gradient: linear-gradient(135deg, #f97316, #facc15);
 }
 
+/* Explicit theme text color blocks for safety */
+:root[data-theme='light'],
+[data-theme='light'] {
+  --text-primary: #0f172a;
+  --text-secondary: #1f2937;
+  --panel-text: #0f172a;
+}
+
+:root[data-theme='dark'],
+[data-theme='dark'] {
+  --text-primary: #e2e8f0;
+  --text-secondary: #cbd5e1;
+  --panel-text: #ffffff;
+}
+
+/* Global text safety guards - Light Mode */
+[data-theme='light'] body,
+[data-theme='light'] .content-card,
+[data-theme='light'] .panel,
+[data-theme='light'] .glass,
+[data-theme='light'] .settings-card,
+[data-theme='light'] .vocab-shell,
+[data-theme='light'] .math-practice-header,
+[data-theme='light'] .coach-panel {
+  color: #0f172a !important;
+}
+
+[data-theme='light'] .button,
+[data-theme='light'] .settings-section label,
+[data-theme='light'] .settings-section p {
+  color: #0f172a !important;
+}
+
+/* Global text safety guards - Dark Mode */
+[data-theme='dark'] body,
+[data-theme='dark'] .content-card,
+[data-theme='dark'] .panel,
+[data-theme='dark'] .glass,
+[data-theme='dark'] .settings-card,
+[data-theme='dark'] .vocab-shell,
+[data-theme='dark'] .math-practice-header,
+[data-theme='dark'] .coach-panel {
+  color: #e2e8f0 !important;
+}
+
+[data-theme='dark'] .button,
+[data-theme='dark'] .settings-section label,
+[data-theme='dark'] .settings-section p {
+  color: #e2e8f0 !important;
+}
+
+/* Fix panels using navigation colors inappropriately */
+[data-theme='light'] .vocabulary-spotlight,
+[data-theme='light'] .coach-panel header {
+  background: var(--bg-surface) !important;
+  color: #0f172a !important;
+}
+
+[data-theme='dark'] .vocabulary-spotlight,
+[data-theme='dark'] .coach-panel header {
+  background: var(--bg-surface) !important;
+  color: #e2e8f0 !important;
+}
+
+/* Subject-themed exceptions - preserve accent colors */
+[data-theme='light'] .subject-science .accent-text,
+[data-theme='light'] .subject-social .accent-text,
+[data-theme='light'] .subject-rla .accent-text,
+[data-theme='light'] .subject-math .accent-text {
+  color: var(--subject-accent) !important;
+}
+
+[data-theme='dark'] .subject-science .accent-text,
+[data-theme='dark'] .subject-social .accent-text,
+[data-theme='dark'] .subject-rla .accent-text,
+[data-theme='dark'] .subject-math .accent-text {
+  color: var(--subject-accent-text) !important;
+}
+
+/* Subject headers and card titles can keep their themed colors */
+[data-theme='light'] .subject-science h1,
+[data-theme='light'] .subject-science h2,
+[data-theme='light'] .subject-science h3,
+[data-theme='light'] .subject-social h1,
+[data-theme='light'] .subject-social h2,
+[data-theme='light'] .subject-social h3,
+[data-theme='light'] .subject-rla h1,
+[data-theme='light'] .subject-rla h2,
+[data-theme='light'] .subject-rla h3,
+[data-theme='light'] .subject-math h1,
+[data-theme='light'] .subject-math h2,
+[data-theme='light'] .subject-math h3 {
+  color: var(--subject-accent) !important;
+}
+
+/* But body text in subject contexts must be readable */
+[data-theme='light'] .subject-science p,
+[data-theme='light'] .subject-social p,
+[data-theme='light'] .subject-rla p,
+[data-theme='light'] .subject-math p {
+  color: #0f172a !important;
+}
+
+[data-theme='dark'] .subject-science p,
+[data-theme='dark'] .subject-social p,
+[data-theme='dark'] .subject-rla p,
+[data-theme='dark'] .subject-math p {
+  color: #e2e8f0 !important;
+}
+
 .dark {
   color-scheme: dark;
   --bg-page: #020617;
