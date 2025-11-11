@@ -25775,10 +25775,28 @@ function App({ externalTheme, onThemeChange }) {
       const requiresStandardView =
         preparedQuiz.type === 'multi-part-rla' ||
         preparedQuiz.type === 'multi-part-math';
+
+      // Treat premade-composite like a normal quiz view
       const normalizedType =
-        preparedQuiz.type === 'reading' ? 'quiz' : preparedQuiz.type || 'quiz';
+        preparedQuiz.type === 'reading' ||
+        preparedQuiz.type === 'premade-composite'
+          ? 'quiz'
+          : preparedQuiz.type || 'quiz';
+
       const viewType = requiresStandardView ? 'quiz' : normalizedType;
-      setView(viewType);
+
+      // Final safety: if somehow unknown, default to quiz so UI flips correctly
+      const allowedViews = [
+        'quiz',
+        'reading',
+        'essay',
+        'simulation',
+        'mathTools',
+        'start',
+        'results',
+        'dashboard',
+      ];
+      setView(allowedViews.includes(viewType) ? viewType : 'quiz');
     },
     [
       normalizeQuestionList,
