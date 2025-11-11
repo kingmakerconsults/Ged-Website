@@ -32758,6 +32758,16 @@ function QuizInterface({
                 type="text"
                 value={answers[currentIndex] || ''}
                 onChange={handleInputChange}
+                 onKeyDown={(e) => {
+                   if (e.key === 'Enter') {
+                     e.preventDefault();
+                     if (currentIndex === questions.length - 1) {
+                       handleSubmit();
+                     } else {
+                       setCurrentIndex((p) => Math.min(questions.length - 1, p + 1));
+                     }
+                   }
+                 }}
                 placeholder="Type your answer here"
                 className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
                 style={{
