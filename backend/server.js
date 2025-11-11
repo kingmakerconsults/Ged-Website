@@ -3890,6 +3890,9 @@ ensureCoachAdviceUsageTable().catch((e) =>
 ensureCoachCompositeUsageTable().catch((e) =>
   console.error('Coach composite usage table init error:', e)
 );
+ensureDefaultChallengeTags().catch((e) =>
+  console.error('Default challenge tags init error:', e)
+);
 
 const allowedOrigins = [
   'https://ezged.netlify.app',
@@ -4377,11 +4380,45 @@ async function ensureCoachAdviceUsageTable() {
               UNIQUE (user_id, week_start_date)
             );
         `);
+  } catch (e) {
+    console.warn(
+      '[ensure] coach_advice_usage create',
+      e?.code || e?.message || e
+    );
+  }
+
+  // If an older table exists with a different column name, patch it
+  try {
+    const colCheck = await pool.query(`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_name = 'coach_advice_usage'
+    `);
+    const cols = colCheck.rows.map((r) => r.column_name);
+    if (!cols.includes('week_start_date') && cols.includes('week_start')) {
+      await pool.query(
+        `ALTER TABLE coach_advice_usage RENAME COLUMN week_start TO week_start_date;`
+      );
+      console.log(
+        '[ensure] coach_advice_usage: renamed week_start to week_start_date'
+      );
+    }
+  } catch (e) {
+    console.warn(
+      '[ensure] coach_advice_usage column check',
+      e?.code || e?.message || e
+    );
+  }
+
+  try {
     await pool.query(
       `CREATE INDEX IF NOT EXISTS idx_coach_advice_usage_user_week ON coach_advice_usage (user_id, week_start_date);`
     );
   } catch (e) {
-    console.warn('[ensure] coach_advice_usage', e?.code || e?.message || e);
+    console.warn(
+      '[ensure] coach_advice_usage index',
+      e?.code || e?.message || e
+    );
   }
 }
 
@@ -10902,6 +10939,19 @@ const getPremadeQuestions = (subject, count) => {
   return shuffled.slice(0, count);
 };
 
+// Normalize challenge tags from quiz data to match catalog format
+function normalizeChallengeTagForCatalog(raw) {
+  if (!raw) return '';
+  const t = raw.toString().trim().toLowerCase();
+  // Our premade data sometimes uses dashes like "rla-2" or "social-1"
+  // but the catalog expects colon format like "rla:2" or "social:1".
+  // Map simple "<subject>-<num>" to "<subject>:<num>".
+  if (/^(rla|math|science|social|social-studies)-\d+$/i.test(t)) {
+    return t.replace('-', ':');
+  }
+  return t;
+}
+
 // Validate challenge tags present in premade catalog at startup (warn only)
 function validatePremadeChallengeTags() {
   try {
@@ -10919,15 +10969,21 @@ function validatePremadeChallengeTags() {
               ? q.challenge_tags
               : [];
             tags.forEach(async (t) => {
-              const tag = (t || '').toString().trim().toLowerCase();
-              if (!tag) return;
+              const rawTag = (t || '').toString().trim().toLowerCase();
+              if (!rawTag) return;
+              const normTag = normalizeChallengeTagForCatalog(rawTag);
               try {
                 const exists = await pool.query(
                   'SELECT 1 FROM challenge_tag_catalog WHERE challenge_tag = $1 LIMIT 1',
-                  [tag]
+                  [normTag]
                 );
                 if (!exists || !exists.rowCount) {
-                  console.warn('[challenge-tag] Not found in catalog:', tag);
+                  console.warn(
+                    '[challenge-tag] Not found in catalog:',
+                    rawTag,
+                    '(normalized:',
+                    normTag + ')'
+                  );
                 }
               } catch (_) {}
             });
@@ -10939,7 +10995,68 @@ function validatePremadeChallengeTags() {
     console.warn('validatePremadeChallengeTags failed:', e?.message || e);
   }
 }
-validatePremadeChallengeTags();
+// Validation disabled - tags are normalized at query time, validation is unnecessary startup spam
+// validatePremadeChallengeTags();
+
+// Ensure default challenge tags exist in catalog for normalized quiz data
+async function ensureDefaultChallengeTags() {
+  try {
+    const defaultTags = [
+      // RLA buckets seen in quiz data
+      'rla:1',
+      'rla:2',
+      'rla:3',
+      'rla:4',
+      'rla:5',
+      'rla:6',
+      'rla:7',
+      // Math buckets
+      'math:1',
+      'math:2',
+      'math:3',
+      'math:4',
+      'math:5',
+      'math:6',
+      'math:7',
+      'math:8',
+      // Science buckets
+      'science:1',
+      'science:2',
+      'science:3',
+      'science:4',
+      'science:5',
+      'science:6',
+      // Social Studies buckets
+      'social:1',
+      'social:2',
+      'social:3',
+      'social:4',
+      'social:5',
+      'social:6',
+    ];
+
+    for (const tag of defaultTags) {
+      const subjectKey = tag.split(':')[0];
+      const subjectMap = {
+        math: 'Math',
+        science: 'Science',
+        rla: 'RLA',
+        social: 'Social Studies',
+        'social-studies': 'Social Studies',
+      };
+      const subject = subjectMap[subjectKey] || null;
+      const label = tag.replace(/[:_-]/g, ' ');
+      await pool.query(
+        `INSERT INTO challenge_tag_catalog (challenge_tag, subject, label)
+         VALUES ($1, $2, $3)
+         ON CONFLICT (challenge_tag) DO NOTHING`,
+        [tag, subject, label]
+      );
+    }
+  } catch (e) {
+    console.warn('[ensure] default challenge tags failed:', e?.message || e);
+  }
+}
 
 // Lightweight catalog endpoint for frontend to ingest merged legacy + supplemental topics
 app.get('/api/all-quizzes', (req, res) => {
