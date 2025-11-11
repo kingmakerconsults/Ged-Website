@@ -4072,6 +4072,25 @@ function sampleUnique(arr, n) {
   return copy.slice(0, Math.max(0, Math.min(n, copy.length)));
 }
 
+// GET /api/vocabulary/all - Return full vocabulary database for all subjects (deduplicated)
+app.get('/api/vocabulary/all', (req, res) => {
+  const db = loadVocabularyDB();
+  if (!db || typeof db !== 'object') {
+    return res.status(404).json({ error: 'no_vocabulary_db' });
+  }
+
+  // Deduplicate each subject list before sending
+  const dedupedDb = {};
+  for (const subjectKey in db) {
+    if (Object.hasOwnProperty.call(db, subjectKey)) {
+      // Use the existing dedupeVocabulary function
+      dedupedDb[subjectKey] = dedupeVocabulary(db[subjectKey]);
+    }
+  }
+  
+  return res.json(dedupedDb);
+});
+
 app.get('/api/vocabulary/:subject', (req, res) => {
   const db = loadVocabularyDB();
   const subjectKey = normalizeVocabularySubject(req.params.subject);
