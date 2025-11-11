@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is 25 / 10."
       }
     ],
-    "rationale": "To multiply a whole number by 100, you can simply add two zeros to the end. So, 25 * 100 = 2500."
+    "rationale": "To multiply a whole number by 100, you can simply add two zeros to the end. So, 25 * 100 = 2500.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the next prime number after 19?",
     "correctAnswer": "23",
-    "rationale": "A prime number is only divisible by 1 and itself. 20 is divisible by 2, 21 by 3, and 22 by 2. 23 is the next prime number."
+    "rationale": "A prime number is only divisible by 1 and itself. 20 is divisible by 2, 21 by 3, and 22 by 2. 23 is the next prime number.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the result of adding the bill to the total."
       }
     ],
-    "rationale": "First, find the total cost of the items: $3.50 + $8.25 + $12.00 = $23.75. Then, subtract the total cost from the amount paid: $30.00 - $23.75 = $6.25."
+    "rationale": "First, find the total cost of the items: $3.50 + $8.25 + $12.00 = $23.75. Then, subtract the total cost from the amount paid: $30.00 - $23.75 = $6.25.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Convert the improper fraction $\\frac{11}{4}$ to a mixed number.",
     "correctAnswer": "2 3/4",
-    "rationale": "Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 3/4."
+    "rationale": "Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 3/4.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is in order from largest to smallest."
       }
     ],
-    "rationale": "When ordering numbers, visualize a number line. Negative numbers with a larger absolute value are smaller. So, -5 < -2 < 0 < 3."
+    "rationale": "When ordering numbers, visualize a number line. Negative numbers with a larger absolute value are smaller. So, -5 < -2 < 0 < 3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the price after Monday's drop only."
       }
     ],
-    "rationale": "First, calculate the price after the drop: $75 * (1 - 0.12) = $75 * 0.88 = $66. Then, calculate the price after the increase: $66 * (1 + 0.05) = $66 * 1.05 = $69.30."
+    "rationale": "First, calculate the price after the drop: $75 * (1 - 0.12) = $75 * 0.88 = $66. Then, calculate the price after the increase: $66 * (1 + 0.05) = $66 * 1.05 = $69.30.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the sum of all prime numbers between 10 and 20?",
     "correctAnswer": "60",
-    "rationale": "The prime numbers between 10 and 20 are 11, 13, 17, and 19. Their sum is 11 + 13 + 17 + 19 = 60."
+    "rationale": "The prime numbers between 10 and 20 are 11, 13, 17, and 19. Their sum is 11 + 13 + 17 + 19 = 60.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 20+10."
       }
     ],
-    "rationale": "According to the order of operations (PEMDAS), division is performed before addition. So, 20 ÷ 4 = 5, and then 5 + 6 = 11."
+    "rationale": "According to the order of operations (PEMDAS), division is performed before addition. So, 20 ÷ 4 = 5, and then 5 + 6 = 11.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A piece of wood is 8 feet long. If you cut off a piece that is 2.25 feet long, how many inches is the remaining piece?",
     "correctAnswer": "69 inches",
-    "rationale": "The remaining piece is 8 - 2.25 = 5.75 feet long. To convert feet to inches, multiply by 12: 5.75 * 12 = 69 inches."
+    "rationale": "The remaining piece is 8 - 2.25 = 5.75 feet long. To convert feet to inches, multiply by 12: 5.75 * 12 = 69 inches.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "The number before the 'x' must be between 1 and 10."
       }
     ],
-    "rationale": "To write a number in scientific notation, move the decimal point until there is one non-zero digit to its left. The number of places you moved the decimal is the exponent. Here, the decimal is moved 6 places, so the exponent is 6."
+    "rationale": "To write a number in scientific notation, move the decimal point until there is one non-zero digit to its left. The number of places you moved the decimal is the exponent. Here, the decimal is moved 6 places, so the exponent is 6.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is the income for 5 weeks."
       }
     ],
-    "rationale": "First, calculate the weekly income: 40 hours/week * $15/hour = $600/week. Then, calculate the monthly income: $600/week * 4 weeks/month = $2400/month."
+    "rationale": "First, calculate the weekly income: 40 hours/week * $15/hour = $600/week. Then, calculate the monthly income: $600/week * 4 weeks/month = $2400/month.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To add these fractions, find a common denominator, which is 12. Convert the fractions: $\\frac{1}{4} = \\frac{3}{12}$ and $\\frac{2}{3} = \\frac{8}{12}$. Now add them: $\\frac{3}{12} + \\frac{8}{12} = \\frac{11}{12}$."
+    "rationale": "To add these fractions, find a common denominator, which is 12. Convert the fractions: $\\frac{1}{4} = \\frac{3}{12}$ and $\\frac{2}{3} = \\frac{8}{12}$. Now add them: $\\frac{3}{12} + \\frac{8}{12} = \\frac{11}{12}$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

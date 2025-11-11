@@ -7,7 +7,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Solve for k: $\\frac{k}{4} = 6$.",
     "correctAnswer": "24",
-    "rationale": "To solve for k, multiply both sides of the equation by 4. k = 6 * 4 = 24."
+    "rationale": "To solve for k, multiply both sides of the equation by 4. k = 6 * 4 = 24.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
         "rationale": "The equals sign makes this an equation."
       }
     ],
-    "rationale": "An expression is a mathematical phrase that can contain numbers, variables, and operators, but does not have an equals sign. An equation sets two expressions equal to each other."
+    "rationale": "An expression is a mathematical phrase that can contain numbers, variables, and operators, but does not have an equals sign. An equation sets two expressions equal to each other.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is 15+4."
       }
     ],
-    "rationale": "First, divide both sides by 3: x - 4 = 5. Then, add 4 to both sides: x = 9."
+    "rationale": "First, divide both sides by 3: x - 4 = 5. Then, add 4 to both sides: x = 9.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the slope of a line that passes through (1, 6) and (3, 2).",
     "correctAnswer": "-2",
-    "rationale": "Slope = (change in y) / (change in x) = (2 - 6) / (3 - 1) = -4 / 2 = -2."
+    "rationale": "Slope = (change in y) / (change in x) = (2 - 6) / (3 - 1) = -4 / 2 = -2.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "The y-intercept is determined."
       }
     ],
-    "rationale": "The slope-intercept form is y = mx + b. In this equation, b (the y-intercept) is 0. This means the line passes through the origin (0,0)."
+    "rationale": "The slope-intercept form is y = mx + b. In this equation, b (the y-intercept) is 0. This means the line passes through the origin (0,0).",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the largest integer."
       }
     ],
-    "rationale": "Let the three consecutive even integers be n, n+2, and n+4. Their sum is n + (n+2) + (n+4) = 72. Combine like terms: 3n + 6 = 72. Subtract 6: 3n = 66. Divide by 3: n = 22. The integers are 22, 24, and 26."
+    "rationale": "Let the three consecutive even integers be n, n+2, and n+4. Their sum is n + (n+2) + (n+4) = 72. Combine like terms: 3n + 6 = 72. Subtract 6: 3n = 66. Divide by 3: n = 22. The integers are 22, 24, and 26.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If $f(x) = x^2 - 10$, find $f(3)$.",
     "correctAnswer": "-1",
-    "rationale": "Substitute 3 for x: f(3) = (3)² - 10 = 9 - 10 = -1."
+    "rationale": "Substitute 3 for x: f(3) = (3)² - 10 = 9 - 10 = -1.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 2(x+3)."
       }
     ],
-    "rationale": "To square a binomial, you can use the formula $(a+b)^2 = a^2 + 2ab + b^2$. Here, a=x and b=3, so the result is $x^2 + 2(x)(3) + 3^2 = $x^2$ + 6x + 9$."
+    "rationale": "To square a binomial, you can use the formula $(a+b)^2 = a^2 + 2ab + b^2$. Here, a=x and b=3, so the result is $x^2 + 2(x)(3) + 3^2 = $x^2$ + 6x + 9$.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Solve for x: $x/2 - 5 = 3$.",
     "correctAnswer": "16",
-    "rationale": "Add 5 to both sides: x/2 = 8. Multiply both sides by 2: x = 16."
+    "rationale": "Add 5 to both sides: x/2 = 8. Multiply both sides by 2: x = 16.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is 6*12."
       }
     ],
-    "rationale": "Calculate the cost for each type of ticket and add them together. Adult cost = 2 * $12 = $24. Child cost = 4 * $8 = $32. Total cost = $24 + $32 = $56."
+    "rationale": "Calculate the cost for each type of ticket and add them together. Adult cost = 2 * $12 = $24. Child cost = 4 * $8 = $32. Total cost = $24 + $32 = $56.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This line has a slope of -1."
       }
     ],
-    "rationale": "The x-axis is a horizontal line. A line that is perpendicular to a horizontal line must be a vertical line. The equation of a vertical line is always in the form x = c, where c is a constant."
+    "rationale": "The x-axis is a horizontal line. A line that is perpendicular to a horizontal line must be a vertical line. The equation of a vertical line is always in the form x = c, where c is a constant.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This means 'at least 20'."
       }
     ],
-    "rationale": "The phrase 'no more than 20' means the number can be 20 or any value less than 20. This is represented by the inequality $n \\leq 20$."
+    "rationale": "The phrase 'no more than 20' means the number can be 20 or any value less than 20. This is represented by the inequality $n \\leq 20$.",
+    "challenge_tags": [
+      "math-3"
+    ]
   }
 ];

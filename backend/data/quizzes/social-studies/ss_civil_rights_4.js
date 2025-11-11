@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "This case established the principle of judicial review.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -56,7 +59,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Adapted from historical accounts of the Montgomery Bus Boycott."
+    "source": "Adapted from historical accounts of the Montgomery Bus Boycott.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "Stokely Carmichael was a leader who became associated with the Black Power movement, which often had a more militant stance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "Minimum wage is established by separate labor laws.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "The anti-war movement was separate from this specific civil rights protest.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -169,6 +184,9 @@ module.exports = [
         "rationale": "The goal was to integrate the restaurants, not to close them.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -197,6 +215,9 @@ module.exports = [
         "rationale": "The Electoral College was established by the Constitution.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -225,6 +246,9 @@ module.exports = [
         "rationale": "This was a different group of activists with a different focus.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -254,6 +278,9 @@ module.exports = [
         "rationale": "The movement used various forms of protest, though they were sometimes more confrontational.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -282,6 +309,9 @@ module.exports = [
         "rationale": "The military had been officially desegregated by President Truman in 1948.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -310,6 +340,9 @@ module.exports = [
         "rationale": "The boycott began in 1955.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -338,6 +371,9 @@ module.exports = [
         "rationale": "The New Deal was a response to the Great Depression in the 1930s.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The immune system is a complex network of cells, tissues, and organs that work together to defend the body against pathogens."
+    "passage": "Science textbook excerpt: The immune system is a complex network of cells, tissues, and organs that work together to defend the body against pathogens.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "This is the function of the nervous system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "Correct. The brain processes information, coordinates activity, and is the seat of consciousness.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "Nerves transmit signals throughout the body.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "The brain signals the heart to increase its rate; it is not the other way around.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "The muscular system is using the oxygen, but the immune system is not primarily involved in this process.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "This occurs in the stomach and small intestine.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "The integumentary system is the skin, hair, and nails.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "The diaphragm is the muscle that controls breathing.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "This pathway is incorrect for a reflex response to a stimulus.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "This is primarily a function of the spleen and liver.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "Vaccines provide specific immunity to a particular pathogen, not a general barrier.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   }
 ];

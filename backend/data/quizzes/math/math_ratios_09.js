@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the ratio of trucks to total vehicles."
       }
     ],
-    "rationale": "The ratio of trucks to cars is 8 to 12. To simplify, find the greatest common divisor, which is 4. Divide both parts of the ratio by 4: 8/4 = 2 and 12/4 = 3. The simplified ratio is 2:3."
+    "rationale": "The ratio of trucks to cars is 8 to 12. To simplify, find the greatest common divisor, which is 4. Divide both parts of the ratio by 4: 8/4 = 2 and 12/4 = 3. The simplified ratio is 2:3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A product's price increased by 8%. If the original price was $75, what is the new price?",
     "correctAnswer": "$81",
-    "rationale": "The price increase is 8% of $75, which is 0.08 * 75 = $6. The new price is the original price plus the increase: $75 + $6 = $81."
+    "rationale": "The price increase is 8% of $75, which is 0.08 * 75 = $6. The new price is the original price plus the increase: $75 + $6 = $81.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the product."
       }
     ],
-    "rationale": "To find the rate in pages per minute (ppm), divide the total number of pages by the time in minutes: 240 pages / 8 minutes = 30 ppm."
+    "rationale": "To find the rate in pages per minute (ppm), divide the total number of pages by the time in minutes: 240 pages / 8 minutes = 30 ppm.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A recipe requires a 3:2 ratio of flour to sugar. If you use 6 cups of sugar, how much flour do you need?",
     "correctAnswer": "9 cups",
-    "rationale": "The amount of sugar is 3 times the ratio amount (6/2=3). So you need 3 times the flour (3*3=9)."
+    "rationale": "The amount of sugar is 3 times the ratio amount (6/2=3). So you need 3 times the flour (3*3=9).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the price after adding another 5% tax."
       }
     ],
-    "rationale": "Let P be the original price. The total cost is P + 0.05P = 1.05P. So, 1.05P = $52.50. To find P, divide $52.50 by 1.05: P = $50."
+    "rationale": "Let P be the original price. The total cost is P + 0.05P = 1.05P. So, 1.05P = $52.50. To find P, divide $52.50 by 1.05: P = $50.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To find the number of employees in production, convert the percentage to a decimal and multiply by the total number of employees: 0.35 * 1200 = 420."
+    "rationale": "To find the number of employees in production, convert the percentage to a decimal and multiply by the total number of employees: 0.35 * 1200 = 420.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "The ratio of cats to dogs at a shelter is 3:7. If there are 90 animals in total, how many are dogs?",
     "correctAnswer": "63",
-    "rationale": "The total ratio parts are 3+7=10. Each part represents 90/10 = 9 animals. There are 7 parts dogs, so 7 * 9 = 63 dogs."
+    "rationale": "The total ratio parts are 3+7=10. Each part represents 90/10 = 9 animals. There are 7 parts dogs, so 7 * 9 = 63 dogs.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 9*4."
       }
     ],
-    "rationale": "The fraction 9/12 can be simplified to 3/4. The proportion is then x/4 = 3/4, which means x must be 3."
+    "rationale": "The fraction 9/12 can be simplified to 3/4. The proportion is then x/4 = 3/4, which means x must be 3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A painter can paint 3 rooms in 5 hours. At this rate, how many hours will it take to paint 12 rooms?",
     "correctAnswer": "20 hours",
-    "rationale": "To paint 12 rooms, the painter needs to work 4 times as long as for 3 rooms (12/3=4). So, 5 hours * 4 = 20 hours."
+    "rationale": "To paint 12 rooms, the painter needs to work 4 times as long as for 3 rooms (12/3=4). So, 5 hours * 4 = 20 hours.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the percentage that do not prefer coffee."
       }
     ],
-    "rationale": "To find the percentage, divide the number of people who prefer coffee by the total number surveyed, and multiply by 100: (45 / 60) * 100 = 0.75 * 100 = 75%."
+    "rationale": "To find the percentage, divide the number of people who prefer coffee by the total number surveyed, and multiply by 100: (45 / 60) * 100 = 0.75 * 100 = 75%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is the smaller number."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{5}{8} = \\frac{30}{x}$. Cross-multiply: $5x = 240$. Divide by 5: $x = 48$."
+    "rationale": "Set up a proportion: $\\frac{5}{8} = \\frac{30}{x}$. Cross-multiply: $5x = 240$. Divide by 5: $x = 48$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To find the total distance, multiply the tank capacity by the fuel efficiency: 15 gallons * 30 miles/gallon = 450 miles."
+    "rationale": "To find the total distance, multiply the tank capacity by the fuel efficiency: 15 gallons * 30 miles/gallon = 450 miles.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

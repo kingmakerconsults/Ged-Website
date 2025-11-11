@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "'Dollars' are countable, so the technically correct word is 'fewer'. However, 'less' is widely used in this context.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "Correct. In the context of answering a 'why' question, this is the most direct and concise answer, removing all redundancy.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "Correct. All items in the list are adjectives, creating a parallel structure.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "Game is singular and takes 'is'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "This is a complete sentence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "A comma should not be used here.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "Us is an object pronoun. The correct subject pronoun is 'We'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "This is wordy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "A colon should be used to introduce a list.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "This is a noun phrase.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "Correct. The past continuous tense is used correctly here.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -334,6 +367,9 @@ module.exports = [
         "rationale": "This is in the passive voice and is still ambiguous.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   }
 ];

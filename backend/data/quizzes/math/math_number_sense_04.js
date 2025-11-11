@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is 100% of 90."
       }
     ],
-    "rationale": "50% is equivalent to one-half. To find 50% of 90, you can divide 90 by 2, which is 45."
+    "rationale": "50% is equivalent to one-half. To find 50% of 90, you can divide 90 by 2, which is 45.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Calculate: $100 - 35$.",
     "correctAnswer": "65",
-    "rationale": "This is a basic subtraction problem. 100 - 35 = 65."
+    "rationale": "This is a basic subtraction problem. 100 - 35 = 65.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation of the tax."
       }
     ],
-    "rationale": "First, calculate the sales tax amount: 6% of $75 is 0.06 * 75 = $4.50. Then, add this to the original price: $75 + $4.50 = $79.50."
+    "rationale": "First, calculate the sales tax amount: 6% of $75 is 0.06 * 75 = $4.50. Then, add this to the original price: $75 + $4.50 = $79.50.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Evaluate the expression: $5 + 3 \\times (8 - 2)$.",
     "correctAnswer": "23",
-    "rationale": "According to the order of operations (PEMDAS), first solve the parentheses: 8 - 2 = 6. Then, do the multiplication: 3 * 6 = 18. Finally, the addition: 5 + 18 = 23."
+    "rationale": "According to the order of operations (PEMDAS), first solve the parentheses: 8 - 2 = 6. Then, do the multiplication: 3 * 6 = 18. Finally, the addition: 5 + 18 = 23.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is 7/2."
       }
     ],
-    "rationale": "To convert a fraction to a decimal, divide the numerator by the denominator. 7 ÷ 20 = 0.35."
+    "rationale": "To convert a fraction to a decimal, divide the numerator by the denominator. 7 ÷ 20 = 0.35.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, calculate the increase: 15% of 5,000 is 0.15 * 5000 = 750. Then, add this increase to the original population: 5,000 + 750 = 5,750."
+    "rationale": "First, calculate the increase: 15% of 5,000 is 0.15 * 5000 = 750. Then, add this increase to the original population: 5,000 + 750 = 5,750.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the product of $-6$ and $9$?",
     "correctAnswer": "-54",
-    "rationale": "The product of a negative number and a positive number is negative. 6 * 9 = 54, so the answer is -54."
+    "rationale": "The product of a negative number and a positive number is negative. 6 * 9 = 54, so the answer is -54.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "3 is a positive number and the largest in this set."
       }
     ],
-    "rationale": "When comparing negative numbers, the number with the larger absolute value is smaller. -10 is the smallest."
+    "rationale": "When comparing negative numbers, the number with the larger absolute value is smaller. -10 is the smallest.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A recipe requires 3/4 cup of sugar. If you are making 2.5 times the recipe, how many cups of sugar do you need?",
     "correctAnswer": "1.875 cups",
-    "rationale": "Convert the fraction to a decimal: 3/4 = 0.75. Then multiply by 2.5: 0.75 * 2.5 = 1.875 cups."
+    "rationale": "Convert the fraction to a decimal: 3/4 = 0.75. Then multiply by 2.5: 0.75 * 2.5 = 1.875 cups.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is $4^4$."
       }
     ],
-    "rationale": "The expression $4^3$ means 4 multiplied by itself 3 times: 4 x 4 x 4 = 64."
+    "rationale": "The expression $4^3$ means 4 multiplied by itself 3 times: 4 x 4 x 4 = 64.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, calculate the total simple interest earned: I = P * r * t = $2,000 * 0.03 * 5 = $300. Then, add the interest to the initial principal: $2,000 + $300 = $2,300."
+    "rationale": "First, calculate the total simple interest earned: I = P * r * t = $2,000 * 0.03 * 5 = $300. Then, add the interest to the initial principal: $2,000 + $300 = $2,300.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This simplifies to 2/3."
       }
     ],
-    "rationale": "To subtract the fractions, find a common denominator, which is 6. Convert 1/3 to 2/6. The problem becomes $\\frac{5}{6} - \\frac{2}{6} = \\frac{3}{6}$, which simplifies to $\\frac{1}{2}$."
+    "rationale": "To subtract the fractions, find a common denominator, which is 6. Convert 1/3 to 2/6. The problem becomes $\\frac{5}{6} - \\frac{2}{6} = \\frac{3}{6}$, which simplifies to $\\frac{1}{2}$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the maximum value."
       }
     ],
-    "rationale": "To find the mean, add the numbers together (5 + 10 + 15 + 20 = 50) and divide by the number of values (4). 50 / 4 = 12.5."
+    "rationale": "To find the mean, add the numbers together (5 + 10 + 15 + 20 = 50) and divide by the number of values (4). 50 / 4 = 12.5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A spinner has 8 equal sections, 3 of which are blue. What is the probability of landing on blue?",
     "correctAnswer": "3/8",
-    "rationale": "The probability is the number of favorable outcomes (3 blue sections) divided by the total number of outcomes (8 sections)."
+    "rationale": "The probability is the number of favorable outcomes (3 blue sections) divided by the total number of outcomes (8 sections).",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the maximum value."
       }
     ],
-    "rationale": "First, order the numbers from least to greatest: 12, 16, 19, 19, 24. The median is the middle value in the ordered set, which is 19."
+    "rationale": "First, order the numbers from least to greatest: 12, 16, 19, 19, 24. The median is the middle value in the ordered set, which is 19.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the mode of the data set: 10, 20, 10, 30, 20, 10?",
     "correctAnswer": "10",
-    "rationale": "The mode is the value that appears most frequently. The number 10 appears 3 times, which is more than any other number."
+    "rationale": "The mode is the value that appears most frequently. The number 10 appears 3 times, which is more than any other number.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the mean."
       }
     ],
-    "rationale": "The range is the difference between the maximum and minimum values. Max = 45, Min = 29. Range = 45 - 29 = 16."
+    "rationale": "The range is the difference between the maximum and minimum values. Max = 45, Min = 29. Range = 45 - 29 = 16.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the number of fiction books."
       }
     ],
-    "rationale": "First, find the percentage of reference books: 100% - 40% - 30% = 30%. Then, calculate the number of reference books: 0.30 * 2000 = 600."
+    "rationale": "First, find the percentage of reference books: 100% - 40% - 30% = 30%. Then, calculate the number of reference books: 0.30 * 2000 = 600.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A car is chosen at random from a lot containing 15 red cars, 20 blue cars, and 10 green cars. What is the probability that the car is NOT red?",
     "correctAnswer": "2/3",
-    "rationale": "There are 30 non-red cars (20 blue + 10 green) and a total of 45 cars. The probability is 30/45, which simplifies to 2/3."
+    "rationale": "There are 30 non-red cars (20 blue + 10 green) and a total of 45 cars. The probability is 30/45, which simplifies to 2/3.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "2, 3, 4, 5, 6 are all greater than 1."
       }
     ],
-    "rationale": "A standard die has faces numbered 1, 2, 3, 4, 5, and 6. It is impossible to roll a 7."
+    "rationale": "A standard die has faces numbered 1, 2, 3, 4, 5, and 6. It is impossible to roll a 7.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the median of the data set: 10, 8, 12, 10, 14, 16.",
     "correctAnswer": "11",
-    "rationale": "Order the data: 8, 10, 10, 12, 14, 16. The median is the average of the two middle numbers: (10 + 12) / 2 = 11."
+    "rationale": "Order the data: 8, 10, 10, 12, 14, 16. The median is the average of the two middle numbers: (10 + 12) / 2 = 11.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This would raise the average to 90.4"
       }
     ],
-    "rationale": "The total points for the first 4 tests are 4 * 88 = 352. To have an average of 90 on 5 tests, the total points needed are 5 * 90 = 450. The score needed on the fifth test is 450 - 352 = 98."
+    "rationale": "The total points for the first 4 tests are 4 * 88 = 352. To have an average of 90 on 5 tests, the total points needed are 5 * 90 = 450. The score needed on the fifth test is 450 - 352 = 98.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "This is a counting principle problem. The total number of outfits is the product of the number of choices for each item of clothing: 3 shirts * 4 pants = 12 outfits."
+    "rationale": "This is a counting principle problem. The total number of outfits is the product of the number of choices for each item of clothing: 3 shirts * 4 pants = 12 outfits.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the total number of people surveyed."
       }
     ],
-    "rationale": "To find the number of people who prefer dogs, multiply the fraction by the total number of people: $\\frac{2}{3} \\times 30 = 20$ people."
+    "rationale": "To find the number of people who prefer dogs, multiply the fraction by the total number of people: $\\frac{2}{3} \\times 30 = 20$ people.",
+    "challenge_tags": [
+      "math-6"
+    ]
   }
 ];

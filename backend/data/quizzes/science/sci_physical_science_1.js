@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: Mass is the measure of how much an object resists a change in its motion (inertia)."
+    "passage": "Science textbook excerpt: Mass is the measure of how much an object resists a change in its motion (inertia).",
+    "challenge_tags": [
+      "science-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Thermal energy is related to the temperature of an object.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "Work is done when a force causes an object to move a distance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "This is a physical change (change in form).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "There is a very clear and consistent pattern in the data.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "This does not fit the pattern established by the experiment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "Energy can be transformed between kinetic and potential forms, but they are not always equal.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "Refraction is the bending of light, not a primary mode of heat transfer.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "Correct. Pulleys are used to lift heavy objects by changing the direction of the force.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "This is the sum of all the particles.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "A pH greater than 7 is basic (alkaline).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "This is an example of Newton's First Law (inertia).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   }
 ];

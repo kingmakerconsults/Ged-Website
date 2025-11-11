@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is a specific detail about the timing, not the overall main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "The weather is the reason for the change, not the main subject of the memo itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This is a supporting detail about the employee experience, not the full central idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "While this is mentioned as a benefit, the main idea is broader and covers more aspects of mental health.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "This is a specific example of the innovation that occurred, not the overall main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "This is the starting point of the story, but the main idea is about how and why that changed.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "This is a specific example of a biophilic design element, not the overall main argument.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "This is the final step, but not the complete message.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "This is a factual detail, not the central point about the invention's impact.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "This is a supporting detail, not the main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "This is the goal that Stoicism helps with, but the main idea is about the philosophy itself and its renewed popularity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -346,6 +379,9 @@ module.exports = [
         "rationale": "Correct. This statement effectively summarizes the historical problem, its negative effects, and the emerging solution, which together form the author's central argument.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   }
 ];

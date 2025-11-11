@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "This sentence correctly uses a semicolon and a conjunctive adverb.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "Correct. This sentence correctly uses the future perfect tense to describe an action that will be completed before another future action.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "The pronoun 'They' is vague and has no clear antecedent.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "This phrasing is unnecessarily formal and wordy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "Correct. 'More interesting' is the correct comparative form for the adjective 'interesting'.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "All modifiers are placed correctly and clearly refer to the nouns they describe.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "This sentence also lacks parallel structure.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "The subject 'Each' is singular, so the verb should be 'has'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "This is a complete sentence (an imperative, with the subject 'you' understood).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "'Affect' is the correct verb here, meaning 'to influence'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "This is still quite wordy and uses a passive construction.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -334,6 +367,9 @@ module.exports = [
         "rationale": "Correct. The subjunctive mood ('be') is correctly used here following the phrase 'It is essential that...'.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   }
 ];

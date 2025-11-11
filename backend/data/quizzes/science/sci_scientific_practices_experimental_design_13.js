@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: A hypothesis is a specific, predictive statement that can be tested."
+    "passage": "Science textbook excerpt: A hypothesis is a specific, predictive statement that can be tested.",
+    "challenge_tags": [
+      "science-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "The hypothesis is the prediction being tested, not the measurement itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "While it may make graphing simpler, the primary reason is for experimental validity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "Correct. The control group provides a baseline to which the experimental group's results can be compared.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "This should be a controlled variable, kept the same for both groups.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "The group has a specific scientific purpose, not just to increase numbers.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "Inferences are conclusions drawn from data, not the data itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "For replication, the conditions should be kept as similar as possible.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "The hypothesis is the idea being tested, not a condition of the experiment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Conclusions should be based on data from multiple, repeated trials for reliability.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "A graph is a tool for analysis and presentation, but a written conclusion is still needed to explain its meaning.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "They are distinct concepts in the philosophy of science.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   }
 ];

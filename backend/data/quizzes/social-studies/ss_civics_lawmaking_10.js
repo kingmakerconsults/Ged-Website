@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "The Supreme Court may review a law after it is passed, not before.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Any member can introduce a bill.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "State governors do not vote on federal legislation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "The President cannot fire members of Congress.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "The Vice President's approval is not required.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "This is the job of a journalist, not a lobbyist.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -196,6 +214,9 @@ module.exports = [
         "rationale": "Refusing to pay taxes is illegal and not a legitimate part of the lawmaking process.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -224,6 +245,9 @@ module.exports = [
         "rationale": "The filibuster is a well-known, if controversial, Senate tactic.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -252,6 +276,9 @@ module.exports = [
         "rationale": "This is the Electoral College system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -281,6 +308,9 @@ module.exports = [
         "rationale": "While polls can be a factor, the passage lists other major influences.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -309,6 +339,9 @@ module.exports = [
         "rationale": "There is no national referendum process for federal laws in the U.S.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -337,6 +370,9 @@ module.exports = [
         "rationale": "This is a declaration of war.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

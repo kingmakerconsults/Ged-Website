@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "The correct verb for asking permission is 'May'. 'Can' refers to ability.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "This is a complete sentence with a dependent and an independent clause.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "This should be 'She's' to indicate the contraction of 'She is'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "Correct. All items in the list are adjectives, creating a parallel structure.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "The modifier 'on the top shelf' correctly modifies 'book'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "This is grammatically correct but slightly less direct than the best option.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "Correct. 'Who' is the subject of the verb 'is revolutionizing'. The phrase 'according to the critics' is an interruption.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "This is wordy and less direct than the best option.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "'Everybody' is a singular pronoun and correctly uses the singular verb 'wants'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "The comma is used correctly before the coordinating conjunction 'but'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "This phrasing ambiguously suggests the man has a broken headlight.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -334,6 +367,9 @@ module.exports = [
         "rationale": "Correct. The subjunctive 'be' is correctly used after the phrase 'The rules require that...'.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   }
 ];

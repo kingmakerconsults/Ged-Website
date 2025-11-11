@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the sum."
       }
     ],
-    "rationale": "To find the mean, add the numbers together (5+10+5+15+5 = 40) and divide by the number of values (5). 40 / 5 = 8."
+    "rationale": "To find the mean, add the numbers together (5+10+5+15+5 = 40) and divide by the number of values (5). 40 / 5 = 8.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A drawer has 8 blue socks and 4 black socks. What is the probability of picking a black sock?",
     "correctAnswer": "1/3",
-    "rationale": "There are 4 black socks and a total of 12 socks. The probability is 4/12, which simplifies to 1/3."
+    "rationale": "There are 4 black socks and a total of 12 socks. The probability is 4/12, which simplifies to 1/3.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the range."
       }
     ],
-    "rationale": "First, order the numbers: 2, 4, 5, 8, 8, 9. Since there is an even number of values, the median is the average of the two middle numbers (5 and 8). (5 + 8) / 2 = 6.5."
+    "rationale": "First, order the numbers: 2, 4, 5, 8, 8, 9. Since there is an even number of values, the median is the average of the two middle numbers (5 and 8). (5 + 8) / 2 = 6.5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "The range of a set of numbers is 20. If the highest number is 35, what is the lowest number?",
     "correctAnswer": "15",
-    "rationale": "The range is the difference between the highest and lowest numbers. Range = Max - Min. 20 = 35 - Min. Min = 15."
+    "rationale": "The range is the difference between the highest and lowest numbers. Range = Max - Min. 20 = 35 - Min. Min = 15.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is 6*6."
       }
     ],
-    "rationale": "The coin has 2 possible outcomes (heads or tails), and the die has 6 possible outcomes. To find the total number of outcomes, multiply the outcomes for each event: 2 * 6 = 12."
+    "rationale": "The coin has 2 possible outcomes (heads or tails), and the die has 6 possible outcomes. To find the total number of outcomes, multiply the outcomes for each event: 2 * 6 = 12.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is 10*10."
       }
     ],
-    "rationale": "The mean is the sum of the values divided by the number of values. Therefore, the sum of the values is the mean multiplied by the number of values. Sum = 10 * 6 = 60."
+    "rationale": "The mean is the sum of the values divided by the number of values. Therefore, the sum of the values is the mean multiplied by the number of values. Sum = 10 * 6 = 60.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the mode of the data: 5, 1, 4, 1, 5, 1, 4?",
     "correctAnswer": "1",
-    "rationale": "The number 1 appears 3 times, which is more than any other number in the set."
+    "rationale": "The number 1 appears 3 times, which is more than any other number in the set.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is the probability of drawing a card from a specific suit."
       }
     ],
-    "rationale": "There are two red Queens in a deck of 52 cards (the Queen of Hearts and the Queen of Diamonds). The probability is 2/52, which simplifies to 1/26."
+    "rationale": "There are two red Queens in a deck of 52 cards (the Queen of Hearts and the Queen of Diamonds). The probability is 2/52, which simplifies to 1/26.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A survey of 120 people found that 45% prefer watching movies at home. How many people is that?",
     "correctAnswer": "54",
-    "rationale": "45% of 120 is 0.45 * 120 = 54."
+    "rationale": "45% of 120 is 0.45 * 120 = 54.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is a 1 in 4 chance."
       }
     ],
-    "rationale": "An event that is equally likely to happen as not to happen has a 50% chance of occurring, which is a probability of 0.5 or 1/2."
+    "rationale": "An event that is equally likely to happen as not to happen has a 50% chance of occurring, which is a probability of 0.5 or 1/2.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is P(blue then blue with replacement)."
       }
     ],
-    "rationale": "The probability of the first ball being red is 5/8. After drawing one red ball, there are 4 red balls left and a total of 7 balls. The probability of the second ball being red is 4/7. The total probability is (5/8) * (4/7) = 20/56, which simplifies to 5/14."
+    "rationale": "The probability of the first ball being red is 5/8. After drawing one red ball, there are 4 red balls left and a total of 7 balls. The probability of the second ball being red is 4/7. The total probability is (5/8) * (4/7) = 20/56, which simplifies to 5/14.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This describes the range."
       }
     ],
-    "rationale": "The median is the value that separates the higher half from the lower half of a data sample. It is the middle value."
+    "rationale": "The median is the value that separates the higher half from the lower half of a data sample. It is the middle value.",
+    "challenge_tags": [
+      "math-6"
+    ]
   }
 ];

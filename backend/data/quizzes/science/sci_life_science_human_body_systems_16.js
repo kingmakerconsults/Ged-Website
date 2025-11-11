@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The digestive system, including the stomach and intestines, digests food and absorbs nutrients."
+    "passage": "Science textbook excerpt: The digestive system, including the stomach and intestines, digests food and absorbs nutrients.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "The brain is the control center of the nervous system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "The endocrine system produces hormones, and the urinary system removes waste.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "The integumentary system consists of the skin, hair, and nails.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "While breathing rate changes for other reasons (like exercise), it is not the primary response to cold.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "While blood vessels (circulatory) are mentioned, the urinary system is not part of this described process.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "This is the function of the circulatory system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "These are organs of the urinary system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "Neurons are the functional cells of the nervous system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "This is the role of the respiratory system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "The endocrine system regulates processes using hormones, but does not filter blood.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "The stomach and intestines are central organs of the digestive system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   }
 ];

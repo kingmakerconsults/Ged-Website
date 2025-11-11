@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This would be the value if it were in the tenths place."
       }
     ],
-    "rationale": "The digit 7 is in the hundreds place, which means its value is 7 x 100 = 700."
+    "rationale": "The digit 7 is in the hundreds place, which means its value is 7 x 100 = 700.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the product of 15 and 4?",
     "correctAnswer": "60",
-    "rationale": "The product is the result of multiplication. 15 * 4 = 60."
+    "rationale": "The product is the result of multiplication. 15 * 4 = 60.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the price after a 20% markup."
       }
     ],
-    "rationale": "Calculate the discount: 20% of $28.00 is $5.60. Subtract the discount from the original price: $28.00 - $5.60 = $22.40."
+    "rationale": "Calculate the discount: 20% of $28.00 is $5.60. Subtract the discount from the original price: $28.00 - $5.60 = $22.40.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Evaluate: $3^3 - 2 \\times 5$.",
     "correctAnswer": "17",
-    "rationale": "Order of operations (PEMDAS): Exponents first ($3^3$ = 27), then multiplication (2*5 = 10), then subtraction (27 - 10 = 17)."
+    "rationale": "Order of operations (PEMDAS): Exponents first ($3^3$ = 27), then multiplication (2*5 = 10), then subtraction (27 - 10 = 17).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "65/10 is equal to 6.5."
       }
     ],
-    "rationale": "The decimal 0.65 means 65 hundredths, or 65/100. This fraction can be simplified by dividing both the numerator and denominator by 5, which results in 13/20."
+    "rationale": "The decimal 0.65 means 65 hundredths, or 65/100. This fraction can be simplified by dividing both the numerator and denominator by 5, which results in 13/20.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the new price as a percentage of the old."
       }
     ],
-    "rationale": "The amount of decrease is $800 - $680 = $120. The percent decrease is (decrease / original price) * 100 = ($120 / $800) * 100 = 0.15 * 100 = 15%."
+    "rationale": "The amount of decrease is $800 - $680 = $120. The percent decrease is (decrease / original price) * 100 = ($120 / $800) * 100 = 0.15 * 100 = 15%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the greatest common factor (GCF) of 24 and 30?",
     "correctAnswer": "6",
-    "rationale": "The factors of 24 are 1, 2, 3, 4, 6, 8, 12, 24. The factors of 30 are 1, 2, 3, 5, 6, 10, 15, 30. The greatest common factor is 6."
+    "rationale": "The factors of 24 are 1, 2, 3, 4, 6, 8, 12, 24. The factors of 30 are 1, 2, 3, 5, 6, 10, 15, 30. The greatest common factor is 6.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This rounds to the nearest whole number."
       }
     ],
-    "rationale": "To round to the nearest tenth, look at the digit in the hundredths place. Since 5 is 5 or greater, we round up the tenths digit (8) to 9, resulting in 3.9."
+    "rationale": "To round to the nearest tenth, look at the digit in the hundredths place. Since 5 is 5 or greater, we round up the tenths digit (8) to 9, resulting in 3.9.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A company has 120 employees. If 45% are in the sales department, how many employees are NOT in the sales department?",
     "correctAnswer": "66",
-    "rationale": "If 45% are in sales, then 100% - 45% = 55% are not. 55% of 120 is 0.55 * 120 = 66."
+    "rationale": "If 45% are in sales, then 100% - 45% = 55% are not. 55% of 120 is 0.55 * 120 = 66.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the result of dividing by 100."
       }
     ],
-    "rationale": "Multiplying a decimal by 10³ means moving the decimal point three places to the right. So, 1.2 becomes 1200."
+    "rationale": "Multiplying a decimal by 10³ means moving the decimal point three places to the right. So, 1.2 becomes 1200.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is the cost for one day."
       }
     ],
-    "rationale": "The total cost is calculated as (cost per day * number of days) + one-time fee. So, ($40 * 5) + $25 = $200 + $25 = $225."
+    "rationale": "The total cost is calculated as (cost per day * number of days) + one-time fee. So, ($40 * 5) + $25 = $200 + $25 = $225.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "The result of absolute value is always non-negative."
       }
     ],
-    "rationale": "First, evaluate the absolute values. The absolute value of -8 is 8. The expression inside the second absolute value is 3 - 5 = -2, and its absolute value is 2. Finally, add the results: 8 + 2 = 10."
+    "rationale": "First, evaluate the absolute values. The absolute value of -8 is 8. The expression inside the second absolute value is 3 - 5 = -2, and its absolute value is 2. Finally, add the results: 8 + 2 = 10.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

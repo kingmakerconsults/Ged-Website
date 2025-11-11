@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "If x=0, y=5."
       }
     ],
-    "rationale": "Substitute the x-coordinate from the ordered pair into the equation and check if it yields the correct y-coordinate. For (2, 7): y = 2 + 5 = 7. This matches."
+    "rationale": "Substitute the x-coordinate from the ordered pair into the equation and check if it yields the correct y-coordinate. For (2, 7): y = 2 + 5 = 7. This matches.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the slope of the line that passes through (1, 3) and (4, 9)?",
     "correctAnswer": "2",
-    "rationale": "Slope = (change in y) / (change in x) = (9 - 3) / (4 - 1) = 6 / 3 = 2."
+    "rationale": "Slope = (change in y) / (change in x) = (9 - 3) / (4 - 1) = 6 / 3 = 2.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute -2 for x in the function: f(-2) = 3$(-2)^2$ - 5 = 3(4) - 5 = 12 - 5 = 7."
+    "rationale": "Substitute -2 for x in the function: f(-2) = 3$(-2)^2$ - 5 = 3(4) - 5 = 12 - 5 = 7.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the y-intercept of the line $2x - 3y = 12$?",
     "correctAnswer": "-4",
-    "rationale": "To find the y-intercept, set x = 0. The equation becomes -3y = 12. Divide by -3 to get y = -4."
+    "rationale": "To find the y-intercept, set x = 0. The equation becomes -3y = 12. Divide by -3 to get y = -4.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This line has a different slope."
       }
     ],
-    "rationale": "Parallel lines have the same slope. The given line has a slope of 4. This option is the only other line with a slope of 4."
+    "rationale": "Parallel lines have the same slope. The given line has a slope of 4. This option is the only other line with a slope of 4.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This has the wrong slope."
       }
     ],
-    "rationale": "A line that passes through the origin (0,0) has a y-intercept of 0. Using the slope-intercept form y = mx + b, the equation is y = -3x + 0, which simplifies to y = -3x."
+    "rationale": "A line that passes through the origin (0,0) has a y-intercept of 0. Using the slope-intercept form y = mx + b, the equation is y = -3x + 0, which simplifies to y = -3x.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If $f(x) = 2x$ and $g(x) = x - 1$, find $f(g(4))$.",
     "correctAnswer": "6",
-    "rationale": "First, find g(4): g(4) = 4 - 1 = 3. Then, find f(3): f(3) = 2 * 3 = 6."
+    "rationale": "First, find g(4): g(4) = 4 - 1 = 3. Then, find f(3): f(3) = 2 * 3 = 6.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This uses the x-coordinate for a horizontal line."
       }
     ],
-    "rationale": "The axis of symmetry of a parabola is the vertical line that passes through its vertex. The equation of this line is x = h, where h is the x-coordinate of the vertex. So, the axis of symmetry is x = 2."
+    "rationale": "The axis of symmetry of a parabola is the vertical line that passes through its vertex. The equation of this line is x = h, where h is the x-coordinate of the vertex. So, the axis of symmetry is x = 2.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A bank account balance B(t) after t years is modeled by $B(t) = 500(1.03)^t$. What is the balance after 2 years?",
     "correctAnswer": "$530.45",
-    "rationale": "Substitute 2 for t: B(2) = 500 * $(1.03)^2$ = 500 * 1.0609 = 530.45."
+    "rationale": "Substitute 2 for t: B(2) = 500 * $(1.03)^2$ = 500 * 1.0609 = 530.45.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The midpoint formula is $(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2})$. So, the midpoint is $(\\frac{-2+6}{2}, \\frac{4+8}{2}) = (\\frac{4}{2}, \\frac{12}{2}) = (2, 6)$."
+    "rationale": "The midpoint formula is $(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2})$. So, the midpoint is $(\\frac{-2+6}{2}, \\frac{4+8}{2}) = (\\frac{4}{2}, \\frac{12}{2}) = (2, 6)$.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "The y-intercept is 2."
       }
     ],
-    "rationale": "The y-intercept is the value of y when x=0. For y = x - 2, if x=0, y = -2."
+    "rationale": "The y-intercept is the value of y when x=0. For y = x - 2, if x=0, y = -2.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the y-intercept."
       }
     ],
-    "rationale": "The equation of the line is y = mx + b. We are given m = -1/2 and the y-intercept b = 5. So, y = (-1/2)x + 5. To find the value at x=4, substitute it into the equation: y = (-1/2)(4) + 5 = -2 + 5 = 3."
+    "rationale": "The equation of the line is y = mx + b. We are given m = -1/2 and the y-intercept b = 5. So, y = (-1/2)x + 5. To find the value at x=4, substitute it into the equation: y = (-1/2)(4) + 5 = -2 + 5 = 3.",
+    "challenge_tags": [
+      "math-4"
+    ]
   }
 ];

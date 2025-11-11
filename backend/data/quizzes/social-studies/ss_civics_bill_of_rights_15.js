@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "History textbook excerpt: These first ten amendments were added to protect the basic rights of citizens."
+    "passage": "History textbook excerpt: These first ten amendments were added to protect the basic rights of citizens.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -57,7 +60,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. Constitution, First Amendment."
+    "source": "U.S. Constitution, First Amendment.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "The right to vote is protected by several other amendments, but not the second.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -113,6 +122,9 @@ module.exports = [
         "rationale": "This grievance is addressed by the Fourth Amendment's protection against unreasonable searches.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -141,6 +153,9 @@ module.exports = [
         "rationale": "An anonymous tip is generally not sufficient on its own to establish probable cause.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -171,7 +186,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. Constitution, Fifth Amendment."
+    "source": "U.S. Constitution, Fifth Amendment.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -199,6 +217,9 @@ module.exports = [
         "rationale": "This is a First Amendment right.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -227,6 +248,9 @@ module.exports = [
         "rationale": "This would be an issue under the Fourth Amendment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -255,6 +279,9 @@ module.exports = [
         "rationale": "The Tenth Amendment addresses states' rights.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -283,6 +310,9 @@ module.exports = [
         "rationale": "This is protected by the Fourth Amendment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -311,6 +341,9 @@ module.exports = [
         "rationale": "The court system was established in Article III of the Constitution.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -339,6 +372,9 @@ module.exports = [
         "rationale": "While cases can be challenged in court, pre-approval is not required.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

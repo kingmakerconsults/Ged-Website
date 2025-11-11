@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the product of the side lengths."
       }
     ],
-    "rationale": "The perimeter of a polygon is the sum of the lengths of its sides. For this triangle, the perimeter is 3 + 4 + 5 = 12."
+    "rationale": "The perimeter of a polygon is the sum of the lengths of its sides. For this triangle, the perimeter is 3 + 4 + 5 = 12.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A circle has a diameter of 8. What is its area? Use 3.14 for $\\pi$.",
     "correctAnswer": "50.24",
-    "rationale": "The radius is half the diameter, so r=4. Area = pi * $r^2$ = 3.14 * $4^2$ = 50.24."
+    "rationale": "The radius is half the diameter, so r=4. Area = pi * $r^2$ = 3.14 * $4^2$ = 50.24.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is $6^4$."
       }
     ],
-    "rationale": "The volume of a cube is the side length cubed. V = $6^3$ = 6 * 6 * 6 = 216."
+    "rationale": "The volume of a cube is the side length cubed. V = $6^3$ = 6 * 6 * 6 = 216.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "How many sides does a quadrilateral have?",
     "correctAnswer": "4",
-    "rationale": "A quadrilateral is a polygon with four sides."
+    "rationale": "A quadrilateral is a polygon with four sides.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "A right angle is 90°."
       }
     ],
-    "rationale": "'Parallel' is a term used to describe lines that never intersect. Acute, obtuse, and right are all types of angles."
+    "rationale": "'Parallel' is a term used to describe lines that never intersect. Acute, obtuse, and right are all types of angles.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the area."
       }
     ],
-    "rationale": "The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as legs. Using the Pythagorean theorem: d² = 12² + 16² = 144 + 256 = 400. d = $\\sqrt{400}$ = 20 feet."
+    "rationale": "The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as legs. Using the Pythagorean theorem: d² = 12² + 16² = 144 + 256 = 400. d = $\\sqrt{400}$ = 20 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If an angle is 70°, what is its supplementary angle?",
     "correctAnswer": "110°",
-    "rationale": "Supplementary angles add up to 180°. 180 - 70 = 110."
+    "rationale": "Supplementary angles add up to 180°. 180 - 70 = 110.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is the radius."
       }
     ],
-    "rationale": "First, find the radius from the circumference: C = 2 * pi * r. 18.84 = 2 * 3.14 * r. r = 18.84 / 6.28 = 3. Now, find the area: A = pi * r² = 3.14 * 3² = 28.26."
+    "rationale": "First, find the radius from the circumference: C = 2 * pi * r. 18.84 = 2 * 3.14 * r. r = 18.84 / 6.28 = 3. Now, find the area: A = pi * r² = 3.14 * 3² = 28.26.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A cube has a volume of 125 cubic inches. What is its surface area?",
     "correctAnswer": "150 square inches",
-    "rationale": "The side length is the cube root of the volume: ³√125 = 5 inches. The area of one face is 5² = 25. The surface area is 6 * 25 = 150."
+    "rationale": "The side length is the cube root of the volume: ³√125 = 5 inches. The area of one face is 5² = 25. The surface area is 6 * 25 = 150.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "Has a right angle."
       }
     ],
-    "rationale": "A scalene triangle is a triangle in which all three sides have different lengths."
+    "rationale": "A scalene triangle is a triangle in which all three sides have different lengths.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "A prism has 12 edges."
       }
     ],
-    "rationale": "A rectangular prism is a three-dimensional shape with six rectangular faces."
+    "rationale": "A rectangular prism is a three-dimensional shape with six rectangular faces.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the product."
       }
     ],
-    "rationale": "The formula for the area of a parallelogram is A = b * h. We have 60 = 12 * h. To find the height, divide the area by the base: h = 60 / 12 = 5 feet."
+    "rationale": "The formula for the area of a parallelogram is A = b * h. We have 60 = 12 * h. To find the height, divide the area by the base: h = 60 / 12 = 5 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

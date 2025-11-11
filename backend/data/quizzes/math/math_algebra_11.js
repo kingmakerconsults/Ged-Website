@@ -7,7 +7,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Solve for x: $3x = 33$.",
     "correctAnswer": "11",
-    "rationale": "Divide both sides by 3: x = 33 / 3 = 11."
+    "rationale": "Divide both sides by 3: x = 33 / 3 = 11.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
         "rationale": "This is 5*2."
       }
     ],
-    "rationale": "Substitute -2 for x in the expression: 12 + 5(-2) = 12 - 10 = 2."
+    "rationale": "Substitute -2 for x in the expression: 12 + 5(-2) = 12 - 10 = 2.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, add 8 to both sides: 5y = 12 + 8, so 5y = 20. Then, divide by 5: y = 20 / 5 = 4."
+    "rationale": "First, add 8 to both sides: 5y = 12 + 8, so 5y = 20. Then, divide by 5: y = 20 / 5 = 4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Simplify the expression: $3(2x + 1) - 4x$.",
     "correctAnswer": "2x + 3",
-    "rationale": "Distribute the 3: 6x + 3 - 4x. Combine like terms: 2x + 3."
+    "rationale": "Distribute the 3: 6x + 3 - 4x. Combine like terms: 2x + 3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Since the x-coordinates are the same, this is a vertical line. The slope of a vertical line is undefined."
+    "rationale": "Since the x-coordinates are the same, this is a vertical line. The slope of a vertical line is undefined.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is 13/3."
       }
     ],
-    "rationale": "Let the number be n. 'A number is tripled' is 3n. '7 is subtracted' is 3n - 7. Set this equal to 20: 3n - 7 = 20. Add 7: 3n = 27. Divide by 3: n = 9."
+    "rationale": "Let the number be n. 'A number is tripled' is 3n. '7 is subtracted' is 3n - 7. Set this equal to 20: 3n - 7 = 20. Add 7: 3n = 27. Divide by 3: n = 9.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If $f(x) = 10 - x^2$, what is $f(4)$?",
     "correctAnswer": "-6",
-    "rationale": "Substitute 4 for x: f(4) = 10 - (4)² = 10 - 16 = -6."
+    "rationale": "Substitute 4 for x: f(4) = 10 - (4)² = 10 - 16 = -6.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This would give a middle term of +24x."
       }
     ],
-    "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=3x and b=4."
+    "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=3x and b=4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Solve the inequality: $2x + 8 > 20$.",
     "correctAnswer": "x > 6",
-    "rationale": "Subtract 8 from both sides: 2x > 12. Divide by 2: x > 6."
+    "rationale": "Subtract 8 from both sides: 2x > 12. Divide by 2: x > 6.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This reverses x and y."
       }
     ],
-    "rationale": "Using the slope-intercept form y = mx + b, substitute m = 1/2 and b = 4 to get y = (1/2)x + 4."
+    "rationale": "Using the slope-intercept form y = mx + b, substitute m = 1/2 and b = 4 to get y = (1/2)x + 4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This satisfies the second equation but not the first."
       }
     ],
-    "rationale": "Use substitution. Substitute the first equation into the second: 2x + (x + 3) = 9. Combine like terms: 3x + 3 = 9. Subtract 3: 3x = 6. Divide by 3: x = 2. Now find y using the first equation: y = 2 + 3 = 5. The solution is (2, 5)."
+    "rationale": "Use substitution. Substitute the first equation into the second: 2x + (x + 3) = 9. Combine like terms: 3x + 3 = 9. Subtract 3: 3x = 6. Divide by 3: x = 2. Now find y using the first equation: y = 2 + 3 = 5. The solution is (2, 5).",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is a coefficient."
       }
     ],
-    "rationale": "The degree of a polynomial is the highest exponent of its variable. In this case, the highest exponent is 3."
+    "rationale": "The degree of a polynomial is the highest exponent of its variable. In this case, the highest exponent is 3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   }
 ];

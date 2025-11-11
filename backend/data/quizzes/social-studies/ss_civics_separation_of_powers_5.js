@@ -28,7 +28,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. Constitution, Articles I, II, and III."
+    "source": "U.S. Constitution, Articles I, II, and III.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is not one of the three constitutional branches of government.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "'Federal' describes the level of government, not a specific branch.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "Judicial review is the power of the courts to declare laws unconstitutional.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -142,7 +154,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Adapted from summaries of Marbury v. Madison."
+    "source": "Adapted from summaries of Marbury v. Madison.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 6,
@@ -170,6 +185,9 @@ module.exports = [
         "rationale": "The President cannot override a Supreme Court ruling.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -198,6 +216,9 @@ module.exports = [
         "rationale": "Amending the Constitution is a check, but it requires more than just the legislative branch.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -226,6 +247,9 @@ module.exports = [
         "rationale": "There is no popular vote for Supreme Court justices.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -255,6 +279,9 @@ module.exports = [
         "rationale": "The President negotiates treaties, which must then be ratified by the Senate.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -283,6 +310,9 @@ module.exports = [
         "rationale": "The Supreme Court is not involved in the veto override process.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -311,6 +341,9 @@ module.exports = [
         "rationale": "Cabinet members are appointed by the President and serve at the President's pleasure.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -339,6 +372,9 @@ module.exports = [
         "rationale": "This is the primary role of the judicial branch.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

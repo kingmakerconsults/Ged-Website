@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the ratio of water to the total mixture."
       }
     ],
-    "rationale": "The total number of parts in the mixture is 8 (water) + 3 (syrup) = 11 parts. The ratio of syrup to the total mixture is 3:11."
+    "rationale": "The total number of parts in the mixture is 8 (water) + 3 (syrup) = 11 parts. The ratio of syrup to the total mixture is 3:11.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A phone is discounted by 30%. If the original price was $600, what is the discount amount?",
     "correctAnswer": "$180",
-    "rationale": "To find the discount amount, multiply the original price by the discount percentage: $600 * 0.30 = $180."
+    "rationale": "To find the discount amount, multiply the original price by the discount percentage: $600 * 0.30 = $180.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{5 \\text{ dollars}}{4 \\text{ Euros}} = \\frac{35 \\text{ dollars}}{x \\text{ Euros}}$. Cross-multiply: $5x = 4 \\times 35$, so $5x = 140$. Divide by 5: $x = 28$ Euros."
+    "rationale": "Set up a proportion: $\\frac{5 \\text{ dollars}}{4 \\text{ Euros}} = \\frac{35 \\text{ dollars}}{x \\text{ Euros}}$. Cross-multiply: $5x = 4 \\times 35$, so $5x = 140$. Divide by 5: $x = 28$ Euros.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "The number of students in a school increased from 500 to 540. What was the percent increase?",
     "correctAnswer": "8%",
-    "rationale": "The increase in students is 540 - 500 = 40. The percent increase is (increase / original amount) * 100 = (40 / 500) * 100 = 0.08 * 100 = 8%."
+    "rationale": "The increase in students is 540 - 500 = 40. The percent increase is (increase / original amount) * 100 = (40 / 500) * 100 = 0.08 * 100 = 8%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the result if the ratio was 5:3."
       }
     ],
-    "rationale": "The ratio of sugar to flour is 3:5. Since the amount of flour is multiplied by 3 (from 5 to 15), the amount of sugar should also be multiplied by 3. So, 3 * 3 = 9 cups of sugar."
+    "rationale": "The ratio of sugar to flour is 3:5. Since the amount of flour is multiplied by 3 (from 5 to 15), the amount of sugar should also be multiplied by 3. So, 3 * 3 = 9 cups of sugar.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is 4/5 of the people."
       }
     ],
-    "rationale": "The fraction of people who prefer Brand A is 3/5. To find the number of people, multiply this fraction by the total number surveyed: $\\frac{3}{5} \\times 250 = 150$ people."
+    "rationale": "The fraction of people who prefer Brand A is 3/5. To find the number of people, multiply this fraction by the total number surveyed: $\\frac{3}{5} \\times 250 = 150$ people.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "Sales tax is 7.5%. If you purchase an item for $80, what is the total cost including tax?",
     "correctAnswer": "$86.00",
-    "rationale": "First, calculate the tax amount: 7.5% of $80 is 0.075 * 80 = $6. Then, add the tax to the original price: $80 + $6 = $86."
+    "rationale": "First, calculate the tax amount: 7.5% of $80 is 0.075 * 80 = $6. Then, add the tax to the original price: $80 + $6 = $86.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{1 \\text{ cm}}{20 \\text{ km}} = \\frac{x \\text{ cm}}{150 \\text{ km}}$. Solve for x: $x = \\frac{150}{20} = 7.5$ cm."
+    "rationale": "Set up a proportion: $\\frac{1 \\text{ cm}}{20 \\text{ km}} = \\frac{x \\text{ cm}}{150 \\text{ km}}$. Solve for x: $x = \\frac{150}{20} = 7.5$ cm.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Simplify the ratio 24:36.",
     "correctAnswer": "2:3",
-    "rationale": "The greatest common divisor of 24 and 36 is 12. Divide both parts of the ratio by 12: 24/12 = 2 and 36/12 = 3. The simplified ratio is 2:3."
+    "rationale": "The greatest common divisor of 24 and 36 is 12. Divide both parts of the ratio by 12: 24/12 = 2 and 36/12 = 3. The simplified ratio is 2:3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This would be the pace for a 6-mile race."
       }
     ],
-    "rationale": "To find the time per mile, divide the total time by the distance: 60 minutes / 8 miles = 7.5 minutes/mile."
+    "rationale": "To find the time per mile, divide the total time by the distance: 60 minutes / 8 miles = 7.5 minutes/mile.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is the new profit as a percentage of the old."
       }
     ],
-    "rationale": "The decrease in profit is $120,000 - $90,000 = $30,000. The percent decrease is (decrease / original amount) * 100 = ($30,000 / $120,000) * 100 = 0.25 * 100 = 25%."
+    "rationale": "The decrease in profit is $120,000 - $90,000 = $30,000. The percent decrease is (decrease / original amount) * 100 = ($30,000 / $120,000) * 100 = 0.25 * 100 = 25%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "The actual dimensions are 3*4=12 feet and 5*4=20 feet. The area is 12 * 20 = 240 sq ft."
       }
     ],
-    "rationale": "First, convert the blueprint dimensions to actual dimensions. Length = 3 inches * 4 ft/inch = 12 feet. Width = 5 inches * 4 ft/inch = 20 feet. The actual area is 12 feet * 20 feet = 240 square feet."
+    "rationale": "First, convert the blueprint dimensions to actual dimensions. Length = 3 inches * 4 ft/inch = 12 feet. Width = 5 inches * 4 ft/inch = 20 feet. The actual area is 12 feet * 20 feet = 240 square feet.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

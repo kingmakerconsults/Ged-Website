@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is an incorrect value."
       }
     ],
-    "rationale": "Parallel lines have identical slopes. The slope of the given line is 5, so a parallel line will also have a slope of 5."
+    "rationale": "Parallel lines have identical slopes. The slope of the given line is 5, so a parallel line will also have a slope of 5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "If $f(x) = 15 - x$, what is $f(15)$?",
     "correctAnswer": "0",
-    "rationale": "Substitute 15 for x: f(15) = 15 - 15 = 0."
+    "rationale": "Substitute 15 for x: f(15) = 15 - 15 = 0.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "If x=-1, y=3(-1)+1=-2."
       }
     ],
-    "rationale": "Plug in the x-coordinate from each point and see if it produces the correct y-coordinate. For (1, 4): y = 3(1) + 1 = 4. This matches."
+    "rationale": "Plug in the x-coordinate from each point and see if it produces the correct y-coordinate. For (1, 4): y = 3(1) + 1 = 4. This matches.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the slope of a line passing through (4, 2) and (6, 10)?",
     "correctAnswer": "4",
-    "rationale": "Slope = (10-2)/(6-4) = 8/2 = 4."
+    "rationale": "Slope = (10-2)/(6-4) = 8/2 = 4.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "The y-intercept is the value when x=0. f(0) = -9."
       }
     ],
-    "rationale": "To find the y-intercept, set x=0. f(0) = 0² - 9 = -9."
+    "rationale": "To find the y-intercept, set x=0. f(0) = 0² - 9 = -9.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "f(17) = 31."
       }
     ],
-    "rationale": "Set the function equal to 7: 2x - 3 = 7. Add 3 to both sides: 2x = 10. Divide by 2: x = 5."
+    "rationale": "Set the function equal to 7: 2x - 3 = 7. Add 3 to both sides: 2x = 10. Divide by 2: x = 5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the x-intercept of the line $y = 5x + 15$?",
     "correctAnswer": "-3",
-    "rationale": "Set y=0: 0 = 5x + 15 -> -15 = 5x -> x=-3."
+    "rationale": "Set y=0: 0 = 5x + 15 -> -15 = 5x -> x=-3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "The y-coordinate is -2."
       }
     ],
-    "rationale": "The vertex form of a parabola is y = a(x - h)² + k, where the vertex is (h, k). In this equation, h = -1 and k = -2."
+    "rationale": "The vertex form of a parabola is y = a(x - h)² + k, where the vertex is (h, k). In this equation, h = -1 and k = -2.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A gym membership costs $25 per month. Write a function C(m) for the total cost of 'm' months.",
     "correctAnswer": "C(m) = 25m",
-    "rationale": "The total cost is the monthly cost multiplied by the number of months."
+    "rationale": "The total cost is the monthly cost multiplied by the number of months.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This has the wrong slope."
       }
     ],
-    "rationale": "Use the point-slope form y - y1 = m(x - x1): y - 3 = -2(x - 1). y - 3 = -2x + 2. y = -2x + 5."
+    "rationale": "Use the point-slope form y - y1 = m(x - x1): y - 3 = -2(x - 1). y - 3 = -2x + 2. y = -2x + 5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is a specific point."
       }
     ],
-    "rationale": "The range of a function is the set of all possible output values (y-values) that the function can produce."
+    "rationale": "The range of a function is the set of all possible output values (y-values) that the function can produce.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the x-intercept."
       }
     ],
-    "rationale": "To find the slope, rewrite the equation in slope-intercept form (y = mx + b). -y = -3x + 2. y = 3x - 2. The slope (m) is 3."
+    "rationale": "To find the slope, rewrite the equation in slope-intercept form (y = mx + b). -y = -3x + 2. y = 3x - 2. The slope (m) is 3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

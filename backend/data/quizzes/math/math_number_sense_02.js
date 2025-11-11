@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "1/4 is equal to 2/8."
       }
     ],
-    "rationale": "To compare the fractions, find a common denominator, which is 8. The fractions become 4/8, 3/8, 5/8, and 2/8. The largest is 5/8."
+    "rationale": "To compare the fractions, find a common denominator, which is 8. The fractions become 4/8, 3/8, 5/8, and 2/8. The largest is 5/8.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is 75% of 40?",
     "correctAnswer": "30",
-    "rationale": "To find 75% of 40, convert the percentage to a decimal (0.75) and multiply by the number: 0.75 * 40 = 30."
+    "rationale": "To find 75% of 40, convert the percentage to a decimal (0.75) and multiply by the number: 0.75 * 40 = 30.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the result of 5-3+2+2."
       }
     ],
-    "rationale": "Subtracting a negative number is equivalent to addition. So, the expression becomes 5 + 3 + 2, which equals 10."
+    "rationale": "Subtracting a negative number is equivalent to addition. So, the expression becomes 5 + 3 + 2, which equals 10.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A lunch bill is $24.50. If you add a 15% tip, what is the total cost?",
     "correctAnswer": "$28.18",
-    "rationale": "First, calculate the tip: 15% of $24.50 is 0.15 * 24.50 = $3.675. Round to $3.68. Then add the tip to the bill: $24.50 + $3.68 = $28.18."
+    "rationale": "First, calculate the tip: 15% of $24.50 is 0.15 * 24.50 = $3.675. Round to $3.68. Then add the tip to the bill: $24.50 + $3.68 = $28.18.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To divide fractions, multiply the first fraction by the reciprocal of the second. So, $\\frac{2}{3} \\times \\frac{4}{1} = \\frac{8}{3}$."
+    "rationale": "To divide fractions, multiply the first fraction by the reciprocal of the second. So, $\\frac{2}{3} \\times \\frac{4}{1} = \\frac{8}{3}$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "After the first year, the value is 90% of the original: $20,000 * 0.90 = $18,000. After the second year, the value is 90% of the new value: $18,000 * 0.90 = $16,200."
+    "rationale": "After the first year, the value is 90% of the original: $20,000 * 0.90 = $18,000. After the second year, the value is 90% of the new value: $18,000 * 0.90 = $16,200.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Order the following from least to greatest: 0.5, $\\frac{2}{5}$, 45%, 0.42.",
     "correctAnswer": "2/5, 0.42, 45%, 0.5",
-    "rationale": "Convert all to decimals: 2/5 = 0.4, 45% = 0.45. The order is 0.4, 0.42, 0.45, 0.5. This corresponds to 2/5, 0.42, 45%, 0.5."
+    "rationale": "Convert all to decimals: 2/5 = 0.4, 45% = 0.45. The order is 0.4, 0.42, 0.45, 0.5. This corresponds to 2/5, 0.42, 45%, 0.5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "21 is divisible by 3 and 7."
       }
     ],
-    "rationale": "A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. 17 fits this definition."
+    "rationale": "A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. 17 fits this definition.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "What is the least common multiple (LCM) of 12 and 18?",
     "correctAnswer": "36",
-    "rationale": "The multiples of 12 are 12, 24, 36, 48... The multiples of 18 are 18, 36, 54... The least common multiple is 36."
+    "rationale": "The multiples of 12 are 12, 24, 36, 48... The multiples of 18 are 18, 36, 54... The least common multiple is 36.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Calculate the sales tax: 8% of $500 is $40. Add the tax to the price: $500 + $40 = $540."
+    "rationale": "Calculate the sales tax: 8% of $500 is $40. Add the tax to the price: $500 + $40 = $540.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is the sum of 64 and 36."
       }
     ],
-    "rationale": "First, find the square roots: sqrt(64) = 8 and sqrt(36) = 6. Then add the results: 8 + 6 = 14."
+    "rationale": "First, find the square roots: sqrt(64) = 8 and sqrt(36) = 6. Then add the results: 8 + 6 = 14.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "According to the laws of exponents, when you multiply two powers with the same base, you add the exponents. So, $2^3 \\times 2^4 = 2^{3+4} = 2^7$."
+    "rationale": "According to the laws of exponents, when you multiply two powers with the same base, you add the exponents. So, $2^3 \\times 2^4 = 2^{3+4} = 2^7$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

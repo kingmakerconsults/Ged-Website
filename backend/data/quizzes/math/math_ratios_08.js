@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the amount of flour."
       }
     ],
-    "rationale": "The ratio of sugar to flour is 1:2. Since you are using 6 cups of flour, which is 3 times the amount in the ratio, you need 3 times the amount of sugar. 1 cup * 3 = 3 cups."
+    "rationale": "The ratio of sugar to flour is 1:2. Since you are using 6 cups of flour, which is 3 times the amount in the ratio, you need 3 times the amount of sugar. 1 cup * 3 = 3 cups.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A laptop is on sale for $450, which is 25% off the original price. What was the original price?",
     "correctAnswer": "$600",
-    "rationale": "If the price is 25% off, it is 75% of the original price. Let P be the original price. 0.75 * P = $450. P = $450 / 0.75 = $600."
+    "rationale": "If the price is 25% off, it is 75% of the original price. Let P be the original price. 0.75 * P = $450. P = $450 / 0.75 = $600.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the product of distance and time."
       }
     ],
-    "rationale": "Speed is calculated by dividing distance by time. Speed = 350 miles / 5 hours = 70 mph."
+    "rationale": "Speed is calculated by dividing distance by time. Speed = 350 miles / 5 hours = 70 mph.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A basketball player makes 7 out of 10 free throws. What is the ratio of made free throws to missed free throws?",
     "correctAnswer": "7:3",
-    "rationale": "If 7 are made out of 10, then 3 are missed. The ratio of made to missed is 7:3."
+    "rationale": "If 7 are made out of 10, then 3 are missed. The ratio of made to missed is 7:3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the bill with tax, but before tip."
       }
     ],
-    "rationale": "First, add the 15% tip: $120 * 1.15 = $138. Then, add the 5% tax to this new total: $138 * 1.05 = $144.90."
+    "rationale": "First, add the 15% tip: $120 * 1.15 = $138. Then, add the 5% tax to this new total: $138 * 1.05 = $144.90.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is 100*4."
       }
     ],
-    "rationale": "First, find the unit rate: 100 km / 2.5 cm = 40 km per cm. Then, multiply by the new map distance: 40 km/cm * 4 cm = 160 km."
+    "rationale": "First, find the unit rate: 100 km / 2.5 cm = 40 km per cm. Then, multiply by the new map distance: 40 km/cm * 4 cm = 160 km.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A company's profits increased from $200,000 to $250,000. What was the percent increase?",
     "correctAnswer": "25%",
-    "rationale": "The increase is $50,000. The percent increase is (increase / original amount) * 100 = (50,000 / 200,000) * 100 = 0.25 * 100 = 25%."
+    "rationale": "The increase is $50,000. The percent increase is (increase / original amount) * 100 = (50,000 / 200,000) * 100 = 0.25 * 100 = 25%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is simplified by 3, but not to the lowest terms."
       }
     ],
-    "rationale": "The greatest common divisor of 45 and 60 is 15. Divide both parts of the ratio by 15: 45/15 = 3 and 60/15 = 4. The simplified ratio is 3:4."
+    "rationale": "The greatest common divisor of 45 and 60 is 15. Divide both parts of the ratio by 15: 45/15 = 3 and 60/15 = 4. The simplified ratio is 3:4.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A survey of 80 students showed that 48 of them have a sibling. What is this ratio as a percentage?",
     "correctAnswer": "60%",
-    "rationale": "The fraction of students with a sibling is 48/80. This simplifies to 6/10 or 3/5. As a percentage, 3/5 is 60%."
+    "rationale": "The fraction of students with a sibling is 48/80. This simplifies to 6/10 or 3/5. As a percentage, 3/5 is 60%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the cost of one ticket."
       }
     ],
-    "rationale": "First, find the cost of one ticket: $90 / 4 = $22.50. Then, multiply by the number of tickets you want to buy: $22.50 * 7 = $157.50."
+    "rationale": "First, find the cost of one ticket: $90 / 4 = $22.50. Then, multiply by the number of tickets you want to buy: $22.50 * 7 = $157.50.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is 15*5/2."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{2 \\text{ sugar}}{5 \\text{ flour}} = \\frac{x \\text{ sugar}}{15 \\text{ flour}}$. Cross-multiply: $5x = 30$. Divide by 5: $x = 6$ cups of sugar."
+    "rationale": "Set up a proportion: $\\frac{2 \\text{ sugar}}{5 \\text{ flour}} = \\frac{x \\text{ sugar}}{15 \\text{ flour}}$. Cross-multiply: $5x = 30$. Divide by 5: $x = 6$ cups of sugar.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To find the commission, multiply the sale price by the commission rate: 0.05 * $22,000 = $1,100."
+    "rationale": "To find the commission, multiply the sale price by the commission rate: 0.05 * $22,000 = $1,100.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

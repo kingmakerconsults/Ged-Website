@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The nucleus is often called the \"brain\" or \"control center\" of the cell."
+    "passage": "Science textbook excerpt: The nucleus is often called the \"brain\" or \"control center\" of the cell.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,7 +59,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: Humans, bears, and raccoons are examples of omnivores."
+    "passage": "Science textbook excerpt: Humans, bears, and raccoons are examples of omnivores.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "This is a learned skill.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "Gene flow is the transfer of genetic variation from one population to another.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "Correct. Decomposers break down dead organic material and return nutrients to the ecosystem.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "The fungi decompose all organisms, so they would still have a source of dead organic matter.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -196,6 +214,9 @@ module.exports = [
         "rationale": "While roots are part of the transport system, their primary function is absorption.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -224,6 +245,9 @@ module.exports = [
         "rationale": "Ribosomes are involved in protein synthesis, and RNA is a nucleic acid, but they do not form chromosomes.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -252,6 +276,9 @@ module.exports = [
         "rationale": "All cells have a cell membrane.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -280,6 +307,9 @@ module.exports = [
         "rationale": "This is the role of DNA.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -308,6 +338,9 @@ module.exports = [
         "rationale": "Uracil (U) is found in RNA and pairs with adenine.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -336,6 +369,9 @@ module.exports = [
         "rationale": "Photosynthesis is the process by which plants make food.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -364,6 +400,9 @@ module.exports = [
         "rationale": "There is genetic variation within a species.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   }
 ];

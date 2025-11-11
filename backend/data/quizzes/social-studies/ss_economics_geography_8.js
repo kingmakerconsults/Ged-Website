@@ -26,6 +26,10 @@ module.exports = [
         "rationale": "This is the Gross Domestic Product (GDP).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -55,6 +59,10 @@ module.exports = [
         "rationale": "Inflation does not necessarily affect the quality of goods.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -83,6 +91,10 @@ module.exports = [
         "rationale": "An underemployed person has a job, but it is part-time or below their skill level.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -111,6 +123,10 @@ module.exports = [
         "rationale": "The title is usually at the top of the map.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -139,6 +155,10 @@ module.exports = [
         "rationale": "In a market economy, prices are typically set by supply and demand, not the government.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -168,6 +188,10 @@ module.exports = [
         "rationale": "The two are directly related.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -196,6 +220,10 @@ module.exports = [
         "rationale": "This is not a type of tax system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -226,7 +254,11 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Hypothetical trade data."
+    "source": "Hypothetical trade data.",
+    "challenge_tags": [
+      "social-4",
+      "social-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -254,6 +286,10 @@ module.exports = [
         "rationale": "This is the primary role of the Federal Deposit Insurance Corporation (FDIC).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -283,6 +319,10 @@ module.exports = [
         "rationale": "Financial transactions like buying stocks are not counted in GDP as they do not represent the production of a new good or service.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -311,6 +351,10 @@ module.exports = [
         "rationale": "A tax on domestic goods is an excise tax.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   },
   {
@@ -339,6 +383,10 @@ module.exports = [
         "rationale": "A stable population would have a more evenly distributed, pillar-like shape.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-4",
+      "social-5"
     ]
   }
 ];

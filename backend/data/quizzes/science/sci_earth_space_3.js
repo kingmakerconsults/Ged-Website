@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The atmosphere is the envelope of gases that surrounds our planet."
+    "passage": "Science textbook excerpt: The atmosphere is the envelope of gases that surrounds our planet.",
+    "challenge_tags": [
+      "science-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,7 +59,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: Burning coal, oil, and gas for energy releases pollutants like sulfur dioxide, nitrogen oxides, and particulate matter into the air."
+    "passage": "Science textbook excerpt: Burning coal, oil, and gas for energy releases pollutants like sulfur dioxide, nitrogen oxides, and particulate matter into the air.",
+    "challenge_tags": [
+      "science-4"
+    ]
   },
   {
     "questionNumber": 3,
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "Erosion is the wearing away of land by wind or water.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "Abiotic resources are non-living parts of an ecosystem, which can be either renewable or non-renewable.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "The graph shows a clear upward trend in temperature.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "Recycling helps reduce the need for new materials and can save energy, which would have a small effect on decreasing CO2.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -196,6 +214,9 @@ module.exports = [
         "rationale": "The carbon cycle is related, but the greenhouse effect is the specific name for the warming process.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -224,6 +245,9 @@ module.exports = [
         "rationale": "Invasive species can disrupt an ecosystem, but they are not the direct cause of eutrophication.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -252,6 +276,9 @@ module.exports = [
         "rationale": "Weather occurs in the troposphere, below the stratosphere.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -280,6 +307,9 @@ module.exports = [
         "rationale": "This is the field of ethology.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -308,6 +338,9 @@ module.exports = [
         "rationale": "While soil can release greenhouse gases, the primary impact of deforestation on CO2 is through the loss of photosynthesis.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -336,6 +369,9 @@ module.exports = [
         "rationale": "Sulfur dioxide is a primary cause of acid rain.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -364,6 +400,9 @@ module.exports = [
         "rationale": "This is a human intervention to mitigate climate change, not a natural feedback loop.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -392,6 +431,9 @@ module.exports = [
         "rationale": "This is a method of reducing a carbon footprint, not the footprint itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   }
 ];

@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "The CEO was actively trying to build a better culture, not ignore it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "While it was old, 'resilient' refers to its toughness, not its age.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "The report was the final product, the end of the process, not the beginning.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "The word describes the weakness of the alibi, not its creativity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "Using obscure words, while perhaps unwise, is a stylistic choice, not necessarily a sign of no skill.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "They took formal action, they did not ignore the issue.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "Alleviate means the opposite—reduce or ease.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "Mandatory refers to requirement, not timing.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "This describes communication, not willingness to compromise.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "This describes manner, not practicality.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "That's 'frequent,' not 'imminent.'",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   },
   {
@@ -346,7 +379,9 @@ module.exports = [
         "rationale": "This is unrelated to a mismatch in records.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-5"
     ]
   }
-]
-;
+];

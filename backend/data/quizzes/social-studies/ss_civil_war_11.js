@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "History textbook excerpt: Texas seceded from the Union and joined the Confederacy."
+    "passage": "History textbook excerpt: Texas seceded from the Union and joined the Confederacy.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Charleston was where the first shots of the war were fired, but it was not the capital.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "The Anaconda Plan was a wartime military strategy, not a post-war aid plan.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "Ironclads changed naval warfare, but the vast majority of casualties in the war were caused by infantry weapons.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "The Confederacy sought foreign support, but Great Britain and France never formally allied with them.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "McClellan was a popular general in many parts of the North, and the riots were not focused on his leadership.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -198,7 +216,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Abraham Lincoln, Gettysburg Address, 1863."
+    "source": "Abraham Lincoln, Gettysburg Address, 1863.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -226,6 +247,9 @@ module.exports = [
         "rationale": "Stephens was the vice president of the Confederacy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -254,6 +278,9 @@ module.exports = [
         "rationale": "The war continued for nearly two years after Vicksburg.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -282,6 +309,9 @@ module.exports = [
         "rationale": "The 54th was a combat unit.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -310,6 +340,9 @@ module.exports = [
         "rationale": "This was part of the Anaconda Plan, but Sherman's march was a land campaign through Georgia.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -338,6 +371,9 @@ module.exports = [
         "rationale": "Significant battles and political conflicts occurred in the border states.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   }
 ];

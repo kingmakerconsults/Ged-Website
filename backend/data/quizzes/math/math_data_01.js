@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the mode of a different set."
       }
     ],
-    "rationale": "To find the mean, add all the numbers together (2+5+8+9+11 = 35) and divide by the count of the numbers (5). 35 / 5 = 7."
+    "rationale": "To find the mean, add all the numbers together (2+5+8+9+11 = 35) and divide by the count of the numbers (5). 35 / 5 = 7.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the median of the data set: 3, 7, 1, 9, 4?",
     "correctAnswer": "4",
-    "rationale": "First, order the data set from least to greatest: 1, 3, 4, 7, 9. The median is the middle number, which is 4."
+    "rationale": "First, order the data set from least to greatest: 1, 3, 4, 7, 9. The median is the middle number, which is 4.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "9 only appears once."
       }
     ],
-    "rationale": "The mode is the number that appears most often in a data set. In this set, 8 appears three times, more than any other number."
+    "rationale": "The mode is the number that appears most often in a data set. In this set, 8 appears three times, more than any other number.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the range of the data set: 15, 2, 12, 25, 8?",
     "correctAnswer": "23",
-    "rationale": "The range is the difference between the highest and lowest values. The highest is 25 and the lowest is 2. Range = 25 - 2 = 23."
+    "rationale": "The range is the difference between the highest and lowest values. The highest is 25 and the lowest is 2. Range = 25 - 2 = 23.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the probability of rolling a number greater than 2."
       }
     ],
-    "rationale": "A standard six-sided die has three even numbers (2, 4, 6) and a total of six possible outcomes. The probability is the number of favorable outcomes divided by the total number of outcomes: 3/6 = 1/2."
+    "rationale": "A standard six-sided die has three even numbers (2, 4, 6) and a total of six possible outcomes. The probability is the number of favorable outcomes divided by the total number of outcomes: 3/6 = 1/2.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the probability of drawing a green marble."
       }
     ],
-    "rationale": "There are a total of 4 + 5 + 6 = 15 marbles. The number of blue marbles is 5. The probability is 5/15, which simplifies to 1/3."
+    "rationale": "There are a total of 4 + 5 + 6 = 15 marbles. The number of blue marbles is 5. The probability is 5/15, which simplifies to 1/3.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "The scores on a test were 75, 80, 80, 85, 90, 95. What is the median score?",
     "correctAnswer": "82.5",
-    "rationale": "For an even number of data points, the median is the average of the two middle numbers. First, order the data: 75, 80, 80, 85, 90, 95. The two middle numbers are 80 and 85. Their average is (80 + 85) / 2 = 82.5."
+    "rationale": "For an even number of data points, the median is the average of the two middle numbers. First, order the data: 75, 80, 80, 85, 90, 95. The two middle numbers are 80 and 85. Their average is (80 + 85) / 2 = 82.5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is the probability of spinning an even number."
       }
     ],
-    "rationale": "The numbers greater than 5 are 6, 7, and 8. This is 3 favorable outcomes out of 8 possible outcomes. So the probability is 3/8."
+    "rationale": "The numbers greater than 5 are 6, 7, and 8. This is 3 favorable outcomes out of 8 possible outcomes. So the probability is 3/8.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A student's grades are 88, 92, 85, and 95. What grade must the student get on the fifth test to have an average of 90?",
     "correctAnswer": "90",
-    "rationale": "To have an average of 90 over 5 tests, the total score must be 90 * 5 = 450. The sum of the first four grades is 88 + 92 + 85 + 95 = 360. So, the fifth grade must be 450 - 360 = 90."
+    "rationale": "To have an average of 90 over 5 tests, the total score must be 90 * 5 = 450. The sum of the first four grades is 88 + 92 + 85 + 95 = 360. So, the fifth grade must be 450 - 360 = 90.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "The range is a measure of spread or dispersion, not central tendency."
       }
     ],
-    "rationale": "Measures of central tendency describe the center of a data set. The range describes how spread out the data is."
+    "rationale": "Measures of central tendency describe the center of a data set. The range describes how spread out the data is.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "The probability can be determined."
       }
     ],
-    "rationale": "The sum of the probabilities of an event happening and not happening is 1 (or 100%). So, the probability of it not raining is 100% - 40% = 60%."
+    "rationale": "The sum of the probabilities of an event happening and not happening is 1 (or 100%). So, the probability of it not raining is 100% - 40% = 60%.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This would mean it's an impossible outcome."
       }
     ],
-    "rationale": "The probability of getting heads on one flip is 1/2. For two independent events, you multiply their probabilities. So, P(Heads and Heads) = (1/2) * (1/2) = 1/4."
+    "rationale": "The probability of getting heads on one flip is 1/2. For two independent events, you multiply their probabilities. So, P(Heads and Heads) = (1/2) * (1/2) = 1/4.",
+    "challenge_tags": [
+      "math-6"
+    ]
   }
 ];

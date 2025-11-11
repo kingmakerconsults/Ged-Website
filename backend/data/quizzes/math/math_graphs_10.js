@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "The y-intercept is determined."
       }
     ],
-    "rationale": "The line y=x passes through the origin (0,0), so its y-intercept is 0."
+    "rationale": "The line y=x passes through the origin (0,0), so its y-intercept is 0.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "If $f(x) = 100 / x$, what is $f(20)$?",
     "correctAnswer": "5",
-    "rationale": "Substitute 20 for x: f(20) = 100 / 20 = 5."
+    "rationale": "Substitute 20 for x: f(20) = 100 / 20 = 5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the y-coordinate."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x. $m = \\frac{7 - 7}{5 - 3} = \\frac{0}{2} = 0$. This indicates a horizontal line."
+    "rationale": "The slope is the change in y divided by the change in x. $m = \\frac{7 - 7}{5 - 3} = \\frac{0}{2} = 0$. This indicates a horizontal line.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the equation of a line with a slope of 5 and a y-intercept of -1?",
     "correctAnswer": "y = 5x - 1",
-    "rationale": "Using the slope-intercept form y = mx + b, substitute m=5 and b=-1."
+    "rationale": "Using the slope-intercept form y = mx + b, substitute m=5 and b=-1.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "If x=1, y = $1^2$+1=2. So (1, 3) is not on the graph."
       }
     ],
-    "rationale": "Plug the x-coordinate of each point into the equation to see if it produces the correct y-coordinate. For (1, 3): y = $(1)^2$ + 1 = 2. Since 2 is not equal to 3, this point is not on the graph."
+    "rationale": "Plug the x-coordinate of each point into the equation to see if it produces the correct y-coordinate. For (1, 3): y = $(1)^2$ + 1 = 2. Since 2 is not equal to 3, this point is not on the graph.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute 200 for x in the cost function: C(200) = 20(200) + 1000 = 4000 + 1000 = $5,000."
+    "rationale": "Substitute 200 for x in the cost function: C(200) = 20(200) + 1000 = 4000 + 1000 = $5,000.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the x-intercept for the line $5x + 2y = 20$.",
     "correctAnswer": "4",
-    "rationale": "To find the x-intercept, set y = 0. 5x + 2(0) = 20. 5x = 20. x = 4."
+    "rationale": "To find the x-intercept, set y = 0. 5x + 2(0) = 20. 5x = 20. x = 4.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "An absolute value function involves |x|."
       }
     ],
-    "rationale": "A function where the independent variable (x) appears in the exponent is called an exponential function. This function shows exponential growth."
+    "rationale": "A function where the independent variable (x) appears in the exponent is called an exponential function. This function shows exponential growth.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A line with a slope of -1 passes through the point (5, 5). What is its y-intercept?",
     "correctAnswer": "10",
-    "rationale": "Using y = mx + b: 5 = -1(5) + b. 5 = -5 + b. b = 10."
+    "rationale": "Using y = mx + b: 5 = -1(5) + b. 5 = -5 + b. b = 10.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The vertex form of a parabola is y = a$(x - h)^2$ + k, where the vertex is (h, k). In this equation, h = -2 and k = 0."
+    "rationale": "The vertex form of a parabola is y = a$(x - h)^2$ + k, where the vertex is (h, k). In this equation, h = -2 and k = 0.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This line is not perpendicular to the y-axis."
       }
     ],
-    "rationale": "The y-axis is a vertical line. A line that is perpendicular to a vertical line must be a horizontal line. The equation of a horizontal line is y = c."
+    "rationale": "The y-axis is a vertical line. A line that is perpendicular to a vertical line must be a horizontal line. The equation of a horizontal line is y = c.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is 3*5+8."
       }
     ],
-    "rationale": "For a linear function, the change in the output is the slope times the change in the input. The change in x is 5 - 2 = 3. The change in y is slope * 3 = 3 * 3 = 9. So, f(5) = f(2) + 9 = 8 + 9 = 17."
+    "rationale": "For a linear function, the change in the output is the slope times the change in the input. The change in x is 5 - 2 = 3. The change in y is slope * 3 = 3 * 3 = 9. So, f(5) = f(2) + 9 = 8 + 9 = 17.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

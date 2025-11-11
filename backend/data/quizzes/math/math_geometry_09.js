@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is 9*9."
       }
     ],
-    "rationale": "The area of a rectangle is calculated by multiplying its length and width. Area = 9 inches * 6 inches = 54 in²."
+    "rationale": "The area of a rectangle is calculated by multiplying its length and width. Area = 9 inches * 6 inches = 54 in².",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A circle has a radius of 20 meters. What is its circumference? Use 3.14 for $\\pi$.",
     "correctAnswer": "125.6 meters",
-    "rationale": "Circumference = 2 * pi * r. C = 2 * 3.14 * 20 meters = 125.6 meters."
+    "rationale": "Circumference = 2 * pi * r. C = 2 * 3.14 * 20 meters = 125.6 meters.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The formula for the volume of a cylinder is V = pi * $r^2$ * h. V = 3.14 * (4)$^2$ * 10 = 3.14 * 16 * 10 = 502.4."
+    "rationale": "The formula for the volume of a cylinder is V = pi * $r^2$ * h. V = 3.14 * (4)$^2$ * 10 = 3.14 * 16 * 10 = 502.4.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "How many centimeters are in a meter?",
     "correctAnswer": "100",
-    "rationale": "The prefix 'centi-' means one-hundredth. There are 100 centimeters in a meter."
+    "rationale": "The prefix 'centi-' means one-hundredth. There are 100 centimeters in a meter.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "An equilateral triangle has all angles equal to 60°."
       }
     ],
-    "rationale": "The triangle has one angle greater than 90° (100°), making it obtuse. It also has two equal angles (40°), which means the sides opposite those angles are equal, making it isosceles."
+    "rationale": "The triangle has one angle greater than 90° (100°), making it obtuse. It also has two equal angles (40°), which means the sides opposite those angles are equal, making it isosceles.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the volume if s=4."
       }
     ],
-    "rationale": "The surface area of a cube is 6$s^2$, where s is the side length. 24 = 6$s^2$, so $s^2$ = 4, and s = 2 feet. The volume is $s^3$, so V = $2^3$ = 8 cubic feet."
+    "rationale": "The surface area of a cube is 6$s^2$, where s is the side length. 24 = 6$s^2$, so $s^2$ = 4, and s = 2 feet. The volume is $s^3$, so V = $2^3$ = 8 cubic feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the perimeter of a rectangle if its length is 15 and its width is 10?",
     "correctAnswer": "50",
-    "rationale": "Perimeter = 2 * (length + width) = 2 * (15 + 10) = 2 * 25 = 50."
+    "rationale": "Perimeter = 2 * (length + width) = 2 * (15 + 10) = 2 * 25 = 50.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is $a^2$."
       }
     ],
-    "rationale": "Using the Pythagorean theorem ($a^2 + b^2 = c^2$), we have $a^2 + 9^2 = 41^2$. $a^2 + 81 = 1681$. $a^2 = 1681 - 81 = 1600$. So, $a = \\sqrt{1600} = 40$."
+    "rationale": "Using the Pythagorean theorem ($a^2 + b^2 = c^2$), we have $a^2 + 9^2 = 41^2$. $a^2 + 81 = 1681$. $a^2 = 1681 - 81 = 1600$. So, $a = \\sqrt{1600} = 40$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for $\\pi$.",
     "correctAnswer": "560 rotations",
-    "rationale": "The circumference of the wheel is C = 2 * 3.14 * 1.5 = 9.42 feet. The number of rotations is the total distance divided by the circumference: 5280 / 9.42 ≈ 560.5. The number of full rotations is 560."
+    "rationale": "The circumference of the wheel is C = 2 * 3.14 * 1.5 = 9.42 feet. The number of rotations is the total distance divided by the circumference: 5280 / 9.42 ≈ 560.5. The number of full rotations is 560.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is for a heptagon."
       }
     ],
-    "rationale": "The sum of the interior angles of a polygon is given by the formula (n-2) * 180°, where n is the number of sides. For a pentagon, n=5, so the sum is (5-2) * 180° = 540°."
+    "rationale": "The sum of the interior angles of a polygon is given by the formula (n-2) * 180°, where n is the number of sides. For a pentagon, n=5, so the sum is (5-2) * 180° = 540°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "An arc is a portion of the perimeter."
       }
     ],
-    "rationale": "The radius of a circle is any of the line segments from its center to its perimeter."
+    "rationale": "The radius of a circle is any of the line segments from its center to its perimeter.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Using the formula, A = $\\frac{3\\sqrt{3}}{2}s^2$. A = $\\frac{3\\sqrt{3}}{2}(6)$^2$ = \\frac{3\\sqrt{3}}{2}(36) = 54\\sqrt{3} \\approx 93.53$."
+    "rationale": "Using the formula, A = $\\frac{3\\sqrt{3}}{2}s^2$. A = $\\frac{3\\sqrt{3}}{2}(6)$^2$ = \\frac{3\\sqrt{3}}{2}(36) = 54\\sqrt{3} \\approx 93.53$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

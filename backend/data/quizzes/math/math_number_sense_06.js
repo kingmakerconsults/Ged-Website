@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the sum."
       }
     ],
-    "rationale": "This is a straightforward subtraction problem. 805 - 102 = 703."
+    "rationale": "This is a straightforward subtraction problem. 805 - 102 = 703.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Convert 0.45 to a fraction in simplest form.",
     "correctAnswer": "9/20",
-    "rationale": "0.45 is 45/100. Both numbers are divisible by 5. 45/5 = 9 and 100/5 = 20. So, the fraction is 9/20."
+    "rationale": "0.45 is 45/100. Both numbers are divisible by 5. 45/5 = 9 and 100/5 = 20. So, the fraction is 9/20.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To find the change in temperature, subtract the initial temperature from the final temperature: 12°F - (-5°F) = 12°F + 5°F = 17°F."
+    "rationale": "To find the change in temperature, subtract the initial temperature from the final temperature: 12°F - (-5°F) = 12°F + 5°F = 17°F.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the least common multiple (LCM) of 8 and 10.",
     "correctAnswer": "40",
-    "rationale": "Multiples of 8 are 8, 16, 24, 32, 40... Multiples of 10 are 10, 20, 30, 40... The smallest number they have in common is 40."
+    "rationale": "Multiples of 8 are 8, 16, 24, 32, 40... Multiples of 10 are 10, 20, 30, 40... The smallest number they have in common is 40.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the sum of the absolute values."
       }
     ],
-    "rationale": "First, evaluate the absolute values: |-10| = 10 and |5| = 5. Then, perform the subtraction: 10 - 5 = 5."
+    "rationale": "First, evaluate the absolute values: |-10| = 10 and |5| = 5. Then, perform the subtraction: 10 - 5 = 5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Let the original price be P. The first discount makes the price 0.70P. The second discount is 10% off this price, so you pay 90% of it: 0.90 * (0.70P) = 0.63P. This means the total discount is 1 - 0.63 = 0.37, or 37%."
+    "rationale": "Let the original price be P. The first discount makes the price 0.70P. The second discount is 10% off this price, so you pay 90% of it: 0.90 * (0.70P) = 0.63P. This means the total discount is 1 - 0.63 = 0.37, or 37%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A car travels 220 miles on 8 gallons of gas. What is its fuel efficiency in miles per gallon?",
     "correctAnswer": "27.5 MPG",
-    "rationale": "Divide the total miles by the number of gallons: 220 miles / 8 gallons = 27.5 miles per gallon."
+    "rationale": "Divide the total miles by the number of gallons: 220 miles / 8 gallons = 27.5 miles per gallon.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is a fraction, which is a rational number."
       }
     ],
-    "rationale": "An irrational number cannot be expressed as a simple fraction. Pi is a famous example of an irrational number."
+    "rationale": "An irrational number cannot be expressed as a simple fraction. Pi is a famous example of an irrational number.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "Evaluate: $(2^3 + 2)^2$.",
     "correctAnswer": "100",
-    "rationale": "Follow the order of operations. Inside the parentheses: $2^3$ = 8, so 8+2 = 10. Then square the result: $10^2$ = 100."
+    "rationale": "Follow the order of operations. Inside the parentheses: $2^3$ = 8, so 8+2 = 10. Then square the result: $10^2$ = 100.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is 150+60."
       }
     ],
-    "rationale": "To find 150% of 60, convert the percentage to a decimal (1.5) and multiply: 1.5 * 60 = 90."
+    "rationale": "To find 150% of 60, convert the percentage to a decimal (1.5) and multiply: 1.5 * 60 = 90.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "4/3 is greater than 1, while the others are all equal to 0.75."
       }
     ],
-    "rationale": "The values 0.75, 75%, and 3/4 are all equivalent. The fraction 4/3 is equal to 1.333..., which is different."
+    "rationale": "The values 0.75, 75%, and 3/4 are all equivalent. The fraction 4/3 is equal to 1.333..., which is different.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "This is a compound interest problem. After the first year, the balance is $1000 * 1.02 = $1020. After the second year, the new balance is $1020 * 1.02 = $1040.40."
+    "rationale": "This is a compound interest problem. After the first year, the balance is $1000 * 1.02 = $1020. After the second year, the new balance is $1020 * 1.02 = $1040.40.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

@@ -7,7 +7,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Solve for b: $b - 9 = 2$.",
     "correctAnswer": "11",
-    "rationale": "To solve for b, add 9 to both sides of the equation: 2 + 9 = 11."
+    "rationale": "To solve for b, add 9 to both sides of the equation: 2 + 9 = 11.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
         "rationale": "This is an incorrect application of exponent rules."
       }
     ],
-    "rationale": "Combine the coefficients of the like terms: 5 + 3 - 1 = 7. The simplified expression is 7x."
+    "rationale": "Combine the coefficients of the like terms: 5 + 3 - 1 = 7. The simplified expression is 7x.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the result if you add 3 to 7."
       }
     ],
-    "rationale": "First, subtract 3 from both sides: z/5 = 7 - 3, so z/5 = 4. Then, multiply by 5: z = 4 * 5 = 20."
+    "rationale": "First, subtract 3 from both sides: z/5 = 7 - 3, so z/5 = 4. Then, multiply by 5: z = 4 * 5 = 20.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Expand the expression: $(x - 4)(x + 4)$.",
     "correctAnswer": "$x^2$ - 16",
-    "rationale": "This is a difference of squares. Using the FOIL method: First (x*x = $x^2$), Outer (x*4 = 4x), Inner (-4*x = -4x), Last (-4*4 = -16). The middle terms cancel out: $x^2$ + 4x - 4x - 16 = $x^2$ - 16."
+    "rationale": "This is a difference of squares. Using the FOIL method: First (x*x = $x^2$), Outer (x*4 = 4x), Inner (-4*x = -4x), Last (-4*4 = -16). The middle terms cancel out: $x^2$ + 4x - 4x - 16 = $x^2$ - 16.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "A line with a slope of -1 falls one unit for every one unit it runs."
       }
     ],
-    "rationale": "A horizontal line has no change in its y-value (rise = 0). Therefore, the slope (rise/run) is 0."
+    "rationale": "A horizontal line has no change in its y-value (rise = 0). Therefore, the slope (rise/run) is 0.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, distribute the numbers on both sides: 5x - 10 = 2x + 8. Next, get the x terms on one side: 3x - 10 = 8. Then, isolate the x term: 3x = 18. Finally, divide by 3: x = 6."
+    "rationale": "First, distribute the numbers on both sides: 5x - 10 = 2x + 8. Next, get the x terms on one side: 3x - 10 = 8. Then, isolate the x term: 3x = 18. Finally, divide by 3: x = 6.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If $f(x) = -4x + 7$, what is $f(-3)$?",
     "correctAnswer": "19",
-    "rationale": "Substitute -3 for x: f(-3) = -4(-3) + 7 = 12 + 7 = 19."
+    "rationale": "Substitute -3 for x: f(-3) = -4(-3) + 7 = 12 + 7 = 19.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, subtract 4 from both sides: -3x leq 12. Then, divide by -3. Remember to reverse the inequality sign when dividing by a negative number: x geq -4."
+    "rationale": "First, subtract 4 from both sides: -3x leq 12. Then, divide by -3. Remember to reverse the inequality sign when dividing by a negative number: x geq -4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the y-intercept of the line $3x - 2y = 6$?",
     "correctAnswer": "-3",
-    "rationale": "To find the y-intercept, set x = 0. The equation becomes 3(0) - 2y = 6, so -2y = 6. Solve for y to get y = -3."
+    "rationale": "To find the y-intercept, set x = 0. The equation becomes 3(0) - 2y = 6, so -2y = 6. Solve for y to get y = -3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "15+16 = 31."
       }
     ],
-    "rationale": "Let the first integer be n. The next consecutive integer is n+1. Their sum is n + (n+1) = 37. Combine like terms: 2n + 1 = 37. Subtract 1: 2n = 36. Divide by 2: n = 18. The integers are 18 and 19."
+    "rationale": "Let the first integer be n. The next consecutive integer is n+1. Their sum is n + (n+1) = 37. Combine like terms: 2n + 1 = 37. Subtract 1: 2n = 36. Divide by 2: n = 18. The integers are 18 and 19.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "First, find the slope of the line by rewriting in y=mx+b form: y = (-2/3)x + 2. The slope is -2/3. The perpendicular slope is the negative reciprocal, which is 3/2."
       }
     ],
-    "rationale": "First, convert the equation to slope-intercept form (y = mx + b). 3y = -2x + 6, so y = (-2/3)x + 2. The slope of this line is -2/3. The slope of a perpendicular line is the negative reciprocal, which is 3/2."
+    "rationale": "First, convert the equation to slope-intercept form (y = mx + b). 3y = -2x + 6, so y = (-2/3)x + 2. The slope of this line is -2/3. The slope of a perpendicular line is the negative reciprocal, which is 3/2.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This represents 'a number divided by 10'."
       }
     ],
-    "rationale": "Let 'n' be the number. 'Increased by 10' means adding 10, so the equation is n + 10 = 25."
+    "rationale": "Let 'n' be the number. 'Increased by 10' means adding 10, so the equation is n + 10 = 25.",
+    "challenge_tags": [
+      "math-3"
+    ]
   }
 ];

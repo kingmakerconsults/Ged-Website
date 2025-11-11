@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The First Law states that an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force."
+    "passage": "Science textbook excerpt: The First Law states that an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force.",
+    "challenge_tags": [
+      "science-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,7 +59,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: An example is the handle of a metal pot getting hot when the pot is on the stove."
+    "passage": "Science textbook excerpt: An example is the handle of a metal pot getting hot when the pot is on the stove.",
+    "challenge_tags": [
+      "science-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "Correct. The ampere is the SI unit of electric current.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "Evaporation is the change from liquid to gas.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "This is the mass of the rock in grams, not its volume.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "This is calculated by dividing the volume by the mass.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -196,6 +214,9 @@ module.exports = [
         "rationale": "Static friction cannot be greater than the applied force.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -224,6 +245,9 @@ module.exports = [
         "rationale": "A spinning fan has kinetic energy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -252,6 +276,9 @@ module.exports = [
         "rationale": "The speed of sound depends on the medium it travels through.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -280,6 +307,9 @@ module.exports = [
         "rationale": "The acceleration due to gravity is the same for all objects near the Earth's surface, regardless of their mass.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -308,6 +338,9 @@ module.exports = [
         "rationale": "This is not a general property of the color white.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -336,6 +369,9 @@ module.exports = [
         "rationale": "This is a covalent bond.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -364,6 +400,9 @@ module.exports = [
         "rationale": "This can be true at a specific point for a moving object, but it is not the definition of equilibrium.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -392,6 +431,9 @@ module.exports = [
         "rationale": "Work is done because a force caused the object to move a distance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   }
 ];

@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the third number in the original list."
       }
     ],
-    "rationale": "To find the median, first put the numbers in order: 8, 8, 10, 12, 14. The median is the middle value, which is 10."
+    "rationale": "To find the median, first put the numbers in order: 8, 8, 10, 12, 14. The median is the middle value, which is 10.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A standard die is rolled once. What is the probability of rolling a 5?",
     "correctAnswer": "1/6",
-    "rationale": "There is one '5' on a standard six-sided die, so there is 1 favorable outcome out of 6 total possible outcomes."
+    "rationale": "There is one '5' on a standard six-sided die, so there is 1 favorable outcome out of 6 total possible outcomes.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is one of the scores."
       }
     ],
-    "rationale": "To find the mean, add the scores (70 + 80 + 80 + 90 + 100 = 420) and divide by the number of scores (5). The mean is 420 / 5 = 84."
+    "rationale": "To find the mean, add the scores (70 + 80 + 80 + 90 + 100 = 420) and divide by the number of scores (5). The mean is 420 / 5 = 84.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A basketball player scores 15, 20, 22, and 18 points in four games. How many points must they score in the fifth game to have an average of 20 points per game?",
     "correctAnswer": "25",
-    "rationale": "To average 20 points over 5 games, the total score must be 5 * 20 = 100. The sum of the first four games is 15+20+22+18 = 75. So, the player needs 100 - 75 = 25 points."
+    "rationale": "To average 20 points over 5 games, the total score must be 5 * 20 = 100. The sum of the first four games is 15+20+22+18 = 75. So, the player needs 100 - 75 = 25 points.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the minimum temperature."
       }
     ],
-    "rationale": "The range is the difference between the maximum and minimum values. The maximum is 8°C and the minimum is -5°C. The range is 8 - (-5) = 13°C."
+    "rationale": "The range is the difference between the maximum and minimum values. The maximum is 8°C and the minimum is -5°C. The range is 8 - (-5) = 13°C.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This would be true if there were equal numbers of boys and girls."
       }
     ],
-    "rationale": "There are a total of 12 + 18 = 30 students. The number of girls is 12. The probability of choosing a girl is 12/30, which simplifies to 2/5."
+    "rationale": "There are a total of 12 + 18 = 30 students. The number of girls is 12. The probability of choosing a girl is 12/30, which simplifies to 2/5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the mode of the following set of data: red, blue, green, blue, red, blue.",
     "correctAnswer": "blue",
-    "rationale": "The mode is the value that appears most frequently. In this set, 'blue' appears 3 times, more than any other color."
+    "rationale": "The mode is the value that appears most frequently. In this set, 'blue' appears 3 times, more than any other color.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is only the probability of rolling a 4."
       }
     ],
-    "rationale": "These are independent events, so their probabilities are multiplied. The probability of a tail is 1/2, and the probability of rolling a 4 is 1/6. So, P(tail and 4) = 1/2 * 1/6 = 1/12."
+    "rationale": "These are independent events, so their probabilities are multiplied. The probability of a tail is 1/2, and the probability of rolling a 4 is 1/6. So, P(tail and 4) = 1/2 * 1/6 = 1/12.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A survey of 50 people shows that 35 like pop music, 25 like rock music, and 15 like both. How many people like neither?",
     "correctAnswer": "5",
-    "rationale": "The number of people who like at least one is 35 (pop) + 25 (rock) - 15 (both) = 45. So, the number of people who like neither is 50 - 45 = 5."
+    "rationale": "The number of people who like at least one is 35 (pop) + 25 (rock) - 15 (both) = 45. So, the number of people who like neither is 50 - 45 = 5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the range."
       }
     ],
-    "rationale": "The median is the value that separates the higher half from the lower half of a data sample. When the data is ordered, it is the middle number."
+    "rationale": "The median is the value that separates the higher half from the lower half of a data sample. When the data is ordered, it is the middle number.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is 5+2."
       }
     ],
-    "rationale": "This is a combination problem because the order of selection does not matter. The formula is C(n, k) = n! / (k!(n-k)!). C(5, 2) = 5! / (2!3!) = (5*4)/(2*1) = 10."
+    "rationale": "This is a combination problem because the order of selection does not matter. The formula is C(n, k) = n! / (k!(n-k)!). C(5, 2) = 5! / (2!3!) = (5*4)/(2*1) = 10.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "There are 3 favorable outcomes (red, yellow, blue) out of 5 possible outcomes. The probability is 3/5."
+    "rationale": "There are 3 favorable outcomes (red, yellow, blue) out of 5 possible outcomes. The probability is 3/5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   }
 ];

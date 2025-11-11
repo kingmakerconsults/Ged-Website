@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "History textbook excerpt: This is the bicameral legislature established by the Constitution."
+    "passage": "History textbook excerpt: This is the bicameral legislature established by the Constitution.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "This is the term for a Supreme Court justice.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "This is another name for the legislative branch.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "A state supreme court is the highest court in a state, but the U.S. Supreme Court is the highest in the nation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "They have different powers, but one is not inherently more powerful than the other.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "The President is the Commander-in-Chief. The Secretary of Defense is a cabinet member, but does not command the military.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -196,6 +214,9 @@ module.exports = [
         "rationale": "Impeachment is a federal process.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -224,6 +245,9 @@ module.exports = [
         "rationale": "A veto can be overridden.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -252,6 +276,9 @@ module.exports = [
         "rationale": "Only the members of the House vote for the Speaker.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -281,6 +308,9 @@ module.exports = [
         "rationale": "Cases are decided by the legal system, not by popular vote.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -309,6 +339,9 @@ module.exports = [
         "rationale": "This power is shared by both the House and the Senate.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -337,6 +370,9 @@ module.exports = [
         "rationale": "Committee chairs are typically chosen based on seniority and party loyalty, not the whip position.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

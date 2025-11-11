@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "Quadrant IV has positive x and negative y values."
       }
     ],
-    "rationale": "The coordinate plane is divided into four quadrants. Quadrant II is where the x-coordinates are negative and the y-coordinates are positive."
+    "rationale": "The coordinate plane is divided into four quadrants. Quadrant II is where the x-coordinates are negative and the y-coordinates are positive.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the slope of a vertical line?",
     "correctAnswer": "Undefined",
-    "rationale": "A vertical line has a 'run' of 0. Since slope is rise/run, dividing by zero makes the slope undefined."
+    "rationale": "A vertical line has a 'run' of 0. Since slope is rise/run, dividing by zero makes the slope undefined.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This has the wrong y-intercept."
       }
     ],
-    "rationale": "Use the point-slope form y - y1 = m(x - x1): y - 2 = (1/3)(x - 3). This simplifies to y - 2 = (1/3)x - 1, so y = (1/3)x + 1."
+    "rationale": "Use the point-slope form y - y1 = m(x - x1): y - 2 = (1/3)(x - 3). This simplifies to y - 2 = (1/3)x - 1, so y = (1/3)x + 1.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If f(x) = 2x - 5, for what value of x is f(x) = 15?",
     "correctAnswer": "10",
-    "rationale": "Set the function equal to 15: 2x - 5 = 15. Add 5 to both sides: 2x = 20. Divide by 2: x = 10."
+    "rationale": "Set the function equal to 15: 2x - 5 = 15. Add 5 to both sides: 2x = 20. Divide by 2: x = 10.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "(x, y) represents a point on the line."
       }
     ],
-    "rationale": "In the slope-intercept form of a linear equation, 'm' is the variable used to represent the slope of the line."
+    "rationale": "In the slope-intercept form of a linear equation, 'm' is the variable used to represent the slope of the line.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the reciprocal, but not the negative reciprocal."
       }
     ],
-    "rationale": "First, find the slope of the given line by rewriting it in slope-intercept form: y = -3x + 5. The slope is -3. The slope of a perpendicular line is the negative reciprocal, which is 1/3."
+    "rationale": "First, find the slope of the given line by rewriting it in slope-intercept form: y = -3x + 5. The slope is -3. The slope of a perpendicular line is the negative reciprocal, which is 1/3.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Given $f(x) = x^3 - 1$, find $f(2)$.",
     "correctAnswer": "7",
-    "rationale": "Substitute 2 for x: f(2) = $(2)^3$ - 1 = 8 - 1 = 7."
+    "rationale": "Substitute 2 for x: f(2) = $(2)^3$ - 1 = 8 - 1 = 7.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is b/(2a)."
       }
     ],
-    "rationale": "The formula for the axis of symmetry of a parabola in the form $y = ax^2 + bx + c$ is $x = \\frac{-b}{2a}$. For this equation, a=1 and b=-6. So, $x = \\frac{-(-6)}{2(1)} = \\frac{6}{2} = 3$."
+    "rationale": "The formula for the axis of symmetry of a parabola in the form $y = ax^2 + bx + c$ is $x = \\frac{-b}{2a}$. For this equation, a=1 and b=-6. So, $x = \\frac{-(-6)}{2(1)} = \\frac{6}{2} = 3$.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A company's profit P(t) in thousands of dollars, t years after 2010, is modeled by P(t) = 50t + 200. What was the profit in 2015?",
     "correctAnswer": "450 thousand dollars",
-    "rationale": "The year 2015 is 5 years after 2010, so t=5. P(5) = 50(5) + 200 = 250 + 200 = 450. The profit is $450,000."
+    "rationale": "The year 2015 is 5 years after 2010, so t=5. P(5) = 50(5) + 200 = 250 + 200 = 450. The profit is $450,000.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the sum of the changes in x and y."
       }
     ],
-    "rationale": "Use the distance formula: $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$. $d = \\sqrt{(4-1)^2 + (6-2)^2} = \\sqrt{3^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$."
+    "rationale": "Use the distance formula: $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$. $d = \\sqrt{(4-1)^2 + (6-2)^2} = \\sqrt{3^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an absolute value function."
       }
     ],
-    "rationale": "The graph of an exponential function, like $y = 2^x$, is a curve that shows rapid increase (growth) or decrease (decay)."
+    "rationale": "The graph of an exponential function, like $y = 2^x$, is a curve that shows rapid increase (growth) or decrease (decay).",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the negative reciprocal of the slope."
       }
     ],
-    "rationale": "The y-intercept is the point (0, 4) and the x-intercept is the point (-2, 0). The slope is the change in y over the change in x: $m = \\frac{4 - 0}{0 - (-2)} = \\frac{4}{2} = 2$."
+    "rationale": "The y-intercept is the point (0, 4) and the x-intercept is the point (-2, 0). The slope is the change in y over the change in x: $m = \\frac{4 - 0}{0 - (-2)} = \\frac{4}{2} = 2$.",
+    "challenge_tags": [
+      "math-4"
+    ]
   }
 ];

@@ -7,7 +7,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Solve for m: $m + 11 = 30$.",
     "correctAnswer": "19",
-    "rationale": "Subtract 11 from both sides of the equation: 30 - 11 = 19."
+    "rationale": "Subtract 11 from both sides of the equation: 30 - 11 = 19.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute 2 for x in the expression: 10 - 3(2) = 10 - 6 = 4."
+    "rationale": "Substitute 2 for x in the expression: 10 - 3(2) = 10 - 6 = 4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is 3/3."
       }
     ],
-    "rationale": "First, add 2 to both sides: y/3 = 5 + 2, so y/3 = 7. Then, multiply by 3: y = 7 * 3 = 21."
+    "rationale": "First, add 2 to both sides: y/3 = 5 + 2, so y/3 = 7. Then, multiply by 3: y = 7 * 3 = 21.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Simplify the expression: $5a + 2b - 3a + 4b$.",
     "correctAnswer": "2a + 6b",
-    "rationale": "Combine the 'a' terms: 5a - 3a = 2a. Combine the 'b' terms: 2b + 4b = 6b. The result is 2a + 6b."
+    "rationale": "Combine the 'a' terms: 5a - 3a = 2a. Combine the 'b' terms: 2b + 4b = 6b. The result is 2a + 6b.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "The perpendicular slope is the negative reciprocal of the original slope."
       }
     ],
-    "rationale": "The slope of the given line is 3. The slope of a perpendicular line is the negative reciprocal, which is -1/3."
+    "rationale": "The slope of the given line is 3. The slope of a perpendicular line is the negative reciprocal, which is -1/3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, distribute on both sides: 4x + 4 = 2x + 12. Subtract 2x from both sides: 2x + 4 = 12. Subtract 4 from both sides: 2x = 8. Divide by 2: x = 4."
+    "rationale": "First, distribute on both sides: 4x + 4 = 2x + 12. Subtract 2x from both sides: 2x + 4 = 12. Subtract 4 from both sides: 2x = 8. Divide by 2: x = 4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Factor the expression $x^2 - 100$.",
     "correctAnswer": "(x - 10)(x + 10)",
-    "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=x and b=10."
+    "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=x and b=10.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "Subtract 10: -x >= 5. Multiply by -1 and reverse the inequality: x <= -5."
       }
     ],
-    "rationale": "First, subtract 10 from both sides: -x geq 5. Then, multiply by -1 to solve for x, and remember to reverse the inequality sign: x leq -5."
+    "rationale": "First, subtract 10 from both sides: -x geq 5. Then, multiply by -1 to solve for x, and remember to reverse the inequality sign: x leq -5.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If $f(x) = 2x - 7$, what is the value of x when $f(x) = 11$?",
     "correctAnswer": "9",
-    "rationale": "Set the function equal to 11: 2x - 7 = 11. Add 7 to both sides: 2x = 18. Divide by 2: x = 9."
+    "rationale": "Set the function equal to 11: 2x - 7 = 11. Add 7 to both sides: 2x = 18. Divide by 2: x = 9.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is 26+8."
       }
     ],
-    "rationale": "Let the number be n. 'A number is doubled' is 2n. 'Increased by 8' is 2n + 8. Set this equal to 26: 2n + 8 = 26. Subtract 8: 2n = 18. Divide by 2: n = 9."
+    "rationale": "Let the number be n. 'A number is doubled' is 2n. 'Increased by 8' is 2n + 8. Set this equal to 26: 2n + 8 = 26. Subtract 8: 2n = 18. Divide by 2: n = 9.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This gives a constant term of +10."
       }
     ],
-    "rationale": "To factor the trinomial, we look for two numbers that multiply to -10 and add to -3. These numbers are -5 and +2. So, the factored form is (x - 5)(x + 2)."
+    "rationale": "To factor the trinomial, we look for two numbers that multiply to -10 and add to -3. These numbers are -5 and +2. So, the factored form is (x - 5)(x + 2).",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This point is on the y-axis."
       }
     ],
-    "rationale": "The origin is the point of intersection of the x-axis and the y-axis, and its coordinates are (0, 0)."
+    "rationale": "The origin is the point of intersection of the x-axis and the y-axis, and its coordinates are (0, 0).",
+    "challenge_tags": [
+      "math-3"
+    ]
   }
 ];

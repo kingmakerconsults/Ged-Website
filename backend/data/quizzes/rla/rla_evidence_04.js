@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is one of the services offered, but the high number of new members is stronger evidence of its overall importance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is a general fact, not evidence supporting the link between nutrition and learning.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This is the main claim, not the evidence that supports it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "These are the mechanisms that lead to the economic boon, but the growth in new businesses is the direct evidence of that boon.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "This is the author's main claim, not the specific evidence used to support it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "This states the argument the author is refuting, it does not provide evidence against it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "This states the location, not the evidence of its impact.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "This is another one of the benefits, but the survey provides a more comprehensive measure of its positive impact.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "This is the author's main claim, not the evidence used to support it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -288,7 +315,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "challenge_tags": [
+      "rla-2"
+    ]
   },
   {
     "questionNumber": 11,
@@ -317,7 +347,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "challenge_tags": [
+      "rla-2"
+    ]
   },
   {
     "questionNumber": 12,
@@ -346,7 +379,9 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "challenge_tags": [
+      "rla-2"
+    ]
   }
-]
-;
+];

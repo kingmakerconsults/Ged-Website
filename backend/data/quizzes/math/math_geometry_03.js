@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the perimeter of the square."
       }
     ],
-    "rationale": "The area of a square is side * side. To find the side length, take the square root of the area: sqrt(64) = 8 inches."
+    "rationale": "The area of a square is side * side. To find the side length, take the square root of the area: sqrt(64) = 8 inches.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the area of a circle with a radius of 10 cm? Use 3.14 for $\\pi$.",
     "correctAnswer": "314 $cm^2$",
-    "rationale": "Area of a circle is A = pi * $r^2$. So, A = 3.14 * (10 cm)$^2$ = 3.14 * 100 = 314 $cm^2$."
+    "rationale": "Area of a circle is A = pi * $r^2$. So, A = 3.14 * (10 cm)$^2$ = 3.14 * 100 = 314 $cm^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "Volume = length * width * depth = 50 * 25 * 2 = 2500 $m^3$."
       }
     ],
-    "rationale": "The volume of a rectangular prism is length x width x height (or depth). V = 50 m * 25 m * 2 m = 2500 $m^3$."
+    "rationale": "The volume of a rectangular prism is length x width x height (or depth). V = 50 m * 25 m * 2 m = 2500 $m^3$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the measure of a straight angle?",
     "correctAnswer": "180°",
-    "rationale": "A straight angle is an angle that forms a straight line, and its measure is 180°."
+    "rationale": "A straight angle is an angle that forms a straight line, and its measure is 180°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -111,7 +123,10 @@ module.exports = [
         "rationale": "The third angle is 180-30-70 = 80. Since all angles are different, all sides are different, making it a scalene triangle."
       }
     ],
-    "rationale": "The sum of angles in a triangle is 180°. The third angle is 180° - 30° - 70° = 80°. Since all three angles (30°, 70°, 80°) are different, the triangle is scalene. Since all angles are less than 90°, it is also an acute triangle, but scalene is a more specific classification based on the side lengths implied by the angles."
+    "rationale": "The sum of angles in a triangle is 180°. The third angle is 180° - 30° - 70° = 80°. Since all three angles (30°, 70°, 80°) are different, the triangle is scalene. Since all angles are less than 90°, it is also an acute triangle, but scalene is a more specific classification based on the side lengths implied by the angles.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -141,7 +156,10 @@ module.exports = [
         "rationale": "This is the area of the base."
       }
     ],
-    "rationale": "The formula for the volume of a cylinder is V = pi * $r^2$ * h. We have 314 = 3.14 * $r^2$ * 4. Divide by 3.14: 100 = 4$r^2$. Divide by 4: 25 = $r^2$. Take the square root: r = 5 inches."
+    "rationale": "The formula for the volume of a cylinder is V = pi * $r^2$ * h. We have 314 = 3.14 * $r^2$ * 4. Divide by 3.14: 100 = 4$r^2$. Divide by 4: 25 = $r^2$. Take the square root: r = 5 inches.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -150,7 +168,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the perimeter of an equilateral triangle with a side length of 9 cm?",
     "correctAnswer": "27 cm",
-    "rationale": "An equilateral triangle has three equal sides. The perimeter is the sum of the side lengths: 9 cm + 9 cm + 9 cm = 27 cm."
+    "rationale": "An equilateral triangle has three equal sides. The perimeter is the sum of the side lengths: 9 cm + 9 cm + 9 cm = 27 cm.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -180,7 +201,10 @@ module.exports = [
         "rationale": "A cube has 6 faces. The area of each face is 5*5=25 $in^2$. Total surface area is 6 * 25 = 150 $in^2$."
       }
     ],
-    "rationale": "A cube has 6 identical square faces. The area of one face is 5 inches * 5 inches = 25 $in^2$. The total surface area is 6 * 25 $in^2$ = 150 $in^2$."
+    "rationale": "A cube has 6 identical square faces. The area of one face is 5 inches * 5 inches = 25 $in^2$. The total surface area is 6 * 25 $in^2$ = 150 $in^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -189,7 +213,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A ladder leaning against a wall forms a right triangle. If the ladder is 10 feet long and the base is 6 feet from the wall, how high up the wall does the ladder reach?",
     "correctAnswer": "8 feet",
-    "rationale": "Using the Pythagorean theorem, $a^2 + b^2 = c^2$. $a^2 + 6^2 = 10^2$. $a^2 + 36 = 100$. $a^2 = 64$. a = 8 feet."
+    "rationale": "Using the Pythagorean theorem, $a^2 + b^2 = c^2$. $a^2 + 6^2 = 10^2$. $a^2 + 36 = 100$. $a^2 = 64$. a = 8 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -219,7 +246,10 @@ module.exports = [
         "rationale": "A quadrilateral has 4 sides."
       }
     ],
-    "rationale": "A polygon with 5 sides is called a pentagon."
+    "rationale": "A polygon with 5 sides is called a pentagon.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -249,7 +279,10 @@ module.exports = [
         "rationale": "This is the sum of angles in a circle."
       }
     ],
-    "rationale": "By definition, two angles are complementary if their measures add up to 90 degrees."
+    "rationale": "By definition, two angles are complementary if their measures add up to 90 degrees.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -279,6 +312,9 @@ module.exports = [
         "rationale": "This is the result of squaring the diameter."
       }
     ],
-    "rationale": "The radius is half the diameter, so r = 14 / 2 = 7 inches. The area is A = pi * $r^2$ = 3.14 * (7 inches)$^2$ = 3.14 * 49 = 153.86 $in^2$."
+    "rationale": "The radius is half the diameter, so r = 14 / 2 = 7 inches. The area is A = pi * $r^2$ = 3.14 * (7 inches)$^2$ = 3.14 * 49 = 153.86 $in^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

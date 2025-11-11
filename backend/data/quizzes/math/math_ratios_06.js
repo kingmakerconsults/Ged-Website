@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the inverse of the simplified ratio."
       }
     ],
-    "rationale": "The ratio of glazed donuts to total is 8:24. Both numbers are divisible by 8. 8/8 = 1 and 24/8 = 3. The simplified ratio is 1:3."
+    "rationale": "The ratio of glazed donuts to total is 8:24. Both numbers are divisible by 8. 8/8 = 1 and 24/8 = 3. The simplified ratio is 1:3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A computer that was originally $1200 is now on sale for $900. What is the percent decrease in price?",
     "correctAnswer": "25%",
-    "rationale": "The price decreased by $1200 - $900 = $300. The percent decrease is (decrease / original price) * 100 = ($300 / $1200) * 100 = 0.25 * 100 = 25%."
+    "rationale": "The price decreased by $1200 - $900 = $300. The percent decrease is (decrease / original price) * 100 = ($300 / $1200) * 100 = 0.25 * 100 = 25%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the speed divided by time."
       }
     ],
-    "rationale": "Use the formula Distance = Speed x Time. Distance = 15 mph * 2.5 hours = 37.5 miles."
+    "rationale": "Use the formula Distance = Speed x Time. Distance = 15 mph * 2.5 hours = 37.5 miles.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "If 3 oranges cost $1.50, what is the cost of one orange?",
     "correctAnswer": "$0.50",
-    "rationale": "To find the cost of one orange, divide the total cost by the number of oranges: $1.50 / 3 = $0.50."
+    "rationale": "To find the cost of one orange, divide the total cost by the number of oranges: $1.50 / 3 = $0.50.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This would be a 6.25% increase."
       }
     ],
-    "rationale": "First, calculate the population increase: 5% of 80,000 is 0.05 * 80,000 = 4,000. Then, add this to the original population: 80,000 + 4,000 = 84,000."
+    "rationale": "First, calculate the population increase: 5% of 80,000 is 0.05 * 80,000 = 4,000. Then, add this to the original population: 80,000 + 4,000 = 84,000.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the number of people, not the percentage."
       }
     ],
-    "rationale": "To find the percentage, divide the number of people who preferred comedies by the total number of people surveyed, and multiply by 100: (90 / 150) * 100 = 0.6 * 100 = 60%."
+    "rationale": "To find the percentage, divide the number of people who preferred comedies by the total number of people surveyed, and multiply by 100: (90 / 150) * 100 = 0.6 * 100 = 60%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A recipe requires flour and sugar in a ratio of 5:2. If you use 8 cups of flour, how much sugar do you need?",
     "correctAnswer": "3.2 cups",
-    "rationale": "Set up a proportion: 5/2 = 8/x. Cross-multiply: 5x = 16. Solve for x: x = 16/5 = 3.2 cups."
+    "rationale": "Set up a proportion: 5/2 = 8/x. Cross-multiply: 5x = 16. Solve for x: x = 16/5 = 3.2 cups.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To solve for x, you can see that the denominator is multiplied by 4 (3 * 4 = 12). So, the numerator must also be multiplied by 4: 2 * 4 = 8."
+    "rationale": "To solve for x, you can see that the denominator is multiplied by 4 (3 * 4 = 12). So, the numerator must also be multiplied by 4: 2 * 4 = 8.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "You pay $12 for a movie ticket that was 25% off. What was the original price?",
     "correctAnswer": "$16",
-    "rationale": "If the ticket was 25% off, you paid 75% of the original price. Let P be the original price. 0.75 * P = $12. P = $12 / 0.75 = $16."
+    "rationale": "If the ticket was 25% off, you paid 75% of the original price. Let P be the original price. 0.75 * P = $12. P = $12 / 0.75 = $16.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the number of students per teacher."
       }
     ],
-    "rationale": "To find the number of teachers, divide the total number of students by the number of students per teacher: 120 students / 15 students/teacher = 8 teachers."
+    "rationale": "To find the number of teachers, divide the total number of students by the number of students per teacher: 120 students / 15 students/teacher = 8 teachers.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is 4/5 of 360."
       }
     ],
-    "rationale": "The total number of parts in the ratio is 4 + 5 = 9. Divide the total number of students by the total number of parts to find the value of one part: 360 / 9 = 40. The number of boys is 4 parts, so 4 * 40 = 160."
+    "rationale": "The total number of parts in the ratio is 4 + 5 = 9. Divide the total number of students by the total number of parts to find the value of one part: 360 / 9 = 40. The number of boys is 4 parts, so 4 * 40 = 160.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is 75*5."
       }
     ],
-    "rationale": "First, find the unit rate: 75 miles / 2 inches = 37.5 miles per inch. Then, multiply by the new distance: 37.5 miles/inch * 5 inches = 187.5 miles."
+    "rationale": "First, find the unit rate: 75 miles / 2 inches = 37.5 miles per inch. Then, multiply by the new distance: 37.5 miles/inch * 5 inches = 187.5 miles.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

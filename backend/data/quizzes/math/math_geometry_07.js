@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is base * height, without multiplying by 1/2."
       }
     ],
-    "rationale": "The area of a triangle is given by the formula A = 1/2 * b * h. So, A = 1/2 * 6 * 8 = 24."
+    "rationale": "The area of a triangle is given by the formula A = 1/2 * b * h. So, A = 1/2 * 6 * 8 = 24.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the circumference of a circle with a diameter of 15 cm? Use 3.14 for $\\pi$.",
     "correctAnswer": "47.1 cm",
-    "rationale": "Circumference = pi * diameter. C = 3.14 * 15 cm = 47.1 cm."
+    "rationale": "Circumference = pi * diameter. C = 3.14 * 15 cm = 47.1 cm.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is 5*12."
       }
     ],
-    "rationale": "The volume of a rectangular prism is found by multiplying its three dimensions: length, width, and height. V = 2 * 5 * 12 = 120."
+    "rationale": "The volume of a rectangular prism is found by multiplying its three dimensions: length, width, and height. V = 2 * 5 * 12 = 120.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "How many inches are in one foot?",
     "correctAnswer": "12",
-    "rationale": "There are 12 inches in a standard foot."
+    "rationale": "There are 12 inches in a standard foot.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is 49*4."
       }
     ],
-    "rationale": "First, find the side length of the square by taking the square root of the area: sqrt(49) = 7 units. Then, calculate the perimeter by multiplying the side length by 4: 7 units * 4 = 28 units."
+    "rationale": "First, find the side length of the square by taking the square root of the area: sqrt(49) = 7 units. Then, calculate the perimeter by multiplying the side length by 4: 7 units * 4 = 28 units.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Using the formula for the volume of a cone, V = (1/3) * pi * r² * h. V = (1/3) * 3.14 * (5 cm)² * 12 cm = (1/3) * 3.14 * 25 * 12 = 314 cm³."
+    "rationale": "Using the formula for the volume of a cone, V = (1/3) * pi * r² * h. V = (1/3) * 3.14 * (5 cm)² * 12 cm = (1/3) * 3.14 * 25 * 12 = 314 cm³.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the measure of each angle in an equilateral triangle?",
     "correctAnswer": "60°",
-    "rationale": "An equilateral triangle has three equal angles. The sum of the angles is 180°, so each angle is 180° / 3 = 60°."
+    "rationale": "An equilateral triangle has three equal angles. The sum of the angles is 180°, so each angle is 180° / 3 = 60°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 7*24."
       }
     ],
-    "rationale": "Using the Pythagorean theorem ($a^2 + b^2 = c^2$), we have $7^2 + 24^2 = c^2$. This becomes $49 + 576 = 625$. So, $c = \\sqrt{625} = 25$."
+    "rationale": "Using the Pythagorean theorem ($a^2 + b^2 = c^2$), we have $7^2 + 24^2 = c^2$. This becomes $49 + 576 = 625$. So, $c = \\sqrt{625} = 25$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A rectangular room is 5 yards long and 4 yards wide. What is its area in square feet?",
     "correctAnswer": "180 square feet",
-    "rationale": "First convert yards to feet. 5 yards = 15 feet, 4 yards = 12 feet. The area is 15 ft * 12 ft = 180 sq ft."
+    "rationale": "First convert yards to feet. 5 yards = 15 feet, 4 yards = 12 feet. The area is 15 ft * 12 ft = 180 sq ft.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "A kite does not necessarily have parallel sides."
       }
     ],
-    "rationale": "A trapezoid is a quadrilateral with exactly one pair of parallel sides. (Note: some definitions allow for 'at least' one pair)."
+    "rationale": "A trapezoid is a quadrilateral with exactly one pair of parallel sides. (Note: some definitions allow for 'at least' one pair).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is the sum of the two angles."
       }
     ],
-    "rationale": "Complementary angles are two angles that sum to 90°. The complement of a 30° angle is 90° - 30° = 60°."
+    "rationale": "Complementary angles are two angles that sum to 90°. The complement of a 30° angle is 90° - 30° = 60°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the area."
       }
     ],
-    "rationale": "The formula for circumference is C = 2 * pi * r. We have 400 = 2 * 3.14 * r. First, divide by (2 * 3.14): r = 400 / 6.28 ≈ 63.69 meters. To the nearest meter, this is 64 meters."
+    "rationale": "The formula for circumference is C = 2 * pi * r. We have 400 = 2 * 3.14 * r. First, divide by (2 * 3.14): r = 400 / 6.28 ≈ 63.69 meters. To the nearest meter, this is 64 meters.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the negative reciprocal."
       }
     ],
-    "rationale": "Slope is defined as 'rise over run'. A downward movement is a negative rise. So, the slope is -2/3."
+    "rationale": "Slope is defined as 'rise over run'. A downward movement is a negative rise. So, the slope is -2/3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "If $f(x) = 3x$, what is $f(10)$?",
     "correctAnswer": "30",
-    "rationale": "Substitute 10 for x: f(10) = 3 * 10 = 30."
+    "rationale": "Substitute 10 for x: f(10) = 3 * 10 = 30.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This has the wrong slope."
       }
     ],
-    "rationale": "First, find the slope: m = (5 - 1) / (3 - 1) = 4 / 2 = 2. Then use the point-slope form with (1,1): y - 1 = 2(x - 1). y - 1 = 2x - 2. y = 2x - 1."
+    "rationale": "First, find the slope: m = (5 - 1) / (3 - 1) = 4 / 2 = 2. Then use the point-slope form with (1,1): y - 1 = 2(x - 1). y - 1 = 2x - 2. y = 2x - 1.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the y-intercept of the line $4x - 2y = 8$?",
     "correctAnswer": "-4",
-    "rationale": "To find the y-intercept, set x = 0. -2y = 8. y = -4."
+    "rationale": "To find the y-intercept, set x = 0. -2y = 8. y = -4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is a diagonal line."
       }
     ],
-    "rationale": "An equation of the form x = c, where c is a constant, represents a vertical line. All points on this line have an x-coordinate of 3."
+    "rationale": "An equation of the form x = c, where c is a constant, represents a vertical line. All points on this line have an x-coordinate of 3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the vertex."
       }
     ],
-    "rationale": "The y-intercept of a function is the point where its graph crosses the y-axis, which occurs when x=0. For this function, f(0) = 0² - 4(0) + 3 = 3."
+    "rationale": "The y-intercept of a function is the point where its graph crosses the y-axis, which occurs when x=0. For this function, f(0) = 0² - 4(0) + 3 = 3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the slope of a line perpendicular to $y = -1/5x + 2$?",
     "correctAnswer": "5",
-    "rationale": "The slope of the given line is -1/5. The slope of a perpendicular line is the negative reciprocal, which is 5."
+    "rationale": "The slope of the given line is -1/5. The slope of a perpendicular line is the negative reciprocal, which is 5.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "Neither inequality is strictly satisfied."
       }
     ],
-    "rationale": "Check each point against both inequalities. For (3, 4): Is 4 > 3? Yes. Is 3 > 2? Yes. Since both are true, this point is a solution."
+    "rationale": "Check each point against both inequalities. For (3, 4): Is 4 > 3? Yes. Is 3 > 2? Yes. Since both are true, this point is a solution.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A function models the height of a ball, h(t) = -16t² + 32t, where t is time in seconds. What is the height of the ball at t=1 second?",
     "correctAnswer": "16",
-    "rationale": "h(1) = -16(1)² + 32(1) = -16 + 32 = 16."
+    "rationale": "h(1) = -16(1)² + 32(1) = -16 + 32 = 16.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is -y-intercept."
       }
     ],
-    "rationale": "The x-intercept is the point where the graph crosses the x-axis, which occurs when f(x) = 0. So, 0 = 2x - 6. Add 6 to both sides: 6 = 2x. Divide by 2: x = 3."
+    "rationale": "The x-intercept is the point where the graph crosses the x-axis, which occurs when f(x) = 0. So, 0 = 2x - 6. Add 6 to both sides: 6 = 2x. Divide by 2: x = 3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is a shift left."
       }
     ],
-    "rationale": "A vertical shift of a function f(x) down by k units is represented by the new function g(x) = f(x) - k. So, the new equation is y = x² - 3."
+    "rationale": "A vertical shift of a function f(x) down by k units is represented by the new function g(x) = f(x) - k. So, the new equation is y = x² - 3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an output value."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x. Using the first two points: m = (4 - 2) / (2 - 1) = 2 / 1 = 2."
+    "rationale": "The slope is the change in y divided by the change in x. Using the first two points: m = (4 - 2) / (2 - 1) = 2 / 1 = 2.",
+    "challenge_tags": [
+      "math-3"
+    ]
   }
 ];

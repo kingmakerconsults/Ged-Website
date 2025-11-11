@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "A festival with lively music is a happy event, not a somber one.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "The goal was to make the instructions easy to understand, not difficult.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "They were preserving the ruins, not destroying them.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "The negotiations have stopped, but 'concede' refers to the act of yielding that would get them started again.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "While it might have been entertaining, 'objective' describes its impartial approach.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "While a rustic house might be old, the word itself refers to a style and charm, not necessarily a state of disrepair.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "The word describes the content of his answers, not the tone or volume.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "An ornate style is typically very formal, not conversational.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "Plausible means it seems true, but it is not yet proven.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "While it might be debated, 'obsolete' specifically means it is out of date.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "The word relates to her work habits, not her personality.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   },
   {
@@ -346,6 +379,9 @@ module.exports = [
         "rationale": "The people loved him, which would be unlikely if he were angry and aggressive.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-3"
     ]
   }
 ];

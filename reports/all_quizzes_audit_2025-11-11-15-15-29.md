@@ -1,0 +1,49 @@
+# All Quizzes Audit Report
+- Timestamp: 2025-11-11T15:15:29.020Z
+- Total questions scanned: 2633
+- Total issues: 36
+
+## File Summary
+- frontend/data/quiz_data.js: questions=396, issues=25
+- backend/data/premade-questions.js: questions=74, issues=0
+- quizzes.txt: questions=6, issues=0
+- frontend/Expanded/expanded.quizzes.bundle.js: questions=1989, issues=0
+- frontend/New Exams/new_math_exams2.js: questions=168, issues=11
+
+## Issues
+- [frontend/data/quiz_data.js][sci_genetics_heredity_set1 Q#11] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_genetics_heredity_set1 Q#12] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_genetics_heredity_set2 Q#13] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_genetics_heredity_set3 Q#10] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set2 Q#5] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set2 Q#8] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set2 Q#9] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set2 Q#13] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set2 Q#14] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set2 Q#15] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set3 Q#1] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set3 Q#7] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set3 Q#8] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][sci_physical_science_basics_set3 Q#15] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][math_quant_basics_set1 Q#1] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][math_quant_basics_set1 Q#5] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][math_quant_basics_set3 Q#12] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][math_alg_expressions_set1 Q#1] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][math_alg_expressions_set1 Q#2] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][math_alg_expressions_set1 Q#5] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][math_alg_expressions_set1 Q#12] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][rla_info_main_idea_set3 Q#2] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][rla_lit_analysis_set1 Q#1] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][rla_lit_analysis_set1 Q#9] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/data/quiz_data.js][rla_lit_analysis_set2 Q#2] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_quant_fractions_decimals_quiz_1 Q#2] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_quant_fractions_decimals_quiz_1 Q#3] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_quant_fractions_decimals_quiz_1 Q#4] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_quant_fractions_decimals_quiz_1 Q#5] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_quant_fractions_decimals_quiz_1 Q#10] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_quant_fractions_decimals_quiz_2 Q#2] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_quant_fractions_decimals_quiz_2 Q#3] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_quant_fractions_decimals_quiz_2 Q#4] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_quant_fractions_decimals_quiz_2 Q#5] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_alg_expressions_quiz_1 Q#9] Question text may not be an actual question (no '?' and no interrogative cue)
+- [frontend/New Exams/new_math_exams2.js][math_alg_expressions_quiz_2 Q#9] Question text may not be an actual question (no '?' and no interrogative cue)

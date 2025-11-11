@@ -7,7 +7,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Solve for x: $x + 9 = 17$.",
     "correctAnswer": "8",
-    "rationale": "Subtract 9 from both sides of the equation: 17 - 9 = 8."
+    "rationale": "Subtract 9 from both sides of the equation: 17 - 9 = 8.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute 5 for w in the expression: 4(5) - 3 = 20 - 3 = 17."
+    "rationale": "Substitute 5 for w in the expression: 4(5) - 3 = 20 - 3 = 17.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This ignores the negative sign."
       }
     ],
-    "rationale": "First, subtract 11 from both sides: 2z = 3 - 11, so 2z = -8. Then, divide by 2: z = -8 / 2 = -4."
+    "rationale": "First, subtract 11 from both sides: 2z = 3 - 11, so 2z = -8. Then, divide by 2: z = -8 / 2 = -4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Simplify the expression: $9x - (2x - 4)$.",
     "correctAnswer": "7x + 4",
-    "rationale": "Distribute the negative sign: 9x - 2x + 4. Then, combine like terms: 7x + 4."
+    "rationale": "Distribute the negative sign: 9x - 2x + 4. Then, combine like terms: 7x + 4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the x-intercept."
       }
     ],
-    "rationale": "The equation is in slope-intercept form (y = mx + b), where 'm' is the slope. The slope is -5."
+    "rationale": "The equation is in slope-intercept form (y = mx + b), where 'm' is the slope. The slope is -5.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To combine the fractions, find a common denominator (4): a/4 + 2a/4 = 3a/4. Now solve the equation 3a/4 = 6. Multiply both sides by 4: 3a = 24. Divide by 3: a = 8."
+    "rationale": "To combine the fractions, find a common denominator (4): a/4 + 2a/4 = 3a/4. Now solve the equation 3a/4 = 6. Multiply both sides by 4: 3a = 24. Divide by 3: a = 8.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If $f(x) = x^2 + x$, find $f(-5)$.",
     "correctAnswer": "20",
-    "rationale": "Substitute -5 for x: f(-5) = (-5)² + (-5) = 25 - 5 = 20."
+    "rationale": "Substitute -5 for x: f(-5) = (-5)² + (-5) = 25 - 5 = 20.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "It has a slope of 0."
       }
     ],
-    "rationale": "An equation of the form y = c, where c is a constant, represents a horizontal line. The slope of this line is 0."
+    "rationale": "An equation of the form y = c, where c is a constant, represents a horizontal line. The slope of this line is 0.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the y-intercept of a line that has a slope of 2 and passes through the point (3, 10)?",
     "correctAnswer": "4",
-    "rationale": "Using y=mx+b: 10 = 2(3) + b. 10 = 6 + b. b = 4."
+    "rationale": "Using y=mx+b: 10 = 2(3) + b. 10 = 6 + b. b = 4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Translate the sentence into an equation: 5n - 4 = 31. Add 4 to both sides: 5n = 35. Divide by 5: n = 7."
+    "rationale": "Translate the sentence into an equation: 5n - 4 = 31. Add 4 to both sides: 5n = 35. Divide by 5: n = 7.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This gives a middle term of +6x."
       }
     ],
-    "rationale": "To solve the quadratic equation, factor the trinomial. We need two numbers that multiply to -8 and add to 2. These are +4 and -2. So, (x + 4)(x - 2) = 0. The solutions are x = -4 and x = 2."
+    "rationale": "To solve the quadratic equation, factor the trinomial. We need two numbers that multiply to -8 and add to 2. These are +4 and -2. So, (x + 4)(x - 2) = 0. The solutions are x = -4 and x = 2.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "When a product is raised to a power, each factor is raised to that power. So, $(2x)^3 = 2^3 \\times x^3 = 8x^3$."
+    "rationale": "When a product is raised to a power, each factor is raised to that power. So, $(2x)^3 = 2^3 \\times x^3 = 8x^3$.",
+    "challenge_tags": [
+      "math-3"
+    ]
   }
 ];

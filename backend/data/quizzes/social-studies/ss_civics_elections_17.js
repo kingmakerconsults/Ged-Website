@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "History textbook excerpt: These two parties have dominated the American political landscape for over a century."
+    "passage": "History textbook excerpt: These two parties have dominated the American political landscape for over a century.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "Election results are challenged through legal means, not through the platform.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "A president can serve a maximum of two four-year terms.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "This is a recall election.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "The date of admission is not a factor.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -169,6 +184,9 @@ module.exports = [
         "rationale": "This was the 14th Amendment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -197,6 +215,9 @@ module.exports = [
         "rationale": "The system does not and cannot guarantee the quality of the candidate.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -225,6 +246,9 @@ module.exports = [
         "rationale": "This is typically done by state legislatures.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -253,6 +277,9 @@ module.exports = [
         "rationale": "The debates are organized by the non-partisan Commission on Presidential Debates.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -281,6 +308,9 @@ module.exports = [
         "rationale": "The decision dealt with private, not public, funding.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -309,6 +339,9 @@ module.exports = [
         "rationale": "Primaries are run by the states and the major parties.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -337,6 +370,9 @@ module.exports = [
         "rationale": "While large states can be swing states, the term refers to the competitiveness of the election there, not the number of electoral votes.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

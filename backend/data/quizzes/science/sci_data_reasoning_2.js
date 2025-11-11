@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "Observations record what is seen or measured, not what is expected to happen.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "Modeled data come from simulations rather than direct observation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "Pictographs can be used, but they are less precise for showing daily changes compared with a line graph.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "The thermometer is a tool, not a variable in the investigation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "A neutral pH is 7.0. The table shows values well below neutral after May.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "Each strain is grown for 24 hours, so time is a controlled factor.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "Only the flawed trial needs to be repeated, not the entire experiment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "Consistency improves current analysis but does not remove the value of future studies.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "Double-blind studies still include a placebo so that results can be compared.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "The narrow IQR for City A indicates less variation, not more.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "The additive did not lower yields; the change was negligible.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -334,6 +367,9 @@ module.exports = [
         "rationale": "The median still provides useful information even when an outlier is present.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -362,6 +398,9 @@ module.exports = [
         "rationale": "Photographs do not indicate whether the data set is representative or reliable.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   }
 ];

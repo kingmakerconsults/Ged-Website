@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the ratio of flour to total ingredients listed."
       }
     ],
-    "rationale": "The ratio is stated directly in the problem: 2 eggs for every 3 cups of flour, which is a ratio of 2:3."
+    "rationale": "The ratio is stated directly in the problem: 2 eggs for every 3 cups of flour, which is a ratio of 2:3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A TV is priced at $450. A 10% sales tax is added. What is the total cost?",
     "correctAnswer": "$495",
-    "rationale": "Calculate the sales tax: 10% of $450 is 0.10 * 450 = $45. Add the tax to the original price: $450 + $45 = $495."
+    "rationale": "Calculate the sales tax: 10% of $450 is 0.10 * 450 = $45. Add the tax to the original price: $450 + $45 = $495.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the product of distance and time."
       }
     ],
-    "rationale": "To find the speed, divide the distance traveled by the time it took: 12 miles / 1.5 hours = 8 miles per hour."
+    "rationale": "To find the speed, divide the distance traveled by the time it took: 12 miles / 1.5 hours = 8 miles per hour.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "If a box of 12 pencils costs $3, what is the cost per pencil in cents?",
     "correctAnswer": "25 cents",
-    "rationale": "$3 is equal to 300 cents. The cost per pencil is 300 cents / 12 pencils = 25 cents."
+    "rationale": "$3 is equal to 300 cents. The cost per pencil is 300 cents / 12 pencils = 25 cents.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the price after the markup, before the discount."
       }
     ],
-    "rationale": "First, the price is increased by 20%: $20 * 1.20 = $24. Then, this new price is discounted by 20%: $24 * (1 - 0.20) = $24 * 0.80 = $19.20."
+    "rationale": "First, the price is increased by 20%: $20 * 1.20 = $24. Then, this new price is discounted by 20%: $24 * (1 - 0.20) = $24 * 0.80 = $19.20.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, find the percentage of students who do not have a pet: 100% - 70% = 30%. Then, calculate this number: 0.30 * 500 = 150 students."
+    "rationale": "First, find the percentage of students who do not have a pet: 100% - 70% = 30%. Then, calculate this number: 0.30 * 500 = 150 students.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A car's value decreased from $15,000 to $12,000. What was the percent decrease?",
     "correctAnswer": "20%",
-    "rationale": "The decrease in value is $15,000 - $12,000 = $3,000. The percent decrease is (decrease / original value) * 100 = ($3,000 / $15,000) * 100 = 0.20 * 100 = 20%."
+    "rationale": "The decrease in value is $15,000 - $12,000 = $3,000. The percent decrease is (decrease / original value) * 100 = ($3,000 / $15,000) * 100 = 0.20 * 100 = 20%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This simplifies to 4:5."
       }
     ],
-    "rationale": "To find an equivalent ratio, multiply both parts by the same number. 3 * 3 = 9 and 4 * 3 = 12, so 9:12 is equivalent."
+    "rationale": "To find an equivalent ratio, multiply both parts by the same number. 3 * 3 = 9 and 4 * 3 = 12, so 9:12 is equivalent.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A factory produces 2 defective items for every 500 produced. What is the ratio of defective to non-defective items, in simplest form?",
     "correctAnswer": "1:249",
-    "rationale": "If 2 are defective out of 500, then 498 are non-defective. The ratio is 2:498, which simplifies to 1:249 by dividing both by 2."
+    "rationale": "If 2 are defective out of 500, then 498 are non-defective. The ratio is 2:498, which simplifies to 1:249 by dividing both by 2.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the height of an object that would cast a 9-foot shadow."
       }
     ],
-    "rationale": "Set up a proportion of height to shadow length: $\\frac{6}{4} = \\frac{9}{x}$. Cross-multiply: $6x = 36$. Divide by 6: $x = 6$ feet."
+    "rationale": "Set up a proportion of height to shadow length: $\\frac{6}{4} = \\frac{9}{x}$. Cross-multiply: $6x = 36$. Divide by 6: $x = 6$ feet.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Let S be the total sales. The commission is 15% of S, so 0.15 * S = $600. To find S, divide $600 by 0.15: S = 4000."
+    "rationale": "Let S be the total sales. The commission is 15% of S, so 0.15 * S = $600. To find S, divide $600 by 0.15: S = 4000.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the ratio of non-managers to managers."
       }
     ],
-    "rationale": "If there are 80 employees and 20 are managers, then 80 - 20 = 60 are non-managers. The ratio of managers to non-managers is 20:60. This simplifies to 1:3 by dividing both by 20."
+    "rationale": "If there are 80 employees and 20 are managers, then 80 - 20 = 60 are non-managers. The ratio of managers to non-managers is 20:60. This simplifies to 1:3 by dividing both by 20.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

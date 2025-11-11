@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is 1000-9."
       }
     ],
-    "rationale": "This is a basic subtraction problem. 1000 - 99 = 901."
+    "rationale": "This is a basic subtraction problem. 1000 - 99 = 901.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is 25% of 200?",
     "correctAnswer": "50",
-    "rationale": "25% is the same as 1/4. 1/4 of 200 is 200 / 4 = 50."
+    "rationale": "25% is the same as 1/4. 1/4 of 200 is 200 / 4 = 50.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the price after a 15% markup."
       }
     ],
-    "rationale": "First, calculate the discount: 15% of $60 is 0.15 * 60 = $9. Then, subtract the discount from the original price: $60 - $9 = $51."
+    "rationale": "First, calculate the discount: 15% of $60 is 0.15 * 60 = $9. Then, subtract the discount from the original price: $60 - $9 = $51.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Evaluate: $10 + 4 \\times 2^3$.",
     "correctAnswer": "42",
-    "rationale": "Order of operations (PEMDAS): Exponents ($2^3$=8), Multiplication (4*8=32), Addition (10+32=42)."
+    "rationale": "Order of operations (PEMDAS): Exponents ($2^3$=8), Multiplication (4*8=32), Addition (10+32=42).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "7/8 is 87.5%."
       }
     ],
-    "rationale": "80% means 80 out of 100, or 80/100. This fraction can be simplified by dividing both the numerator and denominator by 20, which results in 4/5."
+    "rationale": "80% means 80 out of 100, or 80/100. This fraction can be simplified by dividing both the numerator and denominator by 20, which results in 4/5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is 80+4."
       }
     ],
-    "rationale": "First, find the percentage of employees who are on time: 100% - 5% = 95%. Then, calculate this number: 0.95 * 80 = 76 employees."
+    "rationale": "First, find the percentage of employees who are on time: 100% - 5% = 95%. Then, calculate this number: 0.95 * 80 = 76 employees.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the result of $1/2 - 1/3$?",
     "correctAnswer": "1/6",
-    "rationale": "The common denominator is 6. 1/2 = 3/6 and 1/3 = 2/6. 3/6 - 2/6 = 1/6."
+    "rationale": "The common denominator is 6. 1/2 = 3/6 and 1/3 = 2/6. 3/6 - 2/6 = 1/6.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is smaller than -100."
       }
     ],
-    "rationale": "When comparing negative numbers, the one with the smallest absolute value is the largest. -1 is closest to 0."
+    "rationale": "When comparing negative numbers, the one with the smallest absolute value is the largest. -1 is closest to 0.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A car is traveling at 60 miles per hour. How many miles does it travel in 45 minutes?",
     "correctAnswer": "45 miles",
-    "rationale": "45 minutes is 3/4 of an hour (0.75 hours). Distance = Speed * Time = 60 mph * 0.75 hours = 45 miles."
+    "rationale": "45 minutes is 3/4 of an hour (0.75 hours). Distance = Speed * Time = 60 mph * 0.75 hours = 45 miles.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "The number must be between 1 and 10."
       }
     ],
-    "rationale": "To write a number in scientific notation, move the decimal point until there is one non-zero digit to its left. The decimal is moved 4 places to the right, so the exponent is -4."
+    "rationale": "To write a number in scientific notation, move the decimal point until there is one non-zero digit to its left. The decimal is moved 4 places to the right, so the exponent is -4.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Simple interest is calculated using the formula I = P * r * t. So, I = $5000 * 0.06 * 4 = $1200."
+    "rationale": "Simple interest is calculated using the formula I = P * r * t. So, I = $5000 * 0.06 * 4 = $1200.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is $8^2$."
       }
     ],
-    "rationale": "This sequence consists of the squares of the positive integers. $1^2$=1, $2^2$=4, $3^2$=9, $4^2$=16, $5^2$=25. The next term is $6^2$, which is 36."
+    "rationale": "This sequence consists of the squares of the positive integers. $1^2$=1, $2^2$=4, $3^2$=9, $4^2$=16, $5^2$=25. The next term is $6^2$, which is 36.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This describes the target audience, not the program's success.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is a general statement, not a piece of evidence presented in the passage.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This describes the new space, not its economic impact.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "This is a description of the practice, not evidence of its results.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "Correct. The fact that a majority of experts in the field themselves are concerned about a catastrophic outcome is the strongest piece of evidence that the 'simple tool' view is naive and dangerous.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,38 +187,14 @@ module.exports = [
         "rationale": "Correct. This is the most powerful piece of evidence presented. It is from a highly credible source (the National Academies), is based on a massive amount of research (900 studies), and directly addresses and refutes the specific claim about health risks.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "City officials said expanding bus-only lanes reduced travel times for commuters. In a pilot corridor, the transportation department reports that average bus travel time during the evening rush fell from 42 minutes to 34 minutes after the lanes were added. However, complaints from drivers about traffic on nearby streets rose 12% over the same period.",
-    "question": "Which detail best supports the officials' claim?",
-    "answerOptions": [
-      {
-        "text": "Complaints from drivers on nearby streets rose 12%.",
-        "rationale": "This suggests a negative effect elsewhere, not evidence that bus travel times improved.",
-        "isCorrect": false
-      },
-      {
-        "text": "The city expanded bus-only lanes on a pilot corridor.",
-        "rationale": "This describes an action, not evidence of reduced travel times.",
-        "isCorrect": false
-      },
-      {
-        "text": "Average bus travel time during the evening rush fell from 42 minutes to 34 minutes after the lanes were added.",
-        "rationale": "Correct. This before-and-after comparison directly supports the claim of reduced travel times.",
-        "isCorrect": true
-      },
-      {
-        "text": "Officials said the lanes reduced travel times for commuters.",
-        "rationale": "This restates the claim rather than providing evidence.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "medium"
-=======
     "difficulty": "medium",
     "passage": "At a school board meeting, Superintendent Lee argued that the universal breakfast program improved attendance at Riverside Middle School. She reported that average daily attendance rose from 89% before the program to 95% afterward, the cafeteria served 12,000 additional morning meals, nurse visits for dizziness dropped by 40%, and a local newspaper praised the program's community partnerships.",
     "question": "Which detail best supports Superintendent Lee's claim that the breakfast program improved attendance?",
@@ -228,39 +219,14 @@ module.exports = [
         "rationale": "Positive press is encouraging, yet it does not demonstrate improved attendance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "An article argues that eating breakfast helps students concentrate in morning classes. A small study found that students who ate breakfast completed an average of 15 correct items on a timed attention task, while those who skipped breakfast completed 8. Teachers in the study also reported fewer off-task behaviors before lunch.",
-    "question": "Which evidence best supports the article's claim?",
-    "answerOptions": [
-      {
-        "text": "Teachers reported fewer off-task behaviors before lunch.",
-        "rationale": "This supports the claim but is less direct than performance on an attention task.",
-        "isCorrect": false
-      },
-      {
-        "text": "Students who ate breakfast completed 15 correct items on a timed attention task, compared to 8 for those who skipped.",
-        "rationale": "Correct. The measured performance difference directly supports improved concentration.",
-        "isCorrect": true
-      },
-      {
-        "text": "The study measured attention in the morning.",
-        "rationale": "This is a procedural detail, not the evidence of improved concentration.",
-        "isCorrect": false
-      },
-      {
-        "text": "The article argues breakfast helps students concentrate.",
-        "rationale": "This is the claim itself, not evidence.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "easy"
-=======
     "difficulty": "easy",
     "passage": "A neighborhood newsletter claims that the spring litter clean-up was more effective than last year's effort. Volunteers filled 18 bags of trash this year, compared with 42 bags collected during the previous clean-up. The article adds that the city delivered new recycling bins and that the mayor thanked volunteers on social media.",
     "question": "Which fact best supports the claim that this year's clean-up was more effective?",
@@ -285,39 +251,14 @@ module.exports = [
         "rationale": "The season of the event does not demonstrate its effectiveness.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "An editorial claims that the company's new remote-work policy has reduced building energy use. Utility meter readings show weekday electricity consumption at headquarters is down 28% compared to the same months last year, after adjusting for weather. Gas usage for heating is unchanged.",
-    "question": "Which statement best supports the editorial's claim?",
-    "answerOptions": [
-      {
-        "text": "The policy allows more employees to work remotely.",
-        "rationale": "This describes the policy, not evidence of reduced energy use.",
-        "isCorrect": false
-      },
-      {
-        "text": "Utility meter readings show weekday electricity consumption is down 28% compared to the same months last year, adjusted for weather.",
-        "rationale": "Correct. This quantitative comparison directly supports reduced energy use at the building.",
-        "isCorrect": true
-      },
-      {
-        "text": "Gas usage for heating is unchanged.",
-        "rationale": "This does not support the claim about reduced energy use; it suggests no change for heating.",
-        "isCorrect": false
-      },
-      {
-        "text": "The editorial claims energy use was reduced.",
-        "rationale": "Restating the claim is not evidence.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "hard"
-=======
     "difficulty": "hard",
     "passage": "An opinion column argues that a new reading app dramatically improves high school literacy. To back up the claim, the columnist cites a six-week pilot in which students using the app averaged a 20-point gain on comprehension quizzes, includes a screenshot of a five-star online review, repeats a teacher's remark that the interface is 'sleek,' and notes that the company recently won a design award.",
     "question": "Which piece of evidence in the column is the weakest support for the claim?",
@@ -342,39 +283,14 @@ module.exports = [
         "rationale": "An award lends credibility to the developer, though it is less direct than student score data.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "A nonprofit says its community garden increases access to fresh produce in the neighborhood. In a recent season, the garden donated an average of 420 pounds of vegetables per week to the local food pantry. Membership also grew from 38 to 74 households, and most plots were harvested weekly during peak season.",
-    "question": "Which evidence best supports the claim about increasing access to fresh produce?",
-    "answerOptions": [
-      {
-        "text": "Membership grew from 38 to 74 households.",
-        "rationale": "Growth shows interest, but does not directly indicate increased access for the broader community.",
-        "isCorrect": false
-      },
-      {
-        "text": "Most plots were harvested weekly during peak season.",
-        "rationale": "This shows activity, not direct distribution to those in need.",
-        "isCorrect": false
-      },
-      {
-        "text": "The garden donated an average of 420 pounds of vegetables per week to the local food pantry.",
-        "rationale": "Correct. Donations to the pantry directly increase community access to fresh produce.",
-        "isCorrect": true
-      },
-      {
-        "text": "The garden operates during the growing season.",
-        "rationale": "This is a timing detail, not evidence of increased access.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "medium"
-=======
     "difficulty": "medium",
     "passage": "During a city council debate, Councilor Ortiz insisted that adding protected bike lanes has boosted local business revenue. She highlighted credit-card transaction data showing sales up 12% along the bike corridor, shared photos of cyclists waiting outside cafés, and mentioned that two new bike shops opened downtown this year.",
     "question": "Which additional information would most strengthen Councilor Ortiz's claim?",
@@ -399,39 +315,14 @@ module.exports = [
         "rationale": "Cost information may be relevant to budgeting but does not address the revenue claim.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "A high school provided free public transit passes to all students and claimed the program improved attendance. In the three months after distribution, average daily attendance rose from 90.1% to 93.4%, and tardies fell by 18%. The school also added earlier bus routes.",
-    "question": "Which piece of evidence most strongly supports the claim that attendance improved?",
-    "answerOptions": [
-      {
-        "text": "The school added earlier bus routes.",
-        "rationale": "This is a related change, not evidence that attendance improved.",
-        "isCorrect": false
-      },
-      {
-        "text": "Tardies fell by 18% after passes were distributed.",
-        "rationale": "This indicates improvement in punctuality, but the attendance rate change directly addresses attendance.",
-        "isCorrect": false
-      },
-      {
-        "text": "Average daily attendance rose from 90.1% to 93.4% in the three months after distribution.",
-        "rationale": "Correct. This directly measures the outcome the claim addresses: attendance improved.",
-        "isCorrect": true
-      },
-      {
-        "text": "Students received free transit passes.",
-        "rationale": "This restates the program, not evidence of its effect on attendance.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "medium"
-=======
     "difficulty": "medium",
     "passage": "A grant proposal states that the community health van has expanded access to prenatal care in rural counties. The proposal notes that the van visited 27 towns last year, that 68% of patients reported the visit was their first prenatal appointment, and that social media posts about the van received 4,500 likes.",
     "question": "Why is the social media statistic the least convincing evidence for the proposal's claim?",
@@ -456,39 +347,14 @@ module.exports = [
         "rationale": "The claim already focuses on prenatal care; this does not explain why the evidence is weak.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "A health department asserts that banning flavored e-cigarettes has decreased teen vaping. One year after the ban, a school survey found that past-30-day vaping among students fell from 19% to 12%. During the same period, confiscations of flavored products at schools also declined.",
-    "question": "Which detail best supports the department's assertion?",
-    "answerOptions": [
-      {
-        "text": "Confiscations of flavored products at schools declined.",
-        "rationale": "This supports the claim but could reflect enforcement differences; survey prevalence is stronger evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "A school survey found past-30-day vaping fell from 19% to 12% one year after the ban.",
-        "rationale": "Correct. A reduction in self-reported use directly supports decreased teen vaping.",
-        "isCorrect": true
-      },
-      {
-        "text": "The policy banned flavored e-cigarettes.",
-        "rationale": "This describes the policy, not its effect on teen vaping rates.",
-        "isCorrect": false
-      },
-      {
-        "text": "The survey was conducted in schools.",
-        "rationale": "This is a context detail, not the evidence of decreased vaping.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "medium"
-=======
     "difficulty": "medium",
     "passage": "An environmental group responds to critics who say the city's tree-planting initiative wastes money. The group points out that utility data show summer energy use dropped 8% on tree-lined blocks, asthma-related ER visits fell by 15% in the same neighborhoods, and maintenance costs average only $30 per tree annually.",
     "question": "Which detail most directly counters the critics' claim that the tree program is a waste of money?",
@@ -513,8 +379,9 @@ module.exports = [
         "rationale": "The passage does not mention aesthetics, and such opinions do not answer the money concern.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   }
-]
-;
+];

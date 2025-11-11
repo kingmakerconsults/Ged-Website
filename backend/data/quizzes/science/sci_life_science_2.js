@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: DNA is the molecule that contains the genetic code."
+    "passage": "Science textbook excerpt: DNA is the molecule that contains the genetic code.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,7 +59,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: Producers, like plants, create their own food, usually through photosynthesis."
+    "passage": "Science textbook excerpt: Producers, like plants, create their own food, usually through photosynthesis.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "The grass is a producer.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "A fungus is a living (biotic) factor.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "This is not the correct outcome for this specific cross.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "The cross describes the inheritance of flower color, not the ability to produce flowers.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -196,6 +214,9 @@ module.exports = [
         "rationale": "This is transcription.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -224,6 +245,9 @@ module.exports = [
         "rationale": "Predation is a relationship where one organism hunts and kills another.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -252,6 +276,9 @@ module.exports = [
         "rationale": "This order is incorrect.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -280,6 +307,9 @@ module.exports = [
         "rationale": "Respiration is the process of converting food into energy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -308,6 +338,9 @@ module.exports = [
         "rationale": "Correct. This is a general rule of thumb in ecology, known as the 10 percent rule.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -336,6 +369,9 @@ module.exports = [
         "rationale": "Invasive species typically decrease biodiversity by outcompeting and eliminating native species.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -364,6 +400,9 @@ module.exports = [
         "rationale": "The cell wall provides structural support.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   }
 ];

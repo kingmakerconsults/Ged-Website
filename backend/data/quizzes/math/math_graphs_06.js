@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "A slope of -1 means the line falls at a 45-degree angle."
       }
     ],
-    "rationale": "A horizontal line has no 'rise' for its 'run'. The change in y is 0, so the slope (change in y / change in x) is always 0."
+    "rationale": "A horizontal line has no 'rise' for its 'run'. The change in y is 0, so the slope (change in y / change in x) is always 0.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "If f(x) = x - 8, what is f(10)?",
     "correctAnswer": "2",
-    "rationale": "Substitute 10 for x: f(10) = 10 - 8 = 2."
+    "rationale": "Substitute 10 for x: f(10) = 10 - 8 = 2.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the average of the y-values."
       }
     ],
-    "rationale": "First, find the slope: m = (2 - 8) / (4 - 2) = -6 / 2 = -3. Then, use the slope-intercept form y = mx + b with one of the points, for example (2, 8): 8 = -3(2) + b. 8 = -6 + b. So, b = 14."
+    "rationale": "First, find the slope: m = (2 - 8) / (4 - 2) = -6 / 2 = -3. Then, use the slope-intercept form y = mx + b with one of the points, for example (2, 8): 8 = -3(2) + b. 8 = -6 + b. So, b = 14.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the x-intercept of the line 4x + 3y = 12?",
     "correctAnswer": "3",
-    "rationale": "To find the x-intercept, set y = 0. The equation becomes 4x + 3(0) = 12, so 4x = 12. Divide by 4 to get x = 3."
+    "rationale": "To find the x-intercept, set y = 0. The equation becomes 4x + 3(0) = 12, so 4x = 12. Divide by 4 to get x = 3.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is an exponential curve."
       }
     ],
-    "rationale": "The graph of the absolute value function, y = |x|, is a V-shape with its vertex at the origin."
+    "rationale": "The graph of the absolute value function, y = |x|, is a V-shape with its vertex at the origin.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This has the correct slope but wrong y-intercept."
       }
     ],
-    "rationale": "The slope of the given line is 1/2. The slope of a perpendicular line is the negative reciprocal, which is -2. Use the point-slope form y - y1 = m(x - x1): y - (-1) = -2(x - 1). y + 1 = -2x + 2. So, y = -2x + 1."
+    "rationale": "The slope of the given line is 1/2. The slope of a perpendicular line is the negative reciprocal, which is -2. Use the point-slope form y - y1 = m(x - x1): y - (-1) = -2(x - 1). y + 1 = -2x + 2. So, y = -2x + 1.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the range of the function $f(x) = x^2 + 5$?",
     "correctAnswer": "y >= 5",
-    "rationale": "The parabola opens upward and its vertex is at (0, 5). Therefore, the minimum y-value is 5, and the range is all real numbers greater than or equal to 5."
+    "rationale": "The parabola opens upward and its vertex is at (0, 5). Therefore, the minimum y-value is 5, and the range is all real numbers greater than or equal to 5.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This reverses the shifts."
       }
     ],
-    "rationale": "A horizontal shift to the left by 2 units is represented by replacing x with (x+2). A vertical shift down by 3 units is represented by subtracting 3 from the function. So, the new function is g(x) = $(x + 2)^3$ - 3."
+    "rationale": "A horizontal shift to the left by 2 units is represented by replacing x with (x+2). A vertical shift down by 3 units is represented by subtracting 3 from the function. So, the new function is g(x) = $(x + 2)^3$ - 3.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "For the function $f(x) = 100(2)^x$, find the value of $f(3)$.",
     "correctAnswer": "800",
-    "rationale": "Substitute 3 for x: f(3) = 100 * $(2)^3$ = 100 * 8 = 800."
+    "rationale": "Substitute 3 for x: f(3) = 100 * $(2)^3$ = 100 * 8 = 800.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "The y-coordinate is k, not -k."
       }
     ],
-    "rationale": "The equation is in vertex form, y = a$(x - h)^2$ + k, where the vertex is (h, k). In this case, h=5 and k=1."
+    "rationale": "The equation is in vertex form, y = a$(x - h)^2$ + k, where the vertex is (h, k). In this case, h=5 and k=1.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "The coefficient of $x^2$ is positive."
       }
     ],
-    "rationale": "The direction of a parabola is determined by the sign of the coefficient of the $x^2$ term. A negative coefficient means the parabola opens downward."
+    "rationale": "The direction of a parabola is determined by the sign of the coefficient of the $x^2$ term. A negative coefficient means the parabola opens downward.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the average of x and y."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x. Using the two points: $m = \\frac{9 - 5}{4 - 2} = \\frac{4}{2} = 2$."
+    "rationale": "The slope is the change in y divided by the change in x. Using the two points: $m = \\frac{9 - 5}{4 - 2} = \\frac{4}{2} = 2$.",
+    "challenge_tags": [
+      "math-4"
+    ]
   }
 ];

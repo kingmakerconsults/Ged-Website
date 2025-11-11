@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "History textbook excerpt: The act provided 160 acres of federal land to settlers who agreed to farm it for a number of years."
+    "passage": "History textbook excerpt: The act provided 160 acres of federal land to settlers who agreed to farm it for a number of years.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "The Gold Rush was about finding gold in California, not a route to Asia.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "The railroad was completed after the Civil War.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -113,7 +122,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Term coined by Mark Twain."
+    "source": "Term coined by Mark Twain.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -141,6 +153,9 @@ module.exports = [
         "rationale": "The steam engine was developed much earlier, with key improvements by James Watt.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -169,6 +184,9 @@ module.exports = [
         "rationale": "The policy was aimed at assimilation, not sovereignty.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -198,6 +216,9 @@ module.exports = [
         "rationale": "It was a victory that encouraged further resistance, not surrender.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -226,6 +247,9 @@ module.exports = [
         "rationale": "They were the owners and managers, often in conflict with labor unions.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -254,6 +278,9 @@ module.exports = [
         "rationale": "His thesis was about the historical impact of the continental frontier.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -282,6 +309,9 @@ module.exports = [
         "rationale": "While there was immigration from China and Japan, the largest numbers came from Europe during this period.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -310,6 +340,9 @@ module.exports = [
         "rationale": "This was a period of factory growth, not decline.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -338,6 +371,9 @@ module.exports = [
         "rationale": "Correct. The Populist platform included proposals like the free coinage of silver (to increase the money supply) and government control of railroads to help farmers.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   }
 ];
