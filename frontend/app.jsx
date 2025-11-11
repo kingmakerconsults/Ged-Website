@@ -31144,6 +31144,12 @@ function StartScreen({
                     : subjectId === 'rla'
                     ? 'rla'
                     : 'social';
+                // Define button colors in this scope
+                const subjectColors =
+                  SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
+                const primaryBtnColor =
+                  subjectColors.accent || subjectColors.background || '#2563eb';
+                const primaryBtnText = '#ffffff';
                 const match = Array.isArray(weeklyCoachSummary)
                   ? weeklyCoachSummary.find(
                       (ws) =>
