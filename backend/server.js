@@ -2001,23 +2001,43 @@ const NON_CALC_COUNT = 12;
 const GEOMETRY_COUNT = 12;
 const ALGEBRA_COUNT = 12;
 
-const FRACTION_PLAIN_TEXT_RULE = `IMPORTANT FRACTION RULE:
-Any fraction MUST be written using plain text with a slash. Examples:
+const FRACTION_PLAIN_TEXT_RULE = `Math formatting rules (IMPORTANT):
 
-* one-half = 1/2
-* three-fourths = 3/4
-* (2x + 1)/3
-* mixed number: 2 1/2
+FRACTIONS:
+  • Always write fractions using plain text with a slash. Examples: 1/2, 3/4, (2x+1)/3, mixed number 2 1/2.
+  • NEVER use LaTeX fraction syntax like \frac{1}{2}.
 
-NEVER write a fraction using LaTeX or KaTeX syntax like \frac{1}{2}.
-NEVER wrap a fraction in $, $$, \(:, or [.
+EXPONENTS:
+  • Write exponents inline with caret: x^2, 3^4, (x+1)^2.
+  • Do NOT use LaTeX superscript braces unless absolutely unavoidable; prefer x^2 not x^{2}. (Caret form only.)
 
-Everything else (exponents, square roots, inequality symbols like ≤ and ≥, etc.) can be written normally the way you usually would for math class.`;
+ROOTS:
+  • Write square roots as sqrt(9), sqrt(x+4), sqrt(49).
+  • Do NOT use LaTeX \sqrt{9} or any math delimiters.
+
+GENERAL PROHIBITIONS (Math subject ONLY when plain-text mode enabled):
+  • Do NOT use LaTeX math delimiters ($, $$, \\(...\\), \\[...\\]).
+  • Do NOT use LaTeX macros like \frac, \sqrt, \pi. Instead write plain tokens: pi, sqrt( ), a/b.
+  • Keep all math inline in plain English; no block math.
+  • Inequality symbols (≤, ≥, ≠) and basic symbols (+ - * / =) are allowed.
+  • Currency: write "12.50 dollars" or "USD 12.50" (NO leading $).
+
+EXAMPLES (GOOD):
+  "What is (2x+3)/4 when x = 5?"
+  "Simplify x^2 + 2x + 1."
+  "Approximate sqrt(49)."
+
+EXAMPLES (BAD):
+  "What is \\frac{2x+3}{4}?"  (contains \frac)
+  "Simplify $x^{2} + 2x + 1$" (contains delimiters)
+  "Find \\sqrt{49}" (contains \sqrt)
+`;
 
 function buildStrictJsonHeaderMath({ fractionPlainTextMode } = {}) {
+  // When fractionPlainTextMode is enabled we also enforce FULL plain-text math (no LaTeX macros)
   const questionTextGuidance = fractionPlainTextMode
-    ? '- questionText: Plain English with math notation allowed (e.g., exponents like x^2, roots like \\sqrt{9}, inequality symbols like \\le or \\ge). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.'
-    : '- questionText: Plain English with LaTeX commands allowed (e.g., \\sqrt{9}, \\le, \\ge, \\pi). DO NOT use math delimiters ($, $$, \\(, \\[). DO NOT use HTML.';
+    ? '- questionText: Plain English with ONLY plain text math tokens (x^2, sqrt(9), 3/4, (2x+1)/3). NO LaTeX commands (no \\frac, \\sqrt, \\pi). NO math delimiters ($, $$, \\(, \\[). NO HTML.'
+    : '- questionText: Plain English with LaTeX commands allowed (e.g., \\sqrt{9}, \\le, \\ge, \\pi) but still NO math delimiters ($, $$, \\(, \\[). NO HTML.';
 
   const answerOptionsGuidance =
     '- answerOptions: Provide multiple choices; each must include "text", "isCorrect", and "rationale". Exactly one answerOption must have isCorrect=true.';
@@ -2052,15 +2072,27 @@ function buildStrictJsonHeaderMath({ fractionPlainTextMode } = {}) {
     '* "Do NOT write any text after </END_JSON> and do not write any explanations before <BEGIN_JSON>."',
   ].join('\\n');
 
-  const hardRuleLines = [
-    '- LaTeX commands allowed (\\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).',
-    '- Fractions must use plain-text slash notation (e.g., 3/4, (2x+1)/3).',
-    '- Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.',
-    '- No HTML or markdown tables. Describe any table verbally in questionText.',
-    '- Ensure braces balance in \\sqrt{...}. No custom macros.',
-    '- If a passage/stimulus is used, it MUST be <= 250 words.',
-    '- Exactly N items; top-level is a JSON array only.',
-  ].join('\\n');
+  const hardRuleLines = fractionPlainTextMode
+    ? [
+        '- PLAIN TEXT MATH MODE ACTIVE: NO LaTeX macros (no \\frac, \\sqrt, \\pi).',
+        '- Write fractions with slash style only (3/4, (2x+1)/3).',
+        '- Write roots as sqrt(...).',
+        '- Write exponents with caret: x^2, (x+1)^3.',
+        '- NO math delimiters ($, $$, \\(, \\[).',
+        '- Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.',
+        '- No HTML or markdown tables. Describe any table verbally in questionText.',
+        '- Passage/stimulus <= 250 words.',
+        '- Exactly N items; top-level is a JSON array only.',
+      ].join('\\n')
+    : [
+        '- LaTeX commands allowed (\\sqrt, \\le, etc.), but NO math delimiters ($, $$, \\(, \\[).',
+        '- Fractions must use plain-text slash notation (e.g., 3/4, (2x+1)/3).',
+        '- Currency: do NOT use $; write “USD 12.50” or “12.50 dollars”.',
+        '- No HTML or markdown tables. Describe any table verbally in questionText.',
+        '- Ensure braces balance in \\sqrt{...}. No custom macros.',
+        '- If a passage/stimulus is used, it MUST be <= 250 words.',
+        '- Exactly N items; top-level is a JSON array only.',
+      ].join('\\n');
 
   return `SYSTEM: Return ONLY JSON, no prose/markdown. Wrap between <BEGIN_JSON> and <END_JSON>.
 Each item schema:
