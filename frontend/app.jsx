@@ -11394,7 +11394,7 @@ const AppData = {
                   {
                     text: 'To give all western territories the right to popular sovereignty.',
                     rationale:
-                      'The compromise established a specific line (36°30\') to determine where slavery was allowed, rather than letting settlers decide everywhere.',
+                      "The compromise established a specific line (36°30') to determine where slavery was allowed, rather than letting settlers decide everywhere.",
                     isCorrect: false,
                   },
                   {
@@ -31965,30 +31965,44 @@ function StartScreen({
                   <button
                     key={subjectName}
                     onClick={() => openSubjectPremades(subjectName)}
-                    className="subject-card glass group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-lg transition-all duration-300 subject-choice"
+                    className="subject-card group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border shadow-lg transition-all duration-300 subject-choice"
                     data-testid={`subject-button-${subjectName
                       .toLowerCase()
                       .replace(/[\s()]+/g, '-')
                       .replace(/-$/, '')}`}
+                    style={
+                      !isDarkMode
+                        ? {
+                            backgroundImage: gradientBackground,
+                            borderColor: colorScheme.border || 'transparent',
+                          }
+                        : {
+                            borderColor: 'var(--border-slate-700-70)',
+                          }
+                    }
                   >
                     <div
                       className="w-full rounded-xl py-6 flex items-center justify-center shadow-inner"
-                      style={{
-                        ...iconWrapperStyle,
-                        color: subjectTextColor,
-                      }}
+                      style={
+                        !isDarkMode
+                          ? {
+                              background: 'rgba(255, 255, 255, 0.3)',
+                              color: subjectTextColor,
+                            }
+                          : {
+                              ...iconWrapperStyle,
+                              color: subjectTextColor,
+                            }
+                      }
                     >
                       <IconComponent className="h-12 w-12 text-white drop-shadow" />
                     </div>
                     <h2
                       className="text-xl font-semibold text-slate-800 dark:text-slate-100"
                       style={{
-                        color:
-                          subjectName === 'Math'
-                            ? isDarkMode
-                              ? colorScheme.text || undefined
-                              : colorScheme.accent || undefined
-                            : colorScheme.text || undefined,
+                        color: !isDarkMode
+                          ? '#ffffff'
+                          : colorScheme.text || undefined,
                       }}
                     >
                       {subjectName}
@@ -31996,30 +32010,64 @@ function StartScreen({
                     <span
                       className="quiz-count-text text-sm text-center"
                       data-subject={subjectDataKey}
-                      style={
-                        isDarkMode ? { color: subjectTextColor } : undefined
-                      }
+                      style={{
+                        color: !isDarkMode
+                          ? 'rgba(255, 255, 255, 0.9)'
+                          : subjectTextColor,
+                      }}
                     >
                       {premadeLabel}
                     </span>
                     {window.__COACH_ENABLED__ && dailyForSubject && (
                       <div
-                        className={`w-full mt-3 coach-subject-card coach-gold-card subject-${subjectKey} rounded-md border p-2 text-left`}
+                        className={`w-full mt-3 coach-subject-card subject-${subjectKey} rounded-md border p-2 text-left`}
                         onClick={(e) => e.stopPropagation()}
+                        style={
+                          !isDarkMode
+                            ? {
+                                background: 'rgba(255, 255, 255, 0.2)',
+                                borderColor: 'rgba(255, 255, 255, 0.4)',
+                                backdropFilter: 'blur(4px)',
+                              }
+                            : {
+                                background: 'var(--bg-muted)',
+                                borderColor: 'var(--border-subtle)',
+                              }
+                        }
                       >
                         <div className="flex items-center justify-between">
-                          <span
+                          <p
                             className="subject-pill text-xs font-semibold uppercase tracking-wide"
-                            style={{
-                              borderRadius: '9999px',
-                              padding: '2px 10px',
-                            }}
+                            style={
+                              !isDarkMode
+                                ? {
+                                    borderRadius: '9999px',
+                                    padding: '2px 10px',
+                                    background: 'rgba(255, 255, 255, 0.9)',
+                                    color: '#0f172a',
+                                  }
+                                : {
+                                    borderRadius: '9999px',
+                                    padding: '2px 10px',
+                                  }
+                            }
                           >
                             {subjectName.includes('Language Arts')
                               ? 'RLA'
                               : subjectName}
-                          </span>
-                          <span className="minutes-pill text-[0.70rem]">
+                          </p>
+                          <span
+                            className="minutes-pill text-[0.65rem]"
+                            style={
+                              !isDarkMode
+                                ? {
+                                    color: '#1e293b',
+                                  }
+                                : {
+                                    color: 'var(--text-slate-200)',
+                                  }
+                            }
+                          >
                             {Math.max(
                               0,
                               dailyForSubject.completed_minutes || 0
@@ -32758,16 +32806,18 @@ function QuizInterface({
                 type="text"
                 value={answers[currentIndex] || ''}
                 onChange={handleInputChange}
-                 onKeyDown={(e) => {
-                   if (e.key === 'Enter') {
-                     e.preventDefault();
-                     if (currentIndex === questions.length - 1) {
-                       handleSubmit();
-                     } else {
-                       setCurrentIndex((p) => Math.min(questions.length - 1, p + 1));
-                     }
-                   }
-                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (currentIndex === questions.length - 1) {
+                      handleSubmit();
+                    } else {
+                      setCurrentIndex((p) =>
+                        Math.min(questions.length - 1, p + 1)
+                      );
+                    }
+                  }
+                }}
                 placeholder="Type your answer here"
                 className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
                 style={{
@@ -33104,6 +33154,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       scaledScore,
       passed,
       subject: quiz.subject,
+      answers: result.answers, // include user answers for results screen
       marked: result.marked,
       confidence: result.confidence,
       quiz,
@@ -34141,7 +34192,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         </h3>
         <div className="space-y-4 text-left">
           {(quiz.questions || []).map((question, index) => {
-            const userAnswer = (results.answers || [])[index];
+            const rawAnswers = Array.isArray(results.answers)
+              ? results.answers
+              : [];
+            const userAnswer =
+              rawAnswers[index] !== undefined ? rawAnswers[index] : null;
             const correctMC = (question.answerOptions || []).find(
               (opt) => opt.isCorrect
             );
@@ -34291,7 +34346,17 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     isCorrect ? 'text-green-700' : 'text-red-700'
                   }`}
                 >
-                  Your answer: {userAnswer || 'No answer'}{' '}
+                  {(() => {
+                    const display = (() => {
+                      if (userAnswer === null || userAnswer === undefined)
+                        return 'No answer';
+                      const s = String(userAnswer)
+                        .replace(/\u00A0/g, ' ')
+                        .trim();
+                      return s.length ? s : 'No answer';
+                    })();
+                    return <>Your answer: {display} </>;
+                  })()}
                   {isCorrect ? '��' : '��'}
                 </p>
                 {!isCorrect &&
