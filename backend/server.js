@@ -4677,6 +4677,33 @@ app.post(
   }
 );
 
+// Alias routes with hyphenated path to match frontend's /api/quiz-attempts calls
+app.get(
+  '/api/quiz-attempts',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
+    // later: SELECT * FROM quiz_attempts WHERE user_id = $1 ORDER BY created_at DESC
+    return res.json({ ok: true, attempts: [] });
+  }
+);
+
+app.post(
+  '/api/quiz-attempts',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  express.json(),
+  async (req, res) => {
+    // for now just ACK
+    console.log('Quiz attempt submitted via /api/quiz-attempts:', req.body);
+    return res.json({ ok: true });
+  }
+);
+
 // Simple endpoint to debug the resolved identity and profile presence
 app.get(
   '/api/whoami',
