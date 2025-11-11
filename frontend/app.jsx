@@ -30212,6 +30212,9 @@ function StartScreen({
       : subjectColors.text || subjectColors.accent || '#0f172a';
     const heroAccentColor =
       subjectColors.accent || subjectColors.text || '#0f172a';
+    const primaryBtnColor =
+      subjectColors.accent || subjectColors.background || '#2563eb';
+    const primaryBtnText = '#ffffff';
     const backButtonStyle = isDarkMode
       ? {
           backgroundColor: 'rgba(255,255,255,0.18)',
@@ -31279,7 +31282,12 @@ function StartScreen({
                         <button
                           onClick={generateCoachPlan}
                           disabled={coachLoading}
-                          className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition disabled:bg-white/70 disabled:text-slate-400"
+                          className="w-full mt-2 px-4 py-2 font-semibold rounded-md transition disabled:opacity-60 disabled:cursor-not-allowed"
+                          style={{
+                            background: primaryBtnColor,
+                            color: primaryBtnText,
+                            border: `1px solid ${primaryBtnColor}`,
+                          }}
                         >
                           {hasPlan
                             ? 'Generate / Refresh Plan'
@@ -31326,7 +31334,12 @@ function StartScreen({
                         selectedSubject
                       )
                     }
-                    className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
+                    className="w-full mt-2 px-4 py-2 font-semibold rounded-md transition"
+                    style={{
+                      background: primaryBtnColor,
+                      color: primaryBtnText,
+                      border: `1px solid ${primaryBtnColor}`,
+                    }}
                   >
                     Launch Essay Practice
                   </button>
@@ -31392,7 +31405,12 @@ function StartScreen({
                     )
                   }
                   disabled={!aiQuizTopic}
-                  className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md transition hover:bg-white/90 disabled:bg-white/60 disabled:text-slate-400 disabled:cursor-not-allowed"
+                  className="w-full mt-2 px-4 py-2 font-semibold rounded-md transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  style={{
+                    background: primaryBtnColor,
+                    color: primaryBtnText,
+                    border: `1px solid ${primaryBtnColor}`,
+                  }}
                 >
                   Generate Quiz
                 </button>
@@ -31421,7 +31439,12 @@ function StartScreen({
                   onClick={async () =>
                     await onStartComprehensiveExam(selectedSubject)
                   }
-                  className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
+                  className="w-full mt-2 px-4 py-2 font-semibold rounded-md transition"
+                  style={{
+                    background: primaryBtnColor,
+                    color: primaryBtnText,
+                    border: `1px solid ${primaryBtnColor}`,
+                  }}
                 >
                   Start Comprehensive Exam
                 </button>

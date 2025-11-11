@@ -870,14 +870,6 @@ h3 {
   box-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
 }
 
-/* only flatten the small subject tiles in the lower dashboard, NOT the progress cards */
-[data-theme='light'] .content-card #quizzes .subject-card,
-[data-theme='light'] .content-card .subject-bar .subject-card {
-  background: unset !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
 /* animated hero gradient title in light mode */
 [data-theme='light'] .dashboard-hero-title,
 [data-theme='light'] header.text-center h1 {
