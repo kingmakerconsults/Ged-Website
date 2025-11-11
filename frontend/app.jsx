@@ -2891,7 +2891,7 @@ const SCI_NUMERACY_QUESTIONS = [
   },
   {
     questionNumber: 2,
-                challenge_tags: ["math-1"],
+    challenge_tags: ['math-1'],
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage:
@@ -3071,7 +3071,7 @@ const SCI_NUMERACY_QUESTIONS = [
   },
   {
     questionNumber: 8,
-                challenge_tags: ["math-6", "science-1"],
+    challenge_tags: ['math-6', 'science-1'],
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage:
@@ -3128,7 +3128,7 @@ const SCI_NUMERACY_QUESTIONS = [
   },
   {
     questionNumber: 10,
-                challenge_tags: ["science-2", "math-6", "science-1"],
+    challenge_tags: ['science-2', 'math-6', 'science-1'],
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage:
@@ -3294,7 +3294,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["rla-6"],
+                challenge_tags: ['rla-6'],
                 type: 'text',
                 passage:
                   'Photosynthesis is the process used by plants, algae, and some bacteria to convert light energy into chemical energy. The process uses sunlight, water, and carbon dioxide to create glucose (sugar for energy) and oxygen. This is why plants are called producers; they create their own food.',
@@ -3326,7 +3326,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'knowledge',
                 question:
                   'Which human body system is responsible for transporting oxygen, nutrients, and hormones to cells and removing waste products?',
@@ -3358,7 +3358,7 @@ const AppData = {
               },
               {
                 questionNumber: 5,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'text',
                 passage:
                   'DNA (Deoxyribonucleic acid) is a molecule that carries the genetic instructions for the development, functioning, growth, and reproduction of all known organisms. A gene is a specific sequence of DNA that codes for a functional product, either RNA or a protein.',
@@ -3420,7 +3420,7 @@ const AppData = {
               },
               {
                 questionNumber: 7,
-                challenge_tags: ["rla-6"],
+                challenge_tags: ['rla-6'],
                 type: 'knowledge',
                 question:
                   'Which part of the plant cell is primarily responsible for photosynthesis?',
@@ -3452,7 +3452,7 @@ const AppData = {
               },
               {
                 questionNumber: 8,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'text',
                 passage:
                   'Homeostasis is the state of steady internal, physical, and chemical conditions maintained by living systems. This is the condition of optimal functioning for the organism and includes many variables, such as body temperature and fluid balance, being kept within certain pre-set limits.',
@@ -3517,7 +3517,7 @@ const AppData = {
               },
               {
                 questionNumber: 10,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'knowledge',
                 question:
                   'An allele is a variant form of a gene. If an individual has two identical alleles for a particular gene, they are:',
@@ -3549,7 +3549,7 @@ const AppData = {
               },
               {
                 questionNumber: 11,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'text',
                 passage:
                   'The nervous system is composed of two main parts: the Central Nervous System (CNS), which consists of the brain and spinal cord, and the Peripheral Nervous System (PNS), which consists of the nerves that branch out from the CNS to the rest of the body.',
@@ -3611,7 +3611,7 @@ const AppData = {
               },
               {
                 questionNumber: 13,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'text',
                 passage:
                   "Cellular respiration is a set of metabolic reactions and processes that take place in the cells of organisms to convert chemical energy from nutrients into adenosine triphosphate (ATP), and then release waste products. It is the process of 'burning' glucose for energy.",
@@ -3673,7 +3673,7 @@ const AppData = {
               },
               {
                 questionNumber: 15,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'knowledge',
                 question:
                   'What is the difference between a dominant and a recessive allele?',
@@ -3744,7 +3744,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["rla-6"],
+                challenge_tags: ['rla-6'],
                 type: 'knowledge',
                 question:
                   'In a food web, an organism that produces its own food, usually through photosynthesis, is called a:',
@@ -3774,7 +3774,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["science-3", "science-2"],
+                challenge_tags: ['science-3', 'science-2'],
                 type: 'image',
                 imageUrl: 'Images/ged-scince-fig-12.png',
                 question:
@@ -3806,7 +3806,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["science-2", "science-3"],
+                challenge_tags: ['science-2', 'science-3'],
                 type: 'text',
                 passage:
                   'The energy pyramid illustrates the flow of energy from one trophic (feeding) level to the next in an ecosystem. A large amount of energy is lost at each level, usually as heat. Typically, only about 10% of the energy from one level is transferred to the level above it.',
@@ -3872,7 +3872,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["rla-7", "science-4"],
+                challenge_tags: ['rla-7', 'science-4'],
                 type: 'text',
                 passage:
                   'Human activities, such as the burning of fossil fuels (coal, oil, and natural gas), release large amounts of carbon dioxide into the atmosphere. Carbon dioxide is a greenhouse gas, which traps heat and contributes to the warming of the planet, a phenomenon known as global warming or climate change.',
@@ -3907,7 +3907,7 @@ const AppData = {
               },
               {
                 questionNumber: 7,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'knowledge',
                 question:
                   'A symbiotic relationship where one organism benefits and the other is neither harmed nor helped is called:',
@@ -3939,7 +3939,7 @@ const AppData = {
               },
               {
                 questionNumber: 8,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'text',
                 passage:
                   'Biodiversity refers to the variety of life in a particular habitat or ecosystem. High biodiversity is often a sign of a healthy ecosystem. It increases ecosystem productivity and resilience, meaning the ecosystem is better able to withstand and recover from disasters.',
@@ -3973,7 +3973,7 @@ const AppData = {
               },
               {
                 questionNumber: 9,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'knowledge',
                 question:
                   'What is the main role of decomposers, such as bacteria and fungi, in an ecosystem?',
@@ -4004,7 +4004,7 @@ const AppData = {
               },
               {
                 questionNumber: 10,
-                challenge_tags: ["science-3"],
+                challenge_tags: ['science-3'],
                 type: 'text',
                 passage:
                   'Natural selection is the process through which populations of living organisms adapt and change. Individuals in a population are naturally variable, meaning that they are all different in some ways. This variation means that some individuals have traits better suited to the environment than others. Individuals with adaptive traits are more likely to survive and reproduce, passing those traits on to their offspring.',
@@ -4039,7 +4039,7 @@ const AppData = {
               },
               {
                 questionNumber: 11,
-                challenge_tags: ["science-3", "social-5"],
+                challenge_tags: ['science-3', 'social-5'],
                 type: 'knowledge',
                 question:
                   'An invasive species is an organism that is not native to a specific location and has a tendency to spread to a degree believed to cause damage to the environment, economy, or human health. Why are invasive species often so successful in new ecosystems?',
@@ -4102,7 +4102,7 @@ const AppData = {
               },
               {
                 questionNumber: 13,
-                challenge_tags: ["science-4", "science-6"],
+                challenge_tags: ['science-4', 'science-6'],
                 type: 'text',
                 passage:
                   'Acid rain is caused by emissions of sulfur dioxide and nitrogen oxide, which react with the water molecules in the atmosphere to produce acids. These emissions primarily come from the burning of fossil fuels in power plants and vehicles. Acid rain can have harmful effects on soil, forests, and aquatic ecosystems.',
@@ -4136,7 +4136,7 @@ const AppData = {
               },
               {
                 questionNumber: 14,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'knowledge',
                 question:
                   'A food chain shows a single pathway of energy transfer. Which of the following is a correct and logical food chain?',
@@ -4211,7 +4211,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
                   'All matter is made up of atoms, which are the smallest units of an element that maintain the properties of that element. Atoms are composed of three main subatomic particles: protons, neutrons, and electrons. Protons have a positive charge, neutrons have no charge, and electrons have a negative charge.',
@@ -4243,7 +4243,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'knowledge',
                 question:
                   'In an atom, which two subatomic particles are found in the nucleus?',
@@ -4274,7 +4274,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
                   'The periodic table of elements arranges all known elements in order of increasing atomic number. The atomic number of an element is equal to the number of protons in the nucleus of an atom of that element. This number is unique to each element.',
@@ -4338,7 +4338,7 @@ const AppData = {
               },
               {
                 questionNumber: 5,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'knowledge',
                 question:
                   'What is the difference between an element and a compound?',
@@ -4370,7 +4370,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
                   'A chemical reaction is a process that leads to the chemical transformation of one set of chemical substances to another. The substances initially involved in a chemical reaction are called reactants, and the substances produced are called products. The law of conservation of mass states that mass is neither created nor destroyed in a chemical reaction.',
@@ -4528,7 +4528,7 @@ const AppData = {
               },
               {
                 questionNumber: 11,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'knowledge',
                 question:
                   "The columns of the periodic table are called 'groups' or 'families.' Elements in the same group have similar:",
@@ -4559,7 +4559,7 @@ const AppData = {
               },
               {
                 questionNumber: 12,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
                   'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions��charged atoms that are then attracted to each other.',
@@ -4622,7 +4622,7 @@ const AppData = {
               },
               {
                 questionNumber: 14,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'knowledge',
                 question:
                   'A substance that speeds up a chemical reaction without being consumed in the reaction is called a(n):',
@@ -4693,7 +4693,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
                   "Newton's First Law of Motion, often called the law of inertia, states that an object at rest will stay at rest, and an object in motion will stay in motion with the same speed and in the same direction unless acted upon by an unbalanced force.",
@@ -4728,7 +4728,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
                   "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass × acceleration).",
@@ -4794,7 +4794,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
                   "Energy can be classified into two main types: potential and kinetic. Potential energy is stored energy, often due to an object's position or state. Kinetic energy is the energy of motion.",
@@ -4828,7 +4828,7 @@ const AppData = {
               },
               {
                 questionNumber: 5,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'knowledge',
                 question: 'The law of conservation of energy states that:',
                 answerOptions: [
@@ -4859,7 +4859,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
                   'A wave is a disturbance that transfers energy from one place to another. In a transverse wave, the particles of the medium move perpendicular to the direction of energy transfer. In a longitudinal wave, the particles move parallel to the direction of energy transfer.',
@@ -5019,7 +5019,7 @@ const AppData = {
               },
               {
                 questionNumber: 11,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'knowledge',
                 question:
                   'The force of gravity between two objects depends on two factors:',
@@ -5084,7 +5084,7 @@ const AppData = {
               },
               {
                 questionNumber: 13,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'knowledge',
                 question:
                   'What type of energy is stored in the bonds of chemical compounds, such as in food or batteries?',
@@ -5208,7 +5208,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["science-4"],
+                challenge_tags: ['science-4'],
                 type: 'text',
                 passage:
                   "The Earth's lithosphere is divided into several large and small tectonic plates that float on the semi-fluid asthenosphere beneath. The movement of these plates is responsible for major geological events such as earthquakes, volcanic eruptions, and the formation of mountain ranges.",
@@ -5270,7 +5270,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["rla-7", "science-4"],
+                challenge_tags: ['rla-7', 'science-4'],
                 type: 'text',
                 passage:
                   'The rock cycle is a model that describes the formation, breakdown, and reformation of a rock as a result of sedimentary, igneous, and metamorphic processes. For example, when magma or lava cools and solidifies, it forms igneous rock. When this rock is weathered and eroded, the sediments can be compacted to form sedimentary rock.',
@@ -5336,7 +5336,7 @@ const AppData = {
               },
               {
                 questionNumber: 5,
-                challenge_tags: ["science-4"],
+                challenge_tags: ['science-4'],
                 type: 'text',
                 passage:
                   "Weathering is the process that breaks down rocks, soils, and minerals as well as wood and artificial materials through contact with the Earth's atmosphere, water, and biological organisms. Erosion is the process by which soil and rock particles are worn away and moved elsewhere by gravity, or by a moving transport agent such as water, wind, or ice.",
@@ -5370,7 +5370,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["science-4"],
+                challenge_tags: ['science-4'],
                 type: 'knowledge',
                 question:
                   'Which of the following is the best example of chemical weathering?',
@@ -5433,7 +5433,7 @@ const AppData = {
               },
               {
                 questionNumber: 8,
-                challenge_tags: ["science-2"],
+                challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
                   'A star is a luminous ball of gas, mostly hydrogen and helium, held together by its own gravity. Nuclear fusion reactions in its core support the star against gravity and produce photons and heat, as well as small amounts of heavier elements. The Sun is the closest star to Earth.',
@@ -5468,7 +5468,7 @@ const AppData = {
               },
               {
                 questionNumber: 9,
-                challenge_tags: ["science-4"],
+                challenge_tags: ['science-4'],
                 type: 'knowledge',
                 question: 'Why do we experience seasons on Earth?',
                 answerOptions: [
@@ -5531,7 +5531,7 @@ const AppData = {
               },
               {
                 questionNumber: 11,
-                challenge_tags: ["science-4"],
+                challenge_tags: ['science-4'],
                 type: 'text',
                 passage:
                   'Meteorology is the science dealing with the atmosphere and its phenomena, including weather and climate. Weather refers to the short-term conditions of the atmosphere at a particular time and place, including temperature, humidity, precipitation, and wind. Climate, on the other hand, is the long-term average of weather patterns in a region.',
@@ -5563,7 +5563,7 @@ const AppData = {
               },
               {
                 questionNumber: 12,
-                challenge_tags: ["science-4"],
+                challenge_tags: ['science-4'],
                 type: 'knowledge',
                 question:
                   'What is the layer of gases surrounding the Earth called?',
@@ -5704,7 +5704,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["math-1"],
+                challenge_tags: ['math-1'],
                 calculator: false,
                 question:
                   'A construction project requires $\\frac{5}{8}$ inch bolts. If a worker has a bolt that is $\\frac{3}{4}$ inch, is it too large or too small, and by how much?',
@@ -5736,7 +5736,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["math-1"],
+                challenge_tags: ['math-1'],
                 calculator: false,
                 question:
                   'A recipe calls for $2 \\frac{1}{2}$ cups of flour. If you want to make half the recipe, how much flour do you need?',
@@ -5981,7 +5981,7 @@ const AppData = {
               },
               {
                 questionNumber: 10,
-                challenge_tags: ["math-4"],
+                challenge_tags: ['math-4'],
                 calculator: true,
                 question:
                   'If you drive 4.5 miles to the store, then 2.3 miles to the post office, and finally 6.1 miles home, how many miles did you drive in total?',
@@ -6100,7 +6100,7 @@ const AppData = {
               },
               {
                 questionNumber: 14,
-                challenge_tags: ["math-1"],
+                challenge_tags: ['math-1'],
                 calculator: true,
                 question:
                   'Order the following fractions from smallest to largest: $\\frac{1}{2}, \\frac{3}{5}, \\frac{2}{3}$.',
@@ -6346,7 +6346,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["math-1"],
+                challenge_tags: ['math-1'],
                 calculator: false,
                 question:
                   'A shirt that originally costs $40 is on sale for $25\\%$ off. What is the sale price of the shirt?',
@@ -6377,7 +6377,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["math-1"],
+                challenge_tags: ['math-1'],
                 calculator: false,
                 question:
                   'A map has a scale where 1 inch represents 50 miles. If two cities are 3.5 inches apart on the map, what is the actual distance between them?',
@@ -6407,7 +6407,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["math-1"],
+                challenge_tags: ['math-1'],
                 calculator: false,
                 question:
                   'In a bag of marbles, the ratio of blue marbles to red marbles is $3:5$. If there are 15 red marbles, how many blue marbles are there?',
@@ -6468,7 +6468,7 @@ const AppData = {
               },
               {
                 questionNumber: 5,
-                challenge_tags: ["math-1"],
+                challenge_tags: ['math-1'],
                 calculator: false,
                 question:
                   'You scored 45 out of 50 on a test. What is your score as a percentage?',
@@ -6498,7 +6498,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["math-1"],
+                challenge_tags: ['math-1'],
                 calculator: true,
                 question:
                   'The price of a computer increased from $500 to $600. What was the percent increase?',
@@ -6891,7 +6891,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["math-6"],
+                challenge_tags: ['math-6'],
                 calculator: false,
                 type: 'chart',
                 passage:
@@ -6923,7 +6923,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["math-6"],
+                challenge_tags: ['math-6'],
                 calculator: false,
                 type: 'chart',
                 passage:
@@ -6956,7 +6956,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["math-6"],
+                challenge_tags: ['math-6'],
                 calculator: false,
                 type: 'chart',
                 passage:
@@ -7501,7 +7501,7 @@ const AppData = {
               },
               {
                 questionNumber: 15,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: true,
                 question:
                   'A rectangle is 8 inches long and 5 inches wide. What is its area?',
@@ -7636,7 +7636,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["math-4"],
+                challenge_tags: ['math-4'],
                 calculator: false,
                 question: 'Simplify the expression: $3x + 2y - x + 5y$',
                 answerOptions: [
@@ -7665,7 +7665,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["math-4"],
+                challenge_tags: ['math-4'],
                 calculator: false,
                 question:
                   'If $x = 4$, what is the value of the expression $5x - 3$?',
@@ -7695,7 +7695,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["math-4"],
+                challenge_tags: ['math-4'],
                 calculator: false,
                 question: 'What is the result of $(2x + 3) + (x - 1)$?',
                 answerOptions: [
@@ -8075,7 +8075,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["math-2", "math-3"],
+                challenge_tags: ['math-2', 'math-3'],
                 calculator: false,
                 question: 'Solve for x: $3x + 7 = 19$',
                 answerOptions: [
@@ -8104,7 +8104,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["math-2", "math-3"],
+                challenge_tags: ['math-2', 'math-3'],
                 calculator: false,
                 question:
                   'What is the solution to the inequality $2x - 5 > 11$?',
@@ -8134,7 +8134,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["math-2", "math-3"],
+                challenge_tags: ['math-2', 'math-3'],
                 calculator: false,
                 question: 'Solve for y: $5y - 8 = 2y + 7$',
                 answerOptions: [
@@ -8278,7 +8278,7 @@ const AppData = {
               },
               {
                 questionNumber: 8,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: true,
                 question:
                   'Solve for b: $A = \\frac{1}{2}bh$ (the formula for the area of a triangle)',
@@ -8423,7 +8423,7 @@ const AppData = {
               },
               {
                 questionNumber: 13,
-                challenge_tags: ["math-2"],
+                challenge_tags: ['math-2'],
                 calculator: true,
                 question:
                   'Solve the system of equations: $x + y = 10$ and $x - y = 4$',
@@ -8481,7 +8481,7 @@ const AppData = {
               },
               {
                 questionNumber: 15,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: true,
                 question:
                   'The length of a rectangle is 5 more than its width. If the perimeter is 50, what is the width?',
@@ -8581,7 +8581,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["math-2"],
+                challenge_tags: ['math-2'],
                 calculator: false,
                 question:
                   'Which of the following equations is written in slope-intercept form ($y = mx + b$)?',
@@ -8817,7 +8817,7 @@ const AppData = {
               },
               {
                 questionNumber: 11,
-                challenge_tags: ["science-1"],
+                challenge_tags: ['science-1'],
                 calculator: true,
                 type: 'image',
                 imageUrl: 'Images/math_graph_3.png',
@@ -8981,7 +8981,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: false,
                 type: 'image',
                 imageUrl: 'Images/math_geo_1.png',
@@ -9012,7 +9012,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: false,
                 type: 'image',
                 imageUrl: 'Images/math_geo_2.png',
@@ -9044,7 +9044,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: false,
                 type: 'image',
                 imageUrl: 'Images/math_geo_3.png',
@@ -9077,7 +9077,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: false,
                 question:
                   'A box has a length of 6 inches, a width of 4 inches, and a height of 3 inches. What is its volume?',
@@ -9107,7 +9107,7 @@ const AppData = {
               },
               {
                 questionNumber: 5,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: false,
                 question:
                   'What is the perimeter of a square with a side length of 7 cm?',
@@ -9166,7 +9166,7 @@ const AppData = {
               },
               {
                 questionNumber: 7,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: true,
                 question:
                   'The perimeter of a rectangle is 30 feet. If the width is 5 feet, what is the length?',
@@ -9196,7 +9196,7 @@ const AppData = {
               },
               {
                 questionNumber: 8,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: true,
                 question:
                   'What is the area of a circle with a diameter of 10 inches? (Use $\\pi \\approx 3.14$)',
@@ -9284,7 +9284,7 @@ const AppData = {
               },
               {
                 questionNumber: 11,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: true,
                 question:
                   'What is the surface area of a cube with a side length of 4 inches?',
@@ -9314,7 +9314,7 @@ const AppData = {
               },
               {
                 questionNumber: 12,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: true,
                 question:
                   'A triangle has an area of 30 square meters. If its base is 10 meters, what is its height?',
@@ -9373,7 +9373,7 @@ const AppData = {
               },
               {
                 questionNumber: 14,
-                challenge_tags: ["math-5"],
+                challenge_tags: ['math-5'],
                 calculator: true,
                 question:
                   'A parallelogram has a base of 12 inches and a height of 5 inches. What is its area?',
@@ -9455,7 +9455,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-4"],
+                    challenge_tags: ['social-4'],
                     type: 'text',
                     passage:
                       "The period from the early 15th century to the early 17th century is known as the Age of Exploration, driven by the 'Three Gs': God, Gold, and Glory. 'Gold' represented the desire for wealth, such as finding new trade routes for valuable spices and extracting resources like silver and gold from new lands.",
@@ -9490,7 +9490,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-4"],
+                    challenge_tags: ['social-4'],
                     type: 'text',
                     passage:
                       "Mercantilism was the dominant economic theory during this period. It held that a nation's wealth and power were best served by increasing exports and collecting precious metals. Colonies were crucial to this system, existing to provide raw materials to the mother country and to serve as a market for its manufactured goods.",
@@ -9525,7 +9525,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["science-4", "social-5"],
+                    challenge_tags: ['science-4', 'social-5'],
                     type: 'knowledge',
                     question:
                       'Which colonial region was known for its economy based on shipbuilding, fishing, and trade, with small farms due to rocky soil?',
@@ -9558,7 +9558,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-5"],
+                    challenge_tags: ['social-5'],
                     type: 'text',
                     passage:
                       "The Middle Colonies, including New York and Pennsylvania, were characterized by greater religious and ethnic diversity. Fertile soil supported a thriving agricultural economy based on grains like wheat, earning the region the nickname 'the breadbasket colonies.'",
@@ -9593,7 +9593,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-5"],
+                    challenge_tags: ['social-5'],
                     type: 'knowledge',
                     question:
                       'The economy of the Southern Colonies, such as Virginia, was heavily dependent on:',
@@ -9666,7 +9666,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'The Virginia House of Burgesses, established in 1619, holds what significance in American history?',
@@ -9733,7 +9733,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["science-6"],
+                    challenge_tags: ['science-6'],
                     type: 'knowledge',
                     question:
                       'The Mayflower Compact (1620) is significant because it was:',
@@ -9766,7 +9766,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'text',
                     passage:
                       'The system of indentured servitude was a common way for poor Europeans to migrate to the American colonies. In exchange for passage, they would work for a landowner for a fixed period, typically four to seven years. This system provided a crucial labor force before the large-scale adoption of slavery.',
@@ -9807,7 +9807,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-2"],
+                    challenge_tags: ['social-2'],
                     type: 'image',
                     imageUrl:
                       'Images/This-Question-is-based-on-the-following-graph.png',
@@ -9910,7 +9910,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'image',
                     imageUrl:
                       'Images/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg',
@@ -9991,7 +9991,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["science-3", "social-4"],
+                    challenge_tags: ['science-3', 'social-4'],
                     type: 'text',
                     passage:
                       "After the French and Indian War (1754-1763), Great Britain was left with a significant war debt. To manage this debt, the British Parliament began imposing new taxes on the American colonies. Acts like the Stamp Act (1765) and the Townshend Acts (1767) taxed goods such as paper, glass, and tea. Colonists strongly protested these taxes, arguing that they were a form of 'taxation without representation,' since the colonies had no elected representatives in the British Parliament to voice their interests.",
@@ -10026,7 +10026,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["science-3", "social-4"],
+                    challenge_tags: ['science-3', 'social-4'],
                     type: 'quote',
                     passage:
                       "'We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.--That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed.' - Declaration of Independence, 1776",
@@ -10061,7 +10061,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-3", "social-4"],
+                    challenge_tags: ['social-3', 'social-4'],
                     type: 'text',
                     passage:
                       'The American victory at the Battle of Saratoga in 1777 is widely considered the turning point of the Revolutionary War. The defeat of a major British army convinced France that the American colonists could potentially win the war. As a result, France formally recognized American independence and entered the war as an ally of the United States, providing crucial military and financial support that was instrumental in the final victory at Yorktown.',
@@ -10096,7 +10096,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["science-6", "social-3"],
+                    challenge_tags: ['science-6', 'social-3'],
                     type: 'cause-effect',
                     question:
                       'Which statement best describes the cause-and-effect relationship between the French and Indian War and the American Revolution?',
@@ -10169,7 +10169,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-4"],
+                    challenge_tags: ['social-4'],
                     type: 'knowledge',
                     question:
                       'During the American Revolution, colonists who supported independence were known as Patriots. What was the term for colonists who remained loyal to Great Britain?',
@@ -10202,7 +10202,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["science-3", "social-4"],
+                    challenge_tags: ['science-3', 'social-4'],
                     type: 'quote',
                     passage:
                       "'Every thing that is right or reasonable pleads for separation. The blood of the slain, the weeping voice of nature cries, 'TIS TIME TO PART.' - Thomas Paine, Common Sense, 1776",
@@ -10237,7 +10237,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["rla-5"],
+                    challenge_tags: ['rla-5'],
                     type: 'knowledge',
                     question:
                       'Who was appointed Commander-in-Chief of the Continental Army during the American Revolution?',
@@ -10270,7 +10270,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-3", "social-4"],
+                    challenge_tags: ['social-3', 'social-4'],
                     type: 'text',
                     passage:
                       "The Treaty of Paris, signed in 1783, formally ended the American Revolutionary War. The key terms of the treaty included Great Britain's formal recognition of the United States as an independent nation. It also established the boundaries of the new nation, granting the U.S. territory that stretched west to the Mississippi River, north to the Great Lakes, and south to Florida.",
@@ -10343,7 +10343,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-3", "social-4"],
+                    challenge_tags: ['social-3', 'social-4'],
                     type: 'image',
                     imageUrl: 'Images/join_or_die_cartoon.jpg',
                     question:
@@ -10377,7 +10377,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["science-3", "social-4"],
+                    challenge_tags: ['science-3', 'social-4'],
                     type: 'chart',
                     passage: `<div class="passage-text"><b>Comparing Forces in the American Revolution</b><table class="w-full text-left mt-2"><thead><tr class="border-b"><th class="p-2">Factor</th><th class="p-2">Great Britain</th><th class="p-2">American Colonies</th></tr></thead><tbody><tr class="border-b"><td class="p-2 font-semibold">Population</td><td class="p-2">~ 8 million</td><td class="p-2">~ 2.5 million</td></tr><tr class="border-b"><td class="p-2 font-semibold">Military</td><td class="p-2">Large, well-trained army; powerful navy</td><td class="p-2">Small, inexperienced militia; no navy</td></tr><tr class="border-b"><td class="p-2 font-semibold">Leadership</td><td class="p-2">Experienced officers</td><td class="p-2">Committed, capable leaders (e.g., Washington)</td></tr><tr class="border-b"><td class="p-2 font-semibold">Geography</td><td class="p-2">Long supply lines (3,000 miles)</td><td class="p-2">Fighting on home ground; vast territory</td></tr><tr class="border-b"><td class="p-2 font-semibold">Motivation</td><td class="p-2">Hired mercenaries; varied support at home</td><td class="p-2">Fighting for liberty and independence</td></tr></tbody></table></div>`,
                     question:
@@ -10411,7 +10411,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["rla-5"],
+                    challenge_tags: ['rla-5'],
                     type: 'text',
                     passage:
                       'The winter of 1777-1778 at Valley Forge was a time of immense hardship for the Continental Army. Soldiers suffered from a lack of food, clothing, and shelter, and many died from disease. However, the army did not disintegrate. Under the command of George Washington and the training of the Prussian officer Baron von Steuben, the soldiers who remained were forged into a more disciplined and professional fighting force.',
@@ -10525,7 +10525,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'text',
                     passage:
                       "Manifest Destiny was a widely held cultural belief in the 19th-century United States that American settlers were destined to expand across North America. This idea was used to justify westward expansion, the removal of Native American tribes, and the war with Mexico. Proponents argued that it was not only the nation's destiny but its duty to spread democracy and Protestant Christianity across the continent.",
@@ -10551,7 +10551,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'Which of the following events, completed in 1869, was a major catalyst for westward expansion by making travel and trade across the continent significantly faster and cheaper?',
@@ -10573,7 +10573,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The Homestead Act of 1862 was a pivotal piece of legislation that encouraged westward migration. It allowed any adult citizen, or intended citizen, who had never borne arms against the U.S. government to claim 160 acres of surveyed government land. Claimants were required to 'improve' the plot by building a dwelling and cultivating the land for five years before receiving full ownership.",
@@ -10644,7 +10644,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'The Oregon Trail was a major overland route for westward migration in the 19th century. What was the primary motivation for most pioneers who traveled the Oregon Trail?',
@@ -10669,7 +10669,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'text',
                     passage:
                       'The Mexican-American War (1846-1848) was a conflict between the United States and Mexico, primarily over the U.S. annexation of Texas. The war ended with the Treaty of Guadalupe Hidalgo, in which Mexico ceded a vast territory, known as the Mexican Cession, to the United States. This territory included present-day California, Nevada, Utah, and parts of several other states.',
@@ -10696,7 +10696,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1", "social-3"],
+                    challenge_tags: ['social-1', 'social-3'],
                     type: 'knowledge',
                     question:
                       "The Battle of the Little Bighorn in 1876, often referred to as 'Custer's Last Stand,' was a significant event in the Great Sioux War. What was the outcome of this battle?",
@@ -10721,7 +10721,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'The near-extermination of the American bison (buffalo) in the late 19th century had a devastating impact on the Plains Indians. For these tribes, the bison was a primary source of food, clothing, shelter, and spiritual inspiration. The destruction of the bison herds, driven by commercial hunting and U.S. government policy, was a key factor in forcing the Plains tribes onto reservations.',
@@ -10778,7 +10778,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'Which invention, perfected in the 1870s, played a crucial role in ending the era of the open range and the long cattle drives by allowing ranchers to fence off their lands?',
@@ -10841,7 +10841,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["rla-7"],
+                    challenge_tags: ['rla-7'],
                     type: 'text',
                     passage:
                       "Frederick Jackson Turner's 'Frontier Thesis,' presented in 1893, was an influential idea in American history. Turner argued that the existence of a frontier��a line between 'civilization' and 'wilderness'��had been a defining characteristic of American culture, fostering individualism, democracy, and innovation. He declared that the frontier had closed, raising questions about the future of American identity.",
@@ -10898,7 +10898,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-3", "science-5"],
+                    challenge_tags: ['social-3', 'science-5'],
                     type: 'text',
                     passage:
                       "Following the Revolutionary War, the newly independent states adopted the Articles of Confederation as their first national government. The Articles created a weak central government, reflecting the states' fear of a strong, centralized authority like the British monarchy. Under the Articles, the national Congress had no power to tax, raise a national army, or regulate interstate commerce. These weaknesses quickly became apparent, leading to events like Shays' Rebellion.",
@@ -10933,7 +10933,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'What event highlighted the weaknesses of the Articles of Confederation and convinced many national leaders that a stronger central government was needed?',
@@ -10966,7 +10966,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'The Constitutional Convention of 1787 was called to address the problems of the Articles of Confederation. A major point of contention was representation in Congress. The Virginia Plan, favored by large states, proposed representation based on population. The New Jersey Plan, favored by small states, proposed equal representation for all states. The dispute was resolved by the Great Compromise (or Connecticut Compromise), which created a bicameral (two-house) legislature.',
@@ -11033,7 +11033,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'To prevent any one branch of the new government from becoming too powerful, the framers of the Constitution created a system of checks and balances. For example, the President (Executive Branch) can veto laws passed by Congress (Legislative Branch). Congress can impeach and remove the President. The Supreme Court (Judicial Branch) can declare laws unconstitutional, a power known as judicial review.',
@@ -11074,7 +11074,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'The U.S. Constitution was amended shortly after ratification to protect individual liberties. Examples include: Amendment I (freedoms of speech, press, religion), Amendment II (right to bear arms), Amendment IV (protection from unreasonable searches), and Amendment X (powers reserved to the states or people).',
@@ -11109,7 +11109,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'During the debate over the ratification of the Constitution, two opposing groups emerged. The Federalists, led by figures like Alexander Hamilton and James Madison, supported the Constitution and a strong national government. The Anti-Federalists, led by figures like Patrick Henry and George Mason, opposed the Constitution, fearing it would create a government that was too powerful and would threaten individual liberties. The addition of the Bill of Rights was a key compromise to secure ratification.',
@@ -11251,7 +11251,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The principle of dividing governmental power between a central, national government and state governments is known as:',
@@ -11284,7 +11284,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'What important precedent was established by the Supreme Court case Marbury v. Madison (1803)?',
@@ -11383,7 +11383,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-4"],
+                    challenge_tags: ['social-4'],
                     type: 'text',
                     passage:
                       'The Northwest Ordinance of 1787 was one of the most significant achievements of the Congress under the Articles of Confederation. It established a process for creating new states in the Northwest Territory (the region north of the Ohio River and west of Pennsylvania). It guaranteed religious freedom in the territory, prohibited slavery, and set aside land for public schools.',
@@ -11528,7 +11528,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["social-3"],
+                challenge_tags: ['social-3'],
                 type: 'knowledge',
                 question:
                   'Which of the following events was the immediate cause of the secession of the first seven Southern states in 1860-1861?',
@@ -11595,7 +11595,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["social-3"],
+                challenge_tags: ['social-3'],
                 type: 'knowledge',
                 question:
                   'Which battle is considered the major turning point of the Civil War in the Eastern Theater, after which the Confederacy was largely on the defensive?',
@@ -11628,7 +11628,7 @@ const AppData = {
               },
               {
                 questionNumber: 7,
-                challenge_tags: ["social-4", "social-3"],
+                challenge_tags: ['social-4', 'social-3'],
                 type: 'text',
                 passage:
                   'The period after the Civil War, from 1865 to 1877, is known as Reconstruction. The primary goals were to rebuild the South, readmit the former Confederate states to the Union, and integrate the newly freed African Americans into American society. This era saw significant political conflict over how to achieve these goals.',
@@ -11663,7 +11663,7 @@ const AppData = {
               },
               {
                 questionNumber: 8,
-                challenge_tags: ["social-1"],
+                challenge_tags: ['social-1'],
                 type: 'knowledge',
                 question:
                   'Which constitutional amendment formally abolished slavery throughout the United States?',
@@ -11696,7 +11696,7 @@ const AppData = {
               },
               {
                 questionNumber: 9,
-                challenge_tags: ["social-1"],
+                challenge_tags: ['social-1'],
                 type: 'text',
                 passage:
                   'The 14th Amendment, ratified in 1868, is one of the most consequential amendments to the Constitution. Its first section includes the Citizenship Clause, which grants citizenship to all persons born or naturalized in the U.S., and the Equal Protection Clause, which prohibits states from denying any person within their jurisdiction the equal protection of the laws.',
@@ -11731,7 +11731,7 @@ const AppData = {
               },
               {
                 questionNumber: 10,
-                challenge_tags: ["social-1"],
+                challenge_tags: ['social-1'],
                 type: 'knowledge',
                 question:
                   'The 15th Amendment to the Constitution, ratified in 1870, stated that the right to vote could not be denied on the basis of...',
@@ -11764,7 +11764,7 @@ const AppData = {
               },
               {
                 questionNumber: 11,
-                challenge_tags: ["social-6"],
+                challenge_tags: ['social-6'],
                 type: 'text',
                 passage:
                   'Despite the passage of the Reconstruction Amendments, Southern states implemented various measures to disenfranchise African American voters. These included poll taxes (requiring a fee to vote), literacy tests (requiring voters to read and interpret complex texts), and grandfather clauses (which allowed a man to vote only if his ancestor had been eligible to vote before 1867).',
@@ -11831,7 +11831,7 @@ const AppData = {
               },
               {
                 questionNumber: 13,
-                challenge_tags: ["social-3"],
+                challenge_tags: ['social-3'],
                 type: 'text',
                 passage:
                   "The Compromise of 1877 is widely considered the end of the Reconstruction era. In a disputed presidential election, Republican Rutherford B. Hayes was awarded the presidency over Democrat Samuel Tilden. In exchange, the Republicans agreed to withdraw the last federal troops from the South. This withdrawal removed the protection for African Americans' civil rights and allowed the white Democratic 'Redeemers' to regain control of Southern state governments.",
@@ -11942,7 +11942,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["rla-7"],
+                    challenge_tags: ['rla-7'],
                     type: 'text',
                     passage:
                       'The late 19th century was a period of rapid industrialization in the United States. Key to this was the development of new technologies. The Bessemer process, for example, made the production of steel cheap and efficient. This led to a boom in railroad construction, the building of skyscrapers, and the growth of heavy industry. Innovations like the telephone, invented by Alexander Graham Bell, and the electric light bulb, perfected by Thomas Edison, revolutionized communication and daily life.',
@@ -11969,7 +11969,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'image',
                     imageUrl:
                       'Images/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
@@ -12064,7 +12064,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1", "social-5", "social-3"],
+                    challenge_tags: ['social-1', 'social-5', 'social-3'],
                     type: 'image',
                     imageUrl: 'Images/Bosses-of-the-Senate.jpg',
                     question:
@@ -12090,7 +12090,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1", "social-5", "social-3"],
+                    challenge_tags: ['social-1', 'social-5', 'social-3'],
                     type: 'text',
                     passage:
                       'The Progressive Era (roughly 1890-1920) was a period of widespread social activism and political reform. Progressives sought to address the problems caused by industrialization, urbanization, and political corruption. They believed that the government should take a more active role in regulating the economy and protecting the welfare of its citizens.',
@@ -12117,7 +12117,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1", "social-5"],
+                    challenge_tags: ['social-1', 'social-5'],
                     type: 'knowledge',
                     question:
                       'Journalists who exposed corruption in business and government during the Progressive Era were known by what name?',
@@ -12156,7 +12156,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'During the Progressive Era, political reforms such as the initiative, referendum, and recall were designed to:',
@@ -12213,7 +12213,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       "The movement to protect America's natural resources, which gained national prominence under President Theodore Roosevelt, is known as:",
@@ -12226,7 +12226,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       "What was the primary goal of the women's suffrage movement?",
@@ -12271,7 +12271,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'Which constitutional amendment, ratified in 1920, granted women the right to vote?',
@@ -12297,7 +12297,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'text',
                     passage:
                       "Initially, the United States adopted a policy of neutrality at the outbreak of World War I in 1914. However, several events shifted public opinion and led to U.S. entry. Germany's policy of unrestricted submarine warfare, which resulted in the sinking of ships with American passengers, most notably the Lusitania, caused outrage. The final catalyst was the Zimmermann Telegram, a secret message from Germany to Mexico proposing a military alliance against the U.S.",
@@ -12619,7 +12619,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-3", "social-1"],
+                    challenge_tags: ['social-3', 'social-1'],
                     type: 'text',
                     passage:
                       "The Cold War was a period of geopolitical tension between the United States and the Soviet Union and their respective allies, the Western Bloc and the Eastern Bloc. It is called a 'cold' war because there was no large-scale direct fighting between the two superpowers. The conflict was instead expressed through military buildups, proxy wars in other nations, and a race for technological, economic, and ideological supremacy.",
@@ -12646,7 +12646,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       "What was the primary goal of the U.S. foreign policy of 'containment' during the Cold War?",
@@ -12671,7 +12671,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'text',
                     passage:
                       'The Marshall Plan, officially the European Recovery Program, was a U.S. initiative to aid Western Europe after World War II. The U.S. gave over $13 billion in economic assistance to help rebuild Western European economies. The plan was intended to stabilize the region, promote democratic institutions, and prevent the spread of communism by alleviating poverty and desperation.',
@@ -12723,7 +12723,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["rla-6"],
+                    challenge_tags: ['rla-6'],
                     type: 'knowledge',
                     question:
                       'The North Atlantic Treaty Organization (NATO) was a military alliance formed in 1949. What was its primary purpose?',
@@ -12845,7 +12845,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'The launch of the satellite Sputnik by the Soviet Union in 1957 was a major event in the Cold War. What was its most immediate effect in the United States?',
@@ -12897,7 +12897,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The Civil Rights Act of 1964 was a landmark piece of legislation that outlawed discrimination based on race, color, religion, sex, or national origin. It ended unequal application of voter registration requirements and racial segregation in schools, at the workplace, and by facilities that served the general public (known as 'public accommodations').",
@@ -12949,7 +12949,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The Voting Rights Act of 1965 was signed into law to overcome legal barriers at the state and local levels that prevented African Americans from exercising their right to vote. What was one of its key provisions?',
@@ -12974,7 +12974,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'text',
                     passage:
                       'The end of the Cold War is often symbolized by the fall of the Berlin Wall in 1989. For decades, the wall had physically and ideologically divided the city of Berlin. Its fall was followed by the reunification of Germany and the collapse of communist governments across Eastern Europe, culminating in the dissolution of the Soviet Union itself in 1991.',
@@ -13009,7 +13009,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-4", "social-5"],
+                    challenge_tags: ['social-4', 'social-5'],
                     type: 'text',
                     passage:
                       'The late 20th and early 21st centuries have been defined by the digital revolution and the rise of the internet. This technological shift has transformed the economy, communication, and daily life. The growth of personal computers, the internet, and mobile devices has created a globally interconnected society.',
@@ -13139,7 +13139,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'text',
                     passage:
                       "The transition from a manufacturing-based economy to a service-based economy in the United States accelerated in the late 20th century. This involved a decline in factory jobs, particularly in the 'Rust Belt' region, and a growth in jobs in sectors like healthcare, finance, and information technology.",
@@ -13243,7 +13243,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["science-6"],
+                    challenge_tags: ['science-6'],
                     type: 'knowledge',
                     question:
                       'The USA PATRIOT Act, passed shortly after 9/11, was controversial because it:',
@@ -13347,7 +13347,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["science-6"],
+                    challenge_tags: ['science-6'],
                     type: 'knowledge',
                     question:
                       'The 2008 presidential election was historic because it resulted in the election of:',
@@ -13411,7 +13411,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["math-6", "rla-3", "science-1"],
+                    challenge_tags: ['math-6', 'rla-3', 'science-1'],
                     type: 'chart',
                     passage: `<div class="passage-text"><b>Immigration to the U.S. by Region of Birth</b><table class="w-full text-left mt-2"><thead><tr><th class="p-2 border-b">Year</th><th class="p-2 border-b">Europe (%)</th><th class="p-2 border-b">Asia (%)</th><th class="p-2 border-b">Latin America (%)</th></tr></thead><tbody><tr class="border-b"><td class="p-2">1960</td><td class="p-2">75%</td><td class="p-2">5%</td><td class="p-2">15%</td></tr><tr class="border-b"><td class="p-2">2010</td><td class="p-2">12%</td><td class="p-2">28%</td><td class="p-2">53%</td></tr></tbody></table></div>`,
                     question:
@@ -13445,7 +13445,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The political landscape of the 21st century has been characterized by:',
@@ -13529,7 +13529,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The Preamble to the U.S. Constitution begins with the phrase 'We the People...' This opening statement establishes a core principle of the new government.",
@@ -13564,7 +13564,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The U.S. Constitution establishes three distinct branches of government. Which article of the Constitution establishes the Legislative Branch (Congress)?',
@@ -13597,7 +13597,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "Article II of the Constitution outlines the powers and responsibilities of the Executive Branch. It states that 'The executive Power shall be vested in a President of the United States of America.' This includes the power to act as Commander in Chief of the armed forces, to grant pardons, to make treaties (with the Senate's consent), and to appoint ambassadors and federal judges.",
@@ -13632,7 +13632,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The first ten amendments to the U.S. Constitution are known as the Bill of Rights. What is their primary purpose?',
@@ -13665,7 +13665,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The First Amendment to the U.S. Constitution protects several fundamental rights. Which of the following is NOT a right guaranteed by the First Amendment?',
@@ -13704,7 +13704,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The Fourth Amendment protects citizens from 'unreasonable searches and seizures.' Generally, this means that law enforcement officials must obtain a warrant, based on probable cause, before searching a person's home or property. This principle ensures that citizens have a right to privacy and are secure from arbitrary government intrusion.",
@@ -13739,7 +13739,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'The Fifth Amendment provides several protections for individuals accused of a crime. Which protection prevents a person from being tried twice for the same offense?',
@@ -13878,7 +13878,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question: 'How many amendments are in the Bill of Rights?',
                     answerOptions: [
@@ -13910,7 +13910,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The Supremacy Clause in Article VI of the Constitution establishes that the Constitution, federal laws made pursuant to it, and treaties made under its authority, constitute the 'supreme Law of the Land.' This means that if a state law conflicts with a federal law, the federal law takes precedence.",
@@ -13977,7 +13977,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'The process for amending the Constitution is outlined in Article V. An amendment can be proposed either by the Congress with a two-thirds majority vote in both the House and the Senate or by a national convention called for by two-thirds of the state legislatures. After being proposed, an amendment must be ratified by three-fourths of the state legislatures or by conventions in three-fourths of the states.',
@@ -14011,7 +14011,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'Which amendment in the Bill of Rights protects citizens from being forced to quarter soldiers in their homes during peacetime without their consent?',
@@ -14058,7 +14058,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The U.S. Congress is a bicameral legislature, meaning it is composed of two chambers: the House of Representatives and the Senate. Representation in the House is based on a state's population, with representatives serving two-year terms. In the Senate, every state is represented equally with two senators, who serve six-year terms. This structure was the result of the Great Compromise at the Constitutional Convention.",
@@ -14227,7 +14227,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "After a bill has been passed in identical form by both the House and the Senate, it is sent to the President. The President has several options. He can sign the bill, and it becomes law. He can veto the bill, sending it back to Congress with his objections. Or, he can do nothing. If Congress is in session, the bill becomes law after ten days without the President's signature.",
@@ -14260,7 +14260,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'Which of the following is an enumerated (or expressed) power of Congress, as listed in Article I, Section 8 of the Constitution?',
@@ -14326,7 +14326,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       "Which chamber of Congress has the exclusive power of 'advice and consent' on presidential appointments and treaties?",
@@ -14357,7 +14357,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The process of impeachment is a power granted to the Legislative Branch to remove a federal official from office for 'Treason, Bribery, or other high Crimes and Misdemeanors.' The process involves two steps: The House of Representatives has the sole power to impeach (to formally accuse), and the Senate has the sole power to hold the trial and vote on removal.",
@@ -14397,7 +14397,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["rla-7"],
+                    challenge_tags: ['rla-7'],
                     type: 'chart',
                     passage: `<div class="passage-text"><b>How a Bill Becomes a Law</b><br>1. Bill is Introduced in House or Senate.<br>2. Referred to Committee for study.<br>3. Floor Debate and Vote in the first chamber.<br>4. Bill is sent to the other chamber for the same process.<br>5. Conference Committee (if needed to resolve differences).<br>6. Final Vote in both chambers.<br>7. Sent to President.</div>`,
                     question:
@@ -14431,7 +14431,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'A filibuster is a tactic used in the Senate to delay or block a vote on a bill. How can a filibuster be ended?',
@@ -14574,7 +14574,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "Article II of the Constitution establishes the Executive Branch, stating that 'The executive Power shall be vested in a President of the United States of America.' The president serves as both the head of state and head of government. To be eligible for the presidency, a person must be a natural-born citizen, at least 35 years old, and have been a resident of the United States for 14 years.",
@@ -14638,7 +14638,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'text',
                     passage:
                       'As Commander in Chief of the armed forces, the President has supreme command over the U.S. military. While Congress has the power to declare war, the President is responsible for directing military operations and strategy. This power ensures civilian control over the military.',
@@ -14673,7 +14673,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'A presidential veto is the power of the President to refuse to approve a bill, thus preventing its enactment into law. This is a key part of what constitutional principle?',
@@ -14706,7 +14706,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'An executive order is a directive issued by the President of the United States that manages operations of the federal government. Executive orders have the force of law but do not require the approval of Congress. However, they can be challenged in court and are subject to judicial review. They are often used to implement existing laws or to manage the administration of the executive branch.',
@@ -14747,7 +14747,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1", "science-3"],
+                    challenge_tags: ['social-1', 'science-3'],
                     type: 'knowledge',
                     question:
                       'The President has the power to nominate ambassadors, cabinet members, and federal judges. Which body must confirm these appointments?',
@@ -14812,7 +14812,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'The 22nd Amendment to the Constitution, ratified in 1951, limits the president to two terms in office. This amendment was passed in response to President Franklin D. Roosevelt, who was elected to four terms.',
@@ -14875,7 +14875,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["science-2"],
+                    challenge_tags: ['science-2'],
                     type: 'text',
                     passage:
                       "The President's Cabinet is composed of the heads of the 15 executive departments. For example, the Secretary of State leads the Department of State and is the President's chief foreign affairs adviser. The Secretary of the Treasury is responsible for the nation's economic and financial systems.",
@@ -14916,7 +14916,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The power of the President to grant a pardon for a federal crime is an example of what type of power?',
@@ -14946,7 +14946,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "While the President has the power to negotiate treaties with foreign nations, these treaties do not become legally binding until they are approved by the Senate. This requirement is an important check on the President's foreign policy powers.",
@@ -15043,7 +15043,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["rla-7"],
+                    challenge_tags: ['rla-7'],
                     type: 'chart',
                     passage: `<div class="passage-text"><b>Presidential Executive Orders Issued (Selected Presidents)</b><br><table class="w-full text-left mt-2"><thead><tr><th class="p-2 border-b">President</th><th class="p-2 border-b">Executive Orders Issued</th></tr></thead><tbody><tr class="border-b"><td class="p-2">Theodore Roosevelt</td><td class="p-2">1,081</td></tr><tr class="border-b"><td class="p-2">Woodrow Wilson</td><td class="p-2">1,803</td></tr><tr class="border-b"><td class="p-2">Franklin D. Roosevelt</td><td class="p-2">3,721</td></tr><tr class="border-b"><td class="p-2">Harry S. Truman</td><td class="p-2">907</td></tr><tr class="border-b"><td class="p-2">Dwight D. Eisenhower</td><td class="p-2">484</td></tr></tbody></table></div>`,
                     question:
@@ -15090,7 +15090,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "Article III of the Constitution establishes the Judicial Branch of the federal government. It creates the Supreme Court and gives Congress the power to create lower federal courts. Federal judges, including Supreme Court justices, are appointed by the President and confirmed by the Senate. They hold their offices 'during good Behaviour,' which generally means for life.",
@@ -15156,7 +15156,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'The power of judicial review is one of the most important powers of the Supreme Court. This principle, established in the 1803 case of Marbury v. Madison, allows the Court to review laws and actions taken by the legislative and executive branches and to determine whether they are constitutional. If the Court finds a law to be unconstitutional, it is nullified.',
@@ -15191,7 +15191,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'Which landmark Supreme Court case established the principle of judicial review?',
@@ -15262,7 +15262,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The landmark case of Gideon v. Wainwright (1963) affirmed the right of the accused to what?',
@@ -15294,7 +15294,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "In the case of Tinker v. Des Moines (1969), the Supreme Court ruled on the free speech rights of students in public schools. Students had worn black armbands to protest the Vietnam War and were suspended. The Court famously stated that students do not 'shed their constitutional rights to freedom of speech or expression at the schoolhouse gate.'",
@@ -15432,7 +15432,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The power to create lower federal courts, such as district courts and courts of appeals, belongs to which branch of government?',
@@ -15465,7 +15465,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The Supreme Court has two main types of jurisdiction: original and appellate. Original jurisdiction means the Court hears a case for the first time. This is rare and typically involves disputes between states. Most of the Court's cases are heard on appellate jurisdiction, meaning the Court is hearing an appeal of a decision made by a lower court.",
@@ -15532,7 +15532,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'The landmark case Roe v. Wade (1973), which was overturned in 2022, dealt with which constitutional issue?',
@@ -15562,7 +15562,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["math-6"],
+                    challenge_tags: ['math-6'],
                     type: 'chart',
                     passage: `<div class="passage-text"><b>Supreme Court Justices by Appointing President (1981-2022)</b><table class="w-full text-left mt-2"><thead><tr><th class="p-2 border-b">President</th><th class="p-2 border-b">Number of Appointments</th></tr></thead><tbody><tr class="border-b"><td class="p-2">Ronald Reagan</td><td class="p-2">4</td></tr><tr class="border-b"><td class="p-2">George H.W. Bush</td><td class="p-2">2</td></tr><tr class="border-b"><td class="p-2">Bill Clinton</td><td class="p-2">2</td></tr><tr class="border-b"><td class="p-2">George W. Bush</td><td class="p-2">2</td></tr><tr class="border-b"><td class="p-2">Barack Obama</td><td class="p-2">2</td></tr><tr class="border-b"><td class="p-2">Donald Trump</td><td class="p-2">3</td></tr><tr class="border-b"><td class="p-2">Joe Biden</td><td class="p-2">1</td></tr></tbody></table></div>`,
                     question:
@@ -15607,7 +15607,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       'Federalism is a system of government in which power is divided between a central, national government and various regional governments, such as states. The U.S. Constitution establishes this system by granting certain powers to the federal government (enumerated powers), reserving other powers for the states (reserved powers), and allowing some powers to be shared by both (concurrent powers).',
@@ -15642,7 +15642,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'The power to coin money, declare war, and make treaties are all examples of what type of power in the U.S. federal system?',
@@ -15674,7 +15674,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The Tenth Amendment to the Constitution states that powers not delegated to the federal government, nor prohibited to the states, are reserved for the states or the people. These 'reserved powers' form the basis of state authority over many aspects of daily life.",
@@ -15709,7 +15709,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'knowledge',
                     question:
                       'Powers that are shared by both the federal government and state governments, such as the power to tax and build roads, are known as:',
@@ -15741,7 +15741,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "The President of the United States is not elected by a direct popular vote. Instead, the election is decided by the Electoral College. In this system, each state is assigned a number of electors equal to its total number of representatives in Congress (House + Senate). In most states, the candidate who wins the popular vote in that state wins all of that state's electoral votes.",
@@ -15813,7 +15813,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'text',
                     passage:
                       'A major criticism of the Electoral College is that it is possible for a candidate to win the presidency without winning the national popular vote. This happens if a candidate wins by narrow margins in several large states, while their opponent wins by large margins in fewer states. This has occurred in several U.S. presidential elections, including in 2000 and 2016.',
@@ -15878,7 +15878,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 4,
-                challenge_tags: ["rla-7"],
+                    challenge_tags: ['rla-7'],
                     type: 'text',
                     passage:
                       'The United States has a two-party system, which has been dominated by the Democratic and Republican parties for most of its history. While third parties, such as the Libertarian or Green parties, exist and can influence elections, they have rarely won major national offices. The winner-take-all nature of most elections makes it very difficult for third parties to gain a foothold.',
@@ -15912,7 +15912,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["social-3"],
+                    challenge_tags: ['social-3'],
                     type: 'knowledge',
                     question:
                       'What is the term for an election held to choose which candidate will represent a political party in the general election?',
@@ -15951,7 +15951,7 @@ const AppData = {
                 questions: [
                   {
                     questionNumber: 1,
-                challenge_tags: ["social-1", "social-5"],
+                    challenge_tags: ['social-1', 'social-5'],
                     type: 'text',
                     passage:
                       "Political ideologies in the U.S. are often described on a spectrum. Generally, those on the 'left' (often associated with the Democratic party) tend to favor more government intervention in the economy and more support for social programs. Those on the 'right' (often associated with the Republican party) tend to favor less government intervention, lower taxes, and a stronger emphasis on individual responsibility.",
@@ -15986,7 +15986,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 2,
-                challenge_tags: ["social-1", "social-3"],
+                    challenge_tags: ['social-1', 'social-3'],
                     type: 'knowledge',
                     question:
                       'The process of redrawing legislative district boundaries every 10 years after the census is known as:',
@@ -16018,7 +16018,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 3,
-                challenge_tags: ["social-1"],
+                    challenge_tags: ['social-1'],
                     type: 'text',
                     passage:
                       "Gerrymandering is the practice of drawing electoral district boundaries in a way that gives one political party an unfair advantage over another. This can be done by 'packing' an opposing party's voters into a few districts or 'cracking' them into many districts where they will be a minority. While redistricting is a normal process, gerrymandering is a controversial and often criticized manipulation of that process.",
@@ -16084,7 +16084,7 @@ const AppData = {
                   },
                   {
                     questionNumber: 5,
-                challenge_tags: ["rla-3"],
+                    challenge_tags: ['rla-3'],
                     type: 'chart',
                     passage: `<div class="passage-text"><b>Hypothetical Election Results</b><br><table class="w-full text-left mt-2"><thead><tr><th class="p-2 border-b">Candidate</th><th class="p-2 border-b">Popular Vote</th><th class="p-2 border-b">Electoral Votes</th></tr></thead><tbody><tr class="border-b"><td class="p-2">Candidate A</td><td class="p-2">65,853,514</td><td class="p-2">232</td></tr><tr class="border-b"><td class="p-2">Candidate B</td><td class="p-2">62,984,828</td><td class="p-2">306</td></tr></tbody></table></div>`,
                     question:
@@ -16133,7 +16133,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["social-5", "social-1", "social-6"],
+                challenge_tags: ['social-5', 'social-1', 'social-6'],
                 type: 'text',
                 passage:
                   'The fundamental problem of economics is scarcity. Scarcity means that human wants for goods, services, and resources exceed what is available. Resources, such as labor, tools, land, and raw materials, are limited. This scarcity forces individuals, businesses, and governments to make choices.',
@@ -16232,7 +16232,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'knowledge',
                 question:
                   'The Law of Demand states that, all other factors being equal, as the price of a good or service increases, the quantity demanded will:',
@@ -16296,7 +16296,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'image',
                 imageUrl:
                   'Images/Questions-are-based-on-the-following-graph.-7 (1).png',
@@ -16331,7 +16331,7 @@ const AppData = {
               },
               {
                 questionNumber: 7,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'text',
                 passage:
                   'In a market, when the current price of a product is above the equilibrium price, the quantity supplied will exceed the quantity demanded. This situation creates a surplus, as producers have more of the product than consumers are willing to buy at that high price. To sell the excess inventory, producers will typically lower the price.',
@@ -16366,7 +16366,7 @@ const AppData = {
               },
               {
                 questionNumber: 8,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'text',
                 passage:
                   'Conversely, when the current price of a product is below the equilibrium price, the quantity demanded will exceed the quantity supplied. This situation creates a shortage, as consumers want to buy more of the product than producers are willing to sell at that low price. This excess demand will cause the price to be bid up.',
@@ -16464,7 +16464,7 @@ const AppData = {
               },
               {
                 questionNumber: 11,
-                challenge_tags: ["social-5", "social-6"],
+                challenge_tags: ['social-5', 'social-6'],
                 type: 'knowledge',
                 question:
                   'The resources used to produce goods and services are known as the factors of production. Which of the following is NOT considered a factor of production?',
@@ -16496,7 +16496,7 @@ const AppData = {
               },
               {
                 questionNumber: 12,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'text',
                 passage:
                   "In economics, a distinction is made between a change in 'quantity demanded' and a change in 'demand.' A change in quantity demanded is a movement along the demand curve caused only by a change in the price of the good itself. A change in demand is a shift of the entire curve, caused by factors other than price, such as changes in income, consumer tastes, or the price of related goods.",
@@ -16595,7 +16595,7 @@ const AppData = {
               },
               {
                 questionNumber: 15,
-                challenge_tags: ["rla-3"],
+                challenge_tags: ['rla-3'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Production Possibilities for a Small Farm</b><br><table class="w-full text-left mt-2"><thead><tr><th class="p-2 border-b">Choice</th><th class="p-2 border-b">Bushels of Corn</th><th class="p-2 border-b">Bushels of Soybeans</th></tr></thead><tbody><tr class="border-b"><td class="p-2">A</td><td class="p-2">100</td><td class="p-2">0</td></tr><tr class="border-b"><td class="p-2">B</td><td class="p-2">80</td><td class="p-2">30</td></tr><tr class="border-b"><td class="p-2">C</td><td class="p-2">50</td><td class="p-2">50</td></tr><tr class="border-b"><td class="p-2">D</td><td class="p-2">0</td><td class="p-2">60</td></tr></tbody></table></div>`,
                 question:
@@ -16637,7 +16637,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'text',
                 passage:
                   'The United States has a mixed economy, which means it combines elements of both capitalism (market economy) and socialism (command economy). While it is primarily a market-based system where private individuals and businesses make most of the economic decisions, the government plays a significant role in regulation, social welfare, and providing public goods.',
@@ -16672,7 +16672,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'knowledge',
                 question:
                   'In a pure market economy (capitalism), who makes the decisions about what to produce, how to produce it, and for whom to produce?',
@@ -16704,7 +16704,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["social-5", "social-1"],
+                challenge_tags: ['social-5', 'social-1'],
                 type: 'knowledge',
                 question:
                   'Which of the following is the best example of a public good that the government provides in the U.S. economy?',
@@ -16737,7 +16737,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["social-5", "social-1"],
+                challenge_tags: ['social-5', 'social-1'],
                 type: 'text',
                 passage:
                   'The government plays a role in the U.S. economy by enforcing regulations to protect consumers, workers, and the environment. For example, the Food and Drug Administration (FDA) ensures that foods and medicines are safe. The Occupational Safety and Health Administration (OSHA) sets standards for workplace safety.',
@@ -16772,7 +16772,7 @@ const AppData = {
               },
               {
                 questionNumber: 5,
-                challenge_tags: ["social-1", "social-5"],
+                challenge_tags: ['social-1', 'social-5'],
                 type: 'knowledge',
                 question:
                   "The total value of all final goods and services produced within a country's borders in a specific time period is known as:",
@@ -16805,7 +16805,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["social-1", "social-5"],
+                challenge_tags: ['social-1', 'social-5'],
                 type: 'text',
                 passage:
                   'Fiscal policy refers to the use of government spending and taxation to influence the economy. It is conducted by Congress and the President. To combat a recession, the government might use expansionary fiscal policy, which involves increasing government spending or decreasing taxes to boost economic activity.',
@@ -16871,7 +16871,7 @@ const AppData = {
               },
               {
                 questionNumber: 8,
-                challenge_tags: ["rla-7"],
+                challenge_tags: ['rla-7'],
                 type: 'text',
                 passage:
                   'To combat inflation (a rapid rise in prices), the Federal Reserve might use contractionary monetary policy. This typically involves raising interest rates. Higher interest rates make it more expensive for consumers and businesses to borrow money, which slows down spending and helps to reduce inflationary pressure.',
@@ -16906,7 +16906,7 @@ const AppData = {
               },
               {
                 questionNumber: 9,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'knowledge',
                 question:
                   'The business cycle describes the recurring phases of expansion and contraction in an economy. What is a period of significant economic decline, characterized by falling GDP and rising unemployment, called?',
@@ -16938,7 +16938,7 @@ const AppData = {
               },
               {
                 questionNumber: 10,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'knowledge',
                 question:
                   'Inflation is the rate at which the general level of prices for goods and services is rising, and subsequently, purchasing power is falling. Who is most likely to be hurt by unexpected inflation?',
@@ -17002,7 +17002,7 @@ const AppData = {
               },
               {
                 questionNumber: 12,
-                challenge_tags: ["social-5"],
+                challenge_tags: ['social-5'],
                 type: 'image',
                 imageUrl:
                   'Images/Questions-are-based-on-the-following-graph.-6 (1).png',
@@ -17069,7 +17069,7 @@ const AppData = {
               },
               {
                 questionNumber: 14,
-                challenge_tags: ["rla-7"],
+                challenge_tags: ['rla-7'],
                 type: 'text',
                 passage:
                   'Globalization refers to the increasing interconnectedness of economies around the world. This includes the growth of international trade, investment, and the flow of information and technology across borders. While it can lead to economic growth and lower prices for consumers, it can also lead to job losses in domestic industries that cannot compete with foreign producers.',
@@ -17149,7 +17149,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["math-6"],
+                challenge_tags: ['math-6'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Monthly Rainfall in Springfield (Inches)</b><br><table class="w-full text-left mt-2"><thead><tr><th class="p-2 border-b">Month</th><th class="p-2 border-b">Rainfall</th></tr></thead><tbody><tr class="border-b"><td class="p-2">Jan</td><td class="p-2">3</td></tr><tr class="border-b"><td class="p-2">Feb</td><td class="p-2">2</td></tr><tr class="border-b"><td class="p-2">Mar</td><td class="p-2">4</td></tr><tr class="border-b"><td class="p-2">Apr</td><td class="p-2">4</td></tr><tr class="border-b"><td class="p-2">May</td><td class="p-2">5</td></tr></tbody></table></div>`,
                 question:
@@ -17181,7 +17181,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["math-6"],
+                challenge_tags: ['math-6'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Monthly Rainfall in Springfield (Inches)</b><br><table class="w-full text-left mt-2"><thead><tr><th class="p-2 border-b">Month</th><th class="p-2 border-b">Rainfall</th></tr></thead><tbody><tr class="border-b"><td class="p-2">Jan</td><td class="p-2">3</td></tr><tr class="border-b"><td class="p-2">Feb</td><td class="p-2">2</td></tr><tr class="border-b"><td class="p-2">Mar</td><td class="p-2">4</td></tr><tr class="border-b"><td class="p-2">Apr</td><td class="p-2">4</td></tr><tr class="border-b"><td class="p-2">May</td><td class="p-2">5</td></tr></tbody></table></div>`,
                 question:
@@ -17212,7 +17212,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["math-6", "science-1"],
+                challenge_tags: ['math-6', 'science-1'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Monthly Rainfall in Springfield (Inches)</b><br><table class="w-full text-left mt-2"><thead><tr><th class="p-2 border-b">Month</th><th class="p-2 border-b">Rainfall</th></tr></thead><tbody><tr class="border-b"><td class="p-2">Jan</td><td class="p-2">3</td></tr><tr class="border-b"><td class="p-2">Feb</td><td class="p-2">2</td></tr><tr class="border-b"><td class="p-2">Mar</td><td class="p-2">4</td></tr><tr class="border-b"><td class="p-2">Apr</td><td class="p-2">4</td></tr><tr class="border-b"><td class="p-2">May</td><td class="p-2">5</td></tr></tbody></table></div>`,
                 question:
@@ -17243,7 +17243,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["social-2"],
+                challenge_tags: ['social-2'],
                 type: 'image',
                 imageUrl: 'Images/political-map-of-world.jpg',
                 question:
@@ -17309,7 +17309,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["rla-7"],
+                challenge_tags: ['rla-7'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
@@ -17341,7 +17341,7 @@ const AppData = {
               },
               {
                 questionNumber: 7,
-                challenge_tags: ["rla-4"],
+                challenge_tags: ['rla-4'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
@@ -17375,7 +17375,7 @@ const AppData = {
               },
               {
                 questionNumber: 8,
-                challenge_tags: ["math-6", "science-1"],
+                challenge_tags: ['math-6', 'science-1'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
@@ -17440,7 +17440,7 @@ const AppData = {
               },
               {
                 questionNumber: 10,
-                challenge_tags: ["social-1"],
+                challenge_tags: ['social-1'],
                 type: 'image',
                 imageUrl: 'Images/licensed-image (16).jpg',
                 question:
@@ -17593,7 +17593,7 @@ const AppData = {
               },
               {
                 questionNumber: 15,
-                challenge_tags: ["rla-7"],
+                challenge_tags: ['rla-7'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="Images/035fa172-2083-4c13-9485-a5f4bfa28340.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
                 question:
@@ -17672,7 +17672,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["science-4", "social-5"],
+                challenge_tags: ['science-4', 'social-5'],
                 question:
                   'Which statement best expresses the central idea of the article?',
                 answerOptions: [
@@ -17704,7 +17704,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["rla-1", "rla-7"],
+                challenge_tags: ['rla-1', 'rla-7'],
                 question:
                   'Which detail best supports the claim that makerspaces widen access to technology?',
                 answerOptions: [
@@ -17736,7 +17736,7 @@ const AppData = {
               },
               {
                 questionNumber: 3,
-                challenge_tags: ["rla-1", "rla-3"],
+                challenge_tags: ['rla-1', 'rla-3'],
                 question:
                   'According to the third paragraph, what outcome do workforce boards emphasize when promoting makerspaces to employers?',
                 answerOptions: [
@@ -17768,7 +17768,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["rla-6"],
+                challenge_tags: ['rla-6'],
                 question:
                   "As it is used in paragraph two, the word 'nascent' most nearly means:",
                 answerOptions: [
@@ -17862,7 +17862,7 @@ const AppData = {
               },
               {
                 questionNumber: 7,
-                challenge_tags: ["science-4"],
+                challenge_tags: ['science-4'],
                 question: 'Which concern do critics raise about makerspaces?',
                 answerOptions: [
                   {
@@ -17924,7 +17924,7 @@ const AppData = {
               },
               {
                 questionNumber: 9,
-                challenge_tags: ["rla-6"],
+                challenge_tags: ['rla-6'],
                 question:
                   'What inference can be made from the final paragraph about the future of makerspaces?',
                 answerOptions: [
@@ -17956,7 +17956,7 @@ const AppData = {
               },
               {
                 questionNumber: 10,
-                challenge_tags: ["social-5", "science-4"],
+                challenge_tags: ['social-5', 'science-4'],
                 question:
                   'Which sentence from the article best supports the idea that makerspaces boost the local economy?',
                 answerOptions: [
@@ -18984,7 +18984,7 @@ const AppData = {
             questions: [
               {
                 questionNumber: 1,
-                challenge_tags: ["rla-7"],
+                challenge_tags: ['rla-7'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
@@ -19018,7 +19018,7 @@ const AppData = {
               },
               {
                 questionNumber: 2,
-                challenge_tags: ["math-1"],
+                challenge_tags: ['math-1'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
@@ -19085,7 +19085,7 @@ const AppData = {
               },
               {
                 questionNumber: 4,
-                challenge_tags: ["rla-7"],
+                challenge_tags: ['rla-7'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="Images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
                 question:
@@ -19112,7 +19112,7 @@ const AppData = {
               },
               {
                 questionNumber: 6,
-                challenge_tags: ["rla-3"],
+                challenge_tags: ['rla-3'],
                 type: 'multi-source',
                 passage: `<div class="passage-text">Refer to both the article text and the "Electricity Consumption by Sector" bar chart.</div><img src="Images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded">`,
                 question:
@@ -19162,7 +19162,7 @@ const AppData = {
               },
               {
                 questionNumber: 9,
-                challenge_tags: ["social-3"],
+                challenge_tags: ['social-3'],
                 type: 'chart',
                 passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="Images/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
                 question:
@@ -19217,7 +19217,7 @@ const AppData = {
               },
               {
                 questionNumber: 12,
-                challenge_tags: ["social-1"],
+                challenge_tags: ['social-1'],
                 type: 'knowledge',
                 question:
                   'A political map is a type of map that primarily shows:',
@@ -20543,7 +20543,7 @@ function resolveAssetUrl(src) {
   if (!src) return '';
   let s = String(src).trim();
 
-  // if it's already absolute or data/blob, just return it
+  // already absolute? keep it
   if (
     /^https?:\/\//i.test(s) ||
     s.startsWith('data:') ||
@@ -20552,16 +20552,25 @@ function resolveAssetUrl(src) {
     return s;
   }
 
-  // normalize to our /frontend/Images/... pattern
-  const normalized = normalizeImagePath(s);
+  // normalize to our internal pattern first
+  const normalized = normalizeImagePath(s); // e.g. /frontend/Images/Social Studies/foo.png
 
-  // build an absolute URL using current origin
+  // our working CDN / static host
+  const NETLIFY_ROOT = 'https://ezged.netlify.app';
+
+  // if it's one of our quiz images, serve it from Netlify, but Netlify doesn't use /frontend
+  if (normalized.startsWith('/frontend/Images/')) {
+    // turn /frontend/Images/... -> /Images/...
+    const netlifyPath = normalized.replace('/frontend/Images', '/Images');
+    return `${NETLIFY_ROOT}${netlifyPath}`;
+  }
+
+  // fallback: current origin
   const origin =
     (typeof window !== 'undefined' &&
       window.location &&
       window.location.origin) ||
     '';
-
   return origin + normalized;
 }
 
@@ -23578,6 +23587,8 @@ function App({ externalTheme, onThemeChange }) {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [revolvingPrompt, setRevolvingPrompt] = useState('');
+  const [countdownSeconds, setCountdownSeconds] = useState(180); // 3 minutes = 180 seconds
+  const [showOvertimeMessage, setShowOvertimeMessage] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   // Global navigation state for top-level views
   const [activeView, setActiveView] = useState('dashboard'); // 'dashboard' | 'quizzes' | 'progress' | 'profile' | 'settings'
@@ -25507,7 +25518,14 @@ function App({ externalTheme, onThemeChange }) {
 
   useEffect(() => {
     let intervalId = null;
+    let countdownId = null;
+
     if (isLoading) {
+      // Reset countdown and overtime message
+      setCountdownSeconds(180); // 3 minutes
+      setShowOvertimeMessage(false);
+
+      // Set up revolving prompts
       let currentIndex = 0;
       setRevolvingPrompt(SMITHING_PROMPTS[currentIndex]);
 
@@ -25515,11 +25533,25 @@ function App({ externalTheme, onThemeChange }) {
         currentIndex = (currentIndex + 1) % SMITHING_PROMPTS.length;
         setRevolvingPrompt(SMITHING_PROMPTS[currentIndex]);
       }, 2500);
+
+      // Set up countdown timer (updates every second)
+      countdownId = setInterval(() => {
+        setCountdownSeconds((prev) => {
+          if (prev <= 0) {
+            setShowOvertimeMessage(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
     }
 
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
+      }
+      if (countdownId) {
+        clearInterval(countdownId);
       }
     };
   }, [isLoading]);
@@ -26224,6 +26256,20 @@ function App({ externalTheme, onThemeChange }) {
             <p className="text-lg text-slate-300 italic h-8 transition-opacity duration-500">
               {revolvingPrompt}
             </p>
+            {/* Countdown Timer */}
+            <div className="mt-6 mb-2">
+              {!showOvertimeMessage ? (
+                <div className="text-2xl font-mono text-cyan-400">
+                  {Math.floor(countdownSeconds / 60)}:
+                  {String(countdownSeconds % 60).padStart(2, '0')}
+                </div>
+              ) : (
+                <p className="text-lg text-yellow-300 italic animate-pulse">
+                  The smith is taking care ensuring you the best possible
+                  product, shouldn't be long
+                </p>
+              )}
+            </div>
             {/* Optional: Add a spinner element here */}
           </div>
         )}
@@ -33029,6 +33075,28 @@ function QuizInterface({
                 alt={`Visual for question ${currentQ.questionNumber}`}
                 className="my-4 h-auto max-w-full rounded-md"
                 style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+                onError={(e) => {
+                  if (e.target.dataset.fallbackApplied) {
+                    e.target.style.display = 'none';
+                    return;
+                  }
+                  e.target.dataset.fallbackApplied = '1';
+                  const src = e.target.getAttribute('src') || '';
+                  const origin =
+                    (typeof window !== 'undefined' &&
+                      window.location &&
+                      window.location.origin) ||
+                    '';
+                  const idx = src.indexOf('/Images/');
+                  if (idx !== -1) {
+                    const rel = src
+                      .substring(idx)
+                      .replace('/Images/', '/frontend/Images/');
+                    e.target.src = origin + rel;
+                  } else {
+                    e.target.style.display = 'none';
+                  }
+                }}
               />
             ) : null;
           })()}
@@ -34598,6 +34666,28 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       src={imgSrc}
                       alt={`Visual for question ${question.questionNumber}`}
                       className="my-2 rounded-md border max-w-xs h-auto"
+                      onError={(e) => {
+                        if (e.target.dataset.fallbackApplied) {
+                          e.target.style.display = 'none';
+                          return;
+                        }
+                        e.target.dataset.fallbackApplied = '1';
+                        const src = e.target.getAttribute('src') || '';
+                        const origin =
+                          (typeof window !== 'undefined' &&
+                            window.location &&
+                            window.location.origin) ||
+                          '';
+                        const idx = src.indexOf('/Images/');
+                        if (idx !== -1) {
+                          const rel = src
+                            .substring(idx)
+                            .replace('/Images/', '/frontend/Images/');
+                          e.target.src = origin + rel;
+                        } else {
+                          e.target.style.display = 'none';
+                        }
+                      }}
                     />
                   ) : null;
                 })()}
@@ -34791,6 +34881,30 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                     src={imgSrc}
                     alt={`Visual for question ${i + 1}`}
                     className="my-2 rounded-md border max-w-xs h-auto"
+                    onError={(e) => {
+                      if (e.target.dataset.fallbackApplied) {
+                        e.target.style.display = 'none';
+                        return;
+                      }
+                      e.target.dataset.fallbackApplied = '1';
+                      const src = e.target.getAttribute('src') || '';
+                      // if we failed on Netlify, try current origin with the original normalized path
+                      const origin =
+                        (typeof window !== 'undefined' &&
+                          window.location &&
+                          window.location.origin) ||
+                        '';
+                      // rebuild a /frontend/Images/... from the current src
+                      const idx = src.indexOf('/Images/');
+                      if (idx !== -1) {
+                        const rel = src
+                          .substring(idx)
+                          .replace('/Images/', '/frontend/Images/');
+                        e.target.src = origin + rel;
+                      } else {
+                        e.target.style.display = 'none';
+                      }
+                    }}
                   />
                 ) : null;
               })()}
