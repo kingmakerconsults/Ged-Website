@@ -4034,11 +4034,49 @@ function normalizeVocabularySubject(raw) {
     .toLowerCase()
     .replace(/_/g, ' ')
     .replace(/-/g, ' ');
-  if (s === 'math') return 'Math';
+
+  // base matches
+  if (s === 'math' || s === 'mathematics') return 'Math';
+  if (s.startsWith('math ')) return 'Math';
+
   if (s === 'science') return 'Science';
-  if (s === 'social studies' || s === 'social') return 'Social Studies';
-  if (s === 'rla' || s.startsWith('reasoning'))
+  if (s.startsWith('science ')) return 'Science';
+
+  if (s === 'social studies' || s === 'social' || s === 'social study')
+    return 'Social Studies';
+  if (s.startsWith('social studies ')) return 'Social Studies';
+
+  // a lot of UIs send "rla" or "reasoning through language arts (rla)"
+  if (s === 'rla' || s.startsWith('reasoning through language arts'))
     return 'Reasoning Through Language Arts (RLA)';
+
+  return null;
+}
+
+function findVocabularyKeyInDB(db, wanted) {
+  if (!db || typeof db !== 'object') return null;
+  if (!wanted) return null;
+
+  // 1) exact match
+  if (db[wanted]) return wanted;
+
+  const wantedLower = String(wanted).toLowerCase();
+
+  // 2) try to find by partial / contains
+  for (const key of Object.keys(db)) {
+    const keyLower = key.toLowerCase();
+    if (keyLower === wantedLower) return key;
+    // e.g. "science vocabulary", "vocabulary - science"
+    if (keyLower.includes(wantedLower)) return key;
+    // special for RLA
+    if (
+      wantedLower.startsWith('reasoning through language arts') &&
+      keyLower.includes('language arts')
+    ) {
+      return key;
+    }
+  }
+
   return null;
 }
 
@@ -4087,7 +4125,7 @@ app.get('/api/vocabulary/all', (req, res) => {
       dedupedDb[subjectKey] = dedupeVocabulary(db[subjectKey]);
     }
   }
-  
+
   return res.json(dedupedDb);
 });
 
@@ -4144,26 +4182,52 @@ function buildVocabMCFromTerm(target, pool) {
 
 app.get('/api/vocabulary-quiz/:subject', (req, res) => {
   const db = loadVocabularyDB();
-  const subjectKey = normalizeVocabularySubject(req.params.subject);
-  if (!subjectKey) return res.status(400).json({ error: 'invalid_subject' });
-  const words = dedupeVocabulary(
-    Array.isArray(db[subjectKey]) ? db[subjectKey] : []
-  );
-  if (!words.length) return res.status(404).json({ error: 'no_vocabulary' });
+  if (!db || typeof db !== 'object') {
+    return res.status(404).json({ error: 'no_vocabulary_db' });
+  }
+
+  // first pass: normalize the slug (e.g. "science" -> "Science")
+  let subjectKey = normalizeVocabularySubject(req.params.subject);
+
+  // try to load words with that key
+  let words = subjectKey && Array.isArray(db[subjectKey]) ? db[subjectKey] : [];
+
+  // if empty, try a fuzzy match against the real keys in the file
+  if (!Array.isArray(words) || words.length === 0) {
+    const guessedKey = findVocabularyKeyInDB(
+      db,
+      subjectKey || req.params.subject
+    );
+    if (guessedKey) {
+      subjectKey = guessedKey;
+      words = Array.isArray(db[guessedKey]) ? db[guessedKey] : [];
+    }
+  }
+
+  const deduped = dedupeVocabulary(words);
+
+  if (!deduped.length) {
+    return res.status(404).json({
+      error: 'no_vocabulary',
+      subjectTried: subjectKey || req.params.subject,
+      available: Object.keys(db),
+    });
+  }
 
   // target counts
-  const total = Math.min(15, Math.max(6, words.length));
+  const total = Math.min(15, Math.max(6, deduped.length));
   const defCount = Math.min(10, Math.max(3, Math.floor((total * 2) / 3)));
-  const termCount = Math.min(total - defCount, words.length - defCount);
+  const termCount = Math.min(total - defCount, deduped.length - defCount);
 
-  const poolShuffled = shuffleInPlace(words.slice());
+  const poolShuffled = shuffleInPlace(deduped.slice());
   const forDef = poolShuffled.slice(0, Math.min(defCount, poolShuffled.length));
   const remaining = poolShuffled.slice(forDef.length);
   const forTerm = remaining.slice(0, Math.min(termCount, remaining.length));
 
   const questions = [];
-  for (const w of forDef) questions.push(buildVocabMCFromDefinition(w, words));
-  for (const w of forTerm) questions.push(buildVocabMCFromTerm(w, words));
+  for (const w of forDef)
+    questions.push(buildVocabMCFromDefinition(w, deduped));
+  for (const w of forTerm) questions.push(buildVocabMCFromTerm(w, deduped));
 
   // number items
   questions.forEach((q, i) => {
@@ -4782,6 +4846,12 @@ function normalizeSubjectLabel(subj) {
   if (/^social\-studies$/i.test(s)) return 'Social Studies';
   return s;
 }
+// Map internal short subject labels to the quiz catalog keys used by ALL_QUIZZES
+function subjectLabelToQuizKey(label) {
+  // Most subjects match 1:1; only RLA differs
+  if (label === 'RLA') return 'Reasoning Through Language Arts (RLA)';
+  return label;
+}
 function subjectTagPrefixes(label) {
   const l = normalizeSubjectLabel(label);
   switch (l) {
@@ -5306,6 +5376,7 @@ app.post(
       const userId = req.user?.id || req.user?.userId;
       if (!userId) return res.status(401).json({ error: 'Not authenticated' });
       const subject = normalizeSubjectLabel(req.params.subject);
+      const quizSubjectKey = subjectLabelToQuizKey(subject);
 
       // Gather challenge tags for this subject
       const { optionTable, selectionTable } = await getChallengeTables();
@@ -5342,8 +5413,8 @@ app.post(
         }
       } catch (_) {}
 
-      // Build pool of questions for subject
-      let pool = getPremadeQuestions(subject, 200);
+      // Build pool of questions for subject (map to quiz catalog key)
+      let pool = getPremadeQuestions(quizSubjectKey, 200);
       const wanted = Array.from(userTags);
       let filtered = pool.filter(
         (q) =>
@@ -5540,11 +5611,12 @@ app.post(
       const userId = req.user?.id || req.user?.userId;
       if (!userId) return res.status(401).json({ error: 'Not authenticated' });
       const subject = normalizeSubjectLabel(req.params.subject);
+      const quizSubjectKey = subjectLabelToQuizKey(subject);
       const { focusTag } = req.body || {};
       const today = todayISO();
 
       // Build pool and filter by focus tag if present
-      let questionPool = getPremadeQuestions(subject, 100); // Get more for 20Q quiz
+      let questionPool = getPremadeQuestions(quizSubjectKey, 100); // Get more for 20Q quiz
       if (focusTag) {
         const needle = String(focusTag).toLowerCase();
         questionPool = questionPool.filter(
@@ -5556,7 +5628,7 @@ app.post(
         );
         if (questionPool.length < 20) {
           // backfill with general pool if too few
-          const backfill = getPremadeQuestions(subject, 100).filter(
+          const backfill = getPremadeQuestions(quizSubjectKey, 100).filter(
             (q) => !questionPool.includes(q)
           );
           questionPool = questionPool.concat(backfill);
@@ -5623,6 +5695,7 @@ app.post(
       const userId = req.user?.id || req.user?.userId;
       if (!userId) return res.status(401).json({ error: 'Not authenticated' });
       const subject = normalizeSubjectLabel(req.params.subject);
+      const quizSubjectKey = subjectLabelToQuizKey(subject);
       const { focusTag } = req.body || {};
       const today = todayISO();
 
@@ -5647,7 +5720,7 @@ app.post(
       }
 
       // Build pool and filter by focus tag if present
-      let questionPool = getPremadeQuestions(subject, 60);
+      let questionPool = getPremadeQuestions(quizSubjectKey, 60);
       if (focusTag) {
         const needle = String(focusTag).toLowerCase();
         questionPool = questionPool.filter(
@@ -5659,7 +5732,7 @@ app.post(
         );
         if (questionPool.length < 12) {
           // backfill with general pool if too few
-          const backfill = getPremadeQuestions(subject, 60).filter(
+          const backfill = getPremadeQuestions(quizSubjectKey, 60).filter(
             (q) => !questionPool.includes(q)
           );
           questionPool = questionPool.concat(backfill);

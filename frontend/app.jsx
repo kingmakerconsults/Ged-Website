@@ -23802,15 +23802,17 @@ function App({ externalTheme, onThemeChange }) {
       try {
         // Fetch from the new '/api/vocabulary/all' endpoint
         const data = await fetchJSON(`${API_BASE_URL}/api/vocabulary/all`);
-        
+
         if (!isMounted) return;
-        
+
         if (data && typeof data === 'object') {
           // Merge the full API response with the fallback
           setVocabulary(mergeVocabularyData(FALLBACK_VOCABULARY, data));
         } else {
           // If the fetch fails, just log it and keep the fallback
-          console.warn('Unable to load vocabulary data from API; using fallback.');
+          console.warn(
+            'Unable to load vocabulary data from API; using fallback.'
+          );
         }
       } catch (err) {
         console.warn('Unable to load vocabulary data:', err);
