@@ -29877,9 +29877,17 @@ function StartScreen({
     } catch (e) {
       alert('Unable to start Coach Smith quiz right now.');
     } finally {
+      // Always clear loading UI first
       setIsLoading(false);
-      // make sure panels reflect the new coach quiz assignment
-      await refreshCoachPanels();
+      // Refresh panels is nice-to-have; never let it mask a successful quiz start
+      try {
+        await refreshCoachPanels();
+      } catch (err) {
+        console.warn(
+          'Coach panel refresh failed (non-fatal, quiz already started):',
+          err
+        );
+      }
     }
   };
 
@@ -29908,48 +29916,10 @@ function StartScreen({
     }
   };
 
-  // Ask Coach (subject): ad-hoc challenge-filtered 12Q quiz via daily-composite endpoint
+  // Ask Coach (subject) temporarily disabled; keep stub so callers won't break
   const startDailyCompositeForSubject = async (subject, focusTag) => {
-    if (!window.__ASK_COACH_ENABLED__) return;
-    try {
-      const token =
-        (typeof localStorage !== 'undefined' &&
-          localStorage.getItem('appToken')) ||
-        null;
-      if (!token) {
-        alert('Please sign in to start a composite quiz.');
-        return;
-      }
-      setIsLoading(true);
-      setLoadingMessage(`Asking Coach for a custom ${subject} mix��`);
-      const res = await fetch(
-        `${API_BASE_URL}/api/coach/${encodeURIComponent(
-          practiceSubjectParam(subject)
-        )}/daily-composite`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ focusTag }),
-        }
-      );
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data?.ok) {
-        throw new Error(data?.error || `HTTP ${res.status}`);
-      }
-      const quiz = data.quiz || null;
-      if (!quiz || !Array.isArray(quiz.questions)) throw new Error('no_quiz');
-      const displaySubject = displaySubjectName(subject);
-      startQuiz({ ...quiz, assigned_by: 'coach-smith' }, displaySubject);
-    } catch (e) {
-      alert('Unable to start an Ask Coach quiz right now.');
-    } finally {
-      setIsLoading(false);
-      // make sure panels reflect the new coach quiz assignment
-      await refreshCoachPanels();
-    }
+    console.log('startDailyCompositeForSubject skipped: Ask Coach disabled.');
+    return; // early no-op
   };
 
   const handleAskCoach = async (subjectHint) => {
