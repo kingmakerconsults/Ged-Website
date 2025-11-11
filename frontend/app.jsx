@@ -30277,7 +30277,9 @@ function StartScreen({
 
       // backend returns { subject, count, quiz: [...] }
       if (data && data.quiz) {
-        onStartQuiz(data.quiz);
+        if (typeof onSelectQuiz === 'function') {
+          onSelectQuiz(data.quiz, subject);
+        }
       } else {
         throw new Error('Invalid quiz data received from server');
       }
