@@ -29866,15 +29866,30 @@ function StartScreen({
           body: JSON.stringify({ focusTag }),
         }
       );
+      const resStatus = res.status;
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data?.ok) {
-        throw new Error(data?.error || `HTTP ${res.status}`);
+      if (!res.ok) {
+        throw new Error(data?.error || `HTTP ${resStatus}`);
       }
-      const quiz = data.quiz || null;
+      // Accept responses that provide a quiz even if "ok" flag is missing
+      const quiz = data.quiz || data?.data?.quiz || null;
+      if (window && window.console) {
+        try {
+          console.log('[coach] premade-composite response:', {
+            status: resStatus,
+            ok: data?.ok,
+            hasQuiz: !!quiz,
+            questions: Array.isArray(quiz?.questions)
+              ? quiz.questions.length
+              : 0,
+          });
+        } catch (_) {}
+      }
       if (!quiz || !Array.isArray(quiz.questions)) throw new Error('no_quiz');
       const displaySubject = displaySubjectName(subject);
       startQuiz({ ...quiz, assigned_by: 'coach-smith' }, displaySubject);
     } catch (e) {
+      console.error('[coach] startPremadeCompositeForSubject failed:', e);
       alert('Unable to start Coach Smith quiz right now.');
     } finally {
       // Always clear loading UI first
