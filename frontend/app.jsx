@@ -1,4 +1,4 @@
-Ôªø/* global React, ReactDOM */
+/* global React, ReactDOM */
 
 // pull hooks from the global React (because we're using CDN React, not imports)
 const {
@@ -102,7 +102,7 @@ try {
     PREMADE_QUIZ_CATALOG['Math'].length === 0
   ) {
     console.warn(
-      '[progress] Math premade catalog is empty ‚Ç¨‚Äú progress bars will show 0/0'
+      '[progress] Math premade catalog is empty Äì progress bars will show 0/0'
     );
   }
 } catch {}
@@ -593,7 +593,7 @@ const FALLBACK_VOCABULARY = {
     {
       term: 'Quadratic Equation',
       definition:
-        'An equation in the form ax¬≤ + bx + c = 0, where a, b, and c are constants and a ‚Ä∞¬† 0.',
+        'An equation in the form ax≤ + bx + c = 0, where a, b, and c are constants and a â† 0.',
     },
     {
       term: 'Linear Function',
@@ -602,7 +602,7 @@ const FALLBACK_VOCABULARY = {
     {
       term: 'Pythagorean Theorem',
       definition:
-        'A formula that relates the side lengths of a right triangle: a¬≤ + b¬≤ = c¬≤.',
+        'A formula that relates the side lengths of a right triangle: a≤ + b≤ = c≤.',
     },
     {
       term: 'Mean',
@@ -1222,7 +1222,7 @@ function normalizeLatex(text) {
   normalized = normalized.replace(/\\dfrac/g, '\\frac');
 
   normalized = normalized
-    // repair /frac, ^rac, ‚Ä†‚Äòrac, stray spaces before 'rac'
+    // repair /frac, ^rac, Üërac, stray spaces before 'rac'
     .replace(/(?:\\|\/|[\u2191\^])\s*rac\s*\{/g, '\\frac{')
     .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
     .replace(
@@ -1385,7 +1385,7 @@ function smartWrapLatex(input) {
   // equation \frac{x}{4} = \frac{15}{20}?
   // 1\frac{1}{2} cups
   // no more than \text{P500}, spent \text{P120}
-  // /frac{3}{4}, ^rac{2}{3}, ‚Ä†‚Äòrac{1}{2}
+  // /frac{3}{4}, ^rac{2}{3}, Üërac{1}{2}
 
   return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }
@@ -2874,7 +2874,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '18 cm',
-        rationale: 'Correct. (15+18+15+22+20)=90; 90√É¬∑5=18.',
+        rationale: 'Correct. (15+18+15+22+20)=90; 90√∑5=18.',
         isCorrect: true,
       },
       {
@@ -2894,7 +2894,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage:
-      '<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp √É‚Äî Pp) are crossed.</p>',
+      '<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp √ó Pp) are crossed.</p>',
     question:
       'What percent of offspring are expected to have <strong>white</strong> flowers?',
     answerOptions: [
@@ -2906,7 +2906,7 @@ const SCI_NUMERACY_QUESTIONS = [
       {
         text: '25%',
         rationale:
-          'Correct. The Punnett square gives PP, Pp, Pp, pp ‚Ä†‚Äô 1 of 4 is pp (white).',
+          'Correct. The Punnett square gives PP, Pp, Pp, pp Üí 1 of 4 is pp (white).',
         isCorrect: true,
       },
       {
@@ -2925,27 +2925,27 @@ const SCI_NUMERACY_QUESTIONS = [
     questionNumber: 3,
     qaProfileKey: 'numeracy',
     type: 'knowledge',
-    passage: '<p>A rock has a mass of 60 g and displaces 20 cm¬≥ of water.</p>',
-    question: 'What is the rock‚Ç¨‚Ñ¢s density?',
+    passage: '<p>A rock has a mass of 60 g and displaces 20 cm≥ of water.</p>',
+    question: 'What is the rockís density?',
     answerOptions: [
       {
-        text: '1 g/cm¬≥',
-        rationale: 'That would be 20 g √É¬∑ 20 cm¬≥.',
+        text: '1 g/cm≥',
+        rationale: 'That would be 20 g √∑ 20 cm≥.',
         isCorrect: false,
       },
       {
-        text: '3 g/cm¬≥',
-        rationale: 'Correct. Density = mass √É¬∑ volume = 60 √É¬∑ 20 = 3 g/cm¬≥.',
+        text: '3 g/cm≥',
+        rationale: 'Correct. Density = mass √∑ volume = 60 √∑ 20 = 3 g/cm≥.',
         isCorrect: true,
       },
       {
-        text: '20 g/cm¬≥',
-        rationale: 'That‚Ç¨‚Ñ¢s just the volume, not density.',
+        text: '20 g/cm≥',
+        rationale: 'Thatís just the volume, not density.',
         isCorrect: false,
       },
       {
-        text: '40 g/cm¬≥',
-        rationale: 'Not based on 60 √É¬∑ 20.',
+        text: '40 g/cm≥',
+        rationale: 'Not based on 60 √∑ 20.',
         isCorrect: false,
       },
     ],
@@ -2955,11 +2955,11 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage: '<p>A car travels 150 km in 3 hours at a constant speed.</p>',
-    question: 'What is the car‚Ç¨‚Ñ¢s average speed?',
+    question: 'What is the carís average speed?',
     answerOptions: [
       {
         text: '50 km/h',
-        rationale: 'Correct. 150 km √É¬∑ 3 h = 50 km/h.',
+        rationale: 'Correct. 150 km √∑ 3 h = 50 km/h.',
         isCorrect: true,
       },
       {
@@ -2999,12 +2999,12 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '200 J',
-        rationale: 'Correct. Work W = F √É‚Äî d = 50 N √É‚Äî 4 m = 200 J.',
+        rationale: 'Correct. Work W = F √ó d = 50 N √ó 4 m = 200 J.',
         isCorrect: true,
       },
       {
         text: '200 N',
-        rationale: 'Units are wrong ‚Ç¨‚Äù work is in joules.',
+        rationale: 'Units are wrong Äî work is in joules.',
         isCorrect: false,
       },
     ],
@@ -3013,7 +3013,7 @@ const SCI_NUMERACY_QUESTIONS = [
     questionNumber: 6,
     qaProfileKey: 'numeracy',
     type: 'knowledge',
-    passage: '<p>A 2 kg cart accelerates at 3 m/s¬≤.</p>',
+    passage: '<p>A 2 kg cart accelerates at 3 m/s≤.</p>',
     question: 'What net force is acting on the cart?',
     answerOptions: [
       {
@@ -3028,12 +3028,12 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '5 N',
-        rationale: 'Close, but 2 √É‚Äî 3 is 6, not 5.',
+        rationale: 'Close, but 2 √ó 3 is 6, not 5.',
         isCorrect: false,
       },
       {
         text: '6 N',
-        rationale: 'Correct. F = m √É‚Äî a = 2 kg √É‚Äî 3 m/s¬≤ = 6 N.',
+        rationale: 'Correct. F = m √ó a = 2 kg √ó 3 m/s≤ = 6 N.',
         isCorrect: true,
       },
     ],
@@ -3044,7 +3044,7 @@ const SCI_NUMERACY_QUESTIONS = [
     type: 'knowledge',
     passage: `<p>A student heats four samples of the same liquid:</p>
           <table class="min-w-full text-sm text-left">
-            <thead><tr><th>Trial</th><th>Start Temp (¬∞C)</th><th>End Temp (¬∞C)</th></tr></thead>
+            <thead><tr><th>Trial</th><th>Start Temp (∞C)</th><th>End Temp (∞C)</th></tr></thead>
             <tbody>
               <tr><td>A</td><td>22</td><td>30</td></tr>
               <tr><td>B</td><td>22</td><td>29</td></tr>
@@ -3056,16 +3056,16 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: 'Trial A',
-        rationale: 'Increase was 30ÀÜ‚Äô22 = 8¬∞C.',
+        rationale: 'Increase was 30àí22 = 8∞C.',
         isCorrect: false,
       },
-      { text: 'Trial B', rationale: 'Increase was 7¬∞C.', isCorrect: false },
+      { text: 'Trial B', rationale: 'Increase was 7∞C.', isCorrect: false },
       {
         text: 'Trial C',
-        rationale: 'Correct. Increase was 35ÀÜ‚Äô22 = 13¬∞C, the largest.',
+        rationale: 'Correct. Increase was 35àí22 = 13∞C, the largest.',
         isCorrect: true,
       },
-      { text: 'Trial D', rationale: 'Increase was 6¬∞C.', isCorrect: false },
+      { text: 'Trial D', rationale: 'Increase was 6∞C.', isCorrect: false },
     ],
   },
   {
@@ -3081,7 +3081,7 @@ const SCI_NUMERACY_QUESTIONS = [
         rationale: '12 is just the smallest value.',
         isCorrect: false,
       },
-      { text: '18', rationale: '18 is not max ÀÜ‚Äô min.', isCorrect: false },
+      { text: '18', rationale: '18 is not max àí min.', isCorrect: false },
       {
         text: '30',
         rationale: '30 is just the largest value.',
@@ -3089,7 +3089,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '18 (thousand)',
-        rationale: 'Correct. Range = 30 ÀÜ‚Äô 12 = 18.',
+        rationale: 'Correct. Range = 30 àí 12 = 18.',
         isCorrect: true,
       },
     ],
@@ -3100,7 +3100,7 @@ const SCI_NUMERACY_QUESTIONS = [
     type: 'knowledge',
     passage:
       '<p>In the first 20 minutes of a run, a runner goes 10 km. After 10 minutes the runner had 5 km. Assume constant speed.</p>',
-    question: 'What is the runner‚Ç¨‚Ñ¢s speed during this period (in km/min)?',
+    question: 'What is the runnerís speed during this period (in km/min)?',
     answerOptions: [
       {
         text: '0.25 km/min',
@@ -3109,7 +3109,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '0.5 km/min',
-        rationale: 'Correct. 10 km √É¬∑ 20 min = 0.5 km/min.',
+        rationale: 'Correct. 10 km √∑ 20 min = 0.5 km/min.',
         isCorrect: true,
       },
       {
@@ -3169,12 +3169,12 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '24 L',
-        rationale: 'That‚Ç¨‚Ñ¢s 12 L in 4 min scaled to 8 min, not 10.',
+        rationale: 'Thatís 12 L in 4 min scaled to 8 min, not 10.',
         isCorrect: false,
       },
       {
         text: '30 L',
-        rationale: 'Correct. 12 √É¬∑ 4 = 3 L/min. 3 √É‚Äî 10 = 30 L.',
+        rationale: 'Correct. 12 √∑ 4 = 3 L/min. 3 √ó 10 = 30 L.',
         isCorrect: true,
       },
       {
@@ -3194,13 +3194,13 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '$700',
-        rationale: 'That‚Ç¨‚Ñ¢s 700 / 3000 ‚Ä∞ÀÜ 23%. Too low.',
+        rationale: 'Thatís 700 / 3000 ò 23%. Too low.',
         isCorrect: false,
       },
-      { text: '$900', rationale: 'That‚Ç¨‚Ñ¢s 30% of $3,000.', isCorrect: false },
+      { text: '$900', rationale: 'Thatís 30% of $3,000.', isCorrect: false },
       {
         text: '$1,050',
-        rationale: 'Correct. 35% of $3,000 = 0.35 √É‚Äî 3000 = $1,050.',
+        rationale: 'Correct. 35% of $3,000 = 0.35 √ó 3000 = $1,050.',
         isCorrect: true,
       },
       {
@@ -4323,7 +4323,7 @@ const AppData = {
                   {
                     text: 'An element consists of only one type of atom, while a compound consists of two or more different types of atoms chemically bonded together.',
                     rationale:
-                      'Correct. For example, oxygen (O) is an element, while water (H‚Äö‚ÄöO) is a compound.',
+                      'Correct. For example, oxygen (O) is an element, while water (HÇÇO) is a compound.',
                     isCorrect: true,
                   },
                   {
@@ -4394,7 +4394,7 @@ const AppData = {
                   {
                     text: 'Boiling water',
                     rationale:
-                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H‚Äö‚ÄöO. This is a physical change.',
+                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically HÇÇO. This is a physical change.',
                     isCorrect: true,
                   },
                   {
@@ -4470,7 +4470,7 @@ const AppData = {
                 questionNumber: 10,
                 type: 'knowledge',
                 question:
-                  "In the chemical formula for water, H‚Äö‚ÄöO, what does the subscript '2' indicate?",
+                  "In the chemical formula for water, HÇÇO, what does the subscript '2' indicate?",
                 answerOptions: [
                   {
                     text: 'There are two water molecules.',
@@ -4530,7 +4530,7 @@ const AppData = {
                 questionNumber: 12,
                 type: 'text',
                 passage:
-                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions‚Ç¨‚Äùcharged atoms that are then attracted to each other.',
+                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ionsÄîcharged atoms that are then attracted to each other.',
                 question:
                   'What is the key difference between a covalent bond and an ionic bond?',
                 answerOptions: [
@@ -4696,7 +4696,7 @@ const AppData = {
                 questionNumber: 2,
                 type: 'text',
                 passage:
-                  "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass √É‚Äî acceleration).",
+                  "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass √ó acceleration).",
                 question:
                   'If you push two objects with the same amount of force, which one will accelerate more?',
                 answerOptions: [
@@ -5869,7 +5869,7 @@ const AppData = {
                 questionNumber: 8,
                 calculator: true,
                 question:
-                  'The temperature was $-5¬∞F$ in the morning and rose to $12¬∞F$ in the afternoon. How many degrees did the temperature increase?',
+                  'The temperature was $-5∞F$ in the morning and rose to $12∞F$ in the afternoon. How many degrees did the temperature increase?',
                 answerOptions: [
                   {
                     text: '7 degrees',
@@ -6140,26 +6140,26 @@ const AppData = {
                 questionNumber: 17,
                 calculator: true,
                 question:
-                  "Sarah's temperature was 102.5¬∞F. After taking some medicine, her temperature dropped by 3.8¬∞F. What is her new temperature?",
+                  "Sarah's temperature was 102.5∞F. After taking some medicine, her temperature dropped by 3.8∞F. What is her new temperature?",
                 answerOptions: [
                   {
-                    text: '98.7¬∞F',
+                    text: '98.7∞F',
                     isCorrect: true,
-                    rationale: '$102.5 - 3.8 = 98.7$¬∞F.',
+                    rationale: '$102.5 - 3.8 = 98.7$∞F.',
                   },
                   {
-                    text: '99.7¬∞F',
+                    text: '99.7∞F',
                     isCorrect: false,
                     rationale: 'This is a calculation error.',
                   },
                   {
-                    text: '106.3¬∞F',
+                    text: '106.3∞F',
                     isCorrect: false,
                     rationale:
                       'This is the result of adding the numbers, not subtracting.',
                   },
                   {
-                    text: '98.2¬∞F',
+                    text: '98.2∞F',
                     isCorrect: false,
                     rationale: 'This is a calculation error.',
                   },
@@ -6229,26 +6229,26 @@ const AppData = {
                 questionNumber: 20,
                 calculator: false,
                 question:
-                  'The temperature was -8¬∞C in the morning and rose by 15¬∞C. What is the new temperature?',
+                  'The temperature was -8∞C in the morning and rose by 15∞C. What is the new temperature?',
                 answerOptions: [
                   {
-                    text: '-23¬∞C',
+                    text: '-23∞C',
                     isCorrect: false,
                     rationale:
                       'This would be the temperature if it dropped by 15 degrees.',
                   },
                   {
-                    text: '7¬∞C',
+                    text: '7∞C',
                     isCorrect: true,
-                    rationale: '-8 + 15 = 7¬∞C.',
+                    rationale: '-8 + 15 = 7∞C.',
                   },
                   {
-                    text: '23¬∞C',
+                    text: '23∞C',
                     isCorrect: false,
                     rationale: 'Incorrect calculation.',
                   },
                   {
-                    text: '-7¬∞C',
+                    text: '-7∞C',
                     isCorrect: false,
                     rationale: 'Incorrect calculation.',
                   },
@@ -6961,7 +6961,7 @@ const AppData = {
                 calculator: false,
                 type: 'chart',
                 passage:
-                  "<div class='passage-text'><b>Daily High Temperatures (¬∞F): 65, 68, 72, 72, 75, 78, 81</b></div>",
+                  "<div class='passage-text'><b>Daily High Temperatures (∞F): 65, 68, 72, 72, 75, 78, 81</b></div>",
                 question: 'What is the range of the daily high temperatures?',
                 answerOptions: [
                   {
@@ -10376,7 +10376,7 @@ const AppData = {
                   {
                     questionNumber: 5,
                     type: 'analysis',
-                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedom‚Ç¨‚Äùthe ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
+                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedomÄîthe ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
                     question:
                       'What is the central point of disagreement between Historian A and Historian B?',
                     answerOptions: [
@@ -10732,7 +10732,7 @@ const AppData = {
                     questionNumber: 4,
                     type: 'text',
                     passage:
-                      "Frederick Jackson Turner's 'Frontier Thesis,' presented in 1893, was an influential idea in American history. Turner argued that the existence of a frontier‚Ç¨‚Äùa line between 'civilization' and 'wilderness'‚Ç¨‚Äùhad been a defining characteristic of American culture, fostering individualism, democracy, and innovation. He declared that the frontier had closed, raising questions about the future of American identity.",
+                      "Frederick Jackson Turner's 'Frontier Thesis,' presented in 1893, was an influential idea in American history. Turner argued that the existence of a frontierÄîa line between 'civilization' and 'wilderness'Äîhad been a defining characteristic of American culture, fostering individualism, democracy, and innovation. He declared that the frontier had closed, raising questions about the future of American identity.",
                     question:
                       "According to Frederick Jackson Turner's 'Frontier Thesis,' what role did the frontier play in American history?",
                     answerOptions: [
@@ -11376,7 +11376,7 @@ const AppData = {
                 questionNumber: 3,
                 type: 'text',
                 passage:
-                  "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 36¬∞30‚Ç¨¬≤ parallel.",
+                  "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 36∞30' parallel.",
                 question: 'What was the main goal of the Missouri Compromise?',
                 answerOptions: [
                   {
@@ -11394,7 +11394,7 @@ const AppData = {
                   {
                     text: 'To give all western territories the right to popular sovereignty.',
                     rationale:
-                      'The compromise established a specific line (36¬∞30‚Ç¨¬≤) to determine where slavery was allowed, rather than letting settlers decide everywhere.',
+                      'The compromise established a specific line (36∞30') to determine where slavery was allowed, rather than letting settlers decide everywhere.',
                     isCorrect: false,
                   },
                   {
@@ -11998,7 +11998,7 @@ const AppData = {
                     questionNumber: 4,
                     type: 'text',
                     passage:
-                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking expos√É¬© of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
+                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking expos√© of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
                     question:
                       "What was the most direct consequence of the publication of Upton Sinclair's 'The Jungle'?",
                     answerOptions: [
@@ -14127,7 +14127,7 @@ const AppData = {
                     questionNumber: 3,
                     type: 'text',
                     passage:
-                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powers‚Ç¨‚Äùpowers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
+                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powersÄîpowers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
                     question:
                       "The 'Elastic Clause' is significant because it grants Congress:",
                     answerOptions: [
@@ -14989,7 +14989,7 @@ const AppData = {
                       {
                         text: 'To declare laws passed by Congress and signed by the President to be unconstitutional.',
                         rationale:
-                          'Correct. This is the core function of judicial review‚Ç¨‚Äùensuring that laws adhere to the Constitution.',
+                          'Correct. This is the core function of judicial reviewÄîensuring that laws adhere to the Constitution.',
                         isCorrect: true,
                       },
                       {
@@ -15042,7 +15042,7 @@ const AppData = {
                     questionNumber: 5,
                     type: 'text',
                     passage:
-                      "The Supreme Court consists of a Chief Justice and eight Associate Justices. For a case to be heard by the Supreme Court, at least four of the nine justices must agree to grant a writ of certiorari‚Ç¨‚Äùan order for a lower court to send up the records of a case for review. This is known as the 'rule of four.'",
+                      "The Supreme Court consists of a Chief Justice and eight Associate Justices. For a case to be heard by the Supreme Court, at least four of the nine justices must agree to grant a writ of certiorariÄîan order for a lower court to send up the records of a case for review. This is known as the 'rule of four.'",
                     question: "What is the 'rule of four'?",
                     answerOptions: [
                       {
@@ -17248,7 +17248,7 @@ const AppData = {
                 type: 'image',
                 imageUrl: 'Images/licensed-image (16).jpg',
                 question:
-                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogot√É¬°) to the capital of Venezuela (Caracas) is:",
+                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogot√°) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
                   {
                     text: 'About 100 miles',
@@ -17777,8 +17777,8 @@ const AppData = {
                 'The Rise of Renewable Energy: Powering a Sustainable Future',
               genre: 'Informational Text (Expository Essay)',
               text: [
-                'For over a century, human civilization has been powered predominantly by fossil fuels‚Ç¨‚Äùcoal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underway, shifting focus toward renewable sources. These sources, which include solar, wind, hydropower, and geothermal energy, are naturally replenished and produce minimal to no carbon emissions. This transition is not merely an environmental imperative but also a technological and economic evolution, promising a more sustainable and resilient energy future.',
-                'At the forefront of this revolution is solar power, which harnesses the immense energy of the sun. The most common method involves photovoltaic (PV) cells, which directly convert sunlight into electricity. Another approach, concentrated solar power (CSP), uses mirrors to focus sunlight to heat a fluid, which then creates steam to power a turbine. The primary advantages of solar energy are its abundance and its clean nature. However, its main drawback is intermittency‚Ç¨‚Äùit only generates power when the sun is shining. This necessitates the development of large-scale energy storage solutions, such as advanced batteries, to provide reliable power around the clock. Furthermore, large solar farms require significant land area, which can raise concerns about land use and ecosystem impact.',
+                'For over a century, human civilization has been powered predominantly by fossil fuelsÄîcoal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underway, shifting focus toward renewable sources. These sources, which include solar, wind, hydropower, and geothermal energy, are naturally replenished and produce minimal to no carbon emissions. This transition is not merely an environmental imperative but also a technological and economic evolution, promising a more sustainable and resilient energy future.',
+                'At the forefront of this revolution is solar power, which harnesses the immense energy of the sun. The most common method involves photovoltaic (PV) cells, which directly convert sunlight into electricity. Another approach, concentrated solar power (CSP), uses mirrors to focus sunlight to heat a fluid, which then creates steam to power a turbine. The primary advantages of solar energy are its abundance and its clean nature. However, its main drawback is intermittencyÄîit only generates power when the sun is shining. This necessitates the development of large-scale energy storage solutions, such as advanced batteries, to provide reliable power around the clock. Furthermore, large solar farms require significant land area, which can raise concerns about land use and ecosystem impact.',
                 'Wind power offers another powerful alternative. Giant turbines, often grouped together in wind farms on land or offshore, capture kinetic energy from the wind and convert it into electricity. Like solar power, wind is a clean energy source, but it shares the same challenge of intermittency, as it is dependent on weather patterns. The visual impact of turbines on landscapes and potential harm to avian wildlife, such as birds and bats, are also significant concerns that require careful planning and mitigation.',
                 "Hydropower and geothermal energy provide more consistent, or baseload, power. Hydropower, generated by the force of flowing water turning turbines in dams, is one of the oldest and most established forms of renewable energy. It is highly reliable and can be dispatched on demand. The main limitation is its environmental impact; large dams can alter river ecosystems, disrupt fish migration, and displace communities. Geothermal energy taps into the Earth's internal heat, using steam from underground reservoirs to generate electricity. It is a highly reliable and clean source of energy with a small physical footprint. Its primary constraint is geographical, as it is only economically viable in regions with accessible geothermal activity, such as volcanic zones or areas with tectonic plate boundaries.",
                 "The complete transition to a renewable energy system presents formidable but surmountable challenges. Beyond the intermittency of solar and wind, modernizing the electrical grid to handle decentralized energy sources is a major hurdle. Smart grids, which use digital technology to manage electricity distribution more efficiently, are essential. Advances in battery technology are critical for storing excess energy for when the sun isn't shining or the wind isn't blowing. Furthermore, supportive government policies, such as carbon pricing and tax incentives for renewable installations, play a crucial role in accelerating this transition. While the path is complex, the collective push toward a renewable-powered world represents a fundamental rethinking of our relationship with energy, aiming for a future that is not only prosperous but also environmentally sustainable for generations to come.",
@@ -18079,7 +18079,7 @@ const AppData = {
               title: 'The Case for Year-Round Schooling',
               genre: 'Persuasive Essay',
               text: [
-                "The traditional ten-month school calendar, with its long summer break, is an outdated relic of an agrarian past that no longer serves the needs of modern students. It is time for a fundamental shift to a year-round schooling model. A balanced calendar, with shorter, more frequent breaks distributed throughout the year, offers a powerful solution to combat the well-documented 'summer slide'‚Ç¨‚Äùthe significant learning loss that occurs over the long summer vacation. This loss is particularly detrimental to students from low-income families, who often lack access to enriching summer activities, thus widening the achievement gap.",
+                "The traditional ten-month school calendar, with its long summer break, is an outdated relic of an agrarian past that no longer serves the needs of modern students. It is time for a fundamental shift to a year-round schooling model. A balanced calendar, with shorter, more frequent breaks distributed throughout the year, offers a powerful solution to combat the well-documented 'summer slide'Äîthe significant learning loss that occurs over the long summer vacation. This loss is particularly detrimental to students from low-income families, who often lack access to enriching summer activities, thus widening the achievement gap.",
                 "Opponents of year-round schooling often raise concerns about disrupting family traditions and the summer tourism industry. While these are valid considerations, they pale in comparison to the profound educational benefits. Shorter breaks mean that teachers spend less time re-teaching old material in the fall, allowing them to cover more ground and delve deeper into complex topics. Furthermore, a balanced calendar can reduce teacher and student burnout by providing more frequent opportunities for rest and rejuvenation. The argument that 'kids need a break' misunderstands the nature of modern learning; the goal is not to eliminate breaks, but to distribute them more effectively to create a continuous and more engaging learning environment.",
                 "Ultimately, the transition to year-round schooling is not merely a logistical change; it is an investment in our children's future. It is a commitment to closing the achievement gap, improving academic retention, and creating a more efficient and effective educational system. Clinging to a calendar designed for a bygone era is a disservice to our students. We must have the courage to embrace a model that is better suited to the demands of the 21st century.",
               ],
@@ -19083,7 +19083,7 @@ const AppData = {
               text: [
                 "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one's cheeks burned with the silent imputation of parsimony that such close dealing implied. Three times Della counted it. One dollar and eighty-seven cents. And the next day would be Christmas.",
                 'There was clearly nothing to do but flop down on the shabby little couch and howl. So Della did it. Which instigates the moral reflection that life is made up of sobs, sniffles, and smiles, with sniffles predominating.',
-                'Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterling‚Ç¨‚Äùsomething just a little bit near to being worthy of the honor of being owned by Jim.',
+                'Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterlingÄîsomething just a little bit near to being worthy of the honor of being owned by Jim.',
                 "Suddenly she whirled from the window and stood before the glass. Her eyes were shining brilliantly, but her face had lost its color within twenty seconds. Rapidly she pulled down her hair and let it fall to its full length. Now, there were two possessions of the James Dillingham Youngs in which they both took a mighty pride. One was Jim's gold watch that had been his father's and his grandfather's. The other was Della's hair. Had the queen of Sheba lived in the flat across the airshaft, Della would have let her hair hang out the window some day to dry just to depreciate Her Majesty's jewels and gifts. Had King Solomon been the janitor, with all his treasures piled up in the basement, Jim would have pulled out his watch every time he passed, just to see him pluck at his beard from envy.",
                 "So now Della's beautiful hair fell about her, rippling and shining like a cascade of brown waters. It reached below her knee and made itself almost a garment for her. And then she did it up again nervously and quickly. Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet. On went her old brown jacket; on went her old brown hat. With a whirl of skirts and with the brilliant sparkle still in her eyes, she fluttered out the door and down the stairs to the street.",
               ],
@@ -19401,7 +19401,7 @@ const AppData = {
                 '<br/>',
                 'I shall be telling this with a sigh',
                 'Somewhere ages and ages hence:',
-                'Two roads diverged in a wood, and I‚Ç¨‚Äù',
+                'Two roads diverged in a wood, and IÄî',
                 'I took the one less traveled by,',
                 'And that has made all the difference.',
               ],
@@ -19838,7 +19838,7 @@ function isVariantSuffix(text) {
 
 function splitOnDivider(title) {
   // Prefer colon or long dash as divider between base and variant
-  const dividers = [':', '‚Ç¨‚Äù', '‚Ç¨‚Äú', '-', '|'];
+  const dividers = [':', 'Äî', 'Äì', '-', '|'];
   for (const d of dividers) {
     const idx = title.indexOf(d);
     if (idx > -1) {
@@ -20485,11 +20485,11 @@ function ensureMinQuestions(quiz, subject, min = 12) {
     }
   } catch {}
   const current = quiz.questions.length;
-  // 0‚Ç¨‚Äú4 => flush with new unique questions
+  // 0Äì4 => flush with new unique questions
   if (current < 5) {
     return flushShortQuizToTwelve(quiz, subject);
   }
-  // 5‚Ç¨‚Äú11 => pad by cloning last
+  // 5Äì11 => pad by cloning last
   if (current > 4 && current < min) {
     const last = quiz.questions[current - 1];
     while (quiz.questions.length < min) {
@@ -20654,7 +20654,7 @@ function assignPremadeQuizCodes(data) {
                 }
                 if (
                   base.startsWith(':') ||
-                  base.startsWith('‚Ç¨‚Äù') ||
+                  base.startsWith('Äî') ||
                   base.startsWith('-')
                 )
                   base = base.slice(1).trim();
@@ -20697,7 +20697,7 @@ function assignPremadeQuizCodes(data) {
                     quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`;
                   quizTitle = fallback
                     ? `${fallback}`
-                    : `${topic.title || 'Quiz'} ‚Ç¨‚Äù ${labelText}`;
+                    : `${topic.title || 'Quiz'} Äî ${labelText}`;
                 }
               }
               registerQuiz(quiz, code, quizTitle);
@@ -20752,7 +20752,7 @@ function assignPremadeQuizCodes(data) {
               .join('__');
             const quizTitle =
               quiz.title ||
-              `${categoryName} ‚Ç¨‚Äù ${
+              `${categoryName} Äî ${
                 quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`
               }`;
             // Stamp code for potential resolution later
@@ -20785,7 +20785,7 @@ function assignPremadeQuizCodes(data) {
         const code = [subjectSlug, setSegment].filter(Boolean).join('__');
         const quizTitle =
           quiz.title ||
-          `${subjectName} ‚Ç¨‚Äù ${
+          `${subjectName} Äî ${
             quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`
           }`;
         quiz.quizCode = code;
@@ -20842,7 +20842,7 @@ function initPremades() {
       );
       if (!source)
         console.log(
-          '[premade] ExpandedQuizData not found ‚Ç¨‚Äù using empty catalog'
+          '[premade] ExpandedQuizData not found Äî using empty catalog'
         );
     }
   } catch (err) {
@@ -21305,7 +21305,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     if (!text) return '';
     const clean = String(text).trim();
     if (clean.length <= max) return clean;
-    return clean.slice(0, Math.max(0, max - 1)).trim() + '‚Ç¨¬¶';
+    return clean.slice(0, Math.max(0, max - 1)).trim() + 'Ä¶';
   };
   const topicOneLiner = (topic) => {
     const fromTopic = topic?.description?.trim();
@@ -21381,7 +21381,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             getAttemptMeta(b.topic.quizCode || b.topic.id || '').attempts -
             getAttemptMeta(a.topic.quizCode || a.topic.id || '').attempts
         );
-      case 'Topic A‚Ç¨‚ÄúZ':
+      case 'Topic AÄìZ':
         return [...items].sort((a, b) =>
           (a.topic.title || '').localeCompare(b.topic.title || '')
         );
@@ -21491,7 +21491,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         }
         if (
           base.startsWith(':') ||
-          base.startsWith('‚Ç¨‚Äù') ||
+          base.startsWith('Äî') ||
           base.startsWith('-')
         )
           base = base.slice(1).trim();
@@ -21504,7 +21504,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         if (!base) return 'Practice';
         return base;
       };
-      let derivedTitle = quiz.title || `${baseTitle} ‚Ç¨‚Äù ${quizLabel}`;
+      let derivedTitle = quiz.title || `${baseTitle} Äî ${quizLabel}`;
       if (looksAutoId(derivedTitle)) {
         if (String(subjectName).toLowerCase() === 'math') {
           const catRaw = getCategoryOfTopic(subjectName, topic.id);
@@ -21661,7 +21661,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                       persistExpanded(next);
                     }}
                   >
-                    {expanded ? 'Show fewer' : 'More in this topic‚Ç¨¬¶'}
+                    {expanded ? 'Show fewer' : 'More in this topicÄ¶'}
                   </button>
                 )}
               </div>
@@ -21788,7 +21788,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     const preparedQuiz = {
       id,
       quizCode: id,
-      title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex} ‚Ç¨‚Äù Quiz ${
+      title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex} Äî Quiz ${
         quizIndex + 1
       }`,
       topicTitle: stackedSet.baseTitle,
@@ -21840,7 +21840,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
           value={filters.sort}
           onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
         >
-          {['Newest', 'Most Attempted', 'Highest Score', 'Topic A‚Ç¨‚ÄúZ'].map(
+          {['Newest', 'Most Attempted', 'Highest Score', 'Topic AÄìZ'].map(
             (opt) => (
               <option key={opt} value={opt}>
                 {opt}
@@ -22081,7 +22081,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                       persistExpanded(next);
                     }}
                   >
-                    ‚Äû¬π√Ø¬∏¬è
+                    ÑπÔ∏è
                   </button>
                 </div>
                 {coreInfoOpen && (
@@ -22166,7 +22166,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                 persistExpanded(next);
               }}
             >
-              ‚Äû¬π√Ø¬∏¬è
+              ÑπÔ∏è
             </button>
           </div>
           <button
@@ -22565,7 +22565,7 @@ const DEFAULT_CHALLENGE_OPTIONS = [
     id: 'rla-2',
     subject: 'RLA',
     subtopic: 'Reading Comprehension',
-    label: 'Author‚Ç¨‚Ñ¢s purpose & tone',
+    label: 'Authorís purpose & tone',
     selected: false,
   },
   {
@@ -22674,7 +22674,7 @@ const DEFAULT_CHALLENGE_OPTIONS = [
     id: 'social-4',
     subject: 'Social Studies',
     subtopic: 'US History',
-    label: 'Colonial ‚Ä†‚Äô Civil War sequence',
+    label: 'Colonial Üí Civil War sequence',
     selected: false,
   },
   {
@@ -23310,7 +23310,7 @@ function PracticeSessionModal({
             style={{ backgroundColor: '#2563eb', color: 'white' }}
             disabled={submitting}
           >
-            {submitting ? 'Starting‚Ç¨¬¶' : 'Start'}
+            {submitting ? 'StartingÄ¶' : 'Start'}
           </button>
         </div>
       </div>
@@ -24836,7 +24836,7 @@ function App({ externalTheme, onThemeChange }) {
                 ? bundle.recentScores
                 : prev.recentScoresDashboard || {},
           }));
-          window.alert('Great! You‚Ç¨‚Ñ¢re all set.');
+          window.alert('Great! Youíre all set.');
           setFinishingOnboarding(false);
           setView('start');
           return;
@@ -24857,7 +24857,7 @@ function App({ externalTheme, onThemeChange }) {
         onboardingComplete: true,
       },
     }));
-    window.alert('Great! You‚Ç¨‚Ñ¢re all set.');
+    window.alert('Great! Youíre all set.');
     setFinishingOnboarding(false);
     setView('start');
   }, [setView, localProfile, authToken]);
@@ -25557,7 +25557,7 @@ function App({ externalTheme, onThemeChange }) {
       subject,
       quizCode,
       quizTitle:
-        quizDetails.title || quizDetails.topicTitle || 'GED¬Æ Practice Exam',
+        quizDetails.title || quizDetails.topicTitle || 'GEDÆ Practice Exam',
       quizType: quizDetails.type,
       score: results.score,
       totalQuestions: results.totalQuestions,
@@ -25579,7 +25579,7 @@ function App({ externalTheme, onThemeChange }) {
           subject,
           quizCode,
           quizTitle:
-            quizDetails.title || quizDetails.topicTitle || 'GED¬Æ Practice Exam',
+            quizDetails.title || quizDetails.topicTitle || 'GEDÆ Practice Exam',
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -26044,7 +26044,7 @@ function App({ externalTheme, onThemeChange }) {
             alt="Kingmakerconsults logo"
             className="h-48 w-auto object-contain"
           />
-          <p>Kingmakerconsults Copyright ¬©</p>
+          <p>Kingmakerconsults Copyright ©</p>
         </footer>
       </div>
     </>
@@ -26237,7 +26237,7 @@ function ProfileView({
               className="refresh-button inline-flex items-center justify-center rounded-lg border px-3 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
               disabled={loading}
             >
-              {loading ? 'Refreshing‚Ç¨¬¶' : 'Refresh'}
+              {loading ? 'RefreshingÄ¶' : 'Refresh'}
             </button>
             <button
               type="button"
@@ -26245,7 +26245,7 @@ function ProfileView({
               className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:opacity-60"
               disabled={!!savingAll}
             >
-              {savingAll ? 'Saving‚Ç¨¬¶' : 'Save All'}
+              {savingAll ? 'SavingÄ¶' : 'Save All'}
             </button>
             <button
               type="button"
@@ -26291,7 +26291,7 @@ function ProfileView({
                 className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
                 disabled={finishingOnboarding}
               >
-                {finishingOnboarding ? 'Checking‚Ç¨¬¶' : "I'm Done"}
+                {finishingOnboarding ? 'CheckingÄ¶' : "I'm Done"}
               </button>
               <button
                 id="completeLaterBtn"
@@ -26343,7 +26343,7 @@ function ProfileView({
               className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
               disabled={nameSaving}
             >
-              {nameSaving ? 'Saving‚Ç¨¬¶' : 'Save Name'}
+              {nameSaving ? 'SavingÄ¶' : 'Save Name'}
             </button>
           </div>
           <p className="text-xs text-slate-500">Maximum 80 characters.</p>
@@ -26491,7 +26491,7 @@ function ProfileView({
                         disabled={savingThisSubject}
                       >
                         {savingThisSubject
-                          ? 'Saving‚Ç¨¬¶'
+                          ? 'SavingÄ¶'
                           : `Save ${entry.subject}`}
                       </button>
                       {edits.passed ? (
@@ -26579,7 +26579,7 @@ function ProfileView({
             </button>
           </div>
           <p className="text-sm text-slate-600">
-            Select the areas you find tough. We‚Ç¨‚Ñ¢ll use this later to build a
+            Select the areas you find tough. Weíll use this later to build a
             study plan for you.
           </p>
           <div
@@ -26653,7 +26653,7 @@ function ProfileView({
               className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
               disabled={challengesSaving}
             >
-              {challengesSaving ? 'Saving‚Ç¨¬¶' : 'Save Challenges'}
+              {challengesSaving ? 'SavingÄ¶' : 'Save Challenges'}
             </button>
           </div>
         </form>
@@ -26679,7 +26679,7 @@ function RecentScoresPanel({
     return (
       <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
         <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
-        <p className="text-sm text-slate-600">Loading‚Ç¨¬¶</p>
+        <p className="text-sm text-slate-600">LoadingÄ¶</p>
       </section>
     );
   }
@@ -26696,7 +26696,7 @@ function RecentScoresPanel({
 
   const formatScoreValue = (value) => {
     if (value == null) {
-      return '‚Ç¨‚Äù';
+      return 'Äî';
     }
     if (typeof value === 'number' && Number.isFinite(value)) {
       return `${Math.round(value)}%`;
@@ -26854,10 +26854,10 @@ function RecentScoresPanel({
                       {row.subject}
                     </td>
                     <td className="px-3 py-2">
-                      {row.latest != null ? `${row.latest}%` : '‚Ç¨‚Äù'}
+                      {row.latest != null ? `${row.latest}%` : 'Äî'}
                     </td>
                     <td className="px-3 py-2">
-                      {row.avg != null ? `${row.avg}%` : '‚Ç¨‚Äù'}
+                      {row.avg != null ? `${row.avg}%` : 'Äî'}
                     </td>
                   </tr>
                 ))}
@@ -26897,10 +26897,10 @@ function RecentScoresPanel({
                     </td>
                     <td className="px-3 py-2">{row.subtopic}</td>
                     <td className="px-3 py-2">
-                      {row.latest != null ? `${row.latest}%` : '‚Ç¨‚Äù'}
+                      {row.latest != null ? `${row.latest}%` : 'Äî'}
                     </td>
                     <td className="px-3 py-2">
-                      {row.avg != null ? `${row.avg}%` : '‚Ç¨‚Äù'}
+                      {row.avg != null ? `${row.avg}%` : 'Äî'}
                     </td>
                   </tr>
                 ))}
@@ -27062,7 +27062,7 @@ function SettingsView({
               Color Mode
             </legend>
             <p className="text-sm text-slate-500 dark:text-slate-200">
-              Choose between light and dark themes. We‚Ç¨‚Ñ¢ll remember your pick.
+              Choose between light and dark themes. Weíll remember your pick.
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
               {themeOptions.map((option) => (
@@ -27110,7 +27110,7 @@ function SettingsView({
               className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60 dark:bg-sky-500 dark:hover:bg-sky-400"
               disabled={saving || loading}
             >
-              {saving ? 'Saving‚Ç¨¬¶' : 'Save Settings'}
+              {saving ? 'SavingÄ¶' : 'Save Settings'}
             </button>
           </div>
         </form>
@@ -27330,7 +27330,7 @@ function AuthScreen({ onLogin }) {
             disabled={submitting}
             className="w-full rounded-lg bg-sky-600 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
           >
-            {submitting ? 'Please wait‚Ç¨¬¶' : modeLabel}
+            {submitting ? 'Please waitÄ¶' : modeLabel}
           </button>
         </form>
         <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
@@ -27381,19 +27381,19 @@ function AdminRoleBadge({ role }) {
 
 function formatDateTime(value) {
   if (!value) {
-    return '‚Ç¨‚Äù';
+    return 'Äî';
   }
   try {
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {
-      return '‚Ç¨‚Äù';
+      return 'Äî';
     }
     return date.toLocaleString(undefined, {
       dateStyle: 'medium',
       timeStyle: 'short',
     });
   } catch (error) {
-    return '‚Ç¨‚Äù';
+    return 'Äî';
   }
 }
 
@@ -27464,7 +27464,7 @@ function OrganizationSummaryView({ summary }) {
                     {user.name || 'Learner'}
                   </td>
                   <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
-                    {user.email || '‚Ç¨‚Äù'}
+                    {user.email || 'Äî'}
                   </td>
                   <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
                     {formatDateTime(user.last_login)}
@@ -27491,7 +27491,7 @@ function OrganizationSummaryView({ summary }) {
                               Score:{' '}
                               {attempt.scaled_score != null
                                 ? attempt.scaled_score
-                                : '‚Ç¨‚Äù'}
+                                : 'Äî'}
                             </span>
                             <span className="text-slate-400 dark:text-slate-400">
                               {formatDateTime(attempt.attempted_at)}
@@ -27632,7 +27632,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
 
           {loadingOrgs ? (
             <p className="py-4 text-sm text-slate-500 dark:text-slate-300">
-              Loading organizations‚Ç¨¬¶
+              Loading organizationsÄ¶
             </p>
           ) : orgError ? (
             <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
@@ -27706,7 +27706,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
           {summaryLoading ? (
             <p className="text-sm text-slate-500 dark:text-slate-300">
-              Loading organization summary‚Ç¨¬¶
+              Loading organization summaryÄ¶
             </p>
           ) : summaryError ? (
             <div className="space-y-3">
@@ -27796,7 +27796,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
         <section className="admin-panel rounded-3xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-6">
           {loading ? (
             <p className="text-sm text-admin-subtle admin-muted">
-              Loading organization summary‚Ç¨¬¶
+              Loading organization summaryÄ¶
             </p>
           ) : error ? (
             <div className="space-y-3">
@@ -27849,10 +27849,10 @@ function DetailedProgressView({
       : null;
 
   const formatDate = (value) => {
-    if (!value) return '‚Ç¨‚Äù';
+    if (!value) return 'Äî';
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {
-      return '‚Ç¨‚Äù';
+      return 'Äî';
     }
     return date.toLocaleString(undefined, {
       dateStyle: 'medium',
@@ -27866,7 +27866,7 @@ function DetailedProgressView({
       return { label: 'Passed', className: 'text-emerald-600' };
     if (passed === false)
       return { label: 'Keep Practicing', className: 'text-amber-600' };
-    return { label: '‚Ç¨‚Äù', className: 'text-slate-500' };
+    return { label: 'Äî', className: 'text-slate-500' };
   };
 
   const recentAttempts = attempts.slice(0, 10);
@@ -27915,7 +27915,7 @@ function DetailedProgressView({
           {subject === 'Reasoning Through Language Arts (RLA)' &&
             rlaEssayAvgDisplay && (
               <p className="mt-1 text-sm text-slate-600">
-                Avg essay (0‚Ç¨‚Äú6):{' '}
+                Avg essay (0Äì6):{' '}
                 <span className="font-semibold text-slate-800">
                   {rlaEssayAvgDisplay}
                 </span>
@@ -27935,7 +27935,7 @@ function DetailedProgressView({
               <p className="text-sm text-slate-600 break-words">
                 Code:{' '}
                 <span className="font-mono text-slate-700">
-                  {lastAttempt.quizCode || '‚Ç¨‚Äù'}
+                  {lastAttempt.quizCode || 'Äî'}
                 </span>
               </p>
               <p className="text-lg font-semibold text-slate-800">
@@ -27990,7 +27990,7 @@ function DetailedProgressView({
                             `Exam ${index + 1}`}
                         </p>
                         <p className="text-xs text-slate-500">
-                          Code: {attempt.quizCode || '‚Ç¨‚Äù'}
+                          Code: {attempt.quizCode || 'Äî'}
                         </p>
                       </div>
                       <div className="space-y-3">
@@ -28154,7 +28154,7 @@ function DashboardProgressSummary({
           const lastScore = data.lastAttempt?.scaledScore;
           const truncatedTitle =
             lastTitle && lastTitle.length > 52
-              ? `${lastTitle.slice(0, 49)}‚Ç¨¬¶`
+              ? `${lastTitle.slice(0, 49)}Ä¶`
               : lastTitle;
           const subjectId = SUBJECT_ID_MAP[subject] || null;
           const shortLabel =
@@ -28687,10 +28687,10 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = 'light' }) {
                   className={buttonClasses}
                   style={buttonStyle}
                 >
-                  √∞≈∏‚Äú¬ù Vocabulary Quiz
+                  Vocabulary Quiz
                 </button>
                 <span className="text-slate-600 dark:text-slate-300 text-xl">
-                  {isExpanded ? '‚Äì¬º' : '‚Äì¬∂'}
+                  {isExpanded ? '' : ''}
                 </span>
               </div>
             </div>
@@ -28767,7 +28767,7 @@ function ScienceFormulaSheet({ onClose }) {
           aria-label="Close science formula sheet"
           style={{ color: 'inherit' }}
         >
-          ≈ì‚Ä¢
+          úï
         </button>
 
         <h2 className="formula-sheet-title text-xl font-bold mb-4">
@@ -28847,7 +28847,7 @@ function FormulaSheetModal({ onClose }) {
           style={{ borderColor: 'rgba(148,163,184,0.35)' }}
         >
           <h2 className="formula-sheet-title text-xl font-bold">
-            GED¬Æ Mathematical Reasoning Formula Sheet
+            GEDÆ Mathematical Reasoning Formula Sheet
           </h2>
           <button
             onClick={onClose}
@@ -29245,7 +29245,7 @@ function StartScreen({
         return;
       }
 
-      // reload weekly + today's goals so the panel gets the day‚Ç¨‚Ñ¢s quiz links
+      // reload weekly + today's goals so the panel gets the dayís quiz links
       await refreshCoachPanels();
     } catch (e) {
       setCoachError('Unable to generate weekly coach plan.');
@@ -29586,7 +29586,7 @@ function StartScreen({
         return;
       }
       setIsLoading(true);
-      setLoadingMessage(`Asking Coach for a custom ${subject} mix‚Ç¨¬¶`);
+      setLoadingMessage(`Asking Coach for a custom ${subject} mixÄ¶`);
       const res = await fetch(
         `${API_BASE_URL}/api/coach/${encodeURIComponent(
           practiceSubjectParam(subject)
@@ -29861,7 +29861,7 @@ function StartScreen({
       }
     }
 
-    // NEW: Test-plan nextUpcomingTest ‚Ç¨‚Äù also show when the next scheduled test is today
+    // NEW: Test-plan nextUpcomingTest Äî also show when the next scheduled test is today
     if (nextUpcomingTest && nextUpcomingTest.testDate) {
       const daysFromPlan =
         typeof nextUpcomingTest.daysUntil === 'number'
@@ -29929,13 +29929,13 @@ function StartScreen({
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[()]/g, '');
-      // Use API_BASE_URL for all vocabulary quiz fetches
+                  Vocabulary Quiz
       const res = await fetch(
         `${API_BASE_URL}/api/vocabulary-quiz/${normalizedSubject}`
       );
 
       if (!res.ok) {
-        throw new Error(`Failed to fetch vocabulary quiz: ${res.status}`);
+                  Vocabulary Quiz
       }
 
       const data = await res.json();
@@ -29944,12 +29944,12 @@ function StartScreen({
       if (data && data.quiz) {
         onStartQuiz(data.quiz);
       } else {
-        console.error('Invalid vocabulary quiz response:', data);
-        alert('Failed to generate vocabulary quiz. Please try again.');
+                  Vocabulary Quiz
+                  Vocabulary Quiz
       }
     } catch (err) {
-      console.error('Error starting vocabulary quiz:', err);
-      alert('Failed to start vocabulary quiz. Please try again.');
+                  Vocabulary Quiz
+                  Vocabulary Quiz
     }
   };
 
@@ -30289,7 +30289,7 @@ function StartScreen({
 
       const setIndex = orderedSetNames.findIndex((n) => n === setName);
       const setNumber = setIndex >= 0 ? setIndex + 1 : 1;
-      const title = `${selectedSubject} ‚Ç¨‚Äù ${selectedCategory} Set ${setNumber}`;
+      const title = `${selectedSubject} Äî ${selectedCategory} Set ${setNumber}`;
       const subjectSlug = sanitizeCodeSegment(selectedSubject, 'subject');
       const categorySlug = sanitizeCodeSegment(selectedCategory, 'category');
       const quizCode = [subjectSlug, categorySlug, `set-${setNumber}`].join(
@@ -30303,7 +30303,7 @@ function StartScreen({
         topicId: null,
         topicTitle: selectedCategory,
         canonicalTopicTitle: selectedCategory,
-        description: `${selectedCategory} practice ‚Ç¨‚Äù combined set of 3 quizzes`,
+        description: `${selectedCategory} practice Äî combined set of 3 quizzes`,
         type: 'quiz',
         questions: prepared.questions,
       };
@@ -30364,7 +30364,7 @@ function StartScreen({
                     }}
                   >
                     Start{' '}
-                    {`${selectedSubject} ‚Ç¨‚Äù ${selectedCategory} Set ${idx + 1}`}
+                    {`${selectedSubject} Äî ${selectedCategory} Set ${idx + 1}`}
                   </button>
                 ))}
               </div>
@@ -30418,7 +30418,7 @@ function StartScreen({
                   quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
                 const baseTitle = topic.title || 'Quiz';
                 const derivedTitle =
-                  quiz.title || `${baseTitle} ‚Ç¨‚Äù ${quizLabel}`;
+                  quiz.title || `${baseTitle} Äî ${quizLabel}`;
                 const quizIdBase = topic.id || `topic_${topicIndex}`;
                 const resolvedQuestions = resolveQuizQuestions(
                   selectedSubject,
@@ -30576,7 +30576,7 @@ function StartScreen({
                               >
                                 {expanded
                                   ? 'Show fewer'
-                                  : 'More in this topic‚Ç¨¬¶'}
+                                  : 'More in this topicÄ¶'}
                               </button>
                             )}
                           </div>
@@ -30862,7 +30862,7 @@ function StartScreen({
                   className="text-center text-sm mt-2"
                   style={heroMutedTextStyle}
                 >
-                  Loading‚Ç¨¬¶
+                  LoadingÄ¶
                 </p>
               ) : dailyError ? (
                 <p className="text-center text-sm mt-2 text-red-600">
@@ -31021,7 +31021,7 @@ function StartScreen({
                               {subjLabel}
                             </div>
                             <div className="text-xs" style={heroMutedTextStyle}>
-                              Today‚Ç¨‚Ñ¢s Coach Quiz is ready
+                              Todayís Coach Quiz is ready
                             </div>
                           </div>
                           <button
@@ -31033,7 +31033,7 @@ function StartScreen({
                             }
                             className="px-3 py-1 bg-purple-600 text-white text-xs font-semibold rounded-md hover:bg-purple-700 transition"
                           >
-                            Open today‚Ç¨‚Ñ¢s quiz
+                            Open todayís quiz
                           </button>
                         </div>
                       );
@@ -31093,7 +31093,7 @@ function StartScreen({
                       opacity: adviceLoading ? 0.6 : 1,
                     }}
                   >
-                    {adviceLoading ? 'Asking‚Ç¨¬¶' : 'Ask Coach'}
+                    {adviceLoading ? 'AskingÄ¶' : 'Ask Coach'}
                   </button>
                   {!window.__ASK_COACH_ENABLED__ && (
                     <span className="text-xs" style={heroMutedTextStyle}>
@@ -31226,7 +31226,7 @@ function StartScreen({
                             className="text-center text-sm"
                             style={heroMutedTextStyle}
                           >
-                            Loading‚Ç¨¬¶
+                            LoadingÄ¶
                           </p>
                         ) : hasPlan ? (
                           <div className="mt-2 max-h-48 overflow-y-auto space-y-1">
@@ -31245,7 +31245,7 @@ function StartScreen({
                                 ) || 0;
                               const titles = d.tasks
                                 .map((task) => task.title)
-                                .join(' ‚Ç¨¬¢ ');
+                                .join(' ï ');
                               return (
                                 <div
                                   key={`${d.day}-${idx}`}
@@ -31255,7 +31255,7 @@ function StartScreen({
                                     Day {d.day}:
                                   </span>
                                   <span>
-                                    {focus ? `${focus} ‚Ç¨‚Äù ` : ''}
+                                    {focus ? `${focus} Äî ` : ''}
                                     {titles || 'Practice'} ({minutes}m)
                                   </span>
                                 </div>
@@ -31322,7 +31322,7 @@ function StartScreen({
                         {
                           id: 'essay_practice_tool',
                           type: 'essay',
-                          title: 'GED¬Æ Essay Practice Toolkit',
+                          title: 'GEDÆ Essay Practice Toolkit',
                         },
                         selectedSubject
                       )
@@ -31659,7 +31659,7 @@ function StartScreen({
                             >
                               {item.formattedDate}
                               {item.location ? (
-                                <span> ‚Ç¨¬¢ {item.location}</span>
+                                <span> ï {item.location}</span>
                               ) : null}
                             </p>
                           </div>
@@ -31715,9 +31715,9 @@ function StartScreen({
                   >
                     {displayedChallenges.map((challenge) => (
                       <li key={challenge.id}>
-                        ‚Ç¨¬¢{' '}
+                        ï{' '}
                         {challenge.label ||
-                          `${challenge.subject} ‚Ç¨‚Äù ${challenge.subtopic}`}
+                          `${challenge.subject} Äî ${challenge.subtopic}`}
                       </li>
                     ))}
                     {hiddenChallengeCount > 0 && (
@@ -31726,7 +31726,7 @@ function StartScreen({
                           isDarkMode ? 'text-slate-400' : 'text-slate-800'
                         }`}
                       >
-                        and {hiddenChallengeCount} more‚Ç¨¬¶
+                        and {hiddenChallengeCount} moreÄ¶
                       </li>
                     )}
                   </ul>
@@ -31753,7 +31753,7 @@ function StartScreen({
               />
             </div>
           )}
-          {/* Coach Smith ‚Ç¨‚Äù This Week (4 subject cards) */}
+          {/* Coach Smith Äî This Week (4 subject cards) */}
           {window.__COACH_ENABLED__ && currentUser && (
             <div
               className={`mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${
@@ -31764,7 +31764,7 @@ function StartScreen({
                 <h2
                   className={`text-lg font-semibold ${homePanelPrimaryTextClass}`}
                 >
-                  Coach Smith ‚Ç¨‚Äù This Week
+                  Coach Smith Äî This Week
                 </h2>
                 <button
                   onClick={generateAllWeeklyPlans}
@@ -31772,7 +31772,7 @@ function StartScreen({
                   className="text-sm font-semibold px-3 py-1 rounded-md bg-white text-slate-900 hover:bg-white/90 disabled:opacity-60 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
                   title="Generate weekly plans for Math, RLA, Science, and Social Studies"
                 >
-                  {generatingAll ? 'Generating‚Ç¨¬¶' : 'Generate all'}
+                  {generatingAll ? 'GeneratingÄ¶' : 'Generate all'}
                 </button>
               </div>
 
@@ -31896,7 +31896,7 @@ function StartScreen({
                 onClick={onStartPopQuiz}
                 className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 quiz-start-btn"
               >
-                Start a Practice Session ¬è¬±√Ø¬∏¬è
+                Start a Practice Session è±Ô∏è
               </button>
             </div>
             <div
@@ -32488,7 +32488,7 @@ function QuizInterface({
                 style={timerStyle}
               >
                 <span role="img" aria-label="timer">
-                  ¬è¬±√Ø¬∏¬è
+                  è±Ô∏è
                 </span>
                 <span>{formatTime(timeLeft)}</span>
                 {isPaused && (
@@ -32901,7 +32901,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
   const MATH_EQUIV = {
     // Configurable numeric tolerance for float comparisons
     EPS: 1e-9,
-    // Percent ‚Ä†‚Äô decimal conversion regex
+    // Percent Üí decimal conversion regex
     PERCENT_RE: /^[-+]?\d+(?:\.\d+)?%$/,
     // Currency detection
     CURRENCY_RE: /^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/,
@@ -33074,13 +33074,13 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     // 4) GED-ish scaling: 3 segments
     let scaledScore;
     if (percentage <= 40) {
-      // 0‚Ç¨‚Äú40% => 100‚Ç¨‚Äú135
+      // 0Äì40% => 100Äì135
       scaledScore = 100 + (percentage / 40) * 35;
     } else if (percentage <= 65) {
-      // 40‚Ç¨‚Äú65% => 135‚Ç¨‚Äú145
+      // 40Äì65% => 135Äì145
       scaledScore = 135 + ((percentage - 40) / 25) * 10;
     } else {
-      // 65‚Ç¨‚Äú100% => 145‚Ç¨‚Äú200
+      // 65Äì100% => 145Äì200
       scaledScore = 145 + ((percentage - 65) / 35) * 55;
     }
     scaledScore = Math.round(scaledScore);
@@ -33331,13 +33331,13 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
     // 4) GED-ish scaling: 3 segments
     let scaledScore;
     if (percentage <= 40) {
-      // 0‚Ç¨‚Äú40% => 100‚Ç¨‚Äú135
+      // 0Äì40% => 100Äì135
       scaledScore = 100 + (percentage / 40) * 35;
     } else if (percentage <= 65) {
-      // 40‚Ç¨‚Äú65% => 135‚Ç¨‚Äú145
+      // 40Äì65% => 135Äì145
       scaledScore = 135 + ((percentage - 40) / 25) * 10;
     } else {
-      // 65‚Ç¨‚Äú100% => 145‚Ç¨‚Äú200
+      // 65Äì100% => 145Äì200
       scaledScore = 145 + ((percentage - 65) / 35) * 55;
     }
     scaledScore = Math.round(scaledScore);
@@ -33835,7 +33835,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             }`}
           >
             <span role="img" aria-label="timer">
-              ¬è¬±√Ø¬∏¬è
+              è±Ô∏è
             </span>
             <span>{formatTime(timeLeft)}</span>
             {isPaused && (
@@ -33879,12 +33879,12 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 }
 
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
-  // Hard guard so we don‚Ç¨‚Ñ¢t crash
+  // Hard guard so we donít crash
   if (!quiz || !results || !Array.isArray(quiz.questions)) {
     return (
       <div className="results-screen error">
         <h2>Results Unavailable</h2>
-        <p>We saved your score, but couldn‚Ç¨‚Ñ¢t build the detailed breakdown.</p>
+        <p>We saved your score, but couldnít build the detailed breakdown.</p>
         <button onClick={onHome}>Back to Menu</button>
       </div>
     );
@@ -33959,13 +33959,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const getPerf = (score) => {
     if (score >= 175)
       return {
-        level: 'GED¬Æ College Ready + Credit',
+        level: 'GEDÆ College Ready + Credit',
         color: 'text-purple-600',
       };
     if (score >= 165)
-      return { level: 'GED¬Æ College Ready', color: 'text-blue-600' };
+      return { level: 'GEDÆ College Ready', color: 'text-blue-600' };
     if (score >= 145)
-      return { level: 'GED¬Æ Passing Score', color: 'text-green-600' };
+      return { level: 'GEDÆ Passing Score', color: 'text-green-600' };
     return { level: 'Keep studying!', color: 'text-amber-600' };
   };
 
@@ -34014,7 +34014,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         Results: {quiz?.title || 'Completed Quiz'}
       </h2>
       <div className="my-6">
-        <p className="text-lg text-slate-600">Your estimated GED¬Æ Score is:</p>
+        <p className="text-lg text-slate-600">Your estimated GEDÆ Score is:</p>
         <p className={`text-6xl font-bold my-2 ${performance.color}`}>
           {scaledScore}
         </p>
@@ -34033,7 +34033,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             Suggested Focus Areas
           </h3>
           {loadingSuggestions && !suggestions.length ? (
-            <p className="text-sm text-slate-500">Loading suggestions‚Ç¨¬¶</p>
+            <p className="text-sm text-slate-500">Loading suggestionsÄ¶</p>
           ) : suggestions.length ? (
             <ul className="space-y-2">
               {suggestions.map((s) => (
@@ -34283,7 +34283,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                   }`}
                 >
                   Your answer: {userAnswer || 'No answer'}{' '}
-                  {isCorrect ? '≈ì‚Äù' : '≈ìÀú'}
+                  {isCorrect ? 'úî' : 'úò'}
                 </p>
                 {!isCorrect &&
                   ((correctMC && correctMC.text) || question.correctAnswer) && (
@@ -34559,7 +34559,7 @@ function EssayGuide({ onExit }) {
     let text = html
       .replace(/<\s*br\s*\/?>/gi, '\n')
       .replace(/<\s*\/?p[^>]*>/gi, '\n\n')
-      .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' ‚Ç¨¬¢ '))
+      .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' ï '))
       .replace(
         /<\s*\/?(strong|em|b|i|u|span|div|h\d|section|article|blockquote)[^>]*>/gi,
         ''
@@ -34593,7 +34593,7 @@ function EssayGuide({ onExit }) {
       'In everyday terms, the effects show up in places that are not cherry-picked: large districts as well as small ones, urban areas as well as rural communities, and across diverse populations. ' +
       'This breadth matters because it demonstrates that the argument is not reliant on a single exceptional case.\n\n' +
       'Equally important is the internal logic of the claim. ' +
-      'A clear explanation of how inputs become outcomes‚Ç¨‚Äùbacked by credible studies or official records‚Ç¨‚Äùbuilds reader confidence. ' +
+      'A clear explanation of how inputs become outcomesÄîbacked by credible studies or official recordsÄîbuilds reader confidence. ' +
       'When authors acknowledge limitations, address counterarguments directly, and explain why competing explanations fall short, they further enhance credibility. ' +
       'The tone remains measured and analytic rather than speculative, and the supporting evidence goes beyond anecdotes to include trends, comparative data, or longitudinal results.\n\n' +
       'Finally, strong arguments connect evidence to implications. ' +
@@ -34604,7 +34604,7 @@ function EssayGuide({ onExit }) {
       'These reservations can be useful for surfacing potential risks or unintended consequences, but they are most convincing when paired with specific evidence and a clear explanation of scope. ' +
       'Without those anchors, caution can drift into conjecture, making it hard to weigh against concrete results reported elsewhere.\n\n' +
       'In addition, weaker arguments sometimes mistake correlation for causation or rely on assumptions about human behavior that are plausible but untested. ' +
-      'They may emphasize exceptional cases‚Ç¨‚Äùoutliers‚Ç¨‚Äùwhile downplaying broader trends that move in the opposite direction. ' +
+      'They may emphasize exceptional casesÄîoutliersÄîwhile downplaying broader trends that move in the opposite direction. ' +
       'A careful reader should ask whether the same claim holds across settings and whether competing explanations have been seriously considered. ' +
       'When key terms are left undefined or evidence is largely anecdotal, the overall force of the case diminishes.\n\n' +
       'That said, raising practical constraints and ethical considerations is valuable. ' +
@@ -34648,7 +34648,7 @@ function EssayGuide({ onExit }) {
       passage1: {
         title: 'Dr. Alisa Klein, Sociologist (Stronger Argument)',
         content: stripHtmlToPlain(
-          "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy‚Ç¨‚Äù'no taxation without representation'‚Ç¨‚Äùthat they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
+          "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracyÄî'no taxation without representation'Äîthat they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
         ),
       },
       passage2: {
@@ -34681,7 +34681,7 @@ function EssayGuide({ onExit }) {
       passage2: {
         title: 'Institute for Energy Research (Weaker Argument)',
         content:
-          "<p>While renewable energy is a worthy goal, aggressive government subsidies create significant problems. The high upfront cost of technologies like solar panels and wind turbines are passed on to taxpayers, creating a massive financial burden. These systems also have geographic limitations‚Ç¨‚Äùthey are only effective in specific locations with consistent sun or wind.</p><p>Furthermore, energy production is often intermittent, requiring expensive battery storage solutions that are not yet advanced enough. <span class='bad-evidence'>Think of the poor families who will have their lights go out on a calm, cloudy day.</span> It's simply not reliable enough to power a modern economy without fossil fuel backup, which defeats the entire purpose.</p><p>A market-driven approach, rather than government intervention, would allow the most efficient and affordable technologies to emerge naturally. We shouldn't let the government pick winners and losers with taxpayer money; we should let innovation and competition determine the best path forward.</p>",
+          "<p>While renewable energy is a worthy goal, aggressive government subsidies create significant problems. The high upfront cost of technologies like solar panels and wind turbines are passed on to taxpayers, creating a massive financial burden. These systems also have geographic limitationsÄîthey are only effective in specific locations with consistent sun or wind.</p><p>Furthermore, energy production is often intermittent, requiring expensive battery storage solutions that are not yet advanced enough. <span class='bad-evidence'>Think of the poor families who will have their lights go out on a calm, cloudy day.</span> It's simply not reliable enough to power a modern economy without fossil fuel backup, which defeats the entire purpose.</p><p>A market-driven approach, rather than government intervention, would allow the most efficient and affordable technologies to emerge naturally. We shouldn't let the government pick winners and losers with taxpayer money; we should let innovation and competition determine the best path forward.</p>",
       },
     },
     {
@@ -34844,7 +34844,7 @@ function EssayGuide({ onExit }) {
       passage2: {
         title: 'Fiscal Prudence Council (Weaker Argument)',
         content:
-          "<p>Nothing is truly free‚Ç¨‚Äùtaxpayers foot the bill. <span class='bad-evidence'>If college is free, everyone will enroll and campuses will be chaotic.</span> Subsidizing degrees people may not use wastes money. Aid should remain merit-based and limited, not universal.</p>",
+          "<p>Nothing is truly freeÄîtaxpayers foot the bill. <span class='bad-evidence'>If college is free, everyone will enroll and campuses will be chaotic.</span> Subsidizing degrees people may not use wastes money. Aid should remain merit-based and limited, not universal.</p>",
       },
     },
     {
@@ -35085,7 +35085,7 @@ function EssayGuide({ onExit }) {
     ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain which author presents the more convincing argument. Support your response with evidence from both passages and explain why the evidence you cite supports your evaluation.`
     : '';
   const overlayButtons = [
-    { id: 'prompt', label: 'Essay Prompt', title: 'GED¬Æ RLA Essay Prompt' },
+    { id: 'prompt', label: 'Essay Prompt', title: 'GEDÆ RLA Essay Prompt' },
     {
       id: 'passage1',
       label: 'Passage A',
