@@ -2089,6 +2089,79 @@ h3 {
   color: #1e293b !important;
 }
 
+/* Strong themed Start buttons inside coach subject cards (light mode) */
+[data-theme='light'] .coach-subject-card button {
+  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(15, 23, 42, 0.35) !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset !important;
+  transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+[data-theme='light'] .coach-subject-card button:hover {
+  background: linear-gradient(135deg, #1e293b, #334155) !important;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25) !important;
+  transform: translateY(-1px);
+}
+[data-theme='light'] .coach-subject-card button:active {
+  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.28) !important;
+  transform: translateY(0);
+}
+
+/* Per-subject accent variants (light mode) */
+[data-theme='light'] .coach-subject-card.subject-science button {
+  background: linear-gradient(135deg, #f87171, #dc2626) !important;
+  border-color: rgba(248, 113, 113, 0.55) !important;
+}
+[data-theme='light'] .coach-subject-card.subject-rla button {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+  border-color: rgba(139, 92, 246, 0.55) !important;
+}
+[data-theme='light'] .coach-subject-card.subject-math button {
+  background: linear-gradient(135deg, #0ea5e9, #0369a1) !important;
+  border-color: rgba(14, 165, 233, 0.55) !important;
+}
+[data-theme='light'] .coach-subject-card.subject-social button {
+  background: linear-gradient(135deg, #22c55e, #15803d) !important;
+  border-color: rgba(34, 197, 94, 0.55) !important;
+}
+
+/* Dark mode strong buttons with subtle elevation */
+[data-theme='dark'] .coach-subject-card button {
+  background: linear-gradient(135deg, #1e293b, #0f172a) !important;
+  color: #f8fafc !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+  transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+[data-theme='dark'] .coach-subject-card button:hover {
+  background: linear-gradient(135deg, #334155, #1e293b) !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7) !important;
+  transform: translateY(-1px);
+}
+[data-theme='dark'] .coach-subject-card button:active {
+  background: linear-gradient(135deg, #1e293b, #0f172a) !important;
+  transform: translateY(0);
+}
+
+/* Dark per-subject accent rims (border only) */
+[data-theme='dark'] .coach-subject-card.subject-science button {
+  border-color: rgba(248, 113, 113, 0.55) !important;
+}
+[data-theme='dark'] .coach-subject-card.subject-rla button {
+  border-color: rgba(139, 92, 246, 0.55) !important;
+}
+[data-theme='dark'] .coach-subject-card.subject-math button {
+  border-color: rgba(14, 165, 233, 0.55) !important;
+}
+[data-theme='dark'] .coach-subject-card.subject-social button {
+  border-color: rgba(34, 197, 94, 0.55) !important;
+}
+
 /* Settings: force all text to white in DARK mode */
 [data-theme="dark"] #settingsView,
 
