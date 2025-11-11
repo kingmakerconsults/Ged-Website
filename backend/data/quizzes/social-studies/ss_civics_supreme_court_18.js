@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "History textbook excerpt: This case established the Supreme Court's power to declare laws unconstitutional."
+    "passage": "History textbook excerpt: This case established the Supreme Court's power to declare laws unconstitutional.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "This was the issue in Tinker v. Des Moines.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "Voting rights are protected by other amendments and laws.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "This is a Fourth Amendment right.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "The case established that student speech is protected.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "It did the opposite; it legalized it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -196,6 +214,9 @@ module.exports = [
         "rationale": "The power to regulate interstate commerce belongs to Congress.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -226,7 +247,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Summary of the Dred Scott v. Sandford decision."
+    "source": "Summary of the Dred Scott v. Sandford decision.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 9,
@@ -254,6 +278,9 @@ module.exports = [
         "rationale": "This has been the subject of several cases, such as Gregg v. Georgia.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -282,6 +309,9 @@ module.exports = [
         "rationale": "This case dealt with student speech in schools.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -310,6 +340,9 @@ module.exports = [
         "rationale": "This was addressed in United States v. Nixon.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -338,6 +371,9 @@ module.exports = [
         "rationale": "The ruling forced the President to comply with a subpoena.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

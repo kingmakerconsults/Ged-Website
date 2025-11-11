@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is another feature, but the enrollment number is the best evidence of its popularity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is a result of the harsh climate, not the evidence that describes the climate itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This is a general statement. The 35% decrease is the specific, quantifiable evidence of that participation's effect.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "This is a reason for their accessibility, not the evidence of their widespread adoption.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "Correct. This is a specific, serious health outcome from a scientific study that directly supports the argument that the effects of sugar are far more dangerous than simply being 'empty.'",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "This is strong supporting evidence, but the fact that the farms themselves were losing money is even more direct proof of financial precarity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "This states the location, not the evidence of its impact.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "This is another one of the benefits, but the survey provides a more comprehensive measure of its positive impact.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "This is the author's main claim, not the evidence used to support it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "This is a detail about the final party, not the overall success.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "This is the timing of the study, not its findings.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -346,6 +379,9 @@ module.exports = [
         "rationale": "This is an inference based on the evidence, not the evidence itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   }
 ];

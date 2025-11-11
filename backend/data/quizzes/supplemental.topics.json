@@ -4046,5 +4046,2063 @@
       },
       "file": "backend/data/quizzes/science/sci_life_science_natural_selection_22.js"
     }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Science Topics",
+    "topic": {
+      "id": "sci_physics_motion",
+      "title": "Physics in Motion",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_physics_motion.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Science Topics",
+    "topic": {
+      "id": "sci_earth_space",
+      "title": "Earth & Space Systems",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/sci_earth_space.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Math Concepts",
+    "topic": {
+      "id": "math_quant_basics",
+      "title": "Whole Numbers, Fractions & Decimals",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 21
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_quant_basics.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Math Concepts",
+    "topic": {
+      "id": "math_quant_ratios_percents",
+      "title": "Ratios, Proportions & Percents",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 18
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_quant_ratios_percents.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Math Concepts",
+    "topic": {
+      "id": "math_quant_stats_probability",
+      "title": "Statistics & Probability",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 24
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_quant_stats_probability.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Math Concepts",
+    "topic": {
+      "id": "math_alg_expressions",
+      "title": "Expressions & Polynomials",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_alg_expressions.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Math Concepts",
+    "topic": {
+      "id": "math_alg_equations_inequalities",
+      "title": "Equations & Inequalities",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_alg_equations_inequalities.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Math Concepts",
+    "topic": {
+      "id": "math_alg_graphing_functions",
+      "title": "Graphing & Functions",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_alg_graphing_functions.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Math Concepts",
+    "topic": {
+      "id": "math_geom_basics",
+      "title": "Geometry Basics",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_geom_basics.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_foundations_quiz1",
+      "title": "Foundations: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_foundations_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_foundations_quiz2",
+      "title": "Foundations: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_foundations_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_foundations_quiz3",
+      "title": "Foundations: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_foundations_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_revolution",
+      "title": "The American Revolution (1763-1783)",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_revolution.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_revolution_quiz1",
+      "title": "The American Revolution: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_revolution_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_revolution_quiz2",
+      "title": "The American Revolution: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_revolution_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_revolution_quiz3",
+      "title": "The American Revolution: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_revolution_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_new_nation",
+      "title": "Westward Expansion",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_new_nation.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_westward_expansion_quiz1",
+      "title": "Westward Expansion: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_westward_expansion_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_westward_expansion_quiz2",
+      "title": "Westward Expansion: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_westward_expansion_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_westward_expansion_quiz3",
+      "title": "Westward Expansion: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_westward_expansion_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_new_nation_quiz1",
+      "title": "A New Nation: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_new_nation_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_new_nation_quiz2",
+      "title": "A New Nation: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_new_nation_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_new_nation_quiz3",
+      "title": "A New Nation: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_new_nation_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_divided_nation",
+      "title": "A Nation Divided (1824-1877)",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_divided_nation.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_industrial_america",
+      "title": "Industrial America (1877-1914)",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_industrial_america.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_industrial_america_quiz1",
+      "title": "Industrial America: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_industrial_america_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_industrial_america_quiz2",
+      "title": "Industrial America: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_industrial_america_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_industrial_america_quiz3",
+      "title": "Industrial America: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_industrial_america_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_global_conflicts",
+      "title": "Global Conflicts (1914-1945)",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_global_conflicts.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_global_conflicts_quiz1",
+      "title": "Global Conflicts: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_global_conflicts_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_global_conflicts_quiz2",
+      "title": "Global Conflicts: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_global_conflicts_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_global_conflicts_quiz3",
+      "title": "Global Conflicts: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_global_conflicts_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_cold_war",
+      "title": "The Cold War Era (1945-1991)",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_cold_war.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_cold_war_quiz1",
+      "title": "The Cold War: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_cold_war_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_cold_war_quiz2",
+      "title": "The Cold War: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_cold_war_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_cold_war_quiz3",
+      "title": "The Cold War: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_cold_war_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_contemporary_america",
+      "title": "Contemporary America (1991-Present)",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_contemporary_america.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_contemporary_america_quiz1",
+      "title": "Contemporary America: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_contemporary_america_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_contemporary_america_quiz2",
+      "title": "Contemporary America: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_contemporary_america_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_us_hist_contemporary_america_quiz3",
+      "title": "Contemporary America: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_contemporary_america_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_constitution",
+      "title": "The Constitution",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_constitution.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_constitution_quiz1",
+      "title": "The Constitution: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_constitution_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_constitution_quiz2",
+      "title": "The Constitution: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_constitution_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_constitution_quiz3",
+      "title": "The Constitution: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_constitution_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_legislative",
+      "title": "The Legislative Branch",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_legislative.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_legislative_quiz1",
+      "title": "The Legislative Branch: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_legislative_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_legislative_quiz2",
+      "title": "The Legislative Branch: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_legislative_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_legislative_quiz3",
+      "title": "The Legislative Branch: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_legislative_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_executive",
+      "title": "The Executive Branch",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_executive.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_executive_quiz1",
+      "title": "The Executive Branch: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_executive_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_executive_quiz2",
+      "title": "The Executive Branch: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_executive_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_executive_quiz3",
+      "title": "The Executive Branch: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_executive_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_judicial",
+      "title": "The Judicial Branch",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_judicial.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_judicial_quiz1",
+      "title": "The Judicial Branch: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_judicial_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_judicial_quiz2",
+      "title": "The Judicial Branch: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_judicial_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_judicial_quiz3",
+      "title": "The Judicial Branch: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_judicial_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_federalism_elections",
+      "title": "Federalism & Elections",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_federalism_elections.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_federalism_elections_quiz1",
+      "title": "Federalism & Elections: Quiz 1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_federalism_elections_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_federalism_elections_quiz2",
+      "title": "Federalism & Elections: Quiz 2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_federalism_elections_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_civics_federalism_elections_quiz3",
+      "title": "Federalism & Elections: Quiz 3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_civics_federalism_elections_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_econ_foundations",
+      "title": "Foundational Concepts",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_econ_foundations.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_econ_us_economy",
+      "title": "The U.S. Economy",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_econ_us_economy.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Social Studies Topics",
+    "topic": {
+      "id": "ss_geo_map_skills",
+      "title": "Map & Data Skills",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_geo_map_skills.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_info_main_idea_set1",
+      "title": "rla_info_main_idea_set1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_info_main_idea_set1.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_informational_texts_informational_texts_quiz2",
+      "title": "rla_informational_texts_informational_texts_quiz2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_informational_texts_informational_texts_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_informational_texts_informational_texts_quiz3",
+      "title": "rla_informational_texts_informational_texts_quiz3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_informational_texts_informational_texts_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_info_structure_purpose",
+      "title": "Structure & Purpose",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_info_structure_purpose.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_informational_texts_structure_purpose_quiz1",
+      "title": "rla_informational_texts_structure_purpose_quiz1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_informational_texts_structure_purpose_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_informational_texts_structure_purpose_quiz2",
+      "title": "rla_informational_texts_structure_purpose_quiz2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_informational_texts_structure_purpose_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_informational_texts_structure_purpose_quiz3",
+      "title": "rla_informational_texts_structure_purpose_quiz3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_informational_texts_structure_purpose_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_info_pov",
+      "title": "Point of View & Purpose",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_info_pov.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_info_arguments",
+      "title": "Analyzing Arguments",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_info_arguments.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_info_graphics",
+      "title": "Interpreting Graphics",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_info_graphics.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lit_plot_character",
+      "title": "Plot & Character",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lit_plot_character.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lit_plot_character_quiz1",
+      "title": "rla_lit_plot_character_quiz1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lit_plot_character_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lit_plot_character_quiz2",
+      "title": "rla_lit_plot_character_quiz2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lit_plot_character_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lit_plot_character_quiz3",
+      "title": "rla_lit_plot_character_quiz3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lit_plot_character_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lit_theme_figurative_language",
+      "title": "Poetry & Figurative Language",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lit_theme_figurative_language.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lit_theme_figurative_language_quiz1",
+      "title": "rla_lit_theme_figurative_language_quiz1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lit_theme_figurative_language_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lit_theme_figurative_language_quiz2",
+      "title": "rla_lit_theme_figurative_language_quiz2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lit_theme_figurative_language_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lit_theme_figurative_language_quiz3",
+      "title": "rla_lit_theme_figurative_language_quiz3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lit_theme_figurative_language_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_grammar_conventions",
+      "title": "Standard English Conventions",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_grammar_conventions.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lang_conventions_quiz1",
+      "title": "rla_lang_conventions_quiz1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lang_conventions_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lang_conventions_quiz2",
+      "title": "rla_lang_conventions_quiz2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lang_conventions_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lang_conventions_quiz3",
+      "title": "rla_lang_conventions_quiz3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lang_conventions_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lang_usage_quiz1",
+      "title": "rla_lang_usage_quiz1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lang_usage_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lang_usage_quiz2",
+      "title": "rla_lang_usage_quiz2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lang_usage_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_lang_usage_quiz3",
+      "title": "rla_lang_usage_quiz3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_lang_usage_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_extended_response",
+      "title": "Extended Response",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_extended_response.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_extended_response_quiz1",
+      "title": "rla_extended_response_quiz1",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_extended_response_quiz1.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_extended_response_quiz2",
+      "title": "rla_extended_response_quiz2",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_extended_response_quiz2.js"
+    }
+  },
+  {
+    "subjectKey": "Reasoning Through Language Arts (RLA)",
+    "subjectFolder": "rla",
+    "categoryName": "RLA Topics",
+    "topic": {
+      "id": "rla_extended_response_quiz3",
+      "title": "rla_extended_response_quiz3",
+      "description": "",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 0
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_extended_response_quiz3.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Quantitative Problem Solving",
+    "topic": {
+      "id": "math_quant_numbers",
+      "title": "Number Sense & Operations",
+      "description": "Fractions, decimals, percentages, and ratios.",
+      "config": {
+        "totalTime": 900,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [{ "name": "Quiz", "questionCount": 12 }]
+      },
+      "file": "backend/data/quizzes/math/math_quant_numbers.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "U.S. History",
+    "topic": {
+      "id": "ss_us_hist_foundations",
+      "title": "Foundations (1491-1763)",
+      "description": "Exploration, Colonial Regions, Mercantilism, French & Indian War.",
+      "config": {
+        "totalTime": 900,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [{ "name": "Quiz", "questionCount": 12 }]
+      },
+      "file": "backend/data/quizzes/social-studies/ss_us_hist_foundations.js"
+    }
   }
 ]

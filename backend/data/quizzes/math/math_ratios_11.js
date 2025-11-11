@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the ratio of total games to wins."
       }
     ],
-    "rationale": "The total number of games played is 15 (wins) + 5 (losses) = 20. The ratio of wins to total games is 15:20. To simplify, divide both numbers by 5. 15/5 = 3 and 20/5 = 4. The simplified ratio is 3:4."
+    "rationale": "The total number of games played is 15 (wins) + 5 (losses) = 20. The ratio of wins to total games is 15:20. To simplify, divide both numbers by 5. 15/5 = 3 and 20/5 = 4. The simplified ratio is 3:4.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "You get 18 questions right on a 20-question test. What is your score as a percentage?",
     "correctAnswer": "90%",
-    "rationale": "To find the percentage, divide the number of correct questions by the total number of questions and multiply by 100: (18 / 20) * 100 = 0.90 * 100 = 90%."
+    "rationale": "To find the percentage, divide the number of correct questions by the total number of questions and multiply by 100: (18 / 20) * 100 = 0.90 * 100 = 90%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the number of defective items."
       }
     ],
-    "rationale": "To find the percentage, divide the number of defective items by the total number of items and multiply by 100: (90 / 3000) * 100 = 0.03 * 100 = 3%."
+    "rationale": "To find the percentage, divide the number of defective items by the total number of items and multiply by 100: (90 / 3000) * 100 = 0.03 * 100 = 3%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A map has a scale of 1 inch to 50 miles. How many inches on the map represent 200 miles?",
     "correctAnswer": "4 inches",
-    "rationale": "To find the map distance, divide the actual distance by the scale factor: 200 miles / 50 miles/inch = 4 inches."
+    "rationale": "To find the map distance, divide the actual distance by the scale factor: 200 miles / 50 miles/inch = 4 inches.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The amount of taxes and fees is $54 - $50 = $4. To find the percentage, divide this amount by the original bill and multiply by 100: ($4 / $50) * 100 = 0.08 * 100 = 8%."
+    "rationale": "The amount of taxes and fees is $54 - $50 = $4. To find the percentage, divide this amount by the original bill and multiply by 100: ($4 / $50) * 100 = 0.08 * 100 = 8%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is 5/2.2."
       }
     ],
-    "rationale": "To convert kilograms to pounds, multiply the number of kilograms by the conversion factor: 5 kg * 2.2 lbs/kg = 11 pounds."
+    "rationale": "To convert kilograms to pounds, multiply the number of kilograms by the conversion factor: 5 kg * 2.2 lbs/kg = 11 pounds.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "The ratio of fiction to non-fiction books in a library is 4:3. If there are 1200 fiction books, how many non-fiction books are there?",
     "correctAnswer": "900",
-    "rationale": "Set up the proportion 4/3 = 1200/x. 4x = 3600. x = 900."
+    "rationale": "Set up the proportion 4/3 = 1200/x. 4x = 3600. x = 900.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is tea to total."
       }
     ],
-    "rationale": "The ratio of coffee drinkers to tea drinkers is 20 to 30. To simplify, divide both numbers by their greatest common divisor, 10. The simplified ratio is 2:3."
+    "rationale": "The ratio of coffee drinkers to tea drinkers is 20 to 30. To simplify, divide both numbers by their greatest common divisor, 10. The simplified ratio is 2:3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Solve the proportion: $\\frac{7}{3} = \\frac{x}{9}$.",
     "correctAnswer": "21",
-    "rationale": "To get from 3 to 9, you multiply by 3. So, multiply the numerator by 3: 7 * 3 = 21."
+    "rationale": "To get from 3 to 9, you multiply by 3. So, multiply the numerator by 3: 7 * 3 = 21.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To find the time, divide the distance by the speed: Time = 330 miles / 55 mph = 6 hours."
+    "rationale": "To find the time, divide the distance by the speed: Time = 330 miles / 55 mph = 6 hours.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is the sum of the angles."
       }
     ],
-    "rationale": "The angles of a triangle sum to 180°. The ratio 1:2:3 has a total of 1+2+3=6 parts. The value of one part is 180° / 6 = 30°. The largest angle is 3 parts, so 3 * 30° = 90°."
+    "rationale": "The angles of a triangle sum to 180°. The ratio 1:2:3 has a total of 1+2+3=6 parts. The value of one part is 180° / 6 = 30°. The largest angle is 3 parts, so 3 * 30° = 90°.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is for 8 servings."
       }
     ],
-    "rationale": "First, find the amount of milk per serving: 1.5 cups / 4 servings = 0.375 cups/serving. Then, multiply by the desired number of servings: 0.375 * 6 = 2.25 cups."
+    "rationale": "First, find the amount of milk per serving: 1.5 cups / 4 servings = 0.375 cups/serving. Then, multiply by the desired number of servings: 0.375 * 6 = 2.25 cups.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

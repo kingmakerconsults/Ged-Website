@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "The description 'thin and official-looking' and his reaction make this unlikely.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "It criticizes old vacuums, but only as a tactic to sell the new one.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "The tone is foreboding, not sentimental.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "The passage conveys frustration, not happiness, with the new manager's style.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "The focus is on installation and safety, not on the product's features.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "The tone is one of unity and pride, not anger.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "The critical tone and skepticism suggest the author does not fully support the senator.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "While her system is complex, we cannot infer her profession. She could simply be a dedicated amateur.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "The author's focus is on arguing against this specific proposal, not on providing a general history.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "We know David is struggling, but we can't infer that he isn't enjoying it. We know even less about Maria's enjoyment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "There is no hint of embarrassment in the narrator's description.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -346,6 +379,9 @@ module.exports = [
         "rationale": "There is no evidence in the passage to support this inference.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   }
 ];

@@ -7,7 +7,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Solve for y: $y - 15 = 2$.",
     "correctAnswer": "17",
-    "rationale": "Add 15 to both sides of the equation: 2 + 15 = 17."
+    "rationale": "Add 15 to both sides of the equation: 2 + 15 = 17.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute 16 for a in the expression: 16/4 + 1 = 4 + 1 = 5."
+    "rationale": "Substitute 16 for a in the expression: 16/4 + 1 = 4 + 1 = 5.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is (14)/2."
       }
     ],
-    "rationale": "First, subtract 10 from both sides: -2x = 4 - 10, so -2x = -6. Then, divide by -2: x = -6 / -2 = 3."
+    "rationale": "First, subtract 10 from both sides: -2x = 4 - 10, so -2x = -6. Then, divide by -2: x = -6 / -2 = 3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the slope of a line passing through (-1, 5) and (3, 5)?",
     "correctAnswer": "0",
-    "rationale": "The y-coordinates are the same, so this is a horizontal line. The slope of a horizontal line is 0."
+    "rationale": "The y-coordinates are the same, so this is a horizontal line. The slope of a horizontal line is 0.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is '10 less than twice a number'."
       }
     ],
-    "rationale": "Let 'n' be the number. 'The quotient of a number and 2' is n/2. '10 less than' this expression means you subtract 10 from it, resulting in n/2 - 10."
+    "rationale": "Let 'n' be the number. 'The quotient of a number and 2' is n/2. '10 less than' this expression means you subtract 10 from it, resulting in n/2 - 10.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is 2x."
       }
     ],
-    "rationale": "First, distribute on both sides: 6x - 2 = 4x + 12. Subtract 4x from both sides: 2x - 2 = 12. Add 2 to both sides: 2x = 14. Divide by 2: x = 7."
+    "rationale": "First, distribute on both sides: 6x - 2 = 4x + 12. Subtract 4x from both sides: 2x - 2 = 12. Add 2 to both sides: 2x = 14. Divide by 2: x = 7.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Factor: $4x^2 - 25$.",
     "correctAnswer": "(2x - 5)(2x + 5)",
-    "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=2x and b=5."
+    "rationale": "This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=2x and b=5.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is another solution, but -3 is the first listed option that works."
       }
     ],
-    "rationale": "First, solve the inequality. Subtract 5: -3x > 6. Divide by -3 and reverse the inequality sign: x < -2. Of the choices given, only -3 is less than -2."
+    "rationale": "First, solve the inequality. Subtract 5: -3x > 6. Divide by -3 and reverse the inequality sign: x < -2. Of the choices given, only -3 is less than -2.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If $f(x) = (x-4)^2 + 3$, find $f(1)$.",
     "correctAnswer": "12",
-    "rationale": "f(1) = (1-4)² + 3 = (-3)² + 3 = 9 + 3 = 12."
+    "rationale": "f(1) = (1-4)² + 3 = (-3)² + 3 = 9 + 3 = 12.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the length."
       }
     ],
-    "rationale": "Let W be the width and L be the length. L = 2W + 3. The perimeter is P = 2(L + W). 30 = 2((2W + 3) + W). 30 = 2(3W + 3). 30 = 6W + 6. 24 = 6W. W = 4."
+    "rationale": "Let W be the width and L be the length. L = 2W + 3. The perimeter is P = 2(L + W). 30 = 2((2W + 3) + W). 30 = 2(3W + 3). 30 = 6W + 6. 24 = 6W. W = 4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "There are two solutions."
       }
     ],
-    "rationale": "To solve, factor out the common term x: x(x + 5) = 0. For the product to be zero, one of the factors must be zero. So, either x = 0 or x + 5 = 0, which means x = -5."
+    "rationale": "To solve, factor out the common term x: x(x + 5) = 0. For the product to be zero, one of the factors must be zero. So, either x = 0 or x + 5 = 0, which means x = -5.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This reverses the base and exponent."
       }
     ],
-    "rationale": "Exponents are used to denote repeated multiplication. Since 'y' is multiplied by itself 4 times, it can be written as y⁴."
+    "rationale": "Exponents are used to denote repeated multiplication. Since 'y' is multiplied by itself 4 times, it can be written as y⁴.",
+    "challenge_tags": [
+      "math-3"
+    ]
   }
 ];

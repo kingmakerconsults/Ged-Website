@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "'Good' is an adjective. The correct adverb to modify 'did' is 'well'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "The verb 'was' correctly agrees with the closer subject, 'coach'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "This is also wordy and uses a passive-like structure.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "'Lighter' (not 'more light') is the standard comparative form.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "'Isn't no' is a double negative; use 'is any'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "Not ideal; 'include' plus 'the following' can take a colon, but the repeated 'that' clauses are clunky and not parallel to the prompt's intent.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "Still ungrammatical ('they badge').",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "The comma is misplaced after 'Before'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "Strike punctuation at the end is incorrect; dash placement is wrong.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "Comma splice and awkward repetition.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "Though common in modern usage, this is long and introduces potential number mismatch; the more formal test-prep choice uses 'he or she'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -334,7 +367,9 @@ module.exports = [
         "rationale": "Comma is unnecessary and placement is awkward; the modifier still distracts.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   }
-]
-;
+];

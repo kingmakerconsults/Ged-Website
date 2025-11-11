@@ -27,7 +27,11 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: An ecosystem includes the community (biotic, or living, factors) and the physical environment (abiotic, or nonliving, factors)."
+    "passage": "Science textbook excerpt: An ecosystem includes the community (biotic, or living, factors) and the physical environment (abiotic, or nonliving, factors).",
+    "challenge_tags": [
+      "science-3",
+      "science-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +59,10 @@ module.exports = [
         "rationale": "Herbivores are a type of consumer that eats plants.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -83,6 +91,10 @@ module.exports = [
         "rationale": "The oak tree is a producer.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -111,6 +123,10 @@ module.exports = [
         "rationale": "While abiotic factors can be limiting factors, this is the more general term.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -139,6 +155,10 @@ module.exports = [
         "rationale": "While it involves energy flow, the key concept illustrated is the disruption of the food web.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -167,6 +187,10 @@ module.exports = [
         "rationale": "Wolves are carnivores, not herbivores.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -195,6 +219,10 @@ module.exports = [
         "rationale": "Consumption is the act of eating other organisms.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -223,6 +251,10 @@ module.exports = [
         "rationale": "In predation, one species (the predator) hunts and kills the other (the prey).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -251,6 +283,10 @@ module.exports = [
         "rationale": "Correct. About 90% of the energy is lost as heat or used for metabolic processes at each level, so only about 10% is available to the next level.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -279,6 +315,10 @@ module.exports = [
         "rationale": "A trophic level is the position an organism occupies in a food chain.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -307,6 +347,10 @@ module.exports = [
         "rationale": "The carbon cycle involves the surface, atmosphere, and oceans.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   },
   {
@@ -335,6 +379,10 @@ module.exports = [
         "rationale": "These organisms occupy different trophic levels and do not compete for the same resources.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3",
+      "science-4"
     ]
   }
 ];

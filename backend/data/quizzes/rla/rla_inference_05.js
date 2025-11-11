@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "Her tone is described as 'flat and even,' and she doesn't look up, which is the opposite of chatty.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "The focus is on safety and side effects, not chemical makeup.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "The tone is calm and observant, not angry.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "While possible, the more direct inference is that there is a contradiction, not that the spokesman is ignorant.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "The author expresses a strong, positive opinion, not indifference.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "The author's critical framing suggests a disagreement with how the CEO is using this idea to excuse his failure.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "This is a description of a system, not a narrative.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "His reaction of pausing to 'take it all in' suggests it was a genuine surprise.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "The author is not confused they are making a clear, critical point.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "Power outages aren't mentioned; the passage focuses on wildfire smoke.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "Allowing 30 minutes for travel and parking suggests it's not a five-minute walk.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -346,7 +379,9 @@ module.exports = [
         "rationale": "Staffing is allocated 15 minutes on the agenda.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   }
-]
-;
+];

@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the maximum value."
       }
     ],
-    "rationale": "To find the mean, add the numbers together (2+4+6+8+10 = 30) and divide by the number of values (5). 30 / 5 = 6."
+    "rationale": "To find the mean, add the numbers together (2+4+6+8+10 = 30) and divide by the number of values (5). 30 / 5 = 6.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the mode of the data set: cat, dog, dog, fish, cat, dog?",
     "correctAnswer": "dog",
-    "rationale": "The mode is the value that appears most frequently. 'Dog' appears 3 times, more than any other animal."
+    "rationale": "The mode is the value that appears most frequently. 'Dog' appears 3 times, more than any other animal.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the mean."
       }
     ],
-    "rationale": "First, order the numbers: 11, 11, 11, 22, 33, 44. Since there is an even number of values, the median is the average of the two middle numbers (11 and 22). (11 + 22) / 2 = 16.5."
+    "rationale": "First, order the numbers: 11, 11, 11, 22, 33, 44. Since there is an even number of values, the median is the average of the two middle numbers (11 and 22). (11 + 22) / 2 = 16.5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A spinner has 10 equal sections, numbered 1 to 10. What is the probability of spinning a prime number?",
     "correctAnswer": "2/5",
-    "rationale": "The prime numbers between 1 and 10 are 2, 3, 5, and 7. There are 4 prime numbers out of 10 total. The probability is 4/10, which simplifies to 2/5."
+    "rationale": "The prime numbers between 1 and 10 are 2, 3, 5, and 7. There are 4 prime numbers out of 10 total. The probability is 4/10, which simplifies to 2/5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the mean and median."
       }
     ],
-    "rationale": "The range is the difference between the highest and lowest values in the dataset. The highest value is 70 and the lowest is 30. Range = 70 - 30 = 40."
+    "rationale": "The range is the difference between the highest and lowest values in the dataset. The highest value is 70 and the lowest is 30. Range = 70 - 30 = 40.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This would result in a mean of 92.5."
       }
     ],
-    "rationale": "To have an average of 90 on 4 tests, the total score must be 4 * 90 = 360. The sum of the first three scores is 85 + 90 + 95 = 270. The fourth score must be 360 - 270 = 90."
+    "rationale": "To have an average of 90 on 4 tests, the total score must be 4 * 90 = 360. The sum of the first three scores is 85 + 90 + 95 = 270. The fourth score must be 360 - 270 = 90.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A restaurant offers 5 main courses and 4 desserts. How many different two-course meals (main + dessert) are possible?",
     "correctAnswer": "20",
-    "rationale": "To find the total number of combinations, multiply the number of choices for each course: 5 main courses * 4 desserts = 20."
+    "rationale": "To find the total number of combinations, multiply the number of choices for each course: 5 main courses * 4 desserts = 20.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "On a standard six-sided die, the multiples of 3 are 3 and 6. This means there are 2 favorable outcomes out of 6 possible outcomes. The probability is 2/6, which simplifies to 1/3."
+    "rationale": "On a standard six-sided die, the multiples of 3 are 3 and 6. This means there are 2 favorable outcomes out of 6 possible outcomes. The probability is 2/6, which simplifies to 1/3.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "The probability of winning a game is 0.4. If you play the game 50 times, how many times would you expect to win?",
     "correctAnswer": "20",
-    "rationale": "The expected number of wins is the probability of winning multiplied by the number of times you play: 0.4 * 50 = 20."
+    "rationale": "The expected number of wins is the probability of winning multiplied by the number of times you play: 0.4 * 50 = 20.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This would represent 100%."
       }
     ],
-    "rationale": "A pie chart represents a whole (100%). A sector representing 25% of the data would take up 25% of the circle's area, which is a quarter of the circle."
+    "rationale": "A pie chart represents a whole (100%). A sector representing 25% of the data would take up 25% of the circle's area, which is a quarter of the circle.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is $7^2$."
       }
     ],
-    "rationale": "This is a permutation because the order of selection matters (president is different from vice-president). There are 7 choices for president. Once the president is chosen, there are 6 people left to be vice-president. The total number of ways is 7 * 6 = 42."
+    "rationale": "This is a permutation because the order of selection matters (president is different from vice-president). There are 7 choices for president. Once the president is chosen, there are 6 people left to be vice-president. The total number of ways is 7 * 6 = 42.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This represents certainty."
       }
     ],
-    "rationale": "The sum of the probability of an event happening and the probability of it not happening is 1. So, the probability of the event not happening is 1 - 3/8 = 5/8."
+    "rationale": "The sum of the probability of an event happening and the probability of it not happening is 1. So, the probability of the event not happening is 1 - 3/8 = 5/8.",
+    "challenge_tags": [
+      "math-6"
+    ]
   }
 ];

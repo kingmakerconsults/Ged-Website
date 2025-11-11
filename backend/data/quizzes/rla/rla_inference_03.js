@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "It is focused on the door, not a toy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "The focus is on the app, not on the general benefits of walking.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "While quiet, the tone is positive and appreciative, not sad.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "While likely true, the strongest inference is about the CEO's conflicting statements.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "The passage focuses on the moral need for a solution, not a detailed economic analysis.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "The tone is more melancholic and reflective than angry.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "The author understands exactly what the press release is doing and is criticizing it, not confused by it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "The focus on small, single moments suggests her poems were likely short and lyrical, not long narratives.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "The atmosphere is one of concentration, not celebration.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "The focus is on the emotional aftermath of the game, not on future logistics.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "The author does not express sympathy for the king, but rather for the people.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -346,6 +379,9 @@ module.exports = [
         "rationale": "The author's criticism is focused on the loss of the library, not on multi-use complexes in general.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   }
 ];

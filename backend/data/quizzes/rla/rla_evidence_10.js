@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is the time frame, not the evidence itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is another detail of the program's implementation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,35 +91,15 @@ module.exports = [
         "rationale": "Correct. This is a specific finding from a well-known study that directly contradicts the 'talent over practice' argument by showing a universal correlation between extensive practice and expertise.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "medium",
-<<<<<<< HEAD
-    "passage": "A neighborhood association argues that converting a four-lane street into a 'road diet' with two lanes plus a center turn lane improved safety. Speed studies show that the share of drivers exceeding 35 mph fell from 38% to 17%, and police reports indicate a 24% reduction in rear-end and left-turn crashes in the year after the change.",
-    "question": "Which evidence best supports the claim that safety improved?",
-    "answerOptions": [
-      {
-        "text": "The street was converted to a 'road diet.'",
-        "rationale": "This describes the intervention, not the result.",
-        "isCorrect": false
-      },
-      {
-        "text": "The share of drivers exceeding 35 mph fell from 38% to 17% after the change.",
-        "rationale": "This supports improved safety by reducing speeding, but crash reduction data is more direct.",
-        "isCorrect": false
-      },
-      {
-        "text": "Rear-end and left-turn crashes declined by 24% in the following year.",
-        "rationale": "Correct. A measured reduction in crashes directly supports improved safety.",
-        "isCorrect": true
-      },
-      {
-        "text": "Police reports were reviewed for the analysis.",
-        "rationale": "This is a method detail, not the evidence of improvement.",
-=======
     "passage": "A city grant report claims that the Lakeside Youth Apprenticeship led more graduates into skilled trades. The report compares last year's cohort, where 64% secured full-time trade jobs within six months, to the previous class's 34%. It also highlights that participants completed 120 hours of paid training and that the program hosted a career fair with ten employers.",
     "question": "Which detail best supports the report's claim?",
     "answerOptions": [
@@ -135,38 +121,17 @@ module.exports = [
       {
         "text": "Apprentices learned to operate advanced welding equipment.",
         "rationale": "The passage does not mention equipment training; even if it did, that would be a program feature rather than evidence of job placement.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "easy",
-<<<<<<< HEAD
-    "passage": "A school claims its new after-school fitness club improved students’ endurance. In the spring mile run, participants cut their average time from 10:42 to 9:58, while non-participants’ average time remained about the same.",
-    "question": "Which statement best supports the school's claim?",
-    "answerOptions": [
-      {
-        "text": "The club meets after school.",
-        "rationale": "This describes when it meets, not the effect on endurance.",
-        "isCorrect": false
-      },
-      {
-        "text": "Participants reduced their average mile time from 10:42 to 9:58; non-participants' average was unchanged.",
-        "rationale": "Correct. Faster mile times among participants directly support improved endurance.",
-        "isCorrect": true
-      },
-      {
-        "text": "The run took place in the spring.",
-        "rationale": "This is a timing detail, not evidence of improvement.",
-        "isCorrect": false
-      },
-      {
-        "text": "Students signed up for a fitness club.",
-        "rationale": "This is the program, not the outcome.",
-=======
     "passage": "The community newsletter says the downtown night market is becoming more popular. Organizers counted 2,400 visitors during the August market compared with 1,300 last summer. The article also mentions that seven new food trucks joined and that a local band played on the main stage.",
     "question": "Which fact best supports the claim that the night market is growing?",
     "answerOptions": [
@@ -188,38 +153,17 @@ module.exports = [
       {
         "text": "The market takes place on Friday nights.",
         "rationale": "The schedule does not show whether more people attended.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-<<<<<<< HEAD
-    "passage": "A city claims that planting 2,000 additional street trees reduced summer temperatures in dense neighborhoods. Sensors showed average afternoon sidewalk temperatures were 1.6°F lower in the three weeks after full leaf-out compared to the same period last year on similar-weather days.",
-    "question": "Which detail best supports the city's claim?",
-    "answerOptions": [
-      {
-        "text": "The city planted 2,000 additional street trees.",
-        "rationale": "This is the action taken, not the temperature outcome.",
-        "isCorrect": false
-      },
-      {
-        "text": "Average afternoon sidewalk temperatures were 1.6°F lower after full leaf-out compared to last year on similar-weather days.",
-        "rationale": "Correct. The measured temperature reduction directly supports the claim.",
-        "isCorrect": true
-      },
-      {
-        "text": "Sensors were used to measure temperatures.",
-        "rationale": "This is a method detail, not the evidence of reduction.",
-        "isCorrect": false
-      },
-      {
-        "text": "The neighborhoods are dense.",
-        "rationale": "Contextual detail, not supporting evidence of temperature change.",
-=======
     "passage": "An investigative article argues that a meal delivery company exaggerates its environmental benefits. The reporter references the company's glossy brochure promising a 'zero-waste kitchen,' a university study showing the service produced 35% less packaging waste than grocery shopping for the same meals, and a leaked email revealing that some leftover ingredients are discarded each week.",
     "question": "Which piece of evidence is weakest for the reporter's argument?",
     "answerOptions": [
@@ -241,38 +185,17 @@ module.exports = [
       {
         "text": "Customer testimonials praising the taste of the meals.",
         "rationale": "This detail does not appear in the passage, so it cannot be considered part of the reporter's evidence.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "medium",
-<<<<<<< HEAD
-    "passage": "A consumer group says replacing single-pane windows with insulated units lowers home energy use. In a sample of 120 homes, average winter electricity consumption decreased by 11% in the first full season after installation, compared to usage in the two prior winters.",
-    "question": "Which statement best supports the consumer group's claim?",
-    "answerOptions": [
-      {
-        "text": "A sample of 120 homes was used.",
-        "rationale": "This describes the sample size, not the effect on energy use.",
-        "isCorrect": false
-      },
-      {
-        "text": "Average winter electricity consumption decreased by 11% after installation compared to the prior winters.",
-        "rationale": "Correct. This direct comparison supports the claim of lower energy use.",
-        "isCorrect": true
-      },
-      {
-        "text": "The homes replaced single-pane windows.",
-        "rationale": "This describes the action, not the outcome.",
-        "isCorrect": false
-      },
-      {
-        "text": "The season measured was winter.",
-        "rationale": "A timeframe detail, not the evidence of reduction.",
-=======
     "passage": "A nonprofit leader claims a new literacy bus increased access to books in rural towns. She notes that library card sign-ups in those towns doubled over three months, that the bus held reading circles for 200 children, and that the group posted photos of smiling families on social media.",
     "question": "Which additional information would most strengthen the leader's claim?",
     "answerOptions": [
@@ -294,38 +217,17 @@ module.exports = [
       {
         "text": "A timeline of repairs the bus needed in winter.",
         "rationale": "Maintenance issues are unrelated to proving increased access.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "easy",
-<<<<<<< HEAD
-    "passage": "A food bank says its new online scheduling tool increased donations. In the first quarter after launch, the number of unique donor drop-offs per week rose from an average of 34 to 51.",
-    "question": "Which detail best supports the food bank's claim?",
-    "answerOptions": [
-      {
-        "text": "The tool is an online scheduler for donations.",
-        "rationale": "This describes the tool, not the effect.",
-        "isCorrect": false
-      },
-      {
-        "text": "Unique donor drop-offs per week rose from 34 to 51 after launch.",
-        "rationale": "Correct. The increase in weekly donor visits supports the claim of increased donations.",
-        "isCorrect": true
-      },
-      {
-        "text": "The period measured was one quarter.",
-        "rationale": "This is a timeframe detail, not the supporting evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "Donations are accepted at a warehouse.",
-        "rationale": "This is background, not evidence of change.",
-=======
     "passage": "A school newsletter reports that the fall blood drive surpassed its goal. Students and staff donated 165 pints of blood this year compared with 120 last year. The article also notes that the gym hosted a health fair and that volunteers baked cookies for donors.",
     "question": "Which fact best supports the claim that the blood drive surpassed its goal?",
     "answerOptions": [
@@ -347,38 +249,17 @@ module.exports = [
       {
         "text": "The event took place in the school gym.",
         "rationale": "The location does not demonstrate success.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "hard",
-<<<<<<< HEAD
-    "passage": "A district states that installing filtered water stations reduced lead exposure in schools. Random tap testing at drinking fountains found that the share of samples above the action level dropped from 12% before installation to 1% after, with most high readings eliminated.",
-    "question": "Which evidence best supports the district's statement?",
-    "answerOptions": [
-      {
-        "text": "Random tap testing was conducted at drinking fountains.",
-        "rationale": "This is a method detail, not the outcome.",
-        "isCorrect": false
-      },
-      {
-        "text": "Samples above the action level dropped from 12% to 1% after installation.",
-        "rationale": "Correct. The sharp decline directly supports reduced lead exposure.",
-        "isCorrect": true
-      },
-      {
-        "text": "Filtered water stations were installed.",
-        "rationale": "This is the intervention, not the evidence of its effect.",
-        "isCorrect": false
-      },
-      {
-        "text": "Most high readings were eliminated.",
-        "rationale": "This supports the claim, but the specific drop in percentage is the strongest evidence.",
-=======
     "passage": "During a policy debate, a council member argues that limiting short-term rentals has already improved neighborhood stability. She cites property records showing 38 former rentals converted back to long-term housing, an academic study linking short-term rentals to higher eviction rates, and a tourist blog praising the city's hotel scene.",
     "question": "Which explanation best describes why one piece of evidence is weak?",
     "answerOptions": [
@@ -400,38 +281,17 @@ module.exports = [
       {
         "text": "All evidence is weak if it mentions housing conversions.",
         "rationale": "Housing conversions address the claim, so this statement is inaccurate.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "medium",
-<<<<<<< HEAD
-    "passage": "A workforce program says its resume workshop helped job seekers secure interviews. Program tracking shows that within 30 days, 58% of attendees reported at least one interview, compared to 33% among similar job seekers who did not attend.",
-    "question": "Which statement best supports the program's claim?",
-    "answerOptions": [
-      {
-        "text": "Attendees completed a resume workshop.",
-        "rationale": "This describes the activity, not the outcome.",
-        "isCorrect": false
-      },
-      {
-        "text": "Within 30 days, 58% of attendees reported an interview versus 33% of non-attendees.",
-        "rationale": "Correct. This comparative result directly supports the claim of more interviews.",
-        "isCorrect": true
-      },
-      {
-        "text": "The program tracked outcomes for participants.",
-        "rationale": "This is a method detail, not the evidence of effectiveness.",
-        "isCorrect": false
-      },
-      {
-        "text": "Job seekers were similar between groups.",
-        "rationale": "Helpful context, but the percentages are the direct supporting evidence.",
-=======
     "passage": "The director of a local animal shelter argues that their foster program keeps kennels from becoming overcrowded. She states that 95 foster volunteers cared for 180 animals last quarter, that the shelter avoided purchasing extra kennels, and that adoption wait times fell from 19 days to 11 days.",
     "question": "Which additional detail would best support the director's argument?",
     "answerOptions": [
@@ -453,16 +313,17 @@ module.exports = [
       {
         "text": "A list of veterinary clinics that support the shelter.",
         "rationale": "Clinic partnerships are helpful but not direct evidence that overcrowding declined.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "medium",
-<<<<<<< HEAD
     "passage": "A state parks department says building shaded picnic areas increased summer visitation at smaller parks. Gate counters recorded a 19% increase in average weekend entries from June to August compared to the previous summer, with the biggest gains at parks where shade structures were added.",
     "question": "Which evidence best supports the department's claim?",
     "answerOptions": [
@@ -484,60 +345,17 @@ module.exports = [
       {
         "text": "The period measured was summer months.",
         "rationale": "A timeframe detail, not the evidence of increased visitation.",
-=======
-    "passage": "An environmental coalition responds to critics who say restoring wetlands harms local jobs. The coalition cites state labor data showing employment in the fishing industry rose 6% after restoration began, tourism tax revenue increased by $1.2 million, and bird-watching groups scheduled 40 guided tours in the area.",
-    "question": "Which detail best counters the critics' claim about jobs?",
-    "answerOptions": [
-      {
-        "text": "Fishing industry employment rose 6% after restoration projects started.",
-        "rationale": "Correct. Job growth directly addresses the critics' concern about employment losses.",
-        "isCorrect": true
-      },
-      {
-        "text": "Tourism tax revenue increased by $1.2 million.",
-        "rationale": "Higher revenue is positive but focuses on tourism, not directly on jobs.",
-        "isCorrect": false
-      },
-      {
-        "text": "Bird-watching groups scheduled 40 guided tours.",
-        "rationale": "Tours show interest but do not directly respond to job concerns.",
-        "isCorrect": false
-      },
-      {
-        "text": "The coalition held a press conference near the marsh.",
-        "rationale": "The location of a press conference has no bearing on employment outcomes.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "medium",
-<<<<<<< HEAD
-    "passage": "A public transit agency reports that adding all-door boarding reduced bus dwell times at stops. Time-and-motion studies found average dwell time per stop decreased from 31 seconds to 22 seconds on routes with the change, while passenger loads were similar.",
-    "question": "Which detail best supports the agency's report?",
-    "answerOptions": [
-      {
-        "text": "Passenger loads were similar on measured trips.",
-        "rationale": "This helps control for crowding effects but is not the primary evidence of reduced dwell time.",
-        "isCorrect": false
-      },
-      {
-        "text": "Average dwell time per stop decreased from 31 seconds to 22 seconds on routes with all-door boarding.",
-        "rationale": "Correct. The measured reduction directly supports the claim.",
-        "isCorrect": true
-      },
-      {
-        "text": "The agency conducted time-and-motion studies.",
-        "rationale": "This is a method detail, not the result.",
-        "isCorrect": false
-      },
-      {
-        "text": "All-door boarding was added on certain routes.",
-        "rationale": "This is the intervention, not the evidence of its impact.",
-=======
     "passage": "A budget presentation defends funding for a community solar garden by arguing it saves residents money. The presentation shows average electric bills for participating households dropped from $118 to $92 per month, that the installation cost was covered by federal grants, and that maintenance expenses are projected at $8 per household annually.",
     "question": "Which fact most directly supports the claim that the solar garden saves residents money?",
     "answerOptions": [
@@ -559,10 +377,11 @@ module.exports = [
       {
         "text": "The solar garden uses panels manufactured in-state.",
         "rationale": "The origin of the panels does not address resident savings.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   }
-]
-;
+];

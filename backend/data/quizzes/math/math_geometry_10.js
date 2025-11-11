@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The area of a square is the side length multiplied by itself. Area = 9 m * 9 m = 81 $m^2$."
+    "rationale": "The area of a square is the side length multiplied by itself. Area = 9 m * 9 m = 81 $m^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A circle has a circumference of 31.4 inches. What is its radius? Use 3.14 for $\\pi$.",
     "correctAnswer": "5 inches",
-    "rationale": "C = 2 * pi * r. 31.4 = 2 * 3.14 * r. 31.4 = 6.28 * r. r = 31.4 / 6.28 = 5."
+    "rationale": "C = 2 * pi * r. 31.4 = 2 * 3.14 * r. 31.4 = 6.28 * r. r = 31.4 / 6.28 = 5.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is 300/10."
       }
     ],
-    "rationale": "The volume of a rectangular prism is V = L * W * H. We have 300 = 10 * 5 * H. 300 = 50H. Divide by 50 to find H = 6 feet."
+    "rationale": "The volume of a rectangular prism is V = L * W * H. We have 300 = 10 * 5 * H. 300 = 50H. Divide by 50 to find H = 6 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A triangle has angles of 20° and 80°. What is the third angle?",
     "correctAnswer": "80°",
-    "rationale": "The sum of the angles in a triangle is 180°. 180 - 20 - 80 = 80°."
+    "rationale": "The sum of the angles in a triangle is 180°. 180 - 20 - 80 = 80°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "A right triangle has a right angle."
       }
     ],
-    "rationale": "An isosceles triangle is defined as a triangle with at least two sides of equal length."
+    "rationale": "An isosceles triangle is defined as a triangle with at least two sides of equal length.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, find the distance of one rotation, which is the circumference: C = 2 * pi * r = 2 * 3.14 * 1 foot = 6.28 feet. Then, multiply by the number of rotations: 6.28 feet/rotation * 10 rotations = 62.8 feet."
+    "rationale": "First, find the distance of one rotation, which is the circumference: C = 2 * pi * r = 2 * 3.14 * 1 foot = 6.28 feet. Then, multiply by the number of rotations: 6.28 feet/rotation * 10 rotations = 62.8 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the perimeter of a regular octagon with a side length of 5 cm.",
     "correctAnswer": "40 cm",
-    "rationale": "A regular octagon has 8 equal sides. The perimeter is 8 * 5 cm = 40 cm."
+    "rationale": "A regular octagon has 8 equal sides. The perimeter is 8 * 5 cm = 40 cm.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is the product of the legs."
       }
     ],
-    "rationale": "Using the Pythagorean theorem ($a^2 + b^2 = c^2$), we have $12^2 + 16^2 = c^2$. This becomes $144 + 256 = 400$. So, $c = \\sqrt{400} = 20$."
+    "rationale": "Using the Pythagorean theorem ($a^2 + b^2 = c^2$), we have $12^2 + 16^2 = c^2$. This becomes $144 + 256 = 400$. So, $c = \\sqrt{400} = 20$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A cylindrical tank is 10 feet tall and has a radius of 3 feet. What is its volume? Use 3.14 for $\\pi$.",
     "correctAnswer": "282.6 cubic feet",
-    "rationale": "Volume = pi * r² * h = 3.14 * 3² * 10 = 282.6."
+    "rationale": "Volume = pi * r² * h = 3.14 * 3² * 10 = 282.6.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "A parallelogram has opposite sides equal, but not necessarily all four."
       }
     ],
-    "rationale": "A rhombus is a quadrilateral where all four sides are of equal length. A square is a special type of rhombus."
+    "rationale": "A rhombus is a quadrilateral where all four sides are of equal length. A square is a special type of rhombus.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "They are equal."
       }
     ],
-    "rationale": "A theorem in geometry states that when a transversal intersects two parallel lines, the corresponding angles are congruent (equal)."
+    "rationale": "A theorem in geometry states that when a transversal intersects two parallel lines, the corresponding angles are congruent (equal).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Using the area formula for a trapezoid, A = $\\frac{1}{2}(b_1 + b_2)h$. We have 100 = $\\frac{1}{2}(8 + b_2) \\times 10$. 100 = $5(8 + b_2)$. 20 = $8 + b_2$. So, $b_2 = 12$ units."
+    "rationale": "Using the area formula for a trapezoid, A = $\\frac{1}{2}(b_1 + b_2)h$. We have 100 = $\\frac{1}{2}(8 + b_2) \\times 10$. 100 = $5(8 + b_2)$. 20 = $8 + b_2$. So, $b_2 = 12$ units.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

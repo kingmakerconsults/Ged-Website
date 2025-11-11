@@ -26,6 +26,10 @@ module.exports = [
         "rationale": "Height is a reasonable metric for growth; the problem is insufficient replication.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -54,6 +58,10 @@ module.exports = [
         "rationale": "Focusing on the fastest trial ignores the rest of the data and can be misleading.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -82,6 +90,10 @@ module.exports = [
         "rationale": "Researcher expectations matter, but verifying consistent sampling is the first step in evaluating the trend.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -110,6 +122,10 @@ module.exports = [
         "rationale": "Averaging incorrect values with correct ones introduces additional error.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -138,6 +154,10 @@ module.exports = [
         "rationale": "Health markers are important; the caution addresses drawing conclusions about causation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -166,6 +186,10 @@ module.exports = [
         "rationale": "The publication method is not the issue; sampling bias is the concern.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -194,6 +218,10 @@ module.exports = [
         "rationale": "Content length alone does not explain the higher scores; teaching conditions must be considered.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -222,6 +250,10 @@ module.exports = [
         "rationale": "Speaker brand matters only if the equipment differs between groups; consistent measurements are the priority.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -250,6 +282,10 @@ module.exports = [
         "rationale": "Flavor preference does not determine memory improvement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -278,6 +314,10 @@ module.exports = [
         "rationale": "Storm paths vary; models are essential for anticipating different possibilities.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -306,6 +346,10 @@ module.exports = [
         "rationale": "Exact matches are unrealistic; consistent high effectiveness supports the vaccine's success.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -334,6 +378,10 @@ module.exports = [
         "rationale": "Graphs do not fix an improper analysis; the statistics themselves must be corrected.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   }
 ];

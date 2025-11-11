@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "The theater is openly asking for help, not hiding anything.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "There is no indication of anger, only of determination.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "The lack of clarity left voters feeling unsure, not inspired.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "While it may be powerful, 'intuitive' specifically refers to its ease of use.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "The setting described is relaxed and social, not frightening.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "The lawyer is engaging with the arguments, not dismissing them.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "Correct. The museum increased its staff by adding volunteers.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "The decisions worsened the problems, they did not solve them.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "If readers were emotional, the story was not boring.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "The phrase 'without any genuine emotion' indicates the gesture was not sincere.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "While some old letters might be decorated, the primary meaning here is about providing clarity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   },
   {
@@ -346,6 +379,9 @@ module.exports = [
         "rationale": "Terse is the opposite of detailed it means using very few words.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-7"
     ]
   }
 ];

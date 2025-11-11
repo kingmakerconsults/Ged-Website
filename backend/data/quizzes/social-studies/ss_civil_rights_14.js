@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "History textbook excerpt: Sparked by Rosa Parks's arrest in 1955, the year-long boycott was the first major, successful protest of the modern Civil Rights Movement."
+    "passage": "History textbook excerpt: Sparked by Rosa Parks's arrest in 1955, the year-long boycott was the first major, successful protest of the modern Civil Rights Movement.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "The act was designed to dismantle the 'separate but equal' doctrine.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "This was the focus of the American Indian Movement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -113,7 +122,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. Department of Education."
+    "source": "U.S. Department of Education.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 5,
@@ -141,6 +153,9 @@ module.exports = [
         "rationale": "These were the defeated Axis powers of World War II.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -169,6 +184,9 @@ module.exports = [
         "rationale": "This describes isolationism, which was the opposite of the containment policy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -197,6 +215,9 @@ module.exports = [
         "rationale": "Correct. The uprising against a police raid at the Stonewall Inn is seen as the catalyst for the modern gay rights movement.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -225,6 +246,9 @@ module.exports = [
         "rationale": "The Great Society was a massive expansion of federal power and programs.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -254,6 +278,9 @@ module.exports = [
         "rationale": "He was implicated in the cover-up and resigned.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -282,6 +309,9 @@ module.exports = [
         "rationale": "Reagan's administration took a strong stance against labor unions, most famously during the air traffic controllers' strike.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -310,6 +340,9 @@ module.exports = [
         "rationale": "The ADA prohibits this kind of employment discrimination.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -338,6 +371,9 @@ module.exports = [
         "rationale": "The internet has greatly facilitated and increased global trade.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is the reason for the closure, not the main message of the work-related announcement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This lists some of the threats, but the main idea is the solution: backing up your files.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This is the primary drawback, but the main idea must also include the benefits to be complete.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "The passage states this was its 'primary' purpose but then elaborates on other significant functions, so this statement is incomplete.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "This is the other half of the paradox, but the main idea is about the contradiction between this fact and the statistical probability.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "This is an important clarification, but not the entire main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "No specific decrease is guaranteed, and only two neighborhoods are in the pilot.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "This is a condition, not the main point.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "The passage does not advocate replacement and notes outcomes depend on design choices.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "The passage does not claim critics want a ban; it notes concerns about impact and repayment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "The passage doesn't make an absolute claim; it describes a strategy for improvement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -346,7 +379,9 @@ module.exports = [
         "rationale": "The passage recommends changes to improve sleep; it doesn't claim changes are unnecessary.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   }
-]
-;
+];

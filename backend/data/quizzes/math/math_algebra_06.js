@@ -7,7 +7,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Solve for x: $x - 7 = 11$.",
     "correctAnswer": "18",
-    "rationale": "Add 7 to both sides of the equation: 11 + 7 = 18."
+    "rationale": "Add 7 to both sides of the equation: 11 + 7 = 18.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute 3 for c in the expression: 5(3) + 4 = 15 + 4 = 19."
+    "rationale": "Substitute 3 for c in the expression: 5(3) + 4 = 15 + 4 = 19.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is 6p."
       }
     ],
-    "rationale": "First, subtract 5 from both sides: 6p = 41 - 5, so 6p = 36. Then, divide by 6: p = 36 / 6 = 6."
+    "rationale": "First, subtract 5 from both sides: 6p = 41 - 5, so 6p = 36. Then, divide by 6: p = 36 / 6 = 6.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Simplify the expression: $8(y - 2) - 3y$.",
     "correctAnswer": "5y - 16",
-    "rationale": "First, distribute the 8: 8y - 16 - 3y. Then, combine like terms: (8y - 3y) - 16 = 5y - 16."
+    "rationale": "First, distribute the 8: 8y - 16 - 3y. Then, combine like terms: (8y - 3y) - 16 = 5y - 16.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This line has a different slope."
       }
     ],
-    "rationale": "Parallel lines have the same slope. The given line has a slope of -2, and this option is the only other line with a slope of -2."
+    "rationale": "Parallel lines have the same slope. The given line has a slope of -2, and this option is the only other line with a slope of -2.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This would be for $x^2$."
       }
     ],
-    "rationale": "To factor this trinomial, we look for two binomials that multiply to give the original expression. By trial and error (or other factoring methods), we find that (2x + 1)(x + 3) expands to 2$x^2$ + 7x + 3."
+    "rationale": "To factor this trinomial, we look for two binomials that multiply to give the original expression. By trial and error (or other factoring methods), we find that (2x + 1)(x + 3) expands to 2$x^2$ + 7x + 3.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the slope of a line passing through (5, 2) and (5, 8)?",
     "correctAnswer": "Undefined",
-    "rationale": "The x-coordinates are the same, which means this is a vertical line. The slope of a vertical line is undefined."
+    "rationale": "The x-coordinates are the same, which means this is a vertical line. The slope of a vertical line is undefined.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "An absolute value equation has two cases. Case 1: x - 4 = 9, which gives x = 13. Case 2: x - 4 = -9, which gives x = -5."
+    "rationale": "An absolute value equation has two cases. Case 1: x - 4 = 9, which gives x = 13. Case 2: x - 4 = -9, which gives x = -5.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Given $f(x) = (x+2)^2$, find $f(4)$.",
     "correctAnswer": "36",
-    "rationale": "Substitute 4 for x: f(4) = (4 + 2)² = (6)² = 36."
+    "rationale": "Substitute 4 for x: f(4) = (4 + 2)² = (6)² = 36.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is 3n."
       }
     ],
-    "rationale": "Translate the sentence into an equation: 3n - 5 = 16. Add 5 to both sides: 3n = 21. Divide by 3: n = 7."
+    "rationale": "Translate the sentence into an equation: 3n - 5 = 16. Add 5 to both sides: 3n = 21. Divide by 3: n = 7.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "The 'a' value does not affect the vertex's location."
       }
     ],
-    "rationale": "The vertex form of a parabola is y = a(x - h)² + k, where (h, k) is the vertex. In this equation, h = -1 and k = -4."
+    "rationale": "The vertex form of a parabola is y = a(x - h)² + k, where (h, k) is the vertex. In this equation, h = -1 and k = -4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "There is only one x."
       }
     ],
-    "rationale": "This is a simple multiplication problem. 4 * 3x = 12x."
+    "rationale": "This is a simple multiplication problem. 4 * 3x = 12x.",
+    "challenge_tags": [
+      "math-3"
+    ]
   }
 ];

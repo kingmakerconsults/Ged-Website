@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "Her posture (hands on hips) and her statement suggest disapproval, not admiration.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "The author is not confused they are making a clear point about the candidate's lack of substance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "The author is not discouraging journeys, but rather trying to give a more honest perspective on what they require.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "The behavior is about temperature, not illness.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "No temperature change is described.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "Market reactions vary; the details here point to cost-cutting as the cause.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "The passage does not specify origin beyond the distributor clue.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "Nothing in the sign suggests a multi-day closure.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "The proposal focuses on upkeep, not closure.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "No inspection is mentioned; signs cite staffing.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "Only the exam date changed; no course cancellation is mentioned.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -346,7 +379,9 @@ module.exports = [
         "rationale": "Buckets and pitchers suggest basic needs, not a party.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   }
-]
-;
+];

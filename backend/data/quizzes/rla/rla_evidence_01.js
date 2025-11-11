@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is less direct than the statistic about the increase in foot traffic and rides.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is the main claim, not the evidence supporting it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This restates the difficult aspect, not the rewarding one.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "This is a cause, while the survey data is the effect that best serves as evidence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "This is the viewpoint the author is refuting.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "Correct. Increased productivity is a direct, measurable benefit for the company.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "This is a fact about the material, not evidence of the project's success.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "Correct. This is a specific example of how technology facilitates connection, directly countering the idea that it only isolates.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "This explains the mechanism of how the curriculum is narrowed, but the specific examples of sidelined subjects serve as the best evidence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "Correct. This statement directly links the consequence of the wolves' absence (willow decline) to the negative impact on beavers.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "Correct. These goals go beyond the taste or nutrition of the food itself and extend to economic and environmental issues.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -346,6 +379,9 @@ module.exports = [
         "rationale": "This speaks to the functional success of the design, but less directly to the cultural and aesthetic respect.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   }
 ];

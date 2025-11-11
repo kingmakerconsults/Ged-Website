@@ -27,7 +27,11 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The formation of a new substance is the definition of a chemical change."
+    "passage": "Science textbook excerpt: The formation of a new substance is the definition of a chemical change.",
+    "challenge_tags": [
+      "science-1",
+      "science-2"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +59,10 @@ module.exports = [
         "rationale": "Subscripts are the small numbers within a formula (like the '2' in H₂).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -83,6 +91,10 @@ module.exports = [
         "rationale": "The law is constant for all chemical reactions.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -111,6 +123,10 @@ module.exports = [
         "rationale": "Decomposition is a type of reaction, but it can be either exothermic or endothermic.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -139,6 +155,10 @@ module.exports = [
         "rationale": "Combustion is a type of exothermic reaction that produces heat and light.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -167,6 +187,10 @@ module.exports = [
         "rationale": "This indicates the reaction is complete, not that a gas was formed.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -195,6 +219,10 @@ module.exports = [
         "rationale": "Precipitation is the formation of a solid from a solution.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -223,6 +251,10 @@ module.exports = [
         "rationale": "This would violate the law of conservation of mass.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -251,6 +283,10 @@ module.exports = [
         "rationale": "Stirring increases the contact between reactants and speeds up the reaction.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -279,6 +315,10 @@ module.exports = [
         "rationale": "In double displacement, parts of two compounds switch places.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -307,6 +347,10 @@ module.exports = [
         "rationale": "A pH of 0 indicates a very strong acid.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -335,6 +379,10 @@ module.exports = [
         "rationale": "The products are a neutral salt and water.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   }
 ];

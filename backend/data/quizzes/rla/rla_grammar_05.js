@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "The correct form for the third-person singular is 'doesn't'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "This is a statement, so it should end with a period, not a question mark.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "This is still in the passive voice.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "'All' is plural in this context, and 'their' is the correct plural pronoun.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "This is unnecessarily formal and wordy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "A colon should not be used before a coordinating conjunction like 'but'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "This sentence is correctly joined with a semicolon.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "'Salt' is a non-countable noun, so 'less' should be used.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "This is still in the passive voice and is unnecessarily wordy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "The hyphen is misplaced; it should connect 'last' and 'minute'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "'It' is vague and does not fix the dangling modifier.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -334,7 +367,9 @@ module.exports = [
         "rationale": "This incorrectly splits the introductory clause and the main clause.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   }
-]
-;
+];

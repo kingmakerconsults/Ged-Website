@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "Both planters are placed side by side, so sunlight is controlled rather than manipulated.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "Watering is part of the procedure that remains constant, not the measured outcome.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "Only one fertilizer is used in the experiment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "Scatter plots are most useful for exploring relationships between two quantitative variables, not for displaying sequential data.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "The data show clear changes in boiling point with different salt amounts.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "Water temperature is not mentioned as a variable and would likely be held constant.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "Even consistent results cannot prove a hypothesis true; they only provide supporting evidence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "One unusual data point does not invalidate an entire experiment; it simply requires further review.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "The plot shows resting heart rate decreasing as exercise increases.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "Heat tends to move from warmer to cooler areas, but this choice reverses the cause-and-effect relationship suggested by the data.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "Testing multiple remedies would introduce additional variables, making the study less clear, not more reliable.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -334,6 +367,9 @@ module.exports = [
         "rationale": "This conclusion is unsupported and assumes motives that were not measured in the survey.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   }
 ];

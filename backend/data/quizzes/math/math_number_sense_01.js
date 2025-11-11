@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is a decimal representation, not the absolute value."
       }
     ],
-    "rationale": "The absolute value of -15, written as |-15|, is its distance from 0 on the number line, which is 15."
+    "rationale": "The absolute value of -15, written as |-15|, is its distance from 0 on the number line, which is 15.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -58,7 +61,10 @@ module.exports = [
         "rationale": "3.75 is equivalent to 3 3/4."
       }
     ],
-    "rationale": "To convert the fraction 1/4 to a decimal, divide 1 by 4, which equals 0.25. Add this to the whole number 3 to get 3.25."
+    "rationale": "To convert the fraction 1/4 to a decimal, divide 1 by 4, which equals 0.25. Add this to the whole number 3 to get 3.25.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Evaluate the expression: $12 + (5 - 2) \\times 3^2$.",
     "correctAnswer": "39",
-    "rationale": "Following the order of operations (PEMDAS): Parentheses (5-2=3), Exponents ($3^2$=9), Multiplication (3*9=27), Addition (12+27=39)."
+    "rationale": "Following the order of operations (PEMDAS): Parentheses (5-2=3), Exponents ($3^2$=9), Multiplication (3*9=27), Addition (12+27=39).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -97,7 +106,10 @@ module.exports = [
         "rationale": "This is the price after a 25% markup, not a discount."
       }
     ],
-    "rationale": "Calculate the discount: 25% of $80 is $20. Subtract the discount from the original price: $80 - $20 = $60."
+    "rationale": "Calculate the discount: 25% of $80 is $20. Subtract the discount from the original price: $80 - $20 = $60.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is $\\frac{3}{5}$ as a percentage?",
     "correctAnswer": "60%",
-    "rationale": "To convert a fraction to a percentage, divide the numerator by the denominator and multiply by 100. (3 / 5) * 100 = 0.6 * 100 = 60%."
+    "rationale": "To convert a fraction to a percentage, divide the numerator by the denominator and multiply by 100. (3 / 5) * 100 = 0.6 * 100 = 60%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This incorrectly calculates the percent change."
       }
     ],
-    "rationale": "The formula for percent increase is [(New Price - Original Price) / Original Price] * 100. So, [($58 - $50) / $50] * 100 = ($8 / $50) * 100 = 0.16 * 100 = 16%."
+    "rationale": "The formula for percent increase is [(New Price - Original Price) / Original Price] * 100. So, [($58 - $50) / $50] * 100 = ($8 / $50) * 100 = 0.16 * 100 = 16%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -166,7 +184,10 @@ module.exports = [
         "rationale": "This result ignores the division operation."
       }
     ],
-    "rationale": "Using PEMDAS: Parentheses (4+2=6), then Multiplication/Division from left to right (5*6=30, 10/2=5), then Addition/Subtraction (30-5=25)."
+    "rationale": "Using PEMDAS: Parentheses (4+2=6), then Multiplication/Division from left to right (5*6=30, 10/2=5), then Addition/Subtraction (30-5=25).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A recipe calls for $2 \\frac{1}{2}$ cups of flour, but you only want to make half the recipe. How many cups of flour do you need?",
     "correctAnswer": "1.25 cups",
-    "rationale": "First, convert $2 \\frac{1}{2}$ to a decimal, which is 2.5. Then, divide by 2 to make half the recipe: 2.5 / 2 = 1.25 cups."
+    "rationale": "First, convert $2 \\frac{1}{2}$ to a decimal, which is 2.5. Then, divide by 2 to make half the recipe: 2.5 / 2 = 1.25 cups.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -205,7 +229,10 @@ module.exports = [
         "rationale": "This is an irrational number."
       }
     ],
-    "rationale": "Integers are the set of whole numbers and their opposites (...-3, -2, -1, 0, 1, 2, 3...). -8 is an integer."
+    "rationale": "Integers are the set of whole numbers and their opposites (...-3, -2, -1, 0, 1, 2, 3...). -8 is an integer.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A car travels 150 miles on 5 gallons of gas. What is the car's fuel efficiency in miles per gallon (MPG)?",
     "correctAnswer": "30 MPG",
-    "rationale": "To find the miles per gallon, divide the total miles traveled by the number of gallons used: 150 miles / 5 gallons = 30 MPG."
+    "rationale": "To find the miles per gallon, divide the total miles traveled by the number of gallons used: 150 miles / 5 gallons = 30 MPG.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is the number of people who prefer coffee."
       }
     ],
-    "rationale": "First, find the percentage of people who prefer tea: 100% - 65% = 35%. Then, calculate 35% of 200: 0.35 * 200 = 70 people."
+    "rationale": "First, find the percentage of people who prefer tea: 100% - 65% = 35%. Then, calculate 35% of 200: 0.35 * 200 = 70 people.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is simply multiplying by 10, ignoring the .2"
       }
     ],
-    "rationale": "To estimate, round 48.7 to 50 and 10.2 to 10. The estimated product is 50 * 10 = 500. The actual answer is 496.74."
+    "rationale": "To estimate, round 48.7 to 50 and 10.2 to 10. The estimated product is 50 * 10 = 500. The actual answer is 496.74.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

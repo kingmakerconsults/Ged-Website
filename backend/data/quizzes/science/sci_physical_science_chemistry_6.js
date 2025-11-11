@@ -27,7 +27,11 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: Protons and neutrons are in the nucleus, and electrons orbit the nucleus."
+    "passage": "Science textbook excerpt: Protons and neutrons are in the nucleus, and electrons orbit the nucleus.",
+    "challenge_tags": [
+      "science-1",
+      "science-2"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +59,10 @@ module.exports = [
         "rationale": "A solution is a type of mixture.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -83,6 +91,10 @@ module.exports = [
         "rationale": "This is the mass number.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -111,6 +123,10 @@ module.exports = [
         "rationale": "A metallic bond is found in metals, where electrons are shared in a 'sea'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -139,6 +155,10 @@ module.exports = [
         "rationale": "The passage gives examples of liquids with pH values other than 7.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -167,6 +187,10 @@ module.exports = [
         "rationale": "This is the most acidic point on the scale.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -195,6 +219,10 @@ module.exports = [
         "rationale": "This is the symbol for sodium chloride (table salt).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -223,6 +251,10 @@ module.exports = [
         "rationale": "An inhibitor slows down a chemical reaction.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -251,6 +283,10 @@ module.exports = [
         "rationale": "Reactions often involve changes in state (e.g., two liquids forming a solid).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -279,6 +315,10 @@ module.exports = [
         "rationale": "Metals tend to lose electrons to form positive ions.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -307,6 +347,10 @@ module.exports = [
         "rationale": "An element is a pure substance consisting of one type of atom.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   },
   {
@@ -335,6 +379,10 @@ module.exports = [
         "rationale": "This is not a particle.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1",
+      "science-2"
     ]
   }
 ];

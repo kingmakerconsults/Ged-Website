@@ -26,6 +26,10 @@ module.exports = [
         "rationale": "Repetition is important for validity, but it is not the first step in analyzing the data you have.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -54,6 +58,10 @@ module.exports = [
         "rationale": "A z-axis is used for three-dimensional graphs, which are less common in basic data presentation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -82,6 +90,10 @@ module.exports = [
         "rationale": "Both plants grew between Week 2 and Week 3.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -110,6 +122,10 @@ module.exports = [
         "rationale": "This should be a controlled variable, with both plants being the same type.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -138,6 +154,10 @@ module.exports = [
         "rationale": "This is not supported by the data, which shows a natural peak and decline.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -166,6 +186,10 @@ module.exports = [
         "rationale": "The line is a curve, not a straight line, and it changes direction, so the rate was not constant.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -194,6 +218,10 @@ module.exports = [
         "rationale": "An observation is a piece of data collected, not the final summary.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -222,6 +250,10 @@ module.exports = [
         "rationale": "An experiment that provides clear data is not a failure, even if it refutes the hypothesis.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -250,6 +282,10 @@ module.exports = [
         "rationale": "A hypothesis is a broad prediction for the whole experiment, not a specific data point.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -278,6 +314,10 @@ module.exports = [
         "rationale": "Scatter plots are used to show the relationship between two different variables.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -306,6 +346,10 @@ module.exports = [
         "rationale": "A constant is a factor that is kept the same throughout the experiment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   },
   {
@@ -334,6 +378,10 @@ module.exports = [
         "rationale": "A plausible mechanism is good, but it is not evidence that the drug actually works in practice.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5",
+      "science-6"
     ]
   }
 ];

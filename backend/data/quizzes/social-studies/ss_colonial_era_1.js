@@ -28,7 +28,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Adapted from historical texts on the Mayflower Compact."
+    "source": "Adapted from historical texts on the Mayflower Compact.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "Pennsylvania was founded by William Penn for this purpose.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "This was a different form of migration, not the Middle Passage.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "The Backcountry had a subsistence farming economy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -142,7 +154,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Adapted from historical records of colonial Virginia."
+    "source": "Adapted from historical records of colonial Virginia.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -170,6 +185,9 @@ module.exports = [
         "rationale": "There were no significant precious metal discoveries in the New England colonies.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -198,6 +216,9 @@ module.exports = [
         "rationale": "Industrial growth occurred later in American history.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -228,7 +249,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Historical analysis of British colonial policy."
+    "source": "Historical analysis of British colonial policy.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -256,6 +280,9 @@ module.exports = [
         "rationale": "Tobacco was a key crop in the Southern colonies, not Rhode Island.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -286,7 +313,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Adapted from historical accounts of the Albany Congress."
+    "source": "Adapted from historical accounts of the Albany Congress.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -314,6 +344,9 @@ module.exports = [
         "rationale": "Mercantilism discouraged manufacturing in the colonies to prevent competition with the mother country.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -342,6 +375,9 @@ module.exports = [
         "rationale": "This describes religious tensions, but not the cause of Bacon's Rebellion in Virginia.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   }
 ];

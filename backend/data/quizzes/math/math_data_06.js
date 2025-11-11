@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the maximum value."
       }
     ],
-    "rationale": "To find the median, first order the numbers from least to greatest: 15, 20, 20, 25, 30. The median is the middle number, which is 20."
+    "rationale": "To find the median, first order the numbers from least to greatest: 15, 20, 20, 25, 30. The median is the middle number, which is 20.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the mode of the data set: apple, pear, banana, apple, orange, pear, apple?",
     "correctAnswer": "apple",
-    "rationale": "The mode is the item that appears most frequently. 'Apple' appears 3 times, more than any other fruit."
+    "rationale": "The mode is the item that appears most frequently. 'Apple' appears 3 times, more than any other fruit.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the total number of questions."
       }
     ],
-    "rationale": "If the student got 80% correct, they got 100% - 80% = 20% wrong. The number of questions they got wrong is 20% of 20, which is 0.20 * 20 = 4 questions."
+    "rationale": "If the student got 80% correct, they got 100% - 80% = 20% wrong. The number of questions they got wrong is 20% of 20, which is 0.20 * 20 = 4 questions.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the mean of the following numbers: 12, 15, 18, 21, 24.",
     "correctAnswer": "18",
-    "rationale": "The sum of the numbers is 12+15+18+21+24 = 90. Divide by 5: 90/5 = 18. Since the numbers are evenly spaced, the mean is the middle number."
+    "rationale": "The sum of the numbers is 12+15+18+21+24 = 90. Divide by 5: 90/5 = 18. Since the numbers are evenly spaced, the mean is the middle number.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the probability of drawing a red marble."
       }
     ],
-    "rationale": "There are a total of 10 + 8 + 2 = 20 marbles. The number of non-blue marbles is 10 (red) + 2 (green) = 12. The probability is 12/20, which simplifies to 3/5."
+    "rationale": "There are a total of 10 + 8 + 2 = 20 marbles. The number of non-blue marbles is 10 (red) + 2 (green) = 12. The probability is 12/20, which simplifies to 3/5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To find the total number of different meals, multiply the number of options for each course: 4 appetizers * 6 main courses * 3 desserts = 72 different meals."
+    "rationale": "To find the total number of different meals, multiply the number of options for each course: 4 appetizers * 6 main courses * 3 desserts = 72 different meals.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A student's scores are 80, 85, 90, 95. What score is needed on the fifth test to achieve an average of 90?",
     "correctAnswer": "100",
-    "rationale": "To have an average of 90 on 5 tests, the total score must be 5 * 90 = 450. The sum of the first four scores is 80+85+90+95 = 350. The fifth score must be 450 - 350 = 100."
+    "rationale": "To have an average of 90 on 5 tests, the total score must be 5 * 90 = 450. The sum of the first four scores is 80+85+90+95 = 350. The fifth score must be 450 - 350 = 100.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "The range is the difference between the maximum (10) and minimum (-8). 10 - (-8) = 18."
       }
     ],
-    "rationale": "The range is the difference between the highest and lowest values. Max = 10, Min = -8. Range = 10 - (-8) = 18."
+    "rationale": "The range is the difference between the highest and lowest values. Max = 10, Min = -8. Range = 10 - (-8) = 18.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A fair die is rolled. What is the probability of rolling a number less than 3?",
     "correctAnswer": "1/3",
-    "rationale": "The numbers less than 3 are 1 and 2. There are 2 favorable outcomes out of 6 possible outcomes. The probability is 2/6, which simplifies to 1/3."
+    "rationale": "The numbers less than 3 are 1 and 2. There are 2 favorable outcomes out of 6 possible outcomes. The probability is 2/6, which simplifies to 1/3.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "It can be determined."
       }
     ],
-    "rationale": "The median is the middle value of an ordered dataset. With 7 numbers, the median is the 4th number. Ordering the known numbers gives: 8, 10, 12, __, 18, 20, 22. For 15 to be the median, it must be the 4th number. Any number between 12 and 18 would also work, but 15 is the most direct answer."
+    "rationale": "The median is the middle value of an ordered dataset. With 7 numbers, the median is the 4th number. Ordering the known numbers gives: 8, 10, 12, __, 18, 20, 22. For 15 to be the median, it must be the 4th number. Any number between 12 and 18 would also work, but 15 is the most direct answer.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "There are 36 possible outcomes when rolling two dice. The combinations that sum to 7 are (1,6), (2,5), (3,4), (4,3), (5,2), and (6,1). There are 6 favorable outcomes. The probability is 6/36, which simplifies to 1/6."
+    "rationale": "There are 36 possible outcomes when rolling two dice. The combinations that sum to 7 are (1,6), (2,5), (3,4), (4,3), (5,2), and (6,1). There are 6 favorable outcomes. The probability is 6/36, which simplifies to 1/6.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "The median is often one of the numbers."
       }
     ],
-    "rationale": "The mode is defined as the value that appears most frequently in a data set. Therefore, it must be one of the values present in the set."
+    "rationale": "The mode is defined as the value that appears most frequently in a data set. Therefore, it must be one of the values present in the set.",
+    "challenge_tags": [
+      "math-6"
+    ]
   }
 ];

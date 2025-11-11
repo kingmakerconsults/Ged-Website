@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is boys to total students."
       }
     ],
-    "rationale": "The ratio of boys to girls is 20:25. The greatest common divisor is 5. 20/5 = 4 and 25/5 = 5. The simplified ratio is 4:5."
+    "rationale": "The ratio of boys to girls is 20:25. The greatest common divisor is 5. 20/5 = 4 and 25/5 = 5. The simplified ratio is 4:5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A book costs $18. The sales tax is 5%. What is the total cost?",
     "correctAnswer": "$18.90",
-    "rationale": "The tax is 0.05 * $18 = $0.90. The total cost is $18 + $0.90 = $18.90."
+    "rationale": "The tax is 0.05 * $18 = $0.90. The total cost is $18 + $0.90 = $18.90.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To find miles per gallon, divide the distance by the gallons used: 300 miles / 12 gallons = 25 mpg."
+    "rationale": "To find miles per gallon, divide the distance by the gallons used: 300 miles / 12 gallons = 25 mpg.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A recipe for lemonade uses 1 cup of lemon juice for every 4 cups of water. If you use 3 cups of lemon juice, how much water do you need?",
     "correctAnswer": "12 cups",
-    "rationale": "The ratio is 1:4. If you use 3 times the lemon juice, you need 3 times the water: 4 * 3 = 12."
+    "rationale": "The ratio is 1:4. If you use 3 times the lemon juice, you need 3 times the water: 4 * 3 = 12.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is a 20% markup."
       }
     ],
-    "rationale": "Calculate the discount: 20% of $150 is 0.20 * 150 = $30. Subtract the discount from the original price: $150 - $30 = $120."
+    "rationale": "Calculate the discount: 20% of $150 is 0.20 * 150 = $30. Subtract the discount from the original price: $150 - $30 = $120.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the percentage of people who don't have blue eyes."
       }
     ],
-    "rationale": "To find the percentage, divide the number of people with blue eyes by the total number of people and multiply by 100: (15 / 50) * 100 = 0.3 * 100 = 30%."
+    "rationale": "To find the percentage, divide the number of people with blue eyes by the total number of people and multiply by 100: (15 / 50) * 100 = 0.3 * 100 = 30%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A population decreased from 800 to 760. What was the percent decrease?",
     "correctAnswer": "5%",
-    "rationale": "The decrease is 40. (40 / 800) * 100 = 0.05 * 100 = 5%."
+    "rationale": "The decrease is 40. (40 / 800) * 100 = 0.05 * 100 = 5%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 6/5."
       }
     ],
-    "rationale": "To solve for x, you can cross-multiply: 1 * x = 6 * 5, which means x = 30."
+    "rationale": "To solve for x, you can cross-multiply: 1 * x = 6 * 5, which means x = 30.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A map scale is 1 cm : 15 km. The distance between two cities is 12 cm. What is the actual distance?",
     "correctAnswer": "180 km",
-    "rationale": "12 cm * 15 km/cm = 180 km."
+    "rationale": "12 cm * 15 km/cm = 180 km.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the selling price as a percentage of the cost."
       }
     ],
-    "rationale": "The markup amount is $16 - $10 = $6. The percent markup is (markup / original cost) * 100 = ($6 / $10) * 100 = 0.6 * 100 = 60%."
+    "rationale": "The markup amount is $16 - $10 = $6. The percent markup is (markup / original cost) * 100 = ($6 / $10) * 100 = 0.6 * 100 = 60%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Set up the proportion: $\\frac{3 \\text{ red}}{5 \\text{ blue}} = \\frac{x \\text{ red}}{25 \\text{ blue}}$. Cross-multiply: $5x = 3 \\times 25 = 75$. Divide by 5: $x = 15$."
+    "rationale": "Set up the proportion: $\\frac{3 \\text{ red}}{5 \\text{ blue}} = \\frac{x \\text{ red}}{25 \\text{ blue}}$. Cross-multiply: $5x = 3 \\times 25 = 75$. Divide by 5: $x = 15$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is for 20 people."
       }
     ],
-    "rationale": "First, find the amount of pasta per person: 500g / 4 people = 125g/person. Then, multiply by the number of people: 125g/person * 10 people = 1250g."
+    "rationale": "First, find the amount of pasta per person: 500g / 4 people = 125g/person. Then, multiply by the number of people: 125g/person * 10 people = 1250g.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

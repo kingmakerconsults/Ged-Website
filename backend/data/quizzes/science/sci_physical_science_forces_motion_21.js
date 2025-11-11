@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: A force is any interaction that, when unopposed, will change the motion of an object."
+    "passage": "Science textbook excerpt: A force is any interaction that, when unopposed, will change the motion of an object.",
+    "challenge_tags": [
+      "science-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Gravity is itself a force that can change an object's state of rest.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "Acceleration is dependent on both force and mass.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "Inertia is a property of matter, not part of the third law.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "This would mean the car is slowing down.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "Inertia means the car will continue to move forward, though it will slow down over time.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "Momentum is a measure of mass in motion (mass times velocity).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "Force is a push or a pull.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "Since they have the same mass, they have the same inertia.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Jerk is the rate of change of acceleration, a more advanced concept.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "Friction is a contact force that opposes motion.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "This law describes the force of gravity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   }
 ];

@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is the reason for the policy, but the main idea is the policy itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This describes the typical duration of a cold, but it's not the main idea of the whole passage.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This is an example of one of the social changes, not the entire main point.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "This is the problem that conflict resolution skills help to prevent, not the main idea itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "This is the implied solution, but the main argument is about defining the problem and its consequences.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "This is one half of the proposed solution, not the full main idea which also includes the problem of access.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "This is the purpose of the drill, but the main idea is the announcement of the drill itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "These are examples of how to engage in lifelong learning, not the main point about why it's necessary.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -259,35 +283,15 @@ module.exports = [
         "rationale": "This is the time frame for the event, not the central point about its significance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
     "difficulty": "medium",
-<<<<<<< HEAD
-    "passage": "City council approved a pilot program to replace traditional streetlights with LED fixtures in two neighborhoods. The new lights use less electricity, last longer, and produce more focused illumination that reduces glare into windows. The city expects to cut maintenance costs and lower energy use by 40% in the pilot area. If successful, the program may expand citywide next year.",
-    "question": "What is the main idea of the passage?",
-    "answerOptions": [
-      {
-        "text": "LED streetlights reduce glare into windows.",
-        "rationale": "This is one benefit, not the passage’s central point.",
-        "isCorrect": false
-      },
-      {
-        "text": "The city launched a pilot to test LED streetlights that save energy and maintenance, with a possible expansion.",
-        "rationale": "Correct. This captures the policy (pilot), the benefits, and the possible next step.",
-        "isCorrect": true
-      },
-      {
-        "text": "The program will expand citywide next year.",
-        "rationale": "Expansion is conditional; focusing only on it misses the main idea of the pilot and its goals.",
-        "isCorrect": false
-      },
-      {
-        "text": "The fixtures produce more focused illumination.",
-        "rationale": "This is a supporting detail, not the central idea.",
-=======
     "passage": "The robotics club sent an update to parents about its first competition of the season. The message explains that the team spent fall semester learning to code sensors, that mentors from a local engineering firm provided feedback, and that the students won the teamwork award at last weekend's regional meet. The coach writes that steady practice and community support are helping the club thrive.",
     "question": "Which option states the main idea of the update?",
     "answerOptions": [
@@ -309,38 +313,17 @@ module.exports = [
       {
         "text": "The team won the teamwork award at a regional meet.",
         "rationale": "Winning an award is evidence of success, yet the main idea also emphasizes how the team achieved it.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "easy",
-<<<<<<< HEAD
-    "passage": "A local animal shelter posted that it is currently full and cannot accept more animals until adoptions increase. The shelter encouraged residents to adopt or foster and highlighted a weekend event with waived adoption fees. Volunteers will be on-site to help families find a good match.",
-    "question": "Which sentence best states the main idea?",
-    "answerOptions": [
-      {
-        "text": "Volunteers will help families find a good match.",
-        "rationale": "This is a helpful detail, not the main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "The shelter is full and is urging adoptions, including a special weekend with waived fees.",
-        "rationale": "Correct. This captures the problem and the immediate solution being promoted.",
-        "isCorrect": true
-      },
-      {
-        "text": "The shelter cannot accept more animals.",
-        "rationale": "This states the situation but not the main message urging adoptions.",
-        "isCorrect": false
-      },
-      {
-        "text": "Adoption fees will be waived.",
-        "rationale": "This is a supporting detail about the event, not the overall message.",
-=======
     "passage": "A flyer promotes a weekend volunteer event at the city park. It invites residents to join the Saturday morning cleanup, notes that gloves and tools will be provided, and explains that volunteers will plant native flowers after picking up litter. The flyer ends by thanking participants for helping keep the park welcoming for everyone.",
     "question": "What is the main idea of the flyer?",
     "answerOptions": [
@@ -362,38 +345,17 @@ module.exports = [
       {
         "text": "The park is open every day for visitors.",
         "rationale": "The flyer focuses on a volunteer event, not general park hours.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "medium",
-<<<<<<< HEAD
-    "passage": "An after-school tutoring program reported that average math grades among participating students rose from C to B over one semester. Attendance at the sessions averaged 92%. The program director emphasized that the goal is not only higher grades but also building students’ study habits and confidence.",
-    "question": "Which sentence best expresses the main idea?",
-    "answerOptions": [
-      {
-        "text": "Attendance at sessions averaged 92%.",
-        "rationale": "This is a supporting statistic, not the main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "The program aims to improve grades and foster study habits and confidence, and early results show academic gains.",
-        "rationale": "Correct. This captures the goals and the initial evidence of success.",
-        "isCorrect": true
-      },
-      {
-        "text": "Average math grades rose from C to B.",
-        "rationale": "This is one result, not the passage’s central message about aims and outcomes.",
-        "isCorrect": false
-      },
-      {
-        "text": "The director emphasized building confidence.",
-        "rationale": "This is part of the goal, but not the full main idea.",
-=======
     "passage": "In a reflective essay, a first-generation college student describes juggling a full course load, a part-time job, and family responsibilities. She explains that weekly check-ins with an academic advisor helped her plan study time, that her supervisor allowed flexible shifts during exams, and that her younger siblings cheered her on when she considered quitting. She concludes that persistence and a strong support network made graduation possible.",
     "question": "Which statement best summarizes the essay?",
     "answerOptions": [
@@ -415,10 +377,11 @@ module.exports = [
       {
         "text": "Family members should not worry about college schedules.",
         "rationale": "The passage never suggests this idea; it emphasizes encouragement from family.",
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   }
-]
-;
+];

@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "Time is the measured outcome and therefore the dependent variable.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "Resting time should also stay the same, but temperature is the best answer among the options because it directly affects yeast activity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -82,17 +88,16 @@ module.exports = [
         "rationale": "Cooling would not add mass; the increase is due to a reaction with oxygen.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
     "questionNumber": 4,
     "type": "multipleChoice",
     "difficulty": "easy",
-<<<<<<< HEAD
     "question": "A student describes a solution as 'cloudy and pale yellow.'. What type of data has the student recorded?",
-=======
-    "question": "A student describes a solution as 'cloudy and pale yellow.' What type of data has the student recorded?",
->>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "Qualitative data",
@@ -114,6 +119,9 @@ module.exports = [
         "rationale": "Modeled data would come from simulations, not direct observation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -142,6 +150,9 @@ module.exports = [
         "rationale": "Error bars convey important information about variability and should not be removed.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -170,6 +181,9 @@ module.exports = [
         "rationale": "The median remains useful even with an outlier.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -198,6 +212,9 @@ module.exports = [
         "rationale": "Rounding may remove useful precision; unit conversion is the necessary step.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -226,6 +243,9 @@ module.exports = [
         "rationale": "Statistical analysis is still essential, even in double-blind designs.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -254,6 +274,9 @@ module.exports = [
         "rationale": "Highlighting a known false reading would mislead data users.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -282,6 +305,9 @@ module.exports = [
         "rationale": "Data should still be shared; the method provides context for interpreting it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -310,6 +336,9 @@ module.exports = [
         "rationale": "Radon exposure is a health concern; the limitation concerns sampling bias.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -338,6 +367,9 @@ module.exports = [
         "rationale": "Flavor preference does not establish medical benefits.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   }
 ];

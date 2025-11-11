@@ -4,11 +4,7 @@ module.exports = [
     "questionNumber": 1,
     "type": "multipleChoice",
     "difficulty": "easy",
-<<<<<<< HEAD
     "question": "A lab notebook entry states, 'When the magnet was moved closer to the coil, the needle on the galvanometer deflected more.'. What kind of statement is recorded in the notebook?",
-=======
-    "question": "A lab notebook entry states, 'When the magnet was moved closer to the coil, the needle on the galvanometer deflected more.' What kind of statement is recorded in the notebook?",
->>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "An observation made during the experiment",
@@ -30,17 +26,16 @@ module.exports = [
         "rationale": "The entry does not mention equipment beyond the items observed in action.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-<<<<<<< HEAD
     "question": "Before investigating, a student writes, 'If plants are given light from LED bulbs instead of sunlight, then they will produce fewer flowers.'. Which part of the investigation does the student's sentence represent?",
-=======
-    "question": "Before investigating, a student writes, 'If plants are given light from LED bulbs instead of sunlight, then they will produce fewer flowers.' Which part of the investigation does the student's sentence represent?",
->>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "The research question",
@@ -62,6 +57,9 @@ module.exports = [
         "rationale": "The control setup describes the conditions without LED light, not a prediction.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -90,6 +88,9 @@ module.exports = [
         "rationale": "Thorough cleaning ensures accuracy but does not increase the number of liquids tested simultaneously.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -118,6 +119,9 @@ module.exports = [
         "rationale": "All trays use the same seeds to ensure the variable under investigation is temperature.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -146,6 +150,9 @@ module.exports = [
         "rationale": "The data cluster between 2 and 5 hours, not around 10 hours.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -174,6 +181,9 @@ module.exports = [
         "rationale": "Temperature was controlled and therefore cannot be inferred to have changed.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -202,6 +212,9 @@ module.exports = [
         "rationale": "A tilted gauge is unreliable; it should not be favored over accurate measurements.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -230,6 +243,9 @@ module.exports = [
         "rationale": "This contradicts the general trend shown in the scatter plot.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -258,6 +274,9 @@ module.exports = [
         "rationale": "Ink color has no bearing on performance and is irrelevant to evaluating teacher impact.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -286,6 +305,9 @@ module.exports = [
         "rationale": "Box plots display distribution, not population size.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -314,6 +336,9 @@ module.exports = [
         "rationale": "Statistical analysis is still necessary to interpret the data appropriately.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -342,6 +367,9 @@ module.exports = [
         "rationale": "Nitrogen oxides are important pollutants and should not be dismissed.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -370,6 +398,9 @@ module.exports = [
         "rationale": "Anecdotes do not replace data from a well-designed study.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   }
 ];

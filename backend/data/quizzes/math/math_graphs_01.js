@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the result if you add 3 instead of subtracting."
       }
     ],
-    "rationale": "To evaluate f(4), substitute 4 for x in the function: f(4) = 2(4) - 3 = 8 - 3 = 5."
+    "rationale": "To evaluate f(4), substitute 4 for x in the function: f(4) = 2(4) - 3 = 8 - 3 = 5.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the slope of the line given by the equation $y = 5x + 2$?",
     "correctAnswer": "5",
-    "rationale": "The equation is in slope-intercept form (y = mx + b), where 'm' is the slope. In this case, the slope is 5."
+    "rationale": "The equation is in slope-intercept form (y = mx + b), where 'm' is the slope. In this case, the slope is 5.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the y-coordinate of the given point."
       }
     ],
-    "rationale": "Use the slope-intercept form y = mx + b. Plug in the known values: 7 = 3(2) + b. Solve for b: 7 = 6 + b, so b = 1."
+    "rationale": "Use the slope-intercept form y = mx + b. Plug in the known values: 7 = 3(2) + b. Solve for b: 7 = 6 + b, so b = 1.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the slope of the line passing through the points (1, 2) and (3, 10).",
     "correctAnswer": "4",
-    "rationale": "The slope (m) is the change in y divided by the change in x. m = (10 - 2) / (3 - 1) = 8 / 2 = 4."
+    "rationale": "The slope (m) is the change in y divided by the change in x. m = (10 - 2) / (3 - 1) = 8 / 2 = 4.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "If x=4, y = -2(4) + 6 = -2. So (4, -1) is not on the line."
       }
     ],
-    "rationale": "Substitute the x-coordinate of each point into the equation and see if it produces the correct y-coordinate. For (1, 4): y = -2(1) + 6 = -2 + 6 = 4. This matches."
+    "rationale": "Substitute the x-coordinate of each point into the equation and see if it produces the correct y-coordinate. For (1, 4): y = -2(1) + 6 = -2 + 6 = 4. This matches.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "A parallel line has the same slope (3). Use y=mx+b: 5 = 3(2)+b -> 5=6+b -> b=-1. So y=3x-1."
       }
     ],
-    "rationale": "Parallel lines have the same slope, so the new line's slope is 3. Use the point-slope form y - y1 = m(x - x1): y - 5 = 3(x - 2). This simplifies to y - 5 = 3x - 6, so y = 3x - 1."
+    "rationale": "Parallel lines have the same slope, so the new line's slope is 3. Use the point-slope form y - y1 = m(x - x1): y - 5 = 3(x - 2). This simplifies to y - 5 = 3x - 6, so y = 3x - 1.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Given $f(x) = x^2 + 3$, find $f(-2)$.",
     "correctAnswer": "7",
-    "rationale": "Substitute -2 for x: f(-2) = $(-2)^2 + 3 = 4 + 3 = 7$."
+    "rationale": "Substitute -2 for x: f(-2) = $(-2)^2 + 3 = 4 + 3 = 7$.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "A line that falls from left to right has a negative slope."
       }
     ],
-    "rationale": "The slope is 'rise over run'. A vertical line has an infinite rise but zero run. Division by zero is undefined, so the slope is undefined."
+    "rationale": "The slope is 'rise over run'. A vertical line has an infinite rise but zero run. Division by zero is undefined, so the slope is undefined.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the x-intercept of the line $2x + 4y = 8$?",
     "correctAnswer": "(4, 0)",
-    "rationale": "To find the x-intercept, set y = 0. The equation becomes 2x + 4(0) = 8, so 2x = 8. Solve for x to get x = 4. The x-intercept is the point (4, 0)."
+    "rationale": "To find the x-intercept, set y = 0. The equation becomes 2x + 4(0) = 8, so 2x = 8. Solve for x to get x = 4. The x-intercept is the point (4, 0).",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the y-value when x=1."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x. Using the first two points: (5 - 3) / (1 - 0) = 2 / 1 = 2."
+    "rationale": "The slope is the change in y divided by the change in x. Using the first two points: (5 - 3) / (1 - 0) = 2 / 1 = 2.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "The slope of a perpendicular line is the negative reciprocal of the original slope. The negative reciprocal of -1/4 is 4."
       }
     ],
-    "rationale": "Perpendicular lines have slopes that are negative reciprocals of each other. The slope of the given line is -1/4. The negative reciprocal is $-(\\frac{1}{-1/4}) = 4$."
+    "rationale": "Perpendicular lines have slopes that are negative reciprocals of each other. The slope of the given line is -1/4. The negative reciprocal is $-(\\frac{1}{-1/4}) = 4$.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "g(4) = 3(4)+1 = 13."
       }
     ],
-    "rationale": "Set the function equal to 10: 3x + 1 = 10. Solve for x by subtracting 1 from both sides (3x = 9) and then dividing by 3 (x = 3)."
+    "rationale": "Set the function equal to 10: 3x + 1 = 10. Solve for x by subtracting 1 from both sides (3x = 9) and then dividing by 3 (x = 3).",
+    "challenge_tags": [
+      "math-4"
+    ]
   }
 ];

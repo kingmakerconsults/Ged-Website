@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "Attending school is often required by law up to a certain age, but it's more of a personal responsibility than a civic one.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -56,7 +59,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. Constitution, First Amendment."
+    "source": "U.S. Constitution, First Amendment.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "Staying informed is a responsibility of a good citizen, but it is not a legal requirement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "Registration, such as for voting or the selective service, is a process for citizens, not the process of becoming one.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "This is protected by the Third Amendment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -169,6 +184,9 @@ module.exports = [
         "rationale": "While a form of public service, the passage focuses on civilian forms of participation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -197,6 +215,9 @@ module.exports = [
         "rationale": "The Fifth Amendment limits this power (eminent domain) to 'public use' and requires 'just compensation.'",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -225,6 +246,9 @@ module.exports = [
         "rationale": "There are no special benefits for being informed.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -253,6 +277,9 @@ module.exports = [
         "rationale": "The Eighth Amendment prohibits cruel and unusual punishment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -282,6 +309,9 @@ module.exports = [
         "rationale": "Correct. It is a legal responsibility that enables a draft if it were to become necessary.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -310,6 +340,9 @@ module.exports = [
         "rationale": "This describes a referendum, which is not how federal laws are made.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -338,6 +371,9 @@ module.exports = [
         "rationale": "Correct. Attending public meetings and expressing one's views is a voluntary and important part of being an engaged citizen.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

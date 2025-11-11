@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is base*height."
       }
     ],
-    "rationale": "The area of a triangle is A = 1/2 * b * h. A = 1/2 * 10 * 5 = 25."
+    "rationale": "The area of a triangle is A = 1/2 * b * h. A = 1/2 * 10 * 5 = 25.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A circle's area is 314 sq. units. What is its radius? Use 3.14 for $\\pi$.",
     "correctAnswer": "10",
-    "rationale": "Area = pi*$r^2$. 314 = 3.14 * $r^2$. $r^2$ = 100. r = 10."
+    "rationale": "Area = pi*$r^2$. 314 = 3.14 * $r^2$. $r^2$ = 100. r = 10.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is if r=10, h=3."
       }
     ],
-    "rationale": "The volume of a cylinder is V = pi * $r^2$ * h. V = 3.14 * ($3)^2$ * 10 = 282.6."
+    "rationale": "The volume of a cylinder is V = pi * $r^2$ * h. V = 3.14 * ($3)^2$ * 10 = 282.6.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "An angle of 180° is a ___ angle.",
     "correctAnswer": "straight",
-    "rationale": "A straight angle is an angle of 180°."
+    "rationale": "A straight angle is an angle of 180°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is 30-10."
       }
     ],
-    "rationale": "Perimeter P = 2(L + W). 30 = 2(L + 5). 15 = L + 5. L = 10."
+    "rationale": "Perimeter P = 2(L + W). 30 = 2(L + 5). 15 = L + 5. L = 10.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the volume."
       }
     ],
-    "rationale": "The radius is half the diameter, so r=5. The surface area is SA = 4 * pi * $r^2$ = 4 * 3.14 * $5^2$ = 314."
+    "rationale": "The radius is half the diameter, so r=5. The surface area is SA = 4 * pi * $r^2$ = 4 * 3.14 * $5^2$ = 314.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the area of a square with perimeter 48?",
     "correctAnswer": "144",
-    "rationale": "The side length is 48/4 = 12. The area is $12^2$ = 144."
+    "rationale": "The side length is 48/4 = 12. The area is $12^2$ = 144.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 1.5*2."
       }
     ],
-    "rationale": "Using the Pythagorean theorem, $a^2 + b^2 = c^2$. $1.5^2 + 2^2 = 2.25 + 4 = 6.25$. c = $\\sqrt{6.25}$ = 2.5."
+    "rationale": "Using the Pythagorean theorem, $a^2 + b^2 = c^2$. $1.5^2 + 2^2 = 2.25 + 4 = 6.25$. c = $\\sqrt{6.25}$ = 2.5.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "How many feet are in half a mile? (1 mile = 5280 feet)",
     "correctAnswer": "2640 feet",
-    "rationale": "Half a mile is 5280 / 2 = 2640 feet."
+    "rationale": "Half a mile is 5280 / 2 = 2640 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "A regular hexagon has three pairs of parallel sides."
       }
     ],
-    "rationale": "A kite is a quadrilateral with two pairs of equal-length sides that are adjacent to each other. It typically has no parallel sides."
+    "rationale": "A kite is a quadrilateral with two pairs of equal-length sides that are adjacent to each other. It typically has no parallel sides.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is 120*2."
       }
     ],
-    "rationale": "Supplementary angles add up to 180°. The supplement of 120° is 180° - 120° = 60°."
+    "rationale": "Supplementary angles add up to 180°. The supplement of 120° is 180° - 120° = 60°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "It can be determined."
       }
     ],
-    "rationale": "The volume of a cone is given by V = (1/3) * pi * r² * h, while the volume of a cylinder is V = pi * r² * h. Therefore, a cylinder's volume is 3 times that of a cone with the same base and height. 3 * 100 = 300."
+    "rationale": "The volume of a cone is given by V = (1/3) * pi * r² * h, while the volume of a cylinder is V = pi * r² * h. Therefore, a cylinder's volume is 3 times that of a cone with the same base and height. 3 * 100 = 300.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

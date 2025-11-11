@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: This is a change of state from solid to liquid, but the substance (water) remains the same."
+    "passage": "Science textbook excerpt: This is a change of state from solid to liquid, but the substance (water) remains the same.",
+    "challenge_tags": [
+      "science-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Nuclear energy is stored in the nucleus of an atom.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "The total energy is constant.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "Insulation is a material that reduces heat transfer.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "Specific heat is a property of the material, not the method of heat transfer.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "The properties of the spoon, not the soup, determine how quickly the handle heats up.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "These are subatomic particles.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "Flammability is a chemical property describing how easily something ignites.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "The potential energy is converted to kinetic energy, not chemical energy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Fusion is the process that powers the Sun, but it is not the method of heat transfer to Earth.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "Neutralization reactions are typically exothermic.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "This is condensation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   }
 ];

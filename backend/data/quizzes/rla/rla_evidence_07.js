@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is a statement of fact, not evidence of the feature's success.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is a description of the animals' situation, not direct evidence of how adoption saves them.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This is a result of the increased production, not the evidence that proves it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,38 +123,14 @@ module.exports = [
         "rationale": "Correct. This is a specific, real-world example that provides a powerful and direct counterpoint to the idea that a single vote cannot make a difference.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
     "questionNumber": 5,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "A middle school introduced a 'sharing table' in the cafeteria where students could place unopened food for others to take. Administrators claimed the program reduced food waste while helping students who were still hungry. After the first month, the school weighed discarded food daily and compared the results to the previous month without the table.",
-    "question": "Which detail from the passage best supports the claim that the sharing table reduced food waste?",
-    "answerOptions": [
-      {
-        "text": "Administrators claimed the program helps hungry students.",
-        "rationale": "This restates a claim, not evidence that waste decreased.",
-        "isCorrect": false
-      },
-      {
-        "text": "The school weighed discarded food daily and compared it to the previous month.",
-        "rationale": "This describes the method, not the result that shows waste went down.",
-        "isCorrect": false
-      },
-      {
-        "text": "The amount of discarded food decreased by 30% compared to the prior month.",
-        "rationale": "Correct. A measured decline directly supports the claim that waste was reduced.",
-        "isCorrect": true
-      },
-      {
-        "text": "The program used a 'sharing table' for unopened items.",
-        "rationale": "This is a feature of the program, not evidence of its impact on waste.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "medium"
-=======
     "difficulty": "medium",
     "passage": "A hospital administrator argues that offering video appointments has reduced missed visits at Maple Ridge Clinic. She explains that before telehealth launched, 22% of appointments were marked 'no-show,' compared with only 8% this spring. The administrator also notes that 300 patients created online accounts in the first month and that the clinic purchased new webcams for every exam room.",
     "question": "Which detail most strongly supports the administrator's claim that telehealth reduced missed appointments?",
@@ -170,39 +155,14 @@ module.exports = [
         "rationale": "Knowing when the program began does not demonstrate its effectiveness.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "A city launched a rebate for e-bike purchases to encourage more residents to commute by bicycle. The transportation department reports: weekend trail usage is unchanged; weekday bike counts on the downtown bridge are up 22% since the program began; and e-bike sales at local shops doubled this quarter compared to last year.",
-    "question": "Which piece of evidence best supports the claim that the rebate increased bicycle commuting?",
-    "answerOptions": [
-      {
-        "text": "Weekend trail usage is unchanged.",
-        "rationale": "Weekend trail use is recreational and does not show commuting behavior.",
-        "isCorrect": false
-      },
-      {
-        "text": "Weekday bike counts on the downtown bridge are up 22% since the program began.",
-        "rationale": "Correct. Higher weekday counts on a commuting route directly support increased commuting.",
-        "isCorrect": true
-      },
-      {
-        "text": "E-bike sales at local shops doubled this quarter compared to last year.",
-        "rationale": "Higher sales suggest interest, but do not directly prove more people are commuting.",
-        "isCorrect": false
-      },
-      {
-        "text": "The city launched a rebate for e-bike purchases.",
-        "rationale": "This describes the program, not its effect on commuting.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "easy"
-=======
     "difficulty": "easy",
     "passage": "A press release claims that the Saturday farmers market now attracts far more shoppers than it did last year. Organizers counted 1,100 visitors during last week's market compared with 620 during the same weekend last summer. The release also mentions that local musicians performed and that new signage was installed near the parking lot.",
     "question": "Which fact best backs up the claim that attendance at the farmers market has grown?",
@@ -227,39 +187,14 @@ module.exports = [
         "rationale": "This detail is not mentioned in the passage and would not verify overall attendance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 7,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "An editorial argues that the new 10 p.m. park curfew has improved public safety. It notes that noise complaints after 10 p.m. fell slightly citywide, that daytime park usage increased this spring, and that police reports show the number of late-night incidents in Riverfront Park dropped from 14 in March to 5 in April, the first month the curfew was enforced.",
-    "question": "Which evidence most directly supports the claim that the park curfew improved safety in Riverfront Park at night?",
-    "answerOptions": [
-      {
-        "text": "Noise complaints after 10 p.m. fell slightly citywide.",
-        "rationale": "This is citywide, not specific to the park the curfew targets.",
-        "isCorrect": false
-      },
-      {
-        "text": "Daytime park usage increased this spring.",
-        "rationale": "Daytime usage does not show changes to nighttime safety.",
-        "isCorrect": false
-      },
-      {
-        "text": "Late-night incidents in Riverfront Park dropped from 14 in March to 5 in April, when the curfew began.",
-        "rationale": "Correct. This compares incidents in the same park and timeframe affected by the curfew.",
-        "isCorrect": true
-      },
-      {
-        "text": "The curfew begins at 10 p.m.",
-        "rationale": "This states a policy detail, not evidence of improved safety.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "hard"
-=======
     "difficulty": "hard",
     "passage": "During a workforce forum, a speaker argues that the city's new career center is responsible for a surge in manufacturing jobs. To support the point, she cites a state labor report showing that factory employment grew 9% after the center opened, displays a testimonial from one trainee who praised the staff, mentions that the center's website won a design award, and notes that a nearby county without a center lost jobs during the same period.",
     "question": "Which piece of evidence in the speaker's presentation is least convincing?",
@@ -284,13 +219,14 @@ module.exports = [
         "rationale": "This comparison suggests the center may have contributed to better outcomes locally.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
-<<<<<<< HEAD
     "passage": "A nonprofit piloted an after-school tutoring program focused on reading. According to the end-of-year report, students who attended at least 20 sessions improved an average of 1.2 grade levels in reading comprehension, compared to 0.3 grade levels for similar students who did not attend. Teachers also reported higher confidence among participants.",
     "question": "Which statement from the report best supports the claim that the tutoring program improved reading outcomes?",
     "answerOptions": [
@@ -315,65 +251,14 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "difficulty": "medium"
-=======
     "difficulty": "medium",
-    "passage": "A science museum director says the traveling space exhibit boosted weekend attendance. She reports that weekend ticket sales averaged 1,850 during the exhibit compared with 1,200 beforehand and that membership renewals increased 18%. She also mentions that the museum gift shop started selling astronaut ice cream.",
-    "question": "Which additional detail would provide the strongest support for the director's claim?",
-    "answerOptions": [
-      {
-        "text": "Visitor surveys showing that most weekend guests came specifically for the space exhibit.",
-        "rationale": "Correct. Survey data would directly connect the attendance increase to the exhibit.",
-        "isCorrect": true
-      },
-      {
-        "text": "A list of new merchandise items sold in the gift shop.",
-        "rationale": "Merchandise variety does not prove the exhibit raised attendance.",
-        "isCorrect": false
-      },
-      {
-        "text": "A reminder that the museum is closed on Mondays.",
-        "rationale": "Operating hours are unrelated to the claim about weekend attendance.",
-        "isCorrect": false
-      },
-      {
-        "text": "Photos of children posing with a model rocket.",
-        "rationale": "Images show engagement but do not demonstrate that more people visited.",
-        "isCorrect": false
-      }
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "An ad claims that a new LED light bulb 'lasts far longer than standard bulbs.' The product box notes a rated life of 25,000 hours and includes a chart showing that typical incandescent bulbs last about 1,000 hours and compact fluorescents about 8,000.",
-    "question": "Which detail best supports the ad's claim?",
-    "answerOptions": [
-      {
-        "text": "The product is an LED light bulb.",
-        "rationale": "This identifies the product, not evidence that it lasts longer.",
-        "isCorrect": false
-      },
-      {
-        "text": "The rated life is 25,000 hours, compared to 1,000 for incandescent and 8,000 for compact fluorescents.",
-        "rationale": "Correct. This comparison shows the LED bulb lasts far longer.",
-        "isCorrect": true
-      },
-      {
-        "text": "The box includes a chart.",
-        "rationale": "A chart is a format, not the evidence itself.",
-        "isCorrect": false
-      },
-      {
-        "text": "The ad makes a claim about longevity.",
-        "rationale": "Restating the claim is not evidence.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "easy"
-=======
     "difficulty": "easy",
     "passage": "A student journalist writes that the debate club's new practice schedule is improving competition results. She explains that the team now meets three times a week instead of once, that five of seven members advanced to the final round at the last tournament, and that the faculty advisor brought in a professional coach for one workshop.",
     "question": "Which fact best supports the journalist's claim about improved results?",
@@ -398,39 +283,14 @@ module.exports = [
         "rationale": "Club history is unrelated to current competition outcomes.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 10,
     "type": "multipleChoice",
-<<<<<<< HEAD
-    "passage": "A research brief states that planting native prairie grasses on former cropland improves soil health. In one 18-month trial, fields planted with native grasses saw soil organic matter rise from 2.1% to 3.0%, while nearby fields left fallow stayed at about 2.0%. Earthworm counts also increased in the planted plots.",
-    "question": "Which finding best supports the claim that planting native grasses improves soil health?",
-    "answerOptions": [
-      {
-        "text": "Earthworm counts increased in the planted plots.",
-        "rationale": "This suggests healthier soil, but the percentage change in organic matter is a more direct soil health indicator in the brief.",
-        "isCorrect": false
-      },
-      {
-        "text": "Fields planted with native grasses saw soil organic matter rise from 2.1% to 3.0% in 18 months, while fallow fields stayed near 2.0%.",
-        "rationale": "Correct. This comparative change is direct evidence of improved soil health due to planting.",
-        "isCorrect": true
-      },
-      {
-        "text": "Nearby fields were left fallow.",
-        "rationale": "This describes a control condition, not the evidence of improvement.",
-        "isCorrect": false
-      },
-      {
-        "text": "The trial lasted 18 months.",
-        "rationale": "This is a time frame detail, not evidence of improved soil health.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "hard"
-=======
     "difficulty": "hard",
     "passage": "A blogger insists that a month-long challenge to avoid added sugar improved participants' health. As proof, she shares a poll where 90% of her followers said they 'felt better,' a lab result from one friend showing lower blood pressure, and a chart comparing national sugar consumption with obesity rates over the last decade.",
     "question": "Which explanation best describes the weakness in one piece of the blogger's evidence?",
@@ -455,13 +315,14 @@ module.exports = [
         "rationale": "Using multiple sources can be useful; the issue is the quality of each piece of evidence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
-<<<<<<< HEAD
     "passage": "The library board argues that extending weeknight hours to 9 p.m. meets community needs. In a follow-up report, the board notes that door counts between 7 and 9 p.m. doubled, computer reservations during those hours rose by 45%, and a patron survey found that 62% of respondents used the library at least once during the extended evening hours.",
     "question": "Which piece of evidence most strongly supports the claim that extended hours meet community needs?",
     "answerOptions": [
@@ -486,39 +347,14 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "difficulty": "medium"
-=======
     "difficulty": "medium",
-    "passage": "A nonprofit defends its after-school tutoring program after critics claim it only helps students who were already passing. The organization shares records showing that 62% of participants entered with failing grades, that two-thirds of those students earned at least a C by semester's end, and that attendance logs confirm students stayed for the full two-hour sessions.",
-    "question": "Which detail best counters the critics' claim?",
-    "answerOptions": [
-      {
-        "text": "Sixty-two percent of the students in the program began with failing grades.",
-        "rationale": "Correct. Showing that most participants were failing proves the program serves students who were not already passing.",
-        "isCorrect": true
-      },
-      {
-        "text": "Tutoring sessions last for two full hours.",
-        "rationale": "Session length describes logistics, not the type of students who attend.",
-        "isCorrect": false
-      },
-      {
-        "text": "Two-thirds of participants earned at least a C by semester's end.",
-        "rationale": "This shows success but does not directly refute the claim about who entered the program.",
-        "isCorrect": false
-      },
-      {
-        "text": "Volunteers track attendance for every session.",
-        "rationale": "Accurate record-keeping does not address which students benefit.",
-        "isCorrect": false
-      }
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
-<<<<<<< HEAD
     "passage": "A principal claims that a new 'phones away during class' policy reduced distractions. After the policy started, observers recorded off-task behavior (like texting or scrolling) during five-minute samples: the average number of off-task incidents per class dropped from 10 to 6. Teachers also submitted fewer discipline referrals for phone use.",
     "question": "Which statement best supports the principal's claim?",
     "answerOptions": [
@@ -543,34 +379,9 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "difficulty": "medium"
-=======
     "difficulty": "medium",
-    "passage": "A transportation report argues that installing real-time bus arrival screens has increased rider satisfaction. The report cites a survey in which 82% of riders said they felt 'less stressed' about waiting, a 14% rise in monthly pass sales, and a photo of commuters smiling near a screen.",
-    "question": "Which evidence most directly supports the report's claim about satisfaction?",
-    "answerOptions": [
-      {
-        "text": "Eighty-two percent of riders in a survey reported feeling less stressed about waiting.",
-        "rationale": "Correct. This statistic measures rider satisfaction, which the claim addresses.",
-        "isCorrect": true
-      },
-      {
-        "text": "Monthly pass sales rose by 14%.",
-        "rationale": "Higher sales suggest more riders but do not specifically measure satisfaction.",
-        "isCorrect": false
-      },
-      {
-        "text": "A photo shows commuters smiling near the arrival screen.",
-        "rationale": "Photos capture a moment but are not strong evidence of overall satisfaction.",
-        "isCorrect": false
-      },
-      {
-        "text": "The city added screens at twelve bus stops this year.",
-        "rationale": "The number of screens does not reveal how riders feel about them.",
-        "isCorrect": false
-      }
+    "challenge_tags": [
+      "rla-2"
     ]
->>>>>>> b75c4c771392fe83784a7aa9e184ceb2db80b691
   }
-]
-;
+];

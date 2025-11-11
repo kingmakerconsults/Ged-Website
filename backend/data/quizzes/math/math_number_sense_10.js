@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "This is a basic subtraction problem. 502 - 49 = 453."
+    "rationale": "This is a basic subtraction problem. 502 - 49 = 453.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is $\\frac{2}{5}$ of 40?",
     "correctAnswer": "16",
-    "rationale": "To find the fraction of a number, multiply the number by the fraction. (2/5) * 40 = 80/5 = 16."
+    "rationale": "To find the fraction of a number, multiply the number by the fraction. (2/5) * 40 = 80/5 = 16.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is a 10% discount."
       }
     ],
-    "rationale": "First, calculate the service fee: 10% of $110 is 0.10 * 110 = $11. Then, add this to the ticket price: $110 + $11 = $121."
+    "rationale": "First, calculate the service fee: 10% of $110 is 0.10 * 110 = $11. Then, add this to the ticket price: $110 + $11 = $121.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Evaluate: $2 \times (3+4)^2$.",
     "correctAnswer": "98",
-    "rationale": "Order of operations: Parentheses (3+4=7), Exponents ($7^2$=49), Multiplication (2*49=98)."
+    "rationale": "Order of operations: Parentheses (3+4=7), Exponents ($7^2$=49), Multiplication (2*49=98).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "29 is only divisible by 1 and itself."
       }
     ],
-    "rationale": "A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. 29 fits this definition."
+    "rationale": "A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. 29 fits this definition.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the increase in thousands of dollars."
       }
     ],
-    "rationale": "The amount of increase is $360,000 - $300,000 = $60,000. The percent increase is (increase / original amount) * 100 = (60,000 / 300,000) * 100 = 0.20 * 100 = 20%."
+    "rationale": "The amount of increase is $360,000 - $300,000 = $60,000. The percent increase is (increase / original amount) * 100 = (60,000 / 300,000) * 100 = 0.20 * 100 = 20%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the least common multiple (LCM) of 9 and 15.",
     "correctAnswer": "45",
-    "rationale": "Multiples of 9: 9, 18, 27, 36, 45... Multiples of 15: 15, 30, 45... The LCM is 45."
+    "rationale": "Multiples of 9: 9, 18, 27, 36, 45... Multiples of 15: 15, 30, 45... The LCM is 45.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is multiplication by 100."
       }
     ],
-    "rationale": "When multiplying a decimal by 10, you move the decimal point one place to the right. So, 2.5 becomes 25."
+    "rationale": "When multiplying a decimal by 10, you move the decimal point one place to the right. So, 2.5 becomes 25.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A runner completes a 10-kilometer race in 50 minutes. How many minutes does it take her to run one kilometer?",
     "correctAnswer": "5 minutes",
-    "rationale": "To find the time per kilometer, divide the total time by the distance: 50 minutes / 10 kilometers = 5 minutes per kilometer."
+    "rationale": "To find the time per kilometer, divide the total time by the distance: 50 minutes / 10 kilometers = 5 minutes per kilometer.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To add the fractions, find a common denominator, which is 8. Convert 3/4 to 6/8. Then add: $\\frac{6}{8} + \\frac{1}{8} = \\frac{7}{8}$."
+    "rationale": "To add the fractions, find a common denominator, which is 8. Convert 3/4 to 6/8. Then add: $\\frac{6}{8} + \\frac{1}{8} = \\frac{7}{8}$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "This is a compound interest problem. After year 1, the balance is $4000 * 1.05 = $4200. After year 2, the balance is $4200 * 1.05 = $4410."
+    "rationale": "This is a compound interest problem. After year 1, the balance is $4000 * 1.05 = $4200. After year 2, the balance is $4200 * 1.05 = $4410.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, evaluate the absolute values: |-3| = 3 and |4 - 9| = |-5| = 5. Then, multiply the results: 3 * 5 = 15."
+    "rationale": "First, evaluate the absolute values: |-3| = 3 and |4 - 9| = |-5| = 5. Then, multiply the results: 3 * 5 = 15.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

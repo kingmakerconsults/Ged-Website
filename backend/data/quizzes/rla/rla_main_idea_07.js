@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is an instruction for attendees, not the overall announcement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This describes treatment, but not what the flu is or how to prevent it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "These are examples of disruptions, but the main idea is about the broader vulnerability and the need for a solution.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "This is one example of neuroplasticity in action, not the overall main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "Membership is described for residents, not limited to contractors.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "Fees are not mentioned in the notice.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "The focus here is on changing job tasks and skills, not machine production itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "The passage reports the opposite—improved attendance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "It states microchipping is included, not optional for a fee.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "The passage calls for careful interpretation, not impossibility.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "The passage specifically discusses urban neighborhoods.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -346,7 +379,9 @@ module.exports = [
         "rationale": "The passage gives a counterexample: some 'natural' snacks contain high sugar or salt.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   }
-]
-;
+];

@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is $5^4$."
       }
     ],
-    "rationale": "The expression $5^3$ means 5 multiplied by itself three times: 5 x 5 x 5 = 125."
+    "rationale": "The expression $5^3$ means 5 multiplied by itself three times: 5 x 5 x 5 = 125.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Find the product of 12 and 0.5.",
     "correctAnswer": "6",
-    "rationale": "Multiplying by 0.5 is the same as dividing by 2. 12 * 0.5 = 6."
+    "rationale": "Multiplying by 0.5 is the same as dividing by 2. 12 * 0.5 = 6.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the result of adding the discount."
       }
     ],
-    "rationale": "First, calculate the discount amount: 40% of $50 is 0.40 * 50 = $20. Then, subtract the discount from the original price: $50 - $20 = $30."
+    "rationale": "First, calculate the discount amount: 40% of $50 is 0.40 * 50 = $20. Then, subtract the discount from the original price: $50 - $20 = $30.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Evaluate: $5 \times (6 - 2) + 3^2$.",
     "correctAnswer": "29",
-    "rationale": "Order of operations (PEMDAS): Parentheses (6-2=4), Exponents ($3^2$=9), Multiplication (5*4=20), Addition (20+9=29)."
+    "rationale": "Order of operations (PEMDAS): Parentheses (6-2=4), Exponents ($3^2$=9), Multiplication (5*4=20), Addition (20+9=29).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To convert a mixed number to an improper fraction, multiply the whole number by the denominator, add the numerator, and keep the same denominator: (3 * 5 + 2) / 5 = 17/5."
+    "rationale": "To convert a mixed number to an improper fraction, multiply the whole number by the denominator, add the numerator, and keep the same denominator: (3 * 5 + 2) / 5 = 17/5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the value after a 15% increase."
       }
     ],
-    "rationale": "First, calculate the depreciation amount: 15% of $22,000 is 0.15 * 22000 = $3,300. Then, subtract this from the original price: $22,000 - $3,300 = $18,700."
+    "rationale": "First, calculate the depreciation amount: 15% of $22,000 is 0.15 * 22000 = $3,300. Then, subtract this from the original price: $22,000 - $3,300 = $18,700.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the least common denominator for the fractions $\\frac{1}{6}$ and $\\frac{3}{8}$?",
     "correctAnswer": "24",
-    "rationale": "The least common denominator is the least common multiple (LCM) of the denominators 6 and 8. The LCM of 6 and 8 is 24."
+    "rationale": "The least common denominator is the least common multiple (LCM) of the denominators 6 and 8. The LCM of 6 and 8 is 24.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 4+10."
       }
     ],
-    "rationale": "Adding a positive number to a negative number is like moving to the right on a number line. -4 + 10 = 6."
+    "rationale": "Adding a positive number to a negative number is like moving to the right on a number line. -4 + 10 = 6.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "An electronics store marks up the price of a game console by 30%. If the store bought the console for $250, what is the selling price?",
     "correctAnswer": "$325",
-    "rationale": "The markup amount is 30% of $250, which is 0.30 * 250 = $75. The selling price is the original cost plus the markup: $250 + $75 = $325."
+    "rationale": "The markup amount is 30% of $250, which is 0.30 * 250 = $75. The selling price is the original cost plus the markup: $250 + $75 = $325.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is 144/2."
       }
     ],
-    "rationale": "The square root of 144 is the number that, when multiplied by itself, equals 144. That number is 12."
+    "rationale": "The square root of 144 is the number that, when multiplied by itself, equals 144. That number is 12.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is what's left after you ate."
       }
     ],
-    "rationale": "To find the fraction of the original pizza you ate, you need to calculate 1/3 of 3/4. This is a multiplication problem: $\\frac{1}{3} \\times \\frac{3}{4} = \\frac{3}{12}$, which simplifies to $\\frac{1}{4}$."
+    "rationale": "To find the fraction of the original pizza you ate, you need to calculate 1/3 of 3/4. This is a multiplication problem: $\\frac{1}{3} \\times \\frac{3}{4} = \\frac{3}{12}$, which simplifies to $\\frac{1}{4}$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "The sum of the digits is 4+0+1=5, which is not divisible by 3."
       }
     ],
-    "rationale": "A number is divisible by 3 if the sum of its digits is divisible by 3. For 312, the sum of the digits is 3 + 1 + 2 = 6. Since 6 is divisible by 3, 312 is also divisible by 3."
+    "rationale": "A number is divisible by 3 if the sum of its digits is divisible by 3. For 312, the sum of the digits is 3 + 1 + 2 = 6. Since 6 is divisible by 3, 312 is also divisible by 3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "History textbook excerpt: Federalism is the system where power is shared between the national and state governments."
+    "passage": "History textbook excerpt: Federalism is the system where power is shared between the national and state governments.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -57,7 +60,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. Constitution, Tenth Amendment."
+    "source": "U.S. Constitution, Tenth Amendment.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "Correct. The power to declare war is explicitly given to Congress in the Constitution.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -113,6 +122,9 @@ module.exports = [
         "rationale": "This is a federal power.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -141,6 +153,9 @@ module.exports = [
         "rationale": "This describes a prohibited power.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -171,7 +186,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. Constitution, Article VI."
+    "source": "U.S. Constitution, Article VI.",
+    "challenge_tags": [
+      "social-3"
+    ]
   },
   {
     "questionNumber": 7,
@@ -199,6 +217,9 @@ module.exports = [
         "rationale": "This power is given to the states.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -227,6 +248,9 @@ module.exports = [
         "rationale": "There was no separate executive branch under the Articles.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -255,6 +279,9 @@ module.exports = [
         "rationale": "This was established in Marbury v. Madison.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -283,6 +310,9 @@ module.exports = [
         "rationale": "The clause has not been amended in this way.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -311,6 +341,9 @@ module.exports = [
         "rationale": "This clause requires states to respect the 'public acts, records, and judicial proceedings of every other state,' which is not the central issue here.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   },
   {
@@ -339,6 +372,9 @@ module.exports = [
         "rationale": "This power is exclusive to the federal government.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-3"
     ]
   }
 ];

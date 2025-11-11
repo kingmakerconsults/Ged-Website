@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the area of the square."
       }
     ],
-    "rationale": "The perimeter of a square is 4 times the side length. P = 4 * 7 m = 28 m."
+    "rationale": "The perimeter of a square is 4 times the side length. P = 4 * 7 m = 28 m.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A circle has a circumference of 50.24 cm. What is its radius? Use 3.14 for $\\pi$.",
     "correctAnswer": "8 cm",
-    "rationale": "Circumference C = 2 * pi * r. So, 50.24 = 2 * 3.14 * r. 50.24 = 6.28 * r. Divide by 6.28 to find r = 8 cm."
+    "rationale": "Circumference C = 2 * pi * r. So, 50.24 = 2 * 3.14 * r. 50.24 = 6.28 * r. Divide by 6.28 to find r = 8 cm.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the volume of a sphere with a much larger radius."
       }
     ],
-    "rationale": "Using the formula, V = (4/3) * 3.14 * (3 inches)³ = (4/3) * 3.14 * 27 = 113.04 in³."
+    "rationale": "Using the formula, V = (4/3) * 3.14 * (3 inches)³ = (4/3) * 3.14 * 27 = 113.04 in³.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "An angle measuring 45° is what type of angle?",
     "correctAnswer": "Acute",
-    "rationale": "An acute angle is an angle that measures less than 90°."
+    "rationale": "An acute angle is an angle that measures less than 90°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is not a standard term for intersecting lines."
       }
     ],
-    "rationale": "The definition of perpendicular lines is that they intersect at a right (90°) angle."
+    "rationale": "The definition of perpendicular lines is that they intersect at a right (90°) angle.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is $a^2$ not a."
       }
     ],
-    "rationale": "Using the Pythagorean theorem, $a^2 + b^2 = c^2$. We have $a^2 + 8^2 = 17^2$, so $a^2 + 64 = 289$. Subtract 64 from both sides: $a^2 = 225$. The square root of 225 is 15."
+    "rationale": "Using the Pythagorean theorem, $a^2 + b^2 = c^2$. We have $a^2 + 8^2 = 17^2$, so $a^2 + 64 = 289$. Subtract 64 from both sides: $a^2 = 225$. The square root of 225 is 15.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the sum of the interior angles of a quadrilateral?",
     "correctAnswer": "360°",
-    "rationale": "A quadrilateral can be divided into two triangles, and the sum of angles in each triangle is 180°. So, the total is 180° * 2 = 360°."
+    "rationale": "A quadrilateral can be divided into two triangles, and the sum of angles in each triangle is 180°. So, the total is 180° * 2 = 360°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is the perimeter minus the length."
       }
     ],
-    "rationale": "The formula for the perimeter of a rectangle is P = 2L + 2W. We have 70 = 2(20) + 2W, so 70 = 40 + 2W. Subtract 40: 30 = 2W. Divide by 2: W = 15 feet."
+    "rationale": "The formula for the perimeter of a rectangle is P = 2L + 2W. We have 70 = 2(20) + 2W, so 70 = 40 + 2W. Subtract 40: 30 = 2W. Divide by 2: W = 15 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "How many inches are in 2.5 feet?",
     "correctAnswer": "30 inches",
-    "rationale": "There are 12 inches in 1 foot. So, in 2.5 feet, there are 2.5 * 12 = 30 inches."
+    "rationale": "There are 12 inches in 1 foot. So, in 2.5 feet, there are 2.5 * 12 = 30 inches.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the result of multiplying the larger base by the height."
       }
     ],
-    "rationale": "The formula for the area of a trapezoid is A = $\\frac{1}{2}(b_1 + b_2)h$. So, A = $\\frac{1}{2}(10 + 14) \\times 5 = \\frac{1}{2}(24) \\times 5 = 12 \\times 5 = 60$ cm²."
+    "rationale": "The formula for the area of a trapezoid is A = $\\frac{1}{2}(b_1 + b_2)h$. So, A = $\\frac{1}{2}(10 + 14) \\times 5 = \\frac{1}{2}(24) \\times 5 = 12 \\times 5 = 60$ cm².",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "The side lengths do not satisfy the Pythagorean theorem (5²+5² != 7²)."
       }
     ],
-    "rationale": "An isosceles triangle is defined as a triangle with at least two sides of equal length. This triangle has two sides of length 5."
+    "rationale": "An isosceles triangle is defined as a triangle with at least two sides of equal length. This triangle has two sides of length 5.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Supplementary angles are two angles whose measures add up to 180°. The other angle is 180° - 110° = 70°."
+    "rationale": "Supplementary angles are two angles whose measures add up to 180°. The other angle is 180° - 110° = 70°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

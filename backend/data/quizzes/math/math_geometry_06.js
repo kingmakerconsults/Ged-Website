@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This would be for a hexagon."
       }
     ],
-    "rationale": "A regular pentagon has 5 equal sides. The perimeter is the side length multiplied by the number of sides: 10 inches * 5 = 50 inches."
+    "rationale": "A regular pentagon has 5 equal sides. The perimeter is the side length multiplied by the number of sides: 10 inches * 5 = 50 inches.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A circle has a radius of 9 cm. What is its area? Use 3.14 for $\\pi$.",
     "correctAnswer": "254.34 $cm^2$",
-    "rationale": "Area = pi * $r^2$. A = 3.14 * (9 cm)$^2$ = 3.14 * 81 = 254.34 $cm^2$."
+    "rationale": "Area = pi * $r^2$. A = 3.14 * (9 cm)$^2$ = 3.14 * 81 = 254.34 $cm^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is just length * width."
       }
     ],
-    "rationale": "The volume of a rectangular prism (box) is found by multiplying its length, width, and height. V = 8 in * 5 in * 3 in = 120 $in^3$."
+    "rationale": "The volume of a rectangular prism (box) is found by multiplying its length, width, and height. V = 8 in * 5 in * 3 in = 120 $in^3$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "An angle measuring exactly 90° is called what?",
     "correctAnswer": "Right angle",
-    "rationale": "A right angle is an angle that measures exactly 90°."
+    "rationale": "A right angle is an angle that measures exactly 90°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is an incorrect application of the Pythagorean theorem."
       }
     ],
-    "rationale": "To determine if a triangle is a right triangle, we check if its side lengths satisfy the Pythagorean theorem ($a^2 + b^2 = c^2$). $8^2 + 15^2 = 64 + 225 = 289$. And $17^2 = 289$. Since they are equal, it is a right triangle."
+    "rationale": "To determine if a triangle is a right triangle, we check if its side lengths satisfy the Pythagorean theorem ($a^2 + b^2 = c^2$). $8^2 + 15^2 = 64 + 225 = 289$. And $17^2 = 289$. Since they are equal, it is a right triangle.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The radius is half the diameter, so r = 16 / 2 = 8 inches. The surface area of a sphere is SA = 4 * pi * $r^2$. SA = 4 * 3.14 * (8 inches)$^2$ = 4 * 3.14 * 64 = 803.84 $in^2$."
+    "rationale": "The radius is half the diameter, so r = 16 / 2 = 8 inches. The surface area of a sphere is SA = 4 * pi * $r^2$. SA = 4 * 3.14 * (8 inches)$^2$ = 4 * 3.14 * 64 = 803.84 $in^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "If two angles in a triangle are 45° and 90°, what is the third angle?",
     "correctAnswer": "45°",
-    "rationale": "The sum of the angles in a triangle is 180°. So, the third angle is 180° - 90° - 45° = 45°."
+    "rationale": "The sum of the angles in a triangle is 180°. So, the third angle is 180° - 90° - 45° = 45°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 12*8*6."
       }
     ],
-    "rationale": "The formula for the area of a trapezoid is A = $\\frac{1}{2}(b_1 + b_2)h$. A = $\\frac{1}{2}(12 + 8) \\times 6 = \\frac{1}{2}(20) \\times 6 = 10 \\times 6 = 60$."
+    "rationale": "The formula for the area of a trapezoid is A = $\\frac{1}{2}(b_1 + b_2)h$. A = $\\frac{1}{2}(12 + 8) \\times 6 = \\frac{1}{2}(20) \\times 6 = 10 \\times 6 = 60$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A rectangular field is 100 yards long and 50 yards wide. What is the length of the diagonal in yards?",
     "correctAnswer": "111.8 yards",
-    "rationale": "The diagonal forms the hypotenuse of a right triangle. Using the Pythagorean theorem: d² = 100² + 50² = 10000 + 2500 = 12500. d = sqrt(12500) ≈ 111.8 yards."
+    "rationale": "The diagonal forms the hypotenuse of a right triangle. Using the Pythagorean theorem: d² = 100² + 50² = 10000 + 2500 = 12500. d = sqrt(12500) ≈ 111.8 yards.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is for an octagon."
       }
     ],
-    "rationale": "The sum of the interior angles of a polygon is given by the formula (n-2) * 180°, where n is the number of sides. For a hexagon, n=6, so the sum is (6-2) * 180° = 720°."
+    "rationale": "The sum of the interior angles of a polygon is given by the formula (n-2) * 180°, where n is the number of sides. For a hexagon, n=6, so the sum is (6-2) * 180° = 720°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "A tangent is a line that touches the circle at only one point."
       }
     ],
-    "rationale": "The diameter of a circle is any straight line segment that passes through the center of the circle and whose endpoints lie on the circle."
+    "rationale": "The diameter of a circle is any straight line segment that passes through the center of the circle and whose endpoints lie on the circle.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Using the formula for the volume of a cone, V = (1/3) * pi * $r^2$ * h. V = (1/3) * 3.14 * (6 cm)$^2$ * 10 cm = (1/3) * 3.14 * 36 * 10 = 376.8 $cm^3$."
+    "rationale": "Using the formula for the volume of a cone, V = (1/3) * pi * $r^2$ * h. V = (1/3) * 3.14 * (6 cm)$^2$ * 10 cm = (1/3) * 3.14 * 36 * 10 = 376.8 $cm^3$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

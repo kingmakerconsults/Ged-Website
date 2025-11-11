@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": true
       }
     ],
-    "passage": "Science textbook excerpt: DNA is the fundamental hereditary material in nearly all living things."
+    "passage": "Science textbook excerpt: DNA is the fundamental hereditary material in nearly all living things.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "An allele is a specific version or variant of a gene.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "The genome is the complete set of genetic instructions for an organism.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "Correct. 'Hetero-' means 'different,' so heterozygous means having two different alleles (e.g., Tt).",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "This ratio would be possible from a cross of two heterozygous parents.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "This scenario describes simple dominance, not incomplete dominance where traits blend.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "A mutation is a change in the DNA sequence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "Replication is the process of copying a DNA molecule.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "An adaptation is a trait that helps an organism survive, which can arise from a mutation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Correct. The nucleus acts as the control center of the cell and contains the chromosomes.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "Proteins often fold into globular shapes, but DNA does not.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "Selection favors organisms with advantageous traits, which may be influenced by multiple genes.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   }
 ];

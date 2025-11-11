@@ -27,17 +27,16 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "The Declaration of Independence, 1776."
+    "source": "The Declaration of Independence, 1776.",
+    "challenge_tags": [
+      "social-6"
+    ]
   },
   {
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-<<<<<<< HEAD
-    "question": "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness. The concept of 'unalienable Rights' means that these rights...",
-=======
     "question": "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness. The Declaration of Independence, 1776. The concept of 'unalienable Rights' means that these rights...",
->>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "Are granted by the government and can be taken away.",
@@ -59,6 +58,9 @@ module.exports = [
         "rationale": "The passage suggests these rights are endowed at creation, not earned.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-6"
     ]
   },
   {
@@ -87,6 +89,9 @@ module.exports = [
         "rationale": "While it could be official if published by a government body, its nature as an analysis of past events makes it a secondary source.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-6"
     ]
   },
   {
@@ -116,7 +121,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. Constitution, First Amendment."
+    "source": "U.S. Constitution, First Amendment.",
+    "challenge_tags": [
+      "social-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -145,17 +153,16 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Hypothetical economic data table."
+    "source": "Hypothetical economic data table.",
+    "challenge_tags": [
+      "social-6"
+    ]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "medium",
-<<<<<<< HEAD
     "question": "**Unemployment Rate by Year**\n        - 2008: 5.8%\n        - 2009: 9.3%\n        - 2010: 9.6%\n        - 2011: 8.9%\n        - 2012: 8.1%. What was the general trend in the unemployment rate between 2010 and 2012?",
-=======
-    "question": "**Unemployment Rate by Year** - 2008: 5.8% - 2009: 9.3% - 2010: 9.6% - 2011: 8.9% - 2012: 8.1% Hypothetical economic data table. What was the general trend in the unemployment rate between 2010 and 2012?",
->>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "It was increasing rapidly.",
@@ -177,6 +184,9 @@ module.exports = [
         "rationale": "There was a clear downward trend after the 2010 peak.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-6"
     ]
   },
   {
@@ -206,17 +216,16 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "George Washington's Farewell Address, 1796."
+    "source": "George Washington's Farewell Address, 1796.",
+    "challenge_tags": [
+      "social-6"
+    ]
   },
   {
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "hard",
-<<<<<<< HEAD
     "question": "A diary entry from a pioneer on the Oregon Trail in 1845 reads: 'June 10th. Crossed the Platte River today. The current was swift, and we nearly lost a wagon. Mary is sick with a fever. We are low on flour. I pray we reach the Willamette Valley before the snows come.'. What does this primary source document best illustrate?",
-=======
-    "question": "A diary entry from a pioneer on the Oregon Trail in 1845 reads: 'June 10th. Crossed the Platte River today. The current was swift, and we nearly lost a wagon. Mary is sick with a fever. We are low on flour. I pray we reach the Willamette Valley before the snows come.' What does this primary source document best illustrate?",
->>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "The government's official policy on westward expansion.",
@@ -238,17 +247,16 @@ module.exports = [
         "rationale": "The diary entry does not mention Native Americans.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-6"
     ]
   },
   {
     "questionNumber": 9,
     "type": "multipleChoice",
     "difficulty": "hard",
-<<<<<<< HEAD
-    "question": "The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people. This text, the Tenth Amendment, is the basis for which principle of U.S. government?",
-=======
     "question": "The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people. U.S. Constitution, Tenth Amendment. This text, the Tenth Amendment, is the basis for which principle of U.S. government?",
->>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "Checks and balances",
@@ -270,6 +278,9 @@ module.exports = [
         "rationale": "Separation of powers refers to the division of the government into three branches.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-6"
     ]
   },
   {
@@ -298,17 +309,16 @@ module.exports = [
         "rationale": "Political cartoons typically comment on public, not personal, issues.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-6"
     ]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "medium",
-<<<<<<< HEAD
-    "question": "Whereas it is the duty of all Nations to acknowledge the providence of Almighty God, to obey his will, to be grateful for his benefits, and humbly to implore his protection and favor... Now therefore I do recommend and assign Thursday the 26th day of November next to be devoted by the People of these States to the service of that great and glorious Being, who is the beneficent Author of all the good that was, that is, or that will be. This proclamation by George Washington is an example of what kind of primary source?",
-=======
     "question": "Whereas it is the duty of all Nations to acknowledge the providence of Almighty God, to obey his will, to be grateful for his benefits, and humbly to implore his protection and favor... Now therefore I do recommend and assign Thursday the 26th day of November next to be devoted by the People of these States to the service of that great and glorious Being, who is the beneficent Author of all the good that was, that is, or that will be. George Washington, Thanksgiving Proclamation, 1789. This proclamation by George Washington is an example of what kind of primary source?",
->>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "A personal letter to a family member.",
@@ -330,6 +340,9 @@ module.exports = [
         "rationale": "It is a government document, not a commercial advertisement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-6"
     ]
   },
   {
@@ -358,6 +371,9 @@ module.exports = [
         "rationale": "The soaring sales of cars, radios, and appliances show a great deal of interest.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-6"
     ]
   }
 ];

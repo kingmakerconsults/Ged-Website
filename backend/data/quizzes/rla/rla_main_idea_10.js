@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is the deadline, but not the full scope of the main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is a key component of the diet, but not the full main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This provides the time frame, but not the substance of the main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "Motivation only; it does not express the full plan.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "Too general and not the announced change.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "Problem statement only; not the main idea including solution.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "An implied action, but not the central announcement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "Too vague; lacks the specific impact and timing.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "One benefit, not the overall argument.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "Partial information; not the main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "One mechanism, not the main idea about the award.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -346,7 +379,9 @@ module.exports = [
         "rationale": "Timing alone is not the main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   }
-]
-;
+];

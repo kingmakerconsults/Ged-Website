@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This describes how the product of the program is used, not the effectiveness of the waste reduction itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This describes a function of sleep, but the study provides stronger, more specific evidence of its importance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This describes the methodology of the survey, not the results that serve as evidence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "Correct. This is a specific, high-percentage statistic that indicates a lasting positive impact on tourism and local business, making it the strongest piece of evidence.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "This is a health benefit, but the impact on stress and community connection is a more direct measure of 'well-being'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "The author mentions this but qualifies it with 'modest' and contrasts it with the lack of effect for younger students, making it weaker evidence for the author's point.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "This gives a date for the study but provides no information about its findings.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "This states the timing, not the content that makes them prepared.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "While true, the key evidence is its special adaptation (surviving without water), not just its existence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "This describes the myth, it does not provide evidence against it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "This is a result of the decrease in face-to-face interaction, but the decrease itself is the most direct evidence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -346,6 +379,9 @@ module.exports = [
         "rationale": "Correct. These are two specific, positive ecological changes that are cited as key indicators of the Bay's improving health, directly supporting the idea of success.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   }
 ];

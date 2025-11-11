@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "Notebook color has no impact on data collection.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "Container shape is irrelevant if volume and other factors are controlled.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "Pot size remains constant so that only the fertilizer amount is being tested.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "Mass is not part of the smell observation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "Changing the graph type does not convey temperature changes.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "Averaging does not reduce the number of samples; it interprets the data collected.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "The general trend shows the opposite.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "Graph paper type does not influence the measured speed.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "Known faulty data can be excluded if the reason is clearly documented.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "The shorter whiskers at School X indicate fewer extreme values compared with School Y.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "Discarding valid data distorts the overall findings.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   },
   {
@@ -334,6 +367,9 @@ module.exports = [
         "rationale": "The claim lacks evidence for this broad statement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-6"
     ]
   }
 ];

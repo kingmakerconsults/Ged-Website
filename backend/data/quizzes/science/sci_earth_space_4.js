@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The crust is the thinnest and outermost layer of the Earth."
+    "passage": "Science textbook excerpt: The crust is the thinnest and outermost layer of the Earth.",
+    "challenge_tags": [
+      "science-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Fossils are found within rocks, but it is not a type of rock.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "A tsunami is a large ocean wave, often caused by an underwater earthquake.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "Neptune is the fourth largest planet.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "The intrusion must be younger than the layers it cuts through.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "Correct. According to the Principle of Cross-Cutting Relationships, the intrusion must be the youngest event because it cuts through all three layers.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "Wind helps move water vapor, but it is not the primary energy source for the cycle.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "Brightness is measured in units like lumens or magnitude.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "There are many coral reefs in the Pacific, but this is not the defining feature of the Ring of Fire.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Stars are also in motion; they orbit the center of their galaxy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "This is a chemical change (oxidation).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "This is a galaxy located much farther away.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   }
 ];

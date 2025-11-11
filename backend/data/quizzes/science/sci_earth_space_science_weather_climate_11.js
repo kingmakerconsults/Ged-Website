@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The sun's energy heats the Earth's surface unevenly, creating temperature differences that drive winds and ocean currents."
+    "passage": "Science textbook excerpt: The sun's energy heats the Earth's surface unevenly, creating temperature differences that drive winds and ocean currents.",
+    "challenge_tags": [
+      "science-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Both weather and climate include multiple factors like temperature, precipitation, wind, and humidity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "Winds drive surface ocean currents, not the other way around.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "This is a region where air pressure is lower than the surrounding area, often associated with stormy weather.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "This can occur, but it is not the most characteristic weather for a strong cold front.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "Correct. This is the standard symbol and description for a cold front.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "Transpiration is the process of water movement through a plant and its evaporation from leaves.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "Argon is an inert gas and not a greenhouse gas.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "While it may be windy, the wind itself doesn't moderate the temperature; it's the temperature of the air (influenced by the water) that matters.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Correct. A rising barometer often indicates fair weather, while a falling barometer can indicate an approaching storm.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "Humidity is the amount of water vapor in the air.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "The mountains create a significant climatic difference between the windward and leeward sides.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   }
 ];

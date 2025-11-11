@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is one of the values."
       }
     ],
-    "rationale": "The range is the difference between the highest and lowest values in the dataset. The highest value is 300 and the lowest is 100. Range = 300 - 100 = 200."
+    "rationale": "The range is the difference between the highest and lowest values in the dataset. The highest value is 300 and the lowest is 100. Range = 300 - 100 = 200.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the probability of rolling an odd number on a standard six-sided die?",
     "correctAnswer": "1/2",
-    "rationale": "There are three odd numbers (1, 3, 5) out of six possible outcomes. The probability is 3/6, which simplifies to 1/2."
+    "rationale": "There are three odd numbers (1, 3, 5) out of six possible outcomes. The probability is 3/6, which simplifies to 1/2.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the range."
       }
     ],
-    "rationale": "To find the mean, add the numbers together (7 + 8 + 8 + 9 + 13 = 45) and divide by the number of values (5). 45 / 5 = 9."
+    "rationale": "To find the mean, add the numbers together (7 + 8 + 8 + 9 + 13 = 45) and divide by the number of values (5). 45 / 5 = 9.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the median of the data set: 3, 9, 1, 4, 3, 8?",
     "correctAnswer": "3.5",
-    "rationale": "Order the data: 1, 3, 3, 4, 8, 9. The median is the average of the two middle numbers: (3 + 4) / 2 = 3.5."
+    "rationale": "Order the data: 1, 3, 3, 4, 8, 9. The median is the average of the two middle numbers: (3 + 4) / 2 = 3.5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the number of non-red marbles."
       }
     ],
-    "rationale": "To find the number of red marbles, multiply the total number of marbles by the probability of drawing a red one: 20 * (1/4) = 5 red marbles."
+    "rationale": "To find the number of red marbles, multiply the total number of marbles by the probability of drawing a red one: 20 * (1/4) = 5 red marbles.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the difference in score."
       }
     ],
-    "rationale": "The difference between the student's score and the mean is 90 - 80 = 10. To find how many standard deviations this is, divide the difference by the standard deviation: 10 / 5 = 2."
+    "rationale": "The difference between the student's score and the mean is 90 - 80 = 10. To find how many standard deviations this is, divide the difference by the standard deviation: 10 / 5 = 2.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the mode of the data: A, B, C, A, B, A, D?",
     "correctAnswer": "A",
-    "rationale": "The mode is the value that appears most frequently. 'A' appears 3 times, which is more than any other letter."
+    "rationale": "The mode is the value that appears most frequently. 'A' appears 3 times, which is more than any other letter.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is the probability of drawing a card of a specific suit."
       }
     ],
-    "rationale": "There are 3 face cards (Jack, Queen, King) in each of the 4 suits, so there are a total of 12 face cards. The probability is 12/52, which simplifies to 3/13."
+    "rationale": "There are 3 face cards (Jack, Queen, King) in each of the 4 suits, so there are a total of 12 face cards. The probability is 12/52, which simplifies to 3/13.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A student needs an average of at least 85 on three exams. Their scores on the first two exams are 80 and 82. What is the minimum score they need on the third exam?",
     "correctAnswer": "93",
-    "rationale": "To average 85 on 3 exams, the total score must be 3 * 85 = 255. The sum of the first two scores is 80 + 82 = 162. The third score must be at least 255 - 162 = 93."
+    "rationale": "To average 85 on 3 exams, the total score must be 3 * 85 = 255. The sum of the first two scores is 80 + 82 = 162. The third score must be at least 255 - 162 = 93.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "The range measures how spread out the data is."
       }
     ],
-    "rationale": "The range is a measure of statistical dispersion, which describes the spread of data points."
+    "rationale": "The range is a measure of statistical dispersion, which describes the spread of data points.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is 5!."
       }
     ],
-    "rationale": "This is a permutation problem because the order of the digits matters. There are 5 choices for the first digit. Since the digits must be different, there are 4 choices remaining for the second digit. The total number of codes is 5 * 4 = 20."
+    "rationale": "This is a permutation problem because the order of the digits matters. There are 5 choices for the first digit. Since the digits must be different, there are 4 choices remaining for the second digit. The total number of codes is 5 * 4 = 20.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "A probability of 0 means the event cannot happen."
       }
     ],
-    "rationale": "In probability, an event with a probability of 0 is considered impossible."
+    "rationale": "In probability, an event with a probability of 0 is considered impossible.",
+    "challenge_tags": [
+      "math-6"
+    ]
   }
 ];

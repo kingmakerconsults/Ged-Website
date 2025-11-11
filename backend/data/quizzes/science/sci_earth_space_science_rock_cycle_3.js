@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: 'Igneous' comes from the Latin word for fire."
+    "passage": "Science textbook excerpt: 'Igneous' comes from the Latin word for fire.",
+    "challenge_tags": [
+      "science-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Compaction is part of the process of forming sedimentary rock.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "Volcanic rock is a type of igneous rock.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "These processes form sedimentary rocks.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "The rock cycle shows that any rock type can be transformed into any other rock type.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "This happens when the rock is exposed at the surface, not when it melts.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "Fossils are almost exclusively found in sedimentary rock.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "This would form marble, a metamorphic rock.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "Correct. The heat and pressure recrystallize the calcite in limestone to form marble.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "These are sources of energy for humans, not the geological rock cycle.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "Crystals are solid materials with a highly ordered microscopic structure.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "This describes a metamorphic rock.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   }
 ];

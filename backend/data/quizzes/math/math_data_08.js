@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the mean."
       }
     ],
-    "rationale": "The mode is the value that appears most often in a data set. In this set, 3 appears three times, which is more than any other number."
+    "rationale": "The mode is the value that appears most often in a data set. In this set, 3 appears three times, which is more than any other number.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A card is drawn from a standard 52-card deck. What is the probability that the card is a spade?",
     "correctAnswer": "1/4",
-    "rationale": "There are 13 spades in a 52-card deck. The probability is 13/52, which simplifies to 1/4."
+    "rationale": "There are 13 spades in a 52-card deck. The probability is 13/52, which simplifies to 1/4.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the sum."
       }
     ],
-    "rationale": "To find the mean, add the numbers (20+30+40+50+60 = 200) and divide by the count of the numbers (5). 200 / 5 = 40."
+    "rationale": "To find the mean, add the numbers (20+30+40+50+60 = 200) and divide by the count of the numbers (5). 200 / 5 = 40.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the median of the data set: 5, 2, 8, 4, 9, 2?",
     "correctAnswer": "4.5",
-    "rationale": "Order the data: 2, 2, 4, 5, 8, 9. The median is the average of the two middle numbers: (4 + 5) / 2 = 4.5."
+    "rationale": "Order the data: 2, 2, 4, 5, 8, 9. The median is the average of the two middle numbers: (4 + 5) / 2 = 4.5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the probability of blue."
       }
     ],
-    "rationale": "There are a total of 4 + 3 + 5 = 12 marbles. The number of red or green marbles is 4 + 3 = 7. So, the probability is 7/12."
+    "rationale": "There are a total of 4 + 3 + 5 = 12 marbles. The number of red or green marbles is 4 + 3 = 7. So, the probability is 7/12.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is 26+10."
       }
     ],
-    "rationale": "There are 26 choices for each of the 3 letter positions and 10 choices for each of the 3 number positions. The total number of combinations is 26 * 26 * 26 * 10 * 10 * 10 = 17,576,000."
+    "rationale": "There are 26 choices for each of the 3 letter positions and 10 choices for each of the 3 number positions. The total number of combinations is 26 * 26 * 26 * 10 * 10 * 10 = 17,576,000.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "The mean of a set of 5 numbers is 70. If a 6th number is added and the new mean is 75, what is the 6th number?",
     "correctAnswer": "100",
-    "rationale": "The sum of the first 5 numbers is 5 * 70 = 350. The sum of the 6 numbers must be 6 * 75 = 450. The 6th number is 450 - 350 = 100."
+    "rationale": "The sum of the first 5 numbers is 5 * 70 = 350. The sum of the 6 numbers must be 6 * 75 = 450. The 6th number is 450 - 350 = 100.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is the sum."
       }
     ],
-    "rationale": "The range is the difference between the maximum and minimum values. Since all the numbers are 10, the range is 10 - 10 = 0."
+    "rationale": "The range is the difference between the maximum and minimum values. Since all the numbers are 10, the range is 10 - 10 = 0.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A coin is flipped 3 times. What is the probability of getting tails all 3 times?",
     "correctAnswer": "1/8",
-    "rationale": "The probability of tails on one flip is 1/2. For 3 flips, the probability is (1/2) * (1/2) * (1/2) = 1/8."
+    "rationale": "The probability of tails on one flip is 1/2. For 3 flips, the probability is (1/2) * (1/2) * (1/2) = 1/8.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This would give an average of 81.25"
       }
     ],
-    "rationale": "To have an average of at least 80 on 4 tests, the total score must be at least 4 * 80 = 320. The sum of the first three scores is 70 + 75 + 80 = 225. The fourth score must be at least 320 - 225 = 95."
+    "rationale": "To have an average of at least 80 on 4 tests, the total score must be at least 4 * 80 = 320. The sum of the first three scores is 70 + 75 + 80 = 225. The fourth score must be at least 320 - 225 = 95.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "A statistic is a piece of data from a study."
       }
     ],
-    "rationale": "Since the order in which the people are selected for the committee does not matter, this is a combination problem."
+    "rationale": "Since the order in which the people are selected for the committee does not matter, this is a combination problem.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "A 20% chance of rain means the probability is 0.20 or 1/5. The probability of no rain is 80% or 4/5. The odds against rain are the ratio of the probability of no rain to the probability of rain, which is (4/5) to (1/5), or 4 to 1."
+    "rationale": "A 20% chance of rain means the probability is 0.20 or 1/5. The probability of no rain is 80% or 4/5. The odds against rain are the ratio of the probability of no rain to the probability of rain, which is (4/5) to (1/5), or 4 to 1.",
+    "challenge_tags": [
+      "math-6"
+    ]
   }
 ];

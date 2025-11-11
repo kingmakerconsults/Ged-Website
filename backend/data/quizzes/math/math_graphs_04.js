@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute 3 for x in the function: f(3) = 7(3) + 2 = 21 + 2 = 23."
+    "rationale": "Substitute 3 for x in the function: f(3) = 7(3) + 2 = 21 + 2 = 23.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the y-intercept of the line $y = \\frac{1}{2}x - 6$?",
     "correctAnswer": "-6",
-    "rationale": "In the slope-intercept form y = mx + b, 'b' represents the y-intercept. In this case, b = -6."
+    "rationale": "In the slope-intercept form y = mx + b, 'b' represents the y-intercept. In this case, b = -6.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the change in y, not the slope."
       }
     ],
-    "rationale": "The slope is calculated as the change in y divided by the change in x: $m = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{3 - (-1)}{5 - 3} = \\frac{4}{2} = 2$."
+    "rationale": "The slope is calculated as the change in y divided by the change in x: $m = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{3 - (-1)}{5 - 3} = \\frac{4}{2} = 2$.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Given the function $f(x) = 10$, what is the value of $f(7)$?",
     "correctAnswer": "10",
-    "rationale": "This is a constant function, which means the output is always 10, regardless of the input value for x."
+    "rationale": "This is a constant function, which means the output is always 10, regardless of the input value for x.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "If x=0, y = 4(0) - 5 = -5."
       }
     ],
-    "rationale": "Plug the x-coordinate of each point into the equation to see if it produces the correct y-coordinate. For (1, -1): y = 4(1) - 5 = 4 - 5 = -1. It matches."
+    "rationale": "Plug the x-coordinate of each point into the equation to see if it produces the correct y-coordinate. For (1, -1): y = 4(1) - 5 = 4 - 5 = -1. It matches.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect representation."
       }
     ],
-    "rationale": "The total cost C(s) is the sum of the one-time fee ($60) and the cost per session ($35) multiplied by the number of sessions (s). So, C(s) = 35s + 60."
+    "rationale": "The total cost C(s) is the sum of the one-time fee ($60) and the cost per session ($35) multiplied by the number of sessions (s). So, C(s) = 35s + 60.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the x-intercept of the line $y = -3x + 9$?",
     "correctAnswer": "3",
-    "rationale": "To find the x-intercept, set y = 0. 0 = -3x + 9. Add 3x to both sides: 3x = 9. Divide by 3: x = 3."
+    "rationale": "To find the x-intercept, set y = 0. 0 = -3x + 9. Add 3x to both sides: 3x = 9. Divide by 3: x = 3.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "A circle is not a function."
       }
     ],
-    "rationale": "The graph of a quadratic equation of the form $y = ax^2 + bx + c$ is a parabola."
+    "rationale": "The graph of a quadratic equation of the form $y = ax^2 + bx + c$ is a parabola.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A line has a slope of 4 and a y-intercept of -2. What is the equation of the line?",
     "correctAnswer": "y = 4x - 2",
-    "rationale": "Using the slope-intercept form y = mx + b, substitute the given slope for m and the y-intercept for b."
+    "rationale": "Using the slope-intercept form y = mx + b, substitute the given slope for m and the y-intercept for b.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the y-intercept."
       }
     ],
-    "rationale": "To find the slope, convert the equation into slope-intercept form (y = mx + b). -2y = -6x + 8. Divide all terms by -2 to get y = 3x - 4. The slope (m) is 3."
+    "rationale": "To find the slope, convert the equation into slope-intercept form (y = mx + b). -2y = -6x + 8. Divide all terms by -2 to get y = 3x - 4. The slope (m) is 3.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This changes the slope."
       }
     ],
-    "rationale": "A vertical shift down by k units is represented by h(x) = g(x) - k. So, h(x) = (x + 3) - 5 = x - 2."
+    "rationale": "A vertical shift down by k units is represented by h(x) = g(x) - k. So, h(x) = (x + 3) - 5 = x - 2.",
+    "challenge_tags": [
+      "math-7"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This line has a slope of 6."
       }
     ],
-    "rationale": "A slope of 0 indicates a horizontal line. The equation of a horizontal line is y = c, where 'c' is the constant y-value. Since the line passes through (2, 6), the y-value must be 6. The equation is y = 6."
+    "rationale": "A slope of 0 indicates a horizontal line. The equation of a horizontal line is y = c, where 'c' is the constant y-value. Since the line passes through (2, 6), the y-value must be 6. The equation is y = 6.",
+    "challenge_tags": [
+      "math-7"
+    ]
   }
 ];

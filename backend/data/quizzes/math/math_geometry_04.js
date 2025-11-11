@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is 2*12 + 8."
       }
     ],
-    "rationale": "The perimeter of a rectangle is calculated as P = 2(l + w). So, P = 2(12 ft + 8 ft) = 2(20 ft) = 40 ft."
+    "rationale": "The perimeter of a rectangle is calculated as P = 2(l + w). So, P = 2(12 ft + 8 ft) = 2(20 ft) = 40 ft.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the area of a triangle with a base of 15 cm and a height of 10 cm.",
     "correctAnswer": "75 cm²",
-    "rationale": "The area of a triangle is A = 1/2 * b * h. So, A = 1/2 * 15 cm * 10 cm = 75 cm²."
+    "rationale": "The area of a triangle is A = 1/2 * b * h. So, A = 1/2 * 15 cm * 10 cm = 75 cm².",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is double the circumference."
       }
     ],
-    "rationale": "The formula for the circumference of a circle is C = pi * d. So, C = 3.14 * 20 inches = 62.8 inches."
+    "rationale": "The formula for the circumference of a circle is C = pi * d. So, C = 3.14 * 20 inches = 62.8 inches.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "An angle measuring 150° is what type of angle?",
     "correctAnswer": "Obtuse",
-    "rationale": "An obtuse angle is an angle that measures more than 90° but less than 180°."
+    "rationale": "An obtuse angle is an angle that measures more than 90° but less than 180°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is 12²-5²."
       }
     ],
-    "rationale": "According to the Pythagorean theorem, $a^2 + b^2 = c^2$. So, $5^2 + 12^2 = c^2$, which is $25 + 144 = 169$. Thus, c = $\\sqrt{169}$ = 13 cm."
+    "rationale": "According to the Pythagorean theorem, $a^2 + b^2 = c^2$. So, $5^2 + 12^2 = c^2$, which is $25 + 144 = 169$. Thus, c = $\\sqrt{169}$ = 13 cm.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The amount of fencing needed is the circumference of the circle. C = 2 * pi * r = 2 * 3.14 * 12 feet = 75.36 feet."
+    "rationale": "The amount of fencing needed is the circumference of the circle. C = 2 * pi * r = 2 * 3.14 * 12 feet = 75.36 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "How many degrees are in a right angle?",
     "correctAnswer": "90°",
-    "rationale": "A right angle is an angle that measures exactly 90°."
+    "rationale": "A right angle is an angle that measures exactly 90°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "Volume of a cube is side³. 4³ = 4 * 4 * 4 = 64."
       }
     ],
-    "rationale": "The volume of a cube is calculated as V = s³. So, V = (4 cm)³ = 64 cm³."
+    "rationale": "The volume of a cube is calculated as V = s³. So, V = (4 cm)³ = 64 cm³.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A room is 12 feet long and 15 feet wide. How many square yards of carpet are needed to cover the floor?",
     "correctAnswer": "20 square yards",
-    "rationale": "First, find the area in square feet: 12 ft * 15 ft = 180 sq ft. There are 9 square feet in 1 square yard. So, 180 sq ft / 9 sq ft/sq yd = 20 square yards."
+    "rationale": "First, find the area in square feet: 12 ft * 15 ft = 180 sq ft. There are 9 square feet in 1 square yard. So, 180 sq ft / 9 sq ft/sq yd = 20 square yards.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "A right triangle has a right angle."
       }
     ],
-    "rationale": "A scalene triangle is a triangle in which all three sides have different lengths."
+    "rationale": "A scalene triangle is a triangle in which all three sides have different lengths.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "They are equal."
       }
     ],
-    "rationale": "A key theorem in geometry states that when two parallel lines are intersected by a transversal, the alternate interior angles are congruent (equal)."
+    "rationale": "A key theorem in geometry states that when two parallel lines are intersected by a transversal, the alternate interior angles are congruent (equal).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is half the surface area."
       }
     ],
-    "rationale": "The formula for the surface area of a rectangular prism is SA = 2(lw + lh + wh). SA = 2((6)(4) + (6)(2) + (4)(2)) = 2(24 + 12 + 8) = 2(44) = 88 m²."
+    "rationale": "The formula for the surface area of a rectangular prism is SA = 2(lw + lh + wh). SA = 2((6)(4) + (6)(2) + (4)(2)) = 2(24 + 12 + 8) = 2(44) = 88 m².",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

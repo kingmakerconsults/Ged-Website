@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "History textbook excerpt: The Articles created a weak national government that could not levy taxes, making it difficult to fund the government or pay war debts."
+    "passage": "History textbook excerpt: The Articles created a weak national government that could not levy taxes, making it difficult to fund the government or pay war debts.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "This was the first constitution of the United States, which was later replaced.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "Franklin was an important delegate, but Madison was the key architect.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "While huge, it did not triple the size of the country.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -141,7 +153,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Records of the Constitutional Convention."
+    "source": "Records of the Constitutional Convention.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -169,6 +184,9 @@ module.exports = [
         "rationale": "The authors were strong supporters of the new federal government.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -197,6 +215,9 @@ module.exports = [
         "rationale": "This was decided by a compromise but was not the central issue dividing the parties.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -225,6 +246,9 @@ module.exports = [
         "rationale": "Correct. The war was caused by issues including British interference with American shipping and impressment of American sailors.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -253,6 +277,9 @@ module.exports = [
         "rationale": "Hamilton proposed tariffs (taxes on imports) to protect American industries and raise revenue.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -281,6 +308,9 @@ module.exports = [
         "rationale": "The Louisiana Purchase happened later, under President Jefferson.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -311,7 +341,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Historical analysis of the Articles of Confederation period."
+    "source": "Historical analysis of the Articles of Confederation period.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -339,6 +372,9 @@ module.exports = [
         "rationale": "Correct. In this 1803 case, Chief Justice John Marshall established the Supreme Court's power to declare an act of Congress unconstitutional, a key part of the system of checks and balances.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   }
 ];

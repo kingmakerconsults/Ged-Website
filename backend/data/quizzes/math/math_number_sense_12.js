@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the difference."
       }
     ],
-    "rationale": "This is a basic addition problem. 305 + 198 = 503."
+    "rationale": "This is a basic addition problem. 305 + 198 = 503.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is 10% of 350?",
     "correctAnswer": "35",
-    "rationale": "To find 10% of a number, you can move the decimal point one place to the left. 10% of 350 is 35."
+    "rationale": "To find 10% of a number, you can move the decimal point one place to the left. 10% of 350 is 35.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the total bill with the tip."
       }
     ],
-    "rationale": "To calculate the tip, convert the percentage to a decimal and multiply by the bill amount: 0.20 * $42.00 = $8.40."
+    "rationale": "To calculate the tip, convert the percentage to a decimal and multiply by the bill amount: 0.20 * $42.00 = $8.40.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Evaluate: $60 \\div (5 \times 3) + 2$.",
     "correctAnswer": "6",
-    "rationale": "Order of operations (PEMDAS): Parentheses (5*3=15), Division (60/15=4), Addition (4+2=6)."
+    "rationale": "Order of operations (PEMDAS): Parentheses (5*3=15), Division (60/15=4), Addition (4+2=6).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is 0.45."
       }
     ],
-    "rationale": "To compare, convert all values to decimals: 1/3 ≈ 0.333, 40% = 0.4. The smallest value is 0.333..., which is 1/3."
+    "rationale": "To compare, convert all values to decimals: 1/3 ≈ 0.333, 40% = 0.4. The smallest value is 0.333..., which is 1/3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the population after the first year."
       }
     ],
-    "rationale": "After the first year, the population is 10,000 * 1.10 = 11,000. For the second year, the 10% decrease is calculated on the new population: 11,000 * (1 - 0.10) = 11,000 * 0.90 = 9,900."
+    "rationale": "After the first year, the population is 10,000 * 1.10 = 11,000. For the second year, the 10% decrease is calculated on the new population: 11,000 * (1 - 0.10) = 11,000 * 0.90 = 9,900.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the result of multiplying 1/2 by 3/4?",
     "correctAnswer": "3/8",
-    "rationale": "To multiply fractions, multiply the numerators together and the denominators together: (1*3) / (2*4) = 3/8."
+    "rationale": "To multiply fractions, multiply the numerators together and the denominators together: (1*3) / (2*4) = 3/8.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is an incorrect representation."
       }
     ],
-    "rationale": "The number is composed of 5 thousands, 2 hundreds, and 6 ones, which is written as 5,206."
+    "rationale": "The number is composed of 5 thousands, 2 hundreds, and 6 ones, which is written as 5,206.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A company's total expenses are $30,000. If salaries account for 65% of the expenses, how much is spent on salaries?",
     "correctAnswer": "$19,500",
-    "rationale": "To find the amount spent on salaries, multiply the total expenses by the percentage: $30,000 * 0.65 = $19,500."
+    "rationale": "To find the amount spent on salaries, multiply the total expenses by the percentage: $30,000 * 0.65 = $19,500.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is 49+9."
       }
     ],
-    "rationale": "First, evaluate the square root and the exponent: sqrt(49) = 7 and $3^2$ = 9. Then, add the results: 7 + 9 = 16."
+    "rationale": "First, evaluate the square root and the exponent: sqrt(49) = 7 and $3^2$ = 9. Then, add the results: 7 + 9 = 16.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The ratio of cookies to sugar is 24 cookies / 1.5 cups = 16 cookies per cup. With 1 cup of sugar, you can make 16 cookies."
+    "rationale": "The ratio of cookies to sugar is 24 cookies / 1.5 cups = 16 cookies per cup. With 1 cup of sugar, you can make 16 cookies.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the sum."
       }
     ],
-    "rationale": "The difference between 10 and 20 is 10 - 20 = -10. The absolute value of -10, written as |-10|, is 10."
+    "rationale": "The difference between 10 and 20 is 10 - 20 = -10. The absolute value of -10, written as |-10|, is 10.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

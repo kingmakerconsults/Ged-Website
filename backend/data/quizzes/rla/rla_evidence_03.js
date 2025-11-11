@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is anecdotal evidence. The accident statistics provide stronger, more objective support.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This speaks to the credibility of the source, but it is not the evidence itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "Correct. This is a significant, quantifiable financial gain that provides very strong evidence for the success of a business policy.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "This is a benefit for the farmers, not the consumers' health.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "Correct. This is the most effective piece of evidence because it comes from an independent (and therefore more credible) source and directly addresses the specific concern about traffic congestion with a quantifiable statistic.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "This describes the myth, it doesn't provide evidence to debunk it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "This is a feature, but the statistic on grade improvement is the strongest evidence of its value.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "This is an opinion, not a piece of evidence presented in the passage.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "This is a secondary benefit, but the primary goal and best evidence of effectiveness relate to combating the urban heat island effect.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "The author mentions this but immediately downplays it by questioning the studies' methodology and funding.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "This is a general statement of fact, not a piece of evidence supporting the author's specific argument.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-2"
     ]
   },
   {
@@ -346,7 +379,9 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "challenge_tags": [
+      "rla-2"
+    ]
   }
-]
-;
+];

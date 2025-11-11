@@ -26,17 +26,16 @@ module.exports = [
         "rationale": "Changing pot size would not change the number of plants, only the conditions they experience.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
     "questionNumber": 2,
     "type": "multipleChoice",
     "difficulty": "easy",
-<<<<<<< HEAD
     "question": "Before designing an investigation, a student scientist states, 'I think the amount of light a plant receives will affect how many flowers it produces.'. Which part of the scientific method does this statement represent?",
-=======
-    "question": "Before designing an investigation, a student scientist states, 'I think the amount of light a plant receives will affect how many flowers it produces.' Which part of the scientific method does this statement represent?",
->>>>>>> 946b5669b6039464a188953e0901a76e08cbd01d
     "answerOptions": [
       {
         "text": "Hypothesis",
@@ -58,6 +57,9 @@ module.exports = [
         "rationale": "An observation records what is directly perceived, not what is predicted.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -86,6 +88,9 @@ module.exports = [
         "rationale": "Consistent watering makes comparisons fair but does not guarantee results.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -114,6 +119,9 @@ module.exports = [
         "rationale": "Sampling time does not affect equipment transport.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -142,6 +150,9 @@ module.exports = [
         "rationale": "Uncalibrated instruments could produce inconsistent readings and weaken the design.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -170,6 +181,9 @@ module.exports = [
         "rationale": "Only the faulty trial needs to be repeated, not the entire experiment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -198,6 +212,9 @@ module.exports = [
         "rationale": "Data rarely match exactly; consistent averages across many trials provide solid evidence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -226,6 +243,9 @@ module.exports = [
         "rationale": "Patents involve legal processes unrelated to describing scientific methods.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -254,6 +274,9 @@ module.exports = [
         "rationale": "Photographs do not strengthen scientific evidence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -282,6 +305,9 @@ module.exports = [
         "rationale": "Dismissing a potentially important variable without evidence weakens scientific credibility.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -310,6 +336,9 @@ module.exports = [
         "rationale": "Scientists still review volunteer data; consistent methods simply make it more usable.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   },
   {
@@ -338,6 +367,9 @@ module.exports = [
         "rationale": "A small difference within the error range does not imply different substances.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-5"
     ]
   }
 ];

@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "'Reasons' is plural, so the verb should be 'are'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "This is a prepositional phrase followed by a noun, not a complete sentence.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "This is grammatically correct, but less direct than the best option.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "This correctly uses a semicolon to join two related independent clauses.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "This is very wordy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "This is also correct and clear, but the other correct option is a very common and effective way to phrase it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "A semicolon should not be followed by a coordinating conjunction here.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "'Me' is an object pronoun; use 'I'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "Mixed forms; keep items in the same form.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "The colon is misplaced and the sentence is ungrammatical.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "The subject is 'bouquet' (singular); the phrase 'along with the roses' does not change agreement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -334,7 +367,9 @@ module.exports = [
         "rationale": "Missing the closing comma after the nonrestrictive clause.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   }
-]
-;
+];

@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is 32 * 8."
       }
     ],
-    "rationale": "First, find the length of one side by dividing the perimeter by 4: 32 cm / 4 = 8 cm. Then, find the area by squaring the side length: 8 cm * 8 cm = 64 $cm^2$."
+    "rationale": "First, find the length of one side by dividing the perimeter by 4: 32 cm / 4 = 8 cm. Then, find the area by squaring the side length: 8 cm * 8 cm = 64 $cm^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the circumference of a circle with a radius of 4.5 inches. Use 3.14 for $\\pi$.",
     "correctAnswer": "28.26 inches",
-    "rationale": "Circumference C = 2 * pi * r. So, C = 2 * 3.14 * 4.5 inches = 28.26 inches."
+    "rationale": "Circumference C = 2 * pi * r. So, C = 2 * 3.14 * 4.5 inches = 28.26 inches.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is $a^2$, not a."
       }
     ],
-    "rationale": "Using the Pythagorean theorem, $a^2 + b^2 = c^2$. We have $a^2 + 10^2 = 26^2$, so $a^2 + 100 = 676$. Subtract 100 from both sides: $a^2 = 576$. The square root of 576 is 24."
+    "rationale": "Using the Pythagorean theorem, $a^2 + b^2 = c^2$. We have $a^2 + 10^2 = 26^2$, so $a^2 + 100 = 676$. Subtract 100 from both sides: $a^2 = 576$. The square root of 576 is 24.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "How many sides does a hexagon have?",
     "correctAnswer": "6",
-    "rationale": "A hexagon is a polygon with six sides."
+    "rationale": "A hexagon is a polygon with six sides.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the sum of angles in a quadrilateral or circle."
       }
     ],
-    "rationale": "A fundamental theorem of geometry states that the sum of the measures of the interior angles of a triangle is always 180 degrees."
+    "rationale": "A fundamental theorem of geometry states that the sum of the measures of the interior angles of a triangle is always 180 degrees.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, find the radius from the diameter: r = 10 ft / 2 = 5 ft. The formula for the volume of a cylinder is V = pi * $r^2$ * h. So, V = 3.14 * (5 ft)$^2$ * 8 ft = 3.14 * 25 * 8 = 628 $ft^3$."
+    "rationale": "First, find the radius from the diameter: r = 10 ft / 2 = 5 ft. The formula for the volume of a cylinder is V = pi * $r^2$ * h. So, V = 3.14 * (5 ft)$^2$ * 8 ft = 3.14 * 25 * 8 = 628 $ft^3$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "How many milliliters are in 3.5 liters?",
     "correctAnswer": "3500 ml",
-    "rationale": "There are 1000 milliliters in 1 liter. So, 3.5 liters * 1000 ml/liter = 3500 ml."
+    "rationale": "There are 1000 milliliters in 1 liter. So, 3.5 liters * 1000 ml/liter = 3500 ml.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 180-50."
       }
     ],
-    "rationale": "The sum of the angles in a triangle is 180°. The two given angles sum to 50° + 50° = 100°. The third angle is 180° - 100° = 80°."
+    "rationale": "The sum of the angles in a triangle is 180°. The two given angles sum to 50° + 50° = 100°. The third angle is 180° - 100° = 80°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A circular pool has an area of 200.96 square feet. What is its diameter? Use 3.14 for $\\pi$.",
     "correctAnswer": "16 feet",
-    "rationale": "Area = pi * $r^2$. 200.96 = 3.14 * $r^2$. $r^2$ = 200.96 / 3.14 = 64. r = 8. The diameter is 2 * r = 16 feet."
+    "rationale": "Area = pi * $r^2$. 200.96 = 3.14 * $r^2$. $r^2$ = 200.96 / 3.14 = 64. r = 8. The diameter is 2 * r = 16 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "A parallelogram has opposite sides parallel."
       }
     ],
-    "rationale": "A square is a quadrilateral that is both a rectangle (four right angles) and a rhombus (four equal sides)."
+    "rationale": "A square is a quadrilateral that is both a rectangle (four right angles) and a rhombus (four equal sides).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "Vertical angles are opposite, not adjacent."
       }
     ],
-    "rationale": "Vertical angles are the angles opposite each other when two lines cross. They are always congruent (equal)."
+    "rationale": "Vertical angles are the angles opposite each other when two lines cross. They are always congruent (equal).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The surface area of a rectangular prism is given by the formula SA = 2(lw + lh + wh). SA = 2((20)(10) + (20)(5) + (10)(5)) = 2(200 + 100 + 50) = 2(350) = 700 $cm^2$."
+    "rationale": "The surface area of a rectangular prism is given by the formula SA = 2(lw + lh + wh). SA = 2((20)(10) + (20)(5) + (10)(5)) = 2(200 + 100 + 50) = 2(350) = 700 $cm^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

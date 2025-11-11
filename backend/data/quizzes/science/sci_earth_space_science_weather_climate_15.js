@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The sun's energy heats the Earth's surface and atmosphere unevenly, driving winds and ocean currents."
+    "passage": "Science textbook excerpt: The sun's energy heats the Earth's surface and atmosphere unevenly, driving winds and ocean currents.",
+    "challenge_tags": [
+      "science-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "The atmosphere is the envelope of gases surrounding the Earth where weather and climate occur.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "Correct. Carbon dioxide, along with methane and water vapor, absorbs and re-radiates infrared radiation, warming the lower atmosphere.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "A cyclone is a large-scale system of winds rotating around a center of low atmospheric pressure.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "This is the opposite of the conditions created by a rain shadow.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "While wind moves the air, the cooling and condensation is the direct cause of precipitation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "Correct. A barometer measures air pressure, and changes can indicate an approaching weather front.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "This can occur with various conditions but is not the hallmark of a cold front.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "The speed of rotation determines the length of a day, not the seasons.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Transpiration is the release of water vapor from plants.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "Seasons are caused by the Earth's tilt.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "This is a biological process.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   }
 ];

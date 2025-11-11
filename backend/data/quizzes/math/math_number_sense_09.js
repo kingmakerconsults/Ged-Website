@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is 400*20."
       }
     ],
-    "rationale": "To divide 400 by 20, you can simplify the problem by removing a zero from both numbers, which is equivalent to dividing both by 10. This leaves 40 / 2, which equals 20."
+    "rationale": "To divide 400 by 20, you can simplify the problem by removing a zero from both numbers, which is equivalent to dividing both by 10. This leaves 40 / 2, which equals 20.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the result of $1.5 \\times 4$?",
     "correctAnswer": "6",
-    "rationale": "1.5 multiplied by 4 is the same as adding 1.5 four times: 1.5 + 1.5 + 1.5 + 1.5 = 6."
+    "rationale": "1.5 multiplied by 4 is the same as adding 1.5 four times: 1.5 + 1.5 + 1.5 + 1.5 = 6.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the result of subtracting the fee."
       }
     ],
-    "rationale": "First, calculate the processing fee: 5% of $80 is 0.05 * 80 = $4. Then, add this fee to the ticket price: $80 + $4 = $84."
+    "rationale": "First, calculate the processing fee: 5% of $80 is 0.05 * 80 = $4. Then, add this fee to the ticket price: $80 + $4 = $84.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Evaluate: $50 - (10 - 4)^2$.",
     "correctAnswer": "14",
-    "rationale": "Order of operations (PEMDAS): Parentheses first (10-4=6), then Exponents ($6^2$=36), then subtraction (50 - 36 = 14)."
+    "rationale": "Order of operations (PEMDAS): Parentheses first (10-4=6), then Exponents ($6^2$=36), then subtraction (50 - 36 = 14).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the least common multiple (LCM)."
       }
     ],
-    "rationale": "List the factors of each number to find the greatest one they have in common. Factors of 36: {1, 2, 3, 4, 6, 9, 12, 18, 36}. Factors of 54: {1, 2, 3, 6, 9, 18, 27, 54}. The GCF is 18."
+    "rationale": "List the factors of each number to find the greatest one they have in common. Factors of 36: {1, 2, 3, 4, 6, 9, 12, 18, 36}. Factors of 54: {1, 2, 3, 6, 9, 18, 27, 54}. The GCF is 18.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This would be a 50% increase."
       }
     ],
-    "rationale": "First, calculate the improvement: 25% of 8 hours is 0.25 * 8 = 2 hours. Then, add this to the original battery life: 8 + 2 = 10 hours."
+    "rationale": "First, calculate the improvement: 25% of 8 hours is 0.25 * 8 = 2 hours. Then, add this to the original battery life: 8 + 2 = 10 hours.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the result of multiplying -7 by -5?",
     "correctAnswer": "35",
-    "rationale": "The product of two negative numbers is a positive number. 7 * 5 = 35."
+    "rationale": "The product of two negative numbers is a positive number. 7 * 5 = 35.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is 20*6."
       }
     ],
-    "rationale": "To estimate, round 19.8 to the nearest whole number (20) and 5.1 to the nearest whole number (5). The estimated product is 20 x 5 = 100."
+    "rationale": "To estimate, round 19.8 to the nearest whole number (20) and 5.1 to the nearest whole number (5). The estimated product is 20 x 5 = 100.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A recipe for 12 cupcakes requires 1.5 cups of flour. How much flour is needed for 30 cupcakes?",
     "correctAnswer": "3.75 cups",
-    "rationale": "First find the amount of flour per cupcake: 1.5 / 12 = 0.125 cups. Then multiply by 30: 0.125 * 30 = 3.75 cups."
+    "rationale": "First find the amount of flour per cupcake: 1.5 / 12 = 0.125 cups. Then multiply by 30: 0.125 * 30 = 3.75 cups.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is $10^5$."
       }
     ],
-    "rationale": "The exponent indicates how many times the base (10) is multiplied by itself. $10^4 = 10 \\times 10 \\times 10 \\times 10 = 10,000$."
+    "rationale": "The exponent indicates how many times the base (10) is multiplied by itself. $10^4 = 10 \\times 10 \\times 10 \\times 10 = 10,000$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is 135/150."
       }
     ],
-    "rationale": "The amount of decrease is 150 - 135 = 15 lbs. The percent decrease is (decrease / original amount) * 100 = (15 / 150) * 100 = 0.10 * 100 = 10%."
+    "rationale": "The amount of decrease is 150 - 135 = 15 lbs. The percent decrease is (decrease / original amount) * 100 = (15 / 150) * 100 = 0.10 * 100 = 10%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the sum of the first six."
       }
     ],
-    "rationale": "The first five positive integers are 1, 2, 3, 4, and 5. Their sum is 1 + 2 + 3 + 4 + 5 = 15."
+    "rationale": "The first five positive integers are 1, 2, 3, 4, and 5. Their sum is 1 + 2 + 3 + 4 + 5 = 15.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

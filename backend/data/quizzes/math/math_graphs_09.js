@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the x-intercept."
       }
     ],
-    "rationale": "The slope-intercept form is y = mx + b. Rearranging the equation gives y = -x + 8, so the slope (m) is -1."
+    "rationale": "The slope-intercept form is y = mx + b. Rearranging the equation gives y = -x + 8, so the slope (m) is -1.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "If $f(x) = 5x + 1$, what is $f(-1)$?",
     "correctAnswer": "-4",
-    "rationale": "Substitute -1 for x: f(-1) = 5(-1) + 1 = -5 + 1 = -4."
+    "rationale": "Substitute -1 for x: f(-1) = 5(-1) + 1 = -5 + 1 = -4.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the reciprocal."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x: $m = \\frac{1 - 7}{6 - 4} = \\frac{-6}{2} = -3$."
+    "rationale": "The slope is the change in y divided by the change in x: $m = \\frac{1 - 7}{6 - 4} = \\frac{-6}{2} = -3$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the y-intercept of a line with slope 3 that passes through (2, 5)?",
     "correctAnswer": "-1",
-    "rationale": "Using y = mx + b: 5 = 3(2) + b. 5 = 6 + b. b = -1."
+    "rationale": "Using y = mx + b: 5 = 3(2) + b. 5 = 6 + b. b = -1.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is an exponential curve."
       }
     ],
-    "rationale": "A function with a term raised to the second power (a quadratic function) produces a U-shaped graph called a parabola."
+    "rationale": "A function with a term raised to the second power (a quadratic function) produces a U-shaped graph called a parabola.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This does not pass through the given point."
       }
     ],
-    "rationale": "A parallel line has the same slope, 2/3. Use the point-slope form y - y1 = m(x - x1): y - 2 = (2/3)(x - 6). y - 2 = (2/3)x - 4. So, y = (2/3)x - 2."
+    "rationale": "A parallel line has the same slope, 2/3. Use the point-slope form y - y1 = m(x - x1): y - 2 = (2/3)(x - 6). y - 2 = (2/3)x - 4. So, y = (2/3)x - 2.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the x-intercept of the line $y = -4x + 12$.",
     "correctAnswer": "3",
-    "rationale": "Set y=0: 0 = -4x + 12. 4x = 12. x = 3."
+    "rationale": "Set y=0: 0 = -4x + 12. 4x = 12. x = 3.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "For the function to be defined in the real numbers, the expression inside the square root must be greater than or equal to zero. $x+4 \\geq 0$, which means $x \\geq -4$."
+    "rationale": "For the function to be defined in the real numbers, the expression inside the square root must be greater than or equal to zero. $x+4 \\geq 0$, which means $x \\geq -4$.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A company's cost function is C(x) = 10x + 500, where x is the number of units produced. What is the cost of producing 50 units?",
     "correctAnswer": "$1000",
-    "rationale": "C(50) = 10(50) + 500 = 500 + 500 = 1000."
+    "rationale": "C(50) = 10(50) + 500 = 500 + 500 = 1000.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The x-coordinate of the vertex is given by the formula $x = \\frac{-b}{2a}$. Here, a=1 and b=4, so $x = \\frac{-4}{2(1)} = -2$. To find the y-coordinate, substitute x=-2 into the equation: y = $(-2)^2$ + 4(-2) + 3 = 4 - 8 + 3 = -1. The vertex is (-2, -1)."
+    "rationale": "The x-coordinate of the vertex is given by the formula $x = \\frac{-b}{2a}$. Here, a=1 and b=4, so $x = \\frac{-4}{2(1)} = -2$. To find the y-coordinate, substitute x=-2 into the equation: y = $(-2)^2$ + 4(-2) + 3 = 4 - 8 + 3 = -1. The vertex is (-2, -1).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is a quadratic function."
       }
     ],
-    "rationale": "An exponential function of the form $y = b^x$ represents decay when the base 'b' is between 0 and 1."
+    "rationale": "An exponential function of the form $y = b^x$ represents decay when the base 'b' is between 0 and 1.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an input value."
       }
     ],
-    "rationale": "The notation f(1) asks for the output of the function when the input is 1. The point (1, 2) shows that the output is 2 when the input is 1."
+    "rationale": "The notation f(1) asks for the output of the function when the input is 1. The point (1, 2) shows that the output is 2 when the input is 1.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

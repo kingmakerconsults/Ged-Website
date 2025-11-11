@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This describes the content of the training, which is a detail supporting the main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is a logistical detail, not the central message.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "This is one of the specific benefits mentioned, not the central claim.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "This is a key instruction, but it's part of the broader main idea of checking parts first.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "While true according to the passage, the main idea is specifically about the role of community gardens.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "This is a specific point supporting the larger argument about the changing nature of work.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "These are examples of what financial literacy includes, not the central message about its importance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "Correct. This sentence effectively summarizes the practical advice given in the passage.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "The passage argues that media has simplified a pre-existing unique identity, not created it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "This is the concluding challenge, but it doesn't include the reasons why the challenge exists (the pros and cons).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "This is mentioned as one part of a 'multi-faceted approach,' not the single best way.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -346,6 +379,9 @@ module.exports = [
         "rationale": "This is a supporting detail explaining why memory is reconstructive, not the main idea itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   }
 ];

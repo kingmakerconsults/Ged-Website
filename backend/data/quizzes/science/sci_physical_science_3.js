@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: Electrons are negatively charged particles that orbit the nucleus of an atom."
+    "passage": "Science textbook excerpt: Electrons are negatively charged particles that orbit the nucleus of an atom.",
+    "challenge_tags": [
+      "science-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "A resistor is a component in a circuit that is designed to have a specific resistance.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "Power is the rate at which electrical energy is transferred.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "Magnets exert forces on each other.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "This is the sum of the voltage and current.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "This does not correctly follow the relationship in Ohm's Law.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "This is the principle of a thermocouple or thermoelectric generator.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "The battery's voltage is not affected by the bulb burning out.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "A gravitational field is the region of space surrounding a body in which another body experiences a force of gravitational attraction.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Changing magnetic fields from electromagnets can also induce currents.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "This is the result of dividing the current by the voltage.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "While it adds some durability, its primary function is electrical insulation.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   }
 ];

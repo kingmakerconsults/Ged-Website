@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "'People' is plural, so the verb should be 'are', not 'is'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -54,6 +57,9 @@ module.exports = [
         "rationale": "A semicolon should not be used with a coordinating conjunction like 'and'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -82,6 +88,9 @@ module.exports = [
         "rationale": "The subject 'They' is plural, so the verb should be 'were', not 'was'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -110,6 +119,9 @@ module.exports = [
         "rationale": "The passive voice makes this sentence less direct and clear than the active voice alternatives.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -138,6 +150,9 @@ module.exports = [
         "rationale": "A comma, not a semicolon, should be used before a coordinating conjunction like 'but'.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -166,6 +181,9 @@ module.exports = [
         "rationale": "'Whom' is the object of the preposition 'to', so 'whom' is the grammatically correct choice, although 'who' is common in informal speech.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -194,6 +212,9 @@ module.exports = [
         "rationale": "Correct. The subject of the introductory clause ('I') is the same as the subject of the main clause, so the modifier is not dangling.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -222,6 +243,9 @@ module.exports = [
         "rationale": "This phrasing is unnecessarily formal and wordy.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -250,6 +274,9 @@ module.exports = [
         "rationale": "Correct. All three activities are expressed in the same gerund form (-ing), creating a parallel structure.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -278,6 +305,9 @@ module.exports = [
         "rationale": "This version is wordy and uses passive-like construction, making it less effective.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -306,6 +336,9 @@ module.exports = [
         "rationale": "To make a plural noun ending in 's' (Joneses) possessive, you just add an apostrophe at the end: 'the Joneses''. Or if referring to one person 'Mr. Jones's' would be correct.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   },
   {
@@ -334,6 +367,9 @@ module.exports = [
         "rationale": "This sentence is in the passive voice, which makes it less direct and less effective.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-6"
     ]
   }
 ];

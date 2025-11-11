@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: Plants use sunlight, water, and carbon dioxide to create their own food (glucose)."
+    "passage": "Science textbook excerpt: Plants use sunlight, water, and carbon dioxide to create their own food (glucose).",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Glucose is the product; carbon dioxide and water are the reactants.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "The cell wall provides structural support to the plant cell.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "Oxygen is a necessary reactant for aerobic respiration.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "The plant in Container 1 will produce oxygen.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "While decomposition consumes oxygen, the primary process for a living plant in the dark is respiration.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "All living things need energy to survive.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "They are two distinct, complex processes.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "Carotene is an orange pigment found in plants like carrots.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Oxygen is a reactant in aerobic respiration, not the energy molecule itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "Methane is not produced during photosynthesis.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "Vacuoles are primarily for storage.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   }
 ];

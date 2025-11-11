@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The Joule is the standard unit of energy in the International System of Units (SI)."
+    "passage": "Science textbook excerpt: The Joule is the standard unit of energy in the International System of Units (SI).",
+    "challenge_tags": [
+      "science-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,7 +59,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: These are the three common states of matter."
+    "passage": "Science textbook excerpt: These are the three common states of matter.",
+    "challenge_tags": [
+      "science-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "Correct. Batteries store energy in chemical compounds that can be released as electrical energy.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "Momentum is the product of mass and velocity.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "This is the time interval over which the waves were counted.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "This value is not derived from the information given.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -196,6 +214,9 @@ module.exports = [
         "rationale": "Acceleration is force divided by mass.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -224,6 +245,9 @@ module.exports = [
         "rationale": "Surface waves occur at the interface between two media.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -252,6 +276,9 @@ module.exports = [
         "rationale": "Correct. An example is dry ice (solid carbon dioxide) turning into gas.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -280,6 +307,9 @@ module.exports = [
         "rationale": "This is the difference between the final speed and time.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -308,6 +338,9 @@ module.exports = [
         "rationale": "This would be the amount left after 30 years.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -336,6 +369,9 @@ module.exports = [
         "rationale": "Having potential energy does not mean that work is currently being done on the object.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -364,6 +400,9 @@ module.exports = [
         "rationale": "Quarks are fundamental particles that make up protons and neutrons.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   }
 ];

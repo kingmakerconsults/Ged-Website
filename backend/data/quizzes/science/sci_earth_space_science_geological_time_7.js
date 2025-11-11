@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The process of sediment layering gently buries organisms and allows for their preservation."
+    "passage": "Science textbook excerpt: The process of sediment layering gently buries organisms and allows for their preservation.",
+    "challenge_tags": [
+      "science-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "The layers are deposited sequentially over long periods.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "This is used for paleomagnetism, not radiometric dating.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "This is unrelated to the concept of half-life.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "The data provides a range, not an exact age.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "Different isotopes can be used to date rocks of various ages, including very old ones.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "Correct. The Precambrian spans from the formation of Earth about 4.6 billion years ago to the beginning of the Cambrian Period, about 541 million years ago, making up about 88% of Earth's history.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "The Big Bang Theory describes the origin of the universe.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "This is a process of plate tectonics.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Many types of fossils exist.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "This is the estimated age of the universe.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "While related, this was not the primary evidence for continental drift.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-4"
     ]
   }
 ];

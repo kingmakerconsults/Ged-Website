@@ -27,6 +27,9 @@ module.exports = [
         "rationale": "This is an appeal to encourage attendance, not the central message of the announcement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "This is the goal of the restrictions, not the main idea of the announcement itself.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -85,6 +91,9 @@ module.exports = [
         "rationale": "The passage calls it 'revolutionary' but does not make a comparative claim about it being the 'most important' invention.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -114,6 +123,9 @@ module.exports = [
         "rationale": "This is too general. The main idea is more specific about why they are important and the threat they face.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -143,6 +155,9 @@ module.exports = [
         "rationale": "The passage suggests this, but it's a supporting point for the larger argument about the dual nature of citizen journalism.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -172,6 +187,9 @@ module.exports = [
         "rationale": "This is one of the specific benefits of a growth mindset, not the overall main idea.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -201,6 +219,9 @@ module.exports = [
         "rationale": "Workshops are one example, not the central focus.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -230,6 +251,9 @@ module.exports = [
         "rationale": "The closure is temporary for a holiday, not permanent.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -259,6 +283,9 @@ module.exports = [
         "rationale": "The passage states the opposite—that access can be unequal.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -288,6 +315,9 @@ module.exports = [
         "rationale": "The passage takes complaints seriously and mentions active policy responses.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -317,6 +347,9 @@ module.exports = [
         "rationale": "The passage implies the opposite, noting that sleep is often treated as optional.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   },
   {
@@ -346,7 +379,9 @@ module.exports = [
         "rationale": "This extreme claim is not suggested by the passage.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "rla-1"
     ]
   }
-]
-;
+];

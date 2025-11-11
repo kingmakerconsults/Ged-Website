@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The atom is the basic building block of all matter."
+    "passage": "Science textbook excerpt: The atom is the basic building block of all matter.",
+    "challenge_tags": [
+      "science-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "Correct. Mass is a fundamental property of matter.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "Plasma is a state of matter similar to gas in which a certain portion of the particles are ionized.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "H₂O is a product, not a reactant.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "This would change the type of reactant, not the surface area.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "A control group would be an experiment run under standard conditions for comparison, for example, the initial experiment with the metal strip.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "Strongly basic substances have a high pH (e.g., 12-14).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "This is a compound.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "This is related to Einstein's E=mc², not the law of conservation of mass in chemical reactions.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "An element is a pure substance consisting only of atoms that all have the same numbers of protons in their atomic nuclei.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "A hydrogen bond is a weaker attraction between molecules, not a bond that forms molecules by sharing electrons between atoms.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "A substance that stops a reaction is called an inhibitor.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-1"
     ]
   }
 ];

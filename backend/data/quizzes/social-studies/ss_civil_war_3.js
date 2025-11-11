@@ -26,6 +26,9 @@ module.exports = [
         "rationale": "Lincoln's assassination occurred at the end of the war, it was not a cause.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -56,7 +59,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. National Archives, Emancipation Proclamation."
+    "source": "U.S. National Archives, Emancipation Proclamation.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "While a crucial battle that led to the Emancipation Proclamation, Gettysburg is more widely considered the strategic turning point.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "The Bureau was established to help the formerly enslaved, not the slave owners.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "This was also part of the 14th Amendment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "Radical Reconstruction aimed to fundamentally change the Southern social order, not restore it.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -198,7 +216,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Adapted from historical analyses of the Reconstruction era."
+    "source": "Adapted from historical analyses of the Reconstruction era.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -226,6 +247,9 @@ module.exports = [
         "rationale": "Poll taxes were outlawed much later by the 24th Amendment.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -254,6 +278,9 @@ module.exports = [
         "rationale": "While land distribution was discussed ('40 acres and a mule'), it was not widely implemented. Sharecropping was a private labor arrangement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -282,6 +309,9 @@ module.exports = [
         "rationale": "The compromise undermined the enforcement of existing amendments, leading to the disenfranchisement of Black voters.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -312,7 +342,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Abraham Lincoln, Second Inaugural Address, 1865."
+    "source": "Abraham Lincoln, Second Inaugural Address, 1865.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -340,6 +373,9 @@ module.exports = [
         "rationale": "Correct. Robert E. Lee was the most famous and respected commander of the Confederate forces.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   }
 ];

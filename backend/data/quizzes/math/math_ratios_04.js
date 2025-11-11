@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The ratio of wins to losses is 5:3, which means for every 8 games played (5+3), 5 are wins. Since they played 24 games (which is 8 * 3), they won 5 * 3 = 15 games."
+    "rationale": "The ratio of wins to losses is 5:3, which means for every 8 games played (5+3), 5 are wins. Since they played 24 games (which is 8 * 3), they won 5 * 3 = 15 games.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A shirt that costs $40 is on sale for 15% off. What is the sale price?",
     "correctAnswer": "$34",
-    "rationale": "First, calculate the discount: 15% of $40 is 0.15 * 40 = $6. Then, subtract the discount from the original price: $40 - $6 = $34."
+    "rationale": "First, calculate the discount: 15% of $40 is 0.15 * 40 = $6. Then, subtract the discount from the original price: $40 - $6 = $34.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the increase in cents."
       }
     ],
-    "rationale": "The increase in price is $3.60 - $3.00 = $0.60. The percent increase is (increase / original price) * 100 = ($0.60 / $3.00) * 100 = 0.20 * 100 = 20%."
+    "rationale": "The increase in price is $3.60 - $3.00 = $0.60. The percent increase is (increase / original price) * 100 = ($0.60 / $3.00) * 100 = 0.20 * 100 = 20%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A map scale is 1 inch : 25 miles. If the distance on the map is 4 inches, what is the actual distance?",
     "correctAnswer": "100 miles",
-    "rationale": "Multiply the map distance by the scale factor: 4 inches * 25 miles/inch = 100 miles."
+    "rationale": "Multiply the map distance by the scale factor: 4 inches * 25 miles/inch = 100 miles.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the result of dividing speed by distance."
       }
     ],
-    "rationale": "Time = Distance / Speed. Time = 30 miles / 50 mph = 0.6 hours. To convert hours to minutes, multiply by 60: 0.6 * 60 = 36 minutes."
+    "rationale": "Time = Distance / Speed. Time = 30 miles / 50 mph = 0.6 hours. To convert hours to minutes, multiply by 60: 0.6 * 60 = 36 minutes.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This would be 10 out of 20 students."
       }
     ],
-    "rationale": "To find the percentage, divide the number of students with brown eyes by the total number of students and multiply by 100: (8 / 20) * 100 = 0.4 * 100 = 40%."
+    "rationale": "To find the percentage, divide the number of students with brown eyes by the total number of students and multiply by 100: (8 / 20) * 100 = 0.4 * 100 = 40%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A meal costs $50. You leave a tip of $8. What percentage tip did you leave?",
     "correctAnswer": "16%",
-    "rationale": "To find the percentage, divide the tip amount by the cost of the meal and multiply by 100: ($8 / $50) * 100 = 0.16 * 100 = 16%."
+    "rationale": "To find the percentage, divide the tip amount by the cost of the meal and multiply by 100: ($8 / $50) * 100 = 0.16 * 100 = 16%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "There are 15 pencils and 25 total items (10+15). The ratio is 15:25, which simplifies to 3:5."
       }
     ],
-    "rationale": "The total number of items is 10 + 15 = 25. The ratio of pencils to total items is 15:25. Divide both numbers by 5 to simplify to 3:5."
+    "rationale": "The total number of items is 10 + 15 = 25. The ratio of pencils to total items is 15:25. Divide both numbers by 5 to simplify to 3:5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Solve the proportion: $\\frac{6}{x} = \\frac{18}{24}$",
     "correctAnswer": "8",
-    "rationale": "Simplify the fraction 18/24 to 3/4. So, 6/x = 3/4. Cross-multiply: 3x = 24. Solve for x: x = 8."
+    "rationale": "Simplify the fraction 18/24 to 3/4. So, 6/x = 3/4. Cross-multiply: 3x = 24. Solve for x: x = 8.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This would be for 36 muffins."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{12 \\text{ muffins}}{2 \\text{ cups}} = \\frac{18 \\text{ muffins}}{x \\text{ cups}}$. Cross-multiply: $12x = 36$. Divide by 12: $x = 3$ cups."
+    "rationale": "Set up a proportion: $\\frac{12 \\text{ muffins}}{2 \\text{ cups}} = \\frac{18 \\text{ muffins}}{x \\text{ cups}}$. Cross-multiply: $12x = 36$. Divide by 12: $x = 3$ cups.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, find the percentage of female employees: 100% - 45% = 55%. Then, calculate the number of female employees: 0.55 * 200 = 110."
+    "rationale": "First, find the percentage of female employees: 100% - 45% = 55%. Then, calculate the number of female employees: 0.55 * 200 = 110.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The scale 1:18 means the actual car is 18 times larger than the model. So, the actual length is 10 inches * 18 = 180 inches."
+    "rationale": "The scale 1:18 means the actual car is 18 times larger than the model. So, the actual length is 10 inches * 18 = 180 inches.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

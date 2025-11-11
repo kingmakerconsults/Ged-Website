@@ -28,7 +28,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "Adapted from texts on 19th-century American history."
+    "source": "Adapted from texts on 19th-century American history.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,6 +59,9 @@ module.exports = [
         "rationale": "The U.S. acquired territory from Mexico later through war and purchase, but not the Louisiana Territory.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "Correct. The cotton gin made it much easier to separate cotton fibers from their seeds, making cotton a highly profitable crop.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "The St. Lawrence River is in Canada and was not the terminus of the Erie Canal.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -142,7 +154,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "U.S. National Archives, records on the Indian Removal Act."
+    "source": "U.S. National Archives, records on the Indian Removal Act.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -170,6 +185,9 @@ module.exports = [
         "rationale": "While trappers did use parts of the route, the main wave of migration consisted of settlers.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -198,6 +216,9 @@ module.exports = [
         "rationale": "Florida was acquired from Spain.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -226,6 +247,9 @@ module.exports = [
         "rationale": "The U.S. economy remained largely capitalist, with private ownership of industries.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -254,6 +278,9 @@ module.exports = [
         "rationale": "While child labor was common, the Lowell System was specifically known for its workforce of young women.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -284,7 +311,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "source": "President James Monroe's 1823 annual message to Congress."
+    "source": "President James Monroe's 1823 annual message to Congress.",
+    "challenge_tags": [
+      "social-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -312,6 +342,9 @@ module.exports = [
         "rationale": "Correct. As work moved to factories and offices, the concept of a separate domestic sphere and a middle class of managers, clerks, and professionals grew.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   },
   {
@@ -340,6 +373,9 @@ module.exports = [
         "rationale": "This describes a referendum, not nullification.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "social-1"
     ]
   }
 ];

@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the ratio of boys to total students."
       }
     ],
-    "rationale": "The ratio of boys to girls is 16 to 14. To simplify, find the greatest common divisor, which is 2. Divide both parts of the ratio by 2: 16/2 = 8 and 14/2 = 7. The simplified ratio is 8:7."
+    "rationale": "The ratio of boys to girls is 16 to 14. To simplify, find the greatest common divisor, which is 2. Divide both parts of the ratio by 2: 16/2 = 8 and 14/2 = 7. The simplified ratio is 8:7.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A dinner bill is $85. You want to leave an 18% tip. How much is the tip?",
     "correctAnswer": "$15.30",
-    "rationale": "To find the tip amount, convert the percentage to a decimal and multiply by the bill: 0.18 * $85 = $15.30."
+    "rationale": "To find the tip amount, convert the percentage to a decimal and multiply by the bill: 0.18 * $85 = $15.30.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, find the actual length in inches: 10 inches * 72 = 720 inches. Then, convert inches to feet by dividing by 12: 720 inches / 12 inches/foot = 60 feet."
+    "rationale": "First, find the actual length in inches: 10 inches * 72 = 720 inches. Then, convert inches to feet by dividing by 12: 720 inches / 12 inches/foot = 60 feet.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Solve for y: $\\frac{5}{2} = \\frac{y}{10}$.",
     "correctAnswer": "25",
-    "rationale": "To get from 2 to 10 in the denominator, you multiply by 5. So, multiply the numerator by 5 as well: 5 * 5 = 25."
+    "rationale": "To get from 2 to 10 in the denominator, you multiply by 5. So, multiply the numerator by 5 as well: 5 * 5 = 25.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is a 900% increase."
       }
     ],
-    "rationale": "A 150% increase means the amount of increase is 1.50 times the original number. Increase = 1.50 * 20 = 30. The new number is the original number plus the increase: 20 + 30 = 50."
+    "rationale": "A 150% increase means the amount of increase is 1.50 times the original number. Increase = 1.50 * 20 = 30. The new number is the original number plus the increase: 20 + 30 = 50.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This would be for 8 miles."
       }
     ],
-    "rationale": "First, find the unit rate of paving: 5 hours / 2 miles = 2.5 hours per mile. Then, multiply this rate by the desired distance: 2.5 hours/mile * 7 miles = 17.5 hours."
+    "rationale": "First, find the unit rate of paving: 5 hours / 2 miles = 2.5 hours per mile. Then, multiply this rate by the desired distance: 2.5 hours/mile * 7 miles = 17.5 hours.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A product is marked up 25% from its wholesale price of $80. What is the retail price?",
     "correctAnswer": "$100",
-    "rationale": "The markup is 25% of $80, which is 0.25 * 80 = $20. The retail price is the wholesale price plus the markup: $80 + $20 = $100."
+    "rationale": "The markup is 25% of $80, which is 0.25 * 80 = $20. The retail price is the wholesale price plus the markup: $80 + $20 = $100.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is the ratio of people who prefer winter to the total."
       }
     ],
-    "rationale": "The ratio is 6 to 10. Both numbers are divisible by 2. 6/2 = 3 and 10/2 = 5. The simplified ratio is 3:5."
+    "rationale": "The ratio is 6 to 10. Both numbers are divisible by 2. 6/2 = 3 and 10/2 = 5. The simplified ratio is 3:5.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A car rental company charges $50 per day. If a customer paid $250, how many days did they rent the car for?",
     "correctAnswer": "5 days",
-    "rationale": "Divide the total cost by the daily rate: $250 / $50/day = 5 days."
+    "rationale": "Divide the total cost by the daily rate: $250 / $50/day = 5 days.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This would be the price for 10 ounces."
       }
     ],
-    "rationale": "To find the price per ounce, divide the total cost by the number of ounces: $3.60 / 12 ounces = $0.30 per ounce."
+    "rationale": "To find the price per ounce, divide the total cost by the number of ounces: $3.60 / 12 ounces = $0.30 per ounce.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is 180 * 5 / 2."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{2 \\text{ (Mars)}}{5 \\text{ (Earth)}} = \\frac{x \\text{ pounds (Mars)}}{180 \\text{ pounds (Earth)}}$. Cross-multiply: $5x = 2 \\times 180$, so $5x = 360$. Divide by 5: $x = 72$ pounds."
+    "rationale": "Set up a proportion: $\\frac{2 \\text{ (Mars)}}{5 \\text{ (Earth)}} = \\frac{x \\text{ pounds (Mars)}}{180 \\text{ pounds (Earth)}}$. Cross-multiply: $5x = 2 \\times 180$, so $5x = 360$. Divide by 5: $x = 72$ pounds.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the percentage of right-handed employees."
       }
     ],
-    "rationale": "To find the percentage, divide the number of left-handed employees by the total number of employees and multiply by 100: (24 / 300) * 100 = 0.08 * 100 = 8%."
+    "rationale": "To find the percentage, divide the number of left-handed employees by the total number of employees and multiply by 100: (24 / 300) * 100 = 0.08 * 100 = 8%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

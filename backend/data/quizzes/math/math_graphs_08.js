@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The equation is in slope-intercept form (y = mx + b), where 'b' is the y-intercept. In this case, b=8."
+    "rationale": "The equation is in slope-intercept form (y = mx + b), where 'b' is the y-intercept. In this case, b=8.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Given $f(x) = 20 - 3x$, find $f(5)$.",
     "correctAnswer": "5",
-    "rationale": "Substitute 5 for x: f(5) = 20 - 3(5) = 20 - 15 = 5."
+    "rationale": "Substitute 5 for x: f(5) = 20 - 3(5) = 20 - 15 = 5.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x. $m = \\frac{3 - (-1)}{4 - (-2)} = \\frac{4}{6} = \\frac{2}{3}$."
+    "rationale": "The slope is the change in y divided by the change in x. $m = \\frac{3 - (-1)}{4 - (-2)} = \\frac{4}{6} = \\frac{2}{3}$.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the x-intercept of the line $y = 2x - 10$.",
     "correctAnswer": "5",
-    "rationale": "Set y=0: 0 = 2x - 10. 10 = 2x. x = 5."
+    "rationale": "Set y=0: 0 = 2x - 10. 10 = 2x. x = 5.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is an absolute value function."
       }
     ],
-    "rationale": "A linear function can be written in the form y = mx + b, where m and b are constants. This equation fits that form."
+    "rationale": "A linear function can be written in the form y = mx + b, where m and b are constants. This equation fits that form.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This does not pass through the given point."
       }
     ],
-    "rationale": "The slope of the given line is -4. The slope of a perpendicular line is the negative reciprocal, which is 1/4. Use the point-slope form y - y1 = m(x - x1): y - 2 = (1/4)(x - 8). y - 2 = (1/4)x - 2. So, y = (1/4)x."
+    "rationale": "The slope of the given line is -4. The slope of a perpendicular line is the negative reciprocal, which is 1/4. Use the point-slope form y - y1 = m(x - x1): y - 2 = (1/4)(x - 8). y - 2 = (1/4)x - 2. So, y = (1/4)x.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Find the value of $f(x) = x^2 - 3x$ when $x=-4$.",
     "correctAnswer": "28",
-    "rationale": "f(-4) = $(-4)^2$ - 3(-4) = 16 + 12 = 28."
+    "rationale": "f(-4) = $(-4)^2$ - 3(-4) = 16 + 12 = 28.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "1 is not less than 2(1)-1=1."
       }
     ],
-    "rationale": "Plug each point into the inequality. For (4, 6): 6 < 2(4) - 1. 6 < 8 - 1. 6 < 7. This is a true statement."
+    "rationale": "Plug each point into the inequality. For (4, 6): 6 < 2(4) - 1. 6 < 8 - 1. 6 < 7. This is a true statement.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A phone's value V(t) after t years is given by $V(t) = 800 - 150t$. What is the phone's value after 3 years?",
     "correctAnswer": "$350",
-    "rationale": "V(3) = 800 - 150(3) = 800 - 450 = 350."
+    "rationale": "V(3) = 800 - 150(3) = 800 - 450 = 350.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the distance squared."
       }
     ],
-    "rationale": "Use the distance formula: $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$. $d = \\sqrt{(3 - (-3))^2 + (10 - 2)^2} = \\sqrt{6^2 + 8^2} = \\sqrt{36 + 64} = \\sqrt{100} = 10$."
+    "rationale": "Use the distance formula: $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$. $d = \\sqrt{(3 - (-3))^2 + (10 - 2)^2} = \\sqrt{6^2 + 8^2} = \\sqrt{36 + 64} = \\sqrt{100} = 10$.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "The function is also defined for x < 5."
       }
     ],
-    "rationale": "The domain of a rational function is all real numbers except for the values that make the denominator zero. In this case, x - 5 cannot equal 0, so x cannot equal 5."
+    "rationale": "The domain of a rational function is all real numbers except for the values that make the denominator zero. In this case, x - 5 cannot equal 0, so x cannot equal 5.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "An absolute value function has two different slopes."
       }
     ],
-    "rationale": "A key characteristic of a linear function is that its rate of change, or slope, is constant."
+    "rationale": "A key characteristic of a linear function is that its rate of change, or slope, is constant.",
+    "challenge_tags": [
+      "math-4"
+    ]
   }
 ];

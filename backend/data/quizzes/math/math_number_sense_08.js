@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is 15+8."
       }
     ],
-    "rationale": "Starting at -15 on the number line and moving 8 units to the right brings you to -7."
+    "rationale": "Starting at -15 on the number line and moving 8 units to the right brings you to -7.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "Convert 2.5 to a fraction.",
     "correctAnswer": "5/2",
-    "rationale": "2.5 is two and a half, which can be written as the mixed number 2 1/2. As an improper fraction, this is (2*2+1)/2 = 5/2."
+    "rationale": "2.5 is two and a half, which can be written as the mixed number 2 1/2. As an improper fraction, this is (2*2+1)/2 = 5/2.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, calculate the sales tax: 7% of $650 is 0.07 * 650 = $45.50. Then, add the tax to the original price: $650 + $45.50 = $695.50."
+    "rationale": "First, calculate the sales tax: 7% of $650 is 0.07 * 650 = $45.50. Then, add the tax to the original price: $650 + $45.50 = $695.50.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Evaluate: $100 \\div 5^2$.",
     "correctAnswer": "4",
-    "rationale": "Order of operations: Exponents first ($5^2$ = 25), then division (100 / 25 = 4)."
+    "rationale": "Order of operations: Exponents first ($5^2$ = 25), then division (100 / 25 = 4).",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "42 is not divisible by 8."
       }
     ],
-    "rationale": "A factor of a number is a number that divides it evenly. 42 divided by 6 is 7, so 6 is a factor of 42."
+    "rationale": "A factor of a number is a number that divides it evenly. 42 divided by 6 is 7, so 6 is a factor of 42.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This would be a decrease of 2500."
       }
     ],
-    "rationale": "The amount of decrease is 25,000 - 24,000 = 1,000. The percent decrease is (decrease / original amount) * 100 = (1,000 / 25,000) * 100 = 0.04 * 100 = 4%."
+    "rationale": "The amount of decrease is 25,000 - 24,000 = 1,000. The percent decrease is (decrease / original amount) * 100 = (1,000 / 25,000) * 100 = 0.04 * 100 = 4%.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the next number in the sequence: 3, 6, 12, 24, ...?",
     "correctAnswer": "48",
-    "rationale": "This is a geometric sequence where each term is multiplied by 2 to get the next term. 24 * 2 = 48."
+    "rationale": "This is a geometric sequence where each term is multiplied by 2 to get the next term. 24 * 2 = 48.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is double the number."
       }
     ],
-    "rationale": "Taking 1/2 of a number is the same as dividing it by 2. 50 / 2 = 25."
+    "rationale": "Taking 1/2 of a number is the same as dividing it by 2. 50 / 2 = 25.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "A plane flies 1,200 miles in 3 hours. What is its average speed in miles per hour?",
     "correctAnswer": "400 mph",
-    "rationale": "Speed = Distance / Time. Speed = 1200 miles / 3 hours = 400 miles per hour."
+    "rationale": "Speed = Distance / Time. Speed = 1200 miles / 3 hours = 400 miles per hour.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "1/2 is 0.5."
       }
     ],
-    "rationale": "To compare, convert all values to decimals: 75% = 0.75, 3/5 = 0.6, 1/2 = 0.5. The largest value is 0.8."
+    "rationale": "To compare, convert all values to decimals: 75% = 0.75, 3/5 = 0.6, 1/2 = 0.5. The largest value is 0.8.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "First, calculate the raise amount: 4% of $50,000 is 0.04 * 50000 = $2,000. Then, add the raise to the original salary: $50,000 + $2,000 = $52,000."
+    "rationale": "First, calculate the raise amount: 4% of $50,000 is 0.04 * 50000 = $2,000. Then, add the raise to the original salary: $50,000 + $2,000 = $52,000.",
+    "challenge_tags": [
+      "math-1"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is 81*2."
       }
     ],
-    "rationale": "First, find the square root of 81, which is 9. Then, multiply by 2: 9 * 2 = 18."
+    "rationale": "First, find the square root of 81, which is 9. Then, multiply by 2: 9 * 2 = 18.",
+    "challenge_tags": [
+      "math-1"
+    ]
   }
 ];

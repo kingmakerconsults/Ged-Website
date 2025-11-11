@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "8 appears only once."
       }
     ],
-    "rationale": "The mode is the value that appears most often in a data set. The number 7 appears three times, which is more than any other number."
+    "rationale": "The mode is the value that appears most often in a data set. The number 7 appears three times, which is more than any other number.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "What is the range of the following temperatures: 22, 15, 28, 12, 30?",
     "correctAnswer": "18",
-    "rationale": "The range is the difference between the highest and lowest values. Max = 30, Min = 12. Range = 30 - 12 = 18."
+    "rationale": "The range is the difference between the highest and lowest values. Max = 30, Min = 12. Range = 30 - 12 = 18.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the highest number."
       }
     ],
-    "rationale": "To find the mean, sum the numbers (100+110+120+130+140 = 600) and divide by the number of values (5). 600 / 5 = 120."
+    "rationale": "To find the mean, sum the numbers (100+110+120+130+140 = 600) and divide by the number of values (5). 600 / 5 = 120.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A drawer contains 6 black socks, 4 white socks, and 2 brown socks. What is the probability of randomly selecting a white sock?",
     "correctAnswer": "1/3",
-    "rationale": "There are 4 white socks and a total of 12 socks (6+4+2). The probability is 4/12, which simplifies to 1/3."
+    "rationale": "There are 4 white socks and a total of 12 socks (6+4+2). The probability is 4/12, which simplifies to 1/3.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is the mean."
       }
     ],
-    "rationale": "First, order the numbers: 10, 15, 15, 20, 25, 30. Since there is an even number of values, the median is the average of the two middle numbers (15 and 20). (15 + 20) / 2 = 17.5."
+    "rationale": "First, order the numbers: 10, 15, 15, 20, 25, 30. Since there is an even number of values, the median is the average of the two middle numbers (15 and 20). (15 + 20) / 2 = 17.5.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "This is a fundamental counting principle problem. To find the total number of combinations, multiply the number of options for each choice: 5 flavors * 3 toppings = 15 combinations."
+    "rationale": "This is a fundamental counting principle problem. To find the total number of combinations, multiply the number of options for each choice: 5 flavors * 3 toppings = 15 combinations.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "hard",
     "question": "The average score of 5 students on a test is 82. If a sixth student scores a 94, what is the new average?",
     "correctAnswer": "84",
-    "rationale": "The total score of the first 5 students is 5 * 82 = 410. The new total score is 410 + 94 = 504. The new average for 6 students is 504 / 6 = 84."
+    "rationale": "The total score of the first 5 students is 5 * 82 = 410. The new total score is 410 + 94 = 504. The new average for 6 students is 504 / 6 = 84.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This would mean it's certain not to land on Red."
       }
     ],
-    "rationale": "There are 4 possible outcomes. The probability of landing on Red is 1/4. The probability of NOT landing on Red is 1 - P(Red) = 1 - 1/4 = 3/4."
+    "rationale": "There are 4 possible outcomes. The probability of landing on Red is 1/4. The probability of NOT landing on Red is 1 - P(Red) = 1 - 1/4 = 3/4.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "What is the mode of the following numbers? 1, 2, 2, 3, 3, 3, 4, 4, 5",
     "correctAnswer": "3",
-    "rationale": "The mode is the number that appears most frequently. The number 3 appears three times, which is more than any other number."
+    "rationale": "The mode is the number that appears most frequently. The number 3 appears three times, which is more than any other number.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is the percentage of people who do not prefer cats."
       }
     ],
-    "rationale": "To find the percentage, divide the number of people who prefer cats by the total number of people surveyed and multiply by 100: (120 / 300) * 100 = 0.4 * 100 = 40%."
+    "rationale": "To find the percentage, divide the number of people who prefer cats by the total number of people surveyed and multiply by 100: (120 / 300) * 100 = 0.4 * 100 = 40%.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The probability of the first ball being red is 5/10. After drawing one red ball, there are 4 red balls left and a total of 9 balls. So, the probability of the second ball being red is 4/9. The total probability is (5/10) * (4/9) = 20/90 = 2/9."
+    "rationale": "The probability of the first ball being red is 5/10. After drawing one red ball, there are 4 red balls left and a total of 9 balls. So, the probability of the second ball being red is 4/9. The total probability is (5/10) * (4/9) = 20/90 = 2/9.",
+    "challenge_tags": [
+      "math-6"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This can be determined."
       }
     ],
-    "rationale": "When a constant value is added to every number in a dataset, the mean of the new dataset will be the original mean plus that constant. So, the new mean is 50 + 5 = 55."
+    "rationale": "When a constant value is added to every number in a dataset, the mean of the new dataset will be the original mean plus that constant. So, the new mean is 50 + 5 = 55.",
+    "challenge_tags": [
+      "math-6"
+    ]
   }
 ];

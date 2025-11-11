@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The cell membrane is selectively permeable, regulating the passage of substances."
+    "passage": "Science textbook excerpt: The cell membrane is selectively permeable, regulating the passage of substances.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -56,7 +59,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: \"Uni-\" means one."
+    "passage": "Science textbook excerpt: \"Uni-\" means one.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 3,
@@ -84,6 +90,9 @@ module.exports = [
         "rationale": "Evolution is the change in heritable traits of biological populations over successive generations.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -112,6 +121,9 @@ module.exports = [
         "rationale": "This is the function of the nucleus.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -140,6 +152,9 @@ module.exports = [
         "rationale": "An increase in the deer population would likely lead to an increase in the predator population, not a decrease.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -168,6 +183,9 @@ module.exports = [
         "rationale": "A trophic level is the position an organism occupies in a food web.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -196,6 +214,9 @@ module.exports = [
         "rationale": "All cells have a cell membrane.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -224,6 +245,9 @@ module.exports = [
         "rationale": "One of the traits will be expressed.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -252,6 +276,9 @@ module.exports = [
         "rationale": "Replication is the process of copying DNA.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -280,6 +307,9 @@ module.exports = [
         "rationale": "Pasteur is known for his discoveries in vaccination, microbial fermentation, and pasteurization.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -308,6 +338,9 @@ module.exports = [
         "rationale": "Fossils are overwhelmingly found in sedimentary rock.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -336,6 +369,9 @@ module.exports = [
         "rationale": "This is the role of lipids and proteins.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -364,6 +400,9 @@ module.exports = [
         "rationale": "They live in very different environments (land, air, water).",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -392,6 +431,9 @@ module.exports = [
         "rationale": "The biosphere is the sum of all ecosystems on Earth.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   }
 ];

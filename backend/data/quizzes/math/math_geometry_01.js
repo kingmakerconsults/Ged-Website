@@ -28,7 +28,10 @@ module.exports = [
         "rationale": "This is the result of squaring the length."
       }
     ],
-    "rationale": "The area of a rectangle is calculated by multiplying its length by its width. Area = 10 cm * 5 cm = 50 $cm^2$."
+    "rationale": "The area of a rectangle is calculated by multiplying its length by its width. Area = 10 cm * 5 cm = 50 $cm^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 2,
@@ -37,7 +40,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "A square has a perimeter of 24 inches. What is the length of one side?",
     "correctAnswer": "6 inches",
-    "rationale": "A square has four equal sides. To find the length of one side, divide the perimeter by 4: 24 inches / 4 = 6 inches."
+    "rationale": "A square has four equal sides. To find the length of one side, divide the perimeter by 4: 24 inches / 4 = 6 inches.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 3,
@@ -67,7 +73,10 @@ module.exports = [
         "rationale": "This is the result of multiplying base by height, without multiplying by 1/2."
       }
     ],
-    "rationale": "The formula for the area of a triangle is A = 1/2 * b * h. So, A = 1/2 * 8 inches * 6 inches = 24 $in^2$."
+    "rationale": "The formula for the area of a triangle is A = 1/2 * b * h. So, A = 1/2 * 8 inches * 6 inches = 24 $in^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 4,
@@ -76,7 +85,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "A circle has a radius of 5 meters. What is its circumference? Use 3.14 for $\\pi$.",
     "correctAnswer": "31.4 meters",
-    "rationale": "The formula for circumference is C = 2 * pi * r. C = 2 * 3.14 * 5 = 31.4 meters."
+    "rationale": "The formula for circumference is C = 2 * pi * r. C = 2 * 3.14 * 5 = 31.4 meters.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 5,
@@ -106,7 +118,10 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "According to the Pythagorean theorem, $a^2 + b^2 = c^2$. So, $9^2 + 12^2 = c^2$, which is $81 + 144 = 225$. Thus, c = $\\sqrt{225}$ = 15 cm."
+    "rationale": "According to the Pythagorean theorem, $a^2 + b^2 = c^2$. So, $9^2 + 12^2 = c^2$, which is $81 + 144 = 225$. Thus, c = $\\sqrt{225}$ = 15 cm.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 6,
@@ -136,7 +151,10 @@ module.exports = [
         "rationale": "This is the result of an incorrect calculation."
       }
     ],
-    "rationale": "The volume of a rectangular prism is V = l * w * h. So, V = 7 ft * 3 ft * 4 ft = 84 $ft^3$."
+    "rationale": "The volume of a rectangular prism is V = l * w * h. So, V = 7 ft * 3 ft * 4 ft = 84 $ft^3$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 7,
@@ -145,7 +163,10 @@ module.exports = [
     "difficulty": "medium",
     "question": "Two angles in a triangle measure 40° and 60°. What is the measure of the third angle?",
     "correctAnswer": "80°",
-    "rationale": "The sum of the angles in a triangle is always 180°. So, the third angle is 180° - 40° - 60° = 80°."
+    "rationale": "The sum of the angles in a triangle is always 180°. So, the third angle is 180° - 40° - 60° = 80°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 8,
@@ -175,7 +196,10 @@ module.exports = [
         "rationale": "This is the result of using the diameter in the area formula."
       }
     ],
-    "rationale": "First, find the radius, which is half the diameter: 10 inches / 2 = 5 inches. The area formula is A = pi * $r^2$. So, A = 3.14 * (5 inches)$^2$ = 3.14 * 25 = 78.5 $in^2$."
+    "rationale": "First, find the radius, which is half the diameter: 10 inches / 2 = 5 inches. The area formula is A = pi * $r^2$. So, A = 3.14 * (5 inches)$^2$ = 3.14 * 25 = 78.5 $in^2$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 9,
@@ -184,7 +208,10 @@ module.exports = [
     "difficulty": "easy",
     "question": "How many feet are in 3 yards?",
     "correctAnswer": "9 feet",
-    "rationale": "There are 3 feet in 1 yard. So, in 3 yards, there are 3 * 3 = 9 feet."
+    "rationale": "There are 3 feet in 1 yard. So, in 3 yards, there are 3 * 3 = 9 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 10,
@@ -214,7 +241,10 @@ module.exports = [
         "rationale": "This is double the correct volume."
       }
     ],
-    "rationale": "The formula for the volume of a cylinder is V = pi * $r^2$ * h. So, V = 3.14 * (2 inches)$^2$ * 6 inches = 3.14 * 4 * 6 = 75.36 $in^3$."
+    "rationale": "The formula for the volume of a cylinder is V = pi * $r^2$ * h. So, V = 3.14 * (2 inches)$^2$ * 6 inches = 3.14 * 4 * 6 = 75.36 $in^3$.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 11,
@@ -244,7 +274,10 @@ module.exports = [
         "rationale": "A straight angle is exactly 180°."
       }
     ],
-    "rationale": "Angles are classified based on their measure. An angle greater than 90° and less than 180° is an obtuse angle."
+    "rationale": "Angles are classified based on their measure. An angle greater than 90° and less than 180° is an obtuse angle.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
     "questionNumber": 12,
@@ -274,6 +307,9 @@ module.exports = [
         "rationale": "This is the perimeter of a regular octagon."
       }
     ],
-    "rationale": "A regular hexagon has 6 equal sides. The perimeter is the sum of the lengths of all sides, so P = 6 * side length = 6 * 8 cm = 48 cm."
+    "rationale": "A regular hexagon has 6 equal sides. The perimeter is the sum of the lengths of all sides, so P = 6 * side length = 6 * 8 cm = 48 cm.",
+    "challenge_tags": [
+      "math-5"
+    ]
   }
 ];

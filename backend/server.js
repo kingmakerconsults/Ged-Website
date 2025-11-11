@@ -6693,6 +6693,8 @@ const ALLOWED_QUESTION_TYPES = new Set([
   'multiple_select',
   'drag_drop_ordering',
   'short_constructed_response',
+  'standalone', // AI-generated standalone questions
+  'freeResponse', // AI-generated free response questions
 ]);
 
 // Unified prompt builder per subject and exam type
@@ -10745,7 +10747,7 @@ app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
 });
 
 // Load quizzes from dynamic index which merges legacy and supplemental topics
-const { ALL_QUIZZES } = require('./data/quizzes');
+const { ALL_QUIZZES } = require('./data/quizzes/index.js');
 
 // Subtopic → challenge tag mapping for auto-derivation when questions lack explicit tags
 const SUBTOPIC_TO_CHALLENGE = {

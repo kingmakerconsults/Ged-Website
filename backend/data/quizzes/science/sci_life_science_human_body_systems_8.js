@@ -27,7 +27,10 @@ module.exports = [
         "isCorrect": false
       }
     ],
-    "passage": "Science textbook excerpt: The heart is a muscular organ that pumps blood throughout the body."
+    "passage": "Science textbook excerpt: The heart is a muscular organ that pumps blood throughout the body.",
+    "challenge_tags": [
+      "science-3"
+    ]
   },
   {
     "questionNumber": 2,
@@ -55,6 +58,9 @@ module.exports = [
         "rationale": "This is the primary function of the nervous system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -83,6 +89,9 @@ module.exports = [
         "rationale": "This is the primary role of the excretory system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -111,6 +120,9 @@ module.exports = [
         "rationale": "The skeletal system provides support and protection.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -139,6 +151,9 @@ module.exports = [
         "rationale": "While the circulatory system is involved, the overall mechanism is a negative feedback loop.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -167,6 +182,9 @@ module.exports = [
         "rationale": "The endocrine system regulates longer-term processes, and the excretory system is primarily for waste removal.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -195,6 +213,9 @@ module.exports = [
         "rationale": "This is a function of the heart.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -223,6 +244,9 @@ module.exports = [
         "rationale": "Enzymes are proteins that speed up chemical reactions.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -251,6 +275,9 @@ module.exports = [
         "rationale": "This is a function of the skeletal system.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -279,6 +306,9 @@ module.exports = [
         "rationale": "Correct. The pancreas (endocrine system) releases insulin to counteract the rise in blood sugar, returning it to normal.",
         "isCorrect": true
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -307,6 +337,9 @@ module.exports = [
         "rationale": "Capillaries are the smallest blood vessels.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   },
   {
@@ -335,6 +368,9 @@ module.exports = [
         "rationale": "They must work together to create coordinated movement.",
         "isCorrect": false
       }
+    ],
+    "challenge_tags": [
+      "science-3"
     ]
   }
 ];
