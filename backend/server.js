@@ -5567,12 +5567,19 @@ app.post(
         assignedBy: COACH_ASSIGNED_BY,
       };
 
-      // Save to today's daily row
-      await findOrCreateDailyRow(userId, subject, today);
-      await pool.query(
-        `UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_completed = FALSE, updated_at = NOW() WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
-        [userId, subject, today, quizCode]
-      );
+      // Save to today's daily row (skip if DB unavailable)
+      try {
+        await findOrCreateDailyRow(userId, subject, today);
+        await pool.query(
+          `UPDATE coach_daily_progress SET coach_quiz_id = $4, coach_quiz_completed = FALSE, updated_at = NOW() WHERE user_id = $1 AND subject = $2 AND plan_date = $3`,
+          [userId, subject, today, quizCode]
+        );
+      } catch (dbErr) {
+        console.warn(
+          '[premade-composite] DB save failed (continuing anyway):',
+          dbErr?.message || dbErr
+        );
+      }
 
       return res.json({ ok: true, quiz });
     } catch (e) {
