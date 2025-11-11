@@ -25781,9 +25781,11 @@ function App({ externalTheme, onThemeChange }) {
   };
 
   // Expose quiz launcher so late coach helpers can always reach it
-  if (typeof window !== 'undefined') {
-    window.__GED_START_QUIZ__ = startQuiz;
-  }
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.__GED_START_QUIZ__ = startQuiz;
+    }
+  }, [startQuiz]);
 
   const onQuizComplete = async (results) => {
     setQuizResults(results);
