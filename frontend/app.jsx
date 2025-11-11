@@ -25780,6 +25780,11 @@ function App({ externalTheme, onThemeChange }) {
     setView(viewType);
   };
 
+  // Expose quiz launcher so late coach helpers can always reach it
+  if (typeof window !== 'undefined') {
+    window.__GED_START_QUIZ__ = startQuiz;
+  }
+
   const onQuizComplete = async (results) => {
     setQuizResults(results);
     setView('results');
@@ -29840,7 +29845,7 @@ function StartScreen({
   };
 
   // Weekly Coach: 20Q premade composite quiz via premade-composite endpoint
-  const startPremadeCompositeForSubject = async (subject, focusTag) => {
+  const startPremadeCompositeForSubject = async (subject, focusTag = null) => {
     if (!window.__COACH_ENABLED__) return;
     try {
       const token =
@@ -29853,9 +29858,15 @@ function StartScreen({
       }
       setIsLoading(true);
       setLoadingMessage(`Loading your practice quiz for ${subject}…`);
+
+      // normalize subject to what the backend expects
+      const subjectSlug = practiceSubjectParam
+        ? practiceSubjectParam(subject)
+        : String(subject).toLowerCase().replace(/\s+/g, '-');
+
       const res = await fetch(
         `${API_BASE_URL}/api/coach/${encodeURIComponent(
-          practiceSubjectParam(subject)
+          subjectSlug
         )}/premade-composite`,
         {
           method: 'POST',
@@ -29866,41 +29877,58 @@ function StartScreen({
           body: JSON.stringify({ focusTag }),
         }
       );
-      const resStatus = res.status;
-      const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        throw new Error(data?.error || `HTTP ${resStatus}`);
+        throw new Error(`premade-composite HTTP ${res.status}`);
       }
-      // Accept responses that provide a quiz even if "ok" flag is missing
-      const quiz = data.quiz || data?.data?.quiz || null;
-      if (window && window.console) {
-        try {
-          console.log('[coach] premade-composite response:', {
-            status: resStatus,
-            ok: data?.ok,
-            hasQuiz: !!quiz,
-            questions: Array.isArray(quiz?.questions)
-              ? quiz.questions.length
-              : 0,
-          });
-        } catch (_) {}
+
+      const data = await res.json();
+      const quiz = data?.quiz;
+
+      console.log('[coach] premade-composite response:', {
+        status: res.status,
+        ok: data?.ok,
+        hasQuiz: !!quiz,
+        questions: Array.isArray(quiz?.questions) ? quiz.questions.length : 0,
+      });
+
+      if (
+        !quiz ||
+        !Array.isArray(quiz.questions) ||
+        quiz.questions.length === 0
+      ) {
+        throw new Error('no quiz in premade-composite response');
       }
-      if (!quiz || !Array.isArray(quiz.questions)) throw new Error('no_quiz');
-      const displaySubject = displaySubjectName(subject);
-      startQuiz({ ...quiz, assigned_by: 'coach-smith' }, displaySubject);
-    } catch (e) {
-      console.error('[coach] startPremadeCompositeForSubject failed:', e);
+
+      // ✅ robust quiz launcher
+      const displaySubject = displaySubjectName
+        ? displaySubjectName(subject)
+        : subject;
+
+      const launchQuiz =
+        (typeof window !== 'undefined' && window.__GED_START_QUIZ__) ||
+        (typeof startQuiz === 'function' ? startQuiz : null);
+
+      if (launchQuiz) {
+        launchQuiz({ ...quiz, assigned_by: 'coach-smith' }, displaySubject);
+      } else {
+        console.warn(
+          '[coach] quiz was built but no launcher was available. quiz id:',
+          quiz.id
+        );
+      }
+    } catch (err) {
+      console.error('[coach] startPremadeCompositeForSubject failed:', err);
       alert('Unable to start Coach Smith quiz right now.');
     } finally {
-      // Always clear loading UI first
       setIsLoading(false);
-      // Refresh panels is nice-to-have; never let it mask a successful quiz start
+      // ✅ do not let coach-panel refresh kill a successful quiz
       try {
         await refreshCoachPanels();
-      } catch (err) {
+      } catch (e) {
         console.warn(
-          'Coach panel refresh failed (non-fatal, quiz already started):',
-          err
+          '[coach] non-fatal: failed to refresh coach panels after quiz start',
+          e
         );
       }
     }
