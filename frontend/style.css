@@ -122,7 +122,7 @@
 [data-theme='light'] .glass,
 [data-theme='light'] .settings-card,
 [data-theme='light'] .vocab-shell,
-[data-theme='light'] .vocab-shell button,
+[data-theme='light'] .vocab-shell > div:first-child button,
 [data-theme='light'] .math-practice-header,
 [data-theme='light'] .coach-panel {
   color: #0f172a !important;
@@ -2143,11 +2143,19 @@ textarea {
   font-size: 1rem;
   line-height: 1.4;
   color: var(--text-primary);
-  background-color: var(--bg-surface);
+  /* background-color: var(--bg-surface); <-- This line is removed */
   border-radius: 0.5rem;
   border: 1px solid var(--border-subtle);
   -webkit-appearance: none;
   appearance: none;
+}
+
+input,
+select,
+textarea {
+  background-color: var(
+    --bg-surface
+  ); /* Apply background only to form fields */
 }
 
 button {
