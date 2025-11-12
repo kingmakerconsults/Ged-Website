@@ -21810,6 +21810,17 @@ const WrongIcon = ({ className = '' } = {}) => (
   </svg>
 );
 
+const PencilIcon = ({ className = '' } = {}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className || 'h-5 w-5'}
+  >
+    <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z" />
+  </svg>
+);
+
 const UserIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -23620,11 +23631,12 @@ function AppHeader({
             </button>
             <button
               onClick={onShowQuizzes}
-              className="hover:text-sky-600 dark:hover:text-sky-400 transition"
+              className="flex items-center gap-1.5 hover:text-sky-600 dark:hover:text-sky-400 transition"
               type="button"
               aria-controls="quizzes"
             >
-              Quizzes
+              <BookOpenIcon className="h-4 w-4" />
+              <span>Quizzes</span>
             </button>
             <button
               onClick={onShowProgress}
@@ -29481,6 +29493,7 @@ const ICONS = {
   HouseIcon,
   StudentIcon,
   ChartPieIcon,
+  PencilIcon,
 };
 
 function FormulaDisplay({ latex, className = '' }) {
@@ -36767,7 +36780,8 @@ function EssayGuide({ onExit }) {
         >
           <ArrowLeftIcon /> Back
         </button>
-        <h2 className="text-xl font-bold text-center subject-accent-heading">
+        <h2 className="text-xl font-bold text-center subject-accent-heading flex items-center gap-2">
+          <PencilIcon className="h-5 w-5" />
           Interactive Essay Guide
         </h2>
         <div></div>
