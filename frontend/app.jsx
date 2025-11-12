@@ -23732,6 +23732,218 @@ function AppHeader({
   );
 }
 
+function JoinOrganizationModal({ onJoin, authToken }) {
+  const [organizations, setOrganizations] = useState([]);
+  const [selectedOrgId, setSelectedOrgId] = useState('');
+  const [accessCode, setAccessCode] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [fetchingOrgs, setFetchingOrgs] = useState(true);
+
+  useEffect(() => {
+    // Fetch organizations on mount
+    async function fetchOrganizations() {
+      try {
+        const response = await fetch('/api/organizations');
+        const data = await response.json();
+        if (data.ok && Array.isArray(data.organizations)) {
+          setOrganizations(data.organizations);
+        } else {
+          setError('Failed to load organizations');
+        }
+      } catch (err) {
+        console.error('Failed to fetch organizations:', err);
+        setError('Failed to load organizations');
+      } finally {
+        setFetchingOrgs(false);
+      }
+    }
+    fetchOrganizations();
+  }, []);
+
+  const selectedOrg = organizations.find((org) => org.id === Number(selectedOrgId));
+  const requiresCode = selectedOrg?.requires_code || false;
+
+  const handleJoin = async () => {
+    if (!selectedOrgId) {
+      setError('Please select an organization');
+      return;
+    }
+
+    if (requiresCode && !accessCode.trim()) {
+      setError('This organization requires an access code');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/student/select-organization', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          organization_id: Number(selectedOrgId),
+          access_code: accessCode.trim() || undefined,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.error === 'access_code_required') {
+          setError('This organization requires an access code');
+        } else if (data.error === 'invalid_access_code') {
+          setError('The access code you entered is incorrect');
+        } else {
+          setError(data.message || data.error || 'Failed to join organization');
+        }
+        setLoading(false);
+        return;
+      }
+
+      if (data.ok && data.user) {
+        onJoin(data.user);
+      } else {
+        setError('Unexpected response from server');
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error('Failed to join organization:', err);
+      setError('Failed to join organization. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex h-full w-full items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      style={{ backgroundColor: 'var(--modal-overlay)' }}
+    >
+      <div
+        className="relative w-11/12 max-w-md rounded-lg p-8 shadow-2xl"
+        style={{
+          backgroundColor: 'var(--modal-surface)',
+          color: 'var(--modal-text)',
+          border: `1px solid var(--modal-border)`,
+        }}
+      >
+        <h2
+          className="mb-4 text-2xl font-bold"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          Welcome! Join Your Organization
+        </h2>
+        <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
+          To use this app, you need to join an organization. Please select one below.
+        </p>
+
+        {fetchingOrgs ? (
+          <div className="text-center py-4" style={{ color: 'var(--text-secondary)' }}>
+            Loading organizations...
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div>
+              <label
+                htmlFor="organization"
+                className="block text-sm font-medium mb-2"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Select Organization
+              </label>
+              <select
+                id="organization"
+                value={selectedOrgId}
+                onChange={(e) => {
+                  setSelectedOrgId(e.target.value);
+                  setAccessCode('');
+                  setError('');
+                }}
+                className="block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none"
+                style={{
+                  backgroundColor: 'var(--bg-surface)',
+                  border: `1px solid var(--border-subtle)`,
+                  color: 'var(--text-primary)',
+                }}
+                disabled={loading}
+              >
+                <option value="">-- Choose an organization --</option>
+                {organizations.map((org) => (
+                  <option key={org.id} value={org.id}>
+                    {org.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {requiresCode && (
+              <div>
+                <label
+                  htmlFor="accessCode"
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  Access Code
+                </label>
+                <input
+                  type="text"
+                  id="accessCode"
+                  value={accessCode}
+                  onChange={(e) => {
+                    setAccessCode(e.target.value);
+                    setError('');
+                  }}
+                  className="block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none"
+                  style={{
+                    backgroundColor: 'var(--bg-surface)',
+                    border: `1px solid var(--border-subtle)`,
+                    color: 'var(--text-primary)',
+                  }}
+                  placeholder="Enter access code"
+                  disabled={loading}
+                />
+              </div>
+            )}
+
+            {error && (
+              <div
+                className="rounded-md p-3 text-sm"
+                style={{
+                  backgroundColor: 'var(--error-bg)',
+                  color: 'var(--error-text)',
+                  border: `1px solid var(--error-border)`,
+                }}
+              >
+                {error}
+              </div>
+            )}
+
+            <button
+              onClick={handleJoin}
+              disabled={loading || !selectedOrgId}
+              className="w-full rounded-lg px-6 py-3 font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
+              data-role="primary"
+              style={{
+                backgroundColor: 'var(--accent)',
+                color: 'var(--accent-text)',
+                borderColor: 'var(--accent)',
+              }}
+            >
+              {loading ? 'Joining...' : 'Join Organization'}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function NamePromptModal({ user, onSave, onDismiss }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -24032,6 +24244,7 @@ function App({ externalTheme, onThemeChange }) {
   const [quizAttempts, setQuizAttempts] = useState([]);
   const [showFormulaSheet, setShowFormulaSheet] = useState(false);
   const [showNamePrompt, setShowNamePrompt] = useState(false);
+  const [showJoinOrgModal, setShowJoinOrgModal] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
   const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
@@ -25720,15 +25933,22 @@ function App({ externalTheme, onThemeChange }) {
         const isStudent =
           profile.role !== 'super_admin' && profile.role !== 'org_admin';
         if (isStudent) {
-          const customNameSet = localStorage.getItem(
-            `customNameSet_${profile.id}`
-          );
-          if (!customNameSet) {
-            setShowNamePrompt(true);
+          // Check if user needs to join an organization
+          if (!profile.organization_id) {
+            setShowJoinOrgModal(true);
+          } else {
+            setShowJoinOrgModal(false);
+            const customNameSet = localStorage.getItem(
+              `customNameSet_${profile.id}`
+            );
+            if (!customNameSet) {
+              setShowNamePrompt(true);
+            }
+            loadQuizAttempts(storedToken);
           }
-          loadQuizAttempts(storedToken);
         } else {
           setShowNamePrompt(false);
+          setShowJoinOrgModal(false);
         }
       }
     } catch (error) {
@@ -25811,13 +26031,21 @@ function App({ externalTheme, onThemeChange }) {
     recalcProgress([]);
 
     if (!isAdminUser) {
-      const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
-      if (!customNameSet) {
-        setShowNamePrompt(true);
+      // Check if user needs to join an organization
+      if (!profile.organization_id) {
+        setShowJoinOrgModal(true);
+        setShowNamePrompt(false);
+      } else {
+        setShowJoinOrgModal(false);
+        const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
+        if (!customNameSet) {
+          setShowNamePrompt(true);
+        }
+        loadQuizAttempts(token);
       }
-      loadQuizAttempts(token);
     } else {
       setShowNamePrompt(false);
+      setShowJoinOrgModal(false);
     }
 
     setView('start');
@@ -25871,6 +26099,34 @@ function App({ externalTheme, onThemeChange }) {
     setShowNamePrompt(false);
   };
 
+  const handleJoinOrganization = (updatedUser) => {
+    // User successfully joined an organization
+    const profile = ensureUserProfile(updatedUser);
+    if (profile) {
+      try {
+        localStorage.setItem('appUser', JSON.stringify(profile));
+      } catch (error) {
+        console.warn('Unable to persist updated user locally:', error);
+      }
+      
+      currentUserRef.current = profile;
+      setCurrentUser(profile);
+      setShowJoinOrgModal(false);
+
+      // Now check if we need to show name prompt
+      const isStudent = profile.role !== 'super_admin' && profile.role !== 'org_admin';
+      if (isStudent) {
+        const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
+        if (!customNameSet) {
+          setShowNamePrompt(true);
+        }
+        if (authToken) {
+          loadQuizAttempts(authToken);
+        }
+      }
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('appUser');
     localStorage.removeItem('appToken');
@@ -25879,6 +26135,7 @@ function App({ externalTheme, onThemeChange }) {
     setQuizAttempts([]);
     recalcProgress([]);
     setShowNamePrompt(false);
+    setShowJoinOrgModal(false);
     setSubjectEdits(createEmptySubjectEdits());
     setProfileError(null);
     setProfileLoading(false);
@@ -26685,6 +26942,7 @@ function App({ externalTheme, onThemeChange }) {
           backgroundColor: 'var(--bg-page)',
           color: 'var(--text-primary)',
         }}
+        aria-hidden={showJoinOrgModal}
       >
         <AppHeader
           currentUser={currentUser}
@@ -26733,6 +26991,12 @@ function App({ externalTheme, onThemeChange }) {
         )}
         {showFormulaSheet && (
           <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />
+        )}
+        {showJoinOrgModal && (
+          <JoinOrganizationModal
+            onJoin={handleJoinOrganization}
+            authToken={authToken}
+          />
         )}
         {showNamePrompt && (
           <NamePromptModal
