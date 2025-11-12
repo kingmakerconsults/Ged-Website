@@ -151,7 +151,7 @@
               />
             </div>
           </div>
-          <div>
+          <div class="hidden">
             <label
               for="scenario-select"
               class="block text-sm font-medium text-slate-700 mb-1"
@@ -162,7 +162,7 @@
               class="w-full p-2 border border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             ></select>
           </div>
-          <div>
+          <div class="hidden">
             <label
               for="region-select"
               class="block text-sm font-medium text-slate-700 mb-1"
@@ -177,7 +177,7 @@
               <option value="HIGH">High Cost</option>
             </select>
           </div>
-          <div>
+          <div class="hidden">
             <label
               for="career-select"
               class="block text-sm font-medium text-slate-700 mb-1"
@@ -188,7 +188,7 @@
               class="w-full p-2 border border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             ></select>
           </div>
-          <div>
+          <div class="hidden">
             <label
               for="dwelling-select"
               class="block text-sm font-medium text-slate-700 mb-1"
@@ -225,7 +225,7 @@
             id="start-button"
             class="w-full sm:w-auto bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition-all duration-300 transform hover:scale-105"
           >
-            Begin Your Life
+            Begin (Age → Personality)
           </button>
         </div>
       </div>
@@ -865,6 +865,46 @@
           <div id="major-event-choices" class="grid grid-cols-1 gap-3"></div>
         </div>
       </div>
+
+      <!-- Stage Modal for multi-question stages -->
+      <div
+        id="stage-modal"
+        class="modal hidden fixed inset-0 bg-black bg-opacity-75 items-center justify-center p-4 z-50"
+      >
+        <div
+          class="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl mx-auto w-full"
+        >
+          <div class="mb-4">
+            <h3
+              id="stage-title"
+              class="text-2xl font-bold text-indigo-600 mb-1"
+            >
+              Stage Title
+            </h3>
+            <p id="stage-progress" class="text-sm text-slate-500">
+              Question 1 of 2
+            </p>
+          </div>
+
+          <div id="stage-question-container">
+            <h4
+              id="stage-question-prompt"
+              class="text-lg font-semibold text-slate-800 mb-4"
+            >
+              Question prompt here
+            </h4>
+            <div id="stage-choices-container" class="grid grid-cols-1 gap-3">
+              <!-- Choice buttons will be inserted here -->
+            </div>
+          </div>
+
+          <div class="mt-6 text-center">
+            <p class="text-xs text-slate-400">
+              These choices will shape your lifetime journey
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
@@ -883,9 +923,7 @@
         function buildMonthlyExpenses(player, regionCfg, regionMult) {
           const basket = regionCfg.basket;
           const expenses = {};
-          expenses.rent = player.dwelling
-            ? basket[player.dwelling] * regionMult
-            : 0; // Rent rule
+          // NO expenses.rent here – housing is injected later via getMonthlyHousingCost
           expenses.utilities = basket.utilities * regionMult;
           expenses.groceries =
             (player.has_child
@@ -917,6 +955,7 @@
           return {
             birthYear,
             ageMonths,
+            startAgeMonths: ageMonths, // track where we began
             currentYear: birthYear + Math.floor(ageMonths / 12),
             currentMonth: 0,
             retirementAge: retirementTargetAge,
@@ -940,9 +979,7 @@
           return getAgeYears(clock) >= clock.retirementAge;
         }
         function reachedEnd(clock) {
-          const yearsElapsed =
-            clock.ageMonths / 12 -
-            (clock.ageMonths / 12 - clock.currentMonth / 12);
+          const yearsElapsed = (clock.ageMonths - clock.startAgeMonths) / 12;
           return yearsElapsed >= clock.maxYears;
         }
         function formatAge(ageMonths) {
@@ -1026,7 +1063,7 @@
           );
 
           player.owns_home = true;
-          player.dwelling = '2BR'; // Assume home ownership = 2BR equivalent
+          // Do NOT mutate player.dwelling - keep that strictly for renting
 
           return true;
         }
@@ -1218,6 +1255,24 @@
           return 'F';
         }
 
+        // ========== STAGE SYSTEM 2.0 ==========
+        let STAGES = { stages: [] };
+        const completedStages = new Set();
+        const stageHistory = []; // { time, stageId, questionId, choiceLabel }
+        let currentStageModal = null;
+
+        async function loadStages() {
+          try {
+            const response = await fetch('../data/stages.json');
+            const data = await response.json();
+            STAGES = data;
+            console.log(`Loaded ${STAGES.stages.length} stages`);
+          } catch (err) {
+            console.error('Failed to load stages.json:', err);
+            STAGES = { stages: [] };
+          }
+        }
+
         async function loadData() {
           const [col, car, sc, lel, ret] = await Promise.all([
             fetch('../config/cost_of_living.json').then((r) => r.json()),
@@ -1225,6 +1280,7 @@
             fetch('../data/scenarios.json').then((r) => r.json()),
             fetch('../data/life_events_long.json').then((r) => r.json()),
             fetch('../data/retirement.json').then((r) => r.json()),
+            loadStages(), // Load stages config
           ]);
           costOfLiving = col;
           careers = car;
@@ -1250,8 +1306,9 @@
             careerSelect.appendChild(opt);
           });
           function updateBudgetPreview() {
-            const region = document.getElementById('region-select').value;
-            const dwelling = document.getElementById('dwelling-select').value;
+            // Use default MED region and no dwelling until stages set them
+            const region = 'MED';
+            const dwelling = null;
             const regionMult = calcRegionMultiplier(region);
             const basket = costOfLiving.regions[region].basket;
             const previewPlayer = {
@@ -1276,31 +1333,11 @@
             document.getElementById('budget-preview-content').innerHTML =
               lines.join(' &bull; ');
             const rentBadge = document.getElementById('rent-badge');
-            if (!dwelling) {
-              rentBadge.textContent = 'Rent: $0 (choose a dwelling)';
-              rentBadge.className =
-                'inline-block mt-2 px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-semibold';
-            } else {
-              rentBadge.textContent = `Rent: $${Math.round(
-                basket[dwelling] * regionMult
-              )}`;
-              rentBadge.className =
-                'inline-block mt-2 px-2 py-1 rounded bg-blue-100 text-blue-700 text-xs font-semibold';
-            }
+            rentBadge.textContent = 'Rent: $0 (choose a dwelling)';
+            rentBadge.className =
+              'inline-block mt-2 px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-semibold';
           }
-          document
-            .getElementById('region-select')
-            .addEventListener('change', updateBudgetPreview);
-          document
-            .getElementById('dwelling-select')
-            .addEventListener('change', updateBudgetPreview);
-          scenarioSelect.addEventListener('change', () => {
-            const s = scenarios.find((x) => x.id === scenarioSelect.value);
-            if (!s) return;
-            document.getElementById('region-select').value = s.region;
-            document.getElementById('dwelling-select').value = s.dwelling || '';
-            updateBudgetPreview();
-          });
+          // Remove event listeners for hidden selectors
           updateBudgetPreview();
         })();
         const avatarIcons = {
@@ -2576,6 +2613,8 @@
             base: { label: 'Base Living Costs', amount: 40000 },
           },
           happiness: 50,
+          stress: 20, // Add stress tracking
+          flags: new Set(), // Stage requirements tracking
           investment_multiplier: 1.0,
           investment_risk: 0,
           avatar: { bg: null, item: null, accessory: null },
@@ -2636,74 +2675,76 @@
         const startQuiz = () => {
           const startAgeInput = document.getElementById('startAge');
           const startYearInput = document.getElementById('startYear');
-          const scenarioSelectEl = document.getElementById('scenario-select');
-          const scenarioId = scenarioSelectEl.value;
-          const region = document.getElementById('region-select').value;
-          const careerId = document.getElementById('career-select').value;
-          const dwelling =
-            document.getElementById('dwelling-select').value || null;
-          const startAge = startAgeInput.value;
-          const startYear = startYearInput.value;
-          if (
-            !startAge ||
-            !startYear ||
-            parseInt(startAge) < 1 ||
-            parseInt(startYear) < 1950
-          ) {
+          const startAge = parseInt(startAgeInput.value, 10);
+          const startYear = parseInt(startYearInput.value, 10);
+
+          if (!startAge || !startYear || startAge < 1 || startYear < 1950) {
             startError.classList.remove('hidden');
             return;
           }
           startError.classList.add('hidden');
-          const scenario = scenarios.find((s) => s.id === scenarioId);
+
+          // Silent defaults - Student scenario, MED region
+          const DEFAULT_SCENARIO_ID = 'student';
+          const DEFAULT_REGION = 'MED';
+          const scenario =
+            scenarios.find((s) => s.id === DEFAULT_SCENARIO_ID) || {};
+          const dwelling = null; // no rent until stage chooses it
+
           const player = {
-            region,
-            cash: scenario ? scenario.starting_cash : 500,
-            debt: scenario ? scenario.starting_debt : 0,
-            has_child: scenario ? scenario.has_child : false,
-            dwelling,
+            region: DEFAULT_REGION,
+            cash: scenario.starting_cash ?? 500,
+            debt: scenario.starting_debt ?? 0,
+            has_child: scenario.has_child ?? false,
+            dwelling, // <- null means $0 rent
             recurringAdjustments: [],
             tempIncome: [],
             rentMultiplier: 1,
+            ageMonths: startAge * 12,
+            investments: 0,
+            monthsWorked: 0,
+            happiness: 50,
+            stress: 20,
+            flags: new Set(),
           };
-          const careerDef = careers.find((c) => c.id === careerId);
-          let careerState = null;
-          if (careerDef) {
-            careerState = {
-              currentTitle: careerDef.title,
-              currentBasePay:
-                careerDef.type === 'salary'
-                  ? careerDef.salary
-                  : careerDef.hourly,
-              type: careerDef.type,
-              hours_per_week: careerDef.hours_per_week,
-              raise: careerDef.raise,
-              promotion: careerDef.promotion,
-              monthsInRole: 0,
-            };
-          }
-          window.lifeSimPlayer = player;
-          window.lifeSimCareer = careerState;
-          window.lifeSimScenarioGoal = scenario ? scenario.goal : null;
 
-          // Initialize lifetime state
-          const birthYear = parseInt(startYear) - parseInt(startAge);
-          const ageMonths = parseInt(startAge) * 12;
-          window.lifetimeClock = initClock(birthYear, ageMonths, 67, 50);
+          // Career is chosen in stages; initialize a blank shell so lifetime mode won't choke
+          let careerState = {
+            currentTitle: 'Unemployed',
+            currentBasePay: 0,
+            type: 'salary',
+            hours_per_week: 40,
+            raise: { cola: 0.02, merit: [0.0, 0.0] },
+            promotion: [],
+            monthsInRole: 0,
+          };
+
+          const birthYear = startYear - startAge;
+          window.lifetimeClock = initClock(birthYear, player.ageMonths, 67, 50);
           window.lifetimeHousehold = initHousehold();
           window.lifetimeHousing = initHousing();
           window.lifetimeLoans = initLoans();
           window.lifetimeEventLog = initEventLog();
-          window.lifetimeAutoAdvance = false; // Will activate after stage-based gameplay
+          window.lifetimeAutoAdvance = false;
           window.lifetimeLastCheckpoint = 0;
 
-          player.ageMonths = ageMonths;
-          player.investments = 0;
-          player.monthsWorked = 0;
+          window.lifeSimPlayer = player;
+          window.lifeSimCareer = careerState;
+          window.lifeSimScenarioGoal = scenario.goal ?? null;
 
+          // Hide start screen and trigger Stage 1 immediately
           startScreen.classList.add('hidden');
-          personalityQuizScreen.classList.remove('hidden');
-          personalityQuizScreen.classList.add('fade-in');
-          displayPersonalityQuestion();
+
+          // Stage 1 is not age-locked, so trigger it now
+          const stage1 = STAGES.stages.find((s) => s.id === 'stage_1_start');
+          if (stage1) {
+            openStageModal(stage1);
+          } else {
+            // Fallback: show personality quiz directly
+            personalityQuizScreen.classList.remove('hidden');
+            personalityQuizScreen.classList.add('fade-in');
+            displayPersonalityQuestion();
+          }
         };
 
         const displayPersonalityQuestion = () => {
@@ -2744,9 +2785,24 @@
 
         const startMainGame = () => {
           personalityQuizScreen.classList.add('hidden');
-          quizScreen.classList.remove('hidden');
-          quizScreen.classList.add('fade-in');
-          displayQuestion();
+
+          // Check if we need to return to stage modal
+          if (window.returnToStageAfterPersonality && currentStageModal) {
+            window.returnToStageAfterPersonality = false;
+
+            // Store personality in player
+            window.lifeSimPlayer.personality = gameState.personality;
+
+            // Show stage modal again and move to next question
+            document.getElementById('stage-modal').classList.remove('hidden');
+            document.getElementById('stage-modal').classList.add('flex');
+            showStageQuestion(currentStageModal.currentQuestionIndex + 1);
+          } else {
+            // Normal flow: start main game
+            quizScreen.classList.remove('hidden');
+            quizScreen.classList.add('fade-in');
+            displayQuestion();
+          }
         };
 
         const filterGameStages = () => {
@@ -3309,11 +3365,16 @@
               label: effects.salary_add.label,
               amount: effects.salary_add.amount,
             };
-          if (
-            effects.salary_remove &&
-            gameState.salaryBreakdown[effects.salary_remove]
-          )
-            delete gameState.salaryBreakdown[effects.salary_remove];
+          if (effects.salary_remove) {
+            const ids = Array.isArray(effects.salary_remove)
+              ? effects.salary_remove
+              : [effects.salary_remove];
+            ids.forEach((id) => {
+              if (gameState.salaryBreakdown[id]) {
+                delete gameState.salaryBreakdown[id];
+              }
+            });
+          }
           if (
             effects.salary_boost &&
             gameState.salaryBreakdown[effects.salary_boost.id]
@@ -3573,7 +3634,57 @@
             </button>
           </div>`;
 
-          document.getElementById('result-description').innerHTML = description;
+          // Add Personality Summary
+          const personalityMap = {
+            ambitious: 'Ambitious – driven by goals, promotions, and growth.',
+            guardian: 'Guardian – values stability, family, and service.',
+            creative: 'Creative – expressive, craft-focused, and aesthetic.',
+            adventurous:
+              'Adventurous – novelty-seeking, risk-tolerant, experiential.',
+          };
+
+          const personalitySummary = `
+            <div class="mt-6 grid gap-6 md:grid-cols-2">
+              <div class="bg-white rounded-xl shadow p-4">
+                <h3 class="text-lg font-semibold mb-2">Your Personality</h3>
+                <p class="mb-2"><strong>Type:</strong> ${
+                  gameState.personality || '—'
+                }</p>
+                <p class="text-slate-600">${
+                  personalityMap[gameState.personality] || ''
+                }</p>
+              </div>
+            </div>
+          `;
+
+          // Add Stage Summary
+          const stageSummary = `
+            <div class="mt-6 bg-white rounded-xl shadow p-4">
+              <h3 class="text-lg font-semibold mb-2">Your Key Choices</h3>
+              <ul class="list-disc list-inside text-slate-700">
+                <li>Sector: ${gameState.sector || '—'}</li>
+                <li>First Profession: ${
+                  gameState.salaryBreakdown.main_job?.label || '—'
+                }</li>
+                <li>Housing Path: ${
+                  gameState.housingType ||
+                  (window.lifeSimPlayer?.owns_home
+                    ? 'Own'
+                    : 'Rent / Not chosen')
+                }</li>
+                <li>Investing Style: ${
+                  gameState.investment_multiplier > 1.2
+                    ? 'High Risk'
+                    : gameState.investment_multiplier > 1.05
+                    ? 'Index / Balanced'
+                    : 'None'
+                }</li>
+              </ul>
+            </div>
+          `;
+
+          document.getElementById('result-description').innerHTML =
+            description + personalitySummary + stageSummary;
         };
 
         document
@@ -3613,6 +3724,586 @@
           .getElementById('cancel-choice-button')
           .addEventListener('click', hideConfirmationModal);
 
+        // ========== STAGE SCHEDULER ==========
+        function maybeTriggerStage(clock, player) {
+          for (const s of STAGES.stages) {
+            if (completedStages.has(s.id)) continue;
+
+            const age = Math.floor(clock.ageMonths / 12);
+            const inWindow =
+              (s.age_min == null || age >= s.age_min) &&
+              (s.age_max == null || age <= s.age_max);
+            if (!inWindow) continue;
+
+            // Check stage-level requires
+            if (s.requires && s.requires.length > 0) {
+              const hasAll = s.requires.every((f) => player.flags?.has(f));
+              if (!hasAll) continue;
+            }
+
+            // Trigger this stage
+            window.lifetimeAutoAdvance = false;
+            openStageModal(s);
+            return true; // Trigger one stage at a time
+          }
+          return false;
+        }
+
+        function pauseAutoAdvance() {
+          window.lifetimeAutoAdvance = false;
+        }
+
+        function resumeAutoAdvance() {
+          window.lifetimeAutoAdvance = true;
+        }
+
+        // ========== STAGE MODAL UI ==========
+        function openStageModal(stage) {
+          currentStageModal = {
+            stage,
+            currentQuestionIndex: 0,
+            answers: {}, // { questionId: choiceIndex }
+          };
+
+          const modal = document.getElementById('stage-modal');
+          const titleEl = document.getElementById('stage-title');
+          const progressEl = document.getElementById('stage-progress');
+
+          titleEl.textContent = stage.title;
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+
+          showStageQuestion(0);
+        }
+
+        function showStageQuestion(qIndex) {
+          const stage = currentStageModal.stage;
+          const questions = stage.questions;
+
+          if (qIndex >= questions.length) {
+            // All questions answered, apply effects and close
+            closeStageModal();
+            return;
+          }
+
+          const question = questions[qIndex];
+          currentStageModal.currentQuestionIndex = qIndex;
+
+          const progressEl = document.getElementById('stage-progress');
+          const promptEl = document.getElementById('stage-question-prompt');
+          const choicesContainer = document.getElementById(
+            'stage-choices-container'
+          );
+
+          progressEl.textContent = `Question ${qIndex + 1} of ${
+            questions.length
+          }`;
+
+          // Handle personality type question
+          if (question.type === 'personality') {
+            promptEl.textContent = question.prompt;
+            choicesContainer.innerHTML = `
+              <p class="text-slate-600 mb-4">The personality quiz determines your tendencies throughout life.</p>
+              <button onclick="startPersonalityQuizInStage()" 
+                class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition">
+                Take Personality Quiz
+              </button>
+            `;
+            return;
+          }
+
+          promptEl.textContent = question.prompt;
+          choicesContainer.innerHTML = '';
+
+          const player = window.lifeSimPlayer;
+
+          question.choices.forEach((choice, idx) => {
+            const meetsRequires = checkChoiceRequires(
+              choice.requires || [],
+              player
+            );
+            const button = document.createElement('button');
+            button.className = `p-4 rounded-lg border-2 transition text-left ${
+              meetsRequires
+                ? 'border-slate-200 hover:border-indigo-500 hover:bg-indigo-50'
+                : 'border-slate-100 bg-slate-50 text-slate-400 cursor-not-allowed'
+            }`;
+            button.disabled = !meetsRequires;
+
+            let html = `<div class="font-semibold text-slate-800">${choice.label}</div>`;
+
+            // Show why unavailable
+            if (
+              !meetsRequires &&
+              choice.requires &&
+              choice.requires.length > 0
+            ) {
+              html += `<div class="text-xs text-red-500 mt-1">Requires: ${choice.requires.join(
+                ', '
+              )}</div>`;
+            }
+
+            // Show effects preview
+            const effects = choice.effects || {};
+            let effectsPrev = [];
+            if (effects.happiness)
+              effectsPrev.push(
+                `Happiness ${effects.happiness > 0 ? '+' : ''}${
+                  effects.happiness
+                }`
+              );
+            if (effects.stress)
+              effectsPrev.push(
+                `Stress ${effects.stress > 0 ? '+' : ''}${effects.stress}`
+              );
+            if (effects.loan_add)
+              effectsPrev.push(`Loan +$${effects.loan_add}`);
+            if (effects.monthly_cost_add)
+              effectsPrev.push(`Cost +$${effects.monthly_cost_add}/mo`);
+            if (effects.income_add_monthly)
+              effectsPrev.push(`Income +$${effects.income_add_monthly}/mo`);
+            if (effectsPrev.length > 0) {
+              html += `<div class="text-xs text-slate-500 mt-1">${effectsPrev.join(
+                ' • '
+              )}</div>`;
+            }
+
+            button.innerHTML = html;
+
+            if (meetsRequires) {
+              button.onclick = () => selectStageChoice(question, choice, idx);
+            }
+
+            choicesContainer.appendChild(button);
+          });
+        }
+
+        function checkChoiceRequires(requires, player) {
+          if (!requires || requires.length === 0) return true;
+          return requires.every((r) => {
+            if (r === 'owns_home') return player.owns_home === true;
+            return player.flags?.has(r);
+          });
+        }
+
+        function selectStageChoice(question, choice, choiceIndex) {
+          // Record choice
+          currentStageModal.answers[question.id] = choiceIndex;
+
+          // Log to event history
+          const clock = window.lifetimeClock;
+          const age = Math.floor(clock.ageMonths / 12);
+          stageHistory.push({
+            time: `Age ${age}`,
+            stageId: currentStageModal.stage.id,
+            stageTitle: currentStageModal.stage.title,
+            questionId: question.id,
+            choiceLabel: choice.label,
+          });
+
+          // Apply effects
+          applyStageEffects(choice.effects || {});
+
+          // Move to next question
+          showStageQuestion(currentStageModal.currentQuestionIndex + 1);
+        }
+
+        function closeStageModal() {
+          const modal = document.getElementById('stage-modal');
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+
+          // Mark stage complete
+          const stageId = currentStageModal.stage.id;
+          completedStages.add(stageId);
+          currentStageModal = null;
+
+          // Special handling for Stage 1: Start lifetime mode
+          if (stageId === 'stage_1_start') {
+            startLifetimeMode();
+          } else {
+            // For other stages: Resume auto-advance
+            resumeAutoAdvance();
+          }
+        }
+
+        // Handle personality quiz within stage
+        window.startPersonalityQuizInStage = function () {
+          // Close stage modal temporarily
+          document.getElementById('stage-modal').classList.add('hidden');
+
+          // Show personality quiz in quiz screen
+          quizScreen.classList.remove('hidden');
+          personalityQuizIndex = 0;
+          showPersonalityQuestion();
+
+          // Set flag to return to stage after personality
+          window.returnToStageAfterPersonality = true;
+        };
+
+        // ========== STAGE EFFECTS HANDLER ==========
+        function applyStageEffects(e) {
+          const player = window.lifeSimPlayer;
+          const careerState = window.lifeSimCareer;
+          const clock = window.lifetimeClock;
+          const housing = window.lifetimeHousing;
+          const loans = window.lifetimeLoans;
+          const eventLog = window.lifetimeEventLog;
+
+          if (!player) return;
+
+          // Flags
+          if (e.set_flag && Array.isArray(e.set_flag)) {
+            if (!player.flags) player.flags = new Set();
+            e.set_flag.forEach((f) => player.flags.add(f));
+          }
+
+          // Loans
+          if (e.loan_add && e.loan_add > 0) {
+            const newLoan = {
+              id: `stage_loan_${Date.now()}`,
+              principal: e.loan_add,
+              balance: e.loan_add,
+              apr: 0.06,
+              termMonths: 36,
+              monthlyPayment: calcMonthlyPayment(e.loan_add, 0.06, 36),
+            };
+            loans.push(newLoan);
+            player.cash += e.loan_add;
+            addEventToLog(eventLog, clock, `Took loan: $${e.loan_add}`);
+          }
+
+          // Recurring costs
+          if (e.monthly_cost_add) {
+            if (!player.recurringAdjustments) player.recurringAdjustments = [];
+            player.recurringAdjustments.push({
+              key: `stage_cost_${Date.now()}`,
+              amount: e.monthly_cost_add,
+            });
+          }
+
+          // Temporary income
+          if (e.income_add_monthly) {
+            if (!player.tempIncome) player.tempIncome = [];
+            player.tempIncome.push({
+              key: `stage_income_${Date.now()}`,
+              amount: e.income_add_monthly,
+              months: 24, // Default 2 years
+            });
+          }
+
+          // Income multiplier (overtime)
+          if (e.income_multiplier) {
+            player.incomeMultiplier = e.income_multiplier;
+          }
+
+          // Dwelling (rent starts)
+          if (e.dwelling) {
+            player.dwelling = e.dwelling;
+            addEventToLog(eventLog, clock, `Moved to: ${e.dwelling}`);
+          }
+
+          // Shared expenses (partner)
+          if (typeof e.shared_expenses_pct === 'number') {
+            player.shared_expenses_pct = e.shared_expenses_pct;
+          }
+
+          // Childcare
+          if (e.childcare_months && e.childcare_cost) {
+            if (!player.childcare) player.childcare = { months: 0, cost: 0 };
+            player.childcare.months = e.childcare_months;
+            player.childcare.cost = e.childcare_cost;
+          }
+
+          // Home purchase attempt
+          if (e.home_attempt) {
+            attemptHomePurchase(player, housing, loans, eventLog, clock);
+          }
+
+          // Refinance attempt
+          if (e.refi_attempt && player.owns_home) {
+            attemptRefi(player, housing, loans, eventLog, clock);
+          }
+
+          // Downsize
+          if (e.downsize && player.owns_home) {
+            attemptDownsize(player, housing, eventLog, clock);
+          }
+
+          // Career set (from catalog)
+          if (e.career_set) {
+            setCareerFromCatalog(
+              e.career_set,
+              player,
+              careerState,
+              eventLog,
+              clock
+            );
+          }
+
+          // Career change (picker)
+          if (e.career_change) {
+            // Flag for career change - can be handled in next checkpoint
+            player.careerChangePending = true;
+          }
+
+          // Promotion push
+          if (e.promotion_push) {
+            player.promotionPush = true;
+            if (e.training_cost) {
+              player.cash -= e.training_cost;
+              addEventToLog(
+                eventLog,
+                clock,
+                `Training cost: $${e.training_cost}`
+              );
+            }
+          }
+
+          // Retraining cost
+          if (e.retraining_cost) {
+            player.cash -= e.retraining_cost;
+            addEventToLog(
+              eventLog,
+              clock,
+              `Retraining cost: $${e.retraining_cost}`
+            );
+          }
+
+          // Retirement contribution
+          if (typeof e.retire_contrib_pct === 'number') {
+            player.retireContribPct = e.retire_contrib_pct;
+          }
+
+          // Retirement age preference
+          if (e.retire_age) {
+            clock.retirementAge = e.retire_age;
+          }
+
+          // Health risk
+          if (e.health_risk_down) {
+            player.healthRisk = Math.max(0, (player.healthRisk || 0.1) - 0.05);
+          }
+
+          // Annual costs
+          if (e.annual_travel_cost) {
+            if (!player.recurringAnnual) player.recurringAnnual = {};
+            player.recurringAnnual.travel = e.annual_travel_cost;
+          }
+
+          // Transport
+          if (e.transport) {
+            player.transport = e.transport;
+          }
+
+          // Happiness & Stress (with personality modifiers)
+          adjustHappiness(e.happiness || 0, e.stress || 0, e);
+        }
+
+        // Helper: Calculate monthly loan payment
+        function calcMonthlyPayment(principal, apr, termMonths) {
+          if (termMonths === 0 || apr === 0)
+            return principal / (termMonths || 1);
+          const r = apr / 12;
+          return (
+            (principal * r * Math.pow(1 + r, termMonths)) /
+            (Math.pow(1 + r, termMonths) - 1)
+          );
+        }
+
+        // Helper: Home purchase attempt
+        function attemptHomePurchase(player, housing, loans, eventLog, clock) {
+          // Simplified: Check if player has enough for down payment
+          const homePrice = 250000;
+          const downPayment = homePrice * 0.2; // 20%
+
+          if (player.cash >= downPayment && player.creditScore >= 620) {
+            player.cash -= downPayment;
+            player.owns_home = true;
+            housing.homeValue = homePrice;
+            housing.mortgage = homePrice - downPayment;
+            housing.mortgagePayment = calcMonthlyPayment(
+              housing.mortgage,
+              0.045,
+              360
+            );
+
+            addEventToLog(
+              eventLog,
+              clock,
+              `Purchased home for $${homePrice.toLocaleString()}`
+            );
+          } else {
+            addEventToLog(
+              eventLog,
+              clock,
+              `Home purchase denied - insufficient funds or credit`
+            );
+          }
+        }
+
+        // Helper: Refinance attempt
+        function attemptRefi(player, housing, loans, eventLog, clock) {
+          if (housing.mortgage > 0 && player.creditScore >= 680) {
+            const oldPayment = housing.mortgagePayment;
+            const remainingMonths = 300; // Assume 25 years left
+            housing.mortgagePayment = calcMonthlyPayment(
+              housing.mortgage,
+              0.035,
+              remainingMonths
+            );
+            const savings = oldPayment - housing.mortgagePayment;
+
+            addEventToLog(
+              eventLog,
+              clock,
+              `Refinanced mortgage, saving $${Math.round(savings)}/mo`
+            );
+          }
+        }
+
+        // Helper: Downsize home
+        function attemptDownsize(player, housing, eventLog, clock) {
+          if (player.owns_home) {
+            const salePrice = housing.homeValue || 250000;
+            const equity = salePrice - (housing.mortgage || 0);
+            player.cash += equity;
+
+            // Move to smaller rental
+            player.owns_home = false;
+            player.dwelling = 'studio';
+            housing.homeValue = 0;
+            housing.mortgage = 0;
+            housing.mortgagePayment = 0;
+
+            addEventToLog(
+              eventLog,
+              clock,
+              `Downsized: gained $${Math.round(equity).toLocaleString()} equity`
+            );
+          }
+        }
+
+        // Helper: Set career from catalog
+        function setCareerFromCatalog(
+          careerId,
+          player,
+          careerState,
+          eventLog,
+          clock
+        ) {
+          // Map career IDs to salary data
+          const careerCatalog = {
+            hvac_apprentice: {
+              title: 'HVAC Apprentice',
+              pay: 35000,
+              type: 'salary',
+            },
+            student_pt: {
+              title: 'Part-Time Student Worker',
+              pay: 15,
+              type: 'hourly',
+              hours: 20,
+            },
+            retail_associate: {
+              title: 'Retail Associate',
+              pay: 16,
+              type: 'hourly',
+              hours: 40,
+            },
+          };
+
+          const career = careerCatalog[careerId];
+          if (career) {
+            careerState.currentTitle = career.title;
+            careerState.currentBasePay = career.pay;
+            careerState.type = career.type;
+            if (career.hours) careerState.hours_per_week = career.hours;
+
+            addEventToLog(eventLog, clock, `Started career: ${career.title}`);
+          }
+        }
+
+        // Helper: Add event to log
+        function addEventToLog(eventLog, clock, message) {
+          if (eventLog) {
+            eventLog.push({
+              age: Math.floor(clock.ageMonths / 12),
+              month: clock.ageMonths % 12,
+              message,
+            });
+          }
+        }
+
+        // Helper: Adjust happiness with personality modifiers
+        function adjustHappiness(baseDelta, stressDelta, effects = {}) {
+          const player = window.lifeSimPlayer;
+          if (!player) return;
+
+          const p = gameState.personality || player.personality;
+          let bonus = 0;
+
+          // Personality bonuses
+          if (
+            p === 'ambitious' &&
+            (effects.promotion_push || player.promotionPush)
+          ) {
+            bonus += 1;
+          }
+          if (
+            p === 'creative' &&
+            (effects.career_change || player.flags?.has('has_pet'))
+          ) {
+            bonus += 1;
+          }
+          if (
+            p === 'guardian' &&
+            (player.dwelling || player.flags?.has('partner'))
+          ) {
+            bonus += 1;
+          }
+          if (
+            p === 'adventurous' &&
+            (effects.annual_travel_cost || effects.career_change)
+          ) {
+            bonus += 1;
+          }
+
+          player.happiness = Math.min(
+            100,
+            Math.max(0, (player.happiness || 50) + baseDelta + bonus)
+          );
+          player.stress = Math.min(
+            100,
+            Math.max(0, (player.stress || 20) + stressDelta)
+          );
+        }
+
+        // Helper: clamp utility
+        function clamp(val, min, max) {
+          return Math.min(max, Math.max(min, val));
+        }
+
+        // Helper: Get info about next upcoming stage
+        function getNextStageInfo(clock, player) {
+          const currentAge = Math.floor(clock.ageMonths / 12);
+
+          for (const s of STAGES.stages) {
+            if (completedStages.has(s.id)) continue;
+            if (s.age_min == null) continue; // Already passed unlocked stages
+
+            if (s.age_min > currentAge) {
+              // Check if requirements would be met
+              if (s.requires && s.requires.length > 0) {
+                const hasAll = s.requires.every((f) => player.flags?.has(f));
+                if (!hasAll) continue;
+              }
+              return s;
+            }
+          }
+          return null;
+        }
+
         // ========== LIFETIME MODE FUNCTIONS ==========
         let lifetimeTickInterval = null;
 
@@ -3620,6 +4311,10 @@
           quizScreen.classList.add('hidden');
           document.getElementById('lifetime-screen').classList.remove('hidden');
           document.getElementById('lifetime-screen').classList.add('fade-in');
+
+          // Initialize happiness tracking
+          window.lifetimeHappinessHistory = [];
+          window.lifetimeLastHappinessYear = null;
 
           window.lifetimeAutoAdvance = true;
           lifetimeTickInterval = setInterval(lifetimeTick, 100); // 100ms per month
@@ -3643,6 +4338,23 @@
           advanceOneMonth(clock);
           const ageYears = getAgeYears(clock);
           player.ageMonths = clock.ageMonths;
+
+          // Track happiness annually
+          if (
+            clock.ageMonths % 12 === 0 &&
+            ageYears !== window.lifetimeLastHappinessYear
+          ) {
+            window.lifetimeLastHappinessYear = ageYears;
+            window.lifetimeHappinessHistory.push({
+              age: ageYears,
+              happiness: player.happiness || 50,
+            });
+          }
+
+          // Check for stage triggers (age-gated decisions)
+          if (maybeTriggerStage(clock, player)) {
+            return; // Stage modal will resume auto-advance when done
+          }
 
           // Check for checkpoint pause
           if (shouldPauseForCheckpoint(clock, window.lifetimeLastCheckpoint)) {
@@ -3786,6 +4498,13 @@
           }
         }
 
+        function lifetimeProgressPct(clock) {
+          const start = clock.startAgeMonths / 12;
+          const end = clock.retirementAge;
+          const current = getAgeYears(clock);
+          return Math.min(100, ((current - start) / (end - start)) * 100);
+        }
+
         function updateLifetimeUI() {
           const player = window.lifeSimPlayer;
           const clock = window.lifetimeClock;
@@ -3796,12 +4515,12 @@
           if (!player || !clock) return;
 
           const ageYears = getAgeYears(clock);
-          const progress = ((ageYears - 20) / 47) * 100; // Age 20-67
+          const progress = lifetimeProgressPct(clock);
 
           document.getElementById('lifetime-age').textContent = ageYears;
           document.getElementById(
             'lifetime-progress'
-          ).style.width = `${Math.min(100, progress)}%`;
+          ).style.width = `${progress}%`;
 
           document.getElementById('household-partner').textContent =
             household.partner ? 'Yes' : 'No';
@@ -3854,9 +4573,25 @@
           const housing = window.lifetimeHousing;
           const loans = window.lifetimeLoans;
           const careerState = window.lifeSimCareer;
+          const clock = window.lifetimeClock;
 
           const modal = document.getElementById('checkpoint-modal');
           document.getElementById('checkpoint-age').textContent = `Age ${age}`;
+
+          // Calculate next stage trigger
+          const nextStageInfo = getNextStageInfo(clock, player);
+          if (nextStageInfo) {
+            const monthsUntil = (nextStageInfo.age_min - age) * 12;
+            if (monthsUntil > 0 && monthsUntil <= 120) {
+              // Within 10 years
+              const statusText = document.createElement('p');
+              statusText.className = 'text-xs text-indigo-500 mt-2';
+              statusText.textContent = `Next decision: ${
+                nextStageInfo.title
+              } (in ~${Math.ceil(monthsUntil)} months)`;
+              document.getElementById('checkpoint-age').after(statusText);
+            }
+          }
 
           const netWorth =
             player.cash +
@@ -4067,6 +4802,94 @@
           document.getElementById(
             'result-title'
           ).textContent = `Retirement Grade: ${grade}`;
+
+          // Build stage summary HTML
+          let stageSummaryHTML = '';
+          if (stageHistory.length > 0) {
+            stageSummaryHTML = `
+              <div class="mt-6 p-4 bg-indigo-50 rounded-lg">
+                <h4 class="font-bold text-indigo-900 mb-3">🎯 Your Life Journey - Key Decisions</h4>
+                <div class="space-y-2 text-sm">
+            `;
+
+            // Group by stage
+            const stageMap = {};
+            stageHistory.forEach((entry) => {
+              if (!stageMap[entry.stageId]) {
+                stageMap[entry.stageId] = {
+                  title: entry.stageTitle,
+                  time: entry.time,
+                  choices: [],
+                };
+              }
+              stageMap[entry.stageId].choices.push(entry.choiceLabel);
+            });
+
+            Object.values(stageMap).forEach((stage) => {
+              stageSummaryHTML += `
+                <div class="bg-white p-3 rounded">
+                  <p class="font-semibold text-indigo-700">${
+                    stage.title
+                  } <span class="text-xs text-slate-500">(${
+                stage.time
+              })</span></p>
+                  <ul class="list-disc list-inside text-slate-600 ml-2">
+                    ${stage.choices
+                      .map((c) => `<li class="text-xs">${c}</li>`)
+                      .join('')}
+                  </ul>
+                </div>
+              `;
+            });
+
+            stageSummaryHTML += `
+                </div>
+              </div>
+            `;
+          }
+
+          // Build happiness curve HTML
+          let happinessCurveHTML = '';
+          if (
+            window.lifetimeHappinessHistory &&
+            window.lifetimeHappinessHistory.length > 0
+          ) {
+            const data = window.lifetimeHappinessHistory;
+            const maxVal = Math.max(...data.map((d) => d.happiness));
+            const minVal = Math.min(...data.map((d) => d.happiness));
+            const range = maxVal - minVal || 1;
+
+            happinessCurveHTML = `
+              <div class="mt-6 p-4 bg-purple-50 rounded-lg">
+                <h4 class="font-bold text-purple-900 mb-3">😊 Happiness Over Time</h4>
+                <div class="relative h-32 bg-white rounded p-2">
+                  <svg class="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="none">
+                    <polyline
+                      fill="none"
+                      stroke="#8b5cf6"
+                      stroke-width="2"
+                      points="${data
+                        .map((d, i) => {
+                          const x = (i / (data.length - 1)) * 400;
+                          const y = 100 - ((d.happiness - minVal) / range) * 80;
+                          return `${x},${y}`;
+                        })
+                        .join(' ')}"
+                    />
+                  </svg>
+                  <div class="text-xs text-slate-500 mt-1 flex justify-between">
+                    <span>Start</span>
+                    <span>Average: ${Math.round(
+                      data.reduce((sum, d) => sum + d.happiness, 0) /
+                        data.length
+                    )}</span>
+                    <span>End</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+
           document.getElementById('result-description').innerHTML = `
             <div class="text-left space-y-2">
               <p><strong>Net Worth:</strong> $${Math.round(
@@ -4086,6 +4909,8 @@
               )}%</p>
               <p class="mt-4 text-slate-700">${getGradeMessage(grade)}</p>
             </div>
+            ${stageSummaryHTML}
+            ${happinessCurveHTML}
           `;
         }
 
