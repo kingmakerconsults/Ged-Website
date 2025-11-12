@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math Answer Comparison Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .test-case {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 15px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .test-case.pass {
+        border-left: 4px solid #22c55e;
+      }
+      .test-case.fail {
+        border-left: 4px solid #ef4444;
+      }
+      .status {
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+      .pass .status {
+        color: #22c55e;
+      }
+      .fail .status {
+        color: #ef4444;
+      }
+      .summary {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: center;
+        font-size: 18px;
+      }
+      code {
+        background: #f3f4f6;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 Math Answer Comparison - Browser Test</h1>
+    <p>
+      Testing the integration of math answer comparison utilities in the browser
+      environment.
+    </p>
+
+    <div id="results"></div>
+    <div id="summary" class="summary"></div>
+
+    <!-- Load the math comparison library -->
+    <script src="lib/mathAnswerComparison-browser.js"></script>
+
+    <script>
+      // Test cases
+      const testCases = [
+        { correct: '314', user: '314 cm^2', desc: 'Number with units (caret)' },
+        {
+          correct: '314',
+          user: '314 cm²',
+          desc: 'Number with units (unicode)',
+        },
+        { correct: '25%', user: '25', desc: 'Percent vs plain number' },
+        {
+          correct: '3.45 × 10^6',
+          user: '3.45x10^6',
+          desc: 'Scientific notation (× vs x)',
+        },
+        {
+          correct: '3.45e6',
+          user: '3450000',
+          desc: 'Scientific notation (e vs expanded)',
+        },
+        {
+          correct: '50 cm²',
+          user: '50 cm^2',
+          desc: 'Unicode superscript vs caret',
+        },
+        { correct: '9<sup>2</sup>', user: '9^2', desc: 'HTML sup tag' },
+        { correct: '<i>x</i> = 5', user: 'x=5', desc: 'HTML italic tag' },
+        { correct: '100 degrees', user: '100', desc: 'Degrees unit' },
+        { correct: '3/4', user: '0.75', desc: 'Fraction vs decimal' },
+        { correct: '$1,234.56', user: '1234.56', desc: 'Currency with commas' },
+      ];
+
+      const resultsDiv = document.getElementById('results');
+      const summaryDiv = document.getElementById('summary');
+
+      let passed = 0;
+      let failed = 0;
+
+      testCases.forEach(({ correct, user, desc }) => {
+        const result = compareAnswers(correct, user, { subject: 'Math' });
+        const status = result ? 'pass' : 'fail';
+
+        if (result) {
+          passed++;
+        } else {
+          failed++;
+        }
+
+        const testDiv = document.createElement('div');
+        testDiv.className = `test-case ${status}`;
+        testDiv.innerHTML = `
+                <div class="status">${result ? '✅ PASS' : '❌ FAIL'}</div>
+                <div><strong>${desc}</strong></div>
+                <div>Correct: <code>${correct}</code></div>
+                <div>User: <code>${user}</code></div>
+                <div>Normalized Correct: <code>${normalizeAnswer(
+                  correct
+                )}</code></div>
+                <div>Normalized User: <code>${normalizeAnswer(
+                  user
+                )}</code></div>
+                <div>Numeric Correct: <code>${extractNumericValue(
+                  correct
+                )}</code></div>
+                <div>Numeric User: <code>${extractNumericValue(
+                  user
+                )}</code></div>
+            `;
+        resultsDiv.appendChild(testDiv);
+      });
+
+      // Display summary
+      const total = testCases.length;
+      const successRate = ((passed / total) * 100).toFixed(1);
+      summaryDiv.innerHTML = `
+            <h2>Test Summary</h2>
+            <div>Total Tests: ${total}</div>
+            <div style="color: #22c55e;">✅ Passed: ${passed}</div>
+            <div style="color: #ef4444;">❌ Failed: ${failed}</div>
+            <div><strong>Success Rate: ${successRate}%</strong></div>
+            ${
+              failed === 0
+                ? '<div style="margin-top: 10px; font-size: 24px;">🎉 All tests passed!</div>'
+                : ''
+            }
+        `;
+
+      console.log('Math Answer Comparison Test Results:');
+      console.log(`Passed: ${passed}/${total}`);
+      console.log(`Failed: ${failed}/${total}`);
+      console.log(`Success Rate: ${successRate}%`);
+    </script>
+  </body>
+</html>

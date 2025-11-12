@@ -33539,10 +33539,12 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
         // multiple-choice / multi-select
         const correctOpts = q.answerOptions.filter((o) => o && o.isCorrect);
         if (correctOpts.length === 1) {
-          // single correct
-          const correctText = normalizeText(correctOpts[0].text);
-          const userText = normalizeText(userAns);
-          isCorrect = userText === correctText;
+          // single correct - use enhanced comparison for math questions
+          const correctText = correctOpts[0].text;
+          isCorrect = compareAnswers(correctText, userAns, {
+            subject: quiz.subject,
+            questionType: q.type,
+          });
         } else if (correctOpts.length > 1) {
           // multi-correct, all-or-nothing
           const correctSet = correctOpts
@@ -33559,8 +33561,11 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
           }
         }
       } else {
-        // fall back to fill-in / math normalization
-        isCorrect = checkFillInQuestionCorrect(q, userAns);
+        // fill-in questions - use enhanced comparison
+        isCorrect = compareAnswers(q.correctAnswer, userAns, {
+          subject: quiz.subject,
+          questionType: q.type,
+        });
       }
 
       if (isCorrect) {
@@ -34642,98 +34647,23 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             const correctMC = (question.answerOptions || []).find(
               (opt) => opt.isCorrect
             );
-            // Reuse lightweight equivalence logic (mirrors StandardQuizRunner) for display
-            const normalizeRaw = (val) => {
-              if (val === null || val === undefined) return '';
-              return String(val)
-                .replace(/\u00A0/g, ' ')
-                .replace(/\s+/g, ' ')
-                .trim();
-            };
-            const numericValue = (raw) => {
-              const s = normalizeRaw(raw);
-              if (!s) return null;
-              if (/^[-+]?\d+(?:\.\d+)?%$/.test(s)) {
-                const n = Number(s.replace('%', ''));
-                return Number.isFinite(n) ? n / 100 : null;
-              }
-              if (/^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s)) {
-                const n = Number(s.replace(/^\$/, '').replace(/,/g, ''));
-                return Number.isFinite(n) ? n : null;
-              }
-              if (/^[-+]?\d+\s+\d+\s*\/\s*\d+$/.test(s)) {
-                const parts = s.split(/\s+/);
-                const whole = Number(parts[0]);
-                const fracParts = parts.slice(1).join(' ').split('/');
-                const num = Number(fracParts[0]);
-                const den = Number(fracParts[1]);
-                if (
-                  !Number.isFinite(whole) ||
-                  !Number.isFinite(num) ||
-                  !Number.isFinite(den) ||
-                  den === 0
-                )
-                  return null;
-                const frac = num / den;
-                return whole >= 0 ? whole + frac : whole - frac;
-              }
-              if (/^[-+]?\d+\s*\/\s*\d+$/.test(s)) {
-                const [a, b] = s.split('/').map((t) => t.trim());
-                const num = Number(a),
-                  den = Number(b);
-                if (!Number.isFinite(num) || !Number.isFinite(den) || den === 0)
-                  return null;
-                return num / den;
-              }
-              if (/^[-+]?\d+\s*:\s*[-+]?\d+$/.test(s)) {
-                const [a, b] = s.split(':').map((t) => t.trim());
-                const na = Number(a),
-                  nb = Number(b);
-                if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0)
-                  return null;
-                return na / nb;
-              }
-              const plain = s.replace(/,/g, '');
-              const num = Number(plain);
-              return Number.isFinite(num) ? num : null;
-            };
-            const isNumericEqual = (a, b) => {
-              const na = numericValue(a),
-                nb = numericValue(b);
-              return na !== null && nb !== null && Math.abs(na - nb) < 1e-9;
-            };
-            const tokenize = (raw) => {
-              const s = normalizeRaw(raw);
-              if (!s) return [];
-              if (s.includes(','))
-                return s
-                  .split(/\s*,\s*/)
-                  .filter(Boolean)
-                  .map(normalizeRaw);
-              return [s];
-            };
-            const setsEqual = (a, b) => {
-              if (a.length !== b.length) return false;
-              const sa = [...a].sort();
-              const sb = [...b].sort();
-              return sa.every((v, i) => v === sb[i]);
-            };
+            // Use unified comparison logic for results display
             let isCorrect;
             if (correctMC) {
-              isCorrect = userAnswer === correctMC.text;
+              // Multiple choice - use compareAnswers with subject context
+              isCorrect = compareAnswers(correctMC.text, userAnswer, {
+                subject: quiz.subject,
+                questionType: question.type,
+              });
             } else if (
               question.type === 'fill-in-the-blank' ||
               !(question.answerOptions || []).length
             ) {
-              const expected = question.correctAnswer;
-              const ue = normalizeRaw(userAnswer);
-              const ex = normalizeRaw(expected);
-              isCorrect =
-                Boolean(ex) &&
-                Boolean(ue) &&
-                (ue === ex ||
-                  isNumericEqual(ue, ex) ||
-                  setsEqual(tokenize(ue), tokenize(ex)));
+              // Fill-in question - use compareAnswers
+              isCorrect = compareAnswers(question.correctAnswer, userAnswer, {
+                subject: quiz.subject,
+                questionType: question.type,
+              });
             } else {
               isCorrect = false;
             }
@@ -37198,7 +37128,14 @@ function GeometryPracticeTool({ onExit }) {
       return;
     }
 
-    if (Math.abs(answer - currentProblem.correctAnswer) < 0.01) {
+    // Use compareAnswers for consistent unit stripping and tolerance handling
+    const isCorrect = compareAnswers(
+      currentProblem.correctAnswer.toString(),
+      userAnswer,
+      { subject: 'Math', questionType: 'numeric' }
+    );
+
+    if (isCorrect) {
       setFeedback('Correct! Great job!');
     } else {
       setFeedback(

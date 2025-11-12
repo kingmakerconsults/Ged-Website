@@ -22,6 +22,8 @@
     "quizzes:build-json": "node scripts/build-quizzes.js",
     "quizzes:ensure-min": "node scripts/ensure_min_quiz_questions.js",
     "sanitize:math:katex": "node scripts/sanitize_math_katex.mjs",
+    "audit:math:premade": "node scripts/audit_premade_math_quizzes.js",
+    "audit:math:compute": "node scripts/audit_math_computation.mjs",
     "prepare": "husky install"
   },
   "dependencies": {

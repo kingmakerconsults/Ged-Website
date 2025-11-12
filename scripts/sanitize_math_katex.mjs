@@ -6,15 +6,14 @@ const ROOT = path.resolve(process.cwd());
 const QUIZ_DIR = path.join(ROOT, 'public', 'quizzes');
 const OUT_DIR = path.join(QUIZ_DIR, 'sanitized');
 
-const INPUT_FILES = [
-  'math.quizzes.part1.json',
-  'math.quizzes.part2.json',
-];
+const INPUT_FILES = ['math.quizzes.part1.json', 'math.quizzes.part2.json'];
 
 function nowStamp() {
   const d = new Date();
   const pad = (n) => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}-${pad(d.getSeconds())}`;
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}_${pad(
+    d.getHours()
+  )}-${pad(d.getMinutes())}-${pad(d.getSeconds())}`;
 }
 
 function splitByDollar(text) {
@@ -39,18 +38,45 @@ function splitByDollar(text) {
 
 function sanitizeInsideMath(mathStr) {
   let out = mathStr;
-  // Convert plain a/b to \\frac{a}{b} when safe (avoid already-escaped \\frac)
-  // Use context group to avoid decimals: require preceding char is not digit or '.', and following char not digit or '.'
-  out = out.replace(/(^|[^0-9\.])(-?\d+)\s*\/\s*(\d+)(?![0-9\.])/g, (m, pre, a, b) => `${pre}\\frac{${a}}{${b}}`);
+  // Fractions: plain a/b -> \frac{a}{b} (avoid decimals)
+  out = out.replace(
+    /(^|[^0-9\.])(-?\d+)\s*\/\s*(\d+)(?![0-9\.])/g,
+    (m, pre, a, b) => `${pre}\\frac{${a}}{${b}}`
+  );
 
-  // Normalize negative fraction forms like ($-\frac{1}{2}$)x -> $-\frac{1}{2}$x
-  out = out.replace(/\(\$-\\frac\{(\d+)\}\{(\d+)\}\$\)x/g, (m, num, den) => `$-\\frac{${num}}{${den}}$x`);
-  out = out.replace(/\(\$-\\frac\{(\d+)\}\{(\d+)\}\$\)/g, (m, num, den) => `$-\\frac{${num}}{${den}}$`);
+  // sqrt( ... ) -> \sqrt{...}
+  let prev;
+  do {
+    prev = out;
+    out = out.replace(
+      /sqrt\s*\(\s*([^()]+?)\s*\)/g,
+      (m, inner) => `\\sqrt{${inner}}`
+    );
+  } while (out !== prev);
 
-  return out;
+  // Exponents: ensure braces for numeric or parenthesized exponents
+  out = out.replace(/\^\s*(-?\d+)/g, (m, exp) => `^{${exp}}`);
+  out = out.replace(/\^\s*\(([^)]+)\)/g, (m, inner) => `^{${inner}}`);
 
-  // Replace literal ' div ' or 'div ' between tokens with \\div
-  out = out.replace(/\bdiv\b/g, '\\div');
+  // Scientific notation inside math: a * 10^n or a x 10^n -> a \times 10^{n}
+  out = out.replace(
+    /(\d+(?:\.\d+)?)\s*[x\*]\s*10\s*\^\s*(-?\d+)/g,
+    (m, a, e) => `${a} \\times 10^{${e}}`
+  );
+
+  // Plus/minus and pi normalization
+  out = out.replace(/\+\/-/g, '\\pm');
+  out = out.replace(/\bpi\b/g, '\\pi');
+
+  // Normalize negative fraction wrapper patterns
+  out = out.replace(
+    /\(\$-\\frac\{(\d+)\}\{(\d+)\}\$\)x/g,
+    (m, num, den) => `$-\\frac{${num}}{${den}}$x`
+  );
+  out = out.replace(
+    /\(\$-\\frac\{(\d+)\}\{(\d+)\}\$\)/g,
+    (m, num, den) => `$-\\frac{${num}}{${den}}$`
+  );
 
   return out;
 }
@@ -58,26 +84,65 @@ function sanitizeInsideMath(mathStr) {
 function sanitizeOutsideMath(text) {
   let out = text;
 
-  out = out.replace(/\b(\d+)\s+(\d+)\s*\/\s*(\d+)\b/g, (m, whole, num, den) => '$' + `${whole}\\tfrac{${num}}{${den}}` + '$');
+  // Mixed numbers like 2 3/5 -> $2\tfrac{3}{5}$
+  out = out.replace(
+    /\b(\d+)\s+(\d+)\s*\/\s*(\d+)\b/g,
+    (m, whole, num, den) => '$' + `${whole}\\tfrac{${num}}{${den}}` + '$'
+  );
 
-  // Standalone simple fractions '3/4' -> '$\\frac{3}{4}$' (avoid decimals using context group)
-  out = out.replace(/(^|[^0-9\.])(\d+)\s*\/\s*(\d+)(?![0-9\.])/g, (m, pre, a, b) => pre + '$' + `\\frac{${a}}{${b}}` + '$');
+  // Simple fractions a/b -> $\frac{a}{b}$
+  out = out.replace(
+    /(^|[^0-9\.])(\d+)\s*\/\s*(\d+)(?![0-9\.])/g,
+    (m, pre, a, b) => pre + '$' + `\\frac{${a}}{${b}}` + '$'
+  );
 
-  // Ensure both sides of simple addition/subtraction fractions convert (second may have been skipped if directly adjacent to punctuation)
-  out = out.replace(/\$\\frac\{(\d+)\}\{(\d+)\}\$\s*([+\-])\s*(\d+)\/(\d+)/g, (m, n1, d1, op, n2, d2) => `$\\frac{${n1}}{${d1}}$ ${op} $\\frac{${n2}}{${d2}}$`);
+  // Ensure both sides convert in a/b + c/d
+  out = out.replace(
+    /\$\\frac\{(\d+)\}\{(\d+)\}\$\s*([+\-])\s*(\d+)\/(\d+)/g,
+    (m, n1, d1, op, n2, d2) =>
+      `$\\frac{${n1}}{${d1}}$ ${op} $\\frac{${n2}}{${d2}}$`
+  );
 
-  // Fix pattern: 15.$\frac{6}{3}$ -> 15.6 / 3 (do not convert decimal split)
-  out = out.replace(/(\d+)\.\$\\frac\{(\d)\}\{(\d)\}\$/g, (m, whole, num, den) => `${whole}.${num}/${den}`);
+  // Cleanup negative fraction parentheses
+  out = out.replace(
+    /\(\$-\\frac\{(\d+)\}\{(\d+)\}\$\)/g,
+    (m, a, b) => `$-\\frac{${a}}{${b}}$`
+  );
+  out = out.replace(
+    /\(-\$\\frac\{(\d+)\}\{(\d+)\}\$\)/g,
+    (m, a, b) => `$-\\frac{${a}}{${b}}$`
+  );
 
-  // Repair malformed sequence: $1/2 - $\frac{1}{3}$$? -> $1/2 - \frac{1}{3}$?
-  out = out.replace(/\$([01])\/([23])\s*([+\-])\s*\$\\frac\{(\d+)\}\{(\d+)\}\$\$\?/g,
-    (m, a1, b1, op, a2, b2) => `$${a1}/${b1} ${op} \\frac{${a2}}{${b2}}$?`);
+  // sqrt(...) -> $\sqrt{...}$
+  out = out.replace(
+    /sqrt\s*\(\s*([^()]+?)\s*\)/g,
+    (m, inner) => `$\\sqrt{${inner}}$`
+  );
 
-  // Remove parentheses wrapping negative fraction in math: y = (-$-?\frac{a}{b}$)x -> y = $-\frac{a}{b}$x
-  out = out.replace(/\(\$-\\frac\{(\d+)\}\{(\d+)\}\$\)/g, (m, a, b) => `$-\\frac{${a}}{${b}}$`);
-  out = out.replace(/\(-\$\\frac\{(\d+)\}\{(\d+)\}\$\)/g, (m, a, b) => `$-\\frac{${a}}{${b}}$`);
+  // Exponents outside: base^exp -> $base^{exp}$ and base^(expr) -> $base^{expr}$
+  out = out.replace(
+    /\b([A-Za-z]|\d+)\s*\^\s*(-?\d+)\b/g,
+    (m, base, exp) => `$${base}^{${exp}}$`
+  );
+  out = out.replace(
+    /\b([A-Za-z]|\d+)\s*\^\s*\(([^)]+)\)/g,
+    (m, base, inner) => `$${base}^{${inner}}$`
+  );
 
-  return out;
+  // Scientific notation outside: a * 10^n or a x 10^n -> $a \\times 10^{n}$
+  out = out.replace(
+    /(\d+(?:\.\d+)?)\s*[x\*]\s*10\s*\^\s*(-?\d+)/g,
+    (m, a, e) => `$${a} \\times 10^{${e}}$`
+  );
+
+  // +/- outside -> $\pm$
+  out = out.replace(/\+\/-/g, '$\\pm$');
+
+  // Quadratic formula common pattern -> $x = \frac{-b \pm \sqrt{b^{2} - 4ac}}{2a}$
+  out = out.replace(
+    /x\s*=\s*\(-b\s*\+\/\-\s*sqrt\(b\^2\s*-\s*4ac\)\)\s*\/\s*2a/g,
+    () => `$x = \\frac{-b \\pm \\sqrt{b^{2} - 4ac}}{2a}$`
+  );
 
   return out;
 }
@@ -88,29 +153,51 @@ function sanitizeText(input) {
   // Shield currency amounts like $35 or $0.25 so $ is not treated as math delimiter
   const C_OPEN = '\u00A7CUR\u00A7';
   const C_CLOSE = '\u00A7/\u00A7';
-  const shielded = input.replace(/\$(\d+(?:\.\d+)?)/g, (m, amt) => `${C_OPEN}${amt}${C_CLOSE}`);
+  const shielded = input.replace(
+    /\$(\d+(?:\.\d+)?)/g,
+    (m, amt) => `${C_OPEN}${amt}${C_CLOSE}`
+  );
 
   const segments = splitByDollar(shielded);
   let changed = false;
-  const rebuilt = segments.map(seg => {
-    if (seg.math) {
-      const newText = sanitizeInsideMath(seg.text);
-      if (newText !== seg.text) changed = true;
-      return `$${newText}$`;
-    } else {
-      const newText = sanitizeOutsideMath(seg.text);
-      if (newText !== seg.text) changed = true;
-      return newText;
-    }
-  }).join('');
+  const rebuilt = segments
+    .map((seg) => {
+      if (seg.math) {
+        const newText = sanitizeInsideMath(seg.text);
+        if (newText !== seg.text) changed = true;
+        return `$${newText}$`;
+      } else {
+        const newText = sanitizeOutsideMath(seg.text);
+        if (newText !== seg.text) changed = true;
+        return newText;
+      }
+    })
+    .join('');
 
   // Fix-up: "(-$\frac{a}{b}$)" -> "($-\frac{a}{b}$)"
   let fixed = rebuilt;
 
   // Unshield currency
-  fixed = fixed.replace(new RegExp(C_OPEN + '(\\d+(?:\\.\\d+)?)' + C_CLOSE, 'g'), (m, amt) => `$${amt}`);
+  fixed = fixed.replace(
+    new RegExp(C_OPEN + '(\\d+(?:\\.\\d+)?)' + C_CLOSE, 'g'),
+    (m, amt) => `$${amt}`
+  );
 
-  return { text: fixed, changed };
+  // Second pass over newly created math segments for sqrt/exponent normalization
+  const segs2 = splitByDollar(fixed);
+  let changed2 = false;
+  const rebuilt2 = segs2
+    .map((seg) => {
+      if (seg.math) {
+        const upd = sanitizeInsideMath(seg.text);
+        if (upd !== seg.text) changed2 = true;
+        return `$${upd}$`;
+      }
+      return seg.text;
+    })
+    .join('');
+
+  return { text: rebuilt2, changed: changed || changed2 };
 }
 
 function clone(obj) {
@@ -125,19 +212,20 @@ function* iterateQuestionNodes(content) {
     const { node, path } = queue.shift();
     if (node && typeof node === 'object') {
       if (Array.isArray(node)) {
-        node.forEach((child, idx) => queue.push({ node: child, path: path.concat([`[${idx}]`]) }));
+        node.forEach((child, idx) =>
+          queue.push({ node: child, path: path.concat([`[${idx}]`]) })
+        );
       } else {
         for (const [k, v] of Object.entries(node)) {
           const p = path.concat([k]);
           // Candidate text fields
-          const isTextField = (
+          const isTextField =
             k === 'question' ||
             k === 'questionText' ||
             k === 'title' ||
             k === 'text' ||
             k === 'correctAnswer' ||
-            k === 'passage'
-          );
+            k === 'passage';
           if (isTextField && typeof v === 'string') {
             yield { node, key: k, path: p.join('.') };
           } else if (typeof v === 'object' && v !== null) {
@@ -184,7 +272,10 @@ async function main() {
 
   for (const fname of INPUT_FILES) {
     const inPath = path.join(QUIZ_DIR, fname);
-    const outPath = path.join(OUT_DIR, fname.replace(/\.json$/, `.sanitized.json`));
+    const outPath = path.join(
+      OUT_DIR,
+      fname.replace(/\.json$/, `.sanitized.json`)
+    );
     await sanitizeFile(inPath, outPath, report);
   }
 
@@ -192,22 +283,37 @@ async function main() {
 
   const reportsDir = path.join(ROOT, 'reports');
   await fs.mkdir(reportsDir, { recursive: true });
-  const jsonReportPath = path.join(reportsDir, `math_katex_sanitation_${stamp}.json`);
-  const mdReportPath = path.join(reportsDir, `math_katex_sanitation_${stamp}.md`);
+  const jsonReportPath = path.join(
+    reportsDir,
+    `math_katex_sanitation_${stamp}.json`
+  );
+  const mdReportPath = path.join(
+    reportsDir,
+    `math_katex_sanitation_${stamp}.md`
+  );
 
   await fs.writeFile(jsonReportPath, JSON.stringify(report, null, 2), 'utf8');
 
   const mdParts = [];
   mdParts.push(`# Math KaTeX Sanitation Report (${stamp})`);
   for (const f of report.files) {
-    mdParts.push(`\n## ${path.basename(f.input)} -> ${path.basename(f.output)} `);
+    mdParts.push(
+      `\n## ${path.basename(f.input)} -> ${path.basename(f.output)} `
+    );
     mdParts.push(`- Changes: ${f.changesCount}`);
     const sample = f.changes.slice(0, 50); // cap to keep file reasonable
     for (const ch of sample) {
-      mdParts.push(`\n- Path: \`${ch.path}\`\n  - Before: ${ch.before.replace(/\n/g, ' ')}\n  - After: ${ch.after.replace(/\n/g, ' ')}`);
+      mdParts.push(
+        `\n- Path: \`${ch.path}\`\n  - Before: ${ch.before.replace(
+          /\n/g,
+          ' '
+        )}\n  - After: ${ch.after.replace(/\n/g, ' ')}`
+      );
     }
     if (f.changes.length > sample.length) {
-      mdParts.push(`\n...and ${f.changes.length - sample.length} more changes.`);
+      mdParts.push(
+        `\n...and ${f.changes.length - sample.length} more changes.`
+      );
     }
   }
   await fs.writeFile(mdReportPath, mdParts.join('\n'), 'utf8');
@@ -218,7 +324,7 @@ async function main() {
   console.log('Outputs in:', path.relative(ROOT, OUT_DIR));
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
