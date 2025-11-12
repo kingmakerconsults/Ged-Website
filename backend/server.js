@@ -4819,7 +4819,7 @@ app.get('/api/organizations', async (req, res) => {
       FROM organizations
       ORDER BY name
     `);
-    
+
     return res.json({
       ok: true,
       organizations: result.rows,
@@ -4849,7 +4849,7 @@ app.post(
       }
 
       const { organization_id, access_code } = req.body;
-      
+
       if (!organization_id) {
         return res.status(400).json({
           ok: false,
