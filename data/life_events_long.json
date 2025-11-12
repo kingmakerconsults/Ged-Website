@@ -75,7 +75,7 @@
     "label": "Continuing Education",
     "age_min": 25,
     "age_max": 40,
-    "annual_prob": 0.10,
+    "annual_prob": 0.1,
     "effect": {
       "student_loan_range": [3000, 12000],
       "career_level_boost": 1
@@ -98,10 +98,10 @@
     "label": "Major Career Promotion",
     "age_min": 30,
     "age_max": 55,
-    "annual_prob": 0.10,
+    "annual_prob": 0.1,
     "requires": ["career_level_min_2"],
     "effect": {
-      "salary_boost_pct": 0.20,
+      "salary_boost_pct": 0.2,
       "career_level_boost": 1,
       "happiness": 10
     }
@@ -125,7 +125,7 @@
     "age_max": 70,
     "annual_prob": 0.08,
     "effect": {
-      "investment_loss_pct": 0.30,
+      "investment_loss_pct": 0.3,
       "happiness": -10
     }
   },

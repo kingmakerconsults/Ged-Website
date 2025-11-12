@@ -3,9 +3,9 @@
   "early_retirement_penalty_per_year": 0.067,
   "delayed_retirement_bonus_per_year": 0.08,
   "ss_replacement_rate_bands": [
-    { "wage_up_to": 30000, "rate": 0.60 },
-    { "wage_up_to": 70000, "rate": 0.40 },
-    { "wage_up_to": 150000, "rate": 0.20 }
+    { "wage_up_to": 30000, "rate": 0.6 },
+    { "wage_up_to": 70000, "rate": 0.4 },
+    { "wage_up_to": 150000, "rate": 0.2 }
   ],
   "ss_max_benefit_monthly": 3800,
   "pension_eligible_careers": {
@@ -33,7 +33,7 @@
   },
   "housing": {
     "home_price_mult_annual_gross": 3.5,
-    "down_payment_pct": 0.20,
+    "down_payment_pct": 0.2,
     "mortgage_apr": 0.065,
     "mortgage_term_years": 30,
     "property_tax_annual_pct": 0.01,
